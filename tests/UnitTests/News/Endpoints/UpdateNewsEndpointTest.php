@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\Entity\News\NewsEntry;
-use Olz\Entity\Role;
-use Olz\Entity\User;
 use Olz\News\Endpoints\UpdateNewsEndpoint;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -18,6 +17,8 @@ class FakeUpdateNewsEndpointNewsRepository {
             $entry = new NewsEntry();
             $entry->setId(123);
             $datetime = new \DateTime('2020-03-13 19:30:00');
+            $entry->setAuthorUser(Fake\FakeUsers::defaultUser());
+            $entry->setAuthorRole(Fake\FakeRoles::defaultRole());
             $entry->setPublishedDate($datetime);
             $entry->setPublishedTime($datetime);
             return $entry;
@@ -60,6 +61,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                     'authorRoleId' => 2,
                     'authorName' => 't.u.',
                     'authorEmail' => 'tu@staging.olzimmerberg.ch',
+                    'publishAt' => '2020-03-13 19:30:00',
                     'title' => 'Test Titel',
                     'teaser' => 'Das muss man gelesen haben!',
                     'content' => 'Sehr viel Inhalt.',
@@ -103,6 +105,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                     'authorRoleId' => 2,
                     'authorName' => 't.u.',
                     'authorEmail' => 'tu@staging.olzimmerberg.ch',
+                    'publishAt' => '2020-03-13 19:30:00',
                     'title' => 'Test Titel',
                     'teaser' => 'Das muss man gelesen haben!',
                     'content' => 'Sehr viel Inhalt.',
@@ -146,6 +149,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                     'authorRoleId' => 2,
                     'authorName' => 't.u.',
                     'authorEmail' => 'tu@staging.olzimmerberg.ch',
+                    'publishAt' => '2020-03-13 19:30:00',
                     'title' => 'Test Titel',
                     'teaser' => 'Das muss man gelesen haben!',
                     'content' => 'Sehr viel Inhalt.',
@@ -166,7 +170,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testUpdateNewsEndpoint(): void {
+    public function testUpdateNewsEndpointMaximal(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $news_repo = new FakeUpdateNewsEndpointNewsRepository();
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
@@ -196,6 +200,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 'authorRoleId' => 2,
                 'authorName' => 't.u.',
                 'authorEmail' => 'tu@staging.olzimmerberg.ch',
+                'publishAt' => '2020-03-16 09:00:00',
                 'title' => 'Test Titel',
                 'teaser' => 'Das muss man gelesen haben!',
                 'content' => 'Sehr viel Inhalt.',
@@ -212,8 +217,6 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $user_repo = $entity_manager->repositories[User::class];
-        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame([
             'status' => 'OK',
             'id' => 123,
@@ -225,10 +228,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertSame(123, $news_entry->getId());
         $this->assertSame('t.u.', $news_entry->getAuthorName());
         $this->assertSame('tu@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
-        $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());
-        $this->assertSame($role_repo->admin_role, $news_entry->getAuthorRole());
-        $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
-        $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
+        $this->assertSame(Fake\FakeUsers::adminUser(), $news_entry->getAuthorUser());
+        $this->assertSame(Fake\FakeRoles::adminRole(), $news_entry->getAuthorRole());
+        $this->assertSame('2020-03-16', $news_entry->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('09:00:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('Das muss man gelesen haben!', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());
@@ -249,6 +252,85 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             ],
             [
                 ['uploaded_file.pdf', 'inexistent.txt'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/news/{$id}/",
+            ],
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+    }
+
+    public function testUpdateNewsEndpointMinimal(): void {
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $news_repo = new FakeUpdateNewsEndpointNewsRepository();
+        $entity_manager->repositories[NewsEntry::class] = $news_repo;
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
+        $endpoint = new UpdateNewsEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'id' => 123,
+            'meta' => [
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
+                'onOff' => true,
+            ],
+            'data' => [
+                'format' => 'aktuell',
+                'authorUserId' => null,
+                'authorRoleId' => null,
+                'authorName' => null,
+                'authorEmail' => null,
+                'publishAt' => null,
+                'title' => 'Cannot be empty',
+                'teaser' => '',
+                'content' => '',
+                'externalUrl' => null,
+                'tags' => [],
+                'terminId' => null,
+                'imageIds' => [],
+                'fileIds' => [],
+            ],
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+
+        $this->assertSame([
+            'status' => 'OK',
+            'id' => 123,
+        ], $result);
+        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+        $news_entry = $entity_manager->persisted[0];
+        $this->assertSame(123, $news_entry->getId());
+        $this->assertSame(null, $news_entry->getAuthorName());
+        $this->assertSame(null, $news_entry->getAuthorEmail());
+        $this->assertSame(null, $news_entry->getAuthorUser());
+        $this->assertSame(null, $news_entry->getAuthorRole());
+        $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
+        $this->assertSame('Cannot be empty', $news_entry->getTitle());
+        $this->assertSame('', $news_entry->getTeaser());
+        $this->assertSame('', $news_entry->getContent());
+        $this->assertSame(null, $news_entry->getExternalUrl());
+        $this->assertSame('  ', $news_entry->getTags());
+        $this->assertSame(0, $news_entry->getTermin());
+
+        $this->assertSame([
+            [$news_entry, 1, 1, 1],
+        ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
+
+        $id = 123;
+
+        $this->assertSame([
+            [
+                [],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/news/{$id}/img/",
+            ],
+            [
+                [],
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/news/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);

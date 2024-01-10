@@ -14,12 +14,17 @@ import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditNewsModal.scss';
 
+type PublishAtOption = 'unchanged'|'now'|'custom';
+
 interface OlzEditNewsForm {
-    format: OlzNewsFormat|undefined;
+    format: OlzNewsFormat|'UNDEFINED'|undefined;
     authorUserId: number|null;
     authorRoleId: number|null;
     authorName: string|null;
     authorEmail: string|null;
+    publishAtOption: PublishAtOption;
+    publishAtDateTime: string|null;
+    publishedAt: string|null;
     title: string;
     teaser: string;
     content: string;
@@ -40,12 +45,22 @@ const resolver: Resolver<OlzEditNewsForm> = async (values) => {
 };
 
 function getFormFromApi(apiData?: OlzNewsData): OlzEditNewsForm {
+    const now = new Date();
+    const offsetMs = now.getTimezoneOffset() * 60 * 1000;
+    const msLocal = now.getTime() - offsetMs;
+    const localNow = new Date(msLocal);
+    const localIsoNow = localNow.toISOString();
+    const nowDate = localIsoNow.substring(0, 10);
+    const nowTime = localIsoNow.substring(11, 19);
     return {
         format: apiData?.format,
         authorUserId: apiData?.authorUserId ?? null,
         authorRoleId: apiData?.authorRoleId ?? null,
         authorName: apiData?.authorName ?? null,
         authorEmail: apiData?.authorEmail ?? null,
+        publishAtOption: apiData ? 'unchanged' : 'now',
+        publishAtDateTime: apiData?.publishAt ?? `${nowDate} ${nowTime}`,
+        publishedAt: apiData?.publishAt ?? null,
         title: apiData?.title ?? '',
         teaser: apiData?.teaser ?? '',
         content: apiData?.content ?? '',
@@ -56,12 +71,20 @@ function getFormFromApi(apiData?: OlzNewsData): OlzEditNewsForm {
 }
 
 function getApiFromForm(formData: OlzEditNewsForm): OlzNewsData {
+    if (formData?.format === 'UNDEFINED') {
+        throw new Error('Format cannot be UNDEFINED');
+    }
     return {
         format: assert(formData?.format),
         authorUserId: formData?.authorUserId,
         authorRoleId: formData?.authorRoleId,
         authorName: formData?.authorName,
         authorEmail: formData?.authorEmail,
+        publishAt: formData?.publishAtOption === 'unchanged'
+            ? formData?.publishedAt
+            : formData?.publishAtOption === 'now'
+                ? null
+                : formData?.publishAtDateTime,
         title: formData?.title,
         teaser: formData?.format === 'aktuell' ? formData?.teaser : '',
         content: formData?.format !== 'galerie' ? formData?.content : '',
@@ -184,6 +207,12 @@ const FORMATS_BY_MODE: {[mode in OlzEditNewsModalMode]: OlzNewsFormat[]} = {
     account_with_blog: ['forum', 'kaderblog', 'aktuell', 'galerie', 'video'],
 };
 
+const PUBLISH_AT_OPTIONS: {id: PublishAtOption, title: string}[] = [
+    {id: 'unchanged', title: '(unverändert)'},
+    {id: 'now', title: 'Jetzt'},
+    {id: 'custom', title: 'Um:'},
+];
+
 const FORMATTING_NOTES_FOR_USERS = (<>
     <div><b>Hinweise:</b></div>
     <div><b>1. Internet-Link in Text einbauen:</b> Internet-Adresse mit 'http://' beginnen,
@@ -272,7 +301,11 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
     }, [recaptchaConsentGiven]);
 
     const format = watch('format');
-    const config = format ? CONFIG_BY_FORMAT[format] : DEFAULT_CONFIG;
+    const config = (format && format !== 'UNDEFINED') ? CONFIG_BY_FORMAT[format] : DEFAULT_CONFIG;
+    const publishAtOption = watch('publishAtOption');
+    const publishAtOptions = props?.id
+        ? PUBLISH_AT_OPTIONS
+        : PUBLISH_AT_OPTIONS.filter((option) => option.id !== 'unchanged');
 
     const onSubmit: SubmitHandler<OlzEditNewsForm> = async (values) => {
         const meta: OlzMetaData = {
@@ -377,6 +410,35 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                     ) : null}
                                 </div>
                             )}
+                            <div className='row'>
+                                <div className='col mb-3'>
+                                    <label htmlFor='publishAtOption-input'>Veröffentlichung</label>
+                                    <select
+                                        className='form-control form-select'
+                                        id='publishAtOption-input'
+                                        {...register('publishAtOption')}
+                                        defaultValue={publishAtOption ?? publishAtOptions[0]}
+                                    >
+                                        {publishAtOptions.map((option) => (
+                                            <option value={option.id} key={option.id}>
+                                                {option.title}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                {publishAtOption === 'custom' ? (
+                                    <div className='col mb-3'>
+                                        <OlzTextField
+                                            title=''
+                                            name='publishAtDateTime'
+                                            errors={errors}
+                                            register={register}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className='col mb-3'></div>
+                                )}
+                            </div>
                             <div className='mb-3'>
                                 <OlzTextField
                                     title='Titel'

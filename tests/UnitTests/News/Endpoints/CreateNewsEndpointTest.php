@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\News\Endpoints;
 
-use Olz\Entity\Role;
-use Olz\Entity\User;
 use Olz\News\Endpoints\CreateNewsEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -43,6 +41,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                     'authorRoleId' => 2,
                     'authorName' => 't.u.',
                     'authorEmail' => 'tu@staging.olzimmerberg.ch',
+                    'publishAt' => '2020-03-13 19:30:00',
                     'title' => 'Test Titel',
                     'teaser' => 'Das muss man gelesen haben!',
                     'content' => 'Sehr viel Inhalt.',
@@ -99,6 +98,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 'authorRoleId' => null,
                 'authorName' => 'Anonymous',
                 'authorEmail' => 'anonymous@staging.olzimmerberg.ch',
+                'publishAt' => '2020-03-16 09:00:00',
                 'title' => 'Test Titel',
                 'teaser' => '',
                 'content' => 'Sehr viel Inhalt.',
@@ -132,8 +132,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('anonymous@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
         $this->assertSame(null, $news_entry->getAuthorUser());
         $this->assertSame(null, $news_entry->getAuthorRole());
-        $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
-        $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
+        $this->assertSame('2020-03-16', $news_entry->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('09:00:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());
@@ -195,7 +195,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         }, $artifacts['email']));
     }
 
-    public function testCreateNewsEndpoint(): void {
+    public function testCreateNewsEndpointMaximal(): void {
         $mailer = $this->createStub(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
@@ -228,6 +228,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 'authorRoleId' => 2,
                 'authorName' => 't.u.',
                 'authorEmail' => 'tu@staging.olzimmerberg.ch',
+                'publishAt' => '2020-03-16 09:00:00',
                 'title' => 'Test Titel',
                 'teaser' => 'Das muss man gelesen haben!',
                 'content' => 'Sehr viel Inhalt.',
@@ -247,8 +248,6 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $user_repo = $entity_manager->repositories[User::class];
-        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame([
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
@@ -260,10 +259,10 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
         $this->assertSame('t.u.', $news_entry->getAuthorName());
         $this->assertSame('tu@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
-        $this->assertSame($user_repo->admin_user, $news_entry->getAuthorUser());
-        $this->assertSame($role_repo->admin_role, $news_entry->getAuthorRole());
-        $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
-        $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
+        $this->assertSame(Fake\FakeUsers::adminUser(), $news_entry->getAuthorUser());
+        $this->assertSame(Fake\FakeRoles::adminRole(), $news_entry->getAuthorRole());
+        $this->assertSame('2020-03-16', $news_entry->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('09:00:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('Das muss man gelesen haben!', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());
@@ -285,6 +284,92 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             ],
             [
                 ['uploaded_file.pdf', 'inexistent.txt'],
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/news/{$id}/",
+            ],
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+    }
+
+    public function testCreateNewsEndpointMinimal(): void {
+        $mailer = $this->createStub(MailerInterface::class);
+        $entity_manager = WithUtilsCache::get('entityManager');
+        WithUtilsCache::get('authUtils')->has_permission_by_query = [
+            'any' => true,
+            'all' => false,
+            'kaderblog' => false,
+        ];
+        $endpoint = new CreateNewsEndpoint();
+        $endpoint->setMailer($mailer);
+        $endpoint->runtimeSetup();
+        $mailer->expects($this->exactly(0))->method('send');
+
+        $result = $endpoint->call([
+            'meta' => [
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
+                'onOff' => true,
+            ],
+            'data' => [
+                'format' => 'aktuell',
+                'authorUserId' => null,
+                'authorRoleId' => null,
+                'authorName' => null,
+                'authorEmail' => null,
+                'publishAt' => null,
+                'title' => 'Cannot be empty',
+                'teaser' => '',
+                'content' => '',
+                'externalUrl' => null,
+                'tags' => [],
+                'terminId' => null,
+                'imageIds' => [],
+                'fileIds' => [],
+            ],
+            'custom' => [
+                'recaptchaToken' => null,
+            ],
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+
+        $this->assertSame([
+            'status' => 'OK',
+            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+        ], $result);
+        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+        $news_entry = $entity_manager->persisted[0];
+        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
+        $this->assertSame(null, $news_entry->getAuthorName());
+        $this->assertSame(null, $news_entry->getAuthorEmail());
+        $this->assertSame(null, $news_entry->getAuthorUser());
+        $this->assertSame(null, $news_entry->getAuthorRole());
+        $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
+        $this->assertSame('Cannot be empty', $news_entry->getTitle());
+        $this->assertSame('', $news_entry->getTeaser());
+        $this->assertSame('', $news_entry->getContent());
+        $this->assertSame(null, $news_entry->getExternalUrl());
+        $this->assertSame('  ', $news_entry->getTags());
+        $this->assertSame(0, $news_entry->getTermin());
+        $this->assertSame([], $news_entry->getImageIds());
+
+        $this->assertSame([
+            [$news_entry, 1, 1, 1],
+        ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
+
+        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+
+        $this->assertSame([
+            [
+                [],
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/news/{$id}/img/",
+            ],
+            [
+                [],
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/news/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);

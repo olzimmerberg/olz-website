@@ -23,5 +23,5 @@ interface LogFileInterface {
 
     public function serialize(): string;
 
-    public static function deserialize(string $serialized): LogFileInterface|null;
+    public static function deserialize(string $serialized): null|LogFileInterface;
 }

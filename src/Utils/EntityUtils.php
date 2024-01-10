@@ -70,7 +70,7 @@ class EntityUtils {
 
     public function canUpdateOlzEntity(
         OlzEntity $entity,
-        array|null $meta_arg,
+        null|array $meta_arg,
         string $edit_permission = 'all',
     ) {
         $meta = $meta_arg ?? [];

@@ -97,9 +97,9 @@ class GetLogsEndpoint extends OlzEndpoint {
     }
 
     protected function serializePageToken(
-        LineLocation|null $line_location,
-        string|null $mode,
-    ): string|null {
+        null|LineLocation $line_location,
+        null|string $mode,
+    ): null|string {
         if (!$line_location) {
             return null;
         }

@@ -18,15 +18,6 @@ class OlzFpdf extends Fpdf {
      * drawTextBox uses drawRows.
      *
      * This function is provided by TUFaT.com
-     *
-     * @param mixed $strText
-     * @param mixed $xi
-     * @param mixed $yi
-     * @param mixed $w
-     * @param mixed $h
-     * @param mixed $align
-     * @param mixed $valign
-     * @param mixed $border
      */
     public function drawTextBox($strText, $xi, $yi, $w, $h, $align = 'L', $valign = 'T', $border = false) {
         $hrow = $this->FontSize;

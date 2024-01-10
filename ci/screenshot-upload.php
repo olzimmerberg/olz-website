@@ -19,12 +19,12 @@ $remote_private_path = $upload->getRemotePrivatePath();
 $remote_screenshots_path = "{$remote_private_path}/deploy/live/_/screenshots/generated";
 try {
     $remote_fs->createDirectory(dirname($remote_screenshots_path));
-} catch (\Throwable $th) {
+} catch (Throwable $th) {
     // ignore
 }
 try {
     $remote_fs->createDirectory($remote_screenshots_path);
-} catch (\Throwable $th) {
+} catch (Throwable $th) {
     // ignore
 }
 $screenshots_dir = __DIR__.'/../screenshots';
@@ -37,6 +37,6 @@ try {
             $remote_fs->write($remote_file_path, $file_contents);
         }
     }
-} catch (\Throwable $th) {
+} catch (Throwable $th) {
     exit(1);
 }

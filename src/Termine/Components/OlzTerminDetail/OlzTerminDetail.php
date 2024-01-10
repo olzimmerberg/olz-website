@@ -178,7 +178,7 @@ class OlzTerminDetail extends OlzComponent {
         if ($image_ids && count($image_ids) > 0) {
             $out .= $image_utils->olzImage(
                 'termine', $id, $image_ids[0], 840);
-            // Karte zeigen
+        // Karte zeigen
         } elseif ($has_location) {
             $out .= OlzLocationMap::render([
                 'latitude' => $lat,

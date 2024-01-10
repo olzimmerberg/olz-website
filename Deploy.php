@@ -9,7 +9,7 @@ use PhpDeploy\AbstractDefaultDeploy;
 require_once __DIR__.'/vendor/autoload.php';
 
 class Deploy extends AbstractDefaultDeploy {
-    use \Psr\Log\LoggerAwareTrait;
+    use Psr\Log\LoggerAwareTrait;
 
     protected $bot_access_token;
 
@@ -62,7 +62,7 @@ class Deploy extends AbstractDefaultDeploy {
             $adapter = new FtpAdapter($options);
             return new League\Flysystem\Filesystem($adapter);
         }
-        throw new \Exception("Target must be `hosttech`");
+        throw new Exception("Target must be `hosttech`");
     }
 
     public function getRemotePublicPath() {
@@ -73,9 +73,9 @@ class Deploy extends AbstractDefaultDeploy {
             if ($this->environment === 'prod') {
                 return "httpdocs";
             }
-            throw new \Exception("Environment must be `staging` or `prod`");
+            throw new Exception("Environment must be `staging` or `prod`");
         }
-        throw new \Exception("Target must be `hosttech`");
+        throw new Exception("Target must be `hosttech`");
     }
 
     public function getRemotePublicUrl() {
@@ -86,9 +86,9 @@ class Deploy extends AbstractDefaultDeploy {
             if ($this->environment === 'prod') {
                 return "https://olzimmerberg.ch";
             }
-            throw new \Exception("Environment must be `staging` or `prod`");
+            throw new Exception("Environment must be `staging` or `prod`");
         }
-        throw new \Exception("Target must be `hosttech`");
+        throw new Exception("Target must be `hosttech`");
     }
 
     public function getRemotePrivatePath() {
@@ -99,9 +99,9 @@ class Deploy extends AbstractDefaultDeploy {
             if ($this->environment === 'prod') {
                 return "private/prod";
             }
-            throw new \Exception("Environment must be `staging` or `prod`");
+            throw new Exception("Environment must be `staging` or `prod`");
         }
-        throw new \Exception("Target must be `hosttech`");
+        throw new Exception("Target must be `hosttech`");
     }
 
     public function install($public_path) {
@@ -189,7 +189,7 @@ class Deploy extends AbstractDefaultDeploy {
             if ($is_error) {
                 $this->logger->error($output);
                 $this->logger->error("Executing \"{$command}\" done.");
-                throw new \Exception($output);
+                throw new Exception($output);
             }
             $this->logger->info($data['output'] ?? '(output empty)');
             $this->logger->info("Executing \"{$command}\" done.");

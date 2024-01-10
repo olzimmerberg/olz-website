@@ -220,7 +220,7 @@ class Panini2024Utils {
         }
 
         // Text
-        $size = ($hei + ($is_landscape ? $wid : $hei)) * 0.02;
+        $size = ($hei + ($is_landscape ? $wid : $hei)) * 0.018;
         $yellow = imagecolorallocate($img, 255, 255, 0);
         $shady = imagecolorallocatealpha($img, 0, 0, 0, 64);
         $shoff = $size / 10;

@@ -79,6 +79,8 @@ class TermineController extends AbstractController {
         LoggerInterface $logger,
     ): Response {
         $out = OlzICal::render();
-        return new Response($out);
+        $response = new Response($out);
+        $response->headers->set('Content-Type', 'text/calendar');
+        return $response;
     }
 }

@@ -23,7 +23,7 @@ $max_id = pow(2, 40) - 1;
 foreach ($algos as $algo) {
     try {
         if (!($is_online_algo[$algo] ?? false)) {
-            throw new \Exception("Must exist online.");
+            throw new Exception("Must exist online.");
         }
         $id_utils = new IdUtilsMutableAlgo();
         $id_utils->setAlgo($algo);
@@ -31,7 +31,7 @@ foreach ($algos as $algo) {
         $external_id = $id_utils->toExternalId($max_id, 'Test');
 
         if (strlen($external_id) > 11) {
-            throw new \Exception("Too long.");
+            throw new Exception("Too long.");
         }
 
         $levenshtein3 = 0;
@@ -48,7 +48,7 @@ foreach ($algos as $algo) {
             $external_id5 = $id_utils->toExternalId($id - 1, $text);
 
             if ($external_id1 !== $external_id2) {
-                throw new \Exception("Must be deterministic");
+                throw new Exception("Must be deterministic");
             }
 
             $levenshtein3 += levenshtein($external_id1, $external_id3);
@@ -61,11 +61,11 @@ foreach ($algos as $algo) {
         $levenshtein5 = $levenshtein5 / strlen($external_id) / 100;
 
         if ($levenshtein3 < 0.9 || $levenshtein4 < 0.9 || $levenshtein5 < 0.9) {
-            throw new \Exception("Not good");
+            throw new Exception("Not good");
         }
 
         echo "{$algo} External ID: {$external_id1} {$external_id2} {$external_id3} {$external_id4} {$external_id5}\n";
-    } catch (\Exception $exc) {
+    } catch (Exception $exc) {
         // ignore
     }
 }

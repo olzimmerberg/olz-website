@@ -53,7 +53,7 @@ class AccessSslLogsChannel extends LogrotateLogsChannel {
         return intval($matches[2]);
     }
 
-    protected function parseDateTimeOfLine(string $line): \DateTime|null {
+    protected function parseDateTimeOfLine(string $line): null|\DateTime {
         $res = preg_match('/(\d{2})\/(\w{3})\/(\d{4})(:|T|\s+)(\d{2}\:\d{2}\:\d{2})/', $line, $matches);
         $month_mapping = [
             'jan' => '01',

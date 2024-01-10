@@ -155,7 +155,7 @@ class OlzKarten extends OlzComponent {
                     $img_height = $img_info_gross[1];
                     $img_href = "{$data_href}img/karten/{$thumb}";
                     $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='{$code_href}assets/icns/magnifier_16.svg' style='float:right;border:none;'></a></span>";
-                    // $map = "<img src='{$code_href}assets/icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"olz.trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"olz.hidetrail();\">";}
+                // $map = "<img src='{$code_href}assets/icns/magnifier_16.svg' style='float:right;border:none;' onmouseover=\"olz.trailOn('{$data_href}img/karten/$thumb','$name','$jahr','','','','','$center_x','$center_y','','','$massstab','---');\" onmouseout=\"olz.hidetrail();\">";}
                 } else {
                     $map = '';
                 }

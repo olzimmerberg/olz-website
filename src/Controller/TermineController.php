@@ -2,6 +2,7 @@
 
 namespace Olz\Controller;
 
+use Olz\Termine\Components\OlzICal\OlzICal;
 use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Components\OlzTermineList\OlzTermineList;
 use Olz\Termine\Components\OlzTerminLocationDetail\OlzTerminLocationDetail;
@@ -69,6 +70,15 @@ class TermineController extends AbstractController {
         int $id,
     ): Response {
         $out = OlzTerminTemplateDetail::render(['id' => $id]);
+        return new Response($out);
+    }
+
+    #[Route('/olz_ical.ics')]
+    public function termineICal(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        $out = OlzICal::render();
         return new Response($out);
     }
 }

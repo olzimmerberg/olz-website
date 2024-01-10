@@ -11,6 +11,7 @@
     margin-top: 0;
     padding-top: 10px;
     text-shadow: 1px 1px 3px #000;
+    z-index: 1;
 }
 
 .tile-id-olz-weekly-picture-tile img {
@@ -29,8 +30,11 @@
     display: none;
 }
 
-.weekly-picture-tile-container {
-    min-height: 100px;
+#weekly-picture-carousel {
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-size: 75% 75%;
+    }
 }
 
 .weekly-picture-tile-text {

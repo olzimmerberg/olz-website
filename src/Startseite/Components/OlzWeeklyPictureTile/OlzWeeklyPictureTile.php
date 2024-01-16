@@ -72,8 +72,8 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
             id='weekly-picture-carousel'
             class='carousel slide'
             data-bs-ride='carousel'
-            data-bs-interval='15000'
-            data-bs-wrap="false"
+            data-bs-interval='3600000'
+            data-bs-wrap='false'
         >
             <div class='carousel-inner'>{$carousel_inner}</div>
             <button

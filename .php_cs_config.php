@@ -17,7 +17,7 @@ return $config
         '@PhpCsFixer' => true,
         '@Symfony' => true,
         'blank_line_before_statement' => false,
-        'curly_braces_position' => [
+        'braces_position' => [
             'functions_opening_brace' => 'same_line',
             'classes_opening_brace' => 'same_line',
         ],

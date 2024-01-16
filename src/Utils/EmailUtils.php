@@ -160,6 +160,9 @@ class EmailUtils {
 
     public function getUserAddress(User $user): Address {
         $user_email = $user->getEmail();
+        if (empty($user_email)) {
+            throw new \Exception("getUserAddress: {$user} has no email.");
+        }
         $user_full_name = $user->getFullName();
         return new Address($user_email, $user_full_name);
     }

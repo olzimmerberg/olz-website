@@ -277,6 +277,76 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $artifacts['email']));
     }
 
+    public function testProcessEmailCommandEmptyToException(): void {
+        $mailer = $this->createStub(MailerInterface::class);
+        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
+        $mail = new FakeProcessEmailCommandMail(12,
+            'someone@staging.olzimmerberg.ch',
+            new Attribute('to', [
+                getAddress('', ''), // empty
+            ]),
+            new Attribute('cc', []),
+            new Attribute('bcc', []),
+            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
+            new Attribute('subject', 'Test subject'),
+            'Test html',
+            'Test text',
+        );
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+        $artifacts = [];
+        $mailer->expects($this->exactly(1))->method('send')->with(
+            $this->callback(function (Email $email) use (&$artifacts) {
+                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+                return true;
+            }),
+            $this->callback(function (Envelope $envelope) use (&$artifacts) {
+                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+                return true;
+            }),
+        );
+
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
+        $job->run($input, $output);
+
+        $this->assertSame([
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+        ], $this->getLogs());
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertSame('INBOX.Processed', $mail->moved_to);
+        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+            From: "From Name" <from@from-domain.com>
+            Reply-To: "From Name" <from@from-domain.com>
+            To: 
+            Cc: 
+            Bcc: 
+            Subject: Test subject
+
+            Test text
+
+            Test html
+
+            ZZZZZZZZZZ,
+        ], array_map(function ($email) {
+            return $this->emailUtils()->getComparableEmail($email);
+        }, $artifacts['email']));
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+            Sender: "From Name" <from@from-domain.com>
+            Recipients: someone@gmail.com
+            ZZZZZZZZZZ,
+        ], array_map(function ($envelope) {
+            return $this->emailUtils()->getComparableEnvelope($envelope);
+        }, $artifacts['envelope']));
+    }
+
     public function testProcessEmailCommandRfcComplianceException(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
@@ -378,6 +448,40 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
+    }
+
+    public function testProcessEmailCommandToUserEmptyEmail(): void {
+        $mailer = $this->createStub(MailerInterface::class);
+        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
+        $mail = new FakeProcessEmailCommandMail(12,
+            'empty-email@staging.olzimmerberg.ch',
+            new Attribute('to', []),
+            new Attribute('cc', []),
+            new Attribute('bcc', []),
+            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
+            new Attribute('subject', 'Test subject'),
+            'Test html',
+            'Test text',
+        );
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+        $artifacts = [];
+        $mailer->expects($this->exactly(0))->method('send');
+
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
+        $job->run($input, $output);
+
+        $this->assertSame([
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'CRITICAL Error forwarding email from empty-email@staging.olzimmerberg.ch to : getUserAddress: empty-email (ID:1) has no email.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+        ], $this->getLogs());
+        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertSame(null, $mail->moved_to);
+        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertSame(['+flagged'], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandToOldUser(): void {

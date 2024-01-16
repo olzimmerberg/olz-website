@@ -84,6 +84,15 @@ class FakeUserRepository {
             $this->fakeProcessEmailCommandUser = $fake_process_email_command_user;
             return $fake_process_email_command_user;
         }
+        if ($username === 'empty-email') {
+            $user = FakeUsers::defaultUser(true);
+            $user->setId(1);
+            $user->setUsername('empty-email');
+            $user->setFirstName('Empty');
+            $user->setLastName('Email');
+            $user->setEmail('');
+            return $user;
+        }
         if ($username === 'no-permission') {
             $user = FakeUsers::defaultUser(true);
             $user->setUsername('no-permission');

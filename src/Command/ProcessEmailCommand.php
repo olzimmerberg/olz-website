@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mailer\Envelope;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
@@ -223,18 +224,9 @@ class ProcessEmailCommand extends OlzCommand {
             $from = $mail->from->first();
             $from_name = $from->personal;
             $from_address = $from->mail;
-            $to = array_map(
-                function ($item) { return $this->getAddress($item); },
-                $mail->to->toArray(),
-            );
-            $cc = array_map(
-                function ($item) { return $this->getAddress($item); },
-                $mail->cc->toArray(),
-            );
-            $bcc = array_map(
-                function ($item) { return $this->getAddress($item); },
-                $mail->bcc->toArray(),
-            );
+            $to = $this->getAddresses($mail->to);
+            $cc = $this->getAddresses($mail->cc);
+            $bcc = $this->getAddresses($mail->bcc);
             $subject = $mail->subject->first();
             $mail->parseBody();
             $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
@@ -255,7 +247,6 @@ class ProcessEmailCommand extends OlzCommand {
                 ->html($html ? $html : '(leer)')
             ;
 
-            $upload_paths = [];
             if ($mail->hasAttachments()) {
                 $attachments = $mail->getAttachments();
                 $data_path = $this->envUtils()->getDataPath();
@@ -287,7 +278,6 @@ class ProcessEmailCommand extends OlzCommand {
                     } else {
                         throw new \Exception("Could not save attachment {$attachment->name} to {$upload_id}.");
                     }
-                    $upload_paths[] = $upload_path;
                     gc_collect_cycles();
                 }
             }
@@ -300,23 +290,31 @@ class ProcessEmailCommand extends OlzCommand {
 
             $this->log()->info("Email forwarded from {$address} to {$forward_address}");
 
-            foreach ($upload_paths as $upload_path) {
-                if (is_file($upload_path)) {
-                    unlink($upload_path);
-                }
-            }
-
             $mail->unsetFlag('flagged');
             return true;
         } catch (RfcComplianceException $exc) {
             $message = $exc->getMessage();
             $this->log()->notice("Email from {$address} to {$forward_address} is not RFC-compliant: {$message}", [$exc]);
             return true;
+        } catch (TransportExceptionInterface $e) {
+            $message = $exc->getMessage();
+            $this->log()->error("Error sending email (from {$address}) to {$forward_address}: {$message}", [$exc]);
+            return false;
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
             $this->log()->critical("Error forwarding email from {$address} to {$forward_address}: {$message}", [$exc]);
             return false;
         }
+    }
+
+    protected function getAddresses($field): array {
+        $addresses = [];
+        foreach ($field->toArray() as $item) {
+            if (!empty($item->mail)) {
+                $addresses[] = $this->getAddress($item);
+            }
+        }
+        return $addresses;
     }
 
     protected function getAddress(\Webklex\PHPIMAP\Address $item): Address {

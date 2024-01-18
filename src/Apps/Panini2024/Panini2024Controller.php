@@ -129,6 +129,62 @@ class Panini2024Controller extends AbstractController {
         return $response;
     }
 
+    #[Route('/apps/panini24/pdf/olz.pdf')]
+    public function pdfOlz(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        ini_set('memory_limit', '500M');
+        set_time_limit(4000);
+
+        $pdf_out = Panini2024Utils::fromEnv()->renderOlzPages();
+        $response = new Response($pdf_out);
+        $response->headers->set('Content-Type', 'application/pdf');
+        return $response;
+    }
+
+    #[Route('/apps/panini24/pdf/history.pdf')]
+    public function pdfHistory(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        ini_set('memory_limit', '500M');
+        set_time_limit(4000);
+
+        $pdf_out = Panini2024Utils::fromEnv()->renderHistoryPages();
+        $response = new Response($pdf_out);
+        $response->headers->set('Content-Type', 'application/pdf');
+        return $response;
+    }
+
+    #[Route('/apps/panini24/pdf/dresses.pdf')]
+    public function pdfDresses(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        ini_set('memory_limit', '500M');
+        set_time_limit(4000);
+
+        $pdf_out = Panini2024Utils::fromEnv()->renderDressesPages();
+        $response = new Response($pdf_out);
+        $response->headers->set('Content-Type', 'application/pdf');
+        return $response;
+    }
+
+    #[Route('/apps/panini24/pdf/maps.pdf')]
+    public function pdfMaps(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        ini_set('memory_limit', '500M');
+        set_time_limit(4000);
+
+        $pdf_out = Panini2024Utils::fromEnv()->renderMapsPages();
+        $response = new Response($pdf_out);
+        $response->headers->set('Content-Type', 'application/pdf');
+        return $response;
+    }
+
     #[Route('/apps/panini24/pdf/book.pdf')]
     public function pdfBook(
         Request $request,

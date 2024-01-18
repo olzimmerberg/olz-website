@@ -447,17 +447,153 @@ class Panini2024Utils {
         return $pdf->Output();
     }
 
+    // --- BOOK ------------------------------------------------------------------------------------
+
+    private function getBookPdf() {
+        $data_path = $this->envUtils()->getDataPath();
+        $panini_path = "{$data_path}panini_data/";
+
+        $pdf = new OlzFpdf('P', 'mm', 'A4');
+        $pdf->AliasNbPages();
+        $font_dir_path = "{$panini_path}fonts/OpenSans/";
+        $pdf->AddFont('OpenSans', '', 'OpenSans-SemiBold.php', $font_dir_path);
+        $pdf->SetFont('OpenSans');
+        $pdf->SetAutoPageBreak(false);
+
+        return $pdf;
+    }
+
+    private function addBookPage($pdf) {
+        $pdf->AddPage();
+        $mainbg_path = __DIR__.'/../../../../assets/icns/mainbg.png';
+        $info = getimagesize($mainbg_path);
+        $wid_px = $info[0];
+        $hei_px = $info[1];
+        $dpi = 150;
+        $wid_mm = $wid_px / $dpi * self::MM_PER_INCH;
+        $hei_mm = $hei_px / $dpi * self::MM_PER_INCH;
+        for ($tile_x = 0; $tile_x < ceil(210 / $wid_mm); $tile_x++) {
+            for ($tile_y = 0; $tile_y < ceil(297 / $hei_mm); $tile_y++) {
+                $pdf->Image(
+                    $mainbg_path,
+                    $tile_x * $wid_mm,
+                    $tile_y * $hei_mm,
+                    $wid_mm,
+                );
+            }
+        }
+    }
+
+    private function drawPlaceholder($pdf, $entry, $x, $y, $wid, $hei) {
+        $pdf->SetLineWidth(0.1);
+        $pdf->SetDrawColor(200, 200, 200);
+        $pdf->SetFillColor(255, 255, 255);
+        $pdf->Rect($x, $y, $wid, $hei, 'DF');
+
+        $pdf->SetTextColor(200, 200, 200);
+        $pdf->SetFontSize(9);
+        $line1 = mb_convert_encoding($entry['line1'], 'ISO-8859-1', 'UTF-8');
+        $line2 = mb_convert_encoding($entry['line2'], 'ISO-8859-1', 'UTF-8');
+        $has_line2 = $line2 !== '';
+        $align = $has_line2 ? 'R' : 'C';
+        $pdf->drawTextBox($line1, $x, $y + $hei - ($has_line2 ? 9.5 : 7.25), $wid, 5, $align, 'T', false);
+        if ($has_line2) {
+            $pdf->drawTextBox($line2, $x, $y + $hei - 5.2, $wid, 5, $align, 'T', false);
+        }
+    }
+
+    private function drawEntryInfobox($pdf, $entry, $x, $y, $wid, $hei) {
+        $pdf->SetLineWidth(0.1);
+        $pdf->SetDrawColor(0, 117, 33);
+        $pdf->SetFillColor(212, 231, 206);
+        $pdf->Rect($x, $y, $wid, $hei, 'F');
+        $line_y = $y;
+        $pdf->Line($x, $line_y, $x + $wid, $line_y);
+        $line_y = $y + $hei;
+        $pdf->Line($x, $line_y, $x + $wid, $line_y);
+
+        $pdf->SetFontSize(11);
+        $birthday = $entry['birthdate'] ?? '';
+        if (substr($birthday, 4) === '-00-00') {
+            $birthday = substr($birthday, 0, 4);
+        }
+        if ($entry['birthdate'] === null) { // No information => ERROR!
+            $pdf->SetTextColor(255, 0, 0);
+            $birthday = '!!!';
+        } elseif (substr($birthday, 0, 4) === '0000') { // Year Zero => Do not show
+            $birthday = '';
+        } else {
+            $pdf->SetTextColor(0, 117, 33);
+            if (strlen($birthday) === 10) {
+                $birthday = date('d.m.Y', strtotime($birthday));
+            }
+        }
+        $pdf->drawTextBox(
+            $birthday,
+            $x,
+            $y + 1,
+            $wid * 0.7 - 2,
+            5,
+            'L', 'T', false,
+        );
+
+        $pdf->SetFontSize(14);
+        $num_mispunch = strval($entry['num_mispunches']);
+        if ($entry['num_mispunches'] === null) { // No information => ERROR!
+            $pdf->SetTextColor(255, 0, 0);
+            $num_mispunch = '!!!';
+        } elseif (intval($entry['num_mispunches']) < 0) { // Negative count => Do not show
+            $num_mispunch = '';
+        } else {
+            $pdf->SetTextColor(0, 117, 33);
+        }
+        $pdf->drawTextBox(
+            $num_mispunch,
+            $x + $wid * 0.7,
+            $y + 1,
+            $wid * 0.3 - 2,
+            5,
+            'R', 'T', false,
+        );
+
+        $pdf->SetTextColor(0, 117, 33);
+        $pdf->SetFontSize(9);
+        $infos = json_decode($entry['infos'], true) ?? [];
+        $favourite_map = mb_convert_encoding($infos[0] ?? '', 'ISO-8859-1', 'UTF-8');
+        $pdf->drawTextBox(
+            $favourite_map,
+            $x,
+            $y + 6,
+            $wid,
+            4,
+            'L', 'T', false,
+        );
+        $since_when = mb_convert_encoding($infos[3] ?? '', 'ISO-8859-1', 'UTF-8');
+        $pdf->drawTextBox(
+            $since_when,
+            $x,
+            $y + 10,
+            $wid,
+            4,
+            'L', 'T', false,
+        );
+        $motto = mb_convert_encoding($infos[4] ?? '', 'ISO-8859-1', 'UTF-8');
+        $pdf->drawTextBox(
+            $motto,
+            $x,
+            $y + 14,
+            $wid,
+            11,
+            'L', 'T', false,
+        );
+    }
+
     public function renderBookPages() {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
-        $db = $this->dbUtils()->getDb();
-        $data_path = $this->envUtils()->getDataPath();
-        $panini_path = "{$data_path}panini_data/";
-        $temp_path = "{$data_path}temp/";
-        if (!is_dir($temp_path)) {
-            mkdir($temp_path, 0777, true);
-        }
+        $pdf = $this->getBookPdf();
+        $entries = $this->getBookEntries();
 
         $x_step = 46;
         $x_margin = 1;
@@ -467,27 +603,46 @@ class Panini2024Utils {
         $y_margin = 1;
         $y_box = 26;
 
-        $pdf = new OlzFpdf('P', 'mm', 'A4');
-        $pdf->AliasNbPages();
-        $font_dir_path = "{$panini_path}fonts/OpenSans/";
-        $pdf->AddFont('OpenSans', '', 'OpenSans-SemiBold.php', $font_dir_path);
-        $pdf->SetFont('OpenSans');
-        $pdf->SetAutoPageBreak(false);
+        $index = 0;
+        foreach ($entries as $entry) {
+            if (($index % 12) === 0) {
+                $this->addBookPage($pdf);
+            }
+            $x_index = $index % 4;
+            $y_index = floor($index / 4) % 3;
 
-        $placeholder_rows = [];
+            $x = $x_offset + $x_margin + $x_step * $x_index;
+            $y = $y_offset + $y_margin + $y_step * $y_index;
+            $wid = $x_step - $x_margin * 2;
 
+            $placeholder_hei = $y_step - $y_box - $y_margin * 2;
+            $this->drawPlaceholder($pdf, $entry, $x, $y, $wid, $placeholder_hei);
+
+            $box_y = $y + $y_step - $y_box - $y_margin;
+            $box_hei = $y_box - $y_margin;
+            $this->drawEntryInfobox($pdf, $entry, $x, $box_y, $wid, $box_hei);
+
+            $index++;
+        }
+        return $pdf->Output();
+    }
+
+    private function getBookEntries() {
+        $entries = [];
+
+        $db = $this->dbUtils()->getDb();
         $result_associations = $db->query("SELECT *, (img_src = 'wappen/other.jpg') AS is_other FROM panini24 WHERE img_src LIKE 'wappen/%' ORDER BY is_other ASC, line1 ASC");
         $esc_associations = [];
         for ($i = 0; $i < $result_associations->num_rows; $i++) {
             $row_association = $result_associations->fetch_assoc();
-            $placeholder_rows[] = $row_association;
+            $entries[] = $row_association;
 
             if ($row_association['is_other']) {
                 $sql = implode("', '", $esc_associations);
                 $result_portraits = $db->query("SELECT * FROM panini24 WHERE association NOT IN ('{$sql}') ORDER BY line2 ASC, line1 ASC");
                 for ($j = 0; $j < $result_portraits->num_rows; $j++) {
                     $row_portrait = $result_portraits->fetch_assoc();
-                    $placeholder_rows[] = $row_portrait;
+                    $entries[] = $row_portrait;
                 }
             } else {
                 $esc_association = $db->real_escape_string($row_association['line1']);
@@ -495,163 +650,269 @@ class Panini2024Utils {
                 $result_portraits = $db->query("SELECT * FROM panini24 WHERE association = '{$esc_association}' ORDER BY line2 ASC, line1 ASC");
                 for ($j = 0; $j < $result_portraits->num_rows; $j++) {
                     $row_portrait = $result_portraits->fetch_assoc();
-                    $placeholder_rows[] = $row_portrait;
+                    $entries[] = $row_portrait;
                 }
             }
         }
+        return $entries;
+    }
+
+    public function renderOlzPages() {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
+        $pdf = $this->getBookPdf();
+        $entries = $this->getOlzEntries();
 
         $index = 0;
-        foreach ($placeholder_rows as $row) {
-            if (($index % 12) === 0) {
-                $pdf->AddPage();
-                $mainbg_path = __DIR__.'/../../../../assets/icns/mainbg.png';
-                $info = getimagesize($mainbg_path);
-                $wid_px = $info[0];
-                $hei_px = $info[1];
-                $dpi = 150;
-                $wid_mm = $wid_px / $dpi * self::MM_PER_INCH;
-                $hei_mm = $hei_px / $dpi * self::MM_PER_INCH;
-                for ($tile_x = 0; $tile_x < ceil(210 / $wid_mm); $tile_x++) {
-                    for ($tile_y = 0; $tile_y < ceil(297 / $hei_mm); $tile_y++) {
-                        $pdf->Image(
-                            $mainbg_path,
-                            $tile_x * $wid_mm,
-                            $tile_y * $hei_mm,
-                            $wid_mm,
-                        );
-                    }
-                }
+        $last_page = 0;
+        foreach ($entries as $entry) {
+            [$page, $x, $y] = $this->getOlzPageXY($index);
+            for ($p = $last_page; $p < $page; $p++) {
+                $this->addBookPage($pdf);
             }
-            $x_index = $index % 4;
-            $y_index = floor($index / 4) % 3;
+            $last_page = $page;
 
-            $x = $x_offset + $x_margin + $x_step * $x_index;
-            $y = $y_offset + $y_margin + $y_step * $y_index;
+            $short = 44;
+            $long = 64;
+            $wid = $entry['is_landscape'] ? $long : $short;
+            $hei = $entry['is_landscape'] ? $short : $long;
 
-            $pdf->SetLineWidth(0.1);
-            $pdf->SetDrawColor(200, 200, 200);
-            $pdf->SetFillColor(255, 255, 255);
-            $pdf->Rect(
-                $x,
-                $y,
-                $x_step - $x_margin * 2,
-                $y_step - $y_box - $y_margin * 2,
-                'DF',
-            );
-
-            $pdf->SetTextColor(200, 200, 200);
-            $pdf->SetFontSize(10);
-            $line1 = mb_convert_encoding($row['line1'], 'ISO-8859-1', 'UTF-8');
-            $pdf->drawTextBox(
-                $line1,
-                $x,
-                $y + $y_step - $y_box - $y_margin * 2 - 9.5,
-                $x_step - $x_margin * 2,
-                5,
-                'R', 'T', false,
-            );
-            $line2 = mb_convert_encoding($row['line2'], 'ISO-8859-1', 'UTF-8');
-            $pdf->drawTextBox(
-                $line2,
-                $x,
-                $y + $y_step - $y_box - $y_margin * 2 - 5.2,
-                $x_step - $x_margin * 2,
-                5,
-                'R', 'T', false,
-            );
-
-            $pdf->SetLineWidth(0.1);
-            $pdf->SetDrawColor(0, 117, 33);
-            $pdf->SetFillColor(212, 231, 206);
-            $pdf->Rect(
-                $x,
-                $y + $y_step - $y_box - $y_margin,
-                $x_step - $x_margin * 2,
-                $y_box - $y_margin,
-                'F',
-            );
-            $line_y = $y + $y_step - $y_box - $y_margin;
-            $pdf->Line($x, $line_y, $x + $x_step - $x_margin * 2, $line_y);
-            $line_y = $y + $y_step - $y_margin * 2;
-            $pdf->Line($x, $line_y, $x + $x_step - $x_margin * 2, $line_y);
-
-            $pdf->SetFontSize(11);
-            $birthday = $row['birthdate'] ?? '';
-            if (substr($birthday, 4) === '-00-00') {
-                $birthday = substr($birthday, 0, 4);
-            }
-            if ($row['birthdate'] === null) { // No information => ERROR!
-                $pdf->SetTextColor(255, 0, 0);
-                $birthday = '!!!';
-            } elseif (substr($birthday, 0, 4) === '0000') { // Year Zero => Do not show
-                $birthday = '';
-            } else {
-                $pdf->SetTextColor(0, 117, 33);
-                if (strlen($birthday) === 10) {
-                    $birthday = date('d.m.Y', strtotime($birthday));
-                }
-            }
-            $pdf->drawTextBox(
-                $birthday,
-                $x,
-                $y + $y_step - $y_box - $y_margin + 1,
-                $x_step * 0.7 - $x_margin * 2,
-                5,
-                'L', 'T', false,
-            );
-
-            $pdf->SetFontSize(14);
-            $num_mispunch = strval($row['num_mispunches']);
-            if ($row['num_mispunches'] === null) { // No information => ERROR!
-                $pdf->SetTextColor(255, 0, 0);
-                $num_mispunch = '!!!';
-            } elseif (intval($row['num_mispunches']) < 0) { // Negative count => Do not show
-                $num_mispunch = '';
-            } else {
-                $pdf->SetTextColor(0, 117, 33);
-            }
-            $pdf->drawTextBox(
-                $num_mispunch,
-                $x + $x_step * 0.7,
-                $y + $y_step - $y_box - $y_margin + 1,
-                $x_step * 0.3 - $x_margin * 2,
-                5,
-                'R', 'T', false,
-            );
-
-            $pdf->SetTextColor(0, 117, 33);
-            $pdf->SetFontSize(9);
-            $infos = json_decode($row['infos'], true);
-            $favourite_map = mb_convert_encoding($infos[0], 'ISO-8859-1', 'UTF-8');
-            $pdf->drawTextBox(
-                $favourite_map,
-                $x,
-                $y + $y_step - $y_box - $y_margin + 6,
-                $x_step - $x_margin * 2,
-                4,
-                'L', 'T', false,
-            );
-            $since_when = mb_convert_encoding($infos[3], 'ISO-8859-1', 'UTF-8');
-            $pdf->drawTextBox(
-                $since_when,
-                $x,
-                $y + $y_step - $y_box - $y_margin + 10,
-                $x_step - $x_margin * 2,
-                4,
-                'L', 'T', false,
-            );
-            $motto = mb_convert_encoding($infos[4], 'ISO-8859-1', 'UTF-8');
-            $pdf->drawTextBox(
-                $motto,
-                $x,
-                $y + $y_step - $y_box - $y_margin + 14,
-                $x_step - $x_margin * 2,
-                11,
-                'L', 'T', false,
-            );
+            $this->drawPlaceholder($pdf, $entry, $x - $wid / 2, $y - $hei / 2, $wid, $hei);
 
             $index++;
         }
         return $pdf->Output();
+    }
+
+    private function getOlzEntries() {
+        $entries = [];
+
+        $db = $this->dbUtils()->getDb();
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'olz/%' ORDER BY id ASC");
+        for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            $row_olz = $result_olz->fetch_assoc();
+            $entries[] = $row_olz;
+        }
+        return $entries;
+    }
+
+    private function getOlzPageXY(int $index): array {
+        $a4_wid = 210;
+        $olz = [
+            [1, $a4_wid * 0.5, 10.5 + 22],
+            [1, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 32],
+            [1, $a4_wid * 0.8, 10.5 + 44 + 10.5 + 32],
+            [1, $a4_wid * 0.2, 10.5 + 44 + 10.5 + 64 + 10.5 + 32],
+            [1, $a4_wid * 0.8, 10.5 + 44 + 10.5 + 64 + 10.5 + 64 + 10.5 + 32],
+            [2, $a4_wid * 0.5, 10.5 + 22],
+            [2, $a4_wid * 0.8, 10.5 + 44 + 10.5 + 32],
+            [2, $a4_wid * 0.2, 10.5 + 44 + 10.5 + 64 + 10.5 + 32],
+            [2, $a4_wid * 0.8, 10.5 + 44 + 10.5 + 64 + 10.5 + 64 + 10.5 + 22],
+            [2, $a4_wid * 0.2, 10.5 + 44 + 10.5 + 64 + 10.5 + 22],
+        ];
+        return $olz[$index];
+    }
+
+    public function renderHistoryPages() {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
+        $pdf = $this->getBookPdf();
+        $entries = $this->getHistoryEntries();
+
+        $index = 0;
+        $last_page = 0;
+        foreach ($entries as $entry) {
+            [$page, $x, $y] = $this->getHistoryPageXY($index);
+            for ($p = $last_page; $p < $page; $p++) {
+                $this->addBookPage($pdf);
+            }
+            $last_page = $page;
+
+            $short = 44;
+            $long = 64;
+            $wid = $entry['is_landscape'] ? $long : $short;
+            $hei = $entry['is_landscape'] ? $short : $long;
+
+            $this->drawPlaceholder($pdf, $entry, $x - $wid / 2, $y - $hei / 2, $wid, $hei);
+
+            $index++;
+        }
+        return $pdf->Output();
+    }
+
+    private function getHistoryEntries() {
+        $entries = [];
+
+        $db = $this->dbUtils()->getDb();
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'history/%' ORDER BY id ASC");
+        for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            $row_olz = $result_olz->fetch_assoc();
+            $entries[] = $row_olz;
+        }
+        return $entries;
+    }
+
+    private function getHistoryPageXY(int $index): array {
+        $a4_wid = 210;
+        $olz = [
+            [1, $a4_wid * 0.25, 10.5 + 22],
+            [1, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 32],
+            [1, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 64 + 10.5 + 22],
+            [1, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 64 + 10.5 + 44 + 10.5 + 22],
+            [1, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
+            [1, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
+            [1, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 22],
+            [1, $a4_wid * 0.75, 10.5 + 22],
+            [2, $a4_wid * 0.25, 10.5 + 22],
+            [2, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 22],
+            [2, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
+            [2, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
+            [2, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
+            [2, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
+            [2, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
+            [2, $a4_wid * 0.75, 10.5 + 44],
+        ];
+        return $olz[$index];
+    }
+
+    public function renderDressesPages() {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
+        $pdf = $this->getBookPdf();
+        $entries = $this->getDressesEntries();
+
+        $index = 0;
+        $last_page = 0;
+        foreach ($entries as $entry) {
+            [$page, $x, $y] = $this->getDressesPageXY($index);
+            for ($p = $last_page; $p < $page; $p++) {
+                $this->addBookPage($pdf);
+            }
+            $last_page = $page;
+
+            $short = 44;
+            $long = 64;
+            $wid = $entry['is_landscape'] ? $long : $short;
+            $hei = $entry['is_landscape'] ? $short : $long;
+
+            $this->drawPlaceholder($pdf, $entry, $x - $wid / 2, $y - $hei / 2, $wid, $hei);
+
+            $index++;
+        }
+        return $pdf->Output();
+    }
+
+    private function getDressesEntries() {
+        $entries = [];
+
+        $db = $this->dbUtils()->getDb();
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'dresses/%' ORDER BY id ASC");
+        for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            $row_olz = $result_olz->fetch_assoc();
+            $entries[] = $row_olz;
+        }
+        return $entries;
+    }
+
+    private function getDressesPageXY(int $index): array {
+        $a4_wid = 210;
+        $olz = [
+            [1, $a4_wid * 0.25, 10.5 + 22],
+            [1, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 22],
+            [1, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 10.5 + 44 + 22],
+            [1, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 10.5 + 44 + 10.5 + 44 + 22],
+            [1, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 22],
+        ];
+        return $olz[$index];
+    }
+
+    public function renderMapsPages() {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
+        $pdf = $this->getBookPdf();
+        $entries = $this->getMapsEntries();
+
+        $index = 0;
+        $last_page = 0;
+        foreach ($entries as $entry) {
+            [$page, $x, $y] = $this->getMapsPageXY($index);
+            for ($p = $last_page; $p < $page; $p++) {
+                $this->addBookPage($pdf);
+            }
+            $last_page = $page;
+
+            $short = 44;
+            $long = 64;
+            $wid = $entry['is_landscape'] ? $long : $short;
+            $hei = $entry['is_landscape'] ? $short : $long;
+
+            $this->drawPlaceholder($pdf, $entry, $x - $wid / 2, $y - $hei / 2, $wid, $hei);
+
+            $this->drawEntryInfobox($pdf, $entry, $x - $wid / 2, $y + $hei / 2 + 1, $wid, 25);
+
+            $index++;
+        }
+        return $pdf->Output();
+    }
+
+    private function getMapsEntries() {
+        $entries = [];
+
+        $db = $this->dbUtils()->getDb();
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'karten/%' ORDER BY line1 ASC");
+        for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            $row_olz = $result_olz->fetch_assoc();
+            $entries[] = $row_olz;
+        }
+        return $entries;
+    }
+
+    private function getMapsPageXY(int $index): array {
+        $x_step = 46;
+        $x_offset = 13;
+        $y_step = 92;
+        $y_offset = 10.5;
+        $y_box = 26;
+
+        $col1 = $x_offset + $x_step * 1 / 2;
+        $col2 = $x_offset + $x_step * 3 / 2;
+        $col3 = $x_offset + $x_step * 5 / 2;
+        $col4 = $x_offset + $x_step * 7 / 2;
+
+        $row1 = $y_offset + $y_step * 1 / 2 - $y_box / 2;
+        $row2 = $y_offset + $y_step * 3 / 2 - $y_box / 2;
+        $row3 = $y_offset + $y_step * 5 / 2 - $y_box / 2;
+
+        $olz = [
+            [1, $col1, $row1],
+            [1, $col2, $row1],
+            [1, $col3, $row1],
+            // [1, $col4, $row1],
+            [1, $col1, $row2],
+            [1, $col2, $row2],
+            [1, $col3, $row2],
+            // [1, $col4, $row2],
+            [1, $col1, $row3],
+            [1, $col2, $row3],
+            [1, $col3, $row3],
+            [1, $col4, $row3],
+            // [2, $col1, $row1],
+            [2, $col2, $row1],
+            [2, $col3, $row1],
+            [2, $col4, $row1],
+            // [2, $col1, $row2],
+            [2, $col2, $row2],
+            [2, $col3, $row2],
+            [2, $col4, $row2],
+            [2, $col1, $row3],
+            [2, $col2, $row3],
+            [2, $col3, $row3],
+            [2, $col4, $row3],
+        ];
+        return $olz[$index];
     }
 }

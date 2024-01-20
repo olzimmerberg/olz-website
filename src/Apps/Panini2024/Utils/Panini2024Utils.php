@@ -709,7 +709,6 @@ class Panini2024Utils {
             [2, $a4_wid * 0.8, 10.5 + 44 + 10.5 + 32],
             [2, $a4_wid * 0.2, 10.5 + 44 + 10.5 + 64 + 10.5 + 32],
             [2, $a4_wid * 0.8, 10.5 + 44 + 10.5 + 64 + 10.5 + 64 + 10.5 + 22],
-            [2, $a4_wid * 0.2, 10.5 + 44 + 10.5 + 64 + 10.5 + 22],
         ];
         return $olz[$index];
     }
@@ -757,22 +756,22 @@ class Panini2024Utils {
     private function getHistoryPageXY(int $index): array {
         $a4_wid = 210;
         $olz = [
-            [1, $a4_wid * 0.25, 10.5 + 22],
-            [1, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 32],
-            [1, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 64 + 10.5 + 22],
-            [1, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 64 + 10.5 + 44 + 10.5 + 22],
-            [1, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
-            [1, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
-            [1, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 22],
-            [1, $a4_wid * 0.75, 10.5 + 22],
-            [2, $a4_wid * 0.25, 10.5 + 22],
-            [2, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 22],
-            [2, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
-            [2, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
-            [2, $a4_wid * 0.25, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
-            [2, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
-            [2, $a4_wid * 0.75, 10.5 + 44 + 10.5 + 44 + 10.5 + 44 + 10.5 + 22],
-            [2, $a4_wid * 0.75, 10.5 + 44],
+            [1, $a4_wid * 0.75, 5.5 + 32 * 1],
+            [1, $a4_wid * 0.25, 5.5 + 32 * 2],
+            [1, $a4_wid * 0.75, 5.5 + 32 * 3],
+            [1, $a4_wid * 0.25, 5.5 + 32 * 4],
+            [1, $a4_wid * 0.75, 5.5 + 32 * 5],
+            [1, $a4_wid * 0.25, 5.5 + 32 * 6],
+            [1, $a4_wid * 0.75, 5.5 + 32 * 7],
+            [1, $a4_wid * 0.25, 5.5 + 32 * 8],
+            [2, $a4_wid * 0.75, 5.5 + 32 * 8],
+            [2, $a4_wid * 0.25, 5.5 + 32 * 7],
+            [2, $a4_wid * 0.75, 5.5 + 32 * 6],
+            [2, $a4_wid * 0.25, 5.5 + 32 * 5],
+            [2, $a4_wid * 0.75, 5.5 + 32 * 4],
+            [2, $a4_wid * 0.25, 5.5 + 32 * 3],
+            [2, $a4_wid * 0.75, 5.5 + 32 * 2],
+            [2, $a4_wid * 0.25, 5.5 + 32 * 1],
         ];
         return $olz[$index];
     }
@@ -912,6 +911,54 @@ class Panini2024Utils {
             [2, $col2, $row3],
             [2, $col3, $row3],
             [2, $col4, $row3],
+        ];
+        return $olz[$index];
+    }
+
+    public function renderBackPages() {
+        if (!$this->authUtils()->hasPermission('panini2024')) {
+            throw new NotFoundHttpException();
+        }
+        $pdf = $this->getBookPdf();
+        $entries = $this->getBackEntries();
+
+        $index = 0;
+        $last_page = 0;
+        foreach ($entries as $entry) {
+            [$page, $x, $y] = $this->getBackPageXY($index);
+            for ($p = $last_page; $p < $page; $p++) {
+                $this->addBookPage($pdf);
+            }
+            $last_page = $page;
+
+            $short = 44;
+            $long = 64;
+            $wid = $entry['is_landscape'] ? $long : $short;
+            $hei = $entry['is_landscape'] ? $short : $long;
+
+            $this->drawPlaceholder($pdf, $entry, $x - $wid / 2, $y - $hei / 2, $wid, $hei);
+
+            $index++;
+        }
+        return $pdf->Output();
+    }
+
+    private function getBackEntries() {
+        $entries = [];
+
+        $db = $this->dbUtils()->getDb();
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'back/%' ORDER BY id ASC");
+        for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            $row_olz = $result_olz->fetch_assoc();
+            $entries[] = $row_olz;
+        }
+        return $entries;
+    }
+
+    private function getBackPageXY(int $index): array {
+        $a4_wid = 210;
+        $olz = [
+            [1, $a4_wid * 0.75, 297 - 10.5 - 22],
         ];
         return $olz[$index];
     }

@@ -3,8 +3,11 @@
 namespace Olz\Apps\Panini2024\Utils;
 
 use Fpdf\Fpdf;
+use Olz\Utils\WithUtilsTrait;
 
 class OlzFpdf extends Fpdf {
+    use WithUtilsTrait;
+
     protected $extgstates = [];
 
     // ### TextBox ###
@@ -23,6 +26,9 @@ class OlzFpdf extends Fpdf {
         $hrow = $this->FontSize;
         $textrows = $this->drawRows($w, $hrow, $strText, 0, $align, 0, 0, 0);
         $maxrows = floor($h / $this->FontSize);
+        if ($textrows > $maxrows) {
+            $this->log()->notice("OlzFpdf: Could not render text: {$strText}");
+        }
         $rows = min($textrows, $maxrows);
 
         $dy = 0;

@@ -485,20 +485,22 @@ class Panini2024Utils {
     }
 
     private function drawPlaceholder($pdf, $entry, $x, $y, $wid, $hei) {
+        $is_landcape = $wid > $hei;
+
         $pdf->SetLineWidth(0.1);
         $pdf->SetDrawColor(200, 200, 200);
         $pdf->SetFillColor(255, 255, 255);
         $pdf->Rect($x, $y, $wid, $hei, 'DF');
 
         $pdf->SetTextColor(200, 200, 200);
-        $pdf->SetFontSize(9);
-        $line1 = mb_convert_encoding($entry['line1'], 'ISO-8859-1', 'UTF-8');
-        $line2 = mb_convert_encoding($entry['line2'], 'ISO-8859-1', 'UTF-8');
+        $pdf->SetFontSize($is_landcape ? 7.75 : 8.75);
+        $line1 = $this->convertString($entry['line1']);
+        $line2 = $this->convertString($entry['line2']);
         $has_line2 = $line2 !== '';
         $align = $has_line2 ? 'R' : 'C';
-        $pdf->drawTextBox($line1, $x, $y + $hei - ($has_line2 ? 9.5 : 7.25), $wid, 5, $align, 'T', false);
+        $pdf->drawTextBox($line1, $x, $y + $hei - ($has_line2 ? 10 : 8), $wid, 5, $align, 'M', false);
         if ($has_line2) {
-            $pdf->drawTextBox($line2, $x, $y + $hei - 5.2, $wid, 5, $align, 'T', false);
+            $pdf->drawTextBox($line2, $x, $y + $hei - 6, $wid, 5, $align, 'M', false);
         }
     }
 
@@ -551,7 +553,7 @@ class Panini2024Utils {
             $num_mispunch,
             $x + $wid * 0.7,
             $y + 1,
-            $wid * 0.3 - 2,
+            $wid * 0.3,
             5,
             'R', 'T', false,
         );
@@ -559,7 +561,7 @@ class Panini2024Utils {
         $pdf->SetTextColor(0, 117, 33);
         $pdf->SetFontSize(9);
         $infos = json_decode($entry['infos'], true) ?? [];
-        $favourite_map = mb_convert_encoding($infos[0] ?? '', 'ISO-8859-1', 'UTF-8');
+        $favourite_map = $this->convertString($infos[0] ?? '');
         $pdf->drawTextBox(
             $favourite_map,
             $x,
@@ -568,7 +570,7 @@ class Panini2024Utils {
             4,
             'L', 'T', false,
         );
-        $since_when = mb_convert_encoding($infos[3] ?? '', 'ISO-8859-1', 'UTF-8');
+        $since_when = $this->convertString($infos[3] ?? '');
         $pdf->drawTextBox(
             $since_when,
             $x,
@@ -577,7 +579,7 @@ class Panini2024Utils {
             4,
             'L', 'T', false,
         );
-        $motto = mb_convert_encoding($infos[4] ?? '', 'ISO-8859-1', 'UTF-8');
+        $motto = $this->convertString($infos[4] ?? '');
         $pdf->drawTextBox(
             $motto,
             $x,
@@ -586,6 +588,15 @@ class Panini2024Utils {
             11,
             'L', 'T', false,
         );
+    }
+
+    private function convertString($string) {
+        $latin1_v1 = mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
+        $latin1_v2 = iconv('UTF-8', 'ISO-8859-1', $string);
+        if ($latin1_v1 !== $latin1_v2) {
+            $this->log()->notice("Could not convert string: {$string}");
+        }
+        return $latin1_v1;
     }
 
     public function renderBookPages() {

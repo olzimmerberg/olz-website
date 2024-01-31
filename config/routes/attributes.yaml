@@ -1,0 +1,13 @@
+controllers:
+    resource: 
+        path: ../../src/Controller/
+        namespace: Olz\Controller
+    type: attribute
+
+app_controllers:
+    resource: ../../src/Apps/*/*Controller.php
+    type: attribute
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: attribute

@@ -37,7 +37,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.1'
+        php-version: '8.2'
     - name: Install symfony-cli
       # https://symfony.com/download
       run: |
@@ -79,7 +79,7 @@ jobs:
   run-tests:
     strategy:
       matrix:
-        php-version: ['8.1'] # 8.1 is active on hosting
+        php-version: ['8.2'] # 8.2 is active on hosting
     name: Tests (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
     environment:
@@ -168,7 +168,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.1'
+        php-version: '8.2'
     - name: Get PHP (composer) cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"

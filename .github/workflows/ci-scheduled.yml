@@ -31,7 +31,7 @@ jobs:
   run-tests:
     strategy:
       matrix:
-        php-version: ['8.1'] # 8.1 is active on hosting
+        php-version: ['8.2'] # 8.2 is active on hosting
     name: Tests (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
     steps:

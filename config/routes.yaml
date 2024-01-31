@@ -1,5 +1,7 @@
 controllers:
-    resource: ../src/Controller/
+    resource: 
+        path: ../src/Controller/
+        namespace: Olz\Controller
     type: annotation
 
 app_controllers:

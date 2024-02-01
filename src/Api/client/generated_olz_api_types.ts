@@ -307,6 +307,7 @@ export type OlzApiEndpoint =
     'updateNews'|
     'deleteNews'|
     'createWeeklyPicture'|
+    'updateWeeklyPictureVote'|
     'createTermin'|
     'getTermin'|
     'editTermin'|
@@ -530,6 +531,10 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     createWeeklyPicture: {
             'meta': OlzMetaData,
             'data': OlzWeeklyPictureData,
+        },
+    updateWeeklyPictureVote: {
+            'weeklyPictureId': number,
+            'vote': number,
         },
     createTermin: {
             'meta': OlzMetaData,
@@ -819,6 +824,10 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     createWeeklyPicture: {
             'status': 'OK'|'ERROR',
             'id': number|null,
+        },
+    updateWeeklyPictureVote: {
+            'status': 'OK'|'ERROR',
+            'id': number,
         },
     createTermin: {
             'status': 'OK'|'ERROR',

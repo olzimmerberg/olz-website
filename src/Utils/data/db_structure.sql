@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240103010715
+-- MIGRATION: DoctrineMigrations\Version20240201230414
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -931,6 +931,24 @@ CREATE TABLE `weekly_picture` (
   CONSTRAINT `FK_1EABE3865A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_1EABE3867D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `weekly_picture_votes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_by_user_id` int(11) NOT NULL,
+  `weekly_picture_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `vote` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_F0FCCCE77D182D95` (`created_by_user_id`),
+  KEY `IDX_F0FCCCE7B7AE7853` (`weekly_picture_id`),
+  KEY `weekly_picture_created_at_index` (`weekly_picture_id`,`created_at`),
+  KEY `weekly_picture_created_by_index` (`weekly_picture_id`,`created_by_user_id`),
+  CONSTRAINT `FK_F0FCCCE77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_F0FCCCE7B7AE7853` FOREIGN KEY (`weekly_picture_id`) REFERENCES `weekly_picture` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

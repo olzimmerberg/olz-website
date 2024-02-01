@@ -206,6 +206,9 @@ jobs:
     needs: [deploy-prod, take-screenshots]
     steps:
     - uses: actions/checkout@v3
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
     - uses: actions/download-artifact@v1
       with:
         name: prod-screenshots

@@ -41,6 +41,7 @@ class OlzRolePage extends OlzComponent {
 
         $role_id = $role->getId();
         $role_name = $role->getName();
+        $role_title = $role->getTitle() ?? $role->getName();
         $role_description = $role->getDescription();
 
         $parent_chain = [];
@@ -59,8 +60,8 @@ class OlzRolePage extends OlzComponent {
 
         $out .= OlzHeader::render([
             'back_link' => "{$code_href}verein",
-            'title' => "{$role->getName()} - Verein",
-            'description' => "{$role_short_description} - Ressort {$role->getName()} der OL Zimmerberg.",
+            'title' => $role_title,
+            'description' => "{$role_short_description} - Ressort {$role_name} der OL Zimmerberg.",
             'norobots' => $no_robots,
         ]);
 
@@ -81,7 +82,7 @@ class OlzRolePage extends OlzComponent {
         if (strlen(trim($page)) > 0) {
             $out .= $page;
         } else {
-            $out .= "<h1>{$role->getName()}</h1>";
+            $out .= "<h1>{$role_title}</h1>";
             $description_html = $html_utils->renderMarkdown($role->getDescription());
             $out .= $description_html;
         }

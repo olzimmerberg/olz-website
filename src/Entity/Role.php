@@ -22,6 +22,9 @@ class Role {
     #[ORM\Column(type: 'text', nullable: false)]
     public $name;
 
+    #[ORM\Column(type: 'text', nullable: true, options: ['comment' => 'page title for SEO'])]
+    public $title;
+
     #[ORM\Column(type: 'text', nullable: false, options: ['comment' => 'public'])]
     public $description;
 
@@ -83,6 +86,14 @@ class Role {
 
     public function setName($new_name) {
         $this->name = $new_name;
+    }
+
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function setTitle($new_title) {
+        $this->title = $new_title;
     }
 
     public function getDescription() {

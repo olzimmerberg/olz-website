@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240103010715
+-- MIGRATION: DoctrineMigrations\Version20240204153949
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -492,6 +492,7 @@ CREATE TABLE `roles` (
   `can_have_child_roles` tinyint(1) NOT NULL DEFAULT 0,
   `guide` longtext NOT NULL COMMENT 'restricted access',
   `permissions` longtext NOT NULL,
+  `title` longtext DEFAULT NULL COMMENT 'page title for SEO',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

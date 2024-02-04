@@ -49,6 +49,7 @@ class OlzApi extends Api {
         \Olz\News\Endpoints\UpdateNewsEndpoint $updateNewsEndpoint,
         \Olz\News\Endpoints\DeleteNewsEndpoint $deleteNewsEndpoint,
         \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint $createWeeklyPictureEndpoint,
+        \Olz\Startseite\Endpoints\UpdateWeeklyPictureVoteEndpoint $updateWeeklyPictureVoteEndpoint,
         \Olz\Termine\Endpoints\CreateTerminEndpoint $createTerminEndpoint,
         \Olz\Termine\Endpoints\GetTerminEndpoint $getTerminEndpoint,
         \Olz\Termine\Endpoints\EditTerminEndpoint $editTerminEndpoint,
@@ -116,6 +117,7 @@ class OlzApi extends Api {
         // Startseite
 
         $this->registerEndpoint('createWeeklyPicture', $createWeeklyPictureEndpoint);
+        $this->registerEndpoint('updateWeeklyPictureVote', $updateWeeklyPictureVoteEndpoint);
 
         // Termine
 
@@ -196,6 +198,7 @@ class OlzApi extends Api {
             new \Olz\News\Endpoints\UpdateNewsEndpoint(),
             new \Olz\News\Endpoints\DeleteNewsEndpoint(),
             new \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint(),
+            new \Olz\Startseite\Endpoints\UpdateWeeklyPictureVoteEndpoint(),
             new \Olz\Termine\Endpoints\CreateTerminEndpoint(),
             new \Olz\Termine\Endpoints\GetTerminEndpoint(),
             new \Olz\Termine\Endpoints\EditTerminEndpoint(),

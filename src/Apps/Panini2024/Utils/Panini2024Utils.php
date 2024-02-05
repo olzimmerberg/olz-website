@@ -251,35 +251,9 @@ class Panini2024Utils {
         return $image_data;
     }
 
-    public function render3x5Random($num, $options) {
-        if (!$this->authUtils()->hasPermission('panini2024')) {
-            throw new NotFoundHttpException();
-        }
-        $entity_manager = $this->dbUtils()->getEntityManager();
-        $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
-        $all_ids = array_map(function ($picture) {
-            return $picture->getId();
-        }, $panini_repo->findAll());
-        $ids_len = count($all_ids);
-        $pages = [];
-        for ($p = 0; $p < $num; $p++) {
-            $ids = [];
-            for ($i = 0; $i < 12; $i++) {
-                $ids[] = $all_ids[random_int(0, $ids_len - 1)];
-            }
-            $pages[] = ['ids' => $ids];
-        }
-        return $this->render3x5Pages($pages, $options);
-    }
-
     public function render3x5Pages($pages, $options) {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
-        }
-        $data_path = $this->envUtils()->getDataPath();
-        $temp_path = "{$data_path}temp/";
-        if (!is_dir($temp_path)) {
-            mkdir($temp_path, 0777, true);
         }
 
         $grid = (bool) ($options['grid'] ?? false);
@@ -293,16 +267,7 @@ class Panini2024Utils {
         foreach ($pages as $page) {
             $ids = $page['ids'] ?? [];
             foreach ($ids as $id) {
-                $temp_file_path = "{$temp_path}paninipdf-{$id}.jpg";
-                $img = imagecreatefromstring($this->renderSingle($id));
-                $wid = imagesx($img);
-                $hei = imagesy($img);
-                if ($hei > $wid) {
-                    $img = imagerotate($img, 90, 0);
-                }
-                imagejpeg($img, $temp_file_path);
-                imagedestroy($img);
-                gc_collect_cycles();
+                $this->cachePictureId($id);
             }
         }
 
@@ -338,13 +303,15 @@ class Panini2024Utils {
                 for ($x = 0; $x < 3; $x++) {
                     if ($y !== 2) {
                         $id = $ids[$index] ?? 0;
-                        $temp_file_path = "{$temp_path}paninipdf-{$id}.jpg";
-                        $pdf->Image(
-                            $temp_file_path,
-                            $x_offset + $x_margin + $x_step * $x,
-                            $y_offset + $y_margin + $y_step * $y,
-                            $x_step - $x_margin * 2,
-                        );
+                        $temp_file_path = $this->getCachePathForPictureId($id);
+                        if ($temp_file_path) {
+                            $pdf->Image(
+                                $temp_file_path,
+                                $x_offset + $x_margin + $x_step * $x,
+                                $y_offset + $y_margin + $y_step * $y,
+                                $x_step - $x_margin * 2,
+                            );
+                        }
                         $index++;
                     }
                 }
@@ -353,35 +320,9 @@ class Panini2024Utils {
         return $pdf->Output();
     }
 
-    public function render4x4Random($num, $options) {
-        if (!$this->authUtils()->hasPermission('panini2024')) {
-            throw new NotFoundHttpException();
-        }
-        $entity_manager = $this->dbUtils()->getEntityManager();
-        $panini_repo = $entity_manager->getRepository(Panini2024Picture::class);
-        $all_ids = array_map(function ($picture) {
-            return $picture->getId();
-        }, $panini_repo->findAll());
-        $ids_len = count($all_ids);
-        $pages = [];
-        for ($p = 0; $p < $num; $p++) {
-            $ids = [];
-            for ($i = 0; $i < 16; $i++) {
-                $ids[] = $all_ids[random_int(0, $ids_len - 1)];
-            }
-            $pages[] = ['ids' => $ids];
-        }
-        return $this->render4x4Pages($pages, $options);
-    }
-
     public function render4x4Pages($pages, $options) {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
-        }
-        $data_path = $this->envUtils()->getDataPath();
-        $temp_path = "{$data_path}temp/";
-        if (!is_dir($temp_path)) {
-            mkdir($temp_path, 0777, true);
         }
 
         $grid = (bool) ($options['grid'] ?? false);
@@ -395,16 +336,7 @@ class Panini2024Utils {
         foreach ($pages as $page) {
             $ids = $page['ids'] ?? [];
             foreach ($ids as $id) {
-                $temp_file_path = "{$temp_path}paninipdf-{$id}.jpg";
-                $img = imagecreatefromstring($this->renderSingle($id));
-                $wid = imagesx($img);
-                $hei = imagesy($img);
-                if ($hei < $wid) {
-                    $img = imagerotate($img, 90, 0);
-                }
-                imagejpeg($img, $temp_file_path);
-                imagedestroy($img);
-                gc_collect_cycles();
+                $this->cachePictureId($id);
             }
         }
 
@@ -433,18 +365,48 @@ class Panini2024Utils {
             for ($y = 0; $y < 4; $y++) {
                 for ($x = 0; $x < 4; $x++) {
                     $id = $ids[$index] ?? 0;
-                    $temp_file_path = "{$temp_path}paninipdf-{$id}.jpg";
-                    $pdf->Image(
-                        $temp_file_path,
-                        $x_offset + $x_margin + $x_step * $x,
-                        $y_offset + $y_margin + $y_step * $y,
-                        $x_step - $x_margin * 2,
-                    );
+                    $temp_file_path = $this->getCachePathForPictureId($id);
+                    if ($temp_file_path) {
+                        $pdf->Image(
+                            $temp_file_path,
+                            $x_offset + $x_margin + $x_step * $x,
+                            $y_offset + $y_margin + $y_step * $y,
+                            $x_step - $x_margin * 2,
+                        );
+                    }
                     $index++;
                 }
             }
         }
         return $pdf->Output();
+    }
+
+    private function cachePictureId($id) {
+        if ($id === 0) {
+            return;
+        }
+        $temp_file_path = $this->getCachePathForPictureId($id);
+        $img = imagecreatefromstring($this->renderSingle($id));
+        $wid = imagesx($img);
+        $hei = imagesy($img);
+        if ($hei < $wid) {
+            $img = imagerotate($img, 90, 0);
+        }
+        imagejpeg($img, $temp_file_path);
+        imagedestroy($img);
+        gc_collect_cycles();
+    }
+
+    private function getCachePathForPictureId($id) {
+        if ($id === 0) {
+            return null;
+        }
+        $data_path = $this->envUtils()->getDataPath();
+        $temp_path = "{$data_path}temp/";
+        if (!is_dir($temp_path)) {
+            mkdir($temp_path, 0777, true);
+        }
+        return "{$temp_path}paninipdf-{$id}.jpg";
     }
 
     // --- BOOK ------------------------------------------------------------------------------------

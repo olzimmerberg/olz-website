@@ -23,29 +23,24 @@ body {
     padding: 0;
 }
 
+#results-content {
+    display: flex;
+}
+
 #classes-box {
-    left: 0;
+    flex: 0 0 200px;
     overflow: auto;
-    position: absolute;
-    top: 50px;
-    width: 200px;
 }
 
 #content-box {
-    left: 200px;
+    flex: 1 0 450px;
     overflow: auto;
-    position: absolute;
-    right: 40%;
-    top: 50px;
 }
 
 #grafik-box {
+    flex: 1 0 350px;
     min-height: 400px;
     overflow: auto;
-    position: absolute;
-    right: 0;
-    top: 50px;
-    width: 40%;
 }
 
 .classlink {
@@ -84,23 +79,27 @@ body {
     }
 
     #classes-box {
-        right: 0;
-        top: 36px;
-        width: 100%;
+        flex: 1 0 100%;
+
+        &.inactive {
+            display: none;
+        }
     }
 
     #content-box {
-        left: 0;
-        right: 0;
-        top: 36px;
-        width: 100%;
+        flex: 1 0 100%;
+
+        &.inactive {
+            display: none;
+        }
     }
 
     #grafik-box {
-        left: 0;
-        right: 0;
-        top: 36px;
-        width: 100%;
+        flex: 1 0 100%;
+
+        &.inactive {
+            display: none;
+        }
     }
 
     #backbutton {

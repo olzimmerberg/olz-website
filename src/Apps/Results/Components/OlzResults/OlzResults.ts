@@ -368,9 +368,6 @@ function updateContent() {
         if (resClass) { classInd = Number(resClass[1]); }
         if (path[i] === 'grafik' && classInd >= 0) { grafik = true; }
     }
-    showClasses(classInd);
-    showRanking(classInd);
-    showChart(classInd);
     const classesBoxElem = document.getElementById('classes-box');
     const contentBoxElem = document.getElementById('content-box');
     const grafikBoxElem = document.getElementById('grafik-box');
@@ -379,6 +376,9 @@ function updateContent() {
         contentBoxElem.className = (classInd >= 0 && !grafik ? 'active' : 'inactive');
         grafikBoxElem.className = (grafik ? 'active' : 'inactive');
     }
+    showClasses(classInd);
+    showRanking(classInd);
+    showChart(classInd);
 }
 
 interface LastUpdateInfo {

@@ -104,14 +104,6 @@ class Deploy extends AbstractDefaultDeploy {
         throw new Exception("Target must be `hosttech`");
     }
 
-    public function deploy() {
-        if ($this->environment === 'prod') {
-            // This might fail after deploying the new code that already requires the new schema.
-            $this->executeCommand('olz:db-migrate');
-        }
-        parent::deploy();
-    }
-
     public function install($public_path) {
         $fs = new Symfony\Component\Filesystem\Filesystem();
 

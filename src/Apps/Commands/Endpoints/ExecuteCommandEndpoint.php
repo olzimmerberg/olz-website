@@ -2,6 +2,7 @@
 
 namespace Olz\Apps\Commands\Endpoints;
 
+use Doctrine\DBAL\Exception\DriverException;
 use Olz\Api\OlzEndpoint;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
@@ -28,11 +29,19 @@ class ExecuteCommandEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('commands');
         $command_name = $input['command'];
-        $has_command_access = $this->authUtils()->hasPermission("command_{$command_name}");
-        if (!$has_access && !$has_command_access) {
-            throw new HttpError(403, "Kein Zugriff!");
+        try {
+            $has_access = $this->authUtils()->hasPermission('commands');
+            $has_command_access = $this->authUtils()->hasPermission("command_{$command_name}");
+            if (!$has_access && !$has_command_access) {
+                throw new HttpError(403, "Kein Zugriff!");
+            }
+        } catch (DriverException $exc) {
+            // Could be a migration issue => if the command is db-migrate, continue nevertheless!
+            $should_continue = ($command_name === 'olz:db-migrate');
+            if (!$should_continue) {
+                throw $exc;
+            }
         }
 
         set_time_limit(4000);

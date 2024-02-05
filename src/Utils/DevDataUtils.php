@@ -538,9 +538,13 @@ class DevDataUtils {
         $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/associationP_1517x2091.png", 1517, 2091);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/masks/associationStencilP_1517x2091.png", 1517, 2091);
         $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/topP_1594x2303.png", 1594, 2303);
+        $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/topL_2303x1594.png", 2303, 1594);
         $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/bottomP_1594x2303.png", 1594, 2303);
+        $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/bottomL_2303x1594.png", 2303, 1594);
         $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/associationP_1594x2303.png", 1594, 2303);
+        $this->mkimg("{$sample_path}sample-mask.png", $data_path, "panini_data/masks/associationL_2303x1594.png", 2303, 1594);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/masks/associationStencilP_1594x2303.png", 1594, 2303);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/masks/associationStencilL_2303x1594.png", 2303, 1594);
         $this->mkdir("{$data_path}panini_data/wappen");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/wappen/thalwil.jpg", 100, 100);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/wappen/other.jpg", 100, 100);
@@ -549,6 +553,13 @@ class DevDataUtils {
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/portraits/1001/vptD8fzvXIhv_6X32Zkw2s5s.jpg", 800, 600);
         $this->mkdir("{$data_path}panini_data/portraits/1002");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/portraits/1002/LkGdXukqgYEdnWpuFHfrJkr7.jpg", 800, 600);
+        $this->mkdir("{$data_path}panini_data/other");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/other/portrait.jpg", 600, 800);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/other/landscape.jpg", 800, 600);
+        for ($i = 1003; $i <= 1012; $i++) {
+            $this->mkdir("{$data_path}panini_data/portraits/{$i}");
+            $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "panini_data/portraits/{$i}/LkGdXukqgYEdnWpuFHfrJkr7.jpg", 800, 600);
+        }
 
         // Build pdf/
         $this->mkdir("{$data_path}pdf");

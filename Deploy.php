@@ -104,6 +104,14 @@ class Deploy extends AbstractDefaultDeploy {
         throw new Exception("Target must be `hosttech`");
     }
 
+    public function deploy() {
+        if ($this->environment === 'prod') {
+            // This might fail after deploying the new code that already requires the new schema.
+            $this->executeCommand('olz:db-migrate');
+        }
+        parent::deploy();
+    }
+
     public function install($public_path) {
         $fs = new Symfony\Component\Filesystem\Filesystem();
 
@@ -173,40 +181,42 @@ class Deploy extends AbstractDefaultDeploy {
     }
 
     protected function afterDeploy($result) {
-        $public_url = $this->getRemotePublicUrl();
         $staging_token = $result['staging_token'];
+
+        if ($this->environment === 'staging') {
+            // Add doctrine:cache:clear-metadata?
+            // Add doctrine:cache:clear-query?
+            // Add doctrine:cache:clear-result?
+            $this->executeCommand('cache:clear', null, $staging_token);
+            $this->executeCommand('olz:db-reset', 'full', $staging_token);
+            $this->executeCommand('olz:send-telegram-configuration', null, $staging_token);
+        } elseif ($this->environment === 'prod') {
+            $this->executeCommand('cache:clear');
+            $this->executeCommand('olz:db-migrate');
+        }
+    }
+
+    protected function executeCommand($command, $argv = null, $staging_token = null) {
+        $public_url = $this->getRemotePublicUrl();
         $prefix = ($this->environment === 'staging')
             ? "{$public_url}/{$staging_token}"
             : "{$public_url}";
         $execute_command_url = "{$prefix}/api/executeCommand?access_token={$this->bot_access_token}";
 
-        $execute_command = function ($command, $argv = null) use ($execute_command_url) {
-            $this->logger->info("Executing \"{$command}\"...");
-            $request = urlencode(json_encode(['command' => $command, 'argv' => $argv]));
-            $output = file_get_contents("{$execute_command_url}&request={$request}");
-            $data = json_decode($output, true) ?? [];
-            $is_error = is_array($data)
-                && ($data['error'] ?? true)
-                && ((bool) $data['output'] ?? false);
-            if ($is_error) {
-                $this->logger->error($output);
-                $this->logger->error("Executing \"{$command}\" done.");
-                throw new Exception($output);
-            }
-            $this->logger->info($data['output'] ?? '(output empty)');
-            $this->logger->info("Executing \"{$command}\" done.");
-        };
-        if ($this->environment === 'staging') {
-            // Add doctrine:cache:clear-metadata?
-            // Add doctrine:cache:clear-query?
-            // Add doctrine:cache:clear-result?
-            $execute_command('cache:clear');
-            $execute_command('olz:db-reset', 'full');
-            $execute_command('olz:send-telegram-configuration');
-        } elseif ($this->environment === 'prod') {
-            $execute_command('cache:clear');
-            $execute_command('olz:db-migrate');
+        $this->logger->info("Executing \"{$command}\"...");
+        $request = urlencode(json_encode(['command' => $command, 'argv' => $argv]));
+        $output = file_get_contents("{$execute_command_url}&request={$request}");
+        $data = json_decode($output, true) ?? [];
+        $is_error = is_array($data)
+            && ($data['error'] ?? true)
+            && ((bool) $data['output'] ?? false);
+        if ($is_error) {
+            $this->logger->error($output);
+            $this->logger->error("Executing \"{$command}\" done.");
+            throw new Exception($output);
         }
+        $this->logger->info($data['output'] ?? '(output empty)');
+        $this->logger->info("Executing \"{$command}\" done.");
     }
 }
 

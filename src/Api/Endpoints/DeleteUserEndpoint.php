@@ -4,8 +4,6 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\AccessToken;
-use Olz\Entity\FacebookLink;
-use Olz\Entity\GoogleLink;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\StravaLink;
@@ -74,22 +72,6 @@ class DeleteUserEndpoint extends OlzEndpoint {
         $strava_links = $strava_link_repo->findBy(['user' => $user]);
         foreach ($strava_links as $strava_link) {
             $this->entityManager()->remove($strava_link);
-        }
-        $this->entityManager()->flush();
-
-        // Remove google links
-        $google_link_repo = $this->entityManager()->getRepository(GoogleLink::class);
-        $google_links = $google_link_repo->findBy(['user' => $user]);
-        foreach ($google_links as $google_link) {
-            $this->entityManager()->remove($google_link);
-        }
-        $this->entityManager()->flush();
-
-        // Remove facebook links
-        $facebook_link_repo = $this->entityManager()->getRepository(FacebookLink::class);
-        $facebook_links = $facebook_link_repo->findBy(['user' => $user]);
-        foreach ($facebook_links as $facebook_link) {
-            $this->entityManager()->remove($facebook_link);
         }
         $this->entityManager()->flush();
 

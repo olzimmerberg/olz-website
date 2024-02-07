@@ -6,8 +6,6 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\DeleteUserEndpoint;
 use Olz\Entity\AccessToken;
-use Olz\Entity\FacebookLink;
-use Olz\Entity\GoogleLink;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\StravaLink;
@@ -44,18 +42,6 @@ class FakeDeleteUserEndpointTelegramLinkRepository {
 class FakeDeleteUserEndpointStravaLinkRepository {
     public function findBy($where) {
         return [new StravaLink()];
-    }
-}
-
-class FakeDeleteUserEndpointGoogleLinkRepository {
-    public function findBy($where) {
-        return [new GoogleLink()];
-    }
-}
-
-class FakeDeleteUserEndpointFacebookLinkRepository {
-    public function findBy($where) {
-        return [new FacebookLink()];
     }
 }
 
@@ -134,8 +120,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NotificationSubscription::class] = new FakeDeleteUserEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository();
         $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository();
-        $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
-        $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new DeleteUserEndpointForTest();
@@ -176,14 +160,12 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             '2020-03-13 19:30:00',
             $admin_user->getLastModifiedAt()->format('Y-m-d H:i:s')
         );
-        $this->assertSame(7, count($entity_manager->removed));
+        $this->assertSame(5, count($entity_manager->removed));
         $this->assertTrue($entity_manager->removed[0] instanceof NewsEntry);
         $this->assertTrue($entity_manager->removed[1] instanceof NotificationSubscription);
         $this->assertTrue($entity_manager->removed[2] instanceof TelegramLink);
         $this->assertTrue($entity_manager->removed[3] instanceof StravaLink);
-        $this->assertTrue($entity_manager->removed[4] instanceof GoogleLink);
-        $this->assertTrue($entity_manager->removed[5] instanceof FacebookLink);
-        $this->assertTrue($entity_manager->removed[6] instanceof AccessToken);
+        $this->assertTrue($entity_manager->removed[4] instanceof AccessToken);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([
@@ -203,8 +185,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[NotificationSubscription::class] = new FakeDeleteUserEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository();
         $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository();
-        $entity_manager->repositories[GoogleLink::class] = new FakeDeleteUserEndpointGoogleLinkRepository();
-        $entity_manager->repositories[FacebookLink::class] = new FakeDeleteUserEndpointFacebookLinkRepository();
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new DeleteUserEndpointForTest();
@@ -226,15 +206,13 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $default_user = $entity_manager->getRepository(User::class)->default_user;
-        $this->assertSame(8, count($entity_manager->removed));
+        $this->assertSame(6, count($entity_manager->removed));
         $this->assertTrue($entity_manager->removed[0] instanceof NewsEntry);
         $this->assertTrue($entity_manager->removed[1] instanceof NotificationSubscription);
         $this->assertTrue($entity_manager->removed[2] instanceof TelegramLink);
         $this->assertTrue($entity_manager->removed[3] instanceof StravaLink);
-        $this->assertTrue($entity_manager->removed[4] instanceof GoogleLink);
-        $this->assertTrue($entity_manager->removed[5] instanceof FacebookLink);
-        $this->assertTrue($entity_manager->removed[6] instanceof AccessToken);
-        $this->assertSame($default_user, $entity_manager->removed[7]);
+        $this->assertTrue($entity_manager->removed[4] instanceof AccessToken);
+        $this->assertSame($default_user, $entity_manager->removed[5]);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([

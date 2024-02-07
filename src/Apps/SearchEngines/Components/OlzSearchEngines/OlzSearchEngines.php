@@ -25,7 +25,7 @@ class OlzSearchEngines extends OlzComponent {
 
         $out .= OlzHeader::render([
             'back_link' => "{$code_href}apps/",
-            'title' => "Google Suche",
+            'title' => "Suchmaschinen",
             'norobots' => true,
         ]);
 

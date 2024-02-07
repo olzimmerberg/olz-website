@@ -194,12 +194,18 @@
     <PersonResult>
       <Person>
         <Name>
-          <Family />
+          <Family>Im Ziel</Family>
           <Given>Vierter</Given>
         </Name>
+        <BirthDate>2007-08-31</BirthDate>
+        <Address>
+            <ZipCode>8001</ZipCode>
+            <City>Zürich</City>
+        </Address>
       </Person>
       <Organisation>
-        <Name></Name>
+        <Name>Teamname</Name>
+        <ShortName>Teamname</ShortName>
       </Organisation>
       <Result>
         <StartTime>2017-05-16T18:48:39</StartTime>
@@ -254,17 +260,23 @@
     <PersonResult>
       <Person>
         <Name>
-          <Family />
+          <Family>Im Ziel (sehr langer Name wegen Tests)</Family>
           <Given>Fünfter</Given>
         </Name>
+        <BirthDate>1994-01-01</BirthDate>
+        <Address>
+            <ZipCode>8999</ZipCode>
+            <City>Hinterpfupfikon (sehr langer Name wegen Tests)</City>
+        </Address>
       </Person>
       <Organisation>
-        <Name></Name>
+        <Name>Sehr sehr langer Teamname (wegen Tests)</Name>
+        <ShortName>Immer noch langer Teamname (wegen Tests)</ShortName>
       </Organisation>
       <Result>
         <StartTime>2017-05-16T18:50:05</StartTime>
         <FinishTime>2017-05-16T19:00:14</FinishTime>
-        <Time>609</Time>
+        <Time>6609</Time>
         <TimeBehind>86</TimeBehind>
         <Position>5</Position>
         <Status>OK</Status>

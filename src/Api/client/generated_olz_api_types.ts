@@ -680,6 +680,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     onContinuously: Record<string, never>|null,
     login: {
             'status': 'INVALID_CREDENTIALS'|'BLOCKED'|'AUTHENTICATED',
+            'numRemainingAttempts': number|null,
         },
     resetPassword: {
             'status': 'DENIED'|'ERROR'|'OK',

@@ -36,7 +36,7 @@ class FakeAuthUtilsAccessTokenRepository {
 
 class FakeAuthUtilsAuthRequestRepository {
     public $auth_requests = [];
-    public $can_authenticate = true;
+    public $num_remaining_attempts = 3;
     public $can_validate_access_token = true;
 
     public function addAuthRequest($ip_address, $action, $username, $timestamp = null) {
@@ -48,8 +48,8 @@ class FakeAuthUtilsAuthRequestRepository {
         ];
     }
 
-    public function canAuthenticate($ip_address, $timestamp = null) {
-        return $this->can_authenticate;
+    public function numRemainingAttempts($ip_address, $timestamp = null) {
+        return $this->num_remaining_attempts;
     }
 
     public function canValidateAccessToken($ip_address, $timestamp = null) {
@@ -180,7 +180,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateCanNotAuthenticate(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $auth_request_repo = new FakeAuthUtilsAuthRequestRepository();
-        $auth_request_repo->can_authenticate = false;
+        $auth_request_repo->num_remaining_attempts = 0;
         $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $session = new MemorySession();
         $session->session_storage = [

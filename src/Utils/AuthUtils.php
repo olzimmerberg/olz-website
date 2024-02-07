@@ -29,8 +29,8 @@ class AuthUtils {
         $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
 
         // If there are invalid credentials provided too often, we block.
-        $can_login = $auth_request_repo->canAuthenticate($ip_address);
-        if (!$can_login) {
+        $num_remaining_attempts = $auth_request_repo->numRemainingAttempts($ip_address);
+        if ($num_remaining_attempts <= 0) {
             $message = "Login attempt from blocked IP: {$ip_address} (user: {$username_or_email}).";
             $this->log()->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'BLOCKED', $username_or_email);
@@ -44,7 +44,7 @@ class AuthUtils {
             $message = "Login attempt with invalid credentials from IP: {$ip_address} (user: {$username_or_email}).";
             $this->log()->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'INVALID_CREDENTIALS', $username_or_email);
-            throw new InvalidCredentialsException($message);
+            throw new InvalidCredentialsException($message, $num_remaining_attempts);
         }
 
         $this->log()->info("User login successful: {$username_or_email}");

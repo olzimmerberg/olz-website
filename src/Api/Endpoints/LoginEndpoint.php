@@ -19,6 +19,10 @@ class LoginEndpoint extends OlzEndpoint {
                 'BLOCKED',
                 'AUTHENTICATED',
             ]]),
+            'numRemainingAttempts' => new FieldTypes\IntegerField([
+                'min_value' => 0,
+                'allow_null' => true,
+            ]),
         ]]);
     }
 
@@ -40,10 +44,12 @@ class LoginEndpoint extends OlzEndpoint {
         } catch (AuthBlockedException $exc) {
             return [
                 'status' => 'BLOCKED',
+                'numRemainingAttempts' => 0,
             ];
         } catch (InvalidCredentialsException $exc) {
             return [
                 'status' => 'INVALID_CREDENTIALS',
+                'numRemainingAttempts' => $exc->getNumRemainingAttempts(),
             ];
         }
 
@@ -64,6 +70,7 @@ class LoginEndpoint extends OlzEndpoint {
         $this->session()->set('auth_user_id', $user->getId());
         return [
             'status' => 'AUTHENTICATED',
+            'numRemainingAttempts' => null,
         ];
     }
 }

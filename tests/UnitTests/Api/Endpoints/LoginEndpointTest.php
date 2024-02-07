@@ -81,6 +81,7 @@ final class LoginEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'AUTHENTICATED',
+            'numRemainingAttempts' => null,
         ], $result);
         $this->assertSame([
             'auth' => 'all verified_email',
@@ -102,7 +103,7 @@ final class LoginEndpointTest extends UnitTestCase {
     }
 
     public function testLoginEndpointWithInvalidCredentials(): void {
-        WithUtilsCache::get('authUtils')->authenticate_with_error = new InvalidCredentialsException('test');
+        WithUtilsCache::get('authUtils')->authenticate_with_error = new InvalidCredentialsException('test', 3);
         $endpoint = new LoginEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -116,6 +117,7 @@ final class LoginEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'INVALID_CREDENTIALS',
+            'numRemainingAttempts' => 3,
         ], $result);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([
@@ -139,6 +141,7 @@ final class LoginEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'BLOCKED',
+            'numRemainingAttempts' => 0,
         ], $result);
         $this->assertSame([], $session->session_storage);
         $this->assertSame([

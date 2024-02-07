@@ -67,6 +67,15 @@ export function olzLoginModalLogin(): void {
                 window.location.href = '#';
                 // TODO: This could probably be done more smoothly!
                 window.location.reload();
+            } else if (response.status === 'INVALID_CREDENTIALS') {
+                const attempts = response.numRemainingAttempts;
+                $('#login-message').text(
+                    `Falsche Login-Daten. Verbleibende Versuche: ${attempts}.`,
+                );
+            } else if (response.status === 'BLOCKED') {
+                $('#login-message').text(
+                    'Zu viele erfolglose Login-Versuche. Du bist vorübergehend gesperrt.',
+                );
             } else {
                 $('#login-message').text(response.status);
             }

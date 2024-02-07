@@ -14,7 +14,6 @@ use PhpTypeScriptApi\HttpError;
 
 class FakeSignUpWithStravaEndpointAuthRequestRepository {
     public $auth_requests = [];
-    public $can_authenticate = true;
 
     public function addAuthRequest($ip_address, $action, $username, $timestamp = null) {
         $this->auth_requests[] = [
@@ -23,10 +22,6 @@ class FakeSignUpWithStravaEndpointAuthRequestRepository {
             'timestamp' => $timestamp,
             'username' => $username,
         ];
-    }
-
-    public function canAuthenticate($ip_address, $timestamp = null) {
-        return $this->can_authenticate;
     }
 }
 

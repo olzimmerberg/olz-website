@@ -23,7 +23,7 @@ class AuthRequestRepository extends EntityRepository {
         $this->getEntityManager()->flush();
     }
 
-    public function canAuthenticate($ip_address, $timestamp = null) {
+    public function numRemainingAttempts($ip_address, $timestamp = null) {
         $db = DbUtils::fromEnv()->getDb();
 
         $tries_reset_interval = \DateInterval::createFromDateString(self::TRIES_RESET_INTERVAL);
@@ -52,7 +52,7 @@ class AuthRequestRepository extends EntityRepository {
             }
             $num_unsuccessful_auth_requests++;
         }
-        return $num_unsuccessful_auth_requests < self::NUM_TRIES;
+        return self::NUM_TRIES - $num_unsuccessful_auth_requests;
     }
 
     public function canValidateAccessToken($ip_address, $timestamp = null) {

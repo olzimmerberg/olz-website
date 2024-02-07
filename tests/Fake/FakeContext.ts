@@ -177,6 +177,11 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
     shadowOffsetX: number;
     // @ts-ignore
     shadowOffsetY: number;
+
+    reset(): void {
+        throw new Error('Method not implemented.');
+    }
+
     restore(): void {
         throw new Error('Method not implemented.');
     }

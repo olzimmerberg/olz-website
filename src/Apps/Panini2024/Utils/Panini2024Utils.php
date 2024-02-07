@@ -933,6 +933,7 @@ class Panini2024Utils {
         $a4_wid = 210;
         $olz = [
             [1, $a4_wid * 0.75, 297 - 10.5 - 22],
+            [2, $a4_wid * 0.75, 297 - 10.5 - 22],
         ];
         return $olz[$index];
     }

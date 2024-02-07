@@ -304,7 +304,7 @@ function showRanking(classInd: number) {
     htmlout += (climb ? climb.textContent : '?');
     htmlout += ' m, ';
     htmlout += (numberOfControls ? numberOfControls.textContent : '?');
-    htmlout += ' Posten)</div><div class=\'mobileonly\'><br /><a href=\'javascript:olzResults.setHash(&quot;grafik&quot;, 2)\' id=\'grafiklink\'>Grafik</a></div><br /><table>';
+    htmlout += ' Posten)</div><div class=\'mobileonly\'><br /><a href=\'javascript:olzResults.setHash(&quot;grafik&quot;, 2)\' id=\'grafiklink\'>Grafik</a></div><br />';
     for (let i = 0; i < ranking.length; i++) {
         const position = ranking[i].querySelector('Result > Position');
         const firstName = ranking[i].querySelector('Person > Name > Given');
@@ -314,9 +314,8 @@ function showRanking(classInd: number) {
         const addressZipCode = ranking[i].querySelector('Person > Address > ZipCode');
         const clubName = ranking[i].querySelector('Organisation > ShortName');
         const runTime = ranking[i].querySelector('Result > Time');
-        htmlout += `<tr><td style='text-align:right;'><input type='checkbox' class='chart-chk' id='chk-${i}' /></td><td style='text-align:right;'>${position ? `${position.textContent}.` : ''}</td><td>${firstName ? firstName.textContent : ''} ${lastName ? lastName.textContent : ''}</td><td style='text-align:right;'>${birthDate?.textContent?.substring(0, 4) || ''}</td><td>${addressCity ? addressCity.textContent : (addressZipCode ? addressZipCode.textContent : '')}</td><td>${clubName ? clubName.textContent : ''}</td><td style='text-align:right;'>${runTime ? formatTime(Number(runTime.textContent)) : '--:--'}</td></tr>`;
+        htmlout += `<div class='result-row'><div class='cell checkbox'><input type='checkbox' class='chart-chk' id='chk-${i}' /></div><div class='cell position'>${position ? `${position.textContent}.` : ''}</div><div class='cell name'>${firstName ? firstName.textContent : ''} ${lastName ? lastName.textContent : ''}</div><div class='cell year'>${birthDate?.textContent?.substring(2, 4) || ''}</div><div class='cell domicile'>${addressCity ? addressCity.textContent : (addressZipCode ? addressZipCode.textContent : '')}</div><div class='cell club'>${clubName ? clubName.textContent : ''}</div><div class='cell time'>${runTime ? formatTime(Number(runTime.textContent)) : '--:--'}</div></div>`;
     }
-    htmlout += '</table>';
     const contentBox = document.getElementById('content-box');
     if (contentBox) {
         contentBox.innerHTML = htmlout;

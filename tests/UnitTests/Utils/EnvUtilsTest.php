@@ -48,12 +48,6 @@ final class EnvUtilsTest extends UnitTestCase {
             'strava_client_id' => '123456',
             'strava_client_secret' => '0123456789abcdef0123456789abcdef01234567',
 
-            'google_client_id' => '12345678901-0123456789abcdefghijklmnopqrstuv.apps.googleusercontent.com',
-            'google_client_secret' => '0123456789abcdef01234567',
-
-            'facebook_app_id' => '1234567890123456',
-            'facebook_app_secret' => '0123456789abcdef0123456789abcdef',
-
             'telegram_bot_name' => 'olz_bot',
             'telegram_bot_token' => '123456789:abcdefghijklmnopqrstuvwxyz123456789',
             'telegram_authenticity_code' => 'this_is_just_local',
@@ -104,10 +98,6 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('abcdefghijklmnopqrstuvw-abcdefghijklmnop', $env_utils->getRecaptchaSecretKey());
         $this->assertSame('123456', $env_utils->getStravaClientId());
         $this->assertSame('0123456789abcdef0123456789abcdef01234567', $env_utils->getStravaClientSecret());
-        $this->assertSame('12345678901-0123456789abcdefghijklmnopqrstuv.apps.googleusercontent.com', $env_utils->getGoogleClientId());
-        $this->assertSame('0123456789abcdef01234567', $env_utils->getGoogleClientSecret());
-        $this->assertSame('1234567890123456', $env_utils->getFacebookAppId());
-        $this->assertSame('0123456789abcdef0123456789abcdef', $env_utils->getFacebookAppSecret());
         $this->assertSame('olz_bot', $env_utils->getTelegramBotName());
         $this->assertSame('123456789:abcdefghijklmnopqrstuvwxyz123456789', $env_utils->getTelegramBotToken());
         $this->assertSame('this_is_just_local', $env_utils->getTelegramAuthenticityCode());

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240204153949
+-- MIGRATION: DoctrineMigrations\Version20240207225304
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -182,36 +182,6 @@ CREATE TABLE `downloads` (
   CONSTRAINT `FK_4B73A4B55A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_4B73A4B57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `facebook_links` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `access_token` longtext NOT NULL,
-  `expires_at` datetime NOT NULL,
-  `refresh_token` longtext NOT NULL,
-  `facebook_user` longtext NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id_index` (`user_id`),
-  CONSTRAINT `FK_3444E616A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `google_links` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `access_token` longtext NOT NULL,
-  `expires_at` datetime NOT NULL,
-  `refresh_token` longtext NOT NULL,
-  `google_user` longtext NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id_index` (`user_id`),
-  CONSTRAINT `FK_486FA817A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

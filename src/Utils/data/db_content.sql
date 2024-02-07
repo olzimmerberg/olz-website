@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240204153949
+-- MIGRATION: DoctrineMigrations\Version20240207225304
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -74,7 +74,8 @@ VALUES
     ('DoctrineMigrations\\Version20240101225849', '2024-01-01 23:59:31', '56'),
     ('DoctrineMigrations\\Version20240102172229', '2024-01-02 18:24:51', '68'),
     ('DoctrineMigrations\\Version20240103010715', '2024-01-03 19:28:27', '286'),
-    ('DoctrineMigrations\\Version20240204153949', '2024-02-04 16:40:49', '74');
+    ('DoctrineMigrations\\Version20240204153949', '2024-02-04 16:40:49', '74'),
+    ('DoctrineMigrations\\Version20240207225304', '2024-02-07 23:54:47', '144');
 
 -- Table downloads
 INSERT INTO downloads
@@ -83,10 +84,6 @@ VALUES
     ('1', 'Statuten', '0', 'MIGRATED0000000000010001.pdf', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('2', '---', '1', NULL, '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('3', 'Spesenreglement', '2', 'XV4x94BJaf2JCPWvB8DDqTyt.pdf', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
-
--- Table facebook_links
-
--- Table google_links
 
 -- Table karten
 INSERT INTO karten

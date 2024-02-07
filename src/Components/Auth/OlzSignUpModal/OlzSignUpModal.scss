@@ -30,30 +30,6 @@
         }
     }
 
-    .google-button {
-        background-color: rgb(255, 255, 255);
-        border-color: rgb(200, 200, 200);
-        color: rgb(135, 135, 135);
-
-        &:hover,
-        &:active {
-            background-color: rgb(238, 238, 238);
-            border-color: rgb(238, 238, 238);
-        }
-    }
-
-    .facebook-button {
-        background-color: rgb(24, 119, 242);
-        border-color: rgb(24, 119, 242);
-        color: rgb(255, 255, 255);
-
-        &:hover,
-        &:active {
-            background-color: rgb(18, 90, 181);
-            border-color: rgb(18, 90, 181);
-        }
-    }
-
     .password-button {
         background-color: rgb(150, 150, 150);
         border-color: rgb(150, 150, 150);

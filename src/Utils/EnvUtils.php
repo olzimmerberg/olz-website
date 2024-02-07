@@ -38,12 +38,6 @@ class EnvUtils {
     private $strava_client_id;
     private $strava_client_secret;
 
-    private $google_client_id;
-    private $google_client_secret;
-
-    private $facebook_app_id;
-    private $facebook_app_secret;
-
     private $telegram_bot_name;
     private $telegram_bot_token;
     private $telegram_authenticity_code;
@@ -113,12 +107,6 @@ class EnvUtils {
 
         $this->strava_client_id = $config_dict['strava_client_id'] ?? $this->strava_client_id;
         $this->strava_client_secret = $config_dict['strava_client_secret'] ?? $this->strava_client_secret;
-
-        $this->google_client_id = $config_dict['google_client_id'] ?? $this->google_client_id;
-        $this->google_client_secret = $config_dict['google_client_secret'] ?? $this->google_client_secret;
-
-        $this->facebook_app_id = $config_dict['facebook_app_id'] ?? $this->facebook_app_id;
-        $this->facebook_app_secret = $config_dict['facebook_app_secret'] ?? $this->facebook_app_secret;
 
         $this->telegram_bot_name = $config_dict['telegram_bot_name'] ?? $this->telegram_bot_name;
         $this->telegram_bot_token = $config_dict['telegram_bot_token'] ?? $this->telegram_bot_token;
@@ -238,22 +226,6 @@ class EnvUtils {
 
     public function getStravaClientSecret() {
         return $this->strava_client_secret;
-    }
-
-    public function getGoogleClientId() {
-        return $this->google_client_id;
-    }
-
-    public function getGoogleClientSecret() {
-        return $this->google_client_secret;
-    }
-
-    public function getFacebookAppId() {
-        return $this->facebook_app_id;
-    }
-
-    public function getFacebookAppSecret() {
-        return $this->facebook_app_secret;
     }
 
     public function getTelegramBotName() {

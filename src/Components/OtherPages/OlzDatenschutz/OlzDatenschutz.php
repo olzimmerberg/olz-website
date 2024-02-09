@@ -10,7 +10,7 @@ use Olz\Entity\Role;
 
 class OlzDatenschutz extends OlzComponent {
     public static $title = "Datenschutz";
-    public static $description = "Die Datenschutzerklärung für die Website der OL Zimmerberg.";
+    public static $description = "Die Datenschutzerklärung der OL Zimmerberg.";
 
     public function getHtml($args = []): string {
         $entityManager = $this->dbUtils()->getEntityManager();
@@ -22,16 +22,19 @@ class OlzDatenschutz extends OlzComponent {
             'title' => self::$title,
             'description' => self::$description,
         ]);
-        $out .= "<div class='content-right'>
-        <h2>Datenschutz-Verantwortliche</h2>
-        <ul>";
+        $out .= <<<'ZZZZZZZZZZ'
+        <div class='content-right'>
+            <h2>Datenschutz-Verantwortliche</h2>
+            <ul>
+        ZZZZZZZZZZ;
         $website_assignees = $website_role->getUsers();
         foreach ($website_assignees as $website_assignee) {
             $out .= "<li>";
             $out .= OlzUserInfoCard::render(['user' => $website_assignee]);
             $out .= "</li>";
         }
-        $out .= "</ul>
+        $out .= <<<'ZZZZZZZZZZ'
+            </ul>
         </div>
         <div class='content-middle'>
             <h1>Datenschutz</h1>
@@ -53,7 +56,7 @@ class OlzDatenschutz extends OlzComponent {
                 <li>Name, Geschlecht, Wohnort, Geburtsdatum, SI-Card Nummer, Telefonnummer und E-Mail-Adresse für die <b>Anmeldung für Anlässe</b></li>
             </ul>
             <h3>Speicherungsdauer</h3>
-            <p>Wir speichern deine Daten, bis du sie löschst, dein Konto löschst, oder eine bestimmte Art Daten nicht mehr für mindestens einen der angegebenen Zwecke benötigt wird.</p>
+            <p>Wir speichern deine Daten, bis du sie löschst, dein Konto löschst, oder eine bestimmte Art Daten nicht mehr für mindestens einen der angegebenen Zwecke benötigt wird (z.B. wird bei einem Vereinsaustritt die Person von der Mitgliederliste gelöscht).</p>
             <h3>Weitergabe von Daten</h3>
             <p>Wir geben deine Daten nicht weiter, mit Ausnahme der folgenden Fälle:</p>
             <ul class='bullet-list'>
@@ -67,9 +70,9 @@ class OlzDatenschutz extends OlzComponent {
             <p>Wenn du dich einloggst, muss aus technischen Gründen in deinem Browser ein Cookie gespeichert werden.</p>
             <p>Das Cookie enthält keine personenbezogenen Daten.</p>
             <h3>Auskunft</h3>
-            <p>Um Auskunft über deine Daten zu erhalten kannst du dich an die Datenschutz-Verantwortlichen wenden.</p>
+            <p>Um Auskunft über deine Daten zu erhalten, kannst du dich an die Datenschutz-Verantwortlichen wenden.</p>
         </div>
-        ";
+        ZZZZZZZZZZ;
 
         $out .= OlzFooter::render();
         return $out;

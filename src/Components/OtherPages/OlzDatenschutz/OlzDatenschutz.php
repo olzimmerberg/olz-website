@@ -34,14 +34,21 @@ class OlzDatenschutz extends OlzComponent {
         $out .= "</ul>
         </div>
         <div class='content-middle'>
+            <h1>Datenschutz</h1>
             <h3>Grundsatz</h3>
-            <p>Wir sammeln <b>keine</b> personenbezogenen Daten von <b>nicht eigeloggten</b> Nutzern.</p>
+            <p>Wir sammeln <b>keine</b> personenbezogenen Daten von <b>nicht eigeloggten Nicht-Mitgliedern</b>.</p>
             <p>Von <b>eigeloggten</b> Nutzern sammeln wir nur die personenbezogenen Daten, die für den Orientierungslauf-Vereinsbetrieb oder die Funktionalität dieser Website <b>notwendig</b> sind.</p>
+            <p>Von <b>Vereinsmitgliedern</b> sammeln wir nur die personenbezogenen Daten, die für den Orientierungslauf-Vereinsbetrieb <b>notwendig</b> sind.</p>
             <h3>Zweck</h3>
             <p>Von <b>eigeloggten</b> Nutzern bearbeiten wir folgende Personendaten:</p>
             <ul class='bullet-list'>
                 <li>Name und E-Mail-Adresse für den <b>Versand des Newsletters</b></li>
                 <li>Benutzername und Passwort für das <b>OLZ-Login</b></li>
+                <li>Name, Geschlecht, volle Adresse, Telefonnummer, E-Mail-Adresse und Geburtsdatum für die <b>Mitgliederliste</b></li>
+                <li>Name, Geschlecht, Wohnort, Geburtsdatum, SI-Card Nummer, Telefonnummer und E-Mail-Adresse für die <b>Anmeldung für Anlässe</b></li>
+            </ul>
+            <p>Von <b>Vereinsmitgliedern</b> bearbeiten wir folgende Personendaten:</p>
+            <ul class='bullet-list'>
                 <li>Name, Geschlecht, volle Adresse, Telefonnummer, E-Mail-Adresse und Geburtsdatum für die <b>Mitgliederliste</b></li>
                 <li>Name, Geschlecht, Wohnort, Geburtsdatum, SI-Card Nummer, Telefonnummer und E-Mail-Adresse für die <b>Anmeldung für Anlässe</b></li>
             </ul>

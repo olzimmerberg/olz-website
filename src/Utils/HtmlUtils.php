@@ -28,10 +28,10 @@ class HtmlUtils {
         $environment->addExtension(new AttributesExtension());
         $converter = new MarkdownConverter($environment);
         $rendered = $converter->convert($markdown);
-        return $this->sanitize(strval($rendered));
+        return $this->postprocess(strval($rendered));
     }
 
-    public function sanitize($html) {
+    public function postprocess($html) {
         return $this->replaceEmailAdresses($html);
     }
 

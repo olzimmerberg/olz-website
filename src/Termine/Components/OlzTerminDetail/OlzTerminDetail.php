@@ -12,6 +12,7 @@ use Olz\Entity\Termine\Termin;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\FileUtils;
+use Olz\Utils\HtmlUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\ImageUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -38,6 +39,7 @@ class OlzTerminDetail extends OlzComponent {
         $today = $date_utils->getIsoToday();
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
+        $html_utils = HtmlUtils::fromEnv();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
         $file_utils = FileUtils::fromEnv();
@@ -237,7 +239,12 @@ class OlzTerminDetail extends OlzComponent {
         $out .= "<h1>{$title} {$type_imgs}</h1>";
 
         // Text
-        $text = \olz_br(olz_mask_email($text, "", ""));
+        // TODO: Temporary fix for broken Markdown
+        $text = str_replace("\n", "\n\n", $text);
+        $text = str_replace("\n\n\n\n", "\n\n", $text);
+        $text = $html_utils->renderMarkdown($text, [
+            'html_input' => 'allow', // TODO: Do NOT allow!
+        ]);
         if ($typ != 'meldeschluss' && $row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
             $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $row_solv['deadline']);
         }

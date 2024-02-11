@@ -122,7 +122,7 @@ class OlzNewsDetail extends OlzComponent {
         $format = $row['format'];
         $title = $row['title'];
         $teaser = $row['teaser'];
-        $content = \olz_br($row['content']);
+        $content = $row['content'];
         $published_date = $row['published_date'];
 
         $image_ids = json_decode($row['image_ids'] ?? 'null', true);
@@ -158,6 +158,10 @@ class OlzNewsDetail extends OlzComponent {
             </div>
             ZZZZZZZZZZ;
         }
+
+        // TODO: Temporary fix for broken Markdown
+        $content = str_replace("\n", "\n\n", $content);
+        $content = str_replace("\n\n\n\n", "\n\n", $content);
 
         // Bildercode einfügen
         preg_match_all('/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $teaser, $matches);

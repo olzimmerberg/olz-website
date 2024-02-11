@@ -326,12 +326,12 @@ class Panini2024Utils {
         }
 
         $grid = (bool) ($options['grid'] ?? false);
-        $x_step = 46;
-        $x_margin = 1;
-        $x_offset = 13;
-        $y_step = 66;
-        $y_offset = 16.5;
-        $y_margin = 1;
+        $x_step = 48;
+        $x_margin = 2;
+        $x_offset = 9;
+        $y_step = 68;
+        $y_offset = 12.5;
+        $y_margin = 2;
 
         foreach ($pages as $page) {
             $ids = $page['ids'] ?? [];

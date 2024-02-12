@@ -320,7 +320,7 @@ class Panini2024Utils {
         return $pdf->Output();
     }
 
-    public function render4x4Pages($pages, $options) {
+    public function render4x4Pages($pages, $options): string {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
@@ -335,7 +335,7 @@ class Panini2024Utils {
 
         foreach ($pages as $page) {
             $ids = $page['ids'] ?? [];
-            foreach ($ids as $id) {
+            foreach (array_unique($ids) as $id) {
                 $this->cachePictureId($id);
             }
         }
@@ -378,7 +378,7 @@ class Panini2024Utils {
                 }
             }
         }
-        return $pdf->Output();
+        return $pdf->Output('S');
     }
 
     private function cachePictureId($id) {
@@ -409,7 +409,7 @@ class Panini2024Utils {
         return "{$temp_path}paninipdf-{$id}.jpg";
     }
 
-    private function getCachePathForZip($ident) {
+    public function getCachePathForZip($ident) {
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp/";
         if (!is_dir($temp_path)) {

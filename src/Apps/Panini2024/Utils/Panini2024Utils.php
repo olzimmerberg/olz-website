@@ -58,6 +58,61 @@ class Panini2024Utils {
         'Seewen SZ' => 'wappen/seewen_sz.jpg',
     ];
 
+    public function parseSpec($spec, $num_per_page) {
+        $random_res = preg_match('/^random-([0-9]+)(-grid)?$/i', $spec, $random_matches);
+        if ($random_res) {
+            $num = intval($random_matches[1]);
+            $options = [
+                'grid' => ($random_matches[2] ?? '') === '-grid',
+            ];
+            $panini_repo = $this->entityManager()->getRepository(Panini2024Picture::class);
+            $all_ids = array_map(function ($picture) {
+                return $picture->getId();
+            }, $panini_repo->findAll());
+            $ids_len = count($all_ids);
+            $pages = [];
+            for ($p = 0; $p < $num; $p++) {
+                $ids = [];
+                for ($i = 0; $i < 16; $i++) {
+                    $ids[] = $all_ids[random_int(0, $ids_len - 1)];
+                }
+                $pages[] = ['ids' => $ids];
+            }
+            return [$pages, $options];
+        }
+        $duplicate_res = preg_match('/^duplicate-([0-9]+)(-grid)?$/i', $spec, $duplicate_matches);
+        if ($duplicate_res) {
+            $id = intval($duplicate_matches[1]);
+            $ids = [];
+            for ($i = 0; $i < $num_per_page; $i++) {
+                $ids[] = $id;
+            }
+            $options = [
+                'grid' => ($duplicate_matches[2] ?? '') === '-grid',
+            ];
+            $pages = [
+                ['ids' => $ids],
+            ];
+            return [$pages, $options];
+        }
+        $pattern_param = $num_per_page - 1;
+        $pattern = "/^((?:[0-9]+,){{$pattern_param}}[0-9]+)(-grid)?$/i";
+        $list_res = preg_match($pattern, $spec, $list_matches);
+        if ($list_res) {
+            $ids = array_map(function ($idstr) {
+                return intval($idstr);
+            }, explode(',', $list_matches[1]));
+            $options = [
+                'grid' => ($list_matches[2] ?? '') === '-grid',
+            ];
+            $pages = [
+                ['ids' => $ids],
+            ];
+            return [$pages, $options];
+        }
+        throw new \Exception("Invalid spec: {$spec} ({$pattern})");
+    }
+
     public function renderSingle($id) {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
@@ -318,6 +373,46 @@ class Panini2024Utils {
             }
         }
         return $pdf->Output();
+    }
+
+    public function render4x4Zip($options): string {
+        $grid_or_empty = $options['grid'] ? '-grid' : '';
+        $ids = $this->getAllEntries();
+
+        $panini_utils = Panini2024Utils::fromEnv();
+        $zip = new \ZipArchive();
+        $zip_path = $panini_utils->getCachePathForZip("duplicates{$grid_or_empty}");
+        if ($zip->open($zip_path, \ZipArchive::CREATE) !== true) {
+            throw new \Exception("Could not open Zip");
+        }
+        foreach ($ids as $id) {
+            $spec = "duplicate-{$id}{$grid_or_empty}";
+            $pdf_out = null;
+            [$pages, $options] = $this->parseSpec($spec, /* num_per_page= */ 16);
+            $pdf_out = $panini_utils->render4x4Pages($pages, $options);
+            if (!$pdf_out) {
+                throw new \Exception("PDF generation failed for ID: {$id}");
+            }
+            $zip->addFromString("{$spec}.pdf", $pdf_out);
+            gc_collect_cycles();
+        }
+        $zip->close();
+
+        $content = file_get_contents($zip_path);
+        @unlink($zip_path);
+        return $content;
+    }
+
+    private function getAllEntries() {
+        $ids = [];
+
+        $db = $this->dbUtils()->getDb();
+        $result_olz = $db->query("SELECT id FROM panini24 ORDER BY id ASC");
+        for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            $row_olz = $result_olz->fetch_assoc();
+            $ids[] = $row_olz['id'];
+        }
+        return $ids;
     }
 
     public function render4x4Pages($pages, $options): string {

@@ -8,37 +8,6 @@ use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
 // ----------------------------------
-// EMAILADRESSE MASKIEREN
-// ----------------------------------
-function olz_mask_email($string, $name, $subject) {
-    if ($name == "") {
-        $name = "Email senden";
-    }
-    $res = preg_match_all("/[a-z0-9]+([_\\.-][a-z0-9]+)*@([a-z0-9]+([\\.-][a-z0-9]+)*)+\\.[a-z]{2,}/i", $string, $matches);
-    foreach (array_unique($matches[0]) as $email) {
-        $p1 = substr($email, 0, strpos($email, "@"));
-        $p2 = substr($email, strpos($email, "@") + 1, strlen($email));
-        $string = str_replace($email, "<script type='text/javascript'>olz.MailTo('".$p1."', '".$p2."', '{$name}', '{$subject}');</script>", $string);
-    }
-    return $string;
-}
-
-// ----------------------------------
-// URL ERKENNEN
-// ----------------------------------
-function olz_find_url($string) {
-    $string = str_replace("%20", "x4x8x", $string);
-    $res = preg_match_all("@(https?://([-\\w\\.]+)+(:\\d+)?(/([\\w/_\\.]*(\\?\\S+)?)?)?)@", $string, $matches);
-    // $res = preg_match_all('/[a-z]+:\/\/\S+/', $string, $matches);
-
-    foreach (array_unique($matches[0]) as $url) {
-        $linkname = parse_url($url, PHP_URL_HOST);
-        $string = str_replace($url, "<a href='".$url."' target='_blank' class='linkext'><b>".$linkname."</b></a>", $string);
-    }
-    return str_replace("x4x8x", "%20", $string);
-}
-
-// ----------------------------------
 // FUNKTION IST GANZZAHL
 // ----------------------------------
 function is_ganzzahl($string) {
@@ -168,48 +137,6 @@ function get_olz_text($id_text, $editable = true) {
     }
     $html_out .= "</div>";
     return $html_out;
-}
-
-// ----------------------------------
-// NEWS-FEED ANZEIGEN
-// ----------------------------------
-function make_expandable($text) {
-    global $textlaenge_def;
-    $text_orig = $text;
-    $resized = ($textlaenge_def <= mb_strlen($text));
-    $text = mb_substr($text, 0, $textlaenge_def);
-    $text = preg_replace("/\\s*\\n\\s*/", "\n", $text);
-    $num_br = preg_match_all("/\\n/", $text, $tmp);
-    if ($num_br < 3) {
-        $text = olz_br($text);
-    } else {
-        $text = str_replace("\n", " &nbsp; ", $text);
-    }
-    if ($resized) {
-        $pos = mb_strrpos($text, " ");
-        $postmp = mb_strrpos($text, "<br>");
-        if (($postmp > $pos || $pos === false) && $postmp !== false) {
-            $pos = $postmp;
-        }
-        $ident = "expandable".md5($text_orig.rand().time());
-        $num_br = preg_match_all("/\\n/", $text_orig, $tmp);
-        if ($num_br < 3) {
-            $text_orig = olz_br($text_orig);
-        } else {
-            $text_orig = str_replace("\n", " &nbsp; ", $text_orig);
-        }
-        $text = "<span id='".$ident."'>".mb_substr($text, 0, $pos)." <span onclick='document.getElementById(&quot;".$ident."&quot;).innerHTML = ".str_replace(["\"", "'"], ["&quot;", "&#39;"], json_encode($text_orig)).";'>[...]</span></span>";
-    } else {
-        $text = $text;
-    }
-    return $text;
-}
-
-// ----------------------------------
-// BR Korrekt setzen
-// ----------------------------------
-function olz_br($text) {
-    return str_replace(["\n"], ["<br>"], $text);
 }
 
 // ----------------------------------

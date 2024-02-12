@@ -31,9 +31,13 @@ class OlzRoleInfoCard extends OlzComponent {
         $email_html = '';
         if ($has_official_email) {
             $email = $user->getUsername().'@olzimmerberg.ch';
-            $email_html = olz_mask_email($email, "Email", "");
+            $email_html = $this->htmlUtils()->replaceEmailAdresses($email);
         } else {
-            $email_html = ($user->getEmail() ? olz_mask_email($user->getEmail(), "Email", "") : '');
+            $email_html = (
+                $user->getEmail()
+                ? $this->htmlUtils()->replaceEmailAdresses($user->getEmail())
+                : ''
+            );
         }
         if ($email_html) {
             $out .= "<div class='email-container'>{$email_html}</div>";

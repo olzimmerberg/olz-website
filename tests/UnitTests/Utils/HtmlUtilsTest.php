@@ -61,6 +61,8 @@ final class HtmlUtilsTest extends UnitTestCase {
         $this->assertSame("<p>Normal <a href=\"http://127.0.0.1/\">link</a></p>\n", $html);
         $html = $html_utils->renderMarkdown("Normal http://127.0.0.1/");
         $this->assertSame("<p>Normal <a href=\"http://127.0.0.1/\">http://127.0.0.1/</a></p>\n", $html);
+        $html = $html_utils->renderMarkdown("Hier:\nhttps://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0");
+        $this->assertSame("<p>Hier:\n<a href=\"https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0\">https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0</a></p>\n", $html);
 
         // Image
         $html = $html_utils->renderMarkdown("Normal ![bird](img/bird.jpg)");
@@ -85,11 +87,11 @@ final class HtmlUtilsTest extends UnitTestCase {
         $this->assertSame("<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> finish</li>\n<li><input disabled=\"\" type=\"checkbox\"> this</li>\n<li><input disabled=\"\" type=\"checkbox\"> list</li>\n</ul>\n", $html);
     }
 
-    public function testSanitize(): void {
+    public function testPostprocess(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
             '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "E-Mail")</script>',
-            $html_utils->sanitize('e.mail+test@staging.olzimmerberg.ch')
+            $html_utils->postprocess('e.mail+test@staging.olzimmerberg.ch')
         );
     }
 

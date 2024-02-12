@@ -37,8 +37,12 @@ class ExecuteCommandEndpoint extends OlzEndpoint {
                 throw new HttpError(403, "Kein Zugriff!");
             }
         } catch (DriverException $exc) {
-            // Could be a migration issue => if the command is db-migrate, continue nevertheless!
-            $should_continue = ($command_name === 'olz:db-migrate');
+            // Could be a migration issue
+            // => if the command is db-migrate or db-reset, continue nevertheless!
+            $should_continue = (
+                $command_name === 'olz:db-migrate'
+                || $command_name === 'olz:db-reset'
+            );
             if (!$should_continue) {
                 throw $exc;
             }

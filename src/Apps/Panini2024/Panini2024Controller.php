@@ -97,6 +97,42 @@ class Panini2024Controller extends AbstractController {
         return $response;
     }
 
+    #[Route('/apps/panini24/pdf/4x4/duplicates-grid.zip')]
+    public function zipDuplicatesGrid4x4(
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        ini_set('memory_limit', '500M');
+        set_time_limit(4000);
+
+        $panini_utils = Panini2024Utils::fromEnv();
+        $db = $this->dbUtils()->getDb();
+        $result_olz = $db->query("SELECT id FROM panini24 ORDER BY id ASC");
+        $zip = new \ZipArchive();
+        $zip_path = $panini_utils->getCachePathForZip('duplicate-grid');
+        if ($zip->open($zip_path, \ZipArchive::CREATE) !== true) {
+            throw new \Exception("Could not open Zip");
+        }
+        for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            $row_olz = $result_olz->fetch_assoc();
+            $id = $row_olz['id'];
+            $pdf_out = null;
+            [$pages, $options] = $this->parseSpec("duplicate-{$id}-grid", /* num_per_page= */ 16);
+            $pdf_out = $panini_utils->render4x4Pages($pages, $options);
+            if (!$pdf_out) {
+                throw new \Exception("PDF generation failed for ID: {$id}");
+            }
+            $zip->addFromString("duplicate-{$id}-grid", $pdf_out);
+        }
+        $zip->close();
+
+        $response = new Response(file_get_contents($zip_path));
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', "attachment;filename=duplicate-grid");
+        @unlink($zip_path);
+        return $response;
+    }
+
     private function parseSpec($spec, $num_per_page) {
         $random_res = preg_match('/^random-([0-9]+)(-grid)?$/i', $spec, $random_matches);
         if ($random_res) {

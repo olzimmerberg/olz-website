@@ -409,6 +409,15 @@ class Panini2024Utils {
         return "{$temp_path}paninipdf-{$id}.jpg";
     }
 
+    private function getCachePathForZip($ident) {
+        $data_path = $this->envUtils()->getDataPath();
+        $temp_path = "{$data_path}temp/";
+        if (!is_dir($temp_path)) {
+            mkdir($temp_path, 0777, true);
+        }
+        return "{$temp_path}paninizip-{$ident}.zip";
+    }
+
     // --- BOOK ------------------------------------------------------------------------------------
 
     private function getBookPdf() {

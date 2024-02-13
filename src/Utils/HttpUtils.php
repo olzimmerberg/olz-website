@@ -53,7 +53,7 @@ class HttpUtils {
         foreach ($get_params as $key => $value) {
             $field = $fields[$key] ?? null;
             if (!$field) {
-                $this->log()->notice("Unknown GET param '{$key}'");
+                $this->log()->notice("Unknown GET param '{$key}'", $get_params);
                 $has_error = true;
             } else {
                 try {

@@ -21,7 +21,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $today = $date_utils->getIsoToday();
         $now = $date_utils->getIsoNow();
-        $plus_two_weeks = \DateInterval::createFromDateString("+2 weeks");
+        $plus_two_weeks = \DateInterval::createFromDateString("+4 weeks");
         $in_two_weeks = (new \DateTime($today))->add($plus_two_weeks)->format('Y-m-d');
 
         $newsletter_link = '';
@@ -70,7 +70,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         LIMIT 7
         ZZZZZZZZZZ);
         if ($res->num_rows === 0) {
-            $out .= "<br /><center><i>Keine Meldeschlüsse in den nächsten zwei Wochen</i></center>";
+            $out .= "<br /><center><i>Keine Meldeschlüsse in den nächsten vier Wochen</i></center>";
             return $out;
         }
         $out .= "<ul class='links'>";

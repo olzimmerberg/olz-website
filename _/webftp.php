@@ -65,7 +65,8 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
         }
     }
 
-    echo "<div class='content-full'>
+    echo <<<'ZZZZZZZZZZ'
+    <div class='content-full'>
     <div class='alert alert-danger'>
         <b>Diese Seite wird bald gelöscht.</b>
         Bitte <a href='/apps/files' class='linkint'>Dateien-App</a> verwenden.
@@ -73,8 +74,9 @@ if (in_array('ftp', preg_split('/ /', $_SESSION['auth'] ?? '')) or ($_SESSION['a
             olz.MailTo("website", "olzimmerberg.ch", "hier", "Fehler%20OLZ%20Datei-App");
         </script> melden.
     </div>
-    <form name='Formularl' method='post' action='webftp.php#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
-    <div>";
+    <form name='Formularl' method='post' action='webftp.php' enctype='multipart/form-data'>
+    <div>
+    ZZZZZZZZZZ;
     include __DIR__.'/library/phpWebFileManager/start.php';
     echo "</div>
     </form>";

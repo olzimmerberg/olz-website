@@ -26,8 +26,8 @@ final class ImageUtilsTest extends UnitTestCase {
             <<<ZZZZZZZZZZ
             <span class='lightgallery'><a href='/data-href/img/news//123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news//123/img/abcd.jpg' onclick='event.stopPropagation()'>
             <img
-                src='/_/image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=110'
-                srcset='/_/image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=220 2x, /_/image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=110 1x'
+                src='/_/image_tools/thumb/news__123__abcd.jpg__110.jpg'
+                srcset='/_/image_tools/thumb/news__123__abcd.jpg__220.jpg 2x, /_/image_tools/thumb/news__123__abcd.jpg__110.jpg 1x'
                 alt=''
                 width='110'
                 height='73'
@@ -51,8 +51,8 @@ final class ImageUtilsTest extends UnitTestCase {
             <<<ZZZZZZZZZZ
             test <span class='lightgallery'><a href='/data-href/img/news//123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news//123/img/abcd.jpg' onclick='event.stopPropagation()'>
             <img
-                src='/_/image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=110'
-                srcset='/_/image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=220 2x, /_/image_tools.php?request=thumb&db_table=news&id=123&index=abcd.jpg&dim=110 1x'
+                src='/_/image_tools/thumb/news__123__abcd.jpg__110.jpg'
+                srcset='/_/image_tools/thumb/news__123__abcd.jpg__220.jpg 2x, /_/image_tools/thumb/news__123__abcd.jpg__110.jpg 1x'
                 alt=''
                 width='110'
                 height='73'

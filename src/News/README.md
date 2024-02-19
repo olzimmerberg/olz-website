@@ -68,7 +68,7 @@ z.B.
 - `.../img/news/3/img/LFm4w-0p1ItH0FVReqS2SU4M.jpg`
 - etc.
 
-Thumnails sollen schon beim Upload, und nicht wie bisher mittels `image_tools.php` generiert werden!
+Thumnails sollen schon beim Upload, und nicht wie bisher mittels `image_tools` generiert werden!
 
 z.B.
 - `.../img/news/1234/thumb/abcdefghijklmnopqrstuvwx_default.jpg` (default = max. Grösse 128)

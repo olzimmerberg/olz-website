@@ -5,6 +5,7 @@ namespace Olz\Startseite\Endpoints;
 use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
 
 trait WeeklyPictureEndpointTrait {
     use WithUtilsTrait;
@@ -19,7 +20,6 @@ trait WeeklyPictureEndpointTrait {
             'field_structure' => [
                 'text' => new FieldTypes\StringField(['allow_empty' => true]),
                 'imageId' => new FieldTypes\StringField([]),
-                'alternativeImageId' => new FieldTypes\StringField(['allow_null' => true]),
             ],
             'allow_null' => $allow_null,
         ]);
@@ -33,12 +33,14 @@ trait WeeklyPictureEndpointTrait {
     public function updateEntityWithData(WeeklyPicture $entity, array $input_data): void {
         $now = new \DateTime($this->dateUtils()->getIsoNow());
         $valid_image_id = $this->uploadUtils()->getValidUploadId($input_data['imageId']);
-        $valid_alternative_image_id = $this->uploadUtils()->getValidUploadId($input_data['alternativeImageId'] ?? null);
+        if ($valid_image_id === null) {
+            throw new HttpError(400, "Kein gültiges Bild!");
+        }
 
         $entity->setPublishedDate($now);
         $entity->setText($input_data['text']);
         $entity->setImageId($valid_image_id);
-        $entity->setAlternativeImageId($valid_alternative_image_id);
+        $entity->setAlternativeImageId(null);
     }
 
     public function persistUploads(WeeklyPicture $entity): void {
@@ -46,15 +48,11 @@ trait WeeklyPictureEndpointTrait {
 
         $weekly_picture_id = $entity->getId();
         $valid_image_id = $entity->getImageId();
-        $valid_alternative_image_id = $entity->getAlternativeImageId();
 
         $weekly_picture_img_path = "{$data_path}img/weekly_picture/{$weekly_picture_id}/";
         mkdir("{$weekly_picture_img_path}img/", 0777, true);
         mkdir("{$weekly_picture_img_path}thumb/", 0777, true);
         $valid_image_ids = [$valid_image_id];
-        if ($valid_alternative_image_id) {
-            $valid_image_ids[] = $valid_alternative_image_id;
-        }
         $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$weekly_picture_img_path}img/");
         // TODO: Generate default thumbnails.
     }

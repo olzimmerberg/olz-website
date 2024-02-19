@@ -13,7 +13,6 @@ import './OlzEditWeeklyPictureModal.scss';
 interface OlzEditWeeklyPictureForm {
     text: string;
     imageId: string|undefined;
-    alternativeImageId: string|null|undefined;
 }
 
 const resolver: Resolver<OlzEditWeeklyPictureForm> = async (values) => {
@@ -31,7 +30,6 @@ function getFormFromApi(apiData?: OlzWeeklyPictureData): OlzEditWeeklyPictureFor
     return {
         text: apiData?.text ?? '',
         imageId: apiData?.imageId,
-        alternativeImageId: apiData?.alternativeImageId,
     };
 }
 
@@ -39,7 +37,6 @@ function getApiFromForm(formData: OlzEditWeeklyPictureForm): OlzWeeklyPictureDat
     return {
         text: formData.text,
         imageId: formData.imageId ?? '',
-        alternativeImageId: formData.alternativeImageId ?? null,
     };
 }
 
@@ -101,15 +98,6 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                                 <OlzImageField
                                     title='Bild'
                                     name='imageId'
-                                    errors={errors}
-                                    control={control}
-                                    setIsLoading={setIsLoading}
-                                />
-                            </div>
-                            <div id='alternative-image-upload'>
-                                <OlzImageField
-                                    title='Alternatives Bild'
-                                    name='alternativeImageId'
                                     errors={errors}
                                     control={control}
                                     setIsLoading={setIsLoading}

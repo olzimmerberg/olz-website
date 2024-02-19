@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Startseite\Endpoints;
 
-use Olz\Entity\Role;
-use Olz\Entity\User;
 use Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -37,8 +35,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
                 ],
                 'data' => [
                     'text' => 'Test Titel',
-                    'imageId' => 'inexistent.jpg',
-                    'alternativeImageId' => null,
+                    'imageId' => 'invalid.jpg',
                 ],
             ]);
             $this->fail('Error expected');
@@ -59,11 +56,8 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');
-        file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');
         mkdir(__DIR__.'/../../tmp/img/');
-        mkdir(__DIR__.'/../../tmp/img/news/');
-        mkdir(__DIR__.'/../../tmp/files/');
-        mkdir(__DIR__.'/../../tmp/files/news/');
+        mkdir(__DIR__.'/../../tmp/img/weekly_picture/');
 
         $result = $endpoint->call([
             'meta' => [
@@ -74,7 +68,6 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             'data' => [
                 'text' => 'Test Titel',
                 'imageId' => 'uploaded_image.jpg',
-                'alternativeImageId' => 'inexistent.jpg',
             ],
         ]);
 
@@ -82,9 +75,6 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-
-        $user_repo = $entity_manager->repositories[User::class];
-        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame([
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
@@ -97,7 +87,6 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
         $this->assertSame('2020-03-13', $weekly_picture->getPublishedDate()->format('Y-m-d'));
         $this->assertSame('Test Titel', $weekly_picture->getText());
         $this->assertSame('uploaded_image.jpg', $weekly_picture->getImageId());
-        $this->assertSame('inexistent.jpg', $weekly_picture->getAlternativeImageId());
 
         $this->assertSame([
             [$weekly_picture, 1, 1, 1],
@@ -107,9 +96,51 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             [
-                ['uploaded_image.jpg', 'inexistent.jpg'],
+                ['uploaded_image.jpg'],
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/weekly_picture/{$id}/img/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+    }
+
+    public function testCreateWeeklyPictureEndpointInvalidPicture(): void {
+        $entity_manager = WithUtilsCache::get('entityManager');
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => true];
+        $endpoint = new CreateWeeklyPictureEndpoint();
+        $endpoint->runtimeSetup();
+
+        mkdir(__DIR__.'/../../tmp/temp/');
+        file_put_contents(__DIR__.'/../../tmp/temp/uploaded_image.jpg', '');
+        mkdir(__DIR__.'/../../tmp/img/');
+        mkdir(__DIR__.'/../../tmp/img/weekly_picture/');
+
+        try {
+            $endpoint->call([
+                'meta' => [
+                    'ownerUserId' => 1,
+                    'ownerRoleId' => 1,
+                    'onOff' => true,
+                ],
+                'data' => [
+                    'text' => 'Test Titel',
+                    'imageId' => 'invalid.jpg',
+                ],
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 400",
+            ], $this->getLogs());
+            $this->assertSame(400, $err->getCode());
+
+            $this->assertSame(0, count($entity_manager->persisted));
+            $this->assertSame(0, count($entity_manager->flushed_persisted));
+
+            // The entity is created, but not persisted.
+            $this->assertSame(1, count(WithUtilsCache::get('entityUtils')->create_olz_entity_calls));
+
+            $this->assertSame([
+            ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        }
     }
 }

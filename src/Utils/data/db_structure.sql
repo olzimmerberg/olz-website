@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240207225304
+-- MIGRATION: DoctrineMigrations\Version20240219120442
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -886,7 +886,6 @@ CREATE TABLE `weekly_picture` (
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `datum` date DEFAULT NULL,
   `image_id` longtext DEFAULT NULL,
-  `alternative_image_id` longtext DEFAULT NULL,
   `text` longtext DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),

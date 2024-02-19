@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240207225304
+-- MIGRATION: DoctrineMigrations\Version20240219120442
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -75,7 +75,8 @@ VALUES
     ('DoctrineMigrations\\Version20240102172229', '2024-01-02 18:24:51', '68'),
     ('DoctrineMigrations\\Version20240103010715', '2024-01-03 19:28:27', '286'),
     ('DoctrineMigrations\\Version20240204153949', '2024-02-04 16:40:49', '74'),
-    ('DoctrineMigrations\\Version20240207225304', '2024-02-07 23:54:47', '144');
+    ('DoctrineMigrations\\Version20240207225304', '2024-02-07 23:54:47', '144'),
+    ('DoctrineMigrations\\Version20240219120442', '2024-02-19 13:06:31', '78');
 
 -- Table downloads
 INSERT INTO downloads
@@ -435,9 +436,9 @@ VALUES
 
 -- Table weekly_picture
 INSERT INTO weekly_picture
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `datum`, `image_id`, `alternative_image_id`, `text`, `on_off`, `created_at`, `last_modified_at`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `datum`, `image_id`, `text`, `on_off`, `created_at`, `last_modified_at`)
 VALUES
-    ('1', NULL, NULL, NULL, NULL, '2020-01-01', '001.jpg', NULL, 'Neujahrs-Impression vom Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17'),
-    ('2', NULL, NULL, NULL, NULL, '2020-01-02', '001.jpg', NULL, 'Berchtoldstag im Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17');
+    ('1', NULL, NULL, NULL, NULL, '2020-01-01', '001.jpg', 'Neujahrs-Impression vom Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17'),
+    ('2', NULL, NULL, NULL, NULL, '2020-01-02', '001.jpg', 'Berchtoldstag im Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17');
 
 COMMIT;

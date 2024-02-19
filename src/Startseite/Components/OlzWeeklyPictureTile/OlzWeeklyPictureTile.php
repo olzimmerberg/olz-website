@@ -52,15 +52,10 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
             $text = $weekly_picture->getText();
             $id = $weekly_picture->getId();
             $image_id = $weekly_picture->getImageId();
-            $alternative_image_id = $weekly_picture->getAlternativeImageId();
 
             $active_class = $index === 0 ? ' active' : '';
             $carousel_inner .= "<div class='carousel-item{$active_class}'>";
-            if (!$alternative_image_id) {
-                $carousel_inner .= $image_utils->olzImage('weekly_picture', $id, $image_id, 512, 'image');
-            } else {
-                $carousel_inner .= "<div class='lightgallery'><span onmouseover='olz.olzWeeklyPictureTileSwap()' id='olz-weekly-image'>".$image_utils->olzImage('weekly_picture', $id, $image_id, 512, 'gallery[weekly_picture]')."</span><span onmouseout='olz.olzWeeklyPictureTileUnswap()' id='olz-weekly-alternative-image'>".$image_utils->olzImage('weekly_picture', $id, $alternative_image_id, 512, 'gallery[weekly_picture]')."</span></div>";
-            }
+            $carousel_inner .= $image_utils->olzImage('weekly_picture', $id, $image_id, 512, 'image');
             $carousel_inner .= "<div class='weekly-picture-tile-text'>".$text."</div>";
             $carousel_inner .= "</div>";
             $index++;

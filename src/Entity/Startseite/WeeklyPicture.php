@@ -17,9 +17,6 @@ class WeeklyPicture extends OlzEntity {
     private $image_id;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $alternative_image_id;
-
-    #[ORM\Column(type: 'text', nullable: true)]
     private $text;
 
     #[ORM\Id]
@@ -59,13 +56,5 @@ class WeeklyPicture extends OlzEntity {
 
     public function setImageId($new_image_id) {
         $this->image_id = $new_image_id;
-    }
-
-    public function getAlternativeImageId() {
-        return $this->alternative_image_id;
-    }
-
-    public function setAlternativeImageId($new_alternative_image_id) {
-        $this->alternative_image_id = $new_alternative_image_id;
     }
 }

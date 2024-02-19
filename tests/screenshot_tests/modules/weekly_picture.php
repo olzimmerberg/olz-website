@@ -41,18 +41,6 @@ function test_weekly_picture($driver, $base_url) {
         return count($image_uploaded) == 1;
     });
 
-    $alt_image_upload_input = $driver->findElement(
-        WebDriverBy::cssSelector('#edit-weekly-picture-modal #alternative-image-upload input[type=file]')
-    );
-    $image_path = realpath(__DIR__.'/../../../assets/icns/schilf.jpg');
-    sendKeys($alt_image_upload_input, $image_path);
-    $driver->wait()->until(function () use ($driver) {
-        $image_uploaded = $driver->findElements(
-            WebDriverBy::cssSelector('#edit-weekly-picture-modal #alternative-image-upload .olz-upload-image.uploaded')
-        );
-        return count($image_uploaded) == 1;
-    });
-
     take_pageshot($driver, 'weekly_picture_new_edit');
 
     $save_button = $driver->findElement(

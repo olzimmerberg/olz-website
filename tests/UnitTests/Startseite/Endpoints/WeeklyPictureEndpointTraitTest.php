@@ -44,7 +44,6 @@ final class WeeklyPictureEndpointTraitTest extends UnitTestCase {
         $keys = array_keys($field_structure);
         sort($keys);
         $this->assertSame([
-            'alternativeImageId',
             'imageId',
             'text',
         ], $keys);

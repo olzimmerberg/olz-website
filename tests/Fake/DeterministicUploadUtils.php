@@ -13,11 +13,10 @@ class DeterministicUploadUtils extends UploadUtils {
         return "AAAAAAAAAAAAAAAAAAAAAAAA{$suffix}";
     }
 
-    public function getValidUploadIds($upload_ids) {
-        return $upload_ids;
-    }
-
     public function getValidUploadId($upload_id) {
+        if (substr($upload_id, 0, 7) === 'invalid') {
+            return null;
+        }
         return $upload_id;
     }
 

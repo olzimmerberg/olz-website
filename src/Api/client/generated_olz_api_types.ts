@@ -95,7 +95,6 @@ export type OlzNewsDataOrNull = {
 export type OlzWeeklyPictureData = {
     'text': string,
     'imageId': string,
-    'alternativeImageId': string|null,
 };
 
 export type OlzTerminData = {

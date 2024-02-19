@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImageToolsController extends AbstractController {
-    #[Route('/image_tools/thumb/{db_table}__{id}__{index}__{dimension}.jpg', requirements: [
+    #[Route('/image_tools/thumb/{db_table}${id}${index}${dimension}.jpg', requirements: [
         'db_table' => '[a-z_]+',
         'id' => '\d+',
         'dimension' => '\d+',

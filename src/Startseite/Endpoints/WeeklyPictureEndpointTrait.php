@@ -40,7 +40,6 @@ trait WeeklyPictureEndpointTrait {
         $entity->setPublishedDate($now);
         $entity->setText($input_data['text']);
         $entity->setImageId($valid_image_id);
-        $entity->setAlternativeImageId(null);
     }
 
     public function persistUploads(WeeklyPicture $entity): void {

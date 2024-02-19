@@ -6,6 +6,7 @@
 
 use Olz\Utils\EnvUtils;
 use Olz\Utils\ImageUtils;
+use Olz\Utils\LogsUtils;
 use Olz\Utils\UploadUtils;
 
 require_once __DIR__.'/config/init.php';
@@ -15,6 +16,9 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
         header("Content-type:text/plain");
         echo "HIER IST NIX";
     }
+
+    $request = $_GET["request"];
+    LogsUtils::fromEnv()->notice("Remaining use of image_tools.php (request: {$request})");
 
     if ($_GET["request"] == "info") {
         $data_path = EnvUtils::fromEnv()->getDataPath();
@@ -288,26 +292,5 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
             }
         }
         echo json_encode([1, $newindex + $i, $log]);
-    }
-}
-
-if (!function_exists('olz_images_edit')) {
-    function olz_images_edit($db_table, $id) {
-        $data_path = EnvUtils::fromEnv()->getDataPath();
-        if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
-            return "Ungültige db_table (in olz_images_edit)";
-        }
-        $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
-        for ($i = 1; true; $i++) {
-            $imgfile = $data_path.$db_imgpath."/".$id."/img/".str_pad($i, 3, "0", STR_PAD_LEFT).".jpg";
-            if (!is_file($imgfile)) {
-                break;
-            }
-        }
-        $htmlout = "";
-        $ident = "olzimgedit".md5($db_table."-".$id);
-        $htmlout .= "<div id='".$ident."'></div>";
-        $htmlout .= "<script type='text/javascript'>olz.olz_images_edit_redraw(".json_encode($ident).", ".json_encode($db_table).", ".json_encode($id).");</script>";
-        return $htmlout;
     }
 }

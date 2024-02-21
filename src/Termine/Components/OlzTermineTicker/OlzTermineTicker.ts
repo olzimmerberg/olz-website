@@ -1,4 +1,4 @@
-export function mousein(id: string): void {
+export function olzTermineTickerMouseIn(id: string): void {
     const elem = document.getElementById(id);
     if (!elem) {
         return;
@@ -6,7 +6,7 @@ export function mousein(id: string): void {
     elem.style.color = 'rgb(0,0,0)';
 }
 
-export function mouseout(id: string): void {
+export function olzTermineTickerMouseOut(id: string): void {
     const elem = document.getElementById(id);
     if (!elem) {
         return;

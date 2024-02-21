@@ -44,6 +44,36 @@ export type OlzDownloadDataOrNull = {
     'fileId': string|null,
 }|null;
 
+export type OlzKarteData = {
+    'position': number,
+    'kartennr': number|null,
+    'name': string,
+    'centerX': number|null,
+    'centerY': number|null,
+    'year': number|null,
+    'scale': string|null,
+    'place': string|null,
+    'zoom': number|null,
+    'kind': OlzKarteKind,
+    'previewImageId': string|null,
+};
+
+export type OlzKarteKind = 'ol'|'stadt'|'scool'|null;
+
+export type OlzKarteDataOrNull = {
+    'position': number,
+    'kartennr': number|null,
+    'name': string,
+    'centerX': number|null,
+    'centerY': number|null,
+    'year': number|null,
+    'scale': string|null,
+    'place': string|null,
+    'zoom': number|null,
+    'kind': OlzKarteKind,
+    'previewImageId': string|null,
+}|null;
+
 export type OlzLinkData = {
     'position': number|null,
     'name': string,
@@ -295,6 +325,11 @@ export type OlzApiEndpoint =
     'editDownload'|
     'updateDownload'|
     'deleteDownload'|
+    'createKarte'|
+    'getKarte'|
+    'editKarte'|
+    'updateKarte'|
+    'deleteKarte'|
     'createLink'|
     'getLink'|
     'editLink'|
@@ -485,6 +520,24 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'data': OlzDownloadDataOrNull,
         },
     deleteDownload: {
+            'id': number,
+        },
+    createKarte: {
+            'meta': OlzMetaData,
+            'data': OlzKarteData,
+        },
+    getKarte: {
+            'id': number,
+        },
+    editKarte: {
+            'id': number,
+        },
+    updateKarte: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzKarteDataOrNull,
+        },
+    deleteKarte: {
             'id': number,
         },
     createLink: {
@@ -772,6 +825,27 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': number,
         },
     deleteDownload: {
+            'status': 'OK'|'ERROR',
+        },
+    createKarte: {
+            'status': 'OK'|'ERROR',
+            'id': number|null,
+        },
+    getKarte: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzKarteData,
+        },
+    editKarte: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzKarteData,
+        },
+    updateKarte: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteKarte: {
             'status': 'OK'|'ERROR',
         },
     createLink: {

@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240219120442
+-- MIGRATION: DoctrineMigrations\Version20240222220523
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -76,7 +76,8 @@ VALUES
     ('DoctrineMigrations\\Version20240103010715', '2024-01-03 19:28:27', '286'),
     ('DoctrineMigrations\\Version20240204153949', '2024-02-04 16:40:49', '74'),
     ('DoctrineMigrations\\Version20240207225304', '2024-02-07 23:54:47', '144'),
-    ('DoctrineMigrations\\Version20240219120442', '2024-02-19 13:06:31', '78');
+    ('DoctrineMigrations\\Version20240219120442', '2024-02-19 13:06:31', '78'),
+    ('DoctrineMigrations\\Version20240222220523', '2024-02-22 23:07:58', '792');
 
 -- Table downloads
 INSERT INTO downloads
@@ -88,11 +89,11 @@ VALUES
 
 -- Table karten
 INSERT INTO karten
-    (`id`, `position`, `kartennr`, `name`, `center_x`, `center_y`, `jahr`, `massstab`, `ort`, `zoom`, `typ`, `vorschau`)
+    (`id`, `position`, `kartennr`, `name`, `center_x`, `center_y`, `jahr`, `massstab`, `ort`, `zoom`, `typ`, `vorschau`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`, `latitude`, `longitude`)
 VALUES
-    ('1', '0', '1086', 'Landforst 🗺️', '685000', '236100', '2017', '1:10\'000', NULL, '8', 'ol', 'landforst_2017_10000.jpg'),
-    ('2', '2', '0', 'Eidmatt', '693379', '231463', '2020', '1:1\'000', 'Wädenswil', '2', 'scool', ''),
-    ('3', '1', '0', 'Horgen Dorfkern', '687900', '234700', '2011', '1:2\'000', 'Horgen', '8', 'stadt', 'horgen_dorfkern_2011_2000.jpg');
+    ('1', '0', '1086', 'Landforst 🗺️', '685000', '236100', '2017', '1:10\'000', NULL, '8', 'ol', 'landforst_2017_10000.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', NULL, NULL),
+    ('2', '2', '0', 'Eidmatt', '693379', '231463', '2020', '1:1\'000', 'Wädenswil', '2', 'scool', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', NULL, NULL),
+    ('3', '1', '0', 'Horgen Dorfkern', '687900', '234700', '2011', '1:2\'000', 'Horgen', '8', 'stadt', 'horgen_dorfkern_2011_2000.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', NULL, NULL);
 
 -- Table links
 INSERT INTO links

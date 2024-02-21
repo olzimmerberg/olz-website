@@ -18,7 +18,8 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     }
 
     $request = $_GET["request"];
-    LogsUtils::fromEnv()->notice("Remaining use of image_tools.php (request: {$request})");
+    $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
+    $logger->notice("Remaining use of image_tools.php (request: {$request})");
 
     if ($_GET["request"] == "info") {
         $data_path = EnvUtils::fromEnv()->getDataPath();

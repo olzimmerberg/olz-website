@@ -1,4 +1,5 @@
 on:
+  workflow_dispatch:
   schedule:
     # every sixth hour at X:49
     - cron:  '49 */6 * * *'

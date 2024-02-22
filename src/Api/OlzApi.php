@@ -33,6 +33,16 @@ class OlzApi extends Api {
         Endpoints\UpdateUploadEndpoint $updateUploadEndpoint,
         Endpoints\FinishUploadEndpoint $finishUploadEndpoint,
         Endpoints\SearchEntitiesEndpoint $searchEntitiesEndpoint,
+        \Olz\Karten\Endpoints\CreateKarteEndpoint $createKarteEndpoint,
+        \Olz\Karten\Endpoints\GetKarteEndpoint $getKarteEndpoint,
+        \Olz\Karten\Endpoints\EditKarteEndpoint $editKarteEndpoint,
+        \Olz\Karten\Endpoints\UpdateKarteEndpoint $updateKarteEndpoint,
+        \Olz\Karten\Endpoints\DeleteKarteEndpoint $deleteKarteEndpoint,
+        \Olz\News\Endpoints\CreateNewsEndpoint $createNewsEndpoint,
+        \Olz\News\Endpoints\GetNewsEndpoint $getNewsEndpoint,
+        \Olz\News\Endpoints\EditNewsEndpoint $editNewsEndpoint,
+        \Olz\News\Endpoints\UpdateNewsEndpoint $updateNewsEndpoint,
+        \Olz\News\Endpoints\DeleteNewsEndpoint $deleteNewsEndpoint,
         \Olz\Service\Endpoints\CreateDownloadEndpoint $createDownloadEndpoint,
         \Olz\Service\Endpoints\GetDownloadEndpoint $getDownloadEndpoint,
         \Olz\Service\Endpoints\EditDownloadEndpoint $editDownloadEndpoint,
@@ -43,11 +53,6 @@ class OlzApi extends Api {
         \Olz\Service\Endpoints\EditLinkEndpoint $editLinkEndpoint,
         \Olz\Service\Endpoints\UpdateLinkEndpoint $updateLinkEndpoint,
         \Olz\Service\Endpoints\DeleteLinkEndpoint $deleteLinkEndpoint,
-        \Olz\News\Endpoints\CreateNewsEndpoint $createNewsEndpoint,
-        \Olz\News\Endpoints\GetNewsEndpoint $getNewsEndpoint,
-        \Olz\News\Endpoints\EditNewsEndpoint $editNewsEndpoint,
-        \Olz\News\Endpoints\UpdateNewsEndpoint $updateNewsEndpoint,
-        \Olz\News\Endpoints\DeleteNewsEndpoint $deleteNewsEndpoint,
         \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint $createWeeklyPictureEndpoint,
         \Olz\Termine\Endpoints\CreateTerminEndpoint $createTerminEndpoint,
         \Olz\Termine\Endpoints\GetTerminEndpoint $getTerminEndpoint,
@@ -96,6 +101,14 @@ class OlzApi extends Api {
         $this->registerEndpoint('editDownload', $editDownloadEndpoint);
         $this->registerEndpoint('updateDownload', $updateDownloadEndpoint);
         $this->registerEndpoint('deleteDownload', $deleteDownloadEndpoint);
+
+        // Karten
+
+        $this->registerEndpoint('createKarte', $createKarteEndpoint);
+        $this->registerEndpoint('getKarte', $getKarteEndpoint);
+        $this->registerEndpoint('editKarte', $editKarteEndpoint);
+        $this->registerEndpoint('updateKarte', $updateKarteEndpoint);
+        $this->registerEndpoint('deleteKarte', $deleteKarteEndpoint);
 
         // Links
 
@@ -180,6 +193,16 @@ class OlzApi extends Api {
             new Endpoints\UpdateUploadEndpoint(),
             new Endpoints\FinishUploadEndpoint(),
             new Endpoints\SearchEntitiesEndpoint(),
+            new \Olz\Karten\Endpoints\CreateKarteEndpoint(),
+            new \Olz\Karten\Endpoints\GetKarteEndpoint(),
+            new \Olz\Karten\Endpoints\EditKarteEndpoint(),
+            new \Olz\Karten\Endpoints\UpdateKarteEndpoint(),
+            new \Olz\Karten\Endpoints\DeleteKarteEndpoint(),
+            new \Olz\News\Endpoints\CreateNewsEndpoint(),
+            new \Olz\News\Endpoints\GetNewsEndpoint(),
+            new \Olz\News\Endpoints\EditNewsEndpoint(),
+            new \Olz\News\Endpoints\UpdateNewsEndpoint(),
+            new \Olz\News\Endpoints\DeleteNewsEndpoint(),
             new \Olz\Service\Endpoints\CreateDownloadEndpoint(),
             new \Olz\Service\Endpoints\GetDownloadEndpoint(),
             new \Olz\Service\Endpoints\EditDownloadEndpoint(),
@@ -190,11 +213,6 @@ class OlzApi extends Api {
             new \Olz\Service\Endpoints\EditLinkEndpoint(),
             new \Olz\Service\Endpoints\UpdateLinkEndpoint(),
             new \Olz\Service\Endpoints\DeleteLinkEndpoint(),
-            new \Olz\News\Endpoints\CreateNewsEndpoint(),
-            new \Olz\News\Endpoints\GetNewsEndpoint(),
-            new \Olz\News\Endpoints\EditNewsEndpoint(),
-            new \Olz\News\Endpoints\UpdateNewsEndpoint(),
-            new \Olz\News\Endpoints\DeleteNewsEndpoint(),
             new \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint(),
             new \Olz\Termine\Endpoints\CreateTerminEndpoint(),
             new \Olz\Termine\Endpoints\GetTerminEndpoint(),

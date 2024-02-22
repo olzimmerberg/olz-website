@@ -121,7 +121,7 @@ class OlzTermineTicker extends OlzComponent {
                 $pulse .= "\"terminticker".$id_tmp."\"";
             }
 
-            $out .= "<p{$class_heute}><a href='{$code_href}termine/".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='olz.mousein(\"terminticker".$id_tmp."\")' onmouseout='olz.mouseout(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$start_date."</span> ".$title.$mehr."</a></p>";
+            $out .= "<p{$class_heute}><a href='{$code_href}termine/".$id_tmp."' id='terminticker".$id_tmp."' onmouseover='olz.olzTermineTickerMouseIn(\"terminticker".$id_tmp."\")' onmouseout='olz.olzTermineTickerMouseOut(\"terminticker".$id_tmp."\")'><span style='font-weight:bold;margin-right:6px;'>".$start_date."</span> ".$title.$mehr."</a></p>";
         }
         $out .= "</div>";
         return $out;

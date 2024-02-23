@@ -2,31 +2,15 @@
 
 namespace Olz\Service\Endpoints;
 
-use Olz\Api\OlzEntityEndpoint;
-use Olz\Entity\Common\OlzEntity;
+use Olz\Api\OlzEditEntityEndpoint;
 use Olz\Entity\Service\Download;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
-class EditDownloadEndpoint extends OlzEntityEndpoint {
+class EditDownloadEndpoint extends OlzEditEntityEndpoint {
     use DownloadEndpointTrait;
 
     public static function getIdent() {
         return 'EditDownloadEndpoint';
-    }
-
-    public function getResponseField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => $this->getIdField(/* allow_null= */ false),
-            'meta' => OlzEntity::getMetaField(/* allow_null= */ false),
-            'data' => $this->getEntityDataField(/* allow_null= */ false),
-        ]]);
-    }
-
-    public function getRequestField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => $this->getIdField(/* allow_null= */ false),
-        ]]);
     }
 
     protected function handle($input) {

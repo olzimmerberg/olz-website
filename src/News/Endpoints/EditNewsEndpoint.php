@@ -2,31 +2,15 @@
 
 namespace Olz\News\Endpoints;
 
-use Olz\Api\OlzEntityEndpoint;
-use Olz\Entity\Common\OlzEntity;
+use Olz\Api\OlzEditEntityEndpoint;
 use Olz\Entity\News\NewsEntry;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
-class EditNewsEndpoint extends OlzEntityEndpoint {
+class EditNewsEndpoint extends OlzEditEntityEndpoint {
     use NewsEndpointTrait;
 
     public static function getIdent() {
         return 'EditNewsEndpoint';
-    }
-
-    public function getResponseField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => $this->getIdField(/* allow_null= */ false),
-            'meta' => OlzEntity::getMetaField(/* allow_null= */ false),
-            'data' => $this->getEntityDataField(/* allow_null= */ false),
-        ]]);
-    }
-
-    public function getRequestField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => $this->getIdField(/* allow_null= */ false),
-        ]]);
     }
 
     protected function handle($input) {

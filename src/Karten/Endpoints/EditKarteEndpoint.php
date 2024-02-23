@@ -2,31 +2,15 @@
 
 namespace Olz\Karten\Endpoints;
 
-use Olz\Api\OlzEntityEndpoint;
-use Olz\Entity\Common\OlzEntity;
+use Olz\Api\OlzEditEntityEndpoint;
 use Olz\Entity\Karten\Karte;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
-class EditKarteEndpoint extends OlzEntityEndpoint {
+class EditKarteEndpoint extends OlzEditEntityEndpoint {
     use KarteEndpointTrait;
 
     public static function getIdent() {
         return 'EditKarteEndpoint';
-    }
-
-    public function getResponseField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => $this->getIdField(/* allow_null= */ false),
-            'meta' => OlzEntity::getMetaField(/* allow_null= */ false),
-            'data' => $this->getEntityDataField(/* allow_null= */ false),
-        ]]);
-    }
-
-    public function getRequestField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => $this->getIdField(/* allow_null= */ false),
-        ]]);
     }
 
     protected function handle($input) {

@@ -2,31 +2,15 @@
 
 namespace Olz\Termine\Endpoints;
 
-use Olz\Api\OlzEntityEndpoint;
-use Olz\Entity\Common\OlzEntity;
+use Olz\Api\OlzEditEntityEndpoint;
 use Olz\Entity\Termine\TerminTemplate;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
-class EditTerminTemplateEndpoint extends OlzEntityEndpoint {
+class EditTerminTemplateEndpoint extends OlzEditEntityEndpoint {
     use TerminTemplateEndpointTrait;
 
     public static function getIdent() {
         return 'EditTerminTemplateEndpoint';
-    }
-
-    public function getResponseField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => $this->getIdField(/* allow_null= */ false),
-            'meta' => OlzEntity::getMetaField(/* allow_null= */ false),
-            'data' => $this->getEntityDataField(/* allow_null= */ false),
-        ]]);
-    }
-
-    public function getRequestField() {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => $this->getIdField(/* allow_null= */ false),
-        ]]);
     }
 
     protected function handle($input) {

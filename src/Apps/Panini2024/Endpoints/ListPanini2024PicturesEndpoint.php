@@ -3,9 +3,7 @@
 namespace Olz\Apps\Panini2024\Endpoints;
 
 use Olz\Api\OlzEndpoint;
-use Olz\Entity\Panini2024\Panini2024Picture;
 use PhpTypeScriptApi\Fields\FieldTypes;
-use PhpTypeScriptApi\HttpError;
 
 class ListPanini2024PicturesEndpoint extends OlzEndpoint {
     public static function getIdent() {
@@ -47,13 +45,9 @@ class ListPanini2024PicturesEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('panini2024');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('panini2024');
 
-        $current_user = $this->authUtils()->getCurrentUser();
-        $panini_repo = $this->entityManager()->getRepository(Panini2024Picture::class);
+        // TODO: Implement
 
         return [];
     }

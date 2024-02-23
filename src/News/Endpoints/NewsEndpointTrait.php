@@ -160,6 +160,15 @@ trait NewsEndpointTrait {
         $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $news_entry_files_path);
     }
 
+    protected function getEntityById(int $id): NewsEntry {
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
+        $news_entry = $news_repo->findOneBy(['id' => $id]);
+        if (!$news_entry) {
+            throw new HttpError(404, "Nicht gefunden.");
+        }
+        return $news_entry;
+    }
+
     // ---
 
     protected function getFormat($format) {

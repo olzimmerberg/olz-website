@@ -3,7 +3,6 @@
 namespace Olz\Service\Endpoints;
 
 use Olz\Api\OlzUpdateEntityEndpoint;
-use Olz\Entity\Service\Download;
 use PhpTypeScriptApi\HttpError;
 
 class UpdateDownloadEndpoint extends OlzUpdateEntityEndpoint {
@@ -14,17 +13,10 @@ class UpdateDownloadEndpoint extends OlzUpdateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $download_repo = $this->entityManager()->getRepository(Download::class);
-        $download = $download_repo->findOneBy(['id' => $input['id']]);
+        $download = $this->getEntityById($input['id']);
 
-        if (!$download) {
-            throw new HttpError(404, "Nicht gefunden.");
-        }
         if (!$this->entityUtils()->canUpdateOlzEntity($download, $input['meta'], 'downloads')) {
             throw new HttpError(403, "Kein Zugriff!");
         }

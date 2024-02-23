@@ -4,7 +4,6 @@ namespace Olz\Service\Endpoints;
 
 use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\Service\Link;
-use PhpTypeScriptApi\HttpError;
 
 class CreateLinkEndpoint extends OlzCreateEntityEndpoint {
     use LinkEndpointTrait;
@@ -14,10 +13,7 @@ class CreateLinkEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('links');
 
         $link = new Link();
         $this->entityUtils()->createOlzEntity($link, $input['meta']);

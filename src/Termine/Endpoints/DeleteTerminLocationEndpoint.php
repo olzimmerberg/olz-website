@@ -3,7 +3,6 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzDeleteEntityEndpoint;
-use Olz\Entity\Termine\TerminLocation;
 use PhpTypeScriptApi\HttpError;
 
 class DeleteTerminLocationEndpoint extends OlzDeleteEntityEndpoint {
@@ -14,14 +13,9 @@ class DeleteTerminLocationEndpoint extends OlzDeleteEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('termine');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('termine');
 
-        $entity_id = $input['id'];
-        $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
-        $termin_location = $termin_location_repo->findOneBy(['id' => $entity_id]);
+        $termin_location = $this->getEntityById($input['id']);
 
         if (!$termin_location) {
             return ['status' => 'ERROR'];

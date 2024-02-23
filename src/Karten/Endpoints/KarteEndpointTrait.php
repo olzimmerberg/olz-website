@@ -5,6 +5,7 @@ namespace Olz\Karten\Endpoints;
 use Olz\Entity\Karten\Karte;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
 
 trait KarteEndpointTrait {
     use WithUtilsTrait;
@@ -86,5 +87,14 @@ trait KarteEndpointTrait {
         }
         $this->uploadUtils()->overwriteUploads([$valid_preview_image_id], "{$karte_img_path}img/");
         // TODO: Generate default thumbnails.
+    }
+
+    protected function getEntityById(int $id): Karte {
+        $karten_repo = $this->entityManager()->getRepository(Karte::class);
+        $karte = $karten_repo->findOneBy(['id' => $id]);
+        if (!$karte) {
+            throw new HttpError(404, "Nicht gefunden.");
+        }
+        return $karte;
     }
 }

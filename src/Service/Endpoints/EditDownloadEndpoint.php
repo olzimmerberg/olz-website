@@ -3,7 +3,6 @@
 namespace Olz\Service\Endpoints;
 
 use Olz\Api\OlzEditEntityEndpoint;
-use Olz\Entity\Service\Download;
 use PhpTypeScriptApi\HttpError;
 
 class EditDownloadEndpoint extends OlzEditEntityEndpoint {
@@ -14,24 +13,16 @@ class EditDownloadEndpoint extends OlzEditEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $entity_id = $input['id'];
-        $download_repo = $this->entityManager()->getRepository(Download::class);
-        $download = $download_repo->findOneBy(['id' => $entity_id]);
+        $download = $this->getEntityById($input['id']);
 
-        if (!$download) {
-            throw new HttpError(404, "Nicht gefunden.");
-        }
         if (!$this->entityUtils()->canUpdateOlzEntity($download, null, 'downloads')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
         $data_path = $this->envUtils()->getDataPath();
 
-        $download_files_path = "{$data_path}files/downloads/{$entity_id}/";
+        $download_files_path = "{$data_path}files/downloads/{$download->getId()}/";
         if (!is_dir("{$download_files_path}")) {
             mkdir("{$download_files_path}", 0777, true);
         }

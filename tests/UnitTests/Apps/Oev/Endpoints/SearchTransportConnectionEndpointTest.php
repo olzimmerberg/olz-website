@@ -11,6 +11,7 @@ use Olz\Fetchers\TransportApiFetcher;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use PhpTypeScriptApi\HttpError;
 
 class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\FakeTransportApiFetcher {
     public function fetchConnection($request_data) {
@@ -425,18 +426,18 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         $endpoint = new SearchTransportConnectionEndpoint();
         $endpoint->runtimeSetup();
 
-        $result = $endpoint->call([
-            'destination' => 'Flumserberg Tannenheim',
-            'arrival' => '2021-10-01 13:15:00',
-        ]);
-
-        $this->assertSame([
-            'INFO Valid user request',
-            'INFO Valid user response',
-        ], $this->getLogs());
-        $this->assertSame([
-            'status' => 'ERROR',
-            'suggestions' => null,
-        ], $result);
+        try {
+            $endpoint->call([
+                'destination' => 'Flumserberg Tannenheim',
+                'arrival' => '2021-10-01 13:15:00',
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 403",
+            ], $this->getLogs());
+            $this->assertSame(403, $err->getCode());
+        }
     }
 }

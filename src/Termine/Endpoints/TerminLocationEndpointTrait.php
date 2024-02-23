@@ -5,6 +5,7 @@ namespace Olz\Termine\Endpoints;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
 
 trait TerminLocationEndpointTrait {
     use WithUtilsTrait;
@@ -64,5 +65,14 @@ trait TerminLocationEndpointTrait {
         }
         $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$termin_location_img_path}img/");
         // TODO: Generate default thumbnails.
+    }
+
+    protected function getEntityById(int $id): TerminLocation {
+        $termin_repo = $this->entityManager()->getRepository(TerminLocation::class);
+        $termin = $termin_repo->findOneBy(['id' => $id]);
+        if (!$termin) {
+            throw new HttpError(404, "Nicht gefunden.");
+        }
+        return $termin;
     }
 }

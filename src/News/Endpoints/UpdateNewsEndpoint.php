@@ -3,7 +3,6 @@
 namespace Olz\News\Endpoints;
 
 use Olz\Api\OlzUpdateEntityEndpoint;
-use Olz\Entity\News\NewsEntry;
 use PhpTypeScriptApi\HttpError;
 
 class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
@@ -14,17 +13,10 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
-        $news_entry = $news_repo->findOneBy(['id' => $input['id']]);
+        $news_entry = $this->getEntityById($input['id']);
 
-        if (!$news_entry) {
-            throw new HttpError(404, "Nicht gefunden.");
-        }
         if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, $input['meta'], 'news')) {
             throw new HttpError(403, "Kein Zugriff!");
         }

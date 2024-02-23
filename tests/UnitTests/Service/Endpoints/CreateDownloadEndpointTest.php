@@ -23,7 +23,7 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
     }
 
     public function testCreateDownloadEndpointNoAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['downloads' => false];
         $endpoint = new CreateDownloadEndpoint();
         $endpoint->runtimeSetup();
 
@@ -54,9 +54,8 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
         $mailer = $this->createStub(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
-            'any' => true,
+            'downloads' => true,
             'all' => false,
-            'kaderblog' => false,
         ];
         $endpoint = new CreateDownloadEndpoint();
         $endpoint->setMailer($mailer);

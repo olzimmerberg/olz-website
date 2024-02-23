@@ -30,10 +30,7 @@ class UpdateOlzTextEndpoint extends OlzEndpoint {
     protected function handle($input) {
         $id = $input['id'];
 
-        $has_access = $this->authUtils()->hasPermission("olz_text_{$id}");
-        if (!$has_access) {
-            return ['status' => 'ERROR'];
-        }
+        $this->checkPermission("olz_text_{$id}");
 
         $olz_text_repo = $this->entityManager()->getRepository(OlzText::class);
         $olz_text = $olz_text_repo->findOneBy(['id' => $id]);

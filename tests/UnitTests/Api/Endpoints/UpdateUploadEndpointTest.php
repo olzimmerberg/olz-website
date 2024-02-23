@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\UpdateUploadEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use PhpTypeScriptApi\HttpError;
 
 /**
  * @internal
@@ -24,17 +25,20 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
         $endpoint = new UpdateUploadEndpoint();
         $endpoint->runtimeSetup();
 
-        $result = $endpoint->call([
-            'id' => 'AAAAAAAAAAAAAAAAAAAAAAAA',
-            'part' => 0,
-            'content' => 'ASDF',
-        ]);
-
-        $this->assertSame(['status' => 'ERROR'], $result);
-        $this->assertSame([
-            "INFO Valid user request",
-            "INFO Valid user response",
-        ], $this->getLogs());
+        try {
+            $endpoint->call([
+                'id' => 'AAAAAAAAAAAAAAAAAAAAAAAA',
+                'part' => 0,
+                'content' => 'ASDF',
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 403",
+            ], $this->getLogs());
+            $this->assertSame(403, $err->getCode());
+        }
     }
 
     public function testUpdateUploadEndpointInvalidId(): void {

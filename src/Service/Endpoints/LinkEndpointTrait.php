@@ -5,6 +5,7 @@ namespace Olz\Service\Endpoints;
 use Olz\Entity\Service\Link;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
 
 trait LinkEndpointTrait {
     use WithUtilsTrait;
@@ -37,5 +38,14 @@ trait LinkEndpointTrait {
         $entity->setName($input_data['name']);
         $entity->setPosition(intval($input_data['position']));
         $entity->setUrl($input_data['url']);
+    }
+
+    protected function getEntityById(int $id): Link {
+        $link_repo = $this->entityManager()->getRepository(Link::class);
+        $link = $link_repo->findOneBy(['id' => $id]);
+        if (!$link) {
+            throw new HttpError(404, "Nicht gefunden.");
+        }
+        return $link;
     }
 }

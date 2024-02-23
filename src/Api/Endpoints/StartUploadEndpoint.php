@@ -29,10 +29,7 @@ class StartUploadEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            return ['status' => 'ERROR', 'id' => null];
-        }
+        $this->checkPermission('any');
 
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp/";

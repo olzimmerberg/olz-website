@@ -3,8 +3,6 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzGetEntityEndpoint;
-use Olz\Entity\Termine\TerminLocation;
-use PhpTypeScriptApi\HttpError;
 
 class GetTerminLocationEndpoint extends OlzGetEntityEndpoint {
     use TerminLocationEndpointTrait;
@@ -14,13 +12,9 @@ class GetTerminLocationEndpoint extends OlzGetEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
-        $termin_location = $termin_location_repo->findOneBy(['id' => $input['id']]);
+        $termin_location = $this->getEntityById($input['id']);
 
         return [
             'id' => $termin_location->getId(),

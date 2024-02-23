@@ -23,7 +23,7 @@ final class CreateLinkEndpointTest extends UnitTestCase {
     }
 
     public function testCreateLinkEndpointNoAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['links' => false];
         $endpoint = new CreateLinkEndpoint();
         $endpoint->runtimeSetup();
 
@@ -54,9 +54,8 @@ final class CreateLinkEndpointTest extends UnitTestCase {
         $mailer = $this->createStub(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
-            'any' => true,
+            'links' => true,
             'all' => false,
-            'kaderblog' => false,
         ];
         $endpoint = new CreateLinkEndpoint();
         $endpoint->setMailer($mailer);

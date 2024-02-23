@@ -3,8 +3,6 @@
 namespace Olz\Karten\Endpoints;
 
 use Olz\Api\OlzGetEntityEndpoint;
-use Olz\Entity\Karten\Karte;
-use PhpTypeScriptApi\HttpError;
 
 class GetKarteEndpoint extends OlzGetEntityEndpoint {
     use KarteEndpointTrait;
@@ -14,13 +12,9 @@ class GetKarteEndpoint extends OlzGetEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $karten_repo = $this->entityManager()->getRepository(Karte::class);
-        $karte = $karten_repo->findOneBy(['id' => $input['id']]);
+        $karte = $this->getEntityById($input['id']);
 
         return [
             'id' => $karte->getId(),

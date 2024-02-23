@@ -45,10 +45,7 @@ class UpdateMyPanini2024Endpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
         $current_user = $this->authUtils()->getCurrentUser();
         $panini_repo = $this->entityManager()->getRepository(Panini2024Picture::class);

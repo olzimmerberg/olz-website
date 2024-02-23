@@ -5,6 +5,7 @@ namespace Olz\Service\Endpoints;
 use Olz\Entity\Service\Download;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
 
 trait DownloadEndpointTrait {
     use WithUtilsTrait;
@@ -61,5 +62,14 @@ trait DownloadEndpointTrait {
             mkdir("{$download_files_path}", 0777, true);
         }
         $this->uploadUtils()->overwriteUploads([$input_data['fileId']], $download_files_path);
+    }
+
+    protected function getEntityById(int $id): Download {
+        $download_repo = $this->entityManager()->getRepository(Download::class);
+        $download = $download_repo->findOneBy(['id' => $id]);
+        if (!$download) {
+            throw new HttpError(404, "Nicht gefunden.");
+        }
+        return $download;
     }
 }

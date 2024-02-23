@@ -3,7 +3,6 @@
 namespace Olz\News\Endpoints;
 
 use Olz\Api\OlzEditEntityEndpoint;
-use Olz\Entity\News\NewsEntry;
 use PhpTypeScriptApi\HttpError;
 
 class EditNewsEndpoint extends OlzEditEntityEndpoint {
@@ -14,35 +13,24 @@ class EditNewsEndpoint extends OlzEditEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $entity_id = $input['id'];
-        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
-        $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
+        $news_entry = $this->getEntityById($input['id']);
 
-        if (!$news_entry) {
-            throw new HttpError(404, "Nicht gefunden.");
-        }
         if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, null, 'news')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
         $data_path = $this->envUtils()->getDataPath();
 
-        $owner_user = $news_entry->getOwnerUser();
-        $owner_role = $news_entry->getOwnerRole();
-
         $image_ids = $news_entry->getImageIds();
-        $news_entry_img_path = "{$data_path}img/news/{$entity_id}/";
+        $news_entry_img_path = "{$data_path}img/news/{$news_entry->getId()}/";
         foreach ($image_ids ?? [] as $image_id) {
             $image_path = "{$news_entry_img_path}img/{$image_id}";
             $temp_path = "{$data_path}temp/{$image_id}";
             copy($image_path, $temp_path);
         }
 
-        $news_entry_files_path = "{$data_path}files/news/{$entity_id}/";
+        $news_entry_files_path = "{$data_path}files/news/{$news_entry->getId()}/";
         if (!is_dir("{$news_entry_files_path}")) {
             mkdir("{$news_entry_files_path}", 0777, true);
         }

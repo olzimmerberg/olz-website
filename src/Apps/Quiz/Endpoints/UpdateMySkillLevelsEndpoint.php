@@ -7,7 +7,6 @@ use Olz\Apps\Quiz\QuizConstants;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\Fields\FieldTypes;
-use PhpTypeScriptApi\HttpError;
 
 class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
     public static function getIdent() {
@@ -34,10 +33,7 @@ class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
         $current_user = $this->authUtils()->getCurrentUser();
         $skill_repo = $this->entityManager()->getRepository(Skill::class);

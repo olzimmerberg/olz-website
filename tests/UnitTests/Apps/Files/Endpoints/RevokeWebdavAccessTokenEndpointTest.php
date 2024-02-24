@@ -8,6 +8,7 @@ use Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint;
 use Olz\Entity\AccessToken;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use PhpTypeScriptApi\HttpError;
 
 class FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository {
     public function findOneBy($where) {
@@ -31,9 +32,16 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
         $endpoint = new RevokeWebdavAccessTokenEndpoint();
         $endpoint->runtimeSetup();
 
-        $result = $endpoint->call([]);
-
-        $this->assertSame(['status' => 'ERROR'], $result);
+        try {
+            $endpoint->call([]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 403",
+            ], $this->getLogs());
+            $this->assertSame(403, $err->getCode());
+        }
     }
 
     public function testRevokeWebdavAccessTokenEndpoint(): void {

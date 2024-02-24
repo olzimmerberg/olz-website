@@ -8,6 +8,7 @@ use Olz\Api\Endpoints\UpdateOlzTextEndpoint;
 use Olz\Entity\OlzText;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use PhpTypeScriptApi\HttpError;
 
 class FakeUpdateOlzTextEndpointOlzTextRepository {
     public $olz_text;
@@ -39,20 +40,22 @@ final class UpdateOlzTextEndpointTest extends UnitTestCase {
 
     public function testUpdateOlzTextEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_1' => false];
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateOlzTextEndpoint();
         $endpoint->runtimeSetup();
 
-        $result = $endpoint->call([
-            'id' => 1,
-            'text' => 'New **content**!',
-        ]);
-
-        $this->assertSame([
-            'INFO Valid user request',
-            'INFO Valid user response',
-        ], $this->getLogs());
-        $this->assertSame(['status' => 'ERROR'], $result);
+        try {
+            $endpoint->call([
+                'id' => 1,
+                'text' => 'New **content**!',
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 403",
+            ], $this->getLogs());
+            $this->assertSame(403, $err->getCode());
+        }
     }
 
     public function testUpdateOlzTextEndpointNoEntry(): void {

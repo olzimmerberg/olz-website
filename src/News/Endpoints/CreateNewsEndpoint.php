@@ -6,7 +6,6 @@ use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
-use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Mime\Email;
 
 class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
@@ -36,14 +35,11 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         $input_data = $input['data'];
         $format = $input_data['format'];
 
-        $has_access = $this->authUtils()->hasPermission('any');
-        if ($format !== 'anonymous' && !$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
+        if ($format !== 'anonymous') {
+            $this->checkPermission('any');
         }
-
-        $has_blog = $this->authUtils()->hasPermission('kaderblog');
-        if ($format === 'kaderblog' && !$has_blog) {
-            throw new HttpError(403, "Kein Zugriff!");
+        if ($format === 'kaderblog') {
+            $this->checkPermission('kaderblog');
         }
 
         $token = $input['custom']['recaptchaToken'] ?? null;

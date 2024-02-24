@@ -5,7 +5,6 @@ namespace Olz\Apps\Anmelden\Endpoints;
 use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
-use PhpTypeScriptApi\HttpError;
 
 class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
     use RegistrationEndpointTrait;
@@ -15,10 +14,7 @@ class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
         $input_data = $input['data'];
 

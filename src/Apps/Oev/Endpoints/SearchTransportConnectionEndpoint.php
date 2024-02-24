@@ -58,10 +58,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            return ['status' => 'ERROR', 'suggestions' => null];
-        }
+        $this->checkPermission('any');
 
         $destination = $input['destination'];
         $arrival_datetime = new \DateTime($input['arrival']);

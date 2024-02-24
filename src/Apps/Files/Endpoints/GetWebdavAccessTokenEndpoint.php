@@ -29,10 +29,7 @@ class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('webdav');
-        if (!$has_access) {
-            return ['status' => 'ERROR', 'token' => null];
-        }
+        $this->checkPermission('webdav');
 
         $current_user = $this->authUtils()->getCurrentUser();
 

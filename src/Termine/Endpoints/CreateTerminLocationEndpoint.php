@@ -4,7 +4,6 @@ namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\Termine\TerminLocation;
-use PhpTypeScriptApi\HttpError;
 
 class CreateTerminLocationEndpoint extends OlzCreateEntityEndpoint {
     use TerminLocationEndpointTrait;
@@ -14,10 +13,7 @@ class CreateTerminLocationEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('termine');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('termine');
 
         $termin_location = new TerminLocation();
         $this->entityUtils()->createOlzEntity($termin_location, $input['meta']);

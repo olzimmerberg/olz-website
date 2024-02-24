@@ -28,10 +28,7 @@ class UpdateUploadEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            return ['status' => 'ERROR'];
-        }
+        $this->checkPermission('any');
 
         $data_path = $this->envUtils()->getDataPath();
         $upload_id = $input['id'];

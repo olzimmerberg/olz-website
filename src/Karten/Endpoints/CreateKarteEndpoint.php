@@ -4,7 +4,6 @@ namespace Olz\Karten\Endpoints;
 
 use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\Karten\Karte;
-use PhpTypeScriptApi\HttpError;
 
 class CreateKarteEndpoint extends OlzCreateEntityEndpoint {
     use KarteEndpointTrait;
@@ -14,10 +13,7 @@ class CreateKarteEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('karten');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('karten');
 
         $karte = new Karte();
         $this->entityUtils()->createOlzEntity($karte, $input['meta']);

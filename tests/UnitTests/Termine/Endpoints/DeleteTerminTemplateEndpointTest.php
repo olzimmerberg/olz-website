@@ -93,19 +93,19 @@ final class DeleteTerminTemplateEndpointTest extends UnitTestCase {
         $endpoint = new DeleteTerminTemplateEndpoint();
         $endpoint->runtimeSetup();
 
-        $result = $endpoint->call([
-            'id' => 9999,
-        ]);
-
-        $this->assertSame([
-            "INFO Valid user request",
-            "INFO Valid user response",
-        ], $this->getLogs());
-
-        $this->assertSame([
-            'status' => 'ERROR',
-        ], $result);
-        $this->assertSame(0, count($entity_manager->removed));
-        $this->assertSame(0, count($entity_manager->flushed_removed));
+        try {
+            $endpoint->call([
+                'id' => 9999,
+            ]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 404",
+            ], $this->getLogs());
+            $this->assertSame(404, $err->getCode());
+            $this->assertSame(0, count($entity_manager->removed));
+            $this->assertSame(0, count($entity_manager->flushed_removed));
+        }
     }
 }

@@ -3,7 +3,6 @@
 namespace Olz\Karten\Endpoints;
 
 use Olz\Api\OlzUpdateEntityEndpoint;
-use Olz\Entity\Karten\Karte;
 use PhpTypeScriptApi\HttpError;
 
 class UpdateKarteEndpoint extends OlzUpdateEntityEndpoint {
@@ -14,17 +13,10 @@ class UpdateKarteEndpoint extends OlzUpdateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $karten_repo = $this->entityManager()->getRepository(Karte::class);
-        $karte = $karten_repo->findOneBy(['id' => $input['id']]);
+        $karte = $this->getEntityById($input['id']);
 
-        if (!$karte) {
-            throw new HttpError(404, "Nicht gefunden.");
-        }
         if (!$this->entityUtils()->canUpdateOlzEntity($karte, $input['meta'], 'karten')) {
             throw new HttpError(403, "Kein Zugriff!");
         }

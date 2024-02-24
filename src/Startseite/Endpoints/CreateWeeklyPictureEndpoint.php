@@ -4,7 +4,6 @@ namespace Olz\Startseite\Endpoints;
 
 use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\Startseite\WeeklyPicture;
-use PhpTypeScriptApi\HttpError;
 
 class CreateWeeklyPictureEndpoint extends OlzCreateEntityEndpoint {
     use WeeklyPictureEndpointTrait;
@@ -14,10 +13,7 @@ class CreateWeeklyPictureEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('weekly_picture');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('weekly_picture');
 
         $weekly_picture = new WeeklyPicture();
         $this->entityUtils()->createOlzEntity($weekly_picture, $input['meta']);

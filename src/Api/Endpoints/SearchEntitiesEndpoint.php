@@ -46,10 +46,8 @@ class SearchEntitiesEndpoint extends OlzEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, 'No access');
-        }
+        $this->checkPermission('any');
+
         $entity_type = $input['entityType'];
         $entity_class = self::SUPPORTED_ENTITY_TYPES[$entity_type] ?? null;
         if (!$entity_class) {

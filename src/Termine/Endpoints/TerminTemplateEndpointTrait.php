@@ -6,6 +6,7 @@ use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\HttpError;
 
 trait TerminTemplateEndpointTrait {
     use WithUtilsTrait;
@@ -112,6 +113,15 @@ trait TerminTemplateEndpointTrait {
             mkdir("{$termin_template_files_path}", 0777, true);
         }
         $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $termin_template_files_path);
+    }
+
+    protected function getEntityById(int $id): TerminTemplate {
+        $termin_repo = $this->entityManager()->getRepository(TerminTemplate::class);
+        $termin = $termin_repo->findOneBy(['id' => $id]);
+        if (!$termin) {
+            throw new HttpError(404, "Nicht gefunden.");
+        }
+        return $termin;
     }
 
     // ---

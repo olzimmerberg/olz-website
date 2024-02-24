@@ -9,6 +9,7 @@ use Olz\Entity\AccessToken;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use PhpTypeScriptApi\HttpError;
 
 class FakeGetWebdavAccessTokenEndpointAccessTokenRepository {
     public function findOneBy($where) {
@@ -38,9 +39,16 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $endpoint = new GetWebdavAccessTokenEndpoint();
         $endpoint->runtimeSetup();
 
-        $result = $endpoint->call([]);
-
-        $this->assertSame(['status' => 'ERROR', 'token' => null], $result);
+        try {
+            $endpoint->call([]);
+            $this->fail('Error expected');
+        } catch (HttpError $err) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "WARNING HTTP error 403",
+            ], $this->getLogs());
+            $this->assertSame(403, $err->getCode());
+        }
     }
 
     public function testGetWebdavAccessTokenEndpoint(): void {

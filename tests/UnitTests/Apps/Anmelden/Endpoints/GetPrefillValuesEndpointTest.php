@@ -5,14 +5,10 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Anmelden\Endpoints;
 
 use Olz\Apps\Anmelden\Endpoints\GetPrefillValuesEndpoint;
-use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeGetPrefillValuesEndpointUserRepository extends Fake\FakeUserRepository {
-}
 
 /**
  * @internal
@@ -43,9 +39,6 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     public function testGetPrefillValuesEndpoint(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->runtimeSetup();
 
@@ -74,9 +67,6 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     public function testGetPrefillValuesEndpointManagedUser(): void {
         WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->runtimeSetup();
 
@@ -104,9 +94,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
 
     public function testGetPrefillValuesEndpointOtherUser(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new FakeGetPrefillValuesEndpointUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
+        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->runtimeSetup();
 

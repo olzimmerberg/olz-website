@@ -3,7 +3,6 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzEditEntityEndpoint;
-use Olz\Entity\Termine\Termin;
 use PhpTypeScriptApi\HttpError;
 
 class EditTerminEndpoint extends OlzEditEntityEndpoint {
@@ -14,32 +13,24 @@ class EditTerminEndpoint extends OlzEditEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('termine');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('termine');
 
-        $entity_id = $input['id'];
-        $termin_repo = $this->entityManager()->getRepository(Termin::class);
-        $termin = $termin_repo->findOneBy(['id' => $entity_id]);
+        $termin = $this->getEntityById($input['id']);
 
-        if (!$termin) {
-            throw new HttpError(404, "Nicht gefunden.");
-        }
         if (!$this->entityUtils()->canUpdateOlzEntity($termin, null, 'termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
         $data_path = $this->envUtils()->getDataPath();
 
         $image_ids = $termin->getImageIds();
-        $termin_img_path = "{$data_path}img/termine/{$entity_id}/";
+        $termin_img_path = "{$data_path}img/termine/{$termin->getId()}/";
         foreach ($image_ids ?? [] as $image_id) {
             $image_path = "{$termin_img_path}img/{$image_id}";
             $temp_path = "{$data_path}temp/{$image_id}";
             copy($image_path, $temp_path);
         }
 
-        $termin_files_path = "{$data_path}files/termine/{$entity_id}/";
+        $termin_files_path = "{$data_path}files/termine/{$termin->getId()}/";
         if (!is_dir("{$termin_files_path}")) {
             mkdir("{$termin_files_path}", 0777, true);
         }

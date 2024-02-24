@@ -3,8 +3,6 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzGetEntityEndpoint;
-use Olz\Entity\Termine\Termin;
-use PhpTypeScriptApi\HttpError;
 
 class GetTerminEndpoint extends OlzGetEntityEndpoint {
     use TerminEndpointTrait;
@@ -14,13 +12,9 @@ class GetTerminEndpoint extends OlzGetEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $termin_repo = $this->entityManager()->getRepository(Termin::class);
-        $termin = $termin_repo->findOneBy(['id' => $input['id']]);
+        $termin = $this->getEntityById($input['id']);
 
         return [
             'id' => $termin->getId(),

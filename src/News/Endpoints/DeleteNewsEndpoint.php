@@ -3,7 +3,6 @@
 namespace Olz\News\Endpoints;
 
 use Olz\Api\OlzDeleteEntityEndpoint;
-use Olz\Entity\News\NewsEntry;
 use PhpTypeScriptApi\HttpError;
 
 class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
@@ -14,18 +13,9 @@ class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $entity_id = $input['id'];
-        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
-        $news_entry = $news_repo->findOneBy(['id' => $entity_id]);
-
-        if (!$news_entry) {
-            return ['status' => 'ERROR'];
-        }
+        $news_entry = $this->getEntityById($input['id']);
 
         if (!$this->entityUtils()->canUpdateOlzEntity($news_entry, null, 'news')) {
             throw new HttpError(403, "Kein Zugriff!");

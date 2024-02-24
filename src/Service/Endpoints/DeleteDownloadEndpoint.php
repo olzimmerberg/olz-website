@@ -3,7 +3,6 @@
 namespace Olz\Service\Endpoints;
 
 use Olz\Api\OlzDeleteEntityEndpoint;
-use Olz\Entity\Service\Download;
 use PhpTypeScriptApi\HttpError;
 
 class DeleteDownloadEndpoint extends OlzDeleteEntityEndpoint {
@@ -14,18 +13,9 @@ class DeleteDownloadEndpoint extends OlzDeleteEntityEndpoint {
     }
 
     protected function handle($input) {
-        $has_access = $this->authUtils()->hasPermission('any');
-        if (!$has_access) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        $this->checkPermission('any');
 
-        $entity_id = $input['id'];
-        $download_repo = $this->entityManager()->getRepository(Download::class);
-        $download = $download_repo->findOneBy(['id' => $entity_id]);
-
-        if (!$download) {
-            return ['status' => 'ERROR'];
-        }
+        $download = $this->getEntityById($input['id']);
 
         if (!$this->entityUtils()->canUpdateOlzEntity($download, null, 'downloads')) {
             throw new HttpError(403, "Kein Zugriff!");

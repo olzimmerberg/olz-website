@@ -3,6 +3,7 @@
 namespace Olz\Entity\News;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Role;
 use Olz\Entity\User;
@@ -11,7 +12,7 @@ use Olz\Repository\News\NewsRepository;
 #[ORM\Table(name: 'news')]
 #[ORM\Index(name: 'published_index', columns: ['published_date', 'published_time'])]
 #[ORM\Entity(repositoryClass: NewsRepository::class)]
-class NewsEntry extends OlzEntity {
+class NewsEntry extends OlzEntity implements DataStorageInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -208,5 +209,13 @@ class NewsEntry extends OlzEntity {
     /** @deprecated */
     public function setNewsletter($new_value) {
         $this->newsletter = $new_value;
+    }
+
+    public static function getEntityNameForStorage(): string {
+        return 'news';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
     }
 }

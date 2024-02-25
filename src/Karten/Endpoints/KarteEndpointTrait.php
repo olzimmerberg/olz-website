@@ -76,17 +76,11 @@ trait KarteEndpointTrait {
     }
 
     public function persistUploads(Karte $entity, array $input_data): void {
-        $data_path = $this->envUtils()->getDataPath();
+        $this->persistOlzImages($entity, [$entity->getPreviewImageId()]);
+    }
 
-        $karte_id = $entity->getId();
-        $valid_preview_image_id = $entity->getPreviewImageId();
-
-        $karte_img_path = "{$data_path}img/karten/{$karte_id}/";
-        if (!is_dir("{$karte_img_path}img/")) {
-            mkdir("{$karte_img_path}img/", 0777, true);
-        }
-        $this->uploadUtils()->overwriteUploads([$valid_preview_image_id], "{$karte_img_path}img/");
-        // TODO: Generate default thumbnails.
+    public function editUploads(Karte $entity): void {
+        $this->editOlzImages($entity, [$entity->getPreviewImageId()]);
     }
 
     protected function getEntityById(int $id): Karte {

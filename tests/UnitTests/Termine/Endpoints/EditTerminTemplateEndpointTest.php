@@ -59,7 +59,8 @@ class FakeEditTerminTemplateEndpointTerminTemplateRepository {
             $termin_template->setNewsletter(true);
             $termin_template->setTypes(' ol club ');
             $termin_template->setLocation($termin_location);
-            $termin_template->setImageIds(['img1.jpg', 'img2.png']);
+            $termin_template->setImageIds([
+                'image__________________1.jpg', 'image__________________2.png']);
             $termin_template->setOnOff(true);
             return $termin_template;
         }
@@ -218,13 +219,13 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/img/termin_templates/');
         mkdir(__DIR__.'/../../tmp/img/termin_templates/1234/');
         mkdir(__DIR__.'/../../tmp/img/termin_templates/1234/img/');
-        file_put_contents(__DIR__.'/../../tmp/img/termin_templates/1234/img/img1.jpg', '');
-        file_put_contents(__DIR__.'/../../tmp/img/termin_templates/1234/img/img2.png', '');
+        file_put_contents(__DIR__.'/../../tmp/img/termin_templates/1234/img/image__________________1.jpg', '');
+        file_put_contents(__DIR__.'/../../tmp/img/termin_templates/1234/img/image__________________2.png', '');
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/termin_templates/');
         mkdir(__DIR__.'/../../tmp/files/termin_templates/1234/');
-        file_put_contents(__DIR__.'/../../tmp/files/termin_templates/1234/file1.pdf', '');
-        file_put_contents(__DIR__.'/../../tmp/files/termin_templates/1234/file2.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/termin_templates/1234/file___________________1.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/termin_templates/1234/file___________________2.pdf', '');
 
         $result = $endpoint->call([
             'id' => 1234,
@@ -252,8 +253,8 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
                 'newsletter' => true,
                 'types' => ['ol', 'club'],
                 'locationId' => 12,
-                'imageIds' => ['img1.jpg', 'img2.png'],
-                'fileIds' => ['file1.pdf', 'file2.pdf'],
+                'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
+                'fileIds' => ['file___________________1.pdf', 'file___________________2.pdf'],
             ],
         ], $result);
     }

@@ -4,13 +4,14 @@ namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Anmelden\Registration;
+use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Termine\TerminRepository;
 
 #[ORM\Table(name: 'termine')]
 #[ORM\Index(name: 'start_date_on_off_index', columns: ['start_date', 'on_off'])]
 #[ORM\Entity(repositoryClass: TerminRepository::class)]
-class Termin extends OlzEntity {
+class Termin extends OlzEntity implements DataStorageInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -243,5 +244,13 @@ class Termin extends OlzEntity {
 
     public function setImageIds($new_value) {
         $this->image_ids = json_encode($new_value);
+    }
+
+    public static function getEntityNameForStorage(): string {
+        return 'termine';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
     }
 }

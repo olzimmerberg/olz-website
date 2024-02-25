@@ -138,26 +138,13 @@ trait NewsEndpointTrait {
     }
 
     public function persistUploads(NewsEntry $entity, array $input_data): void {
-        $data_path = $this->envUtils()->getDataPath();
+        $this->persistOlzImages($entity, $entity->getImageIds());
+        $this->persistOlzFiles($entity, $input_data['fileIds']);
+    }
 
-        $news_entry_id = $entity->getId();
-        $valid_image_ids = $entity->getImageIds();
-
-        $news_entry_img_path = "{$data_path}img/news/{$news_entry_id}/";
-        if (!is_dir("{$news_entry_img_path}img/")) {
-            mkdir("{$news_entry_img_path}img/", 0777, true);
-        }
-        if (!is_dir("{$news_entry_img_path}thumb/")) {
-            mkdir("{$news_entry_img_path}thumb/", 0777, true);
-        }
-        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$news_entry_img_path}img/");
-        // TODO: Generate default thumbnails.
-
-        $news_entry_files_path = "{$data_path}files/news/{$news_entry_id}/";
-        if (!is_dir("{$news_entry_files_path}")) {
-            mkdir("{$news_entry_files_path}", 0777, true);
-        }
-        $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $news_entry_files_path);
+    public function editUploads(NewsEntry $entity): void {
+        $this->editOlzImages($entity, $entity->getImageIds());
+        $this->editOlzFiles($entity);
     }
 
     protected function getEntityById(int $id): NewsEntry {

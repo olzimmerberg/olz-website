@@ -20,15 +20,8 @@ class EditKarteEndpoint extends OlzEditEntityEndpoint {
         if (!$this->entityUtils()->canUpdateOlzEntity($karte, null, 'karten')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
-        $data_path = $this->envUtils()->getDataPath();
 
-        $image_id = $karte->getPreviewImageId();
-        if ($image_id) {
-            $karte_img_path = "{$data_path}img/karten/{$karte->getId()}/";
-            $image_path = "{$karte_img_path}img/{$image_id}";
-            $temp_path = "{$data_path}temp/{$image_id}";
-            copy($image_path, $temp_path);
-        }
+        $this->editUploads($karte);
 
         return [
             'id' => $karte->getId(),

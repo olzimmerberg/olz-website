@@ -53,7 +53,7 @@ class FakeEditKarteEndpointKartenRepository {
             $entry->setPlace('Fake Place');
             $entry->setZoom(12);
             $entry->setKind('ol');
-            $entry->setPreviewImageId('image1.jpg');
+            $entry->setPreviewImageId('image__________________1.jpg');
             $entry->setOnOff(true);
             return $entry;
         }
@@ -155,6 +155,7 @@ final class EditKarteEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
+            "WARNING Upload ID \"\" is invalid.",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
@@ -195,6 +196,7 @@ final class EditKarteEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
+            "WARNING Upload ID \"\" is invalid.",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
@@ -234,7 +236,7 @@ final class EditKarteEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/img/karten/');
         mkdir(__DIR__.'/../../tmp/img/karten/1234/');
         mkdir(__DIR__.'/../../tmp/img/karten/1234/img');
-        file_put_contents(__DIR__.'/../../tmp/img/karten/1234/img/image1.jpg', '');
+        file_put_contents(__DIR__.'/../../tmp/img/karten/1234/img/image__________________1.jpg', '');
 
         $result = $endpoint->call([
             'id' => 1234,
@@ -262,7 +264,7 @@ final class EditKarteEndpointTest extends UnitTestCase {
                 'place' => 'Fake Place',
                 'zoom' => 12,
                 'kind' => 'ol',
-                'previewImageId' => 'image1.jpg',
+                'previewImageId' => 'image__________________1.jpg',
             ],
         ], $result);
     }

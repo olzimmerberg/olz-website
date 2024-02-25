@@ -43,7 +43,7 @@ class FakeEditTerminLocationEndpointTerminLocationRepository {
             $termin_location->setDetails("Fake content");
             $termin_location->setLatitude(47.2790953);
             $termin_location->setLongitude(8.5591936);
-            $termin_location->setImageIds(['img1.jpg', 'img2.png']);
+            $termin_location->setImageIds(['image__________________1.jpg', 'image__________________2.png']);
             $termin_location->setOnOff(true);
             return $termin_location;
         }
@@ -188,8 +188,8 @@ final class EditTerminLocationEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/img/termin_locations/');
         mkdir(__DIR__.'/../../tmp/img/termin_locations/1234/');
         mkdir(__DIR__.'/../../tmp/img/termin_locations/1234/img/');
-        file_put_contents(__DIR__.'/../../tmp/img/termin_locations/1234/img/img1.jpg', '');
-        file_put_contents(__DIR__.'/../../tmp/img/termin_locations/1234/img/img2.png', '');
+        file_put_contents(__DIR__.'/../../tmp/img/termin_locations/1234/img/image__________________1.jpg', '');
+        file_put_contents(__DIR__.'/../../tmp/img/termin_locations/1234/img/image__________________2.png', '');
 
         $result = $endpoint->call([
             'id' => 1234,
@@ -211,7 +211,7 @@ final class EditTerminLocationEndpointTest extends UnitTestCase {
                 'details' => 'Fake content',
                 'latitude' => 47.2790953,
                 'longitude' => 8.5591936,
-                'imageIds' => ['img1.jpg', 'img2.png'],
+                'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
             ],
         ], $result);
     }

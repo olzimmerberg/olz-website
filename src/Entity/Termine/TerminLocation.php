@@ -3,6 +3,7 @@
 namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Repository\Termine\TerminLocationRepository;
@@ -10,7 +11,7 @@ use Olz\Repository\Termine\TerminLocationRepository;
 #[ORM\Table(name: 'termin_locations')]
 #[ORM\Index(name: 'name_index', columns: ['name'])]
 #[ORM\Entity(repositoryClass: TerminLocationRepository::class)]
-class TerminLocation extends OlzEntity implements SearchableInterface {
+class TerminLocation extends OlzEntity implements SearchableInterface, DataStorageInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -96,5 +97,13 @@ class TerminLocation extends OlzEntity implements SearchableInterface {
 
     public function getTitleForSearch(): string {
         return $this->getName();
+    }
+
+    public static function getEntityNameForStorage(): string {
+        return 'termin_locations';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
     }
 }

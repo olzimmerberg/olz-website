@@ -53,15 +53,11 @@ trait DownloadEndpointTrait {
     }
 
     public function persistUploads(Download $entity, array $input_data): void {
-        $data_path = $this->envUtils()->getDataPath();
+        $this->persistOlzFiles($entity, [$input_data['fileId']]);
+    }
 
-        $download_id = $entity->getId();
-
-        $download_files_path = "{$data_path}files/downloads/{$download_id}/";
-        if (!is_dir("{$download_files_path}")) {
-            mkdir("{$download_files_path}", 0777, true);
-        }
-        $this->uploadUtils()->overwriteUploads([$input_data['fileId']], $download_files_path);
+    public function editUploads(Download $entity): void {
+        $this->editOlzFiles($entity);
     }
 
     protected function getEntityById(int $id): Download {

@@ -20,15 +20,8 @@ class EditTerminLocationEndpoint extends OlzEditEntityEndpoint {
         if (!$this->entityUtils()->canUpdateOlzEntity($termin_location, null, 'termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
-        $data_path = $this->envUtils()->getDataPath();
 
-        $image_ids = $termin_location->getImageIds();
-        $termin_location_img_path = "{$data_path}img/termin_locations/{$termin_location->getId()}/";
-        foreach ($image_ids ?? [] as $image_id) {
-            $image_path = "{$termin_location_img_path}img/{$image_id}";
-            $temp_path = "{$data_path}temp/{$image_id}";
-            copy($image_path, $temp_path);
-        }
+        $this->editUploads($termin_location);
 
         return [
             'id' => $termin_location->getId(),

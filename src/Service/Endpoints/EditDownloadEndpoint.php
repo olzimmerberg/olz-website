@@ -20,20 +20,8 @@ class EditDownloadEndpoint extends OlzEditEntityEndpoint {
         if (!$this->entityUtils()->canUpdateOlzEntity($download, null, 'downloads')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
-        $data_path = $this->envUtils()->getDataPath();
 
-        $download_files_path = "{$data_path}files/downloads/{$download->getId()}/";
-        if (!is_dir("{$download_files_path}")) {
-            mkdir("{$download_files_path}", 0777, true);
-        }
-        $files_path_entries = scandir($download_files_path);
-        foreach ($files_path_entries as $file_id) {
-            if (substr($file_id, 0, 1) != '.') {
-                $file_path = "{$download_files_path}{$file_id}";
-                $temp_path = "{$data_path}temp/{$file_id}";
-                copy($file_path, $temp_path);
-            }
-        }
+        $this->editUploads($download);
 
         return [
             'id' => $download->getId(),

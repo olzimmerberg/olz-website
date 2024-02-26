@@ -11,6 +11,9 @@ import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditTerminLocationModal.scss';
 
+const COMMA_LATLONG_REGEX = /^\s*([0-9.]+)\s*,\s*([0-9.]+)\s*$/;
+const EMPTY_REGEX = /^\s*$/;
+
 interface OlzEditTerminLocationForm {
     name: string;
     details: string;
@@ -56,7 +59,7 @@ interface OlzEditTerminLocationModalProps {
 }
 
 export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProps): React.ReactElement => {
-    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditTerminLocationForm>({
+    const {register, handleSubmit, formState: {errors}, control, setValue, watch} = useForm<OlzEditTerminLocationForm>({
         resolver,
         defaultValues: getFormFromApi(props.data),
     });
@@ -64,6 +67,25 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
+
+    const latitude = watch('latitude');
+    const longitude = watch('longitude');
+
+    React.useEffect(() => {
+        const latMatch = COMMA_LATLONG_REGEX.exec(latitude);
+        if (latMatch && EMPTY_REGEX.exec(longitude)) {
+            setValue('latitude', getFormString(latMatch[1]));
+            setValue('longitude', getFormString(latMatch[2]));
+        }
+    }, [latitude]);
+
+    React.useEffect(() => {
+        const lngMatch = COMMA_LATLONG_REGEX.exec(longitude);
+        if (lngMatch && EMPTY_REGEX.exec(latitude)) {
+            setValue('latitude', getFormString(lngMatch[1]));
+            setValue('longitude', getFormString(lngMatch[2]));
+        }
+    }, [longitude]);
 
     const onSubmit: SubmitHandler<OlzEditTerminLocationForm> = async (values) => {
         const meta: OlzMetaData = {

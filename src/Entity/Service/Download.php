@@ -3,11 +3,12 @@
 namespace Olz\Entity\Service;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\OlzEntity;
 
 #[ORM\Table(name: 'downloads')]
 #[ORM\Entity]
-class Download extends OlzEntity {
+class Download extends OlzEntity implements DataStorageInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -52,5 +53,13 @@ class Download extends OlzEntity {
 
     public function setFileId($new_value) {
         $this->file_id = $new_value;
+    }
+
+    public static function getEntityNameForStorage(): string {
+        return 'downloads';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
     }
 }

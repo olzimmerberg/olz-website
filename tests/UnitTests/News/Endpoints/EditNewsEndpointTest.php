@@ -53,7 +53,7 @@ class FakeEditNewsEndpointNewsRepository {
             $entry->setTeaser("Fake teaser");
             $entry->setContent("Fake content");
             $entry->setTags(' test unit ');
-            $entry->setImageIds(['pictureA.jpg', 'pictureB.jpg']);
+            $entry->setImageIds(['image__________________1.jpg', 'image__________________2.jpg']);
             return $entry;
         }
         if ($where === ['id' => 9999]) {
@@ -239,13 +239,13 @@ final class EditNewsEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/img/news/');
         mkdir(__DIR__.'/../../tmp/img/news/1234/');
         mkdir(__DIR__.'/../../tmp/img/news/1234/img/');
-        file_put_contents(__DIR__.'/../../tmp/img/news/1234/img/pictureA.jpg', '');
-        file_put_contents(__DIR__.'/../../tmp/img/news/1234/img/pictureB.jpg', '');
+        file_put_contents(__DIR__.'/../../tmp/img/news/1234/img/image__________________1.jpg', '');
+        file_put_contents(__DIR__.'/../../tmp/img/news/1234/img/image__________________2.jpg', '');
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/news/');
         mkdir(__DIR__.'/../../tmp/files/news/1234/');
-        file_put_contents(__DIR__.'/../../tmp/files/news/1234/file1.pdf', '');
-        file_put_contents(__DIR__.'/../../tmp/files/news/1234/file2.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/news/1234/file___________________1.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/news/1234/file___________________2.pdf', '');
 
         $result = $endpoint->call([
             'id' => 1234,
@@ -275,8 +275,8 @@ final class EditNewsEndpointTest extends UnitTestCase {
                 'externalUrl' => null,
                 'tags' => ['test', 'unit'],
                 'terminId' => null,
-                'imageIds' => ['pictureA.jpg', 'pictureB.jpg'],
-                'fileIds' => ['file1.pdf', 'file2.pdf'],
+                'imageIds' => ['image__________________1.jpg', 'image__________________2.jpg'],
+                'fileIds' => ['file___________________1.pdf', 'file___________________2.pdf'],
             ],
         ], $result);
     }

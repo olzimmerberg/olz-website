@@ -93,26 +93,13 @@ trait TerminTemplateEndpointTrait {
     }
 
     public function persistUploads(TerminTemplate $entity, array $input_data): void {
-        $data_path = $this->envUtils()->getDataPath();
+        $this->persistOlzImages($entity, $entity->getImageIds());
+        $this->persistOlzFiles($entity, $input_data['fileIds']);
+    }
 
-        $termin_id = $entity->getId();
-        $valid_image_ids = $entity->getImageIds();
-
-        $termin_template_img_path = "{$data_path}img/termin_templates/{$termin_id}/";
-        if (!is_dir("{$termin_template_img_path}img/")) {
-            mkdir("{$termin_template_img_path}img/", 0777, true);
-        }
-        if (!is_dir("{$termin_template_img_path}thumb/")) {
-            mkdir("{$termin_template_img_path}thumb/", 0777, true);
-        }
-        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$termin_template_img_path}img/");
-        // TODO: Generate default thumbnails.
-
-        $termin_template_files_path = "{$data_path}files/termin_templates/{$termin_id}/";
-        if (!is_dir("{$termin_template_files_path}")) {
-            mkdir("{$termin_template_files_path}", 0777, true);
-        }
-        $this->uploadUtils()->overwriteUploads($input_data['fileIds'], $termin_template_files_path);
+    public function editUploads(TerminTemplate $entity): void {
+        $this->editOlzImages($entity, $entity->getImageIds());
+        $this->editOlzFiles($entity);
     }
 
     protected function getEntityById(int $id): TerminTemplate {

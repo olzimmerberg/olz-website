@@ -51,20 +51,11 @@ trait TerminLocationEndpointTrait {
     }
 
     public function persistUploads(TerminLocation $entity): void {
-        $data_path = $this->envUtils()->getDataPath();
+        $this->persistOlzImages($entity, $entity->getImageIds());
+    }
 
-        $termin_location_id = $entity->getId();
-        $valid_image_ids = $entity->getImageIds();
-
-        $termin_location_img_path = "{$data_path}img/termin_locations/{$termin_location_id}/";
-        if (!is_dir("{$termin_location_img_path}img/")) {
-            mkdir("{$termin_location_img_path}img/", 0777, true);
-        }
-        if (!is_dir("{$termin_location_img_path}thumb/")) {
-            mkdir("{$termin_location_img_path}thumb/", 0777, true);
-        }
-        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$termin_location_img_path}img/");
-        // TODO: Generate default thumbnails.
+    public function editUploads(TerminLocation $entity): void {
+        $this->editOlzImages($entity, $entity->getImageIds());
     }
 
     protected function getEntityById(int $id): TerminLocation {

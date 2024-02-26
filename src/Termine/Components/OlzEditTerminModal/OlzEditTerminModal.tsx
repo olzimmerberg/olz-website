@@ -46,7 +46,9 @@ const resolver: Resolver<OlzEditTerminForm> = async (values) => {
     [errors.endDate, values.endDate] = validateDateOrNull(values.endDate);
     [errors.endTime, values.endTime] = validateTimeOrNull(values.endTime);
     errors.title = validateNotEmpty(values.title);
-    [errors.deadline, values.deadline] = validateDateTimeOrNull(values.deadline);
+    [errors.deadline, values.deadline] = validateDateTimeOrNull(
+        values.deadline.length === 10 ? `${values.deadline} 23:59:59` : values.deadline,
+    );
     errors.solvId = validateIntegerOrNull(values.solvId);
     errors.coordinateX = validateIntegerOrNull(values.coordinateX);
     errors.coordinateY = validateIntegerOrNull(values.coordinateY);
@@ -131,6 +133,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const startDate = watch('startDate');
+    const startTime = watch('startTime');
     const locationId = watch('locationId');
 
     React.useEffect(() => {
@@ -162,7 +165,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         setValue('title', getFormString(templateData.title));
         setValue('text', getFormString(templateData.text));
         setValue('link', getFormString(templateData.link));
-        setValue('deadline', getFormString((templateData.deadlineEarlierSeconds ?? '') + (templateData.deadlineTime ?? '')));
+        setValue('deadline', '');
         setValue('hasNewsletter', getFormBoolean(templateData.newsletter));
         const typesSet = new Set(templateData.types ?? []);
         setValue('hasTypeProgramm', getFormBoolean(typesSet.has('programm')));
@@ -175,11 +178,11 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     }, [templateData]);
 
     React.useEffect(() => {
-        if (!templateData?.startTime) {
+        if (!templateData || !startTime) {
             return;
         }
         const isStartDateValid = true; // TODO: Actually check!
-        const startIso = isStartDateValid ? `${startDate} ${templateData.startTime}` : `${templateData.startTime}`;
+        const startIso = isStartDateValid ? `${startDate} ${startTime}` : `${startTime}`;
         const start = new Date(Date.parse(startIso));
         if (!(start instanceof Date) || isNaN(start.valueOf())) {
             return;
@@ -204,10 +207,10 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                 return;
             }
             const deadlineDateIso = utcDeadline.toISOString().substring(0, 10);
-            const deadlineTimeIso = utcDeadline.toISOString().substring(11, 19);
+            const deadlineTimeIso = templateData.deadlineTime ?? utcDeadline.toISOString().substring(11, 19);
             setValue('deadline', `${deadlineDateIso} ${deadlineTimeIso}`);
         }
-    }, [templateData, startDate]);
+    }, [templateData, startDate, startTime]);
 
     const onSubmit: SubmitHandler<OlzEditTerminForm> = async (values) => {
         const meta: OlzMetaData = {

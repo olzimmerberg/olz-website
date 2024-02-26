@@ -38,6 +38,8 @@ export const OlzEntityField = <
     const nullLabel = props.nullLabel ?? 'Bitte wählen';
     const buttonLabel = currentEntityTitle ?? nullLabel;
 
+    const searchInput = React.useRef<HTMLInputElement>(null);
+
     React.useEffect(() => {
         setCurrentEntityTitle(null);
     }, [field.value]);
@@ -97,7 +99,19 @@ export const OlzEntityField = <
             {props.title}
         </label>
         <div className='olz-entity-field' id={`${props.name}-field`}>
-            <button className="form-select" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button
+                className="form-select"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                onClick={() => {
+                    if (searchInput.current) {
+                        searchInput.current.focus();
+                    }
+                }}
+            >
                 {buttonLabel}
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -109,6 +123,7 @@ export const OlzEntityField = <
                         className="form-control"
                         id="entity-search-input"
                         placeholder='Suche...'
+                        ref={searchInput}
                     />
                 </div>
                 <div className="dropdown-divider"></div>

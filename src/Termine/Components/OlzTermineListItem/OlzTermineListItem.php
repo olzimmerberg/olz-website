@@ -41,10 +41,9 @@ class OlzTermineListItem extends OlzComponent {
         $title = $args['title'];
         $text = $args['text'];
         $links = $args['link'];
-        $solv_uid = $args['solv_uid'];
         $types = $args['types'];
-        $image_ids = $args['image_ids'];
         $termin_location_id = $args['location_id'];
+        $is_deadline = array_search('meldeschluss', $types) !== false;
 
         $link = "{$code_href}termine/{$id}{$filter_arg}";
         $type_imgs = implode('', array_map(function ($type) use ($code_href) {
@@ -63,6 +62,9 @@ class OlzTermineListItem extends OlzComponent {
             ])
             : null;
         $start_time_text = $this->getTimeText($start_time);
+        if ($is_deadline && $start_time_text === '23:59') {
+            $start_time_text = null;
+        }
         $end_time_text = $this->getTimeText($end_time);
         $time_text = $start_time_text ? (
             $end_time_text

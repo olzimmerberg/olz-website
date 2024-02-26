@@ -20,6 +20,8 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
     const nullLabel = props.nullLabel ?? 'Bitte wählen';
     const buttonLabel = currentEntityTitle ?? nullLabel;
 
+    const searchInput = React.useRef<HTMLInputElement>(null);
+
     React.useEffect(() => {
         setCurrentEntityTitle(null);
     }, [props.entityId]);
@@ -78,7 +80,19 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
 
     return (
         <div className='olz-entity-chooser'>
-            <button className="form-select" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button
+                className="form-select"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                onClick={() => {
+                    if (searchInput.current) {
+                        searchInput.current.focus();
+                    }
+                }}
+            >
                 {buttonLabel}
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -90,6 +104,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
                         className="form-control"
                         id="entity-search-input"
                         placeholder='Suche...'
+                        ref={searchInput}
                     />
                 </div>
                 <div className="dropdown-divider"></div>

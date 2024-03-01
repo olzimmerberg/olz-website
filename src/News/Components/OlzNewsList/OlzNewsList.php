@@ -19,8 +19,6 @@ class OlzNewsList extends OlzComponent {
     public static $description = "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.";
 
     public function getHtml($args = []): string {
-        global $_SESSION;
-
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
 

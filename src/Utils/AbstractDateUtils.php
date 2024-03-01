@@ -137,18 +137,6 @@ abstract class AbstractDateUtils {
         return $out;
     }
 
-    public function getYearsForAccordion() {
-        global $_GET, $_SESSION;
-        $this_year = intval($this->getCurrentDateInFormat('Y'));
-        $latest_year = isset($_SESSION['auth']) ? $this_year + 1 : $this_year;
-        $earliest_year = isset($_GET['archiv']) ? 2005 : $this_year - 5;
-        $years = [];
-        for ($year = $latest_year; $earliest_year <= $year; $year--) {
-            array_push($years, $year);
-        }
-        return $years;
-    }
-
     public static function fromEnv() {
         $env_utils = EnvUtils::fromEnv();
         $class_name = $env_utils->getDateUtilsClassName();

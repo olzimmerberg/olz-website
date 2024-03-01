@@ -13,12 +13,6 @@ use Olz\Utils\HttpUtils;
 
 class OlzPanini2024 extends OlzComponent {
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../../_/config/init.php';
-
-        session_start_if_cookie_set();
-
-        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
-
         $current_user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();
         $entity_manager = $this->dbUtils()->getEntityManager();

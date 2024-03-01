@@ -12,13 +12,6 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzOev extends OlzComponent {
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../../_/config/init.php';
-
-        session_start_if_cookie_set();
-
-        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
-
-        $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
@@ -27,7 +20,6 @@ class OlzOev extends OlzComponent {
             'ankunft' => new FieldTypes\StringField(['allow_null' => true]),
         ], $_GET);
         $metadata = new Metadata();
-        $id = $_GET['id'] ?? null;
 
         $out = '';
 

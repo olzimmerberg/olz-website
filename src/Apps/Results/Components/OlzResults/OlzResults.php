@@ -11,8 +11,6 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzResults extends OlzComponent {
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
-
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
         $http_utils = HttpUtils::fromEnv();

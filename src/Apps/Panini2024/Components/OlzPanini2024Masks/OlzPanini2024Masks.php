@@ -11,19 +11,10 @@ use Olz\Utils\HttpUtils;
 
 class OlzPanini2024Masks extends OlzComponent {
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../../_/config/init.php';
-
-        session_start_if_cookie_set();
-
-        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
-
-        $current_user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();
-        $entity_manager = $this->dbUtils()->getEntityManager();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
         $http_utils->validateGetParams([], $_GET);
-        $data_path = $this->envUtils()->getDataPath();
         $metadata = new Metadata();
 
         $out = '';

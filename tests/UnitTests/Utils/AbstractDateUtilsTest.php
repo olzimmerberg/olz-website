@@ -51,11 +51,6 @@ final class AbstractDateUtilsTest extends UnitTestCase {
         $this->assertSame('Freitag, 13. März 2020', $date_utils->olzDate('WW, t. MM jjjj', $datetime));
     }
 
-    public function testGetYearsForAccordion(): void {
-        $date_utils = new FakeDateUtils('2020-03-13 19:30:00');
-        $this->assertSame([2020, 2019, 2018, 2017, 2016, 2015], $date_utils->getYearsForAccordion());
-    }
-
     public function testFormatDateTimeRange(): void {
         $date_utils = new FakeDateUtils('2020-03-13 19:30:00');
 

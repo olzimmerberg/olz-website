@@ -26,10 +26,7 @@ class OlzNewsDetail extends OlzComponent {
     public function getHtml($args = []): string {
         global $_GET;
 
-        require_once __DIR__.'/../../../../_/admin/olz_functions.php';
-
         $code_href = $this->envUtils()->getCodeHref();
-        $data_path = $this->envUtils()->getDataPath();
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
         $http_utils = HttpUtils::fromEnv();

@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import {DECtoSEX, WGStoCHy, WGStoCHx, CHtoWGSlat, CHtoWGSlng} from './wgs84_ch1903';
+import {TEST_ONLY, WGStoCHy, WGStoCHx, CHtoWGSlat, CHtoWGSlng} from '../../../src/Utils/mapUtils';
 
 const GROSSMUENSTER = {
     lat: 47.37022,
@@ -11,9 +11,9 @@ const GROSSMUENSTER = {
 
 describe('DECtoSEX', () => {
     it('works', () => {
-        expect(DECtoSEX(0)).toBe(0);
-        expect(DECtoSEX(1)).toBe(3600);
-        expect(DECtoSEX(0.5)).toBe(1800);
+        expect(TEST_ONLY.DECtoSEX(0)).toBe(0);
+        expect(TEST_ONLY.DECtoSEX(1)).toBe(3600);
+        expect(TEST_ONLY.DECtoSEX(0.5)).toBe(1800);
     });
 });
 

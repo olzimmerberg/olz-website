@@ -13,7 +13,6 @@ use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Termine\Components\OlzTermineSidebar\OlzTermineSidebar;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\FileUtils;
 use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -22,15 +21,11 @@ class OlzTermineList extends OlzComponent {
     public static $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
 
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
-
         $db = $this->dbUtils()->getDb();
-        $date_utils = $this->dateUtils();
         $code_href = $this->envUtils()->getCodeHref();
-        $file_utils = FileUtils::fromEnv();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
-        $validated_get_params = $http_utils->validateGetParams([
+        $http_utils->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),
             'id' => new FieldTypes\IntegerField(['allow_null' => true]),
             'buttontermine' => new FieldTypes\StringField(['allow_null' => true]),

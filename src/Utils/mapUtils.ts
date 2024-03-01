@@ -92,7 +92,7 @@ export function CHtoWGSlng(y: number, x: number): number {
 }
 
 // Convert angle in decimal degrees to sexagesimal seconds
-export function DECtoSEX(angle: number): number {
+function DECtoSEX(angle: number): number {
 
     // Extract DMS
     const deg = Math.floor(angle);
@@ -101,5 +101,8 @@ export function DECtoSEX(angle: number): number {
 
     // Result sexagesimal seconds
     return sec + min * 60.0 + deg * 3600.0;
-
 }
+
+export const TEST_ONLY = {
+    DECtoSEX,
+};

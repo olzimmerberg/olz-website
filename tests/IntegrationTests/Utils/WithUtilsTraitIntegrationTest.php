@@ -18,6 +18,7 @@ use Olz\Utils\GeneralUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\IdUtils;
+use Olz\Utils\MapUtils;
 use Olz\Utils\StandardSession;
 use Olz\Utils\StravaUtils;
 use Olz\Utils\SymfonyUtils;
@@ -90,6 +91,9 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             },
             'log' => function ($value) {
                 return method_exists($value, 'warning');
+            },
+            'mapUtils' => function ($value) {
+                return $value instanceof MapUtils;
             },
             'server' => function ($value) {
                 global $_SERVER;

@@ -9,8 +9,6 @@ require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();
 
-require_once __DIR__.'/admin/olz_functions.php';
-
 $entityManager = DbUtils::fromEnv()->getEntityManager();
 $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();

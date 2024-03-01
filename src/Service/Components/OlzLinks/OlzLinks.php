@@ -5,18 +5,13 @@ namespace Olz\Service\Components\OlzLinks;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Service\Link;
-use Olz\Utils\FileUtils;
 
 class OlzLinks extends OlzComponent {
     public function getHtml($args = []): string {
         $has_permission = $this->authUtils()->hasPermission('links');
         $code_href = $this->envUtils()->getCodeHref();
-        $entityManager = $this->dbUtils()->getEntityManager();
-        $file_utils = FileUtils::fromEnv();
 
         $out = '';
-
-        require_once __DIR__.'/../../../../_/admin/olz_functions.php';
 
         $out .= "<h2>Links</h2>";
 

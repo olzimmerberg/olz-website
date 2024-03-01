@@ -18,12 +18,6 @@ class OlzStartseite extends OlzComponent {
     public static $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
 
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../_/config/init.php';
-
-        session_start_if_cookie_set();
-
-        require_once __DIR__.'/../../../../_/admin/olz_functions.php';
-
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());
         $http_utils->validateGetParams([], $_GET);

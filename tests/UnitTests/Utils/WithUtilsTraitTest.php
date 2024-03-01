@@ -21,6 +21,7 @@ use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\MapUtils;
 use Olz\Utils\MemorySession;
 use Olz\Utils\StravaUtils;
 use Olz\Utils\UploadUtils;
@@ -62,6 +63,7 @@ final class WithUtilsTraitTest extends UnitTestCase {
             'httpUtils' => function () { return new HttpUtils(); },
             'idUtils' => function () { return new FakeIdUtils(); },
             'log' => function () { return new Logger('fake'); },
+            'mapUtils' => function () { return new MapUtils(); },
             'server' => function () { throw new BrokenTestCase(); },
             'session' => function () { return new MemorySession(); },
             'solvFetcher' => function () { return new SolvFetcher(); },

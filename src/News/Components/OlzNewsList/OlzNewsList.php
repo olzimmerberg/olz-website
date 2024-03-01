@@ -138,60 +138,73 @@ class OlzNewsList extends OlzComponent {
         $user_repo = $entityManager->getRepository(User::class);
         $role_repo = $entityManager->getRepository(Role::class);
 
-        $row = true;
-        $invisible_page_contents = [];
-        for ($page = 0; $row; $page++) {
-            $page_content = '';
-            for ($index = 0; $index < 25 && $row; $index++) {
-                $row = $res->fetch_assoc();
-                if (!$row) {
-                    break;
-                }
-                // TODO: Directly use doctrine to run the DB query.
-                $owner_user = $row['owner_user_id'] ?
-                $user_repo->findOneBy(['id' => $row['owner_user_id']]) : null;
-                $owner_role = $row['owner_role_id'] ?
-                $role_repo->findOneBy(['id' => $row['owner_role_id']]) : null;
-                $author_user = $row['author_user_id'] ?
-                $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
-                $author_role = $row['author_role_id'] ?
-                $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
+        $has_archive_access = $this->authUtils()->hasPermission('verified_email');
+        if ($is_not_archived || $has_archive_access) {
+            $row = true;
+            $invisible_page_contents = [];
+            for ($page = 0; $row; $page++) {
+                $page_content = '';
+                for ($index = 0; $index < 25 && $row; $index++) {
+                    $row = $res->fetch_assoc();
+                    if (!$row) {
+                        break;
+                    }
+                    // TODO: Directly use doctrine to run the DB query.
+                    $owner_user = $row['owner_user_id'] ?
+                    $user_repo->findOneBy(['id' => $row['owner_user_id']]) : null;
+                    $owner_role = $row['owner_role_id'] ?
+                    $role_repo->findOneBy(['id' => $row['owner_role_id']]) : null;
+                    $author_user = $row['author_user_id'] ?
+                    $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
+                    $author_role = $row['author_role_id'] ?
+                    $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
 
-                $news_entry = new NewsEntry();
-                $news_entry->setOwnerUser($owner_user);
-                $news_entry->setOwnerRole($owner_role);
-                $news_entry->setPublishedDate($row['published_date']);
-                $news_entry->setFormat($row['format']);
-                $news_entry->setAuthorUser($author_user);
-                $news_entry->setAuthorRole($author_role);
-                $news_entry->setAuthorName($row['author_name']);
-                $news_entry->setAuthorEmail($row['author_email']);
-                $news_entry->setTitle($row['title']);
-                $news_entry->setTeaser($row['teaser']);
-                $news_entry->setContent($row['content']);
-                $news_entry->setId($row['id']);
-                $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
+                    $news_entry = new NewsEntry();
+                    $news_entry->setOwnerUser($owner_user);
+                    $news_entry->setOwnerRole($owner_role);
+                    $news_entry->setPublishedDate($row['published_date']);
+                    $news_entry->setFormat($row['format']);
+                    $news_entry->setAuthorUser($author_user);
+                    $news_entry->setAuthorRole($author_role);
+                    $news_entry->setAuthorName($row['author_name']);
+                    $news_entry->setAuthorEmail($row['author_email']);
+                    $news_entry->setTitle($row['title']);
+                    $news_entry->setTeaser($row['teaser']);
+                    $news_entry->setContent($row['content']);
+                    $news_entry->setId($row['id']);
+                    $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
 
-                $page_content .= OlzNewsListItem::render(['news_entry' => $news_entry]);
-            }
-            if ($page === 0) {
-                if ($page_content === '') {
-                    $page_content = "<div class='no-entries'>Keine Einträge. Bitte Filter anpassen.</div>";
+                    $page_content .= OlzNewsListItem::render(['news_entry' => $news_entry]);
                 }
-                $out .= "<div id='news-list-page-{$page}' class='page'>{$page_content}</div>";
-            } else {
-                $out .= "<div id='news-list-page-{$page}' class='page'>&nbsp;</div>";
-                $invisible_page_contents[] = $page_content;
+                if ($page === 0) {
+                    if ($page_content === '') {
+                        $page_content = "<div class='no-entries'>Keine Einträge. Bitte Filter anpassen.</div>";
+                    }
+                    $out .= "<div id='news-list-page-{$page}' class='page'>{$page_content}</div>";
+                } else {
+                    $out .= "<div id='news-list-page-{$page}' class='page'>&nbsp;</div>";
+                    $invisible_page_contents[] = $page_content;
+                }
             }
-        }
-        if (count($invisible_page_contents) > 0) {
-            $json = json_encode($invisible_page_contents);
+            if (count($invisible_page_contents) > 0) {
+                $json = json_encode($invisible_page_contents);
+                $out .= <<<ZZZZZZZZZZ
+                <script>
+                window.addEventListener('load', () => {
+                    olz.olzNewsListSetInvisiblePageContents({$json});
+                });
+                </script>
+                ZZZZZZZZZZ;
+            }
+        } else {
             $out .= <<<ZZZZZZZZZZ
-            <script>
-            window.addEventListener('load', () => {
-                olz.olzNewsListSetInvisiblePageContents({$json});
-            });
-            </script>
+            <div class='olz-no-access'>
+                <div>Das Archiv ist nur für Vereins-Mitglieder verfügbar.</div>
+                <div class='auth-buttons'>
+                    <a class='btn btn-primary' href='#login-dialog' role='button'>Login</a>
+                    <a class='btn btn-secondary' href='{$code_href}konto_passwort' role='button'>Konto erstellen</a>
+                </div>
+            </div>
             ZZZZZZZZZZ;
         }
 

@@ -159,35 +159,47 @@ class OlzTermineList extends OlzComponent {
         ORDER BY c.start_date ASC
         ZZZZZZZZZZ;
 
-        $result = $db->query($sql);
+        $has_archive_access = $this->authUtils()->hasPermission('verified_email');
+        if ($is_not_archived || $has_archive_access) {
+            $result = $db->query($sql);
+            $last_month = null;
+            while ($row = $result->fetch_assoc()) {
+                $this_month = substr($row['start_date'], 0, 7);
+                if ($this_month !== $last_month) {
+                    $pretty_month = $this->dateUtils()->olzDate("MM jjjj", "{$this_month}-01");
+                    $out .= "<h3 class='tablebar'>{$pretty_month}</h3>";
+                }
+                $last_month = $this_month;
 
-        $last_month = null;
-        while ($row = $result->fetch_assoc()) {
-            $this_month = substr($row['start_date'], 0, 7);
-            if ($this_month !== $last_month) {
-                $pretty_month = $this->dateUtils()->olzDate("MM jjjj", "{$this_month}-01");
-                $out .= "<h3 class='tablebar'>{$pretty_month}</h3>";
+                $out .= OlzTermineListItem::render([
+                    'item_type' => $row['item_type'],
+                    'id' => $row['id'],
+                    'owner_user_id' => $row['owner_user_id'],
+                    'start_date' => $row['start_date'],
+                    'start_time' => $row['start_time'],
+                    'end_date' => $row['end_date'],
+                    'end_time' => $row['end_time'],
+                    'title' => $row['title'],
+                    'text' => $row['text'],
+                    'link' => $row['link'],
+                    'solv_uid' => $row['solv_uid'],
+                    'types' => explode(' ', $row['typ']),
+                    'image_ids' => $row['image_ids'] ? json_decode($row['image_ids'], true) : null,
+                    'location_id' => $row['location_id'],
+                ]);
             }
-            $last_month = $this_month;
-
-            $out .= OlzTermineListItem::render([
-                'item_type' => $row['item_type'],
-                'id' => $row['id'],
-                'owner_user_id' => $row['owner_user_id'],
-                'start_date' => $row['start_date'],
-                'start_time' => $row['start_time'],
-                'end_date' => $row['end_date'],
-                'end_time' => $row['end_time'],
-                'title' => $row['title'],
-                'text' => $row['text'],
-                'link' => $row['link'],
-                'solv_uid' => $row['solv_uid'],
-                'types' => explode(' ', $row['typ']),
-                'image_ids' => $row['image_ids'] ? json_decode($row['image_ids'], true) : null,
-                'location_id' => $row['location_id'],
-            ]);
+            $out .= "</div>";
+        } else {
+            $out .= <<<ZZZZZZZZZZ
+            <div class='olz-no-access'>
+                <div>Das Archiv ist nur für Vereins-Mitglieder verfügbar.</div>
+                <div class='auth-buttons'>
+                    <a class='btn btn-primary' href='#login-dialog' role='button'>Login</a>
+                    <a class='btn btn-secondary' href='{$code_href}konto_passwort' role='button'>Konto erstellen</a>
+                </div>
+            </div>
+            ZZZZZZZZZZ;
         }
-        $out .= "</div>";
 
         $out .= OlzFooter::render();
 

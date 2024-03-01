@@ -7,26 +7,22 @@ use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzOev extends OlzComponent {
     public function getHtml($args = []): string {
-        $code_href = $this->envUtils()->getCodeHref();
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([
+        $this->httpUtils()->validateGetParams([
             'nach' => new FieldTypes\StringField(['allow_null' => true]),
             'ankunft' => new FieldTypes\StringField(['allow_null' => true]),
-        ], $_GET);
+        ]);
+        $code_href = $this->envUtils()->getCodeHref();
         $metadata = new Metadata();
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => "{$code_href}apps/",
             'title' => "ÖV-Tool",
             'description' => "Tool für die Suche von gemeinsamen ÖV-Verbindungen.",
+            'norobots' => true,
         ]);
 
         $out .= "<div class='content-full'>";

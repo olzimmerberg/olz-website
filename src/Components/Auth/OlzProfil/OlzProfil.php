@@ -12,19 +12,18 @@ use Olz\Utils\EnvUtils;
 
 class OlzProfil extends OlzComponent {
     public function getHtml($args = []): string {
-        $out = '';
-
-        $out .= OlzHeader::render([
-            'title' => "Profil",
-            'description' => "Alles rund um dein persönliches OLZ-Konto.",
-            'norobots' => true,
-        ]);
-
+        $this->httpUtils()->validateGetParams([]);
         $auth_utils = $this->authUtils();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $auth_utils->getCurrentUser();
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
+
+        $out = OlzHeader::render([
+            'title' => "Profil",
+            'description' => "Alles rund um dein persönliches OLZ-Konto.",
+            'norobots' => true,
+        ]);
 
         $out .= "<div class='content-full profile'>";
         if ($user) {

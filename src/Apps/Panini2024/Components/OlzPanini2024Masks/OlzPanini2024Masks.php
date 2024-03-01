@@ -7,19 +7,14 @@ use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpUtils;
 
 class OlzPanini2024Masks extends OlzComponent {
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $code_href = $this->envUtils()->getCodeHref();
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([], $_GET);
         $metadata = new Metadata();
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => "{$code_href}apps/",
             'title' => "Panini '24 Masks",
             'norobots' => true,

@@ -9,16 +9,13 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
-use Olz\Utils\HttpUtils;
 
 class OlzPanini2024 extends OlzComponent {
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $current_user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();
         $entity_manager = $this->dbUtils()->getEntityManager();
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([], $_GET);
         $data_path = $this->envUtils()->getDataPath();
         $metadata = new Metadata();
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
@@ -27,9 +24,7 @@ class OlzPanini2024 extends OlzComponent {
         $has_admin_access = $this->authUtils()->hasPermission('all');
         $is_read_only = ($now_datetime > $deadline_datetime && !$has_admin_access);
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => "{$code_href}apps/",
             'title' => "Panini '24",
             'norobots' => true,

@@ -11,6 +11,7 @@ class HttpUtils {
     use WithUtilsTrait;
     public const UTILS = [
         'fieldUtils',
+        'getParams',
         'log',
     ];
 
@@ -47,7 +48,10 @@ class HttpUtils {
         $this->exitExecution();
     }
 
-    public function validateGetParams($fields, $get_params, $options = []) {
+    public function validateGetParams($fields, $get_params = null, $options = []) {
+        if ($get_params === null) {
+            $get_params = $this->getParams();
+        }
         $validated_get_params = [];
         $has_error = false;
         foreach ($get_params as $key => $value) {

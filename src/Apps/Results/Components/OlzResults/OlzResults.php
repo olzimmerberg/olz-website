@@ -6,22 +6,18 @@ use Olz\Apps\Results\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzResults extends OlzComponent {
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([
+            'file' => new FieldTypes\StringField(['allow_null' => true]),
+        ]);
+
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([
-            'file' => new FieldTypes\StringField(['allow_null' => true]),
-        ], $_GET);
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => "{$code_href}apps/",
             'title' => "Resultate",
             'norobots' => true,

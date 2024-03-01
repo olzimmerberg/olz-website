@@ -7,22 +7,25 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\EnvUtils;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzEmailReaktion extends OlzComponent {
     public function getHtml($args = []): string {
-        $out = '';
-
-        $out .= OlzHeader::render([
-            'title' => "Reaktion auf E-Mail",
-            'description' => "Reaktion auf E-Mail.",
-            'skip_counter' => true,
+        $params = $this->httpUtils()->validateGetParams([
+            'token' => new FieldTypes\StringField(['allow_null' => true]),
         ]);
-
         $email_utils = EmailUtils::fromEnv();
         $code_href = EnvUtils::fromEnv()->getCodeHref();
-        $token = $_GET['token'] ?? '';
+        $token = $params['token'] ?? '';
         $js_token = htmlentities(json_encode($token));
         $reaction_data = $email_utils->decryptEmailReactionToken($token);
+
+        $out = OlzHeader::render([
+            'title' => "Reaktion auf E-Mail",
+            'description' => "Reaktion auf E-Mail.",
+            'norobots' => true,
+            'skip_counter' => true,
+        ]);
 
         $out .= "<div class='content-full'>";
 

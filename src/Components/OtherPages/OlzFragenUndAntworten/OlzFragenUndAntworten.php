@@ -16,6 +16,7 @@ class OlzFragenUndAntworten extends OlzComponent {
     public static $description = "Antworten auf die wichtigsten Fragen rund um den OL und die OL Zimmerberg.";
 
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $code_href = $this->envUtils()->getCodeHref();
         $entityManager = $this->dbUtils()->getEntityManager();
         $news_filter_utils = NewsFilterUtils::fromEnv();
@@ -26,9 +27,8 @@ class OlzFragenUndAntworten extends OlzComponent {
         $galerie_url = $news_filter_utils->getUrl(['format' => 'galerie']);
         $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
         $nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-kontakt']);
-        $out = '';
 
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
         ]);

@@ -13,7 +13,6 @@ use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Termine\Components\OlzTermineSidebar\OlzTermineSidebar;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineList extends OlzComponent {
@@ -21,37 +20,29 @@ class OlzTermineList extends OlzComponent {
     public static $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
 
     public function getHtml($args = []): string {
+        $params = $this->httpUtils()->validateGetParams([
+            'filter' => new FieldTypes\StringField(['allow_null' => true]),
+        ]);
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-            'id' => new FieldTypes\IntegerField(['allow_null' => true]),
-            'buttontermine' => new FieldTypes\StringField(['allow_null' => true]),
-        ], $_GET);
 
-        $current_filter = json_decode($_GET['filter'] ?? '{}', true);
+        $current_filter = json_decode($params['filter'] ?? '{}', true);
         $termine_utils = TermineFilterUtils::fromEnv();
 
         if (!$termine_utils->isValidFilter($current_filter)) {
             $enc_json_filter = urlencode(json_encode($termine_utils->getDefaultFilter()));
-            $http_utils->redirect("?filter={$enc_json_filter}", 308);
+            $this->httpUtils()->redirect("?filter={$enc_json_filter}", 308);
         }
 
         $termine_list_title = $termine_utils->getTitleFromFilter($current_filter);
         $is_not_archived = $termine_utils->isFilterNotArchived($current_filter);
         $allow_robots = $is_not_archived;
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => $termine_list_title,
             'description' => self::$description, // TODO: Filter-specific description?
             'norobots' => !$allow_robots,
         ]);
-
-        $enc_current_filter = urlencode(json_encode($current_filter));
 
         $sidebar = OlzTermineSidebar::render();
         $out .= <<<ZZZZZZZZZZ

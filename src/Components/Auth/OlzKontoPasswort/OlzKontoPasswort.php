@@ -8,20 +8,13 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\HttpUtils;
-use Olz\Utils\LogsUtils;
 
 class OlzKontoPasswort extends OlzComponent {
     public function getHtml($args = []): string {
-        $out = '';
-
-        $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($logger);
-        $http_utils->validateGetParams([], $_GET);
+        $this->httpUtils()->validateGetParams([]);
         $code_href = EnvUtils::fromEnv()->getCodeHref();
 
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => "OLZ-Konto mit Passwort",
             'description' => "OLZ-Login mit Passwort.",
             'norobots' => true,

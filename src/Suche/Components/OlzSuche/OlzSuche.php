@@ -5,22 +5,24 @@ namespace Olz\Suche\Components\OlzSuche;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzSuche extends OlzComponent {
     public function getHtml($args = []): string {
+        $params = $this->httpUtils()->validateGetParams([
+            'anfrage' => new FieldTypes\StringField(['allow_null' => true]),
+        ]);
+        $search_key = $params['anfrage'];
         $date_utils = $this->dateUtils();
         $db = $this->dbUtils()->getDb();
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
-        $out = '';
 
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => "Suche",
             'description' => "Stichwort-Suche auf der Website der OL Zimmerberg.",
             'norobots' => true,
         ]);
-
-        $search_key = $this->getParams()['anfrage'];
 
         $out .= <<<'ZZZZZZZZZZ'
         <div class='content-right'>

@@ -13,9 +13,6 @@ use Olz\Utils\HttpUtils;
 
 class OlzNewsletter extends OlzComponent {
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../../_/config/init.php';
-        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
-
         $code_href = $this->envUtils()->getCodeHref();
         $http_utils = HttpUtils::fromEnv();
         $http_utils->setLog($this->log());

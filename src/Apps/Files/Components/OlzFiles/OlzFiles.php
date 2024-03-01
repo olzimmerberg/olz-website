@@ -10,12 +10,6 @@ use Olz\Utils\HttpUtils;
 
 class OlzFiles extends OlzComponent {
     public function getHtml($args = []): string {
-        require_once __DIR__.'/../../../../../_/config/init.php';
-
-        session_start_if_cookie_set();
-
-        require_once __DIR__.'/../../../../../_/admin/olz_functions.php';
-
         $base_href = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
         $http_utils = HttpUtils::fromEnv();

@@ -30,11 +30,7 @@ class OlzTerminDetail extends OlzComponent {
     public function getHtml($args = []): string {
         global $_GET;
 
-        require_once __DIR__.'/../../../../_/library/wgs84_ch1903/wgs84_ch1903.php';
-        require_once __DIR__.'/../../../../_/admin/olz_functions.php';
-
         $code_href = $this->envUtils()->getCodeHref();
-        $data_path = $this->envUtils()->getDataPath();
         $date_utils = $this->dateUtils();
         $today = $date_utils->getIsoToday();
         $db = $this->dbUtils()->getDb();
@@ -145,8 +141,8 @@ class OlzTerminDetail extends OlzComponent {
         $lng = null;
         $location_name = null;
         if ($has_solv_location) {
-            $lat = CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']);
-            $lng = CHtoWGSlng($row_solv['coord_x'], $row_solv['coord_y']);
+            $lat = $this->mapUtils()->CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']);
+            $lng = $this->mapUtils()->CHtoWGSlng($row_solv['coord_x'], $row_solv['coord_y']);
             $location_name = $row_solv['location'];
         }
         if ($has_termin_location) {
@@ -155,8 +151,8 @@ class OlzTerminDetail extends OlzComponent {
             $location_name = $row_location['name'];
         }
         if ($has_olz_location) {
-            $lat = CHtoWGSlat($xkoord, $ykoord);
-            $lng = CHtoWGSlng($xkoord, $ykoord);
+            $lat = $this->mapUtils()->CHtoWGSlat($xkoord, $ykoord);
+            $lng = $this->mapUtils()->CHtoWGSlng($xkoord, $ykoord);
             $location_name = null;
         }
         $has_location = $has_olz_location || $has_termin_location || $has_solv_location;

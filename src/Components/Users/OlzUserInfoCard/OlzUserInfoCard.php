@@ -8,12 +8,6 @@ class OlzUserInfoCard extends OlzComponent {
     public function getHtml($args = []): string {
         $user = $args['user'];
 
-        require_once __DIR__.'/../../../../_/admin/olz_functions.php';
-
-        $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
-        $data_path = $this->envUtils()->getDataPath();
-
         $image_paths = $this->authUtils()->getUserAvatar($user);
         $image_src_html = $this->htmlUtils()->getImageSrcHtml($image_paths);
         $img_html = "<img {$image_src_html} alt='' class='image'>";

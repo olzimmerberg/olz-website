@@ -12,6 +12,7 @@ class OlzTrophy extends OlzComponent {
     public static $description = "Orientierungslauf-Mini-Wettkämpfe, offen für Alle, in den Dörfern und Städten unseres Vereinsgebiets organisiert durch die OL Zimmerberg.";
 
     public function getHtml($args = []): string {
+        $has_permission = $this->authUtils()->hasPermission('all');
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
         $data_path = $env_utils->getDataPath();
@@ -71,7 +72,7 @@ class OlzTrophy extends OlzComponent {
         ];
 
         $out .= "<div class='content-full'>
-        <form name='Formularl' method='post' action='{$code_href}trophy#id_edit".($_SESSION['id_edit'] ?? '')."' enctype='multipart/form-data'>
+        <form name='Formularl' method='post' action='{$code_href}trophy' enctype='multipart/form-data'>
         <div>";
 
         $out .= <<<'ZZZZZZZZZZ'
@@ -109,7 +110,7 @@ class OlzTrophy extends OlzComponent {
                 'ykoord' => $etappe[5],
                 'zoom' => 13,
             ]) : "")."</td></tr>";
-            if (isset($_SESSION['auth']) && ($_SESSION['auth'] ?? null) == 'all' && $etappe[12]) {
+            if ($has_permission && $etappe[12]) {
                 if (isset($_FILES["resultate_upload_".$etappe[13]])) {
                     move_uploaded_file(
                         $_FILES["resultate_upload_".$etappe[13]]['tmp_name'],

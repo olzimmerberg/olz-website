@@ -39,6 +39,7 @@ trait WithUtilsTrait {
         'httpUtils',
         'idUtils',
         'log',
+        'mapUtils',
         'server',
         'session',
         'solvFetcher',
@@ -232,6 +233,18 @@ trait WithUtilsTrait {
     public function setLog(LoggerInterface $log) {
         $this->setLogger($log);
         WithUtilsCache::set('log', $log);
+    }
+
+    public function mapUtils(): MapUtils {
+        return $this->getOrCreate('mapUtils');
+    }
+
+    public function createMapUtils() {
+        return MapUtils::fromEnv();
+    }
+
+    public function setMapUtils(MapUtils $mapUtils) {
+        WithUtilsCache::set('mapUtils', $mapUtils);
     }
 
     public function recaptchaUtils(): RecaptchaUtils {

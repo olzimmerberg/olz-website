@@ -9,8 +9,6 @@ class OlzRoleInfoCard extends OlzComponent {
         $role = $args['role'];
         $user = $args['user'] ?? null;
 
-        require_once __DIR__.'/../../../../_/admin/olz_functions.php';
-
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
 

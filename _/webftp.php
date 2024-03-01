@@ -11,7 +11,7 @@ use Olz\Utils\EnvUtils;
 
 // Datei herunterladen
 if (($_GET['ftp_mode'] ?? null) == 'get_file') {
-    require_once __DIR__.'/config/paths.php';
+    $data_href = EnvUtils::fromEnv()->getDataHref();
     $pfad = urldecode($_GET['pfad']);
     header("Location: {$data_href}OLZimmerbergAblage/{$pfad}");
     exit;
@@ -20,8 +20,6 @@ if (($_GET['ftp_mode'] ?? null) == 'get_file') {
 require_once __DIR__.'/config/init.php';
 
 session_start_if_cookie_set();
-
-require_once __DIR__.'/admin/olz_functions.php';
 
 echo OlzHeader::render([
     'title' => "Web FTP",

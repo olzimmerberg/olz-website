@@ -35,6 +35,14 @@ class OlzKontoPasswort extends OlzComponent {
         $out .= "<div class='content-full'>
         <div>";
 
+        if ($user) {
+            $out .= <<<'ZZZZZZZZZZ'
+            <div class='alert alert-danger' role='alert'>
+                <b>Änderungen dürfen nur mit der Einwilligung der betreffenden Person vorgenommen werden!</b>
+            </div>
+            ZZZZZZZZZZ;
+        }
+
         $out .= <<<ZZZZZZZZZZ
         <h1>{$title}</h1>
         <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='{$code_href}datenschutz' class='linkint' target='_blank'>Datenschutz</a></p>

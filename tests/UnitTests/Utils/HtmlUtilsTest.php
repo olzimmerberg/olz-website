@@ -63,6 +63,8 @@ final class HtmlUtilsTest extends UnitTestCase {
         $this->assertSame("<p>Normal <a href=\"http://127.0.0.1/\">http://127.0.0.1/</a></p>\n", $html);
         $html = $html_utils->renderMarkdown("Hier:\nhttps://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0");
         $this->assertSame("<p>Hier:\n<a href=\"https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0\">https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0</a></p>\n", $html);
+        $html = $html_utils->renderMarkdown("user+olz@gmail.com");
+        $this->assertSame("<p><script>olz.MailTo(\"user+olz\", \"gmail.com\", \"user+olz\" + \"@gmail.com\")</script></p>\n", $html);
 
         // Image
         $html = $html_utils->renderMarkdown("Normal ![bird](img/bird.jpg)");
@@ -114,15 +116,15 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testReplaceMailToLinksWithoutSubject(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Test")</script>',
+            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Test" + "")</script>',
             $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@staging.olzimmerberg.ch">Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me")</script>!',
+            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me" + "")</script>!',
             $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@staging.olzimmerberg.ch" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me")</script> <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "Contact me")</script>!',
+            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me" + "")</script> <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "Contact me" + "")</script>!',
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@staging.olzimmerberg.ch" class="linkmail">Contact me</a> <a name="" href="mailto:e.mail@staging.olzimmerberg.ch">Contact me</a>!')
         );
     }
@@ -130,15 +132,15 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testReplaceMailToLinksWithSubject(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Test", "test")</script>',
+            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Test" + "", "test")</script>',
             $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=test">Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me", "another%20test")</script>!',
+            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>!',
             $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me", "another%20test")</script>, <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "Contact me", "another%20test")</script>!',
+            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>, <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>!',
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:e.mail@staging.olzimmerberg.ch?subject=another%20test">Contact me</a>!')
         );
     }

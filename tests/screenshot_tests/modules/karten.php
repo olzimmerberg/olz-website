@@ -20,21 +20,66 @@ function test_karten($driver, $base_url) {
     $driver->get("{$base_url}{$karten_url}");
 
     $new_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonkarten-neue-karte')
+        WebDriverBy::cssSelector('#create-karte-button')
     );
     click($new_button);
+    sleep(1);
+    $position_input = $driver->findElement(
+        WebDriverBy::cssSelector('#position-input')
+    );
+    sendKeys($position_input, '3');
+    $name_input = $driver->findElement(
+        WebDriverBy::cssSelector('#name-input')
+    );
+    sendKeys($name_input, 'Die Karte');
+    $center_x_input = $driver->findElement(
+        WebDriverBy::cssSelector('#centerX-input')
+    );
+    sendKeys($center_x_input, '735550');
+    $center_y_input = $driver->findElement(
+        WebDriverBy::cssSelector('#centerY-input')
+    );
+    sendKeys($center_y_input, '188600');
+    $year_input = $driver->findElement(
+        WebDriverBy::cssSelector('#year-input')
+    );
+    sendKeys($year_input, '2020');
+    $scale_input = $driver->findElement(
+        WebDriverBy::cssSelector('#scale-input')
+    );
+    sendKeys($scale_input, '1:15\'000');
+    $kind_scool_input = $driver->findElement(
+        WebDriverBy::cssSelector('#isKindScool-input')
+    );
+    click($kind_scool_input);
+    $place_input = $driver->findElement(
+        WebDriverBy::cssSelector('#place-input')
+    );
+    sendKeys($place_input, 'Wuut');
+    $zoom_input = $driver->findElement(
+        WebDriverBy::cssSelector('#zoom-input')
+    );
+    sendKeys($zoom_input, '2');
+
+    $image_upload_input = $driver->findElement(
+        WebDriverBy::cssSelector('#images-upload input[type=file]')
+    );
+    $image_path = realpath(__DIR__.'/../../../assets/icns/schilf.jpg');
+    sendKeys($image_upload_input, $image_path);
+    $driver->wait()->until(function () use ($driver) {
+        $image_uploaded = $driver->findElements(
+            WebDriverBy::cssSelector('#images-upload .olz-upload-image.uploaded')
+        );
+        return count($image_uploaded) == 1;
+    });
+
     take_pageshot($driver, 'karten_new_edit');
 
-    $preview_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonkarten-vorschau')
-    );
-    click($preview_button);
-    take_pageshot($driver, 'karten_new_preview');
-
     $save_button = $driver->findElement(
-        WebDriverBy::cssSelector('#buttonkarten-speichern')
+        WebDriverBy::cssSelector('#submit-button')
     );
     click($save_button);
+    sleep(4);
     take_pageshot($driver, 'karten_new_finished');
 
     logout($driver, $base_url);

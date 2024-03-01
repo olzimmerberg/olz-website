@@ -104,6 +104,22 @@ class Karte extends OlzEntity implements DataStorageInterface {
         $this->center_y = $new_value;
     }
 
+    public function getLatitude() {
+        return $this->latitude;
+    }
+
+    public function setLatitude($new_value) {
+        $this->latitude = $new_value;
+    }
+
+    public function getLongitude() {
+        return $this->longitude;
+    }
+
+    public function setLongitude($new_value) {
+        $this->longitude = $new_value;
+    }
+
     public function getYear() {
         return $this->jahr;
     }

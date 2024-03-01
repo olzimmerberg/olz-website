@@ -37,13 +37,13 @@ class HtmlUtils {
 
     public function replaceEmailAdresses($html) {
         $html = preg_replace(
-            '/<a ([^>]*)href=[\'"]mailto:'.self::EMAIL_REGEX.'\?subject=([^\'"]*)[\'"]([^>]*)>([^<]*)<\/a>/',
-            "<script>olz.MailTo(\"$2\", \"$3\", \"$6\", \"$4\")</script>",
+            '/<a ([^>]*)href=[\'"]mailto:'.self::EMAIL_REGEX.'\?subject=([^\'"]*)[\'"]([^>]*)>([^<@]*)([^<]*)<\/a>/',
+            "<script>olz.MailTo(\"$2\", \"$3\", \"$6\" + \"$7\", \"$4\")</script>",
             $html
         );
         $html = preg_replace(
-            '/<a ([^>]*)href=[\'"]mailto:'.self::EMAIL_REGEX.'[\'"]([^>]*)>([^<]*)<\/a>/',
-            "<script>olz.MailTo(\"$2\", \"$3\", \"$5\")</script>",
+            '/<a ([^>]*)href=[\'"]mailto:'.self::EMAIL_REGEX.'[\'"]([^>]*)>([^<@]*)([^<]*)<\/a>/',
+            "<script>olz.MailTo(\"$2\", \"$3\", \"$5\" + \"$6\")</script>",
             $html
         );
         return preg_replace(

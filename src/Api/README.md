@@ -8,5 +8,3 @@ Wir haben ein auf Remote-Procedure-Call (RPC) basiertes, typisiertes API (mit [`
     - Für modul-spezifische RPCs `Olz\<Modul>\Endpoints\<Funktion>Endpoint` (z.B. für [`News`-Modul](../News/Endpoints/))
     - Für [App](../Apps/)-spezifische RPCs `Olz\Apps\<App>\Endpoints` (z.B. für [Resultate (`Results`)](../Apps/Results/Endpoints/))
 - Der Client-Code wird bei jedem Build (z.B. `npm run webpack-build` oder `composer run`) in [/client`](./client/) generiert, und kann mit `olzApi.call(...)` aufgerufen werden.
-
-Dieses API soll eines Tages die CMS (Content Management System) Funktionalität in `_/admin/admin_db.php` ersetzen.

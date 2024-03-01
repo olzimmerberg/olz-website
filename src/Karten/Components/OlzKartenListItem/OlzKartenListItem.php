@@ -55,7 +55,7 @@ class OlzKartenListItem extends OlzComponent {
         }
         if ($karte->getCenterX() > 0) {
             $out .= <<<ZZZZZZZZZZ
-            <tr>
+            <tr class='olz-karten-list-item'>
                 <td>{$edit_admin}<a href='#{$name}' onclick='goto({$karte->getCenterX()},{$karte->getCenterY()},{$karte->getZoom()},&quot;{$name}&quot;);return false' class='linkmap' itemprop='name'>{$name}</a>{$map}</td>
                 <td>{$scale}</td>
                 <td>{$karte->getYear()}</td>
@@ -63,7 +63,7 @@ class OlzKartenListItem extends OlzComponent {
             ZZZZZZZZZZ;
         } else {
             $out .= <<<ZZZZZZZZZZ
-            <tr>
+            <tr class='olz-karten-list-item'>
                 <td>{$edit_admin}<span class='linkmap' itemprop='name'>{$name}</span></td>
                 <td>{$scale}</td>
                 <td>{$karte->getYear()}</td>

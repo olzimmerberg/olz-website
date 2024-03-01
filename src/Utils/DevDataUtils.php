@@ -424,8 +424,12 @@ class DevDataUtils {
         }
 
         $this->mkdir("{$data_path}img/karten");
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/landforst_2017_10000.jpg", 800, 600);
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/horgen_dorfkern_2011_2000.jpg", 800, 600);
+        $this->mkdir("{$data_path}img/karten/1");
+        $this->mkdir("{$data_path}img/karten/1/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/1/img/MIGRATED0000000000010001.jpg", 800, 600);
+        $this->mkdir("{$data_path}img/karten/3");
+        $this->mkdir("{$data_path}img/karten/3/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/karten/3/img/6R3bpgwcCU3SfUF8vCpepzRJ.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/news");
         $this->mkdir("{$data_path}img/news/3");

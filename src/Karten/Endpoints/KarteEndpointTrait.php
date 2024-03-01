@@ -40,20 +40,24 @@ trait KarteEndpointTrait {
 
     public function getEntityData(Karte $entity): array {
         $name = $entity->getName();
+        $center_x = $entity->getCenterX();
+        $center_y = $entity->getCenterY();
+        $year = $entity->getYear();
         $scale = $entity->getScale();
         $place = $entity->getPlace();
+        $zoom = $entity->getZoom();
         $preview_image_id = $entity->getPreviewImageId();
 
         return [
             'position' => $entity->getPosition() ?? 0,
             'kartennr' => $entity->getKartenNr() ?? null,
             'name' => $name ? $name : '-',
-            'centerX' => $entity->getCenterX() ?? null,
-            'centerY' => $entity->getCenterY() ?? null,
-            'year' => $entity->getYear() ?? null,
+            'centerX' => $center_x ? intval($center_x) : null,
+            'centerY' => $center_y ? intval($center_y) : null,
+            'year' => $year ? intval($year) : null,
             'scale' => $scale ? $scale : null,
             'place' => $place ? $place : null,
-            'zoom' => $entity->getZoom() ?? null,
+            'zoom' => $zoom ? intval($zoom) : null,
             'kind' => $entity->getKind() ?? null,
             'previewImageId' => $preview_image_id ? $preview_image_id : null,
         ];

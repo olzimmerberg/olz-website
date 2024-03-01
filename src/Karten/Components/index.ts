@@ -1,2 +1,2 @@
-// TODO: remove dummy export
-export default null;
+export * from './OlzEditKarteModal/OlzEditKarteModal';
+export * from './OlzKartenListItem/OlzKartenListItem';

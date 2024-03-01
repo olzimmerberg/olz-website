@@ -10,7 +10,6 @@ import './index.scss';
 import './webftp.scss';
 
 export * from './features/index';
-export * from './scripts/index';
 export * from './styles/index';
 export * from './webftp';
 
@@ -54,4 +53,27 @@ export function loaded(): void {
         $('.datepicker').datepicker();
     });
     console.log('OLZ loaded!');
+}
+
+/* EMAILADRESSE MASKIEREN (global) */
+export function MailTo(name: string, domain: string, text: string, subject = ''): string {
+    let mytext = '';
+    const linktext = text;
+    const email1 = name;
+    const email2 = domain;
+    const email3 = subject;
+    const mailtoPrefix = 'mailto:';
+    mytext = (`<a href="${mailtoPrefix}${email1}@${email2}?subject=${email3}" class="linkmail">${linktext}</a>`);
+    const scriptElement = document.currentScript;
+    const parentNode = scriptElement?.parentNode;
+    if (!scriptElement || !parentNode) {
+        return mytext;
+    }
+    if (/MailTo\(/.exec(scriptElement.innerHTML)) {
+        const span = document.createElement('span');
+        parentNode.insertBefore(span, scriptElement);
+        span.innerHTML = mytext;
+        return '';
+    }
+    return mytext;
 }

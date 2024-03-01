@@ -13,11 +13,11 @@ class OlzKarten extends OlzComponent {
     public static $description = "Die OL-Karten, die die OL Zimmerberg aufnimmt, unterhält und verkauft.";
 
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
-        $out = '';
 
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
         ]);

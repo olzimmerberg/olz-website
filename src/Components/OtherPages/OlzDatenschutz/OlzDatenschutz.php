@@ -13,12 +13,12 @@ class OlzDatenschutz extends OlzComponent {
     public static $description = "Die Datenschutzerklärung der OL Zimmerberg.";
 
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
         $website_role = $role_repo->findOneBy(['username' => 'website']);
-        $out = '';
 
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
         ]);

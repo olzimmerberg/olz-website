@@ -14,9 +14,9 @@ class OlzService extends OlzComponent {
     public static $description = "Diverse Online-Tools rund um OL und die OL Zimmerberg.";
 
     public function getHtml($args = []): string {
-        $out = '';
+        $this->httpUtils()->validateGetParams([]);
 
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
         ]);

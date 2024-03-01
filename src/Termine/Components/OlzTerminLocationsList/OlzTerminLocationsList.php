@@ -6,22 +6,13 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLocation;
-use Olz\Utils\HttpUtils;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminLocationsList extends OlzComponent {
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $code_href = $this->envUtils()->getCodeHref();
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $validated_get_params = $http_utils->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-            'id' => new FieldTypes\IntegerField(['allow_null' => true]),
-        ], $_GET);
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => "{$code_href}termine",
             'title' => 'Termin-Orte',
             'description' => "Orte, an denen Anlässe der OL Zimmerberg stattfinden.",

@@ -12,14 +12,13 @@ class OlzTrophy extends OlzComponent {
     public static $description = "Orientierungslauf-Mini-Wettkämpfe, offen für Alle, in den Dörfern und Städten unseres Vereinsgebiets organisiert durch die OL Zimmerberg.";
 
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $has_permission = $this->authUtils()->hasPermission('all');
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
         $data_path = $env_utils->getDataPath();
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
         ]);

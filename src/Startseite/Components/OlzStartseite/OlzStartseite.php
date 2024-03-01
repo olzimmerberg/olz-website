@@ -11,20 +11,15 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
-use Olz\Utils\HttpUtils;
 
 class OlzStartseite extends OlzComponent {
     public static $title = "Startseite";
     public static $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
 
     public function getHtml($args = []): string {
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([], $_GET);
+        $this->httpUtils()->validateGetParams([]);
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'description' => self::$description,
         ], $this);
 

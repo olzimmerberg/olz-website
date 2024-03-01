@@ -6,18 +6,13 @@ use Olz\Apps\Monitoring\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpUtils;
 
 class OlzMonitoring extends OlzComponent {
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $code_href = $this->envUtils()->getCodeHref();
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([], $_GET);
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => "{$code_href}apps/",
             'title' => "Monitoring",
             'norobots' => true,

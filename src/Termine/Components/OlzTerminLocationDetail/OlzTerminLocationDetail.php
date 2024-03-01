@@ -11,17 +11,16 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminLocationDetail extends OlzComponent {
     public function getHtml($args = []): string {
+        $params = $this->httpUtils()->validateGetParams([
+            'filter' => new FieldTypes\StringField(['allow_null' => true]),
+            'id' => new FieldTypes\IntegerField(['allow_null' => true]),
+        ]);
+
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
         $image_utils = ImageUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
-        $this->httpUtils()->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-            'id' => new FieldTypes\IntegerField(['allow_null' => true]),
-        ], $_GET);
         $id = $args['id'] ?? null;
-
-        $out = '';
 
         $sql = "SELECT * FROM termin_locations WHERE (id = '{$id}') AND (on_off = '1')";
         $result = $db->query($sql);
@@ -33,15 +32,15 @@ class OlzTerminLocationDetail extends OlzComponent {
 
         $title = $row['name'] ?? '';
         $back_link = "{$code_href}termine";
-        if ($_GET['filter'] ?? null) {
-            $enc_filter = urlencode($_GET['filter']);
+        if ($params['filter'] ?? null) {
+            $enc_filter = urlencode($params['filter']);
             $back_link = "{$code_href}termine?filter={$enc_filter}";
-            if ($_GET['id'] ?? null) {
-                $enc_id = urlencode($_GET['id']);
+            if ($params['id'] ?? null) {
+                $enc_id = urlencode($params['id']);
                 $back_link = "{$code_href}termine/{$enc_id}?filter={$enc_filter}";
             }
         }
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => $back_link,
             'title' => "{$title} - Orte",
             'description' => "Orte, an denen Anlässe der OL Zimmerberg stattfinden.",

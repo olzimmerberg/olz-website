@@ -5,24 +5,23 @@ namespace Olz\Components\Auth\OlzKontoTelegram;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\AuthUtils;
 use Olz\Utils\TelegramUtils;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzKontoTelegram extends OlzComponent {
     public function getHtml($args = []): string {
-        $out = '';
+        $params = $this->httpUtils()->validateGetParams([
+            'pin' => new FieldTypes\StringField(['allow_null' => true]),
+        ]);
+        $pin = $params['pin'];
+        $user = $this->authUtils()->getCurrentUser();
+        $telegram_utils = TelegramUtils::fromEnv();
 
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => "OLZ Konto mit Telegram",
             'description' => "OLZ-Login mit Telegram.",
             'norobots' => true,
         ]);
-
-        $telegram_utils = TelegramUtils::fromEnv();
-        $pin = $_GET['pin'];
-
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
 
         $out .= "<div class='content-full'>
         <div>";

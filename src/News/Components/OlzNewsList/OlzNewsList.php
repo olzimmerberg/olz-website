@@ -11,7 +11,6 @@ use Olz\Entity\User;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 use Olz\News\Utils\NewsFilterUtils;
-use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsList extends OlzComponent {
@@ -19,33 +18,29 @@ class OlzNewsList extends OlzComponent {
     public static $description = "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.";
 
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([
+            'filter' => new FieldTypes\StringField(['allow_null' => true]),
+        ]);
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
 
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-        ], $_GET);
         $news_utils = NewsFilterUtils::fromEnv();
         $current_filter = json_decode($_GET['filter'] ?? '{}', true);
 
         if (!$news_utils->isValidFilter($current_filter)) {
             $enc_json_filter = urlencode(json_encode($news_utils->getDefaultFilter()));
-            $http_utils->redirect("?filter={$enc_json_filter}", 308);
+            $this->httpUtils()->redirect("?filter={$enc_json_filter}", 308);
         }
 
         $is_not_archived = $news_utils->isFilterNotArchived($current_filter);
         $allow_robots = $is_not_archived;
-
-        $out = '';
 
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
         $code_href = $this->envUtils()->getCodeHref();
         $enc_json_filter = urlencode(json_encode($current_filter));
         $canonical_url = "https://{$host}{$code_href}news?filter={$enc_json_filter}";
         $news_list_title = $news_utils->getTitleFromFilter($current_filter);
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => $news_list_title,
             'description' => self::$description, // TODO: Filter-specific description?
             'norobots' => !$allow_robots,

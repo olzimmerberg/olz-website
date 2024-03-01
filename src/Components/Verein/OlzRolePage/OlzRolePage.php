@@ -7,24 +7,20 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Role;
-use Olz\Utils\HtmlUtils;
-use Olz\Utils\HttpUtils;
 
 class OlzRolePage extends OlzComponent {
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $is_member = $this->authUtils()->hasPermission('member');
-
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
         $role_repo = $entityManager->getRepository(Role::class);
-        $html_utils = HtmlUtils::fromEnv();
-
         $role_username = $args['ressort'];
         $role_repo = $entityManager->getRepository(Role::class);
         $role = $role_repo->findOneBy(['username' => $role_username]);
 
         if (!$role) {
-            HttpUtils::fromEnv()->dieWithHttpError(404);
+            $this->httpUtils()->dieWithHttpError(404);
         }
 
         // TODO: Remove again, after all ressort descriptions have been updated.
@@ -36,7 +32,7 @@ class OlzRolePage extends OlzComponent {
         $first_line = $end_of_first_line
             ? substr($role_description, 0, $end_of_first_line)
             : $role_description;
-        $description_html = $html_utils->renderMarkdown($first_line);
+        $description_html = $this->htmlUtils()->renderMarkdown($first_line);
         $role_short_description = strip_tags($description_html);
 
         $role_id = $role->getId();
@@ -56,9 +52,7 @@ class OlzRolePage extends OlzComponent {
             }
         }
 
-        $out = "";
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => "{$code_href}verein",
             'title' => $role_title,
             'description' => "{$role_short_description} - Ressort {$role_name} der OL Zimmerberg.",
@@ -83,7 +77,7 @@ class OlzRolePage extends OlzComponent {
             $out .= $page;
         } else {
             $out .= "<h1>{$role_title}</h1>";
-            $description_html = $html_utils->renderMarkdown($role->getDescription());
+            $description_html = $this->htmlUtils()->renderMarkdown($role->getDescription());
             $out .= $description_html;
         }
 
@@ -114,7 +108,7 @@ class OlzRolePage extends OlzComponent {
         }
 
         if ($is_member) {
-            $guide_html = $html_utils->renderMarkdown($role->getGuide());
+            $guide_html = $this->htmlUtils()->renderMarkdown($role->getGuide());
             $out .= "<br/><br/><h2>Aufgaben (nur für OLZ-Mitglieder sichtbar)</h2>";
             $out .= $guide_html;
         }

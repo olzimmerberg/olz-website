@@ -7,19 +7,14 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\HttpUtils;
 
 class OlzCommands extends OlzComponent {
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $env_utils = EnvUtils::fromEnv();
         $code_href = $env_utils->getCodeHref();
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
-        $http_utils->validateGetParams([], $_GET);
 
-        $out = '';
-
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => "{$code_href}apps/",
             'title' => 'Commands',
             'description' => "Symfony-Commands (Befehle) ausführen.",

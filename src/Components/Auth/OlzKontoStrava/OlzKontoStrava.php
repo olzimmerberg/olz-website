@@ -6,12 +6,17 @@ use Olz\Components\Auth\OlzProfileForm\OlzProfileForm;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzKontoStrava extends OlzComponent {
     public function getHtml($args = []): string {
-        $out = '';
+        $params = $this->httpUtils()->validateGetParams([
+            'code' => new FieldTypes\StringField(['allow_null' => true]),
+            'scope' => new FieldTypes\StringField(['allow_null' => true]),
+        ]);
+        $code = $params['code'];
 
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => "Strava Konto",
             'description' => "OLZ-Login mit Strava.",
             'norobots' => true,
@@ -19,9 +24,6 @@ class OlzKontoStrava extends OlzComponent {
 
         $out .= "<div class='content-full'>
         <div>";
-
-        $code = $_GET['code'];
-        $granted_scope = $_GET['scope'];
 
         $js_code = json_encode($code);
 

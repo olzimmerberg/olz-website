@@ -22,17 +22,15 @@ class OlzTerminTemplateDetail extends OlzComponent {
     ];
 
     public function getHtml($args = []): string {
+        $params = $this->httpUtils()->validateGetParams([
+            'filter' => new FieldTypes\StringField(['allow_null' => true]),
+        ]);
+
         $code_href = $this->envUtils()->getCodeHref();
         $file_utils = FileUtils::fromEnv();
         $image_utils = ImageUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
-        $this->httpUtils()->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-            'id' => new FieldTypes\IntegerField(['allow_null' => true]),
-        ], $_GET);
         $id = $args['id'] ?? null;
-
-        $out = '';
 
         $termin_template = $this->getTerminTemplateById($id);
 
@@ -42,11 +40,11 @@ class OlzTerminTemplateDetail extends OlzComponent {
 
         $title = $termin_template->getTitle() ?? '';
         $back_link = "{$code_href}termine/vorlagen";
-        if ($_GET['filter'] ?? null) {
-            $enc_filter = urlencode($_GET['filter']);
+        if ($params['filter'] ?? null) {
+            $enc_filter = urlencode($params['filter']);
             $back_link = "{$code_href}termine/vorlagen?filter={$enc_filter}";
         }
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => $back_link,
             'title' => "{$title} - Vorlagen",
             'description' => "Vorlagen, um OL Zimmerberg-Termine zu erstellen.",

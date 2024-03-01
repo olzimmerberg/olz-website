@@ -18,26 +18,21 @@ use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\FileUtils;
 use Olz\Utils\HtmlUtils;
-use Olz\Utils\HttpUtils;
 use Olz\Utils\ImageUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsDetail extends OlzComponent {
     public function getHtml($args = []): string {
-        global $_GET;
-
+        $this->httpUtils()->validateGetParams([
+            'filter' => new FieldTypes\StringField(['allow_null' => true]),
+        ]);
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
-        $http_utils = HttpUtils::fromEnv();
-        $http_utils->setLog($this->log());
         $file_utils = FileUtils::fromEnv();
         $image_utils = ImageUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
         $html_utils = HtmlUtils::fromEnv();
-        $http_utils->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-        ], $_GET);
         $id = $args['id'] ?? null;
 
         $news_utils = NewsFilterUtils::fromEnv();
@@ -64,22 +59,20 @@ class OlzNewsDetail extends OlzComponent {
         try {
             $article_metadata = OlzArticleMetadata::render(['id' => $id]);
         } catch (\Exception $exc) {
-            $http_utils->dieWithHttpError(404);
+            $this->httpUtils()->dieWithHttpError(404);
         }
-
-        $out = '';
 
         $sql = "SELECT * FROM news WHERE (id = '{$id}') AND (on_off = '1') ORDER BY published_date DESC";
         $result = $db->query($sql);
         $row = $result->fetch_assoc();
 
         if (!$row) {
-            $http_utils->dieWithHttpError(404);
+            $this->httpUtils()->dieWithHttpError(404);
         }
 
         $title = $row['title'] ?? '';
         $back_filter = urlencode($_GET['filter'] ?? '{}');
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'back_link' => "{$code_href}news?filter={$back_filter}",
             'title' => "{$title} - News",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",

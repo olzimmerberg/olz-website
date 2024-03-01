@@ -17,14 +17,14 @@ class OlzFuerEinsteiger extends OlzComponent {
     public static $description = "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.";
 
     public function getHtml($args = []): string {
+        $this->httpUtils()->validateGetParams([]);
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
-        $out = '';
 
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
         $canonical_url = "https://{$host}{$code_href}fuer_einsteiger";
 
-        $out .= OlzHeader::render([
+        $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
             'canonical_url' => $canonical_url,

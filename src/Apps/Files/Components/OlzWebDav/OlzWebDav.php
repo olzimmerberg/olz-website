@@ -4,7 +4,6 @@ namespace Olz\Apps\Files\Components\OlzWebDav;
 
 use Olz\Apps\Files\Service\CallbackAuthBackend;
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\HttpUtils;
 use Sabre\DAV;
 
 class OlzWebDav extends OlzComponent {
@@ -27,11 +26,11 @@ class OlzWebDav extends OlzComponent {
         $this->authUtils()->setGetParams(['access_token' => $access_token]);
         $user = $this->authUtils()->getCurrentUser();
         if (!$user) {
-            HttpUtils::fromEnv()->dieWithHttpError(401);
+            $this->httpUtils()->dieWithHttpError(401);
         }
         $user_root = $user ? $user->getRoot() : '';
         if (!$user_root) {
-            HttpUtils::fromEnv()->dieWithHttpError(403);
+            $this->httpUtils()->dieWithHttpError(403);
         }
 
         $root_directory = new DAV\FS\Directory("{$data_path}OLZimmerbergAblage/{$user_root}");

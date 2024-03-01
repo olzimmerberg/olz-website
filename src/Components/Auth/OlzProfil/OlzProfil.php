@@ -27,6 +27,15 @@ class OlzProfil extends OlzComponent {
 
         $out .= "<div class='content-full profile'>";
         if ($user) {
+            if ($user->getId() !== $auth_utils->getCurrentAuthUser()->getId()) {
+                $out .= <<<ZZZZZZZZZZ
+                <div class='alert alert-danger' role='alert'>
+                    Du bist zurzeit als "{$user->getFullName()}" eingeloggt.
+                    <b>Änderungen dürfen nur mit der Einwilligung der betreffenden Person vorgenommen werden!</b>
+                </div>
+                ZZZZZZZZZZ;
+            }
+
             $email_verification_banner = '';
             if (
                 !$user->getParentUserId()

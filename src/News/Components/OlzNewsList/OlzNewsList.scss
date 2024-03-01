@@ -28,3 +28,16 @@
         display: block;
     }
 }
+
+.olz-no-access {
+    margin-top: 50px;
+    text-align: center;
+
+    .auth-buttons {
+        margin: 20px 50px;
+
+        .btn {
+            margin: 0 10px;
+        }
+    }
+}

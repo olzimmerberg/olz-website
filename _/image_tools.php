@@ -9,7 +9,7 @@ use Olz\Utils\ImageUtils;
 use Olz\Utils\LogsUtils;
 use Olz\Utils\UploadUtils;
 
-require_once __DIR__.'/config/init.php';
+require_once __DIR__.'/../src/OlzInit.php';
 
 if (basename($_SERVER["SCRIPT_FILENAME"] ?? '') == basename(__FILE__)) {
     if (!isset($_GET["request"])) {

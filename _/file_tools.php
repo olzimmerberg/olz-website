@@ -7,7 +7,7 @@
 use Olz\Utils\FileUtils;
 use Olz\Utils\LogsUtils;
 
-require_once __DIR__.'/config/init.php';
+require_once __DIR__.'/../src/OlzInit.php';
 
 global $mime_extensions, $extension_icons;
 

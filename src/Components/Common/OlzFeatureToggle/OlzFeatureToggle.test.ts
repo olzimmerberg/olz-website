@@ -1,4 +1,4 @@
-import {olzInitFeatures} from './features';
+import {olzInitFeatures} from './OlzFeatureToggle';
 
 describe('olzInitFeatures', () => {
     function getCssDisplayById(id: string) {

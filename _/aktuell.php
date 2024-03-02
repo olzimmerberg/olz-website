@@ -4,11 +4,10 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\LogsUtils;
+use Olz\Utils\StandardSession;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-require_once __DIR__.'/config/init.php';
-
-session_start_if_cookie_set();
+StandardSession::session_start_if_cookie_set();
 
 $logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();

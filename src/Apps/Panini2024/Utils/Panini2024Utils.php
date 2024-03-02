@@ -374,7 +374,7 @@ class Panini2024Utils {
                 }
             }
         }
-        return $pdf->Output('S');
+        return $pdf->Output('3x5.pdf', 'S');
     }
 
     public function render4x4Zip($options): string {
@@ -477,7 +477,7 @@ class Panini2024Utils {
                 }
             }
         }
-        return $pdf->Output('S');
+        return $pdf->Output('4x4.pdf', 'S');
     }
 
     private function cachePictureId($id) {
@@ -674,7 +674,7 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output('S');
+        return $pdf->Output('book.pdf', 'S');
     }
 
     private function getBookEntries() {
@@ -732,7 +732,7 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output('S');
+        return $pdf->Output('olz.pdf', 'S');
     }
 
     private function getOlzEntries() {
@@ -788,7 +788,7 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output('S');
+        return $pdf->Output('history.pdf', 'S');
     }
 
     private function getHistoryEntries() {
@@ -851,7 +851,7 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output('S');
+        return $pdf->Output('dresses.pdf', 'S');
     }
 
     private function getDressesEntries() {
@@ -906,7 +906,7 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output('S');
+        return $pdf->Output('maps.pdf', 'S');
     }
 
     private function getMapsEntries() {
@@ -991,7 +991,7 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output('S');
+        return $pdf->Output('back.pdf', 'S');
     }
 
     private function getBackEntries() {

@@ -2,7 +2,7 @@
 
 namespace Olz\Utils;
 
-require_once __DIR__.'/../../_/config/init.php';
+// require_once __DIR__.'/../OlzInit.php';
 
 class StandardSession extends AbstractSession {
     use WithUtilsTrait;
@@ -10,7 +10,7 @@ class StandardSession extends AbstractSession {
     public const UTILS = [];
 
     public function __construct() {
-        session_start_if_cookie_set();
+        self::session_start_if_cookie_set();
     }
 
     public function resetConfigure($config) {
@@ -58,6 +58,12 @@ class StandardSession extends AbstractSession {
         @session_unset();
         @session_destroy();
         @setcookie(session_name(), '', time() - 3600, '/');
+    }
+
+    public static function session_start_if_cookie_set() {
+        if (isset($_COOKIE[session_name()])) {
+            @session_start();
+        }
     }
 
     // @codeCoverageIgnoreEnd

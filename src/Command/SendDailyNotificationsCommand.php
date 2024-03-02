@@ -19,7 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mime\Email;
 
-require_once __DIR__.'/../../_/config/init.php';
+// require_once __DIR__.'/../OlzInit.php';
 
 #[AsCommand(name: 'olz:send-daily-notifications')]
 class SendDailyNotificationsCommand extends OlzCommand {

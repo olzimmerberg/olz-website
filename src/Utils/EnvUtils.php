@@ -2,7 +2,7 @@
 
 namespace Olz\Utils;
 
-require_once __DIR__.'/../../_/config/init.php';
+// require_once __DIR__.'/../OlzInit.php';
 
 class EnvUtils {
     public const UTILS = [];

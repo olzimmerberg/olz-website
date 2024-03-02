@@ -110,7 +110,7 @@ class Panini2024Utils {
             ];
             return [$pages, $options];
         }
-        throw new \Exception("Invalid spec: {$spec} ({$pattern})");
+        throw new NotFoundHttpException("Invalid spec: {$spec} ({$pattern})");
     }
 
     public function renderSingle($id) {
@@ -618,10 +618,10 @@ class Panini2024Utils {
             $pdf->SetTextColor(0, 117, 33);
         }
         $pdf->setXY($x + $wid * 0.7, $y + 1);
-        $pdf->Cell($wid * 0.3, 5, $num_mispunch);
+        $pdf->Cell($wid * 0.3, 5, $num_mispunch, 0, 0, 'R');
 
         $pdf->SetTextColor(0, 117, 33);
-        $pdf->SetFontSize(9);
+        $pdf->SetFontSize(8);
         $infos = json_decode($entry['infos'], true) ?? [];
         $favourite_map = $this->convertString($infos[0] ?? '');
         $pdf->setXY($x, $y + 6);

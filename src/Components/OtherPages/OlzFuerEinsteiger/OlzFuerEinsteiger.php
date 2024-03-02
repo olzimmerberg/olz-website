@@ -11,13 +11,16 @@ use Olz\Entity\Role;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
+use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzFuerEinsteiger extends OlzComponent {
     public static $title = "Für Einsteiger";
     public static $description = "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.";
 
     public function getHtml($args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams([
+            'von' => new FieldTypes\StringField(['allow_null' => true]),
+        ]);
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
 

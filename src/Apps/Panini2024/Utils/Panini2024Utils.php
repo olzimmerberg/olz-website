@@ -326,8 +326,10 @@ class Panini2024Utils {
             }
         }
 
-        $pdf = new OlzFpdf('P', 'mm', 'A4');
-        $pdf->AliasNbPages();
+        $pdf = new \TCPDF('P', 'mm', 'A4');
+        $pdf->setAutoPageBreak(false, 0);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
         foreach ($pages as $page) {
             $ids = $page['ids'] ?? [];
             $pdf->AddPage();
@@ -372,7 +374,7 @@ class Panini2024Utils {
                 }
             }
         }
-        return $pdf->Output();
+        return $pdf->Output('S');
     }
 
     public function render4x4Zip($options): string {
@@ -435,8 +437,10 @@ class Panini2024Utils {
             }
         }
 
-        $pdf = new OlzFpdf('P', 'mm', 'A4');
-        $pdf->AliasNbPages();
+        $pdf = new \TCPDF('P', 'mm', 'A4');
+        $pdf->setAutoPageBreak(false, 0);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
         foreach ($pages as $page) {
             $ids = $page['ids'] ?? [];
             $pdf->AddPage();
@@ -515,21 +519,23 @@ class Panini2024Utils {
 
     // --- BOOK ------------------------------------------------------------------------------------
 
-    private function getBookPdf() {
+    private function getBookPdf(): \TCPDF {
         $data_path = $this->envUtils()->getDataPath();
         $panini_path = "{$data_path}panini_data/";
 
-        $pdf = new OlzFpdf('P', 'mm', 'A4');
-        $pdf->AliasNbPages();
-        $font_dir_path = "{$panini_path}fonts/OpenSans/";
-        $pdf->AddFont('OpenSans', '', 'OpenSans-SemiBold.php', $font_dir_path);
-        $pdf->SetFont('OpenSans');
-        $pdf->SetAutoPageBreak(false);
+        $pdf = new \TCPDF('P', 'mm', 'A4');
+        $pdf->setAutoPageBreak(false, 0);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        $font_path = "{$panini_path}fonts/OpenSans/OpenSans-SemiBold.ttf";
+        $fontname = \TCPDF_FONTS::addTTFfont($font_path, 'TrueTypeUnicode');
+        $pdf->SetFont($fontname);
 
         return $pdf;
     }
 
-    private function addBookPage($pdf) {
+    private function addBookPage(\TCPDF $pdf) {
         $pdf->AddPage();
         $mainbg_path = __DIR__.'/../../../../assets/icns/mainbg.png';
         $info = getimagesize($mainbg_path);
@@ -550,7 +556,7 @@ class Panini2024Utils {
         }
     }
 
-    private function drawPlaceholder($pdf, $entry, $x, $y, $wid, $hei) {
+    private function drawPlaceholder(\TCPDF $pdf, $entry, $x, $y, $wid, $hei) {
         $is_landcape = $wid > $hei;
 
         $pdf->SetLineWidth(0.1);
@@ -564,13 +570,15 @@ class Panini2024Utils {
         $line2 = $this->convertString($entry['line2']);
         $has_line2 = $line2 !== '';
         $align = $has_line2 ? 'R' : 'C';
-        $pdf->drawTextBox($line1, $x, $y + $hei - ($has_line2 ? 10 : 8), $wid, 5, $align, 'M', false);
+        $pdf->setXY($x, $y + $hei - ($has_line2 ? 10 : 8));
+        $pdf->Cell($wid, 5, $line1, 0, 0, $align);
         if ($has_line2) {
-            $pdf->drawTextBox($line2, $x, $y + $hei - 6, $wid, 5, $align, 'M', false);
+            $pdf->setXY($x, $y + $hei - 6);
+            $pdf->Cell($wid, 5, $line2, 0, 0, $align);
         }
     }
 
-    private function drawEntryInfobox($pdf, $entry, $x, $y, $wid, $hei) {
+    private function drawEntryInfobox(\TCPDF $pdf, $entry, $x, $y, $wid, $hei) {
         $pdf->SetLineWidth(0.1);
         $pdf->SetDrawColor(0, 117, 33);
         $pdf->SetFillColor(212, 231, 206);
@@ -596,14 +604,8 @@ class Panini2024Utils {
                 $birthday = date('d.m.Y', strtotime($birthday));
             }
         }
-        $pdf->drawTextBox(
-            $birthday,
-            $x,
-            $y + 1,
-            $wid * 0.7 - 2,
-            5,
-            'L', 'T', false,
-        );
+        $pdf->setXY($x, $y + 1);
+        $pdf->Cell($wid * 0.7 - 2, 5, $birthday);
 
         $pdf->SetFontSize(14);
         $num_mispunch = strval($entry['num_mispunches']);
@@ -615,54 +617,25 @@ class Panini2024Utils {
         } else {
             $pdf->SetTextColor(0, 117, 33);
         }
-        $pdf->drawTextBox(
-            $num_mispunch,
-            $x + $wid * 0.7,
-            $y + 1,
-            $wid * 0.3,
-            5,
-            'R', 'T', false,
-        );
+        $pdf->setXY($x + $wid * 0.7, $y + 1);
+        $pdf->Cell($wid * 0.3, 5, $num_mispunch);
 
         $pdf->SetTextColor(0, 117, 33);
         $pdf->SetFontSize(9);
         $infos = json_decode($entry['infos'], true) ?? [];
         $favourite_map = $this->convertString($infos[0] ?? '');
-        $pdf->drawTextBox(
-            $favourite_map,
-            $x,
-            $y + 6,
-            $wid,
-            4,
-            'L', 'T', false,
-        );
+        $pdf->setXY($x, $y + 6);
+        $pdf->Cell($wid, 4, $favourite_map);
         $since_when = $this->convertString($infos[3] ?? '');
-        $pdf->drawTextBox(
-            $since_when,
-            $x,
-            $y + 10,
-            $wid,
-            4,
-            'L', 'T', false,
-        );
+        $pdf->setXY($x, $y + 10);
+        $pdf->Cell($wid, 4, $since_when);
         $motto = $this->convertString($infos[4] ?? '');
-        $pdf->drawTextBox(
-            $motto,
-            $x,
-            $y + 14,
-            $wid,
-            11,
-            'L', 'T', false,
-        );
+        $pdf->setXY($x, $y + 14);
+        $pdf->Multicell($wid, 11, $motto, 0, 'L');
     }
 
     private function convertString($string) {
-        $latin1_v1 = mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
-        $latin1_v2 = iconv('UTF-8', 'ISO-8859-1', $string);
-        if ($latin1_v1 !== $latin1_v2) {
-            $this->log()->notice("Could not convert string: {$string}");
-        }
-        return $latin1_v1;
+        return $string ?? '';
     }
 
     public function renderBookPages() {
@@ -701,7 +674,7 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output();
+        return $pdf->Output('S');
     }
 
     private function getBookEntries() {
@@ -759,14 +732,14 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output();
+        return $pdf->Output('S');
     }
 
     private function getOlzEntries() {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
-        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'olz/%' ORDER BY id ASC");
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 10 AND id < 20 ORDER BY id ASC");
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;
@@ -815,14 +788,14 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output();
+        return $pdf->Output('S');
     }
 
     private function getHistoryEntries() {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
-        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'history/%' ORDER BY id ASC");
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 50 AND id < 100 ORDER BY id ASC");
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;
@@ -878,14 +851,14 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output();
+        return $pdf->Output('S');
     }
 
     private function getDressesEntries() {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
-        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'dresses/%' ORDER BY id ASC");
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 40 AND id < 50 ORDER BY id ASC");
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;
@@ -933,14 +906,14 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output();
+        return $pdf->Output('S');
     }
 
     private function getMapsEntries() {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
-        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'karten/%' ORDER BY line1 ASC");
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 100 AND id < 150 ORDER BY line1 ASC");
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;
@@ -1018,14 +991,14 @@ class Panini2024Utils {
 
             $index++;
         }
-        return $pdf->Output();
+        return $pdf->Output('S');
     }
 
     private function getBackEntries() {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
-        $result_olz = $db->query("SELECT * FROM panini24 WHERE img_src LIKE 'back/%' ORDER BY id ASC");
+        $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 20 AND id < 40 ORDER BY id ASC");
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;

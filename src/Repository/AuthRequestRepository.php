@@ -7,7 +7,7 @@ use Olz\Entity\AuthRequest;
 use Olz\Utils\DbUtils;
 
 class AuthRequestRepository extends EntityRepository {
-    public const NUM_TRIES = 32;
+    public const NUM_TRIES = 8;
     public const TRIES_RESET_INTERVAL = '+8 hour'; // Reset after 8h
 
     public function addAuthRequest($ip_address, $action, $username, $timestamp = null) {

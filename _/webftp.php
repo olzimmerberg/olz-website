@@ -8,6 +8,7 @@ use Olz\Entity\AccessToken;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
+use Olz\Utils\StandardSession;
 
 // Datei herunterladen
 if (($_GET['ftp_mode'] ?? null) == 'get_file') {
@@ -17,9 +18,7 @@ if (($_GET['ftp_mode'] ?? null) == 'get_file') {
     exit;
 }
 
-require_once __DIR__.'/config/init.php';
-
-session_start_if_cookie_set();
+StandardSession::session_start_if_cookie_set();
 
 echo OlzHeader::render([
     'title' => "Web FTP",

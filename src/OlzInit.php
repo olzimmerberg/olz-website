@@ -1,5 +1,7 @@
 <?php
 
+namespace Olz;
+
 // Ampersand output
 ini_set('arg_separator.output', '&amp;');
 
@@ -18,14 +20,11 @@ if (!headers_sent()) {
     ini_set('session.cookie_httponly', 1);
     $server_name = $_SERVER['SERVER_NAME'] ?? '';
     if ($server_name != '127.0.0.1' && $server_name != 'localhost') {
-        session_save_path(realpath(__DIR__.'/../../../../sessions/'));
+        session_save_path(realpath(__DIR__.'/../../../sessions/'));
         ini_set('session.cookie_secure', 1);
     }
 }
 
-// Session start
-function session_start_if_cookie_set() {
-    if (isset($_COOKIE[session_name()])) {
-        @session_start();
-    }
+// Dummy class for PHP to STFU.
+class OlzInit {
 }

@@ -1,4 +1,4 @@
-@use '../../../../_/styles/colors' as colors;
+@use '../../../Components/Common/OlzStyles/colors' as colors;
 
 .olz-progress-bar-container {
     background-color: colors.$grey-border-color;

@@ -1,3 +1,5 @@
+import './OlzFeatureToggle.scss';
+
 const STYLE_ELEMENT_ID = 'olz-features-css';
 
 export function olzInitFeatures(featuresConfig: string): void {

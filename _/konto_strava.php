@@ -1,10 +1,9 @@
 <?php
 
 use Olz\Utils\EnvUtils;
+use Olz\Utils\StandardSession;
 
-require_once __DIR__.'/config/init.php';
-
-session_start_if_cookie_set();
+StandardSession::session_start_if_cookie_set();
 
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();

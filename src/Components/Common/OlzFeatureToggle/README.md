@@ -1,4 +1,4 @@
-# `features/`: Feature-Switches
+# `OlzFeatureToggle/`: Feature-Switches
 
 Hier wird die Möglichkeit geschaffen, mit `localStorage` gewisse Features zu aktivieren, die anderen Benutzern verborgen bleiben.
 

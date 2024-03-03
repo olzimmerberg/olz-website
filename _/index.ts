@@ -9,8 +9,6 @@ import lgVideo from 'lightgallery/plugins/video';
 import './index.scss';
 import './webftp.scss';
 
-export * from './features/index';
-export * from './styles/index';
 export * from './webftp';
 
 export * from '../src/Apps/index';

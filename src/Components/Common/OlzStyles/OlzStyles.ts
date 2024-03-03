@@ -7,3 +7,6 @@ import 'typeface-open-sans';
 import './bootstrap.scss';
 import './dropzone.scss';
 import './styles.scss';
+
+// TODO: remove dummy export
+export default null;

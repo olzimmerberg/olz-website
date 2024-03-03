@@ -6,13 +6,13 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
 use Olz\Entity\Counter;
+use Olz\Utils\StandardSession;
 
 class OlzHeaderWithoutRouting extends OlzComponent {
     public function getHtml($args = []): string {
         global $_SESSION;
 
-        require_once __DIR__.'/../../../../_/config/init.php';
-        session_start_if_cookie_set();
+        StandardSession::session_start_if_cookie_set();
 
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();

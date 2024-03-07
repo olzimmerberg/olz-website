@@ -19,13 +19,18 @@ class OlzVerein extends OlzComponent {
             'description' => self::$description,
         ]);
 
+        $db = $this->dbUtils()->getDb();
+        $result = $db->query("SELECT id, name, title FROM roles WHERE featured_index IS NOT NULL ORDER BY featured_index ASC");
+        $featured_out = '';
+        while ($row = $result->fetch_assoc()) {
+            $id = $row['id'];
+            $title = $row['title'] ?? $row['name'];
+            $featured_out .= "<div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-{$id}&quot;)' class='linkint'>{$title}</a></b></div>";
+        }
         $out .= "<div class='content-full'><div id='organigramm'>";
-        $out .= <<<'ZZZZZZZZZZ'
+        $out .= <<<ZZZZZZZZZZ
         <h2>Häufig gesucht</h2>
-        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-5&quot;)' class='linkint'>Präsident</a></b></div>
-        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-6&quot;)' class='linkint'>Mitgliederverwaltung</a></b></div>
-        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-18&quot;)' class='linkint'>Kartenverkauf</a></b></div>
-        <div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-19&quot;)' class='linkint'>Kleiderverkauf</a></b></div>
+        {$featured_out}
         <div>
             <br />
             <div><b>PC-Konto</b></div>

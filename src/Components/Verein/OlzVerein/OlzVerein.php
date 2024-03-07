@@ -28,7 +28,7 @@ class OlzVerein extends OlzComponent {
             $featured_out .= "<div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-{$id}&quot;)' class='linkint'>{$title}</a></b></div>";
         }
         $out .= "<div class='content-full'><div id='organigramm'>";
-        $out .= <<<'ZZZZZZZZZZ'
+        $out .= <<<ZZZZZZZZZZ
         <h2>Häufig gesucht</h2>
         {$featured_out}
         <div>

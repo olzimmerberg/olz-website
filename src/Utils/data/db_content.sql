@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240222220523
+-- MIGRATION: DoctrineMigrations\Version20240313195047
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -77,7 +77,8 @@ VALUES
     ('DoctrineMigrations\\Version20240204153949', '2024-02-04 16:40:49', '74'),
     ('DoctrineMigrations\\Version20240207225304', '2024-02-07 23:54:47', '144'),
     ('DoctrineMigrations\\Version20240219120442', '2024-02-19 13:06:31', '78'),
-    ('DoctrineMigrations\\Version20240222220523', '2024-02-22 23:07:58', '792');
+    ('DoctrineMigrations\\Version20240222220523', '2024-02-22 23:07:58', '792'),
+    ('DoctrineMigrations\\Version20240313195047', '2024-03-13 20:52:06', '644');
 
 -- Table downloads
 INSERT INTO downloads
@@ -264,58 +265,58 @@ VALUES
 
 -- Table roles
 INSERT INTO roles
-    (`id`, `username`, `old_username`, `name`, `description`, `page`, `parent_role`, `index_within_parent`, `featured_index`, `can_have_child_roles`, `guide`, `permissions`, `title`)
+    (`id`, `username`, `old_username`, `name`, `description`, `page`, `parent_role`, `index_within_parent`, `featured_index`, `can_have_child_roles`, `guide`, `permissions`, `title`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`)
 VALUES
-    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', 'Organisiert Anlässe', '', NULL, '0', NULL, '1', 'Anlässe organisieren:\n- 1 Jahr vorher: abklären\n- ...', '', NULL),
-    ('2', 'material', NULL, 'Material \r\n& Karten', '', '', NULL, '1', NULL, '1', '', '', NULL),
-    ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '', '', NULL, '2', NULL, '1', '', '', NULL),
-    ('4', 'finanzen', NULL, 'Finanzen', '', '', NULL, '3', NULL, '1', '', '', NULL),
-    ('5', 'praesi', NULL, 'Präsident', '', '', NULL, '4', '0', '1', '', '', NULL),
-    ('6', 'aktuariat', NULL, 'Aktuariat & \r\nMitgliederliste', '', '', NULL, '5', '1', '1', '', '', NULL),
-    ('7', 'nachwuchs-ausbildung', NULL, 'Nachwuchs & \r\nAusbildung', '', '', NULL, '6', NULL, '1', '', '', NULL),
-    ('8', 'nachwuchs-leistungssport', NULL, 'Nachwuchs & Leistungssport', '', '', NULL, '7', NULL, '1', '', '', NULL),
-    ('9', 'trainings', NULL, 'Training\r\n& Technik', '', '', NULL, '8', NULL, '1', '', '', NULL),
-    ('10', 'weekends', NULL, 'Weekends', '', '', '1', '0', NULL, '1', '', '', NULL),
-    ('11', 'staffeln', NULL, '5er- und Pfingststaffel', '', '', '1', '1', NULL, '1', '', '', NULL),
-    ('12', 'papiersammlung', NULL, 'Papiersammlung', '', '', '1', '2', NULL, '1', '', '', NULL),
-    ('13', 'papiersammlung-langnau', NULL, 'Langnau', '', '', '12', '0', NULL, '0', '', '', NULL),
-    ('14', 'papiersammlung-thalwil', NULL, 'Thalwil', '', '', '12', '1', NULL, '0', '', '', NULL),
-    ('15', 'flohmarkt', NULL, 'Flohmarkt', '', '', '1', '3', NULL, '0', '', '', NULL),
-    ('16', 'kartenchef', NULL, 'Kartenteam', '', '', '2', '0', NULL, '1', '', '', NULL),
-    ('17', 'kartenteam', NULL, 'Mit dabei', '', '', '16', '0', NULL, '0', '', '', NULL),
-    ('18', 'karten', 'kartenverkauf', 'Kartenverkauf', '', '', '2', '1', '2', '0', '', '', NULL),
-    ('19', 'kleider', 'kleiderverkauf', 'Kleiderverkauf', '', '', '2', '2', '3', '0', '', '', NULL),
-    ('20', 'material-group', NULL, 'Material', '', '', '2', '3', NULL, '1', '', '', NULL),
-    ('21', 'materiallager', NULL, 'Lager Thalwil', '', '', '20', '0', NULL, '0', '', '', NULL),
-    ('22', 'sportident', NULL, 'SportIdent', '', '', '20', '1', NULL, '0', '', '', NULL),
-    ('23', 'buessli', NULL, 'OLZ-Büssli', '', '', '2', '4', NULL, '1', '', '', NULL),
-    ('24', 'presse', NULL, 'Presse', '', '', '3', '0', NULL, '0', '', '', NULL),
-    ('25', 'website', NULL, 'Homepage', '', '', '3', '1', NULL, '0', '', '', NULL),
-    ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '', '', '3', '2', NULL, '0', '', '', NULL),
-    ('27', 'revisoren', NULL, 'Revisoren', '', '', '4', '0', NULL, '0', '', '', NULL),
-    ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '', '', '27', '0', NULL, '0', '', '', NULL),
-    ('29', 'sektionen', NULL, 'Sektionen', '', '', '5', '0', NULL, '1', '', '', NULL),
-    ('30', 'sektion-adliswil', NULL, 'Adliswil', '', '', '29', '0', NULL, '0', '', '', 'Orientierungslauf-Verein Adliswil'),
-    ('31', 'sektion-horgen', NULL, 'Horgen', '', '', '29', '1', NULL, '0', '', '', 'Orientierungslauf-Verein Horgen'),
-    ('32', 'sektion-langnau', NULL, 'Langnau', '', '', '29', '2', NULL, '0', '', '', 'Orientierungslauf-Verein Langnau am Albis'),
-    ('33', 'sektion-richterswil', NULL, 'Richterswil', '', '', '29', '3', NULL, '0', '', '', 'Orientierungslauf-Verein Richterswil'),
-    ('34', 'sektion-thalwil', NULL, 'Thalwil', '', '', '29', '4', NULL, '0', '', '', 'Orientierungslauf-Verein Thalwil'),
-    ('35', 'sektion-waedenswil', NULL, 'Wädenswil', '', '', '29', '5', NULL, '0', '', '', 'Orientierungslauf-Verein Wädenswil'),
-    ('36', 'ol-und-umwelt', NULL, 'OL und Umwelt', '', '', '5', '1', NULL, '0', '', '', NULL),
-    ('37', 'versa', 'mira', 'Prävention sexueller Ausbeutung', '', '', '5', '2', NULL, '0', '', '', NULL),
-    ('38', 'archiv', NULL, 'Chronik & Archiv', '', '', '6', '0', NULL, '0', '', '', NULL),
-    ('39', 'js-coaches', NULL, 'J+S Coach', '', '', '7', '0', NULL, '0', '', '', NULL),
-    ('40', 'js-leitende', NULL, 'J+S Leitende', '', '', '7', '1', NULL, '0', '', '', NULL),
-    ('41', 'js-kids', NULL, 'J+S Kids', '', '', '7', '2', NULL, '0', '', '', NULL),
-    ('42', 'scool', NULL, 'sCOOL', '', '', '7', '3', NULL, '0', '', '', NULL),
-    ('43', 'trainer-leistungssport', NULL, 'Trainer Leistungssport', '', '', '8', '0', NULL, '0', '', '', NULL),
-    ('44', 'team-gold', NULL, 'Team Gold', '', '', '8', '1', NULL, '1', '', '', NULL),
-    ('45', 'team-gold-leiter', NULL, 'Leiterteam', '', '', '44', '0', NULL, '0', '', '', NULL),
-    ('46', 'kartentrainings', NULL, 'Kartentraining', '', '', '9', '0', NULL, '0', '', '', NULL),
-    ('47', 'hallentrainings', NULL, 'Hallentraining', '', '', '9', '1', NULL, '0', '', '', NULL),
-    ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0', '', '', NULL),
-    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '', '', NULL),
-    ('50', 'gold-athleten', NULL, 'Athleten', '', '', '44', '1', NULL, '0', '', 'kaderblog', NULL);
+    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', 'Organisiert Anlässe', '', NULL, '0', NULL, '1', 'Anlässe organisieren:\n- 1 Jahr vorher: abklären\n- ...', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('2', 'material', NULL, 'Material \r\n& Karten', '', '', NULL, '1', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '', '', NULL, '2', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('4', 'finanzen', NULL, 'Finanzen', '', '', NULL, '3', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('5', 'praesi', NULL, 'Präsident', '', '', NULL, '4', '0', '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('6', 'aktuariat', NULL, 'Aktuariat & \r\nMitgliederliste', '', '', NULL, '5', '1', '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('7', 'nachwuchs-ausbildung', NULL, 'Nachwuchs & \r\nAusbildung', '', '', NULL, '6', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('8', 'nachwuchs-leistungssport', NULL, 'Nachwuchs & Leistungssport', '', '', NULL, '7', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('9', 'trainings', NULL, 'Training\r\n& Technik', '', '', NULL, '8', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('10', 'weekends', NULL, 'Weekends', '', '', '1', '0', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('11', 'staffeln', NULL, '5er- und Pfingststaffel', '', '', '1', '1', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('12', 'papiersammlung', NULL, 'Papiersammlung', '', '', '1', '2', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('13', 'papiersammlung-langnau', NULL, 'Langnau', '', '', '12', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('14', 'papiersammlung-thalwil', NULL, 'Thalwil', '', '', '12', '1', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('15', 'flohmarkt', NULL, 'Flohmarkt', '', '', '1', '3', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('16', 'kartenchef', NULL, 'Kartenteam', '', '', '2', '0', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('17', 'kartenteam', NULL, 'Mit dabei', '', '', '16', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('18', 'karten', 'kartenverkauf', 'Kartenverkauf', '', '', '2', '1', '2', '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('19', 'kleider', 'kleiderverkauf', 'Kleiderverkauf', '', '', '2', '2', '3', '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('20', 'material-group', NULL, 'Material', '', '', '2', '3', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('21', 'materiallager', NULL, 'Lager Thalwil', '', '', '20', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('22', 'sportident', NULL, 'SportIdent', '', '', '20', '1', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('23', 'buessli', NULL, 'OLZ-Büssli', '', '', '2', '4', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('24', 'presse', NULL, 'Presse', '', '', '3', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('25', 'website', NULL, 'Homepage', '', '', '3', '1', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '', '', '3', '2', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('27', 'revisoren', NULL, 'Revisoren', '', '', '4', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '', '', '27', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('29', 'sektionen', NULL, 'Sektionen', '', '', '5', '0', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('30', 'sektion-adliswil', NULL, 'Adliswil', '', '', '29', '0', NULL, '0', '', '', 'Orientierungslauf-Verein Adliswil', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('31', 'sektion-horgen', NULL, 'Horgen', '', '', '29', '1', NULL, '0', '', '', 'Orientierungslauf-Verein Horgen', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('32', 'sektion-langnau', NULL, 'Langnau', '', '', '29', '2', NULL, '0', '', '', 'Orientierungslauf-Verein Langnau am Albis', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('33', 'sektion-richterswil', NULL, 'Richterswil', '', '', '29', '3', NULL, '0', '', '', 'Orientierungslauf-Verein Richterswil', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('34', 'sektion-thalwil', NULL, 'Thalwil', '', '', '29', '4', NULL, '0', '', '', 'Orientierungslauf-Verein Thalwil', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('35', 'sektion-waedenswil', NULL, 'Wädenswil', '', '', '29', '5', NULL, '0', '', '', 'Orientierungslauf-Verein Wädenswil', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('36', 'ol-und-umwelt', NULL, 'OL und Umwelt', '', '', '5', '1', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('37', 'versa', 'mira', 'Prävention sexueller Ausbeutung', '', '', '5', '2', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('38', 'archiv', NULL, 'Chronik & Archiv', '', '', '6', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('39', 'js-coaches', NULL, 'J+S Coach', '', '', '7', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('40', 'js-leitende', NULL, 'J+S Leitende', '', '', '7', '1', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('41', 'js-kids', NULL, 'J+S Kids', '', '', '7', '2', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('42', 'scool', NULL, 'sCOOL', '', '', '7', '3', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('43', 'trainer-leistungssport', NULL, 'Trainer Leistungssport', '', '', '8', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('44', 'team-gold', NULL, 'Team Gold', '', '', '8', '1', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('45', 'team-gold-leiter', NULL, 'Leiterteam', '', '', '44', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('46', 'kartentrainings', NULL, 'Kartentraining', '', '', '9', '0', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('47', 'hallentrainings', NULL, 'Hallentraining', '', '', '9', '1', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('50', 'gold-athleten', NULL, 'Athleten', '', '', '44', '1', NULL, '0', '', 'kaderblog', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06');
 
 -- Table solv_events
 INSERT INTO solv_events

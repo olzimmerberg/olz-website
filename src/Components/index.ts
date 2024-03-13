@@ -7,4 +7,3 @@ export * from './OlzHtmlSitemap/OlzHtmlSitemap';
 export * from './OtherPages/index';
 export * from './Page/index';
 export * from './Users/index';
-export * from './Verein/index';

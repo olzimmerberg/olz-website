@@ -1,10 +1,10 @@
 <?php
 
-namespace Olz\Components\Verein\OlzOrganigramm;
+namespace Olz\Roles\Components\OlzOrganigramm;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Users\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 
 class OlzOrganigramm extends OlzComponent {
     public function getHtml($args = []): string {

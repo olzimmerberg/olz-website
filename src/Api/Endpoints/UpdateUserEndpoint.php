@@ -3,6 +3,7 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzEndpoint;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
@@ -49,6 +50,7 @@ class UpdateUserEndpoint extends OlzEndpoint {
         $auth_username = $this->session()->get('user');
 
         $user_repo = $this->entityManager()->getRepository(User::class);
+        $role_repo = $this->entityManager()->getRepository(Role::class);
         $user = $user_repo->findOneBy(['id' => $input['id']]);
 
         if ($user->getUsername() !== $auth_username) {
@@ -61,9 +63,18 @@ class UpdateUserEndpoint extends OlzEndpoint {
         if (!$this->authUtils()->isUsernameAllowed($new_username)) {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
-        $same_username_user = $user_repo->findOneBy(['username' => $new_username]);
-        if ($is_username_updated && $same_username_user) {
-            throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen."]]);
+        if ($is_username_updated) {
+            $same_username_user = $user_repo->findOneBy(['username' => $new_username]);
+            $same_old_username_user = $user_repo->findOneBy(['old_username' => $new_username]);
+            $same_username_role = $role_repo->findOneBy(['username' => $new_username]);
+            $same_old_username_role = $role_repo->findOneBy(['old_username' => $new_username]);
+            $is_existing_username = (bool) (
+                $same_username_user || $same_old_username_user
+                || $same_username_role || $same_old_username_role
+            );
+            if ($is_existing_username) {
+                throw new ValidationError(['username' => ["Dieser Benutzername ist bereits vergeben."]]);
+            }
         }
 
         // Email validation

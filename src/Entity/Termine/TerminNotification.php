@@ -3,7 +3,7 @@
 namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 use Olz\Repository\Termine\TerminNotificationRepository;
 

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240222220523
+-- MIGRATION: DoctrineMigrations\Version20240313195047
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -480,7 +480,22 @@ CREATE TABLE `roles` (
   `guide` longtext NOT NULL COMMENT 'restricted access',
   `permissions` longtext NOT NULL,
   `title` longtext DEFAULT NULL COMMENT 'page title for SEO',
-  PRIMARY KEY (`id`)
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `IDX_B63E2EC72B18554A` (`owner_user_id`),
+  KEY `IDX_B63E2EC75A75A473` (`owner_role_id`),
+  KEY `IDX_B63E2EC77D182D95` (`created_by_user_id`),
+  KEY `IDX_B63E2EC71A04EF5A` (`last_modified_by_user_id`),
+  CONSTRAINT `FK_B63E2EC71A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_B63E2EC72B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_B63E2EC75A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_B63E2EC77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

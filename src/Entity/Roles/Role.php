@@ -1,13 +1,19 @@
 <?php
 
-namespace Olz\Entity;
+namespace Olz\Entity\Roles;
 
 use Doctrine\ORM\Mapping as ORM;
-use Olz\Repository\RoleRepository;
+use Olz\Entity\Common\DataStorageInterface;
+use Olz\Entity\Common\DataStorageTrait;
+use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\User;
+use Olz\Repository\Roles\RoleRepository;
 
 #[ORM\Table(name: 'roles')]
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
-class Role {
+class Role extends OlzEntity implements DataStorageInterface {
+    use DataStorageTrait;
+
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -49,6 +55,7 @@ class Role {
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     public $can_have_child_roles;
 
+    #[ORM\JoinTable(name: 'users_roles')]
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles')]
     private $users;
 
@@ -92,12 +99,28 @@ class Role {
         return $this->title;
     }
 
-    public function setTitle($new_title) {
-        $this->title = $new_title;
+    public function setTitle($new_value) {
+        $this->title = $new_value;
     }
 
     public function getDescription() {
         return $this->description;
+    }
+
+    public function setDescription($new_value) {
+        $this->description = $new_value;
+    }
+
+    public function getGuide() {
+        return $this->guide;
+    }
+
+    public function setGuide($new_value) {
+        $this->guide = $new_value;
+    }
+
+    public function getPage() {
+        return $this->page;
     }
 
     public function getPermissions() {
@@ -108,16 +131,12 @@ class Role {
         $this->permissions = $new_permissions;
     }
 
-    public function getGuide() {
-        return $this->guide;
-    }
-
-    public function getPage() {
-        return $this->page;
-    }
-
     public function getParentRoleId() {
         return $this->parent_role;
+    }
+
+    public function setParentRoleId($new_value) {
+        $this->parent_role = $new_value;
     }
 
     public function getUsers() {
@@ -126,5 +145,37 @@ class Role {
 
     public function addUser($new_user) {
         $this->users->add($new_user);
+    }
+
+    public function getIndexWithinParent() {
+        return $this->index_within_parent;
+    }
+
+    public function setIndexWithinParent($new_value) {
+        $this->index_within_parent = $new_value;
+    }
+
+    public function getFeaturedIndex() {
+        return $this->featured_index;
+    }
+
+    public function setFeaturedIndex($new_value) {
+        $this->featured_index = $new_value;
+    }
+
+    public function getCanHaveChildRoles() {
+        return $this->can_have_child_roles;
+    }
+
+    public function setCanHaveChildRoles($new_value) {
+        $this->can_have_child_roles = $new_value;
+    }
+
+    public static function getEntityNameForStorage(): string {
+        return 'roles';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
     }
 }

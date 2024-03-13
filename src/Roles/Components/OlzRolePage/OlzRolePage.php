@@ -1,12 +1,12 @@
 <?php
 
-namespace Olz\Components\Verein\OlzRolePage;
+namespace Olz\Roles\Components\OlzRolePage;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 
 class OlzRolePage extends OlzComponent {
     public function getHtml($args = []): string {

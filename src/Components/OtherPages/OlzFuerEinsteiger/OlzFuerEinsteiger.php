@@ -7,7 +7,7 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;

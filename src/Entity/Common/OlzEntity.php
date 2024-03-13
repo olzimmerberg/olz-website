@@ -3,7 +3,7 @@
 namespace Olz\Entity\Common;
 
 use Doctrine\ORM\Mapping as ORM;
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 

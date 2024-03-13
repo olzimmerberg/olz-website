@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Doctrine\ORM\EntityManager;
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 
 class FakeEntityManager extends EntityManager {

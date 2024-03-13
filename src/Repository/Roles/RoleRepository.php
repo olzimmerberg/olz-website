@@ -1,19 +1,19 @@
 <?php
 
-namespace Olz\Repository;
+namespace Olz\Repository\Roles;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 
 class RoleRepository extends EntityRepository {
     public function findFuzzilyByUsername($username) {
-        $dql = "SELECT r FROM Olz:Role r WHERE r.username LIKE ?1";
+        $dql = "SELECT r FROM Olz:Roles\\Role r WHERE r.username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);
         return $query->getOneOrNullResult();
     }
 
     public function findFuzzilyByOldUsername($old_username) {
-        $dql = "SELECT r FROM Olz:Role r WHERE r.old_username LIKE ?1";
+        $dql = "SELECT r FROM Olz:Roles\\Role r WHERE r.old_username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $old_username);
         return $query->getOneOrNullResult();
     }
@@ -22,7 +22,7 @@ class RoleRepository extends EntityRepository {
         if ($roleId === null) {
             $dql = "
                 SELECT r
-                FROM Olz:Role r
+                FROM Olz:Roles\\Role r
                 WHERE
                     r.parent_role IS NULL
                     AND
@@ -32,7 +32,7 @@ class RoleRepository extends EntityRepository {
         } else {
             $dql = "
                 SELECT r
-                FROM Olz:Role r
+                FROM Olz:Roles\\Role r
                 WHERE
                     r.parent_role = ?1
                     AND

@@ -3,6 +3,7 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Roles\Role;
 use Olz\Repository\UserRepository;
 
 #[ORM\Table(name: 'users')]

@@ -12,7 +12,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Utils\NewsFilterUtils;

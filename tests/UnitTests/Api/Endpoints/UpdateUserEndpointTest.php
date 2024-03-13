@@ -81,7 +81,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointWrongUsername(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -109,7 +108,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointInvalidNewUsername(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -146,7 +144,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointWithNewOlzimmerbergEmail(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -452,7 +449,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
-                'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen.'],
+                'username' => ['Dieser Benutzername ist bereits vergeben.'],
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 'auth' => 'ftp',

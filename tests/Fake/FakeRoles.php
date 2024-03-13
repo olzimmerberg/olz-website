@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 
 class FakeRoles extends FakeFactory {
     public static function adminRole($fresh = false) {

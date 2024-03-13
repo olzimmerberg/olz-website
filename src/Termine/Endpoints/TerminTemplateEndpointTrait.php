@@ -43,10 +43,13 @@ trait TerminTemplateEndpointTrait {
     }
 
     public function getEntityData(TerminTemplate $entity): array {
-        $data_path = $this->envUtils()->getDataPath();
-
         $types_for_api = $this->getTypesForApi($entity->getTypes() ?? '');
 
+        // TODO: Migrate to this!
+        // $file_ids = $entity->getStoredFileUploadIds();
+
+        // TODO: Deprecate this!
+        $data_path = $this->envUtils()->getDataPath();
         $file_ids = [];
         $termin_template_files_path = "{$data_path}files/termin_templates/{$entity->getId()}/";
         $files_path_entries = is_dir($termin_template_files_path)

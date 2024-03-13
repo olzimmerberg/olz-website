@@ -1,11 +1,11 @@
 <?php
 
-namespace Olz\Components\Verein\OlzVerein;
+namespace Olz\Roles\Components\OlzVerein;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Components\Verein\OlzOrganigramm\OlzOrganigramm;
+use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;
 
 class OlzVerein extends OlzComponent {
     public static $title = "Verein";

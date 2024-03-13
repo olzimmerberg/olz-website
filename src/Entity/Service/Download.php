@@ -4,11 +4,14 @@ namespace Olz\Entity\Service;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
+use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 
 #[ORM\Table(name: 'downloads')]
 #[ORM\Entity]
 class Download extends OlzEntity implements DataStorageInterface {
+    use DataStorageTrait;
+
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]

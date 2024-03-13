@@ -5,6 +5,7 @@ namespace Olz\Entity\Termine;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Common\DataStorageInterface;
+use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Termine\TerminRepository;
 
@@ -12,6 +13,8 @@ use Olz\Repository\Termine\TerminRepository;
 #[ORM\Index(name: 'start_date_on_off_index', columns: ['start_date', 'on_off'])]
 #[ORM\Entity(repositoryClass: TerminRepository::class)]
 class Termin extends OlzEntity implements DataStorageInterface {
+    use DataStorageTrait;
+
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]

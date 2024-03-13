@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\User;

@@ -4,12 +4,15 @@ namespace Olz\Entity\Karten;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
+use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Karten\KartenRepository;
 
 #[ORM\Table(name: 'karten')]
 #[ORM\Entity(repositoryClass: KartenRepository::class)]
 class Karte extends OlzEntity implements DataStorageInterface {
+    use DataStorageTrait;
+
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]

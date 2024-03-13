@@ -3,7 +3,7 @@
 namespace Olz\News\Endpoints;
 
 use Olz\Entity\News\NewsEntry;
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -50,8 +50,6 @@ trait NewsEndpointTrait {
     }
 
     public function getEntityData(NewsEntry $entity): array {
-        $data_path = $this->envUtils()->getDataPath();
-
         $author_user = $entity->getAuthorUser();
         $author_role = $entity->getAuthorRole();
         $author_name = $entity->getAuthorName();
@@ -62,6 +60,11 @@ trait NewsEndpointTrait {
         $external_url = $entity->getExternalUrl();
         $termin_id = $entity->getTermin();
 
+        // TODO: Migrate to this!
+        // $file_ids = $entity->getStoredFileUploadIds();
+
+        // TODO: Deprecate this!
+        $data_path = $this->envUtils()->getDataPath();
         $file_ids = [];
         $news_entry_files_path = "{$data_path}files/news/{$entity->getId()}/";
         $files_path_entries = is_dir($news_entry_files_path)

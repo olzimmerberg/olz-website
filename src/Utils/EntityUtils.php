@@ -3,7 +3,7 @@
 namespace Olz\Utils;
 
 use Olz\Entity\Common\OlzEntity;
-use Olz\Entity\Role;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 
 class EntityUtils {

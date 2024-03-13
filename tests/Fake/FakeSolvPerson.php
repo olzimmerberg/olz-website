@@ -6,7 +6,7 @@ namespace Olz\Tests\Fake;
 
 use Olz\Entity\SolvPerson;
 
-class FakeSolvPerson extends FakeFactory {
+class FakeSolvPerson extends FakeEntity {
     public static function defaultSolvPerson($fresh = false) {
         return self::getFake(
             'default_solv_person',

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-class FakeFactory {
+class FakeEntity {
     public static $cache = [];
 
     protected static function getFake(

@@ -6,7 +6,7 @@ namespace Olz\Tests\Fake;
 
 use Olz\Entity\User;
 
-class FakeUsers extends FakeFactory {
+class FakeUsers extends FakeEntity {
     public static function adminUser($fresh = false) {
         return self::getFake(
             'admin_user',

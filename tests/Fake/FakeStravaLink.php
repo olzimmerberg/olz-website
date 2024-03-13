@@ -6,7 +6,7 @@ namespace Olz\Tests\Fake;
 
 use Olz\Entity\StravaLink;
 
-class FakeStravaLink extends FakeFactory {
+class FakeStravaLink extends FakeEntity {
     public static function defaultStravaLink($fresh = false) {
         return self::getFake(
             'default_strava_link',

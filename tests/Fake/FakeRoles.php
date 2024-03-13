@@ -6,7 +6,67 @@ namespace Olz\Tests\Fake;
 
 use Olz\Entity\Roles\Role;
 
-class FakeRoles extends FakeFactory {
+class FakeRoles extends FakeEntity {
+    public static function minimal($fresh = false) {
+        return self::getFake(
+            'minimal',
+            $fresh,
+            function () {
+                $entity = new Role();
+                $entity->setId(12);
+                $entity->setName('');
+                $entity->setOnOff(true);
+                return $entity;
+            }
+        );
+    }
+
+    public static function empty($fresh = false) {
+        return self::getFake(
+            'empty',
+            $fresh,
+            function () {
+                $entity = new Role();
+                $entity->setId(123);
+                $entity->setUsername('');
+                $entity->setOldUsername('');
+                $entity->setName('');
+                $entity->setTitle('');
+                $entity->setDescription('');
+                $entity->setGuide('');
+                $entity->setParentRoleId(null);
+                $entity->setIndexWithinParent(-1);
+                $entity->setFeaturedIndex(null);
+                $entity->setCanHaveChildRoles(false);
+                $entity->setOnOff(false);
+                return $entity;
+            }
+        );
+    }
+
+    public static function maximal($fresh = false) {
+        return self::getFake(
+            'maximal',
+            $fresh,
+            function () {
+                $entity = new Role();
+                $entity->setId(1234);
+                $entity->setUsername('test-role');
+                $entity->setOldUsername('old-test-role');
+                $entity->setName('Test Role');
+                $entity->setTitle('Title Test Role');
+                $entity->setDescription('Description Test Role');
+                $entity->setGuide('Just do it!');
+                $entity->setParentRoleId(8);
+                $entity->setIndexWithinParent(2);
+                $entity->setFeaturedIndex(6);
+                $entity->setCanHaveChildRoles(true);
+                $entity->setOnOff(true);
+                return $entity;
+            }
+        );
+    }
+
     public static function adminRole($fresh = false) {
         return self::getFake(
             'admin_role',

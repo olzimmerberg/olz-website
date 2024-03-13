@@ -122,6 +122,34 @@ export type OlzNewsDataOrNull = {
     'fileIds': Array<string>,
 }|null;
 
+export type OlzRoleData = {
+    'username': string,
+    'name': string,
+    'title': string|null,
+    'description': string,
+    'guide': string,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
+    'parentRole': number|null,
+    'indexWithinParent': number|null,
+    'featuredIndex': number|null,
+    'canHaveChildRoles': boolean,
+};
+
+export type OlzRoleDataOrNull = {
+    'username': string,
+    'name': string,
+    'title': string|null,
+    'description': string,
+    'guide': string,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
+    'parentRole': number|null,
+    'indexWithinParent': number|null,
+    'featuredIndex': number|null,
+    'canHaveChildRoles': boolean,
+}|null;
+
 export type OlzWeeklyPictureData = {
     'text': string,
     'imageId': string,
@@ -340,6 +368,11 @@ export type OlzApiEndpoint =
     'editNews'|
     'updateNews'|
     'deleteNews'|
+    'createRole'|
+    'getRole'|
+    'editRole'|
+    'updateRole'|
+    'deleteRole'|
     'createWeeklyPicture'|
     'createTermin'|
     'getTermin'|
@@ -577,6 +610,24 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'data': OlzNewsDataOrNull,
         },
     deleteNews: {
+            'id': number,
+        },
+    createRole: {
+            'meta': OlzMetaData,
+            'data': OlzRoleData,
+        },
+    getRole: {
+            'id': number,
+        },
+    editRole: {
+            'id': number,
+        },
+    updateRole: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzRoleDataOrNull,
+        },
+    deleteRole: {
             'id': number,
         },
     createWeeklyPicture: {
@@ -888,6 +939,27 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': number,
         },
     deleteNews: {
+            'status': 'OK'|'ERROR',
+        },
+    createRole: {
+            'status': 'OK'|'ERROR',
+            'id': number|null,
+        },
+    getRole: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzRoleData,
+        },
+    editRole: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzRoleData,
+        },
+    updateRole: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteRole: {
             'status': 'OK'|'ERROR',
         },
     createWeeklyPicture: {

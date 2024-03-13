@@ -65,23 +65,23 @@ class EnvUtils {
     private $app_statistics_username;
     private $app_statistics_password;
 
-    public function setDataPath($data_path) {
+    public function setDataPath(string $data_path): void {
         $this->data_path = $data_path;
     }
 
-    public function setDataHref($data_href) {
+    public function setDataHref(string $data_href): void {
         $this->data_href = $data_href;
     }
 
-    public function setCodePath($code_path) {
+    public function setCodePath(string $code_path): void {
         $this->code_path = $code_path;
     }
 
-    public function setCodeHref($code_href) {
+    public function setCodeHref(string $code_href): void {
         $this->code_href = $code_href;
     }
 
-    public function configure($config_dict) {
+    public function configure(array $config_dict): void {
         $this->syslog_path = $config_dict['syslog_path'] ?? $this->syslog_path;
         $this->base_href = $config_dict['base_href'] ?? $this->base_href;
         $this->app_env = $config_dict['app_env'] ?? $this->app_env;
@@ -136,185 +136,185 @@ class EnvUtils {
         $this->app_statistics_password = $config_dict['app_statistics_password'] ?? $this->app_statistics_password;
     }
 
-    public function getDataPath() {
+    public function getDataPath(): string {
         return $this->data_path;
     }
 
-    public function getDataHref() {
+    public function getDataHref(): string {
         return $this->data_href;
     }
 
-    public function getCodePath() {
+    public function getCodePath(): string {
         return $this->code_path;
     }
 
-    public function getCodeHref() {
+    public function getCodeHref(): string {
         return $this->code_href;
     }
 
-    public function getSyslogPath() {
+    public function getSyslogPath(): string {
         return $this->syslog_path;
     }
 
-    public function getBaseHref() {
+    public function getBaseHref(): string {
         return $this->base_href;
     }
 
-    public function getAppEnv() {
+    public function getAppEnv(): string {
         return $this->app_env;
     }
 
-    public function getMysqlHost() {
+    public function getMysqlHost(): string {
         return $this->mysql_host;
     }
 
-    public function getMysqlPort() {
+    public function getMysqlPort(): string {
         return $this->mysql_port;
     }
 
-    public function getMysqlServer() {
+    public function getMysqlServer(): string {
         return "{$this->mysql_host}:{$this->mysql_port}";
     }
 
-    public function getMysqlUsername() {
+    public function getMysqlUsername(): string {
         return $this->mysql_username;
     }
 
-    public function getMysqlPassword() {
+    public function getMysqlPassword(): string {
         return $this->mysql_password;
     }
 
-    public function getMysqlSchema() {
+    public function getMysqlSchema(): string {
         return $this->mysql_schema;
     }
 
-    public function hasUnlimitedCron() {
+    public function hasUnlimitedCron(): bool {
         return $this->has_unlimited_cron;
     }
 
-    public function getDateUtilsClassName() {
+    public function getDateUtilsClassName(): string {
         return $this->date_utils_class_name;
     }
 
-    public function getDateUtilsClassArgs() {
+    public function getDateUtilsClassArgs(): array {
         return $this->date_utils_class_args;
     }
 
-    public function getDatabaseBackupKey() {
+    public function getDatabaseBackupKey(): string {
         return $this->database_backup_key;
     }
 
-    public function getEmailReactionKey() {
+    public function getEmailReactionKey(): string {
         return $this->email_reaction_key;
     }
 
-    public function getIdEncryptionKey() {
+    public function getIdEncryptionKey(): string {
         return $this->id_encryption_key;
     }
 
-    public function getCronAuthenticityCode() {
+    public function getCronAuthenticityCode(): string {
         return $this->cron_authenticity_code;
     }
 
-    public function getRecaptchaSecretKey() {
+    public function getRecaptchaSecretKey(): string {
         return $this->recaptcha_secret_key;
     }
 
-    public function getStravaClientId() {
+    public function getStravaClientId(): string {
         return $this->strava_client_id;
     }
 
-    public function getStravaClientSecret() {
+    public function getStravaClientSecret(): string {
         return $this->strava_client_secret;
     }
 
-    public function getTelegramBotName() {
+    public function getTelegramBotName(): string {
         return $this->telegram_bot_name;
     }
 
-    public function getTelegramBotToken() {
+    public function getTelegramBotToken(): string {
         return $this->telegram_bot_token;
     }
 
-    public function getTelegramAuthenticityCode() {
+    public function getTelegramAuthenticityCode(): string {
         return $this->telegram_authenticity_code;
     }
 
-    public function getImapHost() {
+    public function getImapHost(): string {
         return $this->imap_host;
     }
 
-    public function getImapPort() {
+    public function getImapPort(): string {
         return $this->imap_port;
     }
 
-    public function getImapFlags() {
+    public function getImapFlags(): string {
         return $this->imap_flags;
     }
 
-    public function getImapUsername() {
+    public function getImapUsername(): string {
         return $this->imap_username;
     }
 
-    public function getImapPassword() {
+    public function getImapPassword(): string {
         return $this->imap_password;
     }
 
-    public function getSmtpHost() {
+    public function getSmtpHost(): string {
         return $this->smtp_host;
     }
 
-    public function getSmtpPort() {
+    public function getSmtpPort(): string {
         return $this->smtp_port;
     }
 
-    public function getSmtpUsername() {
+    public function getSmtpUsername(): string {
         return $this->smtp_username;
     }
 
-    public function getSmtpPassword() {
+    public function getSmtpPassword(): string {
         return $this->smtp_password;
     }
 
-    public function getSmtpSecure() {
+    public function getSmtpSecure(): string {
         return $this->smtp_secure;
     }
 
-    public function getSmtpDebug() {
+    public function getSmtpDebug(): int {
         return $this->smtp_debug;
     }
 
-    public function getSmtpFrom() {
+    public function getSmtpFrom(): string {
         return $this->smtp_from;
     }
 
-    public function getAppSearchEnginesUsername() {
+    public function getAppSearchEnginesUsername(): string {
         return $this->app_search_engines_username;
     }
 
-    public function getAppSearchEnginesPassword() {
+    public function getAppSearchEnginesPassword(): string {
         return $this->app_search_engines_password;
     }
 
-    public function getAppMonitoringUsername() {
+    public function getAppMonitoringUsername(): string {
         return $this->app_monitoring_username;
     }
 
-    public function getAppMonitoringPassword() {
+    public function getAppMonitoringPassword(): string {
         return $this->app_monitoring_password;
     }
 
-    public function getAppStatisticsUsername() {
+    public function getAppStatisticsUsername(): string {
         return $this->app_statistics_username;
     }
 
-    public function getAppStatisticsPassword() {
+    public function getAppStatisticsPassword(): string {
         return $this->app_statistics_password;
     }
 
     protected static $from_env_instance;
 
-    public static function fromEnv() {
+    public static function fromEnv(): self {
         if (self::$from_env_instance == null) {
             global $_SERVER;
 
@@ -350,7 +350,7 @@ class EnvUtils {
         return self::$from_env_instance;
     }
 
-    public static function computeDataPath() {
+    public static function computeDataPath(): string {
         $document_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
         if ($document_root) {
             return "{$document_root}/";
@@ -366,7 +366,7 @@ class EnvUtils {
         return "{$local_root}/";
     }
 
-    public static function getConfigPath() {
+    public static function getConfigPath(): null|string {
         global $_SERVER;
 
         $env = $_ENV['APP_ENV'] ?? getenv('APP_ENV') ?? null;
@@ -383,7 +383,7 @@ class EnvUtils {
         return null;
     }
 
-    public static function assertValidFromEnvContext() {
+    public static function assertValidFromEnvContext(): void {
         global $_SERVER;
 
         $argv = $_SERVER['argv'] ?? [];

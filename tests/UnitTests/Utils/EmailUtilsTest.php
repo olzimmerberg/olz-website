@@ -17,12 +17,6 @@ use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Client;
 
-class FakeEnvUtilsForSendmail extends Fake\FakeEnvUtils {
-    public function getSmtpHost() {
-        return null;
-    }
-}
-
 class TestOnlyEmailUtils extends EmailUtils {
     public function testOnlyGetRandomEmailVerificationToken() {
         return $this->getRandomEmailVerificationToken();

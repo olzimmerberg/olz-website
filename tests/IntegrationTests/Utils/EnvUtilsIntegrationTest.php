@@ -8,7 +8,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\EnvUtils;
 
 class FakeIntegrationTestEnvUtils extends EnvUtils {
-    public static function fromEnv() {
+    public static function fromEnv(): EnvUtils {
         // For this test, clear the "cache" always
         parent::$from_env_instance = null;
         return parent::fromEnv();

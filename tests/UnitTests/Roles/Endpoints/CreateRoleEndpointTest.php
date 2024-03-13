@@ -24,7 +24,7 @@ final class CreateRoleEndpointTest extends UnitTestCase {
             'onOff' => true,
         ],
         'data' => [
-            'username' => 'new-test-role',
+            'username' => 'test',
             'name' => 'Test Role',
             'title' => 'Title Test Role',
             'description' => 'Description Test Role',
@@ -95,7 +95,7 @@ final class CreateRoleEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $entity = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
-        $this->assertSame('new-test-role', $entity->getUsername());
+        $this->assertSame('test', $entity->getUsername());
         $this->assertSame(null, $entity->getOldUsername());
         $this->assertSame('Test Role', $entity->getName());
         $this->assertSame('Title Test Role', $entity->getTitle());

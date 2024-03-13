@@ -4,43 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
-use Olz\Entity\Roles\Role;
 use Olz\Roles\Endpoints\UpdateRoleEndpoint;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeUpdateRoleEndpointRoleRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new Role();
-            $entry->setId(123);
-            $entry->setUsername('test-role');
-            $entry->setOldUsername('old-test-role');
-            $entry->setName('Test Role');
-            $entry->setTitle('Title Test Role');
-            $entry->setDescription('Description Test Role');
-            $entry->setGuide('Just do it!');
-            $entry->setParentRoleId(8);
-            $entry->setIndexWithinParent(2);
-            $entry->setFeaturedIndex(6);
-            $entry->setCanHaveChildRoles(true);
-            $entry->setOnOff(true);
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        if ($where === ['username' => 'new-test-role']) {
-            return null;
-        }
-        if ($where === ['old_username' => 'new-test-role']) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -49,14 +17,14 @@ class FakeUpdateRoleEndpointRoleRepository {
  */
 final class UpdateRoleEndpointTest extends UnitTestCase {
     public const VALID_INPUT = [
-        'id' => 123,
+        'id' => Fake\FakeOlzRepository::MAXIMAL_ID,
         'meta' => [
             'ownerUserId' => 1,
             'ownerRoleId' => 1,
             'onOff' => true,
         ],
         'data' => [
-            'username' => 'new-test-role',
+            'username' => 'test',
             'name' => 'Test Role',
             'title' => 'Title Test Role',
             'description' => 'Description Test Role',
@@ -93,9 +61,6 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateRoleEndpointNoSuchEntity(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $repo = new FakeUpdateRoleEndpointRoleRepository();
-        $entity_manager->repositories[Role::class] = $repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateRoleEndpoint();
@@ -104,7 +69,7 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         try {
             $endpoint->call([
                 ...self::VALID_INPUT,
-                'id' => 9999,
+                'id' => Fake\FakeOlzRepository::NULL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -117,9 +82,6 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateRoleEndpointNoEntityAccess(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $repo = new FakeUpdateRoleEndpointRoleRepository();
-        $entity_manager->repositories[Role::class] = $repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new UpdateRoleEndpoint();
@@ -138,9 +100,7 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateRoleEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $repo = new FakeUpdateRoleEndpointRoleRepository();
-        $entity_manager->repositories[Role::class] = $repo;
+        $id = Fake\FakeOlzRepository::MAXIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateRoleEndpoint();
@@ -165,14 +125,15 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => 123,
+            'id' => $id,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $entity = $entity_manager->persisted[0];
-        $this->assertSame(123, $entity->getId());
-        $this->assertSame('new-test-role', $entity->getUsername());
+        $this->assertSame($id, $entity->getId());
+        $this->assertSame('test', $entity->getUsername());
         $this->assertSame('test-role', $entity->getOldUsername());
         $this->assertSame('Test Role', $entity->getName());
         $this->assertSame('Title Test Role', $entity->getTitle());
@@ -187,8 +148,6 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         $this->assertSame([
             [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
-
-        $id = 123;
 
         $this->assertSame([
             [

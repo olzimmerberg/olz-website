@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-class FakeRoleRepository {
+class FakeRoleRepository extends FakeOlzRepository {
+    public $fakeOlzEntityClass = FakeRoles::class;
+
     public $roleToBeFound;
     public $roleToBeFoundForQuery;
     public $fakeProcessEmailCommandRole;
@@ -33,6 +35,9 @@ class FakeRoleRepository {
             $this->vorstand_role = FakeRoles::vorstandRole();
             return $this->vorstand_role;
         }
+        if ($where === ['username' => 'test'] || $where === ['old_username' => 'test']) {
+            return null;
+        }
         // if ($where === ['username' => 'noaccess']) {
         //     $this->noaccess_role = FakeRoles::defaultRole(true);
         //     $this->noaccess_role->setPermissions('ftp');
@@ -48,7 +53,7 @@ class FakeRoleRepository {
         //     $this->no_access_role->setPermissions('');
         //     return $this->no_access_role;
         // }
-        return null;
+        return parent::findOneBy($where);
     }
 
     public function findFuzzilyByUsername($username) {

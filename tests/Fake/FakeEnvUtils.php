@@ -12,138 +12,138 @@ class FakeEnvUtils extends EnvUtils {
     public $has_unlimited_cron = false;
     public $fake_data_path;
 
-    public function hasUnlimitedCron() {
+    public function hasUnlimitedCron(): bool {
         return $this->has_unlimited_cron;
     }
 
-    public function getCronAuthenticityCode() {
+    public function getCronAuthenticityCode(): string {
         return 'some-token';
     }
 
-    public function getDatabaseBackupKey() {
+    public function getDatabaseBackupKey(): string {
         return 'some-secret-key';
     }
 
-    public function getRecaptchaSecretKey() {
+    public function getRecaptchaSecretKey(): string {
         return 'some-secret-key';
     }
 
-    public function getTelegramAuthenticityCode() {
+    public function getTelegramAuthenticityCode(): string {
         return 'some-token';
     }
 
-    public function getBaseHref() {
+    public function getBaseHref(): string {
         return 'http://fake-base-url';
     }
 
-    public function getAppEnv() {
+    public function getAppEnv(): string {
         return $this->app_env;
     }
 
-    public function getCodeHref() {
+    public function getCodeHref(): string {
         return '/_/';
     }
 
-    public function getDataPath() {
+    public function getDataPath(): string {
         if ($this->fake_data_path !== null) {
             return $this->fake_data_path;
         }
         return __DIR__.'/../UnitTests/tmp/';
     }
 
-    public function getDataHref() {
+    public function getDataHref(): string {
         return '/data-href/';
     }
 
-    public function getSyslogPath() {
+    public function getSyslogPath(): string {
         return __DIR__.'/../UnitTests/tmp/syslog/';
     }
 
-    public function getImapHost() {
+    public function getImapHost(): string {
         return '127.0.0.1';
     }
 
-    public function getImapPort() {
+    public function getImapPort(): string {
         return '143';
     }
 
-    public function getImapFlags() {
+    public function getImapFlags(): string {
         return '/notls';
     }
 
-    public function getImapUsername() {
+    public function getImapUsername(): string {
         return 'imap@staging.olzimmerberg.ch';
     }
 
-    public function getImapPassword() {
+    public function getImapPassword(): string {
         return '123456';
     }
 
-    public function getSmtpHost() {
+    public function getSmtpHost(): string {
         return 'localhost';
     }
 
-    public function getSmtpPort() {
+    public function getSmtpPort(): string {
         return '25';
     }
 
-    public function getSmtpUsername() {
+    public function getSmtpUsername(): string {
         return 'fake@staging.olzimmerberg.ch';
     }
 
-    public function getSmtpPassword() {
+    public function getSmtpPassword(): string {
         return '1234';
     }
 
-    public function getSmtpSecure() {
+    public function getSmtpSecure(): string {
         return 'tls';
     }
 
-    public function getSmtpDebug() {
+    public function getSmtpDebug(): int {
         return 3;
     }
 
-    public function getSmtpFrom() {
+    public function getSmtpFrom(): string {
         return 'fake@staging.olzimmerberg.ch';
     }
 
-    public function getEmailReactionKey() {
+    public function getEmailReactionKey(): string {
         return 'aaaaaaaaaaaaaaaaaaaa';
     }
 
-    public function getIdEncryptionKey() {
+    public function getIdEncryptionKey(): string {
         return 'aaaaaaaaaaaaaaaaaaac';
     }
 
-    public function getTelegramBotName() {
+    public function getTelegramBotName(): string {
         return 'fake-bot-name';
     }
 
-    public function getTelegramBotToken() {
+    public function getTelegramBotToken(): string {
         return 'fake-bot-token';
     }
 
-    public function getAppSearchEnginesUsername() {
+    public function getAppSearchEnginesUsername(): string {
         return 'fake@gmail.com';
     }
 
-    public function getAppSearchEnginesPassword() {
+    public function getAppSearchEnginesPassword(): string {
         return 'zxcv';
     }
 
-    public function getAppMonitoringUsername() {
+    public function getAppMonitoringUsername(): string {
         return 'fake';
     }
 
-    public function getAppMonitoringPassword() {
+    public function getAppMonitoringPassword(): string {
         return 'asdf';
     }
 
-    public function getAppStatisticsUsername() {
+    public function getAppStatisticsUsername(): string {
         return 'fake';
     }
 
-    public function getAppStatisticsPassword() {
+    public function getAppStatisticsPassword(): string {
         return 'qwer';
     }
 }

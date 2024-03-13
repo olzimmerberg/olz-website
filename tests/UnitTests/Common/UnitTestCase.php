@@ -48,7 +48,7 @@ class UnitTestCase extends TestCase {
         $general_utils->removeRecursive($data_path);
         mkdir($data_path);
 
-        Fake\FakeFactory::reset();
+        Fake\FakeEntity::reset();
         $logger = Fake\FakeLogger::create();
         WithUtilsCache::setAll([
             'authUtils' => new Fake\FakeAuthUtils(),

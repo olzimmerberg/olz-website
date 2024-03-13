@@ -6,7 +6,7 @@ namespace Olz\Tests\Fake;
 
 use Olz\Entity\NotificationSubscription;
 
-class FakeNotificationSubscription extends FakeFactory {
+class FakeNotificationSubscription extends FakeEntity {
     public static function defaultNotificationSubscription($fresh = false) {
         return self::getFake(
             'default_notification_subscription',

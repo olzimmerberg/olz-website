@@ -43,6 +43,11 @@ class OlzApi extends Api {
         \Olz\News\Endpoints\EditNewsEndpoint $editNewsEndpoint,
         \Olz\News\Endpoints\UpdateNewsEndpoint $updateNewsEndpoint,
         \Olz\News\Endpoints\DeleteNewsEndpoint $deleteNewsEndpoint,
+        \Olz\Roles\Endpoints\CreateRoleEndpoint $createRoleEndpoint,
+        \Olz\Roles\Endpoints\GetRoleEndpoint $getRoleEndpoint,
+        \Olz\Roles\Endpoints\EditRoleEndpoint $editRoleEndpoint,
+        \Olz\Roles\Endpoints\UpdateRoleEndpoint $updateRoleEndpoint,
+        \Olz\Roles\Endpoints\DeleteRoleEndpoint $deleteRoleEndpoint,
         \Olz\Service\Endpoints\CreateDownloadEndpoint $createDownloadEndpoint,
         \Olz\Service\Endpoints\GetDownloadEndpoint $getDownloadEndpoint,
         \Olz\Service\Endpoints\EditDownloadEndpoint $editDownloadEndpoint,
@@ -126,6 +131,14 @@ class OlzApi extends Api {
         $this->registerEndpoint('updateNews', $updateNewsEndpoint);
         $this->registerEndpoint('deleteNews', $deleteNewsEndpoint);
 
+        // Roles
+
+        $this->registerEndpoint('createRole', $createRoleEndpoint);
+        $this->registerEndpoint('getRole', $getRoleEndpoint);
+        $this->registerEndpoint('editRole', $editRoleEndpoint);
+        $this->registerEndpoint('updateRole', $updateRoleEndpoint);
+        $this->registerEndpoint('deleteRole', $deleteRoleEndpoint);
+
         // Startseite
 
         $this->registerEndpoint('createWeeklyPicture', $createWeeklyPictureEndpoint);
@@ -203,6 +216,11 @@ class OlzApi extends Api {
             new \Olz\News\Endpoints\EditNewsEndpoint(),
             new \Olz\News\Endpoints\UpdateNewsEndpoint(),
             new \Olz\News\Endpoints\DeleteNewsEndpoint(),
+            new \Olz\Roles\Endpoints\CreateRoleEndpoint(),
+            new \Olz\Roles\Endpoints\GetRoleEndpoint(),
+            new \Olz\Roles\Endpoints\EditRoleEndpoint(),
+            new \Olz\Roles\Endpoints\UpdateRoleEndpoint(),
+            new \Olz\Roles\Endpoints\DeleteRoleEndpoint(),
             new \Olz\Service\Endpoints\CreateDownloadEndpoint(),
             new \Olz\Service\Endpoints\GetDownloadEndpoint(),
             new \Olz\Service\Endpoints\EditDownloadEndpoint(),

@@ -6,7 +6,7 @@ namespace Olz\Tests\Fake;
 
 use Olz\Entity\SolvEvent;
 
-class FakeSolvEvent extends FakeFactory {
+class FakeSolvEvent extends FakeEntity {
     public static function defaultSolvEvent($fresh = false) {
         return self::getFake(
             'default_solv_event',

@@ -4,60 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
-use Olz\Entity\Roles\Role;
 use Olz\Roles\Endpoints\GetRoleEndpoint;
+use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeGetRoleEndpointRoleRepository {
-    public function findOneBy($where) {
-        // Minimal
-        if ($where === ['id' => 12]) {
-            $entry = new Role();
-            $entry->setId(12);
-            $entry->setName('');
-            $entry->setOnOff(true);
-            return $entry;
-        }
-        // Empty
-        if ($where === ['id' => 123]) {
-            $entry = new Role();
-            $entry->setId(123);
-            $entry->setUsername('');
-            $entry->setOldUsername('');
-            $entry->setName('');
-            $entry->setTitle('');
-            $entry->setDescription('');
-            $entry->setGuide('');
-            $entry->setParentRoleId(null);
-            $entry->setIndexWithinParent(-1);
-            $entry->setFeaturedIndex(null);
-            $entry->setCanHaveChildRoles(false);
-            $entry->setOnOff(false);
-            return $entry;
-        }
-        // Maximal
-        if ($where === ['id' => 1234]) {
-            $entry = new Role();
-            $entry->setId(1234);
-            $entry->setUsername('test-role');
-            $entry->setOldUsername('old-test-role');
-            $entry->setName('Test Role');
-            $entry->setTitle('Title Test Role');
-            $entry->setDescription('Description Test Role');
-            $entry->setGuide('Just do it!');
-            $entry->setParentRoleId(8);
-            $entry->setIndexWithinParent(2);
-            $entry->setFeaturedIndex(6);
-            $entry->setCanHaveChildRoles(true);
-            $entry->setOnOff(true);
-            return $entry;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -77,7 +28,7 @@ final class GetRoleEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'id' => 123,
+                'id' => Fake\FakeOlzRepository::MINIMAL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -90,23 +41,21 @@ final class GetRoleEndpointTest extends UnitTestCase {
     }
 
     public function testGetRoleEndpointMinimal(): void {
+        $id = Fake\FakeOlzRepository::MINIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $repo = new FakeGetRoleEndpointRoleRepository();
-        $entity_manager->repositories[Role::class] = $repo;
         $endpoint = new GetRoleEndpoint();
         $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/roles/');
-        mkdir(__DIR__.'/../../tmp/files/roles/12/');
+        mkdir(__DIR__."/../../tmp/files/roles/{$id}/");
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/roles/');
-        mkdir(__DIR__.'/../../tmp/img/roles/12/');
-        mkdir(__DIR__.'/../../tmp/img/roles/12/img/');
+        mkdir(__DIR__."/../../tmp/img/roles/{$id}/");
+        mkdir(__DIR__."/../../tmp/img/roles/{$id}/img/");
 
         $result = $endpoint->call([
-            'id' => 12,
+            'id' => $id,
         ]);
 
         $this->assertSame([
@@ -114,7 +63,7 @@ final class GetRoleEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
-            'id' => 12,
+            'id' => $id,
             'meta' => [
                 'ownerUserId' => null,
                 'ownerRoleId' => null,
@@ -137,23 +86,21 @@ final class GetRoleEndpointTest extends UnitTestCase {
     }
 
     public function testGetRoleEndpointEmpty(): void {
+        $id = Fake\FakeOlzRepository::EMPTY_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $repo = new FakeGetRoleEndpointRoleRepository();
-        $entity_manager->repositories[Role::class] = $repo;
         $endpoint = new GetRoleEndpoint();
         $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/roles/');
-        mkdir(__DIR__.'/../../tmp/files/roles/123/');
+        mkdir(__DIR__."/../../tmp/files/roles/{$id}/");
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/roles/');
-        mkdir(__DIR__.'/../../tmp/img/roles/123/');
-        mkdir(__DIR__.'/../../tmp/img/roles/123/img/');
+        mkdir(__DIR__."/../../tmp/img/roles/{$id}/");
+        mkdir(__DIR__."/../../tmp/img/roles/{$id}/img/");
 
         $result = $endpoint->call([
-            'id' => 123,
+            'id' => $id,
         ]);
 
         $this->assertSame([
@@ -161,7 +108,7 @@ final class GetRoleEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
-            'id' => 123,
+            'id' => $id,
             'meta' => [
                 'ownerUserId' => null,
                 'ownerRoleId' => null,
@@ -184,28 +131,26 @@ final class GetRoleEndpointTest extends UnitTestCase {
     }
 
     public function testGetRoleEndpointMaximal(): void {
+        $id = Fake\FakeOlzRepository::MAXIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $repo = new FakeGetRoleEndpointRoleRepository();
-        $entity_manager->repositories[Role::class] = $repo;
         $endpoint = new GetRoleEndpoint();
         $endpoint->runtimeSetup();
 
         mkdir(__DIR__.'/../../tmp/temp/');
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/roles/');
-        mkdir(__DIR__.'/../../tmp/files/roles/1234/');
-        file_put_contents(__DIR__.'/../../tmp/files/roles/1234/file___________________1.pdf', '');
-        file_put_contents(__DIR__.'/../../tmp/files/roles/1234/file___________________2.txt', '');
+        mkdir(__DIR__."/../../tmp/files/roles/{$id}/");
+        file_put_contents(__DIR__."/../../tmp/files/roles/{$id}/file___________________1.pdf", '');
+        file_put_contents(__DIR__."/../../tmp/files/roles/{$id}/file___________________2.txt", '');
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/roles/');
-        mkdir(__DIR__.'/../../tmp/img/roles/1234/');
-        mkdir(__DIR__.'/../../tmp/img/roles/1234/img');
-        file_put_contents(__DIR__.'/../../tmp/img/roles/1234/img/picture________________A.jpg', '');
-        file_put_contents(__DIR__.'/../../tmp/img/roles/1234/img/picture________________B.jpg', '');
+        mkdir(__DIR__."/../../tmp/img/roles/{$id}/");
+        mkdir(__DIR__."/../../tmp/img/roles/{$id}/img");
+        file_put_contents(__DIR__."/../../tmp/img/roles/{$id}/img/picture________________A.jpg", '');
+        file_put_contents(__DIR__."/../../tmp/img/roles/{$id}/img/picture________________B.jpg", '');
 
         $result = $endpoint->call([
-            'id' => 1234,
+            'id' => $id,
         ]);
 
         $this->assertSame([
@@ -213,7 +158,7 @@ final class GetRoleEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
-            'id' => 1234,
+            'id' => $id,
             'meta' => [
                 'ownerUserId' => null,
                 'ownerRoleId' => null,

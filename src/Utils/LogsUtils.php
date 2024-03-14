@@ -5,7 +5,6 @@ namespace Olz\Utils;
 use Monolog\ErrorHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
-use Monolog\Processor\WebProcessor;
 
 class LogsUtils {
     use WithUtilsTrait;
@@ -23,8 +22,7 @@ class LogsUtils {
         }
         $logger = new Logger($ident);
         $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));
-        $logger->pushProcessor(new WebProcessor());
-        $logger->pushProcessor(new AuthProcessor());
+        $logger->pushProcessor(new OlzProcessor());
         return $logger;
     }
 

@@ -249,10 +249,11 @@ export const OlzLogs = (): React.ReactElement => {
 };
 
 export function shouldLineBeGreyedOut(line: string): boolean {
-    const monitorCommandRegex = /\s+Olz\\Command\\Monitor/;
-    const isMonitorCommand = !!monitorCommandRegex.exec(line);
-    const isAccessRuleViolation = line.includes('access forbidden by rule');
-    return isMonitorCommand || isAccessRuleViolation;
+    return (
+        line.includes(' Olz\\Command\\Monitor') ||
+        line.includes(' command olz:monitor') ||
+        line.includes('access forbidden by rule')
+    );
 }
 
 // $(() => {

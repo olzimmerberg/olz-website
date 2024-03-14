@@ -25,7 +25,7 @@ final class OlzProcessorTest extends UnitTestCase {
         ];
         $this->setSession($session);
         $this->setServer([
-            'REQUEST_URI' => '/path',
+            'REQUEST_URI' => '/path?access_token=ABC_-def/+123',
             'HTTP_USER_AGENT' => 'user-agent',
             'HTTP_REFERER' => 'https://olzimmerberg.ch/page',
         ]);
@@ -34,7 +34,7 @@ final class OlzProcessorTest extends UnitTestCase {
         $auth_processor($fake_log_record);
 
         $this->assertSame([
-            'url' => '/path',
+            'url' => '/path?access_token=ABC***123',
             'referrer' => 'https://olzimmerberg.ch/page',
             'user_agent' => 'user-agent',
             'user' => 'child',

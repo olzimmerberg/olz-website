@@ -24,14 +24,14 @@ interface OlzEditTerminForm {
     text: string;
     link: string;
     deadline: string;
-    hasNewsletter: string;
+    hasNewsletter: string|boolean;
     solvId: string;
     go2olId: string;
-    hasTypeProgramm: string;
-    hasTypeWeekend: string;
-    hasTypeTraining: string;
-    hasTypeOl: string;
-    hasTypeClub: string;
+    hasTypeProgramm: string|boolean;
+    hasTypeWeekend: string|boolean;
+    hasTypeTraining: string|boolean;
+    hasTypeOl: string|boolean;
+    hasTypeClub: string|boolean;
     locationId: number|null;
     coordinateX: string;
     coordinateY: string;
@@ -341,7 +341,9 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                     {...register('hasNewsletter')}
                                     id='hasNewsletter-input'
                                 />
-                                <label htmlFor='termin-has-newsletter-input'>Newsletter für Änderung</label>
+                                <label htmlFor='hasNewsletter-input'>
+                                    Newsletter für Änderung
+                                </label>
                             </div>
                             <div className='row'>
                                 <div className='col mb-3'>
@@ -495,7 +497,7 @@ export function initOlzEditTerminModal(
     meta?: OlzMetaData,
     data?: OlzTerminData,
 ): boolean {
-    initReact('edit-termin-react-root', (
+    initReact('edit-entity-react-root', (
         <OlzEditTerminModal
             id={id}
             templateId={templateId}

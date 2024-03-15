@@ -200,7 +200,7 @@ export function initOlzEditTerminLocationModal(
     meta?: OlzMetaData,
     data?: OlzTerminLocationData,
 ): boolean {
-    initReact('edit-termin-location-react-root', (
+    initReact('edit-entity-react-root', (
         <OlzEditTerminLocationModal
             id={id}
             meta={meta}

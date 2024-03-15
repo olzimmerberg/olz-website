@@ -249,6 +249,8 @@ class Termin extends OlzEntity implements DataStorageInterface {
         $this->image_ids = json_encode($new_value);
     }
 
+    // ---
+
     public static function getEntityNameForStorage(): string {
         return 'termine';
     }

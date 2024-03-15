@@ -6,12 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\User;
 use Olz\Repository\Roles\RoleRepository;
 
 #[ORM\Table(name: 'roles')]
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
-class Role extends OlzEntity implements DataStorageInterface {
+class Role extends OlzEntity implements DataStorageInterface, SearchableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -169,6 +170,24 @@ class Role extends OlzEntity implements DataStorageInterface {
 
     public function setCanHaveChildRoles($new_value) {
         $this->can_have_child_roles = $new_value;
+    }
+
+    // ---
+
+    public static function getIdFieldNameForSearch(): string {
+        return 'id';
+    }
+
+    public function getIdForSearch(): int {
+        return $this->getId();
+    }
+
+    public static function getFieldNamesForSearch(): array {
+        return ['name'];
+    }
+
+    public function getTitleForSearch(): string {
+        return $this->getName();
     }
 
     public static function getEntityNameForStorage(): string {

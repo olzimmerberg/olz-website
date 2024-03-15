@@ -333,6 +333,7 @@ class DevDataUtils {
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/downloads/1/MIGRATED0000000000010001.pdf");
         $this->mkdir("{$data_path}files/downloads/3");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/downloads/3/XV4x94BJaf2JCPWvB8DDqTyt.pdf");
+
         $this->mkdir("{$data_path}files/news");
         $this->mkdir("{$data_path}files/news/3");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/3/MIGRATED0000000000030001.pdf");
@@ -343,6 +344,11 @@ class DevDataUtils {
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/10/8kCalo9sQtu2mrgrmMjoGLUW.pdf");
         $this->mkdir("{$data_path}files/news/6403");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/6403/MIGRATED0000000064030001.pdf");
+
+        $this->mkdir("{$data_path}files/roles");
+        $this->mkdir("{$data_path}files/roles/5");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/roles/5/c44s3s8QjwZd2WYTEVg3iW9k.pdf");
+
         $this->mkdir("{$data_path}files/termine");
         $this->mkdir("{$data_path}files/termine/2");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/2/MIGRATED0000000000020001.pdf");
@@ -350,6 +356,7 @@ class DevDataUtils {
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/5/MIGRATED0000000000050001.pdf");
         $this->mkdir("{$data_path}files/termine/7");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/7/Kzt5p5g6cjM5k9CXdVaSsGFx.pdf");
+
         $this->mkdir("{$data_path}files/termin_templates");
         $this->mkdir("{$data_path}files/termin_templates/2");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termin_templates/2/qjhUey6Lc6svXsmUcSaguWkJ.pdf");
@@ -487,6 +494,11 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/news/6403");
         $this->mkdir("{$data_path}img/news/6403/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/6403/img/MIGRATED0000000064030001.jpg", 800, 600);
+
+        $this->mkdir("{$data_path}img/roles");
+        $this->mkdir("{$data_path}img/roles/5");
+        $this->mkdir("{$data_path}img/roles/5/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/roles/5/img/ZntVatFCHj3h8KZh7LyiB9x5.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/termine");
         $this->mkdir("{$data_path}img/termine/5");

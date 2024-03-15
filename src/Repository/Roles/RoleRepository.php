@@ -25,8 +25,9 @@ class RoleRepository extends EntityRepository {
                 FROM Olz:Roles\\Role r
                 WHERE
                     r.parent_role IS NULL
-                    AND
-                    r.index_within_parent >= 0
+                    AND r.index_within_parent IS NOT NULL
+                    AND r.index_within_parent >= 0
+                    AND r.on_off = 1
                 ORDER BY r.index_within_parent ASC";
             $query = $this->getEntityManager()->createQuery($dql);
         } else {
@@ -35,8 +36,9 @@ class RoleRepository extends EntityRepository {
                 FROM Olz:Roles\\Role r
                 WHERE
                     r.parent_role = ?1
-                    AND
-                    r.index_within_parent >= 0
+                    AND r.index_within_parent IS NOT NULL
+                    AND r.index_within_parent >= 0
+                    AND r.on_off = 1
                 ORDER BY r.index_within_parent ASC";
             $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $roleId);
         }

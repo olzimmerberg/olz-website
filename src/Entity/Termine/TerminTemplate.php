@@ -207,6 +207,8 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
         $this->image_ids = json_encode($new_value);
     }
 
+    // ---
+
     public static function getIdFieldNameForSearch(): string {
         return 'id';
     }

@@ -54,9 +54,13 @@ class UploadUtils {
             return false;
         }
         return (bool) preg_match(
-            "/^[a-zA-Z0-9_-]{24}\\.{$this->suffixPattern}$/",
+            "/^{$this->getUploadIdRegex()}$/",
             $potential_upload_id
         );
+    }
+
+    public function getUploadIdRegex(): string {
+        return "[a-zA-Z0-9_-]{24}\\.{$this->suffixPattern}";
     }
 
     public function getRandomUploadId(string $suffix): string {
@@ -94,6 +98,9 @@ class UploadUtils {
 
     public function getStoredUploadIds(string $base_path): array {
         $stored_upload_ids = [];
+        if (!is_dir($base_path)) {
+            return [];
+        }
         $entries = scandir($base_path);
         foreach ($entries as $upload_id) {
             if ($this->isUploadId($upload_id)) {

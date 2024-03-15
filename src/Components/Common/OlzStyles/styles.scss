@@ -513,6 +513,55 @@ input.button,
     padding: 0 6px 0 19px;
 }
 
+.rendered-markdown a[href^='/files'] {
+    background-position: left center;
+    padding: 0 6px 0 19px;
+    background-image: url('../../../../assets/icns/link_internal_16.svg') !important;
+
+    &[href$='.pdf'], &[href*='.pdf?'] {
+        background-image: url('../../../../assets/icns/link_pdf_16.svg') !important;
+    }
+
+    &[href$='.doc'], &[href*='.doc?'],
+    &[href$='.docx'], &[href*='.docx?'] {
+        background-image: url('../../../../assets/icns/link_doc_16.svg') !important;
+    }
+
+    &[href$='.ppt'], &[href*='.ppt?'],
+    &[href$='.pptx'], &[href*='.pptx?'] {
+        background-image: url('../../../../assets/icns/link_ppt_16.svg') !important;
+    }
+
+    &[href$='.xls'], &[href*='.xls?'],
+    &[href$='.xlsx'], &[href*='.xlsx?'] {
+        background-image: url('../../../../assets/icns/link_xls_16.svg') !important;
+    }
+
+    &[href$='.zip'], &[href*='.zip?'] {
+        background-image: url('../../../../assets/icns/link_zip_16.svg') !important;
+    }
+
+    &[href$='.csv'], &[href*='.csv?'],
+    &[href$='.rtf'], &[href*='.rtf?'],
+    &[href$='.txt'], &[href*='.txt?'],
+    &[href$='.vcf'], &[href*='.vcf?'],
+    &[href$='.xml'], &[href*='.xml?'] {
+        background-image: url('../../../../assets/icns/link_txt_16.svg') !important;
+    }
+
+    &[href$='.html'], &[href*='.html?'],
+    &[href$='.htm'], &[href*='.htm?'] {
+        background-image: url('../../../../assets/icns/link_html_16.svg') !important;
+    }
+
+    &[href$='.gif'], &[href*='.gif?'],
+    &[href$='.jpg'], &[href*='.jpg?'],
+    &[href$='.jpeg'], &[href*='.jpeg?'],
+    &[href$='.png'], &[href*='.png?'] {
+        background-image: url('../../../../assets/icns/link_image_16.svg') !important;
+    }
+}
+
 /*-----------------Accordion (in "aktuell_r", "galerie_r")-----------------*/
 .accordion-title,
 .accordion-content {

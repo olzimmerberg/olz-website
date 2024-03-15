@@ -18,75 +18,75 @@ final class HtmlUtilsTest extends UnitTestCase {
 
         // Ignore HTML
         $html = $html_utils->renderMarkdown("Normal<h1>H1</h1><script>alert('not good!');</script>");
-        $this->assertSame("<p>Normal&lt;h1&gt;H1&lt;/h1&gt;&lt;script&gt;alert('not good!');&lt;/script&gt;</p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal&lt;h1&gt;H1&lt;/h1&gt;&lt;script&gt;alert('not good!');&lt;/script&gt;</p>\n</div>", $html);
 
         // Headings
         $html = $html_utils->renderMarkdown("Normal\n# H1\n## H2\n### H3\nNormal");
-        $this->assertSame("<p>Normal</p>\n<h1>H1</h1>\n<h2>H2</h2>\n<h3>H3</h3>\n<p>Normal</p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal</p>\n<h1>H1</h1>\n<h2>H2</h2>\n<h3>H3</h3>\n<p>Normal</p>\n</div>", $html);
 
         // Font style
         $html = $html_utils->renderMarkdown("Normal **fe\\*\\*tt** __fe\\_\\_tt__");
-        $this->assertSame("<p>Normal <strong>fe**tt</strong> <strong>fe__tt</strong></p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal <strong>fe**tt</strong> <strong>fe__tt</strong></p>\n</div>", $html);
         $html = $html_utils->renderMarkdown("Normal *kur\\*siv* _kur\\_siv_");
-        $this->assertSame("<p>Normal <em>kur*siv</em> <em>kur_siv</em></p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal <em>kur*siv</em> <em>kur_siv</em></p>\n</div>", $html);
         $html = $html_utils->renderMarkdown("Normal ~~durch\\~\\~gestrichen~~");
-        $this->assertSame("<p>Normal <del>durch~~gestrichen</del></p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal <del>durch~~gestrichen</del></p>\n</div>", $html);
 
         // Quotes
         $html = $html_utils->renderMarkdown("Normal\n> quote\nstill quote\n\nnot anymore");
-        $this->assertSame("<p>Normal</p>\n<blockquote>\n<p>quote\nstill quote</p>\n</blockquote>\n<p>not anymore</p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal</p>\n<blockquote>\n<p>quote\nstill quote</p>\n</blockquote>\n<p>not anymore</p>\n</div>", $html);
 
         // Ordered lists
         $html = $html_utils->renderMarkdown("Normal\n1. one\n2. two\n3. three\nstill three\n\nnot anymore");
-        $this->assertSame("<p>Normal</p>\n<ol>\n<li>one</li>\n<li>two</li>\n<li>three\nstill three</li>\n</ol>\n<p>not anymore</p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal</p>\n<ol>\n<li>one</li>\n<li>two</li>\n<li>three\nstill three</li>\n</ol>\n<p>not anymore</p>\n</div>", $html);
 
         // Unordered lists
         $html = $html_utils->renderMarkdown("Normal\n- one\n- two\n- three\nstill three\n\nnot anymore");
-        $this->assertSame("<p>Normal</p>\n<ul>\n<li>one</li>\n<li>two</li>\n<li>three\nstill three</li>\n</ul>\n<p>not anymore</p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal</p>\n<ul>\n<li>one</li>\n<li>two</li>\n<li>three\nstill three</li>\n</ul>\n<p>not anymore</p>\n</div>", $html);
 
         // Code
         $html = $html_utils->renderMarkdown("Normal `co\\`de`");
-        $this->assertSame("<p>Normal <code>co\\</code>de`</p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal <code>co\\</code>de`</p>\n</div>", $html);
         $html = $html_utils->renderMarkdown("Normal ```co`de```");
-        $this->assertSame("<p>Normal <code>co`de</code></p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal <code>co`de</code></p>\n</div>", $html);
         $html = $html_utils->renderMarkdown("Normal\n```python\nco`de\n```");
-        $this->assertSame("<p>Normal</p>\n<pre><code class=\"language-python\">co`de\n</code></pre>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal</p>\n<pre><code class=\"language-python\">co`de\n</code></pre>\n</div>", $html);
 
         // Horizontal rule
         $html = $html_utils->renderMarkdown("something\n\n---\n\ndifferent");
-        $this->assertSame("<p>something</p>\n<hr />\n<p>different</p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>something</p>\n<hr />\n<p>different</p>\n</div>", $html);
 
         // Links
         $html = $html_utils->renderMarkdown("Normal [link](http://127.0.0.1/)");
-        $this->assertSame("<p>Normal <a href=\"http://127.0.0.1/\">link</a></p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal <a href=\"http://127.0.0.1/\">link</a></p>\n</div>", $html);
         $html = $html_utils->renderMarkdown("Normal http://127.0.0.1/");
-        $this->assertSame("<p>Normal <a href=\"http://127.0.0.1/\">http://127.0.0.1/</a></p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal <a href=\"http://127.0.0.1/\">http://127.0.0.1/</a></p>\n</div>", $html);
         $html = $html_utils->renderMarkdown("Hier:\nhttps://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0");
-        $this->assertSame("<p>Hier:\n<a href=\"https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0\">https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0</a></p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Hier:\n<a href=\"https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0\">https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0</a></p>\n</div>", $html);
         $html = $html_utils->renderMarkdown("user+olz@gmail.com");
-        $this->assertSame("<p><script>olz.MailTo(\"user+olz\", \"gmail.com\", \"user+olz\" + \"@gmail.com\")</script></p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p><script>olz.MailTo(\"user+olz\", \"gmail.com\", \"user+olz\" + \"@gmail.com\")</script></p>\n</div>", $html);
 
         // Image
         $html = $html_utils->renderMarkdown("Normal ![bird](img/bird.jpg)");
-        $this->assertSame("<p>Normal <img src=\"img/bird.jpg\" alt=\"bird\" /></p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal <img src=\"img/bird.jpg\" alt=\"bird\" /></p>\n</div>", $html);
 
         // Table
         $html = $html_utils->renderMarkdown("Normal\n\n| left | middle | right |\n| --- | --- | --- |\n| 1 | 2 | 3 |\n\nafter");
-        $this->assertSame("<p>Normal</p>\n<table>\n<thead>\n<tr>\n<th>left</th>\n<th>middle</th>\n<th>right</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td>2</td>\n<td>3</td>\n</tr>\n</tbody>\n</table>\n<p>after</p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>Normal</p>\n<table>\n<thead>\n<tr>\n<th>left</th>\n<th>middle</th>\n<th>right</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td>2</td>\n<td>3</td>\n</tr>\n</tbody>\n</table>\n<p>after</p>\n</div>", $html);
 
         // Footnote
         $html = $html_utils->renderMarkdown("This. [^1]\n\n[^1]: explains everything\n");
         // does not work
-        $this->assertSame("<p>This. [^1]</p>\n<p>[^1]: explains everything</p>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><p>This. [^1]</p>\n<p>[^1]: explains everything</p>\n</div>", $html);
 
         // Heading ID
         $html = $html_utils->renderMarkdown("# So linkable {#anchor}\n");
         // does not work
-        $this->assertSame("<h1 id=\"anchor\">So linkable</h1>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><h1 id=\"anchor\">So linkable</h1>\n</div>", $html);
 
         // Heading ID
         $html = $html_utils->renderMarkdown("- [x] finish\n- [ ] this\n- [ ] list\n");
-        $this->assertSame("<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> finish</li>\n<li><input disabled=\"\" type=\"checkbox\"> this</li>\n<li><input disabled=\"\" type=\"checkbox\"> list</li>\n</ul>\n", $html);
+        $this->assertSame("<div class='rendered-markdown'><ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> finish</li>\n<li><input disabled=\"\" type=\"checkbox\"> this</li>\n<li><input disabled=\"\" type=\"checkbox\"> list</li>\n</ul>\n</div>", $html);
     }
 
     public function testPostprocess(): void {

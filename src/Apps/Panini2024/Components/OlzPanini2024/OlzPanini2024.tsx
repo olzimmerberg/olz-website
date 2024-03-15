@@ -4,6 +4,7 @@ import {olzApi} from '../../../../Api/client';
 import {OlzTextField} from '../../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../../Components/Upload/OlzImageField/OlzImageField';
 import {OlzPanini2024PictureData} from '../../../../Api/client/generated_olz_api_types';
+import {getApiBoolean, getApiString} from '../../../../Utils/formUtils';
 import {timeout} from '../../../../Utils/generalUtils';
 import {initReact} from '../../../../Utils/reactUtils';
 
@@ -28,7 +29,7 @@ const RESIDENCES = [
 
 interface OlzEditPaniniForm {
     id: number|null;
-    onOff: boolean;
+    onOff: string|boolean;
     uploadId: string|undefined;
     line1: string
     line2: string;
@@ -59,16 +60,16 @@ function getApiFromForm(formData: OlzEditPaniniForm): OlzPanini2024PictureData {
     const calculatedResidence = formData.residenceOption === 'OTHER' ? formData.residence : formData.residenceOption;
     return {
         id: formData.id,
-        onOff: formData.onOff,
-        uploadId: formData.uploadId ?? '',
-        line1: formData.line1,
-        line2: formData.line2,
+        onOff: getApiBoolean(formData.onOff),
+        uploadId: getApiString(formData.uploadId ?? '') ?? '',
+        line1: getApiString(formData.line1) ?? '',
+        line2: getApiString(formData.line2) ?? '',
         residence: calculatedResidence ?? '',
-        info1: formData.info1,
-        info2: formData.info2,
-        info3: formData.info3,
-        info4: formData.info4,
-        info5: formData.info5,
+        info1: getApiString(formData.info1) ?? '',
+        info2: getApiString(formData.info2) ?? '',
+        info3: getApiString(formData.info3) ?? '',
+        info4: getApiString(formData.info4) ?? '',
+        info5: getApiString(formData.info5) ?? '',
     };
 }
 

@@ -32,8 +32,8 @@ export function getFormBoolean(bool: boolean|null|undefined, value = 'yes'): str
     return bool ? value : '';
 }
 
-export function getApiBoolean(value: string): boolean {
-    return Boolean(value.trim());
+export function getApiBoolean(value: string|boolean): boolean {
+    return Boolean(typeof value === 'string' ? value.trim() : value);
 }
 
 // Numeric

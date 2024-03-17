@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake;
+namespace Olz\Tests\Fake\Entity;
 
 class FakeThrottlingRepository {
     public $expected_event_name;

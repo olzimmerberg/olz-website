@@ -4,26 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Service\Endpoints;
 
-use Olz\Entity\Service\Download;
 use Olz\Service\Endpoints\DeleteDownloadEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeDeleteDownloadEndpointDownloadRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new Download();
-            $entry->setId(123);
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -56,9 +40,6 @@ final class DeleteDownloadEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteDownloadEndpointNoEntityAccess(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $download_repo = new FakeDeleteDownloadEndpointDownloadRepository();
-        $entity_manager->repositories[Download::class] = $download_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new DeleteDownloadEndpoint();
@@ -79,9 +60,6 @@ final class DeleteDownloadEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteDownloadEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $download_repo = new FakeDeleteDownloadEndpointDownloadRepository();
-        $entity_manager->repositories[Download::class] = $download_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteDownloadEndpoint();
@@ -99,6 +77,7 @@ final class DeleteDownloadEndpointTest extends UnitTestCase {
         $this->assertSame([
             'status' => 'OK',
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
@@ -108,9 +87,6 @@ final class DeleteDownloadEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteDownloadEndpointInexistent(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $download_repo = new FakeDeleteDownloadEndpointDownloadRepository();
-        $entity_manager->repositories[Download::class] = $download_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteDownloadEndpoint();
@@ -127,6 +103,7 @@ final class DeleteDownloadEndpointTest extends UnitTestCase {
                 "WARNING HTTP error 404",
             ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
+            $entity_manager = WithUtilsCache::get('entityManager');
             $this->assertSame(0, count($entity_manager->removed));
             $this->assertSame(0, count($entity_manager->flushed_removed));
         }

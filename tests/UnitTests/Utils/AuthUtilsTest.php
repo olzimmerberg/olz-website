@@ -6,7 +6,8 @@ namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\AccessToken;
 use Olz\Entity\AuthRequest;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Roles\FakeRoles;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\MemorySession;
@@ -18,7 +19,7 @@ class FakeAuthUtilsAccessTokenRepository {
             $token = new AccessToken();
             $token->setId(1);
             $token->setToken('valid-token-1');
-            $token->setUser(Fake\FakeUsers::adminUser());
+            $token->setUser(FakeUser::adminUser());
             $token->setExpiresAt(new \DateTime('2022-01-24 00:00:00'));
             return $token;
         }
@@ -26,7 +27,7 @@ class FakeAuthUtilsAccessTokenRepository {
             $token = new AccessToken();
             $token->setId(2);
             $token->setToken('expired-token-1');
-            $token->setUser(Fake\FakeUsers::adminUser());
+            $token->setUser(FakeUser::adminUser());
             $token->setExpiresAt(new \DateTime('2020-01-11 20:00:00'));
             return $token;
         }
@@ -79,8 +80,8 @@ final class AuthUtilsTest extends UnitTestCase {
         // Also test that it's resolving admin-old to admin
         $result = $auth_utils->authenticate('admin-old', 'adm1n');
 
-        $this->assertNotSame(null, Fake\FakeUsers::adminUser());
-        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
+        $this->assertNotSame(null, FakeUser::adminUser());
+        $this->assertSame(FakeUser::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -234,7 +235,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $result = $auth_utils->validateAccessToken('valid-token-1');
 
-        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
+        $this->assertSame(FakeUser::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
@@ -381,7 +382,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
 
         $result = $auth_utils->resolveUsernameOrEmail('admin');
-        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
+        $this->assertSame(FakeUser::adminUser(), $result);
     }
 
     public function testResolveOldUsername(): void {
@@ -390,7 +391,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
 
         $result = $auth_utils->resolveUsernameOrEmail('admin-old');
-        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
+        $this->assertSame(FakeUser::adminUser(), $result);
     }
 
     public function testResolveEmail(): void {
@@ -399,7 +400,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
 
         $result = $auth_utils->resolveUsernameOrEmail('vorstand@olzimmerberg.ch');
-        $this->assertSame(Fake\FakeUsers::vorstandUser(), $result);
+        $this->assertSame(FakeUser::vorstandUser(), $result);
     }
 
     public function testResolveUsernameEmail(): void {
@@ -408,7 +409,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
 
         $result = $auth_utils->resolveUsernameOrEmail('admin@olzimmerberg.ch');
-        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
+        $this->assertSame(FakeUser::adminUser(), $result);
     }
 
     public function testResolveOldUsernameEmail(): void {
@@ -417,7 +418,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
 
         $result = $auth_utils->resolveUsernameOrEmail('admin-old@olzimmerberg.ch');
-        $this->assertSame(Fake\FakeUsers::adminUser(), $result);
+        $this->assertSame(FakeUser::adminUser(), $result);
     }
 
     public function testHasPermissionNoUser(): void {
@@ -569,7 +570,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasRolePermissionWithNoPermission(): void {
-        $role = Fake\FakeRoles::defaultRole();
+        $role = FakeRoles::defaultRole();
         $role->setPermissions('');
         $auth_utils = new AuthUtils();
         $this->assertSame(false, $auth_utils->hasRolePermission('test', $role));
@@ -579,7 +580,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasRolePermissionWithSpecificPermission(): void {
-        $role = Fake\FakeRoles::defaultRole();
+        $role = FakeRoles::defaultRole();
         $role->setPermissions('test');
         $auth_utils = new AuthUtils();
         $this->assertSame(true, $auth_utils->hasRolePermission('test', $role));
@@ -589,7 +590,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasRolePermissionWithAllPermissions(): void {
-        $role = Fake\FakeRoles::defaultRole();
+        $role = FakeRoles::defaultRole();
         $role->setPermissions('all');
         $auth_utils = new AuthUtils();
         $this->assertSame(true, $auth_utils->hasRolePermission('test', $role));
@@ -607,7 +608,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getCurrentUser());
+        $this->assertSame(FakeUser::adminUser(), $auth_utils->getCurrentUser());
     }
 
     public function testGetCurrentUserFromSession(): void {
@@ -619,7 +620,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getCurrentUser());
+        $this->assertSame(FakeUser::adminUser(), $auth_utils->getCurrentUser());
     }
 
     public function testGetTokenUser(): void {
@@ -631,7 +632,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams(['access_token' => 'valid-token-1']);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getTokenUser());
+        $this->assertSame(FakeUser::adminUser(), $auth_utils->getTokenUser());
     }
 
     public function testGetTokenUserForInvalidToken(): void {
@@ -654,7 +655,7 @@ final class AuthUtilsTest extends UnitTestCase {
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setSession($session);
-        $this->assertSame(Fake\FakeUsers::vorstandUser(), $auth_utils->getSessionUser());
+        $this->assertSame(FakeUser::vorstandUser(), $auth_utils->getSessionUser());
     }
 
     public function testGetCurrentAuthUserFromSession(): void {
@@ -666,7 +667,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame(Fake\FakeUsers::adminUser(), $auth_utils->getCurrentAuthUser());
+        $this->assertSame(FakeUser::adminUser(), $auth_utils->getCurrentAuthUser());
     }
 
     public function testGetSessionAuthUser(): void {
@@ -677,7 +678,7 @@ final class AuthUtilsTest extends UnitTestCase {
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setSession($session);
-        $this->assertSame(Fake\FakeUsers::vorstandUser(), $auth_utils->getSessionAuthUser());
+        $this->assertSame(FakeUser::vorstandUser(), $auth_utils->getSessionAuthUser());
     }
 
     public function testGetAuthenticatedRoles(): void {
@@ -756,7 +757,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testGetUserAvatarHasAvatar(): void {
         $auth_utils = new AuthUtils();
-        $user = Fake\FakeUsers::adminUser();
+        $user = FakeUser::adminUser();
 
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $user_image_path = "{$data_path}img/users/{$user->getId()}.jpg";
@@ -771,7 +772,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testGetUserAvatarHasHighResolutionAvatar(): void {
         $auth_utils = new AuthUtils();
-        $user = Fake\FakeUsers::adminUser();
+        $user = FakeUser::adminUser();
 
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $user_image_path = "{$data_path}img/users/{$user->getId()}.jpg";
@@ -791,7 +792,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testGetUserAvatarNoAvatar(): void {
         $auth_utils = new AuthUtils();
-        $user = Fake\FakeUsers::adminUser();
+        $user = FakeUser::adminUser();
         $this->assertSame(
             ['1x' => '/_/assets/user_initials_AI.svg'],
             $auth_utils->getUserAvatar($user)
@@ -800,7 +801,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testGetUserAvatarNoAvatarSpecialChars(): void {
         $auth_utils = new AuthUtils();
-        $user = Fake\FakeUsers::adminUser();
+        $user = FakeUser::adminUser();
         $user->setFirstName("Özdemir");
         $user->setLastName(null);
         $this->assertSame(

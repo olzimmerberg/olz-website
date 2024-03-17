@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\ResetPasswordEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -81,9 +80,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new Fake\FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $artifacts = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
@@ -149,9 +145,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new Fake\FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $artifacts = [];
         $mailer
@@ -222,9 +215,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new Fake\FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([
@@ -245,9 +235,6 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new Fake\FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
         $result = $endpoint->call([

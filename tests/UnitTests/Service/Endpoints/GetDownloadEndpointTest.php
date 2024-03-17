@@ -4,46 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Service\Endpoints;
 
-use Olz\Entity\Service\Download;
 use Olz\Service\Endpoints\GetDownloadEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeGetDownloadEndpointDownloadRepository {
-    public function findOneBy($where) {
-        // Minimal
-        if ($where === ['id' => 12]) {
-            $entry = new Download();
-            $entry->setId(12);
-            $entry->setName('Fake Download');
-            $entry->setPosition(12);
-            $entry->setFileId('file1.pdf');
-            return $entry;
-        }
-        // Empty
-        if ($where === ['id' => 123]) {
-            $entry = new Download();
-            $entry->setId(123);
-            $entry->setName('Fake Download');
-            $entry->setPosition(123);
-            $entry->setFileId('file1.pdf');
-            return $entry;
-        }
-        // Maximal
-        if ($where === ['id' => 1234]) {
-            $entry = new Download();
-            $entry->setId(1234);
-            $entry->setName('Fake Download');
-            $entry->setPosition(1234);
-            $entry->setFileId('file1.pdf');
-            $entry->setOnOff(true);
-            return $entry;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -77,9 +41,6 @@ final class GetDownloadEndpointTest extends UnitTestCase {
 
     public function testGetDownloadEndpointMinimal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $download_repo = new FakeGetDownloadEndpointDownloadRepository();
-        $entity_manager->repositories[Download::class] = $download_repo;
         $endpoint = new GetDownloadEndpoint();
         $endpoint->runtimeSetup();
 
@@ -108,9 +69,6 @@ final class GetDownloadEndpointTest extends UnitTestCase {
 
     public function testGetDownloadEndpointEmpty(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $download_repo = new FakeGetDownloadEndpointDownloadRepository();
-        $entity_manager->repositories[Download::class] = $download_repo;
         $endpoint = new GetDownloadEndpoint();
         $endpoint->runtimeSetup();
 
@@ -139,9 +97,6 @@ final class GetDownloadEndpointTest extends UnitTestCase {
 
     public function testGetDownloadEndpointMaximal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $download_repo = new FakeGetDownloadEndpointDownloadRepository();
-        $entity_manager->repositories[Download::class] = $download_repo;
         $endpoint = new GetDownloadEndpoint();
         $endpoint->runtimeSetup();
 

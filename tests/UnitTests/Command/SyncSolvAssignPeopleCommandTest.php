@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Command;
 use Olz\Command\SyncSolvAssignPeopleCommand;
 use Olz\Entity\SolvResult;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeSolvResult;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -18,16 +19,16 @@ class FakeSyncSolvAssignPeopleCommandSolvResultRepository {
     public $differentResult;
 
     public function __construct() {
-        $test_runner_result = Fake\FakeSolvResult::defaultSolvResult(true);
+        $test_runner_result = FakeSolvResult::defaultSolvResult(true);
         $test_runner_result->setId(1);
         $this->testRunnerResult = $test_runner_result;
 
-        $typo_result = Fake\FakeSolvResult::defaultSolvResult(true);
+        $typo_result = FakeSolvResult::defaultSolvResult(true);
         $typo_result->setId(2);
         $typo_result->setName('Test Runer');
         $this->typoResult = $typo_result;
 
-        $different_result = Fake\FakeSolvResult::defaultSolvResult(true);
+        $different_result = FakeSolvResult::defaultSolvResult(true);
         $different_result->setId(3);
         $different_result->setName('Test Winner');
         $different_result->setBirthYear('92');

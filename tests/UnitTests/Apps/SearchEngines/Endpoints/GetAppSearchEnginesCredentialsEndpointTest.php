@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\SearchEngines\Endpoints;
 
 use Olz\Apps\SearchEngines\Endpoints\GetAppSearchEnginesCredentialsEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -23,7 +23,7 @@ final class GetAppSearchEnginesCredentialsEndpointTest extends UnitTestCase {
 
     public function testGetAppSearchEnginesCredentialsEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new GetAppSearchEnginesCredentialsEndpoint();
         $endpoint->runtimeSetup();
 

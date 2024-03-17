@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Anmelden\Endpoints;
 
 use Olz\Apps\Anmelden\Endpoints\GetPrefillValuesEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -37,7 +37,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpoint(): void {
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->runtimeSetup();
@@ -65,7 +65,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
     }
 
     public function testGetPrefillValuesEndpointManagedUser(): void {
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->runtimeSetup();
@@ -94,7 +94,7 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
 
     public function testGetPrefillValuesEndpointOtherUser(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         $endpoint = new GetPrefillValuesEndpoint();
         $endpoint->runtimeSetup();
 

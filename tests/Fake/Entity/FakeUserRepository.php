@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake;
+namespace Olz\Tests\Fake\Entity;
 
 class FakeUserRepository {
     public $userToBeFound;
@@ -19,6 +19,17 @@ class FakeUserRepository {
     public $specific_user;
     public $no_access_user;
 
+    public function findBy($query) {
+        if ($query == ['parent_user' => 2]) {
+            return [
+                FakeUser::vorstandUser(),
+                FakeUser::defaultUser(),
+            ];
+        }
+        $json_query = json_encode($query);
+        throw new \Exception("Query no mocked: {$json_query}");
+    }
+
     public function findOneBy($where) {
         if ($this->userToBeFound !== null) {
             return $this->userToBeFound;
@@ -28,11 +39,11 @@ class FakeUserRepository {
             return $fn($where);
         }
         if ($where === ['username' => 'user'] || $where === ['id' => 1]) {
-            $this->default_user = FakeUsers::defaultUser();
+            $this->default_user = FakeUser::defaultUser();
             return $this->default_user;
         }
         if ($where === ['username' => 'admin'] || $where === ['id' => 2] || $where === ['old_username' => 'admin-old']) {
-            $this->admin_user = FakeUsers::adminUser();
+            $this->admin_user = FakeUser::adminUser();
             return $this->admin_user;
         }
         if (
@@ -40,33 +51,33 @@ class FakeUserRepository {
             || $where === ['email' => 'vorstand@staging.olzimmerberg.ch']
             || $where === ['id' => 3]
         ) {
-            $this->vorstand_user = FakeUsers::vorstandUser();
+            $this->vorstand_user = FakeUser::vorstandUser();
             return $this->vorstand_user;
         }
         if ($where === ['username' => 'parent'] || $where === ['id' => 4]) {
-            $this->parent_user = FakeUsers::parentUser();
+            $this->parent_user = FakeUser::parentUser();
             return $this->parent_user;
         }
         if ($where === ['username' => 'child1'] || $where === ['id' => 5]) {
-            $this->child1_user = FakeUsers::child1User();
+            $this->child1_user = FakeUser::child1User();
             return $this->child1_user;
         }
         if ($where === ['username' => 'child2'] || $where === ['id' => 6]) {
-            $this->child2_user = FakeUsers::child2User();
+            $this->child2_user = FakeUser::child2User();
             return $this->child2_user;
         }
         if ($where === ['username' => 'noaccess']) {
-            $this->noaccess_user = FakeUsers::defaultUser(true);
+            $this->noaccess_user = FakeUser::defaultUser(true);
             $this->noaccess_user->setPermissions('ftp');
             return $this->noaccess_user;
         }
         if ($where === ['username' => 'specific']) {
-            $this->specific_user = FakeUsers::defaultUser(true);
+            $this->specific_user = FakeUser::defaultUser(true);
             $this->specific_user->setPermissions('test');
             return $this->specific_user;
         }
         if ($where === ['username' => 'no']) {
-            $this->no_access_user = FakeUsers::defaultUser(true);
+            $this->no_access_user = FakeUser::defaultUser(true);
             $this->no_access_user->setPermissions('');
             return $this->no_access_user;
         }
@@ -75,7 +86,7 @@ class FakeUserRepository {
 
     public function findFuzzilyByUsername($username) {
         if ($username === 'someone') {
-            $fake_process_email_command_user = FakeUsers::defaultUser(true);
+            $fake_process_email_command_user = FakeUser::defaultUser(true);
             $fake_process_email_command_user->setId(1);
             $fake_process_email_command_user->setUsername('someone');
             $fake_process_email_command_user->setFirstName('First');
@@ -85,7 +96,7 @@ class FakeUserRepository {
             return $fake_process_email_command_user;
         }
         if ($username === 'empty-email') {
-            $user = FakeUsers::defaultUser(true);
+            $user = FakeUser::defaultUser(true);
             $user->setId(1);
             $user->setUsername('empty-email');
             $user->setFirstName('Empty');
@@ -94,7 +105,7 @@ class FakeUserRepository {
             return $user;
         }
         if ($username === 'no-permission') {
-            $user = FakeUsers::defaultUser(true);
+            $user = FakeUser::defaultUser(true);
             $user->setUsername('no-permission');
             return $user;
         }
@@ -103,7 +114,7 @@ class FakeUserRepository {
 
     public function findFuzzilyByOldUsername($old_username) {
         if ($old_username === 'someone-old') {
-            $fake_process_email_command_user = FakeUsers::defaultUser(true);
+            $fake_process_email_command_user = FakeUser::defaultUser(true);
             $fake_process_email_command_user->setId(2);
             $fake_process_email_command_user->setUsername('someone-old');
             $fake_process_email_command_user->setFirstName('Old');
@@ -117,8 +128,8 @@ class FakeUserRepository {
 
     public function getUsersWithLogin() {
         return [
-            FakeUsers::adminUser(),
-            FakeUsers::vorstandUser(),
+            FakeUser::adminUser(),
+            FakeUser::vorstandUser(),
         ];
     }
 }

@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\OnDailyEndpoint;
 use Olz\Entity\Throttling;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -35,16 +34,14 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointThrottled(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $throttling_repo = new Fake\FakeThrottlingRepository();
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories[Throttling::class] = $throttling_repo;
+        $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         $endpoint = new OnDailyEndpoint();
         $endpoint->runtimeSetup();
 
-        $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         try {
-            $result = $endpoint->call([]);
+            $endpoint->call([]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame([
@@ -56,16 +53,14 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointNoThrottlingRecord(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $throttling_repo = new Fake\FakeThrottlingRepository();
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories[Throttling::class] = $throttling_repo;
+        $throttling_repo->last_daily_notifications = null;
         $endpoint = new OnDailyEndpoint();
         $endpoint->runtimeSetup();
 
-        $throttling_repo->last_daily_notifications = null;
         try {
-            $result = $endpoint->call([]);
+            $endpoint->call([]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame([
@@ -77,17 +72,15 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointUnlimitedCron(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $throttling_repo = new Fake\FakeThrottlingRepository();
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories[Throttling::class] = $throttling_repo;
+        $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         $endpoint = new OnDailyEndpoint();
         $endpoint->runtimeSetup();
 
-        $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
         WithUtilsCache::get('envUtils')->has_unlimited_cron = true;
         try {
-            $result = $endpoint->call([]);
+            $endpoint->call([]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame([
@@ -99,15 +92,13 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpointWrongToken(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $throttling_repo = new Fake\FakeThrottlingRepository();
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
         $endpoint->runtimeSetup();
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 'authenticityCode' => 'wrong-token',
             ]);
             $this->fail('Error expected');
@@ -122,10 +113,8 @@ final class OnDailyEndpointTest extends UnitTestCase {
     }
 
     public function testOnDailyEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $throttling_repo = new Fake\FakeThrottlingRepository();
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'on_daily';
-        $entity_manager->repositories[Throttling::class] = $throttling_repo;
         $endpoint = new OnDailyEndpoint();
         $endpoint->runtimeSetup();
 

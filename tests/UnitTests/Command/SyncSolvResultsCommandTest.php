@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Command;
 use Olz\Command\SyncSolvResultsCommand;
 use Olz\Entity\SolvEvent;
 use Olz\Fetchers\SolvFetcher;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeSolvEvent;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -19,14 +19,14 @@ class FakeSyncSolvResultsCommandSolvEventRepository {
     public $updatedRankIdBySolvUid = [];
 
     public function __construct() {
-        $event_with_results = Fake\FakeSolvEvent::defaultSolvEvent(true);
+        $event_with_results = FakeSolvEvent::defaultSolvEvent(true);
         $event_with_results->setSolvUid(20202);
         $event_with_results->setName('Event with results');
         $event_with_results->setLastModification('2020-01-11 21:48:36');
         $event_with_results->setRankLink(1235);
         $this->eventWithResults = $event_with_results;
 
-        $event_without_results = Fake\FakeSolvEvent::defaultSolvEvent(true);
+        $event_without_results = FakeSolvEvent::defaultSolvEvent(true);
         $event_without_results->setSolvUid(20201);
         $event_without_results->setName('Event without results');
         $event_without_results->setLastModification('2020-01-11 21:36:48');

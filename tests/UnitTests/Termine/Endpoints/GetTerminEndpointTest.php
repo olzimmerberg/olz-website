@@ -4,82 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
-use Olz\Entity\Termine\Termin;
-use Olz\Entity\Termine\TerminLocation;
 use Olz\Termine\Endpoints\GetTerminEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeGetTerminEndpointTerminRepository {
-    public function findOneBy($where) {
-        // Minimal
-        if ($where === ['id' => 12]) {
-            $termin = new Termin();
-            $termin->setId(12);
-            $termin->setStartDate(new \DateTime('2020-03-13'));
-            $termin->setTitle("Fake title");
-            $termin->setText("");
-            $termin->setNewsletter(false);
-            $termin->setOnOff(true);
-            return $termin;
-        }
-        // Empty
-        if ($where === ['id' => 123]) {
-            $termin = new Termin();
-            $termin->setId(123);
-            $termin->setStartDate(new \DateTime('0000-01-01'));
-            $termin->setStartTime(new \DateTime('00:00:00'));
-            $termin->setEndDate(new \DateTime('0000-01-01'));
-            $termin->setEndTime(new \DateTime('00:00:00'));
-            $termin->setTitle("Cannot be empty");
-            $termin->setText("");
-            $termin->setLink('');
-            $termin->setTypes('');
-            $termin->setLocation(null);
-            $termin->setCoordinateX(0);
-            $termin->setCoordinateY(0);
-            $termin->setDeadline(new \DateTime('0000-01-01 00:00:00'));
-            $termin->setSolvId('');
-            $termin->setGo2olId('');
-            $termin->setNewsletter(false);
-            $termin->setImageIds([]);
-            $termin->setOnOff(false);
-            return $termin;
-        }
-        // Maximal
-        if ($where === ['id' => 1234]) {
-            $termin_location = new TerminLocation();
-            $termin_location->setId(1234);
-            $termin_location->setName('Fake location');
-            $termin_location->setDetails('Fake location details');
-            $termin_location->setLatitude(47.2790953);
-            $termin_location->setLongitude(8.5591936);
-            $termin = new Termin();
-            $termin->setId(1234);
-            $termin->setStartDate(new \DateTime('2020-03-13'));
-            $termin->setStartTime(new \DateTime('19:30:00'));
-            $termin->setEndDate(new \DateTime('2020-03-16'));
-            $termin->setEndTime(new \DateTime('12:00:00'));
-            $termin->setTitle("Fake title");
-            $termin->setText("Fake content");
-            $termin->setLink('<a href="test-anlass.ch">Home</a>');
-            $termin->setTypes(' training weekends ');
-            $termin->setLocation($termin_location);
-            $termin->setCoordinateX(684835);
-            $termin->setCoordinateY(237021);
-            $termin->setDeadline(new \DateTime('2020-03-13 18:00:00'));
-            $termin->setSolvId(11012);
-            $termin->setGo2olId('deprecated');
-            $termin->setNewsletter(true);
-            $termin->setImageIds(['img1.jpg', 'img2.png']);
-            $termin->setOnOff(true);
-            return $termin;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -113,9 +41,6 @@ final class GetTerminEndpointTest extends UnitTestCase {
 
     public function testGetTerminEndpointMinimal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_repo = new FakeGetTerminEndpointTerminRepository();
-        $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new GetTerminEndpoint();
         $endpoint->runtimeSetup();
 
@@ -158,9 +83,6 @@ final class GetTerminEndpointTest extends UnitTestCase {
 
     public function testGetTerminEndpointEmpty(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_repo = new FakeGetTerminEndpointTerminRepository();
-        $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new GetTerminEndpoint();
         $endpoint->runtimeSetup();
 
@@ -203,9 +125,6 @@ final class GetTerminEndpointTest extends UnitTestCase {
 
     public function testGetTerminEndpointMaximal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_repo = new FakeGetTerminEndpointTerminRepository();
-        $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new GetTerminEndpoint();
         $endpoint->runtimeSetup();
 
@@ -243,10 +162,10 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'solvId' => 11012,
                 'go2olId' => 'deprecated',
                 'types' => ['training', 'weekends'],
-                'locationId' => 1234,
+                'locationId' => 12341,
                 'coordinateX' => 684835,
                 'coordinateY' => 237021,
-                'imageIds' => ['img1.jpg', 'img2.png'],
+                'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
                 'fileIds' => ['file1.pdf', 'file2.pdf'],
             ],
         ], $result);

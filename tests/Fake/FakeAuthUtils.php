@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Roles\FakeRoles;
 use Olz\Utils\AuthUtils;
 
 class FakeAuthUtils extends AuthUtils {
@@ -47,7 +49,7 @@ class FakeAuthUtils extends AuthUtils {
     }
 
     public function getSessionUser() {
-        return FakeUsers::adminUser();
+        return FakeUser::adminUser();
     }
 
     public function getAuthenticatedRoles() {

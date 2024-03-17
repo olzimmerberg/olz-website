@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Apps\Newsletter\Endpoints;
 use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
@@ -36,7 +36,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNotificationSubscriptionsEndpointEmail(): void {
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
@@ -124,7 +124,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNotificationSubscriptionsEndpointTelegram(): void {
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;

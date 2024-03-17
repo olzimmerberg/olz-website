@@ -4,27 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Karten\Endpoints;
 
-use Olz\Entity\Karten\Karte;
 use Olz\Karten\Endpoints\DeleteKarteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeDeleteKarteEndpointKartenRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new Karte();
-            $entry->setId(123);
-            $entry->setOnOff(true);
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -57,9 +40,6 @@ final class DeleteKarteEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteKarteEndpointNoEntityAccess(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $karten_repo = new FakeDeleteKarteEndpointKartenRepository();
-        $entity_manager->repositories[Karte::class] = $karten_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new DeleteKarteEndpoint();
@@ -80,9 +60,6 @@ final class DeleteKarteEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteKarteEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $karten_repo = new FakeDeleteKarteEndpointKartenRepository();
-        $entity_manager->repositories[Karte::class] = $karten_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteKarteEndpoint();
@@ -100,6 +77,7 @@ final class DeleteKarteEndpointTest extends UnitTestCase {
         $this->assertSame([
             'status' => 'OK',
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
@@ -109,9 +87,6 @@ final class DeleteKarteEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteKarteEndpointInexistent(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $karten_repo = new FakeDeleteKarteEndpointKartenRepository();
-        $entity_manager->repositories[Karte::class] = $karten_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteKarteEndpoint();
@@ -128,6 +103,7 @@ final class DeleteKarteEndpointTest extends UnitTestCase {
                 "WARNING HTTP error 404",
             ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
+            $entity_manager = WithUtilsCache::get('entityManager');
             $this->assertSame(0, count($entity_manager->removed));
             $this->assertSame(0, count($entity_manager->flushed_removed));
         }

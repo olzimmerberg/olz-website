@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\UpdateUserEndpoint;
 use Olz\Entity\User;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
@@ -417,7 +418,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[User::class]->userToBeFoundForQuery =
             function ($where) use ($existing_user) {
                 if ($where === ['id' => 2]) {
-                    return Fake\FakeUsers::adminUser();
+                    return FakeUser::adminUser();
                 }
                 if ($where === ['username' => 'test']) {
                     return $existing_user;
@@ -468,7 +469,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[User::class]->userToBeFoundForQuery =
             function ($where) use ($existing_user) {
                 if ($where === ['id' => 2]) {
-                    return Fake\FakeUsers::adminUser();
+                    return FakeUser::adminUser();
                 }
                 if ($where === ['email' => 'bot@staging.olzimmerberg.ch']) {
                     return $existing_user;

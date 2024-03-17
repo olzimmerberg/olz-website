@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake;
+namespace Olz\Tests\Fake\Entity\Common;
 
-class FakeOlzRepository extends FakeEntity {
+class FakeOlzRepository {
     public const MINIMAL_ID = 12;
     public const EMPTY_ID = 123;
     public const MAXIMAL_ID = 1234;
@@ -12,7 +12,17 @@ class FakeOlzRepository extends FakeEntity {
 
     public $fakeOlzEntityClass = FakeOlzEntity::class;
 
+    public $entityToBeFound;
+    public $entityToBeFoundForQuery;
+
     public function findOneBy($where) {
+        if ($this->entityToBeFound !== null) {
+            return $this->entityToBeFound;
+        }
+        if ($this->entityToBeFoundForQuery !== null) {
+            $fn = $this->entityToBeFoundForQuery;
+            return $fn($where);
+        }
         $class = $this->fakeOlzEntityClass;
         if ($where === ['id' => self::MINIMAL_ID]) {
             return $class::minimal();

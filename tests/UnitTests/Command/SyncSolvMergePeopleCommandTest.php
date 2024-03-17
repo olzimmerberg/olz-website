@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Command;
 use Olz\Command\SyncSolvMergePeopleCommand;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeSolvPerson;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -18,11 +18,11 @@ class FakeSyncSolvMergePeopleCommandSolvPersonRepository {
     public $samePerson = [];
 
     public function __construct() {
-        $target_person = Fake\FakeSolvPerson::defaultSolvPerson(true);
+        $target_person = FakeSolvPerson::defaultSolvPerson(true);
         $target_person->setId(1);
         $this->targetPerson = $target_person;
 
-        $same_person = Fake\FakeSolvPerson::defaultSolvPerson(true);
+        $same_person = FakeSolvPerson::defaultSolvPerson(true);
         $same_person->setId(2);
         $same_person->setSameAs(1);
         $same_person->setName('Test Runer');

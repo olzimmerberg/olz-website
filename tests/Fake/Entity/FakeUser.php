@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake;
+namespace Olz\Tests\Fake\Entity;
 
 use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\Roles\FakeRoles;
 
-class FakeUsers extends FakeEntity {
+class FakeUser extends FakeEntity {
     public static function adminUser($fresh = false) {
         return self::getFake(
             'admin_user',

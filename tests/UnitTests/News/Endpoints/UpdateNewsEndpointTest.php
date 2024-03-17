@@ -4,32 +4,12 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\News\Endpoints;
 
-use Olz\Entity\News\NewsEntry;
 use Olz\News\Endpoints\UpdateNewsEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Roles\FakeRoles;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeUpdateNewsEndpointNewsRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new NewsEntry();
-            $entry->setId(123);
-            $datetime = new \DateTime('2020-03-13 19:30:00');
-            $entry->setAuthorUser(Fake\FakeUsers::defaultUser());
-            $entry->setAuthorRole(Fake\FakeRoles::defaultRole());
-            $entry->setPublishedDate($datetime);
-            $entry->setPublishedTime($datetime);
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -83,9 +63,6 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNewsEndpointNoSuchEntity(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $news_repo = new FakeUpdateNewsEndpointNewsRepository();
-        $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateNewsEndpoint();
@@ -127,9 +104,6 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNewsEndpointNoEntityAccess(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $news_repo = new FakeUpdateNewsEndpointNewsRepository();
-        $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new UpdateNewsEndpoint();
@@ -171,9 +145,6 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNewsEndpointMaximal(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $news_repo = new FakeUpdateNewsEndpointNewsRepository();
-        $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateNewsEndpoint();
@@ -221,6 +192,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => 123,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
@@ -228,8 +200,8 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertSame(123, $news_entry->getId());
         $this->assertSame('t.u.', $news_entry->getAuthorName());
         $this->assertSame('tu@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
-        $this->assertSame(Fake\FakeUsers::adminUser(), $news_entry->getAuthorUser());
-        $this->assertSame(Fake\FakeRoles::adminRole(), $news_entry->getAuthorRole());
+        $this->assertSame(FakeUser::adminUser(), $news_entry->getAuthorUser());
+        $this->assertSame(FakeRoles::adminRole(), $news_entry->getAuthorRole());
         $this->assertSame('2020-03-16', $news_entry->getPublishedDate()->format('Y-m-d'));
         $this->assertSame('09:00:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());
@@ -258,9 +230,6 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateNewsEndpointMinimal(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $news_repo = new FakeUpdateNewsEndpointNewsRepository();
-        $entity_manager->repositories[NewsEntry::class] = $news_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateNewsEndpoint();
@@ -300,6 +269,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => 123,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

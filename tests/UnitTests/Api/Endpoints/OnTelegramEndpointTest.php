@@ -6,7 +6,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\OnTelegramEndpoint;
 use Olz\Entity\TelegramLink;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -16,7 +16,7 @@ class FakeOnTelegramEndpointTelegramLinkRepository {
     public function findOneBy($where) {
         if ($where === ['telegram_chat_id' => 17089367]) {
             $telegram_link = new TelegramLink();
-            $telegram_link->setUser(Fake\FakeUsers::defaultUser());
+            $telegram_link->setUser(FakeUser::defaultUser());
             return $telegram_link;
         }
         return null;

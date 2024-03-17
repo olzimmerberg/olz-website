@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
 use Olz\Roles\Endpoints\EditRoleEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -28,7 +28,7 @@ final class EditRoleEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'id' => Fake\FakeOlzRepository::MINIMAL_ID,
+                'id' => FakeOlzRepository::MINIMAL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -47,7 +47,7 @@ final class EditRoleEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'id' => Fake\FakeOlzRepository::NULL_ID,
+                'id' => FakeOlzRepository::NULL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -67,7 +67,7 @@ final class EditRoleEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'id' => Fake\FakeOlzRepository::MINIMAL_ID,
+                'id' => FakeOlzRepository::MINIMAL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -80,7 +80,7 @@ final class EditRoleEndpointTest extends UnitTestCase {
     }
 
     public function testEditRoleEndpointMinimal(): void {
-        $id = Fake\FakeOlzRepository::MINIMAL_ID;
+        $id = FakeOlzRepository::MINIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditRoleEndpoint();
@@ -126,7 +126,7 @@ final class EditRoleEndpointTest extends UnitTestCase {
     }
 
     public function testEditRoleEndpointEmpty(): void {
-        $id = Fake\FakeOlzRepository::EMPTY_ID;
+        $id = FakeOlzRepository::EMPTY_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditRoleEndpoint();
@@ -172,7 +172,7 @@ final class EditRoleEndpointTest extends UnitTestCase {
     }
 
     public function testEditRoleEndpointMaximal(): void {
-        $id = Fake\FakeOlzRepository::MAXIMAL_ID;
+        $id = FakeOlzRepository::MAXIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditRoleEndpoint();

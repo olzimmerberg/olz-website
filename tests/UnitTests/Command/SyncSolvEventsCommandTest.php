@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Command;
 use Olz\Command\SyncSolvEventsCommand;
 use Olz\Entity\SolvEvent;
 use Olz\Fetchers\SolvFetcher;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeSolvEvent;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -19,14 +19,14 @@ class FakeSyncSolvEventsCommandSolvEventRepository {
     public $deletedSolvUids = [];
 
     public function __construct() {
-        $modified_event = Fake\FakeSolvEvent::defaultSolvEvent(true);
+        $modified_event = FakeSolvEvent::defaultSolvEvent(true);
         $modified_event->setSolvUid(20202);
         $modified_event->setName('Modified Event (before)');
         $modified_event->setLastModification('2020-01-11 21:48:36');
         $modified_event->setRankLink(1235);
         $this->modifiedEvent = $modified_event;
 
-        $deleted_event = Fake\FakeSolvEvent::defaultSolvEvent(true);
+        $deleted_event = FakeSolvEvent::defaultSolvEvent(true);
         $deleted_event->setSolvUid(20203);
         $deleted_event->setName('Deleted Event');
         $deleted_event->setLastModification('2020-01-11 21:36:48');

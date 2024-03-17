@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
 use Olz\Roles\Endpoints\GetRoleEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -28,7 +28,7 @@ final class GetRoleEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'id' => Fake\FakeOlzRepository::MINIMAL_ID,
+                'id' => FakeOlzRepository::MINIMAL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -41,7 +41,7 @@ final class GetRoleEndpointTest extends UnitTestCase {
     }
 
     public function testGetRoleEndpointMinimal(): void {
-        $id = Fake\FakeOlzRepository::MINIMAL_ID;
+        $id = FakeOlzRepository::MINIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new GetRoleEndpoint();
         $endpoint->runtimeSetup();
@@ -86,7 +86,7 @@ final class GetRoleEndpointTest extends UnitTestCase {
     }
 
     public function testGetRoleEndpointEmpty(): void {
-        $id = Fake\FakeOlzRepository::EMPTY_ID;
+        $id = FakeOlzRepository::EMPTY_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new GetRoleEndpoint();
         $endpoint->runtimeSetup();
@@ -131,7 +131,7 @@ final class GetRoleEndpointTest extends UnitTestCase {
     }
 
     public function testGetRoleEndpointMaximal(): void {
-        $id = Fake\FakeOlzRepository::MAXIMAL_ID;
+        $id = FakeOlzRepository::MAXIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new GetRoleEndpoint();
         $endpoint->runtimeSetup();

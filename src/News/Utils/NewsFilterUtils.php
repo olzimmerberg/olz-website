@@ -7,10 +7,6 @@ use Olz\Utils\WithUtilsTrait;
 
 class NewsFilterUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'dateUtils',
-        'envUtils',
-    ];
 
     public const ARCHIVE_YEARS_THRESHOLD = 4;
 

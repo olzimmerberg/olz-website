@@ -8,11 +8,6 @@ use Olz\Entity\User;
 
 class EntityUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'authUtils',
-        'dateUtils',
-        'entityManager',
-    ];
 
     public function createOlzEntity(OlzEntity $entity, array $input) {
         $user_repo = $this->entityManager()->getRepository(User::class);

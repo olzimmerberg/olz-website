@@ -9,11 +9,6 @@ use PhpTypeScriptApi\Fields\ValidationError;
 
 class HttpUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'fieldUtils',
-        'getParams',
-        'log',
-    ];
 
     public function dieWithHttpError(int $http_status_code) {
         $this->sendHttpResponseCode($http_status_code);

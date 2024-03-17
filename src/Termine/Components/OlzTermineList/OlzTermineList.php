@@ -9,6 +9,7 @@ namespace Olz\Termine\Components\OlzTermineList;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Termine\Components\OlzTermineSidebar\OlzTermineSidebar;
@@ -27,7 +28,7 @@ class OlzTermineList extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         $current_filter = json_decode($params['filter'] ?? '{}', true);
-        $termine_utils = TermineFilterUtils::fromEnv();
+        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
 
         if (!$termine_utils->isValidFilter($current_filter)) {
             $enc_json_filter = urlencode(json_encode($termine_utils->getDefaultFilter()));
@@ -69,6 +70,15 @@ class OlzTermineList extends OlzComponent {
         }
 
         $out .= "<h1>{$termine_list_title}</h1>";
+        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
+        $termin_label = $termin_label_repo->findOneBy(['ident' => $current_filter['typ']]);
+        $details = $termin_label?->getDetails();
+        if ($termin_label && $details) {
+            $details_html = $this->htmlUtils()->renderMarkdown($details);
+            $details_html = $termin_label->replaceImagePaths($details_html);
+            $details_html = $termin_label->replaceFilePaths($details_html);
+            $out .= $details_html;
+        }
 
         // -------------------------------------------------------------
         //  VORSCHAU - LISTE

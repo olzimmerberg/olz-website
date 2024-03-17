@@ -4,9 +4,6 @@ namespace Olz\Utils;
 
 class IdUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'envUtils',
-    ];
 
     protected $base64Iv = '9V0IXtcQo5o=';
     protected $algo = 'des-ede-cbc'; // Find one using `composer get_id_algos`

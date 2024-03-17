@@ -3,6 +3,7 @@
 namespace Olz\Termine\Components\OlzTermineListItem;
 
 use Olz\Components\Common\OlzComponent;
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\FileUtils;
@@ -20,8 +21,10 @@ class OlzTermineListItem extends OlzComponent {
     public function getHtml($args = []): string {
         $db = $this->dbUtils()->getDb();
         $file_utils = FileUtils::fromEnv();
+        $code_path = $this->envUtils()->getCodePath();
         $code_href = $this->envUtils()->getCodeHref();
-        $termine_utils = TermineFilterUtils::fromEnv();
+        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
 
         $out = '';
         $current_filter = json_decode($_GET['filter'] ?? '{}', true);
@@ -46,10 +49,14 @@ class OlzTermineListItem extends OlzComponent {
         $is_deadline = array_search('meldeschluss', $types) !== false;
 
         $link = "{$code_href}termine/{$id}{$filter_arg}";
-        $type_imgs = implode('', array_map(function ($type) use ($code_href) {
-            $icon_basename = self::$iconBasenameByType[$type] ?? '';
-            $icon = "{$code_href}assets/icns/{$icon_basename}";
-            return "<img src='{$icon}' alt='' class='type-icon'>";
+        $type_imgs = implode('', array_map(function ($type) use ($code_path, $code_href, $termin_label_repo) {
+            $label = $termin_label_repo->findOneBy(['ident' => $type]);
+            // TODO: Remove fallback mechanism?
+            $fallback_path = "{$code_path}assets/icns/termine_type_{$type}_20.svg";
+            $fallback_href = is_file($fallback_path)
+                ? "{$code_href}assets/icns/termine_type_{$type}_20.svg" : null;
+            $icon_href = $label?->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
+            return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
         }, $types));
         $start_icon = OlzDateCalendar::render([
             'date' => $start_date,

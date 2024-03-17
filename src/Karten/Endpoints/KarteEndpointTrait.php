@@ -18,7 +18,6 @@ trait KarteEndpointTrait {
         return new FieldTypes\ObjectField([
             'export_as' => $allow_null ? 'OlzKarteDataOrNull' : 'OlzKarteData',
             'field_structure' => [
-                'position' => new FieldTypes\IntegerField([]),
                 'kartennr' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'name' => new FieldTypes\StringField([]),
                 'centerX' => new FieldTypes\IntegerField(['allow_null' => true]),
@@ -49,7 +48,6 @@ trait KarteEndpointTrait {
         $preview_image_id = $entity->getPreviewImageId();
 
         return [
-            'position' => $entity->getPosition() ?? 0,
             'kartennr' => $entity->getKartenNr() ?? null,
             'name' => $name ? $name : '-',
             'centerX' => $center_x ? intval($center_x) : null,
@@ -66,7 +64,6 @@ trait KarteEndpointTrait {
     public function updateEntityWithData(Karte $entity, array $input_data): void {
         $valid_preview_image_id = $this->uploadUtils()->getValidUploadId($input_data['previewImageId']);
 
-        $entity->setPosition($input_data['position']);
         $entity->setKartenNr($input_data['kartennr']);
         $entity->setName($input_data['name']);
         $entity->setCenterX($input_data['centerX']);

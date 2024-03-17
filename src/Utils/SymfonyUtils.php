@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SymfonyUtils {
     use WithUtilsTrait;
-    public const UTILS = [];
 
     protected static $application;
 

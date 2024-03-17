@@ -3,8 +3,6 @@
 namespace Olz\Utils;
 
 class FixedDateUtils extends AbstractDateUtils {
-    public const UTILS = [];
-
     private $fixed_date;
 
     public function __construct($fixed_date) {

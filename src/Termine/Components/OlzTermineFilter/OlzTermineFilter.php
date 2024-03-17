@@ -9,7 +9,7 @@ class OlzTermineFilter extends OlzComponent {
     public function getHtml($args = []): string {
         global $_GET;
 
-        $termine_utils = TermineFilterUtils::fromEnv();
+        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
         $code_href = $this->envUtils()->getCodeHref();
         $current_filter = json_decode($_GET['filter'] ?? '{}', true);
         $out = "";
@@ -22,7 +22,7 @@ class OlzTermineFilter extends OlzComponent {
             $enc_json_filter = urlencode(json_encode($option['new_filter']));
             $name = $option['name'];
             $icon = $option['icon'];
-            $icon_html = $icon ? "<img src='{$code_href}assets/icns/{$icon}' alt='' class='type-filter-icon'>" : '';
+            $icon_html = $icon ? "<img src='{$icon}' alt='' class='type-filter-icon'>" : '';
             $ident = $option['ident'];
             return "<a href='{$code_href}termine?filter={$enc_json_filter}' id='filter-type-{$ident}' class='type-filter'{$selected}>
                 {$icon_html}{$name}

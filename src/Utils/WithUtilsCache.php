@@ -3,8 +3,6 @@
 namespace Olz\Utils;
 
 class WithUtilsCache {
-    public const UTILS = [];
-
     private static $utilsCache = [];
 
     public static function getAll() {

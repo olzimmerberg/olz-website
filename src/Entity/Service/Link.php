@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
 
 #[ORM\Table(name: 'links')]
+#[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
 #[ORM\Entity]
 class Link extends OlzEntity {
     #[ORM\Id]
@@ -16,7 +17,7 @@ class Link extends OlzEntity {
     #[ORM\Column(type: 'text', nullable: true)]
     private $name;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $position;
 
     #[ORM\Column(type: 'text', nullable: true)]

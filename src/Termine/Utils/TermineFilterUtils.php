@@ -3,30 +3,51 @@
 namespace Olz\Termine\Utils;
 
 use Doctrine\Common\Collections\Criteria;
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Utils\WithUtilsTrait;
 
 class TermineFilterUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'dateUtils',
-    ];
 
     public const ARCHIVE_YEARS_THRESHOLD = 4;
-
-    public const ALL_TYPE_OPTIONS = [
-        ['ident' => 'alle', 'name' => "Alle Termine"],
-        ['ident' => 'programm', 'name' => "Jahresprogramm", 'icon' => 'termine_type_programm_20.svg'],
-        ['ident' => 'weekend', 'name' => "Weekends", 'icon' => 'termine_type_weekend_20.svg'],
-        ['ident' => 'training', 'name' => "Trainings", 'icon' => 'termine_type_training_20.svg'],
-        ['ident' => 'ol', 'name' => "Wettkämpfe", 'icon' => 'termine_type_ol_20.svg'],
-        ['ident' => 'club', 'name' => "Vereinsanlässe", 'icon' => 'termine_type_club_20.svg'],
-        ['ident' => 'meldeschluss', 'name' => "Meldeschlüsse", 'icon' => 'termine_type_meldeschluss_20.svg'],
-    ];
 
     public const ALL_ARCHIVE_OPTIONS = [
         ['ident' => 'ohne', 'name' => "ohne Archiv"],
         ['ident' => 'mit', 'name' => "mit Archiv"],
     ];
+
+    public array $allTypeOptions = [];
+
+    public function loadTypeOptions(): self {
+        $code_path = $this->envUtils()->getCodePath();
+        $code_href = $this->envUtils()->getCodeHref();
+        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
+        $termine_labels = $termin_label_repo->findBy(['on_off' => 1], ['position' => 'ASC']);
+        $this->allTypeOptions = [
+            [
+                'ident' => 'alle',
+                'name' => "Alle Termine",
+            ],
+            ...array_map(function ($label) use ($code_path, $code_href) {
+                $ident = "{$label->getIdent()}";
+                // TODO: Remove fallback mechanism?
+                $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
+                $fallback_href = is_file($fallback_path)
+                    ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
+                return [
+                    'ident' => $ident,
+                    'name' => "{$label->getName()}",
+                    'icon' => $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href,
+                ];
+            }, $termine_labels),
+            [
+                'ident' => 'meldeschluss',
+                'name' => "Meldeschlüsse",
+                'icon' => "{$code_href}assets/icns/termine_type_meldeschluss_20.svg",
+            ],
+        ];
+        return $this;
+    }
 
     public function getDefaultFilter() {
         return [
@@ -40,7 +61,7 @@ class TermineFilterUtils {
         $has_correct_type = (
             isset($filter['typ'])
             && array_filter(
-                TermineFilterUtils::ALL_TYPE_OPTIONS,
+                $this->allTypeOptions,
                 function ($type_option) use ($filter) {
                     return $type_option['ident'] === $filter['typ'];
                 }
@@ -69,7 +90,7 @@ class TermineFilterUtils {
 
     public function getAllValidFiltersForSitemap() {
         $all_valid_filters = [];
-        foreach (TermineFilterUtils::ALL_TYPE_OPTIONS as $type_option) {
+        foreach ($this->allTypeOptions as $type_option) {
             $date_range_options = $this->getDateRangeOptions(['archiv' => 'ohne']);
             foreach ($date_range_options as $date_range_option) {
                 $all_valid_filters[] = [
@@ -93,7 +114,7 @@ class TermineFilterUtils {
                 'icon' => $type_option['icon'] ?? null,
                 'ident' => $type_option['ident'],
             ];
-        }, TermineFilterUtils::ALL_TYPE_OPTIONS);
+        }, $this->allTypeOptions);
     }
 
     public function getUiDateRangeFilterOptions($filter) {
@@ -161,23 +182,14 @@ class TermineFilterUtils {
         if ($filter['typ'] === 'alle') {
             return "'1' = '1'";
         }
-        if ($filter['typ'] === 'programm') {
-            return "{$tbl}.typ LIKE '%programm%'";
-        }
-        if ($filter['typ'] === 'weekend') {
-            return "{$tbl}.typ LIKE '%weekend%'";
-        }
-        if ($filter['typ'] === 'training') {
-            return "{$tbl}.typ LIKE '%training%'";
-        }
-        if ($filter['typ'] === 'ol') {
-            return "{$tbl}.typ LIKE '%ol%'";
-        }
-        if ($filter['typ'] === 'club') {
-            return "{$tbl}.typ LIKE '%club%'";
-        }
         if ($filter['typ'] === 'meldeschluss') {
             return "{$tbl}.typ LIKE '%meldeschluss%'";
+        }
+        foreach ($this->allTypeOptions as $type_option) {
+            $ident = $type_option['ident'];
+            if ($filter['typ'] === $ident && preg_match('/^[a-zA-Z0-9_]+$/', $ident)) {
+                return "{$tbl}.typ LIKE '%{$ident}%'";
+            }
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.
@@ -194,45 +206,24 @@ class TermineFilterUtils {
         $is_upcoming = $filter['datum'] == 'bevorstehend';
         if ($filter['typ'] === 'alle') {
             if ($is_upcoming) {
-                return "Bevorstehende Termine{$archive_title_suffix}";
+                return "Bevorstehende Termine";
             }
             return "Termine{$year_suffix}{$archive_title_suffix}";
         }
-        if ($filter['typ'] === 'programm') {
-            if ($is_upcoming) {
-                return "Bevorstehendes Jahresprogramm{$archive_title_suffix}";
-            }
-            return "Jahresprogramm{$year_suffix}{$archive_title_suffix}";
-        }
-        if ($filter['typ'] === 'weekend') {
-            if ($is_upcoming) {
-                return "Bevorstehende Weekends{$archive_title_suffix}";
-            }
-            return "Weekends{$year_suffix}{$archive_title_suffix}";
-        }
-        if ($filter['typ'] === 'training') {
-            if ($is_upcoming) {
-                return "Bevorstehende Trainings{$archive_title_suffix}";
-            }
-            return "Trainingsplan{$year_suffix}{$archive_title_suffix}";
-        }
-        if ($filter['typ'] === 'ol') {
-            if ($is_upcoming) {
-                return "Bevorstehende Wettkämpfe{$archive_title_suffix}";
-            }
-            return "Wettkämpfe{$year_suffix}{$archive_title_suffix}";
-        }
-        if ($filter['typ'] === 'club') {
-            if ($is_upcoming) {
-                return "Bevorstehende Vereinsanlässe{$archive_title_suffix}";
-            }
-            return "Vereinsanlässe{$year_suffix}{$archive_title_suffix}";
-        }
         if ($filter['typ'] === 'meldeschluss') {
             if ($is_upcoming) {
-                return "Bevorstehende Meldeschlüsse{$archive_title_suffix}";
+                return "Bevorstehende Meldeschlüsse";
             }
             return "Meldeschlüsse{$year_suffix}{$archive_title_suffix}";
+        }
+        foreach ($this->allTypeOptions as $type_option) {
+            if ($filter['typ'] === $type_option['ident']) {
+                $name = $type_option['name'];
+                if ($is_upcoming) {
+                    return "{$name} (bevorstehend)";
+                }
+                return "{$name}{$year_suffix}{$archive_title_suffix}";
+            }
         }
         // @codeCoverageIgnoreStart
         // Reason: Should not be reached.

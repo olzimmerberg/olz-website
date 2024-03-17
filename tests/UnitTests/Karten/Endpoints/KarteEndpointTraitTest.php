@@ -50,7 +50,6 @@ final class KarteEndpointTraitTest extends UnitTestCase {
             'kind',
             'name',
             'place',
-            'position',
             'previewImageId',
             'scale',
             'year',

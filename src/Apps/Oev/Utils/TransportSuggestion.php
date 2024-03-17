@@ -7,7 +7,6 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class TransportSuggestion {
     use WithUtilsTrait;
-    public const UTILS = [];
 
     protected $mainConnection;
     protected $sideConnections = [];

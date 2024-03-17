@@ -9,6 +9,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Entity\Termine\Termin;
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\FileUtils;
@@ -32,6 +33,7 @@ class OlzTerminDetail extends OlzComponent {
         ]);
 
         $code_href = $this->envUtils()->getCodeHref();
+        $code_path = $this->envUtils()->getCodePath();
         $date_utils = $this->dateUtils();
         $today = $date_utils->getIsoToday();
         $db = $this->dbUtils()->getDb();
@@ -40,6 +42,7 @@ class OlzTerminDetail extends OlzComponent {
         $file_utils = FileUtils::fromEnv();
         $image_utils = ImageUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
+        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $id = $args['id'] ?? null;
 
         $termine_utils = TermineFilterUtils::fromEnv();
@@ -218,10 +221,14 @@ class OlzTerminDetail extends OlzComponent {
             // SOLV-Übersicht-Link zeigen
             $maybe_solv_link .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
         }
-        $type_imgs = implode('', array_map(function ($type) use ($code_href) {
-            $icon_basename = self::$iconBasenameByType[$type] ?? '';
-            $icon = "{$code_href}assets/icns/{$icon_basename}";
-            return "<img src='{$icon}' alt='' class='type-icon'>";
+        $type_imgs = implode('', array_map(function ($type) use ($code_path, $code_href, $termin_label_repo) {
+            $label = $termin_label_repo->findOneBy(['ident' => $type]);
+            // TODO: Remove fallback mechanism?
+            $fallback_path = "{$code_path}assets/icns/termine_type_{$type}_20.svg";
+            $fallback_href = is_file($fallback_path)
+                ? "{$code_href}assets/icns/termine_type_{$type}_20.svg" : null;
+            $icon_href = $label?->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
+            return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
         }, $types));
         $out .= "<h2>{$pretty_date}{$maybe_solv_link}</h2>";
         $out .= "<h1>{$title} {$type_imgs}</h1>";

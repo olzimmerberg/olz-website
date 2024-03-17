@@ -24,7 +24,6 @@ final class CreateKarteEndpointTest extends UnitTestCase {
             'onOff' => true,
         ],
         'data' => [
-            'position' => 1,
             'kartennr' => 12345,
             'name' => 'Test Karte',
             'centerX' => 600000,
@@ -90,7 +89,6 @@ final class CreateKarteEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $karte = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $karte->getId());
-        $this->assertSame(1, $karte->getPosition());
         $this->assertSame(12345, $karte->getKartenNr());
         $this->assertSame('Test Karte', $karte->getName());
         $this->assertSame(600000, $karte->getCenterX());

@@ -4,7 +4,6 @@ namespace Olz\Utils;
 
 class GeneralUtils {
     use WithUtilsTrait;
-    public const UTILS = [];
 
     // Base64
 

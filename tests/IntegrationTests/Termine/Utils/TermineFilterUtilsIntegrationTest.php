@@ -14,7 +14,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  */
 final class TermineFilterUtilsIntegrationTest extends IntegrationTestCase {
     public function testFromEnv(): void {
-        $termine_utils = TermineFilterUtils::fromEnv();
+        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
         $this->assertSame(false, $termine_utils->isValidFilter([
             'typ' => 'alle',
             'datum' => '2015',

@@ -8,9 +8,6 @@ use Monolog\Logger;
 
 class LogsUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'envUtils',
-    ];
 
     private static $activated_loggers_stack = [];
 

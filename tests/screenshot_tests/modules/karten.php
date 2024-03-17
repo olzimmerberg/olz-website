@@ -24,10 +24,6 @@ function test_karten($driver, $base_url) {
     );
     click($new_button);
     sleep(1);
-    $position_input = $driver->findElement(
-        WebDriverBy::cssSelector('#position-input')
-    );
-    sendKeys($position_input, '3');
     $name_input = $driver->findElement(
         WebDriverBy::cssSelector('#name-input')
     );

@@ -3,8 +3,6 @@
 namespace Olz\Utils;
 
 class MemorySession extends AbstractSession {
-    public const UTILS = [];
-
     public $session_storage = [];
     public $cleared = false;
 

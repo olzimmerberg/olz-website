@@ -8,8 +8,6 @@ namespace Olz\Utils;
 
 class MapUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-    ];
 
     // Convert WGS lat/long (° dec) to CH y
     public function WGStoCHy($lat, $long) {

@@ -9,6 +9,7 @@ use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Karten\KartenRepository;
 
 #[ORM\Table(name: 'karten')]
+#[ORM\Index(name: 'typ_index', columns: ['on_off', 'typ'])]
 #[ORM\Entity(repositoryClass: KartenRepository::class)]
 class Karte extends OlzEntity implements DataStorageInterface {
     use DataStorageTrait;
@@ -17,9 +18,6 @@ class Karte extends OlzEntity implements DataStorageInterface {
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
     private $id;
-
-    #[ORM\Column(type: 'integer', nullable: false)]
-    private $position;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $kartennr;
@@ -65,14 +63,6 @@ class Karte extends OlzEntity implements DataStorageInterface {
 
     public function setId($new_value) {
         $this->id = $new_value;
-    }
-
-    public function getPosition() {
-        return $this->position;
-    }
-
-    public function setPosition($new_value) {
-        $this->position = $new_value;
     }
 
     public function getKartenNr() {

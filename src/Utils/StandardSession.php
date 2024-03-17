@@ -7,8 +7,6 @@ namespace Olz\Utils;
 class StandardSession extends AbstractSession {
     use WithUtilsTrait;
 
-    public const UTILS = [];
-
     public function __construct() {
         self::session_start_if_cookie_set();
     }

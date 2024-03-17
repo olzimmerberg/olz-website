@@ -21,6 +21,7 @@ export function olzLocationMapRender(
     name: string,
     lat: number,
     lng: number,
+    zoom: number,
 ): void {
     new Map({
         target: `olz-location-map-render-${hash}`,
@@ -28,6 +29,7 @@ export function olzLocationMapRender(
             new TileLayer({
                 source: new XYZ({
                     url: 'https://tile.osm.ch/switzerland/{z}/{x}/{y}.png',
+                    // url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 }),
             }),
             new VectorLayer({
@@ -64,7 +66,7 @@ export function olzLocationMapRender(
         view: new View({
             projection: 'EPSG:3857',
             center: transform([lng, lat], 'EPSG:4326', 'EPSG:3857'),
-            zoom: 13,
+            zoom,
         }),
         interactions: [],
     });

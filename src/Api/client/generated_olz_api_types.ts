@@ -45,7 +45,6 @@ export type OlzDownloadDataOrNull = {
 }|null;
 
 export type OlzKarteData = {
-    'position': number,
     'kartennr': number|null,
     'name': string,
     'centerX': number|null,
@@ -61,7 +60,6 @@ export type OlzKarteData = {
 export type OlzKarteKind = 'ol'|'stadt'|'scool'|null;
 
 export type OlzKarteDataOrNull = {
-    'position': number,
     'kartennr': number|null,
     'name': string,
     'centerX': number|null,

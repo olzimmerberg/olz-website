@@ -7,10 +7,6 @@ use Monolog\Processor\ProcessorInterface;
 
 class OlzProcessor implements ProcessorInterface {
     use WithUtilsTrait;
-    public const UTILS = [
-        'server',
-        'session',
-    ];
 
     public function __invoke(LogRecord $record): LogRecord {
         if ($this->server()) {

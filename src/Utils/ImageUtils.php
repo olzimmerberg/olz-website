@@ -4,16 +4,13 @@ namespace Olz\Utils;
 
 class ImageUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'envUtils',
-        'log',
-    ];
 
     public const TABLES_IMG_DIRS = [
         'karten' => 'img/karten/',
         'news' => 'img/news/',
         'roles' => 'img/roles/',
         'termine' => 'img/termine/',
+        'termin_labels' => 'img/termin_labels/',
         'termin_locations' => 'img/termin_locations/',
         'termin_templates' => 'img/termin_templates/',
         'weekly_picture' => 'img/weekly_picture/',

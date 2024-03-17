@@ -4,9 +4,6 @@ namespace Olz\Utils;
 
 class UserAgentUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'server',
-    ];
 
     public function getUserAgentString() {
         return $this->server()['HTTP_USER_AGENT'] ?? '';

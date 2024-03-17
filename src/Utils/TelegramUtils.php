@@ -17,13 +17,6 @@ class TelegramUtils {
 
     protected $telegramFetcher;
 
-    public const UTILS = [
-        'dateUtils',
-        'entityManager',
-        'envUtils',
-        'log',
-    ];
-
     public static function fromEnv() {
         $telegram_fetcher = new TelegramFetcher();
 

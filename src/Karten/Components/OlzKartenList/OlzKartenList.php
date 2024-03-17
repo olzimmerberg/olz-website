@@ -33,7 +33,7 @@ class OlzKartenList extends OlzComponent {
             ZZZZZZZZZZ;
         }
 
-        $sql = "SELECT * FROM karten ORDER BY CASE WHEN `typ` = 'ol' THEN 1 WHEN `typ` = 'stadt' THEN 2 WHEN `typ` = 'scool' THEN 3 ELSE 4 END,ort ASC, position ASC";
+        $sql = "SELECT * FROM karten WHERE on_off = '1' ORDER BY CASE WHEN `typ` = 'ol' THEN 1 WHEN `typ` = 'stadt' THEN 2 WHEN `typ` = 'scool' THEN 3 ELSE 4 END, ort ASC, name ASC";
         $result = $db->query($sql);
 
         $last_kind = null;
@@ -41,7 +41,6 @@ class OlzKartenList extends OlzComponent {
         while ($row = $result->fetch_assoc()) {
             $karte = new Karte();
             $karte->setId($row['id']);
-            $karte->setPosition($row['position']);
             $karte->setKartenNr($row['kartennr'] ? $row['kartennr'] : null);
             $karte->setName($row['name']);
             $karte->setCenterX($row['center_x']);

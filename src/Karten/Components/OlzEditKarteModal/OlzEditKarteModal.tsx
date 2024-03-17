@@ -5,14 +5,13 @@ import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzKarteData, OlzKarteKind} from '../../../../src/Api/client/generated_olz_api_types';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateInteger, validateIntegerOrNull, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty} from '../../../Utils/formUtils';
 import {timeout} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditKarteModal.scss';
 
 interface OlzEditKarteForm {
-    position: string,
     kartenNr: string,
     name: string,
     centerX: string,
@@ -27,7 +26,6 @@ interface OlzEditKarteForm {
 
 const resolver: Resolver<OlzEditKarteForm> = async (values) => {
     const errors: FieldErrors<OlzEditKarteForm> = {};
-    errors.position = validateInteger(values.position);
     errors.kartenNr = validateIntegerOrNull(values.kartenNr);
     errors.name = validateNotEmpty(values.name);
     errors.centerX = validateIntegerOrNull(values.centerX);
@@ -39,7 +37,6 @@ const resolver: Resolver<OlzEditKarteForm> = async (values) => {
 
 function getFormFromApi(apiData?: OlzKarteData): OlzEditKarteForm {
     return {
-        position: getFormNumber(apiData?.position),
         kartenNr: getFormNumber(apiData?.kartennr),
         name: getFormString(apiData?.name),
         centerX: getFormNumber(apiData?.centerX),
@@ -60,7 +57,6 @@ function getApiFromForm(formData: OlzEditKarteForm): OlzKarteData {
         scool: 'scool',
     };
     return {
-        position: getApiNumber(formData?.position) ?? 0,
         kartennr: getApiNumber(formData?.kartenNr),
         name: getApiString(formData?.name) ?? '',
         centerX: getApiNumber(formData?.centerX),
@@ -130,14 +126,6 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
                             <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
                         </div>
                         <div className='modal-body'>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Position'
-                                    name='position'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
                             <div className='mb-3'>
                                 <OlzTextField
                                     title='Karten-Nummer'

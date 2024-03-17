@@ -18,12 +18,6 @@ use Webklex\PHPIMAP\ClientManager;
 
 class EmailUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'envUtils',
-        'generalUtils',
-        'log',
-        'recaptchaUtils',
-    ];
 
     public function sendEmailVerificationEmail($user, $token) {
         if (!$this->recaptchaUtils()->validateRecaptchaToken($token)) {

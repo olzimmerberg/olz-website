@@ -4,9 +4,6 @@ namespace Olz\Utils;
 
 class DbUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'envUtils',
-    ];
 
     protected static $db;
     protected static $entityManager;

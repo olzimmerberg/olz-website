@@ -46,6 +46,16 @@ trait DataStorageTrait {
         return $html;
     }
 
+    public function getFileHref(string $upload_id): string {
+        $data_path = $this->envUtils()->getDataPath();
+        $data_href = $this->envUtils()->getDataHref();
+        $entity_path = $this->getEntityPathForStorage();
+        $file_path = "{$data_path}files/{$entity_path}{$upload_id}";
+        $file_href = "{$data_href}files/{$entity_path}{$upload_id}";
+        $modified = is_file($file_path) ? date('Y-m-d_H-i-s', filemtime($file_path)) : '';
+        return "{$file_href}?modified={$modified}";
+    }
+
     public function getImagesPathForStorage(): string {
         $data_path = $this->envUtils()->getDataPath();
         $entity_path = $this->getEntityPathForStorage();

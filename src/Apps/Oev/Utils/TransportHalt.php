@@ -7,7 +7,6 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class TransportHalt {
     use WithUtilsTrait;
-    public const UTILS = [];
 
     protected $stationId;
     protected $stationName;

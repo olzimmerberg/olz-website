@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240313195047
+-- MIGRATION: DoctrineMigrations\Version20240317181327
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -145,7 +145,7 @@ CREATE TABLE `counter` (
   `date_range` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `date_range_page_index` (`date_range`,`page`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -163,7 +163,7 @@ CREATE TABLE `doctrine_migration_versions` (
 CREATE TABLE `downloads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` longtext DEFAULT NULL,
-  `position` int(11) DEFAULT NULL,
+  `position` int(11) NOT NULL,
   `file_id` longtext DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `owner_user_id` int(11) DEFAULT NULL,
@@ -177,6 +177,7 @@ CREATE TABLE `downloads` (
   KEY `IDX_4B73A4B55A75A473` (`owner_role_id`),
   KEY `IDX_4B73A4B57D182D95` (`created_by_user_id`),
   KEY `IDX_4B73A4B51A04EF5A` (`last_modified_by_user_id`),
+  KEY `position_index` (`on_off`,`position`),
   CONSTRAINT `FK_4B73A4B51A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_4B73A4B52B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_4B73A4B55A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
@@ -188,7 +189,6 @@ CREATE TABLE `downloads` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `karten` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `position` int(11) NOT NULL,
   `kartennr` int(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `center_x` int(11) DEFAULT NULL,
@@ -213,6 +213,7 @@ CREATE TABLE `karten` (
   KEY `IDX_57ED7BE15A75A473` (`owner_role_id`),
   KEY `IDX_57ED7BE17D182D95` (`created_by_user_id`),
   KEY `IDX_57ED7BE11A04EF5A` (`last_modified_by_user_id`),
+  KEY `typ_index` (`on_off`,`typ`),
   CONSTRAINT `FK_57ED7BE11A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_57ED7BE12B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_57ED7BE15A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
@@ -226,7 +227,7 @@ CREATE TABLE `links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` longtext DEFAULT NULL,
   `url` longtext DEFAULT NULL,
-  `position` int(11) DEFAULT NULL,
+  `position` int(11) NOT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `owner_user_id` int(11) DEFAULT NULL,
   `owner_role_id` int(11) DEFAULT NULL,
@@ -239,6 +240,7 @@ CREATE TABLE `links` (
   KEY `IDX_D182A1185A75A473` (`owner_role_id`),
   KEY `IDX_D182A1187D182D95` (`created_by_user_id`),
   KEY `IDX_D182A1181A04EF5A` (`last_modified_by_user_id`),
+  KEY `position_index` (`on_off`,`position`),
   CONSTRAINT `FK_D182A1181A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_D182A1182B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_D182A1185A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
@@ -686,17 +688,21 @@ CREATE TABLE `termin_labels` (
   `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `ident` varchar(31) NOT NULL,
+  `position` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_A3B090E02B18554A` (`owner_user_id`),
   KEY `IDX_A3B090E05A75A473` (`owner_role_id`),
   KEY `IDX_A3B090E07D182D95` (`created_by_user_id`),
   KEY `IDX_A3B090E01A04EF5A` (`last_modified_by_user_id`),
   KEY `name_index` (`name`),
+  KEY `ident_index` (`on_off`,`ident`),
+  KEY `position_index` (`on_off`,`position`),
   CONSTRAINT `FK_A3B090E01A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_A3B090E02B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_A3B090E05A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_A3B090E07D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

@@ -6,7 +6,6 @@ use Olz\Utils\WithUtilsTrait;
 
 class CoordinateUtils {
     use WithUtilsTrait;
-    public const UTILS = [];
 
     public function getCenter($points) {
         $sum_x = 0;

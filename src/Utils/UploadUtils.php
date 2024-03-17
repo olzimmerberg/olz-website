@@ -4,11 +4,6 @@ namespace Olz\Utils;
 
 class UploadUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'envUtils',
-        'generalUtils',
-        'log',
-    ];
 
     private $suffixPattern = '[a-zA-Z0-9]+';
 

@@ -33,10 +33,12 @@ class OlzLocationMap extends OlzComponent {
         $enc_name = json_encode($name);
         $enc_lat = json_encode($lat);
         $enc_lng = json_encode($lng);
+        $enc_zoom = json_encode($zoom);
 
         $lv95_e = $xkoord + 2000000;
         $lv95_n = $ykoord + 1000000;
-        $swisstopo_url = "https://map.geo.admin.ch/?lang=de&bgLayer=ch.swisstopo.pixelkarte-farbe&layers=ch.bav.haltestellen-oev&E={$lv95_e}&N={$lv95_n}&zoom=8&crosshair=marker";
+        $zoom_swisstopo = $zoom - 5;
+        $swisstopo_url = "https://map.geo.admin.ch/?lang=de&bgLayer=ch.swisstopo.pixelkarte-farbe&layers=ch.bav.haltestellen-oev&E={$lv95_e}&N={$lv95_n}&zoom={$zoom_swisstopo}&crosshair=marker";
         return <<<ZZZZZZZZZZ
         <a
             href='{$swisstopo_url}'
@@ -49,7 +51,7 @@ class OlzLocationMap extends OlzComponent {
             >
             </div>
             <script>
-                olz.olzLocationMapRender({$enc_hash}, {$enc_name}, {$enc_lat}, {$enc_lng});
+                olz.olzLocationMapRender({$enc_hash}, {$enc_name}, {$enc_lat}, {$enc_lng}, {$enc_zoom});
             </script>
         </a>
         ZZZZZZZZZZ;

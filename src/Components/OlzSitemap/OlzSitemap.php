@@ -124,7 +124,7 @@ abstract class OlzSitemap extends OlzComponent {
             'level' => 0,
         ];
 
-        $termine_utils = TermineFilterUtils::fromEnv();
+        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
         $termine_filters = $termine_utils->getAllValidFiltersForSitemap();
         foreach ($termine_filters as $termine_filter) {
             $enc_json_filter = urlencode(json_encode($termine_filter));

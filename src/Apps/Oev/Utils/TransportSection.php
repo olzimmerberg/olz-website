@@ -7,7 +7,6 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 class TransportSection {
     use WithUtilsTrait;
-    public const UTILS = [];
 
     protected $departure;
     protected $arrival;

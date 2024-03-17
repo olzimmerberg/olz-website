@@ -6,11 +6,6 @@ use Olz\Fetchers\GoogleFetcher;
 
 class RecaptchaUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'envUtils',
-        'log',
-        'server',
-    ];
 
     protected static $cache = [];
 

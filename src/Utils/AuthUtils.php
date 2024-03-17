@@ -10,15 +10,6 @@ use Olz\Exceptions\InvalidCredentialsException;
 
 class AuthUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'dateUtils',
-        'entityManager',
-        'envUtils',
-        'getParams',
-        'log',
-        'server',
-        'session',
-    ];
 
     protected $cached_permission_map_by_user = [];
     protected $cached_permission_map_by_role = [];

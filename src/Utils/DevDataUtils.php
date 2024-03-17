@@ -8,13 +8,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 class DevDataUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'dbUtils',
-        'envUtils',
-        'generalUtils',
-        'log',
-        'symfonyUtils',
-    ];
 
     private $enqueuedForTouch = [];
 
@@ -357,6 +350,12 @@ class DevDataUtils {
         $this->mkdir("{$data_path}files/termine/7");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/7/Kzt5p5g6cjM5k9CXdVaSsGFx.pdf");
 
+        $this->mkdir("{$data_path}files/termin_labels");
+        $this->mkdir("{$data_path}files/termin_labels/3");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termin_labels/3/6f6novQPv2fjHGzzguXE6nzi.pdf");
+        $this->mkdir("{$data_path}files/termin_labels/4");
+        $this->copy("{$sample_path}sample-icon_20.svg", "{$data_path}files/termin_labels/4/EM8hA6vye74doeon2RWzZyRf.svg");
+
         $this->mkdir("{$data_path}files/termin_templates");
         $this->mkdir("{$data_path}files/termin_templates/2");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termin_templates/2/qjhUey6Lc6svXsmUcSaguWkJ.pdf");
@@ -504,6 +503,11 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/termine/5");
         $this->mkdir("{$data_path}img/termine/5/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/termine/5/img/Ffpi3PK5wBjKfN4etpvGK3ti.jpg", 800, 600);
+
+        $this->mkdir("{$data_path}img/termin_labels");
+        $this->mkdir("{$data_path}img/termin_labels/3");
+        $this->mkdir("{$data_path}img/termin_labels/3/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/termin_labels/3/img/QQ8ZApZjsNSBM2wKrkRQxXZG.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/termin_locations");
         $this->mkdir("{$data_path}img/termin_locations/1");

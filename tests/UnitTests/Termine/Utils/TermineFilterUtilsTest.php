@@ -16,7 +16,7 @@ use Olz\Utils\FixedDateUtils;
  */
 final class TermineFilterUtilsTest extends UnitTestCase {
     public function testGetDefaultFilter(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame([
             'typ' => 'alle',
             'datum' => 'bevorstehend',
@@ -25,7 +25,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testIsValidFilter(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame(false, $termine_utils->isValidFilter([]));
         $this->assertSame(false, $termine_utils->isValidFilter(['foo' => 'bar']));
         $this->assertSame(true, $termine_utils->isValidFilter([
@@ -51,12 +51,12 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testDefaultFilterIsValid(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame(true, $termine_utils->isValidFilter($termine_utils->getDefaultFilter()));
     }
 
     public function testGetAllValidFiltersForSitemap(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame([
             [
                 'typ' => 'alle',
@@ -307,7 +307,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetUiTypeFilterOptions(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame([
             [
                 'selected' => true,
@@ -477,7 +477,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetUiDateRangeFilterOptionsExclArchive(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame([
             [
                 'selected' => true,
@@ -634,7 +634,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testGetUiDateRangeFilterOptionsInclArchive(): void {
         $date_utils = new FixedDateUtils('2011-03-13 19:30:00');
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $termine_utils->setDateUtils($date_utils);
         $this->assertSame([
             [
@@ -725,7 +725,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetUiArchiveFilterOptions(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame([
             [
                 'selected' => true,
@@ -782,7 +782,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testGetDateRangeOptionsExclArchive(): void {
         $date_utils = new FixedDateUtils('2006-01-13 19:30:00');
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $termine_utils->setDateUtils($date_utils);
         $this->assertSame([
             ['ident' => 'bevorstehend', 'name' => "Bevorstehende"],
@@ -797,7 +797,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testGetDateRangeOptionsInclArchive(): void {
         $date_utils = new FixedDateUtils('2020-03-13 19:00:00');
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $termine_utils->setDateUtils($date_utils);
         $this->assertSame([
             ['ident' => 'bevorstehend', 'name' => "Bevorstehende"],
@@ -821,7 +821,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetSqlDateRangeFilter(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame("'1'='0'", $termine_utils->getSqlDateRangeFilter([]));
         $this->assertSame(
             "(t.start_date >= '2020-03-13') OR (t.end_date >= '2020-03-13')",
@@ -850,7 +850,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetSqlTypeFilter(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame("'1'='0'", $termine_utils->getSqlTypeFilter([]));
         $this->assertSame(
             "'1' = '1'",
@@ -911,7 +911,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetTitleFromFilter(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame("Termine", $termine_utils->getTitleFromFilter([]));
         $this->assertSame(
             "Bevorstehende Termine",
@@ -922,7 +922,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Bevorstehendes Jahresprogramm",
+            "Jahresprogramm (bevorstehend)",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'programm',
                 'datum' => 'bevorstehend',
@@ -930,7 +930,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Bevorstehende Weekends",
+            "Weekends (bevorstehend)",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'weekend',
                 'datum' => 'bevorstehend',
@@ -938,7 +938,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Bevorstehende Trainings",
+            "Trainings (bevorstehend)",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'training',
                 'datum' => 'bevorstehend',
@@ -946,7 +946,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Bevorstehende Wettkämpfe",
+            "Wettkämpfe (bevorstehend)",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'ol',
                 'datum' => 'bevorstehend',
@@ -954,7 +954,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Bevorstehende Vereinsanlässe",
+            "Vereinsanlässe (bevorstehend)",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'club',
                 'datum' => 'bevorstehend',
@@ -994,7 +994,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Trainingsplan 2020",
+            "Trainings 2020",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'training',
                 'datum' => '2020',
@@ -1026,7 +1026,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             ])
         );
         $this->assertSame(
-            "Trainingsplan 2020 (Archiv)",
+            "Trainings 2020 (Archiv)",
             $termine_utils->getTitleFromFilter([
                 'typ' => 'training',
                 'datum' => '2020',
@@ -1036,14 +1036,14 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testIsFilterNotArchived(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $this->assertSame(false, $termine_utils->isFilterNotArchived([]));
         $this->assertSame(true, $termine_utils->isFilterNotArchived(['archiv' => 'ohne']));
         $this->assertSame(false, $termine_utils->isFilterNotArchived(['archiv' => 'mit']));
     }
 
     public function testGetIsNotArchivedCriteria(): void {
-        $termine_utils = new TermineFilterUtils();
+        $termine_utils = $this->getTermineFilterUtils();
         $criteria_expression = $termine_utils->getIsNotArchivedCriteria();
         $this->assertSame('start_date', $criteria_expression->getField());
         $this->assertSame(
@@ -1051,5 +1051,19 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             $criteria_expression->getValue()->getValue()->format('Y-m-d')
         );
         $this->assertSame(Comparison::GTE, $criteria_expression->getOperator());
+    }
+
+    protected function getTermineFilterUtils(): TermineFilterUtils {
+        $termine_utils = new TermineFilterUtils();
+        $termine_utils->allTypeOptions = [
+            ['ident' => 'alle', 'name' => "Alle Termine"],
+            ['ident' => 'programm', 'name' => "Jahresprogramm", 'icon' => 'termine_type_programm_20.svg'],
+            ['ident' => 'weekend', 'name' => "Weekends", 'icon' => 'termine_type_weekend_20.svg'],
+            ['ident' => 'training', 'name' => "Trainings", 'icon' => 'termine_type_training_20.svg'],
+            ['ident' => 'ol', 'name' => "Wettkämpfe", 'icon' => 'termine_type_ol_20.svg'],
+            ['ident' => 'club', 'name' => "Vereinsanlässe", 'icon' => 'termine_type_club_20.svg'],
+            ['ident' => 'meldeschluss', 'name' => "Meldeschlüsse", 'icon' => 'termine_type_meldeschluss_20.svg'],
+        ];
+        return $termine_utils;
     }
 }

@@ -5,8 +5,6 @@ namespace Olz\Utils;
 // require_once __DIR__.'/../OlzInit.php';
 
 class EnvUtils {
-    public const UTILS = [];
-
     private $data_path;
     private $data_href;
     private $code_path;

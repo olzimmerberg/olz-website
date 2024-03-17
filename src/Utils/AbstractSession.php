@@ -3,8 +3,6 @@
 namespace Olz\Utils;
 
 abstract class AbstractSession {
-    public const UTILS = [];
-
     abstract public function resetConfigure($config);
 
     abstract public function has($key);

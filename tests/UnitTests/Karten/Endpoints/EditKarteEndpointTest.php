@@ -16,7 +16,6 @@ class FakeEditKarteEndpointKartenRepository {
         if ($where === ['id' => 12]) {
             $entry = new Karte();
             $entry->setId(12);
-            $entry->setPosition(12);
             $entry->setName('');
             $entry->setOnOff(true);
             return $entry;
@@ -25,7 +24,6 @@ class FakeEditKarteEndpointKartenRepository {
         if ($where === ['id' => 123]) {
             $entry = new Karte();
             $entry->setId(123);
-            $entry->setPosition(0);
             $entry->setKartenNr(0);
             $entry->setName('');
             $entry->setCenterX(null);
@@ -43,7 +41,6 @@ class FakeEditKarteEndpointKartenRepository {
         if ($where === ['id' => 1234]) {
             $entry = new Karte();
             $entry->setId(1234);
-            $entry->setPosition(12);
             $entry->setKartenNr(12);
             $entry->setName('Fake Karte');
             $entry->setCenterX(1200000);
@@ -166,7 +163,6 @@ final class EditKarteEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
-                'position' => 12,
                 'kartennr' => null,
                 'name' => '-',
                 'centerX' => null,
@@ -207,7 +203,6 @@ final class EditKarteEndpointTest extends UnitTestCase {
                 'onOff' => false,
             ],
             'data' => [
-                'position' => 0,
                 'kartennr' => 0,
                 'name' => '-',
                 'centerX' => null,
@@ -254,7 +249,6 @@ final class EditKarteEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
-                'position' => 12,
                 'kartennr' => 12,
                 'name' => 'Fake Karte',
                 'centerX' => 1200000,

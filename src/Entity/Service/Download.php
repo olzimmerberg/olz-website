@@ -8,6 +8,7 @@ use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 
 #[ORM\Table(name: 'downloads')]
+#[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
 #[ORM\Entity]
 class Download extends OlzEntity implements DataStorageInterface {
     use DataStorageTrait;
@@ -20,7 +21,7 @@ class Download extends OlzEntity implements DataStorageInterface {
     #[ORM\Column(type: 'text', nullable: true)]
     private $name;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $position;
 
     #[ORM\Column(type: 'text', nullable: true)]

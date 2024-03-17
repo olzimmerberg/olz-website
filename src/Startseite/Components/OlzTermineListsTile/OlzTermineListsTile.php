@@ -20,7 +20,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
     }
 
     public function getHtml($args = []): string {
-        $this->termine_utils = TermineFilterUtils::fromEnv();
+        $this->termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
         $this->db = $this->dbUtils()->getDb();
         $this->this_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
 

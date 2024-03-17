@@ -4,10 +4,6 @@ namespace Olz\Utils;
 
 class FileUtils {
     use WithUtilsTrait;
-    public const UTILS = [
-        'envUtils',
-        'log',
-    ];
 
     public const TABLES_FILE_DIRS = [
         'downloads' => 'files/downloads/',

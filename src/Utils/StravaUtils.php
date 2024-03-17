@@ -6,7 +6,6 @@ use Olz\Fetchers\StravaFetcher;
 
 class StravaUtils {
     use WithUtilsTrait;
-    public const UTILS = [];
 
     protected $client_id;
     protected $client_secret;

@@ -8,7 +8,7 @@ StandardSession::session_start_if_cookie_set();
 
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
-$termine_filter_utils = TermineFilterUtils::fromEnv();
+$termine_filter_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
 $filter = json_decode($_GET['filter'] ?? '{}', true);
 $filter_param = '';
 if ($termine_filter_utils->isValidFilter($filter)) {

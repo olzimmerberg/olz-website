@@ -4,11 +4,11 @@ namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzGetEntityEndpoint;
 
-class GetTerminEndpoint extends OlzGetEntityEndpoint {
-    use TerminEndpointTrait;
+class GetTerminLabelEndpoint extends OlzGetEntityEndpoint {
+    use TerminLabelEndpointTrait;
 
     public static function getIdent() {
-        return 'GetTerminEndpoint';
+        return 'GetTerminLabelEndpoint';
     }
 
     protected function handle($input) {

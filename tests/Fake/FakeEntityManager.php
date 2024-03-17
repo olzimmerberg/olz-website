@@ -6,6 +6,7 @@ namespace Olz\Tests\Fake;
 
 use Doctrine\ORM\EntityManager;
 use Olz\Entity\Roles\Role;
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\User;
 
 class FakeEntityManager extends EntityManager {
@@ -22,6 +23,7 @@ class FakeEntityManager extends EntityManager {
         $this->repositories = [
             User::class => new FakeUserRepository(),
             Role::class => new FakeRoleRepository(),
+            TerminLabel::class => new FakeTerminLabelRepository(),
         ];
     }
 

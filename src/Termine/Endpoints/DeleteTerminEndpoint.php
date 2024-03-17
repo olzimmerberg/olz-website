@@ -15,14 +15,14 @@ class DeleteTerminEndpoint extends OlzDeleteEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('termine');
 
-        $termin = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($termin, null, 'termine')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $termin->setOnOff(0);
-        $this->entityManager()->persist($termin);
+        $entity->setOnOff(0);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
         return ['status' => 'OK'];

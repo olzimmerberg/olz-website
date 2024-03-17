@@ -121,12 +121,12 @@ trait TerminEndpointTrait {
     }
 
     protected function getEntityById(int $id): Termin {
-        $termin_repo = $this->entityManager()->getRepository(Termin::class);
-        $termin = $termin_repo->findOneBy(['id' => $id]);
-        if (!$termin) {
+        $repo = $this->entityManager()->getRepository(Termin::class);
+        $entity = $repo->findOneBy(['id' => $id]);
+        if (!$entity) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        return $termin;
+        return $entity;
     }
 
     // ---

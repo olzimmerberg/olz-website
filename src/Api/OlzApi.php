@@ -64,6 +64,11 @@ class OlzApi extends Api {
         \Olz\Termine\Endpoints\EditTerminEndpoint $editTerminEndpoint,
         \Olz\Termine\Endpoints\UpdateTerminEndpoint $updateTerminEndpoint,
         \Olz\Termine\Endpoints\DeleteTerminEndpoint $deleteTerminEndpoint,
+        \Olz\Termine\Endpoints\CreateTerminLabelEndpoint $createTerminLabelEndpoint,
+        \Olz\Termine\Endpoints\GetTerminLabelEndpoint $getTerminLabelEndpoint,
+        \Olz\Termine\Endpoints\EditTerminLabelEndpoint $editTerminLabelEndpoint,
+        \Olz\Termine\Endpoints\UpdateTerminLabelEndpoint $updateTerminLabelEndpoint,
+        \Olz\Termine\Endpoints\DeleteTerminLabelEndpoint $deleteTerminLabelEndpoint,
         \Olz\Termine\Endpoints\CreateTerminLocationEndpoint $createTerminLocationEndpoint,
         \Olz\Termine\Endpoints\GetTerminLocationEndpoint $getTerminLocationEndpoint,
         \Olz\Termine\Endpoints\EditTerminLocationEndpoint $editTerminLocationEndpoint,
@@ -151,6 +156,14 @@ class OlzApi extends Api {
         $this->registerEndpoint('updateTermin', $updateTerminEndpoint);
         $this->registerEndpoint('deleteTermin', $deleteTerminEndpoint);
 
+        // Termin Label
+
+        $this->registerEndpoint('createTerminLabel', $createTerminLabelEndpoint);
+        $this->registerEndpoint('getTerminLabel', $getTerminLabelEndpoint);
+        $this->registerEndpoint('editTerminLabel', $editTerminLabelEndpoint);
+        $this->registerEndpoint('updateTerminLabel', $updateTerminLabelEndpoint);
+        $this->registerEndpoint('deleteTerminLabel', $deleteTerminLabelEndpoint);
+
         // Termin Locations
 
         $this->registerEndpoint('createTerminLocation', $createTerminLocationEndpoint);
@@ -237,6 +250,11 @@ class OlzApi extends Api {
             new \Olz\Termine\Endpoints\EditTerminEndpoint(),
             new \Olz\Termine\Endpoints\UpdateTerminEndpoint(),
             new \Olz\Termine\Endpoints\DeleteTerminEndpoint(),
+            new \Olz\Termine\Endpoints\CreateTerminLabelEndpoint(),
+            new \Olz\Termine\Endpoints\GetTerminLabelEndpoint(),
+            new \Olz\Termine\Endpoints\EditTerminLabelEndpoint(),
+            new \Olz\Termine\Endpoints\UpdateTerminLabelEndpoint(),
+            new \Olz\Termine\Endpoints\DeleteTerminLabelEndpoint(),
             new \Olz\Termine\Endpoints\CreateTerminLocationEndpoint(),
             new \Olz\Termine\Endpoints\GetTerminLocationEndpoint(),
             new \Olz\Termine\Endpoints\EditTerminLocationEndpoint(),

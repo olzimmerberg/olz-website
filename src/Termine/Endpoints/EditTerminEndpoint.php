@@ -15,18 +15,18 @@ class EditTerminEndpoint extends OlzEditEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('termine');
 
-        $termin = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($termin, null, 'termine')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $this->editUploads($termin);
+        $this->editUploads($entity);
 
         return [
-            'id' => $termin->getId(),
-            'meta' => $termin->getMetaData(),
-            'data' => $this->getEntityData($termin),
+            'id' => $entity->getId(),
+            'meta' => $entity->getMetaData(),
+            'data' => $this->getEntityData($entity),
         ];
     }
 }

@@ -15,17 +15,17 @@ class CreateTerminEndpoint extends OlzCreateEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('termine');
 
-        $termin = new Termin();
-        $this->entityUtils()->createOlzEntity($termin, $input['meta']);
-        $this->updateEntityWithData($termin, $input['data']);
+        $entity = new Termin();
+        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($termin);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
-        $this->persistUploads($termin, $input['data']);
+        $this->persistUploads($entity, $input['data']);
 
         return [
             'status' => 'OK',
-            'id' => $termin->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

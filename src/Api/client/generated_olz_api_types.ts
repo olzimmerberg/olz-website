@@ -193,6 +193,26 @@ export type OlzTerminDataOrNull = {
     'fileIds': Array<string>,
 }|null;
 
+export type OlzTerminLabelData = {
+    'ident': string,
+    'name': string,
+    'details': string,
+    'icon': string|null,
+    'position': number|null,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
+};
+
+export type OlzTerminLabelDataOrNull = {
+    'ident': string,
+    'name': string,
+    'details': string,
+    'icon': string|null,
+    'position': number|null,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
+}|null;
+
 export type OlzTerminLocationData = {
     'name': string,
     'details': string,
@@ -377,6 +397,11 @@ export type OlzApiEndpoint =
     'editTermin'|
     'updateTermin'|
     'deleteTermin'|
+    'createTerminLabel'|
+    'getTerminLabel'|
+    'editTerminLabel'|
+    'updateTerminLabel'|
+    'deleteTerminLabel'|
     'createTerminLocation'|
     'getTerminLocation'|
     'editTerminLocation'|
@@ -648,6 +673,24 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'data': OlzTerminDataOrNull,
         },
     deleteTermin: {
+            'id': number,
+        },
+    createTerminLabel: {
+            'meta': OlzMetaData,
+            'data': OlzTerminLabelData,
+        },
+    getTerminLabel: {
+            'id': number,
+        },
+    editTerminLabel: {
+            'id': number,
+        },
+    updateTerminLabel: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzTerminLabelDataOrNull,
+        },
+    deleteTerminLabel: {
             'id': number,
         },
     createTerminLocation: {
@@ -983,6 +1026,27 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': number,
         },
     deleteTermin: {
+            'status': 'OK'|'ERROR',
+        },
+    createTerminLabel: {
+            'status': 'OK'|'ERROR',
+            'id': number|null,
+        },
+    getTerminLabel: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzTerminLabelData,
+        },
+    editTerminLabel: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzTerminLabelData,
+        },
+    updateTerminLabel: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteTerminLabel: {
             'status': 'OK'|'ERROR',
         },
     createTerminLocation: {

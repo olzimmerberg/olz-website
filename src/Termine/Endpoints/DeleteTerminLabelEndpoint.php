@@ -5,11 +5,11 @@ namespace Olz\Termine\Endpoints;
 use Olz\Api\OlzDeleteEntityEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteTerminLocationEndpoint extends OlzDeleteEntityEndpoint {
-    use TerminLocationEndpointTrait;
+class DeleteTerminLabelEndpoint extends OlzDeleteEntityEndpoint {
+    use TerminLabelEndpointTrait;
 
     public static function getIdent() {
-        return 'DeleteTerminLocationEndpoint';
+        return 'DeleteTerminLabelEndpoint';
     }
 
     protected function handle($input) {

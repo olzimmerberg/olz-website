@@ -15,22 +15,22 @@ class UpdateTerminLocationEndpoint extends OlzUpdateEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('termine');
 
-        $termin_location = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($termin_location, $input['meta'], 'termine')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $this->entityUtils()->updateOlzEntity($termin_location, $input['meta'] ?? []);
-        $this->updateEntityWithData($termin_location, $input['data']);
+        $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? []);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($termin_location);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
-        $this->persistUploads($termin_location);
+        $this->persistUploads($entity);
 
         return [
             'status' => 'OK',
-            'id' => $termin_location->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

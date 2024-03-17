@@ -15,17 +15,17 @@ class CreateTerminLocationEndpoint extends OlzCreateEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('termine');
 
-        $termin_location = new TerminLocation();
-        $this->entityUtils()->createOlzEntity($termin_location, $input['meta']);
-        $this->updateEntityWithData($termin_location, $input['data']);
+        $entity = new TerminLocation();
+        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($termin_location);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
-        $this->persistUploads($termin_location);
+        $this->persistUploads($entity);
 
         return [
             'status' => 'OK',
-            'id' => $termin_location->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

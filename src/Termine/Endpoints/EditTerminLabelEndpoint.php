@@ -5,11 +5,11 @@ namespace Olz\Termine\Endpoints;
 use Olz\Api\OlzEditEntityEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class EditTerminLocationEndpoint extends OlzEditEntityEndpoint {
-    use TerminLocationEndpointTrait;
+class EditTerminLabelEndpoint extends OlzEditEntityEndpoint {
+    use TerminLabelEndpointTrait;
 
     public static function getIdent() {
-        return 'EditTerminLocationEndpoint';
+        return 'EditTerminLabelEndpoint';
     }
 
     protected function handle($input) {

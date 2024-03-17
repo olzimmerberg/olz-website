@@ -3,19 +3,19 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzCreateEntityEndpoint;
-use Olz\Entity\Termine\TerminTemplate;
+use Olz\Entity\Termine\TerminLabel;
 
-class CreateTerminTemplateEndpoint extends OlzCreateEntityEndpoint {
-    use TerminTemplateEndpointTrait;
+class CreateTerminLabelEndpoint extends OlzCreateEntityEndpoint {
+    use TerminLabelEndpointTrait;
 
     public static function getIdent() {
-        return 'CreateTerminTemplateEndpoint';
+        return 'CreateTerminLabelEndpoint';
     }
 
     protected function handle($input) {
         $this->checkPermission('termine');
 
-        $entity = new TerminTemplate();
+        $entity = new TerminLabel();
         $this->entityUtils()->createOlzEntity($entity, $input['meta']);
         $this->updateEntityWithData($entity, $input['data']);
 

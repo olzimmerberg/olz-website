@@ -106,12 +106,12 @@ trait TerminTemplateEndpointTrait {
     }
 
     protected function getEntityById(int $id): TerminTemplate {
-        $termin_repo = $this->entityManager()->getRepository(TerminTemplate::class);
-        $termin = $termin_repo->findOneBy(['id' => $id]);
-        if (!$termin) {
+        $repo = $this->entityManager()->getRepository(TerminTemplate::class);
+        $entity = $repo->findOneBy(['id' => $id]);
+        if (!$entity) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        return $termin;
+        return $entity;
     }
 
     // ---

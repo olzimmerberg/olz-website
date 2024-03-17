@@ -14,12 +14,12 @@ class GetTerminTemplateEndpoint extends OlzGetEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('any');
 
-        $termin_template = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
         return [
-            'id' => $termin_template->getId(),
-            'meta' => $termin_template->getMetaData(),
-            'data' => $this->getEntityData($termin_template),
+            'id' => $entity->getId(),
+            'meta' => $entity->getMetaData(),
+            'data' => $this->getEntityData($entity),
         ];
     }
 }

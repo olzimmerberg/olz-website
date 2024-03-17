@@ -25,7 +25,7 @@ class OlzVerein extends OlzComponent {
         while ($row = $result->fetch_assoc()) {
             $id = $row['id'];
             $title = $row['title'] ?? $row['name'];
-            $featured_out .= "<div><b><a href='javascript:olz.highlight_organigramm(&quot;link-role-{$id}&quot;)' class='linkint'>{$title}</a></b></div>";
+            $featured_out .= "<div><b><a href='javascript:olz.highlightOrganigramm(&quot;link-role-{$id}&quot;)' class='linkint'>{$title}</a></b></div>";
         }
         $out .= "<div class='content-full'><div id='organigramm'>";
         $out .= <<<ZZZZZZZZZZ

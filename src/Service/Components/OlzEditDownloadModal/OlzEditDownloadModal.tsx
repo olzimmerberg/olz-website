@@ -153,7 +153,7 @@ export function initOlzEditDownloadModal(
     meta?: OlzMetaData,
     data?: OlzDownloadData,
 ): boolean {
-    initReact('edit-download-react-root', (
+    initReact('edit-entity-react-root', (
         <OlzEditDownloadModal
             id={id}
             meta={meta}

@@ -12,12 +12,13 @@ class OlzRolePage extends OlzComponent {
     public function getHtml($args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $is_member = $this->authUtils()->hasPermission('member');
+        $user = $this->authUtils()->getCurrentUser();
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
         $role_repo = $entityManager->getRepository(Role::class);
         $role_username = $args['ressort'];
         $role_repo = $entityManager->getRepository(Role::class);
-        $role = $role_repo->findOneBy(['username' => $role_username]);
+        $role = $role_repo->findOneBy(['username' => $role_username, 'on_off' => 1]);
 
         if (!$role) {
             $this->httpUtils()->dieWithHttpError(404);
@@ -72,12 +73,43 @@ class OlzRolePage extends OlzComponent {
         $out .= "</ol>";
         $out .= "</nav>";
 
+        $owner_user = $role->getOwnerUser();
+        $is_owner = $user && $owner_user && intval($owner_user->getId() ?? 0) === intval($user->getId());
+        $has_roles_permission = $this->authUtils()->hasPermission('roles');
+        $can_edit = $is_owner || $has_roles_permission;
+        $edit_admin = '';
+        if ($can_edit) {
+            $json_id = json_encode(intval($role_id));
+            $edit_admin = <<<ZZZZZZZZZZ
+            <div>
+                <button
+                    id='edit-role-button'
+                    class='btn btn-primary'
+                    onclick='return olz.editRole({$json_id})'
+                >
+                    <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                    Bearbeiten
+                </button>
+                <button
+                    id='delete-role-button'
+                    class='btn btn-danger'
+                    onclick='return olz.deleteRole({$json_id})'
+                >
+                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                    Löschen
+                </button>
+            </div>
+            ZZZZZZZZZZ;
+        }
+
         $page = $role->getPage();
         if (strlen(trim($page)) > 0) {
             $out .= $page;
         } else {
-            $out .= "<h1>{$role_title}</h1>";
+            $out .= "<h1>{$edit_admin}{$role_title}</h1>";
             $description_html = $this->htmlUtils()->renderMarkdown($role->getDescription());
+            $description_html = $role->replaceImagePaths($description_html);
+            $description_html = $role->replaceFilePaths($description_html);
             $out .= $description_html;
         }
 
@@ -109,6 +141,8 @@ class OlzRolePage extends OlzComponent {
 
         if ($is_member) {
             $guide_html = $this->htmlUtils()->renderMarkdown($role->getGuide());
+            $guide_html = $role->replaceImagePaths($guide_html);
+            $guide_html = $role->replaceFilePaths($guide_html);
             $out .= "<br/><br/><h2>Aufgaben (nur für OLZ-Mitglieder sichtbar)</h2>";
             $out .= $guide_html;
         }

@@ -2,6 +2,7 @@
 
 namespace Olz\Entity\Common;
 
+use Olz\Utils\ImageUtils;
 use Olz\Utils\WithUtilsTrait;
 
 trait DataStorageTrait {
@@ -16,17 +17,50 @@ trait DataStorageTrait {
         return $this->uploadUtils()->getStoredUploadIds($this->getFilesPathForStorage());
     }
 
-    public function getImagesPathForStorage(): string {
-        $data_path = $this->envUtils()->getDataPath();
+    public function replaceImagePaths(string $html): string {
+        $image_utils = ImageUtils::fromEnv();
         $entity_name = $this::getEntityNameForStorage();
         $entity_id = $this->getEntityIdForStorage();
-        return "{$data_path}img/{$entity_name}/{$entity_id}/";
+        $upload_ids = $this->getStoredImageUploadIds();
+        foreach ($upload_ids as $upload_id) {
+            $search = "<img src=\"./{$upload_id}\" alt=\"\" />";
+            $replace = $image_utils->olzImage($entity_name, $entity_id, $upload_id, 110, 'image');
+            $html = str_replace($search, $replace, $html);
+        }
+        return $html;
+    }
+
+    public function replaceFilePaths(string $html): string {
+        $data_path = $this->envUtils()->getDataPath();
+        $data_href = $this->envUtils()->getDataHref();
+        $entity_path = $this->getEntityPathForStorage();
+        $upload_ids = $this->getStoredFileUploadIds();
+        foreach ($upload_ids as $upload_id) {
+            $file_path = "{$data_path}files/{$entity_path}{$upload_id}";
+            $file_href = "{$data_href}files/{$entity_path}{$upload_id}";
+            $modified = is_file($file_path) ? date('Y-m-d_H-i-s', filemtime($file_path)) : '';
+            $search = "\"./{$upload_id}\"";
+            $replace = "\"{$file_href}?modified={$modified}\"";
+            $html = str_replace($search, $replace, $html);
+        }
+        return $html;
+    }
+
+    public function getImagesPathForStorage(): string {
+        $data_path = $this->envUtils()->getDataPath();
+        $entity_path = $this->getEntityPathForStorage();
+        return "{$data_path}img/{$entity_path}";
     }
 
     public function getFilesPathForStorage(): string {
         $data_path = $this->envUtils()->getDataPath();
+        $entity_path = $this->getEntityPathForStorage();
+        return "{$data_path}files/{$entity_path}";
+    }
+
+    public function getEntityPathForStorage() {
         $entity_name = $this::getEntityNameForStorage();
         $entity_id = $this->getEntityIdForStorage();
-        return "{$data_path}files/{$entity_name}/{$entity_id}/";
+        return "{$entity_name}/{$entity_id}/";
     }
 }

@@ -5,6 +5,7 @@ namespace Olz\Api\Endpoints;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\Common\SearchableInterface;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -14,6 +15,7 @@ class SearchEntitiesEndpoint extends OlzEndpoint {
     public const SUPPORTED_ENTITY_TYPES = [
         'TerminLocation' => TerminLocation::class,
         'TerminTemplate' => TerminTemplate::class,
+        'Role' => Role::class,
     ];
 
     public static function getIdent() {

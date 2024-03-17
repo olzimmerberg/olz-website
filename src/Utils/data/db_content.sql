@@ -271,7 +271,7 @@ VALUES
     ('2', 'material', NULL, 'Material \r\n& Karten', '', '', NULL, '1', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
     ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '', '', NULL, '2', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
     ('4', 'finanzen', NULL, 'Finanzen', '', '', NULL, '3', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
-    ('5', 'praesi', NULL, 'Präsident', '', '', NULL, '4', '0', '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('5', 'praesi', NULL, 'Präsident', 'Portrait: ![](./ZntVatFCHj3h8KZh7LyiB9x5.jpg)\n\n[Mein Programm](./c44s3s8QjwZd2WYTEVg3iW9k.pdf)', '', NULL, '4', '0', '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
     ('6', 'aktuariat', NULL, 'Aktuariat & \r\nMitgliederliste', '', '', NULL, '5', '1', '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
     ('7', 'nachwuchs-ausbildung', NULL, 'Nachwuchs & \r\nAusbildung', '', '', NULL, '6', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
     ('8', 'nachwuchs-leistungssport', NULL, 'Nachwuchs & Leistungssport', '', '', NULL, '7', NULL, '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),

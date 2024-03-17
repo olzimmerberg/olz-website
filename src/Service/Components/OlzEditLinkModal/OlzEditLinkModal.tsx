@@ -146,7 +146,7 @@ export function initOlzEditLinkModal(
     meta?: OlzMetaData,
     data?: OlzLinkData,
 ): boolean {
-    initReact('edit-link-react-root', (
+    initReact('edit-entity-react-root', (
         <OlzEditLinkModal
             id={id}
             meta={meta}

@@ -13,7 +13,7 @@ export type OlzAuthenticatedRole = {
     'username': string,
 };
 
-export type OlzSearchableEntityTypes = 'TerminLocation'|'TerminTemplate';
+export type OlzSearchableEntityTypes = 'TerminLocation'|'TerminTemplate'|'Role';
 
 export type OlzEntityResult = {
     'id': number,

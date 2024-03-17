@@ -99,6 +99,10 @@ final class UploadUtilsTest extends UnitTestCase {
         $this->assertSame(true, $this->uploadUtils->isUploadId('abcdABCD_-12345678901234.pdf'));
     }
 
+    public function testGetUploadIdRegex(): void {
+        $this->assertSame('[a-zA-Z0-9_-]{24}\\.[a-zA-Z0-9]+', $this->uploadUtils->getUploadIdRegex());
+    }
+
     public function testGetValidUploadId(): void {
         $valid = '123456789012345678901234.jpg';
         $inexistent = 'inexistent12345678901234.jpg';

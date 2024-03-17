@@ -136,7 +136,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
 };
 
 export function initOlzEditWeeklyPictureModal(id?: number, data?: OlzWeeklyPictureData): boolean {
-    initReact('edit-weekly-picture-react-root', (
+    initReact('edit-entity-react-root', (
         <OlzEditWeeklyPictureModal id={id} data={data} />
     ));
     window.setTimeout(() => {

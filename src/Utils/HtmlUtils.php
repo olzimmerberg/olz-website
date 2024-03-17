@@ -28,7 +28,8 @@ class HtmlUtils {
         $environment->addExtension(new AttributesExtension());
         $converter = new MarkdownConverter($environment);
         $rendered = $converter->convert($markdown);
-        return $this->postprocess(strval($rendered));
+        $postprocessed = $this->postprocess(strval($rendered));
+        return "<div class='rendered-markdown'>{$postprocessed}</div>";
     }
 
     public function postprocess($html) {

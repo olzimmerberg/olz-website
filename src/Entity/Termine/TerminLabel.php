@@ -63,6 +63,8 @@ class TerminLabel extends OlzEntity implements SearchableInterface {
         $this->icon = $new_value;
     }
 
+    // ---
+
     public static function getIdFieldNameForSearch(): string {
         return 'id';
     }

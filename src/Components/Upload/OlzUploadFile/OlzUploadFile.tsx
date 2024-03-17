@@ -8,6 +8,7 @@ import './OlzUploadFile.scss';
 interface OlzUploadFileProps {
     uploadFile?: UploadFile;
     onDelete?: (uploadId: string) => unknown;
+    isMarkdown?: boolean;
 }
 
 export const OlzUploadFile = (props: OlzUploadFileProps): React.ReactElement => {
@@ -30,7 +31,9 @@ export const OlzUploadFile = (props: OlzUploadFileProps): React.ReactElement => 
         const uploadedFile: UploadedFile = uploadFile;
         const uploadedInfo = `Uploaded: ${uploadedFile.uploadId}`;
         const onCopy = React.useCallback(() => {
-            const copyContent = `<DATEI=${uploadFile.uploadId} text="LABEL">`;
+            const copyContent = props.isMarkdown
+                ? `[LABEL](./${uploadFile.uploadId})`
+                : `<DATEI=${uploadFile.uploadId} text="LABEL">`;
             navigator.clipboard.writeText(copyContent);
         }, [props.uploadFile]);
         const copyButton = (

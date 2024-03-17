@@ -8,6 +8,7 @@ import './OlzUploadImage.scss';
 interface OlzUploadImageProps {
     uploadFile?: UploadFile;
     onDelete?: (uploadId: string) => unknown;
+    isMarkdown?: boolean;
 }
 
 export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement => {
@@ -29,6 +30,15 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
     if (uploadFile?.uploadState === 'UPLOADED') {
         const uploadedFile: UploadedFile = uploadFile;
         const uploadedInfo = `Uploaded: ${uploadedFile.uploadId}`;
+        const onCopy = React.useCallback(() => {
+            const copyContent = `![](./${uploadFile.uploadId})`;
+            navigator.clipboard.writeText(copyContent);
+        }, [props.uploadFile]);
+        const copyButton = props.isMarkdown ? (
+            <button className='button' type='button' onClick={onCopy}>
+                <img src={`${dataHref}assets/icns/copy_16.svg`} alt='Cp' />
+            </button>
+        ) : null;
         const deleteButton = props.onDelete ? (
             <button className='button' type='button' onClick={() => {
                 if (props.onDelete) {
@@ -47,10 +57,11 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
                         className='image'
                     />
                 </div>
-                <div className='footer'>
-                    <div className='info test-flaky'>
+                <div className='footer test-flaky'>
+                    <div className='info'>
                         {uploadedInfo}
                     </div>
+                    {copyButton}
                     {deleteButton}
                 </div>
             </div>

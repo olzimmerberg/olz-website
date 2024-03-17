@@ -74,7 +74,7 @@ trait RoleEndpointTrait {
     }
 
     public function editUploads(Role $entity): void {
-        $image_ids = $this->uploadUtils()->getStoredUploadIds($entity->getImagesPathForStorage());
+        $image_ids = $this->uploadUtils()->getStoredUploadIds("{$entity->getImagesPathForStorage()}img/");
         $this->editOlzImages($entity, $image_ids);
         $this->editOlzFiles($entity);
     }

@@ -285,7 +285,7 @@ export function initOlzEditKarteModal(
     meta?: OlzMetaData,
     data?: OlzKarteData,
 ): boolean {
-    initReact('edit-news-react-root', (
+    initReact('edit-entity-react-root', (
         <OlzEditKarteModal
             id={id}
             meta={meta}

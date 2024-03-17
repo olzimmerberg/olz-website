@@ -565,7 +565,7 @@ export function initOlzEditNewsModal(
     meta?: OlzMetaData,
     data?: OlzNewsData,
 ): boolean {
-    initReact('edit-news-react-root', (
+    initReact('edit-entity-react-root', (
         <OlzEditNewsModal
             mode={mode}
             id={id}

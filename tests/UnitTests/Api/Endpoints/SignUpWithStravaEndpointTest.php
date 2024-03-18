@@ -12,19 +12,6 @@ use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
-class FakeSignUpWithStravaEndpointAuthRequestRepository {
-    public $auth_requests = [];
-
-    public function addAuthRequest($ip_address, $action, $username, $timestamp = null) {
-        $this->auth_requests[] = [
-            'ip_address' => $ip_address,
-            'action' => $action,
-            'timestamp' => $timestamp,
-            'username' => $username,
-        ];
-    }
-}
-
 /**
  * @internal
  *
@@ -37,11 +24,10 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithStravaEndpointWithoutInput(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new SignUpWithStravaEndpoint();
         $endpoint->runtimeSetup();
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 'stravaUser' => null,
                 'accessToken' => null,
                 'refreshToken' => null,
@@ -85,9 +71,6 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithStravaEndpointWithValidData(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithStravaEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $endpoint = new SignUpWithStravaEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -130,6 +113,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
             'auth_user' => 'fakeUsername',
             'auth_user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',

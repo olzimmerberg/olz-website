@@ -15,6 +15,10 @@ class FakeOlzRepository {
     public $entityToBeFound;
     public $entityToBeFoundForQuery;
 
+    public $entitiesToBeMatched;
+
+    public $entitiesToBeFound;
+
     public function findOneBy($where) {
         if ($this->entityToBeFound !== null) {
             return $this->entityToBeFound;
@@ -38,5 +42,29 @@ class FakeOlzRepository {
         }
         $where_json = json_encode($where);
         throw new \Exception("Query not mocked in {$class} repo findOneBy: {$where_json}", 1);
+    }
+
+    public function matching($criteria) {
+        if ($this->entitiesToBeMatched !== null) {
+            return $this->entitiesToBeMatched;
+        }
+        $class = $this->fakeOlzEntityClass;
+        return [
+            $class::minimal(),
+            $class::empty(),
+            $class::maximal(),
+        ];
+    }
+
+    public function findBy($query) {
+        if ($this->entitiesToBeFound !== null) {
+            return $this->entitiesToBeFound;
+        }
+        $class = $this->fakeOlzEntityClass;
+        return [
+            $class::minimal(),
+            $class::empty(),
+            $class::maximal(),
+        ];
     }
 }

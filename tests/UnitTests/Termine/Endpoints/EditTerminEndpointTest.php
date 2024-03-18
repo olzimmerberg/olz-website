@@ -4,85 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
-use Olz\Entity\Termine\Termin;
-use Olz\Entity\Termine\TerminLocation;
 use Olz\Termine\Endpoints\EditTerminEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
-class FakeEditTerminEndpointTerminRepository {
-    public function findOneBy($where) {
-        // Minimal
-        if ($where === ['id' => 12]) {
-            $termin = new Termin();
-            $termin->setId(12);
-            $termin->setStartDate(new \DateTime('2020-03-13'));
-            $termin->setTitle("Fake title");
-            $termin->setText("");
-            $termin->setNewsletter(false);
-            $termin->setOnOff(true);
-            return $termin;
-        }
-        // Empty
-        if ($where === ['id' => 123]) {
-            $termin = new Termin();
-            $termin->setId(123);
-            $termin->setStartDate(new \DateTime('0000-01-01'));
-            $termin->setStartTime(new \DateTime('00:00:00'));
-            $termin->setEndDate(new \DateTime('0000-01-01'));
-            $termin->setEndTime(new \DateTime('00:00:00'));
-            $termin->setTitle("Cannot be empty");
-            $termin->setText("");
-            $termin->setLink('');
-            $termin->setTypes('');
-            $termin->setLocation(null);
-            $termin->setCoordinateX(0);
-            $termin->setCoordinateY(0);
-            $termin->setDeadline(new \DateTime('0000-01-01 00:00:00'));
-            $termin->setSolvId('');
-            $termin->setGo2olId('');
-            $termin->setNewsletter(false);
-            $termin->setImageIds([]);
-            $termin->setOnOff(false);
-            return $termin;
-        }
-        // Maximal
-        if ($where === ['id' => 1234]) {
-            $termin_location = new TerminLocation();
-            $termin_location->setId(1234);
-            $termin_location->setName('Fake location');
-            $termin_location->setDetails('Fake location details');
-            $termin_location->setLatitude(47.2790953);
-            $termin_location->setLongitude(8.5591936);
-            $termin = new Termin();
-            $termin->setId(1234);
-            $termin->setStartDate(new \DateTime('2020-03-13'));
-            $termin->setStartTime(new \DateTime('19:30:00'));
-            $termin->setEndDate(new \DateTime('2020-03-16'));
-            $termin->setEndTime(new \DateTime('12:00:00'));
-            $termin->setTitle("Fake title");
-            $termin->setText("Fake content");
-            $termin->setLink('<a href="test-anlass.ch">Home</a>');
-            $termin->setTypes(' training weekends ');
-            $termin->setLocation($termin_location);
-            $termin->setCoordinateX(684835);
-            $termin->setCoordinateY(237021);
-            $termin->setDeadline(new \DateTime('2020-03-13 18:00:00'));
-            $termin->setSolvId(11012);
-            $termin->setGo2olId('deprecated');
-            $termin->setNewsletter(true);
-            $termin->setImageIds(['image__________________1.jpg', 'image__________________2.png']);
-            $termin->setOnOff(true);
-            return $termin;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 /**
  * @internal
  *
@@ -115,9 +41,6 @@ final class EditTerminEndpointTest extends UnitTestCase {
 
     public function testEditTerminEndpointNoSuchEntity(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_repo = new FakeEditTerminEndpointTerminRepository();
-        $entity_manager->repositories[Termin::class] = $termin_repo;
         $endpoint = new EditTerminEndpoint();
         $endpoint->runtimeSetup();
 
@@ -137,9 +60,6 @@ final class EditTerminEndpointTest extends UnitTestCase {
 
     public function testEditTerminEndpointMinimal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_repo = new FakeEditTerminEndpointTerminRepository();
-        $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminEndpoint();
         $endpoint->runtimeSetup();
@@ -183,9 +103,6 @@ final class EditTerminEndpointTest extends UnitTestCase {
 
     public function testEditTerminEndpointEmpty(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_repo = new FakeEditTerminEndpointTerminRepository();
-        $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminEndpoint();
         $endpoint->runtimeSetup();
@@ -229,9 +146,6 @@ final class EditTerminEndpointTest extends UnitTestCase {
 
     public function testEditTerminEndpointMaximal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_repo = new FakeEditTerminEndpointTerminRepository();
-        $entity_manager->repositories[Termin::class] = $termin_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminEndpoint();
         $endpoint->runtimeSetup();
@@ -247,7 +161,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/files/termine/');
         mkdir(__DIR__.'/../../tmp/files/termine/1234/');
         file_put_contents(__DIR__.'/../../tmp/files/termine/1234/file___________________1.pdf', '');
-        file_put_contents(__DIR__.'/../../tmp/files/termine/1234/file___________________2.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/termine/1234/file___________________2.txt', '');
 
         $result = $endpoint->call([
             'id' => 1234,
@@ -277,11 +191,11 @@ final class EditTerminEndpointTest extends UnitTestCase {
                 'solvId' => 11012,
                 'go2olId' => 'deprecated',
                 'types' => ['training', 'weekends'],
-                'locationId' => 1234,
+                'locationId' => 12341,
                 'coordinateX' => 684835,
                 'coordinateY' => 237021,
                 'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
-                'fileIds' => ['file___________________1.pdf', 'file___________________2.pdf'],
+                'fileIds' => ['file___________________1.pdf', 'file___________________2.txt'],
             ],
         ], $result);
     }

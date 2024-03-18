@@ -6,6 +6,8 @@ namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\News\Endpoints\CreateNewsEndpoint;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Roles\FakeRoles;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -259,8 +261,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
         $this->assertSame('t.u.', $news_entry->getAuthorName());
         $this->assertSame('tu@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
-        $this->assertSame(Fake\FakeUsers::adminUser(), $news_entry->getAuthorUser());
-        $this->assertSame(Fake\FakeRoles::adminRole(), $news_entry->getAuthorRole());
+        $this->assertSame(FakeUser::adminUser(), $news_entry->getAuthorUser());
+        $this->assertSame(FakeRoles::adminRole(), $news_entry->getAuthorRole());
         $this->assertSame('2020-03-16', $news_entry->getPublishedDate()->format('Y-m-d'));
         $this->assertSame('09:00:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());

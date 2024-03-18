@@ -4,53 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
-use Olz\Entity\Termine\TerminLocation;
 use Olz\Termine\Endpoints\GetTerminLocationEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeGetTerminLocationEndpointTerminLocationRepository {
-    public function findOneBy($where) {
-        // Minimal
-        if ($where === ['id' => 12]) {
-            $termin_location = new TerminLocation();
-            $termin_location->setId(12);
-            $termin_location->setName("Fake title");
-            $termin_location->setDetails("");
-            $termin_location->setLatitude(0);
-            $termin_location->setLongitude(0);
-            $termin_location->setOnOff(true);
-            return $termin_location;
-        }
-        // Empty
-        if ($where === ['id' => 123]) {
-            $termin_location = new TerminLocation();
-            $termin_location->setId(123);
-            $termin_location->setName("Cannot be empty");
-            $termin_location->setDetails("");
-            $termin_location->setLatitude(0);
-            $termin_location->setLongitude(0);
-            $termin_location->setImageIds([]);
-            $termin_location->setOnOff(false);
-            return $termin_location;
-        }
-        // Maximal
-        if ($where === ['id' => 1234]) {
-            $termin_location = new TerminLocation();
-            $termin_location->setId(1234);
-            $termin_location->setName("Fake title");
-            $termin_location->setDetails("Fake content");
-            $termin_location->setLatitude(47.2790953);
-            $termin_location->setLongitude(8.5591936);
-            $termin_location->setImageIds(['img1.jpg', 'img2.png']);
-            $termin_location->setOnOff(true);
-            return $termin_location;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -84,9 +41,6 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
 
     public function testGetTerminLocationEndpointMinimal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_location_repo = new FakeGetTerminLocationEndpointTerminLocationRepository();
-        $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         $endpoint = new GetTerminLocationEndpoint();
         $endpoint->runtimeSetup();
 
@@ -117,9 +71,6 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
 
     public function testGetTerminLocationEndpointEmpty(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_location_repo = new FakeGetTerminLocationEndpointTerminLocationRepository();
-        $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         $endpoint = new GetTerminLocationEndpoint();
         $endpoint->runtimeSetup();
 
@@ -150,9 +101,6 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
 
     public function testGetTerminLocationEndpointMaximal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_location_repo = new FakeGetTerminLocationEndpointTerminLocationRepository();
-        $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         $endpoint = new GetTerminLocationEndpoint();
         $endpoint->runtimeSetup();
 
@@ -182,7 +130,7 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
                 'details' => 'Fake content',
                 'latitude' => 47.2790953,
                 'longitude' => 8.5591936,
-                'imageIds' => ['img1.jpg', 'img2.png'],
+                'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
             ],
         ], $result);
     }

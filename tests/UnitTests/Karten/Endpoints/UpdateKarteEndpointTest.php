@@ -4,27 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Karten\Endpoints;
 
-use Olz\Entity\Karten\Karte;
 use Olz\Karten\Endpoints\UpdateKarteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeUpdateKarteEndpointKartenRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new Karte();
-            $entry->setId(123);
-            $entry->setOnOff(true);
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -76,9 +59,6 @@ final class UpdateKarteEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateKarteEndpointNoSuchEntity(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $karten_repo = new FakeUpdateKarteEndpointKartenRepository();
-        $entity_manager->repositories[Karte::class] = $karten_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateKarteEndpoint();
@@ -100,9 +80,6 @@ final class UpdateKarteEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateKarteEndpointNoEntityAccess(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $karten_repo = new FakeUpdateKarteEndpointKartenRepository();
-        $entity_manager->repositories[Karte::class] = $karten_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new UpdateKarteEndpoint();
@@ -121,9 +98,6 @@ final class UpdateKarteEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateKarteEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $karten_repo = new FakeUpdateKarteEndpointKartenRepository();
-        $entity_manager->repositories[Karte::class] = $karten_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateKarteEndpoint();
@@ -145,6 +119,7 @@ final class UpdateKarteEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => 123,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

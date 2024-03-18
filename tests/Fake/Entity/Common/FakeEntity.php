@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake;
+namespace Olz\Tests\Fake\Entity\Common;
 
 class FakeEntity {
     public static $cache = [];

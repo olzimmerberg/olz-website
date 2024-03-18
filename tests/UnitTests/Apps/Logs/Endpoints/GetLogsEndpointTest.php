@@ -6,7 +6,7 @@ namespace Olz\Tests\UnitTests\Apps\Logs\Endpoints;
 
 use Olz\Apps\Logs\Endpoints\GetLogsEndpoint;
 use Olz\Apps\Logs\Utils\BaseLogsChannel;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -48,7 +48,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
 
     public function testGetLogsEndpointTargetDate(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new GetLogsEndpoint();
         $endpoint->runtimeSetup();
 

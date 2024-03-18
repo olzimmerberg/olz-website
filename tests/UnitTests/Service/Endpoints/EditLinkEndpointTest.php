@@ -4,49 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Service\Endpoints;
 
-use Olz\Entity\Service\Link;
 use Olz\Service\Endpoints\EditLinkEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeEditLinkEndpointLinkRepository {
-    public function findOneBy($where) {
-        // Minimal
-        if ($where === ['id' => 12]) {
-            $entry = new Link();
-            $entry->setId(12);
-            $entry->setName('Fake Link');
-            $entry->setPosition(12);
-            $entry->setUrl('https://ol-z.ch');
-            return $entry;
-        }
-        // Empty
-        if ($where === ['id' => 123]) {
-            $entry = new Link();
-            $entry->setId(123);
-            $entry->setName('Fake Link');
-            $entry->setPosition(123);
-            $entry->setUrl('https://ol-z.ch');
-            return $entry;
-        }
-        // Maximal
-        if ($where === ['id' => 1234]) {
-            $entry = new Link();
-            $entry->setId(1234);
-            $entry->setName('Fake Link');
-            $entry->setPosition(1234);
-            $entry->setUrl('https://ol-z.ch');
-            $entry->setOnOff(true);
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -80,9 +41,6 @@ final class EditLinkEndpointTest extends UnitTestCase {
 
     public function testEditLinkEndpointNoSuchEntity(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $link_repo = new FakeEditLinkEndpointLinkRepository();
-        $entity_manager->repositories[Link::class] = $link_repo;
         $endpoint = new EditLinkEndpoint();
         $endpoint->runtimeSetup();
 
@@ -102,9 +60,6 @@ final class EditLinkEndpointTest extends UnitTestCase {
 
     public function testEditLinkEndpointNoEntityAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $link_repo = new FakeEditLinkEndpointLinkRepository();
-        $entity_manager->repositories[Link::class] = $link_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new EditLinkEndpoint();
         $endpoint->runtimeSetup();
@@ -125,9 +80,6 @@ final class EditLinkEndpointTest extends UnitTestCase {
 
     public function testEditLinkEndpointMinimal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $link_repo = new FakeEditLinkEndpointLinkRepository();
-        $entity_manager->repositories[Link::class] = $link_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditLinkEndpoint();
         $endpoint->runtimeSetup();
@@ -157,9 +109,6 @@ final class EditLinkEndpointTest extends UnitTestCase {
 
     public function testEditLinkEndpointEmpty(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $link_repo = new FakeEditLinkEndpointLinkRepository();
-        $entity_manager->repositories[Link::class] = $link_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditLinkEndpoint();
         $endpoint->runtimeSetup();
@@ -189,9 +138,6 @@ final class EditLinkEndpointTest extends UnitTestCase {
 
     public function testEditLinkEndpointMaximal(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $link_repo = new FakeEditLinkEndpointLinkRepository();
-        $entity_manager->repositories[Link::class] = $link_repo;
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditLinkEndpoint();
         $endpoint->runtimeSetup();

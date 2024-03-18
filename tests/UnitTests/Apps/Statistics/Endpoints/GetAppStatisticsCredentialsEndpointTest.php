@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Statistics\Endpoints;
 
 use Olz\Apps\Statistics\Endpoints\GetAppStatisticsCredentialsEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -25,7 +25,7 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
         $endpoint->runtimeSetup();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::adminUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
 
         $result = $endpoint->call([]);
 

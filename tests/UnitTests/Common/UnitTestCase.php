@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Common;
 
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsCache;
@@ -48,7 +49,7 @@ class UnitTestCase extends TestCase {
         $general_utils->removeRecursive($data_path);
         mkdir($data_path);
 
-        Fake\FakeEntity::reset();
+        FakeEntity::reset();
         $logger = Fake\FakeLogger::create();
         WithUtilsCache::setAll([
             'authUtils' => new Fake\FakeAuthUtils(),

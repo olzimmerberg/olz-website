@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake;
+namespace Olz\Tests\Fake\Entity;
 
 use Olz\Entity\SolvEvent;
+use Olz\Tests\Fake\Entity\Common\FakeEntity;
 
 class FakeSolvEvent extends FakeEntity {
     public static function defaultSolvEvent($fresh = false) {

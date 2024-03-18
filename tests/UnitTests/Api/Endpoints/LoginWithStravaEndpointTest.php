@@ -7,7 +7,8 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\LoginWithStravaEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\StravaLink;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeStravaLink;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\StravaUtils;
@@ -30,8 +31,8 @@ class FakeLoginWithStravaEndpointAuthRequestRepository {
 class FakeLoginWithStravaEndpointStravaLinkRepository {
     public function findOneBy($where) {
         if ($where === ['strava_user' => 'fake_existing_id']) {
-            $strava_link = Fake\FakeStravaLink::defaultStravaLink(true);
-            $strava_link->setUser(Fake\FakeUsers::defaultUser());
+            $strava_link = FakeStravaLink::defaultStravaLink(true);
+            $strava_link->setUser(FakeUser::defaultUser());
             return $strava_link;
         }
         return null;

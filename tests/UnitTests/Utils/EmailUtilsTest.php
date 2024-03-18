@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Utils;
 use Olz\Entity\User;
 use Olz\Exceptions\RecaptchaDeniedException;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
 use Symfony\Component\Mailer\Envelope;
@@ -30,7 +31,7 @@ class TestOnlyEmailUtils extends EmailUtils {
  */
 final class EmailUtilsTest extends UnitTestCase {
     public function testSendEmailVerificationEmail(): void {
-        $user = Fake\FakeUsers::defaultUser();
+        $user = FakeUser::defaultUser();
         $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
         $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->setMailer($mailer);
@@ -86,7 +87,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testSendEmailVerificationEmailInvalidRecaptcha(): void {
-        $user = Fake\FakeUsers::defaultUser();
+        $user = FakeUser::defaultUser();
         $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
 
@@ -107,7 +108,7 @@ final class EmailUtilsTest extends UnitTestCase {
     }
 
     public function testSendEmailVerificationEmailFailsSending(): void {
-        $user = Fake\FakeUsers::defaultUser();
+        $user = FakeUser::defaultUser();
         $mailer = $this->createStub(MailerInterface::class);
         $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->setMailer($mailer);

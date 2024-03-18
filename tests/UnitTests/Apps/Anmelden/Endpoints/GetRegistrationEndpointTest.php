@@ -8,6 +8,7 @@ use Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
@@ -17,7 +18,7 @@ class FakeGetRegistrationEndpointRegistrationRepository {
             $registration = new Registration();
             $registration->setTitle('Test title');
             $registration->setDescription('');
-            $registration->setOwnerUser(Fake\FakeUsers::adminUser());
+            $registration->setOwnerUser(FakeUser::adminUser());
             $registration->setOwnerRole(null);
             $registration->setOnOff(true);
             return $registration;

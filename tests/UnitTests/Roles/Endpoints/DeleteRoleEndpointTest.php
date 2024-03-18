@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
 use Olz\Roles\Endpoints\DeleteRoleEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -28,7 +28,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'id' => Fake\FakeOlzRepository::MINIMAL_ID,
+                'id' => FakeOlzRepository::MINIMAL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -48,7 +48,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'id' => Fake\FakeOlzRepository::MINIMAL_ID,
+                'id' => FakeOlzRepository::MINIMAL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -67,7 +67,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
-            'id' => Fake\FakeOlzRepository::MINIMAL_ID,
+            'id' => FakeOlzRepository::MINIMAL_ID,
         ]);
 
         $this->assertSame([
@@ -83,7 +83,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $download = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeOlzRepository::MINIMAL_ID, $download->getId());
+        $this->assertSame(FakeOlzRepository::MINIMAL_ID, $download->getId());
         $this->assertSame(0, $download->getOnOff());
     }
 
@@ -95,7 +95,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
 
         try {
             $endpoint->call([
-                'id' => Fake\FakeOlzRepository::NULL_ID,
+                'id' => FakeOlzRepository::NULL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake;
+namespace Olz\Tests\Fake\Entity\Roles;
+
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
 class FakeRoleRepository extends FakeOlzRepository {
     public $fakeOlzEntityClass = FakeRoles::class;

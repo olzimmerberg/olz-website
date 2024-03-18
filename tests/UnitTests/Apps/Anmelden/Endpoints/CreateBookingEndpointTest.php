@@ -8,6 +8,7 @@ use Olz\Apps\Anmelden\Endpoints\CreateBookingEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
@@ -53,7 +54,7 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $entity_manager->repositories[Registration::class] = $registration_repo;
         $registration_info_repo = new FakeCreateBookingEndpointRegistrationInfoRepository();
         $entity_manager->repositories[RegistrationInfo::class] = $registration_info_repo;
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new CreateBookingEndpoint();
         $endpoint->runtimeSetup();
@@ -84,7 +85,7 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $booking->getId());
         $this->assertSame(264, $booking->getRegistration()->getId());
         $this->assertSame('{"0-vorname":"Simon","1-nachname":"Hatt"}', $booking->getFormData());
-        $this->assertSame(Fake\FakeUsers::defaultUser(), $booking->getUser());
+        $this->assertSame(FakeUser::defaultUser(), $booking->getUser());
 
         $this->assertSame([
             [$booking, 1, null, null],

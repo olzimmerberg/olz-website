@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
 use Olz\Roles\Endpoints\UpdateRoleEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -17,7 +17,7 @@ use PhpTypeScriptApi\HttpError;
  */
 final class UpdateRoleEndpointTest extends UnitTestCase {
     public const VALID_INPUT = [
-        'id' => Fake\FakeOlzRepository::MAXIMAL_ID,
+        'id' => FakeOlzRepository::MAXIMAL_ID,
         'meta' => [
             'ownerUserId' => 1,
             'ownerRoleId' => 1,
@@ -69,7 +69,7 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         try {
             $endpoint->call([
                 ...self::VALID_INPUT,
-                'id' => Fake\FakeOlzRepository::NULL_ID,
+                'id' => FakeOlzRepository::NULL_ID,
             ]);
             $this->fail('Error expected');
         } catch (HttpError $err) {
@@ -100,7 +100,7 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateRoleEndpoint(): void {
-        $id = Fake\FakeOlzRepository::MAXIMAL_ID;
+        $id = FakeOlzRepository::MAXIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateRoleEndpoint();

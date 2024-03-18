@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Termine\Endpoints\GetTerminLabelEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -105,7 +105,7 @@ final class GetTerminLabelEndpointTest extends UnitTestCase {
     }
 
     public function testGetTerminLabelEndpointMaximal(): void {
-        $id = Fake\FakeOlzRepository::MAXIMAL_ID;
+        $id = FakeOlzRepository::MAXIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new GetTerminLabelEndpoint();
         $endpoint->runtimeSetup();

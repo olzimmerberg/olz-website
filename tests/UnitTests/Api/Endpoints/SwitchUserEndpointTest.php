@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\SwitchUserEndpoint;
-use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -58,9 +55,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     }
 
     public function testSwitchUserEndpointCanSwitchToChild(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new Fake\FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -96,9 +90,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     }
 
     public function testSwitchUserEndpointCanSwitchBetweenChildren(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new Fake\FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -134,9 +125,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     }
 
     public function testSwitchUserEndpointCanSwitchToParent(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new Fake\FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -172,9 +160,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     }
 
     public function testSwitchUserEndpointCannotSwitchToInexistentUser(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new Fake\FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -212,9 +197,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     }
 
     public function testSwitchUserEndpointCannotSwitchToNonChildUser(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $user_repo = new Fake\FakeUserRepository();
-        $entity_manager->repositories[User::class] = $user_repo;
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();

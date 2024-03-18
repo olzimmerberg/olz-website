@@ -4,28 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
-use Olz\Entity\Termine\TerminLocation;
 use Olz\Termine\Endpoints\CreateTerminEndpoint;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeCreateTerminEndpointTerminLocationRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new TerminLocation();
-            $entry->setId(123);
-            $entry->setName("Fake location");
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -52,7 +35,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             'solvId' => null,
             'go2olId' => null,
             'types' => [],
-            'locationId' => 123,
+            'locationId' => 1234,
             'coordinateX' => null,
             'coordinateY' => null,
             'imageIds' => ['uploaded_image.jpg', 'inexistent.png'],
@@ -83,9 +66,6 @@ final class CreateTerminEndpointTest extends UnitTestCase {
     }
 
     public function testCreateTerminEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_location_repo = new FakeCreateTerminEndpointTerminLocationRepository();
-        $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $endpoint = new CreateTerminEndpoint();
         $endpoint->runtimeSetup();
@@ -109,6 +89,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
@@ -125,7 +106,8 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $this->assertSame(false, $termin->getNewsletter());
         $this->assertSame(null, $termin->getSolvId());
         $this->assertSame(null, $termin->getGo2olId());
-        $this->assertSame('Fake location', $termin->getLocation()->getName());
+        $this->assertSame(1234, $termin->getLocation()->getId());
+        $this->assertSame('Fake title', $termin->getLocation()->getName());
         $this->assertSame(null, $termin->getCoordinateX());
         $this->assertSame(null, $termin->getCoordinateY());
         $this->assertSame(

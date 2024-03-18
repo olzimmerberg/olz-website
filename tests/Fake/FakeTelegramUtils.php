@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Olz\Entity\TelegramLink;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Utils\TelegramUtils;
 
 class FakeTelegramUtils extends TelegramUtils {
@@ -24,7 +25,7 @@ class FakeTelegramUtils extends TelegramUtils {
         if ($pin != 'validpin') {
             throw new \Exception('Error linking chat using PIN.');
         }
-        $user = FakeUsers::defaultUser(true);
+        $user = FakeUser::defaultUser(true);
         $user->setFirstName('Fakefirst');
         $telegram_link = new TelegramLink();
         $telegram_link->setUser($user);

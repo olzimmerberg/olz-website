@@ -4,26 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
-use Olz\Entity\Termine\TerminTemplate;
 use Olz\Termine\Endpoints\DeleteTerminTemplateEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeDeleteTerminTemplateEndpointTerminTemplateRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new TerminTemplate();
-            $entry->setId(123);
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -56,9 +40,6 @@ final class DeleteTerminTemplateEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteTerminTemplateEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_template_repo = new FakeDeleteTerminTemplateEndpointTerminTemplateRepository();
-        $entity_manager->repositories[TerminTemplate::class] = $termin_template_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteTerminTemplateEndpoint();
@@ -76,6 +57,7 @@ final class DeleteTerminTemplateEndpointTest extends UnitTestCase {
         $this->assertSame([
             'status' => 'OK',
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
@@ -85,9 +67,6 @@ final class DeleteTerminTemplateEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteTerminTemplateEndpointInexistent(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_template_repo = new FakeDeleteTerminTemplateEndpointTerminTemplateRepository();
-        $entity_manager->repositories[TerminTemplate::class] = $termin_template_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteTerminTemplateEndpoint();
@@ -104,6 +83,7 @@ final class DeleteTerminTemplateEndpointTest extends UnitTestCase {
                 "WARNING HTTP error 404",
             ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
+            $entity_manager = WithUtilsCache::get('entityManager');
             $this->assertSame(0, count($entity_manager->removed));
             $this->assertSame(0, count($entity_manager->flushed_removed));
         }

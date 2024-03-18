@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\VerifyUserEmailEndpoint;
 use Olz\Exceptions\RecaptchaDeniedException;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -23,7 +24,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpoint(): void {
-        $user = Fake\FakeUsers::defaultUser();
+        $user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->current_user = $user;
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();
@@ -96,7 +97,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointInvalidRecaptchaToken(): void {
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new RecaptchaDeniedException('test');
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();
@@ -117,7 +118,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyUserEmailEndpointErrorSending(): void {
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();

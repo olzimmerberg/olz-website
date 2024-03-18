@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake;
+namespace Olz\Tests\Fake\Entity\Roles;
 
 use Olz\Entity\Roles\Role;
+use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\FakeUser;
 
 class FakeRoles extends FakeEntity {
     public static function minimal($fresh = false) {
@@ -122,8 +124,8 @@ class FakeRoles extends FakeEntity {
                 $some_role->setUsername('somerole');
                 $some_role->setName('Some Role');
                 $some_role->setPermissions('');
-                $some_role->addUser(FakeUsers::adminUser());
-                $some_role->addUser(FakeUsers::vorstandUser());
+                $some_role->addUser(FakeUser::adminUser());
+                $some_role->addUser(FakeUser::vorstandUser());
                 return $some_role;
             }
         );
@@ -139,8 +141,8 @@ class FakeRoles extends FakeEntity {
                 $some_role->setUsername('somerole-old');
                 $some_role->setName('Some Old Role');
                 $some_role->setPermissions('');
-                $some_role->addUser(FakeUsers::adminUser());
-                $some_role->addUser(FakeUsers::vorstandUser());
+                $some_role->addUser(FakeUser::adminUser());
+                $some_role->addUser(FakeUser::vorstandUser());
                 return $some_role;
             }
         );

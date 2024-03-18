@@ -4,26 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Service\Endpoints;
 
-use Olz\Entity\Service\Download;
 use Olz\Service\Endpoints\UpdateDownloadEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeUpdateDownloadEndpointDownloadRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new Download();
-            $entry->setId(123);
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -66,9 +50,6 @@ final class UpdateDownloadEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateDownloadEndpointNoSuchEntity(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $download_repo = new FakeUpdateDownloadEndpointDownloadRepository();
-        $entity_manager->repositories[Download::class] = $download_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateDownloadEndpoint();
@@ -99,9 +80,6 @@ final class UpdateDownloadEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateDownloadEndpointNoEntityAccess(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $download_repo = new FakeUpdateDownloadEndpointDownloadRepository();
-        $entity_manager->repositories[Download::class] = $download_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new UpdateDownloadEndpoint();
@@ -132,9 +110,6 @@ final class UpdateDownloadEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateDownloadEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $download_repo = new FakeUpdateDownloadEndpointDownloadRepository();
-        $entity_manager->repositories[Download::class] = $download_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true, 'all' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateDownloadEndpoint();
@@ -168,6 +143,7 @@ final class UpdateDownloadEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => 123,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

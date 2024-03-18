@@ -4,43 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
-use Olz\Entity\Termine\TerminLocation;
-use Olz\Entity\Termine\TerminTemplate;
 use Olz\Termine\Endpoints\UpdateTerminTemplateEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeUpdateTerminTemplateEndpointTerminTemplateRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new TerminTemplate();
-            $entry->setId(123);
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
-
-class FakeUpdateTerminTemplateEndpointTerminLocationRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 123]) {
-            $entry = new TerminLocation();
-            $entry->setId(123);
-            $entry->setName("Fake location");
-            return $entry;
-        }
-        if ($where === ['id' => 9999]) {
-            return null;
-        }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
-    }
-}
 
 /**
  * @internal
@@ -94,9 +61,6 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateTerminTemplateEndpointNoSuchEntity(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_template_repo = new FakeUpdateTerminTemplateEndpointTerminTemplateRepository();
-        $entity_manager->repositories[TerminTemplate::class] = $termin_template_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateTerminTemplateEndpoint();
@@ -118,11 +82,6 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateTerminTemplateEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_template_repo = new FakeUpdateTerminTemplateEndpointTerminTemplateRepository();
-        $entity_manager->repositories[TerminTemplate::class] = $termin_template_repo;
-        $termin_location_repo = new FakeUpdateTerminTemplateEndpointTerminLocationRepository();
-        $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateTerminTemplateEndpoint();
@@ -144,6 +103,7 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => 123,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

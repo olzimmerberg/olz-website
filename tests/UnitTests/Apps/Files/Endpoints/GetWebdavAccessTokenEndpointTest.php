@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Apps\Files\Endpoints;
 use Olz\Apps\Files\Endpoints\GetWebdavAccessTokenEndpoint;
 use Olz\Entity\AccessToken;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -55,7 +56,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $access_token_repo = new FakeGetWebdavAccessTokenEndpointAccessTokenRepository();
         $entity_manager->repositories[AccessToken::class] = $access_token_repo;
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
         $endpoint = new DeterministicGetWebdavAccessTokenEndpoint();
         $endpoint->runtimeSetup();
@@ -71,7 +72,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $access_token = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $access_token->getId());
-        $this->assertSame(Fake\FakeUsers::defaultUser(), $access_token->getUser());
+        $this->assertSame(FakeUser::defaultUser(), $access_token->getUser());
         $this->assertSame('WebDAV', $access_token->getPurpose());
         $this->assertSame('AAAAAAAAAAAAAAAAAAAAAAAA', $access_token->getToken());
         $this->assertSame('2020-03-13 19:30:00', $access_token->getCreatedAt()->format('Y-m-d H:i:s'));

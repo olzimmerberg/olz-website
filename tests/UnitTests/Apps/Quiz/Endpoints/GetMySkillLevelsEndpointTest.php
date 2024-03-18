@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Apps\Quiz\Endpoints;
 use Olz\Apps\Quiz\Endpoints\GetMySkillLevelsEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -99,7 +99,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     }
 
     public function testGetMySkillLevelsEndpointAll(): void {
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
         $entity_manager = WithUtilsCache::get('entityManager');
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
@@ -128,7 +128,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     }
 
     public function testGetMySkillLevelsEndpointCategoryIdIn(): void {
-        WithUtilsCache::get('authUtils')->current_user = Fake\FakeUsers::defaultUser();
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
         $entity_manager = WithUtilsCache::get('entityManager');
         $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();

@@ -5,16 +5,11 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Files\Endpoints;
 
 use Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint;
-use Olz\Entity\AccessToken;
+use Olz\Tests\Fake\Entity\FakeAccessToken;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository {
-    public function findOneBy($where) {
-        return new AccessToken();
-    }
-}
 
 /**
  * @internal
@@ -44,10 +39,8 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testRevokeWebdavAccessTokenEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $access_token_repo = new FakeRevokeWebdavAccessTokenEndpointAccessTokenRepository();
-        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
+    public function testRevokeWebdavAccessTokenEndpointExisting(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
         $endpoint = new RevokeWebdavAccessTokenEndpoint();
         $endpoint->runtimeSetup();
@@ -57,8 +50,25 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
         $this->assertSame([
             'status' => 'OK',
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->removed));
-        $this->assertSame(1, count($entity_manager->flushed_removed));
+        $this->assertSame(FakeAccessToken::default(), $entity_manager->removed[0]);
+        $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
+    }
+
+    public function testRevokeWebdavAccessTokenInexistent(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
+        $endpoint = new RevokeWebdavAccessTokenEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([]);
+
+        $this->assertSame([
+            'status' => 'OK',
+        ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $this->assertSame(0, count($entity_manager->removed));
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
     }
 }

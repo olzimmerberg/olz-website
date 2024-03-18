@@ -8,6 +8,57 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 
 class FakeNotificationSubscription extends FakeEntity {
+    public static function minimal($fresh = false) {
+        return self::getFake(
+            'minimal',
+            $fresh,
+            function () {
+                $entity = new NotificationSubscription();
+                $entity->setId(12);
+                $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
+                $entity->setUser(FakeUser::defaultUser());
+                $entity->setNotificationType(NotificationSubscription::TYPE_DAILY_SUMMARY);
+                $entity->setNotificationTypeArgs('{}');
+                $entity->setCreatedAt(new \DateTime('2020-03-13 19:30:00'));
+                return $entity;
+            }
+        );
+    }
+
+    public static function empty($fresh = false) {
+        return self::getFake(
+            'empty',
+            $fresh,
+            function () {
+                $entity = new NotificationSubscription();
+                $entity->setId(123);
+                $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
+                $entity->setUser(FakeUser::defaultUser());
+                $entity->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
+                $entity->setNotificationTypeArgs('{}');
+                $entity->setCreatedAt(new \DateTime('2020-03-13 19:30:00'));
+                return $entity;
+            }
+        );
+    }
+
+    public static function maximal($fresh = false) {
+        return self::getFake(
+            'maximal',
+            $fresh,
+            function () {
+                $entity = new NotificationSubscription();
+                $entity->setId(1234);
+                $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
+                $entity->setUser(FakeUser::defaultUser());
+                $entity->setNotificationType(NotificationSubscription::TYPE_MONTHLY_PREVIEW);
+                $entity->setNotificationTypeArgs('{}');
+                $entity->setCreatedAt(new \DateTime('2020-03-13 19:30:00'));
+                return $entity;
+            }
+        );
+    }
+
     public static function defaultNotificationSubscription($fresh = false) {
         return self::getFake(
             'default_notification_subscription',

@@ -5,68 +5,10 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Quiz\Endpoints;
 
 use Olz\Apps\Quiz\Endpoints\GetMySkillLevelsEndpoint;
-use Olz\Entity\Quiz\Skill;
-use Olz\Entity\Quiz\SkillLevel;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeGetMySkillLevelsEndpointSkillRepository {
-    public function findAll() {
-        $skill_1 = new Skill();
-        $skill_1->setId(1);
-        $skill_2 = new Skill();
-        $skill_2->setId(2);
-        $skill_3 = new Skill();
-        $skill_3->setId(3);
-        return [$skill_1, $skill_2, $skill_3];
-    }
-
-    public function getSkillsInCategories($category_ids) {
-        if ($category_ids === [1, 2]) {
-            $skill_4 = new Skill();
-            $skill_4->setId(4);
-            $skill_5 = new Skill();
-            $skill_5->setId(5);
-            return [$skill_4, $skill_5];
-        }
-        $category_ids_json = json_encode($category_ids);
-        throw new \Exception("Not mocked: {$category_ids_json}");
-    }
-}
-
-class FakeGetMySkillLevelsEndpointSkillLevelRepository {
-    public function getSkillLevelsForUserId($user_id) {
-        $skill_1 = new Skill();
-        $skill_1->setId(1);
-        $skill_2 = new Skill();
-        $skill_2->setId(2);
-        $skill_level_1 = new SkillLevel();
-        $skill_level_1->setId(1);
-        $skill_level_1->setSkill($skill_1);
-        $skill_level_1->setValue(0.5);
-        $skill_level_2 = new SkillLevel();
-        $skill_level_2->setId(2);
-        $skill_level_2->setSkill($skill_2);
-        $skill_level_2->setValue(0.25);
-        return [$skill_level_1, $skill_level_2];
-    }
-
-    public function getSkillLevelsForUserIdInCategories($user_id, $category_ids) {
-        if ($category_ids === [1, 2]) {
-            $skill_4 = new Skill();
-            $skill_4->setId(4);
-            $skill_level_4 = new SkillLevel();
-            $skill_level_4->setId(4);
-            $skill_level_4->setSkill($skill_4);
-            $skill_level_4->setValue(0.75);
-            return [$skill_level_4];
-        }
-        $category_ids_json = json_encode($category_ids);
-        throw new \Exception("Not mocked: {$category_ids_json}");
-    }
-}
 
 /**
  * @internal
@@ -101,11 +43,6 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     public function testGetMySkillLevelsEndpointAll(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
-        $entity_manager->repositories[Skill::class] = $skill_repo;
-        $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
-        $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->runtimeSetup();
 
@@ -123,6 +60,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
             'Skill:3' => ['value' => 0],
         ], $result);
 
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
     }
@@ -130,11 +68,6 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
     public function testGetMySkillLevelsEndpointCategoryIdIn(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $skill_repo = new FakeGetMySkillLevelsEndpointSkillRepository();
-        $entity_manager->repositories[Skill::class] = $skill_repo;
-        $skill_level_repo = new FakeGetMySkillLevelsEndpointSkillLevelRepository();
-        $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $endpoint = new GetMySkillLevelsEndpoint();
         $endpoint->runtimeSetup();
 
@@ -153,6 +86,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
             'Skill:5' => ['value' => 0],
         ], $result);
 
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
     }

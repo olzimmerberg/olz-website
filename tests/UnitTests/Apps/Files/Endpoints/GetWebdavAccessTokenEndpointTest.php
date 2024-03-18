@@ -5,18 +5,11 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Files\Endpoints;
 
 use Olz\Apps\Files\Endpoints\GetWebdavAccessTokenEndpoint;
-use Olz\Entity\AccessToken;
 use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeGetWebdavAccessTokenEndpointAccessTokenRepository {
-    public function findOneBy($where) {
-        return null;
-    }
-}
 
 class DeterministicGetWebdavAccessTokenEndpoint extends GetWebdavAccessTokenEndpoint {
     protected function generateRandomAccessToken() {
@@ -52,10 +45,24 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testGetWebdavAccessTokenEndpoint(): void {
+    public function testGetWebdavAccessTokenEndpointExisting(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
+        $endpoint = new DeterministicGetWebdavAccessTokenEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([]);
+
+        $this->assertSame([
+            'status' => 'OK',
+            'token' => 'ABC123abc',
+        ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $access_token_repo = new FakeGetWebdavAccessTokenEndpointAccessTokenRepository();
-        $entity_manager->repositories[AccessToken::class] = $access_token_repo;
+        $this->assertSame(0, count($entity_manager->persisted));
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+    }
+
+    public function testGetWebdavAccessTokenEndpointNew(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => true];
         $endpoint = new DeterministicGetWebdavAccessTokenEndpoint();
@@ -67,8 +74,8 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'token' => 'AAAAAAAAAAAAAAAAAAAAAAAA',
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $access_token = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $access_token->getId());

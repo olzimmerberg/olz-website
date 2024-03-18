@@ -5,34 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Quiz\Endpoints;
 
 use Olz\Apps\Quiz\Endpoints\RegisterSkillsEndpoint;
-use Olz\Entity\Quiz\Skill;
-use Olz\Entity\Quiz\SkillCategory;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
-
-class FakeRegisterSkillsEndpointSkillCategoryRepository {
-    public function findOneBy($where) {
-        $id = $where['id'] ?? null;
-        if ($id && $id <= 3) {
-            $skill_category = new SkillCategory();
-            $skill_category->setId($id);
-            return $skill_category;
-        }
-        return null;
-    }
-}
-
-class FakeRegisterSkillsEndpointSkillRepository {
-    public function findOneBy($where) {
-        if ($where === ['name' => 'Child Category 1 Skill']) {
-            $skill = new Skill();
-            $skill->setId(11);
-            return $skill;
-        }
-        return null;
-    }
-}
 
 /**
  * @internal
@@ -46,11 +21,6 @@ final class RegisterSkillsEndpointTest extends UnitTestCase {
     }
 
     public function testRegisterSkillsEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $skill_category_repo = new FakeRegisterSkillsEndpointSkillCategoryRepository();
-        $entity_manager->repositories[SkillCategory::class] = $skill_category_repo;
-        $skill_repo = new FakeRegisterSkillsEndpointSkillRepository();
-        $entity_manager->repositories[Skill::class] = $skill_repo;
         $endpoint = new RegisterSkillsEndpoint();
         $endpoint->runtimeSetup();
 
@@ -83,6 +53,7 @@ final class RegisterSkillsEndpointTest extends UnitTestCase {
             ],
         ], $result);
 
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [11, 'Child Category 1 Skill', [2]],
             [Fake\FakeEntityManager::AUTO_INCREMENT_ID, 'Multi Category Skill', [1, 3]],

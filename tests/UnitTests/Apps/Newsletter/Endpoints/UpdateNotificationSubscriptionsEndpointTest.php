@@ -6,23 +6,9 @@ namespace Olz\Tests\UnitTests\Apps\Newsletter\Endpoints;
 
 use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;
 use Olz\Entity\NotificationSubscription;
-use Olz\Entity\User;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
-
-class FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository {
-    public function findBy($where) {
-        $user = new User();
-        $subscription = new NotificationSubscription();
-        $subscription->setId(123);
-        $subscription->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-        $subscription->setUser($user);
-        $subscription->setNotificationType(NotificationSubscription::TYPE_DAILY_SUMMARY);
-        $subscription->setNotificationTypeArgs('{}');
-        return [$subscription];
-    }
-}
 
 /**
  * @internal
@@ -38,8 +24,6 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     public function testUpdateNotificationSubscriptionsEndpointEmail(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $entity_manager = WithUtilsCache::get('entityManager');
-        $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
         $endpoint->runtimeSetup();
 
@@ -115,8 +99,10 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             $entity_manager->persisted,
             $entity_manager->flushed_persisted
         );
-        $this->assertSame(1, count($entity_manager->removed));
-        $this->assertSame(123, $entity_manager->removed[0]->getId());
+        $this->assertSame(3, count($entity_manager->removed));
+        $this->assertSame(12, $entity_manager->removed[0]->getId());
+        $this->assertSame(123, $entity_manager->removed[1]->getId());
+        $this->assertSame(1234, $entity_manager->removed[2]->getId());
         $this->assertSame(
             $entity_manager->removed,
             $entity_manager->flushed_removed
@@ -126,8 +112,6 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
     public function testUpdateNotificationSubscriptionsEndpointTelegram(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $entity_manager = WithUtilsCache::get('entityManager');
-        $notification_subscription_repo = new FakeNotificationSubscriptionsEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
         $endpoint = new UpdateNotificationSubscriptionsEndpoint();
         $endpoint->runtimeSetup();
 
@@ -171,8 +155,10 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             $entity_manager->persisted,
             $entity_manager->flushed_persisted
         );
-        $this->assertSame(1, count($entity_manager->removed));
-        $this->assertSame(123, $entity_manager->removed[0]->getId());
+        $this->assertSame(3, count($entity_manager->removed));
+        $this->assertSame(12, $entity_manager->removed[0]->getId());
+        $this->assertSame(123, $entity_manager->removed[1]->getId());
+        $this->assertSame(1234, $entity_manager->removed[2]->getId());
         $this->assertSame(
             $entity_manager->removed,
             $entity_manager->flushed_removed

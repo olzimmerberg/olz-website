@@ -7,48 +7,10 @@ namespace Olz\Tests\UnitTests\Command;
 use Olz\Command\SyncSolvResultsCommand;
 use Olz\Entity\SolvEvent;
 use Olz\Fetchers\SolvFetcher;
-use Olz\Tests\Fake\Entity\FakeSolvEvent;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-
-class FakeSyncSolvResultsCommandSolvEventRepository {
-    public $eventWithResults;
-    public $eventWithoutResults;
-    public $updatedRankIdBySolvUid = [];
-
-    public function __construct() {
-        $event_with_results = FakeSolvEvent::defaultSolvEvent(true);
-        $event_with_results->setSolvUid(20202);
-        $event_with_results->setName('Event with results');
-        $event_with_results->setLastModification('2020-01-11 21:48:36');
-        $event_with_results->setRankLink(1235);
-        $this->eventWithResults = $event_with_results;
-
-        $event_without_results = FakeSolvEvent::defaultSolvEvent(true);
-        $event_without_results->setSolvUid(20201);
-        $event_without_results->setName('Event without results');
-        $event_without_results->setLastModification('2020-01-11 21:36:48');
-        $this->eventWithoutResults = $event_without_results;
-    }
-
-    public function getSolvEventsForYear($year) {
-        switch ($year) {
-            case '2020':
-                return [
-                    $this->eventWithResults,
-                    $this->eventWithoutResults,
-                ];
-            default:
-                return [];
-        }
-    }
-
-    public function setResultForSolvEvent($solv_uid, $rank_id) {
-        $this->updatedRankIdBySolvUid[$solv_uid] = $rank_id;
-    }
-}
 
 class FakeSyncSolvResultsCommandSolvFetcher extends SolvFetcher {
     public function fetchYearlyResultsJson($year) {
@@ -170,9 +132,6 @@ class FakeSyncSolvResultsCommandSolvFetcher extends SolvFetcher {
  */
 final class SyncSolvResultsCommandTest extends UnitTestCase {
     public function testSyncSolvResultsCommand(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $solv_event_repo = new FakeSyncSolvResultsCommandSolvEventRepository();
-        $entity_manager->repositories[SolvEvent::class] = $solv_event_repo;
         $solv_fetcher = new FakeSyncSolvResultsCommandSolvFetcher();
 
         $input = new ArrayInput(['year' => '2020']);
@@ -193,6 +152,7 @@ final class SyncSolvResultsCommandTest extends UnitTestCase {
             'INFO Successfully ran command Olz\Command\SyncSolvResultsCommand.',
         ], $this->getLogs());
 
+        $entity_manager = WithUtilsCache::get('entityManager');
         $flushed = $entity_manager->flushed_persisted;
         $this->assertSame(3, count($flushed));
 

@@ -14,19 +14,6 @@ use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
-class FakeSignUpWithPasswordEndpointAuthRequestRepository {
-    public $auth_requests = [];
-
-    public function addAuthRequest($ip_address, $action, $username, $timestamp = null) {
-        $this->auth_requests[] = [
-            'ip_address' => $ip_address,
-            'action' => $action,
-            'timestamp' => $timestamp,
-            'username' => $username,
-        ];
-    }
-}
-
 /**
  * @internal
  *
@@ -76,7 +63,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithoutInput(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         try {
@@ -114,7 +100,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithInvalidRecaptchaToken(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -134,7 +119,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithInvalidUsername(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -162,7 +146,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithShortPassword(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -190,7 +173,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithOlzimmerbergEmail(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -218,9 +200,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithoutEmail(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -248,9 +227,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithoutPassword(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -278,9 +254,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithMinimalDataForNewUser(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -306,6 +279,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'auth_user' => 'fakeUsername',
             'auth_user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',
@@ -341,9 +315,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithMaximalDataForNewUser(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -369,6 +340,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'auth_user' => 'fakeUsername',
             'auth_user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',
@@ -404,9 +376,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithMinimalDataForNewFamilyUser(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
@@ -430,6 +399,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'status' => 'OK',
         ], $result);
         $this->assertSame([], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertSame(1, count($entity_manager->persisted));
         $user = $entity_manager->persisted[0];
@@ -458,9 +428,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithMaximalDataForNewFamilyUser(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
@@ -480,6 +447,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'status' => 'OK',
         ], $result);
         $this->assertSame([], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertSame(1, count($entity_manager->persisted));
         $user = $entity_manager->persisted[0];
@@ -509,12 +477,9 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithoutPassword(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $existing_user = new User();
         $existing_user->setId(123);
-        $user_repo = $entity_manager->repositories[User::class];
-        $user_repo->userToBeFound = $existing_user;
+        $entity_manager->repositories[User::class]->userToBeFound = $existing_user;
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -552,13 +517,10 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithPassword(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $existing_user = new User();
         $existing_user->setId(123);
         $existing_user->setPasswordHash('some-hash');
-        $user_repo = $entity_manager->repositories[User::class];
-        $user_repo->userToBeFound = $existing_user;
+        $entity_manager->repositories[User::class]->userToBeFound = $existing_user;
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -567,7 +529,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
-            $result = $endpoint->call(self::MINIMAL_INPUT);
+            $endpoint->call(self::MINIMAL_INPUT);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
@@ -593,17 +555,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithoutPassword(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $existing_user = new User();
         $existing_user->setId(123);
-        $user_repo = $entity_manager->repositories[User::class];
-        $user_repo->userToBeFoundForQuery = function ($where) use ($existing_user) {
-            if ($where === ['email' => 'fakeEmail']) {
-                return $existing_user;
-            }
-            return null;
-        };
+        $entity_manager->repositories[User::class]->userToBeFoundForQuery =
+            function ($where) use ($existing_user) {
+                if ($where === ['email' => 'fakeEmail']) {
+                    return $existing_user;
+                }
+                return null;
+            };
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -641,18 +601,16 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithPassword(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         $existing_user = new User();
         $existing_user->setId(123);
         $existing_user->setPasswordHash('some-hash');
-        $user_repo = $entity_manager->repositories[User::class];
-        $user_repo->userToBeFoundForQuery = function ($where) use ($existing_user) {
-            if ($where === ['email' => 'fakeEmail']) {
-                return $existing_user;
-            }
-            return null;
-        };
+        $entity_manager->repositories[User::class]->userToBeFoundForQuery =
+            function ($where) use ($existing_user) {
+                if ($where === ['email' => 'fakeEmail']) {
+                    return $existing_user;
+                }
+                return null;
+            };
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -687,8 +645,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointErrorSending(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $auth_request_repo = new FakeSignUpWithPasswordEndpointAuthRequestRepository();
-        $entity_manager->repositories[AuthRequest::class] = $auth_request_repo;
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();

@@ -5,39 +5,11 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Quiz\Endpoints;
 
 use Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint;
-use Olz\Entity\Quiz\Skill;
-use Olz\Entity\Quiz\SkillLevel;
 use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeUpdateMySkillLevelsEndpointSkillRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => 2]) {
-            $skill_2 = new Skill();
-            $skill_2->setId(2);
-            return $skill_2;
-        }
-        return null;
-    }
-}
-
-class FakeUpdateMySkillLevelsEndpointSkillLevelRepository {
-    public function findOneBy($where) {
-        if ($where['skill'] === 1) {
-            $skill_1 = new Skill();
-            $skill_1->setId(1);
-            $skill_level_1 = new SkillLevel();
-            $skill_level_1->setId(1);
-            $skill_level_1->setSkill($skill_1);
-            $skill_level_1->setValue(0.5);
-            return $skill_level_1;
-        }
-        return null;
-    }
-}
 
 /**
  * @internal
@@ -72,11 +44,6 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
     public function testUpdateMySkillLevelsEndpoint(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = true;
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $skill_repo = new FakeUpdateMySkillLevelsEndpointSkillRepository();
-        $entity_manager->repositories[Skill::class] = $skill_repo;
-        $skill_level_repo = new FakeUpdateMySkillLevelsEndpointSkillLevelRepository();
-        $entity_manager->repositories[SkillLevel::class] = $skill_level_repo;
         $endpoint = new UpdateMySkillLevelsEndpoint();
         $endpoint->runtimeSetup();
 
@@ -97,6 +64,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
 
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [Fake\FakeEntityManager::AUTO_INCREMENT_ID, 2, 1, 0],
         ], array_map(

@@ -6,38 +6,11 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\LoginWithStravaEndpoint;
 use Olz\Entity\AuthRequest;
-use Olz\Entity\StravaLink;
-use Olz\Tests\Fake\Entity\FakeStravaLink;
-use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\StravaUtils;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-class FakeLoginWithStravaEndpointAuthRequestRepository {
-    public $auth_requests = [];
-
-    public function addAuthRequest($ip_address, $action, $username, $timestamp = null) {
-        $this->auth_requests[] = [
-            'ip_address' => $ip_address,
-            'action' => $action,
-            'timestamp' => $timestamp,
-            'username' => $username,
-        ];
-    }
-}
-
-class FakeLoginWithStravaEndpointStravaLinkRepository {
-    public function findOneBy($where) {
-        if ($where === ['strava_user' => 'fake_existing_id']) {
-            $strava_link = FakeStravaLink::defaultStravaLink(true);
-            $strava_link->setUser(FakeUser::defaultUser());
-            return $strava_link;
-        }
-        return null;
-    }
-}
 
 class FakeLoginWithStravaEndpointStravaFetcher {
     protected $response;
@@ -63,9 +36,6 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
     }
 
     public function testLoginWithStravaEndpointWithoutInput(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[AuthRequest::class] = new FakeLoginWithStravaEndpointAuthRequestRepository();
-        $entity_manager->repositories[StravaLink::class] = new FakeLoginWithStravaEndpointStravaLinkRepository();
         $strava_fetcher = new FakeLoginWithStravaEndpointStravaFetcher([]);
         $strava_utils = new StravaUtils();
         $strava_utils->setClientId('fake-client-id');
@@ -76,7 +46,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
         $endpoint->runtimeSetup();
         $endpoint->setStravaUtils($strava_utils);
         try {
-            $result = $endpoint->call(['code' => null]);
+            $endpoint->call(['code' => null]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
@@ -89,9 +59,6 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
     }
 
     public function testLoginWithStravaEndpointWithExistingUser(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[AuthRequest::class] = new FakeLoginWithStravaEndpointAuthRequestRepository();
-        $entity_manager->repositories[StravaLink::class] = new FakeLoginWithStravaEndpointStravaLinkRepository();
         $strava_fetcher = new FakeLoginWithStravaEndpointStravaFetcher([
             'token_type' => 'fake_token_type',
             'expires_at' => 713014020,
@@ -149,6 +116,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'auth_user' => 'user',
             'auth_user_id' => 1,
         ], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',
@@ -160,16 +128,13 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
     }
 
     public function testLoginWithStravaEndpointWithNewUser(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[AuthRequest::class] = new FakeLoginWithStravaEndpointAuthRequestRepository();
-        $entity_manager->repositories[StravaLink::class] = new FakeLoginWithStravaEndpointStravaLinkRepository();
         $strava_fetcher = new FakeLoginWithStravaEndpointStravaFetcher([
             'token_type' => 'fake_token_type',
             'expires_at' => 713021220,
             'refresh_token' => 'fake_refresh_token',
             'access_token' => 'fake_access_token',
             'athlete' => [
-                'id' => 'fake_id',
+                'id' => 'fake_inexistent_id',
                 'firstname' => 'fake_firstname',
                 'lastname' => 'fake_lastname',
                 'sex' => 'F',
@@ -203,7 +168,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'expiresAt' => '1992-08-05 13:27:00',
             'refreshToken' => 'fake_refresh_token',
             'accessToken' => 'fake_access_token',
-            'userIdentifier' => 'fake_id',
+            'userIdentifier' => 'fake_inexistent_id',
             'firstName' => 'fake_firstname',
             'lastName' => 'fake_lastname',
             'gender' => 'F',
@@ -213,13 +178,11 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'profilePictureUrl' => 'fake_profile',
         ], $result);
         $this->assertSame([], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 
     public function testLoginWithStravaEndpointWithInvalidCode(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[AuthRequest::class] = new FakeLoginWithStravaEndpointAuthRequestRepository();
-        $entity_manager->repositories[StravaLink::class] = new FakeLoginWithStravaEndpointStravaLinkRepository();
         $strava_fetcher = new FakeLoginWithStravaEndpointStravaFetcher([
             'message' => 'Bad Request',
             'errors' => [
@@ -264,6 +227,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'status' => 'INVALID_CODE',
         ], $result);
         $this->assertSame([], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 }

@@ -10,7 +10,6 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 class FakeTerminLabel extends FakeEntity {
     public static function minimal($fresh = false) {
         return self::getFake(
-            'minimal',
             $fresh,
             function () {
                 $entity = new TerminLabel();
@@ -23,7 +22,6 @@ class FakeTerminLabel extends FakeEntity {
 
     public static function empty($fresh = false) {
         return self::getFake(
-            'empty',
             $fresh,
             function () {
                 $entity = new TerminLabel();
@@ -41,7 +39,6 @@ class FakeTerminLabel extends FakeEntity {
 
     public static function maximal($fresh = false) {
         return self::getFake(
-            'maximal',
             $fresh,
             function () {
                 $entity = new TerminLabel();

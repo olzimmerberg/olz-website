@@ -9,16 +9,6 @@ class FakeUserRepository {
     public $userToBeFoundForQuery;
     public $fakeProcessEmailCommandUser;
 
-    public $default_user;
-    public $admin_user;
-    public $vorstand_user;
-    public $parent_user;
-    public $child1_user;
-    public $child2_user;
-    public $noaccess_user;
-    public $specific_user;
-    public $no_access_user;
-
     public function findBy($query) {
         if ($query == ['parent_user' => 2]) {
             return [
@@ -39,47 +29,32 @@ class FakeUserRepository {
             return $fn($where);
         }
         if ($where === ['username' => 'user'] || $where === ['id' => 1]) {
-            $this->default_user = FakeUser::defaultUser();
-            return $this->default_user;
+            return FakeUser::defaultUser();
         }
         if ($where === ['username' => 'admin'] || $where === ['id' => 2] || $where === ['old_username' => 'admin-old']) {
-            $this->admin_user = FakeUser::adminUser();
-            return $this->admin_user;
+            return FakeUser::adminUser();
         }
         if (
             $where === ['username' => 'vorstand']
             || $where === ['email' => 'vorstand@staging.olzimmerberg.ch']
             || $where === ['id' => 3]
         ) {
-            $this->vorstand_user = FakeUser::vorstandUser();
-            return $this->vorstand_user;
+            return FakeUser::vorstandUser();
         }
         if ($where === ['username' => 'parent'] || $where === ['id' => 4]) {
-            $this->parent_user = FakeUser::parentUser();
-            return $this->parent_user;
+            return FakeUser::parentUser();
         }
         if ($where === ['username' => 'child1'] || $where === ['id' => 5]) {
-            $this->child1_user = FakeUser::child1User();
-            return $this->child1_user;
+            return FakeUser::child1User();
         }
         if ($where === ['username' => 'child2'] || $where === ['id' => 6]) {
-            $this->child2_user = FakeUser::child2User();
-            return $this->child2_user;
-        }
-        if ($where === ['username' => 'noaccess']) {
-            $this->noaccess_user = FakeUser::defaultUser(true);
-            $this->noaccess_user->setPermissions('ftp');
-            return $this->noaccess_user;
-        }
-        if ($where === ['username' => 'specific']) {
-            $this->specific_user = FakeUser::defaultUser(true);
-            $this->specific_user->setPermissions('test');
-            return $this->specific_user;
+            return FakeUser::child2User();
         }
         if ($where === ['username' => 'no']) {
-            $this->no_access_user = FakeUser::defaultUser(true);
-            $this->no_access_user->setPermissions('');
-            return $this->no_access_user;
+            return FakeUser::noAccessUser();
+        }
+        if ($where === ['username' => 'specific']) {
+            return FakeUser::specificAccessUser();
         }
         return null;
     }

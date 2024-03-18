@@ -10,7 +10,6 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 class FakeNotificationSubscription extends FakeEntity {
     public static function minimal($fresh = false) {
         return self::getFake(
-            'minimal',
             $fresh,
             function () {
                 $entity = new NotificationSubscription();
@@ -27,7 +26,6 @@ class FakeNotificationSubscription extends FakeEntity {
 
     public static function empty($fresh = false) {
         return self::getFake(
-            'empty',
             $fresh,
             function () {
                 $entity = new NotificationSubscription();
@@ -44,7 +42,6 @@ class FakeNotificationSubscription extends FakeEntity {
 
     public static function maximal($fresh = false) {
         return self::getFake(
-            'maximal',
             $fresh,
             function () {
                 $entity = new NotificationSubscription();
@@ -61,7 +58,6 @@ class FakeNotificationSubscription extends FakeEntity {
 
     public static function defaultNotificationSubscription($fresh = false) {
         return self::getFake(
-            'default_notification_subscription',
             $fresh,
             function () {
                 $notification_subscription = new NotificationSubscription();

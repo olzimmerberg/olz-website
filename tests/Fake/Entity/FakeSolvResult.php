@@ -10,7 +10,6 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 class FakeSolvResult extends FakeEntity {
     public static function defaultSolvResult($fresh = false) {
         return self::getFake(
-            'default_solv_result',
             $fresh,
             function () {
                 $solv_result = new SolvResult();

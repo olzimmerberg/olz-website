@@ -172,7 +172,7 @@ final class GetRoleEndpointTest extends UnitTestCase {
                 'guide' => 'Just do it!',
                 'imageIds' => ['picture________________A.jpg', 'picture________________B.jpg'],
                 'fileIds' => ['file___________________1.pdf', 'file___________________2.txt'],
-                'parentRole' => 8,
+                'parentRole' => 3,
                 'indexWithinParent' => 2,
                 'featuredIndex' => 6,
                 'canHaveChildRoles' => true,

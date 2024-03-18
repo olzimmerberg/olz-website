@@ -11,7 +11,6 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 class FakeTerminTemplate extends FakeEntity {
     public static function minimal($fresh = false) {
         return self::getFake(
-            'minimal',
             $fresh,
             function () {
                 $entity = new TerminTemplate();
@@ -25,7 +24,6 @@ class FakeTerminTemplate extends FakeEntity {
 
     public static function empty($fresh = false) {
         return self::getFake(
-            'empty',
             $fresh,
             function () {
                 $entity = new TerminTemplate();
@@ -49,7 +47,6 @@ class FakeTerminTemplate extends FakeEntity {
 
     public static function maximal($fresh = false) {
         return self::getFake(
-            'maximal',
             $fresh,
             function () {
                 $termin_location = new TerminLocation();

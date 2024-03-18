@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\UpdateUserPasswordEndpoint;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
@@ -35,7 +35,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 'id' => 1,
                 'oldPassword' => 'adm1n',
                 'newPassword' => '1234',
@@ -75,7 +75,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $this->getLogs());
         $this->assertSame(['status' => 'OTHER_USER'], $result);
-        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
+        $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('adm1n', $admin_user->getPasswordHash()));
         $this->assertSame([
@@ -108,7 +108,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_OLD'], $result);
-        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
+        $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('adm1n', $admin_user->getPasswordHash()));
         $this->assertSame([
@@ -141,7 +141,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
+        $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertTrue(password_verify('12345678', $admin_user->getPasswordHash()));
         $this->assertSame(

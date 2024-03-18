@@ -4,12 +4,15 @@ namespace Olz\Utils;
 
 use Olz\Entity\AccessToken;
 use Olz\Entity\AuthRequest;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
 
 class AuthUtils {
     use WithUtilsTrait;
+
+    public const MAX_LOOP = 5;
 
     protected $cached_permission_map_by_user = [];
     protected $cached_permission_map_by_role = [];
@@ -111,6 +114,9 @@ class AuthUtils {
     }
 
     public function hasPermission($query, $user = null) {
+        if (!$user) {
+            $user = $this->getCurrentUser();
+        }
         $user_permission_map = $this->getUserPermissionMap($user);
         $roles = $this->getAuthenticatedRoles($user) ?? [];
         $permission_map = [...$user_permission_map];
@@ -121,15 +127,12 @@ class AuthUtils {
         return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
     }
 
-    public function hasUserPermission($query, $user = null) {
+    public function hasUserPermission($query, $user) {
         $permission_map = $this->getUserPermissionMap($user);
         return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
     }
 
-    protected function getUserPermissionMap($user = null) {
-        if (!$user) {
-            $user = $this->getCurrentUser();
-        }
+    protected function getUserPermissionMap($user) {
         if (!$user) {
             return ['any' => false];
         }
@@ -220,8 +223,10 @@ class AuthUtils {
         return $fetched_user;
     }
 
-    public function getAuthenticatedRoles() {
-        $user = $this->getCurrentUser();
+    public function getAuthenticatedRoles($user = null) {
+        if (!$user) {
+            $user = $this->getCurrentUser();
+        }
         if (!$user) {
             return null;
         }
@@ -234,6 +239,30 @@ class AuthUtils {
             if ($authenticated_role->getId() === $role_id) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public function hasRoleEditPermission($role_id = null) {
+        $user = $this->getCurrentUser();
+        if ($this->hasPermission('roles', $user)) {
+            return true;
+        }
+        $auth_roles = $this->getAuthenticatedRoles($user);
+        $is_role_id_authenticated = [];
+        foreach (($auth_roles ?? []) as $auth_role) {
+            $is_role_id_authenticated[$auth_role->getId()] = true;
+        }
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        for ($i = 0; $i < self::MAX_LOOP; $i++) {
+            if ($role_id === null) {
+                return false;
+            }
+            if (($is_role_id_authenticated[$role_id] ?? false) === true) {
+                return true;
+            }
+            $role = $role_repo->findOneBy(['id' => $role_id]);
+            $role_id = $role->getParentRoleId() ?? null;
         }
         return false;
     }

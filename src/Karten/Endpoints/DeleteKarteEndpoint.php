@@ -15,14 +15,14 @@ class DeleteKarteEndpoint extends OlzDeleteEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('any');
 
-        $karte = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($karte, null, 'karten')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'karten')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $karte->setOnOff(0);
-        $this->entityManager()->persist($karte);
+        $entity->setOnOff(0);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
         return ['status' => 'OK'];

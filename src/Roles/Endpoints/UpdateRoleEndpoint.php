@@ -16,11 +16,15 @@ class UpdateRoleEndpoint extends OlzUpdateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $this->checkPermission('roles');
-
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $entity = $this->getEntityById($input['id']);
+
+        $is_superior = $this->authUtils()->hasRoleEditPermission($input['id']);
+        $is_owner = $this->entityUtils()->canUpdateOlzEntity($entity, null, 'roles');
+        if (!$is_superior && !$is_owner) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
 
         // Username validation
         $new_username = $input['data']['username'];
@@ -42,15 +46,19 @@ class UpdateRoleEndpoint extends OlzUpdateEntityEndpoint {
             }
         }
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'roles')) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        // TODO Do this more elegantly?
+        $old_data = $this->getEntityData($entity);
+        $this->log()->notice('OLD:', [$old_data]);
 
         $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? []);
         if ($is_username_updated) {
             $entity->setOldUsername($entity->getUsername());
         }
         $this->updateEntityWithData($entity, $input['data']);
+
+        // TODO Do this more elegantly?
+        $new_data = $this->getEntityData($entity);
+        $this->log()->notice('NEW:', [$new_data]);
 
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();

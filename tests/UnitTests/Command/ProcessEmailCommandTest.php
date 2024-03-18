@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\ProcessEmailCommand;
-use Olz\Tests\Fake\Entity\Roles\FakeRoles;
+use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -622,7 +622,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $artifacts = [];
-        $num_role_users = count(FakeRoles::someRole()->getUsers()->toArray());
+        $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly($num_role_users))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
                 $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
@@ -710,7 +710,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $artifacts = [];
-        $num_role_users = count(FakeRoles::someRole()->getUsers()->toArray());
+        $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly($num_role_users))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
                 $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
@@ -839,7 +839,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $artifacts = [];
-        $num_role_users = count(FakeRoles::someRole()->getUsers()->toArray());
+        $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly(1 + $num_role_users))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
                 $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
@@ -949,7 +949,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $artifacts = [];
-        $num_role_users = count(FakeRoles::someRole()->getUsers()->toArray());
+        $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly(1 + $num_role_users))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
                 $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
@@ -1069,7 +1069,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $artifacts = [];
-        $num_role_users = count(FakeRoles::someRole()->getUsers()->toArray());
+        $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly(1 + $num_role_users))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
                 $artifacts['email'] = [...($artifacts['email'] ?? []), $email];

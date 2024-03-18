@@ -6,6 +6,7 @@ use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\ValidationError;
+use PhpTypeScriptApi\HttpError;
 
 class CreateRoleEndpoint extends OlzCreateEntityEndpoint {
     use RoleEndpointTrait;
@@ -15,7 +16,9 @@ class CreateRoleEndpoint extends OlzCreateEntityEndpoint {
     }
 
     protected function handle($input) {
-        $this->checkPermission('roles');
+        if (!$this->authUtils()->hasRoleEditPermission($input['data']['parentRole'])) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
 
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);

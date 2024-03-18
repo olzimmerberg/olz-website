@@ -10,7 +10,6 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 class FakeAuthRequest extends FakeEntity {
     public static function defaultAuthRequest($fresh = false) {
         return self::getFake(
-            'default_auth_request',
             $fresh,
             function () {
                 $entity = new AuthRequest();

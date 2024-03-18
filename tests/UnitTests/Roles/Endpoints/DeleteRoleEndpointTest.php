@@ -23,6 +23,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
 
     public function testDeleteRoleEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new DeleteRoleEndpoint();
         $endpoint->runtimeSetup();
 
@@ -41,7 +42,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteRoleEndpointNoEntityAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new DeleteRoleEndpoint();
         $endpoint->runtimeSetup();

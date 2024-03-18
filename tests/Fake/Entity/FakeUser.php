@@ -6,12 +6,11 @@ namespace Olz\Tests\Fake\Entity;
 
 use Olz\Entity\User;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
-use Olz\Tests\Fake\Entity\Roles\FakeRoles;
+use Olz\Tests\Fake\Entity\Roles\FakeRole;
 
 class FakeUser extends FakeEntity {
     public static function adminUser($fresh = false) {
         return self::getFake(
-            'admin_user',
             $fresh,
             function () {
                 $admin_user = new User();
@@ -36,7 +35,7 @@ class FakeUser extends FakeEntity {
                 $admin_user->setCountryCode('CH');
                 $admin_user->setSiCardNumber('127001');
                 $admin_user->setSolvNumber('000ADM');
-                $admin_role = FakeRoles::adminRole();
+                $admin_role = FakeRole::adminRole();
                 $admin_user->addRole($admin_role);
                 return $admin_user;
             }
@@ -45,7 +44,6 @@ class FakeUser extends FakeEntity {
 
     public static function vorstandUser($fresh = false) {
         return self::getFake(
-            'vorstand_user',
             $fresh,
             function () {
                 $vorstand_user = new User();
@@ -57,7 +55,7 @@ class FakeUser extends FakeEntity {
                 $vorstand_user->setPasswordHash(password_hash('v0r57and', PASSWORD_DEFAULT));
                 $vorstand_user->setPermissions('aktuell ftp vorstand_user');
                 $vorstand_user->setRoot('vorstand');
-                $vorstand_role = FakeRoles::vorstandRole();
+                $vorstand_role = FakeRole::vorstandRole();
                 $vorstand_user->addRole($vorstand_role);
                 return $vorstand_user;
             }
@@ -66,7 +64,6 @@ class FakeUser extends FakeEntity {
 
     public static function parentUser($fresh = false) {
         return self::getFake(
-            'parent_user',
             $fresh,
             function () {
                 $parent_user = new User();
@@ -86,7 +83,6 @@ class FakeUser extends FakeEntity {
 
     public static function child1User($fresh = false) {
         return self::getFake(
-            'child1_user',
             $fresh,
             function () {
                 $child1_user = new User();
@@ -106,7 +102,6 @@ class FakeUser extends FakeEntity {
 
     public static function child2User($fresh = false) {
         return self::getFake(
-            'child2_user',
             $fresh,
             function () {
                 $child2_user = new User();
@@ -126,7 +121,6 @@ class FakeUser extends FakeEntity {
 
     public static function defaultUser($fresh = false) {
         return self::getFake(
-            'default_user',
             $fresh,
             function () {
                 $default_user = new User();
@@ -140,6 +134,28 @@ class FakeUser extends FakeEntity {
                 $default_user->setPasswordHash(password_hash('u53r', PASSWORD_DEFAULT));
                 $default_user->setParentUserId(2);
                 return $default_user;
+            }
+        );
+    }
+
+    public static function noAccessUser($fresh = false) {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = self::defaultUser(true);
+                $entity->setPermissions('ftp');
+                return $entity;
+            }
+        );
+    }
+
+    public static function specificAccessUser($fresh = false) {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = self::defaultUser(true);
+                $entity->setPermissions('test');
+                return $entity;
             }
         );
     }

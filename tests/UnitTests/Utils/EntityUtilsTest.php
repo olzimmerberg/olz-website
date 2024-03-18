@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\Common\OlzEntity;
-use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
 use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EntityUtils;
 use Olz\Utils\WithUtilsCache;
@@ -20,17 +19,15 @@ use Olz\Utils\WithUtilsCache;
 final class EntityUtilsTest extends UnitTestCase {
     public function testCreateOlzEntity(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
-        $entity_manager = WithUtilsCache::get('entityManager');
         $entity_utils = new EntityUtils();
         $entity = new OlzEntity();
 
         $entity_utils->createOlzEntity(
             $entity, ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]);
 
-        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame(1, $entity->getOnOff());
         $this->assertSame(FakeUser::defaultUser(), $entity->getOwnerUser());
-        $this->assertSame($role_repo->admin_role, $entity->getOwnerRole());
+        $this->assertSame(FakeRole::adminRole(), $entity->getOwnerRole());
         $this->assertSame(
             '2020-03-13 19:30:00',
             $entity->getCreatedAt()->format('Y-m-d H:i:s')
@@ -45,7 +42,6 @@ final class EntityUtilsTest extends UnitTestCase {
 
     public function testUpdateOlzEntity(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
-        $entity_manager = WithUtilsCache::get('entityManager');
         $entity_utils = new EntityUtils();
         $then_datetime = new \DateTime('2019-01-01 19:30:00');
         $entity = new OlzEntity();
@@ -60,11 +56,9 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity_utils->updateOlzEntity(
             $entity, ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]);
 
-        $user_repo = $entity_manager->repositories[User::class];
-        $role_repo = $entity_manager->repositories[Role::class];
         $this->assertSame(1, $entity->getOnOff());
-        $this->assertSame($user_repo->default_user, $entity->getOwnerUser());
-        $this->assertSame($role_repo->admin_role, $entity->getOwnerRole());
+        $this->assertSame(FakeUser::defaultUser(), $entity->getOwnerUser());
+        $this->assertSame(FakeRole::adminRole(), $entity->getOwnerRole());
         $this->assertSame($then_datetime, $entity->getCreatedAt());
         $this->assertSame(FakeUser::vorstandUser(), $entity->getCreatedByUser());
         $this->assertSame(

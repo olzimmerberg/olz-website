@@ -15,17 +15,17 @@ class CreateKarteEndpoint extends OlzCreateEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('karten');
 
-        $karte = new Karte();
-        $this->entityUtils()->createOlzEntity($karte, $input['meta']);
-        $this->updateEntityWithData($karte, $input['data']);
+        $entity = new Karte();
+        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($karte);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
-        $this->persistUploads($karte, $input['data']);
+        $this->persistUploads($entity, $input['data']);
 
         return [
             'status' => 'OK',
-            'id' => $karte->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

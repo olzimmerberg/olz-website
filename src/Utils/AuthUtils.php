@@ -302,7 +302,11 @@ class AuthUtils {
         return ['1x' => "{$code_href}assets/user_initials_{$initials_enc}.svg"];
     }
 
-    protected function verifyPassword($password, $hash) {
+    public function hashPassword(string $password): string {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    public function verifyPassword(string $password, string $hash): bool {
         return password_verify($password, $hash);
     }
 }

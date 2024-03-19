@@ -13,27 +13,16 @@ use Olz\Utils\WithUtilsCache;
 /**
  * @internal
  *
- * @coversNothing
- */
-class ExecuteEmailReactionEndpointForTest extends ExecuteEmailReactionEndpoint {
-    protected function getHashedPassword($password) {
-        return md5($password); // just for test
-    }
-}
-
-/**
- * @internal
- *
  * @covers \Olz\Api\Endpoints\ExecuteEmailReactionEndpoint
  */
 final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     public function testExecuteEmailReactionEndpointIdent(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $this->assertSame('ExecuteEmailReactionEndpoint', $endpoint->getIdent());
     }
 
     public function testUnsubscribeFromNotificationEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -61,7 +50,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testCancelEmailConfigReminderEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
         $subscription = new NotificationSubscription();
         $subscription->setId(3);
@@ -91,7 +80,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testUnsubscribeFromAllNotificationsEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -118,7 +107,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testUnsubscribeButNotUserGivenEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -138,7 +127,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testUnsubscribeButNoNotificationTypeGivenEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -158,7 +147,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testInvalidActionEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -177,7 +166,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testInvalidTokenEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode('')]);
@@ -194,7 +183,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -217,7 +206,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordNoSuchUserEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -235,7 +224,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testResetButInvalidPasswordEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -253,7 +242,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyEmailReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -274,7 +263,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyEmailReactionEndpointInvalidToken(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -296,7 +285,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyEmailReactionEndpointEmailMismatch(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -318,7 +307,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testVerifyEmailReactionEndpointNoSuchUser(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -339,7 +328,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteNewsReactionEndpoint(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([
@@ -357,7 +346,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteNewsReactionEndpointNoSuchEntry(): void {
-        $endpoint = new ExecuteEmailReactionEndpointForTest();
+        $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call(['token' => json_encode([

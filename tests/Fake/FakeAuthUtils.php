@@ -74,4 +74,12 @@ class FakeAuthUtils extends AuthUtils {
     public function isPasswordAllowed($password) {
         return strlen($password) >= 8;
     }
+
+    public function hashPassword(string $password): string {
+        return md5($password); // just for test; security is not a concern
+    }
+
+    public function verifyPassword(string $password, string $hash): bool {
+        return md5($password) === $hash; // just for test; security is not a concern
+    }
 }

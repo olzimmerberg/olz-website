@@ -8,8 +8,22 @@ use Olz\Api\Endpoints\UpdateUserPasswordEndpoint;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
+
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+class UpdateUserPasswordEndpointForTest extends UpdateUserPasswordEndpoint {
+    protected function getHashedPassword($password) {
+        return md5($password); // just for test
+    }
+
+    protected function verifyPassword($password, $hash) {
+        return md5($password) === $hash; // just for test
+    }
+}
 
 /**
  * @internal
@@ -18,13 +32,12 @@ use PhpTypeScriptApi\HttpError;
  */
 final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointIdent(): void {
-        $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint = new UpdateUserPasswordEndpointForTest();
         $this->assertSame('UpdateUserPasswordEndpoint', $endpoint->getIdent());
     }
 
     public function testUpdateUserPasswordEndpointShortPassword(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint = new UpdateUserPasswordEndpointForTest();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -53,8 +66,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointWrongUser(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint = new UpdateUserPasswordEndpointForTest();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -77,7 +89,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OTHER_USER'], $result);
         $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
-        $this->assertTrue(password_verify('adm1n', $admin_user->getPasswordHash()));
+        $this->assertSame(md5('adm1n'), $admin_user->getPasswordHash()); // just for test
         $this->assertSame([
             'auth' => 'ftp',
             'root' => 'karten',
@@ -86,8 +98,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint = new UpdateUserPasswordEndpointForTest();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -110,7 +121,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'INVALID_OLD'], $result);
         $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
-        $this->assertTrue(password_verify('adm1n', $admin_user->getPasswordHash()));
+        $this->assertSame(md5('adm1n'), $admin_user->getPasswordHash()); // just for test
         $this->assertSame([
             'auth' => 'ftp',
             'root' => 'karten',
@@ -119,8 +130,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $endpoint = new UpdateUserPasswordEndpoint();
+        $endpoint = new UpdateUserPasswordEndpointForTest();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -143,7 +153,8 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
         $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
-        $this->assertTrue(password_verify('12345678', $admin_user->getPasswordHash()));
+        // Just for test; no need for security (salt, etc.).
+        $this->assertSame(md5('12345678'), $admin_user->getPasswordHash()); // just for test
         $this->assertSame(
             '2020-03-13 19:30:00',
             $admin_user->getLastModifiedAt()->format('Y-m-d H:i:s')

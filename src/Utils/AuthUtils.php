@@ -34,7 +34,7 @@ class AuthUtils {
         $user = $this->resolveUsernameOrEmail($username_or_email);
 
         // If the password is wrong, authentication fails.
-        if (!$user || !$password || !password_verify($password, $user->getPasswordHash())) {
+        if (!$user || !$password || !$this->verifyPassword($password, $user->getPasswordHash())) {
             $message = "Login attempt with invalid credentials from IP: {$ip_address} (user: {$username_or_email}).";
             $this->log()->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'INVALID_CREDENTIALS', $username_or_email);
@@ -300,5 +300,9 @@ class AuthUtils {
         $last_initial = mb_substr($user->getLastName() ?? '?', 0, 1);
         $initials_enc = urlencode(strtoupper("{$first_initial}{$last_initial}"));
         return ['1x' => "{$code_href}assets/user_initials_{$initials_enc}.svg"];
+    }
+
+    protected function verifyPassword($password, $hash) {
+        return password_verify($password, $hash);
     }
 }

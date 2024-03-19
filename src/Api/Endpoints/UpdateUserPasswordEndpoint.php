@@ -47,15 +47,23 @@ class UpdateUserPasswordEndpoint extends OlzEndpoint {
             return ['status' => 'OTHER_USER'];
         }
 
-        if (!password_verify($old_password, $user->getPasswordHash())) {
+        if (!$this->verifyPassword($old_password, $user->getPasswordHash())) {
             return ['status' => 'INVALID_OLD'];
         }
 
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
-        $user->setPasswordHash(password_hash($new_password, PASSWORD_DEFAULT));
+        $user->setPasswordHash($this->getHashedPassword($new_password));
         $user->setLastModifiedAt($now_datetime);
         $this->entityManager()->flush();
 
         return ['status' => 'OK'];
+    }
+
+    protected function getHashedPassword($password) {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    protected function verifyPassword($password, $hash) {
+        return password_verify($password, $hash);
     }
 }

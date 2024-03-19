@@ -121,7 +121,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
             $this->log()->error("New password is too short.", [$this->reaction_data]);
             return ['status' => 'INVALID_TOKEN'];
         }
-        $user->setPasswordHash(password_hash($new_password, PASSWORD_DEFAULT));
+        $user->setPasswordHash($this->getHashedPassword($new_password));
         $this->entityManager()->flush();
         return ['status' => 'OK'];
     }
@@ -164,5 +164,9 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
         $news_entry->setOnOff(false);
         $this->entityManager()->flush();
         return ['status' => 'OK'];
+    }
+
+    protected function getHashedPassword($password) {
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 }

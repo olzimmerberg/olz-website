@@ -40,8 +40,8 @@ class OlzFooter extends OlzComponent {
 
         // React modals
 
-        $out .= "<div id='confirmation-dialog-react-root'></div>";
         $out .= "<div id='edit-entity-react-root'></div>";
+        $out .= "<div id='dialog-react-root'></div>";
         $out .= "<div id='update-user-avatar-react-root'></div>";
 
         $out .= "</body>

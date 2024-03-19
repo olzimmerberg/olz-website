@@ -22,7 +22,7 @@ class FakeUser extends FakeEntity {
                 $admin_user->setEmail('admin-user@staging.olzimmerberg.ch');
                 $admin_user->setEmailIsVerified(true);
                 $admin_user->setEmailVerificationToken('admintoken');
-                $admin_user->setPasswordHash(password_hash('adm1n', PASSWORD_DEFAULT));
+                $admin_user->setPasswordHash(md5('adm1n')); // just for test
                 $admin_user->setPermissions('all verified_email');
                 $admin_user->setRoot('karten');
                 $admin_user->setPhone('+410123456');
@@ -52,7 +52,7 @@ class FakeUser extends FakeEntity {
                 $vorstand_user->setLastName('Mitglied');
                 $vorstand_user->setUsername('vorstand');
                 $vorstand_user->setEmail('vorstand-user@staging.olzimmerberg.ch');
-                $vorstand_user->setPasswordHash(password_hash('v0r57and', PASSWORD_DEFAULT));
+                $vorstand_user->setPasswordHash(md5('v0r57and')); // just for test
                 $vorstand_user->setPermissions('aktuell ftp vorstand_user');
                 $vorstand_user->setRoot('vorstand');
                 $vorstand_role = FakeRole::vorstandRole();
@@ -73,7 +73,7 @@ class FakeUser extends FakeEntity {
                 $parent_user->setUsername('parent');
                 $parent_user->setEmail('parent-user@staging.olzimmerberg.ch');
                 $parent_user->setParentUserId(null);
-                $parent_user->setPasswordHash(password_hash('par3n7', PASSWORD_DEFAULT));
+                $parent_user->setPasswordHash(md5('par3n7')); // just for test
                 $parent_user->setPermissions('parent');
                 $parent_user->setRoot('parent');
                 return $parent_user;
@@ -131,7 +131,7 @@ class FakeUser extends FakeEntity {
                 $default_user->setEmail('default-user@staging.olzimmerberg.ch');
                 $default_user->setEmailIsVerified(false);
                 $default_user->setEmailVerificationToken('defaulttoken');
-                $default_user->setPasswordHash(password_hash('u53r', PASSWORD_DEFAULT));
+                $default_user->setPasswordHash(md5('u53r')); // just for test
                 $default_user->setParentUserId(2);
                 return $default_user;
             }

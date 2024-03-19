@@ -96,7 +96,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             $user = new User();
         }
 
-        $password_hash = $input['password'] ? password_hash($input['password'], PASSWORD_DEFAULT) : null;
+        $password_hash = $input['password'] ? $this->getHashedPassword($input['password']) : null;
         $birthdate = $input['birthdate'] ? new \DateTime($input['birthdate'].' 12:00:00') : null;
 
         $user->setUsername($username);
@@ -161,5 +161,9 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         }
 
         return ['status' => 'OK'];
+    }
+
+    protected function getHashedPassword($password) {
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 }

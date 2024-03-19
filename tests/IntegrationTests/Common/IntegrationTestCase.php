@@ -19,8 +19,8 @@ class IntegrationTestCase extends KernelTestCase {
 
     private $previous_document_root;
 
-    protected static $slowestTestDuration = 0;
-    protected static $slowestTestName;
+    protected static $slowestTests = [];
+    protected static $numSlowestTests = 25;
     protected static $shutdownFunctionRegistered = false;
 
     protected $previous_server;
@@ -53,18 +53,25 @@ class IntegrationTestCase extends KernelTestCase {
         $_SERVER = $this->previous_server;
 
         $duration = microtime(true) - $this->setUpAt;
-        if ($duration > self::$slowestTestDuration) {
-            self::$slowestTestDuration = $duration;
-            self::$slowestTestName = $this->getName();
-        }
+        self::$slowestTests[] = [
+            'name' => $this->getName(),
+            'duration' => $duration,
+        ];
     }
 
     public static function tearDownAfterClass(): void {
         if (!self::$shutdownFunctionRegistered) {
             register_shutdown_function(function () {
-                $duration = number_format(self::$slowestTestDuration, 2);
-                $name = self::$slowestTestName;
-                echo "Slowest test ({$duration}s): {$name}\n";
+                echo "Slowest tests:\n";
+                usort(self::$slowestTests, function ($a, $b) {
+                    return $a['duration'] < $b['duration'] ? 1 : -1;
+                });
+                for ($i = 0; $i < self::$numSlowestTests; $i++) {
+                    $test = self::$slowestTests[$i];
+                    $name = $test['name'];
+                    $duration = number_format($test['duration'], 2);
+                    echo "{$name}: {$duration}s\n";
+                }
             });
             self::$shutdownFunctionRegistered = true;
         }

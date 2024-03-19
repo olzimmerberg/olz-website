@@ -16,6 +16,17 @@ use Olz\Utils\WithUtilsCache;
 /**
  * @internal
  *
+ * @coversNothing
+ */
+class AuthUtilsForTest extends AuthUtils {
+    protected function verifyPassword($password, $hash) {
+        return md5($password) === $hash; // just for test
+    }
+}
+
+/**
+ * @internal
+ *
  * @covers \Olz\Utils\AuthUtils
  */
 final class AuthUtilsTest extends UnitTestCase {
@@ -26,7 +37,7 @@ final class AuthUtilsTest extends UnitTestCase {
             'user' => 'inexistent',
         ];
 
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -59,7 +70,7 @@ final class AuthUtilsTest extends UnitTestCase {
             'user' => 'inexistent',
         ];
 
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -96,7 +107,7 @@ final class AuthUtilsTest extends UnitTestCase {
             'user' => 'inexistent',
         ];
 
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -135,7 +146,7 @@ final class AuthUtilsTest extends UnitTestCase {
             'user' => 'inexistent',
         ];
 
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -171,7 +182,7 @@ final class AuthUtilsTest extends UnitTestCase {
             'user' => 'inexistent',
         ];
 
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -201,7 +212,7 @@ final class AuthUtilsTest extends UnitTestCase {
             'user' => 'inexistent',
         ];
 
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -238,7 +249,7 @@ final class AuthUtilsTest extends UnitTestCase {
             'user' => 'inexistent',
         ];
 
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -277,7 +288,7 @@ final class AuthUtilsTest extends UnitTestCase {
             'user' => 'inexistent',
         ];
 
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -308,35 +319,35 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testResolveUsername(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
 
         $result = $auth_utils->resolveUsernameOrEmail('admin');
         $this->assertSame(FakeUser::adminUser(), $result);
     }
 
     public function testResolveOldUsername(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
 
         $result = $auth_utils->resolveUsernameOrEmail('admin-old');
         $this->assertSame(FakeUser::adminUser(), $result);
     }
 
     public function testResolveEmail(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
 
         $result = $auth_utils->resolveUsernameOrEmail('vorstand@olzimmerberg.ch');
         $this->assertSame(FakeUser::vorstandUser(), $result);
     }
 
     public function testResolveUsernameEmail(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
 
         $result = $auth_utils->resolveUsernameOrEmail('admin@olzimmerberg.ch');
         $this->assertSame(FakeUser::adminUser(), $result);
     }
 
     public function testResolveOldUsernameEmail(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
 
         $result = $auth_utils->resolveUsernameOrEmail('admin-old@olzimmerberg.ch');
         $this->assertSame(FakeUser::adminUser(), $result);
@@ -347,7 +358,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'inexistent',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setSession($session);
         $this->assertSame(false, $auth_utils->hasPermission('test'));
         $this->assertSame(false, $auth_utils->hasPermission('other'));
@@ -360,7 +371,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'no',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setSession($session);
         $this->assertSame(false, $auth_utils->hasPermission('test'));
         $this->assertSame(false, $auth_utils->hasPermission('other'));
@@ -373,7 +384,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'specific',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setSession($session);
         $this->assertSame(true, $auth_utils->hasPermission('test'));
         $this->assertSame(false, $auth_utils->hasPermission('other'));
@@ -386,7 +397,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'admin',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setSession($session);
         $this->assertSame(true, $auth_utils->hasPermission('test'));
         $this->assertSame(true, $auth_utils->hasPermission('other'));
@@ -399,7 +410,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'vorstand',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setSession($session);
         $this->assertSame(true, $auth_utils->hasPermission('vorstand_user'));
         $this->assertSame(true, $auth_utils->hasPermission('vorstand_role'));
@@ -408,7 +419,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasUserPermissionNoUser(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(false, $auth_utils->hasUserPermission('test', null));
         $this->assertSame(false, $auth_utils->hasUserPermission('other', null));
         $this->assertSame(false, $auth_utils->hasUserPermission('all', null));
@@ -418,7 +429,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testHasUserPermissionWithNoPermission(): void {
         $user = new User();
         $user->setPermissions('');
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(false, $auth_utils->hasUserPermission('test', $user));
         $this->assertSame(false, $auth_utils->hasUserPermission('other', $user));
         $this->assertSame(false, $auth_utils->hasUserPermission('all', $user));
@@ -428,7 +439,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testHasUserPermissionWithSpecificPermission(): void {
         $user = new User();
         $user->setPermissions(' test ');
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(true, $auth_utils->hasUserPermission('test', $user));
         $this->assertSame(false, $auth_utils->hasUserPermission('other', $user));
         $this->assertSame(false, $auth_utils->hasUserPermission('all', $user));
@@ -438,7 +449,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testHasUserPermissionWithAllPermissions(): void {
         $user = new User();
         $user->setPermissions(' all ');
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(true, $auth_utils->hasUserPermission('test', $user));
         $this->assertSame(true, $auth_utils->hasUserPermission('other', $user));
         $this->assertSame(true, $auth_utils->hasUserPermission('all', $user));
@@ -448,7 +459,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testHasUserPermissionWithRolePermissions(): void {
         $user = new User();
         $user->setPermissions('aktuell ftp vorstand_user');
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(true, $auth_utils->hasUserPermission('vorstand_user', $user));
         $this->assertSame(false, $auth_utils->hasUserPermission('vorstand_role', $user));
         $this->assertSame(false, $auth_utils->hasUserPermission('all', $user));
@@ -456,7 +467,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasRolePermissionNoRole(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(false, $auth_utils->hasRolePermission('test', null));
         $this->assertSame(false, $auth_utils->hasRolePermission('other', null));
         $this->assertSame(false, $auth_utils->hasRolePermission('all', null));
@@ -466,7 +477,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testHasRolePermissionWithNoPermission(): void {
         $role = new Role();
         $role->setPermissions('');
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(false, $auth_utils->hasRolePermission('test', $role));
         $this->assertSame(false, $auth_utils->hasRolePermission('other', $role));
         $this->assertSame(false, $auth_utils->hasRolePermission('all', $role));
@@ -476,7 +487,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testHasRolePermissionWithSpecificPermission(): void {
         $role = new Role();
         $role->setPermissions('test');
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(true, $auth_utils->hasRolePermission('test', $role));
         $this->assertSame(false, $auth_utils->hasRolePermission('other', $role));
         $this->assertSame(false, $auth_utils->hasRolePermission('all', $role));
@@ -486,7 +497,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testHasRolePermissionWithAllPermissions(): void {
         $role = new Role();
         $role->setPermissions('all');
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(true, $auth_utils->hasRolePermission('test', $role));
         $this->assertSame(true, $auth_utils->hasRolePermission('other', $role));
         $this->assertSame(true, $auth_utils->hasRolePermission('all', $role));
@@ -494,7 +505,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetCurrentUserFromToken(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams(['access_token' => 'valid-token']);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $this->assertSame(FakeUser::adminUser(), $auth_utils->getCurrentUser());
@@ -505,21 +516,21 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'admin',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
         $this->assertSame(FakeUser::adminUser(), $auth_utils->getCurrentUser());
     }
 
     public function testGetTokenUser(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams(['access_token' => 'valid-token']);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $this->assertSame(FakeUser::adminUser(), $auth_utils->getTokenUser());
     }
 
     public function testGetTokenUserForInvalidToken(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams(['access_token' => 'invalid-token']);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $this->assertSame(null, $auth_utils->getTokenUser());
@@ -530,7 +541,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'vorstand',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setSession($session);
         $this->assertSame(FakeUser::vorstandUser(), $auth_utils->getSessionUser());
     }
@@ -540,7 +551,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'auth_user' => 'admin',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
         $this->assertSame(FakeUser::adminUser(), $auth_utils->getCurrentAuthUser());
@@ -551,7 +562,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'auth_user' => 'vorstand',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setSession($session);
         $this->assertSame(FakeUser::vorstandUser(), $auth_utils->getSessionAuthUser());
     }
@@ -561,7 +572,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'admin',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
         $this->assertSame(['admin_role'], array_map(function ($role) {
@@ -572,21 +583,21 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testGetAuthenticatedRolesUnauthenticated(): void {
         $session = new MemorySession();
         $session->session_storage = [];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
         $this->assertSame(null, $auth_utils->getAuthenticatedRoles());
     }
 
     public function testGetAuthenticatedRolesAdmin(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(['admin_role'], array_map(function ($role) {
             return $role->getUsername();
         }, $auth_utils->getAuthenticatedRoles(FakeUser::adminUser())));
     }
 
     public function testGetAuthenticatedRolesVorstand(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(['vorstand_role'], array_map(function ($role) {
             return $role->getUsername();
         }, $auth_utils->getAuthenticatedRoles(FakeUser::vorstandUser())));
@@ -597,7 +608,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'admin',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
         $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(1));
@@ -608,7 +619,7 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testIsRoleIdAuthenticatedUnauthenticated(): void {
         $session = new MemorySession();
         $session->session_storage = [];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
         $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(1));
@@ -621,7 +632,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'admin',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
         $this->assertSame(true, $auth_utils->hasRoleEditPermission(1));
@@ -634,7 +645,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $session->session_storage = [
             'user' => 'vorstand',
         ];
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
         $this->assertSame(false, $auth_utils->hasRoleEditPermission(1));
@@ -648,7 +659,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testIsUsernameAllowed(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(true, $auth_utils->isUsernameAllowed('testTEST1234.-_'));
         $this->assertSame(false, $auth_utils->isUsernameAllowed('test@wtf'));
         $this->assertSame(false, $auth_utils->isUsernameAllowed('ötzi'));
@@ -656,7 +667,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testIsPasswordAllowed(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(false, $auth_utils->isPasswordAllowed('test'));
         $this->assertSame(true, $auth_utils->isPasswordAllowed('longpassword'));
         $this->assertSame(false, $auth_utils->isPasswordAllowed('1234567'));
@@ -664,7 +675,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserAvatarNoUser(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $this->assertSame(
             ['1x' => '/_/assets/user_initials_%3F.svg'],
             $auth_utils->getUserAvatar(null)
@@ -672,7 +683,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserAvatarHasAvatar(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $user = FakeUser::adminUser();
 
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
@@ -687,7 +698,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserAvatarHasHighResolutionAvatar(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $user = FakeUser::adminUser();
 
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
@@ -707,7 +718,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserAvatarNoAvatar(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $user = FakeUser::adminUser();
         $this->assertSame(
             ['1x' => '/_/assets/user_initials_AI.svg'],
@@ -716,7 +727,7 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserAvatarNoAvatarSpecialChars(): void {
-        $auth_utils = new AuthUtils();
+        $auth_utils = new AuthUtilsForTest();
         $user = FakeUser::adminUser();
         $user->setFirstName("Özdemir");
         $user->setLastName(null);

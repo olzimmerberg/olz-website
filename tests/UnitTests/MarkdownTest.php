@@ -19,7 +19,13 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  */
 final class MarkdownTest extends UnitTestCase {
     public function testMarkdown(): void {
-        $output = shell_exec('git ls-tree -r HEAD --name-only');
+        // Just in order to test that this *would* work.
+        file_put_contents(__DIR__.'/dummy.md', '# Dummy file');
+
+        $output = implode("\n", [
+            shell_exec('git diff --name-only main'), // only tracked files
+            shell_exec('git ls-files --others --exclude-standard'), // added files
+        ]);
         $git_paths = preg_split('/\s+/', $output);
         $markdown_paths = [];
         foreach ($git_paths as $git_path) {
@@ -29,10 +35,16 @@ final class MarkdownTest extends UnitTestCase {
                 $markdown_paths[] = $git_path;
             }
         }
+
+        // This works because of the dummy.md
         $this->assertGreaterThan(0, count($markdown_paths));
+
         foreach ($markdown_paths as $markdown_path) {
             $this->checkMarkdownFile($markdown_path);
         }
+
+        // Clean up.
+        unlink(__DIR__.'/dummy.md');
     }
 
     protected function checkMarkdownFile($path) {

@@ -17,17 +17,6 @@ use PhpTypeScriptApi\HttpError;
 /**
  * @internal
  *
- * @coversNothing
- */
-class SignUpWithPasswordEndpointForTest extends SignUpWithPasswordEndpoint {
-    protected function getHashedPassword($password) {
-        return md5($password); // just for test
-    }
-}
-
-/**
- * @internal
- *
  * @covers \Olz\Api\Endpoints\SignUpWithPasswordEndpoint
  */
 final class SignUpWithPasswordEndpointTest extends UnitTestCase {
@@ -69,15 +58,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     ];
 
     public function testSignUpWithPasswordEndpointIdent(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $this->assertSame('SignUpWithPasswordEndpoint', $endpoint->getIdent());
     }
 
     public function testSignUpWithPasswordEndpointWithoutInput(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 'firstName' => null,
                 'lastName' => null,
                 'username' => null,
@@ -111,7 +100,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithInvalidRecaptchaToken(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -130,7 +119,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithInvalidUsername(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -157,7 +146,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithShortPassword(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -184,7 +173,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithOlzimmerbergEmail(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -211,7 +200,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithoutEmail(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -238,7 +227,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithoutPassword(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -265,7 +254,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithMinimalDataForNewUser(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -326,7 +315,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithMaximalDataForNewUser(): void {
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -388,7 +377,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithMinimalDataForNewFamilyUser(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -440,7 +429,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
     public function testSignUpWithPasswordEndpointWithMaximalDataForNewFamilyUser(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -491,7 +480,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $existing_user = new User();
         $existing_user->setId(123);
         $entity_manager->repositories[User::class]->userToBeFound = $existing_user;
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -532,7 +521,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $existing_user->setId(123);
         $existing_user->setPasswordHash('some-hash');
         $entity_manager->repositories[User::class]->userToBeFound = $existing_user;
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -575,7 +564,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 }
                 return null;
             };
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -622,7 +611,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 }
                 return null;
             };
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();
@@ -657,7 +646,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointErrorSending(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
-        $endpoint = new SignUpWithPasswordEndpointForTest();
+        $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
         $session = new MemorySession();

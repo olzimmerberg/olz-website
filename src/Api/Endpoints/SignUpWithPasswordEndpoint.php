@@ -5,6 +5,7 @@ namespace Olz\Api\Endpoints;
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\User;
+use Olz\Exceptions\RecaptchaDeniedException;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 
@@ -96,7 +97,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             $user = new User();
         }
 
-        $password_hash = $input['password'] ? $this->getHashedPassword($input['password']) : null;
+        $password_hash = $input['password'] ? $this->authUtils()->hashPassword($input['password']) : null;
         $birthdate = $input['birthdate'] ? new \DateTime($input['birthdate'].' 12:00:00') : null;
 
         $user->setUsername($username);
@@ -161,9 +162,5 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         }
 
         return ['status' => 'OK'];
-    }
-
-    protected function getHashedPassword($password) {
-        return password_hash($password, PASSWORD_DEFAULT);
     }
 }

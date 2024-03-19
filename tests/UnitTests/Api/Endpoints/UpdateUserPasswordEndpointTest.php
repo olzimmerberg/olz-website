@@ -13,31 +13,16 @@ use PhpTypeScriptApi\HttpError;
 /**
  * @internal
  *
- * @coversNothing
- */
-class UpdateUserPasswordEndpointForTest extends UpdateUserPasswordEndpoint {
-    protected function getHashedPassword($password) {
-        return md5($password); // just for test
-    }
-
-    protected function verifyPassword($password, $hash) {
-        return md5($password) === $hash; // just for test
-    }
-}
-
-/**
- * @internal
- *
  * @covers \Olz\Api\Endpoints\UpdateUserPasswordEndpoint
  */
 final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointIdent(): void {
-        $endpoint = new UpdateUserPasswordEndpointForTest();
+        $endpoint = new UpdateUserPasswordEndpoint();
         $this->assertSame('UpdateUserPasswordEndpoint', $endpoint->getIdent());
     }
 
     public function testUpdateUserPasswordEndpointShortPassword(): void {
-        $endpoint = new UpdateUserPasswordEndpointForTest();
+        $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -66,7 +51,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointWrongUser(): void {
-        $endpoint = new UpdateUserPasswordEndpointForTest();
+        $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -98,7 +83,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
-        $endpoint = new UpdateUserPasswordEndpointForTest();
+        $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -130,7 +115,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserPasswordEndpoint(): void {
-        $endpoint = new UpdateUserPasswordEndpointForTest();
+        $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [

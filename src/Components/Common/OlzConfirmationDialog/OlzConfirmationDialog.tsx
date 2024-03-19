@@ -74,7 +74,7 @@ export async function olzConfirm(
                 onConfirm={() => resolve(true)}
                 {...params}
             />,
-            document.getElementById('confirmation-dialog-react-root'),
+            document.getElementById('dialog-react-root'),
         );
         const modal = document.getElementById('confirmation-dialog-modal');
         if (modal) {

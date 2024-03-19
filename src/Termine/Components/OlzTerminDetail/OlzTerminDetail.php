@@ -59,9 +59,13 @@ class OlzTerminDetail extends OlzComponent {
         ;
         $termine = $termin_repo->matching($criteria);
         $num_termine = $termine->count();
-        $no_robots = $num_termine !== 1;
+        $is_archived = $num_termine !== 1;
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
         $canonical_url = "https://{$host}{$code_href}termine/{$id}";
+
+        if ($is_archived && !$this->authUtils()->hasPermission('any')) {
+            $this->httpUtils()->dieWithHttpError(401);
+        }
 
         $sql = "SELECT * FROM termine WHERE (id = '{$id}') AND (on_off = '1') ORDER BY start_date DESC";
         $result = $db->query($sql);
@@ -80,7 +84,7 @@ class OlzTerminDetail extends OlzComponent {
             'back_link' => "{$code_href}termine?filter={$back_filter}",
             'title' => "{$title}{$maybe_date} - Termine",
             'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
-            'norobots' => $no_robots,
+            'norobots' => $is_archived,
             'canonical_url' => $canonical_url,
         ]);
 

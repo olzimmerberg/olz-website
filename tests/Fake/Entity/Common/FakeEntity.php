@@ -8,21 +8,23 @@ class FakeEntity {
     public static $cache = [];
 
     protected static function getFake(
-        string $ident,
         bool $should_generate_new,
         callable $generate_new
     ) {
-        $called_class = get_called_class();
-        $namespaced_ident = "{$called_class}::{$ident}";
+        $trace = debug_backtrace(0, 2);
+        $class = $trace[1]['class'];
+        $function = $trace[1]['function'];
+        $args = json_encode($trace[1]['args']);
+        $ident = "{$class}::{$function}({$args})";
         if ($should_generate_new) {
             return $generate_new();
         }
-        $cached = self::$cache[$namespaced_ident] ?? null;
+        $cached = self::$cache[$ident] ?? null;
         if ($cached) {
             return $cached;
         }
         $fake = $generate_new();
-        self::$cache[$namespaced_ident] = $fake;
+        self::$cache[$ident] = $fake;
         return $fake;
     }
 

@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
 use Olz\Roles\Endpoints\CreateRoleEndpoint;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -17,26 +18,28 @@ use Symfony\Component\Mailer\MailerInterface;
  * @covers \Olz\Roles\Endpoints\CreateRoleEndpoint
  */
 final class CreateRoleEndpointTest extends UnitTestCase {
-    public const VALID_INPUT = [
-        'meta' => [
-            'ownerUserId' => 1,
-            'ownerRoleId' => 1,
-            'onOff' => true,
-        ],
-        'data' => [
-            'username' => 'test',
-            'name' => 'Test Role',
-            'title' => 'Title Test Role',
-            'description' => 'Description Test Role',
-            'guide' => 'Just do it!',
-            'imageIds' => ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
-            'fileIds' => ['uploaded_file1.pdf', 'uploaded_file2.txt'],
-            'parentRole' => 8,
-            'indexWithinParent' => 2,
-            'featuredIndex' => 6,
-            'canHaveChildRoles' => true,
-        ],
-    ];
+    protected function getValidInput() {
+        return [
+            'meta' => [
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
+                'onOff' => true,
+            ],
+            'data' => [
+                'username' => 'test',
+                'name' => 'Test Role',
+                'title' => 'Title Test Role',
+                'description' => 'Description Test Role',
+                'guide' => 'Just do it!',
+                'imageIds' => ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                'fileIds' => ['uploaded_file1.pdf', 'uploaded_file2.txt'],
+                'parentRole' => FakeRole::vorstandRole()->getId(),
+                'indexWithinParent' => 2,
+                'featuredIndex' => 6,
+                'canHaveChildRoles' => true,
+            ],
+        ];
+    }
 
     public function testCreateRoleEndpointIdent(): void {
         $endpoint = new CreateRoleEndpoint();
@@ -49,7 +52,7 @@ final class CreateRoleEndpointTest extends UnitTestCase {
         $endpoint->runtimeSetup();
 
         try {
-            $endpoint->call(self::VALID_INPUT);
+            $endpoint->call($this->getValidInput());
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame([
@@ -79,7 +82,7 @@ final class CreateRoleEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/roles/');
 
-        $result = $endpoint->call(self::VALID_INPUT);
+        $result = $endpoint->call($this->getValidInput());
 
         $this->assertSame([
             "INFO Valid user request",
@@ -101,7 +104,7 @@ final class CreateRoleEndpointTest extends UnitTestCase {
         $this->assertSame('Title Test Role', $entity->getTitle());
         $this->assertSame('Description Test Role', $entity->getDescription());
         $this->assertSame('Just do it!', $entity->getGuide());
-        $this->assertSame(8, $entity->getParentRoleId());
+        $this->assertSame(FakeRole::vorstandRole()->getId(), $entity->getParentRoleId());
         $this->assertSame(2, $entity->getIndexWithinParent());
         $this->assertSame(6, $entity->getFeaturedIndex());
         $this->assertSame(true, $entity->getCanHaveChildRoles());

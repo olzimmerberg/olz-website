@@ -10,7 +10,6 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 class FakeAccessToken extends FakeEntity {
     public static function default($fresh = false) {
         return self::getFake(
-            'default',
             $fresh,
             function () {
                 $entity = new AccessToken();
@@ -27,7 +26,6 @@ class FakeAccessToken extends FakeEntity {
 
     public static function valid($fresh = false) {
         return self::getFake(
-            'valid',
             $fresh,
             function () {
                 $entity = new AccessToken();
@@ -43,7 +41,6 @@ class FakeAccessToken extends FakeEntity {
 
     public static function expired($fresh = false) {
         return self::getFake(
-            'expired',
             $fresh,
             function () {
                 $entity = new AccessToken();

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Tests\Fake\Entity\Common\FakeEntity;
 
 class FakeTerminLabels extends FakeEntity {
     public static function minimal($fresh = false) {
         return self::getFake(
-            'minimal',
             $fresh,
             function () {
                 $entity = new TerminLabel();
@@ -22,7 +22,6 @@ class FakeTerminLabels extends FakeEntity {
 
     public static function empty($fresh = false) {
         return self::getFake(
-            'empty',
             $fresh,
             function () {
                 $entity = new TerminLabel();
@@ -40,7 +39,6 @@ class FakeTerminLabels extends FakeEntity {
 
     public static function maximal($fresh = false) {
         return self::getFake(
-            'maximal',
             $fresh,
             function () {
                 $entity = new TerminLabel();

@@ -10,7 +10,6 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 class FakeSolvEvent extends FakeEntity {
     public static function minimal($fresh = false) {
         return self::getFake(
-            'minimal',
             $fresh,
             function () {
                 $entity = new SolvEvent();
@@ -39,7 +38,6 @@ class FakeSolvEvent extends FakeEntity {
 
     public static function empty($fresh = false) {
         return self::getFake(
-            'empty',
             $fresh,
             function () {
                 $entity = new SolvEvent();
@@ -68,7 +66,6 @@ class FakeSolvEvent extends FakeEntity {
 
     public static function maximal($fresh = false) {
         return self::getFake(
-            'maximal',
             $fresh,
             function () {
                 $entity = new SolvEvent();
@@ -97,7 +94,6 @@ class FakeSolvEvent extends FakeEntity {
 
     public static function defaultSolvEvent($fresh = false) {
         return self::getFake(
-            'default_solv_event',
             $fresh,
             function () {
                 $solv_event = new SolvEvent();
@@ -126,7 +122,6 @@ class FakeSolvEvent extends FakeEntity {
 
     public static function withResults($fresh = false) {
         return self::getFake(
-            'withResults',
             $fresh,
             function () {
                 $solv_event = self::defaultSolvEvent(true);
@@ -141,7 +136,6 @@ class FakeSolvEvent extends FakeEntity {
 
     public static function withoutResults($fresh = false) {
         return self::getFake(
-            'withoutResults',
             $fresh,
             function () {
                 $solv_event = self::defaultSolvEvent(true);

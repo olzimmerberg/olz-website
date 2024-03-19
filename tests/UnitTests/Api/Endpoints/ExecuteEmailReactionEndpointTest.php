@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\ExecuteEmailReactionEndpoint;
 use Olz\Entity\NotificationSubscription;
-use Olz\Entity\User;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
@@ -203,8 +202,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
         $this->assertSame(0, count($entity_manager->persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $user_repo = $entity_manager->repositories[User::class];
-        $this->assertTrue(password_verify('geeenius', $user_repo->admin_user->getPasswordHash()));
+        $this->assertTrue(password_verify('geeenius', FakeUser::adminUser()->getPasswordHash()));
     }
 
     public function testResetPasswordNoSuchUserEmailReactionEndpoint(): void {
@@ -261,8 +259,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(true, $entity_manager->flushed);
-        $user_repo = $entity_manager->repositories[User::class];
-        $this->assertSame(true, $user_repo->default_user->isEmailVerified());
+        $this->assertSame(true, FakeUser::defaultUser()->isEmailVerified());
     }
 
     public function testVerifyEmailReactionEndpointInvalidToken(): void {
@@ -284,8 +281,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(false, $entity_manager->flushed);
-        $user_repo = $entity_manager->repositories[User::class];
-        $this->assertSame(false, $user_repo->default_user->isEmailVerified());
+        $this->assertSame(false, FakeUser::defaultUser()->isEmailVerified());
     }
 
     public function testVerifyEmailReactionEndpointEmailMismatch(): void {
@@ -307,8 +303,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(false, $entity_manager->flushed);
-        $user_repo = $entity_manager->repositories[User::class];
-        $this->assertSame(false, $user_repo->default_user->isEmailVerified());
+        $this->assertSame(false, FakeUser::defaultUser()->isEmailVerified());
     }
 
     public function testVerifyEmailReactionEndpointNoSuchUser(): void {

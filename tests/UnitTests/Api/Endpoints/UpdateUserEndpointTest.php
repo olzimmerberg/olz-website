@@ -204,7 +204,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
+        $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('test', $admin_user->getUsername());
         $this->assertSame('admin', $admin_user->getOldUsername());
@@ -255,7 +255,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
+        $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('test', $admin_user->getUsername());
         $this->assertSame('admin', $admin_user->getOldUsername());
@@ -313,7 +313,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
+        $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('test', $admin_user->getUsername());
         $this->assertSame('admin', $admin_user->getOldUsername());
@@ -538,7 +538,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
+        $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('test', $admin_user->getUsername());
         $this->assertSame('admin', $admin_user->getOldUsername());

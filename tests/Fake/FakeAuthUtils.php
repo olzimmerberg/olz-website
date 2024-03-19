@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Olz\Tests\Fake\Entity\FakeUser;
-use Olz\Tests\Fake\Entity\Roles\FakeRoles;
+use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Utils\AuthUtils;
 
 class FakeAuthUtils extends AuthUtils {
     public $current_user;
+    public $authenticated_roles;
     public $authenticate_user;
     public $authenticate_with_error;
     public $has_permission_by_query = [];
@@ -52,18 +53,15 @@ class FakeAuthUtils extends AuthUtils {
         return FakeUser::adminUser();
     }
 
-    public function getAuthenticatedRoles() {
-        return [
-            FakeRoles::adminRole(),
-            FakeRoles::defaultRole(),
-        ];
+    public function getAuthenticatedRoles($user = null) {
+        return $this->authenticated_roles;
     }
 
     public function isRoleIdAuthenticated($role_id) {
-        if ($role_id === FakeRoles::adminRole()->getId()) {
+        if ($role_id === FakeRole::adminRole()->getId()) {
             return true;
         }
-        if ($role_id === FakeRoles::defaultRole()->getId()) {
+        if ($role_id === FakeRole::defaultRole()->getId()) {
             return true;
         }
         return false;

@@ -85,11 +85,11 @@ trait KarteEndpointTrait {
     }
 
     protected function getEntityById(int $id): Karte {
-        $karten_repo = $this->entityManager()->getRepository(Karte::class);
-        $karte = $karten_repo->findOneBy(['id' => $id]);
-        if (!$karte) {
+        $repo = $this->entityManager()->getRepository(Karte::class);
+        $entity = $repo->findOneBy(['id' => $id]);
+        if (!$entity) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        return $karte;
+        return $entity;
     }
 }

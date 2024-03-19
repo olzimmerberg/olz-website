@@ -23,6 +23,7 @@ final class EditRoleEndpointTest extends UnitTestCase {
 
     public function testEditRoleEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new EditRoleEndpoint();
         $endpoint->runtimeSetup();
 
@@ -60,7 +61,7 @@ final class EditRoleEndpointTest extends UnitTestCase {
     }
 
     public function testEditRoleEndpointNoEntityAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new EditRoleEndpoint();
         $endpoint->runtimeSetup();
@@ -214,7 +215,7 @@ final class EditRoleEndpointTest extends UnitTestCase {
                 'guide' => 'Just do it!',
                 'imageIds' => ['picture________________A.jpg', 'picture________________B.jpg'],
                 'fileIds' => ['file___________________1.pdf', 'file___________________2.txt'],
-                'parentRole' => 8,
+                'parentRole' => 3,
                 'indexWithinParent' => 2,
                 'featuredIndex' => 6,
                 'canHaveChildRoles' => true,

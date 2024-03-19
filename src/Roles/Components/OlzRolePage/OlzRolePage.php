@@ -73,12 +73,10 @@ class OlzRolePage extends OlzComponent {
         $out .= "</ol>";
         $out .= "</nav>";
 
-        $owner_user = $role->getOwnerUser();
-        $is_owner = $user && $owner_user && intval($owner_user->getId() ?? 0) === intval($user->getId());
-        $has_roles_permission = $this->authUtils()->hasPermission('roles');
-        $can_edit = $is_owner || $has_roles_permission;
         $edit_admin = '';
-        if ($can_edit) {
+        $is_superior = $this->authUtils()->hasRoleEditPermission($role_id);
+        $is_owner = $this->entityUtils()->canUpdateOlzEntity($role, null, 'roles');
+        if ($is_superior || $is_owner) {
             $json_id = json_encode(intval($role_id));
             $edit_admin = <<<ZZZZZZZZZZ
             <div>

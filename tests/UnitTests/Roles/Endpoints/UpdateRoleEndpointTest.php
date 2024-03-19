@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
 use Olz\Roles\Endpoints\UpdateRoleEndpoint;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
+use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -16,27 +17,29 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Roles\Endpoints\UpdateRoleEndpoint
  */
 final class UpdateRoleEndpointTest extends UnitTestCase {
-    public const VALID_INPUT = [
-        'id' => FakeOlzRepository::MAXIMAL_ID,
-        'meta' => [
-            'ownerUserId' => 1,
-            'ownerRoleId' => 1,
-            'onOff' => true,
-        ],
-        'data' => [
-            'username' => 'test',
-            'name' => 'Test Role',
-            'title' => 'Title Test Role',
-            'description' => 'Description Test Role',
-            'guide' => 'Just do it!',
-            'imageIds' => ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
-            'fileIds' => ['uploaded_file1.pdf', 'uploaded_file2.txt'],
-            'parentRole' => 8,
-            'indexWithinParent' => 2,
-            'featuredIndex' => 6,
-            'canHaveChildRoles' => true,
-        ],
-    ];
+    protected function getValidInput() {
+        return [
+            'id' => FakeOlzRepository::MAXIMAL_ID,
+            'meta' => [
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
+                'onOff' => true,
+            ],
+            'data' => [
+                'username' => 'test',
+                'name' => 'Test Role',
+                'title' => 'Title Test Role',
+                'description' => 'Description Test Role',
+                'guide' => 'Just do it!',
+                'imageIds' => ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                'fileIds' => ['uploaded_file1.pdf', 'uploaded_file2.txt'],
+                'parentRole' => FakeRole::vorstandRole()->getId(),
+                'indexWithinParent' => 2,
+                'featuredIndex' => 6,
+                'canHaveChildRoles' => true,
+            ],
+        ];
+    }
 
     public function testUpdateRoleEndpointIdent(): void {
         $endpoint = new UpdateRoleEndpoint();
@@ -45,11 +48,12 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
 
     public function testUpdateRoleEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new UpdateRoleEndpoint();
         $endpoint->runtimeSetup();
 
         try {
-            $endpoint->call(self::VALID_INPUT);
+            $endpoint->call($this->getValidInput());
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame([
@@ -61,14 +65,14 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateRoleEndpointNoSuchEntity(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true, 'all' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateRoleEndpoint();
         $endpoint->runtimeSetup();
 
         try {
             $endpoint->call([
-                ...self::VALID_INPUT,
+                ...$this->getValidInput(),
                 'id' => FakeOlzRepository::NULL_ID,
             ]);
             $this->fail('Error expected');
@@ -82,13 +86,13 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateRoleEndpointNoEntityAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true, 'all' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new UpdateRoleEndpoint();
         $endpoint->runtimeSetup();
 
         try {
-            $endpoint->call(self::VALID_INPUT);
+            $endpoint->call($this->getValidInput());
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame([
@@ -101,7 +105,7 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
 
     public function testUpdateRoleEndpoint(): void {
         $id = FakeOlzRepository::MAXIMAL_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true, 'all' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateRoleEndpoint();
         $endpoint->runtimeSetup();
@@ -116,10 +120,12 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/roles/');
 
-        $result = $endpoint->call(self::VALID_INPUT);
+        $result = $endpoint->call($this->getValidInput());
 
         $this->assertSame([
             "INFO Valid user request",
+            "NOTICE OLD:",
+            "NOTICE NEW:",
             "INFO Valid user response",
         ], $this->getLogs());
 
@@ -139,7 +145,7 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         $this->assertSame('Title Test Role', $entity->getTitle());
         $this->assertSame('Description Test Role', $entity->getDescription());
         $this->assertSame('Just do it!', $entity->getGuide());
-        $this->assertSame(8, $entity->getParentRoleId());
+        $this->assertSame(FakeRole::vorstandRole()->getId(), $entity->getParentRoleId());
         $this->assertSame(2, $entity->getIndexWithinParent());
         $this->assertSame(6, $entity->getFeaturedIndex());
         $this->assertSame(true, $entity->getCanHaveChildRoles());

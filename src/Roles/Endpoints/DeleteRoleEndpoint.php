@@ -13,15 +13,11 @@ class DeleteRoleEndpoint extends OlzDeleteEntityEndpoint {
     }
 
     protected function handle($input) {
-        $this->checkPermission('roles');
-
         $entity = $this->getEntityById($input['id']);
 
-        if (!$entity) {
-            return ['status' => 'ERROR'];
-        }
-
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'roles')) {
+        $is_superior = $this->authUtils()->hasRoleEditPermission($input['id']);
+        $is_owner = $this->entityUtils()->canUpdateOlzEntity($entity, null, 'roles');
+        if (!$is_superior && !$is_owner) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

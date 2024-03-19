@@ -10,7 +10,7 @@ use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
@@ -139,7 +139,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
-        $admin_user = $entity_manager->getRepository(User::class)->admin_user;
+        $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('Admin', $admin_user->getFirstName());
         $this->assertSame('Istrator', $admin_user->getLastName());
@@ -205,7 +205,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
-        $default_user = $entity_manager->getRepository(User::class)->default_user;
+        $default_user = FakeUser::defaultUser();
         $this->assertSame(6, count($entity_manager->removed));
         $this->assertTrue($entity_manager->removed[0] instanceof NewsEntry);
         $this->assertTrue($entity_manager->removed[1] instanceof NotificationSubscription);

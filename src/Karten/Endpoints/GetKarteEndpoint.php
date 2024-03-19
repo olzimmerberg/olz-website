@@ -14,12 +14,12 @@ class GetKarteEndpoint extends OlzGetEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('any');
 
-        $karte = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
         return [
-            'id' => $karte->getId(),
-            'meta' => $karte->getMetaData(),
-            'data' => $this->getEntityData($karte),
+            'id' => $entity->getId(),
+            'meta' => $entity->getMetaData(),
+            'data' => $this->getEntityData($entity),
         ];
     }
 }

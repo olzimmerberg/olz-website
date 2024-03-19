@@ -10,7 +10,6 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 class FakeNews extends FakeEntity {
     public static function minimal($fresh = false) {
         return self::getFake(
-            'minimal',
             $fresh,
             function () {
                 $published_at = new \DateTime('2020-03-13 18:00:00');
@@ -29,7 +28,6 @@ class FakeNews extends FakeEntity {
 
     public static function empty($fresh = false) {
         return self::getFake(
-            'empty',
             $fresh,
             function () {
                 $published_at = new \DateTime('0000-01-01 00:00:00');
@@ -51,7 +49,6 @@ class FakeNews extends FakeEntity {
 
     public static function maximal($fresh = false) {
         return self::getFake(
-            'maximal',
             $fresh,
             function () {
                 $published_at = new \DateTime('2020-03-13 18:00:00');

@@ -15,22 +15,22 @@ class UpdateKarteEndpoint extends OlzUpdateEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('any');
 
-        $karte = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($karte, $input['meta'], 'karten')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'karten')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $this->entityUtils()->updateOlzEntity($karte, $input['meta'] ?? []);
-        $this->updateEntityWithData($karte, $input['data']);
+        $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? []);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($karte);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
-        $this->persistUploads($karte, $input['data']);
+        $this->persistUploads($entity, $input['data']);
 
         return [
             'status' => 'OK',
-            'id' => $karte->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

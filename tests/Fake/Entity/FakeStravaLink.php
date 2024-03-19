@@ -10,7 +10,6 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 class FakeStravaLink extends FakeEntity {
     public static function defaultStravaLink($fresh = false) {
         return self::getFake(
-            'default_strava_link',
             $fresh,
             function () {
                 $strava_link = new StravaLink();

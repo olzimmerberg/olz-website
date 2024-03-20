@@ -47,15 +47,15 @@ function test_login_logout_readonly($driver, $base_url) {
     take_pageshot($driver, 'login_modal');
 
     $username_elem = $driver->findElement(
-        WebDriverBy::cssSelector('#login-username-input')
+        WebDriverBy::cssSelector('#login-modal #usernameOrEmail-input')
     );
     sendKeys($username_elem, $username);
     $password_elem = $driver->findElement(
-        WebDriverBy::cssSelector('#login-password-input')
+        WebDriverBy::cssSelector('#login-modal #password-input')
     );
     sendKeys($password_elem, $password);
     $login_button_elem = $driver->findElement(
-        WebDriverBy::cssSelector('#login-button')
+        WebDriverBy::cssSelector('#login-modal #submit-button')
     );
     click($login_button_elem);
     sleep(1);

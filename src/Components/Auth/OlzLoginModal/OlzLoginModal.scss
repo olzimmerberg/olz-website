@@ -1,51 +1,10 @@
 #login-modal {
-    #login-message {
-        &:empty {
-            display: none;
-        }
-    }
-
-    .remember-me-row {
+    .rememberMe-row {
         display: flex;
         flex-direction: row;
     }
 
-    #login-remember-me-input {
+    #rememberMe-input {
         margin-right: 10px;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .login-button {
-        align-items: center;
-        border: 1px solid rgb(200, 200, 200);
-        border-radius: 3px;
-        display: inline-flex;
-        font-size: 14px;
-        margin-right: 8px;
-        padding: 8px;
-
-        &:hover {
-            text-decoration: none;
-        }
-
-        img {
-            border: 0;
-            padding-right: 8px;
-        }
-    }
-
-    .strava-button {
-        background-color: rgb(252, 82, 0);
-        border-color: rgb(252, 82, 0);
-        color: rgb(255, 255, 255);
-
-        &:hover,
-        &:active {
-            background-color: rgb(204, 66, 0);
-            border-color: rgb(204, 66, 0);
-        }
     }
 }

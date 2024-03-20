@@ -1,7 +1,7 @@
 import React from 'react';
 import {FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister} from 'react-hook-form';
 
-type OlzTextFieldMode = 'text-input'|'textarea';
+type OlzTextFieldMode = 'text-input'|'password-input'|'textarea';
 
 interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values>> {
     mode?: OlzTextFieldMode;
@@ -10,6 +10,7 @@ interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values
     options?: RegisterOptions<Values, Name>;
     errors?: FieldErrors<Values>;
     register: UseFormRegister<Values>;
+    autoComplete?: string;
 }
 
 export const OlzTextField = <
@@ -37,10 +38,11 @@ export const OlzTextField = <
     return (<>
         {labelComponent}
         <input
-            type='text'
+            type={props?.mode === 'password-input' ? 'password' : 'text'}
             {...props.register(props.name, props.options)}
             className={className}
             id={inputId}
+            autoComplete={props.autoComplete}
         />
         {errorComponent}
     </>);

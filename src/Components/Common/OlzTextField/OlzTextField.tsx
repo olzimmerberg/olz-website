@@ -10,6 +10,7 @@ interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values
     options?: RegisterOptions<Values, Name>;
     errors?: FieldErrors<Values>;
     register: UseFormRegister<Values>;
+    disabled?: boolean;
     autoComplete?: string;
 }
 
@@ -42,6 +43,7 @@ export const OlzTextField = <
             {...props.register(props.name, props.options)}
             className={className}
             id={inputId}
+            disabled={props.disabled}
             autoComplete={props.autoComplete}
         />
         {errorComponent}

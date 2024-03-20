@@ -1,8 +1,8 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
-import {olzApi} from '../../../../src/Api/client';
-import {OlzApiRequests} from '../../../../src/Api/client/generated_olz_api_types';
+import {olzApi} from '../../../Api/client';
+import {OlzApiRequests} from '../../../Api/client/generated_olz_api_types';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {codeHref, user} from '../../../Utils/constants';
 import {getApiBoolean, getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
@@ -19,6 +19,7 @@ interface OlzLoginForm {
 const resolver: Resolver<OlzLoginForm> = async (values) => {
     const errors: FieldErrors<OlzLoginForm> = {};
     errors.usernameOrEmail = validateNotEmpty(values.usernameOrEmail);
+    // Do not validate password here. Could be legacy or test password.
     errors.password = validateNotEmpty(values.password);
     return getResolverResult(errors, values);
 };
@@ -53,18 +54,22 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
     const formRef = React.useRef<HTMLFormElement>(null);
 
     const onSubmit: SubmitHandler<OlzLoginForm> = async (values) => {
-        console.log('SUBMIT', values);
         const data = getApiFromForm(values);
-        console.log('SUBMIT', data);
 
         const [err, response] = await olzApi.getResult('login', data);
         if (response?.status === 'INVALID_CREDENTIALS') {
             const attempts = response.numRemainingAttempts;
+            setSuccessMessage('');
             setErrorMessage(`Falsche Login-Daten. Verbleibende Versuche: ${attempts}.`);
+            return;
         } else if (response?.status === 'BLOCKED') {
+            setSuccessMessage('');
             setErrorMessage('Zu viele erfolglose Login-Versuche. Du bist vorübergehend gesperrt.');
+            return;
         } else if (response?.status !== 'AUTHENTICATED') {
+            setSuccessMessage('');
             setErrorMessage(`Fehler: ${err?.message} (Antwort: ${response?.status}).`);
+            return;
         }
         if (data.rememberMe) {
             localStorage.setItem('OLZ_AUTO_LOGIN', data.usernameOrEmail);
@@ -72,8 +77,9 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
             localStorage.removeItem('OLZ_AUTO_LOGIN');
         }
         setSuccessMessage('Login erfolgreich. Bitte warten...');
-        window.location.href = '#';
+        setErrorMessage('');
         // TODO: This could probably be done more smoothly!
+        window.location.href = '#';
         window.location.reload();
     };
 
@@ -193,7 +199,7 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
 };
 
 export function initOlzLoginModal(props: OlzLoginModalProps): boolean {
-    initReact('edit-entity-react-root', (
+    initReact('dialog-react-root', (
         <OlzLoginModal {...props}/>
     ));
     window.setTimeout(() => {

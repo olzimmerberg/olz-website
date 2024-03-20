@@ -99,6 +99,13 @@ export function validateNotEmpty(value: string): FieldError|undefined {
     return undefined;
 }
 
+export function validatePassword(value: string): FieldError|undefined {
+    if (value.length < 8) {
+        return {type: 'required', message: 'Das Passwort muss mindestens 8 Zeichen lang sein.'};
+    }
+    return undefined;
+}
+
 export function getApiString(value: string): string|null {
     if (value.trim() === '') {
         return null;

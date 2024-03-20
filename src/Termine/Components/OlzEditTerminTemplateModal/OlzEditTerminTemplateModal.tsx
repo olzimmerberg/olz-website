@@ -1,14 +1,14 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
-import {olzApi} from '../../../../src/Api/client';
-import {OlzMetaData, OlzTerminTemplateData} from '../../../../src/Api/client/generated_olz_api_types';
+import {olzApi} from '../../../Api/client';
+import {OlzMetaData, OlzTerminTemplateData} from '../../../Api/client/generated_olz_api_types';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateTimeOrNull} from '../../../Utils/formUtils';
-import {isDefined, timeout} from '../../../Utils/generalUtils';
+import {isDefined} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditTerminTemplateModal.scss';
@@ -117,13 +117,14 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
             ? olzApi.getResult('updateTerminTemplate', {id: props.id, meta, data})
             : olzApi.getResult('createTerminTemplate', {meta, data}));
         if (err || response.status !== 'OK') {
+            setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             return;
         }
 
-        // TODO: This could probably be done more smoothly!
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        await timeout(1000);
+        setErrorMessage('');
+        // TODO: This could probably be done more smoothly!
         window.location.reload();
     };
 

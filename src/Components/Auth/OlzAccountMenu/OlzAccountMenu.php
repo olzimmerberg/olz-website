@@ -96,7 +96,6 @@ class OlzAccountMenu extends OlzComponent {
                 id='login-menu-item'
                 class='dropdown-item'
                 href='#login-dialog'
-                onclick='olz.olzLoginModalShow()'
                 role='button'
             >
                 Login

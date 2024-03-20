@@ -2,11 +2,10 @@ import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
-import {OlzMetaData, OlzKarteData, OlzKarteKind} from '../../../../src/Api/client/generated_olz_api_types';
+import {OlzMetaData, OlzKarteData, OlzKarteKind} from '../../../Api/client/generated_olz_api_types';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty} from '../../../Utils/formUtils';
-import {timeout} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditKarteModal.scss';
@@ -100,13 +99,14 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
             ? olzApi.getResult('updateKarte', {id: props.id, meta, data})
             : olzApi.getResult('createKarte', {meta, data}));
         if (err || response.status !== 'OK') {
+            setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             return;
         }
 
-        // TODO: This could probably be done more smoothly!
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        await timeout(1000);
+        setErrorMessage('');
+        // TODO: This could probably be done more smoothly!
         window.location.reload();
     };
 

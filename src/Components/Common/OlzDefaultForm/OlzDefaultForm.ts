@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
-import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, olzApi, ValidationError} from '../../../../src/Api/client';
-import {getErrorOrThrow} from '../../../../src/Utils/generalUtils';
+import {OlzApiRequests, OlzApiResponses, OlzApiEndpoint, olzApi, ValidationError} from '../../../Api/client';
+import {getErrorOrThrow} from '../../../Utils/generalUtils';
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

@@ -2,14 +2,14 @@ import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
-import {OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../../src/Api/client/generated_olz_api_types';
+import {OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../Api/client/generated_olz_api_types';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzAuthenticatedUserRoleField} from '../../../Components/Common/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
 import {codeHref, dataHref} from '../../../Utils/constants';
-import {assert, timeout} from '../../../Utils/generalUtils';
+import {assert} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditNewsModal.scss';
@@ -324,13 +324,14 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
             ? olzApi.getResult('updateNews', {id: props.id, meta, data})
             : olzApi.getResult('createNews', {meta, data, custom: {recaptchaToken}}));
         if (err || response.status !== 'OK') {
+            setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             return;
         }
 
-        // TODO: This could probably be done more smoothly!
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        await timeout(1000);
+        setErrorMessage('');
+        // TODO: This could probably be done more smoothly!
         window.location.reload();
     };
 

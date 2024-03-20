@@ -120,8 +120,7 @@ class OlzProfileForm extends OlzComponent {
                 <button
                     type='button'
                     class='btn btn-secondary{$change_password_class}'
-                    data-bs-toggle='modal'
-                    data-bs-target='#change-password-modal'
+                    onclick='return olz.initOlzChangePasswordModal()'
                     id='change-password-button'
                 >
                     Passwort ändern

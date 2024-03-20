@@ -1,4 +1,4 @@
-import {OlzApiEndpoint} from '../../../../src/Api/client';
+import {OlzApiEndpoint} from '../../../Api/client';
 import {FieldResultOrDictThereof, OlzRequestFieldResult, olzDefaultFormSubmit, GetDataForRequestFunction, getFormField, isFieldResultOrDictThereofValid, getFieldResultOrDictThereofErrors, getFieldResultOrDictThereofValue, validFieldResult, validFormData, invalidFormData} from '../OlzDefaultForm/OlzDefaultForm';
 
 export function olzEditableTextEdit(buttonElement: HTMLButtonElement): void {

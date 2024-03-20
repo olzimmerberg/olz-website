@@ -1,4 +1,4 @@
-import {olzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../Api/client';
 
 export function olzAccountMenuSwitchUser(userId: number): void {
     olzApi.call(

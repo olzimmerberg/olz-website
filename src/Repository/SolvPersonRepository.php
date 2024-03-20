@@ -2,9 +2,9 @@
 
 namespace Olz\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class SolvPersonRepository extends EntityRepository {
+class SolvPersonRepository extends OlzRepository {
     public function getSolvPersonsMarkedForMerge() {
         $dql = "
             SELECT sp.id, sp.same_as

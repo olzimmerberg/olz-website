@@ -2,10 +2,10 @@
 
 namespace Olz\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Olz\Entity\Counter;
+use Olz\Repository\Common\OlzRepository;
 
-class CounterRepository extends EntityRepository {
+class CounterRepository extends OlzRepository {
     public function record($page, $date, $referrer, $user_agent) {
         if (
             preg_match('/bingbot/i', $user_agent)

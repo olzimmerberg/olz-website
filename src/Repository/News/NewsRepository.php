@@ -3,10 +3,10 @@
 namespace Olz\Repository\News;
 
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\EntityRepository;
 use Olz\News\Utils\NewsFilterUtils;
+use Olz\Repository\Common\OlzRepository;
 
-class NewsRepository extends EntityRepository {
+class NewsRepository extends OlzRepository {
     public function getAllActive() {
         $news_utils = NewsFilterUtils::fromEnv();
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();

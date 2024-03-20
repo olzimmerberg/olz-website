@@ -2,7 +2,7 @@
 
 namespace Olz\Repository\Quiz;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class SkillCategoryRepository extends EntityRepository {
+class SkillCategoryRepository extends OlzRepository {
 }

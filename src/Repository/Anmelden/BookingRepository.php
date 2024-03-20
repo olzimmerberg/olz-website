@@ -2,7 +2,7 @@
 
 namespace Olz\Repository\Anmelden;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class BookingRepository extends EntityRepository {
+class BookingRepository extends OlzRepository {
 }

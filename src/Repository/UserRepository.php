@@ -2,9 +2,9 @@
 
 namespace Olz\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class UserRepository extends EntityRepository {
+class UserRepository extends OlzRepository {
     public function findFuzzilyByUsername($username) {
         $dql = "SELECT u FROM Olz:User u WHERE u.username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);

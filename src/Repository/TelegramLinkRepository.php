@@ -2,9 +2,9 @@
 
 namespace Olz\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class TelegramLinkRepository extends EntityRepository {
+class TelegramLinkRepository extends OlzRepository {
     public function getActivatedTelegramLinks() {
         $dql = "
             SELECT tl

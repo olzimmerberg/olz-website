@@ -8,6 +8,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
+use Olz\Repository\Roles\PredefinedRole;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -41,7 +42,7 @@ class OlzFuerEinsteiger extends OlzComponent {
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
-        $nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-kontakt']);
+        $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
 
         $contact_information = "<div style='padding:0px 10px 0px 10px;'>";
         $nachwuchs_assignees = $nachwuchs_role->getUsers();

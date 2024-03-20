@@ -2,7 +2,7 @@
 
 namespace Olz\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class StravaLinkRepository extends EntityRepository {
+class StravaLinkRepository extends OlzRepository {
 }

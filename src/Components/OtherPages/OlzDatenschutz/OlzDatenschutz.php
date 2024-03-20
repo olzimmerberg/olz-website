@@ -7,6 +7,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
+use Olz\Repository\Roles\PredefinedRole;
 
 class OlzDatenschutz extends OlzComponent {
     public static $title = "Datenschutz";
@@ -16,7 +17,7 @@ class OlzDatenschutz extends OlzComponent {
         $this->httpUtils()->validateGetParams([]);
         $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
-        $website_role = $role_repo->findOneBy(['username' => 'website']);
+        $datenschutz_role = $role_repo->getPredefinedRole(PredefinedRole::Datenschutz);
 
         $out = OlzHeader::render([
             'title' => self::$title,
@@ -27,10 +28,10 @@ class OlzDatenschutz extends OlzComponent {
             <h2>Datenschutz-Verantwortliche</h2>
             <ul>
         ZZZZZZZZZZ;
-        $website_assignees = $website_role->getUsers();
-        foreach ($website_assignees as $website_assignee) {
+        $datenschutz_assignees = $datenschutz_role->getUsers();
+        foreach ($datenschutz_assignees as $datenschutz_assignee) {
             $out .= "<li>";
-            $out .= OlzUserInfoCard::render(['user' => $website_assignee]);
+            $out .= OlzUserInfoCard::render(['user' => $datenschutz_assignee]);
             $out .= "</li>";
         }
         $out .= <<<'ZZZZZZZZZZ'

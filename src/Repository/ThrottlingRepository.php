@@ -2,10 +2,10 @@
 
 namespace Olz\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Olz\Entity\Throttling;
+use Olz\Repository\Common\OlzRepository;
 
-class ThrottlingRepository extends EntityRepository {
+class ThrottlingRepository extends OlzRepository {
     public function getLastOccurrenceOf($event_name) {
         $throttling = $this->findOneBy(['event_name' => $event_name]);
         if (!$throttling) {

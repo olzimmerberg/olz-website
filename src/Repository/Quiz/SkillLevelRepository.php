@@ -2,10 +2,10 @@
 
 namespace Olz\Repository\Quiz;
 
-use Doctrine\ORM\EntityRepository;
 use Olz\Entity\Skill;
+use Olz\Repository\Common\OlzRepository;
 
-class SkillLevelRepository extends EntityRepository {
+class SkillLevelRepository extends OlzRepository {
     public function getSkillLevelsForUserId($user_id) {
         $sane_user_id = intval($user_id);
         $dql = "

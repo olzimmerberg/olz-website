@@ -3,9 +3,28 @@
 namespace Olz\Repository\Roles;
 
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\EntityRepository;
+use Olz\Entity\Roles\Role;
+use Olz\Repository\Common\OlzRepository;
 
-class RoleRepository extends EntityRepository {
+enum PredefinedRole: string {
+    // The string value is the username.
+    case FanOlzElite = 'fan-olz-elite';
+    case Buessli = 'buessli';
+    case Aktuariat = 'aktuariat';
+    case Nachwuchs = 'nachwuchs-kontakt';
+    case Datenschutz = 'website';
+    case SportIdent = 'sportident';
+}
+
+class RoleRepository extends OlzRepository {
+    public function getPredefinedRole(PredefinedRole $predefined_role): null|Role {
+        $role = $this->findOneBy(['username' => $predefined_role->value]);
+        if (!$role) {
+            $this->log()->warning("Predefined role does not exist: {$predefined_role->value}");
+        }
+        return $role;
+    }
+
     public function findFuzzilyByUsername($username) {
         $dql = "SELECT r FROM Olz:Roles\\Role r WHERE r.username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);

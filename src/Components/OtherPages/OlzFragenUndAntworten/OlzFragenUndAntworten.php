@@ -9,6 +9,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\News\Utils\NewsFilterUtils;
+use Olz\Repository\Roles\PredefinedRole;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
 
 class OlzFragenUndAntworten extends OlzComponent {
@@ -21,12 +22,12 @@ class OlzFragenUndAntworten extends OlzComponent {
         $entityManager = $this->dbUtils()->getEntityManager();
         $news_filter_utils = NewsFilterUtils::fromEnv();
         $role_repo = $entityManager->getRepository(Role::class);
-        $buessli_role = $role_repo->findOneBy(['username' => 'buessli']);
-        $aktuariat_role = $role_repo->findOneBy(['username' => 'aktuariat']);
+        $buessli_role = $role_repo->getPredefinedRole(PredefinedRole::Buessli);
+        $aktuariat_role = $role_repo->getPredefinedRole(PredefinedRole::Aktuariat);
+        $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
         $forum_url = $news_filter_utils->getUrl(['format' => 'forum']);
         $galerie_url = $news_filter_utils->getUrl(['format' => 'galerie']);
         $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
-        $nachwuchs_role = $role_repo->findOneBy(['username' => 'nachwuchs-kontakt']);
 
         $out = OlzHeader::render([
             'title' => self::$title,

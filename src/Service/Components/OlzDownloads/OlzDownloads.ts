@@ -1,4 +1,4 @@
-import {olzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../Api/client';
 import {initOlzEditDownloadModal} from '../OlzEditDownloadModal/OlzEditDownloadModal';
 
 import './OlzDownloads.scss';

@@ -1,8 +1,8 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
-import {olzApi} from '../../../../src/Api/client';
-import {OlzMetaData, OlzTerminData, OlzTerminTemplateData} from '../../../../src/Api/client/generated_olz_api_types';
+import {olzApi} from '../../../Api/client';
+import {OlzMetaData, OlzTerminData, OlzTerminTemplateData} from '../../../Api/client/generated_olz_api_types';
 import {OlzEntityChooser} from '../../../Components/Common/OlzEntityChooser/OlzEntityChooser';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
@@ -10,7 +10,7 @@ import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/Ol
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {isoNow} from '../../../Utils/constants';
 import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateIntegerOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
-import {isDefined, timeout} from '../../../Utils/generalUtils';
+import {isDefined} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditTerminModal.scss';
@@ -224,13 +224,14 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             ? olzApi.getResult('updateTermin', {id: props.id, meta, data})
             : olzApi.getResult('createTermin', {meta, data}));
         if (err || response.status !== 'OK') {
+            setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             return;
         }
 
-        // TODO: This could probably be done more smoothly!
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        await timeout(1000);
+        setErrorMessage('');
+        // TODO: This could probably be done more smoothly!
         window.location.reload();
     };
 

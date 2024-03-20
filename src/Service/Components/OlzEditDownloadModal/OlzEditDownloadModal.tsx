@@ -6,7 +6,6 @@ import {OlzMetaData, OlzDownloadData} from '../../../Api/client/generated_olz_ap
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Utils/formUtils';
-import {timeout} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditDownloadModal.scss';
@@ -73,13 +72,14 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
             ? olzApi.getResult('updateDownload', {id: props.id, meta, data})
             : olzApi.getResult('createDownload', {meta, data}));
         if (err || response.status !== 'OK') {
+            setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             return;
         }
 
-        // TODO: This could probably be done more smoothly!
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        await timeout(1000);
+        setErrorMessage('');
+        // TODO: This could probably be done more smoothly!
         window.location.reload();
     };
 

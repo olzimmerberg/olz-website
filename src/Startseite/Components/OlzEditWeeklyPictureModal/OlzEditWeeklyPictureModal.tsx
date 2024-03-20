@@ -2,10 +2,9 @@ import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
-import {OlzMetaData, OlzWeeklyPictureData} from '../../../../src/Api/client/generated_olz_api_types';
+import {OlzMetaData, OlzWeeklyPictureData} from '../../../Api/client/generated_olz_api_types';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
-import {timeout} from '../../../Utils/generalUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditWeeklyPictureModal.scss';
@@ -66,13 +65,14 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
         const data = getApiFromForm(values);
         const [err, response] = await olzApi.getResult('createWeeklyPicture', {meta, data});
         if (err || response.status !== 'OK') {
+            setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             return;
         }
 
-        // TODO: This could probably be done more smoothly!
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        await timeout(1000);
+        setErrorMessage('');
+        // TODO: This could probably be done more smoothly!
         window.location.reload();
     };
 

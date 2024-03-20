@@ -41,7 +41,7 @@ class OlzKontoTelegram extends OlzComponent {
             }
         } else {
             $out .= "<div>Bitte einloggen, um Telegram-Chat zu verlinken...</div>";
-            $out .= "<div><a href='#login-dialog' onclick='olz.olzLoginModalShow()' role='button'><b>Login</b></a></div>";
+            $out .= "<div><a href='#login-dialog' role='button'><b>Login</b></a></div>";
         }
 
         $out .= "</div>

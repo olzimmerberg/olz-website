@@ -1,14 +1,14 @@
 import React from 'react';
 import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
 import {useDropzone} from 'react-dropzone';
-import {readBase64} from '../../../../src/Utils/fileUtils';
-import {isDefined} from '../../../../src/Utils/generalUtils';
-import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../../src/Utils/imageUtils';
-import {Uploader} from '../../../../src/Utils/Uploader';
+import {readBase64} from '../../../Utils/fileUtils';
+import {isDefined} from '../../../Utils/generalUtils';
+import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../Utils/imageUtils';
+import {Uploader} from '../../../Utils/Uploader';
 import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
 import {UploadFile, UploadingFile, UploadedFile} from '../types';
 import {serializeUploadFile} from '../utils';
-import {dataHref} from '../../../../src/Utils/constants';
+import {dataHref} from '../../../Utils/constants';
 
 import '../../../Components/Common/OlzStyles/dropzone.scss';
 import './OlzMultiImageField.scss';

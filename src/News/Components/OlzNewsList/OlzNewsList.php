@@ -87,7 +87,7 @@ class OlzNewsList extends OlzComponent {
             >
                 <li><button
                     class='dropdown-item'
-                    onclick='return olz.olzLoginModalShow()'
+                    onclick='return olz.initOlzLoginModal({})'
                 >
                     Login
                 </button></li>

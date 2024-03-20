@@ -2,7 +2,6 @@
 
 namespace Olz\Components\Page\OlzFooter;
 
-use Olz\Components\Auth\OlzChangePasswordModal\OlzChangePasswordModal;
 use Olz\Components\Auth\OlzResetPasswordModal\OlzResetPasswordModal;
 use Olz\Components\Auth\OlzSignUpModal\OlzSignUpModal;
 use Olz\Components\Auth\OlzVerifyUserEmailModal\OlzVerifyUserEmailModal;
@@ -29,7 +28,6 @@ class OlzFooter extends OlzComponent {
 
         // "Legacy" component modals
         if (!($args['skip_modals'] ?? false)) {
-            $out .= OlzChangePasswordModal::render([], $this);
             $out .= OlzLinkTelegramModal::render([], $this);
             $out .= OlzResetPasswordModal::render([], $this);
             $out .= OlzSignUpModal::render([], $this);

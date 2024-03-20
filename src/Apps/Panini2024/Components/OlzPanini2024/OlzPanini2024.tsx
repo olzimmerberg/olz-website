@@ -125,12 +125,14 @@ export const OlzPanini2024 = (): React.ReactElement => {
         const data = getApiFromForm(values);
         const [err, response] = await olzApi.getResult('updateMyPanini2024', {data});
         if (err || response.status !== 'OK') {
+            setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             return;
         }
 
-        // TODO: This could probably be done more smoothly!
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
+        setErrorMessage('');
+        // TODO: This could probably be done more smoothly!
         await timeout(1000);
         window.location.reload();
     };

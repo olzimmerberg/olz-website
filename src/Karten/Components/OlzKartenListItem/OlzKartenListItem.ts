@@ -1,4 +1,4 @@
-import {olzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../Api/client';
 import {initOlzEditKarteModal} from '../OlzEditKarteModal/OlzEditKarteModal';
 
 import './OlzKartenListItem.scss';

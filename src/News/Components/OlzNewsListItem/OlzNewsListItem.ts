@@ -1,4 +1,4 @@
-import {olzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../Api/client';
 import {initOlzEditNewsModal, OlzEditNewsModalMode} from '../OlzEditNewsModal/OlzEditNewsModal';
 
 import './OlzNewsListItem.scss';

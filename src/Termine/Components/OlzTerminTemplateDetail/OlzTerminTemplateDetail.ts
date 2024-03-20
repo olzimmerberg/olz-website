@@ -1,4 +1,4 @@
-import {olzApi} from '../../../../src/Api/client';
+import {olzApi} from '../../../Api/client';
 import {initOlzEditTerminTemplateModal} from '../OlzEditTerminTemplateModal/OlzEditTerminTemplateModal';
 import {olzConfirm} from '../../../Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 

@@ -1,5 +1,4 @@
 import './OlzAccountMenu/OlzAccountMenu.scss';
-import './OlzChangePasswordModal/OlzChangePasswordModal.scss';
 import './OlzProfileForm/OlzProfileForm.scss';
 import './OlzResetPasswordModal/OlzResetPasswordModal.scss';
 import './OlzSignUpModal/OlzSignUpModal.scss';

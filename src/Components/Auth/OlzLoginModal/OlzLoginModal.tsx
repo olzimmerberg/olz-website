@@ -224,7 +224,7 @@ window.addEventListener('load', () => {
     const openLoginDialogIfHash = () => {
         if (
             window.location.hash === '#login-dialog'
-            && !document.getElementById('login-modal')
+            && document.getElementById('login-modal')?.style.display !== 'block'
         ) {
             initOlzLoginModal({});
         }

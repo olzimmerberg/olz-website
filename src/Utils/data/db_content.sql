@@ -317,7 +317,8 @@ VALUES
     ('47', 'hallentrainings', NULL, 'Hallentraining', '', '', '9', '1', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
     ('48', 'lauftrainings', NULL, 'Lauftraining', '', '', '9', '2', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
     ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
-    ('50', 'gold-athleten', NULL, 'Athleten', '', '', '44', '1', NULL, '0', '', 'kaderblog', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06');
+    ('50', 'gold-athleten', NULL, 'Athleten', '', '', '44', '1', NULL, '0', '', 'kaderblog', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
+    ('51', 'fan-olz-elite', NULL, 'Fan OLZ Elite', '', '', '8', '3', '4', '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-20 20:52:06', '2024-03-20 20:52:06');
 
 -- Table solv_events
 INSERT INTO solv_events

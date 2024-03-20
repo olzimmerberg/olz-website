@@ -2,7 +2,7 @@
 
 namespace Olz\Repository\Anmelden;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class RegistrationInfoRepository extends EntityRepository {
+class RegistrationInfoRepository extends OlzRepository {
 }

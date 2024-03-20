@@ -2,10 +2,10 @@
 
 namespace Olz\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 use Olz\Utils\DbUtils;
 
-class SolvEventRepository extends EntityRepository {
+class SolvEventRepository extends OlzRepository {
     public function getSolvEventsForYear($year) {
         $sane_year = intval($year);
         $sane_next_year = $sane_year + 1;

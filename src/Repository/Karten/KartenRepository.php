@@ -2,7 +2,7 @@
 
 namespace Olz\Repository\Karten;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class KartenRepository extends EntityRepository {
+class KartenRepository extends OlzRepository {
 }

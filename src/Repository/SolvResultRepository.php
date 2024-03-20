@@ -2,10 +2,10 @@
 
 namespace Olz\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 use Olz\Utils\DbUtils;
 
-class SolvResultRepository extends EntityRepository {
+class SolvResultRepository extends OlzRepository {
     public function getUnassignedSolvResults() {
         $dql = "SELECT sr FROM Olz:SolvResult sr WHERE sr.person = '0'";
         $query = $this->getEntityManager()->createQuery($dql);

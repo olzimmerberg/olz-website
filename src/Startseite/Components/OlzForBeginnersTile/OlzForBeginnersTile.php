@@ -6,7 +6,9 @@
 
 namespace Olz\Startseite\Components\OlzForBeginnersTile;
 
+use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
+use Olz\Repository\Roles\PredefinedRole;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzForBeginnersTile extends AbstractOlzTile {
@@ -16,6 +18,8 @@ class OlzForBeginnersTile extends AbstractOlzTile {
 
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $fan_role = $role_repo->getPredefinedRole(PredefinedRole::FanOlzElite);
 
         $out = "<h2>Neu hier?</h2>";
         $out .= "<div>Willkommen bei <b>OL Zimmerberg</b>. Wir sind der <b>Orientierungslauf (OL) Sportverein</b> für die Region rund um den Zimmerberg am linken Zürichseeufer und im Sihltal.</div>";
@@ -23,6 +27,7 @@ class OlzForBeginnersTile extends AbstractOlzTile {
         $out .= "<li><a href='{$code_href}fuer_einsteiger?von=startseite' class='linkint'>Für Einsteiger</a></li>";
         $out .= "<li><a href='{$code_href}fragen_und_antworten' class='linkint'>Häufige Fragen (FAQ)</a></li>";
         $out .= "<li><a href='{$code_href}verein' class='linkint'>Unser Verein</a></li>";
+        $out .= $fan_role ? "<li><a href='{$code_href}verein/{$fan_role->getUsername()}' class='linkint'>Fan OLZ Elite</a></li>" : '';
         $out .= "</ul>";
         return $out;
     }

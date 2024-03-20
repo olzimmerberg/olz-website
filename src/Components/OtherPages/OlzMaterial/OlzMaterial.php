@@ -7,6 +7,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
+use Olz\Repository\Roles\PredefinedRole;
 use Olz\Utils\DbUtils;
 
 class OlzMaterial extends OlzComponent {
@@ -102,7 +103,7 @@ class OlzMaterial extends OlzComponent {
 
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
-        $sportident_role = $role_repo->findOneBy(['username' => 'sportident']);
+        $sportident_role = $role_repo->getPredefinedRole(PredefinedRole::SportIdent);
 
         $sportident_assignees = $sportident_role->getUsers();
         foreach ($sportident_assignees as $sportident_assignee) {

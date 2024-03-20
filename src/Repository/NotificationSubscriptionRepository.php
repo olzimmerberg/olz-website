@@ -2,7 +2,7 @@
 
 namespace Olz\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class NotificationSubscriptionRepository extends EntityRepository {
+class NotificationSubscriptionRepository extends OlzRepository {
 }

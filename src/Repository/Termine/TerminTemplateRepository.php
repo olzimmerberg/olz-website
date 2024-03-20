@@ -2,7 +2,7 @@
 
 namespace Olz\Repository\Termine;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class TerminTemplateRepository extends EntityRepository {
+class TerminTemplateRepository extends OlzRepository {
 }

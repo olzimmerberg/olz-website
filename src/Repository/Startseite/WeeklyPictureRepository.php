@@ -2,9 +2,9 @@
 
 namespace Olz\Repository\Startseite;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class WeeklyPictureRepository extends EntityRepository {
+class WeeklyPictureRepository extends OlzRepository {
     public function getLatestThree() {
         $dql = "
             SELECT wp

@@ -2,7 +2,7 @@
 
 namespace Olz\Repository\Panini2024;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class Panini2024PictureRepository extends EntityRepository {
+class Panini2024PictureRepository extends OlzRepository {
 }

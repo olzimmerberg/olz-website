@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests;
+namespace Olz\Tests\IntegrationTests;
 
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
@@ -10,18 +10,19 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\Parser\MarkdownParser;
-use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
 /**
  * @internal
  *
  * @coversNothing
  */
-final class MarkdownTest extends UnitTestCase {
+final class MarkdownTest extends IntegrationTestCase {
     public function testMarkdown(): void {
         // Just in order to test that this *would* work.
         file_put_contents(__DIR__.'/dummy.md', '# Dummy file');
 
+        shell_exec('git fetch origin main:main');
         $output = implode("\n", [
             shell_exec('git diff --name-only main'), // only tracked files
             shell_exec('git ls-files --others --exclude-standard'), // added files

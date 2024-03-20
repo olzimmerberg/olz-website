@@ -2,9 +2,9 @@
 
 namespace Olz\Repository\Quiz;
 
-use Doctrine\ORM\EntityRepository;
+use Olz\Repository\Common\OlzRepository;
 
-class SkillRepository extends EntityRepository {
+class SkillRepository extends OlzRepository {
     public const ITERATION_LIMIT = 1000;
 
     public function getSkillsInCategories($category_ids) {

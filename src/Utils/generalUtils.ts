@@ -1,3 +1,5 @@
+import {OlzMetaData} from '../Api/client/generated_olz_api_types';
+
 export function assert<T>(value: T|null|undefined): T {
     if (value === null || value === undefined) {
         throw new Error('Non-null/undefined assertion failed');
@@ -36,4 +38,10 @@ export function loadScript(src: string): Promise<void> {
         script.src = src;
         document.head.append(script);
     });
+}
+
+export interface Entity<DataType> {
+    id: number;
+    meta: OlzMetaData;
+    data: DataType;
 }

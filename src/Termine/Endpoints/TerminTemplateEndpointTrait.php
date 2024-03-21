@@ -27,6 +27,7 @@ trait TerminTemplateEndpointTrait {
                 'deadlineEarlierSeconds' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'deadlineTime' => new FieldTypes\TimeField(['allow_null' => true]),
                 'newsletter' => new FieldTypes\BooleanField(['allow_null' => false]),
+                // TODO: Migrate to labels
                 'types' => new FieldTypes\ArrayField([
                     'item_field' => new FieldTypes\StringField([]),
                 ]),

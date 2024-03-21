@@ -30,6 +30,7 @@ trait TerminEndpointTrait {
                 'newsletter' => new FieldTypes\BooleanField([]),
                 'solvId' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'go2olId' => new FieldTypes\StringField(['allow_null' => true]),
+                // TODO: Migrate to labels
                 'types' => new FieldTypes\ArrayField([
                     'item_field' => new FieldTypes\StringField([]),
                 ]),

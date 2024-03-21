@@ -65,6 +65,7 @@ class OlzApi extends Api {
         \Olz\Termine\Endpoints\UpdateTerminEndpoint $updateTerminEndpoint,
         \Olz\Termine\Endpoints\DeleteTerminEndpoint $deleteTerminEndpoint,
         \Olz\Termine\Endpoints\CreateTerminLabelEndpoint $createTerminLabelEndpoint,
+        \Olz\Termine\Endpoints\ListTerminLabelsEndpoint $listTerminLabelsEndpoint,
         \Olz\Termine\Endpoints\GetTerminLabelEndpoint $getTerminLabelEndpoint,
         \Olz\Termine\Endpoints\EditTerminLabelEndpoint $editTerminLabelEndpoint,
         \Olz\Termine\Endpoints\UpdateTerminLabelEndpoint $updateTerminLabelEndpoint,
@@ -159,6 +160,7 @@ class OlzApi extends Api {
         // Termin Label
 
         $this->registerEndpoint('createTerminLabel', $createTerminLabelEndpoint);
+        $this->registerEndpoint('listTerminLabels', $listTerminLabelsEndpoint);
         $this->registerEndpoint('getTerminLabel', $getTerminLabelEndpoint);
         $this->registerEndpoint('editTerminLabel', $editTerminLabelEndpoint);
         $this->registerEndpoint('updateTerminLabel', $updateTerminLabelEndpoint);
@@ -251,6 +253,7 @@ class OlzApi extends Api {
             new \Olz\Termine\Endpoints\UpdateTerminEndpoint(),
             new \Olz\Termine\Endpoints\DeleteTerminEndpoint(),
             new \Olz\Termine\Endpoints\CreateTerminLabelEndpoint(),
+            new \Olz\Termine\Endpoints\ListTerminLabelsEndpoint(),
             new \Olz\Termine\Endpoints\GetTerminLabelEndpoint(),
             new \Olz\Termine\Endpoints\EditTerminLabelEndpoint(),
             new \Olz\Termine\Endpoints\UpdateTerminLabelEndpoint(),

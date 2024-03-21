@@ -78,4 +78,9 @@ trait TerminLabelEndpointTrait {
         }
         return $entity;
     }
+
+    protected function listEntities(): array {
+        $repo = $this->entityManager()->getRepository(TerminLabel::class);
+        return $repo->findBy([], ['position' => 'ASC']);
+    }
 }

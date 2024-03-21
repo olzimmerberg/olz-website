@@ -398,6 +398,7 @@ export type OlzApiEndpoint =
     'updateTermin'|
     'deleteTermin'|
     'createTerminLabel'|
+    'listTerminLabels'|
     'getTerminLabel'|
     'editTerminLabel'|
     'updateTerminLabel'|
@@ -679,6 +680,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'meta': OlzMetaData,
             'data': OlzTerminLabelData,
         },
+    listTerminLabels: Record<string, never>,
     getTerminLabel: {
             'id': number,
         },
@@ -1031,6 +1033,13 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     createTerminLabel: {
             'status': 'OK'|'ERROR',
             'id': number|null,
+        },
+    listTerminLabels: {
+            'items': Array<{
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzTerminLabelData,
+        }>,
         },
     getTerminLabel: {
             'id': number,

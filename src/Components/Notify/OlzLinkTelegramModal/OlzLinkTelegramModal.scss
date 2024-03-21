@@ -1,11 +1,15 @@
 #link-telegram-modal {
+    .telegram-circle-container {
+        text-align: center;
+    }
+
     .telegram-circle {
         align-items: center;
         background-color: rgb(43, 162, 213);
         border-color: rgb(43, 162, 213);
         border-radius: 25px;
         color: rgb(255, 255, 255);
-        display: flex;
+        display: inline-flex;
         height: 50px;
         justify-content: center;
         width: 50px;

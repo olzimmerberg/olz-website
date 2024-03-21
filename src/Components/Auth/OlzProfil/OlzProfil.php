@@ -92,8 +92,7 @@ class OlzProfil extends OlzComponent {
                 <a
                     href='#'
                     role='button'
-                    data-bs-toggle='modal'
-                    data-bs-target='#link-telegram-modal'
+                    onclick='olz.initOlzLinkTelegramModal()'
                     class='login-button telegram-button{$telegram_button_class}'
                 >
                     <img src='{$code_href}assets/icns/login_telegram.svg' alt=''>

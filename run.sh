@@ -8,7 +8,7 @@ WEBPACK_WATCH_PID=$!
 echo "Webpack Watch PID: $WEBPACK_WATCH_PID"
 
 # Start Telegram webhook simulator
-php ./tools/notify/telegram_webhook_simulator.php 127.0.0.1:30270 &
+APP_ENV=dev php ./tools/notify/telegram_webhook_simulator.php 127.0.0.1:30270 &
 TELEGRAM_WEBHOOK_SIMULATOR_PID=$!
 echo "Telegram Webhook Simulator PID: $TELEGRAM_WEBHOOK_SIMULATOR_PID"
 

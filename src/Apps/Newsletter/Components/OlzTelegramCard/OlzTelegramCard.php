@@ -29,8 +29,7 @@ class OlzTelegramCard extends OlzComponent {
                         <a 
                             href="#"
                             role="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#link-telegram-modal"
+                            onclick="olz.initOlzLinkTelegramModal()"
                             class="btn btn-light btn-sm"
                         >
                             Aktivieren

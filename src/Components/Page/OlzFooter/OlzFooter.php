@@ -4,7 +4,6 @@ namespace Olz\Components\Page\OlzFooter;
 
 use Olz\Components\Auth\OlzVerifyUserEmailModal\OlzVerifyUserEmailModal;
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Notify\OlzLinkTelegramModal\OlzLinkTelegramModal;
 
 class OlzFooter extends OlzComponent {
     public function getHtml($args = []): string {
@@ -26,7 +25,6 @@ class OlzFooter extends OlzComponent {
 
         // "Legacy" component modals
         if (!($args['skip_modals'] ?? false)) {
-            $out .= OlzLinkTelegramModal::render([], $this);
             $out .= OlzVerifyUserEmailModal::render([], $this);
         }
 

@@ -48,8 +48,7 @@ class OlzProfil extends OlzComponent {
                         Deine E-Mail-Adresse ist noch nicht bestätigt. Bitte prüfe deine Inbox (und dein Spam-Postfach) auf unsere Bestätigungs-E-Mail (Betreff: "[OLZ] E-Mail bestätigen").
                         <a
                             href='#'
-                            data-bs-toggle='modal'
-                            data-bs-target='#verify-user-email-modal'
+                            onclick='olz.initOlzVerifyUserEmailModal()'
                             id='verify-user-email-link'
                         >
                             Erneut senden
@@ -62,8 +61,7 @@ class OlzProfil extends OlzComponent {
                         Deine E-Mail-Adresse ist noch nicht bestätigt.
                         <a
                             href='#'
-                            data-bs-toggle='modal'
-                            data-bs-target='#verify-user-email-modal'
+                            onclick='olz.initOlzVerifyUserEmailModal()'
                             id='verify-user-email-link'
                         >
                             Jetzt bestätigen

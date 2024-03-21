@@ -1,7 +1,6 @@
 import './OlzAccountMenu/OlzAccountMenu.scss';
 import './OlzProfileForm/OlzProfileForm.scss';
 import './OlzUpdateUserAvatarModal/OlzUpdateUserAvatarModal.scss';
-import './OlzVerifyUserEmailModal/OlzVerifyUserEmailModal.scss';
 
 export * from './OlzAccountMenu/OlzAccountMenu';
 export * from './OlzChangePasswordModal/OlzChangePasswordModal';

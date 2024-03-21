@@ -71,7 +71,7 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
         }
         setSuccessMessage('E-Mail versendet. Bitte warten...');
         setErrorMessage('');
-        // TODO: This could probably be done more smoothly!
+        // This removes Google's injected reCaptcha script again
         window.location.reload();
     };
 
@@ -103,7 +103,8 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
                         </div>
                         <div className='modal-body'>
                             <div className='mb-3 instructions'>
-                                Wir schicken dir ein E-Mail mit dem Betreff "[OLZ] Passwort zurücksetzen". Es enthält ein Passwort und einen Link, mit dem du dieses dann als dein neues Passwort setzen kannst.
+                                Wir schicken dir ein E-Mail mit dem Betreff "[OLZ] Passwort zurücksetzen".
+                                Es enthält ein Passwort und einen Link, mit dem du dieses dann als dein neues Passwort setzen kannst.
                             </div>
                             <div className='mb-3'>
                                 <OlzTextField
@@ -133,7 +134,7 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
                                 Ich akzeptiere, dass beim Zurücksetzen des Passworts einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.
                                 &nbsp;
                                 <a
-                                    href='{$code_href}datenschutz'
+                                    href={`${codeHref}datenschutz`}
                                     target='_blank'
                                 >
                                     Weitere Informationen zum Datenschutz

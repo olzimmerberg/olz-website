@@ -14,3 +14,12 @@
         margin-bottom: 0;
     }
 }
+
+.alert {
+    &.success-message.alert-success,
+    &.error-message.alert-danger {
+        &:empty {
+            display: none;
+        }
+    }
+}

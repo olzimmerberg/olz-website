@@ -2,7 +2,6 @@
 
 namespace Olz\Components\Page\OlzFooter;
 
-use Olz\Components\Auth\OlzVerifyUserEmailModal\OlzVerifyUserEmailModal;
 use Olz\Components\Common\OlzComponent;
 
 class OlzFooter extends OlzComponent {
@@ -22,11 +21,6 @@ class OlzFooter extends OlzComponent {
         $out .= "</div>"; // footer
 
         $out .= "</div>"; // site-container
-
-        // "Legacy" component modals
-        if (!($args['skip_modals'] ?? false)) {
-            $out .= OlzVerifyUserEmailModal::render([], $this);
-        }
 
         // React modals
 

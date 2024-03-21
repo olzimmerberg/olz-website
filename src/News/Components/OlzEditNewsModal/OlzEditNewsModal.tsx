@@ -331,7 +331,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
 
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
         setErrorMessage('');
-        // TODO: This could probably be done more smoothly!
+        // This removes Google's injected reCaptcha script again
         window.location.reload();
     };
 

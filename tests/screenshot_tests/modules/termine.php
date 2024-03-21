@@ -84,11 +84,11 @@ function test_create_termin_new($driver, $base_url) {
     );
     sendKeys($go2ol_id_input, '2014nat6');
     $types_programm_input = $driver->findElement(
-        WebDriverBy::cssSelector('#hasTypeProgramm-input')
+        WebDriverBy::cssSelector('#types-programm-input')
     );
     click($types_programm_input);
     $types_ol_input = $driver->findElement(
-        WebDriverBy::cssSelector('#hasTypeOl-input')
+        WebDriverBy::cssSelector('#types-ol-input')
     );
     click($types_ol_input);
     $coordinate_x_input = $driver->findElement(
@@ -244,11 +244,11 @@ function test_create_termin_template_new($driver, $base_url) {
     );
     click($has_newsletter_input);
     $types_programm_input = $driver->findElement(
-        WebDriverBy::cssSelector('#hasTypeProgramm-input')
+        WebDriverBy::cssSelector('#types-programm-input')
     );
     click($types_programm_input);
     $types_ol_input = $driver->findElement(
-        WebDriverBy::cssSelector('#hasTypeOl-input')
+        WebDriverBy::cssSelector('#types-ol-input')
     );
     click($types_ol_input);
     $location_dropdown_button = $driver->findElement(

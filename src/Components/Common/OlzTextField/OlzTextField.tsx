@@ -5,7 +5,7 @@ type OlzTextFieldMode = 'text-input'|'password-input'|'textarea';
 
 interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values>> {
     mode?: OlzTextFieldMode;
-    title?: string;
+    title?: React.ReactNode;
     name: Name;
     options?: RegisterOptions<Values, Name>;
     errors?: FieldErrors<Values>;

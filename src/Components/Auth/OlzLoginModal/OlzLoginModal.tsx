@@ -7,6 +7,7 @@ import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField
 import {codeHref, user} from '../../../Utils/constants';
 import {getApiBoolean, getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
 import {initReact} from '../../../Utils/reactUtils';
+import {initOlzResetPasswordModal} from '../OlzResetPasswordModal/OlzResetPasswordModal';
 
 import './OlzLoginModal.scss';
 
@@ -166,8 +167,7 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
                                     id='reset-password-link'
                                     href='#'
                                     data-bs-dismiss='modal'
-                                    data-bs-toggle='modal'
-                                    data-bs-target='#reset-password-modal'
+                                    onClick={() => initOlzResetPasswordModal()}
                                 >
                                     Passwort vergessen?
                                 </a>

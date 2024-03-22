@@ -30,6 +30,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $out .= $this->renderAllUpcomingList();
         $out .= $this->renderProgramList();
         $out .= $this->renderWeekendsList();
+        $out .= $this->renderTrophyList();
         $out .= $this->renderUpcomingTrainingsList();
         $out .= "</ul>";
 
@@ -109,6 +110,25 @@ class OlzTermineListsTile extends AbstractOlzTile {
         return <<<ZZZZZZZZZZ
         <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
             {$icon_img} <b>Bevorstehende Weekends</b><span class='secondary'>({$num_imminent})</span>
+        </a></li>
+        ZZZZZZZZZZ;
+    }
+
+    protected function renderTrophyList() {
+        $code_href = $this->envUtils()->getCodeHref();
+        $icon = "{$code_href}assets/icns/termine_type_trophy_20.svg";
+        $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
+        $this_year = $this->this_year;
+        $this_year_filter = [
+            ...$this->termine_utils->getDefaultFilter(),
+            'typ' => 'trophy',
+            'datum' => strval($this_year),
+        ];
+        $num_this_year = $this->getNumberOfEntries($this_year_filter);
+        $enc_json_filter = urlencode(json_encode($this_year_filter));
+        return <<<ZZZZZZZZZZ
+        <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
+            {$icon_img} <b>OLZ Trophy {$this_year}</b><span class='secondary'>({$num_this_year})</span>
         </a></li>
         ZZZZZZZZZZ;
     }

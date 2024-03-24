@@ -20,7 +20,7 @@ class OlzOrganigramm extends OlzComponent {
 
         $colwid = 111;
         $root_roles = $role_repo->getRolesWithParent(null);
-        $out .= "<div style='width:100%; overflow-x:scroll;'><table style='table-layout:fixed; width:".($colwid * count($root_roles))."px;'>";
+        $out .= "<div id='organigramm-scroll' style='width:100%; overflow-x:scroll;'><table style='table-layout:fixed; width:".($colwid * count($root_roles))."px;'>";
         foreach ($root_roles as $root_role) {
             $root_role_name = nl2br($root_role->getName());
             $root_role_username = $root_role->getUsername();

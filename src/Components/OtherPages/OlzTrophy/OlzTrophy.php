@@ -70,9 +70,24 @@ class OlzTrophy extends OlzComponent {
             ],
         ];
 
-        $out .= "<div class='content-full'>
+        $filter = [
+            'typ' => 'trophy',
+            'datum' => $this->dateUtils()->getCurrentDateInFormat('Y'),
+            'archiv' => 'ohne',
+        ];
+        $enc_json_filter = urlencode(json_encode($filter));
+        $out .= <<<ZZZZZZZZZZ
+        <div class='content-full'>
+        <div class='alert alert-danger'>
+            <b>Diese Seite wird bald gelöscht.</b>
+            Bitte <a href='/termine?filter={$enc_json_filter}' class='linkint'>Termine-Filter "OLZ-Trophy"</a> verwenden.
+            Fehler oder Probleme bitte <script type='text/javascript'>
+                olz.MailTo("website", "olzimmerberg.ch", "hier", "Fehler%20OLZ%20Trophy");
+            </script> melden.
+        </div>
         <form name='Formularl' method='post' action='{$code_href}trophy' enctype='multipart/form-data'>
-        <div>";
+        <div>
+        ZZZZZZZZZZ;
 
         $out .= <<<'ZZZZZZZZZZ'
         <style>

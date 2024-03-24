@@ -13,7 +13,8 @@
     width: auto;
     padding: 0 10px 10px;
 
-    &.optional {
+    &.optional,
+    .optional {
         display: none;
     }
 }
@@ -35,7 +36,8 @@
         width: 300px;
         padding: 0;
 
-        &.optional {
+        &.optional,
+        .optional {
             display: block;
         }
     }

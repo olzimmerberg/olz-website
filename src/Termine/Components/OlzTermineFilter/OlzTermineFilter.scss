@@ -1,10 +1,32 @@
-.type-filter {
-    white-space: nowrap;
+.olz-termine-filter {
+    padding: 4px 3px 10px 3px;
+
+    .type-filter {
+        display: inline;
+        white-space: nowrap;
+    }
+
+    .type-filter-icon {
+        display: inline-block;
+        border: 0;
+        height: 16px;
+        margin: -2px 2px -1px 0;
+    }
 }
 
-.type-filter-icon {
-    display: inline-block;
-    border: 0;
-    height: 16px;
-    margin: -2px 2px -1px 0;
+@media screen and (min-width: 832px) {
+    .olz-termine-filter {
+        .type-filter {
+            display: block;
+            padding: 2px 10px;
+        }
+
+        .type-filter-icon {
+            margin: -2px 5px -1px 0;
+        }
+
+        .separator {
+            display: none;
+        }
+    }
 }

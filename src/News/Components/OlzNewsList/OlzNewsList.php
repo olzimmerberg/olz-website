@@ -25,7 +25,7 @@ class OlzNewsList extends OlzComponent {
         $entityManager = $this->dbUtils()->getEntityManager();
 
         $news_utils = NewsFilterUtils::fromEnv();
-        $current_filter = json_decode($_GET['filter'] ?? '{}', true);
+        $current_filter = json_decode($this->getParams()['filter'] ?? '{}', true);
 
         if (!$news_utils->isValidFilter($current_filter)) {
             $enc_json_filter = urlencode(json_encode($news_utils->getDefaultFilter()));
@@ -35,7 +35,7 @@ class OlzNewsList extends OlzComponent {
         $is_not_archived = $news_utils->isFilterNotArchived($current_filter);
         $allow_robots = $is_not_archived;
 
-        $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+        $host = str_replace('www.', '', $this->server()['HTTP_HOST']);
         $code_href = $this->envUtils()->getCodeHref();
         $enc_json_filter = urlencode(json_encode($current_filter));
         $canonical_url = "https://{$host}{$code_href}news?filter={$enc_json_filter}";
@@ -48,7 +48,7 @@ class OlzNewsList extends OlzComponent {
         ]);
 
         $out .= "<div class='content-right'>";
-        $out .= "<h2>Filter</h2>";
+        $out .= "<h2 class='optional'>Filter</h2>";
         $out .= OlzNewsFilter::render([]);
         $out .= "</div>";
         $out .= "<div class='content-middle'>";

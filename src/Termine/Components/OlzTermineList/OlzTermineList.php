@@ -7,12 +7,12 @@
 namespace Olz\Termine\Components\OlzTermineList;
 
 use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
-use Olz\Termine\Components\OlzTermineSidebar\OlzTermineSidebar;
 use Olz\Termine\Utils\TermineFilterUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
@@ -45,15 +45,43 @@ class OlzTermineList extends OlzComponent {
             'norobots' => !$allow_robots,
         ]);
 
-        $sidebar = OlzTermineSidebar::render();
+        $admin_menu_out = '';
+        $has_termine_permissions = $this->authUtils()->hasPermission('termine');
+        if ($has_termine_permissions) {
+            $admin_menu_out = <<<ZZZZZZZZZZ
+            <div class='termine-list-admin-menu'>
+                <span class='entry'>
+                    <a href='{$code_href}termine/orte' class='linkmap'>
+                        Termin-Orte
+                    </a>
+                </span>
+                <span class='entry'>
+                    <a href='{$code_href}termine/vorlagen' class='linkint'>
+                        Termin-Vorlagen
+                    </a>
+                </span>
+            </div>
+            ZZZZZZZZZZ;
+        }
+        $filter_out = OlzTermineFilter::render();
+        $downloads_links_out = OlzEditableText::render(['olz_text_id' => 2]);
+        $newsletter_out = OlzEditableText::render(['olz_text_id' => 3]);
         $out .= <<<ZZZZZZZZZZ
-        <div class='content-right optional'>
-            <div>{$sidebar}</div>
+        <div class='content-right'>
+            {$admin_menu_out}
+            <h2 class='optional'>Filter</h2>
+            {$filter_out}
+            <div class='optional'>
+                <h2>Downloads und Links</h2>
+                {$downloads_links_out}
+            </div>
+            <div class='optional'>
+                <h2>Newsletter</h2>
+                {$newsletter_out}
+            </div>
         </div>
         <div class='content-middle'>
         ZZZZZZZZZZ;
-
-        $out .= OlzTermineFilter::render();
 
         $has_access = $this->authUtils()->hasPermission('termine');
         if ($has_access) {

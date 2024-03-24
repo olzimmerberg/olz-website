@@ -3,17 +3,20 @@ export function highlightOrganigramm(id: string): void {
 }
 
 export function highlightOrganigrammScroll(id: string): void {
+    const scrollElem = document.getElementById('organigramm-scroll');
     let elem = document.getElementById(id);
     if (elem && /box\\-[0-9]+\\-[0-9]+/.exec(elem.parentElement?.id ?? '')) {
         elem = elem.parentElement;
     }
-    if (!elem) {
+    if (!elem || !scrollElem) {
         return;
     }
     elem.style.backgroundColor = 'rgba(0,0,0,0)';
     const rect = elem.getBoundingClientRect();
     const optimalPageYOffset = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2;
     window.scrollTo({top: optimalPageYOffset, behavior: 'smooth'});
+    const optimalPageXOffset = scrollElem.scrollLeft + rect.left + rect.width / 2 - scrollElem.offsetWidth / 2;
+    scrollElem.scrollTo({left: optimalPageXOffset, behavior: 'smooth'});
     window.setTimeout(() => {
         highlightOrganigrammColor(id);
     }, 200);

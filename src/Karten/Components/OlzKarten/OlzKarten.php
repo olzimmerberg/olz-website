@@ -92,7 +92,7 @@ class OlzKarten extends OlzComponent {
         <tr><td></td><td>A3</td><td>4.00</td><td>2.50</td></tr>
         <tr><td>Schulhauskarte</td><td>A4</td><td>1.50</td><td>1.00</td></tr>
         </table><p>(Kartenpreise gültig ab 1.1.2019)</p></div>";
-        $out .= OlzEditableText::render(['olz_text_id' => 12]);
+        $out .= OlzEditableText::render(['snippet_id' => 12]);
 
         $out .= "</div>";
 

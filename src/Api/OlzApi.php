@@ -28,7 +28,6 @@ class OlzApi extends Api {
         Endpoints\ExecuteEmailReactionEndpoint $executeEmailReactionEndpoint,
         Endpoints\LinkTelegramEndpoint $linkTelegramEndpoint,
         Endpoints\OnTelegramEndpoint $onTelegramEndpoint,
-        Endpoints\UpdateOlzTextEndpoint $updateOlzTextEndpoint,
         Endpoints\StartUploadEndpoint $startUploadEndpoint,
         Endpoints\UpdateUploadEndpoint $updateUploadEndpoint,
         Endpoints\FinishUploadEndpoint $finishUploadEndpoint,
@@ -48,6 +47,9 @@ class OlzApi extends Api {
         \Olz\Roles\Endpoints\EditRoleEndpoint $editRoleEndpoint,
         \Olz\Roles\Endpoints\UpdateRoleEndpoint $updateRoleEndpoint,
         \Olz\Roles\Endpoints\DeleteRoleEndpoint $deleteRoleEndpoint,
+        \Olz\Snippets\Endpoints\GetSnippetEndpoint $getSnippetEndpoint,
+        \Olz\Snippets\Endpoints\EditSnippetEndpoint $editSnippetEndpoint,
+        \Olz\Snippets\Endpoints\UpdateSnippetEndpoint $updateSnippetEndpoint,
         \Olz\Service\Endpoints\CreateDownloadEndpoint $createDownloadEndpoint,
         \Olz\Service\Endpoints\GetDownloadEndpoint $getDownloadEndpoint,
         \Olz\Service\Endpoints\EditDownloadEndpoint $editDownloadEndpoint,
@@ -99,7 +101,6 @@ class OlzApi extends Api {
         $this->registerEndpoint('executeEmailReaction', $executeEmailReactionEndpoint);
         $this->registerEndpoint('linkTelegram', $linkTelegramEndpoint);
         $this->registerEndpoint('onTelegram', $onTelegramEndpoint);
-        $this->registerEndpoint('updateOlzText', $updateOlzTextEndpoint);
         $this->registerEndpoint('startUpload', $startUploadEndpoint);
         $this->registerEndpoint('updateUpload', $updateUploadEndpoint);
         $this->registerEndpoint('finishUpload', $finishUploadEndpoint);
@@ -144,6 +145,12 @@ class OlzApi extends Api {
         $this->registerEndpoint('editRole', $editRoleEndpoint);
         $this->registerEndpoint('updateRole', $updateRoleEndpoint);
         $this->registerEndpoint('deleteRole', $deleteRoleEndpoint);
+
+        // Snippets
+
+        $this->registerEndpoint('getSnippet', $getSnippetEndpoint);
+        $this->registerEndpoint('editSnippet', $editSnippetEndpoint);
+        $this->registerEndpoint('updateSnippet', $updateSnippetEndpoint);
 
         // Startseite
 
@@ -216,7 +223,6 @@ class OlzApi extends Api {
             new Endpoints\ExecuteEmailReactionEndpoint(),
             new Endpoints\LinkTelegramEndpoint(),
             new Endpoints\OnTelegramEndpoint(),
-            new Endpoints\UpdateOlzTextEndpoint(),
             new Endpoints\StartUploadEndpoint(),
             new Endpoints\UpdateUploadEndpoint(),
             new Endpoints\FinishUploadEndpoint(),
@@ -236,6 +242,9 @@ class OlzApi extends Api {
             new \Olz\Roles\Endpoints\EditRoleEndpoint(),
             new \Olz\Roles\Endpoints\UpdateRoleEndpoint(),
             new \Olz\Roles\Endpoints\DeleteRoleEndpoint(),
+            new \Olz\Snippets\Endpoints\GetSnippetEndpoint(),
+            new \Olz\Snippets\Endpoints\EditSnippetEndpoint(),
+            new \Olz\Snippets\Endpoints\UpdateSnippetEndpoint(),
             new \Olz\Service\Endpoints\CreateDownloadEndpoint(),
             new \Olz\Service\Endpoints\GetDownloadEndpoint(),
             new \Olz\Service\Endpoints\EditDownloadEndpoint(),

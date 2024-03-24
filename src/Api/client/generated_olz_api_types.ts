@@ -148,6 +148,18 @@ export type OlzRoleDataOrNull = {
     'canHaveChildRoles': boolean,
 }|null;
 
+export type OlzSnippetData = {
+    'text': string,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
+};
+
+export type OlzSnippetDataOrNull = {
+    'text': string,
+    'imageIds': Array<string>,
+    'fileIds': Array<string>,
+}|null;
+
 export type OlzWeeklyPictureData = {
     'text': string,
     'imageId': string,
@@ -361,7 +373,6 @@ export type OlzApiEndpoint =
     'executeEmailReaction'|
     'linkTelegram'|
     'onTelegram'|
-    'updateOlzText'|
     'startUpload'|
     'updateUpload'|
     'finishUpload'|
@@ -391,6 +402,9 @@ export type OlzApiEndpoint =
     'editRole'|
     'updateRole'|
     'deleteRole'|
+    'getSnippet'|
+    'editSnippet'|
+    'updateSnippet'|
     'createWeeklyPicture'|
     'createTermin'|
     'getTermin'|
@@ -540,10 +554,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'authenticityCode': string,
             'telegramEvent': string,
         },
-    updateOlzText: {
-            'id': number,
-            'text': string,
-        },
     startUpload: {
             'suffix': string|null,
         },
@@ -653,6 +663,17 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         },
     deleteRole: {
             'id': number,
+        },
+    getSnippet: {
+            'id': number,
+        },
+    editSnippet: {
+            'id': number,
+        },
+    updateSnippet: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzSnippetDataOrNull,
         },
     createWeeklyPicture: {
             'meta': OlzMetaData,
@@ -884,9 +905,6 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'pin': string,
         },
     onTelegram: Record<string, never>|null,
-    updateOlzText: {
-            'status': 'OK'|'ERROR',
-        },
     startUpload: {
             'status': 'OK'|'ERROR',
             'id': string|null,
@@ -1004,6 +1022,20 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     deleteRole: {
             'status': 'OK'|'ERROR',
+        },
+    getSnippet: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzSnippetData,
+        },
+    editSnippet: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzSnippetData,
+        },
+    updateSnippet: {
+            'status': 'OK'|'ERROR',
+            'id': number,
         },
     createWeeklyPicture: {
             'status': 'OK'|'ERROR',

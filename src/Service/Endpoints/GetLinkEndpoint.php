@@ -14,12 +14,12 @@ class GetLinkEndpoint extends OlzGetEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('any');
 
-        $link = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
         return [
-            'id' => $link->getId(),
-            'meta' => $link->getMetaData(),
-            'data' => $this->getEntityData($link),
+            'id' => $entity->getId(),
+            'meta' => $entity->getMetaData(),
+            'data' => $this->getEntityData($entity),
         ];
     }
 }

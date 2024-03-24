@@ -64,8 +64,8 @@ class OlzTermineList extends OlzComponent {
             ZZZZZZZZZZ;
         }
         $filter_out = OlzTermineFilter::render();
-        $downloads_links_out = OlzEditableText::render(['olz_text_id' => 2]);
-        $newsletter_out = OlzEditableText::render(['olz_text_id' => 3]);
+        $downloads_links_out = OlzEditableText::render(['snippet_id' => 2]);
+        $newsletter_out = OlzEditableText::render(['snippet_id' => 3]);
         $out .= <<<ZZZZZZZZZZ
         <div class='content-right'>
             {$admin_menu_out}

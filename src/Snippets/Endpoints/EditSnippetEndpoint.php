@@ -1,23 +1,24 @@
 <?php
 
-namespace Olz\Service\Endpoints;
+namespace Olz\Snippets\Endpoints;
 
 use Olz\Api\OlzEditEntityEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class EditDownloadEndpoint extends OlzEditEntityEndpoint {
-    use DownloadEndpointTrait;
+class EditSnippetEndpoint extends OlzEditEntityEndpoint {
+    use SnippetEndpointTrait;
 
     public static function getIdent() {
-        return 'EditDownloadEndpoint';
+        return 'EditSnippetEndpoint';
     }
 
     protected function handle($input) {
-        $this->checkPermission('any');
+        $id = $input['id'];
+        $this->checkPermission("olz_text_{$id}");
 
-        $entity = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($id);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'downloads')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, "olz_text_{$id}")) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

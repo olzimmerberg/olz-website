@@ -51,7 +51,7 @@ class OlzFuerEinsteiger extends OlzComponent {
         }
         $contact_information .= "</div>";
 
-        $trainings_information = OlzEditableText::render(['olz_text_id' => 1]);
+        $trainings_information = OlzEditableText::render(['snippet_id' => 1]);
 
         $next_three_trainings = OlzTermineTicker::render([
             "eintrag_laenge" => 80,

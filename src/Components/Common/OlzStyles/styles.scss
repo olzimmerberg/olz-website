@@ -84,7 +84,7 @@ ul {
     padding-left: 0;
 }
 
-.olz-editable-text ul,
+.rendered-markdown ul,
 .olz-role-page ul,
 ul.bullet-list {
     list-style-type: disc;
@@ -320,19 +320,6 @@ a {
     }
 }
 
-.bg-green {
-    color: #fff000;
-}
-
-.bg-green a {
-    color: #fff000;
-    text-decoration: none;
-
-    &:hover {
-        color: #fffccc;
-    }
-}
-
 a.text {
     color: #000;
 }
@@ -402,7 +389,10 @@ input.button,
 /* für a, span, div, li */
 .linkblack,
 .linkedit,
+.linkext,
 .linkimg,
+.linkint,
+.linkmail,
 .linkmap,
 .linkmovie,
 .linkneu,
@@ -413,7 +403,10 @@ input.button,
 
 .linkblack,
 .linkedit,
+.linkext,
 .linkimg,
+.linkint,
+.linkmail,
 .linkmap,
 .linkmovie,
 .linkneu,
@@ -437,54 +430,24 @@ input.button,
     background-image: url('../../../../assets/icns/duplicate_16.svg');
 }
 
-.linkext,
-.olz-editable-text a[href^='http://'],
-.olz-editable-text a[href^='https://'] {
+.linkext {
     background-image: url('../../../../assets/icns/link_external_16.svg');
-    background-position: left center;
-    padding: 0 6px 0 16px;
 }
 
 .linkimg {
     background-image: url('../../../../assets/icns/link_slides_16.svg');
 }
 
-.linkint,
-.olz-editable-text a[href^='/'],
-.olz-editable-text a[href^='https://olzimmerberg.ch'] {
+.linkint {
     background-image: url('../../../../assets/icns/link_internal_16.svg');
-    background-position: left center;
-    padding: 0 6px 0 16px;
-}
-
-.bg-green {
-    .linkint,
-    .olz-editable-text a[href^='/'],
-    .olz-editable-text a[href^='https://olzimmerberg.ch'] {
-        background-image: url('../../../../assets/icns/link_internal_yellow_16.svg');
-        background-position: left center;
-        padding: 0 6px 0 16px;
-    }
 }
 
 .linkmap {
     background-image: url('../../../../assets/icns/link_map_16.svg');
 }
 
-.linkmail,
-.olz-editable-text a[href^='mailto:'] {
+.linkmail {
     background-image: url('../../../../assets/icns/link_mail_16.svg');
-    background-position: left center;
-    padding: 0 6px 0 16px;
-}
-
-.bg-green {
-    .linkmail,
-    .olz-editable-text a[href^='mailto:'] {
-        background-image: url('../../../../assets/icns/link_mail_yellow_16.svg');
-        background-position: left center;
-        padding: 0 6px 0 16px;
-    }
 }
 
 .linkmovie {
@@ -505,40 +468,46 @@ input.button,
     padding: 0 6px 0 19px;
 }
 
-.linkpdf,
-.olz-editable-text a[href$='.pdf'],
-.olz-editable-text a[href*='.pdf?'] {
+.linkpdf {
     background-image: url('../../../../assets/icns/link_pdf_16.svg') !important;
     background-position: left center;
     padding: 0 6px 0 19px;
 }
 
-.rendered-markdown a[href^='/files'] {
+.rendered-markdown a {
     background-position: left center;
     padding: 0 6px 0 19px;
-    background-image: url('../../../../assets/icns/link_internal_16.svg') !important;
+    background-image: url('../../../../assets/icns/link_null_16.svg');
+
+    &[href^='/'], &[href^='https://olzimmerberg.ch'], &[href^='https://www.olzimmerberg.ch'] {
+        background-image: url('../../../../assets/icns/link_internal_16.svg');
+    }
+
+    &[href^='http://'], &[href^='https://'] {
+        background-image: url('../../../../assets/icns/link_external_16.svg');
+    }
 
     &[href$='.pdf'], &[href*='.pdf?'] {
-        background-image: url('../../../../assets/icns/link_pdf_16.svg') !important;
+        background-image: url('../../../../assets/icns/link_pdf_16.svg');
     }
 
     &[href$='.doc'], &[href*='.doc?'],
     &[href$='.docx'], &[href*='.docx?'] {
-        background-image: url('../../../../assets/icns/link_doc_16.svg') !important;
+        background-image: url('../../../../assets/icns/link_doc_16.svg');
     }
 
     &[href$='.ppt'], &[href*='.ppt?'],
     &[href$='.pptx'], &[href*='.pptx?'] {
-        background-image: url('../../../../assets/icns/link_ppt_16.svg') !important;
+        background-image: url('../../../../assets/icns/link_ppt_16.svg');
     }
 
     &[href$='.xls'], &[href*='.xls?'],
     &[href$='.xlsx'], &[href*='.xlsx?'] {
-        background-image: url('../../../../assets/icns/link_xls_16.svg') !important;
+        background-image: url('../../../../assets/icns/link_xls_16.svg');
     }
 
     &[href$='.zip'], &[href*='.zip?'] {
-        background-image: url('../../../../assets/icns/link_zip_16.svg') !important;
+        background-image: url('../../../../assets/icns/link_zip_16.svg');
     }
 
     &[href$='.csv'], &[href*='.csv?'],
@@ -546,20 +515,30 @@ input.button,
     &[href$='.txt'], &[href*='.txt?'],
     &[href$='.vcf'], &[href*='.vcf?'],
     &[href$='.xml'], &[href*='.xml?'] {
-        background-image: url('../../../../assets/icns/link_txt_16.svg') !important;
+        background-image: url('../../../../assets/icns/link_txt_16.svg');
     }
 
     &[href$='.html'], &[href*='.html?'],
     &[href$='.htm'], &[href*='.htm?'] {
-        background-image: url('../../../../assets/icns/link_html_16.svg') !important;
+        background-image: url('../../../../assets/icns/link_html_16.svg');
     }
 
     &[href$='.gif'], &[href*='.gif?'],
     &[href$='.jpg'], &[href*='.jpg?'],
     &[href$='.jpeg'], &[href*='.jpeg?'],
     &[href$='.png'], &[href*='.png?'] {
-        background-image: url('../../../../assets/icns/link_image_16.svg') !important;
+        background-image: url('../../../../assets/icns/link_image_16.svg');
     }
+
+    &[href^='mailto:'] {
+        background-image: url('../../../../assets/icns/link_mail_16.svg');
+    }
+}
+
+.rendered-markdown .lightgallery a[href],
+.rendered-markdown a[data-src] {
+    padding: 0;
+    background: none;
 }
 
 /*-----------------Accordion (in "aktuell_r", "galerie_r")-----------------*/

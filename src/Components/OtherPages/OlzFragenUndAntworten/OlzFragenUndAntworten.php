@@ -66,7 +66,7 @@ class OlzFragenUndAntworten extends OlzComponent {
         </div>
         <div style='border:1px solid black; margin:5px; padding:0px;'><h4 class='tablebar'>Übersicht über unsere Trainings</h4>
         ZZZZZZZZZZ;
-        $out .= OlzEditableText::render(['olz_text_id' => 1]);
+        $out .= OlzEditableText::render(['snippet_id' => 1]);
         $out .= <<<ZZZZZZZZZZ
         </div>
         <div>
@@ -155,7 +155,7 @@ class OlzFragenUndAntworten extends OlzComponent {
         <h3 id='forumsregeln'>Welche Regeln gelten für das Forum?</h3>
         <div>
         ZZZZZZZZZZ;
-        $out .= OlzEditableText::render(['olz_text_id' => 4]);
+        $out .= OlzEditableText::render(['snippet_id' => 4]);
         $out .= <<<'ZZZZZZZZZZ'
         </div>
         <br>

@@ -25,7 +25,7 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
             $newsletter_link = <<<ZZZZZZZZZZ
             <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
                 <img
-                    src='{$newsletter_app->getIcon()}'
+                    src='{$newsletter_app->getIconHref()}'
                     alt='newsletter'
                     class='newsletter-link-icon'
                     title='Newsletter abonnieren!'

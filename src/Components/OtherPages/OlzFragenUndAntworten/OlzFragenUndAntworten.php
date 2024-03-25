@@ -3,13 +3,14 @@
 namespace Olz\Components\OtherPages\OlzFragenUndAntworten;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Common\OlzEditableSnippet\OlzEditableSnippet;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Repository\Roles\PredefinedRole;
+use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
 
 class OlzFragenUndAntworten extends OlzComponent {
@@ -66,7 +67,7 @@ class OlzFragenUndAntworten extends OlzComponent {
         </div>
         <div style='border:1px solid black; margin:5px; padding:0px;'><h4 class='tablebar'>Übersicht über unsere Trainings</h4>
         ZZZZZZZZZZ;
-        $out .= OlzEditableText::render(['snippet_id' => 1]);
+        $out .= OlzEditableSnippet::render(['id' => PredefinedSnippet::TrainingTypesInfo]);
         $out .= <<<ZZZZZZZZZZ
         </div>
         <div>
@@ -155,7 +156,7 @@ class OlzFragenUndAntworten extends OlzComponent {
         <h3 id='forumsregeln'>Welche Regeln gelten für das Forum?</h3>
         <div>
         ZZZZZZZZZZ;
-        $out .= OlzEditableText::render(['snippet_id' => 4]);
+        $out .= OlzEditableSnippet::render(['id' => PredefinedSnippet::ForumRules]);
         $out .= <<<'ZZZZZZZZZZ'
         </div>
         <br>

@@ -4,4 +4,4 @@ import './styles.scss';
 
 import 'bootstrap';
 
-export * from '../../src/Components/Common/OlzEditableText/OlzEditableText';
+export * from '../../src/Components/Common/OlzEditableSnippet/OlzEditableSnippet';

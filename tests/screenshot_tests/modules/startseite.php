@@ -20,7 +20,7 @@ function test_startseite($driver, $base_url) {
     click($save_button);
     $driver->wait()->until(function () use ($driver) {
         $rendered_html = $driver->findElement(
-            WebDriverBy::cssSelector('#important-banner .olz-editable-text .rendered-markdown')
+            WebDriverBy::cssSelector('#important-banner .olz-editable-snippet .rendered-markdown')
         );
         return strpos($rendered_html->getText(), 'Neue Information!') !== false;
     });
@@ -43,7 +43,7 @@ function test_startseite_readonly($driver, $base_url) {
     $driver->get("{$base_url}{$startseite_url}");
 
     $edit_button = $driver->findElement(
-        WebDriverBy::cssSelector('#important-banner .olz-editable-text .olz-edit-button')
+        WebDriverBy::cssSelector('#important-banner .olz-editable-snippet .olz-edit-button')
     );
     click($edit_button);
     sleep(1);

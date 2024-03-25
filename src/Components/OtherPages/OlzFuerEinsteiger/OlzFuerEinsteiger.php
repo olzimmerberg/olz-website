@@ -3,12 +3,13 @@
 namespace Olz\Components\OtherPages\OlzFuerEinsteiger;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Common\OlzEditableSnippet\OlzEditableSnippet;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
+use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -51,7 +52,7 @@ class OlzFuerEinsteiger extends OlzComponent {
         }
         $contact_information .= "</div>";
 
-        $trainings_information = OlzEditableText::render(['snippet_id' => 1]);
+        $trainings_information = OlzEditableSnippet::render(['id' => PredefinedSnippet::TrainingTypesInfo]);
 
         $next_three_trainings = OlzTermineTicker::render([
             "eintrag_laenge" => 80,

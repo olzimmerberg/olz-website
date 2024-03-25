@@ -27,14 +27,13 @@ class OlzNoAppAccess extends OlzComponent {
             // Hypothetical logged-in user wouldn't have access either.
             return $no_access_out;
         }
-        $icon = $app->getIcon();
+        $icon_href = $app->getIconHref();
         $display_name = $app->getDisplayName();
-        $href = $app->getHref();
         $basename = $app->getBasename();
         return <<<ZZZZZZZZZZ
         <div class='olz-no-app-access'>
             <div class='app-container hypothetical'>
-                <img src='{$icon}' alt='{$basename}-icon' class='app-icon' />
+                <img src='{$icon_href}' alt='{$basename}-icon' class='app-icon' />
                 <div>{$display_name}</div>
             </div>
             <br />

@@ -2,6 +2,7 @@
 
 namespace Olz\Controller;
 
+use Olz\Apps\OlzApps;
 use Olz\Components\Apps\OlzAppsList\OlzAppsList;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
@@ -36,5 +37,29 @@ class AppsController extends AbstractController {
         $out .= OlzFooter::render([]);
 
         return new Response($out);
+    }
+
+    #[Route('/apps/{app}/icon.{ext}')]
+    public function icon(
+        string $app,
+        string $ext,
+        AuthUtils $auth_utils,
+        Request $request,
+        LoggerInterface $logger,
+    ): Response {
+        HttpUtils::fromEnv()->validateGetParams([]);
+
+        $metadata = OlzApps::getApp($app);
+        $icon_path = $metadata?->getIconPath();
+        if (!$icon_path || !is_file($icon_path)) {
+            $response = new Response(file_get_contents(__DIR__.'/../Apps/default_icon.svg'));
+            $response->headers->set('Cache-Control', 'max-age=2592000');
+            $response->headers->set('Content-Type', 'image/svg+xml');
+            return $response;
+        }
+        $response = new Response(file_get_contents($icon_path));
+        $response->headers->set('Cache-Control', 'max-age=2592000');
+        $response->headers->set('Content-Type', $ext === 'svg' ? 'image/svg+xml' : 'image/png');
+        return $response;
     }
 }

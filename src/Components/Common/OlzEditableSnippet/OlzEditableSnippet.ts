@@ -1,7 +1,9 @@
 import {olzApi} from '../../../Api/client';
 import {initOlzEditSnippetModal} from '../../../Snippets';
 
-export function olzEditableTextEditSnippet(
+import './OlzEditableSnippet.scss';
+
+export function olzEditableSnippetEditSnippet(
     snippetId: number,
 ): boolean {
     olzApi.call('editSnippet', {id: snippetId})

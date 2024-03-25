@@ -14,14 +14,14 @@ class OlzAppsList extends OlzComponent {
         $out = '';
         $out .= "<div class='apps-list'>";
         $out .= implode('', array_map(function ($app) use ($code_href) {
-            $icon = $app->getIcon();
+            $icon_href = $app->getIconHref();
             $display_name = $app->getDisplayName();
             $href = $app->getHref();
             $basename = $app->getBasename();
             return <<<ZZZZZZZZZZ
             <a href='{$code_href}{$href}'>
                 <div class='app-container'>
-                    <img src='{$icon}' alt='{$basename}-icon' class='app-icon' />
+                    <img src='{$icon_href}' alt='{$basename}-icon' class='app-icon' />
                     <div>{$display_name}</div>
                 </div>
             </a>
@@ -34,7 +34,6 @@ class OlzAppsList extends OlzComponent {
             $hypothetical_logged_in_user->setId(null);
             $hypothetical_logged_in_user->setPermissions(' verified_email ');
             $logged_in_apps = OlzApps::getAppsForUser($hypothetical_logged_in_user);
-            $available_app_paths = [];
             foreach ($available_apps as $available_app) {
                 $available_apps[$available_app->getPath()] = true;
             }
@@ -56,13 +55,12 @@ class OlzAppsList extends OlzComponent {
             ZZZZZZZZZZ;
             $out .= "<div class='apps-list hypothetical'>";
             $out .= implode('', array_map(function ($app) {
-                $icon = $app->getIcon();
+                $icon_href = $app->getIconHref();
                 $display_name = $app->getDisplayName();
-                $href = $app->getHref();
                 $basename = $app->getBasename();
                 return <<<ZZZZZZZZZZ
                 <div class='app-container'>
-                    <img src='{$icon}' alt='{$basename}-icon' class='app-icon' />
+                    <img src='{$icon_href}' alt='{$basename}-icon' class='app-icon' />
                     <div>{$display_name}</div>
                 </div>
                 ZZZZZZZZZZ;

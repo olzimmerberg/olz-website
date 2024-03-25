@@ -4,8 +4,11 @@ namespace Olz\Apps;
 
 use Olz\Entity\User;
 use Olz\Utils\EnvUtils;
+use Olz\Utils\WithUtilsTrait;
 
 abstract class BaseAppMetadata {
+    use WithUtilsTrait;
+
     abstract public function getDisplayName(): string;
 
     abstract public function getPath(): string;
@@ -31,22 +34,16 @@ abstract class BaseAppMetadata {
         return null;
     }
 
-    public function getIcon(): ?string {
+    public function getIconHref(): ?string {
+        $code_href = $this->envUtils()->getCodeHref();
         $icon_path = $this->getIconPath();
-        if (!$icon_path) {
-            $base64 = base64_encode(file_get_contents(__DIR__.'/default_icon.svg'));
-            $mime_type = 'image/svg+xml';
-            return "data:{$mime_type};base64,{$base64}";
-        }
-        $base64 = base64_encode(file_get_contents($icon_path));
         if (substr($icon_path, strlen($icon_path) - 4) == '.svg') {
-            $mime_type = 'image/svg+xml';
-            return "data:{$mime_type};base64,{$base64}";
+            return "{$code_href}apps/{$this->getBasename()}/icon.svg";
         }
         if (substr($icon_path, strlen($icon_path) - 4) == '.png') {
-            $mime_type = 'image/png';
-            return "data:{$mime_type};base64,{$base64}";
+            return "{$code_href}apps/{$this->getBasename()}/icon.png";
         }
+        return "{$code_href}apps/?/icon.png";
     }
 
     public function getJsCssImports() {

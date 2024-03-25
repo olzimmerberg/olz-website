@@ -3,10 +3,11 @@
 namespace Olz\Karten\Components\OlzKarten;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Common\OlzEditableSnippet\OlzEditableSnippet;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Karten\Components\OlzKartenList\OlzKartenList;
+use Olz\Repository\Snippets\PredefinedSnippet;
 
 class OlzKarten extends OlzComponent {
     public static $title = "Karten";
@@ -92,7 +93,7 @@ class OlzKarten extends OlzComponent {
         <tr><td></td><td>A3</td><td>4.00</td><td>2.50</td></tr>
         <tr><td>Schulhauskarte</td><td>A4</td><td>1.50</td><td>1.00</td></tr>
         </table><p>(Kartenpreise gültig ab 1.1.2019)</p></div>";
-        $out .= OlzEditableText::render(['snippet_id' => 12]);
+        $out .= OlzEditableSnippet::render(['id' => PredefinedSnippet::KartenbestellungInfo]);
 
         $out .= "</div>";
 

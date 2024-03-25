@@ -7,10 +7,11 @@
 namespace Olz\Termine\Components\OlzTermineList;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Common\OlzEditableSnippet\OlzEditableSnippet;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Termine\Utils\TermineFilterUtils;
@@ -64,8 +65,12 @@ class OlzTermineList extends OlzComponent {
             ZZZZZZZZZZ;
         }
         $filter_out = OlzTermineFilter::render();
-        $downloads_links_out = OlzEditableText::render(['snippet_id' => 2]);
-        $newsletter_out = OlzEditableText::render(['snippet_id' => 3]);
+        $downloads_links_out = OlzEditableSnippet::render([
+            'id' => PredefinedSnippet::TermineDownloadsLinks,
+        ]);
+        $newsletter_out = OlzEditableSnippet::render([
+            'id' => PredefinedSnippet::TermineNewsletter,
+        ]);
         $out .= <<<ZZZZZZZZZZ
         <div class='content-right'>
             {$admin_menu_out}

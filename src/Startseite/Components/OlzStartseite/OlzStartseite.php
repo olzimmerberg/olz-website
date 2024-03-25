@@ -7,9 +7,10 @@
 namespace Olz\Startseite\Components\OlzStartseite;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Common\OlzEditableSnippet\OlzEditableSnippet;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
 
 class OlzStartseite extends OlzComponent {
@@ -23,7 +24,9 @@ class OlzStartseite extends OlzComponent {
             'description' => self::$description,
         ], $this);
 
-        $banner_text = OlzEditableText::render(['snippet_id' => 22], $this);
+        $banner_text = OlzEditableSnippet::render([
+            'id' => PredefinedSnippet::StartseiteBanner,
+        ], $this);
         if (trim(strip_tags($banner_text)) !== '') {
             $out .= "<div class='content-full'><div id='important-banner' class='banner'>";
             $out .= $banner_text;

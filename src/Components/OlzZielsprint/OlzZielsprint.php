@@ -3,7 +3,8 @@
 namespace Olz\Components\OlzZielsprint;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Common\OlzEditableSnippet\OlzEditableSnippet;
+use Olz\Repository\Snippets\PredefinedSnippet;
 
 class OlzZielsprint extends OlzComponent {
     public function getHtml($args = []): string {
@@ -13,8 +14,7 @@ class OlzZielsprint extends OlzComponent {
 
         $out .= "<h2>OLZ-Zielsprint-Challenge 2020</h2>";
 
-        // $out .= "<div style='color:rgb(180,0,0); font-weight:bold; text-align:center; font-size:14px;'>In Bearbeitung</div>";
-        $out .= OlzEditableText::render(['snippet_id' => 9]);
+        $out .= OlzEditableSnippet::render(['id' => PredefinedSnippet::ZielsprintInfo]);
 
         $sql = "
             SELECT solv_uid, name, date

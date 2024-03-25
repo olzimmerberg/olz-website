@@ -8,7 +8,7 @@ use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Snippets\SnippetRepository;
 
-#[ORM\Table(name: 'olz_text')]
+#[ORM\Table(name: 'snippets')]
 #[ORM\Entity(repositoryClass: SnippetRepository::class)]
 class Snippet extends OlzEntity implements DataStorageInterface {
     use DataStorageTrait;

@@ -38,9 +38,9 @@ $lang_selection_html = implode(' | ', $lang_selection);
 
 // Banner
 
-$olz_text_repo = $entityManager->getRepository(Snippet::class);
-$olz_text = $olz_text_repo->findOneBy(['id' => 23]);
-$banner = $olz_text ? ($olz_text->getText() ?? '') : '';
+$snippet_repo = $entityManager->getRepository(Snippet::class);
+$snippet = $snippet_repo->findOneBy(['id' => 23]);
+$banner = $snippet ? ($snippet->getText() ?? '') : '';
 $banner_icon = '';
 if (trim(strip_tags($banner)) !== '') {
     $banner = "<div class='banner'>{$banner}</div>";

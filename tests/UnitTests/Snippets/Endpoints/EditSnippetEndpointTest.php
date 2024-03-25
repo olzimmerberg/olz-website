@@ -23,7 +23,7 @@ final class EditSnippetEndpointTest extends UnitTestCase {
 
     public function testEditSnippetEndpointNoAccess(): void {
         $id = FakeOlzRepository::EMPTY_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ["olz_text_{$id}" => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ["snippet_{$id}" => false];
         $endpoint = new EditSnippetEndpoint();
         $endpoint->runtimeSetup();
 
@@ -43,7 +43,7 @@ final class EditSnippetEndpointTest extends UnitTestCase {
 
     public function testEditSnippetEndpointNoSuchEntity(): void {
         $id = FakeOlzRepository::NULL_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ["olz_text_{$id}" => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ["snippet_{$id}" => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditSnippetEndpoint();
         $endpoint->runtimeSetup();
@@ -86,7 +86,7 @@ final class EditSnippetEndpointTest extends UnitTestCase {
 
     public function testEditSnippetEndpointMinimal(): void {
         $id = FakeOlzRepository::MINIMAL_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ["olz_text_{$id}" => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ["snippet_{$id}" => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditSnippetEndpoint();
         $endpoint->runtimeSetup();
@@ -116,7 +116,7 @@ final class EditSnippetEndpointTest extends UnitTestCase {
 
     public function testEditSnippetEndpointEmpty(): void {
         $id = FakeOlzRepository::EMPTY_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ["olz_text_{$id}" => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ["snippet_{$id}" => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditSnippetEndpoint();
         $endpoint->runtimeSetup();
@@ -146,7 +146,7 @@ final class EditSnippetEndpointTest extends UnitTestCase {
 
     public function testEditSnippetEndpointMaximal(): void {
         $id = FakeOlzRepository::MAXIMAL_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ["olz_text_{$id}" => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ["snippet_{$id}" => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditSnippetEndpoint();
         $endpoint->runtimeSetup();

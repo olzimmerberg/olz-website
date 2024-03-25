@@ -573,6 +573,14 @@ input.button,
     }
 }
 
+.olz-override-root .lg-backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.olz-override-root .ui-datepicker {
+    background-color: rgb(255, 255, 255);
+}
+
 @media screen and (min-width: 832px) {
     .responsive-flex {
         flex-direction: row;
@@ -581,12 +589,4 @@ input.button,
             width: 50%;
         }
     }
-}
-
-.olz-override-root .lg-backdrop {
-    background-color: rgba(0, 0, 0, 0.75);
-}
-
-.olz-override-root .ui-datepicker {
-    background-color: rgb(255, 255, 255);
 }

@@ -11,12 +11,12 @@ class OlzFooter extends OlzComponent {
         return <<<ZZZZZZZZZZ
                     <div style='clear:both;'>&nbsp;</div>
                 </div>
-                <div class='footer'>
-                    <a href='{$code_href}fuer_einsteiger?von=footer'>Für Einsteiger</a>
-                    <a href='{$code_href}fragen_und_antworten'>Fragen &amp; Antworten (FAQ)</a>
-                    <a href='{$code_href}datenschutz'>Datenschutz</a>
-                    <a href='{$code_href}sitemap'>Sitemap</a>
-                </div>
+            </div>
+            <div class='olz-footer'>
+                <a href='{$code_href}fuer_einsteiger?von=footer'>Für Einsteiger</a>
+                <a href='{$code_href}fragen_und_antworten'>Fragen &amp; Antworten (FAQ)</a>
+                <a href='{$code_href}datenschutz'>Datenschutz</a>
+                <a href='{$code_href}sitemap'>Sitemap</a>
             </div>
             <div id='edit-entity-react-root'></div>
             <div id='dialog-react-root'></div>

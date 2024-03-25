@@ -64,11 +64,11 @@ trait DownloadEndpointTrait {
     }
 
     protected function getEntityById(int $id): Download {
-        $download_repo = $this->entityManager()->getRepository(Download::class);
-        $download = $download_repo->findOneBy(['id' => $id]);
-        if (!$download) {
+        $repo = $this->entityManager()->getRepository(Download::class);
+        $entity = $repo->findOneBy(['id' => $id]);
+        if (!$entity) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        return $download;
+        return $entity;
     }
 }

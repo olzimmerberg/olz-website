@@ -41,11 +41,11 @@ trait LinkEndpointTrait {
     }
 
     protected function getEntityById(int $id): Link {
-        $link_repo = $this->entityManager()->getRepository(Link::class);
-        $link = $link_repo->findOneBy(['id' => $id]);
-        if (!$link) {
+        $repo = $this->entityManager()->getRepository(Link::class);
+        $entity = $repo->findOneBy(['id' => $id]);
+        if (!$entity) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        return $link;
+        return $entity;
     }
 }

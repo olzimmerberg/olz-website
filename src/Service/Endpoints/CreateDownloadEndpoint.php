@@ -15,17 +15,17 @@ class CreateDownloadEndpoint extends OlzCreateEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('downloads');
 
-        $download = new Download();
-        $this->entityUtils()->createOlzEntity($download, $input['meta']);
-        $this->updateEntityWithData($download, $input['data']);
+        $entity = new Download();
+        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($download);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
-        $this->persistUploads($download, $input['data']);
+        $this->persistUploads($entity, $input['data']);
 
         return [
             'status' => 'OK',
-            'id' => $download->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

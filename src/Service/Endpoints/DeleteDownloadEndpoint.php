@@ -15,14 +15,14 @@ class DeleteDownloadEndpoint extends OlzDeleteEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('any');
 
-        $download = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($download, null, 'downloads')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'downloads')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $download->setOnOff(0);
-        $this->entityManager()->persist($download);
+        $entity->setOnOff(0);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
         return ['status' => 'OK'];

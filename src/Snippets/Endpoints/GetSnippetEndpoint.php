@@ -1,25 +1,20 @@
 <?php
 
-namespace Olz\Service\Endpoints;
+namespace Olz\Snippets\Endpoints;
 
-use Olz\Api\OlzEditEntityEndpoint;
-use PhpTypeScriptApi\HttpError;
+use Olz\Api\OlzGetEntityEndpoint;
 
-class EditLinkEndpoint extends OlzEditEntityEndpoint {
-    use LinkEndpointTrait;
+class GetSnippetEndpoint extends OlzGetEntityEndpoint {
+    use SnippetEndpointTrait;
 
     public static function getIdent() {
-        return 'EditLinkEndpoint';
+        return 'GetSnippetEndpoint';
     }
 
     protected function handle($input) {
         $this->checkPermission('any');
 
         $entity = $this->getEntityById($input['id']);
-
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'links')) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
 
         return [
             'id' => $entity->getId(),

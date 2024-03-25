@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240317181327
+-- MIGRATION: DoctrineMigrations\Version20240324230314
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -79,7 +79,8 @@ VALUES
     ('DoctrineMigrations\\Version20240219120442', '2024-02-19 13:06:31', '78'),
     ('DoctrineMigrations\\Version20240222220523', '2024-02-22 23:07:58', '792'),
     ('DoctrineMigrations\\Version20240313195047', '2024-03-13 20:52:06', '644'),
-    ('DoctrineMigrations\\Version20240317181327', '2024-03-17 19:32:18', '672');
+    ('DoctrineMigrations\\Version20240317181327', '2024-03-17 19:32:18', '672'),
+    ('DoctrineMigrations\\Version20240324230314', '2024-03-25 00:05:14', '704');
 
 -- Table downloads
 INSERT INTO downloads
@@ -142,11 +143,12 @@ VALUES
 
 -- Table olz_text
 INSERT INTO olz_text
-    (`id`, `text`, `on_off`)
+    (`id`, `text`, `on_off`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`)
 VALUES
-    ('1', '<div><p><b>OL-Training (im Sommerhalbjahr)</b><br>\n<i>für Kartentechnik und Orientierung im Wald (ab 6 Jahren)</i><br>\njeden Dienstag gemäss Terminkalender<br>\n<a href=\"/pdf/Trainingsplan_2020.pdf\" target=\"_blank\">Trainingsplan 2020</a></p>\n<p><b>Hallentraining (im Winterhalbjahr)</b><br>\n<i>für Kondition, Kraft, Schnelligkeit mit viel Spiel &amp; Spass (ab 6 Jahren)</i><br>\nSchulhaus Schweikrüti Gattikon (Montag 18.10 - 19.45 Uhr)<br>\nSchulhaus Steinacher Au (Dienstag, 18.00-19.15-20.30 Uhr)<br>\nTurnhalle Platte Thalwil (Freitag, 20.15-22.00 Uhr, Spiel)</p>\n<!--<p><b>Lauftraining</b><br>\n<i>für Ausdauer und Kondition (Jugendliche & Erwachsene)</i><br>\njeden Donnerstag, 18.45 Uhr, 60 Min. (In den Schulferien nur nach Absprache.)</p>-->\n<p><b>Longjoggs (im Winterhalbjahr)</b><br>\n<i>für Ausdauer und Kondition (Jugendliche &amp; Erwachsene)</i><br>\nan Sonntagen gemäss Terminkalender</p></div>', '1'),
-    ('22', '⚠️ Wichtige Information! ⚠️', '1'),
-    ('23', '⚠️ Abgesagt! ⚠️', '1');
+    ('1', '**OL-Training (im Sommerhalbjahr)**\n\n*für Kartentechnik und Orientierung im Wald (ab 6 Jahren)*\n\njeden Dienstag gemäss Terminkalender\n\n[Trainingsplan 2020](/pdf/Trainingsplan_2020.pdf)\n\n**Hallentraining (im Winterhalbjahr)**\n\n*für Kondition, Kraft, Schnelligkeit mit viel Spiel &amp; Spass (ab 6 Jahren)*\n\nSchulhaus Schweikrüti Gattikon (Montag 18.10 - 19.45 Uhr)\n\nSchulhaus Steinacher Au (Dienstag, 18.00-19.15-20.30 Uhr)\n\nTurnhalle Platte Thalwil (Freitag, 20.15-22.00 Uhr, Spiel)\n\n**Longjoggs (im Winterhalbjahr)**\n\n*für Ausdauer und Kondition (Jugendliche &amp; Erwachsene)*\n\nan Sonntagen gemäss Terminkalender', '1', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14'),
+    ('22', '⚠️ Wichtige Information! ⚠️', '1', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14'),
+    ('23', '⚠️ Abgesagt! ⚠️', '1', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14'),
+    ('24', '⚠️ Wichtig! ⚠️\n\n![](./oCGvpb96V6bZNLoQNe8djJgw.jpg) [PDF](./AXfZYP3eyLKTWJmfBRGTua7H.pdf)\n\n1. [Intern](/apps)\n2. [Extern](https://solv.ch)\n\n- [E-Mail](mailto:user@staging.olzimmerberg.ch)', '1', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14');
 
 -- Table panini24
 INSERT INTO panini24

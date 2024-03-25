@@ -19,6 +19,7 @@ use Olz\Entity\Quiz\SkillLevel;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Service\Download;
 use Olz\Entity\Service\Link;
+use Olz\Entity\Snippets\Snippet;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\StravaLink;
 use Olz\Entity\Termine\Termin;
@@ -45,6 +46,7 @@ use Olz\Tests\Fake\Entity\Quiz\FakeSkillRepository;
 use Olz\Tests\Fake\Entity\Roles\FakeRoleRepository;
 use Olz\Tests\Fake\Entity\Service\FakeDownloadRepository;
 use Olz\Tests\Fake\Entity\Service\FakeLinkRepository;
+use Olz\Tests\Fake\Entity\Snippets\FakeSnippetRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminLabelRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminLocationRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
@@ -76,6 +78,7 @@ class FakeEntityManager extends EntityManager {
             Skill::class => new FakeSkillRepository(),
             SkillCategory::class => new FakeSkillCategoryRepository(),
             SkillLevel::class => new FakeSkillLevelRepository(),
+            Snippet::class => new FakeSnippetRepository(),
             SolvEvent::class => new FakeSolvEventRepository(),
             StravaLink::class => new FakeStravaLinkRepository(),
             Termin::class => new FakeTerminRepository(),

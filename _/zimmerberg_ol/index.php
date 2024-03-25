@@ -1,6 +1,6 @@
 <?php
 
-use Olz\Entity\OlzText;
+use Olz\Entity\Snippets\Snippet;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -38,7 +38,7 @@ $lang_selection_html = implode(' | ', $lang_selection);
 
 // Banner
 
-$olz_text_repo = $entityManager->getRepository(OlzText::class);
+$olz_text_repo = $entityManager->getRepository(Snippet::class);
 $olz_text = $olz_text_repo->findOneBy(['id' => 23]);
 $banner = $olz_text ? ($olz_text->getText() ?? '') : '';
 $banner_icon = '';

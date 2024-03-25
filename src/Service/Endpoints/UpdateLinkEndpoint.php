@@ -15,21 +15,21 @@ class UpdateLinkEndpoint extends OlzUpdateEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('any');
 
-        $link = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($link, $input['meta'], 'links')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'links')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $this->entityUtils()->updateOlzEntity($link, $input['meta'] ?? []);
-        $this->updateEntityWithData($link, $input['data']);
+        $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? []);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($link);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
         return [
             'status' => 'OK',
-            'id' => $link->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

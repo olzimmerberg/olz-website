@@ -9,6 +9,7 @@ class ImageUtils {
         'karten' => 'img/karten/',
         'news' => 'img/news/',
         'roles' => 'img/roles/',
+        'snippets' => 'img/snippets/',
         'termine' => 'img/termine/',
         'termin_labels' => 'img/termin_labels/',
         'termin_locations' => 'img/termin_locations/',

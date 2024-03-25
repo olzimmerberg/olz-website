@@ -14,12 +14,12 @@ class GetDownloadEndpoint extends OlzGetEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('any');
 
-        $download = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
         return [
-            'id' => $download->getId(),
-            'meta' => $download->getMetaData(),
-            'data' => $this->getEntityData($download),
+            'id' => $entity->getId(),
+            'meta' => $entity->getMetaData(),
+            'data' => $this->getEntityData($entity),
         ];
     }
 }

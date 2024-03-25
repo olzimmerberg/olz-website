@@ -14,7 +14,7 @@ class OlzZielsprint extends OlzComponent {
         $out .= "<h2>OLZ-Zielsprint-Challenge 2020</h2>";
 
         // $out .= "<div style='color:rgb(180,0,0); font-weight:bold; text-align:center; font-size:14px;'>In Bearbeitung</div>";
-        $out .= OlzEditableText::render(['olz_text_id' => 9]);
+        $out .= OlzEditableText::render(['snippet_id' => 9]);
 
         $sql = "
             SELECT solv_uid, name, date

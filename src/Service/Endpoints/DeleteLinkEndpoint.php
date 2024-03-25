@@ -15,14 +15,14 @@ class DeleteLinkEndpoint extends OlzDeleteEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('any');
 
-        $link = $this->getEntityById($input['id']);
+        $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($link, null, 'links')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'links')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $link->setOnOff(0);
-        $this->entityManager()->persist($link);
+        $entity->setOnOff(0);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
         return ['status' => 'OK'];

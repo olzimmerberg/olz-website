@@ -15,16 +15,16 @@ class CreateLinkEndpoint extends OlzCreateEntityEndpoint {
     protected function handle($input) {
         $this->checkPermission('links');
 
-        $link = new Link();
-        $this->entityUtils()->createOlzEntity($link, $input['meta']);
-        $this->updateEntityWithData($link, $input['data']);
+        $entity = new Link();
+        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($link);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
         return [
             'status' => 'OK',
-            'id' => $link->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

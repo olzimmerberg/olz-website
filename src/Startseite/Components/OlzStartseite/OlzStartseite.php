@@ -23,7 +23,7 @@ class OlzStartseite extends OlzComponent {
             'description' => self::$description,
         ], $this);
 
-        $banner_text = OlzEditableText::render(['olz_text_id' => 22], $this);
+        $banner_text = OlzEditableText::render(['snippet_id' => 22], $this);
         if (trim(strip_tags($banner_text)) !== '') {
             $out .= "<div class='content-full'><div id='important-banner' class='banner'>";
             $out .= $banner_text;

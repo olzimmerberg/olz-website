@@ -12,67 +12,94 @@ use Olz\Components\Page\OlzMenu\OlzMenu;
 
 class OlzHeaderBar extends OlzComponent {
     public function getHtml($args = []): string {
-        $out = '';
-
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $back_link = $args['back_link'] ?? null;
 
-        $out .= "<div id='header-bar' class='header-bar menu-closed'>";
+        $account_menu_out = !($args['skip_auth_menu'] ?? false)
+            ? OlzAccountMenu::render([], $this)
+            : '';
 
-        $out .= "<div class='above-header'>";
-        $out .= "<div class='account-menu-container'>";
-
-        if (!($args['skip_auth_menu'] ?? false)) {
-            $out .= OlzAccountMenu::render([], $this);
-        }
-
-        $out .= "</div>";
-        $out .= "</div>";
-
-        $out .= "<div class='below-header'>";
-        $out .= "<div id='menu-container' class='menu-container'>";
-
-        $out .= OlzMenu::render([
+        $menu_out = OlzMenu::render([
             'back_link' => $back_link,
         ], $this);
 
-        $out .= "</div>"; // menu-container
-        $out .= "</div>"; // below-header
-
-        if ($back_link !== null) {
-            $out .= "<a href='{$back_link}' id='menu-switch' />";
-            $out .= "<img src='{$code_href}assets/icns/menu_back.svg' alt='' class='menu-back noborder' />";
-            $out .= "</a>";
-        } else {
-            $out .= "<div id='menu-switch' onclick='olz.toggleMenu()' />";
-            $out .= "<img src='{$code_href}assets/icns/menu_hamburger.svg' alt='' class='menu-hamburger noborder' />";
-            $out .= "<img src='{$code_href}assets/icns/menu_close.svg' alt='' class='menu-close noborder' />";
-            $out .= "</div>";
-        }
-
-        $out .= "<div class='header-content-container'>";
-        $out .= "<div class='header-content-scroller'>";
-        $out .= "<div class='header-content'>";
+        $back_link_out = ($back_link !== null)
+            ? <<<ZZZZZZZZZZ
+            <a href='{$back_link}' id='menu-switch'>
+                <img
+                    src='{$code_href}assets/icns/menu_back.svg'
+                    alt=''
+                    class='menu-back noborder'
+                />
+            </a>
+            ZZZZZZZZZZ
+            : <<<ZZZZZZZZZZ
+            <div id='menu-switch' onclick='olz.toggleMenu()' />
+                <img
+                    src='{$code_href}assets/icns/menu_hamburger.svg'
+                    alt=''
+                    class='menu-hamburger noborder'
+                />
+                <img
+                    src='{$code_href}assets/icns/menu_close.svg'
+                    alt=''
+                    class='menu-close noborder'
+                />
+            </div>
+            ZZZZZZZZZZ;
 
         // TODO: Remove switch as soon as Safari properly supports SVGs.
-        if (preg_match('/Safari/i', $_SERVER['HTTP_USER_AGENT'] ?? '')) {
-            $out .= "<img srcset='{$code_href}assets/icns/olz_logo@2x.png 2x, {$code_href}assets/icns/olz_logo.png 1x' src='{$code_href}assets/icns/olz_logo.png' alt='' class='noborder' id='olz-logo' />";
-        } else {
-            $out .= "<img src='{$code_href}assets/icns/olz_logo.svg' alt='' class='noborder' id='olz-logo' />";
-        }
-        $out .= "<div style='flex-grow:1;'></div>";
+        $logo_out = preg_match('/Safari/i', $_SERVER['HTTP_USER_AGENT'] ?? '')
+            ? <<<ZZZZZZZZZZ
+            <img
+                srcset='
+                    {$code_href}assets/icns/olz_logo@2x.png 2x,
+                    {$code_href}assets/icns/olz_logo.png 1x
+                '
+                src='{$code_href}assets/icns/olz_logo.png'
+                alt=''
+                class='noborder'
+                id='olz-logo'
+            />
+            ZZZZZZZZZZ
+            : <<<ZZZZZZZZZZ
+            <img
+                src='{$code_href}assets/icns/olz_logo.svg'
+                alt=''
+                class='noborder'
+                id='olz-logo'
+            />
+            ZZZZZZZZZZ;
 
-        // Nat. OL Weekend Davos Klosters
-        // $out .= "<div class='header-box'><a href='{$code_href}zimmerberg_ol/' target='_blank' id='weekend-link'><img src='{$data_href}img/zol_2022/logo_260.png' alt='Nationales OL-Weekend Davos Klosters 2022' /></a></div>";
-
-        // OLZ Trophy 2017
-        $out .= "<div class='header-box'><a href='{$code_href}trophy' id='trophy-link'><img src='{$data_href}img/trophy.png' alt='trophy' /></a></div>";
-
-        $out .= "</div>"; // header-content
-        $out .= "</div>"; // header-content-scroller
-        $out .= "</div>"; // header-content-container
-        $out .= "</div>"; // header-bar
+        $out = <<<ZZZZZZZZZZ
+        <div id='header-bar' class='header-bar menu-closed'>
+            <div class='above-header'>
+                <div class='account-menu-container'>
+                    {$account_menu_out}
+                </div>
+            </div>
+            <div class='below-header'>
+                <div id='menu-container' class='menu-container'>
+                    {$menu_out}
+                </div>
+            </div>
+            {$back_link_out}
+            <div class='header-content-container'>
+                <div class='header-content-scroller'>
+                    <div class='header-content'>
+                        {$logo_out}
+                        <div style='flex-grow:1;'></div>
+                        <div class='header-box'>
+                            <a href='{$code_href}trophy' id='trophy-link'>
+                                <img src='{$data_href}img/trophy.png' alt='trophy' />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ZZZZZZZZZZ;
 
         return $out;
     }

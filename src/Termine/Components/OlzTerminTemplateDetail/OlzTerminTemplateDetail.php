@@ -177,7 +177,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
         return $out;
     }
 
-    protected function getTerminTemplateById(int $id): null|TerminTemplate {
+    protected function getTerminTemplateById(int $id): ?TerminTemplate {
         $termin_template_repo = $this->entityManager()->getRepository(TerminTemplate::class);
         return $termin_template_repo->findOneBy([
             'id' => $id,

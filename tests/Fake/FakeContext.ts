@@ -253,6 +253,26 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
     transferFromImageBitmap(bitmap: ImageBitmap): void {
         throw new Error('Method not implemented.');
     }
+
+    get fontStretch(): CanvasFontStretch {
+        throw new Error('Method not implemented.');
+    }
+
+    get fontVariantCaps(): CanvasFontVariantCaps {
+        throw new Error('Method not implemented.');
+    }
+
+    get letterSpacing(): string {
+        throw new Error('Method not implemented.');
+    }
+
+    get textRendering(): CanvasTextRendering {
+        throw new Error('Method not implemented.');
+    }
+
+    get wordSpacing(): string {
+        throw new Error('Method not implemented.');
+    }
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 

@@ -98,10 +98,10 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         <script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>
         </head>
         <body class='olz-override-root'>
-        <a name='top'></a>
-        {$header_bar}
-        <div class='site-container'>
-        <div class='site-background'>
+            <a name='top'></a>
+            {$header_bar}
+            <div class='site-container'>
+                <div class='site-background'>
         ZZZZZZZZZZ;
     }
 }

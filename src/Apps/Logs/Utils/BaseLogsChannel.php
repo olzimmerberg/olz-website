@@ -15,8 +15,8 @@ class LineLocation {
 class ReadResult {
     public function __construct(
         public array $lines,
-        public null|LineLocation $previous,
-        public null|LineLocation $next,
+        public ?LineLocation $previous,
+        public ?LineLocation $next,
     ) {
     }
 }
@@ -259,7 +259,7 @@ abstract class BaseLogsChannel {
         return true;
     }
 
-    protected function isLineMatchingMinLogLevel(string $line, null|string $min_log_level): bool {
+    protected function isLineMatchingMinLogLevel(string $line, ?string $min_log_level): bool {
         if (!$min_log_level) {
             return true;
         }
@@ -275,7 +275,7 @@ abstract class BaseLogsChannel {
         return (bool) preg_match("/{$log_levels_regex}/", $line);
     }
 
-    protected function isLineMatchingTextSearch(string $line, null|string $text_search): bool {
+    protected function isLineMatchingTextSearch(string $line, ?string $text_search): bool {
         if (!$text_search) {
             return true;
         }
@@ -289,7 +289,7 @@ abstract class BaseLogsChannel {
     }
 
     // Override this function, if you have a different date format.
-    protected function parseDateTimeOfLine(string $line): null|\DateTime {
+    protected function parseDateTimeOfLine(string $line): ?\DateTime {
         $res = preg_match('/(\d{4}\-\d{2}\-\d{2})(T|\s+)(\d{2}\:\d{2}\:\d{2})/', $line, $matches);
         if (!$res) {
             return null;

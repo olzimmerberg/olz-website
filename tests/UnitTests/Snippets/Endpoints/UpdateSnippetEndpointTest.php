@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Api\Endpoints;
+namespace Olz\Tests\UnitTests\Snippets\Endpoints;
 
 use Olz\Snippets\Endpoints\UpdateSnippetEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;

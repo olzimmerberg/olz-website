@@ -27,7 +27,7 @@ class FakeProcessEmailAddress {
     }
 }
 
-function getAddress(string $address, string $name = null): ImapAddress {
+function getAddress(string $address, ?string $name = null): ImapAddress {
     return new ImapAddress(new FakeProcessEmailAddress($address, $name));
 }
 

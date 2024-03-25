@@ -40,7 +40,7 @@ class FilesController extends AbstractController {
     protected function webdav(
         Request $request,
         LoggerInterface $logger,
-        string $path = null,
+        ?string $path = null,
     ): Response {
         $html_out = OlzWebDav::render(['path' => $path]);
         $response = new Response($html_out);

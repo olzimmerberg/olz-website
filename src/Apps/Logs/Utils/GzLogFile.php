@@ -66,7 +66,7 @@ class GzLogFile implements LogFileInterface {
         ]);
     }
 
-    public static function deserialize(string $serialized): null|LogFileInterface {
+    public static function deserialize(string $serialized): ?LogFileInterface {
         $deserialized = json_decode($serialized, true);
         if ($deserialized['class'] !== self::class) {
             return null;

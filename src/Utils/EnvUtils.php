@@ -364,7 +364,7 @@ class EnvUtils {
         return "{$local_root}/";
     }
 
-    public static function getConfigPath(): null|string {
+    public static function getConfigPath(): ?string {
         global $_SERVER;
 
         $env = $_ENV['APP_ENV'] ?? getenv('APP_ENV') ?? null;

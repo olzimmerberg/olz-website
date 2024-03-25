@@ -21,7 +21,7 @@ class OlzProcessor implements ProcessorInterface {
         return $record;
     }
 
-    protected function protectTokens(null|string $unsanitized): null|string {
+    protected function protectTokens(?string $unsanitized): ?string {
         if (!$unsanitized) {
             return $unsanitized;
         }

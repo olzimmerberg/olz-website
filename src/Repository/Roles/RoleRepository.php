@@ -17,7 +17,7 @@ enum PredefinedRole: string {
 }
 
 class RoleRepository extends OlzRepository {
-    public function getPredefinedRole(PredefinedRole $predefined_role): null|Role {
+    public function getPredefinedRole(PredefinedRole $predefined_role): ?Role {
         $role = $this->findOneBy(['username' => $predefined_role->value]);
         if (!$role) {
             $this->log()->warning("Predefined role does not exist: {$predefined_role->value}");

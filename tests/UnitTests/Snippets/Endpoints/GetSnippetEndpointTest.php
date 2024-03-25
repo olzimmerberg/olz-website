@@ -43,7 +43,7 @@ final class GetSnippetEndpointTest extends UnitTestCase {
     public function testGetSnippetEndpointNoSuchEntity(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'any' => true,
-            'olz_text_9999' => false, // if we had the permission, the entity would be auto-created.
+            'snippet_9999' => false, // if we had the permission, the entity would be auto-created.
         ];
         $endpoint = new GetSnippetEndpoint();
         $endpoint->runtimeSetup();

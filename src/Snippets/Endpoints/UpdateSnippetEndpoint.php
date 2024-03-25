@@ -14,11 +14,11 @@ class UpdateSnippetEndpoint extends OlzUpdateEntityEndpoint {
 
     protected function handle($input) {
         $id = $input['id'];
-        $this->checkPermission("olz_text_{$id}");
+        $this->checkPermission("snippet_{$id}");
 
         $entity = $this->getEntityById($id);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], "olz_text_{$id}")) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], "snippet_{$id}")) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

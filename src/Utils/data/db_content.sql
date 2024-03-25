@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240324230314
+-- MIGRATION: DoctrineMigrations\Version20240325152618
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -80,7 +80,8 @@ VALUES
     ('DoctrineMigrations\\Version20240222220523', '2024-02-22 23:07:58', '792'),
     ('DoctrineMigrations\\Version20240313195047', '2024-03-13 20:52:06', '644'),
     ('DoctrineMigrations\\Version20240317181327', '2024-03-17 19:32:18', '672'),
-    ('DoctrineMigrations\\Version20240324230314', '2024-03-25 00:05:14', '704');
+    ('DoctrineMigrations\\Version20240324230314', '2024-03-25 00:05:14', '704'),
+    ('DoctrineMigrations\\Version20240325152618', '2024-03-25 16:31:50', '669');
 
 -- Table downloads
 INSERT INTO downloads
@@ -140,15 +141,6 @@ VALUES
     ('5', '2', 'telegram', 'deadline_warning', '{\"days\":3}', '2021-01-30 17:37:23'),
     ('6', '1', 'email', 'daily_summary', '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}', '2021-01-30 17:37:23'),
     ('7', '4', 'email', 'weekly_summary', '{\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}', '2021-01-30 17:37:23');
-
--- Table olz_text
-INSERT INTO olz_text
-    (`id`, `text`, `on_off`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`)
-VALUES
-    ('1', '**OL-Training (im Sommerhalbjahr)**\n\n*für Kartentechnik und Orientierung im Wald (ab 6 Jahren)*\n\njeden Dienstag gemäss Terminkalender\n\n[Trainingsplan 2020](/pdf/Trainingsplan_2020.pdf)\n\n**Hallentraining (im Winterhalbjahr)**\n\n*für Kondition, Kraft, Schnelligkeit mit viel Spiel &amp; Spass (ab 6 Jahren)*\n\nSchulhaus Schweikrüti Gattikon (Montag 18.10 - 19.45 Uhr)\n\nSchulhaus Steinacher Au (Dienstag, 18.00-19.15-20.30 Uhr)\n\nTurnhalle Platte Thalwil (Freitag, 20.15-22.00 Uhr, Spiel)\n\n**Longjoggs (im Winterhalbjahr)**\n\n*für Ausdauer und Kondition (Jugendliche &amp; Erwachsene)*\n\nan Sonntagen gemäss Terminkalender', '1', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14'),
-    ('22', '⚠️ Wichtige Information! ⚠️', '1', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14'),
-    ('23', '⚠️ Abgesagt! ⚠️', '1', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14'),
-    ('24', '⚠️ Wichtig! ⚠️\n\n![](./oCGvpb96V6bZNLoQNe8djJgw.jpg) [PDF](./AXfZYP3eyLKTWJmfBRGTua7H.pdf)\n\n1. [Intern](/apps)\n2. [Extern](https://solv.ch)\n\n- [E-Mail](mailto:user@staging.olzimmerberg.ch)', '1', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14');
 
 -- Table panini24
 INSERT INTO panini24
@@ -321,6 +313,15 @@ VALUES
     ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '', '', '7', '4', NULL, '0', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
     ('50', 'gold-athleten', NULL, 'Athleten', '', '', '44', '1', NULL, '0', '', 'kaderblog', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06'),
     ('51', 'fan-olz-elite', NULL, 'Fan OLZ Elite', '', '', '8', '3', '4', '1', '', '', NULL, NULL, NULL, NULL, NULL, '1', '2024-03-20 20:52:06', '2024-03-20 20:52:06');
+
+-- Table snippets
+INSERT INTO snippets
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`, `text`)
+VALUES
+    ('1', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '**OL-Training (im Sommerhalbjahr)**\n\n*für Kartentechnik und Orientierung im Wald (ab 6 Jahren)*\n\njeden Dienstag gemäss Terminkalender\n\n[Trainingsplan 2020](/pdf/Trainingsplan_2020.pdf)\n\n**Hallentraining (im Winterhalbjahr)**\n\n*für Kondition, Kraft, Schnelligkeit mit viel Spiel &amp; Spass (ab 6 Jahren)*\n\nSchulhaus Schweikrüti Gattikon (Montag 18.10 - 19.45 Uhr)\n\nSchulhaus Steinacher Au (Dienstag, 18.00-19.15-20.30 Uhr)\n\nTurnhalle Platte Thalwil (Freitag, 20.15-22.00 Uhr, Spiel)\n\n**Longjoggs (im Winterhalbjahr)**\n\n*für Ausdauer und Kondition (Jugendliche &amp; Erwachsene)*\n\nan Sonntagen gemäss Terminkalender'),
+    ('22', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Wichtige Information! ⚠️'),
+    ('23', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Abgesagt! ⚠️'),
+    ('24', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Wichtig! ⚠️\n\n![](./oCGvpb96V6bZNLoQNe8djJgw.jpg) [PDF](./AXfZYP3eyLKTWJmfBRGTua7H.pdf)\n\n1. [Intern](/apps)\n2. [Extern](https://solv.ch)\n\n- [E-Mail](mailto:user@staging.olzimmerberg.ch)');
 
 -- Table solv_events
 INSERT INTO solv_events

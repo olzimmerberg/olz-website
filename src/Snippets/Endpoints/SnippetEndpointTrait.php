@@ -57,7 +57,7 @@ trait SnippetEndpointTrait {
         $repo = $this->entityManager()->getRepository(Snippet::class);
         $entity = $repo->findOneBy(['id' => $id]);
         if (!$entity) {
-            $has_access = $this->authUtils()->hasPermission("olz_text_{$id}");
+            $has_access = $this->authUtils()->hasPermission("snippet_{$id}");
             if (!$has_access) {
                 throw new HttpError(404, "Nicht gefunden.");
             }

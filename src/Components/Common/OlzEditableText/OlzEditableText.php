@@ -22,7 +22,7 @@ class OlzEditableText extends OlzComponent {
             $snippet_html = $snippet->replaceFilePaths($snippet_html);
         }
 
-        $has_access = $this->authUtils()->hasPermission("olz_text_{$snippet_id}");
+        $has_access = $this->authUtils()->hasPermission("snippet_{$snippet_id}");
         if (!$has_access) {
             return <<<ZZZZZZZZZZ
             <div class='olz-editable-text'>

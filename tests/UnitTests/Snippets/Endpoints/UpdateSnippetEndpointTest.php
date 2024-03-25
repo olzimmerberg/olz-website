@@ -4,28 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Olz\Entity\Snippets\Snippet;
 use Olz\Snippets\Endpoints\UpdateSnippetEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-// class FakeUpdateSnippetEndpointSnippetRepository {
-//     public $olz_text;
-
-//     public function __construct() {
-//         $olz_text = new Snippet();
-//         $olz_text->setId(1);
-//         $this->olz_text = $olz_text;
-//     }
-
-//     public function findOneBy($where) {
-//         if ($where === ['id' => 1]) {
-//             return $this->olz_text;
-//         }
-//         return null;
-//     }
-// }
 
 /**
  * @internal
@@ -53,7 +35,7 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateSnippetEndpointNoAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['olz_text_123' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['snippet_123' => false];
         $endpoint = new UpdateSnippetEndpoint();
         $endpoint->runtimeSetup();
 
@@ -71,7 +53,7 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
 
     public function testUpdateSnippetEndpointNoEntry(): void {
         $id = 9999;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ["olz_text_{$id}" => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ["snippet_{$id}" => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateSnippetEndpoint();
         $endpoint->runtimeSetup();
@@ -125,7 +107,7 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
 
     public function testUpdateSnippetEndpoint(): void {
         $id = 123;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ["olz_text_{$id}" => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ["snippet_{$id}" => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateSnippetEndpoint();
         $endpoint->runtimeSetup();

@@ -25,7 +25,7 @@ class OlzCustomTile extends AbstractOlzTile {
 
     protected function getContent(): ?string {
         $snippet_id = self::SNIPPET_ID;
-        $has_access = $this->authUtils()->hasPermission("olz_text_{$snippet_id}");
+        $has_access = $this->authUtils()->hasPermission("snippet_{$snippet_id}");
         $content = OlzEditableText::render(['snippet_id' => $snippet_id]);
         if (trim(strip_tags($content)) === '' && !$has_access) {
             return null;

@@ -8,55 +8,85 @@
     width: 180px;
 }
 
+.back-menu {
+    color: rgb(0, 0, 0);
+    background-color: rgb(0, 197, 0);
+
+    .menu-link {
+        border-bottom: 1px solid rgb(95, 235, 31);
+    }
+}
+
+.live-menu {
+    color:#550000;
+    background-color:rgb(204, 0, 0);
+
+    .menu-link {
+        border-bottom:1px solid rgb(235, 95, 31);
+
+        .menutag:hover {
+            background-color:rgb(238, 0, 0);
+        }
+    }
+}
+
+.main-menu {
+    background: linear-gradient(rgb(0, 140, 0), rgb(0, 180, 0));
+    background-color: rgb(0, 160, 0);
+
+    .menu-link {
+        border-bottom: 1px solid rgb(95, 235, 31);
+
+        h1 {
+            background-color: rgba(95, 235, 31, 0.6);
+        }
+    }
+
+    .separator {
+        background-color: rgb(0, 197, 0);
+        height:3px;
+        border-bottom:1px solid rgb(95, 235, 31);
+    }
+}
+
 .back-icon {
-    margin: -2px 8px 0 0;
+    border: 0;
+    margin: -2px 4px 0 0;
 }
 
 .menu-link {
     display: block;
-
-    &:hover {
-        text-decoration: none;
-    }
+    color: rgb(0, 30, 0);
+    text-decoration: none;
 
     .menutag {
         font-weight: bold;
+        font-size: 16px;
+        height: 33px;
+        line-height: 33px;
+        padding: 0 5px 0 10px;
         margin: 0;
+        background-color: rgba(0, 250, 0, 0);
         transition: background-color 500ms linear;
 
         &:hover {
+            background-color: rgba(95, 235, 31, 0.6);
             transition: background-color 100ms linear;
-        }
-    }
-
-    &.font-size-large {
-        > div,
-        > h1 {
-            font-size: 16px;
-            height: 34px;
-            line-height: 32px;
-            padding: 0 5px 0 10px;
-        }
-    }
-
-    &.font-size-small {
-        > div,
-        > h1 {
-            font-size: 11px;
-            height: 24px;
-            line-height: 22px;
-            padding: 0 5px 0 10px;
         }
     }
 }
 
 #site-search {
     width: 100%;
-    color: #888888;
+    color: rgb(136, 136, 136);
     padding: 3px;
-    background-color: #eeeeee;
-    border: 1px solid #aaaaaa;
+    background-color: rgb(238, 238, 238);
+    border: 1px solid rgb(170, 170, 170);
     margin-top: 24px;
+
+    &:focus {
+        color: rgb(0, 0, 0);
+    }
 }
 
 .sysadmin-mail {

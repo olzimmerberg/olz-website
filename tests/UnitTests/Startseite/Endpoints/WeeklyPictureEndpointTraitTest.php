@@ -5,26 +5,13 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Startseite\Endpoints;
 
 use Olz\Startseite\Endpoints\WeeklyPictureEndpointTrait;
+use Olz\Tests\UnitTests\Common\TraitConcreteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class WeeklyPictureEndpointTraitConcreteEndpoint {
     use WeeklyPictureEndpointTrait;
-
-    public static function getIdent() {
-        return 'ident';
-    }
-
-    public function getResponseField() {
-        return new FieldTypes\Field();
-    }
-
-    public function getRequestField() {
-        return new FieldTypes\Field();
-    }
-
-    protected function handle($input) {
-    }
+    use TraitConcreteEndpoint;
 }
 
 /**

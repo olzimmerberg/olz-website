@@ -9,7 +9,8 @@ class FakeEntity {
 
     protected static function getFake(
         bool $should_generate_new,
-        callable $generate_new
+        callable $generate_new,
+        ?callable $populate_new = null,
     ) {
         $trace = debug_backtrace(0, 2);
         $class = $trace[1]['class'];
@@ -25,6 +26,9 @@ class FakeEntity {
         }
         $fake = $generate_new();
         self::$cache[$ident] = $fake;
+        if ($populate_new) {
+            $populate_new($fake);
+        }
         return $fake;
     }
 

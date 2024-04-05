@@ -9,7 +9,6 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-use Symfony\Component\Mailer\MailerInterface;
 
 /**
  * @internal
@@ -51,16 +50,12 @@ final class CreateLinkEndpointTest extends UnitTestCase {
     }
 
     public function testCreateLinkEndpoint(): void {
-        $mailer = $this->createStub(MailerInterface::class);
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'links' => true,
             'all' => false,
         ];
         $endpoint = new CreateLinkEndpoint();
-        $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $mailer->expects($this->exactly(0))->method('send');
 
         $result = $endpoint->call([
             'meta' => [
@@ -84,6 +79,7 @@ final class CreateLinkEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

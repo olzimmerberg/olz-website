@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\LinkTelegramEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal
@@ -21,7 +20,6 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
     }
 
     public function testLinkTelegramEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new LinkTelegramEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();

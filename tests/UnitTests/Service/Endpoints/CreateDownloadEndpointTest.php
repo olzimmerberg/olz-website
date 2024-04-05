@@ -9,7 +9,6 @@ use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-use Symfony\Component\Mailer\MailerInterface;
 
 /**
  * @internal
@@ -51,16 +50,12 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
     }
 
     public function testCreateDownloadEndpoint(): void {
-        $mailer = $this->createStub(MailerInterface::class);
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'downloads' => true,
             'all' => false,
         ];
         $endpoint = new CreateDownloadEndpoint();
-        $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $mailer->expects($this->exactly(0))->method('send');
 
         mkdir(__DIR__.'/../../tmp/temp/');
         file_put_contents(__DIR__.'/../../tmp/temp/uploaded_file.pdf', '');
@@ -89,6 +84,7 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

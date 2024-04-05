@@ -144,8 +144,12 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
         return $this->users;
     }
 
-    public function addUser($new_user) {
-        $this->users->add($new_user);
+    public function addUser(User $user) {
+        $this->users->add($user);
+    }
+
+    public function removeUser(User $user) {
+        $this->users->removeElement($user);
     }
 
     public function getIndexWithinParent() {

@@ -56,7 +56,6 @@ final class CreateTerminLabelEndpointTest extends UnitTestCase {
     }
 
     public function testCreateTerminLabelEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $endpoint = new CreateTerminLabelEndpoint();
         $endpoint->runtimeSetup();
@@ -83,6 +82,7 @@ final class CreateTerminLabelEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

@@ -5,26 +5,13 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Karten\Endpoints;
 
 use Olz\Karten\Endpoints\KarteEndpointTrait;
+use Olz\Tests\UnitTests\Common\TraitConcreteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class KarteEndpointTraitConcreteEndpoint {
     use KarteEndpointTrait;
-
-    public static function getIdent() {
-        return 'ident';
-    }
-
-    public function getResponseField() {
-        return new FieldTypes\Field();
-    }
-
-    public function getRequestField() {
-        return new FieldTypes\Field();
-    }
-
-    protected function handle($input) {
-    }
+    use TraitConcreteEndpoint;
 }
 
 /**

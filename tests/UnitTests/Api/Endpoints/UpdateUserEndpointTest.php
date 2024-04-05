@@ -181,7 +181,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointMinimal(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->runtimeSetup();
@@ -235,7 +234,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointMaximal(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->runtimeSetup();
@@ -291,7 +289,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointSameEmail(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->runtimeSetup();
@@ -344,7 +341,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointEmailUpdateWithoutRecaptcha(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->runtimeSetup();
@@ -379,7 +375,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointWithInvalidRecaptcha(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->runtimeSetup();
@@ -514,7 +509,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     }
 
     public function testUpdateUserEndpointRemoveAvatar(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new UpdateUserEndpointForTest();
         $endpoint->runtimeSetup();

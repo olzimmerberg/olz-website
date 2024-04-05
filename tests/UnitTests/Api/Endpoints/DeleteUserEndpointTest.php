@@ -87,7 +87,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteUserEndpointWrongUsername(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new DeleteUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();

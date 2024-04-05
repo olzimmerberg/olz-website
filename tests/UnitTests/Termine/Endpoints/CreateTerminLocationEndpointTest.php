@@ -54,7 +54,6 @@ final class CreateTerminLocationEndpointTest extends UnitTestCase {
     }
 
     public function testCreateTerminLocationEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $endpoint = new CreateTerminLocationEndpoint();
         $endpoint->runtimeSetup();
@@ -75,6 +74,7 @@ final class CreateTerminLocationEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

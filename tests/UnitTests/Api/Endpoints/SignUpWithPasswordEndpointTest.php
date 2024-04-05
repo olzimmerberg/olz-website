@@ -644,7 +644,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointErrorSending(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
@@ -672,6 +671,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             'auth_user' => 'fakeUsername',
             'auth_user_id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',

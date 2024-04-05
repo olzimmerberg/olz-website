@@ -49,7 +49,6 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
     }
 
     public function testCreateWeeklyPictureEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => true];
         $endpoint = new CreateWeeklyPictureEndpoint();
         $endpoint->runtimeSetup();
@@ -79,6 +78,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(1, count($entity_manager->persisted));
         $this->assertSame(1, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
@@ -103,7 +103,6 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
     }
 
     public function testCreateWeeklyPictureEndpointInvalidPicture(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => true];
         $endpoint = new CreateWeeklyPictureEndpoint();
         $endpoint->runtimeSetup();
@@ -133,6 +132,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             ], $this->getLogs());
             $this->assertSame(400, $err->getCode());
 
+            $entity_manager = WithUtilsCache::get('entityManager');
             $this->assertSame(0, count($entity_manager->persisted));
             $this->assertSame(0, count($entity_manager->flushed_persisted));
 

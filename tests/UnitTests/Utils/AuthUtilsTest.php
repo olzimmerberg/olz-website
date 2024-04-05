@@ -35,7 +35,6 @@ class AuthUtilsForTest extends AuthUtils {
  */
 final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateWithCorrectCredentials(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'inexistent',
@@ -53,6 +52,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
         ], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',

@@ -70,12 +70,15 @@ class FakeRole extends FakeEntity {
         return self::getFake(
             $fresh,
             function () {
-                $admin_role = new Role();
-                $admin_role->setId(2);
-                $admin_role->setUsername('admin_role');
-                $admin_role->setName('Administrator');
-                $admin_role->setPermissions('all');
-                return $admin_role;
+                $entity = new Role();
+                $entity->setId(2);
+                $entity->setUsername('admin_role');
+                $entity->setName('Administrator');
+                $entity->setPermissions('all');
+                return $entity;
+            },
+            function ($entity) {
+                $entity->addUser(FakeUser::adminUser());
             }
         );
     }
@@ -90,6 +93,9 @@ class FakeRole extends FakeEntity {
                 $entity->setName('Vorstand');
                 $entity->setPermissions('aktuell ftp vorstand_role');
                 return $entity;
+            },
+            function ($entity) {
+                $entity->addUser(FakeUser::vorstandUser());
             }
         );
     }

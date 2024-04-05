@@ -48,7 +48,6 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
     }
 
     public function testCreateRegistrationEndpoint(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new CreateRegistrationEndpoint();
         $endpoint->runtimeSetup();
@@ -87,6 +86,7 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => 'Registration:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame(3, count($entity_manager->persisted));
         $this->assertSame(3, count($entity_manager->flushed_persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

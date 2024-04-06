@@ -74,6 +74,7 @@ class OlzRolePage extends OlzComponent {
         $out .= "</nav>";
 
         $edit_admin = '';
+        $add_membership_admin = '';
         $is_superior = $this->authUtils()->hasRoleEditPermission($role_id);
         $is_owner = $this->entityUtils()->canUpdateOlzEntity($role, null, 'roles');
         if ($is_superior || $is_owner) {
@@ -98,6 +99,18 @@ class OlzRolePage extends OlzComponent {
                 </button>
             </div>
             ZZZZZZZZZZ;
+            $add_membership_admin = <<<ZZZZZZZZZZ
+            <div>
+                <button
+                    id='add-role-user-button'
+                    class='btn btn-primary'
+                    onclick='return olz.addRoleUser({$json_id})'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Hinzufügen
+                </button>
+            </div>
+            ZZZZZZZZZZ;
         }
 
         $page = $role->getPage();
@@ -119,8 +132,25 @@ class OlzRolePage extends OlzComponent {
         } else {
             $out .= "<div class='olz-user-info-card-list'>";
             foreach ($assignees as $assignee) {
+                $out .= "<div>";
+                if ($is_superior || $is_owner) {
+                    $json_role_id = json_encode(intval($role_id));
+                    $json_user_id = json_encode(intval($assignee->getId()));
+                    $out .= <<<ZZZZZZZZZZ
+                        <button
+                            id='delete-role-button'
+                            class='btn btn-danger'
+                            onclick='return olz.deleteRoleUser({$json_role_id}, {$json_user_id})'
+                        >
+                            <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                            Entfernen
+                        </button>
+                    ZZZZZZZZZZ;
+                }
                 $out .= OlzUserInfoCard::render(['user' => $assignee]);
+                $out .= "</div>";
             }
+            $out .= $add_membership_admin;
             $out .= "</div>";
         }
 

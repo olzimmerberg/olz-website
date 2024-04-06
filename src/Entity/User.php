@@ -3,13 +3,15 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\UserRepository;
 
 #[ORM\Table(name: 'users')]
 #[ORM\Index(name: 'username_index', columns: ['username'])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User {
+class User extends OlzEntity implements SearchableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -111,12 +113,6 @@ class User {
     #[ORM\JoinTable(name: 'users_roles')]
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
     private $roles;
-
-    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    protected $created_at;
-
-    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    protected $last_modified_at;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $last_login_at;
@@ -451,13 +447,43 @@ class User {
         return $this->roles;
     }
 
-    public function addRole($role) {
-        $this->roles[] = $role;
+    public function addRole(Role $role) {
+        $this->roles->add($role);
     }
+
+    public function removeRole(Role $role) {
+        $this->roles->removeElement($role);
+    }
+
+    // ---
 
     public function __toString() {
         $username = $this->getUsername() ?? '-';
         $id = $this->getId() ?? '-';
-        return "{$username} (ID:{$id})";
+        return "{$username} (User ID: {$id})";
+    }
+
+    public static function getIdFieldNameForSearch(): string {
+        return 'id';
+    }
+
+    public function getIdForSearch(): int {
+        return $this->getId();
+    }
+
+    public static function getFieldNamesForSearch(): array {
+        return ['first_name', 'last_name', 'username', 'email'];
+    }
+
+    public function getTitleForSearch(): string {
+        return $this->getFullName();
+    }
+
+    public static function getEntityNameForStorage(): string {
+        return 'users';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
     }
 }

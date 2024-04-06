@@ -8,6 +8,7 @@ use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
+use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
@@ -16,6 +17,7 @@ class SearchEntitiesEndpoint extends OlzEndpoint {
         'TerminLocation' => TerminLocation::class,
         'TerminTemplate' => TerminTemplate::class,
         'Role' => Role::class,
+        'User' => User::class,
     ];
 
     public static function getIdent() {

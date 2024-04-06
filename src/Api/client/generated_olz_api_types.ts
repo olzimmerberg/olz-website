@@ -13,7 +13,7 @@ export type OlzAuthenticatedRole = {
     'username': string,
 };
 
-export type OlzSearchableEntityTypes = 'TerminLocation'|'TerminTemplate'|'Role';
+export type OlzSearchableEntityTypes = 'TerminLocation'|'TerminTemplate'|'Role'|'User';
 
 export type OlzEntityResult = {
     'id': number,
@@ -402,6 +402,8 @@ export type OlzApiEndpoint =
     'editRole'|
     'updateRole'|
     'deleteRole'|
+    'addUserRoleMembership'|
+    'removeUserRoleMembership'|
     'getSnippet'|
     'editSnippet'|
     'updateSnippet'|
@@ -663,6 +665,18 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         },
     deleteRole: {
             'id': number,
+        },
+    addUserRoleMembership: {
+            'ids': {
+            'roleId': number,
+            'userId': number,
+        },
+        },
+    removeUserRoleMembership: {
+            'ids': {
+            'roleId': number,
+            'userId': number,
+        },
         },
     getSnippet: {
             'id': number,
@@ -1021,6 +1035,12 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': number,
         },
     deleteRole: {
+            'status': 'OK'|'ERROR',
+        },
+    addUserRoleMembership: {
+            'status': 'OK'|'ERROR',
+        },
+    removeUserRoleMembership: {
             'status': 'OK'|'ERROR',
         },
     getSnippet: {

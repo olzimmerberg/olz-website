@@ -119,13 +119,24 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
 
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertSame(2, count($entity_manager->persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $entity = $entity_manager->persisted[0];
-        $this->assertSame(FakeRole::adminRole(), $entity);
-        $this->assertSame([2], array_map(function ($user) {
-            return $user->getId();
-        }, [...$entity->getUsers()]));
+
+        $role = $entity_manager->persisted[0];
+        $this->assertSame(FakeRole::adminRole(), $role);
+        $this->assertSame([
+            FakeUser::adminUser()->getId(),
+        ], array_map(function ($item) {
+            return $item->getId();
+        }, [...$role->getUsers()]));
+
+        $user = $entity_manager->persisted[1];
+        $this->assertSame(FakeUser::vorstandUser(), $user);
+        $this->assertSame([
+            FakeRole::vorstandRole()->getId(),
+        ], array_map(function ($item) {
+            return $item->getId();
+        }, [...$user->getRoles()]));
     }
 
     public function testRemoveUserRoleMembershipEndpoint(): void {
@@ -143,12 +154,19 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
 
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertSame(2, count($entity_manager->persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $entity = $entity_manager->persisted[0];
-        $this->assertSame(FakeRole::adminRole(), $entity);
-        $this->assertSame([], array_map(function ($user) {
-            return $user->getId();
-        }, [...$entity->getUsers()]));
+
+        $role = $entity_manager->persisted[0];
+        $this->assertSame(FakeRole::adminRole(), $role);
+        $this->assertSame([], array_map(function ($item) {
+            return $item->getId();
+        }, [...$role->getUsers()]));
+
+        $user = $entity_manager->persisted[1];
+        $this->assertSame(FakeUser::adminUser(), $user);
+        $this->assertSame([], array_map(function ($item) {
+            return $item->getId();
+        }, [...$user->getRoles()]));
     }
 }

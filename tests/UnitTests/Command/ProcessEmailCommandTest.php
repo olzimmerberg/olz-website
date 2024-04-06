@@ -466,7 +466,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
         $mailer->expects($this->exactly(0))->method('send');
 
         $job = new ProcessEmailCommand();
@@ -475,7 +474,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'CRITICAL Error forwarding email from empty-email@staging.olzimmerberg.ch to : getUserAddress: empty-email (ID:1) has no email.',
+            'CRITICAL Error forwarding email from empty-email@staging.olzimmerberg.ch to : getUserAddress: empty-email (User ID: 1) has no email.',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);

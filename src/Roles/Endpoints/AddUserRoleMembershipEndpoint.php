@@ -23,7 +23,9 @@ class AddUserRoleMembershipEndpoint extends OlzAddRelationEndpoint {
         }
 
         $role->addUser($user);
+        $user->addRole($role);
         $this->entityManager()->persist($role);
+        $this->entityManager()->persist($user);
         $this->entityManager()->flush();
 
         return ['status' => 'OK'];

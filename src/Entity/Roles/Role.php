@@ -178,6 +178,12 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
 
     // ---
 
+    public function __toString() {
+        $username = $this->getUsername() ?? '-';
+        $id = $this->getId() ?? '-';
+        return "{$username} (Role ID: {$id})";
+    }
+
     public static function getIdFieldNameForSearch(): string {
         return 'id';
     }
@@ -187,7 +193,7 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
     }
 
     public static function getFieldNamesForSearch(): array {
-        return ['name'];
+        return ['name', 'title', 'username'];
     }
 
     public function getTitleForSearch(): string {

@@ -23,7 +23,9 @@ class RemoveUserRoleMembershipEndpoint extends OlzRemoveRelationEndpoint {
         }
 
         $role->removeUser($user);
+        $user->removeRole($role);
         $this->entityManager()->persist($role);
+        $this->entityManager()->persist($user);
         $this->entityManager()->flush();
 
         return ['status' => 'OK'];

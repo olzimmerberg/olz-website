@@ -113,15 +113,25 @@ final class AddUserRoleMembershipEndpointTest extends UnitTestCase {
 
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertSame(2, count($entity_manager->persisted));
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $entity = $entity_manager->persisted[0];
-        $this->assertSame(FakeRole::adminRole(), $entity);
+
+        $role = $entity_manager->persisted[0];
+        $this->assertSame(FakeRole::adminRole(), $role);
         $this->assertSame([
             FakeUser::adminUser()->getId(),
             FakeUser::vorstandUser()->getId(),
-        ], array_map(function ($user) {
-            return $user->getId();
-        }, [...$entity->getUsers()]));
+        ], array_map(function ($item) {
+            return $item->getId();
+        }, [...$role->getUsers()]));
+
+        $user = $entity_manager->persisted[1];
+        $this->assertSame(FakeUser::vorstandUser(), $user);
+        $this->assertSame([
+            FakeRole::vorstandRole()->getId(),
+            FakeRole::adminRole()->getId(),
+        ], array_map(function ($item) {
+            return $item->getId();
+        }, [...$user->getRoles()]));
     }
 }

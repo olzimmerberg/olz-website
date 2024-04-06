@@ -200,7 +200,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Valid user request',
-            'WARNING Removing user user (ID:1).',
+            'WARNING Removing user user (User ID: 1).',
             'INFO Valid user response',
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);

@@ -47,6 +47,8 @@ class OlzApi extends Api {
         \Olz\Roles\Endpoints\EditRoleEndpoint $editRoleEndpoint,
         \Olz\Roles\Endpoints\UpdateRoleEndpoint $updateRoleEndpoint,
         \Olz\Roles\Endpoints\DeleteRoleEndpoint $deleteRoleEndpoint,
+        \Olz\Roles\Endpoints\AddUserRoleMembershipEndpoint $addUserRoleMembershipEndpoint,
+        \Olz\Roles\Endpoints\RemoveUserRoleMembershipEndpoint $removeUserRoleMembershipEndpoint,
         \Olz\Snippets\Endpoints\GetSnippetEndpoint $getSnippetEndpoint,
         \Olz\Snippets\Endpoints\EditSnippetEndpoint $editSnippetEndpoint,
         \Olz\Snippets\Endpoints\UpdateSnippetEndpoint $updateSnippetEndpoint,
@@ -146,6 +148,9 @@ class OlzApi extends Api {
         $this->registerEndpoint('updateRole', $updateRoleEndpoint);
         $this->registerEndpoint('deleteRole', $deleteRoleEndpoint);
 
+        $this->registerEndpoint('addUserRoleMembership', $addUserRoleMembershipEndpoint);
+        $this->registerEndpoint('removeUserRoleMembership', $removeUserRoleMembershipEndpoint);
+
         // Snippets
 
         $this->registerEndpoint('getSnippet', $getSnippetEndpoint);
@@ -242,6 +247,8 @@ class OlzApi extends Api {
             new \Olz\Roles\Endpoints\EditRoleEndpoint(),
             new \Olz\Roles\Endpoints\UpdateRoleEndpoint(),
             new \Olz\Roles\Endpoints\DeleteRoleEndpoint(),
+            new \Olz\Roles\Endpoints\AddUserRoleMembershipEndpoint(),
+            new \Olz\Roles\Endpoints\RemoveUserRoleMembershipEndpoint(),
             new \Olz\Snippets\Endpoints\GetSnippetEndpoint(),
             new \Olz\Snippets\Endpoints\EditSnippetEndpoint(),
             new \Olz\Snippets\Endpoints\UpdateSnippetEndpoint(),

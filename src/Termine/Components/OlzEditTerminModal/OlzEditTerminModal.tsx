@@ -16,6 +16,7 @@ import {initReact} from '../../../Utils/reactUtils';
 import './OlzEditTerminModal.scss';
 
 interface OlzEditTerminForm {
+    solvId: number|null;
     startDate: string;
     startTime: string;
     endDate: string;
@@ -24,15 +25,13 @@ interface OlzEditTerminForm {
     text: string;
     link: string;
     deadline: string;
-    hasNewsletter: string|boolean;
-    solvId: string;
-    go2olId: string;
     types: (string|boolean)[];
     locationId: number|null;
     coordinateX: string;
     coordinateY: string;
     fileIds: string[];
     imageIds: string[];
+    hasNewsletter: string|boolean;
 }
 
 const resolver: Resolver<OlzEditTerminForm> = async (values) => {
@@ -45,7 +44,6 @@ const resolver: Resolver<OlzEditTerminForm> = async (values) => {
     [errors.deadline, values.deadline] = validateDateTimeOrNull(
         values.deadline.length === 10 ? `${values.deadline} 23:59:59` : values.deadline,
     );
-    errors.solvId = validateIntegerOrNull(values.solvId);
     errors.coordinateX = validateIntegerOrNull(values.coordinateX);
     errors.coordinateY = validateIntegerOrNull(values.coordinateY);
     return getResolverResult(errors, values);
@@ -54,6 +52,7 @@ const resolver: Resolver<OlzEditTerminForm> = async (values) => {
 function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTerminData): OlzEditTerminForm {
     const typesSet = new Set(apiData?.types ?? []);
     return {
+        solvId: apiData?.solvId ?? null,
         startDate: getFormString(apiData?.startDate ?? isoNow.substring(0, 10)),
         startTime: getFormString(apiData?.startTime),
         endDate: getFormString(apiData?.endDate),
@@ -62,15 +61,13 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         text: getFormString(apiData?.text),
         link: getFormString(apiData?.link),
         deadline: getFormString(apiData?.deadline),
-        hasNewsletter: getFormBoolean(apiData?.newsletter),
-        solvId: getFormNumber(apiData?.solvId),
-        go2olId: getFormString(apiData?.go2olId),
         types: labels.map((label) => getFormBoolean(typesSet.has(label.data.ident))),
         locationId: apiData?.locationId ?? null,
         coordinateX: getFormNumber(apiData?.coordinateX),
         coordinateY: getFormNumber(apiData?.coordinateY),
         fileIds: apiData?.fileIds ?? [],
         imageIds: apiData?.imageIds ?? [],
+        hasNewsletter: getFormBoolean(apiData?.newsletter),
     };
 }
 
@@ -81,6 +78,7 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditT
         ))
         .filter(isDefined));
     return {
+        solvId: formData.solvId,
         startDate: getApiString(formData.startDate) ?? '',
         startTime: getApiString(formData.startTime),
         endDate: getApiString(formData.endDate),
@@ -89,15 +87,14 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditT
         text: getApiString(formData.text) ?? '',
         link: getApiString(formData.link) ?? '',
         deadline: getApiString(formData.deadline) || null,
-        newsletter: getApiBoolean(formData.hasNewsletter),
-        solvId: getApiNumber(formData.solvId),
-        go2olId: getApiString(formData.go2olId) || null,
         types: Array.from(typesSet),
         locationId: formData.locationId,
         coordinateX: getApiNumber(formData.coordinateX),
         coordinateY: getApiNumber(formData.coordinateY),
         fileIds: formData.fileIds,
         imageIds: formData.imageIds,
+        newsletter: getApiBoolean(formData.hasNewsletter),
+        go2olId: null,
     };
 }
 
@@ -118,6 +115,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     });
 
     const [isTemplateLoading, setIsTemplateLoading] = React.useState<boolean>(false);
+    const [isSolvLoading, setIsSolvLoading] = React.useState<boolean>(false);
     const [isLocationLoading, setIsLocationLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
@@ -128,6 +126,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
 
     const startDate = watch('startDate');
     const startTime = watch('startTime');
+    const solvId = watch('solvId');
     const locationId = watch('locationId');
 
     React.useEffect(() => {
@@ -206,6 +205,16 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         }
     }, [templateData, startDate, startTime]);
 
+    React.useEffect(() => {
+        if (!solvId) {
+            return;
+        }
+        setValue('deadline', '');
+        setValue('locationId', null);
+        setValue('coordinateX', '');
+        setValue('coordinateY', '');
+    }, [solvId]);
+
     const onSubmit: SubmitHandler<OlzEditTerminForm> = async (values) => {
         const meta: OlzMetaData = {
             ownerUserId: null,
@@ -233,7 +242,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         ? 'Termin-Eintrag erstellen'
         : 'Termin-Eintrag bearbeiten'
     );
-    const isLoading = isTemplateLoading || isLocationLoading || isImagesLoading || isFilesLoading;
+    const isLoading = isTemplateLoading || isSolvLoading || isLocationLoading || isImagesLoading || isFilesLoading;
 
     return (
         <div className='modal fade' id='edit-termin-modal' tabIndex={-1} aria-labelledby='edit-termin-modal-label' aria-hidden='true'>
@@ -258,6 +267,15 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                     />
                                 </div>
                                 <div className='col mb-3'>
+                                    <OlzEntityField
+                                        title='SOLV-Termin (mit autom. Updates)'
+                                        entityType='SolvEvent'
+                                        name='solvId'
+                                        errors={errors}
+                                        control={control}
+                                        setIsLoading={setIsSolvLoading}
+                                        nullLabel={'Kein SOLV-Termin ausgewählt'}
+                                    />
                                 </div>
                             </div>
                             <div className='row'>
@@ -328,36 +346,9 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                     name='deadline'
                                     errors={errors}
                                     register={register}
+                                    disabled={solvId !== null}
+                                    placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                                 />
-                            </div>
-                            <div className='mb-3'>
-                                <input
-                                    type='checkbox'
-                                    value='yes'
-                                    {...register('hasNewsletter')}
-                                    id='hasNewsletter-input'
-                                />
-                                <label htmlFor='hasNewsletter-input'>
-                                    Newsletter für Änderung
-                                </label>
-                            </div>
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='SOLV-ID'
-                                        name='solvId'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='GO2OL-ID'
-                                        name='go2olId'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
                             </div>
                             <div className='mb-3'>
                                 <label htmlFor='types-container'>Typ</label>
@@ -387,7 +378,8 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                         errors={errors}
                                         control={control}
                                         setIsLoading={setIsLocationLoading}
-                                        nullLabel={'Kein Termin-Ort ausgewählt'}
+                                        nullLabel={solvId ? 'Wird von SOLV übernommen' : 'Kein Termin-Ort ausgewählt'}
+                                        disabled={solvId !== null}
                                     />
                                 </div>
                                 <div className='col mb-3'>
@@ -401,6 +393,9 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                             name='coordinateX'
                                             errors={errors}
                                             register={register}
+                                            disabled={solvId !== null}
+                                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
+
                                         />
                                     </div>
                                     <div className='col mb-3'>
@@ -409,11 +404,13 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                             name='coordinateY'
                                             errors={errors}
                                             register={register}
+                                            disabled={solvId !== null}
+                                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                                         />
                                     </div>
                                 </div>
                             ) : null}
-                            <div id='images-upload'>
+                            <div className='mb-3' id='images-upload'>
                                 <OlzMultiImageField
                                     title='Bilder'
                                     name='imageIds'
@@ -422,7 +419,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                     setIsLoading={setIsImagesLoading}
                                 />
                             </div>
-                            <div id='files-upload'>
+                            <div className='mb-3' id='files-upload'>
                                 <OlzMultiFileField
                                     title='Dateien'
                                     name='fileIds'
@@ -430,6 +427,17 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                     control={control}
                                     setIsLoading={setIsFilesLoading}
                                 />
+                            </div>
+                            <div className='hasNewsletter-container'>
+                                <input
+                                    type='checkbox'
+                                    value='yes'
+                                    {...register('hasNewsletter')}
+                                    id='hasNewsletter-input'
+                                />
+                                <label htmlFor='hasNewsletter-input'>
+                                    Newsletter für Änderung
+                                </label>
                             </div>
                             <div className='success-message alert alert-success' role='alert'>
                                 {successMessage}

@@ -2,14 +2,17 @@
 
 namespace Olz\Entity;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\SearchableInterface;
 use Olz\Repository\SolvEventRepository;
 use Olz\Utils\WithUtilsTrait;
 
 #[ORM\Table(name: 'solv_events')]
 #[ORM\Index(name: 'date_index', columns: ['date'])]
 #[ORM\Entity(repositoryClass: SolvEventRepository::class)]
-class SolvEvent {
+class SolvEvent implements SearchableInterface {
     use WithUtilsTrait;
 
     #[ORM\Id]
@@ -269,5 +272,42 @@ class SolvEvent {
             throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
         }
         $this->{$field_name} = $new_field_value;
+    }
+
+    // ---
+
+    public static function getIdFieldNameForSearch(): string {
+        return 'solv_uid';
+    }
+
+    public function getIdForSearch(): int {
+        return $this->getSolvUid();
+    }
+
+    public static function getCriteriaForQuery(string $query): Expression {
+        if (preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $query)) {
+            return Criteria::expr()->orX(
+                Criteria::expr()->eq('date', new \DateTime($query)),
+                Criteria::expr()->contains('name', $query),
+            );
+        }
+        if (intval($query) > 1900) {
+            $next_year = strval(intval($query) + 1);
+            return Criteria::expr()->orX(
+                Criteria::expr()->andX(
+                    Criteria::expr()->gte('date', new \DateTime("{$query}-01-01 00:00:00")),
+                    Criteria::expr()->lt('date', new \DateTime("{$next_year}-01-01 00:00:00")),
+                ),
+                Criteria::expr()->contains('name', $query),
+            );
+        }
+        return Criteria::expr()->orX(
+            Criteria::expr()->contains('name', $query),
+        );
+    }
+
+    public function getTitleForSearch(): string {
+        $pretty_date = $this->getDate()->format('Y-m-d');
+        return "{$pretty_date}: {$this->getName()}";
     }
 }

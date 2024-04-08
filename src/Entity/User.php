@@ -2,6 +2,8 @@
 
 namespace Olz\Entity;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
@@ -471,8 +473,13 @@ class User extends OlzEntity implements SearchableInterface {
         return $this->getId();
     }
 
-    public static function getFieldNamesForSearch(): array {
-        return ['first_name', 'last_name', 'username', 'email'];
+    public static function getCriteriaForQuery(string $query): Expression {
+        return Criteria::expr()->orX(
+            Criteria::expr()->contains('first_name', $query),
+            Criteria::expr()->contains('last_name', $query),
+            Criteria::expr()->contains('username', $query),
+            Criteria::expr()->contains('email', $query),
+        );
     }
 
     public function getTitleForSearch(): string {

@@ -4,8 +4,10 @@ namespace Olz\Api\Endpoints;
 
 use Doctrine\Common\Collections\Criteria;
 use Olz\Api\OlzEndpoint;
+use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Roles\Role;
+use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Entity\User;
@@ -14,6 +16,7 @@ use PhpTypeScriptApi\HttpError;
 
 class SearchEntitiesEndpoint extends OlzEndpoint {
     public const SUPPORTED_ENTITY_TYPES = [
+        'SolvEvent' => SolvEvent::class,
         'TerminLocation' => TerminLocation::class,
         'TerminTemplate' => TerminTemplate::class,
         'Role' => Role::class,
@@ -62,20 +65,30 @@ class SearchEntitiesEndpoint extends OlzEndpoint {
             throw new HttpError(400, "{$entity_class} does not implement SearchableInterface");
         }
 
-        $field_names = $entity_class::getFieldNamesForSearch();
-        $matching_criterium = Criteria::expr()->orX(
-            ...array_map(function ($field_name) use ($input) {
-                return Criteria::expr()->contains($field_name, $input['query']);
-            }, $field_names),
+        // $field_names = $entity_class::getFieldNamesForSearch();
+        // $matching_criterium = Criteria::expr()->orX(
+        //     ...array_map(function ($field_name) use ($input) {
+        //         return Criteria::expr()->contains($field_name, $input['query']);
+        //     }, $field_names),
+        // );
+        $search_terms = preg_split('/\s+/', $input['query'] ?? '');
+        $matching_criterium = Criteria::expr()->andX(
+            ...array_map(function ($search_term) use ($entity_class) {
+                return $entity_class::getCriteriaForQuery($search_term);
+            }, $search_terms),
         );
+
         $id_field_name = $entity_class::getIdFieldNameForSearch();
         $id_criteria = $input['id'] ? [Criteria::expr()->eq($id_field_name, $input['id'])] : [];
 
         $repo = $this->entityManager()->getRepository($entity_class);
+        $on_off_criteria = is_subclass_of($entity_class, OlzEntity::class) ? [
+            Criteria::expr()->eq('on_off', 1),
+        ] : [];
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 $matching_criterium,
-                Criteria::expr()->eq('on_off', 1),
+                ...$on_off_criteria,
                 ...$id_criteria,
             ))
             ->setFirstResult(0)

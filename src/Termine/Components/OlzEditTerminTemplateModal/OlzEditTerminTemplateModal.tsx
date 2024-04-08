@@ -21,11 +21,11 @@ interface OlzEditTerminTemplateForm {
     link: string;
     deadlineEarlierSeconds: string;
     deadlineTime: string;
-    hasNewsletter: string|boolean;
     types: (string|boolean)[];
     locationId: number|null;
     imageIds: string[];
     fileIds: string[];
+    hasNewsletter: string|boolean;
 }
 
 const resolver: Resolver<OlzEditTerminTemplateForm> = async (values) => {
@@ -47,11 +47,11 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         link: getFormString(apiData?.link),
         deadlineEarlierSeconds: getFormNumber(apiData?.deadlineEarlierSeconds),
         deadlineTime: getFormString(apiData?.deadlineTime),
-        hasNewsletter: getFormBoolean(apiData?.newsletter),
         types: labels.map((label) => getFormBoolean(typesSet.has(label.data.ident))),
         locationId: apiData?.locationId ?? null,
         fileIds: apiData?.fileIds ?? [],
         imageIds: apiData?.imageIds ?? [],
+        hasNewsletter: getFormBoolean(apiData?.newsletter),
     };
 }
 
@@ -69,11 +69,11 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditT
         link: getApiString(formData.link) ?? '',
         deadlineEarlierSeconds: getApiNumber(formData.deadlineEarlierSeconds),
         deadlineTime: getApiString(formData.deadlineTime),
-        newsletter: getApiBoolean(formData.hasNewsletter),
         types: Array.from(typesSet),
         locationId: formData.locationId,
         fileIds: formData.fileIds,
         imageIds: formData.imageIds,
+        newsletter: getApiBoolean(formData.hasNewsletter),
     };
 }
 
@@ -202,17 +202,6 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                                 </div>
                             </div>
                             <div className='mb-3'>
-                                <input
-                                    type='checkbox'
-                                    value='yes'
-                                    {...register('hasNewsletter')}
-                                    id='hasNewsletter-input'
-                                />
-                                <label htmlFor='hasNewsletter-input'>
-                                    Newsletter für Änderung
-                                </label>
-                            </div>
-                            <div className='mb-3'>
                                 <label htmlFor='types-container'>Typ</label>
                                 <div id='types-container'>
                                     {props.labels?.map((label, index) => (
@@ -246,7 +235,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                                 <div className='col mb-3'>
                                 </div>
                             </div>
-                            <div id='images-upload'>
+                            <div className='mb-3' id='images-upload'>
                                 <OlzMultiImageField
                                     title='Bilder'
                                     name='imageIds'
@@ -255,7 +244,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                                     setIsLoading={setIsImagesLoading}
                                 />
                             </div>
-                            <div id='files-upload'>
+                            <div className='mb-3' id='files-upload'>
                                 <OlzMultiFileField
                                     title='Dateien'
                                     name='fileIds'
@@ -263,6 +252,17 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                                     control={control}
                                     setIsLoading={setIsFilesLoading}
                                 />
+                            </div>
+                            <div className='hasNewsletter-container'>
+                                <input
+                                    type='checkbox'
+                                    value='yes'
+                                    {...register('hasNewsletter')}
+                                    id='hasNewsletter-input'
+                                />
+                                <label htmlFor='hasNewsletter-input'>
+                                    Newsletter für Änderung
+                                </label>
                             </div>
                             <div className='success-message alert alert-success' role='alert'>
                                 {successMessage}

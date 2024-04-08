@@ -55,7 +55,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $temp_path = "{$data_path}temp/";
         mkdir($temp_path);
-        $temp_realpath = realpath($temp_path);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -107,7 +106,6 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         mkdir("{$temp_path}/dir");
         file_put_contents("{$temp_path}/dir/file.txt", "test");
         file_put_contents("{$temp_path}/file.txt", "test");
-        $temp_realpath = realpath($temp_path);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 

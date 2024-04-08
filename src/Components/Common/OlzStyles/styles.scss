@@ -219,8 +219,7 @@ div.thumb,
 .liste_ftp td,
 .liste td,
 .galerie-kopf td,
-.tablebar,
-.accordion-title {
+.tablebar {
     padding: 1px 8px 2px;
 }
 
@@ -269,8 +268,7 @@ textarea,
 
 /*-----------HINTERGRUND-------------*/
 .tablebar,
-.galerie-kopf td,
-.accordion-title {
+.galerie-kopf td {
     background-image: url('../../../../assets/icns/listheaderbg.png') !important;
     background-repeat: repeat;
 }
@@ -324,10 +322,6 @@ a.text {
     color: #000;
 }
 
-.accordion-title {
-    color: #000;
-}
-
 .passe * {
     color: #999;
 }
@@ -350,8 +344,7 @@ h3,
 .button,
 .tablebar,
 .titel,
-.galerie-kopf td,
-.accordion-title {
+.galerie-kopf td {
     font-weight: bold;
 }
 
@@ -539,29 +532,6 @@ input.button,
 .rendered-markdown a[data-src] {
     padding: 0;
     background: none;
-}
-
-/*-----------------Accordion (in "aktuell_r", "galerie_r")-----------------*/
-.accordion-title,
-.accordion-content {
-    position: relative;
-}
-
-.accordion-title {
-    cursor: pointer;
-    font-size: 115%;
-    overflow: hidden;
-    user-select: none;
-}
-
-.accordion-content {
-    height: 1px;
-    overflow: hidden;
-    width: 100%;/* IE Erlaubt 0px nicht */
-}
-
-.accordion-content- {
-    height: auto;
 }
 
 .responsive-flex {

@@ -12,10 +12,6 @@
         height: 150px;
     }
 
-    #hasNewsletter-input {
-        margin-right: 10px;
-    }
-
     #types-container {
         margin-top: 10px;
     }
@@ -26,5 +22,13 @@
         input {
             margin-right: 10px;
         }
+    }
+
+    .hasNewsletter-container {
+        text-align: right;
+    }
+
+    #hasNewsletter-input {
+        margin-right: 10px;
     }
 }

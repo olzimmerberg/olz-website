@@ -106,6 +106,7 @@ export const OlzEntityField = <
                 data-bs-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
+                disabled={props?.disabled}
                 onClick={() => {
                     if (searchInput.current) {
                         searchInput.current.focus();

@@ -71,18 +71,6 @@ function test_create_termin_new($driver, $base_url) {
         WebDriverBy::cssSelector('#deadline-input')
     );
     sendKeys($deadline_input, '2020-08-01 23:59:59');
-    $has_newsletter_input = $driver->findElement(
-        WebDriverBy::cssSelector('#hasNewsletter-input')
-    );
-    click($has_newsletter_input);
-    $solv_id_input = $driver->findElement(
-        WebDriverBy::cssSelector('#solvId-input')
-    );
-    sendKeys($solv_id_input, '6822');
-    $go2ol_id_input = $driver->findElement(
-        WebDriverBy::cssSelector('#go2olId-input')
-    );
-    sendKeys($go2ol_id_input, '2014nat6');
     $types_programm_input = $driver->findElement(
         WebDriverBy::cssSelector('#types-programm-input')
     );
@@ -123,6 +111,11 @@ function test_create_termin_new($driver, $base_url) {
         );
         return count($file_uploaded) == 1;
     });
+
+    $has_newsletter_input = $driver->findElement(
+        WebDriverBy::cssSelector('#hasNewsletter-input')
+    );
+    click($has_newsletter_input);
 
     take_pageshot($driver, 'termine_new_edit');
 
@@ -239,10 +232,6 @@ function test_create_termin_template_new($driver, $base_url) {
         WebDriverBy::cssSelector('#deadlineTime-input')
     );
     sendKeys($deadline_time_input, '23:59:59');
-    $has_newsletter_input = $driver->findElement(
-        WebDriverBy::cssSelector('#hasNewsletter-input')
-    );
-    click($has_newsletter_input);
     $types_programm_input = $driver->findElement(
         WebDriverBy::cssSelector('#types-programm-input')
     );
@@ -283,6 +272,11 @@ function test_create_termin_template_new($driver, $base_url) {
         );
         return count($file_uploaded) == 1;
     });
+
+    $has_newsletter_input = $driver->findElement(
+        WebDriverBy::cssSelector('#hasNewsletter-input')
+    );
+    click($has_newsletter_input);
 
     take_pageshot($driver, 'termin_templates_new_edit');
 

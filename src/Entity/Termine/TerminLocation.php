@@ -2,6 +2,8 @@
 
 namespace Olz\Entity\Termine;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
@@ -96,8 +98,10 @@ class TerminLocation extends OlzEntity implements SearchableInterface, DataStora
         return $this->getId();
     }
 
-    public static function getFieldNamesForSearch(): array {
-        return ['name'];
+    public static function getCriteriaForQuery(string $query): Expression {
+        return Criteria::expr()->orX(
+            Criteria::expr()->contains('name', $query),
+        );
     }
 
     public function getTitleForSearch(): string {

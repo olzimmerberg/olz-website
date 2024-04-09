@@ -129,6 +129,7 @@ class OlzRolePage extends OlzComponent {
         $out .= "<br/><h2>Verantwortlich</h2>";
         if ($num_assignees === 0) {
             $out .= "<p><i>Keine Ressort-Verantwortlichen</i></p>";
+            $out .= $add_membership_admin;
         } else {
             $out .= "<div class='olz-user-info-card-list'>";
             foreach ($assignees as $assignee) {

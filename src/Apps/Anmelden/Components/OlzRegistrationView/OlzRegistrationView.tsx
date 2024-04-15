@@ -30,7 +30,7 @@ export const OlzRegistrationView = (): React.ReactElement => {
                     {
                         type: 'siCardNumber',
                         isOptional: true,
-                        title: 'SI-Card Nummer',
+                        title: 'SI-Card-Nummer',
                         description: '= Badge-Nummer. Leer lassen falls nicht vorhanden.',
                         options: null,
                     },

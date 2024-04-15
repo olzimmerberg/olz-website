@@ -1,76 +1,58 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
-import {olzApi} from '../../../Api/client';
-import {OlzMetaData, OlzDownloadData} from '../../../Api/client/generated_olz_api_types';
-import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
-import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Utils/formUtils';
-import {initReact} from '../../../Utils/reactUtils';
+import {olzApi} from '../../../../Api/client';
+import {OlzApiRequests} from '../../../../Api/client/generated_olz_api_types';
+import {OlzMultiFileField} from '../../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
+import {OlzTextField} from '../../../../Components/Common/OlzTextField/OlzTextField';
+import {getApiString, getResolverResult, validateNotEmpty} from '../../../../Utils/formUtils';
+import {initReact} from '../../../../Utils/reactUtils';
 
-import './OlzEditDownloadModal.scss';
+import './OlzEditResultModal.scss';
 
-interface OlzEditDownloadForm {
+interface OlzEditResultForm {
     name: string;
-    position: string;
-    fileIds: string[];
+    iofXmlFileIds: string[];
 }
 
-const resolver: Resolver<OlzEditDownloadForm> = async (values) => {
-    const errors: FieldErrors<OlzEditDownloadForm> = {};
+const resolver: Resolver<OlzEditResultForm> = async (values) => {
+    const errors: FieldErrors<OlzEditResultForm> = {};
     errors.name = validateNotEmpty(values.name);
-    errors.position = validateInteger(values.position);
-    const requiredNumFileIds = values.name === '---' ? 0 : 1;
-    if (values.fileIds?.length !== requiredNumFileIds) {
-        errors.fileIds = {type: 'validate', message: `Genau ${requiredNumFileIds} Datei(en) erforderlich.`};
-    }
     return getResolverResult(errors, values);
 };
 
-function getFormFromApi(apiData?: OlzDownloadData): OlzEditDownloadForm {
+function getApiFromForm(formData: OlzEditResultForm): OlzApiRequests['updateResults'] {
     return {
-        name: getFormString(apiData?.name),
-        position: getFormNumber(apiData?.position),
-        fileIds: apiData?.fileId ? [apiData.fileId] : [],
-    };
-}
-
-function getApiFromForm(formData: OlzEditDownloadForm): OlzDownloadData {
-    return {
-        name: getApiString(formData.name) ?? '',
-        position: getApiNumber(formData.position),
-        fileId: formData.fileIds?.[0] ?? null,
+        file: getApiString(formData.name) ?? '',
+        content: null,
+        iofXmlFileId: formData.iofXmlFileIds?.[0] ?? null,
     };
 }
 
 // ---
 
-interface OlzEditDownloadModalProps {
+interface OlzEditResultModalProps {
     id?: number;
-    meta?: OlzMetaData;
-    data?: OlzDownloadData;
+    data?: OlzApiRequests['updateResults'];
 }
 
-export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.ReactElement => {
-    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditDownloadForm>({
+export const OlzEditResultModal = (props: OlzEditResultModalProps): React.ReactElement => {
+    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditResultForm>({
         resolver,
-        defaultValues: getFormFromApi(props.data),
+        defaultValues: {
+            name: props?.data?.file ?? '',
+            iofXmlFileIds: [],
+        },
     });
 
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-    const onSubmit: SubmitHandler<OlzEditDownloadForm> = async (values) => {
-        const meta: OlzMetaData = {
-            ownerUserId: null,
-            ownerRoleId: null,
-            onOff: true,
-        };
+    const onSubmit: SubmitHandler<OlzEditResultForm> = async (values) => {
         const data = getApiFromForm(values);
-        const [err, response] = await (props.id
-            ? olzApi.getResult('updateDownload', {id: props.id, meta, data})
-            : olzApi.getResult('createDownload', {meta, data}));
+        const [err, response] = await olzApi.getResult('updateResults', data)
+           ;
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
@@ -83,15 +65,15 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
         window.location.reload();
     };
 
-    const dialogTitle = props.id === undefined ? 'Download erstellen' : 'Download bearbeiten';
+    const dialogTitle = props.id === undefined ? 'Resultat erstellen' : 'Resultat bearbeiten';
 
     return (
-        <div className='modal fade' id='edit-download-modal' tabIndex={-1} aria-labelledby='edit-download-modal-label' aria-hidden='true'>
+        <div className='modal fade' id='edit-result-modal' tabIndex={-1} aria-labelledby='edit-result-modal-label' aria-hidden='true'>
             <div className='modal-dialog'>
                 <div className='modal-content'>
                     <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
                         <div className='modal-header'>
-                            <h5 className='modal-title' id='edit-download-modal-label'>
+                            <h5 className='modal-title' id='edit-result-modal-label'>
                                 {dialogTitle}
                             </h5>
                             <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
@@ -99,25 +81,17 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
                         <div className='modal-body'>
                             <div className='mb-3'>
                                 <OlzTextField
-                                    title='Name (--- für Trennlinie)'
+                                    title='Dateiname (muss auf .xml enden)'
                                     name='name'
                                     options={{required: 'Name darf nicht leer sein!'}}
                                     errors={errors}
                                     register={register}
                                 />
                             </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Position'
-                                    name='position'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
                             <div id='file-upload'>
                                 <OlzMultiFileField
-                                    title='Dateien'
-                                    name='fileIds'
+                                    title='IOF-XML Resultate-Datei'
+                                    name='iofXmlFileIds'
                                     errors={errors}
                                     control={control}
                                     setIsLoading={setIsLoading}
@@ -148,20 +122,18 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
     );
 };
 
-export function initOlzEditDownloadModal(
+export function initOlzEditResultModal(
     id?: number,
-    meta?: OlzMetaData,
-    data?: OlzDownloadData,
+    data?: OlzApiRequests['updateResults'],
 ): boolean {
     initReact('edit-entity-react-root', (
-        <OlzEditDownloadModal
+        <OlzEditResultModal
             id={id}
-            meta={meta}
             data={data}
         />
     ));
     window.setTimeout(() => {
-        const modal = document.getElementById('edit-download-modal');
+        const modal = document.getElementById('edit-result-modal');
         if (modal) {
             new bootstrap.Modal(modal, {backdrop: 'static'}).show();
         }

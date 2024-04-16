@@ -269,6 +269,9 @@ class OlzTerminDetail extends OlzComponent {
         if (is_file("{$data_path}results/{$result_filename}")) {
             // OLZ Ranglisten-Link zeigen
             $link .= "<div><a href='{$code_href}apps/resultate?file={$result_filename}' target='_blank' class='linkext'>Ranglisten</a></div>\n";
+        } elseif ($can_edit) {
+            // OLZ Rangliste-hochladen-Link zeigen
+            $link .= "<div><a href='{$code_href}apps/resultate?file={$result_filename}' target='_blank' class='linkext'>Rangliste hochladen</a></div>\n";
         }
         if ($row_solv && ($row_solv['event_link'] ?? false) && !preg_match('/Ausschreibung/', $link) && $start_date <= $today) {
             // SOLV-Ausschreibungs-Link zeigen

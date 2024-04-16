@@ -24,7 +24,7 @@ class OlzHeaderBar extends OlzComponent {
             'back_link' => $back_link,
         ], $this);
 
-        $back_link_out = ($back_link !== null)
+        $hamburger_or_back_out = ($back_link !== null)
             ? <<<ZZZZZZZZZZ
             <a href='{$back_link}' id='menu-switch'>
                 <img
@@ -74,28 +74,15 @@ class OlzHeaderBar extends OlzComponent {
 
         $out = <<<ZZZZZZZZZZ
         <div id='header-bar' class='header-bar menu-closed'>
-            <div class='above-header'>
-                <div class='account-menu-container'>
-                    {$account_menu_out}
-                </div>
+            <div class='header-content'>
+                {$hamburger_or_back_out}
+                <div class='logo-container'>{$logo_out}</div>
+                <div class='spacer'></div>
+                <div class='account-menu-container'>{$account_menu_out}</div>
             </div>
             <div class='below-header'>
                 <div id='menu-container' class='menu-container'>
                     {$menu_out}
-                </div>
-            </div>
-            {$back_link_out}
-            <div class='header-content-container'>
-                <div class='header-content-scroller'>
-                    <div class='header-content'>
-                        {$logo_out}
-                        <div style='flex-grow:1;'></div>
-                        <div class='header-box'>
-                            <a href='{$code_href}trophy' id='trophy-link'>
-                                <img src='{$data_href}img/trophy.png' alt='trophy' />
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

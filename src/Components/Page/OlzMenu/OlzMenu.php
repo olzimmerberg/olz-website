@@ -83,19 +83,45 @@ class OlzMenu extends OlzComponent {
                 />
             </form>
             <div class='sysadmin-mail'>
-                <script type='text/javascript'>olz.MailTo(\\"website\\", \\"olzimmerberg.ch\\", \\"sysadmin\\", \\"Homepage%20OL%20Zimmerberg\\");</script>
+                <script type='text/javascript'>
+                    olz.MailTo("website", "olzimmerberg.ch", "sysadmin", "Homepage%20OL%20Zimmerberg");
+                </script>
             </div>
             <div class='platform-links'>
-                <a href='https://github.com/olzimmerberg/olz-website' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf GitHub' class='platform-link'>
+                <a
+                    href='https://github.com/olzimmerberg/olz-website'
+                    target='_blank'
+                    rel='noreferrer noopener'
+                    title='OL Zimmerberg auf GitHub'
+                    class='platform-link'
+                >
                     <img src='{$code_href}assets/icns/github_16.svg' alt='g' class='noborder' />
                 </a>
-                <a href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf YouTube' class='platform-link'>
+                <a
+                    href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ'
+                    target='_blank'
+                    rel='noreferrer noopener'
+                    title='OL Zimmerberg auf YouTube'
+                    class='platform-link'
+                >
                     <img src='{$code_href}assets/icns/youtube_16.svg' alt='Y' class='noborder' />
                 </a>
-                <a href='https://www.facebook.com/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Facebook' class='platform-link'>
+                <a
+                    href='https://www.facebook.com/olzimmerberg'
+                    target='_blank'
+                    rel='noreferrer noopener'
+                    title='OL Zimmerberg auf Facebook'
+                    class='platform-link'
+                >
                     <img src='{$code_href}assets/icns/facebook_16.svg' alt='f' class='noborder' />
                 </a>
-                <a href='https://www.strava.com/clubs/olzimmerberg' target='_blank' rel='noreferrer noopener' title='OL Zimmerberg auf Strava' class='platform-link'>
+                <a
+                    href='https://www.strava.com/clubs/olzimmerberg'
+                    target='_blank'
+                    rel='noreferrer noopener'
+                    title='OL Zimmerberg auf Strava'
+                    class='platform-link'
+                >
                     <img src='{$code_href}assets/icns/strava_16.svg' alt='s' class='noborder' />
                 </a>
             </div>

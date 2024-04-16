@@ -13,8 +13,8 @@ export function highlightOrganigrammScroll(id: string): void {
     }
     elem.style.backgroundColor = 'rgba(0,0,0,0)';
     const rect = elem.getBoundingClientRect();
-    const optimalPageYOffset = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2;
-    window.scrollTo({top: optimalPageYOffset, behavior: 'smooth'});
+    const optimalScrollY = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2;
+    window.scrollTo({top: optimalScrollY, behavior: 'smooth'});
     const optimalPageXOffset = scrollElem.scrollLeft + rect.left + rect.width / 2 - scrollElem.offsetWidth / 2;
     scrollElem.scrollTo({left: optimalPageXOffset, behavior: 'smooth'});
     window.setTimeout(() => {

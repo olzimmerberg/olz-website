@@ -81,7 +81,8 @@
     color: rgb(136, 136, 136);
     padding: 3px;
     background-color: rgb(238, 238, 238);
-    border: 1px solid rgb(170, 170, 170);
+    border-width: 1px 0;
+    border-color: rgb(170, 170, 170);
     margin-top: 24px;
 
     &:focus {
@@ -97,7 +98,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 6px 6px 0 6px;
+    padding: 6px;
 
     .platform-link {
         margin-left: 8px;

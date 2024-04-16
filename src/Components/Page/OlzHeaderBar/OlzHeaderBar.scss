@@ -13,46 +13,52 @@
     height: 42px;
 }
 
-.header-content-container {
-    height: 75px;
-    margin: 0 auto -15px;
-    padding-right: 52px;
-    max-width: 1200px;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    position: relative;
-    transition: margin 0.5s, opacity 0.5s;
-}
-
-.header-content-scroller {
-    height: 300px;
-    overflow-x: scroll;
-    overflow-y: hidden;
-}
-
 .header-content {
-    align-items: center;
     display: flex;
+    flex-direction: row;
+    position: relative;
     height: 75px;
-    transition: opacity 0.5s;
+    margin: 0 auto;
+    max-width: 1200px;
 }
 
-.header-bar.minified .header-content-container {
-    margin: -33px auto -15px;
-    opacity: 0;
-    pointer-events: none;
+.header-bar.minified .header-content  {
+    height: 42px;
 }
 
-.header-box {
-    margin: 0 5px;
+.logo-container {
+    height: 65px;
+    margin-top: 5px;
+    margin-left: 55px;
+    overflow: hidden;
+    transition: margin 0.5s, height 0.5s;
 }
 
-.above-header {
-    height: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 1; /* account menu in front of header content */
+.header-bar.minified .logo-container {
+    height: 32px;
+}
+
+#olz-logo {
+    height: 65px;
+    transition: height 0.5s;
+}
+
+.header-bar.minified #olz-logo {
+    height: 46px;
+}
+
+.header-bar .spacer {
+    flex-grow: 1;
+}
+
+.account-menu-container {
+    margin-top: 8px;
+    margin-right: 10px;
+    transition: margin 0.5s;
+}
+
+.header-bar.minified .account-menu-container {
+    margin-top: 2px;
 }
 
 .below-header {
@@ -77,12 +83,6 @@
 .menu-closed .menu-container {
     opacity: 0;
     pointer-events: none;
-}
-
-#olz-logo {
-    height: 65px;
-    margin-left: 55px;
-    transition: margin 0.5s;
 }
 
 #menu-switch {
@@ -116,49 +116,8 @@
     opacity: 0;
 }
 
-.account-menu-container {
-    position: relative;
-    top: 10px;
-    transition: top 0.5s;
-    margin: 0 auto;
-    max-width: 1200px;
-}
-
-.header-bar.minified .account-menu-container  {
-    top: 0;
-}
-
-#weekend-link {
-    img {
-        border: 0;
-        position: relative;
-        height: 130px;
-    }
-
-    &:hover {
-        img {
-            filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
-        }
-    }
-}
-
-#trophy-link {
-    img {
-        border: 0;
-        position: relative;
-        margin-top: 5px;
-        height: 70px;
-    }
-
-    &:hover {
-        img {
-            filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
-        }
-    }
-}
-
 @media screen and (min-width: 1024px) {
-    #olz-logo {
+    .logo-container {
         margin-left: 10px;
     }
 

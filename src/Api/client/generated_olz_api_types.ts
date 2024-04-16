@@ -849,7 +849,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
         },
     updateResults: {
             'file': string,
-            'content': string,
+            'content': string|null,
+            'iofXmlFileId': string|null,
         },
     getAppSearchEnginesCredentials: Record<string, never>,
     getAppStatisticsCredentials: Record<string, never>,

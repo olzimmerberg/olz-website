@@ -34,6 +34,7 @@ class OlzTerminDetail extends OlzComponent {
 
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();
+        $data_path = $this->envUtils()->getDataPath();
         $date_utils = $this->dateUtils();
         $today = $date_utils->getIsoToday();
         $db = $this->dbUtils()->getDb();
@@ -105,7 +106,6 @@ class OlzTerminDetail extends OlzComponent {
         $link = $row['link'] ?? '';
         $typ = $row['typ'] ?? '';
         $types = explode(' ', $typ);
-        $newsletter = $row['newsletter'] ?? '';
         $xkoord = $row['xkoord'] ?? '';
         $ykoord = $row['ykoord'] ?? '';
         $go2ol = $row['go2ol'] ?? '';
@@ -254,18 +254,23 @@ class OlzTerminDetail extends OlzComponent {
 
         // Link
         $link = $file_utils->replaceFileTags($link, 'termine', $id);
-        if ($go2ol > "" and $start_date >= $today) {
+        if ($go2ol > "" && $start_date >= $today) {
             $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
-        } elseif ($row_solv && $row_solv['entryportal'] == 1 and $start_date >= $today) {
+        } elseif ($row_solv && $row_solv['entryportal'] == 1 && $start_date >= $today) {
             $link .= "<div class='linkext'><a href='https://www.go2ol.ch/index.asp?lang=de' target='_blank'>Anmeldung</a></div>\n";
-        } elseif ($row_solv && $row_solv['entryportal'] == 2 and $start_date >= $today) {
+        } elseif ($row_solv && $row_solv['entryportal'] == 2 && $start_date >= $today) {
             $link .= "<div class='linkext'><a href='https://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
         }
-        if ($solv_uid > 0 and $start_date <= $today and strpos($link, "Rangliste") == "" and strpos($link, "Resultat") == "" and strpos($typ, "ol") >= 0) {
-            // Ranglisten-Link zeigen
-            $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id=".$solv_uid."&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
+        if ($solv_uid > 0 && $start_date <= $today && !preg_match('/(Rangliste|Resultat)/', $link)) {
+            // SOLV Ranglisten-Link zeigen
+            $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id={$solv_uid}&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
         }
-        if ($row_solv && ($row_solv["event_link"] ?? false) and strpos($link, "Ausschreibung") == "" and strpos($typ, "ol") >= 0 and $start_date <= $today) {
+        $result_filename = "{$termin_year}-termine-{$id}.xml";
+        if (is_file("{$data_path}results/{$result_filename}")) {
+            // OLZ Ranglisten-Link zeigen
+            $link .= "<div><a href='{$code_href}apps/resultate?file={$result_filename}' target='_blank' class='linkext'>Ranglisten</a></div>\n";
+        }
+        if ($row_solv && ($row_solv['event_link'] ?? false) && !preg_match('/Ausschreibung/', $link) && $start_date <= $today) {
             // SOLV-Ausschreibungs-Link zeigen
             $ispdf = preg_match("/\\.pdf$/", $row_solv["event_link"]);
             $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";

@@ -597,6 +597,7 @@ class DevDataUtils {
         // Build results/
         $this->mkdir("{$data_path}results");
         $this->copy("{$sample_path}sample-results.xml", "{$data_path}results/results.xml");
+        $this->copy("{$sample_path}sample-results.xml", "{$data_path}results/2020-termine-7.xml");
 
         // Build temp/
         $this->mkdir("{$data_path}temp");

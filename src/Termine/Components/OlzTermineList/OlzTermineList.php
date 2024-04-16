@@ -200,14 +200,24 @@ class OlzTermineList extends OlzComponent {
         $has_archive_access = $this->authUtils()->hasPermission('verified_email');
         if ($is_not_archived || $has_archive_access) {
             $result = $db->query($sql);
-            $last_month = null;
+            $today = $this->dateUtils()->getCurrentDateInFormat('Y-m-d');
+            $last_date = null;
             while ($row = $result->fetch_assoc()) {
-                $this_month = substr($row['start_date'], 0, 7);
-                if ($this_month !== $last_month) {
-                    $pretty_month = $this->dateUtils()->olzDate("MM jjjj", "{$this_month}-01");
-                    $out .= "<h3 class='tablebar'>{$pretty_month}</h3>";
+                $this_date = $row['start_date'];
+                $this_month_start = $this->getMonth($this_date).'-01';
+
+                if ($today < $this_month_start && $today > $last_date) {
+                    $out .= "<div class='todaybar'>Heute</div>";
                 }
-                $last_month = $this_month;
+                if ($this->getMonth($this_date) !== $this->getMonth($last_date)) {
+                    $pretty_month = $this->dateUtils()->olzDate("MM jjjj", $this_date);
+                    $out .= "<h3 class='monthbar'>{$pretty_month}</h3>";
+                }
+                if ($today <= $this_date && $today > $last_date && $today >= $this_month_start) {
+                    $out .= "<div class='todaybar'>Heute</div>";
+                }
+
+                $last_date = $this_date;
 
                 $out .= OlzTermineListItem::render([
                     'item_type' => $row['item_type'],
@@ -242,5 +252,12 @@ class OlzTermineList extends OlzComponent {
         $out .= OlzFooter::render();
 
         return $out;
+    }
+
+    protected function getMonth(?string $date): ?string {
+        if ($date === null) {
+            return null;
+        }
+        return substr($date, 0, 7);
     }
 }

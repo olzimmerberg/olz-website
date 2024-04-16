@@ -38,7 +38,7 @@ class OlzDatenschutz extends OlzComponent {
             </ul>
         </div>
         <div class='content-middle'>
-            <h1>Datenschutz</h1>
+            <h1>Datenschutzerklärung</h1>
             <h3>Grundsatz</h3>
             <p>Wir sammeln <b>keine</b> personenbezogenen Daten von <b>nicht eingeloggten Nicht-Mitgliedern</b>.</p>
             <p>Von <b>eingeloggten</b> Nutzern sammeln wir nur die personenbezogenen Daten, die für den Orientierungslauf-Vereinsbetrieb oder die Funktionalität dieser Website <b>notwendig</b> sind.</p>

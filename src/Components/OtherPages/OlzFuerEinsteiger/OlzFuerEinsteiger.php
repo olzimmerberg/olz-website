@@ -34,12 +34,6 @@ class OlzFuerEinsteiger extends OlzComponent {
             'canonical_url' => $canonical_url,
         ]);
 
-        $out .= "<style>
-        .olz-override-root .header-box {
-            display: none;
-        }
-        </style>";
-
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
         $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);

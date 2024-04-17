@@ -2,8 +2,8 @@
 
 namespace Olz\Controller;
 
-use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
+use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FileToolsController extends AbstractController {
+    use WithUtilsTrait;
+
     #[Route('/file_tools/thumb/{db_table}${id}${index}${dimension}.svg', requirements: [
         'db_table' => '[a-z_]+',
         'id' => '\d+',
@@ -24,7 +26,7 @@ class FileToolsController extends AbstractController {
         string $index,
         int $dimension,
     ): Response {
-        $data_path = EnvUtils::fromEnv()->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
 
         session_write_close();
         if (!isset(FileUtils::TABLES_FILE_DIRS[$db_table])) {

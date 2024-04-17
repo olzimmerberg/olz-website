@@ -9,7 +9,7 @@
     z-index: 100;
 }
 
-.header-bar.minified {
+.header-minified .header-bar {
     height: 42px;
 }
 
@@ -22,7 +22,7 @@
     max-width: 1200px;
 }
 
-.header-bar.minified .header-content  {
+.header-minified .header-content  {
     height: 42px;
 }
 
@@ -34,7 +34,7 @@
     transition: margin 0.5s, height 0.5s;
 }
 
-.header-bar.minified .logo-container {
+.header-minified .logo-container {
     height: 32px;
 }
 
@@ -43,7 +43,7 @@
     transition: height 0.5s;
 }
 
-.header-bar.minified #olz-logo {
+.header-minified #olz-logo {
     height: 46px;
 }
 
@@ -57,7 +57,7 @@
     transition: margin 0.5s;
 }
 
-.header-bar.minified .account-menu-container {
+.header-minified .account-menu-container {
     margin-top: 2px;
 }
 
@@ -69,7 +69,7 @@
     z-index: 1; /* menu in front of hidden header content */
 }
 
-.header-bar.minified .below-header {
+.header-minified .below-header {
     top: 42px;
 }
 
@@ -94,7 +94,7 @@
     z-index: 1; /* menu switch in front of logo */
 }
 
-.header-bar.minified #menu-switch {
+.header-minified #menu-switch {
     top: 0;
 }
 

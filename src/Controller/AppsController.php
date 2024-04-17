@@ -6,7 +6,7 @@ use Olz\Components\Apps\OlzAppsList\OlzAppsList;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\AuthUtils;
-use Olz\Utils\HttpUtils;
+use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AppsController extends AbstractController {
+    use WithUtilsTrait;
+
     public static $title = "Apps";
     public static $description = "Eine Sammlung von kleineren Tools rund um die Tätigkeiten der OL Zimmerberg.";
 
@@ -23,7 +25,8 @@ class AppsController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
-        HttpUtils::fromEnv()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->countRequest($request);
 
         $out = OlzHeader::render([
             'title' => self::$title,

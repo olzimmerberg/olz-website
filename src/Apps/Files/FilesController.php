@@ -4,6 +4,7 @@ namespace Olz\Apps\Files;
 
 use Olz\Apps\Files\Components\OlzFiles\OlzFiles;
 use Olz\Apps\Files\Components\OlzWebDav\OlzWebDav;
+use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,11 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FilesController extends AbstractController {
+    use WithUtilsTrait;
+
     #[Route('/apps/files')]
     public function index(
         Request $request,
         LoggerInterface $logger,
     ): Response {
+        $this->httpUtils()->countRequest($request);
         $html_out = OlzFiles::render();
         return new Response($html_out);
     }
@@ -25,6 +29,7 @@ class FilesController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
+        $this->httpUtils()->countRequest($request);
         return $this->webdav($request, $logger);
     }
 
@@ -34,6 +39,7 @@ class FilesController extends AbstractController {
         LoggerInterface $logger,
         string $path,
     ): Response {
+        $this->httpUtils()->countRequest($request);
         return $this->webdav($request, $logger, $path);
     }
 
@@ -42,6 +48,7 @@ class FilesController extends AbstractController {
         LoggerInterface $logger,
         ?string $path = null,
     ): Response {
+        $this->httpUtils()->countRequest($request);
         $html_out = OlzWebDav::render(['path' => $path]);
         $response = new Response($html_out);
         foreach (headers_list() as $header) {

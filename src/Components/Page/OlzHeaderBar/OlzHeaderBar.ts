@@ -1,15 +1,11 @@
 export function resizeHeaderBar(): void {
-    const headerBarElem = document.getElementById('header-bar');
-    if (!headerBarElem) {
-        return;
-    }
-    const isMinified = headerBarElem.className.indexOf('minified') !== -1;
+    const isMinified = document.body.className.indexOf('header-minified') !== -1;
     const shouldBeMinified = window.scrollY > 30;
     if (shouldBeMinified && !isMinified) {
-        headerBarElem.className = `${headerBarElem.className} minified`;
+        document.body.className = `${document.body.className} header-minified`;
     }
     if (!shouldBeMinified && isMinified) {
-        headerBarElem.className = headerBarElem.className.replace(/\bminified\b/g, '');
+        document.body.className = document.body.className.replace(/\bheader-minified\b/g, '');
     }
 }
 window.addEventListener('load', resizeHeaderBar);

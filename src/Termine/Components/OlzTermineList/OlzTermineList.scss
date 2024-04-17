@@ -10,28 +10,38 @@
 
 .monthbar {
     position: sticky;
-    top: 42px;
-    z-index: 9;
+    top: 75px;
+    transition: top 0.5s;
+    z-index: 101;
     background: linear-gradient(rgb(0, 200, 0), rgb(0, 150, 0));
     background-color: rgb(0, 175, 0);
     height: 22px;
-    margin: 0;
+    margin: 0 -10px;
     border: 0;
-    padding: 1px 4px;
+    padding: 1px 14px;
+}
+
+.header-minified .monthbar {
+    top: 42px;
 }
 
 .todaybar {
     position: sticky;
-    top: 64px;
+    top: 97px;
+    transition: top 0.5s;
     bottom: 0;
-    z-index: 10;
+    z-index: 102;
     background: linear-gradient(rgb(250, 0, 0), rgb(180, 0, 0));
     background-color: rgb(175, 0, 0);
     text-align: center;
     height: 18px;
-    margin: 0;
+    margin: 0 -10px;
     border: 0;
-    padding: 0 4px;
+    padding: 0 14px;
+} 
+
+.header-minified .todaybar {
+    top: 64px;
 }
 
 .olz-no-access {
@@ -44,5 +54,17 @@
         .btn {
             margin: 0 10px;
         }
+    }
+}
+
+@media screen and (min-width: 832px) {
+    .monthbar {
+        margin: 0;
+        padding: 1px 4px;
+    }
+
+    .todaybar {
+        margin: 0;
+        padding: 0 4px;
     }
 }

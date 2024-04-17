@@ -5,10 +5,23 @@ namespace Olz\Utils;
 use Olz\Components\Error\OlzErrorPage\OlzErrorPage;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
+use Olz\Entity\Counter;
 use PhpTypeScriptApi\Fields\ValidationError;
+use Symfony\Component\HttpFoundation\Request;
 
 class HttpUtils {
     use WithUtilsTrait;
+
+    public function countRequest(Request $request, $get_params = []) {
+        $path = "{$request->getBasePath()}{$request->getPathInfo()}";
+        $query = array_map(function ($key) use ($request) {
+            $value = $request->query->get($key);
+            return "{$key}={$value}";
+        }, $get_params);
+        $pretty_query = empty($query) ? '' : '?'.implode('&', $query);
+        $counter_repo = $this->entityManager()->getRepository(Counter::class);
+        $counter_repo->record("{$path}{$pretty_query}");
+    }
 
     public function dieWithHttpError(int $http_status_code) {
         $this->sendHttpResponseCode($http_status_code);

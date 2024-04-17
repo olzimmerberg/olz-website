@@ -6,24 +6,12 @@ use Olz\Entity\Counter;
 use Olz\Repository\Common\OlzRepository;
 
 class CounterRepository extends OlzRepository {
-    public function record($page, $date, $referrer, $user_agent) {
-        if (
-            preg_match('/bingbot/i', $user_agent)
-            || preg_match('/googlebot/i', $user_agent)
-        ) {
-            return;
-        }
+    public function record($page) {
         $truncated_page = substr($page, 0, 255);
         $config = [
             'page' => $truncated_page,
-            'date_range' => $date->getCurrentDateInFormat('Y-m'),
+            'date_range' => $this->dateUtils()->getCurrentDateInFormat('Y-m'),
             'args' => null,
-        ];
-        $this->recordWithConfig($config);
-        $config = [
-            'page' => $truncated_page,
-            'date_range' => $date->getCurrentDateInFormat('Y'),
-            'args' => json_encode(['referrer' => $referrer]),
         ];
         $this->recordWithConfig($config);
     }

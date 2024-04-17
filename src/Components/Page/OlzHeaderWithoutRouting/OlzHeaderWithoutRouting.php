@@ -5,7 +5,6 @@ namespace Olz\Components\Page\OlzHeaderWithoutRouting;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
-use Olz\Entity\Counter;
 use Olz\Utils\StandardSession;
 
 class OlzHeaderWithoutRouting extends OlzComponent {
@@ -60,16 +59,6 @@ class OlzHeaderWithoutRouting extends OlzComponent {
             'back_link' => $args['back_link'] ?? null,
             'skip_auth_menu' => $args['skip_auth_menu'] ?? false,
         ], $this);
-
-        if (!($args['skip_counter'] ?? false)) {
-            $counter_repo = $entityManager->getRepository(Counter::class);
-            $counter_repo->record(
-                $this->server()['REQUEST_URI'] ?? '',
-                $this->dateUtils(),
-                $this->server()['HTTP_REFERER'] ?? '',
-                $this->server()['HTTP_USER_AGENT'] ?? ''
-            );
-        }
 
         return <<<ZZZZZZZZZZ
         <!DOCTYPE html>

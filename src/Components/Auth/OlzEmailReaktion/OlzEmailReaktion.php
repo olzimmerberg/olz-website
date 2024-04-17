@@ -24,7 +24,6 @@ class OlzEmailReaktion extends OlzComponent {
             'title' => "Reaktion auf E-Mail",
             'description' => "Reaktion auf E-Mail.",
             'norobots' => true,
-            'skip_counter' => true,
         ]);
 
         $out .= "<div class='content-full'>";

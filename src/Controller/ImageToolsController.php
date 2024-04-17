@@ -2,8 +2,8 @@
 
 namespace Olz\Controller;
 
-use Olz\Utils\EnvUtils;
 use Olz\Utils\ImageUtils;
+use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImageToolsController extends AbstractController {
+    use WithUtilsTrait;
+
     #[Route('/image_tools/thumb/{db_table}${id}${index}${dimension}.jpg', requirements: [
         'db_table' => '[a-z_]+',
         'id' => '\d+',
@@ -24,7 +26,7 @@ class ImageToolsController extends AbstractController {
         string $index,
         int $dimension,
     ): Response {
-        $data_path = EnvUtils::fromEnv()->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
 
         session_write_close();
         if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {

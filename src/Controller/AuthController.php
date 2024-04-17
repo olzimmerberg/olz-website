@@ -7,6 +7,7 @@ use Olz\Components\Auth\OlzKontoPasswort\OlzKontoPasswort;
 use Olz\Components\Auth\OlzKontoStrava\OlzKontoStrava;
 use Olz\Components\Auth\OlzKontoTelegram\OlzKontoTelegram;
 use Olz\Components\Auth\OlzProfil\OlzProfil;
+use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,11 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AuthController extends AbstractController {
+    use WithUtilsTrait;
+
     #[Route('/email_reaktion')]
     public function emailReaktion(
         Request $request,
         LoggerInterface $logger,
     ): Response {
+        $this->httpUtils()->countRequest($request);
         $out = OlzEmailReaktion::render();
         return new Response($out);
     }
@@ -28,6 +32,7 @@ class AuthController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
+        $this->httpUtils()->countRequest($request);
         $out = OlzKontoPasswort::render();
         return new Response($out);
     }
@@ -37,6 +42,7 @@ class AuthController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
+        $this->httpUtils()->countRequest($request);
         $out = OlzKontoStrava::render();
         return new Response($out);
     }
@@ -46,6 +52,7 @@ class AuthController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
+        $this->httpUtils()->countRequest($request);
         $out = OlzKontoTelegram::render();
         return new Response($out);
     }
@@ -55,6 +62,7 @@ class AuthController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
+        $this->httpUtils()->countRequest($request);
         $out = OlzProfil::render();
         return new Response($out);
     }

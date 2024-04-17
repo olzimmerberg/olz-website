@@ -3,7 +3,7 @@
 namespace Olz\Controller;
 
 use Olz\Api\OlzApi;
-use Olz\Utils\LogsUtils;
+use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ApiController extends AbstractController {
+    use WithUtilsTrait;
+
     #[Route('/api/{endpoint_name}')]
     public function index(
         Request $request,
@@ -18,23 +20,9 @@ class ApiController extends AbstractController {
         OlzApi $olz_api,
         string $endpoint_name
     ): Response {
-        $logger = LogsUtils::fromEnv()->getLogger('OlzApi');
-        $olz_api->setLogger($logger);
+        $this->httpUtils()->countRequest($request);
 
-        $request->server->set('PATH_INFO', "/{$endpoint_name}");
-        return $olz_api->getResponse($request);
-    }
-
-    // TODO: Remove!
-    #[Route('/api/index.php/{endpoint_name}')]
-    public function oldIndex(
-        Request $request,
-        LoggerInterface $logger,
-        OlzApi $olz_api,
-        string $endpoint_name
-    ): Response {
-        $logger = LogsUtils::fromEnv()->getLogger('OlzApi');
-        $olz_api->setLogger($logger);
+        $olz_api->setLogger($this->log());
 
         $request->server->set('PATH_INFO', "/{$endpoint_name}");
         return $olz_api->getResponse($request);

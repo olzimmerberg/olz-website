@@ -7,10 +7,10 @@ require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
 $konto_passwort_url = '/konto_passwort';
-$webftp_url = '/webftp.php';
+$webdav_url = '/apps/files/webdav/';
 
 function test_konto_passwort($driver, $base_url) {
-    global $konto_passwort_url, $webftp_url;
+    global $konto_passwort_url, $webdav_url;
     tick('konto_passwort');
 
     test_konto_passwort_readonly($driver, $base_url);
@@ -53,10 +53,10 @@ function test_konto_passwort($driver, $base_url) {
     sleep(1);
     take_pageshot($driver, 'konto_passwort_submitted');
 
-    $driver->get("{$base_url}{$webftp_url}");
+    $driver->get("{$base_url}{$webdav_url}");
     $driver->navigate()->refresh();
-    $driver->get("{$base_url}{$webftp_url}");
-    take_pageshot($driver, 'konto_passwort_new_webftp');
+    $driver->get("{$base_url}{$webdav_url}");
+    take_pageshot($driver, 'konto_passwort_new_webdav');
 
     logout($driver, $base_url);
 

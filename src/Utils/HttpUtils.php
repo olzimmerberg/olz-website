@@ -13,6 +13,16 @@ class HttpUtils {
     use WithUtilsTrait;
 
     public function countRequest(Request $request, $get_params = []) {
+        $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';
+        if (
+            preg_match('/bingbot/i', $user_agent)
+            || preg_match('/googlebot/i', $user_agent)
+            || preg_match('/applebot/i', $user_agent)
+            || preg_match('/yandexbot/i', $user_agent)
+            || preg_match('/bot\//i', $user_agent)
+        ) {
+            return;
+        }
         $path = "{$request->getBasePath()}{$request->getPathInfo()}";
         $query = array_map(function ($key) use ($request) {
             $value = $request->query->get($key);

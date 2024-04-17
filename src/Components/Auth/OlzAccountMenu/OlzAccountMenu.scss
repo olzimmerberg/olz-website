@@ -6,11 +6,11 @@
         background-color: #f00;
         border-radius: 5px;
         position: absolute;
-        top: 6px;
-        right: 6px;
+        top: 14px;
+        right: 16px;
         width: 10px;
         height: 10px;
-        transition: width 0.5s, height 0.5s, border-radius 0.5s;
+        transition: top 0.5s, right 0.5s, width 0.5s, height 0.5s, border-radius 0.5s;
     }
 }
 
@@ -53,11 +53,11 @@
 
     #account-menu-link {
         .notification-dot {
-            border-radius: 3px;
-            top: 5px;
-            right: 5px;
-            width: 6px;
-            height: 6px;
+            border-radius: 4px;
+            top: 6px;
+            right: 12px;
+            width: 8px;
+            height: 8px;
         }
     }
 }

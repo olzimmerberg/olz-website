@@ -42,7 +42,6 @@ require_once __DIR__.'/modules/termine.php';
 require_once __DIR__.'/modules/trophy.php';
 require_once __DIR__.'/modules/verein.php';
 require_once __DIR__.'/modules/webdav.php';
-require_once __DIR__.'/modules/webftp.php';
 require_once __DIR__.'/modules/zimmerberg_ol.php';
 
 date_default_timezone_set('Europe/Zurich');
@@ -112,7 +111,6 @@ $blocks = [
         test_webdav($driver, $base_url);
         test_login_logout($driver, $base_url);
         test_profil($driver, $base_url);
-        test_webftp($driver, $base_url);
         test_live_results($driver, $base_url);
         test_resultate($driver, $base_url);
         test_service($driver, $base_url);

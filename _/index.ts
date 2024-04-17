@@ -7,9 +7,6 @@ import lightGallery from 'lightgallery';
 import lgVideo from 'lightgallery/plugins/video';
 
 import './index.scss';
-import './webftp.scss';
-
-export * from './webftp';
 
 export * from '../src/Apps/index';
 export * from '../src/Components/index';

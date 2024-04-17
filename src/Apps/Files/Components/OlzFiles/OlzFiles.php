@@ -33,7 +33,6 @@ class OlzFiles extends OlzComponent {
         // TODO: Remove link to old view
         $out .= <<<ZZZZZZZZZZ
         <div class='content-full'>
-            <div><a href='/webftp.php' class='linkint'>Zurück zur alten Ansicht</a></div>
             <iframe class='files-iframe' src='{$iframe_url}'></iframe>
         </div>
         ZZZZZZZZZZ;

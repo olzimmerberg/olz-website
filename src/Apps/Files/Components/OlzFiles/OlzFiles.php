@@ -23,7 +23,7 @@ class OlzFiles extends OlzComponent {
         }
 
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}apps/",
+            'back_link' => "{$code_href}service/",
             'title' => "Dateien",
             'norobots' => true,
         ]);

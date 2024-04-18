@@ -19,7 +19,7 @@ class OlzOev extends OlzComponent {
         $metadata = new Metadata();
 
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}apps/",
+            'back_link' => "{$code_href}service/",
             'title' => "ÖV-Tool",
             'description' => "Tool für die Suche von gemeinsamen ÖV-Verbindungen.",
             'norobots' => true,

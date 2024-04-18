@@ -79,7 +79,6 @@ class OlzAccountMenu extends OlzComponent {
                 $out .= "<div class='dropdown-divider'></div>";
             }
 
-            $out .= "<a class='dropdown-item' href='{$this->envUtils()->getCodeHref()}apps/'>Apps</a>";
             $out .= <<<'ZZZZZZZZZZ'
             <a
                 id='logout-menu-item'

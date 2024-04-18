@@ -25,7 +25,7 @@ class OlzPanini2024 extends OlzComponent {
         $is_read_only = ($now_datetime > $deadline_datetime && !$has_admin_access);
 
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}apps/",
+            'back_link' => "{$code_href}service/",
             'title' => "Panini '24",
             'norobots' => true,
         ]);

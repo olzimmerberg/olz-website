@@ -13,7 +13,7 @@ class OlzSearchEngines extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}apps/",
+            'back_link' => "{$code_href}service/",
             'title' => "Suchmaschinen",
             'norobots' => true,
         ]);

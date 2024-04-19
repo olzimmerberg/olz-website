@@ -322,7 +322,7 @@ VALUES
     ('1', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '**OL-Training (im Sommerhalbjahr)**\n\n*für Kartentechnik und Orientierung im Wald (ab 6 Jahren)*\n\njeden Dienstag gemäss Terminkalender\n\n[Trainingsplan 2020](/pdf/Trainingsplan_2020.pdf)\n\n**Hallentraining (im Winterhalbjahr)**\n\n*für Kondition, Kraft, Schnelligkeit mit viel Spiel &amp; Spass (ab 6 Jahren)*\n\nSchulhaus Schweikrüti Gattikon (Montag 18.10 - 19.45 Uhr)\n\nSchulhaus Steinacher Au (Dienstag, 18.00-19.15-20.30 Uhr)\n\nTurnhalle Platte Thalwil (Freitag, 20.15-22.00 Uhr, Spiel)\n\n**Longjoggs (im Winterhalbjahr)**\n\n*für Ausdauer und Kondition (Jugendliche &amp; Erwachsene)*\n\nan Sonntagen gemäss Terminkalender'),
     ('22', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Wichtige Information! ⚠️'),
     ('23', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Abgesagt! ⚠️'),
-    ('24', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Wichtig! ⚠️\n\n![](./oCGvpb96V6bZNLoQNe8djJgw.jpg) [PDF](./AXfZYP3eyLKTWJmfBRGTua7H.pdf)\n\n1. [Intern](/apps)\n2. [Extern](https://solv.ch)\n\n- [E-Mail](mailto:user@staging.olzimmerberg.ch)');
+    ('24', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Wichtig! ⚠️\n\n![](./oCGvpb96V6bZNLoQNe8djJgw.jpg) [PDF](./AXfZYP3eyLKTWJmfBRGTua7H.pdf)\n\n1. [Intern](/service)\n2. [Extern](https://solv.ch)\n\n- [E-Mail](mailto:user@staging.olzimmerberg.ch)');
 
 -- Table solv_events
 INSERT INTO solv_events

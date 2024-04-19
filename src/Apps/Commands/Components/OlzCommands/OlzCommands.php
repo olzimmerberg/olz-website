@@ -15,7 +15,7 @@ class OlzCommands extends OlzComponent {
         $code_href = $env_utils->getCodeHref();
 
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}apps/",
+            'back_link' => "{$code_href}service/",
             'title' => 'Commands',
             'description' => "Symfony-Commands (Befehle) ausführen.",
         ]);

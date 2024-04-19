@@ -21,7 +21,7 @@ class OlzResults extends OlzComponent {
         $metadata = new Metadata();
 
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}apps/",
+            'back_link' => "{$code_href}service/",
             'title' => "Resultate",
             'norobots' => true,
         ]);

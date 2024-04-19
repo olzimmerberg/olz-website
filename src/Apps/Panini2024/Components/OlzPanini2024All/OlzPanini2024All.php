@@ -19,7 +19,7 @@ class OlzPanini2024All extends OlzComponent {
         $metadata = new Metadata();
 
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}apps/",
+            'back_link' => "{$code_href}service/",
             'title' => "Panini '24 All",
             'norobots' => true,
         ]);

@@ -15,7 +15,7 @@ class OlzPanini2024Masks extends OlzComponent {
         $metadata = new Metadata();
 
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}apps/",
+            'back_link' => "{$code_href}service/",
             'title' => "Panini '24 Masks",
             'norobots' => true,
         ]);

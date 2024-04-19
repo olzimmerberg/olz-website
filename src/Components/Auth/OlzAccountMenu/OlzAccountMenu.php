@@ -76,10 +76,10 @@ class OlzAccountMenu extends OlzComponent {
                     </a>
                     ZZZZZZZZZZ;
                 }
-                $out .= "<div class='dropdown-divider'></div>";
             }
 
             $out .= <<<'ZZZZZZZZZZ'
+            <div class='dropdown-divider'></div>
             <a
                 id='logout-menu-item'
                 class='dropdown-item'

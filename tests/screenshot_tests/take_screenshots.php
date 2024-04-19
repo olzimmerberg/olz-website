@@ -42,7 +42,6 @@ require_once __DIR__.'/modules/termine.php';
 require_once __DIR__.'/modules/trophy.php';
 require_once __DIR__.'/modules/verein.php';
 require_once __DIR__.'/modules/webdav.php';
-require_once __DIR__.'/modules/zimmerberg_ol.php';
 
 date_default_timezone_set('Europe/Zurich');
 
@@ -93,7 +92,6 @@ $blocks = [
         test_trophy($driver, $base_url);
         test_error($driver, $base_url);
         test_suche($driver, $base_url);
-        test_zimmerberg_ol($driver, $base_url);
         test_apps($driver, $base_url);
 
         echo get_pretty_timing_report();

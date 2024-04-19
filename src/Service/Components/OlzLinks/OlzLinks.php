@@ -3,6 +3,7 @@
 namespace Olz\Service\Components\OlzLinks;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Service\Link;
 
@@ -36,7 +37,7 @@ class OlzLinks extends OlzComponent {
             ));
         }
         $criteria = $criteria
-            ->orderBy(['position' => Criteria::ASC])
+            ->orderBy(['position' => Order::Ascending])
             ->setFirstResult(0)
             ->setMaxResults(100)
         ;

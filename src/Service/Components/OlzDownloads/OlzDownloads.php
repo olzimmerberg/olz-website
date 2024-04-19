@@ -3,6 +3,7 @@
 namespace Olz\Service\Components\OlzDownloads;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Service\Download;
 use Olz\Utils\FileUtils;
@@ -37,7 +38,7 @@ class OlzDownloads extends OlzComponent {
             ));
         }
         $criteria = $criteria
-            ->orderBy(['position' => Criteria::ASC])
+            ->orderBy(['position' => Order::Ascending])
             ->setFirstResult(0)
             ->setMaxResults(100)
         ;

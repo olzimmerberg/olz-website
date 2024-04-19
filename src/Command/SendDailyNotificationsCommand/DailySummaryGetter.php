@@ -3,6 +3,7 @@
 namespace Olz\Command\SendDailyNotificationsCommand;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Termine\Termin;
@@ -30,7 +31,7 @@ class DailySummaryGetter {
                 Criteria::expr()->eq('newsletter', 1),
                 Criteria::expr()->eq('on_off', 1),
             ))
-            ->orderBy(['start_date' => Criteria::ASC, 'start_time' => Criteria::ASC])
+            ->orderBy(['start_date' => Order::Ascending, 'start_time' => Order::Ascending])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
@@ -175,7 +176,7 @@ class DailySummaryGetter {
                 ),
                 Criteria::expr()->eq('on_off', 1),
             ))
-            ->orderBy(['published_date' => Criteria::ASC, 'published_time' => Criteria::ASC])
+            ->orderBy(['published_date' => Order::Ascending, 'published_time' => Order::Ascending])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;

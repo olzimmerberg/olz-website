@@ -10,43 +10,44 @@ use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 
-class FakeDeleteUserEndpointNewsEntryRepository {
+class FakeDeleteUserEndpointNewsEntryRepository extends FakeOlzRepository {
     public $has_news = true;
 
-    public function findBy($where) {
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new NewsEntry()];
     }
 
-    public function findOneBy($where) {
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         return $this->has_news ? new NewsEntry() : null;
     }
 }
 
-class FakeDeleteUserEndpointNotificationSubscriptionRepository {
-    public function findBy($where) {
+class FakeDeleteUserEndpointNotificationSubscriptionRepository extends FakeOlzRepository {
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new NotificationSubscription()];
     }
 }
 
-class FakeDeleteUserEndpointTelegramLinkRepository {
-    public function findBy($where) {
+class FakeDeleteUserEndpointTelegramLinkRepository extends FakeOlzRepository {
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new TelegramLink()];
     }
 }
 
-class FakeDeleteUserEndpointStravaLinkRepository {
-    public function findBy($where) {
+class FakeDeleteUserEndpointStravaLinkRepository extends FakeOlzRepository {
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new StravaLink()];
     }
 }
 
-class FakeDeleteUserEndpointAccessTokenRepository {
-    public function findBy($where) {
+class FakeDeleteUserEndpointAccessTokenRepository extends FakeOlzRepository {
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new AccessToken()];
     }
 }
@@ -113,13 +114,13 @@ final class DeleteUserEndpointTest extends UnitTestCase {
 
     public function testDeleteUserEndpointCannotDelete(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $news_repo = new FakeDeleteUserEndpointNewsEntryRepository();
+        $news_repo = new FakeDeleteUserEndpointNewsEntryRepository($entity_manager);
         $news_repo->has_news = true;
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $entity_manager->repositories[NotificationSubscription::class] = new FakeDeleteUserEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository();
-        $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository();
-        $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
+        $entity_manager->repositories[NotificationSubscription::class] = new FakeDeleteUserEndpointNotificationSubscriptionRepository($entity_manager);
+        $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository($entity_manager);
+        $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository($entity_manager);
+        $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository($entity_manager);
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new DeleteUserEndpointForTest();
         $endpoint->runtimeSetup();
@@ -178,13 +179,13 @@ final class DeleteUserEndpointTest extends UnitTestCase {
 
     public function testDeleteUserEndpointCanDelete(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $news_repo = new FakeDeleteUserEndpointNewsEntryRepository();
+        $news_repo = new FakeDeleteUserEndpointNewsEntryRepository($entity_manager);
         $news_repo->has_news = false;
         $entity_manager->repositories[NewsEntry::class] = $news_repo;
-        $entity_manager->repositories[NotificationSubscription::class] = new FakeDeleteUserEndpointNotificationSubscriptionRepository();
-        $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository();
-        $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository();
-        $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository();
+        $entity_manager->repositories[NotificationSubscription::class] = new FakeDeleteUserEndpointNotificationSubscriptionRepository($entity_manager);
+        $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository($entity_manager);
+        $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository($entity_manager);
+        $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository($entity_manager);
         WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
         $endpoint = new DeleteUserEndpointForTest();
         $endpoint->runtimeSetup();

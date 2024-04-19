@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity\Anmelden;
 
 use Olz\Entity\Anmelden\Registration;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\FakeEntityManager;
 
-class FakeRegistrationRepository {
-    public function findOneBy($where) {
-        if ($where === ['id' => FakeEntityManager::AUTO_INCREMENT_ID]) {
+class FakeRegistrationRepository extends FakeOlzRepository {
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
+        if ($criteria === ['id' => FakeEntityManager::AUTO_INCREMENT_ID]) {
             $registration = new Registration();
             $registration->setId(264);
             $registration->setTitle('Test title');
@@ -20,7 +21,7 @@ class FakeRegistrationRepository {
             $registration->setOnOff(true);
             return $registration;
         }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
+        $criteria_json = json_encode($criteria);
+        throw new \Exception("Query not mocked in findOneBy: {$criteria_json}", 1);
     }
 }

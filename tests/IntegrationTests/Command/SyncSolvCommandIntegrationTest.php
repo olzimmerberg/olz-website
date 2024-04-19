@@ -58,16 +58,14 @@ final class SyncSolvCommandIntegrationTest extends IntegrationTestCase {
     public function testRun(): void {
         $this->withLockedDb(function () {
             $job = new SyncSolvCommand();
-            $logger = Fake\FakeLogger::create();
             WithUtilsCache::set('solvFetcher', new FakeSyncSolvCommandIntegrationTestSolvFetcher());
-            $job->setLog($logger);
             $input = new ArrayInput([]);
             $output = new BufferedOutput();
 
             $result = $job->run($input, $output);
 
             // Way too big to test.
-            // $this->assertSame([], $logger->handler->getPrettyRecords());
+            // $this->assertSame([], $this->getLogs());
 
             $this->assertSame(Command::SUCCESS, $result);
 

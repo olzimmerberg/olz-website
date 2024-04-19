@@ -4,7 +4,24 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\EventManager;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\Cache;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataFactory;
+use Doctrine\ORM\Mapping\NamedQuery;
+use Doctrine\ORM\NativeQuery;
+use Doctrine\ORM\Proxy\ProxyFactory;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\Query\FilterCollection;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\UnitOfWork;
+use Doctrine\Persistence\ObjectRepository;
 use Olz\Entity\AccessToken;
 use Olz\Entity\Anmelden\Booking;
 use Olz\Entity\Anmelden\Registration;
@@ -22,6 +39,7 @@ use Olz\Entity\Service\Link;
 use Olz\Entity\Snippets\Snippet;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\StravaLink;
+use Olz\Entity\TelegramLink;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
@@ -36,6 +54,7 @@ use Olz\Tests\Fake\Entity\FakeAuthRequestRepository;
 use Olz\Tests\Fake\Entity\FakeNotificationSubscriptionRepository;
 use Olz\Tests\Fake\Entity\FakeSolvEventRepository;
 use Olz\Tests\Fake\Entity\FakeStravaLinkRepository;
+use Olz\Tests\Fake\Entity\FakeTelegramLinkRepository;
 use Olz\Tests\Fake\Entity\FakeThrottlingRepository;
 use Olz\Tests\Fake\Entity\FakeUserRepository;
 use Olz\Tests\Fake\Entity\Karten\FakeKarteRepository;
@@ -52,7 +71,7 @@ use Olz\Tests\Fake\Entity\Termine\FakeTerminLocationRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminTemplateRepository;
 
-class FakeEntityManager extends EntityManager {
+class FakeEntityManager implements EntityManagerInterface {
     public const AUTO_INCREMENT_ID = 270;
 
     public $persisted = [];
@@ -64,33 +83,34 @@ class FakeEntityManager extends EntityManager {
 
     public function __construct() {
         $this->repositories = [
-            AccessToken::class => new FakeAccessTokenRepository(),
-            AuthRequest::class => new FakeAuthRequestRepository(),
-            Booking::class => new FakeBookingRepository(),
-            Download::class => new FakeDownloadRepository(),
-            Karte::class => new FakeKarteRepository(),
-            Link::class => new FakeLinkRepository(),
-            NewsEntry::class => new FakeNewsRepository(),
-            NotificationSubscription::class => new FakeNotificationSubscriptionRepository(),
-            Registration::class => new FakeRegistrationRepository(),
-            RegistrationInfo::class => new FakeRegistrationInfoRepository(),
-            Role::class => new FakeRoleRepository(),
-            Skill::class => new FakeSkillRepository(),
-            SkillCategory::class => new FakeSkillCategoryRepository(),
-            SkillLevel::class => new FakeSkillLevelRepository(),
-            Snippet::class => new FakeSnippetRepository(),
-            SolvEvent::class => new FakeSolvEventRepository(),
-            StravaLink::class => new FakeStravaLinkRepository(),
-            Termin::class => new FakeTerminRepository(),
-            TerminLabel::class => new FakeTerminLabelRepository(),
-            TerminLocation::class => new FakeTerminLocationRepository(),
-            TerminTemplate::class => new FakeTerminTemplateRepository(),
-            Throttling::class => new FakeThrottlingRepository(),
-            User::class => new FakeUserRepository(),
+            AccessToken::class => new FakeAccessTokenRepository($this),
+            AuthRequest::class => new FakeAuthRequestRepository($this),
+            Booking::class => new FakeBookingRepository($this),
+            Download::class => new FakeDownloadRepository($this),
+            Karte::class => new FakeKarteRepository($this),
+            Link::class => new FakeLinkRepository($this),
+            NewsEntry::class => new FakeNewsRepository($this),
+            NotificationSubscription::class => new FakeNotificationSubscriptionRepository($this),
+            Registration::class => new FakeRegistrationRepository($this),
+            RegistrationInfo::class => new FakeRegistrationInfoRepository($this),
+            Role::class => new FakeRoleRepository($this),
+            Skill::class => new FakeSkillRepository($this),
+            SkillCategory::class => new FakeSkillCategoryRepository($this),
+            SkillLevel::class => new FakeSkillLevelRepository($this),
+            Snippet::class => new FakeSnippetRepository($this),
+            SolvEvent::class => new FakeSolvEventRepository($this),
+            StravaLink::class => new FakeStravaLinkRepository($this),
+            TelegramLink::class => new FakeTelegramLinkRepository($this),
+            Termin::class => new FakeTerminRepository($this),
+            TerminLabel::class => new FakeTerminLabelRepository($this),
+            TerminLocation::class => new FakeTerminLocationRepository($this),
+            TerminTemplate::class => new FakeTerminTemplateRepository($this),
+            Throttling::class => new FakeThrottlingRepository($this),
+            User::class => new FakeUserRepository($this),
         ];
     }
 
-    public function getRepository($class) {
+    public function getRepository($class): ObjectRepository|EntityRepository {
         $repo = $this->repositories[$class] ?? null;
         if (!$repo) {
             throw new \Exception("Repository was not mocked: {$class}");
@@ -98,7 +118,7 @@ class FakeEntityManager extends EntityManager {
         return $repo;
     }
 
-    public function persist($object) {
+    public function persist($object): void {
         if (method_exists($object, 'getId')) {
             // Simulate SQL auto-increment.
             if ($object->getId() === null) {
@@ -108,13 +128,161 @@ class FakeEntityManager extends EntityManager {
         $this->persisted[] = $object;
     }
 
-    public function remove($object) {
+    public function remove($object): void {
         $this->removed[] = $object;
     }
 
-    public function flush($entity = null) {
+    public function flush($entity = null): void {
         $this->flushed = true;
         $this->flushed_persisted = $this->persisted;
         $this->flushed_removed = $this->removed;
+    }
+
+    public function beginTransaction(): void {
+        throw new \Exception('not implemented');
+    }
+
+    public function close(): void {
+        throw new \Exception('not implemented');
+    }
+
+    public function commit(): void {
+        throw new \Exception('not implemented');
+    }
+
+    public function copy($entity, $deep = false): object {
+        throw new \Exception('not implemented');
+    }
+
+    public function createNamedNativeQuery($name): NativeQuery {
+        throw new \Exception('not implemented');
+    }
+
+    public function createNamedQuery($name): NamedQuery {
+        throw new \Exception('not implemented');
+    }
+
+    public function createNativeQuery($sql, Query\ResultSetMapping $rsm): NativeQuery {
+        throw new \Exception('not implemented');
+    }
+
+    public function createQuery($dql = ''): Query {
+        throw new \Exception('not implemented');
+    }
+
+    public function createQueryBuilder(): QueryBuilder {
+        throw new \Exception('not implemented');
+    }
+
+    public function getCache(): ?Cache {
+        throw new \Exception('not implemented');
+    }
+
+    public function getClassMetadata($className): ClassMetadata {
+        throw new \Exception('not implemented');
+    }
+
+    public function getConfiguration(): Configuration {
+        throw new \Exception('not implemented');
+    }
+
+    public function getConnection(): Connection {
+        throw new \Exception('not implemented');
+    }
+
+    public function getEventManager(): EventManager {
+        throw new \Exception('not implemented');
+    }
+
+    public function getExpressionBuilder(): Expr {
+        throw new \Exception('not implemented');
+    }
+
+    public function getFilters(): FilterCollection {
+        throw new \Exception('not implemented');
+    }
+
+    public function getHydrator($hydrationMode): AbstractHydrator {
+        throw new \Exception('not implemented');
+    }
+
+    public function getPartialReference($entityName, $identifier): object {
+        throw new \Exception('not implemented');
+    }
+
+    public function getProxyFactory(): ProxyFactory {
+        throw new \Exception('not implemented');
+    }
+
+    public function getReference($entityName, $id): ?object {
+        throw new \Exception('not implemented');
+    }
+
+    public function getUnitOfWork(): UnitOfWork {
+        throw new \Exception('not implemented');
+    }
+
+    public function hasFilters(): bool {
+        throw new \Exception('not implemented');
+    }
+
+    public function isFiltersStateClean(): bool {
+        throw new \Exception('not implemented');
+    }
+
+    public function isOpen(): bool {
+        throw new \Exception('not implemented');
+    }
+
+    public function lock($entity, $lockMode, $lockVersion = null): void {
+        throw new \Exception('not implemented');
+    }
+
+    public function newHydrator($hydrationMode): AbstractHydrator {
+        throw new \Exception('not implemented');
+    }
+
+    public function rollback(): void {
+        throw new \Exception('not implemented');
+    }
+
+    public function transactional($func): mixed {
+        throw new \Exception('not implemented');
+    }
+
+    public function clear(): void {
+        throw new \Exception('not implemented');
+    }
+
+    public function contains(object $object): bool {
+        throw new \Exception('not implemented');
+    }
+
+    public function detach(object $object): void {
+        throw new \Exception('not implemented');
+    }
+
+    public function find(string $className, $id): ?object {
+        throw new \Exception('not implemented');
+    }
+
+    public function initializeObject(object $obj): void {
+        throw new \Exception('not implemented');
+    }
+
+    public function getMetadataFactory(): ClassMetadataFactory {
+        throw new \Exception('not implemented');
+    }
+
+    public function refresh($entity, ?int $lockMode = null): void {
+        throw new \Exception('not implemented');
+    }
+
+    public function wrapInTransaction(callable $func): mixed {
+        throw new \Exception('not implemented');
+    }
+
+    public function isUninitializedObject(mixed $value): bool {
+        throw new \Exception('not implemented');
     }
 }

@@ -6,10 +6,11 @@ namespace Olz\Tests\Fake\Entity\Quiz;
 
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
-class FakeSkillLevelRepository {
-    public function findOneBy($where) {
-        if ($where['skill'] === 1) {
+class FakeSkillLevelRepository extends FakeOlzRepository {
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
+        if ($criteria['skill'] === 1) {
             $skill_1 = new Skill();
             $skill_1->setId(1);
             $skill_level_1 = new SkillLevel();

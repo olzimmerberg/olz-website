@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Monolog\Logger;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeLogHandler;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\LogsUtils;
 use Olz\Utils\WithUtilsCache;
@@ -73,8 +73,12 @@ final class LogsUtilsTest extends UnitTestCase {
     }
 
     public function testLogsUtilsActivateDeactivateLoggerInconsistency(): void {
-        $logger1 = Fake\FakeLogger::create('logger1');
-        $logger2 = Fake\FakeLogger::create('logger2');
+        $logger1 = new Logger('logger1');
+        $handler1 = new FakeLogHandler();
+        $logger1->pushHandler($handler1);
+        $logger2 = new Logger('logger2');
+        $handler2 = new FakeLogHandler();
+        $logger2->pushHandler($handler2);
 
         LogsUtils::activateLogger($logger1);
         LogsUtils::activateLogger($logger2);
@@ -82,15 +86,15 @@ final class LogsUtilsTest extends UnitTestCase {
 
         $this->assertSame([
             "ERROR Inconsistency deactivating handler: Expected logger2, but deactivating logger1",
-        ], $logger1->handler->getPrettyRecords());
-        $this->assertSame([], $logger2->handler->getPrettyRecords());
-        $logger1->handler->records = [];
+        ], $handler1->getPrettyRecords());
+        $this->assertSame([], $handler2->getPrettyRecords());
+        $handler1->records = [];
 
         LogsUtils::activateLogger($logger2);
         LogsUtils::deactivateLogger($logger2);
         LogsUtils::deactivateLogger($logger1);
 
-        $this->assertSame([], $logger1->handler->getPrettyRecords());
-        $this->assertSame([], $logger2->handler->getPrettyRecords());
+        $this->assertSame([], $handler1->getPrettyRecords());
+        $this->assertSame([], $handler2->getPrettyRecords());
     }
 }

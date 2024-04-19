@@ -3,6 +3,7 @@
 namespace Olz\Command\SendDailyNotificationsCommand;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
@@ -55,7 +56,7 @@ class WeeklyPreviewGetter {
                 Criteria::expr()->lt('start_date', $end_of_timespan),
                 Criteria::expr()->eq('on_off', 1),
             ))
-            ->orderBy(['start_date' => Criteria::ASC])
+            ->orderBy(['start_date' => Order::Ascending])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
@@ -95,7 +96,7 @@ class WeeklyPreviewGetter {
                 Criteria::expr()->gt('deadline', $today),
                 Criteria::expr()->lt('deadline', $end_of_timespan),
             ))
-            ->orderBy(['deadline' => Criteria::ASC])
+            ->orderBy(['deadline' => Order::Ascending])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
@@ -125,7 +126,7 @@ class WeeklyPreviewGetter {
                     Criteria::expr()->eq('on_off', 1),
                 )
             )
-            ->orderBy(['start_date' => Criteria::ASC])
+            ->orderBy(['start_date' => Order::Ascending])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;

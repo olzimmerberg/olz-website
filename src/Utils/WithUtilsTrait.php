@@ -2,7 +2,7 @@
 
 namespace Olz\Utils;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Olz\Fetchers\SolvFetcher;
 use PhpTypeScriptApi\Fields\FieldUtils;
 use Psr\Log\LoggerInterface;
@@ -111,7 +111,7 @@ trait WithUtilsTrait {
         WithUtilsCache::set('emailUtils', $emailUtils);
     }
 
-    public function entityManager(): EntityManager {
+    public function entityManager(): EntityManagerInterface {
         return $this->getOrCreate('entityManager');
     }
 
@@ -119,7 +119,7 @@ trait WithUtilsTrait {
         return DbUtils::fromEnv()->getEntityManager();
     }
 
-    public function setEntityManager(EntityManager $entityManager) {
+    public function setEntityManager(EntityManagerInterface $entityManager) {
         WithUtilsCache::set('entityManager', $entityManager);
     }
 

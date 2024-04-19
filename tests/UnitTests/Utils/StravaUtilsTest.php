@@ -58,9 +58,9 @@ final class StravaUtilsTest extends UnitTestCase {
 
     protected $fake_strava_fetcher;
 
-    public function __construct() {
+    protected function setUp(): void {
         global $sample_strava_fetcher_response;
-        parent::__construct();
+        parent::setUp();
         $this->fake_strava_fetcher = new FakeStravaUtilsStravaFetcher($sample_strava_fetcher_response);
         $stravaUtils = new StravaUtils();
         $stravaUtils->setClientId('fake-client-id');

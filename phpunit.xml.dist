@@ -12,6 +12,7 @@
         <ini name="display_errors" value="1" />
         <ini name="error_reporting" value="-1" />
         <server name="APP_ENV" value="test" force="true" />
+        <server name="KERNEL_CLASS" value="Olz\Kernel" />
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="9.6" />
@@ -39,27 +40,53 @@
         <env name="APP_SECRET" value="e135039eadb288f67c2e482692e4698b"/>
         <!-- ###- symfony/framework-bundle ### -->
     </php>
-
+    
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="Unit Tests">
+            <directory>./tests/UnitTests</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory>./tests/IntegrationTests</directory>
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
+    <coverage 
+        cacheDirectory="./php-coverage/cache"
+        includeUncoveredFiles="true"
+        processUncoveredFiles="true"
+        pathCoverage="false"
+        ignoreDeprecatedCodeUnits="true"
+        disableCodeCoverageIgnore="false"
+    >
         <include>
-            <directory suffix=".php">src</directory>
+            <directory suffix=".php">./src</directory>
         </include>
+        <exclude>
+            <file>./src/Kernel.php</file>
+            <file>./src/LegacyBridge.php</file>
+        </exclude>
+        <report>
+            <!-- <clover outputFile="php-coverage/clover.xml"/> -->
+            <!-- <crap4j outputFile="php-coverage/crap4j.xml" threshold="50"/> -->
+            <html
+                outputDirectory="php-coverage/html-coverage"
+                lowUpperBound="50"
+                highLowerBound="90"
+            />
+            <!-- <php outputFile="php-coverage/coverage.php"/> -->
+            <text
+                outputFile="php-coverage/coverage.txt"
+                showUncoveredFiles="false"
+                showOnlySummary="false"
+            />
+            <!-- <xml outputDirectory="php-coverage/xml-coverage"/> -->
+        </report>
     </coverage>
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
 
-    <!-- Run `composer require symfony/panther` before enabling this extension -->
-    <!--
     <extensions>
-        <extension class="Symfony\Component\Panther\ServerExtension" />
     </extensions>
-    -->
 </phpunit>

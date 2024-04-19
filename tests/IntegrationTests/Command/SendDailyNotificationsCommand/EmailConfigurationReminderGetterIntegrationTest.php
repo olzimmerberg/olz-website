@@ -6,7 +6,6 @@ namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\FixedDateUtils;
@@ -21,7 +20,6 @@ final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationT
         $the_day = EmailConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
         $date_utils = new FixedDateUtils("2020-07-{$the_day_str} 16:00:00");
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
         $user->setEmail('first-user@staging.olzimmerberg.ch');
@@ -29,7 +27,6 @@ final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationT
         $job = new EmailConfigurationReminderGetter();
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $job->setLogger($logger);
         $notification = $job->getNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -52,7 +49,7 @@ final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationT
 
         ZZZZZZZZZZ;
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame('Kein Newsletter abonniert', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

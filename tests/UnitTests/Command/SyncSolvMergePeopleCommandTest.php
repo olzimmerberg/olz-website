@@ -7,17 +7,19 @@ namespace Olz\Tests\UnitTests\Command;
 use Olz\Command\SyncSolvMergePeopleCommand;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\FakeSolvPerson;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeSyncSolvMergePeopleCommandSolvPersonRepository {
+class FakeSyncSolvMergePeopleCommandSolvPersonRepository extends FakeOlzRepository {
     public $targetPerson = [];
     public $samePerson = [];
 
-    public function __construct() {
+    public function __construct($em) {
+        parent::__construct($em);
         $target_person = FakeSolvPerson::defaultSolvPerson(true);
         $target_person->setId(1);
         $this->targetPerson = $target_person;
@@ -36,7 +38,7 @@ class FakeSyncSolvMergePeopleCommandSolvPersonRepository {
     }
 }
 
-class FakeSyncSolvMergePeopleCommandSolvResultRepository {
+class FakeSyncSolvMergePeopleCommandSolvResultRepository extends FakeOlzRepository {
     public $merged = [];
 
     public function solvPersonHasResults($person_id) {
@@ -64,9 +66,9 @@ class FakeSyncSolvMergePeopleCommandSolvResultRepository {
 final class SyncSolvMergePeopleCommandTest extends UnitTestCase {
     public function testSyncSolvMergePeopleCommand(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $solv_person_repo = new FakeSyncSolvMergePeopleCommandSolvPersonRepository();
+        $solv_person_repo = new FakeSyncSolvMergePeopleCommandSolvPersonRepository($entity_manager);
         $entity_manager->repositories[SolvPerson::class] = $solv_person_repo;
-        $solv_result_repo = new FakeSyncSolvMergePeopleCommandSolvResultRepository();
+        $solv_result_repo = new FakeSyncSolvMergePeopleCommandSolvResultRepository($entity_manager);
         $entity_manager->repositories[SolvResult::class] = $solv_result_repo;
 
         $input = new ArrayInput([]);

@@ -37,7 +37,6 @@
     "integration_tests": "./tools/scripts/integration_tests.sh",
     "jest_tests": "./tools/scripts/jest_tests.sh",
     "c": "./tools/scripts/console.sh",
-    "remote_migrations": "./tools/scripts/remote_migrations.sh",
     "system_tests": "./tools/scripts/system_tests.sh",
     "take_screenshots": "./tools/scripts/take_screenshots.sh",
     "test": "./tools/scripts/test.sh",
@@ -62,7 +61,7 @@
     "friendsofphp/php-cs-fixer": "^v3.14",
     "paragonie/sodium_compat": "^1.17",
     "php-webdriver/webdriver": "^1.8",
-    "phpunit/phpunit": "^9",
+    "phpunit/phpunit": "^9.5",
     "symfony/browser-kit": "7.0.*",
     "symfony/css-selector": "7.0.*",
     "symfony/phpunit-bridge": "^7.0"

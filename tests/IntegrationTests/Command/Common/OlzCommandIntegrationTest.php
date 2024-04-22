@@ -6,7 +6,6 @@ namespace Olz\Tests\IntegrationTests\Command\Common;
 
 use Olz\Command\Common\OlzCommand;
 use Olz\Kernel;
-use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -51,9 +50,7 @@ class OlzCommandForIntegrationTest extends OlzCommand {
  */
 final class OlzCommandIntegrationTest extends IntegrationTestCase {
     public function testOlzCommandCallCommand(): void {
-        $logger = Fake\FakeLogger::create();
         $command = new OlzCommandForIntegrationTest();
-        $command->setLog($logger);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -61,15 +58,15 @@ final class OlzCommandIntegrationTest extends IntegrationTestCase {
 
         $this->assertSame(
             'INFO Running command Olz\Command\TestCommand...',
-            $logger->handler->getPrettyRecords()[0]
+            $this->getLogs()[0]
         );
         $this->assertMatchesRegularExpression(
             '/^INFO Data path\: .*\/IntegrationTests\/document-root\//',
-            $logger->handler->getPrettyRecords()[1]
+            $this->getLogs()[1]
         );
         $this->assertSame(
             'INFO Successfully ran command Olz\Command\TestCommand.',
-            $logger->handler->getPrettyRecords()[2]
+            $this->getLogs()[2]
         );
         $output_string = $output->fetch();
         $this->assertMatchesRegularExpression(
@@ -81,7 +78,7 @@ final class OlzCommandIntegrationTest extends IntegrationTestCase {
             Running command Olz\\Command\\TestCommand...
             {$output_string}Successfully ran command Olz\\Command\\TestCommand.
             ZZZZZZZZZZ,
-            str_replace('INFO ', '', implode("\n", $logger->handler->getPrettyRecords()))
+            str_replace('INFO ', '', implode("\n", $this->getLogs()))
         );
     }
 }

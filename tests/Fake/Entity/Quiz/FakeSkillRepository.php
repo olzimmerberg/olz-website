@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity\Quiz;
 
 use Olz\Entity\Quiz\Skill;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
-class FakeSkillRepository {
-    public function findOneBy($where) {
-        if ($where === ['name' => 'Child Category 1 Skill']) {
+class FakeSkillRepository extends FakeOlzRepository {
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
+        if ($criteria === ['name' => 'Child Category 1 Skill']) {
             $skill = new Skill();
             $skill->setId(11);
             return $skill;
         }
-        if ($where === ['id' => 2]) {
+        if ($criteria === ['id' => 2]) {
             $skill_2 = new Skill();
             $skill_2->setId(2);
             return $skill_2;
@@ -21,7 +22,7 @@ class FakeSkillRepository {
         return null;
     }
 
-    public function findAll() {
+    public function findAll(): array {
         $skill_1 = new Skill();
         $skill_1->setId(1);
         $skill_2 = new Skill();

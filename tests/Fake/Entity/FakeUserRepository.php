@@ -4,56 +4,58 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake\Entity;
 
-class FakeUserRepository {
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
+
+class FakeUserRepository extends FakeOlzRepository {
     public $userToBeFound;
     public $userToBeFoundForQuery;
     public $fakeProcessEmailCommandUser;
 
-    public function findBy($query) {
-        if ($query == ['parent_user' => 2]) {
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
+        if ($criteria == ['parent_user' => 2]) {
             return [
                 FakeUser::vorstandUser(),
                 FakeUser::defaultUser(),
             ];
         }
-        $json_query = json_encode($query);
-        throw new \Exception("Query no mocked: {$json_query}");
+        $json_criteria = json_encode($criteria);
+        throw new \Exception("criteria no mocked: {$json_criteria}");
     }
 
-    public function findOneBy($where) {
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($this->userToBeFound !== null) {
             return $this->userToBeFound;
         }
         if ($this->userToBeFoundForQuery !== null) {
             $fn = $this->userToBeFoundForQuery;
-            return $fn($where);
+            return $fn($criteria);
         }
-        if ($where === ['username' => 'user'] || $where === ['id' => 1]) {
+        if ($criteria === ['username' => 'user'] || $criteria === ['id' => 1]) {
             return FakeUser::defaultUser();
         }
-        if ($where === ['username' => 'admin'] || $where === ['id' => 2] || $where === ['old_username' => 'admin-old']) {
+        if ($criteria === ['username' => 'admin'] || $criteria === ['id' => 2] || $criteria === ['old_username' => 'admin-old']) {
             return FakeUser::adminUser();
         }
         if (
-            $where === ['username' => 'vorstand']
-            || $where === ['email' => 'vorstand@staging.olzimmerberg.ch']
-            || $where === ['id' => 3]
+            $criteria === ['username' => 'vorstand']
+            || $criteria === ['email' => 'vorstand@staging.olzimmerberg.ch']
+            || $criteria === ['id' => 3]
         ) {
             return FakeUser::vorstandUser();
         }
-        if ($where === ['username' => 'parent'] || $where === ['id' => 4]) {
+        if ($criteria === ['username' => 'parent'] || $criteria === ['id' => 4]) {
             return FakeUser::parentUser();
         }
-        if ($where === ['username' => 'child1'] || $where === ['id' => 5]) {
+        if ($criteria === ['username' => 'child1'] || $criteria === ['id' => 5]) {
             return FakeUser::child1User();
         }
-        if ($where === ['username' => 'child2'] || $where === ['id' => 6]) {
+        if ($criteria === ['username' => 'child2'] || $criteria === ['id' => 6]) {
             return FakeUser::child2User();
         }
-        if ($where === ['username' => 'no']) {
+        if ($criteria === ['username' => 'no']) {
             return FakeUser::noAccessUser();
         }
-        if ($where === ['username' => 'specific']) {
+        if ($criteria === ['username' => 'specific']) {
             return FakeUser::specificAccessUser();
         }
         return null;

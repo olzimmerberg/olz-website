@@ -8,6 +8,7 @@ use Olz\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\Notification;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\FakeNotificationSubscription;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -201,16 +202,16 @@ $all_notification_subscriptions = [
     $subscription_22,
 ];
 
-class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository {
-    public function findAll() {
+class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository extends FakeOlzRepository {
+    public function findAll(): array {
         global $all_notification_subscriptions;
         return $all_notification_subscriptions;
     }
 
-    public function findBy($where) {
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         global $user1, $user2, $user3, $user_provoke_error, $all_notification_subscriptions;
 
-        if ($where === ['notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER]) {
+        if ($criteria === ['notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER]) {
             $subscription_31 = FakeNotificationSubscription::defaultNotificationSubscription(true);
             $subscription_31->setId(1);
             $subscription_31->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
@@ -229,7 +230,7 @@ class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository {
             ];
         }
 
-        if ($where === [
+        if ($criteria === [
             'user' => FakeUser::defaultUser(),
             'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
         ]) {
@@ -244,7 +245,7 @@ class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository {
             ];
         }
 
-        if ($where === ['notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER]) {
+        if ($criteria === ['notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER]) {
             $subscription_51 = FakeNotificationSubscription::defaultNotificationSubscription(true);
             $subscription_51->setId(1);
             $subscription_51->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
@@ -263,7 +264,7 @@ class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository {
             ];
         }
 
-        if ($where === [
+        if ($criteria === [
             'user' => FakeUser::defaultUser(),
             'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
         ]) {
@@ -281,34 +282,34 @@ class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository {
         return $all_notification_subscriptions;
     }
 
-    public function findOneBy($where) {
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         global $user1;
-        if ($where['user'] === $user1) {
-            return [new NotificationSubscription()];
+        if ($criteria['user'] === $user1) {
+            return new NotificationSubscription();
         }
-        return [];
+        return null;
     }
 }
 
-class FakeSendDailyNotificationsCommandTelegramLinkRepository {
-    public function findOneBy($where) {
+class FakeSendDailyNotificationsCommandTelegramLinkRepository extends FakeOlzRepository {
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         global $user1, $user2, $user3, $user_provoke_error;
-        if ($where == ['user' => $user1]) {
+        if ($criteria == ['user' => $user1]) {
             $telegram_link = new TelegramLink();
             $telegram_link->setTelegramChatId('11111');
             return $telegram_link;
         }
-        if ($where == ['user' => $user2]) {
+        if ($criteria == ['user' => $user2]) {
             $telegram_link = new TelegramLink();
             $telegram_link->setTelegramChatId('22222');
             return $telegram_link;
         }
-        if ($where == ['user' => $user3]) {
+        if ($criteria == ['user' => $user3]) {
             $telegram_link = new TelegramLink();
             $telegram_link->setTelegramChatId(null);
             return $telegram_link;
         }
-        if ($where == ['user' => $user_provoke_error]) {
+        if ($criteria == ['user' => $user_provoke_error]) {
             $telegram_link = new TelegramLink();
             $telegram_link->setTelegramChatId('provoke_error');
             return $telegram_link;
@@ -468,9 +469,9 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
     public function testSendDailyNotificationsCommand(): void {
         $mailer = $this->createStub(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $notification_subscription_repo = new FakeSendDailyNotificationsCommandNotificationSubscriptionRepository();
+        $notification_subscription_repo = new FakeSendDailyNotificationsCommandNotificationSubscriptionRepository($entity_manager);
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $telegram_link_repo = new FakeSendDailyNotificationsCommandTelegramLinkRepository();
+        $telegram_link_repo = new FakeSendDailyNotificationsCommandTelegramLinkRepository($entity_manager);
         $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $daily_summary_getter = new FakeSendDailyNotificationsCommandDailySummaryGetter();
         $deadline_warning_getter = new FakeSendDailyNotificationsCommandDeadlineWarningGetter();

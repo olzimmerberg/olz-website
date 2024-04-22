@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Utils;
 
-use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\HttpUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -84,9 +83,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     }
 
     public function testValidateGetParamsWithBadParam(): void {
-        $logger = Fake\FakeLogger::create();
         $http_utils = HttpUtilsForIntegrationTest::fromEnv();
-        $http_utils->setLog($logger);
 
         $validated_get_params = $http_utils->validateGetParams([
             'input' => new FieldTypes\Field(['allow_null' => false]),
@@ -94,7 +91,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
 
         $this->assertSame([
             "NOTICE Bad GET param 'input'",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([], $validated_get_params);
         $this->assertSame(400, $http_utils->sent_http_response_code);
         $this->assertSame([], $http_utils->sent_http_header_lines);
@@ -103,16 +100,14 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     }
 
     public function testValidateGetParamsWithUnknownParam(): void {
-        $logger = Fake\FakeLogger::create();
         $http_utils = HttpUtilsForIntegrationTest::fromEnv();
-        $http_utils->setLog($logger);
 
         $validated_get_params = $http_utils->validateGetParams(
             [], ['inexistent' => null]);
 
         $this->assertSame([
             "NOTICE Unknown GET param 'inexistent'",
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame([], $validated_get_params);
         $this->assertSame(400, $http_utils->sent_http_response_code);
         $this->assertSame([], $http_utils->sent_http_header_lines);

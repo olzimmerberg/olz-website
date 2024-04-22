@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
+use Doctrine\Common\Collections\AbstractLazyCollection;
 use Olz\Api\Endpoints\SearchEntitiesEndpoint;
 use Olz\Entity\Termine\TerminLocation;
+use Olz\Tests\Fake\Entity\Common\FakeLazyCollection;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
-class FakeSearchEntitiesEndpointTerminLocationRepository {
-    public function matching($criteria) {
+class FakeSearchEntitiesEndpointTerminLocationRepository extends FakeOlzRepository {
+    public function matching($criteria): AbstractLazyCollection {
         $termin_location_1 = new TerminLocation();
         $termin_location_1->setId(1);
         $termin_location_1->setName('Query-Hütte');
         $termin_location_1->setLatitude(47.2);
         $termin_location_1->setLongitude(8.3);
-        return [$termin_location_1];
+        return new FakeLazyCollection([$termin_location_1]);
     }
 }
 
@@ -114,7 +117,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
     public function testSearchEntitiesEndpointWithValidId(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_location_repo = new FakeSearchEntitiesEndpointTerminLocationRepository();
+        $termin_location_repo = new FakeSearchEntitiesEndpointTerminLocationRepository($entity_manager);
         $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         $endpoint = new SearchEntitiesEndpoint();
         $endpoint->runtimeSetup();
@@ -137,7 +140,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
     public function testSearchEntitiesEndpointWithValidQuery(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_location_repo = new FakeSearchEntitiesEndpointTerminLocationRepository();
+        $termin_location_repo = new FakeSearchEntitiesEndpointTerminLocationRepository($entity_manager);
         $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         $endpoint = new SearchEntitiesEndpoint();
         $endpoint->runtimeSetup();

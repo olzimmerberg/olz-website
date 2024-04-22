@@ -17,6 +17,7 @@ class HttpUtils {
         if (
             preg_match('/bingbot/i', $user_agent)
             || preg_match('/googlebot/i', $user_agent)
+            || preg_match('/facebookexternalhit/i', $user_agent)
             || preg_match('/applebot/i', $user_agent)
             || preg_match('/yandexbot/i', $user_agent)
             || preg_match('/bot\//i', $user_agent)

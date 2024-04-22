@@ -15,8 +15,8 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 final class TelegramFetcherTest extends IntegrationTestCase {
     protected $telegramFetcher;
 
-    public function __construct() {
-        parent::__construct();
+    public function setUp(): void {
+        parent::setUp();
         $this->telegramFetcher = new TelegramFetcher();
     }
 

@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Common;
 
 use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\FakeLogHandler;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsCache;
@@ -25,6 +26,7 @@ class UnitTestCase extends TestCase {
 
     protected $previous_server;
     protected $setUpAt;
+    protected $fakeLogHandler;
 
     protected static $slowestTests = [];
     protected static $numSlowestTests = 25;
@@ -50,7 +52,10 @@ class UnitTestCase extends TestCase {
         mkdir($data_path);
 
         FakeEntity::reset();
-        $logger = Fake\FakeLogger::create();
+        $logger = new \Monolog\Logger('Fake');
+        $handler = new FakeLogHandler();
+        $this->fakeLogHandler = $handler;
+        $logger->pushHandler($handler);
         WithUtilsCache::setAll([
             'authUtils' => new Fake\FakeAuthUtils(),
             'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
@@ -90,9 +95,9 @@ class UnitTestCase extends TestCase {
                     return $a['duration'] < $b['duration'] ? 1 : -1;
                 });
                 for ($i = 0; $i < self::$numSlowestTests; $i++) {
-                    $test = self::$slowestTests[$i];
-                    $name = $test['name'];
-                    $duration = number_format($test['duration'], 3);
+                    $test = self::$slowestTests[$i] ?? [];
+                    $name = $test['name'] ?? '';
+                    $duration = number_format($test['duration'] ?? 0, 3);
                     echo "{$name}: {$duration}s\n";
                 }
             });
@@ -101,6 +106,10 @@ class UnitTestCase extends TestCase {
     }
 
     protected function getLogs(?callable $formatter = null): array {
-        return WithUtilsCache::get('log')->handler->getPrettyRecords($formatter);
+        return $this->fakeLogHandler->getPrettyRecords($formatter);
+    }
+
+    protected function resetLogs(): void {
+        $this->fakeLogHandler->resetRecords();
     }
 }

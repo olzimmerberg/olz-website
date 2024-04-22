@@ -6,7 +6,6 @@ namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\DailySummaryGetter;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -21,7 +20,6 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay1(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-01 12:51:00');
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -29,7 +27,6 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $job->setLogger($logger);
         $notification = $job->getDailySummaryNotification([
             'aktuell' => true,
             'blog' => true,
@@ -61,7 +58,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         
         ZZZZZZZZZZ;
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame('Tageszusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -69,7 +66,6 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay2(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-02 12:51:00');
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -77,7 +73,6 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $job->setLogger($logger);
         $notification = $job->getDailySummaryNotification([
             'aktuell' => true,
             'blog' => true,
@@ -104,7 +99,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
 
         ZZZZZZZZZZ;
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame('Tageszusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -112,7 +107,6 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay3(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-03 12:51:00');
-        $logger = Fake\FakeLogger::create();
         $user = new User();
         $user->setFirstName('First');
 
@@ -120,7 +114,6 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $job->setLogger($logger);
         $notification = $job->getDailySummaryNotification([
             'aktuell' => true,
             'blog' => true,
@@ -130,7 +123,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         ]);
 
         $this->assertSame([
-        ], $logger->handler->getPrettyRecords());
+        ], $this->getLogs());
         $this->assertSame(null, $notification);
     }
 }

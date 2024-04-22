@@ -9,24 +9,24 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 class FakeAccessTokenRepository extends FakeOlzRepository {
     public $fakeOlzEntityClass = FakeAccessToken::class;
 
-    public function findOneBy($where) {
-        if ($where['purpose'] ?? null === 'WebDAV') {
-            if ($where['user']?->getId() === 1) {
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
+        if ($criteria['purpose'] ?? null === 'WebDAV') {
+            if ($criteria['user']?->getId() === 1) {
                 return null;
             }
-            if ($where['user']?->getId() === 2) {
+            if ($criteria['user']?->getId() === 2) {
                 return FakeAccessToken::default();
             }
         }
-        if ($where === ['token' => 'valid-token']) {
+        if ($criteria === ['token' => 'valid-token']) {
             return FakeAccessToken::valid();
         }
-        if ($where === ['token' => 'expired-token']) {
+        if ($criteria === ['token' => 'expired-token']) {
             return FakeAccessToken::expired();
         }
-        if ($where === ['token' => 'invalid-token']) {
+        if ($criteria === ['token' => 'invalid-token']) {
             return null;
         }
-        return parent::findOneBy($where);
+        return parent::findOneBy($criteria);
     }
 }

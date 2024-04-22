@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake\Entity;
 
-class FakeThrottlingRepository {
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
+
+class FakeThrottlingRepository extends FakeOlzRepository {
     public $expected_event_name;
     public $last_daily_notifications = '2020-03-12 19:30:00';
     public $recorded_occurrences = [];

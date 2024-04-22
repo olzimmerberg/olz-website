@@ -3,6 +3,7 @@
 namespace Olz\Command\SendDailyNotificationsCommand;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
@@ -36,7 +37,7 @@ class DeadlineWarningGetter {
                 Criteria::expr()->gte('deadline', $in_given_days_start),
                 Criteria::expr()->lte('deadline', $in_given_days_end),
             ))
-            ->orderBy(['date' => Criteria::ASC])
+            ->orderBy(['date' => Order::Ascending])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;
@@ -66,7 +67,7 @@ class DeadlineWarningGetter {
                     Criteria::expr()->eq('on_off', 1),
                 )
             )
-            ->orderBy(['start_date' => Criteria::ASC])
+            ->orderBy(['start_date' => Order::Ascending])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;

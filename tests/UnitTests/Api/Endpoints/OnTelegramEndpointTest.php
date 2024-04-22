@@ -6,22 +6,10 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\OnTelegramEndpoint;
 use Olz\Entity\TelegramLink;
-use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
-
-class FakeOnTelegramEndpointTelegramLinkRepository {
-    public function findOneBy($where) {
-        if ($where === ['telegram_chat_id' => 17089367]) {
-            $telegram_link = new TelegramLink();
-            $telegram_link->setUser(FakeUser::defaultUser());
-            return $telegram_link;
-        }
-        return null;
-    }
-}
 
 function getFakeTelegramMessage($from_key, $chat_key, $text) {
     $users = [
@@ -124,8 +112,8 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointStartWithInvalidPinFormat(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
-        $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
+        // $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
+        // $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $endpoint = new OnTelegramEndpoint();
         $endpoint->runtimeSetup();
 
@@ -212,8 +200,8 @@ final class OnTelegramEndpointTest extends UnitTestCase {
 
     public function testOnTelegramEndpointIchCommand(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
-        $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
-        $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
+        // $telegram_link_repo = new FakeOnTelegramEndpointTelegramLinkRepository();
+        // $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $endpoint = new OnTelegramEndpoint();
         $endpoint->runtimeSetup();
 

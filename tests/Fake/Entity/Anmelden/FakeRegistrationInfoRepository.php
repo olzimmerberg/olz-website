@@ -5,20 +5,21 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity\Anmelden;
 
 use Olz\Entity\Anmelden\RegistrationInfo;
+use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
-class FakeRegistrationInfoRepository {
-    public function findOneBy($where) {
-        if ($where['ident'] === '0-vorname') {
+class FakeRegistrationInfoRepository extends FakeOlzRepository {
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
+        if ($criteria['ident'] === '0-vorname') {
             return new RegistrationInfo();
         }
-        if ($where['ident'] === '1-nachname') {
+        if ($criteria['ident'] === '1-nachname') {
             return new RegistrationInfo();
         }
-        $where_json = json_encode($where);
-        throw new \Exception("Query not mocked in findOneBy: {$where_json}", 1);
+        $criteria_json = json_encode($criteria);
+        throw new \Exception("Query not mocked in findOneBy: {$criteria_json}", 1);
     }
 
-    public function findBy($where) {
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         $registration_info_1 = new RegistrationInfo();
         $registration_info_1->setType('string');
         $registration_info_1->setIsOptional(false);

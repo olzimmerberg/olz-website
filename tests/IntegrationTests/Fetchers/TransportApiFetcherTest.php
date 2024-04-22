@@ -15,8 +15,8 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 final class TransportApiFetcherTest extends IntegrationTestCase {
     protected $transportApiFetcher;
 
-    public function __construct() {
-        parent::__construct();
+    public function setUp(): void {
+        parent::setUp();
         $this->transportApiFetcher = new TransportApiFetcher();
     }
 

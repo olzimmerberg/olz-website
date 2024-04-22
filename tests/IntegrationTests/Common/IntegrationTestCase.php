@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Common;
 
+use Olz\Tests\Fake\FakeLogHandler;
 use Olz\Utils\DevDataUtils;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -25,6 +26,7 @@ class IntegrationTestCase extends KernelTestCase {
 
     protected $previous_server;
     protected $setUpAt;
+    protected $fakeLogHandler;
 
     protected function setUp(): void {
         global $kernel, $_SERVER, $entityManager;
@@ -39,6 +41,12 @@ class IntegrationTestCase extends KernelTestCase {
 
         $kernel = self::bootKernel();
         $entityManager = $kernel->getContainer()->get('doctrine')->getManager();
+
+        $logger = new \Monolog\Logger('Fake');
+        $handler = new FakeLogHandler();
+        $this->fakeLogHandler = $handler;
+        $logger->pushHandler($handler);
+        WithUtilsCache::set('log', $logger);
 
         if ($this::$is_first_call) {
             $dev_data_utils = DevDataUtils::fromEnv();
@@ -69,7 +77,7 @@ class IntegrationTestCase extends KernelTestCase {
                 for ($i = 0; $i < self::$numSlowestTests; $i++) {
                     $test = self::$slowestTests[$i];
                     $name = $test['name'];
-                    $duration = number_format($test['duration'], 2);
+                    $duration = number_format($test['duration'] ?? 0, 2);
                     echo "{$name}: {$duration}s\n";
                 }
             });
@@ -101,5 +109,13 @@ class IntegrationTestCase extends KernelTestCase {
     protected function resetDbContent(): void {
         $dev_data_utils = DevDataUtils::fromEnv();
         $dev_data_utils->resetDbContent();
+    }
+
+    protected function getLogs(?callable $formatter = null): array {
+        return $this->fakeLogHandler->getPrettyRecords($formatter);
+    }
+
+    protected function resetLogs(): void {
+        $this->fakeLogHandler->resetRecords();
     }
 }

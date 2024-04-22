@@ -22,7 +22,10 @@ final class FileUtilsTest extends UnitTestCase {
         mkdir(dirname($file_path), 0777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
-        $this->assertSame("<a href='/data-href/files/downloads//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools/thumb/downloads\$123\$1\$16.svg); background-repeat:no-repeat;'>Test</a>", $file_utils->olzFile('downloads', 123, 1, "Test"));
+        $this->assertSame(
+            "<a href='/data-href/files/downloads//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools/thumb/downloads\$123\$1\$16.svg); background-repeat:no-repeat;'>Test</a>",
+            $file_utils->olzFile('downloads', 123, 1, "Test")
+        );
     }
 
     public function testOlzFileMigrated(): void {
@@ -33,7 +36,10 @@ final class FileUtilsTest extends UnitTestCase {
         mkdir(dirname($file_path), 0777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
-        $this->assertSame("<a href='/data-href/files/news//123/abcdefghijklmnopqrstuvwx.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools/thumb/news\$123\$abcdefghijklmnopqrstuvwx.pdf\$16.svg); background-repeat:no-repeat;'>Test</a>", $file_utils->olzFile('news', 123, 'abcdefghijklmnopqrstuvwx.pdf', "Test"));
+        $this->assertSame(
+            "<span class='rendered-markdown'><a href='/data-href/files/news//123/abcdefghijklmnopqrstuvwx.pdf?modified=1584127800'>Test</a></span>",
+            $file_utils->olzFile('news', 123, 'abcdefghijklmnopqrstuvwx.pdf', "Test")
+        );
     }
 
     public function testReplaceFileTagsNotMigrated(): void {
@@ -44,7 +50,10 @@ final class FileUtilsTest extends UnitTestCase {
         mkdir(dirname($file_path), 0777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
-        $this->assertSame("test <a href='/data-href/files/downloads//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools/thumb/downloads\$123\$1\$16.svg); background-repeat:no-repeat;'>Datei</a> text", $file_utils->replaceFileTags('test <DATEI1 text="Datei"> text', 'downloads', 123));
+        $this->assertSame(
+            "test <a href='/data-href/files/downloads//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools/thumb/downloads\$123\$1\$16.svg); background-repeat:no-repeat;'>Datei</a> text",
+            $file_utils->replaceFileTags('test <DATEI1 text="Datei"> text', 'downloads', 123)
+        );
     }
 
     public function testReplaceFileTagsMigrated(): void {
@@ -55,6 +64,9 @@ final class FileUtilsTest extends UnitTestCase {
         mkdir(dirname($file_path), 0777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
-        $this->assertSame("test <a href='/data-href/files/news//123/abcdefghijklmnopqrstuvwx.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools/thumb/news\$123\$abcdefghijklmnopqrstuvwx.pdf\$16.svg); background-repeat:no-repeat;'>Datei</a> text", $file_utils->replaceFileTags('test <DATEI=abcdefghijklmnopqrstuvwx.pdf text="Datei"> text', 'news', 123));
+        $this->assertSame(
+            "test <span class='rendered-markdown'><a href='/data-href/files/news//123/abcdefghijklmnopqrstuvwx.pdf?modified=1584127800'>Datei</a></span> text",
+            $file_utils->replaceFileTags('test <DATEI=abcdefghijklmnopqrstuvwx.pdf text="Datei"> text', 'news', 123)
+        );
     }
 }

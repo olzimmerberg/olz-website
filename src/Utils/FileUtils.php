@@ -114,10 +114,11 @@ class FileUtils {
         if ($is_migrated) {
             if (is_file("{$file_dir}/{$index}")) {
                 $filemtime = filemtime("{$file_dir}/{$index}");
-                $style = ($icon == "mini" ? " style='padding-left:19px; background-image:url({$code_href}file_tools/thumb/{$db_table}\${$id}\${$index}\$16.svg); background-repeat:no-repeat;'" : "");
-                return "<a href='{$data_href}{$db_filepath}/{$id}/{$index}?modified={$filemtime}'{$style}>{$text}</a>";
+                $url = "{$data_href}{$db_filepath}/{$id}/{$index}?modified={$filemtime}";
+                return "<span class='rendered-markdown'><a href='{$url}'>{$text}</a></span>";
             }
         }
+        $this->log()->notice("Unmigrated file: {$index} ({$db_table}/{$id})");
         $files = scandir($file_dir);
         for ($i = 0; $i < count($files); $i++) {
             if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {

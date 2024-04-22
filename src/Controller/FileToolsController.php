@@ -47,11 +47,8 @@ class FileToolsController extends AbstractController {
                 throw $this->createNotFoundException("Invalid index (in thumb): {$index}");
             }
         }
-        $dim = 16;
-        if ($dimension > 16) {
-            $dim = 128;
-        }
         if ($is_migrated) {
+            $this->log()->notice("Remaining migrated file icon fetching: {$db_table}\${$id}\${$index}\${$dimension}.svg");
             preg_match("/^[0-9A-Za-z_\\-]{24}\\.(\\S{1,10})$/", $index, $matches);
             $thumbfile = __DIR__."/../../assets/icns/link_".FileUtils::EXTENSION_ICONS[$matches[1]]."_16.svg";
             if (!is_file($thumbfile)) {

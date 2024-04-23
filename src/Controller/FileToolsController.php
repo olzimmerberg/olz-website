@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FileToolsController extends AbstractController {
@@ -30,21 +31,21 @@ class FileToolsController extends AbstractController {
 
         session_write_close();
         if (!isset(FileUtils::TABLES_FILE_DIRS[$db_table])) {
-            throw $this->createNotFoundException("No such DB table: {$db_table}");
+            throw new NotFoundHttpException("No such DB table: {$db_table}");
         }
 
         $db_filepath = FileUtils::TABLES_FILE_DIRS[$db_table];
         if ($id <= 0) {
-            throw $this->createNotFoundException("Invalid ID: {$id}");
+            throw new NotFoundHttpException("Invalid ID: {$id}");
         }
         $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
         if ($is_migrated) {
             if (!preg_match("/^[0-9A-Za-z_\\-]{24}\\.\\S{1,10}$/", $index)) {
-                throw $this->createNotFoundException("Invalid index (=hash; in thumb): {$index}");
+                throw new NotFoundHttpException("Invalid index (=hash; in thumb): {$index}");
             }
         } else {
             if ($index <= 0) {
-                throw $this->createNotFoundException("Invalid index (in thumb): {$index}");
+                throw new NotFoundHttpException("Invalid index (in thumb): {$index}");
             }
         }
         if ($is_migrated) {

@@ -82,9 +82,9 @@ class OlzMenu extends OlzComponent {
                     value=''
                 />
             </form>
-            <div class='sysadmin-mail'>
+            <div class='feedback-mail'>
                 <script type='text/javascript'>
-                    olz.MailTo("website", "olzimmerberg.ch", "sysadmin", "Homepage%20OL%20Zimmerberg");
+                    olz.MailTo("website", "olzimmerberg.ch", "Feedback geben", "Homepage%20OL%20Zimmerberg");
                 </script>
             </div>
             <div class='platform-links'>

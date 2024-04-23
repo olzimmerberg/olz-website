@@ -8,6 +8,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImageToolsController extends AbstractController {
@@ -30,12 +32,12 @@ class ImageToolsController extends AbstractController {
 
         session_write_close();
         if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
-            throw $this->createNotFoundException("No such DB table: {$db_table}");
+            throw new NotFoundHttpException("No such DB table: {$db_table}");
         }
         $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
         $imgfile = "{$data_path}{$db_imgpath}/{$id}/img/{$index}";
         if (!is_file($imgfile)) {
-            throw $this->createNotFoundException("No such image: {$imgfile}");
+            throw new NotFoundHttpException("No such image: {$imgfile}");
         }
         $ndim = $dimension - 1;
         $dim = false;
@@ -56,7 +58,7 @@ class ImageToolsController extends AbstractController {
             $wid = intval($hei * $swid / $shei);
         }
         if ($wid <= 0 || $hei <= 0 || $wid > 800 || $hei > 800) {
-            throw $this->createNotFoundException("Invalid dimension: {$dimension}");
+            throw new NotFoundHttpException("Invalid dimension: {$dimension}");
         }
         if ($wid > 256 || $hei > 256) {
             $thumbfile = $imgfile;
@@ -68,6 +70,11 @@ class ImageToolsController extends AbstractController {
                 mkdir(dirname($thumbfile), 0777, true);
             }
             $img = imagecreatefromjpeg($imgfile);
+            if (!$img) {
+                $message = "Could not open image {$imgfile}";
+                $this->log()->warning($message);
+                throw new BadRequestHttpException($message);
+            }
             $thumb = imagecreatetruecolor($wid, $hei);
             imagesavealpha($thumb, true);
             imagecopyresampled($thumb, $img, 0, 0, 0, 0, $wid, $hei, $swid, $shei);

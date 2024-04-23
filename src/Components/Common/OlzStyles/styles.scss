@@ -12,7 +12,6 @@ tablebar: Zwischentitel in Tabelle [z.B. Forum, Monatstitel]
 button: Knopf ohne Rahmen [z.B. Forum "Neuer Eintrag"]
 thumbs (für tr oder table): Thumbnails vierspaltig [z.B. Galerie Vorschau Startseite]
 foto (für tr oder table): Bild (einspaltig) [z.B. Flash-Video Anzeige]
-galerie-kopf (für tr oder table): Zellen vierspaltig [z.B. Galerie Header]
 liste (für tr oder table): Zellen abgetrennt [z.B. Forum Liste]
 image (für table): Linksbündiges Bild [z.B. Aktuell]
 */
@@ -215,14 +214,6 @@ div.thumb,
     margin: 4px 0 8px 0;
 }
 
-/* stylelint-disable-next-line selector-class-pattern */
-.liste_ftp td,
-.liste td,
-.galerie-kopf td,
-.tablebar {
-    padding: 1px 8px 2px;
-}
-
 .titel {
     padding-bottom: 0;
 }
@@ -259,19 +250,7 @@ textarea,
     border-top: 1px solid #ddd;
 }
 
-/* stylelint-disable-next-line selector-class-pattern */
-.liste_ftp td,
-.liste td {
-    border-bottom: 1px solid #999;
-    border-right: 1px solid #999;
-}
-
 /*-----------HINTERGRUND-------------*/
-.tablebar,
-.galerie-kopf td {
-    background-image: url('../../../../assets/icns/listheaderbg.png') !important;
-    background-repeat: repeat;
-}
 
 .dropdown {
     background-color: #ded;
@@ -343,8 +322,7 @@ h3,
 .dropdown,
 .button,
 .tablebar,
-.titel,
-.galerie-kopf td {
+.titel {
     font-weight: bold;
 }
 
@@ -363,7 +341,6 @@ h6,
 .dropdown,
 input.button,
 .thumbs td,
-.galerie-kopf *,
 .foto td {
     text-align: center;
     vertical-align: middle;
@@ -532,6 +509,30 @@ input.button,
 .rendered-markdown a[data-src] {
     padding: 0;
     background: none;
+}
+
+.rendered-markdown table thead,
+.tablebar {
+    background-image: url('../../../../assets/icns/listheaderbg.png') !important;
+    background-repeat: repeat;
+}
+
+.rendered-markdown table th,
+.rendered-markdown table td,
+.liste td,
+.tablebar {
+    padding: 1px 8px 2px;
+}
+
+.rendered-markdown table th,
+.rendered-markdown table td,
+.liste td {
+    border-bottom: 1px solid #999;
+    border-right: 1px solid #999;
+}
+
+.rendered-markdown table.equal {
+    table-layout: fixed;
 }
 
 .responsive-flex {

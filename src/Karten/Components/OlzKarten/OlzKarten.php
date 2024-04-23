@@ -85,15 +85,7 @@ class OlzKarten extends OlzComponent {
         ZZZZZZZZZZ;
 
         $out .= "<h2>Kartenverkauf</h2>";
-        $out .= "<div style='margin-top:10px;'>";
-        $out .= "<table class='liste'>";
-        $out .= "<tr class='tablebar'><td style='width:46%;'>Kartentyp</td><td style='width:18%;'>Format</td><td style='width:18%;'>Karte gedruckt</td><td style='width:18%;'>Karte digital</td></tr>
-        <tr><td>Wald-/Dorf-Karte</td><td>A4</td><td>2.50</td><td>1.50</td></tr>
-        <tr><td></td><td>A3</td><td>4.00</td><td>2.50</td></tr>
-        <tr><td>Schulhauskarte</td><td>A4</td><td>1.50</td><td>1.00</td></tr>
-        </table><p>(Kartenpreise gültig ab 1.1.2019)</p></div>";
         $out .= OlzEditableText::render(['snippet_id' => 12]);
-
         $out .= "</div>";
 
         $out .= OlzFooter::render();

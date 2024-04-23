@@ -41,7 +41,7 @@ BROWSER_DRIVER_PID=$!
 # Run test, allow aborting
 set +e
 EXIT_CODE=0
-php ./bin/phpunit -c ./phpunit.xml.dist $@ ./tests/SystemTests
+SYMFONY_DEPRECATIONS_HELPER='max[direct]=0' php ./bin/phpunit -c ./phpunit.xml.dist $@ ./tests/SystemTests
 EXIT_CODE=$?
 
 # Clean up

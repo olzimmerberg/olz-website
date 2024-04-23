@@ -16,6 +16,7 @@ $http_utils->validateGetParams([
     'token' => new FieldTypes\StringField(['allow_null' => true]),
 ], $_GET);
 
-$new_url = "{$code_href}email_reaktion";
+$token = $_GET['token'] ?? '';
+$new_url = "{$code_href}email_reaktion?token={$token}";
 http_response_code(301);
 header("Location: {$new_url}");

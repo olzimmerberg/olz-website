@@ -17,10 +17,12 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EmailUtils;
+use Olz\Utils\FileUtils;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\HttpUtils;
+use Olz\Utils\ImageUtils;
 use Olz\Utils\MapUtils;
 use Olz\Utils\MemorySession;
 use Olz\Utils\StravaUtils;
@@ -57,11 +59,13 @@ final class WithUtilsTraitTest extends UnitTestCase {
             'entityUtils' => function () { return new FakeEntityUtils(); },
             'envUtils' => function () { return new FakeEnvUtils(); },
             'fieldUtils' => function () { return new FieldUtils(); },
+            'fileUtils' => function () { return new FileUtils(); },
             'generalUtils' => function () { return new GeneralUtils(); },
             'getParams' => function () { return []; },
             'htmlUtils' => function () { return new HtmlUtils(); },
             'httpUtils' => function () { return new HttpUtils(); },
             'idUtils' => function () { return new FakeIdUtils(); },
+            'imageUtils' => function () { return new ImageUtils(); },
             'log' => function () { return new Logger('fake'); },
             'mapUtils' => function () { return new MapUtils(); },
             'server' => function () { throw new BrokenTestCase(); },

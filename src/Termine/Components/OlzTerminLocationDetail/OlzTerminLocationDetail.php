@@ -6,7 +6,6 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\ImageUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminLocationDetail extends OlzComponent {
@@ -18,7 +17,6 @@ class OlzTerminLocationDetail extends OlzComponent {
 
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
-        $image_utils = ImageUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
         $id = $args['id'] ?? null;
 
@@ -131,7 +129,7 @@ class OlzTerminLocationDetail extends OlzComponent {
             $out .= "<h3>Bilder</h3><div class='lightgallery gallery-container'>";
             foreach ($image_ids as $image_id) {
                 $out .= "<div class='gallery-image'>";
-                $out .= $image_utils->olzImage(
+                $out .= $this->imageUtils()->olzImage(
                     'termin_locations', $id, $image_id, 110, 'gallery[myset]');
                 $out .= "</div>";
             }

@@ -6,13 +6,11 @@ use Olz\Components\Auth\OlzProfileForm\OlzProfileForm;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\AuthUtils;
-use Olz\Utils\EnvUtils;
 
 class OlzKontoPasswort extends OlzComponent {
     public function getHtml($args = []): string {
         $this->httpUtils()->validateGetParams([]);
-        $code_href = EnvUtils::fromEnv()->getCodeHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $out = OlzHeader::render([
             'title' => "OLZ-Konto mit Passwort",
@@ -20,8 +18,7 @@ class OlzKontoPasswort extends OlzComponent {
             'norobots' => true,
         ]);
 
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
 
         $title = $user ? "Neues Familienmitglied" : "OLZ-Konto erstellen";
         $defaults = $user ? [

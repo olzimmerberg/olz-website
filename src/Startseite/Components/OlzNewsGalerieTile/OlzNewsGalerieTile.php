@@ -10,7 +10,6 @@ use Olz\Apps\OlzApps;
 use Olz\Entity\User;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
-use Olz\Utils\ImageUtils;
 
 class OlzNewsGalerieTile extends AbstractOlzTile {
     protected static $iconBasenameByFormat = [
@@ -24,7 +23,6 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
 
     public function getHtml($args = []): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
-        $image_utils = ImageUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
         $news_filter_utils = NewsFilterUtils::fromEnv();
 
@@ -78,7 +76,7 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
             $icon = "{$code_href}assets/icns/{$icon_basename}";
             $images = "";
             for ($i = 0; $i < min(count($image_ids), 3); $i++) {
-                $olz_image = $image_utils->olzImage(
+                $olz_image = $this->imageUtils()->olzImage(
                     'news', $id, $image_ids[$i], 80, null, ' class="noborder"');
                 $images .= "{$olz_image}";
             }

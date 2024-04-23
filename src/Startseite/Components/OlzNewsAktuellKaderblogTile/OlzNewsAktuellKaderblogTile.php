@@ -10,7 +10,6 @@ use Olz\Apps\OlzApps;
 use Olz\Entity\User;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
-use Olz\Utils\ImageUtils;
 
 class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
     protected static $iconBasenameByFormat = [
@@ -24,7 +23,6 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
 
     public function getHtml($args = []): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
-        $image_utils = ImageUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
         $news_filter_utils = NewsFilterUtils::fromEnv();
 
@@ -80,7 +78,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
             $is_image_right = ($index % 2) === 0;
             if (count($image_ids ?? []) > 0) {
                 $class = $is_image_right ? 'right' : 'left';
-                $olz_image = $image_utils->olzImage(
+                $olz_image = $this->imageUtils()->olzImage(
                     'news', $id, $image_ids[0] ?? null, 80, 'image', ' class="noborder"');
                 $image = "<div class='link-image-{$class}'>{$olz_image}</div>";
             }

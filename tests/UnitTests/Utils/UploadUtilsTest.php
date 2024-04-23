@@ -99,8 +99,14 @@ final class UploadUtilsTest extends UnitTestCase {
         $this->assertSame(true, $this->uploadUtils->isUploadId('abcdABCD_-12345678901234.pdf'));
     }
 
+    public function testGetExtension(): void {
+        $this->assertSame('.jpg', $this->uploadUtils->getExtension('123456789012345678901234.jpg'));
+        $this->assertSame('.pdf', $this->uploadUtils->getExtension('abcdABCD_-12345678901234.pdf'));
+        $this->assertSame(null, $this->uploadUtils->getExtension('123456789012345678901234.invalid!'));
+    }
+
     public function testGetUploadIdRegex(): void {
-        $this->assertSame('[a-zA-Z0-9_-]{24}\\.[a-zA-Z0-9]+', $this->uploadUtils->getUploadIdRegex());
+        $this->assertSame('([a-zA-Z0-9_-]{24})(\\.[a-zA-Z0-9]+)', $this->uploadUtils->getUploadIdRegex());
     }
 
     public function testGetValidUploadId(): void {

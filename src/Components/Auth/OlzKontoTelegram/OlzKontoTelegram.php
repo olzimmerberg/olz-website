@@ -5,7 +5,6 @@ namespace Olz\Components\Auth\OlzKontoTelegram;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\TelegramUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzKontoTelegram extends OlzComponent {
@@ -15,7 +14,6 @@ class OlzKontoTelegram extends OlzComponent {
         ]);
         $pin = $params['pin'];
         $user = $this->authUtils()->getCurrentUser();
-        $telegram_utils = TelegramUtils::fromEnv();
 
         $out = OlzHeader::render([
             'title' => "OLZ Konto mit Telegram",
@@ -28,9 +26,9 @@ class OlzKontoTelegram extends OlzComponent {
 
         if ($user) {
             try {
-                $telegram_link = $telegram_utils->linkUserUsingPin($pin, $user);
+                $telegram_link = $this->telegramUtils()->linkUserUsingPin($pin, $user);
                 $chat_id = $telegram_link->getTelegramChatId();
-                $telegram_utils->callTelegramApi('sendMessage', [
+                $this->telegramUtils()->callTelegramApi('sendMessage', [
                     'chat_id' => $chat_id,
                     'text' => "Hallo, {$user->getFirstName()}!",
                 ]);

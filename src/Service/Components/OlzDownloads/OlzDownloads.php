@@ -6,12 +6,10 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Service\Download;
-use Olz\Utils\FileUtils;
 
 class OlzDownloads extends OlzComponent {
     public function getHtml($args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
-        $file_utils = FileUtils::fromEnv();
         $has_permission = $this->authUtils()->hasPermission('downloads');
 
         $out = '';
@@ -82,7 +80,7 @@ class OlzDownloads extends OlzComponent {
                 $out .= <<<ZZZZZZZZZZ
                 <li class='{$class}'>
                     {$edit_admin}
-                    {$file_utils->olzFile('downloads', $id, $file_id, $name)}
+                    {$this->fileUtils()->olzFile('downloads', $id, $file_id, $name, $name)}
                 </li>
                 ZZZZZZZZZZ;
             }

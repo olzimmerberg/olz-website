@@ -54,8 +54,13 @@ class UploadUtils {
         );
     }
 
+    public function getExtension(string $upload_id): ?string {
+        $is_match = preg_match("/^{$this->getUploadIdRegex()}$/", $upload_id, $matches);
+        return $is_match ? $matches[2] : null;
+    }
+
     public function getUploadIdRegex(): string {
-        return "[a-zA-Z0-9_-]{24}\\.{$this->suffixPattern}";
+        return "([a-zA-Z0-9_-]{24})(\\.{$this->suffixPattern})";
     }
 
     public function getRandomUploadId(string $suffix): string {

@@ -5,7 +5,6 @@ namespace Olz\Termine\Components\OlzTerminTemplatesListItem;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
-use Olz\Utils\FileUtils;
 
 class OlzTerminTemplatesListItem extends OlzComponent {
     protected static $iconBasenameByType = [
@@ -19,7 +18,6 @@ class OlzTerminTemplatesListItem extends OlzComponent {
 
     public function getHtml($args = []): string {
         $db = $this->dbUtils()->getDb();
-        $file_utils = FileUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
@@ -83,7 +81,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
                 : ''
         );
         $text = $this->htmlUtils()->renderMarkdown($text ?? '');
-        $links = $file_utils->replaceFileTags($links, 'termin_templates', $id);
+        $links = $this->fileUtils()->replaceFileTags($links, 'termin_templates', $id, $title);
         if ($termin_location) {
             $sane_termin_location_id = intval($termin_location->getId());
             $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");

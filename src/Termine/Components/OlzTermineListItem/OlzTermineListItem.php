@@ -6,7 +6,6 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\FileUtils;
 
 class OlzTermineListItem extends OlzComponent {
     protected static $iconBasenameByType = [
@@ -20,7 +19,6 @@ class OlzTermineListItem extends OlzComponent {
 
     public function getHtml($args = []): string {
         $db = $this->dbUtils()->getDb();
-        $file_utils = FileUtils::fromEnv();
         $code_path = $this->envUtils()->getCodePath();
         $code_href = $this->envUtils()->getCodeHref();
         $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
@@ -78,7 +76,7 @@ class OlzTermineListItem extends OlzComponent {
                 ? "{$start_time_text} &ndash; {$end_time_text}"
                 : "{$start_time_text}"
         ) : null;
-        $links = $file_utils->replaceFileTags($links, 'termine', $id);
+        $links = $this->fileUtils()->replaceFileTags($links, 'termine', $id, $title);
         if ($termin_location_id) {
             $sane_termin_location_id = intval($termin_location_id);
             $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");

@@ -3,26 +3,24 @@
 namespace Olz\Apps\Files\Service;
 
 use Artgris\Bundle\FileManagerBundle\Service\CustomConfServiceInterface;
-use Olz\Utils\AuthUtils;
-use Olz\Utils\EnvUtils;
-use Olz\Utils\HttpUtils;
+use Olz\Utils\WithUtilsTrait;
 
 class OlzArtgrisFileManagerConf implements CustomConfServiceInterface {
-    public function getConf($extra = []) {
-        $env_utils = EnvUtils::fromEnv();
-        $data_path = $env_utils->getDataPath();
+    use WithUtilsTrait;
 
-        $auth_utils = AuthUtils::fromEnv();
-        $user = $auth_utils->getCurrentUser();
+    public function getConf($extra = []) {
+        $data_path = $this->envUtils()->getDataPath();
+
+        $user = $this->authUtils()->getCurrentUser();
         if (!$user) {
-            HttpUtils::fromEnv()->dieWithHttpError(401);
+            $this->httpUtils()->dieWithHttpError(401);
         }
-        if (!$auth_utils->hasPermission('ftp', $user)) {
-            HttpUtils::fromEnv()->dieWithHttpError(403);
+        if (!$this->authUtils()->hasPermission('ftp', $user)) {
+            $this->httpUtils()->dieWithHttpError(403);
         }
         $user_root = $user ? $user->getRoot() : '';
         if (!$user_root) {
-            HttpUtils::fromEnv()->dieWithHttpError(403);
+            $this->httpUtils()->dieWithHttpError(403);
         }
 
         return [

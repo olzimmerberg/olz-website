@@ -9,7 +9,6 @@ namespace Olz\Startseite\Components\OlzWeeklyPictureTile;
 use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
-use Olz\Utils\ImageUtils;
 
 class OlzWeeklyPictureTile extends AbstractOlzTile {
     public function getRelevance(?User $user): float {
@@ -42,7 +41,6 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         }
 
         $entity_manager = $this->dbUtils()->getEntityManager();
-        $image_utils = ImageUtils::fromEnv();
 
         $weekly_picture_repo = $entity_manager->getRepository(WeeklyPicture::class);
         $latest_weekly_pictures = $weekly_picture_repo->getLatestThree();
@@ -55,7 +53,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
 
             $active_class = $index === 0 ? ' active' : '';
             $carousel_inner .= "<div class='carousel-item{$active_class}'>";
-            $carousel_inner .= $image_utils->olzImage('weekly_picture', $id, $image_id, 512, 'image');
+            $carousel_inner .= $this->imageUtils()->olzImage('weekly_picture', $id, $image_id, 512, 'image');
             $carousel_inner .= "<div class='weekly-picture-tile-text'>".$text."</div>";
             $carousel_inner .= "</div>";
             $index++;

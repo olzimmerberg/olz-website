@@ -35,7 +35,7 @@ class OlzHeaderBar extends OlzComponent {
             </a>
             ZZZZZZZZZZ
             : <<<ZZZZZZZZZZ
-            <div id='menu-switch' onclick='olz.toggleMenu()' />
+            <div id='menu-switch' onclick='olz.toggleMenu()'>
                 <img
                     src='{$code_href}assets/icns/menu_hamburger.svg'
                     alt=''

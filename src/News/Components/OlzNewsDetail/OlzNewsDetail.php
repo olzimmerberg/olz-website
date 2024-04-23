@@ -16,9 +16,6 @@ use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Utils\NewsFilterUtils;
-use Olz\Utils\FileUtils;
-use Olz\Utils\HtmlUtils;
-use Olz\Utils\ImageUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsDetail extends OlzComponent {
@@ -29,10 +26,7 @@ class OlzNewsDetail extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
-        $file_utils = FileUtils::fromEnv();
-        $image_utils = ImageUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
-        $html_utils = HtmlUtils::fromEnv();
         $id = $args['id'] ?? null;
 
         $news_utils = NewsFilterUtils::fromEnv();
@@ -162,7 +156,7 @@ class OlzNewsDetail extends OlzComponent {
         for ($i = 0; $i < count($matches[0]); $i++) {
             $teaser = str_replace($matches[0][$i], '', $teaser);
         }
-        $content = $image_utils->replaceImageTags(
+        $content = $this->imageUtils()->replaceImageTags(
             $content,
             $id,
             $image_ids,
@@ -171,14 +165,14 @@ class OlzNewsDetail extends OlzComponent {
         );
 
         // Dateicode einfügen
-        $teaser = $file_utils->replaceFileTags($teaser, 'aktuell', $id);
-        $content = $file_utils->replaceFileTags($content, 'aktuell', $id);
+        $teaser = $this->fileUtils()->replaceFileTags($teaser, 'aktuell', $id, $title);
+        $content = $this->fileUtils()->replaceFileTags($content, 'aktuell', $id, $title);
 
         // Markdown
-        $teaser = $html_utils->renderMarkdown($teaser, [
+        $teaser = $this->htmlUtils()->renderMarkdown($teaser, [
             'html_input' => 'allow', // TODO: Do NOT allow!
         ]);
-        $content = $html_utils->renderMarkdown($content, [
+        $content = $this->htmlUtils()->renderMarkdown($content, [
             'html_input' => 'allow', // TODO: Do NOT allow!
         ]);
 
@@ -193,7 +187,7 @@ class OlzNewsDetail extends OlzComponent {
                 $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
                 foreach ($image_ids as $image_id) {
                     $gallery .= "<div class='gallery-image'>";
-                    $gallery .= $image_utils->olzImage(
+                    $gallery .= $this->imageUtils()->olzImage(
                         'news', $id, $image_id, 110, 'gallery[myset]');
                     $gallery .= "</div>";
                 }
@@ -207,7 +201,7 @@ class OlzNewsDetail extends OlzComponent {
                 $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
                 foreach ($image_ids as $image_id) {
                     $gallery .= "<div class='gallery-image'>";
-                    $gallery .= $image_utils->olzImage(
+                    $gallery .= $this->imageUtils()->olzImage(
                         'news', $id, $image_id, 110, 'gallery[myset]');
                     $gallery .= "</div>";
                 }
@@ -219,7 +213,7 @@ class OlzNewsDetail extends OlzComponent {
             $size = count($image_ids);
             for ($index = 0; $index < $size; $index++) {
                 $out .= "<div class='gallery-image'>";
-                $out .= $image_utils->olzImage("news", $id, $image_ids[$index], 110, 'gallery[myset]');
+                $out .= $this->imageUtils()->olzImage("news", $id, $image_ids[$index], 110, 'gallery[myset]');
                 $out .= "</div>";
             }
             $out .= "</div>\n";

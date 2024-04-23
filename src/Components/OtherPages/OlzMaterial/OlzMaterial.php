@@ -8,7 +8,6 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
-use Olz\Utils\DbUtils;
 
 class OlzMaterial extends OlzComponent {
     public static $title = "Material & Kleider";
@@ -101,7 +100,7 @@ class OlzMaterial extends OlzComponent {
         <b>Kontakt für Bestellung, Abholung und Rückgabe des Materials:</b>
         ZZZZZZZZZZ;
 
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
         $sportident_role = $role_repo->getPredefinedRole(PredefinedRole::SportIdent);
 

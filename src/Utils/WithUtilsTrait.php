@@ -33,11 +33,13 @@ trait WithUtilsTrait {
         'entityUtils',
         'envUtils',
         'fieldUtils',
+        'fileUtils',
         'generalUtils',
         'getParams',
         'htmlUtils',
         'httpUtils',
         'idUtils',
+        'imageUtils',
         'log',
         'mapUtils',
         'server',
@@ -159,6 +161,18 @@ trait WithUtilsTrait {
         WithUtilsCache::set('fieldUtils', $fieldUtils);
     }
 
+    public function fileUtils(): FileUtils {
+        return $this->getOrCreate('fileUtils');
+    }
+
+    public function createFileUtils() {
+        return FileUtils::fromEnv();
+    }
+
+    public function setFileUtils(FileUtils $fileUtils) {
+        WithUtilsCache::set('fileUtils', $fileUtils);
+    }
+
     public function generalUtils(): GeneralUtils {
         return $this->getOrCreate('generalUtils');
     }
@@ -218,6 +232,18 @@ trait WithUtilsTrait {
 
     public function setIdUtils(IdUtils $idUtils) {
         WithUtilsCache::set('idUtils', $idUtils);
+    }
+
+    public function imageUtils(): ImageUtils {
+        return $this->getOrCreate('imageUtils');
+    }
+
+    public function createImageUtils() {
+        return ImageUtils::fromEnv();
+    }
+
+    public function setImageUtils(ImageUtils $imageUtils) {
+        WithUtilsCache::set('imageUtils', $imageUtils);
     }
 
     public function log(): LoggerInterface {

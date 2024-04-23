@@ -8,7 +8,6 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
-use Olz\Utils\EnvUtils;
 
 class OlzProfil extends OlzComponent {
     public function getHtml($args = []): string {
@@ -16,8 +15,7 @@ class OlzProfil extends OlzComponent {
         $auth_utils = $this->authUtils();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $auth_utils->getCurrentUser();
-        $env_utils = EnvUtils::fromEnv();
-        $code_href = $env_utils->getCodeHref();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $out = OlzHeader::render([
             'title' => "Profil",

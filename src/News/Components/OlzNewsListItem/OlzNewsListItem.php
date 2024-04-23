@@ -6,8 +6,6 @@ use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\News\Utils\NewsFilterUtils;
-use Olz\Utils\HtmlUtils;
-use Olz\Utils\ImageUtils;
 
 class OlzNewsListItem extends OlzComponent {
     protected static $iconBasenameByFormat = [
@@ -19,12 +17,8 @@ class OlzNewsListItem extends OlzComponent {
     ];
 
     public function getHtml($args = []): string {
-        $html_utils = HtmlUtils::fromEnv();
-        $image_utils = ImageUtils::fromEnv();
         $news_utils = NewsFilterUtils::fromEnv();
-
         $code_href = $this->envUtils()->getCodeHref();
-        $data_path = $this->envUtils()->getDataPath();
 
         $news_entry = $args['news_entry'];
         $out = '';
@@ -52,7 +46,7 @@ class OlzNewsListItem extends OlzComponent {
         $image_ids = $news_entry->getImageIds();
 
         // Show images in teaser
-        $teaser = $image_utils->replaceImageTags(
+        $teaser = $this->imageUtils()->replaceImageTags(
             $teaser,
             $id,
             $image_ids,
@@ -113,7 +107,7 @@ class OlzNewsListItem extends OlzComponent {
                 'date' => $published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
-                'text' => $html_utils->renderMarkdown($teaser, [
+                'text' => $this->htmlUtils()->renderMarkdown($teaser, [
                     'html_input' => 'allow', // TODO: Do NOT allow!
                 ]),
                 'link' => $link,
@@ -122,7 +116,7 @@ class OlzNewsListItem extends OlzComponent {
             $thumb = '';
             $size = count($image_ids);
             if ($size > 0) {
-                $thumb = $image_utils->olzImage(
+                $thumb = $this->imageUtils()->olzImage(
                     'news',
                     $id,
                     $image_ids[0] ?? null,
@@ -136,7 +130,7 @@ class OlzNewsListItem extends OlzComponent {
                 'date' => $published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
-                'text' => $thumb.$html_utils->renderMarkdown(
+                'text' => $thumb.$this->htmlUtils()->renderMarkdown(
                     self::truncateText($content),
                     [
                         'html_input' => 'allow', // TODO: Do NOT allow!
@@ -148,7 +142,7 @@ class OlzNewsListItem extends OlzComponent {
             $thumb = '';
             $size = count($image_ids);
             if ($size > 0) {
-                $thumb = $image_utils->olzImage(
+                $thumb = $this->imageUtils()->olzImage(
                     'news',
                     $id,
                     $image_ids[0] ?? null,
@@ -162,7 +156,7 @@ class OlzNewsListItem extends OlzComponent {
                 'date' => $published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
-                'text' => $thumb.$html_utils->renderMarkdown(
+                'text' => $thumb.$this->htmlUtils()->renderMarkdown(
                     self::truncateText($content),
                     [
                         'html_input' => 'allow', // TODO: Do NOT allow!
@@ -180,7 +174,7 @@ class OlzNewsListItem extends OlzComponent {
                     $random_index = rand(1, $size);
                 }
                 array_push($used_thumb_indexes, $random_index);
-                $thumbs .= "<td class='test-flaky'>".$image_utils->olzImage("news", $id, $image_ids[$random_index - 1], 110, 'image')."</td>";
+                $thumbs .= "<td class='test-flaky'>".$this->imageUtils()->olzImage("news", $id, $image_ids[$random_index - 1], 110, 'image')."</td>";
             }
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
@@ -191,7 +185,7 @@ class OlzNewsListItem extends OlzComponent {
                 'link' => $link,
             ]);
         } elseif ($format === 'video') {
-            $thumbnail = $image_utils->olzImage("news", $id, $image_ids[0] ?? null, 110, 'image');
+            $thumbnail = $this->imageUtils()->olzImage("news", $id, $image_ids[0] ?? null, 110, 'image');
             $content = <<<ZZZZZZZZZZ
             <div href='{$link}' style='background-color:#000;padding-top:0;' class='thumb paragraf'>\n
             <span style='display:block;background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n

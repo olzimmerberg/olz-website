@@ -8,8 +8,6 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminTemplate;
-use Olz\Utils\FileUtils;
-use Olz\Utils\ImageUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminTemplateDetail extends OlzComponent {
@@ -29,8 +27,6 @@ class OlzTerminTemplateDetail extends OlzComponent {
 
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();
-        $file_utils = FileUtils::fromEnv();
-        $image_utils = ImageUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $id = $args['id'] ?? null;
@@ -155,14 +151,14 @@ class OlzTerminTemplateDetail extends OlzComponent {
         $text_html = $this->htmlUtils()->renderMarkdown($text ?? '');
         $out .= "<div>{$text_html}</div>";
 
-        $link = $file_utils->replaceFileTags($link, 'termin_templates', $id);
+        $link = $this->fileUtils()->replaceFileTags($link, 'termin_templates', $id, $title);
         $out .= "<div class='links'>".$link."</div>";
 
         if ($image_ids && count($image_ids) > 0) {
             $out .= "<h3>Bilder</h3><div class='lightgallery gallery-container'>";
             foreach ($image_ids as $image_id) {
                 $out .= "<div class='gallery-image'>";
-                $out .= $image_utils->olzImage(
+                $out .= $this->imageUtils()->olzImage(
                     'termin_templates', $id, $image_id, 110, 'gallery[myset]');
                 $out .= "</div>";
             }

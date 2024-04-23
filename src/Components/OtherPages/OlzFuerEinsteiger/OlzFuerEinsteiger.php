@@ -10,8 +10,6 @@ use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
-use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzFuerEinsteiger extends OlzComponent {
@@ -34,7 +32,7 @@ class OlzFuerEinsteiger extends OlzComponent {
             'canonical_url' => $canonical_url,
         ]);
 
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
         $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
 
@@ -278,7 +276,7 @@ class OlzFuerEinsteiger extends OlzComponent {
     }
 
     protected function getTile($img_name, $options = []) {
-        $data_href = EnvUtils::fromEnv()->getDataHref();
+        $data_href = $this->envUtils()->getDataHref();
         $img = <<<ZZZZZZZZZZ
         <picture>
             <source

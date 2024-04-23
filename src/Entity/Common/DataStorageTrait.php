@@ -2,7 +2,6 @@
 
 namespace Olz\Entity\Common;
 
-use Olz\Utils\ImageUtils;
 use Olz\Utils\WithUtilsTrait;
 
 trait DataStorageTrait {
@@ -18,13 +17,12 @@ trait DataStorageTrait {
     }
 
     public function replaceImagePaths(string $html): string {
-        $image_utils = ImageUtils::fromEnv();
         $entity_name = $this::getEntityNameForStorage();
         $entity_id = $this->getEntityIdForStorage();
         $upload_ids = $this->getStoredImageUploadIds();
         foreach ($upload_ids as $upload_id) {
             $search = "<img src=\"./{$upload_id}\" alt=\"\" />";
-            $replace = $image_utils->olzImage($entity_name, $entity_id, $upload_id, 110, 'image');
+            $replace = $this->imageUtils()->olzImage($entity_name, $entity_id, $upload_id, 110, 'image');
             $html = str_replace($search, $replace, $html);
         }
         return $html;

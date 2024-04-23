@@ -3,9 +3,11 @@
 namespace Olz\Apps;
 
 use Olz\Entity\User;
-use Olz\Utils\EnvUtils;
+use Olz\Utils\WithUtilsTrait;
 
 abstract class BaseAppMetadata {
+    use WithUtilsTrait;
+
     abstract public function getDisplayName(): string;
 
     abstract public function getPath(): string;
@@ -50,8 +52,7 @@ abstract class BaseAppMetadata {
     }
 
     public function getJsCssImports() {
-        $env_utils = EnvUtils::fromEnv();
-        $data_path = $env_utils->getDataPath();
+        $data_path = $this->envUtils()->getDataPath();
         $basename = $this->getBasename();
         $css_path = "{$data_path}jsbuild/app-{$basename}/main.min.css";
         $js_path = "{$data_path}jsbuild/app-{$basename}/main.min.js";

@@ -7,15 +7,11 @@
 namespace Olz\Termine\Components\OlzTermineTicker;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Utils\AbstractDateUtils;
-use Olz\Utils\DbUtils;
-use Olz\Utils\EnvUtils;
 
 class OlzTermineTicker extends OlzComponent {
     public function getHtml($args = []): string {
-        $date_utils = AbstractDateUtils::fromEnv();
-        $code_href = EnvUtils::fromEnv()->getCodeHref();
-        $db = DbUtils::fromEnv()->getDb();
+        $code_href = $this->envUtils()->getCodeHref();
+        $db = $this->dbUtils()->getDb();
         $out = '';
 
         $textlaenge_def = isset($args["eintrag_laenge"]) ? intval($args["eintrag_laenge"]) : 80;
@@ -25,7 +21,7 @@ class OlzTermineTicker extends OlzComponent {
         $heute_highlight = isset($args["heute_highlight"]) ? $args["heute_highlight"] : true;
         // Konstanten
         $db_table = "termine";
-        $heute = $date_utils->getCurrentDateInFormat("Y-m-d");
+        $heute = $this->dateUtils()->getCurrentDateInFormat("Y-m-d");
         $out .= "<div class='layout'>";
         $out .= "<h4 class='tablebar'>".$title."</h4>";
         // Tabelle auslesen
@@ -35,7 +31,7 @@ class OlzTermineTicker extends OlzComponent {
         // TEST uu/1.4.2011
         // Was, wenn ein mehrtägiger Event vor x Tagen begonnen hat? simon/23.5.2011
         $pulse = "";
-        $wotag = $date_utils->getCurrentDateInFormat("w");
+        $wotag = $this->dateUtils()->getCurrentDateInFormat("w");
         if ($wotag == 0) {
             $wotag = 7;
         }
@@ -56,9 +52,9 @@ class OlzTermineTicker extends OlzComponent {
             if ($diff_start < 0.95) { // Sommerzeitwechsel: (strtotime('2014-03-31')-strtotime('2014-03-30'))/86400 = 0.958...
                 $case_tmp = 1;
                 if (($end_date != '0000-00-00' and $end_date !== null) and $diff_end > 6) {
-                    $end_date = '(bis '.$date_utils->olzDate('WW t.m.', $end_date).')';
+                    $end_date = '(bis '.$this->dateUtils()->olzDate('WW t.m.', $end_date).')';
                 } elseif (($end_date != '0000-00-00' and $end_date !== null) and $diff_end > 0) {
-                    $end_date = '(bis '.$date_utils->olzDate('WW', $end_date).')';
+                    $end_date = '(bis '.$this->dateUtils()->olzDate('WW', $end_date).')';
                 } else {
                     $end_date = '';
                 }
@@ -69,24 +65,24 @@ class OlzTermineTicker extends OlzComponent {
             } elseif ($diff_start < (7.95 - $wotag)) {
                 $case_tmp = 2;
                 if (($end_date != '0000-00-00' and $end_date !== null) and $diff_end > 6) {
-                    $end_date = '-'.$date_utils->olzDate('WW (t.m.)', $end_date);
+                    $end_date = '-'.$this->dateUtils()->olzDate('WW (t.m.)', $end_date);
                 } elseif (($end_date != '0000-00-00' and $end_date !== null) and $diff_end > 0) {
-                    $end_date = '-'.$date_utils->olzDate('WW', $end_date);
+                    $end_date = '-'.$this->dateUtils()->olzDate('WW', $end_date);
                 } else {
                     $end_date = '';
                 }
-                // $end_date = ($end_date!='0000-00-00' AND $end_date!=$start_date) ? '-'.$date_utils->olzDate('W',$end_date) : '' ;
-                $datum = $date_utils->olzDate('WW', $start_date).$end_date.":";
+                // $end_date = ($end_date!='0000-00-00' AND $end_date!=$start_date) ? '-'.$this->dateUtils()->olzDate('W',$end_date) : '' ;
+                $datum = $this->dateUtils()->olzDate('WW', $start_date).$end_date.":";
             } elseif ($diff_start < (14.95 - $wotag)) {
                 $case_tmp = 3;
-                $end_date = (($end_date != '0000-00-00' and $end_date !== null) and $end_date != $start_date) ? '-'.$date_utils->olzDate('t.m.(W)', $end_date) : '';
-                $datum = $date_utils->olzDate('W, t.m.', $start_date).$end_date;
+                $end_date = (($end_date != '0000-00-00' and $end_date !== null) and $end_date != $start_date) ? '-'.$this->dateUtils()->olzDate('t.m.(W)', $end_date) : '';
+                $datum = $this->dateUtils()->olzDate('W, t.m.', $start_date).$end_date;
             } elseif ($flag == 1) {
                 $case_tmp = 4;
-                $datum = $date_utils->olzDate('t.m.', $start_date);
+                $datum = $this->dateUtils()->olzDate('t.m.', $start_date);
             } else {
                 $case_tmp = 5;
-                $datum = $date_utils->olzDate('t.m.', $start_date);
+                $datum = $this->dateUtils()->olzDate('t.m.', $start_date);
             }
             if ($case_tmp < 4) {
                 $flag = 0;

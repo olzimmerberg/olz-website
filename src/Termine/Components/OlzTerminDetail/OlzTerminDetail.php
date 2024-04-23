@@ -12,9 +12,6 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\FileUtils;
-use Olz\Utils\HtmlUtils;
-use Olz\Utils\ImageUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminDetail extends OlzComponent {
@@ -39,9 +36,6 @@ class OlzTerminDetail extends OlzComponent {
         $today = $date_utils->getIsoToday();
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
-        $html_utils = HtmlUtils::fromEnv();
-        $file_utils = FileUtils::fromEnv();
-        $image_utils = ImageUtils::fromEnv();
         $user = $this->authUtils()->getCurrentUser();
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $id = $args['id'] ?? null;
@@ -173,7 +167,7 @@ class OlzTerminDetail extends OlzComponent {
         $out .= "<div class='preview'>";
         // Bild anzeigen
         if ($image_ids && count($image_ids) > 0) {
-            $out .= $image_utils->olzImage(
+            $out .= $this->imageUtils()->olzImage(
                 'termine', $id, $image_ids[0], 840);
         // Karte zeigen
         } elseif ($has_location) {
@@ -241,7 +235,7 @@ class OlzTerminDetail extends OlzComponent {
         // TODO: Temporary fix for broken Markdown
         $text = str_replace("\n", "\n\n", $text);
         $text = str_replace("\n\n\n\n", "\n\n", $text);
-        $text = $html_utils->renderMarkdown($text, [
+        $text = $this->htmlUtils()->renderMarkdown($text, [
             'html_input' => 'allow', // TODO: Do NOT allow!
         ]);
         if ($typ != 'meldeschluss' && $row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
@@ -253,7 +247,7 @@ class OlzTerminDetail extends OlzComponent {
         $out .= "<div>".$text."</div>";
 
         // Link
-        $link = $file_utils->replaceFileTags($link, 'termine', $id);
+        $link = $this->fileUtils()->replaceFileTags($link, 'termine', $id, $title);
         if ($go2ol > "" && $start_date >= $today) {
             $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
         } elseif ($row_solv && $row_solv['entryportal'] == 1 && $start_date >= $today) {

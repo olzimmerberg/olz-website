@@ -60,7 +60,7 @@ class FileUtils {
         'zip' => 'zip',
     ];
 
-    public function replaceFileTags($text, $db_table, $id, $icon = 'mini') {
+    public function replaceFileTags($text, $db_table, $id, $download_name, $icon = 'mini') {
         preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
         for ($i = 0; $i < count($matches[0]); $i++) {
             $index = $matches[1][$i];
@@ -76,6 +76,7 @@ class FileUtils {
                     $id,
                     substr($index, 1),
                     $tmptext,
+                    "{$download_name} - {$tmptext}",
                     $icon
                 );
             } else {
@@ -86,6 +87,7 @@ class FileUtils {
                     $is_blog ? $id - 6400 : $id,
                     intval($index),
                     $tmptext,
+                    "{$download_name} - {$tmptext}",
                     $icon
                 );
             }
@@ -94,7 +96,7 @@ class FileUtils {
         return $text;
     }
 
-    public function olzFile($db_table, $id, $index, $text, $icon = 'mini') {
+    public function olzFile($db_table, $id, $index, $text, $download_name, $icon = 'mini') {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
@@ -114,8 +116,9 @@ class FileUtils {
         if ($is_migrated) {
             if (is_file("{$file_dir}/{$index}")) {
                 $filemtime = filemtime("{$file_dir}/{$index}");
+                $extension = $this->uploadUtils()->getExtension($index);
                 $url = "{$data_href}{$db_filepath}/{$id}/{$index}?modified={$filemtime}";
-                return "<span class='rendered-markdown'><a href='{$url}'>{$text}</a></span>";
+                return "<span class='rendered-markdown'><a href='{$url}' download='{$download_name}{$extension}'>{$text}</a></span>";
             }
         }
         $this->log()->notice("Unmigrated file: {$index} ({$db_table}/{$id})");

@@ -13,11 +13,13 @@ use Olz\Utils\DevDataUtils;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\EntityUtils;
 use Olz\Utils\EnvUtils;
+use Olz\Utils\FileUtils;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\IdUtils;
+use Olz\Utils\ImageUtils;
 use Olz\Utils\MapUtils;
 use Olz\Utils\StandardSession;
 use Olz\Utils\StravaUtils;
@@ -73,6 +75,9 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             'fieldUtils' => function ($value) {
                 return $value instanceof FieldUtils;
             },
+            'fileUtils' => function ($value) {
+                return $value instanceof FileUtils;
+            },
             'generalUtils' => function ($value) {
                 return $value instanceof GeneralUtils;
             },
@@ -88,6 +93,9 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             },
             'idUtils' => function ($value) {
                 return $value instanceof IdUtils;
+            },
+            'imageUtils' => function ($value) {
+                return $value instanceof ImageUtils;
             },
             'log' => function ($value) {
                 return method_exists($value, 'warning');

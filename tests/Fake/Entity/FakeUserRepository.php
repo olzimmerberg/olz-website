@@ -93,7 +93,8 @@ class FakeUserRepository extends FakeOlzRepository {
         if ($old_username === 'someone-old') {
             $fake_process_email_command_user = FakeUser::defaultUser(true);
             $fake_process_email_command_user->setId(2);
-            $fake_process_email_command_user->setUsername('someone-old');
+            $fake_process_email_command_user->setUsername('someone');
+            $fake_process_email_command_user->setOldUsername('someone-old');
             $fake_process_email_command_user->setFirstName('Old');
             $fake_process_email_command_user->setLastName('User');
             $fake_process_email_command_user->setEmail('someone-old@gmail.com');

@@ -29,6 +29,7 @@ class ProcessEmailCommand extends OlzCommand {
 
     public const MAX_LOOP = 100;
     public $deleteAfterSeconds = 30 * 24 * 60 * 60;
+    public $host = 'olzimmerberg.ch';
 
     protected $client;
 
@@ -82,7 +83,7 @@ class ProcessEmailCommand extends OlzCommand {
         return $this->getMails('INBOX');
     }
 
-    protected function getMails($folder_path): MessageCollection {
+    protected function getMails(string $folder_path): MessageCollection {
         try {
             $folder = $this->client->getFolderByPath($folder_path);
             $query = $folder->messages();
@@ -168,9 +169,10 @@ class ProcessEmailCommand extends OlzCommand {
     protected function processMailToAddress(Message $mail, string $address): bool {
         $mail_uid = $mail->uid;
 
-        $is_match = preg_match('/^([\S]+)@(staging\.)?olzimmerberg\.ch$/', $address, $matches);
+        $esc_host = preg_quote($this->host);
+        $is_match = preg_match("/^([\\S]+)@(staging\\.)?{$esc_host}$/", $address, $matches);
         if (!$is_match) {
-            $this->log()->info("E-Mail {$mail_uid} to non-olzimmerberg.ch address: {$address}");
+            $this->log()->info("E-Mail {$mail_uid} to non-{$this->host} address: {$address}");
             return true;
         }
         $username = $matches[1];
@@ -179,6 +181,9 @@ class ProcessEmailCommand extends OlzCommand {
         $role = $role_repo->findFuzzilyByUsername($username);
         if (!$role) {
             $role = $role_repo->findFuzzilyByOldUsername($username);
+            if ($role) {
+                $this->sendRedirectEmail($mail, $address, "{$role->getUsername()}@{$this->host}");
+            }
         }
         if ($role != null) {
             $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
@@ -201,6 +206,9 @@ class ProcessEmailCommand extends OlzCommand {
         $user = $user_repo->findFuzzilyByUsername($username);
         if (!$user) {
             $user = $user_repo->findFuzzilyByOldUsername($username);
+            if ($user) {
+                $this->sendRedirectEmail($mail, $address, "{$user->getUsername()}@{$this->host}");
+            }
         }
         if ($user != null) {
             $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
@@ -324,6 +332,40 @@ class ProcessEmailCommand extends OlzCommand {
         return new Address($item->mail);
     }
 
+    protected function sendRedirectEmail(Message $mail, string $old_address, string $new_address) {
+        $smtp_from = $this->envUtils()->getSmtpFrom();
+        $from = $mail->from->first();
+        $from_name = $from->personal;
+        $from_address = $from->mail;
+        if ("{$old_address}" === "{$smtp_from}" || "{$old_address}" === "{$from_address}" || "{$new_address}" === "{$smtp_from}" || "{$new_address}" === "{$from_address}") {
+            $this->log()->notice("sendReportEmail: Avoiding email loop for redirect {$old_address} => {$new_address}");
+            return;
+        }
+
+        try {
+            $email = (new Email())
+                ->from(new Address($smtp_from, 'OLZ Bot'))
+                ->to(new Address($from_address, $from_name))
+                ->subject("Undelivered Mail Returned to Sender")
+                ->text(<<<ZZZZZZZZZZ
+                    Hallo {$from_name} ({$from_address}),
+
+                    Dies ist eine Mitteilung der E-Mail-Weiterleitung:
+                    Die E-Mail-Adresse "{$old_address}" ist neu unter "{$new_address}" erreichbar.
+
+                    Dies nur zur Information. Ihre E-Mail wurde automatisch weitergeleitet!
+                    ZZZZZZZZZZ)
+            ;
+            $this->mailer->send($email);
+        } catch (RfcComplianceException $exc) {
+            $message = $exc->getMessage();
+            $this->log()->notice("sendRedirectEmail: Email to {$from_address} is not RFC-compliant: {$message}", [$exc]);
+            return true;
+        } catch (\Throwable $th) {
+            $this->log()->error("Failed to send redirect email to {$from_address}: {$th->getMessage()}", [$th]);
+        }
+    }
+
     protected function sendReportEmail(Message $mail, string $address, int $smtp_code) {
         $smtp_from = $this->envUtils()->getSmtpFrom();
         $from = $mail->from->first();
@@ -352,7 +394,6 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     public function getReportMessage(int $smtp_code, Message $mail, string $address) {
-        $base_href = $this->envUtils()->getBaseHref();
         $message_by_code = [
             431 => "{$smtp_code} Not enough storage or out of memory",
             550 => "<{$address}>: {$smtp_code} sorry, no mailbox here by that name",
@@ -361,7 +402,7 @@ class ProcessEmailCommand extends OlzCommand {
         $error_message = $message_by_code[$smtp_code] ?? "{$smtp_code} Unknown error";
 
         $report_message = <<<ZZZZZZZZZZ
-            This is the mail system at host {$base_href}.
+            This is the mail system at host {$this->host}.
 
             I'm sorry to have to inform you that your message could not
             be delivered to one or more recipients.

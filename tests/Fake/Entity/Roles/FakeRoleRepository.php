@@ -63,7 +63,7 @@ class FakeRoleRepository extends FakeOlzRepository {
 
     public function findFuzzilyByOldUsername($old_username) {
         if ($old_username === 'somerole-old') {
-            return FakeRole::someOldRole();
+            return FakeRole::someRole();
         }
         return null;
     }

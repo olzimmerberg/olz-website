@@ -136,23 +136,8 @@ class FakeRole extends FakeEntity {
                 $entity = new Role();
                 $entity->setId(1);
                 $entity->setUsername('somerole');
+                $entity->setOldUsername('somerole-old');
                 $entity->setName('Some Role');
-                $entity->setPermissions('');
-                $entity->addUser(FakeUser::adminUser());
-                $entity->addUser(FakeUser::vorstandUser());
-                return $entity;
-            }
-        );
-    }
-
-    public static function someOldRole($fresh = false) {
-        return self::getFake(
-            $fresh,
-            function () {
-                $entity = new Role();
-                $entity->setId(2);
-                $entity->setUsername('somerole-old');
-                $entity->setName('Some Old Role');
                 $entity->setPermissions('');
                 $entity->addUser(FakeUser::adminUser());
                 $entity->addUser(FakeUser::vorstandUser());

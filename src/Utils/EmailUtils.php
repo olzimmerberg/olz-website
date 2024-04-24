@@ -161,7 +161,10 @@ class EmailUtils {
         return new Address($user_email, $user_full_name);
     }
 
-    public function getComparableEmail(Email $email): string {
+    public function getComparableEmail(?Email $email): ?string {
+        if ($email === null) {
+            return null;
+        }
         $from = $this->arr2str($email->getFrom());
         $reply_to = $this->arr2str($email->getReplyTo());
         $to = $this->arr2str($email->getTo());
@@ -189,7 +192,10 @@ class EmailUtils {
             ZZZZZZZZZZ;
     }
 
-    public function getComparableEnvelope(Envelope $envelope): string {
+    public function getComparableEnvelope(?Envelope $envelope): ?string {
+        if ($envelope === null) {
+            return null;
+        }
         $sender = $envelope->getSender()->toString();
         $recipients = $this->arr2str($envelope->getRecipients());
         return <<<ZZZZZZZZZZ

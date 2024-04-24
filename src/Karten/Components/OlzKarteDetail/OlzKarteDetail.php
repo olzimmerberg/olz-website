@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Termine\Components\OlzKarteDetail;
+namespace Olz\Karten\Components\OlzKarteDetail;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;

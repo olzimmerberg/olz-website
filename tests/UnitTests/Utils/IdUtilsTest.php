@@ -79,21 +79,29 @@ final class IdUtilsTest extends UnitTestCase {
         $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
         $this->assertSame('0c5e000000007b', bin2hex(
-            $id_utils->testOnlySerializeId(123, 'h')));
+            $id_utils->testOnlySerializeId(123, 'h')
+        ));
         $this->assertSame('006f000000007b', bin2hex(
-            $id_utils->testOnlySerializeId(123, '2p')));
+            $id_utils->testOnlySerializeId(123, '2p')
+        ));
         $this->assertSame('0003000000007b', bin2hex(
-            $id_utils->testOnlySerializeId(123, 'HM')));
+            $id_utils->testOnlySerializeId(123, 'HM')
+        ));
         $this->assertSame('0000000000007b', bin2hex(
-            $id_utils->testOnlySerializeId(123, 'JMfa')));
+            $id_utils->testOnlySerializeId(123, 'JMfa')
+        ));
         $this->assertSame('ffff000000007b', bin2hex(
-            $id_utils->testOnlySerializeId(123, '')));
+            $id_utils->testOnlySerializeId(123, '')
+        ));
         $this->assertSame('2888000000007b', bin2hex(
-            $id_utils->testOnlySerializeId(123, 'Test')));
+            $id_utils->testOnlySerializeId(123, 'Test')
+        ));
         $this->assertSame('ffffffffffffff', bin2hex(
-            $id_utils->testOnlySerializeId($max_id, '')));
+            $id_utils->testOnlySerializeId($max_id, '')
+        ));
         $this->assertSame('2888ffffffffff', bin2hex(
-            $id_utils->testOnlySerializeId($max_id, 'Test')));
+            $id_utils->testOnlySerializeId($max_id, 'Test')
+        ));
     }
 
     public function testSerializeIdNonInteger(): void {
@@ -195,21 +203,37 @@ final class IdUtilsTest extends UnitTestCase {
         $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('0c5e000000007b'), 'h'));
+            hex2bin('0c5e000000007b'),
+            'h'
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('006f000000007b'), '2p'));
+            hex2bin('006f000000007b'),
+            '2p'
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('0003000000007b'), 'HM'));
+            hex2bin('0003000000007b'),
+            'HM'
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('0000000000007b'), 'JMfa'));
+            hex2bin('0000000000007b'),
+            'JMfa'
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('ffff000000007b'), ''));
+            hex2bin('ffff000000007b'),
+            ''
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('2888000000007b'), 'Test'));
+            hex2bin('2888000000007b'),
+            'Test'
+        ));
         $this->assertSame($max_id, $id_utils->testOnlyDeserializeId(
-            hex2bin('ffffffffffffff'), ''));
+            hex2bin('ffffffffffffff'),
+            ''
+        ));
         $this->assertSame($max_id, $id_utils->testOnlyDeserializeId(
-            hex2bin('2888ffffffffff'), 'Test'));
+            hex2bin('2888ffffffffff'),
+            'Test'
+        ));
     }
 
     public function testToExternalIdToInternalId(): void {
@@ -224,21 +248,37 @@ final class IdUtilsTest extends UnitTestCase {
         $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $max_id = pow(2, 40) - 1;
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            $id_utils->testOnlySerializeId(123, 'h'), 'h'));
+            $id_utils->testOnlySerializeId(123, 'h'),
+            'h'
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            $id_utils->testOnlySerializeId(123, '2p'), '2p'));
+            $id_utils->testOnlySerializeId(123, '2p'),
+            '2p'
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            $id_utils->testOnlySerializeId(123, 'HM'), 'HM'));
+            $id_utils->testOnlySerializeId(123, 'HM'),
+            'HM'
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            $id_utils->testOnlySerializeId(123, 'JMfa'), 'JMfa'));
+            $id_utils->testOnlySerializeId(123, 'JMfa'),
+            'JMfa'
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            $id_utils->testOnlySerializeId(123, ''), ''));
+            $id_utils->testOnlySerializeId(123, ''),
+            ''
+        ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            $id_utils->testOnlySerializeId(123, 'Test'), 'Test'));
+            $id_utils->testOnlySerializeId(123, 'Test'),
+            'Test'
+        ));
         $this->assertSame($max_id, $id_utils->testOnlyDeserializeId(
-            $id_utils->testOnlySerializeId($max_id, ''), ''));
+            $id_utils->testOnlySerializeId($max_id, ''),
+            ''
+        ));
         $this->assertSame($max_id, $id_utils->testOnlyDeserializeId(
-            $id_utils->testOnlySerializeId($max_id, 'Test'), 'Test'));
+            $id_utils->testOnlySerializeId($max_id, 'Test'),
+            'Test'
+        ));
     }
 
     public function testCrc16(): void {

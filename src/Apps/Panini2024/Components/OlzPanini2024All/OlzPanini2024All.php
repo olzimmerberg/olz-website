@@ -35,21 +35,21 @@ class OlzPanini2024All extends OlzComponent {
                 return $picture->getId();
             }, $pictures));
             $out .= <<<ZZZZZZZZZZ
-            <tr>
-                <th class='column id'>ID</th>
-                <th class='column name'>Name</th>
-                <th class='column account'>OLZ-Konto</th>
-                <th class='column association'>Wappen</th>
-                <th class='column infos'>Infos</th>
-                <th class='column active'>Aktiv</th>
-                <th class='column picture'>
-                    Bild
-                    <button onclick='olzPanini2024.showPaniniPictures({$ids})'>
-                        alle anzeigen
-                    </button>
-                </th>
-            </tr>
-            ZZZZZZZZZZ;
+                <tr>
+                    <th class='column id'>ID</th>
+                    <th class='column name'>Name</th>
+                    <th class='column account'>OLZ-Konto</th>
+                    <th class='column association'>Wappen</th>
+                    <th class='column infos'>Infos</th>
+                    <th class='column active'>Aktiv</th>
+                    <th class='column picture'>
+                        Bild
+                        <button onclick='olzPanini2024.showPaniniPictures({$ids})'>
+                            alle anzeigen
+                        </button>
+                    </th>
+                </tr>
+                ZZZZZZZZZZ;
             foreach ($pictures as $picture) {
                 $id = $picture->getId();
                 $line1 = $picture->getLine1();
@@ -73,20 +73,20 @@ class OlzPanini2024All extends OlzComponent {
                 $on_off = $picture->getOnOff();
                 $on_off_emoji = $on_off ? '✅' : '❌';
                 $out .= <<<ZZZZZZZZZZ
-                <tr>
-                    <td class='column id'>{$id}</td>
-                    <td class='column name'>{$line1}<br/>{$line2}</td>
-                    <td class='column account'>{$user_html}</td>
-                    <td class='column association'>{$association_emoji} {$association}</td>
-                    <td class='column infos'>{$infos_emojis}</td>
-                    <td class='column active'>{$on_off_emoji}</td>
-                    <td class='column picture' id='panini-picture-{$id}'>
-                        <button onclick='olzPanini2024.showPaniniPicture(&quot;{$id}&quot;)'>
-                            anzeigen
-                        </button>
-                    </td>
-                </tr>
-                ZZZZZZZZZZ;
+                    <tr>
+                        <td class='column id'>{$id}</td>
+                        <td class='column name'>{$line1}<br/>{$line2}</td>
+                        <td class='column account'>{$user_html}</td>
+                        <td class='column association'>{$association_emoji} {$association}</td>
+                        <td class='column infos'>{$infos_emojis}</td>
+                        <td class='column active'>{$on_off_emoji}</td>
+                        <td class='column picture' id='panini-picture-{$id}'>
+                            <button onclick='olzPanini2024.showPaniniPicture(&quot;{$id}&quot;)'>
+                                anzeigen
+                            </button>
+                        </td>
+                    </tr>
+                    ZZZZZZZZZZ;
             }
             $out .= "</table>";
         } else {

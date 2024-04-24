@@ -23,15 +23,15 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
         $newsletter_app = OlzApps::getApp('Newsletter');
         if ($newsletter_app) {
             $newsletter_link = <<<ZZZZZZZZZZ
-            <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
-                <img
-                    src='{$newsletter_app->getIcon()}'
-                    alt='newsletter'
-                    class='newsletter-link-icon'
-                    title='Newsletter abonnieren!'
-                />
-            </a>
-            ZZZZZZZZZZ;
+                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
+                    <img
+                        src='{$newsletter_app->getIcon()}'
+                        alt='newsletter'
+                        class='newsletter-link-icon'
+                        title='Newsletter abonnieren!'
+                    />
+                </a>
+                ZZZZZZZZZZ;
         } else {
             $this->log()->error('Newsletter App does not exist!');
         }
@@ -39,12 +39,12 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
 
         $out .= "<ul class='links'>";
         $res = $db->query(<<<'ZZZZZZZZZZ'
-            SELECT t.id, t.start_date as date, t.title as title, t.last_modified_at
-            FROM termine t
-            WHERE t.on_off = '1' AND t.newsletter = '1'
-            ORDER BY t.last_modified_at DESC
-            LIMIT 5
-        ZZZZZZZZZZ);
+                SELECT t.id, t.start_date as date, t.title as title, t.last_modified_at
+                FROM termine t
+                WHERE t.on_off = '1' AND t.newsletter = '1'
+                ORDER BY t.last_modified_at DESC
+                LIMIT 5
+            ZZZZZZZZZZ);
         while ($row = $res->fetch_assoc()) {
             $id = $row['id'];
             $modified = date('d.m.', strtotime($row['last_modified_at']));

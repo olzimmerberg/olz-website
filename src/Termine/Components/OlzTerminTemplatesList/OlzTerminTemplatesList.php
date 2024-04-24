@@ -25,28 +25,28 @@ class OlzTerminTemplatesList extends OlzComponent {
         ]);
 
         $out .= <<<ZZZZZZZZZZ
-        <div class='content-right'>
-            <div style='padding:0 10px 10px 10px;'>
+            <div class='content-right'>
+                <div style='padding:0 10px 10px 10px;'>
+                    <button
+                        id='termin-solv-import-button'
+                        class='btn btn-secondary'
+                    >
+                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        Von SOLV importieren (TODO)
+                    </button>
+                </div>
+            </div>
+            <div class='content-middle'>
                 <button
-                    id='termin-solv-import-button'
+                    id='create-termin-template-button'
                     class='btn btn-secondary'
+                    onclick='return olz.initOlzEditTerminTemplateModal()'
                 >
                     <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                    Von SOLV importieren (TODO)
+                    Neue Vorlage erstellen
                 </button>
-            </div>
-        </div>
-        <div class='content-middle'>
-            <button
-                id='create-termin-template-button'
-                class='btn btn-secondary'
-                onclick='return olz.initOlzEditTerminTemplateModal()'
-            >
-                <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                Neue Vorlage erstellen
-            </button>
-            <h1>Termin-Vorlagen</h1>
-        ZZZZZZZZZZ;
+                <h1>Termin-Vorlagen</h1>
+            ZZZZZZZZZZ;
         $termin_template_repo = $this->entityManager()->getRepository(TerminTemplate::class);
         $termin_templates = $termin_template_repo->findAll();
         foreach ($termin_templates as $termin_template) {
@@ -56,8 +56,8 @@ class OlzTerminTemplatesList extends OlzComponent {
         }
 
         $out .= <<<'ZZZZZZZZZZ'
-        </div>
-        ZZZZZZZZZZ;
+            </div>
+            ZZZZZZZZZZ;
 
         $out .= OlzFooter::render();
 

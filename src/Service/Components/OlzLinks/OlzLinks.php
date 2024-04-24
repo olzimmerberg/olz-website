@@ -18,15 +18,15 @@ class OlzLinks extends OlzComponent {
 
         if ($has_permission) {
             $out .= <<<ZZZZZZZZZZ
-            <button
-                id='create-link-button'
-                class='btn btn-secondary'
-                onclick='return olz.initOlzEditLinkModal()'
-            >
-                <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                Neuer Link
-            </button>
-            ZZZZZZZZZZ;
+                <button
+                    id='create-link-button'
+                    class='btn btn-secondary'
+                    onclick='return olz.initOlzEditLinkModal()'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Neuer Link
+                </button>
+                ZZZZZZZZZZ;
         }
 
         $link_repo = $this->entityManager()->getRepository(Link::class);
@@ -58,13 +58,13 @@ class OlzLinks extends OlzComponent {
             if ($can_edit) {
                 $json_id = json_encode(intval($id));
                 $edit_admin = <<<ZZZZZZZZZZ
-                <button
-                    class='btn btn-secondary-outline btn-sm edit-link-list-button'
-                    onclick='return olz.olzLinksEditLink({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
-                </button>
-                ZZZZZZZZZZ;
+                    <button
+                        class='btn btn-secondary-outline btn-sm edit-link-list-button'
+                        onclick='return olz.olzLinksEditLink({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                    </button>
+                    ZZZZZZZZZZ;
             }
 
             $class = '';
@@ -79,11 +79,11 @@ class OlzLinks extends OlzComponent {
                 $out .= "{$edit_admin}<br />";
             } else {
                 $out .= <<<ZZZZZZZZZZ
-                <li class='{$class}'>
-                    {$edit_admin}
-                    <a href='{$url}' class='linkext' target='_blank'>{$name}</a>
-                </li>
-                ZZZZZZZZZZ;
+                    <li class='{$class}'>
+                        {$edit_admin}
+                        <a href='{$url}' class='linkext' target='_blank'>{$name}</a>
+                    </li>
+                    ZZZZZZZZZZ;
             }
         }
         $out .= "</ul>";

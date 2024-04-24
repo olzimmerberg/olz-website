@@ -20,11 +20,11 @@ class TestCommand extends OlzCommand {
         $smtp_from = $this->envUtils()->getSmtpFrom();
         $app_env = $_ENV['APP_ENV'];
         $info = <<<ZZZZZZZZZZ
-        Data path: {$data_path}
-        MySQL host: {$mysql_host}
-        SMTP from: {$smtp_from}
-        App env: {$app_env}
-        ZZZZZZZZZZ;
+            Data path: {$data_path}
+            MySQL host: {$mysql_host}
+            SMTP from: {$smtp_from}
+            App env: {$app_env}
+            ZZZZZZZZZZ;
         $output->writeln($info);
         $this->log()->info($info);
         return Command::SUCCESS;

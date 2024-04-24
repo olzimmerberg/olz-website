@@ -68,10 +68,12 @@ class SendDailyNotificationsCommand extends OlzCommand {
         $this->setDailySummaryGetter(new DailySummaryGetter());
         $this->setDeadlineWarningGetter(new DeadlineWarningGetter());
         $this->setEmailConfigurationReminderGetter(
-            new EmailConfigurationReminderGetter());
+            new EmailConfigurationReminderGetter()
+        );
         $this->setMonthlyPreviewGetter(new MonthlyPreviewGetter());
         $this->setTelegramConfigurationReminderGetter(
-            new TelegramConfigurationReminderGetter());
+            new TelegramConfigurationReminderGetter()
+        );
         $this->setWeeklyPreviewGetter(new WeeklyPreviewGetter());
         $this->setWeeklySummaryGetter(new WeeklySummaryGetter());
     }
@@ -135,11 +137,14 @@ class SendDailyNotificationsCommand extends OlzCommand {
                 $generated_subscription = new NotificationSubscription();
                 $generated_subscription->setUser($user);
                 $generated_subscription->setDeliveryType(
-                    NotificationSubscription::DELIVERY_EMAIL);
+                    NotificationSubscription::DELIVERY_EMAIL
+                );
                 $generated_subscription->setNotificationType(
-                    NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
+                    NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER
+                );
                 $generated_subscription->setNotificationTypeArgs(
-                    json_encode(['cancelled' => false]));
+                    json_encode(['cancelled' => false])
+                );
                 $generated_subscription->setCreatedAt($now_datetime);
                 $this->entityManager()->persist($generated_subscription);
             }
@@ -218,11 +223,14 @@ class SendDailyNotificationsCommand extends OlzCommand {
                 $generated_subscription = new NotificationSubscription();
                 $generated_subscription->setUser($user);
                 $generated_subscription->setDeliveryType(
-                    NotificationSubscription::DELIVERY_TELEGRAM);
+                    NotificationSubscription::DELIVERY_TELEGRAM
+                );
                 $generated_subscription->setNotificationType(
-                    NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
+                    NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER
+                );
                 $generated_subscription->setNotificationTypeArgs(
-                    json_encode(['cancelled' => false]));
+                    json_encode(['cancelled' => false])
+                );
                 $generated_subscription->setCreatedAt($now_datetime);
                 $this->entityManager()->persist($generated_subscription);
             }

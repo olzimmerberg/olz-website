@@ -24,17 +24,17 @@ class OlzTerminLocationsList extends OlzComponent {
         $creation_tools = '';
         if ($has_termine_permissions) {
             $creation_tools .= <<<ZZZZZZZZZZ
-            <div class='create-termin-location-container'>
-                <button
-                    id='create-termin-location-button'
-                    class='btn btn-secondary'
-                    onclick='return olz.initOlzEditTerminLocationModal()'
-                >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                    Neuen Ort hinzufügen
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div class='create-termin-location-container'>
+                    <button
+                        id='create-termin-location-button'
+                        class='btn btn-secondary'
+                        onclick='return olz.initOlzEditTerminLocationModal()'
+                    >
+                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        Neuen Ort hinzufügen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
         }
 
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
@@ -49,13 +49,13 @@ class OlzTerminLocationsList extends OlzComponent {
         $locations_json = json_encode($locations_data);
 
         $out .= <<<ZZZZZZZZZZ
-        <div class='content-full'>
-            {$creation_tools}
-            <h1>Termin-Orte</h1>
-            <div id='olz-termin-locations-map'></div>
-            <script>olz.olzTerminLocationsMapRender({$locations_json});</script>
-        </div>
-        ZZZZZZZZZZ;
+            <div class='content-full'>
+                {$creation_tools}
+                <h1>Termin-Orte</h1>
+                <div id='olz-termin-locations-map'></div>
+                <script>olz.olzTerminLocationsMapRender({$locations_json});</script>
+            </div>
+            ZZZZZZZZZZ;
 
         $out .= OlzFooter::render();
 

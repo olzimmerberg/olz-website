@@ -202,7 +202,7 @@ final class UploadUtilsTest extends UnitTestCase {
     private function simulateUpload(string $upload_id, $path = 'temp'): void {
         $data_path = $this->envUtils()->getDataPath();
         if (!is_dir("{$data_path}{$path}/")) {
-            mkdir("{$data_path}{$path}/", 0777, true);
+            mkdir("{$data_path}{$path}/", 0o777, true);
         }
         file_put_contents("{$data_path}{$path}/{$upload_id}", '');
     }

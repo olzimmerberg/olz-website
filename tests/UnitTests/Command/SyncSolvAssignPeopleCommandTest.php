@@ -93,36 +93,68 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         $job = new SyncSolvAssignPeopleCommand();
 
         $this->assertSame(0, $job->getDifferenceBetweenPersonInfo(
-            'Test', '07', 'Uster',
-            'Test', '07', 'Uster',
+            'Test',
+            '07',
+            'Uster',
+            'Test',
+            '07',
+            'Uster',
         ));
         $this->assertSame(1, $job->getDifferenceBetweenPersonInfo(
-            'Best', '07', 'Uster',
-            'Test', '07', 'Uster',
+            'Best',
+            '07',
+            'Uster',
+            'Test',
+            '07',
+            'Uster',
         ));
         $this->assertSame(3, $job->getDifferenceBetweenPersonInfo(
-            'Basti', '07', 'Uster',
-            'Test', '07', 'Uster',
+            'Basti',
+            '07',
+            'Uster',
+            'Test',
+            '07',
+            'Uster',
         ));
         $this->assertSame(0, $job->getDifferenceBetweenPersonInfo(
-            'Test', '07', 'Uster',
-            'Test', 7, 'Uster',
+            'Test',
+            '07',
+            'Uster',
+            'Test',
+            7,
+            'Uster',
         ));
         $this->assertSame(1, $job->getDifferenceBetweenPersonInfo(
-            'Test', '07', 'Uster',
-            'Test', '08', 'Uster',
+            'Test',
+            '07',
+            'Uster',
+            'Test',
+            '08',
+            'Uster',
         ));
         $this->assertSame(2, $job->getDifferenceBetweenPersonInfo(
-            'Test', '07', 'Uster',
-            'Test', '07', 'Muster',
+            'Test',
+            '07',
+            'Uster',
+            'Test',
+            '07',
+            'Muster',
         ));
         $this->assertSame(7, $job->getDifferenceBetweenPersonInfo(
-            'Test', '07', 'Thalwil',
-            'Test', '07', 'Muster',
+            'Test',
+            '07',
+            'Thalwil',
+            'Test',
+            '07',
+            'Muster',
         ));
         $this->assertSame(2, $job->getDifferenceBetweenPersonInfo(
-            'Test', '07', 'Thalwil',
-            'Test', '07', '',
+            'Test',
+            '07',
+            'Thalwil',
+            'Test',
+            '07',
+            '',
         ));
 
         $this->assertSame([
@@ -141,7 +173,9 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
                 ['name' => 'Test', 'birth_year' => '07', 'domicile' => 'Uster'],
             ],
         ], $job->getClosestMatchesOfPersonInfo(
-            'Test', '07', 'Uster',
+            'Test',
+            '07',
+            'Uster',
             [
                 ['name' => 'Test', 'birth_year' => '07', 'domicile' => 'Uster'],
                 ['name' => 'Best', 'birth_year' => '07', 'domicile' => 'Uster'],
@@ -159,7 +193,9 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
                 ['name' => 'Test', 'birth_year' => '07', 'domicile' => 'Oster'],
             ],
         ], $job->getClosestMatchesOfPersonInfo(
-            'Test', '07', 'Uster',
+            'Test',
+            '07',
+            'Uster',
             [
                 ['name' => 'Best', 'birth_year' => '07', 'domicile' => 'Uster'],
                 ['name' => 'Test', 'birth_year' => '08', 'domicile' => 'Uster'],
@@ -175,7 +211,9 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
                 ['name' => 'Test', 'birth_year' => '08', 'domicile' => 'Uster'],
             ],
         ], $job->getClosestMatchesOfPersonInfo(
-            'Test', '07', 'Uster',
+            'Test',
+            '07',
+            'Uster',
             [
                 ['name' => 'Best', 'birth_year' => '07', 'domicile' => 'Uster'],
                 ['name' => 'Text', 'birth_year' => '07', 'domicile' => 'Muster'],
@@ -223,7 +261,9 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
 
         // There is one perfect match.
         $this->assertSame(2, $job->getMatchingPerson(
-            'Test', '07', 'Uster',
+            'Test',
+            '07',
+            'Uster',
             [
                 ['person' => 1, 'name' => 'Best', 'birth_year' => '07', 'domicile' => 'Uster'],
                 ['person' => 2, 'name' => 'Test', 'birth_year' => '07', 'domicile' => 'Uster'],
@@ -233,22 +273,24 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         ));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            INFO Closest matches (difference 0): [
-                {
-                    "person": 2,
-                    "name": "Test",
-                    "birth_year": "07",
-                    "domicile": "Uster"
-                }
-            ]
-            ZZZZZZZZZZ,
+                INFO Closest matches (difference 0): [
+                    {
+                        "person": 2,
+                        "name": "Test",
+                        "birth_year": "07",
+                        "domicile": "Uster"
+                    }
+                ]
+                ZZZZZZZZZZ,
             'INFO  => Matching person found: 2.',
         ], $this->getLogs());
         $this->resetLogs();
 
         // There are multiple matches for the same person.
         $this->assertSame(3, $job->getMatchingPerson(
-            'Test', '07', 'Uster',
+            'Test',
+            '07',
+            'Uster',
             [
                 ['person' => 3, 'name' => 'Best', 'birth_year' => '07', 'domicile' => 'Uster'],
                 ['person' => 3, 'name' => 'Test', 'birth_year' => '08', 'domicile' => 'Uster'],
@@ -256,28 +298,30 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         ));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            INFO Closest matches (difference 1): [
-                {
-                    "person": 3,
-                    "name": "Best",
-                    "birth_year": "07",
-                    "domicile": "Uster"
-                },
-                {
-                    "person": 3,
-                    "name": "Test",
-                    "birth_year": "08",
-                    "domicile": "Uster"
-                }
-            ]
-            ZZZZZZZZZZ,
+                INFO Closest matches (difference 1): [
+                    {
+                        "person": 3,
+                        "name": "Best",
+                        "birth_year": "07",
+                        "domicile": "Uster"
+                    },
+                    {
+                        "person": 3,
+                        "name": "Test",
+                        "birth_year": "08",
+                        "domicile": "Uster"
+                    }
+                ]
+                ZZZZZZZZZZ,
             'INFO  => Matching person found: 3.',
         ], $this->getLogs());
         $this->resetLogs();
 
         // There are matches, but they are for different persons.
         $this->assertSame(null, $job->getMatchingPerson(
-            'Test', '07', 'Uster',
+            'Test',
+            '07',
+            'Uster',
             [
                 ['person' => 1, 'name' => 'Best', 'birth_year' => '07', 'domicile' => 'Uster'],
                 ['person' => 2, 'name' => 'Test', 'birth_year' => '08', 'domicile' => 'Uster'],
@@ -285,28 +329,30 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         ));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            INFO Closest matches (difference 1): [
-                {
-                    "person": 1,
-                    "name": "Best",
-                    "birth_year": "07",
-                    "domicile": "Uster"
-                },
-                {
-                    "person": 2,
-                    "name": "Test",
-                    "birth_year": "08",
-                    "domicile": "Uster"
-                }
-            ]
-            ZZZZZZZZZZ,
+                INFO Closest matches (difference 1): [
+                    {
+                        "person": 1,
+                        "name": "Best",
+                        "birth_year": "07",
+                        "domicile": "Uster"
+                    },
+                    {
+                        "person": 2,
+                        "name": "Test",
+                        "birth_year": "08",
+                        "domicile": "Uster"
+                    }
+                ]
+                ZZZZZZZZZZ,
             'INFO  => No matching person found (closest matches contain different persons).',
         ], $this->getLogs());
         $this->resetLogs();
 
         // The matches are too bad.
         $this->assertSame(null, $job->getMatchingPerson(
-            'Test', '07', 'Uster',
+            'Test',
+            '07',
+            'Uster',
             [
                 ['person' => 1, 'name' => 'Best', 'birth_year' => '08', 'domicile' => 'Oster'],
                 ['person' => 1, 'name' => 'Text', 'birth_year' => '07', 'domicile' => 'Muster'],
@@ -314,21 +360,21 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         ));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            INFO Closest matches (difference 3): [
-                {
-                    "person": 1,
-                    "name": "Best",
-                    "birth_year": "08",
-                    "domicile": "Oster"
-                },
-                {
-                    "person": 1,
-                    "name": "Text",
-                    "birth_year": "07",
-                    "domicile": "Muster"
-                }
-            ]
-            ZZZZZZZZZZ,
+                INFO Closest matches (difference 3): [
+                    {
+                        "person": 1,
+                        "name": "Best",
+                        "birth_year": "08",
+                        "domicile": "Oster"
+                    },
+                    {
+                        "person": 1,
+                        "name": "Text",
+                        "birth_year": "07",
+                        "domicile": "Muster"
+                    }
+                ]
+                ZZZZZZZZZZ,
             'INFO  => No matching person found (difference too high).',
             'NOTICE Unclear case. Maybe update logic?',
         ], $this->getLogs());
@@ -349,60 +395,60 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\SyncSolvAssignPeopleCommand...',
             "INFO \n---\n",
             <<<'ZZZZZZZZZZ'
-            INFO Person not exactly matched: SolvResult(
-                id:2,
-                event:1,
-                class:H12,
-                person:,
-                name:Test Runer,
-                birth_year:08,
-                domicile:Zürich ZH,
-                club:OL Zimmerberg,
-            )
-            ZZZZZZZZZZ,
+                INFO Person not exactly matched: SolvResult(
+                    id:2,
+                    event:1,
+                    class:H12,
+                    person:,
+                    name:Test Runer,
+                    birth_year:08,
+                    domicile:Zürich ZH,
+                    club:OL Zimmerberg,
+                )
+                ZZZZZZZZZZ,
             'INFO getAllAssignedSolvResultPersonData took 1234ms',
             <<<'ZZZZZZZZZZ'
-            INFO Closest matches (difference 1): [
-                {
-                    "person": 1,
-                    "name": "Test Runner",
-                    "birth_year": "08",
-                    "domicile": "Z\u00fcrich ZH"
-                }
-            ]
-            ZZZZZZZZZZ,
+                INFO Closest matches (difference 1): [
+                    {
+                        "person": 1,
+                        "name": "Test Runner",
+                        "birth_year": "08",
+                        "domicile": "Z\u00fcrich ZH"
+                    }
+                ]
+                ZZZZZZZZZZ,
             'INFO  => Matching person found: 1.',
             'INFO getMatchingPerson took 1234ms',
             "INFO \n---\n",
             <<<'ZZZZZZZZZZ'
-            INFO Person not exactly matched: SolvResult(
-                id:3,
-                event:1,
-                class:H12,
-                person:,
-                name:Test Winner,
-                birth_year:92,
-                domicile:Zürich ZH,
-                club:OL Zimmerberg,
-            )
-            ZZZZZZZZZZ,
+                INFO Person not exactly matched: SolvResult(
+                    id:3,
+                    event:1,
+                    class:H12,
+                    person:,
+                    name:Test Winner,
+                    birth_year:92,
+                    domicile:Zürich ZH,
+                    club:OL Zimmerberg,
+                )
+                ZZZZZZZZZZ,
             'INFO getAllAssignedSolvResultPersonData took 1234ms',
             <<<'ZZZZZZZZZZ'
-            INFO Closest matches (difference 4): [
-                {
-                    "person": 1,
-                    "name": "Test Runner",
-                    "birth_year": "08",
-                    "domicile": "Z\u00fcrich ZH"
-                },
-                {
-                    "person": 2,
-                    "name": "Best Runer",
-                    "birth_year": "92",
-                    "domicile": "Z\u00fcrich ZH"
-                }
-            ]
-            ZZZZZZZZZZ,
+                INFO Closest matches (difference 4): [
+                    {
+                        "person": 1,
+                        "name": "Test Runner",
+                        "birth_year": "08",
+                        "domicile": "Z\u00fcrich ZH"
+                    },
+                    {
+                        "person": 2,
+                        "name": "Best Runer",
+                        "birth_year": "92",
+                        "domicile": "Z\u00fcrich ZH"
+                    }
+                ]
+                ZZZZZZZZZZ,
             'INFO  => No matching person found (difference too high).',
             'NOTICE Unclear case. Maybe update logic?',
             'INFO getMatchingPerson took 1234ms',

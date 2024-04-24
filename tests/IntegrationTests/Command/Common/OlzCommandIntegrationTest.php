@@ -75,9 +75,9 @@ final class OlzCommandIntegrationTest extends IntegrationTestCase {
         );
         $this->assertSame(
             <<<ZZZZZZZZZZ
-            Running command Olz\\Command\\TestCommand...
-            {$output_string}Successfully ran command Olz\\Command\\TestCommand.
-            ZZZZZZZZZZ,
+                Running command Olz\\Command\\TestCommand...
+                {$output_string}Successfully ran command Olz\\Command\\TestCommand.
+                ZZZZZZZZZZ,
             str_replace('INFO ', '', implode("\n", $this->getLogs()))
         );
     }

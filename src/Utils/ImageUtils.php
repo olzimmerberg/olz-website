@@ -25,7 +25,10 @@ class ImageUtils {
         $attrs = '',
     ): string {
         $res = preg_match_all(
-            '/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $text ?? '', $matches);
+            '/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i',
+            $text ?? '',
+            $matches
+        );
         if (!$res) {
             return $text ?? '';
         }
@@ -89,16 +92,16 @@ class ImageUtils {
         $url_without_dim = "{$code_href}image_tools/thumb/{$db_table}\${$id}\${$index}";
         $dim2x = $dim * 2;
         return <<<ZZZZZZZZZZ
-        {$span_before}{$a_before}
-        <img
-            src='{$url_without_dim}\${$dim}.jpg'
-            srcset='{$url_without_dim}\${$dim2x}.jpg 2x, {$url_without_dim}\${$dim}.jpg 1x'
-            alt=''
-            width='{$wid}'
-            height='{$hei}'
-            {$attrs}
-        />
-        {$a_after}{$span_after}
-        ZZZZZZZZZZ;
+            {$span_before}{$a_before}
+            <img
+                src='{$url_without_dim}\${$dim}.jpg'
+                srcset='{$url_without_dim}\${$dim2x}.jpg 2x, {$url_without_dim}\${$dim}.jpg 1x'
+                alt=''
+                width='{$wid}'
+                height='{$hei}'
+                {$attrs}
+            />
+            {$a_after}{$span_after}
+            ZZZZZZZZZZ;
     }
 }

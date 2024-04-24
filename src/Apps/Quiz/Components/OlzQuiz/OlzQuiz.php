@@ -19,10 +19,10 @@ class OlzQuiz extends OlzComponent {
         ]);
 
         $out .= <<<'ZZZZZZZZZZ'
-        <div class='content-full'>
-            <iframe class='quiz-iframe' src='https://quiz.bitter.li/'></iframe>
-        </div>
-        ZZZZZZZZZZ;
+            <div class='content-full'>
+                <iframe class='quiz-iframe' src='https://quiz.bitter.li/'></iframe>
+            </div>
+            ZZZZZZZZZZ;
 
         $metadata = new Metadata();
         $out .= $metadata->getJsCssImports();

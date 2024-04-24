@@ -19,15 +19,15 @@ class OlzYoutube extends OlzComponent {
         ]);
 
         $out .= <<<'ZZZZZZZZZZ'
-        <style>
-        .menu-container {
-            max-width: none;
-        } 
-        .site-container {
-            max-width: none;
-        }
-        </style>
-        ZZZZZZZZZZ;
+            <style>
+            .menu-container {
+                max-width: none;
+            } 
+            .site-container {
+                max-width: none;
+            }
+            </style>
+            ZZZZZZZZZZ;
 
         $out .= "<div class='content-full'><div id='react-root'>Lädt...</div></div>";
 

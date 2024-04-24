@@ -16,12 +16,12 @@ class OlzDateCalendar extends OlzComponent {
         $month = $args['month'] ?? $this->dateUtils()->olzDate("MM", $date);
 
         return <<<ZZZZZZZZZZ
-        <div class='olz-date-calendar size-{$size}'>
-            <img src='{$code_href}assets/icns/date_calendar.svg' alt='' class='date-img'>
-            <div class='weekday'>{$weekday}</div>
-            <div class='day'>{$day}</div>
-            <div class='month'>{$month}</div>
-        </div>
-        ZZZZZZZZZZ;
+            <div class='olz-date-calendar size-{$size}'>
+                <img src='{$code_href}assets/icns/date_calendar.svg' alt='' class='date-img'>
+                <div class='weekday'>{$weekday}</div>
+                <div class='day'>{$day}</div>
+                <div class='month'>{$month}</div>
+            </div>
+            ZZZZZZZZZZ;
     }
 }

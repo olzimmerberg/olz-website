@@ -16,9 +16,9 @@ class OlzTermineTicker extends OlzComponent {
 
         $textlaenge_def = isset($args["eintrag_laenge"]) ? intval($args["eintrag_laenge"]) : 80;
         $listenlaenge = isset($args["eintrag_anzahl"]) ? intval($args["eintrag_anzahl"]) : 8;
-        $sql_where = isset($args["sql_where"]) ? $args["sql_where"] : "";
-        $title = isset($args["titel"]) ? $args["titel"] : "Termine";
-        $heute_highlight = isset($args["heute_highlight"]) ? $args["heute_highlight"] : true;
+        $sql_where = $args["sql_where"] ?? "";
+        $title = $args["titel"] ?? "Termine";
+        $heute_highlight = $args["heute_highlight"] ?? true;
         // Konstanten
         $db_table = "termine";
         $heute = $this->dateUtils()->getCurrentDateInFormat("Y-m-d");

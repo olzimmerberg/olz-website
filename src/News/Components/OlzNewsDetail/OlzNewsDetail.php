@@ -96,14 +96,14 @@ class OlzNewsDetail extends OlzComponent {
         ]);
 
         $out .= <<<ZZZZZZZZZZ
-        <div class='content-right'>
-            <div style='padding:4px 3px 10px 3px;'>
-                <b>Datum: </b>{$pretty_date}<br />
-                <b>Autor: </b>{$pretty_author}
+            <div class='content-right'>
+                <div style='padding:4px 3px 10px 3px;'>
+                    <b>Datum: </b>{$pretty_date}<br />
+                    <b>Autor: </b>{$pretty_author}
+                </div>
             </div>
-        </div>
-        <div class='content-middle'>
-        ZZZZZZZZZZ;
+            <div class='content-middle'>
+            ZZZZZZZZZZ;
 
         $db->query("UPDATE news SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
 
@@ -126,25 +126,25 @@ class OlzNewsDetail extends OlzComponent {
             $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
             $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
             $edit_admin = <<<ZZZZZZZZZZ
-            <div>
-                <button
-                    id='edit-news-button'
-                    class='btn btn-primary'
-                    onclick='return olz.editNews({$json_id}, {$json_mode})'
-                >
-                    <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
-                    Bearbeiten
-                </button>
-                <button
-                    id='delete-news-button'
-                    class='btn btn-danger'
-                    onclick='return olz.deleteNewsArticle({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                    Löschen
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div>
+                    <button
+                        id='edit-news-button'
+                        class='btn btn-primary'
+                        onclick='return olz.editNews({$json_id}, {$json_mode})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        Bearbeiten
+                    </button>
+                    <button
+                        id='delete-news-button'
+                        class='btn btn-danger'
+                        onclick='return olz.deleteNewsArticle({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                        Löschen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
         }
 
         // TODO: Temporary fix for broken Markdown
@@ -188,7 +188,12 @@ class OlzNewsDetail extends OlzComponent {
                 foreach ($image_ids as $image_id) {
                     $gallery .= "<div class='gallery-image'>";
                     $gallery .= $this->imageUtils()->olzImage(
-                        'news', $id, $image_id, 110, 'gallery[myset]');
+                        'news',
+                        $id,
+                        $image_id,
+                        110,
+                        'gallery[myset]'
+                    );
                     $gallery .= "</div>";
                 }
                 $gallery .= "</div>";
@@ -202,7 +207,12 @@ class OlzNewsDetail extends OlzComponent {
                 foreach ($image_ids as $image_id) {
                     $gallery .= "<div class='gallery-image'>";
                     $gallery .= $this->imageUtils()->olzImage(
-                        'news', $id, $image_id, 110, 'gallery[myset]');
+                        'news',
+                        $id,
+                        $image_id,
+                        110,
+                        'gallery[myset]'
+                    );
                     $gallery .= "</div>";
                 }
                 $gallery .= "</div>";

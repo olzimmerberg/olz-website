@@ -37,7 +37,7 @@ require_once $deploy_path.'/vendor/autoload.php';
 global $kernel;
 
 if ($_SERVER['APP_DEBUG']) {
-    umask(0000);
+    umask(0o000);
 
     Debug::enable();
 }

@@ -16,19 +16,19 @@ class OlzPostingListItem extends OlzComponent {
         $pretty_date = $this->dateUtils()->olzDate("tt.mm.jj", $date);
 
         return <<<ZZZZZZZZZZ
-        <div class='olz-posting-list-item'>
-            <a class='link' href='{$link}'></a>
-            <div class='content'>
-                <span class='date title'>
-                    {$pretty_date}
-                </span>
-                <div class='title'>
-                    <img src='{$icon}' class='icon' alt='' />
-                    {$title}
+            <div class='olz-posting-list-item'>
+                <a class='link' href='{$link}'></a>
+                <div class='content'>
+                    <span class='date title'>
+                        {$pretty_date}
+                    </span>
+                    <div class='title'>
+                        <img src='{$icon}' class='icon' alt='' />
+                        {$title}
+                    </div>
+                    <div class='text'>{$author}{$text}</div>
                 </div>
-                <div class='text'>{$author}{$text}</div>
             </div>
-        </div>
-        ZZZZZZZZZZ;
+            ZZZZZZZZZZ;
     }
 }

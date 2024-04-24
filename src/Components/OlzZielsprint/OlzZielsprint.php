@@ -46,9 +46,8 @@ class OlzZielsprint extends OlzComponent {
                 $actual_points = ($last_finish_split === $finish_split)
                     ? $last_actual_points
                     : $points;
-                $person_points = isset($points_by_person[$person_id])
-                    ? $points_by_person[$person_id]
-                    : ['points' => 0, 'calculation' => []];
+                $person_points = $points_by_person[$person_id]
+                    ?? ['points' => 0, 'calculation' => []];
                 $points_by_person[$person_id]['points'] = $person_points['points'] + $actual_points;
                 $points_by_person[$person_id]['calculation'][] = [
                     'event_name' => $row_event['name'],

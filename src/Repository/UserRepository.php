@@ -19,17 +19,17 @@ class UserRepository extends OlzRepository {
 
     public function getUsersWithLogin() {
         $dql = <<<'ZZZZZZZZZZ'
-        SELECT u
-        FROM Olz:User u
-        WHERE
-            u.email != ''
-            AND
-            u.email IS NOT NULL
-            AND
-            u.password != ''
-            AND
-            u.password IS NOT NULL
-        ZZZZZZZZZZ;
+            SELECT u
+            FROM Olz:User u
+            WHERE
+                u.email != ''
+                AND
+                u.email IS NOT NULL
+                AND
+                u.password != ''
+                AND
+                u.password IS NOT NULL
+            ZZZZZZZZZZ;
 
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();

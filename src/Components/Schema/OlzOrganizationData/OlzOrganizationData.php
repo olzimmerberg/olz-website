@@ -32,9 +32,9 @@ class OlzOrganizationData extends OlzComponent {
         ];
         $json_sports_organization_data = json_encode($sports_organization_data);
         return <<<ZZZZZZZZZZ
-        <script type="application/ld+json">
-        {$json_sports_organization_data}
-        </script>
-        ZZZZZZZZZZ;
+            <script type="application/ld+json">
+            {$json_sports_organization_data}
+            </script>
+            ZZZZZZZZZZ;
     }
 }

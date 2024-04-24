@@ -65,7 +65,9 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         try {
             $all_connections =
                 $this->getConnectionsFromOriginsToDestination(
-                    $destination, $arrival_datetime);
+                    $destination,
+                    $arrival_datetime
+                );
         } catch (\Throwable $th) {
             $this->log()->error($th);
             return ['status' => 'ERROR', 'suggestions' => null];
@@ -129,7 +131,9 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
             }
             if (count($missing_stations_covered) === 0) {
                 $normalized_suggestion = $this->getNormalizedSuggestion(
-                    $suggestion, $latest_departure_by_station_id);
+                    $suggestion,
+                    $latest_departure_by_station_id
+                );
                 $suggestions[] = $normalized_suggestion->getFieldValue();
             } else {
                 $missing_station_ids_covered = implode(', ', $missing_stations_covered);
@@ -333,12 +337,16 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         $normalized_suggestion = new TransportSuggestion();
 
         $normalized_main_connection = $this->getNormalizedConnection(
-            $suggestion->getMainConnection(), $latest_departure_by_station_id);
+            $suggestion->getMainConnection(),
+            $latest_departure_by_station_id
+        );
         $normalized_suggestion->setMainConnection($normalized_main_connection);
 
         foreach ($suggestion->getSideConnections() as $side_connection) {
             $normalized_connection = $this->getNormalizedConnection(
-                $side_connection['connection'], $latest_departure_by_station_id);
+                $side_connection['connection'],
+                $latest_departure_by_station_id
+            );
             if ($normalized_connection !== null) {
                 $normalized_side_connection = [
                     'connection' => $normalized_connection,

@@ -25,11 +25,11 @@ class OlzXmlSitemap extends OlzSitemap {
         $change_frequency_line = $change_frequency ? "<changefreq>{$change_frequency}</changefreq>" : '';
         $priority_line = $priority ? "<priority>{$priority}</priority>" : '';
         return <<<ZZZZZZZZZZ
-            <url>
-                <loc>{$url}</loc>
-                {$change_frequency_line}
-                {$priority_line}
-            </url>\n
-        ZZZZZZZZZZ;
+                <url>
+                    <loc>{$url}</loc>
+                    {$change_frequency_line}
+                    {$priority_line}
+                </url>\n
+            ZZZZZZZZZZ;
     }
 }

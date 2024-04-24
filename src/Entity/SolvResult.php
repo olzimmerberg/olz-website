@@ -62,17 +62,17 @@ class SolvResult {
 
     public function __toString(): string {
         return <<<ZZZZZZZZZZ
-        SolvResult(
-            id:{$this->id},
-            event:{$this->event},
-            class:{$this->class},
-            person:{$this->person},
-            name:{$this->name},
-            birth_year:{$this->birth_year},
-            domicile:{$this->domicile},
-            club:{$this->club},
-        )
-        ZZZZZZZZZZ;
+            SolvResult(
+                id:{$this->id},
+                event:{$this->event},
+                class:{$this->class},
+                person:{$this->person},
+                name:{$this->name},
+                birth_year:{$this->birth_year},
+                domicile:{$this->domicile},
+                club:{$this->club},
+            )
+            ZZZZZZZZZZ;
     }
 
     private $valid_field_names = [

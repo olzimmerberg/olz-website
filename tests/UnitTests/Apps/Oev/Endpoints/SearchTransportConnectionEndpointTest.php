@@ -22,7 +22,8 @@ class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\Fake
         $request_ident = "from_{$from}_to_{$to}_at_{$date}T{$time}";
 
         $response = $this->getMockedResponse(
-            $request_ident, __DIR__,
+            $request_ident,
+            __DIR__,
             function () use ($request_data) {
                 $real_fetcher = new TransportApiFetcher();
                 $real_data = $real_fetcher->fetchConnection($request_data);
@@ -55,7 +56,8 @@ class SearchTransportConnectionEndpointForTest extends SearchTransportConnection
         return $this->getJoiningStationFromConnection(
             $connection,
             $latest_joining_time_by_station_id,
-            $latest_departure_by_station_id);
+            $latest_departure_by_station_id
+        );
     }
 }
 
@@ -128,7 +130,8 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             $endpoint->testOnlyGetJoiningStationFromConnection(
                 $connection,
                 $latest_joining_time_by_station_id,
-                $latest_departure_by_station_id)
+                $latest_departure_by_station_id
+            )
         );
     }
 
@@ -164,122 +167,128 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         }, $result['suggestions']);
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-              O   2021-09-22 07:10:00 Langnau-Gattikon
-              O   2021-09-22 07:11:00 Wildpark-Höfli
-              O   2021-09-22 07:13:00 Sihlau
-              O   2021-09-22 07:15:00 Adliswil
-                O 2021-09-22 07:15:00 Horgen Oberdorf
-              O   2021-09-22 07:16:00 Sood-Oberleimbach
-                O 2021-09-22 07:17:00 Oberrieden Dorf
-            O     2021-09-22 07:18:00 Richterswil
-              O   2021-09-22 07:19:00 Zürich Leimbach
-              O   2021-09-22 07:20:00 Zürich Manegg
-                < 2021-09-22 07:21:00 Thalwil
-              O   2021-09-22 07:22:00 Zürich Brunau
-            O     2021-09-22 07:23:00 Wädenswil
-              O   2021-09-22 07:24:00 Zürich Saalsporthalle
-            O     2021-09-22 07:25:00 Au ZH
-              O   2021-09-22 07:26:00 Zürich Giesshübel
-              O   2021-09-22 07:28:00 Zürich Selnau
-            O     2021-09-22 07:30:00 Horgen
-              O   2021-09-22 07:31:00 Zürich HB SZU
-              O   2021-09-22 07:31:00 Zürich HB SZU
-            O     2021-09-22 07:32:00 Oberrieden
-            O     2021-09-22 07:36:00 Thalwil
-              <   2021-09-22 07:38:00 Zürich HB
-            O     2021-09-22 07:38:00 Rüschlikon
-            O     2021-09-22 07:40:00 Kilchberg ZH
-            O     2021-09-22 07:43:00 Zürich Wollishofen
-            O     2021-09-22 07:48:00 Zürich Enge
-            O     2021-09-22 07:49:00 Zürich Wiedikon
-            O     2021-09-22 07:55:00 Zürich HB
-            O     2021-09-22 08:00:00 Zürich Oerlikon
-            O     2021-09-22 08:04:00 Wallisellen
-            O     2021-09-22 08:06:00 Dietlikon
-            O     2021-09-22 08:12:00 Effretikon
-            O     2021-09-22 08:19:00 Winterthur
-            ZZZZZZZZZZ, $pretty_prints[0]);
+                  O   2021-09-22 07:10:00 Langnau-Gattikon
+                  O   2021-09-22 07:11:00 Wildpark-Höfli
+                  O   2021-09-22 07:13:00 Sihlau
+                  O   2021-09-22 07:15:00 Adliswil
+                    O 2021-09-22 07:15:00 Horgen Oberdorf
+                  O   2021-09-22 07:16:00 Sood-Oberleimbach
+                    O 2021-09-22 07:17:00 Oberrieden Dorf
+                O     2021-09-22 07:18:00 Richterswil
+                  O   2021-09-22 07:19:00 Zürich Leimbach
+                  O   2021-09-22 07:20:00 Zürich Manegg
+                    < 2021-09-22 07:21:00 Thalwil
+                  O   2021-09-22 07:22:00 Zürich Brunau
+                O     2021-09-22 07:23:00 Wädenswil
+                  O   2021-09-22 07:24:00 Zürich Saalsporthalle
+                O     2021-09-22 07:25:00 Au ZH
+                  O   2021-09-22 07:26:00 Zürich Giesshübel
+                  O   2021-09-22 07:28:00 Zürich Selnau
+                O     2021-09-22 07:30:00 Horgen
+                  O   2021-09-22 07:31:00 Zürich HB SZU
+                  O   2021-09-22 07:31:00 Zürich HB SZU
+                O     2021-09-22 07:32:00 Oberrieden
+                O     2021-09-22 07:36:00 Thalwil
+                  <   2021-09-22 07:38:00 Zürich HB
+                O     2021-09-22 07:38:00 Rüschlikon
+                O     2021-09-22 07:40:00 Kilchberg ZH
+                O     2021-09-22 07:43:00 Zürich Wollishofen
+                O     2021-09-22 07:48:00 Zürich Enge
+                O     2021-09-22 07:49:00 Zürich Wiedikon
+                O     2021-09-22 07:55:00 Zürich HB
+                O     2021-09-22 08:00:00 Zürich Oerlikon
+                O     2021-09-22 08:04:00 Wallisellen
+                O     2021-09-22 08:06:00 Dietlikon
+                O     2021-09-22 08:12:00 Effretikon
+                O     2021-09-22 08:19:00 Winterthur
+                ZZZZZZZZZZ,
+            $pretty_prints[0]
+        );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                  O 2021-09-22 07:25:00 Au ZH
-                  O 2021-09-22 07:30:00 Horgen
-                  O 2021-09-22 07:32:00 Oberrieden
-                  < 2021-09-22 07:36:00 Thalwil
-              O     2021-09-22 07:40:00 Langnau-Gattikon
-            O       2021-09-22 07:42:00 Richterswil
-              O     2021-09-22 07:43:00 Sihlau
-              O     2021-09-22 07:45:00 Adliswil
-                O   2021-09-22 07:45:00 Horgen Oberdorf
-              O     2021-09-22 07:46:00 Sood-Oberleimbach
-                O   2021-09-22 07:47:00 Oberrieden Dorf
-            O       2021-09-22 07:48:00 Wädenswil
-              O     2021-09-22 07:49:00 Zürich Leimbach
-              O     2021-09-22 07:50:00 Zürich Manegg
-                O   2021-09-22 07:51:00 Thalwil
-              O     2021-09-22 07:52:00 Zürich Brunau
-                O   2021-09-22 07:53:00 Rüschlikon
-            O       2021-09-22 07:54:00 Horgen
-              O     2021-09-22 07:54:00 Zürich Saalsporthalle
-                O   2021-09-22 07:55:00 Kilchberg ZH
-              O     2021-09-22 07:56:00 Zürich Giesshübel
-              O     2021-09-22 07:58:00 Zürich Selnau
-                O   2021-09-22 07:58:00 Zürich Wollishofen
-            O       2021-09-22 07:59:00 Thalwil
-              O     2021-09-22 08:01:00 Zürich HB SZU
-              O     2021-09-22 08:01:00 Zürich HB SZU
-                <   2021-09-22 08:03:00 Zürich Enge
-            O       2021-09-22 08:06:00 Zürich Enge
-            O       2021-09-22 08:07:00 Zürich Wiedikon
-              <     2021-09-22 08:08:00 Zürich HB
-            O       2021-09-22 08:14:00 Zürich HB
-            O       2021-09-22 08:18:00 Zürich Oerlikon
-            O       2021-09-22 08:22:00 Zürich Oerlikon
-            O       2021-09-22 08:27:00 Zürich Flughafen
-            O       2021-09-22 08:31:00 Bassersdorf
-            O       2021-09-22 08:38:00 Effretikon
-            O       2021-09-22 08:46:00 Winterthur
-            ZZZZZZZZZZ, $pretty_prints[1]);
+                      O 2021-09-22 07:25:00 Au ZH
+                      O 2021-09-22 07:30:00 Horgen
+                      O 2021-09-22 07:32:00 Oberrieden
+                      < 2021-09-22 07:36:00 Thalwil
+                  O     2021-09-22 07:40:00 Langnau-Gattikon
+                O       2021-09-22 07:42:00 Richterswil
+                  O     2021-09-22 07:43:00 Sihlau
+                  O     2021-09-22 07:45:00 Adliswil
+                    O   2021-09-22 07:45:00 Horgen Oberdorf
+                  O     2021-09-22 07:46:00 Sood-Oberleimbach
+                    O   2021-09-22 07:47:00 Oberrieden Dorf
+                O       2021-09-22 07:48:00 Wädenswil
+                  O     2021-09-22 07:49:00 Zürich Leimbach
+                  O     2021-09-22 07:50:00 Zürich Manegg
+                    O   2021-09-22 07:51:00 Thalwil
+                  O     2021-09-22 07:52:00 Zürich Brunau
+                    O   2021-09-22 07:53:00 Rüschlikon
+                O       2021-09-22 07:54:00 Horgen
+                  O     2021-09-22 07:54:00 Zürich Saalsporthalle
+                    O   2021-09-22 07:55:00 Kilchberg ZH
+                  O     2021-09-22 07:56:00 Zürich Giesshübel
+                  O     2021-09-22 07:58:00 Zürich Selnau
+                    O   2021-09-22 07:58:00 Zürich Wollishofen
+                O       2021-09-22 07:59:00 Thalwil
+                  O     2021-09-22 08:01:00 Zürich HB SZU
+                  O     2021-09-22 08:01:00 Zürich HB SZU
+                    <   2021-09-22 08:03:00 Zürich Enge
+                O       2021-09-22 08:06:00 Zürich Enge
+                O       2021-09-22 08:07:00 Zürich Wiedikon
+                  <     2021-09-22 08:08:00 Zürich HB
+                O       2021-09-22 08:14:00 Zürich HB
+                O       2021-09-22 08:18:00 Zürich Oerlikon
+                O       2021-09-22 08:22:00 Zürich Oerlikon
+                O       2021-09-22 08:27:00 Zürich Flughafen
+                O       2021-09-22 08:31:00 Bassersdorf
+                O       2021-09-22 08:38:00 Effretikon
+                O       2021-09-22 08:46:00 Winterthur
+                ZZZZZZZZZZ,
+            $pretty_prints[1]
+        );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-              O   2021-09-22 07:45:00 Horgen Oberdorf
-              O   2021-09-22 07:47:00 Oberrieden Dorf
-                O 2021-09-22 07:48:00 Richterswil
-              O   2021-09-22 07:51:00 Thalwil
-              O   2021-09-22 07:53:00 Rüschlikon
-                O 2021-09-22 07:53:00 Wädenswil
-              O   2021-09-22 07:55:00 Kilchberg ZH
-                O 2021-09-22 07:55:00 Au ZH
-              O   2021-09-22 07:58:00 Zürich Wollishofen
-            O     2021-09-22 08:00:00 Langnau-Gattikon
-                O 2021-09-22 08:00:00 Horgen
-                O 2021-09-22 08:02:00 Oberrieden
-              O   2021-09-22 08:03:00 Zürich Enge
-            O     2021-09-22 08:03:00 Sihlau
-              O   2021-09-22 08:04:00 Zürich Wiedikon
-            O     2021-09-22 08:05:00 Adliswil
-                O 2021-09-22 08:06:00 Thalwil
-            O     2021-09-22 08:06:00 Sood-Oberleimbach
-                O 2021-09-22 08:08:00 Rüschlikon
-            O     2021-09-22 08:09:00 Zürich Leimbach
-            O     2021-09-22 08:10:00 Zürich Manegg
-                O 2021-09-22 08:10:00 Kilchberg ZH
-            O     2021-09-22 08:12:00 Zürich Brunau
-                O 2021-09-22 08:13:00 Zürich Wollishofen
-            O     2021-09-22 08:14:00 Zürich Saalsporthalle
-              <   2021-09-22 08:14:00 Zürich HB
-            O     2021-09-22 08:16:00 Zürich Giesshübel
-                O 2021-09-22 08:18:00 Zürich Enge
-            O     2021-09-22 08:18:00 Zürich Selnau
-                O 2021-09-22 08:19:00 Zürich Wiedikon
-            O     2021-09-22 08:21:00 Zürich HB SZU
-            O     2021-09-22 08:21:00 Zürich HB SZU
-                < 2021-09-22 08:25:00 Zürich HB
-            O     2021-09-22 08:28:00 Zürich HB
-            O     2021-09-22 08:31:00 Zürich HB
-            O     2021-09-22 08:35:00 Zürich Stadelhofen
-            O     2021-09-22 08:39:00 Stettbach
-            O     2021-09-22 08:51:00 Winterthur
-            ZZZZZZZZZZ, $pretty_prints[7]);
+                  O   2021-09-22 07:45:00 Horgen Oberdorf
+                  O   2021-09-22 07:47:00 Oberrieden Dorf
+                    O 2021-09-22 07:48:00 Richterswil
+                  O   2021-09-22 07:51:00 Thalwil
+                  O   2021-09-22 07:53:00 Rüschlikon
+                    O 2021-09-22 07:53:00 Wädenswil
+                  O   2021-09-22 07:55:00 Kilchberg ZH
+                    O 2021-09-22 07:55:00 Au ZH
+                  O   2021-09-22 07:58:00 Zürich Wollishofen
+                O     2021-09-22 08:00:00 Langnau-Gattikon
+                    O 2021-09-22 08:00:00 Horgen
+                    O 2021-09-22 08:02:00 Oberrieden
+                  O   2021-09-22 08:03:00 Zürich Enge
+                O     2021-09-22 08:03:00 Sihlau
+                  O   2021-09-22 08:04:00 Zürich Wiedikon
+                O     2021-09-22 08:05:00 Adliswil
+                    O 2021-09-22 08:06:00 Thalwil
+                O     2021-09-22 08:06:00 Sood-Oberleimbach
+                    O 2021-09-22 08:08:00 Rüschlikon
+                O     2021-09-22 08:09:00 Zürich Leimbach
+                O     2021-09-22 08:10:00 Zürich Manegg
+                    O 2021-09-22 08:10:00 Kilchberg ZH
+                O     2021-09-22 08:12:00 Zürich Brunau
+                    O 2021-09-22 08:13:00 Zürich Wollishofen
+                O     2021-09-22 08:14:00 Zürich Saalsporthalle
+                  <   2021-09-22 08:14:00 Zürich HB
+                O     2021-09-22 08:16:00 Zürich Giesshübel
+                    O 2021-09-22 08:18:00 Zürich Enge
+                O     2021-09-22 08:18:00 Zürich Selnau
+                    O 2021-09-22 08:19:00 Zürich Wiedikon
+                O     2021-09-22 08:21:00 Zürich HB SZU
+                O     2021-09-22 08:21:00 Zürich HB SZU
+                    < 2021-09-22 08:25:00 Zürich HB
+                O     2021-09-22 08:28:00 Zürich HB
+                O     2021-09-22 08:31:00 Zürich HB
+                O     2021-09-22 08:35:00 Zürich Stadelhofen
+                O     2021-09-22 08:39:00 Stettbach
+                O     2021-09-22 08:51:00 Winterthur
+                ZZZZZZZZZZ,
+            $pretty_prints[7]
+        );
     }
 
     public function testSearchTransportConnectionEndpointExample2(): void {

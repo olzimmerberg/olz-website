@@ -29,15 +29,15 @@ class OlzVerein extends OlzComponent {
         }
         $out .= "<div class='content-full'><div id='organigramm'>";
         $out .= <<<ZZZZZZZZZZ
-        <h2>Häufig gesucht</h2>
-        {$featured_out}
-        <div>
-            <br />
-            <div><b>PC-Konto</b></div>
-            <div><b>IBAN: </b>CH91 0900 0000 8525 6448 8</div>
-            <div><b>Empfänger: </b>OL Zimmerberg, 8800 Thalwil</div>
-        </div>
-        ZZZZZZZZZZ;
+            <h2>Häufig gesucht</h2>
+            {$featured_out}
+            <div>
+                <br />
+                <div><b>PC-Konto</b></div>
+                <div><b>IBAN: </b>CH91 0900 0000 8525 6448 8</div>
+                <div><b>Empfänger: </b>OL Zimmerberg, 8800 Thalwil</div>
+            </div>
+            ZZZZZZZZZZ;
 
         $out .= OlzOrganigramm::render();
 

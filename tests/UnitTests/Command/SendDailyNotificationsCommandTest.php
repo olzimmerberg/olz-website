@@ -629,135 +629,135 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: 
-            Reply-To: 
-            To: "First User" <default-user@staging.olzimmerberg.ch>
-            Cc: 
-            Bcc: 
-            Subject: [OLZ] MP title
+                From: 
+                Reply-To: 
+                To: "First User" <default-user@staging.olzimmerberg.ch>
+                Cc: 
+                Bcc: 
+                Subject: [OLZ] MP title
 
-            MP text First
-            
-            ---
-            Abmelden?
-            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0
-            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
-            
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            MP text First
-            <br /><br />
-            <hr style="border: 0; border-top: 1px solid black;">
-            Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
-            
-            olz_logo
-            ZZZZZZZZZZ,
+                MP text First
+
+                ---
+                Abmelden?
+                Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0
+                Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                MP text First
+                <br /><br />
+                <hr style="border: 0; border-top: 1px solid black;">
+                Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+
+                olz_logo
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: 
-            Reply-To: 
-            To: "First User" <default-user@staging.olzimmerberg.ch>
-            Cc: 
-            Bcc: 
-            Subject: [OLZ] DW title {"days":3}
+                From: 
+                Reply-To: 
+                To: "First User" <default-user@staging.olzimmerberg.ch>
+                Cc: 
+                Bcc: 
+                Subject: [OLZ] DW title {"days":3}
 
-            DW text First
-            
-            ---
-            Abmelden?
-            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGVhZGxpbmVfd2FybmluZyJ9
-            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
-            
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            DW text First
-            <br /><br />
-            <hr style="border: 0; border-top: 1px solid black;">
-            Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGVhZGxpbmVfd2FybmluZyJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
-            
-            olz_logo
-            ZZZZZZZZZZ,
+                DW text First
+
+                ---
+                Abmelden?
+                Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGVhZGxpbmVfd2FybmluZyJ9
+                Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                DW text First
+                <br /><br />
+                <hr style="border: 0; border-top: 1px solid black;">
+                Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGVhZGxpbmVfd2FybmluZyJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+
+                olz_logo
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: 
-            Reply-To: 
-            To: "First User" <default-user@staging.olzimmerberg.ch>
-            Cc: 
-            Bcc: 
-            Subject: [OLZ] DS title
+                From: 
+                Reply-To: 
+                To: "First User" <default-user@staging.olzimmerberg.ch>
+                Cc: 
+                Bcc: 
+                Subject: [OLZ] DS title
 
-            DS text First
-            
-            ---
-            Abmelden?
-            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGFpbHlfc3VtbWFyeSJ9
-            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
-            
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            DS text First
-            <br /><br />
-            <hr style="border: 0; border-top: 1px solid black;">
-            Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGFpbHlfc3VtbWFyeSJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
-            
-            olz_logo
-            ZZZZZZZZZZ,
+                DS text First
+
+                ---
+                Abmelden?
+                Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGFpbHlfc3VtbWFyeSJ9
+                Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                DS text First
+                <br /><br />
+                <hr style="border: 0; border-top: 1px solid black;">
+                Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGFpbHlfc3VtbWFyeSJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+
+                olz_logo
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: 
-            Reply-To: 
-            To: "Second User" <default-user@staging.olzimmerberg.ch>
-            Cc: 
-            Bcc: 
-            Subject: [OLZ] WS title
+                From: 
+                Reply-To: 
+                To: "Second User" <default-user@staging.olzimmerberg.ch>
+                Cc: 
+                Bcc: 
+                Subject: [OLZ] WS title
 
-            WS text Second
-            
-            ---
-            Abmelden?
-            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlIjoid2Vla2x5X3N1bW1hcnkifQ
-            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
-            
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            WS text Second
-            <br /><br />
-            <hr style="border: 0; border-top: 1px solid black;">
-            Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlIjoid2Vla2x5X3N1bW1hcnkifQ">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
-            
-            olz_logo
-            ZZZZZZZZZZ,
+                WS text Second
+
+                ---
+                Abmelden?
+                Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlIjoid2Vla2x5X3N1bW1hcnkifQ
+                Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                WS text Second
+                <br /><br />
+                <hr style="border: 0; border-top: 1px solid black;">
+                Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlIjoid2Vla2x5X3N1bW1hcnkifQ">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+
+                olz_logo
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: 
-            Reply-To: 
-            To: "First User" <default-user@staging.olzimmerberg.ch>
-            Cc: 
-            Bcc: 
-            Subject: [OLZ] ECR title {"cancelled":false}
+                From: 
+                Reply-To: 
+                To: "First User" <default-user@staging.olzimmerberg.ch>
+                Cc: 
+                Bcc: 
+                Subject: [OLZ] ECR title {"cancelled":false}
 
-            ECR text First
-            
-            ---
-            Abmelden?
-            Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZW1haWxfY29uZmlnX3JlbWluZGVyIn0
-            Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
-            
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            ECR text First
-            <br /><br />
-            <hr style="border: 0; border-top: 1px solid black;">
-            Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZW1haWxfY29uZmlnX3JlbWluZGVyIn0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
-            
-            olz_logo
-            ZZZZZZZZZZ,
+                ECR text First
+
+                ---
+                Abmelden?
+                Keine solchen E-Mails mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZW1haWxfY29uZmlnX3JlbWluZGVyIn0
+                Keine E-Mails von OL Zimmerberg mehr: http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0
+
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                ECR text First
+                <br /><br />
+                <hr style="border: 0; border-top: 1px solid black;">
+                Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZW1haWxfY29uZmlnX3JlbWluZGVyIn0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
+
+                olz_logo
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));

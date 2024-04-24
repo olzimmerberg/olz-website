@@ -25,10 +25,10 @@ class OlzSuche extends OlzComponent {
         ]);
 
         $out .= <<<'ZZZZZZZZZZ'
-        <div class='content-right'>
-        </div>
-        <div class='content-middle'>
-        ZZZZZZZZZZ;
+            <div class='content-right'>
+            </div>
+            <div class='content-middle'>
+            ZZZZZZZZZZ;
 
         $search_key = trim(str_replace([",", ".", ";", "   ", "  "], [" ", " ", " ", " ", " "], $search_key));
         $search_words = explode(" ", $search_key, 4);
@@ -41,22 +41,22 @@ class OlzSuche extends OlzComponent {
             $search_key = $db->real_escape_string($search_key);
             if ($search_key > "") {
                 $sql_termine .= <<<ZZZZZZZZZZ
-                (
-                    (title LIKE '%{$search_key}%')
-                    OR (text LIKE '%{$search_key}%')
-                )
-                AND
-                ZZZZZZZZZZ;
+                    (
+                        (title LIKE '%{$search_key}%')
+                        OR (text LIKE '%{$search_key}%')
+                    )
+                    AND
+                    ZZZZZZZZZZ;
             }
             if ($search_key > "") {
                 $sql_news .= <<<ZZZZZZZZZZ
-                (
-                    (title LIKE '%{$search_key}%')
-                    OR (teaser LIKE '%{$search_key}%')
-                    OR (content LIKE '%{$search_key}%')
-                )
-                AND
-                ZZZZZZZZZZ;
+                    (
+                        (title LIKE '%{$search_key}%')
+                        OR (teaser LIKE '%{$search_key}%')
+                        OR (content LIKE '%{$search_key}%')
+                    )
+                    AND
+                    ZZZZZZZZZZ;
             }
         }
 
@@ -83,21 +83,21 @@ class OlzSuche extends OlzComponent {
             $start_date = $date_utils->olzDate("t. MM jjjj", $start_date);
             $cutout = $this->cutout($text, $search_words);
             $result_termine .= <<<ZZZZZZZZZZ
-            <tr>
-                <td>
-                    <a href="{$code_href}termine/{$id}" class="linkint">
-                        <b>{$start_date}</b>
-                    </a>
-                </td>
-                <td>
-                    <a href="{$code_href}termine/{$id}" class="linkint">
-                        <b>{$this->highlight($title, $search_words)}</b>
-                    </a>
-                    <br>
-                    {$this->highlight($cutout, $search_words)}
-                </td>
-            </tr>
-            ZZZZZZZZZZ;
+                <tr>
+                    <td>
+                        <a href="{$code_href}termine/{$id}" class="linkint">
+                            <b>{$start_date}</b>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{$code_href}termine/{$id}" class="linkint">
+                            <b>{$this->highlight($title, $search_words)}</b>
+                        </a>
+                        <br>
+                        {$this->highlight($cutout, $search_words)}
+                    </td>
+                </tr>
+                ZZZZZZZZZZ;
         }
 
         // NEWS
@@ -116,21 +116,21 @@ class OlzSuche extends OlzComponent {
             $published_date = $date_utils->olzDate("t. MM jjjj", $published_date);
             $cutout = $this->cutout($text, $search_words);
             $result_news .= <<<ZZZZZZZZZZ
-            <tr>
-                <td>
-                    <a href="{$code_href}news/{$id}" class="linkint">
-                        <b>{$published_date}</b>
-                    </a>
-                </td>
-                <td>
-                    <a href="{$code_href}news/{$id}" class="linkint">
-                        <b>{$this->highlight($title, $search_words)}</b>
-                    </a>
-                    <br>
-                    {$this->highlight($cutout, $search_words)}
-                </td>
-            </tr>
-            ZZZZZZZZZZ;
+                <tr>
+                    <td>
+                        <a href="{$code_href}news/{$id}" class="linkint">
+                            <b>{$published_date}</b>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{$code_href}news/{$id}" class="linkint">
+                            <b>{$this->highlight($title, $search_words)}</b>
+                        </a>
+                        <br>
+                        {$this->highlight($cutout, $search_words)}
+                    </td>
+                </tr>
+                ZZZZZZZZZZ;
         }
 
         $text = $result_termine.$result_news;

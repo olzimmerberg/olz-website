@@ -18,22 +18,22 @@ class RobotsController extends AbstractController {
         LoggerInterface $logger,
     ): Response {
         $out = <<<'ZZZZZZZZZZ'
-        User-agent: *
-        Disallow: /downloads/
-        Disallow: /files/
-        Disallow: /img/
-        Allow: /img/fuer_einsteiger/
-        Disallow: /pdf/
-        Disallow: /olz_mitglieder/
-        Disallow: /trainingphotos/
-        User-agent: Googlebot-Image
-        Disallow: /
-        Allow: /assets/
-        Allow: /favicon.ico
-        Allow: /img/fuer_einsteiger/
+            User-agent: *
+            Disallow: /downloads/
+            Disallow: /files/
+            Disallow: /img/
+            Allow: /img/fuer_einsteiger/
+            Disallow: /pdf/
+            Disallow: /olz_mitglieder/
+            Disallow: /trainingphotos/
+            User-agent: Googlebot-Image
+            Disallow: /
+            Allow: /assets/
+            Allow: /favicon.ico
+            Allow: /img/fuer_einsteiger/
 
-        Sitemap: https://olzimmerberg.ch/sitemap.xml
-        ZZZZZZZZZZ;
+            Sitemap: https://olzimmerberg.ch/sitemap.xml
+            ZZZZZZZZZZ;
         $response = new Response($out);
         $response->headers->set('Content-Type', 'text/plain');
         return $response;

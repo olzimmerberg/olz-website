@@ -27,11 +27,11 @@ class OlzProfil extends OlzComponent {
         if ($user) {
             if ($user->getId() !== $auth_utils->getCurrentAuthUser()->getId()) {
                 $out .= <<<ZZZZZZZZZZ
-                <div class='alert alert-danger' role='alert'>
-                    Du bist zurzeit als "{$user->getFullName()}" eingeloggt.
-                    <b>Änderungen dürfen nur mit der Einwilligung der betreffenden Person vorgenommen werden!</b>
-                </div>
-                ZZZZZZZZZZ;
+                    <div class='alert alert-danger' role='alert'>
+                        Du bist zurzeit als "{$user->getFullName()}" eingeloggt.
+                        <b>Änderungen dürfen nur mit der Einwilligung der betreffenden Person vorgenommen werden!</b>
+                    </div>
+                    ZZZZZZZZZZ;
             }
 
             $email_verification_banner = '';
@@ -42,30 +42,30 @@ class OlzProfil extends OlzComponent {
             ) {
                 if ($user->getEmailVerificationToken()) {
                     $email_verification_banner = <<<'ZZZZZZZZZZ'
-                    <div class='alert alert-danger' role='alert'>
-                        Deine E-Mail-Adresse ist noch nicht bestätigt. Bitte prüfe deine Inbox (und dein Spam-Postfach) auf unsere Bestätigungs-E-Mail (Betreff: "[OLZ] E-Mail bestätigen").
-                        <a
-                            href='#'
-                            onclick='olz.initOlzVerifyUserEmailModal()'
-                            id='verify-user-email-link'
-                        >
-                            Erneut senden
-                        </a>
-                    </div>
-                    ZZZZZZZZZZ;
+                        <div class='alert alert-danger' role='alert'>
+                            Deine E-Mail-Adresse ist noch nicht bestätigt. Bitte prüfe deine Inbox (und dein Spam-Postfach) auf unsere Bestätigungs-E-Mail (Betreff: "[OLZ] E-Mail bestätigen").
+                            <a
+                                href='#'
+                                onclick='olz.initOlzVerifyUserEmailModal()'
+                                id='verify-user-email-link'
+                            >
+                                Erneut senden
+                            </a>
+                        </div>
+                        ZZZZZZZZZZ;
                 } else {
                     $email_verification_banner = <<<'ZZZZZZZZZZ'
-                    <div class='alert alert-danger' role='alert'>
-                        Deine E-Mail-Adresse ist noch nicht bestätigt.
-                        <a
-                            href='#'
-                            onclick='olz.initOlzVerifyUserEmailModal()'
-                            id='verify-user-email-link'
-                        >
-                            Jetzt bestätigen
-                        </a>
-                    </div>
-                    ZZZZZZZZZZ;
+                        <div class='alert alert-danger' role='alert'>
+                            Deine E-Mail-Adresse ist noch nicht bestätigt.
+                            <a
+                                href='#'
+                                onclick='olz.initOlzVerifyUserEmailModal()'
+                                id='verify-user-email-link'
+                            >
+                                Jetzt bestätigen
+                            </a>
+                        </div>
+                        ZZZZZZZZZZ;
                 }
             }
 
@@ -84,62 +84,62 @@ class OlzProfil extends OlzComponent {
             $esc_id = htmlentities(json_encode($user_id));
             $esc_email = htmlentities($user_email);
             $out .= <<<ZZZZZZZZZZ
-            <div class='feature external-login mb-3'>
-                <a
-                    href='#'
-                    role='button'
-                    onclick='olz.initOlzLinkTelegramModal()'
-                    class='login-button telegram-button{$telegram_button_class}'
+                <div class='feature external-login mb-3'>
+                    <a
+                        href='#'
+                        role='button'
+                        onclick='olz.initOlzLinkTelegramModal()'
+                        class='login-button telegram-button{$telegram_button_class}'
+                    >
+                        <img src='{$code_href}assets/icns/login_telegram.svg' alt=''>
+                        Nachrichten-Push via Telegram
+                    </a>
+                    <a
+                        href='#'
+                        role='button'
+                        data-bs-toggle='modal'
+                        data-bs-target='#link-strava-modal'
+                        class='login-button strava-button{$strava_button_class}'
+                    >
+                        <img src='{$code_href}assets/icns/login_strava.svg' alt=''>
+                        Login mit Strava
+                    </a>
+                </div>
+
+                {$email_verification_banner}
+                <div class='data-protection-section'>
+                    <button
+                        id='delete-user-button'
+                        class='btn btn-danger'
+                        onclick='return olz.olzProfileDeleteUser({$esc_id})'
+                    >
+                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                        Konto löschen
+                    </button>
+                    <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='{$code_href}datenschutz' class='linkint' target='_blank'>Datenschutz</a></p>
+                    <p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>
+                </div>
+                <div class='after-data-protection-section'></div>
+
+                <form
+                    id='profile-form'
+                    class='default-form'
+                    autocomplete='off'
+                    onsubmit='return olz.olzProfileUpdateUser({$esc_id}, this)'
                 >
-                    <img src='{$code_href}assets/icns/login_telegram.svg' alt=''>
-                    Nachrichten-Push via Telegram
-                </a>
-                <a
-                    href='#'
-                    role='button'
-                    data-bs-toggle='modal'
-                    data-bs-target='#link-strava-modal'
-                    class='login-button strava-button{$strava_button_class}'
-                >
-                    <img src='{$code_href}assets/icns/login_strava.svg' alt=''>
-                    Login mit Strava
-                </a>
-            </div>
-        
-            {$email_verification_banner}
-            <div class='data-protection-section'>
-                <button
-                    id='delete-user-button'
-                    class='btn btn-danger'
-                    onclick='return olz.olzProfileDeleteUser({$esc_id})'
-                >
-                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                    Konto löschen
-                </button>
-                <p><b>Wir behandeln deine Daten vertraulich und verwenden sie sparsam</b>: <a href='{$code_href}datenschutz' class='linkint' target='_blank'>Datenschutz</a></p>
-                <p><span class='required-field-asterisk'>*</span> Zwingend notwendige Felder sind mit einem roten Sternchen gekennzeichnet.</p>
-            </div>
-            <div class='after-data-protection-section'></div>
-        
-            <form
-                id='profile-form'
-                class='default-form'
-                autocomplete='off'
-                onsubmit='return olz.olzProfileUpdateUser({$esc_id}, this)'
-            >
-                <div class='success-message alert alert-success' role='alert'></div>
-                <input
-                    type='hidden'
-                    name='id'
-                    value='{$esc_id}'
-                />
-                <input
-                    type='hidden'
-                    id='profile-existing-email-input'
-                    name='existing-email'
-                    value='{$esc_email}'
-                />
-            ZZZZZZZZZZ;
+                    <div class='success-message alert alert-success' role='alert'></div>
+                    <input
+                        type='hidden'
+                        name='id'
+                        value='{$esc_id}'
+                    />
+                    <input
+                        type='hidden'
+                        id='profile-existing-email-input'
+                        name='existing-email'
+                        value='{$esc_email}'
+                    />
+                ZZZZZZZZZZ;
             $out .= OlzProfileForm::render([
                 'show_avatar' => true,
                 'required_email' => $user->getParentUserId() ? false : true,
@@ -161,24 +161,24 @@ class OlzProfil extends OlzComponent {
                 'solv_number' => $user->getSolvNumber(),
             ]);
             $out .= <<<ZZZZZZZZZZ
-                <p id='recaptcha-consent-container'><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzProfileRecaptchaConsent(this.checked)'> <span class='required-field-asterisk'>*</span> Ich akzeptiere, dass beim Ändern der E-Mail-Adresse einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.</p>
-                <button id='update-user-submit-button' type='submit' class='btn btn-primary'>Speichern</button>
-                <div class='error-message alert alert-danger' role='alert'></div>
-            </form>
-            <hr />
-            <a
-                class='btn btn-secondary'
-                href='{$code_href}konto_passwort'
-                role='button'
-            >
-                Familienmitglied hinzufügen
-            </a>
-            <script>
-            window.addEventListener('load', () => {
-                olz.olzProfileInit();
-            });
-            </script>
-            ZZZZZZZZZZ;
+                    <p id='recaptcha-consent-container'><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzProfileRecaptchaConsent(this.checked)'> <span class='required-field-asterisk'>*</span> Ich akzeptiere, dass beim Ändern der E-Mail-Adresse einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.</p>
+                    <button id='update-user-submit-button' type='submit' class='btn btn-primary'>Speichern</button>
+                    <div class='error-message alert alert-danger' role='alert'></div>
+                </form>
+                <hr />
+                <a
+                    class='btn btn-secondary'
+                    href='{$code_href}konto_passwort'
+                    role='button'
+                >
+                    Familienmitglied hinzufügen
+                </a>
+                <script>
+                window.addEventListener('load', () => {
+                    olz.olzProfileInit();
+                });
+                </script>
+                ZZZZZZZZZZ;
         } else {
             $out .= "<div id='profile-message' class='alert alert-danger' role='alert'>Da musst du schon eingeloggt sein!</div>";
         }

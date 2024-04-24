@@ -67,7 +67,7 @@ class ImageToolsController extends AbstractController {
         }
         if (!is_file($thumbfile)) {
             if (!is_dir(dirname($thumbfile))) {
-                mkdir(dirname($thumbfile), 0777, true);
+                mkdir(dirname($thumbfile), 0o777, true);
             }
             $img = imagecreatefromjpeg($imgfile);
             if (!$img) {

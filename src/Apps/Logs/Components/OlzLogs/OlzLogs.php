@@ -24,15 +24,15 @@ class OlzLogs extends OlzComponent {
         $metadata = new Metadata();
 
         $out .= <<<'ZZZZZZZZZZ'
-        <style>
-        .menu-container {
-            max-width: none;
-        } 
-        .site-container {
-            max-width: none;
-        }
-        </style>
-        ZZZZZZZZZZ;
+            <style>
+            .menu-container {
+                max-width: none;
+            } 
+            .site-container {
+                max-width: none;
+            }
+            </style>
+            ZZZZZZZZZZ;
 
         $out .= "<div class='content-full olz-logs'>";
         if ($user && $user->getPermissions() == 'all') {
@@ -42,11 +42,11 @@ class OlzLogs extends OlzComponent {
             }
             $esc_channels = json_encode($channels_data);
             $out .= <<<ZZZZZZZZZZ
-                <script>
-                    window.olzLogsChannels = {$esc_channels};
-                </script>
-                <div id='react-root'></div>
-            ZZZZZZZZZZ;
+                    <script>
+                        window.olzLogsChannels = {$esc_channels};
+                    </script>
+                    <div id='react-root'></div>
+                ZZZZZZZZZZ;
         } else {
             $out .= OlzNoAppAccess::render([
                 'app' => $metadata,

@@ -108,11 +108,11 @@ class OnTelegramEndpoint extends OlzEndpoint {
 
         if (preg_match("/^\\/ich\\s*$/", $message_text, $matches)) {
             $response_message = <<<ZZZZZZZZZZ
-            <b>Du bist angemeldet als:</b>
-            <b>Name:</b> {$user->getFullName()}
-            <b>Benutzername:</b> {$user->getUsername()}
-            <b>E-Mail:</b> {$user->getEmail()}
-            ZZZZZZZZZZ;
+                <b>Du bist angemeldet als:</b>
+                <b>Name:</b> {$user->getFullName()}
+                <b>Benutzername:</b> {$user->getUsername()}
+                <b>E-Mail:</b> {$user->getEmail()}
+                ZZZZZZZZZZ;
             $this->telegramUtils()->callTelegramApi('sendMessage', [
                 'chat_id' => $message_chat_id,
                 'parse_mode' => 'HTML',

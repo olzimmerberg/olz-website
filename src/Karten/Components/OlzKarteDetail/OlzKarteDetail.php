@@ -35,10 +35,10 @@ class OlzKarteDetail extends OlzComponent {
         ]);
 
         $out .= <<<'ZZZZZZZZZZ'
-        <div class='content-right'>
-        </div>
-        <div class='content-middle'>
-        ZZZZZZZZZZ;
+            <div class='content-right'>
+            </div>
+            <div class='content-middle'>
+            ZZZZZZZZZZ;
 
         $name = $karte->getName();
         $kind = $karte->getKind();
@@ -69,25 +69,25 @@ class OlzKarteDetail extends OlzComponent {
         if ($can_edit) {
             $json_id = json_encode(intval($id));
             $out .= <<<ZZZZZZZZZZ
-            <div>
-                <button
-                    id='edit-karte-button'
-                    class='btn btn-primary'
-                    onclick='return olz.editKarte({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
-                    Bearbeiten
-                </button>
-                <button
-                    id='delete-karte-button'
-                    class='btn btn-danger'
-                    onclick='return olz.deleteKarte({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                    Löschen
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div>
+                    <button
+                        id='edit-karte-button'
+                        class='btn btn-primary'
+                        onclick='return olz.editKarte({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        Bearbeiten
+                    </button>
+                    <button
+                        id='delete-karte-button'
+                        class='btn btn-danger'
+                        onclick='return olz.deleteKarte({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                        Löschen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
         }
 
         $maybe_solv_link = '';
@@ -105,27 +105,27 @@ class OlzKarteDetail extends OlzComponent {
         ][$kind] ?? "Unbekannter Kartentyp";
 
         $out .= <<<ZZZZZZZZZZ
-        <h1>OL-Karte {$name}</h1>
-        <div><b>{$pretty_kind}</b></div>
-        <div>Masstab: {$scale}</div>
-        <div>Stand: {$year}</div>
-        {$maybe_place}
-        {$maybe_solv_link}
-        ZZZZZZZZZZ;
+            <h1>OL-Karte {$name}</h1>
+            <div><b>{$pretty_kind}</b></div>
+            <div>Masstab: {$scale}</div>
+            <div>Stand: {$year}</div>
+            {$maybe_place}
+            {$maybe_solv_link}
+            ZZZZZZZZZZ;
 
         if ($preview_image_id) {
             $img_href = "{$data_href}img/karten/{$id}/img/{$preview_image_id}";
 
             $out .= <<<ZZZZZZZZZZ
-            <h3>Vorschau</h3>
-            <div class='olz-karte-preview'>
-                <img
-                    src='{$img_href}'
-                    alt='OL-Karte {$name}'
-                    class='noborder'
-                />
-            </div>
-            ZZZZZZZZZZ;
+                <h3>Vorschau</h3>
+                <div class='olz-karte-preview'>
+                    <img
+                        src='{$img_href}'
+                        alt='OL-Karte {$name}'
+                        class='noborder'
+                    />
+                </div>
+                ZZZZZZZZZZ;
         }
 
         $out .= "<h2>Kartenverkauf</h2>";

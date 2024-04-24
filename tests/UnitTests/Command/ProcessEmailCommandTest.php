@@ -173,7 +173,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
     public function testProcessEmailCommandNoSuchUser(): void {
         $mailer = $this->createStub(MailerInterface::class);
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'no-such-username@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -207,18 +208,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             <<<ZZZZZZZZZZ
-            From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
-            Reply-To: 
-            To: "From Name" <from@from-domain.com>
-            Cc: 
-            Bcc: 
-            Subject: Undelivered Mail Returned to Sender
+                From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
+                Reply-To: 
+                To: "From Name" <from@from-domain.com>
+                Cc: 
+                Bcc: 
+                Subject: Undelivered Mail Returned to Sender
 
-            {$job->getReportMessage(550, $mail, 'no-such-username@staging.olzimmerberg.ch')}
+                {$job->getReportMessage(550, $mail, 'no-such-username@staging.olzimmerberg.ch')}
 
-            (no html body)
+                (no html body)
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
@@ -226,7 +227,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
     public function testProcessEmailCommandNoUserEmailPermission(): void {
         $mailer = $this->createStub(MailerInterface::class);
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'no-permission@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -260,18 +262,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             <<<ZZZZZZZZZZ
-            From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
-            Reply-To: 
-            To: "From Name" <from@from-domain.com>
-            Cc: 
-            Bcc: 
-            Subject: Undelivered Mail Returned to Sender
+                From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
+                Reply-To: 
+                To: "From Name" <from@from-domain.com>
+                Cc: 
+                Bcc: 
+                Subject: Undelivered Mail Returned to Sender
 
-            {$job->getReportMessage(550, $mail, 'no-permission@staging.olzimmerberg.ch')}
+                {$job->getReportMessage(550, $mail, 'no-permission@staging.olzimmerberg.ch')}
 
-            (no html body)
+                (no html body)
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
@@ -280,7 +282,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandEmptyToException(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'someone@staging.olzimmerberg.ch',
             new Attribute('to', [
                 getAddress('', ''), // empty
@@ -322,26 +325,26 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: someone@gmail.com
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: someone@gmail.com
+                ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
@@ -350,7 +353,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandRfcComplianceException(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'someone@staging.olzimmerberg.ch',
             new Attribute('to', [
                 getAddress('non-rfc-compliant-email', ''),
@@ -385,7 +389,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToUser(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'someone@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -425,26 +430,26 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: someone@gmail.com
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: someone@gmail.com
+                ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
@@ -453,7 +458,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToUserEmptyEmail(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'empty-email@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -486,7 +492,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToOldUser(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'someone-old@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -526,26 +533,26 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: someone-old@gmail.com
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: someone-old@gmail.com
+                ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
@@ -553,7 +560,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
     public function testProcessEmailCommandNoRoleEmailPermission(): void {
         $mailer = $this->createStub(MailerInterface::class);
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'no-role-permission@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -587,18 +595,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             <<<ZZZZZZZZZZ
-            From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
-            Reply-To: 
-            To: "From Name" <from@from-domain.com>
-            Cc: 
-            Bcc: 
-            Subject: Undelivered Mail Returned to Sender
+                From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
+                Reply-To: 
+                To: "From Name" <from@from-domain.com>
+                Cc: 
+                Bcc: 
+                Subject: Undelivered Mail Returned to Sender
 
-            {$job->getReportMessage(550, $mail, 'no-role-permission@staging.olzimmerberg.ch')}
+                {$job->getReportMessage(550, $mail, 'no-role-permission@staging.olzimmerberg.ch')}
 
-            (no html body)
+                (no html body)
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
@@ -607,7 +615,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToRole(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'somerole@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -650,43 +659,43 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: admin-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: admin-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: vorstand-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: vorstand-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
@@ -695,7 +704,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToOldRole(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'somerole-old@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -738,43 +748,43 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: admin-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: admin-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: vorstand-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: vorstand-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
@@ -783,7 +793,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandSendingError(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'someone@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -821,7 +832,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             null,
             new Attribute('to', [
                 getAddress('someone@staging.olzimmerberg.ch', ''),
@@ -871,60 +883,60 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: someone@gmail.com
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: someone@gmail.com
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: admin-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: admin-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: vorstand-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: vorstand-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
@@ -934,7 +946,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             null,
             new Attribute('to', []),
             new Attribute('cc', [getAddress('someone@staging.olzimmerberg.ch', 'Some One')]),
@@ -981,60 +994,60 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: "Some One" <someone@staging.olzimmerberg.ch>
-            Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: "Some One" <someone@staging.olzimmerberg.ch>
+                Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: "Some One" <someone@staging.olzimmerberg.ch>
-            Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: "Some One" <someone@staging.olzimmerberg.ch>
+                Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: "Some One" <someone@staging.olzimmerberg.ch>
-            Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: "Some One" <someone@staging.olzimmerberg.ch>
+                Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: someone@gmail.com
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: someone@gmail.com
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: admin-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: admin-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: vorstand-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: vorstand-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
@@ -1044,7 +1057,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
-        $mail1 = new FakeProcessEmailCommandMail(11,
+        $mail1 = new FakeProcessEmailCommandMail(
+            11,
             'someone@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -1054,7 +1068,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test html 1',
             'Test text 1'
         );
-        $mail2 = new FakeProcessEmailCommandMail(12,
+        $mail2 = new FakeProcessEmailCommandMail(
+            12,
             'somerole@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -1101,60 +1116,60 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject 1
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject 1
 
-            Test text 1
+                Test text 1
 
-            Test html 1
+                Test html 1
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject 2
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject 2
 
-            Test text 2
+                Test text 2
 
-            Test html 2
+                Test html 2
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject 2
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject 2
 
-            Test text 2
+                Test text 2
 
-            Test html 2
+                Test html 2
 
-            ZZZZZZZZZZ,
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: someone@gmail.com
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: someone@gmail.com
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: admin-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: admin-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: vorstand-user@staging.olzimmerberg.ch
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: vorstand-user@staging.olzimmerberg.ch
+                ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
@@ -1163,7 +1178,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandWithAttachments(): void {
         $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'someone@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -1211,28 +1227,28 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            From: "From Name" <from@from-domain.com>
-            Reply-To: "From Name" <from@from-domain.com>
-            To: 
-            Cc: 
-            Bcc: 
-            Subject: Test subject
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: 
+                Cc: 
+                Bcc: 
+                Subject: Test subject
 
-            Test text
+                Test text
 
-            Test html
+                Test html
 
-            Attachment1.pdf
-            Attachment2.docx
-            ZZZZZZZZZZ,
+                Attachment1.pdf
+                Attachment2.docx
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-            Sender: "From Name" <from@from-domain.com>
-            Recipients: someone@gmail.com
-            ZZZZZZZZZZ,
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: someone@gmail.com
+                ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $artifacts['envelope']));
@@ -1241,7 +1257,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandWithFailingAttachment(): void {
         $mailer = $this->createStub(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'someone@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),
@@ -1252,7 +1269,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'Test text',
         );
         $attachment = new FakeProcessEmailCommandAttachment(
-            'Attachment1.pdf', $should_fail = true);
+            'Attachment1.pdf',
+            $should_fail = true
+        );
         $mail->attachments = new AttachmentCollection([
             'attachmentId' => $attachment,
         ]);
@@ -1279,7 +1298,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
     public function testProcessEmailCommandEmailToSmtpFrom(): void {
         $mailer = $this->createStub(MailerInterface::class);
-        $mail = new FakeProcessEmailCommandMail(12,
+        $mail = new FakeProcessEmailCommandMail(
+            12,
             'fake@staging.olzimmerberg.ch',
             new Attribute('to', []),
             new Attribute('cc', []),

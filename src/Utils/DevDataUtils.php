@@ -131,7 +131,10 @@ class DevDataUtils {
         $input->setInteractive(false);
         $output = new BufferedOutput();
         $this->symfonyUtils()->callCommand(
-            'doctrine:migrations:current', $input, $output);
+            'doctrine:migrations:current',
+            $input,
+            $output
+        );
         $is_match = preg_match('/^\s*([a-zA-Z0-9\\\\]+)(\s|$)/', $output->fetch(), $matches);
         return $is_match ? $matches[1] ?? null : null;
     }
@@ -144,7 +147,10 @@ class DevDataUtils {
         $input->setInteractive(false);
         $output = new BufferedOutput();
         $this->symfonyUtils()->callCommand(
-            'doctrine:migrations:migrate', $input, $output);
+            'doctrine:migrations:migrate',
+            $input,
+            $output
+        );
         return $output->fetch();
     }
 
@@ -615,7 +621,7 @@ class DevDataUtils {
         $this->touchEnqueued(1584118800);
     }
 
-    protected function mkdir($path, $mode = 0777, $recursive = false) {
+    protected function mkdir($path, $mode = 0o777, $recursive = false) {
         if (!is_dir($path)) {
             mkdir($path, $mode, $recursive);
         }
@@ -657,11 +663,16 @@ class DevDataUtils {
             imagealphablending($destination, false);
             imagesavealpha($destination, true);
             imagecopyresampled(
-                $destination, $source,
-                0, 0,
-                0, 0,
-                $width, $height,
-                $source_width, $source_height,
+                $destination,
+                $source,
+                0,
+                0,
+                0,
+                0,
+                $width,
+                $height,
+                $source_width,
+                $source_height,
             );
             $red = imagecolorallocate($destination, 255, 0, 0);
             $hash = intval(substr(md5($destination_relative_path), 0, 1), 16);
@@ -669,8 +680,10 @@ class DevDataUtils {
             $y = floor($hash % 4) * $height / 4;
             imagefilledrectangle(
                 $destination,
-                round($x), round($y),
-                round($x + $width / 4), round($y + $height / 4),
+                round($x),
+                round($y),
+                round($x + $width / 4),
+                round($y + $height / 4),
                 $red
             );
             if (preg_match('/\.jpg$/', $destination_relative_path)) {

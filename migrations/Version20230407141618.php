@@ -64,7 +64,7 @@ final class Version20230407141618 extends AbstractMigration {
 
             $image_ids = [];
             if (is_dir($old_img_path)) {
-                @mkdir($new_img_path, 0777, true);
+                @mkdir($new_img_path, 0o777, true);
                 @mkdir("{$new_img_path}img/");
                 @mkdir("{$new_img_path}thumb/");
                 for ($size = 1; is_file("{$old_img_path}img/{$this->pad3($size)}.jpg"); $size++) {
@@ -84,7 +84,7 @@ final class Version20230407141618 extends AbstractMigration {
             }
 
             if (is_dir($old_file_path)) {
-                @mkdir($new_file_path, 0777, true);
+                @mkdir($new_file_path, 0o777, true);
                 $files = scandir($old_file_path);
                 $num_files = count($files);
                 for ($i = 0; $i < count($files); $i++) {

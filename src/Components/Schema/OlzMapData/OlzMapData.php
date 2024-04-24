@@ -32,9 +32,9 @@ class OlzMapData extends OlzComponent {
         ];
         $json_map_data = json_encode($map_data);
         return <<<ZZZZZZZZZZ
-        <script type="application/ld+json">
-        {$json_map_data}
-        </script>
-        ZZZZZZZZZZ;
+            <script type="application/ld+json">
+            {$json_map_data}
+            </script>
+            ZZZZZZZZZZ;
     }
 }

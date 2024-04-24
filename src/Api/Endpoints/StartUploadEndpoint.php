@@ -34,7 +34,7 @@ class StartUploadEndpoint extends OlzEndpoint {
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp/";
         if (!is_dir($temp_path)) {
-            mkdir($temp_path, 0777, true);
+            mkdir($temp_path, 0o777, true);
         }
         $suffix = $input['suffix'] ?? '';
         $upload_id = '';

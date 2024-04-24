@@ -19,13 +19,13 @@ class OlzAppsList extends OlzComponent {
             $href = $app->getHref();
             $basename = $app->getBasename();
             return <<<ZZZZZZZZZZ
-            <a href='{$code_href}{$href}'>
-                <div class='app-container'>
-                    <img src='{$icon}' alt='{$basename}-icon' class='app-icon' />
-                    <div>{$display_name}</div>
-                </div>
-            </a>
-            ZZZZZZZZZZ;
+                <a href='{$code_href}{$href}'>
+                    <div class='app-container'>
+                        <img src='{$icon}' alt='{$basename}-icon' class='app-icon' />
+                        <div>{$display_name}</div>
+                    </div>
+                </a>
+                ZZZZZZZZZZ;
         }, $available_apps));
         $out .= "</div>";
 
@@ -46,14 +46,14 @@ class OlzAppsList extends OlzComponent {
             }
             $out .= "<div class='hypothetical-container'>";
             $out .= <<<ZZZZZZZZZZ
-            <div class='hypothetical-overlay'>
-                <div>Diese zusätzlichen Apps sind nur für eingeloggte Benutzer verfügbar.</div>
-                <div class='auth-buttons'>
-                    <a class='btn btn-primary' href='#login-dialog' role='button'>Login</a>
-                    <a class='btn btn-secondary' href='{$code_href}konto_passwort' role='button'>Konto erstellen</a>
+                <div class='hypothetical-overlay'>
+                    <div>Diese zusätzlichen Apps sind nur für eingeloggte Benutzer verfügbar.</div>
+                    <div class='auth-buttons'>
+                        <a class='btn btn-primary' href='#login-dialog' role='button'>Login</a>
+                        <a class='btn btn-secondary' href='{$code_href}konto_passwort' role='button'>Konto erstellen</a>
+                    </div>
                 </div>
-            </div>
-            ZZZZZZZZZZ;
+                ZZZZZZZZZZ;
             $out .= "<div class='apps-list hypothetical'>";
             $out .= implode('', array_map(function ($app) {
                 $icon = $app->getIcon();
@@ -61,11 +61,11 @@ class OlzAppsList extends OlzComponent {
                 $href = $app->getHref();
                 $basename = $app->getBasename();
                 return <<<ZZZZZZZZZZ
-                <div class='app-container'>
-                    <img src='{$icon}' alt='{$basename}-icon' class='app-icon' />
-                    <div>{$display_name}</div>
-                </div>
-                ZZZZZZZZZZ;
+                    <div class='app-container'>
+                        <img src='{$icon}' alt='{$basename}-icon' class='app-icon' />
+                        <div>{$display_name}</div>
+                    </div>
+                    ZZZZZZZZZZ;
             }, $additional_logged_in_apps));
             $out .= "</div>";
             $out .= "</div>";

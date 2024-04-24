@@ -45,7 +45,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->runtimeSetup();
 
-        mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
+        mkdir(__DIR__.'/../../tmp/temp/', 0o777, true);
 
         $result = $endpoint->call([
             'id' => 'invalid',
@@ -66,7 +66,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->runtimeSetup();
 
-        mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
+        mkdir(__DIR__.'/../../tmp/temp/', 0o777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
 
         $result = $endpoint->call([
@@ -89,7 +89,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->runtimeSetup();
 
-        mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
+        mkdir(__DIR__.'/../../tmp/temp/', 0o777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0', '');
 
@@ -113,7 +113,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->runtimeSetup();
 
-        mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
+        mkdir(__DIR__.'/../../tmp/temp/', 0o777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0', 'data:text/plain;base64,dGVzdA==');
 
@@ -139,7 +139,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
         $endpoint = new FinishUploadEndpoint();
         $endpoint->runtimeSetup();
 
-        mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
+        mkdir(__DIR__.'/../../tmp/temp/', 0o777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0', 'data:text/plain;base64,Zmlyc3Q');
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_1', 'gc2Vjb25k');

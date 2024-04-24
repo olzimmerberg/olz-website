@@ -85,12 +85,12 @@ class OlzTerminDetail extends OlzComponent {
         ]);
 
         $out .= <<<'ZZZZZZZZZZ'
-        <div class='content-right optional'>
-            <div style='padding:4px 3px 10px 3px;'>
+            <div class='content-right optional'>
+                <div style='padding:4px 3px 10px 3px;'>
+                </div>
             </div>
-        </div>
-        <div class='content-middle'>
-        ZZZZZZZZZZ;
+            <div class='content-middle'>
+            ZZZZZZZZZZ;
 
         $start_date = $row['start_date'] ?? '';
         $end_date = $row['end_date'] ?? '';
@@ -168,7 +168,11 @@ class OlzTerminDetail extends OlzComponent {
         // Bild anzeigen
         if ($image_ids && count($image_ids) > 0) {
             $out .= $this->imageUtils()->olzImage(
-                'termine', $id, $image_ids[0], 840);
+                'termine',
+                $id,
+                $image_ids[0],
+                840
+            );
         // Karte zeigen
         } elseif ($has_location) {
             $out .= OlzLocationMap::render([
@@ -191,25 +195,25 @@ class OlzTerminDetail extends OlzComponent {
         if ($can_edit) {
             $json_id = json_encode(intval($id));
             $out .= <<<ZZZZZZZZZZ
-            <div>
-                <button
-                    id='edit-termin-button'
-                    class='btn btn-primary'
-                    onclick='return olz.editTermin({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
-                    Bearbeiten
-                </button>
-                <button
-                    id='delete-termin-button'
-                    class='btn btn-danger'
-                    onclick='return olz.deleteTermin({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                    Löschen
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div>
+                    <button
+                        id='edit-termin-button'
+                        class='btn btn-primary'
+                        onclick='return olz.editTermin({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        Bearbeiten
+                    </button>
+                    <button
+                        id='delete-termin-button'
+                        class='btn btn-danger'
+                        onclick='return olz.deleteTermin({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                        Löschen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
         }
 
         // Date & Title

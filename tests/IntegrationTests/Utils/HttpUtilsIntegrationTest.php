@@ -103,7 +103,9 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $http_utils = HttpUtilsForIntegrationTest::fromEnv();
 
         $validated_get_params = $http_utils->validateGetParams(
-            [], ['inexistent' => null]);
+            [],
+            ['inexistent' => null]
+        );
 
         $this->assertSame([
             "NOTICE Unknown GET param 'inexistent'",

@@ -23,7 +23,9 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity = new OlzEntity();
 
         $entity_utils->createOlzEntity(
-            $entity, ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]);
+            $entity,
+            ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]
+        );
 
         $this->assertSame(1, $entity->getOnOff());
         $this->assertSame(FakeUser::defaultUser(), $entity->getOwnerUser());
@@ -54,7 +56,9 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity->setLastModifiedByUser(FakeUser::vorstandUser());
 
         $entity_utils->updateOlzEntity(
-            $entity, ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]);
+            $entity,
+            ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]
+        );
 
         $this->assertSame(1, $entity->getOnOff());
         $this->assertSame(FakeUser::defaultUser(), $entity->getOwnerUser());
@@ -74,7 +78,9 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity = new OlzEntity();
 
         $result = $entity_utils->canUpdateOlzEntity(
-            $entity, []);
+            $entity,
+            []
+        );
 
         $this->assertSame(true, $result);
     }
@@ -85,7 +91,10 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity = new OlzEntity();
 
         $result = $entity_utils->canUpdateOlzEntity(
-            $entity, [], 'edit_permission');
+            $entity,
+            [],
+            'edit_permission'
+        );
 
         $this->assertSame(true, $result);
     }
@@ -98,7 +107,9 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity->setOwnerUser(FakeUser::defaultUser());
 
         $result = $entity_utils->canUpdateOlzEntity(
-            $entity, []);
+            $entity,
+            []
+        );
 
         $this->assertSame(true, $result);
     }
@@ -111,7 +122,9 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity->setCreatedByUser(FakeUser::defaultUser());
 
         $result = $entity_utils->canUpdateOlzEntity(
-            $entity, []);
+            $entity,
+            []
+        );
 
         $this->assertSame(true, $result);
     }
@@ -122,7 +135,9 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity = new OlzEntity();
 
         $result = $entity_utils->canUpdateOlzEntity(
-            $entity, []);
+            $entity,
+            []
+        );
 
         $this->assertSame(false, $result);
     }

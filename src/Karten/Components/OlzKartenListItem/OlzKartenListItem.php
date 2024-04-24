@@ -24,13 +24,13 @@ class OlzKartenListItem extends OlzComponent {
             $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
             $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
             $edit_admin = <<<ZZZZZZZZZZ
-            <button
-                class='btn btn-secondary-outline btn-sm edit-karten-list-button'
-                onclick='return olz.kartenListItemEditKarte({$json_id}, {$json_mode})'
-            >
-                <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
-            </button>
-            ZZZZZZZZZZ;
+                <button
+                    class='btn btn-secondary-outline btn-sm edit-karten-list-button'
+                    onclick='return olz.kartenListItemEditKarte({$json_id}, {$json_mode})'
+                >
+                    <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                </button>
+                ZZZZZZZZZZ;
         }
 
         $map = '';
@@ -55,20 +55,20 @@ class OlzKartenListItem extends OlzComponent {
         }
         if ($karte->getCenterX() > 0) {
             $out .= <<<ZZZZZZZZZZ
-            <tr class='olz-karten-list-item'>
-                <td>{$edit_admin}<a href='#{$name}' onclick='goto({$karte->getCenterX()},{$karte->getCenterY()},{$karte->getZoom()},&quot;{$name}&quot;);return false' class='linkmap' itemprop='name'>{$name}</a>{$map}</td>
-                <td>{$scale}</td>
-                <td>{$karte->getYear()}</td>
-            </tr>
-            ZZZZZZZZZZ;
+                <tr class='olz-karten-list-item'>
+                    <td>{$edit_admin}<a href='#{$name}' onclick='goto({$karte->getCenterX()},{$karte->getCenterY()},{$karte->getZoom()},&quot;{$name}&quot;);return false' class='linkmap' itemprop='name'>{$name}</a>{$map}</td>
+                    <td>{$scale}</td>
+                    <td>{$karte->getYear()}</td>
+                </tr>
+                ZZZZZZZZZZ;
         } else {
             $out .= <<<ZZZZZZZZZZ
-            <tr class='olz-karten-list-item'>
-                <td>{$edit_admin}<span class='linkmap' itemprop='name'>{$name}</span></td>
-                <td>{$scale}</td>
-                <td>{$karte->getYear()}</td>
-            </tr>
-            ZZZZZZZZZZ;
+                <tr class='olz-karten-list-item'>
+                    <td>{$edit_admin}<span class='linkmap' itemprop='name'>{$name}</span></td>
+                    <td>{$scale}</td>
+                    <td>{$karte->getYear()}</td>
+                </tr>
+                ZZZZZZZZZZ;
         }
 
         return $out;

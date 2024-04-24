@@ -96,18 +96,18 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-        **!!! Falls du nicht soeben dein Passwort zurücksetzen wolltest, lösche diese E-Mail !!!**
-        
-        Hallo Admin,
-        
-        *Falls du dein Passwort zurückzusetzen möchtest*, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjIsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0}) oder auf folgenden Link:
-        
-        http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjIsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0
-        
-        Dein neues Passwort lautet dann nachher:
-        `fake-new-password`
+            **!!! Falls du nicht soeben dein Passwort zurücksetzen wolltest, lösche diese E-Mail !!!**
 
-        ZZZZZZZZZZ;
+            Hallo Admin,
+
+            *Falls du dein Passwort zurückzusetzen möchtest*, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjIsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0}) oder auf folgenden Link:
+
+            http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjIsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0
+
+            Dein neues Passwort lautet dann nachher:
+            `fake-new-password`
+
+            ZZZZZZZZZZ;
         $this->assertSame([
             "INFO Valid user request",
             "INFO Password reset email sent to user (2).",
@@ -116,25 +116,25 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
             <<<ZZZZZZZZZZ
-            From: 
-            Reply-To: 
-            To: "Admin Istrator" <admin-user@staging.olzimmerberg.ch>
-            Cc: 
-            Bcc: 
-            Subject: [OLZ] Passwort zurücksetzen
+                From: 
+                Reply-To: 
+                To: "Admin Istrator" <admin-user@staging.olzimmerberg.ch>
+                Cc: 
+                Bcc: 
+                Subject: [OLZ] Passwort zurücksetzen
 
-            {$expected_text}
-
-
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            {$expected_text}
+                {$expected_text}
 
 
-            olz_logo
-            ZZZZZZZZZZ,
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                {$expected_text}
+
+
+                olz_logo
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
@@ -166,18 +166,18 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-        **!!! Falls du nicht soeben dein Passwort zurücksetzen wolltest, lösche diese E-Mail !!!**
-        
-        Hallo Vorstand,
-        
-        *Falls du dein Passwort zurückzusetzen möchtest*, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjMsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0}) oder auf folgenden Link:
-        
-        http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjMsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0
-        
-        Dein neues Passwort lautet dann nachher:
-        `fake-new-password`
+            **!!! Falls du nicht soeben dein Passwort zurücksetzen wolltest, lösche diese E-Mail !!!**
 
-        ZZZZZZZZZZ;
+            Hallo Vorstand,
+
+            *Falls du dein Passwort zurückzusetzen möchtest*, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjMsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0}) oder auf folgenden Link:
+
+            http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJyZXNldF9wYXNzd29yZCIsInVzZXIiOjMsIm5ld19wYXNzd29yZCI6ImZha2UtbmV3LXBhc3N3b3JkIn0
+
+            Dein neues Passwort lautet dann nachher:
+            `fake-new-password`
+
+            ZZZZZZZZZZ;
         $this->assertSame([
             "INFO Valid user request",
             "CRITICAL Error sending password reset email to user (3): mocked-error",
@@ -186,25 +186,25 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'ERROR'], $result);
         $this->assertSame([
             <<<ZZZZZZZZZZ
-            From: 
-            Reply-To: 
-            To: "Vorstand Mitglied" <vorstand-user@staging.olzimmerberg.ch>
-            Cc: 
-            Bcc: 
-            Subject: [OLZ] Passwort zurücksetzen
+                From: 
+                Reply-To: 
+                To: "Vorstand Mitglied" <vorstand-user@staging.olzimmerberg.ch>
+                Cc: 
+                Bcc: 
+                Subject: [OLZ] Passwort zurücksetzen
 
-            {$expected_text}
-
-
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            {$expected_text}
+                {$expected_text}
 
 
-            olz_logo
-            ZZZZZZZZZZ,
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                {$expected_text}
+
+
+                olz_logo
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));

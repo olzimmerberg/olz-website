@@ -50,32 +50,32 @@ class OlzTerminLocationDetail extends OlzComponent {
         $creation_tools = '';
         if ($has_termine_permissions) {
             $creation_tools .= <<<ZZZZZZZZZZ
-            <div>
-                <button
-                    id='create-termin-location-button'
-                    class='btn btn-secondary'
-                    onclick='return olz.initOlzEditTerminLocationModal()'
-                >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                    Neuen Ort hinzufügen
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div>
+                    <button
+                        id='create-termin-location-button'
+                        class='btn btn-secondary'
+                        onclick='return olz.initOlzEditTerminLocationModal()'
+                    >
+                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        Neuen Ort hinzufügen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
         }
 
         $out .= <<<ZZZZZZZZZZ
-        <div class='content-right'>
-            <div style='padding:4px 3px 10px 3px;'>
-                {$creation_tools}
-                <p>
-                    <a href='{$code_href}termine/orte' class='linkint'>
-                        Alle Termin-Orte
-                    </a>
-                </p>
+            <div class='content-right'>
+                <div style='padding:4px 3px 10px 3px;'>
+                    {$creation_tools}
+                    <p>
+                        <a href='{$code_href}termine/orte' class='linkint'>
+                            Alle Termin-Orte
+                        </a>
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class='content-middle'>
-        ZZZZZZZZZZ;
+            <div class='content-middle'>
+            ZZZZZZZZZZ;
 
         $name = $row['name'] ?? '';
         $details = $row['details'] ?? '';
@@ -92,25 +92,25 @@ class OlzTerminLocationDetail extends OlzComponent {
         if ($can_edit) {
             $json_id = json_encode(intval($id));
             $out .= <<<ZZZZZZZZZZ
-            <div>
-                <button
-                    id='edit-termin-location-button'
-                    class='btn btn-primary'
-                    onclick='return olz.editTerminLocation({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
-                    Bearbeiten
-                </button>
-                <button
-                    id='delete-termin-location-button'
-                    class='btn btn-danger'
-                    onclick='return olz.deleteTerminLocation({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                    Löschen
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div>
+                    <button
+                        id='edit-termin-location-button'
+                        class='btn btn-primary'
+                        onclick='return olz.editTerminLocation({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        Bearbeiten
+                    </button>
+                    <button
+                        id='delete-termin-location-button'
+                        class='btn btn-danger'
+                        onclick='return olz.deleteTerminLocation({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                        Löschen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
         }
 
         $out .= "<h1>{$name}</h1>";
@@ -130,7 +130,12 @@ class OlzTerminLocationDetail extends OlzComponent {
             foreach ($image_ids as $image_id) {
                 $out .= "<div class='gallery-image'>";
                 $out .= $this->imageUtils()->olzImage(
-                    'termin_locations', $id, $image_id, 110, 'gallery[myset]');
+                    'termin_locations',
+                    $id,
+                    $image_id,
+                    110,
+                    'gallery[myset]'
+                );
                 $out .= "</div>";
             }
             $out .= "</div>";

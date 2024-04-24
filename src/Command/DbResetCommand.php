@@ -16,8 +16,11 @@ class DbResetCommand extends OlzCommand {
     }
 
     protected function configure(): void {
-        $this->addArgument('mode', InputArgument::REQUIRED,
-            'Mode (`content`, `structure` or `full`)');
+        $this->addArgument(
+            'mode',
+            InputArgument::REQUIRED,
+            'Mode (`content`, `structure` or `full`)'
+        );
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {

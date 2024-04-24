@@ -25,22 +25,22 @@ class TelegramConfigurationReminderGetter {
 
         $title = "Keine Push-Nachrichten abonniert";
         $text = <<<ZZZZZZZZZZ
-        Hallo %%userFirstName%%,
-        
-        Du hast bisher keinerlei Push-Nachrichten für Telegram abonniert.
-        
-        
-        **Du möchtest eigentlich Push-Nachrichten erhalten?**
-        
-        In diesem Fall musst du dich auf der Website *einloggen*, und im ["Newsletter"-App]({$newsletter_url}) (ist auch unter "Service" zu finden) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
-        
-        
-        **Du möchtest gar keine Push-Nachrichten erhalten?**
-        
-        Dann lösche einfach diesen Chat.
+            Hallo %%userFirstName%%,
+
+            Du hast bisher keinerlei Push-Nachrichten für Telegram abonniert.
 
 
-        ZZZZZZZZZZ;
+            **Du möchtest eigentlich Push-Nachrichten erhalten?**
+
+            In diesem Fall musst du dich auf der Website *einloggen*, und im ["Newsletter"-App]({$newsletter_url}) (ist auch unter "Service" zu finden) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
+
+
+            **Du möchtest gar keine Push-Nachrichten erhalten?**
+
+            Dann lösche einfach diesen Chat.
+
+
+            ZZZZZZZZZZ;
 
         return new Notification($title, $text, [
             'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,

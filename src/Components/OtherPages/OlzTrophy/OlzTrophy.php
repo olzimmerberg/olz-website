@@ -77,32 +77,32 @@ class OlzTrophy extends OlzComponent {
         ];
         $enc_json_filter = urlencode(json_encode($filter));
         $out .= <<<ZZZZZZZZZZ
-        <div class='content-full'>
-        <div class='alert alert-danger'>
-            <b>Diese Seite wird bald gelöscht.</b>
-            Bitte <a href='/termine?filter={$enc_json_filter}' class='linkint'>Termine-Filter "OLZ-Trophy"</a> verwenden.
-            Fehler oder Probleme bitte <script type='text/javascript'>
-                olz.MailTo("website", "olzimmerberg.ch", "hier", "Fehler%20OLZ%20Trophy");
-            </script> melden.
-        </div>
-        <form name='Formularl' method='post' action='{$code_href}trophy' enctype='multipart/form-data'>
-        <div>
-        ZZZZZZZZZZ;
+            <div class='content-full'>
+            <div class='alert alert-danger'>
+                <b>Diese Seite wird bald gelöscht.</b>
+                Bitte <a href='/termine?filter={$enc_json_filter}' class='linkint'>Termine-Filter "OLZ-Trophy"</a> verwenden.
+                Fehler oder Probleme bitte <script type='text/javascript'>
+                    olz.MailTo("website", "olzimmerberg.ch", "hier", "Fehler%20OLZ%20Trophy");
+                </script> melden.
+            </div>
+            <form name='Formularl' method='post' action='{$code_href}trophy' enctype='multipart/form-data'>
+            <div>
+            ZZZZZZZZZZ;
 
         $out .= <<<'ZZZZZZZZZZ'
-        <style>
-        td.trophy-map-container .olz-location-map-render {
-            height: 300px;
-        }
-        </style>
+            <style>
+            td.trophy-map-container .olz-location-map-render {
+                height: 300px;
+            }
+            </style>
 
-        <h2 style='font-size:24px; border:0px; text-align:center;'>OL Zimmerberg Trophy 2024</h2>
-        <p style='text-align:center; font-size:15px; max-width:600px; margin:0px auto;'>Kleine Abend-OLs für Jung und Alt, für Schülerinnen und Schüler, Familien, Paare, Hobbysportlerinnen und Hobbysportler &mdash; alleine oder im Team</p>
-        <p style='text-align:center;'><i style='font-size:17px;'>Es sind keine speziellen Vorkenntnisse nötig.</i></p>
-        <p style='text-align:center;'>Die Versicherung ist Sache der Teilnehmenden. Der Veranstalter lehnt, soweit gesetzlich zulässig, jede Haftung ab.</p>
+            <h2 style='font-size:24px; border:0px; text-align:center;'>OL Zimmerberg Trophy 2024</h2>
+            <p style='text-align:center; font-size:15px; max-width:600px; margin:0px auto;'>Kleine Abend-OLs für Jung und Alt, für Schülerinnen und Schüler, Familien, Paare, Hobbysportlerinnen und Hobbysportler &mdash; alleine oder im Team</p>
+            <p style='text-align:center;'><i style='font-size:17px;'>Es sind keine speziellen Vorkenntnisse nötig.</i></p>
+            <p style='text-align:center;'>Die Versicherung ist Sache der Teilnehmenden. Der Veranstalter lehnt, soweit gesetzlich zulässig, jede Haftung ab.</p>
 
-        <h3 style='font-size:18px;'>Etappen</h3>
-        ZZZZZZZZZZ;
+            <h3 style='font-size:18px;'>Etappen</h3>
+            ZZZZZZZZZZ;
         $out .= "<table>";
         for ($i = 0; $i < count($etappen); $i++) {
             $etappe = $etappen[$i];
@@ -137,18 +137,18 @@ class OlzTrophy extends OlzComponent {
         $out .= "</table>";
 
         $out .= <<<'ZZZZZZZZZZ'
-        <h3>Weitere Informationen</h3>
-        <table style='max-width:600px; margin:0px auto;'>
-        <!--<tr><td>Gesamtrangliste 2020:</td><td style='padding-left:10px;'><a href='https://docs.google.com/spreadsheets/d/19aXk_aJZ954Ub-vBBQkexAjIIK_LXlvSohZBB0C2bQc/edit#gid=0' class='linkext'>Gesamtrangliste (alle Etappen)</a></td></tr>-->
-        <tr><td>Ausrüstung:</td><td style='padding-left:10px;'> Joggingdress und Joggingschuhe genügen.</td></tr>
-        <tr><td>Trophy:</td><td style='padding-left:10px;'>Jeder Lauf ist eine eigene abgeschlossene Veranstaltung.<br>
-            Zusammen bilden sie die OL Zimmerberg Trophy.</td></tr> 
-        <tr><td>Preise:</td><td style='padding-left:10px;'>In allen Kategorien gibt es eine Einzelrangliste für jeden Lauf, dem Sieger gebührt Ruhm und Ehre.<br>
-            Wer drei oder mehr Läufe absolviert, erhält am dritten Lauf einen Erinnerungspreis.</td></tr>
-        <tr><td>Auskunft:</td><td style='padding-left:10px;'>Martin Gross, Kirchstrasse 7, 8805 Richterswil<br>
-        044 784 59 77 / <script>olz.MailTo('martin.gross', 'olzimmerberg.ch', 'E-Mail', 'OL Zimmerberg Trophy');</script></td></tr>
-        </table>
-        ZZZZZZZZZZ;
+            <h3>Weitere Informationen</h3>
+            <table style='max-width:600px; margin:0px auto;'>
+            <!--<tr><td>Gesamtrangliste 2020:</td><td style='padding-left:10px;'><a href='https://docs.google.com/spreadsheets/d/19aXk_aJZ954Ub-vBBQkexAjIIK_LXlvSohZBB0C2bQc/edit#gid=0' class='linkext'>Gesamtrangliste (alle Etappen)</a></td></tr>-->
+            <tr><td>Ausrüstung:</td><td style='padding-left:10px;'> Joggingdress und Joggingschuhe genügen.</td></tr>
+            <tr><td>Trophy:</td><td style='padding-left:10px;'>Jeder Lauf ist eine eigene abgeschlossene Veranstaltung.<br>
+                Zusammen bilden sie die OL Zimmerberg Trophy.</td></tr> 
+            <tr><td>Preise:</td><td style='padding-left:10px;'>In allen Kategorien gibt es eine Einzelrangliste für jeden Lauf, dem Sieger gebührt Ruhm und Ehre.<br>
+                Wer drei oder mehr Läufe absolviert, erhält am dritten Lauf einen Erinnerungspreis.</td></tr>
+            <tr><td>Auskunft:</td><td style='padding-left:10px;'>Martin Gross, Kirchstrasse 7, 8805 Richterswil<br>
+            044 784 59 77 / <script>olz.MailTo('martin.gross', 'olzimmerberg.ch', 'E-Mail', 'OL Zimmerberg Trophy');</script></td></tr>
+            </table>
+            ZZZZZZZZZZ;
 
         $out .= "</div>
         </form>

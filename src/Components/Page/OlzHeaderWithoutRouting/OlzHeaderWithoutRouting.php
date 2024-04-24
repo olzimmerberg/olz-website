@@ -61,36 +61,36 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         ], $this);
 
         return <<<ZZZZZZZZZZ
-        <!DOCTYPE html>
-        <html lang='de'>
-        <head>
-        <meta http-equiv='cache-control' content='public'>
-        <meta http-equiv='content-type' content='text/html;charset=utf-8'>
-        <meta name='Keywords' content='OL, Orientierungslauf, Sport, Laufsport, Gruppe, Klub, Verein, Zimmerberg, linkes Zürichseeufer, Sihltal, Kilchberg, Rüschlikon, Thalwil, Gattikon, Oberrieden, Horgen, Au ZH, Wädenswil, Richterswil, Schönenberg, Hirzel, Langnau am Albis, Adliswil, Stadt Zürich, Leimbach, Wollishofen, Enge, Friesenberg, Üetliberg, Entlisberg, Albis, Buchenegg, Landforst, Kopfholz, Chopfholz, Reidholz, Schweiz, OLZ, OLG'>
-        {$html_description}
-        <meta name='Content-Language' content='de'>
-        {$refresh}
-        {$robots_html}
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>{$html_title}</title>
-        <link rel='icon' href='{$code_href}favicon.ico' type='image/x-icon' />
-        {$html_canonical}
-        {$olz_organization_data}
-        {$additional_headers}
-        <link rel='stylesheet' href='{$css_href}' />
-        <script type='text/javascript'>
-            window.olzCodeHref = {$code_href_json};
-            window.olzDataHref = {$data_href_json};
-            window.olzUser = {$user_json};
-            window.olzIsoNow = {$iso_now_json};
-        </script>
-        <script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>
-        </head>
-        <body class='olz-override-root'>
-            <a name='top'></a>
-            {$header_bar}
-            <div class='site-container'>
-                <div class='site-background'>
-        ZZZZZZZZZZ;
+            <!DOCTYPE html>
+            <html lang='de'>
+            <head>
+            <meta http-equiv='cache-control' content='public'>
+            <meta http-equiv='content-type' content='text/html;charset=utf-8'>
+            <meta name='Keywords' content='OL, Orientierungslauf, Sport, Laufsport, Gruppe, Klub, Verein, Zimmerberg, linkes Zürichseeufer, Sihltal, Kilchberg, Rüschlikon, Thalwil, Gattikon, Oberrieden, Horgen, Au ZH, Wädenswil, Richterswil, Schönenberg, Hirzel, Langnau am Albis, Adliswil, Stadt Zürich, Leimbach, Wollishofen, Enge, Friesenberg, Üetliberg, Entlisberg, Albis, Buchenegg, Landforst, Kopfholz, Chopfholz, Reidholz, Schweiz, OLZ, OLG'>
+            {$html_description}
+            <meta name='Content-Language' content='de'>
+            {$refresh}
+            {$robots_html}
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>{$html_title}</title>
+            <link rel='icon' href='{$code_href}favicon.ico' type='image/x-icon' />
+            {$html_canonical}
+            {$olz_organization_data}
+            {$additional_headers}
+            <link rel='stylesheet' href='{$css_href}' />
+            <script type='text/javascript'>
+                window.olzCodeHref = {$code_href_json};
+                window.olzDataHref = {$data_href_json};
+                window.olzUser = {$user_json};
+                window.olzIsoNow = {$iso_now_json};
+            </script>
+            <script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>
+            </head>
+            <body class='olz-override-root'>
+                <a name='top'></a>
+                {$header_bar}
+                <div class='site-container'>
+                    <div class='site-background'>
+            ZZZZZZZZZZ;
     }
 }

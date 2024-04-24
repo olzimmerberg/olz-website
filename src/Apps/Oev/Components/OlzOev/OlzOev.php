@@ -30,8 +30,8 @@ class OlzOev extends OlzComponent {
         $has_access = $this->authUtils()->hasPermission('any');
         if ($has_access) {
             $out .= <<<'ZZZZZZZZZZ'
-            <div id='oev-root'></div>
-            ZZZZZZZZZZ;
+                <div id='oev-root'></div>
+                ZZZZZZZZZZ;
         } else {
             $out .= OlzNoAppAccess::render([
                 'app' => $metadata,

@@ -157,12 +157,12 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-            srcset='
-                fake-image.jpg 1x,
-                fake-image@2x.jpg 2x
-            '
-            src='fake-image.jpg'
-            ZZZZZZZZZZ,
+                srcset='
+                    fake-image.jpg 1x,
+                    fake-image@2x.jpg 2x
+                '
+                src='fake-image.jpg'
+                ZZZZZZZZZZ,
             $html_utils->getImageSrcHtml(['1x' => 'fake-image.jpg', '2x' => 'fake-image@2x.jpg'])
         );
     }

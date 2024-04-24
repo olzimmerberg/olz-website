@@ -30,13 +30,13 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
         $notification = $job->getDeadlineWarningNotification(['days' => 2]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-        Hallo First,
-        
-        Folgende Meldeschlüsse stehen bevor:
-        
-        - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
+            Hallo First,
 
-        ZZZZZZZZZZ;
+            Folgende Meldeschlüsse stehen bevor:
+
+            - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
+
+            ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
         $this->assertSame('Meldeschlusswarnung', $notification->title);

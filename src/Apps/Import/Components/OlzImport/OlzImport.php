@@ -25,8 +25,8 @@ class OlzImport extends OlzComponent {
         $out .= "<div class='content-full'>";
         if ($this->authUtils()->hasPermission('termine')) {
             $out .= <<<'ZZZZZZZZZZ'
-            <div id='pastebox' class='dropzone' contenteditable='true'>Zellen aus Excel kopieren und hier einfügen.</div>
-            ZZZZZZZZZZ;
+                <div id='pastebox' class='dropzone' contenteditable='true'>Zellen aus Excel kopieren und hier einfügen.</div>
+                ZZZZZZZZZZ;
         } else {
             $out .= OlzNoAppAccess::render([
                 'app' => $metadata,

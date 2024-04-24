@@ -52,54 +52,54 @@ class OlzAccountMenu extends OlzComponent {
                 $is_current = $auth_user->getId() === $user->getId();
                 $class = $is_current ? ' disabled' : '';
                 $out .= <<<ZZZZZZZZZZ
-                <a
-                    id='switch-user-{$auth_user->getId()}'
-                    class='dropdown-item{$class}'
-                    href='#'
-                    onclick='olz.olzAccountMenuSwitchUser({$auth_user->getId()})'
-                >
-                    {$auth_user->getFullName()}
-                </a>
-                ZZZZZZZZZZ;
+                    <a
+                        id='switch-user-{$auth_user->getId()}'
+                        class='dropdown-item{$class}'
+                        href='#'
+                        onclick='olz.olzAccountMenuSwitchUser({$auth_user->getId()})'
+                    >
+                        {$auth_user->getFullName()}
+                    </a>
+                    ZZZZZZZZZZ;
 
                 foreach ($child_users as $child_user) {
                     $is_current = $child_user->getId() === $user->getId();
                     $class = $is_current ? ' disabled' : '';
                     $out .= <<<ZZZZZZZZZZ
-                    <a
-                        id='switch-user-{$child_user->getId()}'
-                        class='dropdown-item{$class}'
-                        href='#'
-                        onclick='olz.olzAccountMenuSwitchUser({$child_user->getId()})'
-                    >
-                        {$child_user->getFullName()}
-                    </a>
-                    ZZZZZZZZZZ;
+                        <a
+                            id='switch-user-{$child_user->getId()}'
+                            class='dropdown-item{$class}'
+                            href='#'
+                            onclick='olz.olzAccountMenuSwitchUser({$child_user->getId()})'
+                        >
+                            {$child_user->getFullName()}
+                        </a>
+                        ZZZZZZZZZZ;
                 }
             }
 
             $out .= <<<'ZZZZZZZZZZ'
-            <div class='dropdown-divider'></div>
-            <a
-                id='logout-menu-item'
-                class='dropdown-item'
-                href='#'
-                onclick='olz.olzAccountMenuLogout()'
-            >
-                Logout
-            </a>
-            ZZZZZZZZZZ;
+                <div class='dropdown-divider'></div>
+                <a
+                    id='logout-menu-item'
+                    class='dropdown-item'
+                    href='#'
+                    onclick='olz.olzAccountMenuLogout()'
+                >
+                    Logout
+                </a>
+                ZZZZZZZZZZ;
         } else {
             $out .= <<<'ZZZZZZZZZZ'
-            <a
-                id='login-menu-item'
-                class='dropdown-item'
-                href='#login-dialog'
-                role='button'
-            >
-                Login
-            </a>
-            ZZZZZZZZZZ;
+                <a
+                    id='login-menu-item'
+                    class='dropdown-item'
+                    href='#login-dialog'
+                    role='button'
+                >
+                    Login
+                </a>
+                ZZZZZZZZZZ;
         }
         $out .= "</div>";
 

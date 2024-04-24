@@ -55,12 +55,12 @@ class HttpUtils {
         ]);
 
         $out .= <<<ZZZZZZZZZZ
-        <div class='content-full'>
-            <h2>Automatische Weiterleitung...</h2>
-            <p>Falls die automatische Weiterleitung nicht funktionieren sollte, kannst du auch diesenLink anklicken:</p>
-            <p><b><a href='{$redirect_url}' class='linkint'>{$redirect_url}</a></b></p>
-        </div>
-        ZZZZZZZZZZ;
+            <div class='content-full'>
+                <h2>Automatische Weiterleitung...</h2>
+                <p>Falls die automatische Weiterleitung nicht funktionieren sollte, kannst du auch diesenLink anklicken:</p>
+                <p><b><a href='{$redirect_url}' class='linkint'>{$redirect_url}</a></b></p>
+            </div>
+            ZZZZZZZZZZ;
 
         $out .= OlzFooter::render();
         $this->sendHttpBody($out);
@@ -81,7 +81,10 @@ class HttpUtils {
             } else {
                 try {
                     $validated_get_params[$key] = $this->fieldUtils()->validate(
-                        $field, $get_params[$key] ?? null, ['parse' => true]);
+                        $field,
+                        $get_params[$key] ?? null,
+                        ['parse' => true]
+                    );
                 } catch (ValidationError $verr) {
                     $this->log()->notice("Bad GET param '{$key}'", $verr->getStructuredAnswer());
                     $has_error = true;

@@ -30,27 +30,27 @@ class OlzResults extends OlzComponent {
         if ($filename !== null) {
             if (is_file("{$data_path}results/{$filename}")) {
                 $out .= <<<'ZZZZZZZZZZ'
-                <div id='title-box'><div id='backbutton' onclick='olzResults.popHash()'>&lt;</div><h1 id='title'></h1></div>
-                <div id='results-content'>
-                    <div id='classes-box'></div>
-                    <div id='content-box'></div>
-                    <div class='inactive' id='grafik-box'><svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' style='width:100%; height:100%;' id='grafik-svg'></svg></div>
-                </div>
-                ZZZZZZZZZZ;
+                    <div id='title-box'><div id='backbutton' onclick='olzResults.popHash()'>&lt;</div><h1 id='title'></h1></div>
+                    <div id='results-content'>
+                        <div id='classes-box'></div>
+                        <div id='content-box'></div>
+                        <div class='inactive' id='grafik-box'><svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' style='width:100%; height:100%;' id='grafik-svg'></svg></div>
+                    </div>
+                    ZZZZZZZZZZ;
             } elseif ($this->authUtils()->hasPermission('any')) {
                 $enc_filename = json_encode(['file' => $filename]);
                 $out .= <<<ZZZZZZZZZZ
-                <div>
-                    <button
-                        id='create-result-button'
-                        class='btn btn-secondary'
-                        onclick='return olzResults.initOlzEditResultModal(null, {$enc_filename})'
-                    >
-                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                        Resultate hochladen
-                    </button>
-                </div>
-                ZZZZZZZZZZ;
+                    <div>
+                        <button
+                            id='create-result-button'
+                            class='btn btn-secondary'
+                            onclick='return olzResults.initOlzEditResultModal(null, {$enc_filename})'
+                        >
+                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            Resultate hochladen
+                        </button>
+                    </div>
+                    ZZZZZZZZZZ;
             } else {
                 $out .= OlzNoAppAccess::render([
                     'app' => $metadata,
@@ -67,17 +67,17 @@ class OlzResults extends OlzComponent {
             $out .= "</ul>";
             if ($this->authUtils()->hasPermission('any')) {
                 $out .= <<<ZZZZZZZZZZ
-                <div>
-                    <button
-                        id='create-result-button'
-                        class='btn btn-secondary'
-                        onclick='return olzResults.initOlzEditResultModal()'
-                    >
-                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                        Resultate hochladen
-                    </button>
-                </div>
-                ZZZZZZZZZZ;
+                    <div>
+                        <button
+                            id='create-result-button'
+                            class='btn btn-secondary'
+                            onclick='return olzResults.initOlzEditResultModal()'
+                        >
+                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            Resultate hochladen
+                        </button>
+                    </div>
+                    ZZZZZZZZZZ;
             }
         }
         $out .= "</div>";

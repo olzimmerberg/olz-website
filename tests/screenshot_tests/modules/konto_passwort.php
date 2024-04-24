@@ -119,9 +119,9 @@ function test_konto_passwort_readonly($driver, $base_url) {
     take_pageshot($driver, 'konto_passwort_errors');
 
     $hide_tooltips_script = <<<'ZZZZZZZZZZ'
-    [...document.querySelectorAll('.tooltip')].map(elem => {
-        elem.style.display = 'none';
-    });
-    ZZZZZZZZZZ;
+        [...document.querySelectorAll('.tooltip')].map(elem => {
+            elem.style.display = 'none';
+        });
+        ZZZZZZZZZZ;
     $driver->executeScript($hide_tooltips_script);
 }

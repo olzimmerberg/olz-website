@@ -36,12 +36,12 @@ class OlzHtmlSitemap extends OlzSitemap {
         $description = $entry['description'];
         $level = $entry['level'];
         return <<<ZZZZZZZZZZ
-        <div class="entry level-{$level}">
-            <a href="{$url}">
-                <span class="title">{$title}</span><br />
-                <span class="description">{$description}</span>
-            </a>
-        </div>
-        ZZZZZZZZZZ;
+            <div class="entry level-{$level}">
+                <a href="{$url}">
+                    <span class="title">{$title}</span><br />
+                    <span class="description">{$description}</span>
+                </a>
+            </div>
+            ZZZZZZZZZZ;
     }
 }

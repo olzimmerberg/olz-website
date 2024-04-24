@@ -61,18 +61,18 @@ class HtmlUtils {
         $default_src = $image_hrefs['1x'] ?? $image_hrefs[$keys[0]];
         if (count($keys) < 2) {
             return <<<ZZZZZZZZZZ
-            src='{$default_src}'
-            ZZZZZZZZZZ;
+                src='{$default_src}'
+                ZZZZZZZZZZ;
         }
         $srcset = implode(",\n    ", array_map(function ($key) use ($image_hrefs) {
             $value = $image_hrefs[$key];
             return "{$value} {$key}";
         }, $keys));
         return <<<ZZZZZZZZZZ
-        srcset='
-            {$srcset}
-        '
-        src='{$default_src}'
-        ZZZZZZZZZZ;
+            srcset='
+                {$srcset}
+            '
+            src='{$default_src}'
+            ZZZZZZZZZZ;
     }
 }

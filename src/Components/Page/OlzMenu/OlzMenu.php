@@ -33,13 +33,13 @@ class OlzMenu extends OlzComponent {
         $back_link = $args['back_link'] ?? null;
         if ($back_link !== null) {
             $back_menu_out = <<<ZZZZZZZZZZ
-            <a href='{$back_link}' class='menu-link' id='back-link'>
-                <div class='menutag'>
-                    <img src='{$code_href}assets/icns/back_16.svg' alt='&lt;' class='back-icon'>
-                    Zurück
-                </div>
-            </a>
-            ZZZZZZZZZZ;
+                <a href='{$back_link}' class='menu-link' id='back-link'>
+                    <div class='menutag'>
+                        <img src='{$code_href}assets/icns/back_16.svg' alt='&lt;' class='back-icon'>
+                        Zurück
+                    </div>
+                </a>
+                ZZZZZZZZZZ;
         }
 
         // LIVE-RESULTATE
@@ -55,12 +55,12 @@ class OlzMenu extends OlzComponent {
                     $live_file = $live['file'];
                     $style = preg_match('/test/', $live_file) ? " style='display:none;'" : "";
                     $live_menu_out = <<<ZZZZZZZZZZ
-                    <a href='{$code_href}apps/resultate/?file={$live_file}'{$style} class='menu-link' id='live-results-link'>
-                        <div class='menutag'>
-                            Live-Resultate
-                        </div>
-                    </a>
-                    ZZZZZZZZZZ;
+                        <a href='{$code_href}apps/resultate/?file={$live_file}'{$style} class='menu-link' id='live-results-link'>
+                            <div class='menutag'>
+                                Live-Resultate
+                            </div>
+                        </a>
+                        ZZZZZZZZZZ;
                 }
             }
         }
@@ -68,65 +68,65 @@ class OlzMenu extends OlzComponent {
         $main_menu_out = self::getMenu($main_menu, $code_href);
 
         $out .= <<<ZZZZZZZZZZ
-        <div id='menu' class='menu'>
-            <div class='back-menu'>{$back_menu_out}</div>
-            <div class='live-menu'>{$live_menu_out}</div>
-            <div class='main-menu'>{$main_menu_out}</div>
-            <form name='Suche' method='get' action='{$code_href}suche'>
-                <input
-                    type='text'
-                    name='anfrage'
-                    id='site-search'
-                    title='Suche auf olzimmerberg.ch'
-                    placeholder='Suchen...'
-                    value=''
-                />
-            </form>
-            <div class='feedback-mail'>
-                <script type='text/javascript'>
-                    olz.MailTo("website", "olzimmerberg.ch", "Feedback geben", "Homepage%20OL%20Zimmerberg");
-                </script>
+            <div id='menu' class='menu'>
+                <div class='back-menu'>{$back_menu_out}</div>
+                <div class='live-menu'>{$live_menu_out}</div>
+                <div class='main-menu'>{$main_menu_out}</div>
+                <form name='Suche' method='get' action='{$code_href}suche'>
+                    <input
+                        type='text'
+                        name='anfrage'
+                        id='site-search'
+                        title='Suche auf olzimmerberg.ch'
+                        placeholder='Suchen...'
+                        value=''
+                    />
+                </form>
+                <div class='feedback-mail'>
+                    <script type='text/javascript'>
+                        olz.MailTo("website", "olzimmerberg.ch", "Feedback geben", "Homepage%20OL%20Zimmerberg");
+                    </script>
+                </div>
+                <div class='platform-links'>
+                    <a
+                        href='https://github.com/olzimmerberg/olz-website'
+                        target='_blank'
+                        rel='noreferrer noopener'
+                        title='OL Zimmerberg auf GitHub'
+                        class='platform-link'
+                    >
+                        <img src='{$code_href}assets/icns/github_16.svg' alt='g' class='noborder' />
+                    </a>
+                    <a
+                        href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ'
+                        target='_blank'
+                        rel='noreferrer noopener'
+                        title='OL Zimmerberg auf YouTube'
+                        class='platform-link'
+                    >
+                        <img src='{$code_href}assets/icns/youtube_16.svg' alt='Y' class='noborder' />
+                    </a>
+                    <a
+                        href='https://www.facebook.com/olzimmerberg'
+                        target='_blank'
+                        rel='noreferrer noopener'
+                        title='OL Zimmerberg auf Facebook'
+                        class='platform-link'
+                    >
+                        <img src='{$code_href}assets/icns/facebook_16.svg' alt='f' class='noborder' />
+                    </a>
+                    <a
+                        href='https://www.strava.com/clubs/olzimmerberg'
+                        target='_blank'
+                        rel='noreferrer noopener'
+                        title='OL Zimmerberg auf Strava'
+                        class='platform-link'
+                    >
+                        <img src='{$code_href}assets/icns/strava_16.svg' alt='s' class='noborder' />
+                    </a>
+                </div>
             </div>
-            <div class='platform-links'>
-                <a
-                    href='https://github.com/olzimmerberg/olz-website'
-                    target='_blank'
-                    rel='noreferrer noopener'
-                    title='OL Zimmerberg auf GitHub'
-                    class='platform-link'
-                >
-                    <img src='{$code_href}assets/icns/github_16.svg' alt='g' class='noborder' />
-                </a>
-                <a
-                    href='https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ'
-                    target='_blank'
-                    rel='noreferrer noopener'
-                    title='OL Zimmerberg auf YouTube'
-                    class='platform-link'
-                >
-                    <img src='{$code_href}assets/icns/youtube_16.svg' alt='Y' class='noborder' />
-                </a>
-                <a
-                    href='https://www.facebook.com/olzimmerberg'
-                    target='_blank'
-                    rel='noreferrer noopener'
-                    title='OL Zimmerberg auf Facebook'
-                    class='platform-link'
-                >
-                    <img src='{$code_href}assets/icns/facebook_16.svg' alt='f' class='noborder' />
-                </a>
-                <a
-                    href='https://www.strava.com/clubs/olzimmerberg'
-                    target='_blank'
-                    rel='noreferrer noopener'
-                    title='OL Zimmerberg auf Strava'
-                    class='platform-link'
-                >
-                    <img src='{$code_href}assets/icns/strava_16.svg' alt='s' class='noborder' />
-                </a>
-            </div>
-        </div>
-        ZZZZZZZZZZ;
+            ZZZZZZZZZZ;
 
         return $out;
     }
@@ -145,16 +145,16 @@ class OlzMenu extends OlzComponent {
             $tag = $is_active ? 'h1' : 'div';
             if ($name != '') {
                 $out .= <<<ZZZZZZZZZZ
-                <a href='{$code_href}{$href}' id='menu_a_page_{$href}' class='menu-link'>
-                    <{$tag} class='menutag'>
-                        {$name}
-                    </{$tag}>
-                </a>
-                ZZZZZZZZZZ;
+                    <a href='{$code_href}{$href}' id='menu_a_page_{$href}' class='menu-link'>
+                        <{$tag} class='menutag'>
+                            {$name}
+                        </{$tag}>
+                    </a>
+                    ZZZZZZZZZZ;
             } else {
                 $out .= <<<'ZZZZZZZZZZ'
-                <div class='separator'></div>
-                ZZZZZZZZZZ;
+                    <div class='separator'></div>
+                    ZZZZZZZZZZ;
             }
         }
         return $out;

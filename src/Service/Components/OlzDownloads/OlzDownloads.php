@@ -17,15 +17,15 @@ class OlzDownloads extends OlzComponent {
 
         if ($has_permission) {
             $out .= <<<ZZZZZZZZZZ
-            <button
-                id='create-download-button'
-                class='btn btn-secondary'
-                onclick='return olz.initOlzEditDownloadModal()'
-            >
-                <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                Neuer Download
-            </button>
-            ZZZZZZZZZZ;
+                <button
+                    id='create-download-button'
+                    class='btn btn-secondary'
+                    onclick='return olz.initOlzEditDownloadModal()'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Neuer Download
+                </button>
+                ZZZZZZZZZZ;
         }
 
         $download_repo = $this->entityManager()->getRepository(Download::class);
@@ -57,13 +57,13 @@ class OlzDownloads extends OlzComponent {
             if ($can_edit) {
                 $json_id = json_encode(intval($id));
                 $edit_admin = <<<ZZZZZZZZZZ
-                <button
-                    class='btn btn-secondary-outline btn-sm edit-download-list-button'
-                    onclick='return olz.olzDownloadsEditDownload({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
-                </button>
-                ZZZZZZZZZZ;
+                    <button
+                        class='btn btn-secondary-outline btn-sm edit-download-list-button'
+                        onclick='return olz.olzDownloadsEditDownload({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                    </button>
+                    ZZZZZZZZZZ;
             }
 
             $class = '';
@@ -78,11 +78,11 @@ class OlzDownloads extends OlzComponent {
                 $out .= "{$edit_admin}<br />";
             } else {
                 $out .= <<<ZZZZZZZZZZ
-                <li class='{$class}'>
-                    {$edit_admin}
-                    {$this->fileUtils()->olzFile('downloads', $id, $file_id, $name, $name)}
-                </li>
-                ZZZZZZZZZZ;
+                    <li class='{$class}'>
+                        {$edit_admin}
+                        {$this->fileUtils()->olzFile('downloads', $id, $file_id, $name, $name)}
+                    </li>
+                    ZZZZZZZZZZ;
             }
         }
         $out .= "</ul>";

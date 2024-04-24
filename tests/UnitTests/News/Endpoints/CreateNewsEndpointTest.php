@@ -162,36 +162,36 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-        Hallo Anonymous,
+            Hallo Anonymous,
 
-        Du hast soeben auf [http://fake-base-url](http://fake-base-url) einen [anonymen Forumseintrag](http://fake-base-url/_/news/270) erstellt.
+            Du hast soeben auf [http://fake-base-url](http://fake-base-url) einen [anonymen Forumseintrag](http://fake-base-url/_/news/270) erstellt.
 
-        Falls du deinen Eintrag wieder *löschen* willst, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0) oder auf folgenden Link:
+            Falls du deinen Eintrag wieder *löschen* willst, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0) oder auf folgenden Link:
 
-        http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0
+            http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJkZWxldGVfbmV3cyIsIm5ld3NfaWQiOjI3MH0
 
-        ZZZZZZZZZZ;
+            ZZZZZZZZZZ;
         $this->assertSame([
             <<<ZZZZZZZZZZ
-            From: 
-            Reply-To: 
-            To: "Anonymous" <anonymous@staging.olzimmerberg.ch>
-            Cc: 
-            Bcc: 
-            Subject: [OLZ] Dein Forumseintrag
+                From: 
+                Reply-To: 
+                To: "Anonymous" <anonymous@staging.olzimmerberg.ch>
+                Cc: 
+                Bcc: 
+                Subject: [OLZ] Dein Forumseintrag
 
-            {$expected_text}
-
-
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            {$expected_text}
+                {$expected_text}
 
 
-            olz_logo
-            ZZZZZZZZZZ,
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                {$expected_text}
+
+
+                olz_logo
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));

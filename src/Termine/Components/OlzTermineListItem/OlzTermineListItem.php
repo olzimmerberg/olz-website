@@ -93,30 +93,30 @@ class OlzTermineListItem extends OlzComponent {
         if ($can_edit) {
             $json_id = json_encode(intval($id));
             $edit_admin = <<<ZZZZZZZZZZ
-            <button
-                class='btn btn-secondary-outline btn-sm edit-termin-list-button'
-                onclick='return olz.termineListItemEditTermin({$json_id})'
-            >
-                <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
-            </button>
-            ZZZZZZZZZZ;
+                <button
+                    class='btn btn-secondary-outline btn-sm edit-termin-list-button'
+                    onclick='return olz.termineListItemEditTermin({$json_id})'
+                >
+                    <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                </button>
+                ZZZZZZZZZZ;
         }
 
         $out .= <<<ZZZZZZZZZZ
-        <div class='olz-termine-list-item'>
-            <a class='link' href='{$link}'></a>
-            <div class='content'>
-                <div class='date'>
-                    <div class='date-calendars'>{$start_icon}{$end_icon}</div>
-                    <div class='time-text'>{$time_text}</div>
-                </div>
-                <div class='title-text-container'>
-                    <div class='title'>{$title}{$edit_admin} {$type_imgs}</div>
-                    <div class='text'>{$text} {$links}</div>
+            <div class='olz-termine-list-item'>
+                <a class='link' href='{$link}'></a>
+                <div class='content'>
+                    <div class='date'>
+                        <div class='date-calendars'>{$start_icon}{$end_icon}</div>
+                        <div class='time-text'>{$time_text}</div>
+                    </div>
+                    <div class='title-text-container'>
+                        <div class='title'>{$title}{$edit_admin} {$type_imgs}</div>
+                        <div class='text'>{$text} {$links}</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        ZZZZZZZZZZ;
+            ZZZZZZZZZZ;
         return $out;
     }
 

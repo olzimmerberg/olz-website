@@ -30,39 +30,39 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         $newsletter_app = OlzApps::getApp('Newsletter');
         if ($newsletter_app) {
             $newsletter_link = <<<ZZZZZZZZZZ
-            <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
-                <img
-                    src='{$newsletter_app->getIcon()}'
-                    alt='newsletter'
-                    class='newsletter-link-icon'
-                    title='Newsletter abonnieren!'
-                />
-            </a>
-            ZZZZZZZZZZ;
+                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
+                    <img
+                        src='{$newsletter_app->getIcon()}'
+                        alt='newsletter'
+                        class='newsletter-link-icon'
+                        title='Newsletter abonnieren!'
+                    />
+                </a>
+                ZZZZZZZZZZ;
         } else {
             $this->log()->error('Newsletter App does not exist!');
         }
         $aktuell_url = $news_filter_utils->getUrl(['format' => 'aktuell']);
         $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
         $out = <<<ZZZZZZZZZZ
-        <h2><a href='{$aktuell_url}'>
-            <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
-            Aktuell
-        </a>
-        &nbsp;&amp;&nbsp;
-        <a href='{$kaderblog_url}'>
-            <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
-            Kaderblog
-        </a> {$newsletter_link}</h2>
-        ZZZZZZZZZZ;
+            <h2><a href='{$aktuell_url}'>
+                <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
+                Aktuell
+            </a>
+            &nbsp;&amp;&nbsp;
+            <a href='{$kaderblog_url}'>
+                <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
+                Kaderblog
+            </a> {$newsletter_link}</h2>
+            ZZZZZZZZZZ;
 
         $out .= "<ul class='links'>";
         $query = $entity_manager->createQuery(<<<'ZZZZZZZZZZ'
-            SELECT n
-            FROM Olz:News\NewsEntry n
-            WHERE n.on_off = '1' and n.format IN ('aktuell', 'kaderblog')
-            ORDER BY n.published_date DESC, n.published_time DESC
-        ZZZZZZZZZZ);
+                SELECT n
+                FROM Olz:News\NewsEntry n
+                WHERE n.on_off = '1' and n.format IN ('aktuell', 'kaderblog')
+                ORDER BY n.published_date DESC, n.published_time DESC
+            ZZZZZZZZZZ);
         $query->setMaxResults(4);
         $index = 0;
         foreach ($query->getResult() as $news_entry) {
@@ -79,7 +79,13 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
             if (count($image_ids ?? []) > 0) {
                 $class = $is_image_right ? 'right' : 'left';
                 $olz_image = $this->imageUtils()->olzImage(
-                    'news', $id, $image_ids[0] ?? null, 80, 'image', ' class="noborder"');
+                    'news',
+                    $id,
+                    $image_ids[0] ?? null,
+                    80,
+                    'image',
+                    ' class="noborder"'
+                );
                 $image = "<div class='link-image-{$class}'>{$olz_image}</div>";
             }
             $image_left = '';
@@ -91,16 +97,16 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
             }
 
             $out .= <<<ZZZZZZZZZZ
-            <li class='flex min-two-lines aktuell-kaderblog-tile'>
-                {$image_left}
-                <img src='{$icon}' alt='{$format}' class='link-icon'>
-                <a href='{$code_href}news/{$id}' style='flex-grow:1;'>
-                    <span class='title'>{$title}</span>
-                    <span class='secondary'>({$date})</span>
-                </a>
-                {$image_right}
-            </li>
-            ZZZZZZZZZZ;
+                <li class='flex min-two-lines aktuell-kaderblog-tile'>
+                    {$image_left}
+                    <img src='{$icon}' alt='{$format}' class='link-icon'>
+                    <a href='{$code_href}news/{$id}' style='flex-grow:1;'>
+                        <span class='title'>{$title}</span>
+                        <span class='secondary'>({$date})</span>
+                    </a>
+                    {$image_right}
+                </li>
+                ZZZZZZZZZZ;
 
             $index++;
         }

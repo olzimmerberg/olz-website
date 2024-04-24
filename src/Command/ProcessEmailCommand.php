@@ -252,7 +252,7 @@ class ProcessEmailCommand extends OlzCommand {
                 $data_path = $this->envUtils()->getDataPath();
                 $temp_path = "{$data_path}temp/";
                 if (!is_dir($temp_path)) {
-                    mkdir($temp_path, 0777, true);
+                    mkdir($temp_path, 0o777, true);
                 }
                 foreach ($attachments as $attachment_id => $attachment) {
                     gc_collect_cycles();
@@ -361,15 +361,15 @@ class ProcessEmailCommand extends OlzCommand {
         $error_message = $message_by_code[$smtp_code] ?? "{$smtp_code} Unknown error";
 
         $report_message = <<<ZZZZZZZZZZ
-        This is the mail system at host {$base_href}.
+            This is the mail system at host {$base_href}.
 
-        I'm sorry to have to inform you that your message could not
-        be delivered to one or more recipients.
+            I'm sorry to have to inform you that your message could not
+            be delivered to one or more recipients.
 
-                        The mail system
+                            The mail system
 
-        {$error_message}
-        ZZZZZZZZZZ;
+            {$error_message}
+            ZZZZZZZZZZ;
 
         if ($smtp_code === 550) {
             $all_attributes = '';
@@ -387,14 +387,14 @@ class ProcessEmailCommand extends OlzCommand {
             }
 
             return <<<ZZZZZZZZZZ
-            {$report_message}
+                {$report_message}
 
-            ------ This is a copy of the message, including all the headers. ------
+                ------ This is a copy of the message, including all the headers. ------
 
-            {$all_attributes}
+                {$all_attributes}
 
-            {$body}
-            ZZZZZZZZZZ;
+                {$body}
+                ZZZZZZZZZZ;
         }
 
         return $report_message;

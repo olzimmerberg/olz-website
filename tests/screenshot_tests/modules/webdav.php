@@ -20,16 +20,16 @@ function test_webdav_readonly($driver, $base_url) {
     global $webdav_url;
 
     $declare_flaky_elements = <<<'ZZZZZZZZZZ'
-        const columnSelector = '.nodeTable tr td:not(.nameColumn):not(.typeColumn)';
-        const propTableSelector = '.propTable';
-        [
-            ...document.querySelectorAll(columnSelector),
-            ...document.querySelectorAll(propTableSelector),
-        ].map(elem => {
-            elem.style.minWidth = '250px';
-            elem.classList.add('test-flaky');
-        });
-    ZZZZZZZZZZ;
+            const columnSelector = '.nodeTable tr td:not(.nameColumn):not(.typeColumn)';
+            const propTableSelector = '.propTable';
+            [
+                ...document.querySelectorAll(columnSelector),
+                ...document.querySelectorAll(propTableSelector),
+            ].map(elem => {
+                elem.style.minWidth = '250px';
+                elem.classList.add('test-flaky');
+            });
+        ZZZZZZZZZZ;
 
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$webdav_url}");

@@ -17,10 +17,18 @@ class CheckTermineSolvIdCommand extends OlzCommand {
 
     protected function configure(): void {
         $this->addOption('year', null, InputOption::VALUE_REQUIRED, 'Year');
-        $this->addOption('future', null, InputOption::VALUE_NONE,
-            'Only run for future Termine.');
-        $this->addOption('recent', null, InputOption::VALUE_NONE,
-            'Only run for recently modified Termine.');
+        $this->addOption(
+            'future',
+            null,
+            InputOption::VALUE_NONE,
+            'Only run for future Termine.'
+        );
+        $this->addOption(
+            'recent',
+            null,
+            InputOption::VALUE_NONE,
+            'Only run for recently modified Termine.'
+        );
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {

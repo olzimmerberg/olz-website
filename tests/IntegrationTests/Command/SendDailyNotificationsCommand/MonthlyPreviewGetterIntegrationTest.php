@@ -30,31 +30,31 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
         $notification = $job->getMonthlyPreviewNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-        Hallo First,
-        
-        Im August haben wir Folgendes auf dem Programm:
+            Hallo First,
+
+            Im August haben wir Folgendes auf dem Programm:
 
 
-        **Termine**
- 
-        - 04.08.: [Training -1](http://integration-test.host/termine/9)
-        - 11.08.: [Training 0](http://integration-test.host/termine/8)
-        - 16.08. - 17.08.: [24h-OL](http://integration-test.host/termine/12)
-        - 18.08.: [Training 1](http://integration-test.host/termine/3)
-        - 22.08.: [Grossanlass](http://integration-test.host/termine/10)
-        - 25.08.: [Training 2](http://integration-test.host/termine/4)
-        - 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/termine/5)
+            **Termine**
+
+            - 04.08.: [Training -1](http://integration-test.host/termine/9)
+            - 11.08.: [Training 0](http://integration-test.host/termine/8)
+            - 16.08. - 17.08.: [24h-OL](http://integration-test.host/termine/12)
+            - 18.08.: [Training 1](http://integration-test.host/termine/3)
+            - 22.08.: [Grossanlass](http://integration-test.host/termine/10)
+            - 25.08.: [Training 2](http://integration-test.host/termine/4)
+            - 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/termine/5)
 
 
-        **Meldeschlüsse**
+            **Meldeschlüsse**
 
-        - 10.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/termine/10)'
-        - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
-        - 24.08.: Meldeschluss für '[Training 2](http://integration-test.host/termine/4)'
-        - 31.08.: Meldeschluss für '[Training 3](http://integration-test.host/termine/6)'
-        
+            - 10.08.: Meldeschluss für '[Grossanlass](http://integration-test.host/termine/10)'
+            - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
+            - 24.08.: Meldeschluss für '[Training 2](http://integration-test.host/termine/4)'
+            - 31.08.: Meldeschluss für '[Training 3](http://integration-test.host/termine/6)'
 
-        ZZZZZZZZZZ;
+
+            ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
         $this->assertSame('Monatsvorschau August', $notification->title);

@@ -24,7 +24,9 @@ foreach ($local_paths as $local_path) {
 
 $remote_url = 'https://olzimmerberg.ch/';
 $remote_index = json_decode(
-    @file_get_contents("{$remote_url}screenshots/index.json.php") ?? '', true);
+    @file_get_contents("{$remote_url}screenshots/index.json.php") ?? '',
+    true
+);
 if ($remote_index === null) {
     echo 'No JSON screenshot index on main';
     exit(21);

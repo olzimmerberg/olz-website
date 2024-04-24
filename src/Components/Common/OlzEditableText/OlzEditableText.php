@@ -25,23 +25,23 @@ class OlzEditableText extends OlzComponent {
         $has_access = $this->authUtils()->hasPermission("snippet_{$snippet_id}");
         if (!$has_access) {
             return <<<ZZZZZZZZZZ
-            <div class='olz-editable-text'>
-                {$snippet_html}
-            </div>
-            ZZZZZZZZZZ;
+                <div class='olz-editable-text'>
+                    {$snippet_html}
+                </div>
+                ZZZZZZZZZZ;
         }
 
         return <<<ZZZZZZZZZZ
-        <div class='olz-editable-text editable'>
-            <button
-                type='button'
-                onclick='olz.olzEditableTextEditSnippet({$esc_id})'
-                class='btn btn-link olz-edit-button'
-            >
-                <img src='{$code_href}assets/icns/edit_16.svg' alt='Bearbeiten' class='noborder' />
-            </button>
-            {$snippet_html}
-        </div>
-        ZZZZZZZZZZ;
+            <div class='olz-editable-text editable'>
+                <button
+                    type='button'
+                    onclick='olz.olzEditableTextEditSnippet({$esc_id})'
+                    class='btn btn-link olz-edit-button'
+                >
+                    <img src='{$code_href}assets/icns/edit_16.svg' alt='Bearbeiten' class='noborder' />
+                </button>
+                {$snippet_html}
+            </div>
+            ZZZZZZZZZZ;
     }
 }

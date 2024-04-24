@@ -38,15 +38,15 @@ class EmailUtils {
         $code_href = $this->envUtils()->getCodeHref();
         $verify_email_url = "{$base_url}{$code_href}email_reaktion?token={$verify_email_token}";
         $text = <<<ZZZZZZZZZZ
-        **!!! Falls du nicht soeben auf olzimmerberg.ch deine E-Mail-Adresse bestätigen wolltest, lösche diese E-Mail !!!**
+            **!!! Falls du nicht soeben auf olzimmerberg.ch deine E-Mail-Adresse bestätigen wolltest, lösche diese E-Mail !!!**
 
-        Hallo {$user->getFirstName()},
+            Hallo {$user->getFirstName()},
 
-        *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier]({$verify_email_url}) oder auf folgenden Link:
+            *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier]({$verify_email_url}) oder auf folgenden Link:
 
-        {$verify_email_url}
+            {$verify_email_url}
 
-        ZZZZZZZZZZ;
+            ZZZZZZZZZZ;
         $config = [
             'no_unsubscribe' => true,
         ];
@@ -102,11 +102,11 @@ class EmailUtils {
         if (!($config['no_header'] ?? false)) {
             $email = $email->addPart((new DataPart(new File(__DIR__.'/../../assets/icns/olz_logo_schwarzweiss_300.png'), 'olz_logo', 'image/png'))->asInline());
             $html_header = <<<'ZZZZZZZZZZ'
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            ZZZZZZZZZZ;
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                ZZZZZZZZZZ;
         }
         $html_unsubscribe = "";
         $text_unsubscribe = "";
@@ -129,17 +129,17 @@ class EmailUtils {
             $unsubscribe_this_url = "{$base_url}{$code_href}email_reaktion?token={$unsubscribe_this_token}";
             $unsubscribe_all_url = "{$base_url}{$code_href}email_reaktion?token={$unsubscribe_all_token}";
             $html_unsubscribe = <<<ZZZZZZZZZZ
-            <br /><br />
-            <hr style="border: 0; border-top: 1px solid black;">
-            Abmelden? <a href="{$unsubscribe_this_url}">Keine solchen E-Mails mehr</a> oder <a href="{$unsubscribe_all_url}">Keine E-Mails von OL Zimmerberg mehr</a>
-            ZZZZZZZZZZ;
+                <br /><br />
+                <hr style="border: 0; border-top: 1px solid black;">
+                Abmelden? <a href="{$unsubscribe_this_url}">Keine solchen E-Mails mehr</a> oder <a href="{$unsubscribe_all_url}">Keine E-Mails von OL Zimmerberg mehr</a>
+                ZZZZZZZZZZ;
             $text_unsubscribe = <<<ZZZZZZZZZZ
 
-            ---
-            Abmelden?
-            Keine solchen E-Mails mehr: {$unsubscribe_this_url}
-            Keine E-Mails von OL Zimmerberg mehr: {$unsubscribe_all_url}
-            ZZZZZZZZZZ;
+                ---
+                Abmelden?
+                Keine solchen E-Mails mehr: {$unsubscribe_this_url}
+                Keine E-Mails von OL Zimmerberg mehr: {$unsubscribe_all_url}
+                ZZZZZZZZZZ;
         }
         $email = $email->text(<<<ZZZZZZZZZZ
             {$text}
@@ -175,27 +175,27 @@ class EmailUtils {
         }, $email->getAttachments()));
 
         return <<<ZZZZZZZZZZ
-        From: {$from}
-        Reply-To: {$reply_to}
-        To: {$to}
-        Cc: {$cc}
-        Bcc: {$bcc}
-        Subject: {$subject}
+            From: {$from}
+            Reply-To: {$reply_to}
+            To: {$to}
+            Cc: {$cc}
+            Bcc: {$bcc}
+            Subject: {$subject}
 
-        {$text_body}
+            {$text_body}
 
-        {$html_body}
-        {$attachments}
-        ZZZZZZZZZZ;
+            {$html_body}
+            {$attachments}
+            ZZZZZZZZZZ;
     }
 
     public function getComparableEnvelope(Envelope $envelope): string {
         $sender = $envelope->getSender()->toString();
         $recipients = $this->arr2str($envelope->getRecipients());
         return <<<ZZZZZZZZZZ
-        Sender: {$sender}
-        Recipients: {$recipients}
-        ZZZZZZZZZZ;
+            Sender: {$sender}
+            Recipients: {$recipients}
+            ZZZZZZZZZZ;
     }
 
     protected function arr2str(array $arr): string {

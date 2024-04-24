@@ -100,7 +100,8 @@ abstract class AbstractDateUtils {
                 self::WEEKDAYS_LONG_DE[date("w", $date)],
                 self::WEEKDAYS_SHORT_DE[date("w", $date)],
             ],
-            $format);
+            $format
+        );
     }
 
     public function formatDateTimeRange($start_date, $start_time, $end_date, $end_time, $format = 'long') {

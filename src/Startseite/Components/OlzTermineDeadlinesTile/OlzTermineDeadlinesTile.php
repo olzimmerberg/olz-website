@@ -28,47 +28,47 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $newsletter_app = OlzApps::getApp('Newsletter');
         if ($newsletter_app) {
             $newsletter_link = <<<ZZZZZZZZZZ
-            <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
-                <img
-                    src='{$newsletter_app->getIcon()}'
-                    alt='newsletter'
-                    class='newsletter-link-icon'
-                    title='Newsletter abonnieren!'
-                />
-            </a>
-            ZZZZZZZZZZ;
+                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
+                    <img
+                        src='{$newsletter_app->getIcon()}'
+                        alt='newsletter'
+                        class='newsletter-link-icon'
+                        title='Newsletter abonnieren!'
+                    />
+                </a>
+                ZZZZZZZZZZ;
         } else {
             $this->log()->error('Newsletter App does not exist!');
         }
         $out = "<h2>Meldeschlüsse {$newsletter_link}</h2>";
 
         $res = $db->query(<<<ZZZZZZZZZZ
-        (
-            SELECT
-                se.deadline as deadline,
-                t.start_date as date,
-                t.title as title,
-                t.id as id
-            FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
-            WHERE 
-                se.deadline IS NOT NULL
-                AND se.deadline >= '{$today}'
-                AND se.deadline <= '{$in_two_weeks}'
-        ) UNION ALL (
-            SELECT
-                DATE(t.deadline) as deadline,
-                t.start_date as date,
-                t.title as title,
-                t.id as id
-            FROM termine t
-            WHERE
-                t.deadline IS NOT NULL
-                AND t.deadline >= '{$now}'
-                AND t.deadline <= '{$in_two_weeks}'
-        )
-        ORDER BY deadline ASC
-        LIMIT 7
-        ZZZZZZZZZZ);
+            (
+                SELECT
+                    se.deadline as deadline,
+                    t.start_date as date,
+                    t.title as title,
+                    t.id as id
+                FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
+                WHERE 
+                    se.deadline IS NOT NULL
+                    AND se.deadline >= '{$today}'
+                    AND se.deadline <= '{$in_two_weeks}'
+            ) UNION ALL (
+                SELECT
+                    DATE(t.deadline) as deadline,
+                    t.start_date as date,
+                    t.title as title,
+                    t.id as id
+                FROM termine t
+                WHERE
+                    t.deadline IS NOT NULL
+                    AND t.deadline >= '{$now}'
+                    AND t.deadline <= '{$in_two_weeks}'
+            )
+            ORDER BY deadline ASC
+            LIMIT 7
+            ZZZZZZZZZZ);
         if ($res->num_rows === 0) {
             $out .= "<br /><center><i>Keine Meldeschlüsse in den nächsten vier Wochen</i></center>";
             return $out;

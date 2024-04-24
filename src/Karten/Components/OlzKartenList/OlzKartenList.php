@@ -22,15 +22,15 @@ class OlzKartenList extends OlzComponent {
         $has_access = $this->authUtils()->hasPermission('karten');
         if ($has_access) {
             $out .= <<<ZZZZZZZZZZ
-            <button
-                id='create-karte-button'
-                class='btn btn-secondary create-karte-container'
-                onclick='return olz.initOlzEditKarteModal()'
-            >
-                <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                Neue Karte
-            </button>
-            ZZZZZZZZZZ;
+                <button
+                    id='create-karte-button'
+                    class='btn btn-secondary create-karte-container'
+                    onclick='return olz.initOlzEditKarteModal()'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Neue Karte
+                </button>
+                ZZZZZZZZZZ;
         }
 
         $sql = "SELECT * FROM karten WHERE on_off = '1' ORDER BY CASE WHEN `typ` = 'ol' THEN 1 WHEN `typ` = 'stadt' THEN 2 WHEN `typ` = 'scool' THEN 3 ELSE 4 END, ort ASC, name ASC";

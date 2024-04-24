@@ -24,20 +24,20 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         $mgmt_html = '';
         if ($has_access) {
             $mgmt_html .= <<<ZZZZZZZZZZ
-            <a
-                href='#'
-                id='create-weekly-picture-button'
-                class='header-link'
-                onclick='return olz.initOlzEditWeeklyPictureModal()'
-            >
-                <img
-                    src='{$code_href}assets/icns/new_white_16.svg'
-                    alt='+'
-                    class='header-link-icon'
-                    title='Neues Bild der Woche'
-                />
-            </a>
-            ZZZZZZZZZZ;
+                <a
+                    href='#'
+                    id='create-weekly-picture-button'
+                    class='header-link'
+                    onclick='return olz.initOlzEditWeeklyPictureModal()'
+                >
+                    <img
+                        src='{$code_href}assets/icns/new_white_16.svg'
+                        alt='+'
+                        class='header-link-icon'
+                        title='Neues Bild der Woche'
+                    />
+                </a>
+                ZZZZZZZZZZ;
         }
 
         $entity_manager = $this->dbUtils()->getEntityManager();
@@ -60,31 +60,31 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         }
 
         $out .= <<<ZZZZZZZZZZ
-        <h2 class='weekly-picture-h2'>Bild der Woche {$mgmt_html}</h2>
-        <div
-            id='weekly-picture-carousel'
-            class='carousel slide'
-            data-bs-ride='carousel'
-            data-bs-interval='3600000'
-            data-bs-wrap='false'
-        >
-            <div class='carousel-inner'>{$carousel_inner}</div>
-            <button
-                class="carousel-control-prev"
-                data-bs-target="#weekly-picture-carousel"
-                data-bs-slide="prev"
+            <h2 class='weekly-picture-h2'>Bild der Woche {$mgmt_html}</h2>
+            <div
+                id='weekly-picture-carousel'
+                class='carousel slide'
+                data-bs-ride='carousel'
+                data-bs-interval='3600000'
+                data-bs-wrap='false'
             >
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            </button>
-            <button
-                class="carousel-control-next"
-                data-bs-target="#weekly-picture-carousel"
-                data-bs-slide="next"
-            >
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            </button>
-        </div>
-        ZZZZZZZZZZ;
+                <div class='carousel-inner'>{$carousel_inner}</div>
+                <button
+                    class="carousel-control-prev"
+                    data-bs-target="#weekly-picture-carousel"
+                    data-bs-slide="prev"
+                >
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button
+                    class="carousel-control-next"
+                    data-bs-target="#weekly-picture-carousel"
+                    data-bs-slide="next"
+                >
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+            ZZZZZZZZZZ;
 
         return $out;
     }

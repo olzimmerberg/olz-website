@@ -112,7 +112,7 @@ class UploadUtils {
 
     public function overwriteUploads(?array $upload_ids, string $new_base_path): void {
         if (!is_dir($new_base_path)) {
-            mkdir($new_base_path, 0777, true);
+            mkdir($new_base_path, 0o777, true);
         }
         $existing_file_names = scandir($new_base_path);
         foreach ($existing_file_names as $file_name) {

@@ -54,16 +54,16 @@ class OlzPanini2024 extends OlzComponent {
                 copy($portrait_path, $temp_path);
             }
             $out .= <<<ZZZZZZZZZZ
-            <script>
-                window.olzPanini2024FirstName = {$esc_first_name};
-                window.olzPanini2024LastName = {$esc_last_name};
-                window.olzPanini2024Picture = {$esc_panini_2024_picture};
-                window.olzPanini2024IsReadOnly = {$esc_is_read_only};
-            </script>
-            <div id='panini-react-root'>
-                Lädt...
-            </div>
-            ZZZZZZZZZZ;
+                <script>
+                    window.olzPanini2024FirstName = {$esc_first_name};
+                    window.olzPanini2024LastName = {$esc_last_name};
+                    window.olzPanini2024Picture = {$esc_panini_2024_picture};
+                    window.olzPanini2024IsReadOnly = {$esc_is_read_only};
+                </script>
+                <div id='panini-react-root'>
+                    Lädt...
+                </div>
+                ZZZZZZZZZZ;
         } else {
             $out .= OlzNoAppAccess::render([
                 'app' => $metadata,

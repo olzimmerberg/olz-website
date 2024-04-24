@@ -20,7 +20,8 @@ use Symfony\Component\Console\Output\BufferedOutput;
 class FakeSyncSolvCommandIntegrationTestSolvFetcher extends Fake\FakeSolvFetcher {
     public function fetchEventsCsvForYear($year) {
         return $this->getMockedResponse(
-            "solv_events_{$year}", __DIR__,
+            "solv_events_{$year}",
+            __DIR__,
             function () use ($year) {
                 $real_fetcher = new SolvFetcher();
                 return $real_fetcher->fetchEventsCsvForYear($year);
@@ -30,7 +31,8 @@ class FakeSyncSolvCommandIntegrationTestSolvFetcher extends Fake\FakeSolvFetcher
 
     public function fetchYearlyResultsJson($year) {
         return $this->getMockedResponse(
-            "solv_yearly_results_{$year}", __DIR__,
+            "solv_yearly_results_{$year}",
+            __DIR__,
             function () use ($year) {
                 $real_fetcher = new SolvFetcher();
                 return $real_fetcher->fetchYearlyResultsJson($year);
@@ -40,7 +42,8 @@ class FakeSyncSolvCommandIntegrationTestSolvFetcher extends Fake\FakeSolvFetcher
 
     public function fetchEventResultsHtml($rank_id) {
         return $this->getMockedResponse(
-            "solv_results_html_{$rank_id}", __DIR__,
+            "solv_results_html_{$rank_id}",
+            __DIR__,
             function () use ($rank_id) {
                 $real_fetcher = new SolvFetcher();
                 return $real_fetcher->fetchEventResultsHtml($rank_id);

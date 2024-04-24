@@ -51,47 +51,47 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-        Hallo First,
-        
-        Das lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):
-        
-        
-        **Aktuell**
-        
-        - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-        - 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-        - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-        
-        
-        **Kaderblog**
-        
-        - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-        - 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-        - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-        
-        
-        **Forum**
-        
-        - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-        - 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-        - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-        
-        
-        **Galerien**
-        
-        - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-        - 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-        - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-        
-        
-        **Aktualisierte Termine**
-        
-        - 13.03.: [Fake title](http://fake-base-url/_/termine/12)
-        - 01.01.: [Cannot be empty](http://fake-base-url/_/termine/123)
-        - 13.03. - 16.03.: [Fake title](http://fake-base-url/_/termine/1234)
+            Hallo First,
 
-        
-        ZZZZZZZZZZ;
+            Das lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):
+
+
+            **Aktuell**
+
+            - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
+            - 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
+            - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
+
+
+            **Kaderblog**
+
+            - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
+            - 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
+            - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
+
+
+            **Forum**
+
+            - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
+            - 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
+            - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
+
+
+            **Galerien**
+
+            - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
+            - 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
+            - 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
+
+
+            **Aktualisierte Termine**
+
+            - 13.03.: [Fake title](http://fake-base-url/_/termine/12)
+            - 01.01.: [Cannot be empty](http://fake-base-url/_/termine/123)
+            - 13.03. - 16.03.: [Fake title](http://fake-base-url/_/termine/1234)
+
+
+            ZZZZZZZZZZ;
         $this->assertSame('Wochenzusammenfassung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

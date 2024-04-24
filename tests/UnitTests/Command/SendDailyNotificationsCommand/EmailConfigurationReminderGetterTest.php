@@ -55,24 +55,24 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
         $notification = $job->getNotification(['cancelled' => false]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-        Hallo First,
-        
-        Leider hast du bisher keinerlei OLZ-Newsletter-Benachrichtigungen abonniert.
+            Hallo First,
+
+            Leider hast du bisher keinerlei OLZ-Newsletter-Benachrichtigungen abonniert.
 
 
-        **Du möchtest eigentlich OLZ-Newsletter-Benachrichtigungen erhalten?**
-        
-        In diesem Fall musst du dich auf der Website [*einloggen*](http://fake-base-url/_/apps/newsletter#login-dialog), und im ["Newsletter"-App](http://fake-base-url/_/apps/newsletter) (ist auch unter "Service" zu finden) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
+            **Du möchtest eigentlich OLZ-Newsletter-Benachrichtigungen erhalten?**
 
-        Falls du dein Passwort vergessen hast, kannst du es im Login-Dialog bei "Passwort vergessen?" zurücksetzen. Du bist mit der E-Mail Adresse `first-user@staging.olzimmerberg.ch` registriert.
+            In diesem Fall musst du dich auf der Website [*einloggen*](http://fake-base-url/_/apps/newsletter#login-dialog), und im ["Newsletter"-App](http://fake-base-url/_/apps/newsletter) (ist auch unter "Service" zu finden) bei "E-Mail Newsletter" die gewünschten Benachrichtigungen auswählen.
 
-
-        **Du möchtest auch weiterhin keine OLZ-Newsletter-Benachrichtigungen erhalten?**
-
-        Dann ignoriere dieses E-Mail. Wenn du es nicht deaktivierst, wird dir dieses E-Mail nächsten Monat allerdings erneut zugesendet. Um dich abzumelden, klicke unten auf "Keine solchen E-Mails mehr".
+            Falls du dein Passwort vergessen hast, kannst du es im Login-Dialog bei "Passwort vergessen?" zurücksetzen. Du bist mit der E-Mail Adresse `first-user@staging.olzimmerberg.ch` registriert.
 
 
-        ZZZZZZZZZZ;
+            **Du möchtest auch weiterhin keine OLZ-Newsletter-Benachrichtigungen erhalten?**
+
+            Dann ignoriere dieses E-Mail. Wenn du es nicht deaktivierst, wird dir dieses E-Mail nächsten Monat allerdings erneut zugesendet. Um dich abzumelden, klicke unten auf "Keine solchen E-Mails mehr".
+
+
+            ZZZZZZZZZZ;
         $this->assertSame('Kein Newsletter abonniert', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

@@ -48,17 +48,17 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-        Hallo First,
-        
-        Folgende Meldeschlüsse stehen bevor:
-        
-        - 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
-        - 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
-        - : Meldeschluss für '[Fake title](http://fake-base-url/_/termine/12)'
-        - 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
-        - 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
+            Hallo First,
 
-        ZZZZZZZZZZ;
+            Folgende Meldeschlüsse stehen bevor:
+
+            - 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
+            - 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
+            - : Meldeschluss für '[Fake title](http://fake-base-url/_/termine/12)'
+            - 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
+            - 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
+
+            ZZZZZZZZZZ;
         $this->assertSame('Meldeschlusswarnung', $notification->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

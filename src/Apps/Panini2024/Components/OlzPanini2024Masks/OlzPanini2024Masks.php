@@ -25,13 +25,13 @@ class OlzPanini2024Masks extends OlzComponent {
         if ($this->authUtils()->hasPermission('panini2024')) {
             $enc_mask = json_encode($args['mask'] ?? '');
             $out .= <<<ZZZZZZZZZZ
-            <script>
-                window.olzPanini2024Mask = {$enc_mask};
-            </script>
-            <div id='panini-react-root-masks'>
-                Lädt...
-            </div>
-            ZZZZZZZZZZ;
+                <script>
+                    window.olzPanini2024Mask = {$enc_mask};
+                </script>
+                <div id='panini-react-root-masks'>
+                    Lädt...
+                </div>
+                ZZZZZZZZZZ;
         } else {
             $out .= OlzNoAppAccess::render([
                 'app' => $metadata,

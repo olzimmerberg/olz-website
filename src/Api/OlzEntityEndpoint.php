@@ -31,10 +31,10 @@ abstract class OlzEntityEndpoint extends OlzEndpoint {
 
         $entity_img_path = "{$data_path}img/{$entity_name}/{$entity_id}/";
         if (!is_dir("{$entity_img_path}img/")) {
-            mkdir("{$entity_img_path}img/", 0777, true);
+            mkdir("{$entity_img_path}img/", 0o777, true);
         }
         if (!is_dir("{$entity_img_path}thumb/")) {
-            mkdir("{$entity_img_path}thumb/", 0777, true);
+            mkdir("{$entity_img_path}thumb/", 0o777, true);
         }
         $this->uploadUtils()->overwriteUploads($image_ids, "{$entity_img_path}img/");
         // TODO: Generate default thumbnails.
@@ -56,7 +56,7 @@ abstract class OlzEntityEndpoint extends OlzEndpoint {
 
         $entity_files_path = "{$data_path}files/{$entity_name}/{$entity_id}/";
         if (!is_dir("{$entity_files_path}")) {
-            mkdir("{$entity_files_path}", 0777, true);
+            mkdir("{$entity_files_path}", 0o777, true);
         }
         $this->uploadUtils()->overwriteUploads($file_ids, $entity_files_path);
     }
@@ -68,7 +68,7 @@ abstract class OlzEntityEndpoint extends OlzEndpoint {
 
         $entity_files_path = "{$data_path}files/{$entity_name}/{$entity_id}/";
         if (!is_dir("{$entity_files_path}")) {
-            mkdir("{$entity_files_path}", 0777, true);
+            mkdir("{$entity_files_path}", 0o777, true);
         }
         $file_ids = $this->uploadUtils()->getStoredUploadIds($entity_files_path);
         foreach ($file_ids as $file_id) {

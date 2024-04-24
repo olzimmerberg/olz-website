@@ -51,36 +51,36 @@ final class EmailUtilsTest extends UnitTestCase {
             "INFO Email verification email sent to user (1).",
         ], $this->getLogs());
         $expected_email = <<<'ZZZZZZZZZZ'
-        **!!! Falls du nicht soeben auf olzimmerberg.ch deine E-Mail-Adresse bestätigen wolltest, lösche diese E-Mail !!!**
+            **!!! Falls du nicht soeben auf olzimmerberg.ch deine E-Mail-Adresse bestätigen wolltest, lösche diese E-Mail !!!**
 
-        Hallo Default,
+            Hallo Default,
 
-        *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ) oder auf folgenden Link:
+            *Um deine E-Mail-Adresse zu bestätigen*, klicke [hier](http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ) oder auf folgenden Link:
 
-        http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ
+            http://fake-base-url/_/email_reaktion?token=eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIzSDhXWDdxQWtlUU16R1U0c1ZmZlJBIiwiY2lwaGVydGV4dCI6IlVHOHNfbV9PVXFWX0tQSEVhZkNhbkZVc094dEkwbkdla0dOUFVfZ0ZLTlVmc2ZvMDdRdk10Ri1MUGZGbDMwR0h2UTRVSmFXVktkY01ZcHJGLTdWQ2g3Z1dJOGlZdnNCbGU4SFd2OTk5aEZOSkRZdnc4b19WWDMwM1hhR0kxZW8tc1hWcEFSTF8ifQ
 
-        ZZZZZZZZZZ;
+            ZZZZZZZZZZ;
         $this->assertSame([
             <<<ZZZZZZZZZZ
-            From: 
-            Reply-To: 
-            To: "Default User" <default-user@staging.olzimmerberg.ch>
-            Cc: 
-            Bcc: 
-            Subject: [OLZ] E-Mail bestätigen
+                From: 
+                Reply-To: 
+                To: "Default User" <default-user@staging.olzimmerberg.ch>
+                Cc: 
+                Bcc: 
+                Subject: [OLZ] E-Mail bestätigen
 
-            {$expected_email}
-
-
-            <div style="text-align: right; float: right;">
-                <img src="cid:olz_logo" alt="" style="width:150px;" />
-            </div>
-            <br /><br /><br />
-            {$expected_email}
+                {$expected_email}
 
 
-            olz_logo
-            ZZZZZZZZZZ,
+                <div style="text-align: right; float: right;">
+                    <img src="cid:olz_logo" alt="" style="width:150px;" />
+                </div>
+                <br /><br /><br />
+                {$expected_email}
+
+
+                olz_logo
+                ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
@@ -253,19 +253,19 @@ final class EmailUtilsTest extends UnitTestCase {
         ;
 
         $this->assertSame(<<<'ZZZZZZZZZZ'
-        From: "Fake From" <fake-from@staging.olzimmerberg.ch>
-        Reply-To: "Fake Reply-To" <fake-reply-to@staging.olzimmerberg.ch>
-        To: "Fake To1" <to1@staging.olzimmerberg.ch>, "Fake To2" <to2@staging.olzimmerberg.ch>
-        Cc: "Fake Cc1" <cc1@staging.olzimmerberg.ch>, "Fake Cc2" <cc2@staging.olzimmerberg.ch>
-        Bcc: "Fake Bcc1" <bcc1@staging.olzimmerberg.ch>, "Fake Bcc2" <bcc2@staging.olzimmerberg.ch>
-        Subject: Fake Subject
-        
-        Fake Text
-        
-        Fake HTML
+            From: "Fake From" <fake-from@staging.olzimmerberg.ch>
+            Reply-To: "Fake Reply-To" <fake-reply-to@staging.olzimmerberg.ch>
+            To: "Fake To1" <to1@staging.olzimmerberg.ch>, "Fake To2" <to2@staging.olzimmerberg.ch>
+            Cc: "Fake Cc1" <cc1@staging.olzimmerberg.ch>, "Fake Cc2" <cc2@staging.olzimmerberg.ch>
+            Bcc: "Fake Bcc1" <bcc1@staging.olzimmerberg.ch>, "Fake Bcc2" <bcc2@staging.olzimmerberg.ch>
+            Subject: Fake Subject
 
-        olz_logo
-        ZZZZZZZZZZ, $email_utils->getComparableEmail($email));
+            Fake Text
+
+            Fake HTML
+
+            olz_logo
+            ZZZZZZZZZZ, $email_utils->getComparableEmail($email));
     }
 
     public function testGetComparableEnvelope(): void {
@@ -278,9 +278,9 @@ final class EmailUtilsTest extends UnitTestCase {
             ],
         );
         $this->assertSame(<<<'ZZZZZZZZZZ'
-        Sender: "Fake Sender" <fake-sender@staging.olzimmerberg.ch>
-        Recipients: recipient1@staging.olzimmerberg.ch, recipient2@staging.olzimmerberg.ch
-        ZZZZZZZZZZ, $email_utils->getComparableEnvelope($envelope));
+            Sender: "Fake Sender" <fake-sender@staging.olzimmerberg.ch>
+            Recipients: recipient1@staging.olzimmerberg.ch, recipient2@staging.olzimmerberg.ch
+            ZZZZZZZZZZ, $email_utils->getComparableEnvelope($envelope));
     }
 
     public function testRenderMarkdown(): void {

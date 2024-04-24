@@ -46,7 +46,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
         $endpoint = new UpdateUploadEndpoint();
         $endpoint->runtimeSetup();
 
-        mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
+        mkdir(__DIR__.'/../../tmp/temp/', 0o777, true);
 
         $result = $endpoint->call([
             'id' => 'invalid',
@@ -68,7 +68,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
         $endpoint = new UpdateUploadEndpoint();
         $endpoint->runtimeSetup();
 
-        mkdir(__DIR__.'/../../tmp/temp/', 0777, true);
+        mkdir(__DIR__.'/../../tmp/temp/', 0o777, true);
         file_put_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA', '');
 
         $result = $endpoint->call([

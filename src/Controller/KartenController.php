@@ -2,8 +2,8 @@
 
 namespace Olz\Controller;
 
+use Olz\Karten\Components\OlzKarteDetail\OlzKarteDetail;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
-use Olz\Termine\Components\OlzKarteDetail\OlzKarteDetail;
 use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -92,13 +92,13 @@ class OlzNewsListItem extends OlzComponent {
             $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
             $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
             $edit_admin = <<<ZZZZZZZZZZ
-            <button
-                class='btn btn-secondary-outline btn-sm edit-news-list-button'
-                onclick='return olz.newsListItemEditNews({$json_id}, {$json_mode})'
-            >
-                <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
-            </button>
-            ZZZZZZZZZZ;
+                <button
+                    class='btn btn-secondary-outline btn-sm edit-news-list-button'
+                    onclick='return olz.newsListItemEditNews({$json_id}, {$json_mode})'
+                >
+                    <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                </button>
+                ZZZZZZZZZZ;
         }
 
         if ($format === 'aktuell') {
@@ -187,12 +187,12 @@ class OlzNewsListItem extends OlzComponent {
         } elseif ($format === 'video') {
             $thumbnail = $this->imageUtils()->olzImage("news", $id, $image_ids[0] ?? null, 110, 'image');
             $content = <<<ZZZZZZZZZZ
-            <div href='{$link}' style='background-color:#000;padding-top:0;' class='thumb paragraf'>\n
-            <span style='display:block;background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
-            <span style='display:block;text-align:center;'>{$thumbnail}</span>\n
-            <span style='display:block;background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
-            </div>
-            ZZZZZZZZZZ;
+                <div href='{$link}' style='background-color:#000;padding-top:0;' class='thumb paragraf'>\n
+                <span style='display:block;background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
+                <span style='display:block;text-align:center;'>{$thumbnail}</span>\n
+                <span style='display:block;background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;height:24px;'></span>\n
+                </div>
+                ZZZZZZZZZZ;
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $published_date,

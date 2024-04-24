@@ -59,51 +59,51 @@ class OlzNewsList extends OlzComponent {
         $class = $is_logged_in ? ' create-news-container' : ' dropdown-toggle';
         $properties = $is_logged_in
             ? <<<ZZZZZZZZZZ
-            onclick='return olz.initOlzEditNewsModal({$json_mode})'
-            ZZZZZZZZZZ
+                onclick='return olz.initOlzEditNewsModal({$json_mode})'
+                ZZZZZZZZZZ
             : <<<'ZZZZZZZZZZ'
-            type='button'
-            data-bs-toggle='dropdown'
-            aria-expanded='false'
-            ZZZZZZZZZZ;
+                type='button'
+                data-bs-toggle='dropdown'
+                aria-expanded='false'
+                ZZZZZZZZZZ;
         if (!$is_logged_in) {
             $out .= "<div class='dropdown create-news-container'>";
         }
         $out .= <<<ZZZZZZZZZZ
-        <button
-            id='create-news-button'
-            class='btn btn-secondary{$class}'
-            {$properties}
-        >
-            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-            Neuer Eintrag
-        </button>
-        ZZZZZZZZZZ;
+            <button
+                id='create-news-button'
+                class='btn btn-secondary{$class}'
+                {$properties}
+            >
+                <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                Neuer Eintrag
+            </button>
+            ZZZZZZZZZZ;
         if (!$is_logged_in) {
             $out .= <<<'ZZZZZZZZZZ'
-            <div
-                class='dropdown-menu dropdown-menu-end'
-                aria-labelledby='create-news-button'
-            >
-                <li><button
-                    class='dropdown-item'
-                    onclick='return olz.initOlzLoginModal({})'
+                <div
+                    class='dropdown-menu dropdown-menu-end'
+                    aria-labelledby='create-news-button'
                 >
-                    Login
-                </button></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><div class='dropdown-item disabled should-login'>
-                    <b>Achtung</b>: Bild-Upload und nachträgliches Bearbeiten des Eintrags nur mit Login möglich!
-                </div></li>
-                <li><button
-                    id='create-anonymous-button'
-                    class='dropdown-item'
-                    onclick='return olz.initOlzEditNewsModal(&quot;anonymous&quot;)'
-                >
-                    Forumseintrag ohne Login
-                </button></li>
-            </div>
-            ZZZZZZZZZZ;
+                    <li><button
+                        class='dropdown-item'
+                        onclick='return olz.initOlzLoginModal({})'
+                    >
+                        Login
+                    </button></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><div class='dropdown-item disabled should-login'>
+                        <b>Achtung</b>: Bild-Upload und nachträgliches Bearbeiten des Eintrags nur mit Login möglich!
+                    </div></li>
+                    <li><button
+                        id='create-anonymous-button'
+                        class='dropdown-item'
+                        onclick='return olz.initOlzEditNewsModal(&quot;anonymous&quot;)'
+                    >
+                        Forumseintrag ohne Login
+                    </button></li>
+                </div>
+                ZZZZZZZZZZ;
             $out .= "</div>";
         }
 
@@ -111,28 +111,28 @@ class OlzNewsList extends OlzComponent {
 
         $filter_where = $news_utils->getSqlFromFilter($current_filter);
         $sql = <<<ZZZZZZZZZZ
-        SELECT
-            id,
-            owner_user_id,
-            owner_role_id,
-            published_date,
-            published_time,
-            format,
-            author_user_id,
-            author_role_id,
-            author_name,
-            author_email,
-            title,
-            teaser,
-            content,
-            image_ids
-        FROM news n
-        WHERE
-            {$filter_where}
-            AND n.on_off='1'
-            AND n.format NOT LIKE 'box%'
-        ORDER BY published_date DESC, published_time DESC
-        ZZZZZZZZZZ;
+            SELECT
+                id,
+                owner_user_id,
+                owner_role_id,
+                published_date,
+                published_time,
+                format,
+                author_user_id,
+                author_role_id,
+                author_name,
+                author_email,
+                title,
+                teaser,
+                content,
+                image_ids
+            FROM news n
+            WHERE
+                {$filter_where}
+                AND n.on_off='1'
+                AND n.format NOT LIKE 'box%'
+            ORDER BY published_date DESC, published_time DESC
+            ZZZZZZZZZZ;
         $res = $db->query($sql);
 
         $user_repo = $entityManager->getRepository(User::class);
@@ -189,23 +189,23 @@ class OlzNewsList extends OlzComponent {
             if (count($invisible_page_contents) > 0) {
                 $json = json_encode($invisible_page_contents);
                 $out .= <<<ZZZZZZZZZZ
-                <script>
-                window.addEventListener('load', () => {
-                    olz.olzNewsListSetInvisiblePageContents({$json});
-                });
-                </script>
-                ZZZZZZZZZZ;
+                    <script>
+                    window.addEventListener('load', () => {
+                        olz.olzNewsListSetInvisiblePageContents({$json});
+                    });
+                    </script>
+                    ZZZZZZZZZZ;
             }
         } else {
             $out .= <<<ZZZZZZZZZZ
-            <div class='olz-no-access'>
-                <div>Das Archiv ist nur für Vereins-Mitglieder verfügbar.</div>
-                <div class='auth-buttons'>
-                    <a class='btn btn-primary' href='#login-dialog' role='button'>Login</a>
-                    <a class='btn btn-secondary' href='{$code_href}konto_passwort' role='button'>Konto erstellen</a>
+                <div class='olz-no-access'>
+                    <div>Das Archiv ist nur für Vereins-Mitglieder verfügbar.</div>
+                    <div class='auth-buttons'>
+                        <a class='btn btn-primary' href='#login-dialog' role='button'>Login</a>
+                        <a class='btn btn-secondary' href='{$code_href}konto_passwort' role='button'>Konto erstellen</a>
+                    </div>
                 </div>
-            </div>
-            ZZZZZZZZZZ;
+                ZZZZZZZZZZ;
         }
 
         $out .= "</div>";

@@ -19,7 +19,7 @@ final class FileUtilsTest extends UnitTestCase {
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
         $file_path = "{$data_path}files/downloads/123/001.pdf";
-        mkdir(dirname($file_path), 0777, true);
+        mkdir(dirname($file_path), 0o777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
         $this->assertSame(
@@ -33,7 +33,7 @@ final class FileUtilsTest extends UnitTestCase {
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
         $file_path = "{$data_path}files/news/123/abcdefghijklmnopqrstuvwx.pdf";
-        mkdir(dirname($file_path), 0777, true);
+        mkdir(dirname($file_path), 0o777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
         $this->assertSame(
@@ -47,7 +47,7 @@ final class FileUtilsTest extends UnitTestCase {
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
         $file_path = "{$data_path}files/downloads/123/001.pdf";
-        mkdir(dirname($file_path), 0777, true);
+        mkdir(dirname($file_path), 0o777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
         $this->assertSame(
@@ -61,7 +61,7 @@ final class FileUtilsTest extends UnitTestCase {
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
         $file_path = "{$data_path}files/news/123/abcdefghijklmnopqrstuvwx.pdf";
-        mkdir(dirname($file_path), 0777, true);
+        mkdir(dirname($file_path), 0o777, true);
         copy($sample_file_path, $file_path);
         touch($file_path, strtotime('2020-03-13 19:30:00'));
         $this->assertSame(

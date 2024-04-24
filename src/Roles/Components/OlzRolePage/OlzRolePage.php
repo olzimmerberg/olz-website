@@ -80,37 +80,37 @@ class OlzRolePage extends OlzComponent {
         if ($is_superior || $is_owner) {
             $json_id = json_encode(intval($role_id));
             $edit_admin = <<<ZZZZZZZZZZ
-            <div>
-                <button
-                    id='edit-role-button'
-                    class='btn btn-primary'
-                    onclick='return olz.editRole({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
-                    Bearbeiten
-                </button>
-                <button
-                    id='delete-role-button'
-                    class='btn btn-danger'
-                    onclick='return olz.deleteRole({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                    Löschen
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div>
+                    <button
+                        id='edit-role-button'
+                        class='btn btn-primary'
+                        onclick='return olz.editRole({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        Bearbeiten
+                    </button>
+                    <button
+                        id='delete-role-button'
+                        class='btn btn-danger'
+                        onclick='return olz.deleteRole({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                        Löschen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
             $add_membership_admin = <<<ZZZZZZZZZZ
-            <div>
-                <button
-                    id='add-role-user-button'
-                    class='btn btn-primary'
-                    onclick='return olz.addRoleUser({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                    Hinzufügen
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div>
+                    <button
+                        id='add-role-user-button'
+                        class='btn btn-primary'
+                        onclick='return olz.addRoleUser({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        Hinzufügen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
         }
 
         $page = $role->getPage();
@@ -138,15 +138,15 @@ class OlzRolePage extends OlzComponent {
                     $json_role_id = json_encode(intval($role_id));
                     $json_user_id = json_encode(intval($assignee->getId()));
                     $out .= <<<ZZZZZZZZZZ
-                        <button
-                            id='delete-role-button'
-                            class='btn btn-danger'
-                            onclick='return olz.deleteRoleUser({$json_role_id}, {$json_user_id})'
-                        >
-                            <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                            Entfernen
-                        </button>
-                    ZZZZZZZZZZ;
+                            <button
+                                id='delete-role-button'
+                                class='btn btn-danger'
+                                onclick='return olz.deleteRoleUser({$json_role_id}, {$json_user_id})'
+                            >
+                                <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                                Entfernen
+                            </button>
+                        ZZZZZZZZZZ;
                 }
                 $out .= OlzUserInfoCard::render(['user' => $assignee]);
                 $out .= "</div>";

@@ -56,27 +56,27 @@ class OlzTerminTemplateDetail extends OlzComponent {
         if ($has_termine_permissions) {
             $esc_template_id = json_encode($id);
             $creation_tools .= <<<ZZZZZZZZZZ
-            <div>
-                <button
-                    id='create-termin-template-button'
-                    class='btn btn-secondary'
-                    onclick='return olz.initOlzEditTerminModal(undefined, {$esc_template_id})'
-                >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                    Neuer Termin aus dieser Vorlage
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div>
+                    <button
+                        id='create-termin-template-button'
+                        class='btn btn-secondary'
+                        onclick='return olz.initOlzEditTerminModal(undefined, {$esc_template_id})'
+                    >
+                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        Neuer Termin aus dieser Vorlage
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
         }
 
         $out .= <<<ZZZZZZZZZZ
-        <div class='content-right'>
-            <div style='padding:4px 3px 10px 3px;'>
-                {$creation_tools}
+            <div class='content-right'>
+                <div style='padding:4px 3px 10px 3px;'>
+                    {$creation_tools}
+                </div>
             </div>
-        </div>
-        <div class='content-middle'>
-        ZZZZZZZZZZ;
+            <div class='content-middle'>
+            ZZZZZZZZZZ;
 
         $start_time = $termin_template->getStartTime() ?? '';
         $duration_seconds = $termin_template->getDurationSeconds() ?? '';
@@ -98,25 +98,25 @@ class OlzTerminTemplateDetail extends OlzComponent {
         if ($can_edit) {
             $json_id = json_encode(intval($id));
             $out .= <<<ZZZZZZZZZZ
-            <div>
-                <button
-                    id='edit-termin-template-button'
-                    class='btn btn-primary'
-                    onclick='return olz.editTerminTemplate({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
-                    Bearbeiten
-                </button>
-                <button
-                    id='delete-termin-template-button'
-                    class='btn btn-danger'
-                    onclick='return olz.deleteTerminTemplate({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                    Löschen
-                </button>
-            </div>
-            ZZZZZZZZZZ;
+                <div>
+                    <button
+                        id='edit-termin-template-button'
+                        class='btn btn-primary'
+                        onclick='return olz.editTerminTemplate({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        Bearbeiten
+                    </button>
+                    <button
+                        id='delete-termin-template-button'
+                        class='btn btn-danger'
+                        onclick='return olz.deleteTerminTemplate({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                        Löschen
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
         }
 
         $duration_interval = \DateInterval::createFromDateString("+{$duration_seconds} seconds");
@@ -159,7 +159,12 @@ class OlzTerminTemplateDetail extends OlzComponent {
             foreach ($image_ids as $image_id) {
                 $out .= "<div class='gallery-image'>";
                 $out .= $this->imageUtils()->olzImage(
-                    'termin_templates', $id, $image_id, 110, 'gallery[myset]');
+                    'termin_templates',
+                    $id,
+                    $image_id,
+                    110,
+                    'gallery[myset]'
+                );
                 $out .= "</div>";
             }
             $out .= "</div>";

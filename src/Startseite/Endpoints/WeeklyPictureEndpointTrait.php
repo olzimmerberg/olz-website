@@ -49,8 +49,8 @@ trait WeeklyPictureEndpointTrait {
         $valid_image_id = $entity->getImageId();
 
         $weekly_picture_img_path = "{$data_path}img/weekly_picture/{$weekly_picture_id}/";
-        mkdir("{$weekly_picture_img_path}img/", 0777, true);
-        mkdir("{$weekly_picture_img_path}thumb/", 0777, true);
+        mkdir("{$weekly_picture_img_path}img/", 0o777, true);
+        mkdir("{$weekly_picture_img_path}thumb/", 0o777, true);
         $valid_image_ids = [$valid_image_id];
         $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$weekly_picture_img_path}img/");
         // TODO: Generate default thumbnails.

@@ -32,10 +32,10 @@ class OlzFiles extends OlzComponent {
 
         // TODO: Remove link to old view
         $out .= <<<ZZZZZZZZZZ
-        <div class='content-full'>
-            <iframe class='files-iframe' src='{$iframe_url}'></iframe>
-        </div>
-        ZZZZZZZZZZ;
+            <div class='content-full'>
+                <iframe class='files-iframe' src='{$iframe_url}'></iframe>
+            </div>
+            ZZZZZZZZZZ;
 
         $metadata = new Metadata();
         $out .= $metadata->getJsCssImports();

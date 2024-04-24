@@ -196,11 +196,16 @@ class Panini2024Utils {
             $payload_wid = imagesx($payload_img);
             $payload_hei = imagesy($payload_img);
             imagecopyresampled(
-                $img, $payload_img,
-                round($img_left_percent * $wid / 100), round($img_top_percent * $hei / 100),
-                0, 0,
-                round($wid * $img_wid_percent / 100), round($wid * $img_wid_percent * $payload_hei / $payload_wid / 100),
-                $payload_wid, $payload_hei,
+                $img,
+                $payload_img,
+                round($img_left_percent * $wid / 100),
+                round($img_top_percent * $hei / 100),
+                0,
+                0,
+                round($wid * $img_wid_percent / 100),
+                round($wid * $img_wid_percent * $payload_hei / $payload_wid / 100),
+                $payload_wid,
+                $payload_hei,
             );
             imagedestroy($payload_img);
             gc_collect_cycles();
@@ -233,28 +238,39 @@ class Panini2024Utils {
             $association_img = imagecreatetruecolor($size, $size);
             $association_img_orig = imagecreatefromjpeg($association_img_orig_path);
             imagecopyresampled(
-                $association_img, $association_img_orig,
-                0, 0,
-                0, 0,
-                $size, $size,
-                imagesx($association_img_orig), imagesy($association_img_orig),
+                $association_img,
+                $association_img_orig,
+                0,
+                0,
+                0,
+                0,
+                $size,
+                $size,
+                imagesx($association_img_orig),
+                imagesy($association_img_orig),
             );
             imagedestroy($association_img_orig);
             gc_collect_cycles();
 
             for ($x = 0; $x < $size; $x++) {
                 for ($y = 0; $y < $size; $y++) {
-                    $mask = imagecolorsforindex($flag_mask,
-                        imagecolorat($flag_mask, $x + $offset, $y + $offset));
+                    $mask = imagecolorsforindex(
+                        $flag_mask,
+                        imagecolorat($flag_mask, $x + $offset, $y + $offset)
+                    );
                     if ($mask['red'] > 0) {
                         $ratio = floatval($mask['red']) / 255.0;
-                        $src = imagecolorsforindex($association_img,
-                            imagecolorat($association_img, $x, $y));
+                        $src = imagecolorsforindex(
+                            $association_img,
+                            imagecolorat($association_img, $x, $y)
+                        );
                         $src_r = floatval($src['red']);
                         $src_g = floatval($src['green']);
                         $src_b = floatval($src['blue']);
-                        $dst = imagecolorsforindex($img,
-                            imagecolorat($img, $x + $offset, $y + $offset));
+                        $dst = imagecolorsforindex(
+                            $img,
+                            imagecolorat($img, $x + $offset, $y + $offset)
+                        );
                         $dst_r = floatval($dst['red']);
                         $dst_g = floatval($dst['green']);
                         $dst_b = floatval($dst['blue']);
@@ -503,7 +519,7 @@ class Panini2024Utils {
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp/";
         if (!is_dir($temp_path)) {
-            mkdir($temp_path, 0777, true);
+            mkdir($temp_path, 0o777, true);
         }
         return "{$temp_path}paninipdf-{$id}.jpg";
     }
@@ -512,7 +528,7 @@ class Panini2024Utils {
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp/";
         if (!is_dir($temp_path)) {
-            mkdir($temp_path, 0777, true);
+            mkdir($temp_path, 0o777, true);
         }
         return "{$temp_path}paninizip-{$ident}.zip";
     }

@@ -31,19 +31,19 @@ class OlzArticleMetadata extends OlzComponent {
         }, json_decode($row['image_ids'] ?? '[]', true));
         $json_images = json_encode($images);
         return <<<ZZZZZZZZZZ
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "identifier": {$json_url},
-            "url": {$json_url},
-            "author": {$json_author},
-            "headline": {$json_title},
-            "image": {$json_images},
-            "datePublished": {$json_iso_date},
-            "dateModified": {$json_iso_date}
-        }
-        </script>
-        ZZZZZZZZZZ;
+            <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "identifier": {$json_url},
+                "url": {$json_url},
+                "author": {$json_author},
+                "headline": {$json_title},
+                "image": {$json_images},
+                "datePublished": {$json_iso_date},
+                "dateModified": {$json_iso_date}
+            }
+            </script>
+            ZZZZZZZZZZ;
     }
 }

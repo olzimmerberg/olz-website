@@ -15,7 +15,7 @@ class LogsUtils {
         $data_path = $this->envUtils()->getDataPath();
         $log_path = "{$data_path}logs/";
         if (!is_dir($log_path)) {
-            mkdir($log_path, 0777, true);
+            mkdir($log_path, 0o777, true);
         }
         $logger = new Logger($ident);
         $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));

@@ -47,7 +47,8 @@ class GetMySkillLevelsEndpoint extends OlzEndpoint {
         if ($external_category_ids === null) {
             $skills = $skill_repo->findAll();
             $skill_levels = $skill_level_repo->getSkillLevelsForUserId(
-                $current_user->getId());
+                $current_user->getId()
+            );
         } else {
             $internal_category_ids = array_map(
                 function ($id) {
@@ -57,7 +58,9 @@ class GetMySkillLevelsEndpoint extends OlzEndpoint {
             );
             $skills = $skill_repo->getSkillsInCategories($internal_category_ids);
             $skill_levels = $skill_level_repo->getSkillLevelsForUserIdInCategories(
-                $current_user->getId(), $internal_category_ids);
+                $current_user->getId(),
+                $internal_category_ids
+            );
         }
 
         $skill_level_by_skill_id = [];

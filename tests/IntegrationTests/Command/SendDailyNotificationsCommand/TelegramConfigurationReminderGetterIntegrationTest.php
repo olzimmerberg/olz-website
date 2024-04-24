@@ -29,22 +29,22 @@ final class TelegramConfigurationReminderGetterIntegrationTest extends Integrati
         $notification = $job->getNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-        Hallo First,
-        
-        Du hast bisher keinerlei Push-Nachrichten für Telegram abonniert.
+            Hallo First,
+
+            Du hast bisher keinerlei Push-Nachrichten für Telegram abonniert.
 
 
-        **Du möchtest eigentlich Push-Nachrichten erhalten?**
-        
-        In diesem Fall musst du dich auf der Website *einloggen*, und im ["Newsletter"-App](http://integration-test.host/apps/newsletter) (ist auch unter "Service" zu finden) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
+            **Du möchtest eigentlich Push-Nachrichten erhalten?**
+
+            In diesem Fall musst du dich auf der Website *einloggen*, und im ["Newsletter"-App](http://integration-test.host/apps/newsletter) (ist auch unter "Service" zu finden) bei "Nachrichten-Push" die gewünschten Benachrichtigungen auswählen.
 
 
-        **Du möchtest gar keine Push-Nachrichten erhalten?**
+            **Du möchtest gar keine Push-Nachrichten erhalten?**
 
-        Dann lösche einfach diesen Chat.
+            Dann lösche einfach diesen Chat.
 
 
-        ZZZZZZZZZZ;
+            ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
         $this->assertSame('Keine Push-Nachrichten abonniert', $notification->title);

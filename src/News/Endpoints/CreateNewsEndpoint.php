@@ -71,15 +71,15 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
             $news_url = "{$base_url}{$code_href}news/{$news_entry->getId()}";
             $delete_news_url = "{$base_url}{$code_href}email_reaktion?token={$delete_news_token}";
             $text = <<<ZZZZZZZZZZ
-            Hallo {$anonymous_user->getFirstName()},
+                Hallo {$anonymous_user->getFirstName()},
 
-            Du hast soeben auf [{$base_url}]({$base_url}) einen [anonymen Forumseintrag]({$news_url}) erstellt.
-    
-            Falls du deinen Eintrag wieder *löschen* willst, klicke [hier]({$delete_news_url}) oder auf folgenden Link:
-    
-            {$delete_news_url}
-    
-            ZZZZZZZZZZ;
+                Du hast soeben auf [{$base_url}]({$base_url}) einen [anonymen Forumseintrag]({$news_url}) erstellt.
+
+                Falls du deinen Eintrag wieder *löschen* willst, klicke [hier]({$delete_news_url}) oder auf folgenden Link:
+
+                {$delete_news_url}
+
+                ZZZZZZZZZZ;
             $config = [
                 'no_unsubscribe' => true,
             ];

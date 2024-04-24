@@ -33,9 +33,9 @@ class OlzEventData extends OlzComponent {
         ];
         $json_event_data = json_encode($event_data);
         return <<<ZZZZZZZZZZ
-        <script type="application/ld+json">
-        {$json_event_data}
-        </script>
-        ZZZZZZZZZZ;
+            <script type="application/ld+json">
+            {$json_event_data}
+            </script>
+            ZZZZZZZZZZ;
     }
 }

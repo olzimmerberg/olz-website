@@ -51,38 +51,38 @@ class OlzKarten extends OlzComponent {
         }
 
         $out .= <<<ZZZZZZZZZZ
-        <script type="text/javascript">
-            var theMap = new SearchChMap({ center:[687500,237000], controls:"zoom,type", type:'aerial', circle:0, poigroups:"", zoom:32 });
-            {$pois}
-            function goto(x,y,z,name) {
-            var x=x;
-            var x0 = Number(window.localStorage.getItem('x0'));
-            var y=y;
-            var y0 = Number(window.localStorage.getItem('y0'));
-            var z=z;
-            var name=name;
-            window.location.hash="top";
-            //theMap.removeAllPOIs();
-        
-            x0 = (x0>'') ? x0 : 687500 ;
-            y0 = (y0>'') ? y0 : 237000 ;
-            x1 = Math.round((x+x0)/2);
-            y1 = Math.round((y+y0)/2);
-            z1 = 32;
-            theMap.go({ center:[x1,y1], zoom:z1, animated:true });
-        
-            window.localStorage.setItem('x0', x);
-            window.localStorage.setItem('y0', y);
-        
-            // Add a custom POI
-            //theMap.addPOI(new SearchChPOI({ center:[x,y], title:"",html:name, maxzoom:512, icon:"{$code_href}assets/icns/orienteering_forest_16.svg" }));\n
-            setTimeout("theMap.go({center:["+x+","+y+"], zoom:"+z+", animated:true})", 2000);
-            }
-        </script>
+            <script type="text/javascript">
+                var theMap = new SearchChMap({ center:[687500,237000], controls:"zoom,type", type:'aerial', circle:0, poigroups:"", zoom:32 });
+                {$pois}
+                function goto(x,y,z,name) {
+                var x=x;
+                var x0 = Number(window.localStorage.getItem('x0'));
+                var y=y;
+                var y0 = Number(window.localStorage.getItem('y0'));
+                var z=z;
+                var name=name;
+                window.location.hash="top";
+                //theMap.removeAllPOIs();
 
-        <div class="box test-flaky" id="mapcontainer" style="position:relative;height:650px;z-index:1;"></div>
-        <br>
-        ZZZZZZZZZZ;
+                x0 = (x0>'') ? x0 : 687500 ;
+                y0 = (y0>'') ? y0 : 237000 ;
+                x1 = Math.round((x+x0)/2);
+                y1 = Math.round((y+y0)/2);
+                z1 = 32;
+                theMap.go({ center:[x1,y1], zoom:z1, animated:true });
+
+                window.localStorage.setItem('x0', x);
+                window.localStorage.setItem('y0', y);
+
+                // Add a custom POI
+                //theMap.addPOI(new SearchChPOI({ center:[x,y], title:"",html:name, maxzoom:512, icon:"{$code_href}assets/icns/orienteering_forest_16.svg" }));\n
+                setTimeout("theMap.go({center:["+x+","+y+"], zoom:"+z+", animated:true})", 2000);
+                }
+            </script>
+
+            <div class="box test-flaky" id="mapcontainer" style="position:relative;height:650px;z-index:1;"></div>
+            <br>
+            ZZZZZZZZZZ;
 
         $out .= "<h2>Kartenverkauf</h2>";
         $out .= OlzEditableText::render(['snippet_id' => 12]);

@@ -49,7 +49,9 @@ class DailySummaryGetter {
             foreach ($aktuells as $aktuell) {
                 $id = $aktuell->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
-                    $aktuell->getPublishedDate(), $aktuell->getPublishedTime());
+                    $aktuell->getPublishedDate(),
+                    $aktuell->getPublishedTime()
+                );
                 $title = $aktuell->getTitle();
                 $aktuell_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
@@ -67,7 +69,9 @@ class DailySummaryGetter {
             foreach ($blogs as $blog) {
                 $id = $blog->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
-                    $blog->getPublishedDate(), $blog->getPublishedTime());
+                    $blog->getPublishedDate(),
+                    $blog->getPublishedTime()
+                );
                 $title = $blog->getTitle();
                 $blog_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
@@ -85,7 +89,9 @@ class DailySummaryGetter {
             foreach ($forums as $forum) {
                 $id = $forum->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
-                    $forum->getPublishedDate(), $forum->getPublishedTime());
+                    $forum->getPublishedDate(),
+                    $forum->getPublishedTime()
+                );
                 $title = $forum->getTitle();
                 if (strlen(trim($title)) > 0) {
                     $forum_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
@@ -105,7 +111,9 @@ class DailySummaryGetter {
             foreach ($galeries as $galerie) {
                 $id = $galerie->getId();
                 $pretty_datetime = $this->getPrettyDateAndMaybeTime(
-                    $galerie->getPublishedDate(), $galerie->getPublishedTime());
+                    $galerie->getPublishedDate(),
+                    $galerie->getPublishedTime()
+                );
                 $title = $galerie->getTitle();
                 $galerie_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }

@@ -61,10 +61,10 @@ class OlzAuthorBadge extends OlzComponent {
 
         $icon_html = $icon ? "<img src='{$code_href}assets/icns/{$icon}' alt='' class='author-icon'>" : '';
         $trigger = <<<ZZZZZZZZZZ
-        <span class='olz-author-badge level-{$level} {$popup_class}'>
-            {$label}{$icon_html}
-        </span>
-        ZZZZZZZZZZ;
+            <span class='olz-author-badge level-{$level} {$popup_class}'>
+                {$label}{$icon_html}
+            </span>
+            ZZZZZZZZZZ;
         if ($mode === 'badge') {
             return $trigger;
         }

@@ -40,20 +40,20 @@ class OlzLocationMap extends OlzComponent {
         $zoom_swisstopo = $zoom - 5;
         $swisstopo_url = "https://map.geo.admin.ch/?lang=de&bgLayer=ch.swisstopo.pixelkarte-farbe&layers=ch.bav.haltestellen-oev&E={$lv95_e}&N={$lv95_n}&zoom={$zoom_swisstopo}&crosshair=marker";
         return <<<ZZZZZZZZZZ
-        <a
-            href='{$swisstopo_url}'
-            target='_blank'
-            class='olz-location-map-link'
-        >
-            <div
-                id='olz-location-map-render-{$hash}'
-                class='olz-location-map-render test-flaky'
+            <a
+                href='{$swisstopo_url}'
+                target='_blank'
+                class='olz-location-map-link'
             >
-            </div>
-            <script>
-                olz.olzLocationMapRender({$enc_hash}, {$enc_name}, {$enc_lat}, {$enc_lng}, {$enc_zoom});
-            </script>
-        </a>
-        ZZZZZZZZZZ;
+                <div
+                    id='olz-location-map-render-{$hash}'
+                    class='olz-location-map-render test-flaky'
+                >
+                </div>
+                <script>
+                    olz.olzLocationMapRender({$enc_hash}, {$enc_name}, {$enc_lat}, {$enc_lng}, {$enc_zoom});
+                </script>
+            </a>
+            ZZZZZZZZZZ;
     }
 }

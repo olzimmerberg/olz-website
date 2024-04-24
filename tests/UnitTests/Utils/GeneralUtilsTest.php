@@ -57,7 +57,9 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame(2, $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 3 <=> $list[$index];
-            }, 0, 3,
+            },
+            0,
+            3,
         ));
     }
 
@@ -67,7 +69,9 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame(3, $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 5 <=> $list[$index];
-            }, 0, 3,
+            },
+            0,
+            3,
         ));
     }
 
@@ -77,7 +81,9 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame(0, $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 1 <=> $list[$index];
-            }, 0, 3,
+            },
+            0,
+            3,
         ));
     }
 
@@ -87,7 +93,9 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame(1, $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 3 <=> $list[$index];
-            }, 0, 2,
+            },
+            0,
+            2,
         ));
     }
 
@@ -97,7 +105,9 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame(2, $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 5 <=> $list[$index];
-            }, 0, 2,
+            },
+            0,
+            2,
         ));
     }
 
@@ -107,7 +117,9 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame(0, $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 2 <=> $list[$index];
-            }, 0, 2,
+            },
+            0,
+            2,
         ));
     }
 
@@ -117,7 +129,9 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame(0, $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 3 <=> $list[$index];
-            }, 0, 0,
+            },
+            0,
+            0,
         ));
     }
 

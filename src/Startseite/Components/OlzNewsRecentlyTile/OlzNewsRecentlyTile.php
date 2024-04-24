@@ -32,15 +32,15 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
         $newsletter_app = OlzApps::getApp('Newsletter');
         if ($newsletter_app) {
             $newsletter_link = <<<ZZZZZZZZZZ
-            <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
-                <img
-                    src='{$newsletter_app->getIcon()}'
-                    alt='newsletter'
-                    class='newsletter-link-icon'
-                    title='Newsletter abonnieren!'
-                />
-            </a>
-            ZZZZZZZZZZ;
+                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
+                    <img
+                        src='{$newsletter_app->getIcon()}'
+                        alt='newsletter'
+                        class='newsletter-link-icon'
+                        title='Newsletter abonnieren!'
+                    />
+                </a>
+                ZZZZZZZZZZ;
         } else {
             $this->log()->error('Newsletter App does not exist!');
         }
@@ -48,11 +48,11 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
 
         $out .= "<ul class='links'>";
         $query = $entity_manager->createQuery(<<<'ZZZZZZZZZZ'
-            SELECT n
-            FROM Olz:News\NewsEntry n
-            WHERE n.on_off = '1'
-            ORDER BY n.published_date DESC, n.published_time DESC
-        ZZZZZZZZZZ);
+                SELECT n
+                FROM Olz:News\NewsEntry n
+                WHERE n.on_off = '1'
+                ORDER BY n.published_date DESC, n.published_time DESC
+            ZZZZZZZZZZ);
         $query->setMaxResults(7);
         foreach ($query->getResult() as $news_entry) {
             $id = $news_entry->getId();
@@ -62,11 +62,11 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
             $icon_basename = self::$iconBasenameByFormat[$format];
             $icon = "{$code_href}assets/icns/{$icon_basename}";
             $out .= <<<ZZZZZZZZZZ
-            <li><a href='{$code_href}news/{$id}'>
-                <img src='{$icon}' alt='{$format}' class='link-icon'>
-                {$title}
-            </a></li>
-            ZZZZZZZZZZ;
+                <li><a href='{$code_href}news/{$id}'>
+                    <img src='{$icon}' alt='{$format}' class='link-icon'>
+                    {$title}
+                </a></li>
+                ZZZZZZZZZZ;
         }
         $out .= "</ul>";
 

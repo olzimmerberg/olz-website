@@ -48,7 +48,8 @@ class OlzTerminTemplatesListItem extends OlzComponent {
 
         $duration_seconds_or_zero = $duration_seconds ?? 0;
         $duration_interval = \DateInterval::createFromDateString(
-            "+{$duration_seconds_or_zero} seconds");
+            "+{$duration_seconds_or_zero} seconds"
+        );
         $start_time_or_midnight = $start_time ? (clone $start_time) : new \DateTime('00:00:00');
         $end_time = $duration_seconds
             ? $start_time_or_midnight->add($duration_interval) : null;
@@ -91,20 +92,20 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         }
 
         $out .= <<<ZZZZZZZZZZ
-        <div class='olz-termin-templates-list-item'>
-            <a class='link' href='{$link}'></a>
-            <div class='content'>
-                <div class='date'>
-                    <div class='date-calendars'>{$start_icon}{$end_icon}</div>
-                    <div class='time-text'>{$time_text}</div>
-                </div>
-                <div class='title-text-container'>
-                    <div class='title'>{$title} {$type_imgs}</div>
-                    <div class='text'>{$text} {$links}</div>
+            <div class='olz-termin-templates-list-item'>
+                <a class='link' href='{$link}'></a>
+                <div class='content'>
+                    <div class='date'>
+                        <div class='date-calendars'>{$start_icon}{$end_icon}</div>
+                        <div class='time-text'>{$time_text}</div>
+                    </div>
+                    <div class='title-text-container'>
+                        <div class='title'>{$title} {$type_imgs}</div>
+                        <div class='text'>{$text} {$links}</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        ZZZZZZZZZZ;
+            ZZZZZZZZZZ;
         return $out;
     }
 

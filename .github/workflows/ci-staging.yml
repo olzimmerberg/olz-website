@@ -154,6 +154,8 @@ jobs:
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
       run: composer integration_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
+    - name: Check PHP Namespaces
+      run: composer check_namespaces
     - name: Check database migrations
       run: composer check_migrations
 

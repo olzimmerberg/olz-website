@@ -152,6 +152,8 @@ jobs:
       run: composer integration_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: Check database migrations
       run: composer check_migrations
+    - name: Check PHP Namespaces
+      run: composer check_namespaces
     - name: Setup GitHub Pages
       uses: actions/configure-pages@v2
     - name: Upload GitHub Pages

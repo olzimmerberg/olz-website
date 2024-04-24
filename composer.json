@@ -30,6 +30,7 @@
   ],
   "scripts": {
     "check_migrations": "./tools/scripts/check_migrations.sh",
+    "check_namespaces":  "composer dump-autoload --strict-psr --classmap-authoritative --dry-run --no-cache",
     "dev_server": "./run.sh",
     "fix": "php-cs-fixer fix --config=./.php_cs_config.php -v",
     "fixdiff": "php-cs-fixer fix --config=./.php_cs_config.php -v --dry-run --diff",

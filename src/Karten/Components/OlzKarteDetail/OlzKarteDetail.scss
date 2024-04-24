@@ -1,0 +1,19 @@
+.olz-karte-detail {
+    .olz-location-map-link {
+        display: block;
+        margin: -15px -10px 10px;
+
+        .olz-location-map-render {
+            width: 100%;
+            height: 420px;
+        }
+    }
+
+    .olz-karte-preview {
+        margin: 0 -10px;
+
+        img {
+            width: 100%;
+        }
+    }
+}

@@ -22,7 +22,7 @@ class LogForAnHourCommand extends OlzCommand {
             $this->log()->warning("Could not set time limit. Let's hope for the best :/");
         }
         for ($i = 0; $i < 360; $i++) {
-            $time = $this->dateUtils->getCurrentDateInFormat('H:i:s');
+            $time = $this->dateUtils()->getCurrentDateInFormat('H:i:s');
             $this->log()->info("It is {$time}");
             sleep(10);
         }

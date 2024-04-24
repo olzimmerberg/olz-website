@@ -138,8 +138,10 @@ jobs:
         key: ${{ runner.os }}-other-${{ hashFiles('*.cache') }}
         restore-keys: |
           ${{ runner.os }}-other-
-    - name: Code style check
+    - name: PHP Code style check
       run: composer fixdiff
+    - name: PHP Static Analysis
+      run: composer check
     - name: Lint JavaScript & TypeScript
       run: npm run eslint
     - name: Lint CSS & SCSS
@@ -154,8 +156,6 @@ jobs:
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
       run: composer integration_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
-    - name: Check PHP Namespaces
-      run: composer check_namespaces
     - name: Check database migrations
       run: composer check_migrations
 

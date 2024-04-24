@@ -40,4 +40,8 @@ class LogsUtils {
         restore_error_handler();
         restore_exception_handler();
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

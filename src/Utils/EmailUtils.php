@@ -232,4 +232,8 @@ class EmailUtils {
         $rendered = $converter->convert($markdown);
         return strval($rendered);
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

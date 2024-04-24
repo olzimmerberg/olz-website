@@ -23,6 +23,9 @@ trait WithUtilsTrait {
         $this->mailer = $mailer;
     }
 
+    /**
+     * @var array<string>
+     */
     public static $ALL_UTILS = [
         'authUtils',
         'dateUtils',
@@ -55,11 +58,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('authUtils');
     }
 
-    public function createAuthUtils() {
+    public function createAuthUtils(): AuthUtils {
         return AuthUtils::fromEnv();
     }
 
-    public function setAuthUtils(AuthUtils $authUtils) {
+    public function setAuthUtils(AuthUtils $authUtils): void {
         WithUtilsCache::set('authUtils', $authUtils);
     }
 
@@ -67,11 +70,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('dateUtils');
     }
 
-    public function createDateUtils() {
+    public function createDateUtils(): AbstractDateUtils {
         return AbstractDateUtils::fromEnv();
     }
 
-    public function setDateUtils(AbstractDateUtils $dateUtils) {
+    public function setDateUtils(AbstractDateUtils $dateUtils): void {
         WithUtilsCache::set('dateUtils', $dateUtils);
     }
 
@@ -79,11 +82,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('dbUtils');
     }
 
-    public function createDbUtils() {
+    public function createDbUtils(): DbUtils {
         return DbUtils::fromEnv();
     }
 
-    public function setDbUtils(DbUtils $dbUtils) {
+    public function setDbUtils(DbUtils $dbUtils): void {
         WithUtilsCache::set('dbUtils', $dbUtils);
     }
 
@@ -91,11 +94,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('devDataUtils');
     }
 
-    public function createDevDataUtils() {
+    public function createDevDataUtils(): DevDataUtils {
         return DevDataUtils::fromEnv();
     }
 
-    public function setDevDataUtils(DevDataUtils $devDataUtils) {
+    public function setDevDataUtils(DevDataUtils $devDataUtils): void {
         WithUtilsCache::set('devDataUtils', $devDataUtils);
     }
 
@@ -103,13 +106,13 @@ trait WithUtilsTrait {
         return $this->getOrCreate('emailUtils');
     }
 
-    public function createEmailUtils() {
+    public function createEmailUtils(): EmailUtils {
         $emailUtils = EmailUtils::fromEnv();
         $emailUtils->setMailer($this->mailer);
         return $emailUtils;
     }
 
-    public function setEmailUtils(EmailUtils $emailUtils) {
+    public function setEmailUtils(EmailUtils $emailUtils): void {
         WithUtilsCache::set('emailUtils', $emailUtils);
     }
 
@@ -117,11 +120,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('entityManager');
     }
 
-    public function createEntityManager() {
+    public function createEntityManager(): EntityManagerInterface {
         return DbUtils::fromEnv()->getEntityManager();
     }
 
-    public function setEntityManager(EntityManagerInterface $entityManager) {
+    public function setEntityManager(EntityManagerInterface $entityManager): void {
         WithUtilsCache::set('entityManager', $entityManager);
     }
 
@@ -129,11 +132,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('entityUtils');
     }
 
-    public function createEntityUtils() {
+    public function createEntityUtils(): EntityUtils {
         return EntityUtils::fromEnv();
     }
 
-    public function setEntityUtils(EntityUtils $entityUtils) {
+    public function setEntityUtils(EntityUtils $entityUtils): void {
         WithUtilsCache::set('entityUtils', $entityUtils);
     }
 
@@ -141,11 +144,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('envUtils');
     }
 
-    public function createEnvUtils() {
+    public function createEnvUtils(): EnvUtils {
         return EnvUtils::fromEnv();
     }
 
-    public function setEnvUtils(EnvUtils $envUtils) {
+    public function setEnvUtils(EnvUtils $envUtils): void {
         WithUtilsCache::set('envUtils', $envUtils);
     }
 
@@ -153,11 +156,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('fieldUtils');
     }
 
-    public function createFieldUtils() {
+    public function createFieldUtils(): FieldUtils {
         return FieldUtils::create();
     }
 
-    public function setFieldUtils(FieldUtils $fieldUtils) {
+    public function setFieldUtils(FieldUtils $fieldUtils): void {
         WithUtilsCache::set('fieldUtils', $fieldUtils);
     }
 
@@ -165,11 +168,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('fileUtils');
     }
 
-    public function createFileUtils() {
+    public function createFileUtils(): FileUtils {
         return FileUtils::fromEnv();
     }
 
-    public function setFileUtils(FileUtils $fileUtils) {
+    public function setFileUtils(FileUtils $fileUtils): void {
         WithUtilsCache::set('fileUtils', $fileUtils);
     }
 
@@ -177,24 +180,33 @@ trait WithUtilsTrait {
         return $this->getOrCreate('generalUtils');
     }
 
-    public function createGeneralUtils() {
+    public function createGeneralUtils(): GeneralUtils {
         return GeneralUtils::fromEnv();
     }
 
-    public function setGeneralUtils(GeneralUtils $generalUtils) {
+    public function setGeneralUtils(GeneralUtils $generalUtils): void {
         WithUtilsCache::set('generalUtils', $generalUtils);
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getParams(): array {
         return $this->getOrCreate('getParams');
     }
 
-    public function createGetParams() {
+    /**
+     * @return array<string, string>
+     */
+    public function createGetParams(): array {
         global $_GET;
         return $_GET;
     }
 
-    public function setGetParams(array $getParams) {
+    /**
+     * @param array<string, string> $getParams
+     */
+    public function setGetParams(array $getParams): void {
         WithUtilsCache::set('getParams', $getParams);
     }
 
@@ -202,11 +214,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('htmlUtils');
     }
 
-    public function createHtmlUtils() {
+    public function createHtmlUtils(): HtmlUtils {
         return HtmlUtils::fromEnv();
     }
 
-    public function setHtmlUtils(HtmlUtils $htmlUtils) {
+    public function setHtmlUtils(HtmlUtils $htmlUtils): void {
         WithUtilsCache::set('htmlUtils', $htmlUtils);
     }
 
@@ -214,11 +226,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('httpUtils');
     }
 
-    public function createHttpUtils() {
+    public function createHttpUtils(): HttpUtils {
         return HttpUtils::fromEnv();
     }
 
-    public function setHttpUtils(HttpUtils $httpUtils) {
+    public function setHttpUtils(HttpUtils $httpUtils): void {
         WithUtilsCache::set('httpUtils', $httpUtils);
     }
 
@@ -226,11 +238,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('idUtils');
     }
 
-    public function createIdUtils() {
+    public function createIdUtils(): IdUtils {
         return IdUtils::fromEnv();
     }
 
-    public function setIdUtils(IdUtils $idUtils) {
+    public function setIdUtils(IdUtils $idUtils): void {
         WithUtilsCache::set('idUtils', $idUtils);
     }
 
@@ -238,11 +250,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('imageUtils');
     }
 
-    public function createImageUtils() {
+    public function createImageUtils(): ImageUtils {
         return ImageUtils::fromEnv();
     }
 
-    public function setImageUtils(ImageUtils $imageUtils) {
+    public function setImageUtils(ImageUtils $imageUtils): void {
         WithUtilsCache::set('imageUtils', $imageUtils);
     }
 
@@ -250,13 +262,13 @@ trait WithUtilsTrait {
         return $this->getOrCreate('log');
     }
 
-    public function createLog() {
+    public function createLog(): LoggerInterface {
         $called_class = get_called_class();
         $logs_utils = LogsUtils::fromEnv();
         return $logs_utils->getLogger(strval($called_class));
     }
 
-    public function setLog(LoggerInterface $log) {
+    public function setLog(LoggerInterface $log): void {
         $this->setLogger($log);
         WithUtilsCache::set('log', $log);
     }
@@ -265,11 +277,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('mapUtils');
     }
 
-    public function createMapUtils() {
+    public function createMapUtils(): MapUtils {
         return MapUtils::fromEnv();
     }
 
-    public function setMapUtils(MapUtils $mapUtils) {
+    public function setMapUtils(MapUtils $mapUtils): void {
         WithUtilsCache::set('mapUtils', $mapUtils);
     }
 
@@ -277,24 +289,33 @@ trait WithUtilsTrait {
         return $this->getOrCreate('recaptchaUtils');
     }
 
-    public function createRecaptchaUtils() {
+    public function createRecaptchaUtils(): RecaptchaUtils {
         return RecaptchaUtils::fromEnv();
     }
 
-    public function setRecaptchaUtils(RecaptchaUtils $recaptchaUtils) {
+    public function setRecaptchaUtils(RecaptchaUtils $recaptchaUtils): void {
         WithUtilsCache::set('recaptchaUtils', $recaptchaUtils);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function server(): array {
         return $this->getOrCreate('server');
     }
 
-    public function createServer() {
+    /**
+     * @return array<string, mixed>
+     */
+    public function createServer(): array {
         global $_SERVER;
         return $_SERVER;
     }
 
-    public function setServer(array $server) {
+    /**
+     * @param array<string, mixed> $server
+     */
+    public function setServer(array $server): void {
         WithUtilsCache::set('server', $server);
     }
 
@@ -302,11 +323,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('session');
     }
 
-    public function createSession() {
+    public function createSession(): AbstractSession {
         return new StandardSession();
     }
 
-    public function setSession(AbstractSession $session) {
+    public function setSession(AbstractSession $session): void {
         WithUtilsCache::set('session', $session);
     }
 
@@ -314,11 +335,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('solvFetcher');
     }
 
-    public function createSolvFetcher() {
+    public function createSolvFetcher(): SolvFetcher {
         return new SolvFetcher();
     }
 
-    public function setSolvFetcher(SolvFetcher $solvFetcher) {
+    public function setSolvFetcher(SolvFetcher $solvFetcher): void {
         WithUtilsCache::set('solvFetcher', $solvFetcher);
     }
 
@@ -326,11 +347,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('stravaUtils');
     }
 
-    public function createStravaUtils() {
+    public function createStravaUtils(): StravaUtils {
         return StravaUtils::fromEnv();
     }
 
-    public function setStravaUtils(StravaUtils $stravaUtils) {
+    public function setStravaUtils(StravaUtils $stravaUtils): void {
         WithUtilsCache::set('stravaUtils', $stravaUtils);
     }
 
@@ -338,11 +359,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('symfonyUtils');
     }
 
-    public function createSymfonyUtils() {
+    public function createSymfonyUtils(): SymfonyUtils {
         return SymfonyUtils::fromEnv();
     }
 
-    public function setSymfonyUtils(SymfonyUtils $symfonyUtils) {
+    public function setSymfonyUtils(SymfonyUtils $symfonyUtils): void {
         WithUtilsCache::set('symfonyUtils', $symfonyUtils);
     }
 
@@ -350,11 +371,11 @@ trait WithUtilsTrait {
         return $this->getOrCreate('telegramUtils');
     }
 
-    public function createTelegramUtils() {
+    public function createTelegramUtils(): TelegramUtils {
         return TelegramUtils::fromEnv();
     }
 
-    public function setTelegramUtils(TelegramUtils $telegram_utils) {
+    public function setTelegramUtils(TelegramUtils $telegram_utils): void {
         WithUtilsCache::set('telegramUtils', $telegram_utils);
     }
 
@@ -362,23 +383,29 @@ trait WithUtilsTrait {
         return $this->getOrCreate('uploadUtils');
     }
 
-    public function createUploadUtils() {
+    public function createUploadUtils(): UploadUtils {
         return UploadUtils::fromEnv();
     }
 
-    public function setUploadUtils(UploadUtils $uploadUtils) {
+    public function setUploadUtils(UploadUtils $uploadUtils): void {
         WithUtilsCache::set('uploadUtils', $uploadUtils);
     }
 
-    public function getAllUtils() {
+    /**
+     * @return array<string, mixed>
+     */
+    public function getAllUtils(): array {
         return WithUtilsCache::getAll();
     }
 
-    public function setAllUtils($all_utils) {
+    /**
+     * @param array<string, mixed> $all_utils
+     */
+    public function setAllUtils(array $all_utils): void {
         WithUtilsCache::setAll($all_utils);
     }
 
-    protected function getOrCreate($util_name) {
+    protected function getOrCreate(string $util_name): mixed {
         $util = WithUtilsCache::get($util_name);
         if ($util) {
             return $util;
@@ -388,9 +415,5 @@ trait WithUtilsTrait {
         $util = $this->{$creator_name}();
         WithUtilsCache::set($util_name, $util);
         return $util;
-    }
-
-    public static function fromEnv() {
-        return new self();
     }
 }

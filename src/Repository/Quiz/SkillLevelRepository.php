@@ -2,7 +2,7 @@
 
 namespace Olz\Repository\Quiz;
 
-use Olz\Entity\Skill;
+use Olz\Entity\Quiz\Skill;
 use Olz\Repository\Common\OlzRepository;
 
 class SkillLevelRepository extends OlzRepository {

@@ -75,4 +75,8 @@ class HtmlUtils {
             src='{$default_src}'
             ZZZZZZZZZZ;
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

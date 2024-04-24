@@ -74,4 +74,8 @@ class IdUtils {
     protected function trimmedBase64Encode($data) {
         return trim(base64_encode($data), '=');
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

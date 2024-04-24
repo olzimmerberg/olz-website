@@ -82,8 +82,8 @@ class CleanTempDirectoryCommand extends OlzCommand {
         return readdir($handle);
     }
 
-    protected function closedir($handle) {
-        return closedir($handle);
+    protected function closedir($handle): void {
+        closedir($handle);
     }
 
     protected function filemtime($path) {

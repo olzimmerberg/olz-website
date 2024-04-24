@@ -49,6 +49,7 @@ abstract class BaseAppMetadata {
             $mime_type = 'image/png';
             return "data:{$mime_type};base64,{$base64}";
         }
+        return null;
     }
 
     public function getJsCssImports() {

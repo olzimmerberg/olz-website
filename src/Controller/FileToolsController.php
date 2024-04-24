@@ -75,5 +75,6 @@ class FileToolsController extends AbstractController {
                 }
             }
         }
+        throw new NotFoundHttpException("File thumb failed (not migrated)");
     }
 }

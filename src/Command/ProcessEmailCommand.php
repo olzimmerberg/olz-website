@@ -304,7 +304,7 @@ class ProcessEmailCommand extends OlzCommand {
             $message = $exc->getMessage();
             $this->log()->notice("Email from {$address} to {$forward_address} is not RFC-compliant: {$message}", [$exc]);
             return true;
-        } catch (TransportExceptionInterface $e) {
+        } catch (TransportExceptionInterface $exc) {
             $message = $exc->getMessage();
             $this->log()->error("Error sending email (from {$address}) to {$forward_address}: {$message}", [$exc]);
             return false;

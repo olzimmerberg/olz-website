@@ -312,4 +312,8 @@ class AuthUtils {
     public function verifyPassword(string $password, string $hash): bool {
         return password_verify($password, $hash);
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

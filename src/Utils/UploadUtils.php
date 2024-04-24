@@ -161,4 +161,8 @@ class UploadUtils {
             copy($storage_path, $temp_path);
         }
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

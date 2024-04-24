@@ -4,7 +4,7 @@ namespace Olz\Entity\Anmelden;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
-use Olz\Repository\RegistrationInfoRepository;
+use Olz\Repository\Anmelden\RegistrationInfoRepository;
 
 #[ORM\Table(name: 'anmelden_registration_infos')]
 #[ORM\Index(name: 'ident_index', columns: ['ident'])]

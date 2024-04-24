@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "check_migrations": "./tools/scripts/check_migrations.sh",
-    "check_namespaces":  "composer dump-autoload --strict-psr --classmap-authoritative --dry-run --no-cache",
+    "check": "vendor/bin/phpstan",
     "dev_server": "./run.sh",
     "fix": "php-cs-fixer fix --config=./.php_cs_config.php -v",
     "fixdiff": "php-cs-fixer fix --config=./.php_cs_config.php -v --dry-run --diff",
@@ -62,6 +62,7 @@
     "friendsofphp/php-cs-fixer": "^v3.14",
     "paragonie/sodium_compat": "^1.17",
     "php-webdriver/webdriver": "^1.8",
+    "phpstan/phpstan": "^1.10",
     "phpunit/phpunit": "^9.5",
     "symfony/browser-kit": "7.0.*",
     "symfony/css-selector": "7.0.*",

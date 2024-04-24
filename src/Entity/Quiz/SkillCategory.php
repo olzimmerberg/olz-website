@@ -4,7 +4,7 @@ namespace Olz\Entity\Quiz;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
-use Olz\Repository\SkillCategoryRepository;
+use Olz\Repository\Quiz\SkillCategoryRepository;
 
 #[ORM\Table(name: 'quiz_categories')]
 #[ORM\Index(name: 'name_index', columns: ['name'])]

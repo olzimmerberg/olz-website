@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Karten\Endpoints;
 
+use Olz\Api\OlzEntityEndpoint;
 use Olz\Karten\Endpoints\KarteEndpointTrait;
 use Olz\Tests\UnitTests\Common\TraitConcreteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class KarteEndpointTraitConcreteEndpoint {
+class KarteEndpointTraitConcreteEndpoint extends OlzEntityEndpoint {
     use KarteEndpointTrait;
     use TraitConcreteEndpoint;
 }

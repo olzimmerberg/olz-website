@@ -15,6 +15,8 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
     protected $originStations;
     protected $transportApiFetcher;
 
+    protected $is_origin_station_by_station_id = [];
+
     public function __construct() {
         $filename = __DIR__.'/../olz_transit_stations.json';
         $content = file_get_contents($filename);

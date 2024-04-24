@@ -134,8 +134,10 @@ jobs:
         key: ${{ runner.os }}-other-${{ hashFiles('*.cache') }}
         restore-keys: |
           ${{ runner.os }}-other-
-    - name: Code style check
+    - name: PHP Code style check
       run: composer fixdiff
+    - name: PHP Static Analysis
+      run: composer check
     - name: Lint JavaScript & TypeScript
       run: npm run eslint
     - name: Lint CSS & SCSS
@@ -152,8 +154,6 @@ jobs:
       run: composer integration_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
     - name: Check database migrations
       run: composer check_migrations
-    - name: Check PHP Namespaces
-      run: composer check_namespaces
     - name: Setup GitHub Pages
       uses: actions/configure-pages@v2
     - name: Upload GitHub Pages

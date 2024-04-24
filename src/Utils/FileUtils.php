@@ -136,4 +136,8 @@ class FileUtils {
         $this->log()->error($message);
         return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

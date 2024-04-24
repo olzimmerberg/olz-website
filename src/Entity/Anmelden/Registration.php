@@ -4,7 +4,7 @@ namespace Olz\Entity\Anmelden;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
-use Olz\Repository\RegistrationRepository;
+use Olz\Repository\Anmelden\RegistrationRepository;
 
 #[ORM\Table(name: 'anmelden_registrations')]
 #[ORM\Index(name: 'opens_at_index', columns: ['opens_at'])]

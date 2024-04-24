@@ -115,4 +115,8 @@ class GeneralUtils {
             unlink($path);
         }
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

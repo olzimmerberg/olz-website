@@ -36,7 +36,7 @@ class HttpUtilsForIntegrationTest extends HttpUtils {
         $this->has_exited_execution = true;
     }
 
-    public static function fromEnv() {
+    public static function fromEnv(): self {
         $http_utils = new self();
         $field_utils = FieldUtils::create();
         $http_utils->setFieldUtils($field_utils);

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
+use Olz\Api\OlzEntityEndpoint;
 use Olz\Roles\Endpoints\RoleEndpointTrait;
 use Olz\Tests\UnitTests\Common\TraitConcreteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class RoleEndpointTraitConcreteEndpoint {
+class RoleEndpointTraitConcreteEndpoint extends OlzEntityEndpoint {
     use RoleEndpointTrait;
     use TraitConcreteEndpoint;
 }

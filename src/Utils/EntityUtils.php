@@ -90,4 +90,8 @@ class EntityUtils {
 
         return false;
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

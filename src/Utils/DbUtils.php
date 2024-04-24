@@ -46,4 +46,8 @@ class DbUtils {
         self::$entityManager = $entityManager;
         return $entityManager;
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

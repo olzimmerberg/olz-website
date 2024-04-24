@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
+use Olz\Api\OlzEntityEndpoint;
 use Olz\Termine\Endpoints\TerminLabelEndpointTrait;
 use Olz\Tests\UnitTests\Common\TraitConcreteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class TerminLabelEndpointTraitConcreteEndpoint {
+class TerminLabelEndpointTraitConcreteEndpoint extends OlzEntityEndpoint {
     use TerminLabelEndpointTrait;
     use TraitConcreteEndpoint;
 }

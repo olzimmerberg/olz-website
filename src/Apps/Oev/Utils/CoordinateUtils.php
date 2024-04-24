@@ -25,4 +25,8 @@ class CoordinateUtils {
         $y_diff = $point_a['y'] - $point_b['y'];
         return sqrt($x_diff * $x_diff + $y_diff * $y_diff);
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

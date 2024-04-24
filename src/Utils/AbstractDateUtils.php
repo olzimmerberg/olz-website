@@ -136,7 +136,7 @@ abstract class AbstractDateUtils {
         return $out;
     }
 
-    public static function fromEnv() {
+    public static function fromEnv(): self {
         $env_utils = EnvUtils::fromEnv();
         $class_name = $env_utils->getDateUtilsClassName();
         $class_args = $env_utils->getDateUtilsClassArgs();

@@ -5,6 +5,7 @@ namespace Olz\Api\Endpoints;
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\User;
+use Olz\Exceptions\RecaptchaDeniedException;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 

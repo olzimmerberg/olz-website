@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\News\Endpoints;
 
+use Olz\Api\OlzEntityEndpoint;
 use Olz\News\Endpoints\NewsEndpointTrait;
 use Olz\Tests\UnitTests\Common\TraitConcreteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class NewsEndpointTraitConcreteEndpoint {
+class NewsEndpointTraitConcreteEndpoint extends OlzEntityEndpoint {
     use NewsEndpointTrait;
     use TraitConcreteEndpoint;
 }

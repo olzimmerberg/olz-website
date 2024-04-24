@@ -9,7 +9,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 
 class FakeIntegrationTestDbUtils extends DbUtils {
-    public static function fromEnv() {
+    public static function fromEnv(): DbUtils {
         // For this test, clear the "cache" always
         parent::$db = null;
         parent::$entityManager = null;

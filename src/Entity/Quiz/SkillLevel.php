@@ -5,7 +5,7 @@ namespace Olz\Entity\Quiz;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\User;
-use Olz\Repository\SkillLevelRepository;
+use Olz\Repository\Quiz\SkillLevelRepository;
 
 #[ORM\Table(name: 'quiz_skill_levels')]
 #[ORM\Index(name: 'user_skill_index', columns: ['user_id', 'skill_id'])]

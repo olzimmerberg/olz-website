@@ -17,7 +17,7 @@ class TelegramUtils {
 
     protected $telegramFetcher;
 
-    public static function fromEnv() {
+    public static function fromEnv(): self {
         $telegram_fetcher = new TelegramFetcher();
 
         $instance = new self();

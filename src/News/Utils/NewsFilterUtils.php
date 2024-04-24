@@ -264,4 +264,8 @@ class NewsFilterUtils {
         $enc_json_filter = urlencode(json_encode($filter));
         return "{$code_href}news?filter={$enc_json_filter}";
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

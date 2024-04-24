@@ -104,4 +104,8 @@ class ImageUtils {
             {$a_after}{$span_after}
             ZZZZZZZZZZ;
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Startseite\Endpoints;
 
+use Olz\Api\OlzEntityEndpoint;
 use Olz\Startseite\Endpoints\WeeklyPictureEndpointTrait;
 use Olz\Tests\UnitTests\Common\TraitConcreteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class WeeklyPictureEndpointTraitConcreteEndpoint {
+class WeeklyPictureEndpointTraitConcreteEndpoint extends OlzEntityEndpoint {
     use WeeklyPictureEndpointTrait;
     use TraitConcreteEndpoint;
 }

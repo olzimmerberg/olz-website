@@ -10,15 +10,6 @@ use Olz\Utils\SymfonyUtils;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeIntegrationTestSymfonyUtils extends SymfonyUtils {
-    public static function fromEnv() {
-        // For this test, clear the "cache" always
-        parent::$db = null;
-        parent::$entityManager = null;
-        return parent::fromEnv();
-    }
-}
-
 /**
  * @internal
  *

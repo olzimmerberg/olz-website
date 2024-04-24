@@ -1030,4 +1030,8 @@ class Panini2024Utils {
         ];
         return $olz[$index];
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

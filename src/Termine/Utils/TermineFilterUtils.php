@@ -262,4 +262,8 @@ class TermineFilterUtils {
         $beginning_of_years_ago = "{$years_ago}-01-01";
         return Criteria::expr()->gte('start_date', new \DateTime($beginning_of_years_ago));
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

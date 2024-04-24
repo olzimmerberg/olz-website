@@ -12,7 +12,7 @@ class StravaUtils {
     protected $redirect_url;
     protected $strava_fetcher;
 
-    public static function fromEnv() {
+    public static function fromEnv(): self {
         $env_utils = EnvUtils::fromEnv();
         $base_href = $env_utils->getBaseHref();
         $code_href = $env_utils->getCodeHref();

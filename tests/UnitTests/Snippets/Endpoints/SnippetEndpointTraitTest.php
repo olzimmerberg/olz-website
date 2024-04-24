@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Snippets\Endpoints;
 
+use Olz\Api\OlzEntityEndpoint;
 use Olz\Snippets\Endpoints\SnippetEndpointTrait;
 use Olz\Tests\UnitTests\Common\TraitConcreteEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
-class SnippetEndpointTraitConcreteEndpoint {
+class SnippetEndpointTraitConcreteEndpoint extends OlzEntityEndpoint {
     use SnippetEndpointTrait;
     use TraitConcreteEndpoint;
 }

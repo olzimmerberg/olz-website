@@ -11,7 +11,7 @@ class RecaptchaUtils {
 
     protected $googleFetcher;
 
-    public static function fromEnv() {
+    public static function fromEnv(): self {
         $google_fetcher = new GoogleFetcher();
         $instance = new self();
         $instance->setGoogleFetcher($google_fetcher);

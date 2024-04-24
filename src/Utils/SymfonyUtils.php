@@ -47,4 +47,8 @@ class SymfonyUtils {
         self::$application = $application;
         return $application;
     }
+
+    public static function fromEnv(): self {
+        return new self();
+    }
 }

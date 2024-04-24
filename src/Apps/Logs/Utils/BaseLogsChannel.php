@@ -49,6 +49,10 @@ abstract class BaseLogsChannel {
 
     abstract protected function getLogFileAfter(LogFileInterface $log_file): LogFileInterface;
 
+    abstract protected function getLineLocationForDateTime(
+        \DateTime $date_time,
+    ): LineLocation;
+
     public function continueReading(
         LineLocation $line_location,
         string $mode,

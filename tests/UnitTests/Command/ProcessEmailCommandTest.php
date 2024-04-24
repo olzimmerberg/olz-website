@@ -538,7 +538,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 To: "From Name" <from@from-domain.com>
                 Cc: 
                 Bcc: 
-                Subject: Undelivered Mail Returned to Sender
+                Subject: Empfänger hat eine neue E-Mail-Adresse
                 
                 Hallo From Name (from@from-domain.com),
                 
@@ -772,7 +772,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 To: "From Name" <from@from-domain.com>
                 Cc: 
                 Bcc: 
-                Subject: Undelivered Mail Returned to Sender
+                Subject: Empfänger hat eine neue E-Mail-Adresse
                 
                 Hallo From Name (from@from-domain.com),
                 

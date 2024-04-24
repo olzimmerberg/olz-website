@@ -346,7 +346,7 @@ class ProcessEmailCommand extends OlzCommand {
             $email = (new Email())
                 ->from(new Address($smtp_from, 'OLZ Bot'))
                 ->to(new Address($from_address, $from_name))
-                ->subject("Undelivered Mail Returned to Sender")
+                ->subject("Empfänger hat eine neue E-Mail-Adresse")
                 ->text(<<<ZZZZZZZZZZ
                     Hallo {$from_name} ({$from_address}),
 

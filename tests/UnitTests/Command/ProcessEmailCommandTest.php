@@ -507,12 +507,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $artifacts = [];
-        $mailer->expects($this->exactly(1))->method('send')->with(
+        $mailer->expects($this->exactly(2))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
                 $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
+            $this->callback(function (?Envelope $envelope) use (&$artifacts) {
                 $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
                 return true;
             }),
@@ -533,6 +533,24 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
+                From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
+                Reply-To: 
+                To: "From Name" <from@from-domain.com>
+                Cc: 
+                Bcc: 
+                Subject: Undelivered Mail Returned to Sender
+                
+                Hallo From Name (from@from-domain.com),
+                
+                Dies ist eine Mitteilung der E-Mail-Weiterleitung:
+                Die E-Mail-Adresse "someone-old@staging.olzimmerberg.ch" ist neu unter "someone@olzimmerberg.ch" erreichbar.
+                
+                Dies nur zur Information. Ihre E-Mail wurde automatisch weitergeleitet!
+                
+                (no html body)
+
+                ZZZZZZZZZZ,
+            <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
                 To: 
@@ -549,6 +567,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
+            null,
             <<<'ZZZZZZZZZZ'
                 Sender: "From Name" <from@from-domain.com>
                 Recipients: someone-old@gmail.com
@@ -720,12 +739,12 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $artifacts = [];
         $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
-        $mailer->expects($this->exactly($num_role_users))->method('send')->with(
+        $mailer->expects($this->exactly($num_role_users + 1))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
                 $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
+            $this->callback(function (?Envelope $envelope) use (&$artifacts) {
                 $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
                 return true;
             }),
@@ -747,6 +766,24 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged', '-flagged', '+flagged', '-flagged'], $mail->flag_actions);
 
         $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+                From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
+                Reply-To: 
+                To: "From Name" <from@from-domain.com>
+                Cc: 
+                Bcc: 
+                Subject: Undelivered Mail Returned to Sender
+                
+                Hallo From Name (from@from-domain.com),
+                
+                Dies ist eine Mitteilung der E-Mail-Weiterleitung:
+                Die E-Mail-Adresse "somerole-old@staging.olzimmerberg.ch" ist neu unter "somerole@olzimmerberg.ch" erreichbar.
+                
+                Dies nur zur Information. Ihre E-Mail wurde automatisch weitergeleitet!
+                
+                (no html body)
+                
+                ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
@@ -777,6 +814,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             return $this->emailUtils()->getComparableEmail($email);
         }, $artifacts['email']));
         $this->assertSame([
+            null,
             <<<'ZZZZZZZZZZ'
                 Sender: "From Name" <from@from-domain.com>
                 Recipients: admin-user@staging.olzimmerberg.ch

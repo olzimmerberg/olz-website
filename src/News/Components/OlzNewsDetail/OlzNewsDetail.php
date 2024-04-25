@@ -94,12 +94,18 @@ class OlzNewsDetail extends OlzComponent {
             'name' => $author_name,
             'email' => $author_email,
         ]);
+        $image_ids = json_decode($row['image_ids'] ?? 'null', true);
+        $num_images = count($image_ids);
+        $download_all_link = $this->authUtils()->hasPermission('any')
+            ? "<a href='{$code_href}news/{$id}/all.zip'>Alle herunterladen</a>" : '';
 
         $out .= <<<ZZZZZZZZZZ
             <div class='content-right'>
                 <div style='padding:4px 3px 10px 3px;'>
-                    <b>Datum: </b>{$pretty_date}<br />
-                    <b>Autor: </b>{$pretty_author}
+                    <div><b>Datum: </b>{$pretty_date}</div>
+                    <div><b>Autor: </b>{$pretty_author}</div>
+                    <div><b>Anzahl Bilder: </b>{$num_images}</div>
+                    <div class='pretty'>{$download_all_link}</div>
                 </div>
             </div>
             <div class='content-middle'>
@@ -112,8 +118,6 @@ class OlzNewsDetail extends OlzComponent {
         $teaser = $row['teaser'];
         $content = $row['content'];
         $published_date = $row['published_date'];
-
-        $image_ids = json_decode($row['image_ids'] ?? 'null', true);
 
         $published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
 

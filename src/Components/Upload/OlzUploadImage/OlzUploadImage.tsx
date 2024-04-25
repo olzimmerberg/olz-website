@@ -1,7 +1,7 @@
 import React from 'react';
 import {dataHref} from '../../../Utils/constants';
 import {OlzProgressBar} from '../../Common/OlzProgressBar/OlzProgressBar';
-import {UploadFile, UploadingFile, UploadedFile} from '../types';
+import {UploadFile, UploadingFile, UploadedFile, RegisteringFile} from '../types';
 
 import './OlzUploadImage.scss';
 
@@ -13,13 +13,27 @@ interface OlzUploadImageProps {
 
 export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement => {
     const uploadFile = props.uploadFile;
+    if (uploadFile?.uploadState === 'REGISTERING') {
+        const registeringFile: RegisteringFile = uploadFile;
+        const registeringInfo = `Registering: ${registeringFile.file.name}`;
+        return (
+            <div className='olz-upload-image registering' title={registeringInfo}>
+                <div className='progress-container'>
+                    <OlzProgressBar progress={0} />
+                </div>
+                <div className='info'>
+                    {registeringInfo}
+                </div>
+            </div>
+        );
+    }
     if (uploadFile?.uploadState === 'UPLOADING') {
         const uploadingFile: UploadingFile = uploadFile;
         const uploadingInfo = `Uploading: ${uploadingFile.file.name} - ${uploadingFile.uploadId}`;
         return (
             <div className='olz-upload-image uploading' title={uploadingInfo}>
                 <div className='progress-container'>
-                    <OlzProgressBar progress={uploadingFile.uploadProgress} />
+                    <OlzProgressBar progress={uploadingFile.uploadProgress * 0.9 + 0.1} />
                 </div>
                 <div className='info'>
                     {uploadingInfo}

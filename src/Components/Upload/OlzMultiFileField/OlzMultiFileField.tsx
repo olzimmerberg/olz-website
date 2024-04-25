@@ -2,11 +2,11 @@ import React from 'react';
 import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
 import {useDropzone} from 'react-dropzone';
 import {readBase64} from '../../../Utils/fileUtils';
-import {isDefined} from '../../../Utils/generalUtils';
+import {assert, isDefined} from '../../../Utils/generalUtils';
 import {Uploader} from '../../../Utils/Uploader';
 import {OlzUploadFile} from '../OlzUploadFile/OlzUploadFile';
-import {UploadFile, UploadingFile, UploadedFile} from '../types';
-import {serializeUploadFile} from '../utils';
+import {UploadFile, UploadedFile, RegisteringFile} from '../types';
+import {isRegisteringFile, isUploadedFile, isUploadingFile, serializeUploadFile} from '../utils';
 import {dataHref} from '../../../Utils/constants';
 
 import '../../../Components/Common/OlzStyles/dropzone.scss';
@@ -39,91 +39,113 @@ export const OlzMultiFileField = <
         rules: props.rules,
     });
 
-    const [uploadingFiles, setUploadingFiles] = React.useState<UploadingFile[]>([]);
-    const [uploadedFiles, setUploadedFiles] = React.useState<UploadedFile[]>(() => field.value.map(
+    const [uploadFiles, setUploadFiles] = React.useState<UploadFile[]>(() => field.value.map(
         (uploadId: string) => ({uploadState: 'UPLOADED', uploadId}),
     ));
+    const [registeringId, setRegisteringId] = React.useState<string|null>(null);
 
     React.useEffect(() => {
-        if (uploadingFiles.length === 0) {
+        if (uploadFiles.length === 0) {
             return () => undefined;
         }
         const clock = setInterval(() => {
             const state = uploader.getState();
-            const newUploadingFiles = uploadingFiles.map((uploadingFile) => {
-                if (!uploadingFile.uploadId) {
-                    return uploadingFile;
+            const newUploadFiles = uploadFiles.map((uploadFile) => {
+                if (!isUploadingFile(uploadFile)) {
+                    return uploadFile;
                 }
-                const stateOfUploadingFile = state.uploadsById[uploadingFile.uploadId];
+                const stateOfUploadingFile = state.uploadsById[uploadFile.uploadId];
                 if (!stateOfUploadingFile) {
                     return undefined;
                 }
-                uploadingFile.uploadProgress = stateOfUploadingFile.progress;
-                return uploadingFile;
+                uploadFile.uploadProgress = stateOfUploadingFile.progress;
+                return uploadFile;
             }).filter(isDefined);
-            setUploadingFiles(newUploadingFiles);
+            setUploadFiles(newUploadFiles);
         }, 1000);
         return () => clearInterval(clock);
-    }, [uploadingFiles]);
+    }, [uploadFiles]);
 
-    React.useEffect(() => {
-        const callback = (event: CustomEvent<string>) => {
-            const uploadId = event.detail;
-            const newUploadingFiles = uploadingFiles.filter(
-                (uploadingFile) => uploadingFile.uploadId !== uploadId,
-            );
-            const wasUploading =
-                newUploadingFiles.length !== uploadingFiles.length;
-            if (wasUploading) {
-                setUploadingFiles(newUploadingFiles);
-                const newUploadedFile: UploadedFile = {uploadState: 'UPLOADED', uploadId};
-                const newUploadedFiles = [...uploadedFiles, newUploadedFile];
-                setUploadedFiles(newUploadedFiles);
-                const uploadIds = newUploadedFiles.map((uploadedFile) => uploadedFile.uploadId);
-                field.onChange(uploadIds);
+    const onUploadFinished = React.useCallback((event: CustomEvent<string>) => {
+        const uploadId = event.detail;
+        const newUploadFiles = uploadFiles.map((uploadFile): UploadFile => {
+            if (!isUploadingFile(uploadFile) || uploadFile.uploadId !== uploadId) {
+                return uploadFile;
             }
-        };
-        uploader.addEventListener('uploadFinished', callback);
-        return () => uploader.removeEventListener('uploadFinished', callback);
-    }, [uploadingFiles, uploadedFiles]);
+            return {...uploadFile, uploadState: 'UPLOADED'};
+        });
+        setUploadFiles(newUploadFiles);
+    }, [uploadFiles]);
+    React.useEffect(() => {
+        uploader.addEventListener('uploadFinished', onUploadFinished);
+        return () => uploader.removeEventListener('uploadFinished', onUploadFinished);
+    }, [onUploadFinished]);
 
     React.useEffect(() => {
-        const hasUploadingFiles = uploadingFiles.length > 0;
-        props.setIsLoading(hasUploadingFiles);
-    }, [uploadingFiles]);
+        if (registeringId !== null) { // Currently registering another upload
+            return;
+        }
+        const registeringFile = uploadFiles.find<RegisteringFile>(isRegisteringFile);
+        if (!registeringFile) {
+            return;
+        }
+        const registerUpload = async () => {
+            setRegisteringId(registeringFile.id);
+            const file = registeringFile.file;
+            try {
+                const base64Content = await readBase64(file);
+                const suffix = file.name.split('.').slice(-1)[0];
+                const uploadId = await uploader.add(assert(base64Content), `.${suffix}`);
+                setUploadFiles((current) => current.map((uploadFile) => {
+                    if (!isRegisteringFile(uploadFile) || uploadFile.id !== registeringFile.id) {
+                        return uploadFile;
+                    }
+                    return {...uploadFile, uploadState: 'UPLOADING', uploadId, uploadProgress: 0};
+                }));
+            } catch (err: unknown) {
+                setUploadFiles((current) => current.filter((uploadFile) =>
+                    !isRegisteringFile(uploadFile) || uploadFile.id !== registeringFile.id));
+            }
+            setRegisteringId(null);
+        };
+        registerUpload();
+    }, [uploadFiles, registeringId]);
+
+    React.useEffect(() => {
+        const hasProcessingFiles = uploadFiles.some((uploadFile) => !isUploadedFile(uploadFile));
+        props.setIsLoading(hasProcessingFiles);
+    }, [uploadFiles]);
+
+    React.useEffect(() => {
+        const uploadIds = uploadFiles
+            .filter<UploadedFile>(isUploadedFile)
+            .map((uploadFile) => uploadFile.uploadId);
+        field.onChange(uploadIds);
+    }, [uploadFiles]);
 
     const onDrop = async (acceptedFiles: File[]) => {
-        const newUploadingFiles = [...uploadingFiles];
-        setUploadingFiles(newUploadingFiles);
-        for (let fileListIndex = 0; fileListIndex < acceptedFiles.length; fileListIndex++) {
-            const file = acceptedFiles[fileListIndex];
-            newUploadingFiles.push({uploadState: 'UPLOADING', file, uploadProgress: 0});
-            // eslint-disable-next-line no-await-in-loop
-            const base64Content = await readBase64(file);
-            const suffix = file.name.split('.').slice(-1)[0];
-            // eslint-disable-next-line no-await-in-loop
-            const uploadId = await uploader.add(base64Content, `.${suffix}`);
-            const evenNewerUploadingFiles = [...newUploadingFiles];
-            evenNewerUploadingFiles[fileListIndex].uploadId = uploadId;
-            setUploadingFiles(evenNewerUploadingFiles);
-        }
+        const newUploadFiles: UploadFile[] = [
+            ...uploadFiles,
+            ...acceptedFiles.map((acceptedFile, index): RegisteringFile => ({
+                uploadState: 'REGISTERING',
+                id: `${acceptedFile.name}-${index}-${Date.now()}`,
+                file: acceptedFile,
+            })),
+        ];
+        setUploadFiles(newUploadFiles);
     };
 
     const onDelete = React.useCallback((uploadId: string) => {
-        const newUploadedFiles = uploadedFiles.filter(
-            (uploadedFile) => uploadedFile.uploadId !== uploadId,
+        const newUploadFiles = uploadFiles.filter(
+            (uploadFile) => !isUploadedFile(uploadFile) || uploadFile.uploadId !== uploadId,
         );
-        setUploadedFiles(newUploadedFiles);
-        const uploadIds = newUploadedFiles.map((uploadedFile) => uploadedFile.uploadId);
-        field.onChange(uploadIds);
-    }, [uploadedFiles]);
+        setUploadFiles(newUploadFiles);
+    }, [uploadFiles]);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         disabled: props.disabled,
         onDrop,
     });
-
-    const uploadFiles: UploadFile[] = [...uploadedFiles, ...uploadingFiles];
 
     return (<>
         <label htmlFor={`${props.name}-field`}>{props.title}</label>

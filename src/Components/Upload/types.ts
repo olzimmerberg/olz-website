@@ -1,7 +1,14 @@
+export interface RegisteringFile {
+    readonly uploadState: 'REGISTERING';
+    id: string;
+    file: File;
+}
+
 export interface UploadingFile {
     readonly uploadState: 'UPLOADING';
+    id: string;
     file: File;
-    uploadId?: string;
+    uploadId: string;
     uploadProgress: number;
 }
 
@@ -10,4 +17,4 @@ export interface UploadedFile {
     uploadId: string;
 }
 
-export type UploadFile = UploadingFile|UploadedFile;
+export type UploadFile = RegisteringFile|UploadingFile|UploadedFile;

@@ -72,26 +72,24 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
         });
     }
 
-    public add(base64Content: string, suffix: string|null): Promise<FileUploadId> {
-        return this.olzApi.call('startUpload', {suffix})
-            .then((response) => {
-                const uploadId: FileUploadId|null = response.id;
-                if (!uploadId) {
-                    throw new Error('olzApi.startUpload did not return an id');
-                }
-                const numParts = Math.ceil(base64Content.length / this.maxPartLength);
-                const parts: FileUploadPart[] = range(numParts).map(() => ({
-                    status: 'READY',
-                }));
-                this.uploadQueue.push({
-                    uploadId,
-                    base64Content,
-                    parts,
-                    status: 'UPLOADING',
-                });
-                this.process();
-                return uploadId;
-            });
+    public async add(base64Content: string, suffix: string|null): Promise<FileUploadId> {
+        const response = await this.olzApi.call('startUpload', {suffix});
+        const uploadId: FileUploadId|null = response.id;
+        if (!uploadId) {
+            throw new Error('olzApi.startUpload did not return an id');
+        }
+        const numParts = Math.ceil(base64Content.length / this.maxPartLength);
+        const parts: FileUploadPart[] = range(numParts).map(() => ({
+            status: 'READY',
+        }));
+        this.uploadQueue.push({
+            uploadId,
+            base64Content,
+            parts,
+            status: 'UPLOADING',
+        });
+        this.process();
+        return uploadId;
     }
 
     protected process(): void {

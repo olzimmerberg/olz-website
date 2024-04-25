@@ -282,7 +282,9 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         },
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isRolesLoading, setIsRolesLoading] = React.useState<boolean>(false);
+    const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
+    const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [recaptchaConsentGiven, setRecaptchaConsentGiven] = React.useState<boolean>(false);
     const [isWaitingForCaptcha, setIsWaitingForCaptcha] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
@@ -341,6 +343,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
             ? 'News-Eintrag erstellen'
             : 'News-Eintrag bearbeiten'
         );
+    const isLoading = isRolesLoading || isImagesLoading || isFilesLoading;
 
     return (
         <div className='modal fade' id='edit-news-modal' tabIndex={-1} aria-labelledby='edit-news-modal-label' aria-hidden='true'>
@@ -385,7 +388,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                             errors={errors}
                                             userControl={control}
                                             roleControl={control}
-                                            setIsLoading={setIsLoading}
+                                            setIsLoading={setIsRolesLoading}
                                             nullLabel={props.id ? '(unverändert)' : 'Bitte wählen...'}
                                         />
                                     </div>
@@ -488,7 +491,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                         name='imageIds'
                                         errors={errors}
                                         control={control}
-                                        setIsLoading={setIsLoading}
+                                        setIsLoading={setIsImagesLoading}
                                     />
                                 </div>
                             ) : null}
@@ -499,7 +502,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                         name='fileIds'
                                         errors={errors}
                                         control={control}
-                                        setIsLoading={setIsLoading}
+                                        setIsLoading={setIsFilesLoading}
                                     />
                                 </div>
                             ) : null}

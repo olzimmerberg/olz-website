@@ -117,7 +117,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
         },
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isImageLoading, setIsImageLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
@@ -138,6 +138,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
     };
 
     const residenceOption = watch('residenceOption');
+    const isLoading = isImageLoading;
 
     return (<>
         <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
@@ -166,7 +167,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         name='uploadId'
                         errors={errors}
                         control={control}
-                        setIsLoading={setIsLoading}
+                        setIsLoading={setIsImageLoading}
                         maxImageSize={2500}
                         disabled={isReadOnly}
                     />

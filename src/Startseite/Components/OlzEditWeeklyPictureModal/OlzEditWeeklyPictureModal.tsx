@@ -52,7 +52,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isImageLoading, setIsImageLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
@@ -75,6 +75,8 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
         // TODO: This could probably be done more smoothly!
         window.location.reload();
     };
+
+    const isLoading = isImageLoading;
 
     return (
         <div className='modal fade' id='edit-weekly-picture-modal' tabIndex={-1} aria-labelledby='edit-weekly-picture-modal-label' aria-hidden='true'>
@@ -100,7 +102,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
                                     name='imageId'
                                     errors={errors}
                                     control={control}
-                                    setIsLoading={setIsLoading}
+                                    setIsLoading={setIsImageLoading}
                                 />
                             </div>
                             <div className='success-message alert alert-success' role='alert'>

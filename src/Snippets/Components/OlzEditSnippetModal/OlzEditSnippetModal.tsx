@@ -52,7 +52,8 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
+    const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
@@ -81,6 +82,7 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
         ? 'Textausschnitt erstellen'
         : 'Textausschnitt bearbeiten'
     );
+    const isLoading = isImagesLoading || isFilesLoading;
 
     return (
         <div className='modal fade' id='edit-snippet-modal' tabIndex={-1} aria-labelledby='edit-snippet-modal-label' aria-hidden='true'>
@@ -109,7 +111,7 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
                                     name='imageIds'
                                     errors={errors}
                                     control={control}
-                                    setIsLoading={setIsLoading}
+                                    setIsLoading={setIsImagesLoading}
                                     isMarkdown
                                 />
                             </div>
@@ -119,7 +121,7 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
                                     name='fileIds'
                                     errors={errors}
                                     control={control}
-                                    setIsLoading={setIsLoading}
+                                    setIsLoading={setIsFilesLoading}
                                     isMarkdown
                                 />
                             </div>

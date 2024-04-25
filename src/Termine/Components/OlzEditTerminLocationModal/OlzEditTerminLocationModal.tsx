@@ -63,7 +63,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
@@ -113,6 +113,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
         ? 'Ort-Eintrag erstellen'
         : 'Ort-Eintrag bearbeiten'
     );
+    const isLoading = isImagesLoading;
 
     return (
         <div className='modal fade' id='edit-termin-location-modal' tabIndex={-1} aria-labelledby='edit-termin-location-modal-label' aria-hidden='true'>
@@ -167,7 +168,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
                                     name='imageIds'
                                     errors={errors}
                                     control={control}
-                                    setIsLoading={setIsLoading}
+                                    setIsLoading={setIsImagesLoading}
                                 />
                             </div>
                             <div className='success-message alert alert-success' role='alert'>

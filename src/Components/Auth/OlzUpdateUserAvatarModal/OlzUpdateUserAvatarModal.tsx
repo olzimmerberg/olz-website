@@ -64,8 +64,6 @@ export const OlzUpdateUserAvatarModal = (props: OlzUpdateUserAvatarModalProps): 
             setUploadProgress(0.3);
             const uploadId = await uploader.upload(resizedBase64, '.jpg');
             setUploadProgress(1);
-            console.log('base64', resizedBase64);
-            console.log('uploadId', uploadId);
             const changeEvent: OlzUpdateUserAvatarModalChangeEvent =
                 new CustomEvent('change', {detail: {uploadId, dataUrl: resizedBase64}});
             props.onChange(changeEvent);

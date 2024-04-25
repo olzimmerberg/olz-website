@@ -57,7 +57,7 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
@@ -84,6 +84,7 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
     };
 
     const dialogTitle = props.id === undefined ? 'Download erstellen' : 'Download bearbeiten';
+    const isLoading = isFilesLoading;
 
     return (
         <div className='modal fade' id='edit-download-modal' tabIndex={-1} aria-labelledby='edit-download-modal-label' aria-hidden='true'>
@@ -120,7 +121,7 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
                                     name='fileIds'
                                     errors={errors}
                                     control={control}
-                                    setIsLoading={setIsLoading}
+                                    setIsLoading={setIsFilesLoading}
                                 />
                             </div>
                             <div className='success-message alert alert-success' role='alert'>

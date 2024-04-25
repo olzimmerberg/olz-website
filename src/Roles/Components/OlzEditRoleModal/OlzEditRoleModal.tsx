@@ -81,7 +81,9 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
+    const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
+    const [isParentRolesLoading, setIsParentRolesLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
@@ -111,6 +113,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
     const dialogTitle = props.id === undefined
         ? 'Ressort erstellen'
         : 'Ressort bearbeiten';
+    const isLoading = isImagesLoading || isFilesLoading || isParentRolesLoading;
 
     return (
         <div className='modal fade' id='edit-role-modal' tabIndex={-1} aria-labelledby='edit-role-modal-label' aria-hidden='true'>
@@ -172,7 +175,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                     name='imageIds'
                                     errors={errors}
                                     control={control}
-                                    setIsLoading={setIsLoading}
+                                    setIsLoading={setIsImagesLoading}
                                     isMarkdown
                                 />
                             </div>
@@ -182,7 +185,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                     name='fileIds'
                                     errors={errors}
                                     control={control}
-                                    setIsLoading={setIsLoading}
+                                    setIsLoading={setIsFilesLoading}
                                     isMarkdown
                                 />
                             </div>
@@ -194,7 +197,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                         name='parentRole'
                                         errors={errors}
                                         control={control}
-                                        setIsLoading={setIsLoading}
+                                        setIsLoading={setIsParentRolesLoading}
                                         nullLabel={'Kein Eltern-Ressort (d.h. Vorstandsamt)'}
                                     />
                                 </div>

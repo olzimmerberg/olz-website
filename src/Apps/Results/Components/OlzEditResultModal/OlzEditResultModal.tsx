@@ -45,7 +45,7 @@ export const OlzEditResultModal = (props: OlzEditResultModalProps): React.ReactE
         },
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
@@ -66,6 +66,7 @@ export const OlzEditResultModal = (props: OlzEditResultModalProps): React.ReactE
     };
 
     const dialogTitle = props.id === undefined ? 'Resultat erstellen' : 'Resultat bearbeiten';
+    const isLoading = isFilesLoading;
 
     return (
         <div className='modal fade' id='edit-result-modal' tabIndex={-1} aria-labelledby='edit-result-modal-label' aria-hidden='true'>
@@ -94,7 +95,7 @@ export const OlzEditResultModal = (props: OlzEditResultModalProps): React.ReactE
                                     name='iofXmlFileIds'
                                     errors={errors}
                                     control={control}
-                                    setIsLoading={setIsLoading}
+                                    setIsLoading={setIsFilesLoading}
                                 />
                             </div>
                             <div className='success-message alert alert-success' role='alert'>

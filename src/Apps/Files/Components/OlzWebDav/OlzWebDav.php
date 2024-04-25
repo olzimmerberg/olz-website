@@ -18,7 +18,7 @@ class OlzWebDav extends OlzComponent {
         $res = preg_match($pattern, $path_info, $matches);
         $stripped_path_info = $res ? $matches[1] : '';
         $access_token = $res ? $matches[2] : null;
-        $simulated_path_info = $res ? $matches[3] || '/' : $path_info;
+        $simulated_path_info = $res ? ($matches[3] ? $matches[3] : '/') : $path_info;
         $_SERVER['PATH_INFO'] = $simulated_path_info;
         // end of hack
 

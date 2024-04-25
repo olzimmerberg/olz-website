@@ -14,10 +14,8 @@ class OlzProcessor implements ProcessorInterface {
             $record->extra['referrer'] = $this->server()['HTTP_REFERER'] ?? null;
             $record->extra['user_agent'] = $this->server()['HTTP_USER_AGENT'] ?? null;
         }
-        if ($this->session()) {
-            $record->extra['user'] = $this->session()->get('user');
-            $record->extra['auth_user'] = $this->session()->get('auth_user');
-        }
+        $record->extra['user'] = $this->session()->get('user');
+        $record->extra['auth_user'] = $this->session()->get('auth_user');
         return $record;
     }
 

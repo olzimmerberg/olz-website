@@ -144,7 +144,7 @@ class OlzNewsList extends OlzComponent {
             $invisible_page_contents = [];
             for ($page = 0; $row; $page++) {
                 $page_content = '';
-                for ($index = 0; $index < 25 && $row; $index++) {
+                for ($index = 0; $index < 25; $index++) {
                     $row = $res->fetch_assoc();
                     if (!$row) {
                         break;

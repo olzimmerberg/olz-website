@@ -10,7 +10,7 @@ class FakeAccessTokenRepository extends FakeOlzRepository {
     public $fakeOlzEntityClass = FakeAccessToken::class;
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        if ($criteria['purpose'] ?? null === 'WebDAV') {
+        if (($criteria['purpose'] ?? null) === 'WebDAV') {
             if ($criteria['user']?->getId() === 1) {
                 return null;
             }

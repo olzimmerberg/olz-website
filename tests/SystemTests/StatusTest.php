@@ -85,7 +85,6 @@ final class StatusTest extends SystemTestCase {
             return $number;
         }
         throw new \Exception("Invalid unit: {$unit}");
-        return null;
     }
 
     public function testHttpGetsRedirected(): void {

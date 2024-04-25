@@ -24,10 +24,6 @@ class SendTestEmailCommand extends OlzCommand {
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
-        if (!$this->messageBus) {
-            $this->log()->notice("No message bus.");
-            return Command::FAILURE;
-        }
         $base_href = $this->envUtils()->getBaseHref();
         $to = 'simon+olztestemail@hatt.style';
         $subject = 'Test mail';

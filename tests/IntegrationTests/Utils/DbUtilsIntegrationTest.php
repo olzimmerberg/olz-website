@@ -23,12 +23,6 @@ class FakeIntegrationTestDbUtils extends DbUtils {
  * @covers \Olz\Utils\DbUtils
  */
 final class DbUtilsIntegrationTest extends IntegrationTestCase {
-    public function testDbUtilsFromEnv(): void {
-        $db_utils = DbUtils::fromEnv();
-
-        $this->assertFalse(!$db_utils);
-    }
-
     public function testDbUtilsGetDb(): void {
         $db_utils = FakeIntegrationTestDbUtils::fromEnv();
 

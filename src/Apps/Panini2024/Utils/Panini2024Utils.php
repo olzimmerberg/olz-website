@@ -114,9 +114,6 @@ class Panini2024Utils {
     }
 
     public function renderSingle($id) {
-        if (!$this->authUtils()->hasPermission('panini2024')) {
-            throw new NotFoundHttpException();
-        }
         $entity_manager = $this->dbUtils()->getEntityManager();
         $data_path = $this->envUtils()->getDataPath();
         $panini_path = "{$data_path}panini_data/";
@@ -145,7 +142,7 @@ class Panini2024Utils {
 
         $has_panini = $this->authUtils()->hasPermission('panini2024');
         $current_user = $this->authUtils()->getCurrentUser();
-        $is_mine = $owner && $current_user && $owner->getId() === $current_user->getId();
+        $is_mine = $owner && $current_user && ($owner->getId() === $current_user->getId());
         if (!$has_panini && !$is_mine) {
             throw new AccessDeniedHttpException("Kein Zugriff");
         }

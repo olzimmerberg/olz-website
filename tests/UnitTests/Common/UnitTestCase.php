@@ -22,8 +22,6 @@ use PHPUnit\Framework\TestCase;
 class UnitTestCase extends TestCase {
     use WithUtilsTrait;
 
-    private $previous_document_root;
-
     protected $previous_server;
     protected $setUpAt;
     protected $fakeLogHandler;

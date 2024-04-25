@@ -116,10 +116,4 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
         $this->assertTrue($http_utils->has_exited_execution);
     }
-
-    public function testHttpUtilsFromEnv(): void {
-        $http_utils = HttpUtils::fromEnv();
-
-        $this->assertFalse(!$http_utils);
-    }
 }

@@ -167,9 +167,6 @@ abstract class BaseLogsChannel {
             $index = $file_index['lines'][$continuation_location->lineNumber];
             $log_file->seek($fp, $index);
             $line = $this->escapeSpecialChars($log_file->gets($fp));
-            if ($line === false) {
-                $line = '';
-            }
             if ($this->isLineMatching($line, $query)) {
                 array_unshift($matching_lines, $line);
             }
@@ -220,9 +217,6 @@ abstract class BaseLogsChannel {
             $index = $file_index['lines'][$continuation_location->lineNumber];
             $log_file->seek($fp, $index);
             $line = $this->escapeSpecialChars($log_file->gets($fp));
-            if ($line === false) {
-                $line = '';
-            }
             if ($this->isLineMatching($line, $query)) {
                 array_push($matching_lines, $line);
             }
@@ -289,7 +283,7 @@ abstract class BaseLogsChannel {
 
     protected function escapeSpecialChars(?string $line): string {
         $line = iconv('UTF-8', "UTF-8//IGNORE", $line);
-        return html_entity_decode(htmlspecialchars($line)) ?? '';
+        return html_entity_decode(htmlspecialchars($line));
     }
 
     // Override this function, if you have a different date format.

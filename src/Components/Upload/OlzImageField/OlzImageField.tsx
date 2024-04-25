@@ -6,8 +6,8 @@ import {readBase64} from '../../../Utils/fileUtils';
 import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../Utils/imageUtils';
 import {Uploader} from '../../../Utils/Uploader';
 import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
-import {UploadingFile, UploadedFile} from '../types';
-import {serializeUploadFile} from '../utils';
+import {UploadedFile, UploadFile} from '../types';
+import {isUploadingFile, serializeUploadFile} from '../utils';
 
 import '../../../Components/Common/OlzStyles/dropzone.scss';
 import './OlzImageField.scss';
@@ -42,7 +42,7 @@ Name extends Path<Values>
     });
 
     const initialUploadedFile: UploadedFile|null = field.value && {uploadState: 'UPLOADED', uploadId: field.value} || null;
-    const [file, setFile] = React.useState<UploadedFile|UploadingFile|null>(initialUploadedFile);
+    const [file, setFile] = React.useState<UploadFile|null>(initialUploadedFile);
 
     React.useEffect(() => {
         if (file?.uploadState !== 'UPLOADING') {
@@ -68,7 +68,7 @@ Name extends Path<Values>
 
     React.useEffect(() => {
         const callback = (_event: CustomEvent<string>) => {
-            if (!file?.uploadId) {
+            if (!file || !isUploadingFile(file) || !file?.uploadId) {
                 throw new Error('Upload ID must be defined');
             }
             const uploadedFile: UploadedFile = {
@@ -83,16 +83,15 @@ Name extends Path<Values>
     }, [file]);
 
     React.useEffect(() => {
-        const isUploadingFile = file?.uploadState === 'UPLOADING';
-        props.setIsLoading(isUploadingFile);
+        props.setIsLoading(!!file && isUploadingFile(file));
     }, [file]);
 
     const onDrop = async (acceptedFiles: File[]) => {
         const acceptedFile = acceptedFiles[0];
         setFile({
-            uploadState: 'UPLOADING',
+            uploadState: 'REGISTERING',
+            id: `${acceptedFile.name}-${Date.now()}`,
             file: acceptedFile,
-            uploadProgress: 0,
         });
         const base64Content = await readBase64(acceptedFile);
         if (!base64Content.match(/^data:image\/(jpg|jpeg|png)/i)) {
@@ -111,6 +110,7 @@ Name extends Path<Values>
             const uploadId = await uploader.add(resizedBase64, '.jpg');
             setFile({
                 uploadState: 'UPLOADING',
+                id: `${acceptedFile.name}-${Date.now()}`,
                 file: acceptedFile,
                 uploadProgress: 0,
                 uploadId: uploadId,

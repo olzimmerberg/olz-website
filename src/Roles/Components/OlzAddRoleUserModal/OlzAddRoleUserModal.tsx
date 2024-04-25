@@ -35,7 +35,7 @@ export const OlzAddRoleUserModal = (props: OlzAddRoleUserModalProps): React.Reac
         resolver,
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isUsersLoading, setIsUsersLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
@@ -59,6 +59,7 @@ export const OlzAddRoleUserModal = (props: OlzAddRoleUserModalProps): React.Reac
     };
 
     const dialogTitle = 'Verantwortliche hinzufügen';
+    const isLoading = isUsersLoading;
 
     return (
         <div className='modal fade' id='add-role-user-modal' tabIndex={-1} aria-labelledby='add-role-user-modal-label' aria-hidden='true'>
@@ -80,7 +81,7 @@ export const OlzAddRoleUserModal = (props: OlzAddRoleUserModalProps): React.Reac
                                         name='newUser'
                                         errors={errors}
                                         control={control}
-                                        setIsLoading={setIsLoading}
+                                        setIsLoading={setIsUsersLoading}
                                         nullLabel={'Bitte wählen...'}
                                     />
                                 </div>

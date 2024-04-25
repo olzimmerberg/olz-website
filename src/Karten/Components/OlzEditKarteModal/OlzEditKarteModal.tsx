@@ -83,7 +83,7 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isImageLoading, setIsImageLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
@@ -113,6 +113,7 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
     const dialogTitle = props.id === undefined
         ? 'Karte erstellen'
         : 'Karte bearbeiten';
+    const isLoading = isImageLoading;
 
     return (
         <div className='modal fade' id='edit-karte-modal' tabIndex={-1} aria-labelledby='edit-karte-modal-label' aria-hidden='true'>
@@ -234,7 +235,7 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
                                     name='previewImageId'
                                     errors={errors}
                                     control={control}
-                                    setIsLoading={setIsLoading}
+                                    setIsLoading={setIsImageLoading}
                                 />
                             </div>
                             <div className='success-message alert alert-success' role='alert'>

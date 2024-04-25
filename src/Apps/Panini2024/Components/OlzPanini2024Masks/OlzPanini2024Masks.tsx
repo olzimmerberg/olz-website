@@ -281,7 +281,6 @@ interface OlzPanini2024MasksProps {
 export const OlzPanini2024Masks = (
     props: OlzPanini2024MasksProps,
 ): React.ReactElement => {
-    console.log(props);
     const config = MASKS_CONFIG[props.mask];
 
     if (!config) {

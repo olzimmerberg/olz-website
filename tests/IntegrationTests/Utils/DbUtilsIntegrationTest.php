@@ -26,7 +26,7 @@ final class DbUtilsIntegrationTest extends IntegrationTestCase {
     public function testDbUtilsFromEnv(): void {
         $db_utils = DbUtils::fromEnv();
 
-        $this->assertSame(false, !$db_utils);
+        $this->assertFalse(!$db_utils);
     }
 
     public function testDbUtilsGetDb(): void {
@@ -36,7 +36,7 @@ final class DbUtilsIntegrationTest extends IntegrationTestCase {
 
         $result = $db->query('SELECT username FROM users WHERE id=1');
         $row = $result->fetch_assoc();
-        $this->assertSame(null, $db->connect_error);
+        $this->assertNull($db->connect_error);
         $this->assertSame(0, $db->connect_errno);
         $this->assertSame('admin', $row['username']);
     }

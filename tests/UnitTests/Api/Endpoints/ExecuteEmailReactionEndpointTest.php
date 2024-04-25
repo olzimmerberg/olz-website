@@ -42,7 +42,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(3, count($entity_manager->removed));
+        $this->assertCount(3, $entity_manager->removed);
         $this->assertSame(12, $entity_manager->removed[0]->getId());
         $this->assertSame(123, $entity_manager->removed[1]->getId());
         $this->assertSame(1234, $entity_manager->removed[2]->getId());
@@ -74,7 +74,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
-        $this->assertSame(0, count($entity_manager->removed));
+        $this->assertCount(0, $entity_manager->removed);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
         $this->assertSame('{"cancelled":true}', $subscription->getNotificationTypeArgs());
     }
@@ -99,7 +99,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(3, count($entity_manager->removed));
+        $this->assertCount(3, $entity_manager->removed);
         $this->assertSame(12, $entity_manager->removed[0]->getId());
         $this->assertSame(123, $entity_manager->removed[1]->getId());
         $this->assertSame(1234, $entity_manager->removed[2]->getId());
@@ -122,7 +122,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(0, count($entity_manager->removed));
+        $this->assertCount(0, $entity_manager->removed);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
     }
 
@@ -142,7 +142,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(0, count($entity_manager->removed));
+        $this->assertCount(0, $entity_manager->removed);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
     }
 
@@ -161,7 +161,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(0, count($entity_manager->removed));
+        $this->assertCount(0, $entity_manager->removed);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
     }
 
@@ -178,7 +178,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(0, count($entity_manager->removed));
+        $this->assertCount(0, $entity_manager->removed);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
     }
 
@@ -198,9 +198,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(0, count($entity_manager->removed));
+        $this->assertCount(0, $entity_manager->removed);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
-        $this->assertSame(0, count($entity_manager->persisted));
+        $this->assertCount(0, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $this->assertSame(md5('geeenius'), FakeUser::adminUser()->getPasswordHash()); // just for test
     }
@@ -258,8 +258,8 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(true, $entity_manager->flushed);
-        $this->assertSame(true, FakeUser::defaultUser()->isEmailVerified());
+        $this->assertTrue($entity_manager->flushed);
+        $this->assertTrue(FakeUser::defaultUser()->isEmailVerified());
     }
 
     public function testVerifyEmailReactionEndpointInvalidToken(): void {
@@ -280,8 +280,8 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(false, $entity_manager->flushed);
-        $this->assertSame(false, FakeUser::defaultUser()->isEmailVerified());
+        $this->assertFalse($entity_manager->flushed);
+        $this->assertFalse(FakeUser::defaultUser()->isEmailVerified());
     }
 
     public function testVerifyEmailReactionEndpointEmailMismatch(): void {
@@ -302,8 +302,8 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(false, $entity_manager->flushed);
-        $this->assertSame(false, FakeUser::defaultUser()->isEmailVerified());
+        $this->assertFalse($entity_manager->flushed);
+        $this->assertFalse(FakeUser::defaultUser()->isEmailVerified());
     }
 
     public function testVerifyEmailReactionEndpointNoSuchUser(): void {
@@ -324,7 +324,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(false, $entity_manager->flushed);
+        $this->assertFalse($entity_manager->flushed);
     }
 
     public function testDeleteNewsReactionEndpoint(): void {
@@ -342,7 +342,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(true, $entity_manager->flushed);
+        $this->assertTrue($entity_manager->flushed);
     }
 
     public function testDeleteNewsReactionEndpointNoSuchEntry(): void {
@@ -361,6 +361,6 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(false, $entity_manager->flushed);
+        $this->assertFalse($entity_manager->flushed);
     }
 }

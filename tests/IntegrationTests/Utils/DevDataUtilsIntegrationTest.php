@@ -20,7 +20,7 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
     public function testDevDataUtilsFromEnv(): void {
         $dev_data_utils = DevDataUtils::fromEnv();
 
-        $this->assertSame(false, !$dev_data_utils);
+        $this->assertFalse(!$dev_data_utils);
     }
 
     public function testInitAndDump(): void {

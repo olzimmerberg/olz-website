@@ -125,7 +125,7 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function processMail(Message $mail, bool $is_processed): bool {
-        $mail_uid = $mail->uid;
+        $mail_uid = $mail->getUid();
 
         if ($mail->getFlags()->has('flagged')) {
             $this->log()->warning("E-Mail {$mail_uid} has failed processing.");
@@ -135,7 +135,7 @@ class ProcessEmailCommand extends OlzCommand {
             return true;
         }
 
-        $original_to = $mail->x_original_to;
+        $original_to = $mail->get('x_original_to');
         if ($original_to) {
             return $this->processMailToAddress($mail, $original_to);
         }
@@ -146,13 +146,13 @@ class ProcessEmailCommand extends OlzCommand {
         $all_successful = true;
         $to_addresses = array_map(function ($address) {
             return $address->mail;
-        }, $mail->to->toArray());
+        }, $mail->getTo()->toArray());
         $cc_addresses = array_map(function ($address) {
             return $address->mail;
-        }, $mail->cc->toArray());
+        }, $mail->getCc()->toArray());
         $bcc_addresses = array_map(function ($address) {
             return $address->mail;
-        }, $mail->bcc->toArray());
+        }, $mail->getBcc()->toArray());
         $all_addresses = [
             ...$to_addresses,
             ...$cc_addresses,
@@ -167,7 +167,7 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function processMailToAddress(Message $mail, string $address): bool {
-        $mail_uid = $mail->uid;
+        $mail_uid = $mail->getUid();
 
         $esc_host = preg_quote($this->host);
         $is_match = preg_match("/^([\\S]+)@(staging\\.)?{$esc_host}$/", $address, $matches);
@@ -229,13 +229,13 @@ class ProcessEmailCommand extends OlzCommand {
 
         $forward_address = $user->getEmail();
         try {
-            $from = $mail->from->first();
+            $from = $mail->getFrom()->first();
             $from_name = $from->personal;
             $from_address = $from->mail;
-            $to = $this->getAddresses($mail->to);
-            $cc = $this->getAddresses($mail->cc);
-            $bcc = $this->getAddresses($mail->bcc);
-            $subject = $mail->subject->first();
+            $to = $this->getAddresses($mail->getTo());
+            $cc = $this->getAddresses($mail->getCc());
+            $bcc = $this->getAddresses($mail->getBcc());
+            $subject = $mail->getSubject()->first();
             $mail->parseBody();
             $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
             $text = $mail->hasTextBody() ? $mail->getTextBody() : null;
@@ -334,7 +334,7 @@ class ProcessEmailCommand extends OlzCommand {
 
     protected function sendRedirectEmail(Message $mail, string $old_address, string $new_address) {
         $smtp_from = $this->envUtils()->getSmtpFrom();
-        $from = $mail->from->first();
+        $from = $mail->getFrom()->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
         if ("{$old_address}" === "{$smtp_from}" || "{$old_address}" === "{$from_address}" || "{$new_address}" === "{$smtp_from}" || "{$new_address}" === "{$from_address}") {
@@ -368,7 +368,7 @@ class ProcessEmailCommand extends OlzCommand {
 
     protected function sendReportEmail(Message $mail, string $address, int $smtp_code) {
         $smtp_from = $this->envUtils()->getSmtpFrom();
-        $from = $mail->from->first();
+        $from = $mail->getFrom()->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
         if ("{$address}" === "{$smtp_from}" || "{$address}" === "{$from_address}") {

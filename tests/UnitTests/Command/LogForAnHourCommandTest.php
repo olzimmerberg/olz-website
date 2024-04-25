@@ -15,6 +15,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class LogForAnHourCommandTest extends UnitTestCase {
     public function testDummy(): void {
         $command = new LogForAnHourCommand();
-        $this->assertSame(true, (bool) $command);
+        $this->assertTrue((bool) $command);
     }
 }

@@ -109,7 +109,7 @@ final class EmailUtilsTest extends UnitTestCase {
 
     public function testSendEmailVerificationEmailFailsSending(): void {
         $user = FakeUser::defaultUser();
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $email_utils = new Fake\DeterministicEmailUtils();
         $email_utils->setMailer($mailer);
         $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -138,7 +138,7 @@ final class EmailUtilsTest extends UnitTestCase {
 
         $client = $email_utils->getImapClient();
 
-        $this->assertSame(true, $client instanceof Client);
+        $this->assertTrue($client instanceof Client);
         $this->assertSame('127.0.0.1', $client->host);
         $this->assertSame(143, $client->port);
         $this->assertSame('imap@staging.olzimmerberg.ch', $client->username);
@@ -160,7 +160,7 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testDecryptInvalidEmailReactionToken(): void {
         $email_utils = new EmailUtils();
 
-        $this->assertSame(null, $email_utils->decryptEmailReactionToken(''));
+        $this->assertNull($email_utils->decryptEmailReactionToken(''));
     }
 
     public function testBuildOlzEmail(): void {

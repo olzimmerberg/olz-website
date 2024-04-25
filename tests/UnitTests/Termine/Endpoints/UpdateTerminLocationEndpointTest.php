@@ -97,8 +97,8 @@ final class UpdateTerminLocationEndpointTest extends UnitTestCase {
             'id' => 123,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $termin_location = $entity_manager->persisted[0];
         $this->assertSame(123, $termin_location->getId());

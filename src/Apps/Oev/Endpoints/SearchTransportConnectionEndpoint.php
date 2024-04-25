@@ -117,7 +117,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
                 }
             }
 
-            $origin_info = $suggestion->getOriginInfo($this->originStations);
+            $origin_info = $suggestion->getOriginInfo();
             $suggestion->setOriginInfo($origin_info);
             foreach ($origin_info as $station_info) {
                 $station_name = $station_info['halt']['stationName'];
@@ -358,7 +358,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
             }
         }
 
-        $origin_info = $normalized_suggestion->getOriginInfo($this->originStations);
+        $origin_info = $normalized_suggestion->getOriginInfo();
         $normalized_suggestion->setOriginInfo($origin_info);
 
         foreach ($suggestion->getDebug() as $line) {

@@ -134,8 +134,8 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
             'id' => $id,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $entity = $entity_manager->persisted[0];
         $this->assertSame($id, $entity->getId());
@@ -148,8 +148,8 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         $this->assertSame(FakeRole::vorstandRole()->getId(), $entity->getParentRoleId());
         $this->assertSame(2, $entity->getIndexWithinParent());
         $this->assertSame(6, $entity->getFeaturedIndex());
-        $this->assertSame(true, $entity->getCanHaveChildRoles());
-        $this->assertSame(true, $entity->getOnOff());
+        $this->assertTrue($entity->getCanHaveChildRoles());
+        $this->assertTrue($entity->getOnOff());
 
         $this->assertSame([
             [$entity, 1, 1, 1],

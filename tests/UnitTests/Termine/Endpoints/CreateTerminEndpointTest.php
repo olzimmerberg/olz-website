@@ -90,26 +90,26 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $termin = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $termin->getId());
         $this->assertSame('2020-03-13', $termin->getStartDate()->format('Y-m-d'));
-        $this->assertSame(null, $termin->getStartTime());
-        $this->assertSame(null, $termin->getEndDate());
-        $this->assertSame(null, $termin->getEndTime());
+        $this->assertNull($termin->getStartTime());
+        $this->assertNull($termin->getEndDate());
+        $this->assertNull($termin->getEndTime());
         $this->assertSame('Test event', $termin->getTitle());
         $this->assertSame('some info', $termin->getText());
         $this->assertSame('<a href="test-anlass.ch">Home</a>', $termin->getLink());
-        $this->assertSame(null, $termin->getDeadline());
-        $this->assertSame(false, $termin->getNewsletter());
-        $this->assertSame(null, $termin->getSolvId());
-        $this->assertSame(null, $termin->getGo2olId());
+        $this->assertNull($termin->getDeadline());
+        $this->assertFalse($termin->getNewsletter());
+        $this->assertNull($termin->getSolvId());
+        $this->assertNull($termin->getGo2olId());
         $this->assertSame(1234, $termin->getLocation()->getId());
         $this->assertSame('Fake title', $termin->getLocation()->getName());
-        $this->assertSame(null, $termin->getCoordinateX());
-        $this->assertSame(null, $termin->getCoordinateY());
+        $this->assertNull($termin->getCoordinateX());
+        $this->assertNull($termin->getCoordinateY());
         $this->assertSame(
             ['uploaded_image.jpg', 'inexistent.png'],
             $termin->getImageIds(),

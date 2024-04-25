@@ -40,7 +40,6 @@ final class KernelExceptionListenerTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Handling HttpExceptionInterface fake-internal-error...',
-            'WARNING Entity manager access in unit tests!',
         ], $this->getLogs());
     }
 
@@ -56,7 +55,6 @@ final class KernelExceptionListenerTest extends UnitTestCase {
 
         $this->assertSame([
             'WARNING Non-HttpExceptionInterface exception: fake-exception',
-            'WARNING Entity manager access in unit tests!',
         ], $this->getLogs());
     }
 

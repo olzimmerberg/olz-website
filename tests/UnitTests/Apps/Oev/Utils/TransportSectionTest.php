@@ -49,7 +49,7 @@ final class TransportSectionTest extends UnitTestCase {
         $this->assertSame('2022-05-17 14:12:54', $departure->getTimeString());
 
         $pass_list = $object->getPassList();
-        $this->assertSame(1, count($pass_list));
+        $this->assertCount(1, $pass_list);
         $this->assertSame(14, $pass_list[0]->getStationId());
         $this->assertSame('Testingen', $pass_list[0]->getStationName());
         $this->assertSame(1652791574, $pass_list[0]->getTimeSeconds());

@@ -89,13 +89,13 @@ final class CreateRoleEndpointTest extends UnitTestCase {
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $entity = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
         $this->assertSame('test', $entity->getUsername());
-        $this->assertSame(null, $entity->getOldUsername());
+        $this->assertNull($entity->getOldUsername());
         $this->assertSame('Test Role', $entity->getName());
         $this->assertSame('Title Test Role', $entity->getTitle());
         $this->assertSame('Description Test Role', $entity->getDescription());
@@ -103,7 +103,7 @@ final class CreateRoleEndpointTest extends UnitTestCase {
         $this->assertSame(FakeRole::vorstandRole()->getId(), $entity->getParentRoleId());
         $this->assertSame(2, $entity->getIndexWithinParent());
         $this->assertSame(6, $entity->getFeaturedIndex());
-        $this->assertSame(true, $entity->getCanHaveChildRoles());
+        $this->assertTrue($entity->getCanHaveChildRoles());
 
         $this->assertSame([
             [$entity, 1, 1, 1],

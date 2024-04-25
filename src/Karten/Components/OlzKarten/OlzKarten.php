@@ -39,6 +39,7 @@ class OlzKarten extends OlzComponent {
             $center_x = $row['center_x'];
             $center_y = $row['center_y'];
             $typ = $row['typ'];
+            $icon = null;
             if ($typ == 'ol') {
                 $icon = 'orienteering_forest_16.svg';
             } elseif ($typ == 'stadt') {

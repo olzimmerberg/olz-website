@@ -133,6 +133,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'username' => ['Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 'auth' => 'ftp',
@@ -169,6 +170,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Bitte keine @olzimmerberg.ch E-Mail verwenden.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 'auth' => 'ftp',
@@ -208,18 +210,18 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame('test', $admin_user->getUsername());
         $this->assertSame('admin', $admin_user->getOldUsername());
         $this->assertSame('bot@staging.olzimmerberg.ch', $admin_user->getEmail());
-        $this->assertSame(null, $admin_user->getEmailVerificationToken());
-        $this->assertSame(false, $admin_user->hasPermission('verified_email'));
+        $this->assertNull($admin_user->getEmailVerificationToken());
+        $this->assertFalse($admin_user->hasPermission('verified_email'));
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
-        $this->assertSame(null, $admin_user->getPhone());
-        $this->assertSame(null, $admin_user->getGender());
-        $this->assertSame(null, $admin_user->getBirthdate());
-        $this->assertSame(null, $admin_user->getStreet());
-        $this->assertSame(null, $admin_user->getPostalCode());
-        $this->assertSame(null, $admin_user->getCity());
-        $this->assertSame(null, $admin_user->getRegion());
-        $this->assertSame(null, $admin_user->getCountryCode());
+        $this->assertNull($admin_user->getPhone());
+        $this->assertNull($admin_user->getGender());
+        $this->assertNull($admin_user->getBirthdate());
+        $this->assertNull($admin_user->getStreet());
+        $this->assertNull($admin_user->getPostalCode());
+        $this->assertNull($admin_user->getCity());
+        $this->assertNull($admin_user->getRegion());
+        $this->assertNull($admin_user->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
             $admin_user->getLastModifiedAt()->format('Y-m-d H:i:s')
@@ -258,8 +260,8 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame('test', $admin_user->getUsername());
         $this->assertSame('admin', $admin_user->getOldUsername());
         $this->assertSame('bot@staging.olzimmerberg.ch', $admin_user->getEmail());
-        $this->assertSame(null, $admin_user->getEmailVerificationToken());
-        $this->assertSame(false, $admin_user->hasPermission('verified_email'));
+        $this->assertNull($admin_user->getEmailVerificationToken());
+        $this->assertFalse($admin_user->hasPermission('verified_email'));
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
         $this->assertSame('+41441234567', $admin_user->getPhone());
@@ -316,17 +318,17 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame('admin', $admin_user->getOldUsername());
         $this->assertSame('admin-user@staging.olzimmerberg.ch', $admin_user->getEmail());
         $this->assertSame('admintoken', $admin_user->getEmailVerificationToken());
-        $this->assertSame(true, $admin_user->hasPermission('verified_email'));
+        $this->assertTrue($admin_user->hasPermission('verified_email'));
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
-        $this->assertSame(null, $admin_user->getPhone());
-        $this->assertSame(null, $admin_user->getGender());
-        $this->assertSame(null, $admin_user->getBirthdate());
-        $this->assertSame(null, $admin_user->getStreet());
-        $this->assertSame(null, $admin_user->getPostalCode());
-        $this->assertSame(null, $admin_user->getCity());
-        $this->assertSame(null, $admin_user->getRegion());
-        $this->assertSame(null, $admin_user->getCountryCode());
+        $this->assertNull($admin_user->getPhone());
+        $this->assertNull($admin_user->getGender());
+        $this->assertNull($admin_user->getBirthdate());
+        $this->assertNull($admin_user->getStreet());
+        $this->assertNull($admin_user->getPostalCode());
+        $this->assertNull($admin_user->getCity());
+        $this->assertNull($admin_user->getRegion());
+        $this->assertNull($admin_user->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
             $admin_user->getLastModifiedAt()->format('Y-m-d H:i:s')
@@ -363,6 +365,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'recaptchaToken' => ['Bei einer E-Mail-Änderung muss ein ReCaptcha Token angegeben werden.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 'auth' => 'ftp',
@@ -446,6 +449,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'username' => ['Dieser Benutzername ist bereits vergeben.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 'auth' => 'ftp',
@@ -497,6 +501,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Es existiert bereits eine Person mit dieser E-Mail Adresse.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 'auth' => 'ftp',
@@ -537,18 +542,18 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame('test', $admin_user->getUsername());
         $this->assertSame('admin', $admin_user->getOldUsername());
         $this->assertSame('bot@staging.olzimmerberg.ch', $admin_user->getEmail());
-        $this->assertSame(null, $admin_user->getEmailVerificationToken());
-        $this->assertSame(false, $admin_user->hasPermission('verified_email'));
+        $this->assertNull($admin_user->getEmailVerificationToken());
+        $this->assertFalse($admin_user->hasPermission('verified_email'));
         $this->assertSame('First', $admin_user->getFirstName());
         $this->assertSame('Last', $admin_user->getLastName());
-        $this->assertSame(null, $admin_user->getPhone());
-        $this->assertSame(null, $admin_user->getGender());
-        $this->assertSame(null, $admin_user->getBirthdate());
-        $this->assertSame(null, $admin_user->getStreet());
-        $this->assertSame(null, $admin_user->getPostalCode());
-        $this->assertSame(null, $admin_user->getCity());
-        $this->assertSame(null, $admin_user->getRegion());
-        $this->assertSame(null, $admin_user->getCountryCode());
+        $this->assertNull($admin_user->getPhone());
+        $this->assertNull($admin_user->getGender());
+        $this->assertNull($admin_user->getBirthdate());
+        $this->assertNull($admin_user->getStreet());
+        $this->assertNull($admin_user->getPostalCode());
+        $this->assertNull($admin_user->getCity());
+        $this->assertNull($admin_user->getRegion());
+        $this->assertNull($admin_user->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
             $admin_user->getLastModifiedAt()->format('Y-m-d H:i:s')

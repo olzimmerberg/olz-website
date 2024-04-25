@@ -112,7 +112,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
             $previous['logFile'],
         );
         $this->assertSame($num_fake - $num_fake_on_page - 1, $previous['lineNumber']);
-        $this->assertSame(null, $result['pagination']['next']);
+        $this->assertNull($result['pagination']['next']);
     }
 
     public function testGetLogsEndpointNotAuthorized(): void {

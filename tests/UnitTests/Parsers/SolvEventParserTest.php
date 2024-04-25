@@ -23,7 +23,7 @@ final class SolvEventParserTest extends UnitTestCase {
 
         $solv_events_2006 = $parser->parse_solv_events_csv($fixtures_2006);
 
-        $this->assertSame(200, count($solv_events_2006));
+        $this->assertCount(200, $solv_events_2006);
 
         $first_solv_event_2006 = $solv_events_2006[0];
         $this->assertSame('2973', $first_solv_event_2006->getSolvUid());
@@ -41,7 +41,7 @@ final class SolvEventParserTest extends UnitTestCase {
         $this->assertSame('', $first_solv_event_2006->getLocation());
         $this->assertSame('', $first_solv_event_2006->getCoordX());
         $this->assertSame('', $first_solv_event_2006->getCoordY());
-        $this->assertSame(null, $first_solv_event_2006->getDeadline());
+        $this->assertNull($first_solv_event_2006->getDeadline());
         $this->assertSame('0', $first_solv_event_2006->getEntryportal());
         $this->assertSame('2005-08-08 15:55:01', $first_solv_event_2006->getLastModification()->format('Y-m-d H:i:s'));
 
@@ -55,7 +55,7 @@ final class SolvEventParserTest extends UnitTestCase {
 
         $solv_events_2018 = $parser->parse_solv_events_csv($fixtures_2018);
 
-        $this->assertSame(204, count($solv_events_2018));
+        $this->assertCount(204, $solv_events_2018);
 
         $first_solv_event_2018 = $solv_events_2018[0];
         $this->assertSame('8270', $first_solv_event_2018->getSolvUid());
@@ -73,7 +73,7 @@ final class SolvEventParserTest extends UnitTestCase {
         $this->assertSame('', $first_solv_event_2018->getLocation());
         $this->assertSame('', $first_solv_event_2018->getCoordX());
         $this->assertSame('', $first_solv_event_2018->getCoordY());
-        $this->assertSame(null, $first_solv_event_2018->getDeadline());
+        $this->assertNull($first_solv_event_2018->getDeadline());
         $this->assertSame('0', $first_solv_event_2018->getEntryportal());
         $this->assertSame('2018-12-13 09:07:27', $first_solv_event_2018->getLastModification()->format('Y-m-d H:i:s'));
 
@@ -87,7 +87,7 @@ final class SolvEventParserTest extends UnitTestCase {
 
         $invalid_solv_events = $parser->parse_solv_events_csv($invalid_fixtures);
 
-        $this->assertSame(1, count($invalid_solv_events));
+        $this->assertCount(1, $invalid_solv_events);
 
         $first_solv_event_2018 = $invalid_solv_events[0];
         $this->assertSame('1234', $first_solv_event_2018->getSolvUid());

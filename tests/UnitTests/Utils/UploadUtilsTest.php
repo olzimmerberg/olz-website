@@ -63,46 +63,46 @@ final class UploadUtilsTest extends UnitTestCase {
 
     public function testRandomUploadIdIsUploadId(): void {
         $upload_id = $this->uploadUtils->getRandomUploadId('.jpg');
-        $this->assertSame(true, $this->uploadUtils->isUploadId($upload_id));
+        $this->assertTrue($this->uploadUtils->isUploadId($upload_id));
     }
 
     public function testIsUploadIdNull(): void {
-        $this->assertSame(false, $this->uploadUtils->isUploadId(null));
+        $this->assertFalse($this->uploadUtils->isUploadId(null));
     }
 
     public function testIsUploadIdEmpty(): void {
-        $this->assertSame(false, $this->uploadUtils->isUploadId(''));
+        $this->assertFalse($this->uploadUtils->isUploadId(''));
     }
 
     public function testIsUploadIdNoRandom(): void {
-        $this->assertSame(false, $this->uploadUtils->isUploadId('.jpg'));
+        $this->assertFalse($this->uploadUtils->isUploadId('.jpg'));
     }
 
     public function testIsUploadIdTooShort(): void {
-        $this->assertSame(false, $this->uploadUtils->isUploadId('12345678901234567890123.jpg'));
+        $this->assertFalse($this->uploadUtils->isUploadId('12345678901234567890123.jpg'));
     }
 
     public function testIsUploadIdTooLong(): void {
-        $this->assertSame(false, $this->uploadUtils->isUploadId('1234567890123456789012345.jpg'));
+        $this->assertFalse($this->uploadUtils->isUploadId('1234567890123456789012345.jpg'));
     }
 
     public function testIsUploadIdInvalidChar(): void {
-        $this->assertSame(false, $this->uploadUtils->isUploadId('12345678901234567890123!.jpg'));
+        $this->assertFalse($this->uploadUtils->isUploadId('12345678901234567890123!.jpg'));
     }
 
     public function testIsUploadIdInvalidExtension(): void {
-        $this->assertSame(false, $this->uploadUtils->isUploadId('123456789012345678901234.invalid!'));
+        $this->assertFalse($this->uploadUtils->isUploadId('123456789012345678901234.invalid!'));
     }
 
     public function testIsUploadIdValid(): void {
-        $this->assertSame(true, $this->uploadUtils->isUploadId('123456789012345678901234.jpg'));
-        $this->assertSame(true, $this->uploadUtils->isUploadId('abcdABCD_-12345678901234.pdf'));
+        $this->assertTrue($this->uploadUtils->isUploadId('123456789012345678901234.jpg'));
+        $this->assertTrue($this->uploadUtils->isUploadId('abcdABCD_-12345678901234.pdf'));
     }
 
     public function testGetExtension(): void {
         $this->assertSame('.jpg', $this->uploadUtils->getExtension('123456789012345678901234.jpg'));
         $this->assertSame('.pdf', $this->uploadUtils->getExtension('abcdABCD_-12345678901234.pdf'));
-        $this->assertSame(null, $this->uploadUtils->getExtension('123456789012345678901234.invalid!'));
+        $this->assertNull($this->uploadUtils->getExtension('123456789012345678901234.invalid!'));
     }
 
     public function testGetUploadIdRegex(): void {
@@ -116,9 +116,9 @@ final class UploadUtilsTest extends UnitTestCase {
         $this->simulateUpload($valid);
 
         $this->assertSame($valid, $this->uploadUtils->getValidUploadId($valid));
-        $this->assertSame(null, $this->uploadUtils->getValidUploadId($inexistent));
-        $this->assertSame(null, $this->uploadUtils->getValidUploadId($invalid));
-        $this->assertSame(null, $this->uploadUtils->getValidUploadId(''));
+        $this->assertNull($this->uploadUtils->getValidUploadId($inexistent));
+        $this->assertNull($this->uploadUtils->getValidUploadId($invalid));
+        $this->assertNull($this->uploadUtils->getValidUploadId(''));
     }
 
     public function testGetValidUploadIds(): void {
@@ -175,7 +175,7 @@ final class UploadUtilsTest extends UnitTestCase {
         $this->uploadUtils->overwriteUploads([], "{$data_path}storage/");
 
         $this->assertSame([], $this->getLogs());
-        $this->assertSame(true, is_dir("{$data_path}storage"));
+        $this->assertTrue(is_dir("{$data_path}storage"));
     }
 
     public function testEditUploads(): void {

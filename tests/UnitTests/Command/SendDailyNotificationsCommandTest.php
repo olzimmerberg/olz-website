@@ -467,7 +467,7 @@ class FakeSendDailyNotificationsCommandWeeklySummaryGetter {
  */
 final class SendDailyNotificationsCommandTest extends UnitTestCase {
     public function testSendDailyNotificationsCommand(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         $notification_subscription_repo = new FakeSendDailyNotificationsCommandNotificationSubscriptionRepository($entity_manager);
         $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;

@@ -15,6 +15,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class TestCommandTest extends UnitTestCase {
     public function testDummy(): void {
         $command = new TestCommand();
-        $this->assertSame(true, (bool) $command);
+        $this->assertTrue((bool) $command);
     }
 }

@@ -28,7 +28,7 @@ final class SolvResultParserTest extends UnitTestCase {
 
         $solv_events_2006 = $parser->parse_solv_yearly_results_json($results_2006);
 
-        $this->assertSame(0, count($solv_events_2006));
+        $this->assertCount(0, $solv_events_2006);
     }
 
     public function testParseResults2018(): void {
@@ -37,7 +37,7 @@ final class SolvResultParserTest extends UnitTestCase {
 
         $solv_events_2018 = $parser->parse_solv_yearly_results_json($results_2018);
 
-        $this->assertSame(177, count($solv_events_2018));
+        $this->assertCount(177, $solv_events_2018);
 
         $this->assertSame(['result_list_id' => 4491], $solv_events_2018[8891]);
     }
@@ -105,7 +105,7 @@ final class SolvResultParserTest extends UnitTestCase {
         $results = $parser->parse_solv_event_result_html($result_2006, 3230);
 
         // Those old rankings cannot be parsed
-        $this->assertSame(0, count($results));
+        $this->assertCount(0, $results);
     }
 
     public function testParseResultHtml8891(): void {
@@ -114,7 +114,7 @@ final class SolvResultParserTest extends UnitTestCase {
 
         $results = $parser->parse_solv_event_result_html($result_2018, 8891);
 
-        $this->assertSame(52, count($results));
+        $this->assertCount(52, $results);
 
         $first_result = $results[0];
         $this->assertSame('H10', $first_result->getClass());

@@ -58,7 +58,7 @@ final class FinishUploadEndpointTest extends UnitTestCase {
             "ERROR Could not finish upload. Invalid ID: 'invalid'.",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
     }
 
     public function testFinishUploadEndpointMissingFirstPart(): void {
@@ -80,8 +80,8 @@ final class FinishUploadEndpointTest extends UnitTestCase {
             "ERROR Upload with ID AAAAAAAAAAAAAAAAAAAAAAAA is missing the first part.",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(true, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
+        $this->assertTrue(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
     }
 
     public function testFinishUploadEndpointNoBase64(): void {
@@ -104,8 +104,8 @@ final class FinishUploadEndpointTest extends UnitTestCase {
             "ERROR Upload with ID AAAAAAAAAAAAAAAAAAAAAAAA does not have base64 header.",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(true, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
+        $this->assertTrue(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
     }
 
     public function testFinishUploadEndpointMissingOtherParts(): void {
@@ -128,10 +128,10 @@ final class FinishUploadEndpointTest extends UnitTestCase {
             "ERROR Upload with ID AAAAAAAAAAAAAAAAAAAAAAAA is missing parts 1, 2.",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(true, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_1'));
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_2'));
+        $this->assertTrue(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_1'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_2'));
     }
 
     public function testFinishUploadEndpoint(): void {
@@ -155,10 +155,10 @@ final class FinishUploadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(true, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_1'));
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_2'));
+        $this->assertTrue(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_1'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_2'));
         $this->assertSame(
             'first second third',
             file_get_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA')

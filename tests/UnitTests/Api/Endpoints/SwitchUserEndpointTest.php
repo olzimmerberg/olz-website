@@ -29,6 +29,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'userId' => ["Fehlender Schlüssel: userId."],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -47,6 +48,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'userId' => [['.' => ['Feld darf nicht leer sein.']]],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",

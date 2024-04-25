@@ -154,7 +154,7 @@ final class SyncSolvResultsCommandTest extends UnitTestCase {
 
         $entity_manager = WithUtilsCache::get('entityManager');
         $flushed = $entity_manager->flushed_persisted;
-        $this->assertSame(3, count($flushed));
+        $this->assertCount(3, $flushed);
 
         $solv_event_repo = $entity_manager->getRepository(SolvEvent::class);
         $this->assertSame([20201 => 1234], $solv_event_repo->updatedRankIdBySolvUid);

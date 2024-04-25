@@ -88,7 +88,7 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('db-username', $env_utils->getMysqlUsername());
         $this->assertSame('db-password', $env_utils->getMysqlPassword());
         $this->assertSame('db-schema', $env_utils->getMysqlSchema());
-        $this->assertSame(true, $env_utils->hasUnlimitedCron());
+        $this->assertTrue($env_utils->hasUnlimitedCron());
         $this->assertSame('FixedDateUtils', $env_utils->getDateUtilsClassName());
         $this->assertSame(['2020-08-15 12:51:00'], $env_utils->getDateUtilsClassArgs());
         $this->assertSame('aaaaaaaaaaaaaaaaaaaa', $env_utils->getDatabaseBackupKey());
@@ -182,10 +182,7 @@ final class EnvUtilsTest extends UnitTestCase {
         if (is_file("{$config_dir}olz.test.php")) {
             rename("{$config_dir}olz.test.php", "{$config_dir}_olz.test.php");
         }
-        $this->assertSame(
-            null,
-            EnvUtils::getConfigPath(),
-        );
+        $this->assertNull(EnvUtils::getConfigPath());
         if (is_file("{$config_dir}_olz.test.php")) {
             rename("{$config_dir}_olz.test.php", "{$config_dir}olz.test.php");
         }

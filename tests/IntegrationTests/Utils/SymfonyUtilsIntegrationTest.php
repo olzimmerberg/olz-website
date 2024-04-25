@@ -19,7 +19,7 @@ final class SymfonyUtilsIntegrationTest extends IntegrationTestCase {
     public function testSymfonyUtilsFromEnv(): void {
         $symfony_utils = SymfonyUtils::fromEnv();
 
-        $this->assertSame(false, !$symfony_utils);
+        $this->assertFalse(!$symfony_utils);
     }
 
     public function testSymfonyUtilsCallCommand(): void {

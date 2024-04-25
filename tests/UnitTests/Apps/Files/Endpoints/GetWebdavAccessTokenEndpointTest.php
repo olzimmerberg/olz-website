@@ -58,7 +58,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
             'token' => 'ABC123abc',
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(0, count($entity_manager->persisted));
+        $this->assertCount(0, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
     }
 
@@ -75,7 +75,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
             'token' => 'AAAAAAAAAAAAAAAAAAAAAAAA',
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertCount(1, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $access_token = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $access_token->getId());
@@ -83,6 +83,6 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
         $this->assertSame('WebDAV', $access_token->getPurpose());
         $this->assertSame('AAAAAAAAAAAAAAAAAAAAAAAA', $access_token->getToken());
         $this->assertSame('2020-03-13 19:30:00', $access_token->getCreatedAt()->format('Y-m-d H:i:s'));
-        $this->assertSame(null, $access_token->getExpiresAt());
+        $this->assertNull($access_token->getExpiresAt());
     }
 }

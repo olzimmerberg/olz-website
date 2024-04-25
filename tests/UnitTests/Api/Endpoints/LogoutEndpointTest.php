@@ -37,6 +37,6 @@ final class LogoutEndpointTest extends UnitTestCase {
             'INFO Valid user response',
         ], $this->getLogs());
         $this->assertSame([], $session->session_storage);
-        $this->assertSame(true, $session->cleared);
+        $this->assertTrue($session->cleared);
     }
 }

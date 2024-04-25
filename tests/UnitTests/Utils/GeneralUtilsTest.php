@@ -48,7 +48,7 @@ final class GeneralUtilsTest extends UnitTestCase {
         $general_utils = new GeneralUtils();
         $key = 'asdf';
 
-        $this->assertSame(null, $general_utils->decrypt($key, ''));
+        $this->assertNull($general_utils->decrypt($key, ''));
     }
 
     public function testBinarySearchOdd(): void {

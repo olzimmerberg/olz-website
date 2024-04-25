@@ -83,7 +83,7 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
             'id' => $id,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(2, count($entity_manager->persisted));
+        $this->assertCount(2, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $snippet = $entity_manager->persisted[0];
         $this->assertSame($id, $snippet->getId());
@@ -134,8 +134,8 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
             'id' => $id,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $snippet = $entity_manager->persisted[0];
         $this->assertSame($id, $snippet->getId());

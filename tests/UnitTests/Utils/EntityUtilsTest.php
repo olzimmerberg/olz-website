@@ -82,7 +82,7 @@ final class EntityUtilsTest extends UnitTestCase {
             []
         );
 
-        $this->assertSame(true, $result);
+        $this->assertTrue($result);
     }
 
     public function testCanUpdateOlzEntityEditPermission(): void {
@@ -96,7 +96,7 @@ final class EntityUtilsTest extends UnitTestCase {
             'edit_permission'
         );
 
-        $this->assertSame(true, $result);
+        $this->assertTrue($result);
     }
 
     public function testCanUpdateOlzEntityIsOwner(): void {
@@ -111,7 +111,7 @@ final class EntityUtilsTest extends UnitTestCase {
             []
         );
 
-        $this->assertSame(true, $result);
+        $this->assertTrue($result);
     }
 
     public function testCanUpdateOlzEntityIsCreatedBy(): void {
@@ -126,7 +126,7 @@ final class EntityUtilsTest extends UnitTestCase {
             []
         );
 
-        $this->assertSame(true, $result);
+        $this->assertTrue($result);
     }
 
     public function testCanUpdateOlzEntityNoEntityAccess(): void {
@@ -139,6 +139,6 @@ final class EntityUtilsTest extends UnitTestCase {
             []
         );
 
-        $this->assertSame(false, $result);
+        $this->assertFalse($result);
     }
 }

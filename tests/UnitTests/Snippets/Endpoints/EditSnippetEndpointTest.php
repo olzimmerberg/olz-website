@@ -71,7 +71,7 @@ final class EditSnippetEndpointTest extends UnitTestCase {
         ], $result);
 
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertCount(1, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $snippet = $entity_manager->persisted[0];
         $this->assertSame($id, $snippet->getId());

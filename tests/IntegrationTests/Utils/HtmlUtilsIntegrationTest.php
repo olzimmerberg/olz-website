@@ -16,6 +16,6 @@ final class HtmlUtilsIntegrationTest extends IntegrationTestCase {
     public function testHtmlUtilsFromEnv(): void {
         $html_utils = HtmlUtils::fromEnv();
 
-        $this->assertSame(false, !$html_utils);
+        $this->assertFalse(!$html_utils);
     }
 }

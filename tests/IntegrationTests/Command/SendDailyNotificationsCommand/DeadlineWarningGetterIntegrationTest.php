@@ -57,6 +57,6 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
 
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 }

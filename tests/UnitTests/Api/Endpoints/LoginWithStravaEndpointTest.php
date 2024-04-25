@@ -54,6 +54,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             ], $this->getLogs());
             $this->assertSame([
                 'code' => [['.' => ['Feld darf nicht leer sein.']]],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }

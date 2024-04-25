@@ -113,7 +113,7 @@ final class AddUserRoleMembershipEndpointTest extends UnitTestCase {
 
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(2, count($entity_manager->persisted));
+        $this->assertCount(2, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
 
         $role = $entity_manager->persisted[0];

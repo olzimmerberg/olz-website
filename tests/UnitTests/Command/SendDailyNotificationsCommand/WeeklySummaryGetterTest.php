@@ -31,7 +31,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
             'termine' => true,
         ]);
 
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 
     public function testWeeklySummaryGetterWithAllContent(): void {
@@ -106,6 +106,6 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
 
         $notification = $job->getWeeklySummaryNotification([]);
 
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 }

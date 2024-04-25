@@ -58,8 +58,8 @@ final class DeleteTerminTemplateEndpointTest extends UnitTestCase {
             'status' => 'OK',
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $termin_location = $entity_manager->persisted[0];
         $this->assertSame(123, $termin_location->getId());
@@ -84,8 +84,8 @@ final class DeleteTerminTemplateEndpointTest extends UnitTestCase {
             ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
             $entity_manager = WithUtilsCache::get('entityManager');
-            $this->assertSame(0, count($entity_manager->removed));
-            $this->assertSame(0, count($entity_manager->flushed_removed));
+            $this->assertCount(0, $entity_manager->removed);
+            $this->assertCount(0, $entity_manager->flushed_removed);
         }
     }
 }

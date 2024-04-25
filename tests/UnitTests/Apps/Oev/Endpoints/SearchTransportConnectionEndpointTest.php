@@ -159,7 +159,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         }, $this->getLogs()));
 
         $this->assertSame('OK', $result['status']);
-        $this->assertSame(8, count($result['suggestions']));
+        $this->assertCount(8, $result['suggestions']);
 
         $pretty_prints = array_map(function ($suggestion) {
             $transport_suggestion = TransportSuggestion::fromFieldValue($suggestion);
@@ -343,7 +343,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             return substr($line, 0, 60);
         }, $this->getLogs()));
         $this->assertSame('OK', $result['status']);
-        $this->assertSame(0, count($result['suggestions']));
+        $this->assertCount(0, $result['suggestions']);
     }
 
     public function testSearchTransportConnectionEndpointExample3(): void {
@@ -400,7 +400,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         }, $this->getLogs()));
 
         $this->assertSame('OK', $result['status']);
-        // $this->assertSame(8, count($result['suggestions']));
+        // $this->assertCount(8, $result['suggestions']);
 
         $pretty_prints = array_map(function ($suggestion) {
             $transport_suggestion = TransportSuggestion::fromFieldValue($suggestion);

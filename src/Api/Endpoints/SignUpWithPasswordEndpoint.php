@@ -81,20 +81,28 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
 
         $same_username_user = $user_repo->findOneBy(['username' => $username]);
         $same_email_user = $user_repo->findOneBy(['email' => $email]);
+        $metadata = [
+            'on_off' => 1,
+            'ownerUserId' => null,
+            'ownerRoleId' => null,
+        ];
         if ($username && $same_username_user) {
             if ($same_username_user->getPasswordHash()) {
                 throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
             }
             // If it's an existing user WITHOUT password, we just update that existing user!
             $user = $same_username_user;
+            $this->entityUtils()->updateOlzEntity($user, $metadata);
         } elseif ($email && $same_email_user) {
             if ($same_email_user->getPasswordHash()) {
                 throw new ValidationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
             }
             // If it's an existing user WITHOUT password, we just update that existing user!
             $user = $same_email_user;
+            $this->entityUtils()->updateOlzEntity($user, $metadata);
         } else {
             $user = new User();
+            $this->entityUtils()->createOlzEntity($user, $metadata);
         }
 
         $password_hash = $input['password'] ? $this->authUtils()->hashPassword($input['password']) : null;
@@ -138,6 +146,8 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $this->entityManager()->flush();
 
         if (!$parent_user) {
+            $this->session()->resetConfigure(['timeout' => 3600]);
+
             $root = $user->getRoot() !== '' ? $user->getRoot() : './';
             $this->session()->set('auth', $user->getPermissions());
             $this->session()->set('root', $root);

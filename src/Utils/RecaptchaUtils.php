@@ -23,6 +23,11 @@ class RecaptchaUtils {
     }
 
     public function validateRecaptchaToken(string $token): bool {
+        $app_env = $this->envUtils()->getAppEnv();
+        if ($app_env === 'dev') {
+            $this->log()->notice("Accept recaptcha, because env is '{$app_env}'");
+            return true;
+        }
         $cached = self::$cache[$token] ?? null;
         if ($cached !== null) {
             $this->log()->info("Using cached recaptcha response...");

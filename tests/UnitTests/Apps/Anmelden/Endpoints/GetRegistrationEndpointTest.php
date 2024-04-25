@@ -60,8 +60,8 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
             ],
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(0, count($entity_manager->persisted));
-        $this->assertSame(0, count($entity_manager->flushed_persisted));
+        $this->assertCount(0, $entity_manager->persisted);
+        $this->assertCount(0, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
     }
 }

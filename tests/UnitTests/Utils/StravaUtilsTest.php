@@ -131,7 +131,7 @@ final class StravaUtilsTest extends UnitTestCase {
         $stravaUtils->setRedirectUrl('fake-redirect-url');
         $stravaUtils->setStravaFetcher($fake_strava_fetcher);
 
-        $this->assertSame(null, $stravaUtils->getTokenDataForCode('fake-code'));
+        $this->assertNull($stravaUtils->getTokenDataForCode('fake-code'));
     }
 
     public function testGetUserData(): void {

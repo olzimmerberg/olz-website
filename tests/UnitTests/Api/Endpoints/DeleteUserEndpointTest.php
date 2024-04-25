@@ -147,20 +147,20 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $this->assertSame('', $admin_user->getEmail());
         $this->assertSame('', $admin_user->getPasswordHash());
         $this->assertSame('', $admin_user->getPhone());
-        $this->assertSame(null, $admin_user->getGender());
-        $this->assertSame(null, $admin_user->getBirthdate());
-        $this->assertSame(null, $admin_user->getStreet());
-        $this->assertSame(null, $admin_user->getPostalCode());
-        $this->assertSame(null, $admin_user->getCity());
-        $this->assertSame(null, $admin_user->getRegion());
-        $this->assertSame(null, $admin_user->getCountryCode());
+        $this->assertNull($admin_user->getGender());
+        $this->assertNull($admin_user->getBirthdate());
+        $this->assertNull($admin_user->getStreet());
+        $this->assertNull($admin_user->getPostalCode());
+        $this->assertNull($admin_user->getCity());
+        $this->assertNull($admin_user->getRegion());
+        $this->assertNull($admin_user->getCountryCode());
         $this->assertSame('', $admin_user->getPermissions());
-        $this->assertSame(null, $admin_user->getRoot());
+        $this->assertNull($admin_user->getRoot());
         $this->assertSame(
             '2020-03-13 19:30:00',
             $admin_user->getLastModifiedAt()->format('Y-m-d H:i:s')
         );
-        $this->assertSame(5, count($entity_manager->removed));
+        $this->assertCount(5, $entity_manager->removed);
         $this->assertTrue($entity_manager->removed[0] instanceof NewsEntry);
         $this->assertTrue($entity_manager->removed[1] instanceof NotificationSubscription);
         $this->assertTrue($entity_manager->removed[2] instanceof TelegramLink);
@@ -206,7 +206,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $default_user = FakeUser::defaultUser();
-        $this->assertSame(6, count($entity_manager->removed));
+        $this->assertCount(6, $entity_manager->removed);
         $this->assertTrue($entity_manager->removed[0] instanceof NewsEntry);
         $this->assertTrue($entity_manager->removed[1] instanceof NotificationSubscription);
         $this->assertTrue($entity_manager->removed[2] instanceof TelegramLink);

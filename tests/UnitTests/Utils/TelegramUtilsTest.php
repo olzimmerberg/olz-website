@@ -121,24 +121,24 @@ final class TelegramUtilsTest extends UnitTestCase {
 
         $this->assertSame($expired_pin, $telegram_link->getPin());
         $this->assertSame('2020-03-13 19:25:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
-        $this->assertSame(null, $telegram_link->getUser());
-        $this->assertSame(null, $telegram_link->getTelegramChatId()); // not modified for existing
-        $this->assertSame(null, $telegram_link->getTelegramUserId()); // not modified for existing
+        $this->assertNull($telegram_link->getUser());
+        $this->assertNull($telegram_link->getTelegramChatId()); // not modified for existing
+        $this->assertNull($telegram_link->getTelegramUserId()); // not modified for existing
         $this->assertSame([], $telegram_link->getTelegramChatState());
-        $this->assertSame(null, $telegram_link->getCreatedAt());
-        $this->assertSame(null, $telegram_link->getLinkedAt());
+        $this->assertNull($telegram_link->getCreatedAt());
+        $this->assertNull($telegram_link->getLinkedAt());
         $this->assertSame([], $this->getLogs());
 
         $telegram_link = $telegram_utils->startAnonymousChat(4, 4);
 
-        $this->assertSame(null, $telegram_link->getPin());
-        $this->assertSame(null, $telegram_link->getPinExpiresAt());
-        $this->assertSame(null, $telegram_link->getUser());
+        $this->assertNull($telegram_link->getPin());
+        $this->assertNull($telegram_link->getPinExpiresAt());
+        $this->assertNull($telegram_link->getUser());
         $this->assertSame(4, $telegram_link->getTelegramChatId());
         $this->assertSame(4, $telegram_link->getTelegramUserId());
         $this->assertSame([], $telegram_link->getTelegramChatState());
         $this->assertSame($iso_now, $telegram_link->getCreatedAt()->format('Y-m-d H:i:s'));
-        $this->assertSame(null, $telegram_link->getLinkedAt());
+        $this->assertNull($telegram_link->getLinkedAt());
         $this->assertSame([], $this->getLogs());
     }
 
@@ -152,11 +152,11 @@ final class TelegramUtilsTest extends UnitTestCase {
 
         $this->assertSame($valid_pin, $telegram_link->getPin());
         $this->assertSame('2020-03-13 19:35:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
-        $this->assertSame(null, $telegram_link->getUser()->getId());
+        $this->assertNull($telegram_link->getUser()->getId());
         $this->assertSame($telegram_chat_id, $telegram_link->getTelegramChatId());
         $this->assertSame($telegram_user_id, $telegram_link->getTelegramUserId());
         $this->assertSame([], $telegram_link->getTelegramChatState());
-        $this->assertSame(null, $telegram_link->getCreatedAt());
+        $this->assertNull($telegram_link->getCreatedAt());
         $this->assertSame($iso_now, $telegram_link->getLinkedAt()->format('Y-m-d H:i:s'));
         $this->assertSame([], $this->getLogs());
 
@@ -188,10 +188,10 @@ final class TelegramUtilsTest extends UnitTestCase {
         $this->assertSame($valid_pin, $telegram_link->getPin());
         $this->assertSame('2020-03-13 19:35:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
         $this->assertSame($user, $telegram_link->getUser());
-        $this->assertSame(null, $telegram_link->getTelegramChatId());
-        $this->assertSame(null, $telegram_link->getTelegramUserId());
+        $this->assertNull($telegram_link->getTelegramChatId());
+        $this->assertNull($telegram_link->getTelegramUserId());
         $this->assertSame([], $telegram_link->getTelegramChatState());
-        $this->assertSame(null, $telegram_link->getCreatedAt());
+        $this->assertNull($telegram_link->getCreatedAt());
         $this->assertSame($iso_now, $telegram_link->getLinkedAt()->format('Y-m-d H:i:s'));
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([13], array_map(
@@ -279,10 +279,10 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now;
         $telegram_utils = new DeterministicTelegramUtils();
 
-        $this->assertSame(false, $telegram_utils->isAnonymousChat(1));
-        $this->assertSame(true, $telegram_utils->isAnonymousChat(2));
-        $this->assertSame(true, $telegram_utils->isAnonymousChat(3));
-        $this->assertSame(true, $telegram_utils->isAnonymousChat(4));
+        $this->assertFalse($telegram_utils->isAnonymousChat(1));
+        $this->assertTrue($telegram_utils->isAnonymousChat(2));
+        $this->assertTrue($telegram_utils->isAnonymousChat(3));
+        $this->assertTrue($telegram_utils->isAnonymousChat(4));
         $this->assertSame([], $this->getLogs());
     }
 
@@ -293,7 +293,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $this->assertSame([], $telegram_utils->getChatState(1));
         $this->assertSame([], $telegram_utils->getChatState(2));
         $this->assertSame([], $telegram_utils->getChatState(3));
-        $this->assertSame(null, $telegram_utils->getChatState(4));
+        $this->assertNull($telegram_utils->getChatState(4));
         $this->assertSame([], $this->getLogs());
     }
 
@@ -443,7 +443,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             $entity_manager->removed,
             $entity_manager->flushed_removed
         );
-        $this->assertSame(1, count($entity_manager->removed));
+        $this->assertCount(1, $entity_manager->removed);
     }
 
     public function testCallTelegramApiWithError(): void {

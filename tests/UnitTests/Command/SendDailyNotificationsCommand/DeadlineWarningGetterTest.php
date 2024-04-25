@@ -22,7 +22,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
 
         $notification = $job->getDeadlineWarningNotification(['days' => 10]);
 
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 
     public function testDeadlineWarningGetterWhenThereIsNoDeadline(): void {
@@ -36,7 +36,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
 
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 
     public function testDeadlineWarningGetter(): void {

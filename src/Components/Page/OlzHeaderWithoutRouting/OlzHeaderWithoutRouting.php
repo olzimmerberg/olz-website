@@ -13,7 +13,6 @@ class OlzHeaderWithoutRouting extends OlzComponent {
 
         StandardSession::session_start_if_cookie_set();
 
-        $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
@@ -33,9 +32,6 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         ]);
         $iso_now_json = json_encode($this->dateUtils()->getIsoNow());
 
-        if (!isset($refresh)) {
-            $refresh = '';
-        }
         $html_title = "OL Zimmerberg";
         if (isset($args['title'])) {
             $title_arg = htmlspecialchars($args['title']);
@@ -69,7 +65,6 @@ class OlzHeaderWithoutRouting extends OlzComponent {
             <meta name='Keywords' content='OL, Orientierungslauf, Sport, Laufsport, Gruppe, Klub, Verein, Zimmerberg, linkes Zürichseeufer, Sihltal, Kilchberg, Rüschlikon, Thalwil, Gattikon, Oberrieden, Horgen, Au ZH, Wädenswil, Richterswil, Schönenberg, Hirzel, Langnau am Albis, Adliswil, Stadt Zürich, Leimbach, Wollishofen, Enge, Friesenberg, Üetliberg, Entlisberg, Albis, Buchenegg, Landforst, Kopfholz, Chopfholz, Reidholz, Schweiz, OLZ, OLG'>
             {$html_description}
             <meta name='Content-Language' content='de'>
-            {$refresh}
             {$robots_html}
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
             <title>{$html_title}</title>

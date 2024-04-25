@@ -16,6 +16,6 @@ final class AuthUtilsIntegrationTest extends IntegrationTestCase {
     public function testAuthUtilsFromEnv(): void {
         $auth_utils = AuthUtils::fromEnv();
 
-        $this->assertSame(false, !$auth_utils);
+        $this->assertFalse(!$auth_utils);
     }
 }

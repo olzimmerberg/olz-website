@@ -79,8 +79,8 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $weekly_picture = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $weekly_picture->getId());
@@ -133,11 +133,11 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             $this->assertSame(400, $err->getCode());
 
             $entity_manager = WithUtilsCache::get('entityManager');
-            $this->assertSame(0, count($entity_manager->persisted));
-            $this->assertSame(0, count($entity_manager->flushed_persisted));
+            $this->assertCount(0, $entity_manager->persisted);
+            $this->assertCount(0, $entity_manager->flushed_persisted);
 
             // The entity is created, but not persisted.
-            $this->assertSame(1, count(WithUtilsCache::get('entityUtils')->create_olz_entity_calls));
+            $this->assertCount(1, WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
             $this->assertSame([
             ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);

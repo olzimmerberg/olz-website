@@ -98,7 +98,7 @@ final class BaseLogsChannelTest extends UnitTestCase {
             "", // TODO: avoid this
             "[2020-03-14 12:00:00] tick 2020-03-14 ((\n",
         ], $result->lines);
-        $this->assertSame(null, $result->previous);
-        $this->assertSame(null, $result->next);
+        $this->assertNull($result->previous);
+        $this->assertNull($result->next);
     }
 }

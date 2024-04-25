@@ -16,6 +16,6 @@ final class CoordinateUtilsIntegrationTest extends IntegrationTestCase {
     public function testCoordinateUtilsFromEnv(): void {
         $coordinate_utils = CoordinateUtils::fromEnv();
 
-        $this->assertSame(false, !$coordinate_utils);
+        $this->assertFalse(!$coordinate_utils);
     }
 }

@@ -26,24 +26,24 @@ final class NewsFilterUtilsTest extends UnitTestCase {
 
     public function testIsValidFilter(): void {
         $news_utils = new NewsFilterUtils();
-        $this->assertSame(false, $news_utils->isValidFilter([]));
-        $this->assertSame(false, $news_utils->isValidFilter(['foo' => 'bar']));
-        $this->assertSame(true, $news_utils->isValidFilter([
+        $this->assertFalse($news_utils->isValidFilter([]));
+        $this->assertFalse($news_utils->isValidFilter(['foo' => 'bar']));
+        $this->assertTrue($news_utils->isValidFilter([
             'format' => 'aktuell',
             'datum' => '2020',
             'archiv' => 'ohne',
         ]));
-        $this->assertSame(false, $news_utils->isValidFilter([
+        $this->assertFalse($news_utils->isValidFilter([
             'format' => 'aktuell',
             'datum' => '2011',
             'archiv' => 'ohne',
         ]));
-        $this->assertSame(true, $news_utils->isValidFilter([
+        $this->assertTrue($news_utils->isValidFilter([
             'format' => 'aktuell',
             'datum' => '2011',
             'archiv' => 'mit',
         ]));
-        $this->assertSame(false, $news_utils->isValidFilter([
+        $this->assertFalse($news_utils->isValidFilter([
             'format' => 'some',
             'datum' => 'silly',
             'archiv' => 'rubbish',
@@ -52,7 +52,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
 
     public function testDefaultFilterIsValid(): void {
         $news_utils = new NewsFilterUtils();
-        $this->assertSame(true, $news_utils->isValidFilter($news_utils->getDefaultFilter()));
+        $this->assertTrue($news_utils->isValidFilter($news_utils->getDefaultFilter()));
     }
 
     public function testGetAllValidFiltersForSitemap(): void {
@@ -771,9 +771,9 @@ final class NewsFilterUtilsTest extends UnitTestCase {
 
     public function testIsFilterNotArchived(): void {
         $news_utils = new NewsFilterUtils();
-        $this->assertSame(false, $news_utils->isFilterNotArchived([]));
-        $this->assertSame(true, $news_utils->isFilterNotArchived(['archiv' => 'ohne']));
-        $this->assertSame(false, $news_utils->isFilterNotArchived(['archiv' => 'mit']));
+        $this->assertFalse($news_utils->isFilterNotArchived([]));
+        $this->assertTrue($news_utils->isFilterNotArchived(['archiv' => 'ohne']));
+        $this->assertFalse($news_utils->isFilterNotArchived(['archiv' => 'mit']));
     }
 
     public function testGetIsNotArchivedCriteria(): void {

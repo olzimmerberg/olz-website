@@ -66,7 +66,7 @@ final class RecaptchaUtilsTest extends UnitTestCase {
         $result = $recaptcha_utils->validateRecaptchaToken('fake-recaptcha-token');
 
         $this->assertSame([], $this->getLogs());
-        $this->assertSame(true, $result);
+        $this->assertTrue($result);
     }
 
     public function testValidateRecaptchaTokenInvalid(): void {
@@ -81,7 +81,7 @@ final class RecaptchaUtilsTest extends UnitTestCase {
         $this->assertSame([
             "NOTICE reCaptcha denied.",
         ], $this->getLogs());
-        $this->assertSame(false, $result);
+        $this->assertFalse($result);
     }
 
     public function testValidateRecaptchaTokenNull(): void {
@@ -96,7 +96,7 @@ final class RecaptchaUtilsTest extends UnitTestCase {
         $this->assertSame([
             "ERROR reCaptcha verification error.",
         ], $this->getLogs());
-        $this->assertSame(false, $result);
+        $this->assertFalse($result);
     }
 
     public function testValidateRecaptchaTokenCached(): void {
@@ -113,6 +113,6 @@ final class RecaptchaUtilsTest extends UnitTestCase {
         $this->assertSame([
             "INFO Using cached recaptcha response...",
         ], $this->getLogs());
-        $this->assertSame(true, $result);
+        $this->assertTrue($result);
     }
 }

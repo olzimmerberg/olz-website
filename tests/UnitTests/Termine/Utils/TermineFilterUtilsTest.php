@@ -26,24 +26,24 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testIsValidFilter(): void {
         $termine_utils = $this->getTermineFilterUtils();
-        $this->assertSame(false, $termine_utils->isValidFilter([]));
-        $this->assertSame(false, $termine_utils->isValidFilter(['foo' => 'bar']));
-        $this->assertSame(true, $termine_utils->isValidFilter([
+        $this->assertFalse($termine_utils->isValidFilter([]));
+        $this->assertFalse($termine_utils->isValidFilter(['foo' => 'bar']));
+        $this->assertTrue($termine_utils->isValidFilter([
             'typ' => 'alle',
             'datum' => '2020',
             'archiv' => 'ohne',
         ]));
-        $this->assertSame(false, $termine_utils->isValidFilter([
+        $this->assertFalse($termine_utils->isValidFilter([
             'typ' => 'alle',
             'datum' => '2011',
             'archiv' => 'ohne',
         ]));
-        $this->assertSame(true, $termine_utils->isValidFilter([
+        $this->assertTrue($termine_utils->isValidFilter([
             'typ' => 'alle',
             'datum' => '2011',
             'archiv' => 'mit',
         ]));
-        $this->assertSame(false, $termine_utils->isValidFilter([
+        $this->assertFalse($termine_utils->isValidFilter([
             'typ' => 'some',
             'datum' => 'silly',
             'archiv' => 'rubbish',
@@ -52,7 +52,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testDefaultFilterIsValid(): void {
         $termine_utils = $this->getTermineFilterUtils();
-        $this->assertSame(true, $termine_utils->isValidFilter($termine_utils->getDefaultFilter()));
+        $this->assertTrue($termine_utils->isValidFilter($termine_utils->getDefaultFilter()));
     }
 
     public function testGetAllValidFiltersForSitemap(): void {
@@ -1037,9 +1037,9 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testIsFilterNotArchived(): void {
         $termine_utils = $this->getTermineFilterUtils();
-        $this->assertSame(false, $termine_utils->isFilterNotArchived([]));
-        $this->assertSame(true, $termine_utils->isFilterNotArchived(['archiv' => 'ohne']));
-        $this->assertSame(false, $termine_utils->isFilterNotArchived(['archiv' => 'mit']));
+        $this->assertFalse($termine_utils->isFilterNotArchived([]));
+        $this->assertTrue($termine_utils->isFilterNotArchived(['archiv' => 'ohne']));
+        $this->assertFalse($termine_utils->isFilterNotArchived(['archiv' => 'mit']));
     }
 
     public function testGetIsNotArchivedCriteria(): void {

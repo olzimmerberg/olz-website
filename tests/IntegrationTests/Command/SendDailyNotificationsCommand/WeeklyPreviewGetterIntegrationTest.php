@@ -27,7 +27,7 @@ final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $notification = $job->getWeeklyPreviewNotification([]);
+        $notification = $job->getWeeklyPreviewNotification();
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo First,

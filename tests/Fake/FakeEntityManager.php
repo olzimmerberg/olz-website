@@ -122,6 +122,7 @@ class FakeEntityManager implements EntityManagerInterface {
         if (method_exists($object, 'getId')) {
             // Simulate SQL auto-increment.
             if ($object->getId() === null) {
+                // @phpstan-ignore-next-line
                 $object->setId(FakeEntityManager::AUTO_INCREMENT_ID);
             }
         }

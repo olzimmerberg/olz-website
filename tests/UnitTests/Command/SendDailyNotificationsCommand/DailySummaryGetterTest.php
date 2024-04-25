@@ -87,6 +87,6 @@ final class DailySummaryGetterTest extends UnitTestCase {
 
         $notification = $job->getDailySummaryNotification([]);
 
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 }

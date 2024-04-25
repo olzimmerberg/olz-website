@@ -232,7 +232,7 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
 
         $job = new SyncSolvAssignPeopleCommand();
 
-        $this->assertSame(null, $job->getUnambiguousPerson([
+        $this->assertNull($job->getUnambiguousPerson([
             ['person' => 1],
             ['person' => 2],
             ['person' => 3],
@@ -247,7 +247,7 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         $this->assertSame(4, $job->getUnambiguousPerson([
             ['person' => 4],
         ]));
-        $this->assertSame(null, $job->getUnambiguousPerson([]));
+        $this->assertNull($job->getUnambiguousPerson([]));
 
         $this->assertSame([
         ], $this->getLogs());
@@ -318,7 +318,7 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         $this->resetLogs();
 
         // There are matches, but they are for different persons.
-        $this->assertSame(null, $job->getMatchingPerson(
+        $this->assertNull($job->getMatchingPerson(
             'Test',
             '07',
             'Uster',
@@ -349,7 +349,7 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         $this->resetLogs();
 
         // The matches are too bad.
-        $this->assertSame(null, $job->getMatchingPerson(
+        $this->assertNull($job->getMatchingPerson(
             'Test',
             '07',
             'Uster',
@@ -466,9 +466,9 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         $this->assertSame(1, $typo_result->getPerson());
 
         $flushed = $entity_manager->flushed_persisted;
-        $this->assertSame(1, count($flushed));
+        $this->assertCount(1, $flushed);
         $this->assertSame('Test Winner', $flushed[0]->getName());
-        $this->assertSame(null, $flushed[0]->getSameAs());
+        $this->assertNull($flushed[0]->getSameAs());
         $different_result = $solv_result_repo->differentResult;
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $different_result->getPerson());
     }

@@ -79,24 +79,24 @@ final class TransportHaltTest extends UnitTestCase {
         $object3 = TransportHalt::fromTransportApi(self::SAMPLE_API_HALT_NEITHER);
         $object4 = $object1;
 
-        $this->assertSame(true, $object1->equals($object1));
-        $this->assertSame(true, $object1->equals($object2));
-        $this->assertSame(false, $object1->equals($object3));
-        $this->assertSame(true, $object1->equals($object4));
+        $this->assertTrue($object1->equals($object1));
+        $this->assertTrue($object1->equals($object2));
+        $this->assertFalse($object1->equals($object3));
+        $this->assertTrue($object1->equals($object4));
 
-        $this->assertSame(true, $object2->equals($object1));
-        $this->assertSame(true, $object2->equals($object2));
-        $this->assertSame(false, $object2->equals($object3));
-        $this->assertSame(true, $object2->equals($object4));
+        $this->assertTrue($object2->equals($object1));
+        $this->assertTrue($object2->equals($object2));
+        $this->assertFalse($object2->equals($object3));
+        $this->assertTrue($object2->equals($object4));
 
-        $this->assertSame(false, $object3->equals($object1));
-        $this->assertSame(false, $object3->equals($object2));
-        $this->assertSame(true, $object3->equals($object3));
-        $this->assertSame(false, $object3->equals($object4));
+        $this->assertFalse($object3->equals($object1));
+        $this->assertFalse($object3->equals($object2));
+        $this->assertTrue($object3->equals($object3));
+        $this->assertFalse($object3->equals($object4));
 
-        $this->assertSame(true, $object4->equals($object1));
-        $this->assertSame(true, $object4->equals($object2));
-        $this->assertSame(false, $object4->equals($object3));
-        $this->assertSame(true, $object4->equals($object4));
+        $this->assertTrue($object4->equals($object1));
+        $this->assertTrue($object4->equals($object2));
+        $this->assertFalse($object4->equals($object3));
+        $this->assertTrue($object4->equals($object4));
     }
 }

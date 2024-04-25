@@ -53,6 +53,34 @@ class FakeProcessEmailCommandMail extends Message {
         $this->attachments = new AttachmentCollection([]);
     }
 
+    public function getUid() {
+        return $this->uid;
+    }
+
+    public function getTo() {
+        return $this->to;
+    }
+
+    public function getCc() {
+        return $this->cc;
+    }
+
+    public function getBcc() {
+        return $this->bcc;
+    }
+
+    public function getFrom() {
+        return $this->from;
+    }
+
+    public function getSubject() {
+        return $this->subject;
+    }
+
+    public function get($key): mixed {
+        return $this->{$key};
+    }
+
     public function parseBody(): FakeProcessEmailCommandMail {
         $this->is_body_fetched = true;
         return $this;
@@ -130,7 +158,7 @@ class FakeProcessEmailCommandAttachment {
  */
 final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandWithError(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->client->exception = true;
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -144,11 +172,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'ERROR Error running command Olz\Command\ProcessEmailCommand: Failed at something.',
         ], $this->getLogs());
-        $this->assertSame(false, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertFalse(WithUtilsCache::get('emailUtils')->client->is_connected);
     }
 
     public function testProcessEmailCommandWithMailToWrongDomain(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(12, 'someone@other-domain.com');
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
@@ -165,14 +193,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
 
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(false, $mail->is_body_fetched);
+        $this->assertFalse($mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandNoSuchUser(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(
             12,
             'no-such-username@staging.olzimmerberg.ch',
@@ -202,9 +230,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO E-Mail 12 to inexistent user/role username: no-such-username',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             <<<ZZZZZZZZZZ
@@ -226,7 +254,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandNoUserEmailPermission(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(
             12,
             'no-permission@staging.olzimmerberg.ch',
@@ -256,9 +284,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'NOTICE E-Mail 12 to user with no user_email permission: no-permission',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             <<<ZZZZZZZZZZ
@@ -280,7 +308,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandEmptyToException(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -319,9 +347,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -351,7 +379,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandRfcComplianceException(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -380,14 +408,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'NOTICE Email from someone@staging.olzimmerberg.ch to someone@gmail.com is not RFC-compliant: Email "non-rfc-compliant-email" does not comply with addr-spec of RFC 2822.',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(false, $mail->is_body_fetched);
+        $this->assertFalse($mail->is_body_fetched);
         $this->assertSame(['+flagged'], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandToUser(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -424,9 +452,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -456,7 +484,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToUserEmptyEmail(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -483,14 +511,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'CRITICAL Error forwarding email from empty-email@staging.olzimmerberg.ch to : getUserAddress: empty-email (User ID: 1) has no email.',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
-        $this->assertSame(null, $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertNull($mail->moved_to);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged'], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandToOldUser(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -527,9 +555,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from someone-old@staging.olzimmerberg.ch to someone-old@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -578,7 +606,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandNoRoleEmailPermission(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(
             12,
             'no-role-permission@staging.olzimmerberg.ch',
@@ -608,9 +636,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             <<<ZZZZZZZZZZ
@@ -632,7 +660,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToRole(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -671,9 +699,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged', '-flagged', '+flagged', '-flagged'], $mail->flag_actions);
 
         $this->assertSame([
@@ -721,7 +749,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToOldRole(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -760,9 +788,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged', '-flagged', '+flagged', '-flagged'], $mail->flag_actions);
 
         $this->assertSame([
@@ -829,7 +857,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandSendingError(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -860,14 +888,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'CRITICAL Error forwarding email from someone@staging.olzimmerberg.ch to someone@gmail.com: mocked-error',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
-        $this->assertSame(null, $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertNull($mail->moved_to);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged'], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandToMultiple(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -911,9 +939,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(
             ['+flagged', '-flagged', '+flagged', '-flagged', '+flagged', '-flagged'],
             $mail->flag_actions,
@@ -981,7 +1009,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToCcBcc(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -1022,9 +1050,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(
             ['+flagged', '-flagged', '+flagged', '-flagged', '+flagged', '-flagged'],
             $mail->flag_actions,
@@ -1092,7 +1120,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandMultipleEmails(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail1 = new FakeProcessEmailCommandMail(
@@ -1144,11 +1172,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail1->moved_to);
         $this->assertSame('INBOX.Processed', $mail2->moved_to);
-        $this->assertSame(true, $mail1->is_body_fetched);
-        $this->assertSame(true, $mail2->is_body_fetched);
+        $this->assertTrue($mail1->is_body_fetched);
+        $this->assertTrue($mail2->is_body_fetched);
         $this->assertSame(['+flagged', '-flagged'], $mail1->flag_actions);
         $this->assertSame(['+flagged', '-flagged', '+flagged', '-flagged'], $mail2->flag_actions);
 
@@ -1259,9 +1287,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
@@ -1293,7 +1321,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandWithFailingAttachment(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -1328,14 +1356,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'CRITICAL Error forwarding email from someone@staging.olzimmerberg.ch to someone@gmail.com: Could not save attachment Attachment1.pdf to AAAAAAAAAAAAAAAAAAAAAAAA.pdf.',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
-        $this->assertSame(null, $mail->moved_to);
-        $this->assertSame(true, $mail->is_body_fetched);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertNull($mail->moved_to);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged'], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandEmailToSmtpFrom(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(
             12,
             'fake@staging.olzimmerberg.ch',
@@ -1360,14 +1388,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'NOTICE sendReportEmail: Avoiding email loop for fake@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
-        $this->assertSame(true, WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertSame(false, $mail->is_body_fetched);
+        $this->assertFalse($mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandGet431ReportMessage(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
         $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
@@ -1378,7 +1406,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandGet550ReportMessage(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
         $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
@@ -1389,7 +1417,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandGetOtherReportMessage(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
         $job = new ProcessEmailCommand();
         $job->setMailer($mailer);

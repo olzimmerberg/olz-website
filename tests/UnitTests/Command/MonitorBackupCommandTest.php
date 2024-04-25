@@ -15,6 +15,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class MonitorBackupCommandTest extends UnitTestCase {
     public function testMonitorBackupCommandSuccess(): void {
         $command = new MonitorBackupCommand();
-        $this->assertSame(true, (bool) $command);
+        $this->assertTrue((bool) $command);
     }
 }

@@ -28,7 +28,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
 
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 
     public function testMonthlyPreviewGetterTooEarlyInMonth(): void {
@@ -41,7 +41,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
 
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 
     public function testMonthlyPreviewGetterTooLateInMonth(): void {
@@ -54,7 +54,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
 
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 
     public function testMonthlyPreviewGetter(): void {
@@ -111,6 +111,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
 
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 }

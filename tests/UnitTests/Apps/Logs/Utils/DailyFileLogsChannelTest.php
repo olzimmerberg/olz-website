@@ -119,6 +119,6 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             $result->previous->logFile->getPath(),
         );
         $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous->lineNumber);
-        $this->assertSame(null, $result->next);
+        $this->assertNull($result->next);
     }
 }

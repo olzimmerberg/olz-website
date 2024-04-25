@@ -25,7 +25,7 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
 
         $notification = $job->getNotification(['cancelled' => false]);
 
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 
     public function testTelegramConfigurationReminderGetterCancelled(): void {
@@ -38,7 +38,7 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
 
         $notification = $job->getNotification(['cancelled' => true]);
 
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 
     public function testTelegramConfigurationReminderGetter(): void {

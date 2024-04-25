@@ -82,8 +82,8 @@ final class CreateTerminTemplateEndpointTest extends UnitTestCase {
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $termin_template = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $termin_template->getId());
@@ -94,7 +94,7 @@ final class CreateTerminTemplateEndpointTest extends UnitTestCase {
         $this->assertSame('Fake link', $termin_template->getLink());
         $this->assertSame(86400, $termin_template->getDeadlineEarlierSeconds());
         $this->assertSame('22:00:00', $termin_template->getDeadlineTime()->format('H:i:s'));
-        $this->assertSame(true, $termin_template->getNewsletter());
+        $this->assertTrue($termin_template->getNewsletter());
         $this->assertSame(' ol club ', $termin_template->getTypes());
         $this->assertSame(123, $termin_template->getLocation()->getId());
         $this->assertSame(

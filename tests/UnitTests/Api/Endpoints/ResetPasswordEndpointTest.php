@@ -28,14 +28,14 @@ class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
  */
 final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpointIdent(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $this->assertSame('ResetPasswordEndpoint', $endpoint->getIdent());
     }
 
     public function testResetPasswordEndpointWithoutInput(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
@@ -46,6 +46,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'usernameOrEmail' => ["Fehlender Schlüssel: usernameOrEmail."],
                 'recaptchaToken' => ["Fehlender Schlüssel: recaptchaToken."],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -54,7 +55,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointWithNullInput(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
@@ -71,12 +72,13 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'usernameOrEmail' => [['.' => ['Feld darf nicht leer sein.']]],
                 'recaptchaToken' => [['.' => ['Feld darf nicht leer sein.']]],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }
 
     public function testResetPasswordEndpoint(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
@@ -141,7 +143,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointUsingEmailErrorSending(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
@@ -211,7 +213,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointInvalidUser(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
@@ -231,7 +233,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointInvalidRecaptchaToken(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();

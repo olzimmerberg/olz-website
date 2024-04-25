@@ -99,7 +99,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             $entity_manager->persisted,
             $entity_manager->flushed_persisted
         );
-        $this->assertSame(3, count($entity_manager->removed));
+        $this->assertCount(3, $entity_manager->removed);
         $this->assertSame(12, $entity_manager->removed[0]->getId());
         $this->assertSame(123, $entity_manager->removed[1]->getId());
         $this->assertSame(1234, $entity_manager->removed[2]->getId());
@@ -155,7 +155,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             $entity_manager->persisted,
             $entity_manager->flushed_persisted
         );
-        $this->assertSame(3, count($entity_manager->removed));
+        $this->assertCount(3, $entity_manager->removed);
         $this->assertSame(12, $entity_manager->removed[0]->getId());
         $this->assertSame(123, $entity_manager->removed[1]->getId());
         $this->assertSame(1234, $entity_manager->removed[2]->getId());

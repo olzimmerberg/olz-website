@@ -58,7 +58,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame(404, $http_utils->sent_http_response_code);
         $this->assertSame([], $http_utils->sent_http_header_lines);
         $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
-        $this->assertSame(true, $http_utils->has_exited_execution);
+        $this->assertTrue($http_utils->has_exited_execution);
     }
 
     public function testHttpUtilsRedirect(): void {
@@ -69,7 +69,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame(302, $http_utils->sent_http_response_code);
         $this->assertSame(["Location: https://test.ch"], $http_utils->sent_http_header_lines);
         $this->assertMatchesRegularExpression('/Weiterleitung/i', $http_utils->sent_http_body);
-        $this->assertSame(true, $http_utils->has_exited_execution);
+        $this->assertTrue($http_utils->has_exited_execution);
     }
 
     public function testValidateGetParamsSuccessful(): void {
@@ -96,7 +96,7 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame(400, $http_utils->sent_http_response_code);
         $this->assertSame([], $http_utils->sent_http_header_lines);
         $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
-        $this->assertSame(true, $http_utils->has_exited_execution);
+        $this->assertTrue($http_utils->has_exited_execution);
     }
 
     public function testValidateGetParamsWithUnknownParam(): void {
@@ -114,12 +114,12 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame(400, $http_utils->sent_http_response_code);
         $this->assertSame([], $http_utils->sent_http_header_lines);
         $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
-        $this->assertSame(true, $http_utils->has_exited_execution);
+        $this->assertTrue($http_utils->has_exited_execution);
     }
 
     public function testHttpUtilsFromEnv(): void {
         $http_utils = HttpUtils::fromEnv();
 
-        $this->assertSame(false, !$http_utils);
+        $this->assertFalse(!$http_utils);
     }
 }

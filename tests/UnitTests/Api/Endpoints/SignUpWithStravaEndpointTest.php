@@ -66,6 +66,7 @@ final class SignUpWithStravaEndpointTest extends UnitTestCase {
                 'city' => [['.' => ['Feld darf nicht leer sein.']]],
                 'region' => [['.' => ['Feld darf nicht leer sein.']]],
                 'countryCode' => [['.' => ['Feld darf nicht leer sein.']]],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }

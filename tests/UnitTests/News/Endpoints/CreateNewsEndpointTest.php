@@ -68,7 +68,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testCreateNewsEndpointAnonymous(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'any' => false,
@@ -125,21 +125,21 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
         $this->assertSame('Anonymous', $news_entry->getAuthorName());
         $this->assertSame('anonymous@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
-        $this->assertSame(null, $news_entry->getAuthorUser());
-        $this->assertSame(null, $news_entry->getAuthorRole());
+        $this->assertNull($news_entry->getAuthorUser());
+        $this->assertNull($news_entry->getAuthorRole());
         $this->assertSame('2020-03-16', $news_entry->getPublishedDate()->format('Y-m-d'));
         $this->assertSame('09:00:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());
-        $this->assertSame(null, $news_entry->getExternalUrl());
+        $this->assertNull($news_entry->getExternalUrl());
         $this->assertSame(' test unit ', $news_entry->getTags());
         $this->assertSame(0, $news_entry->getTermin());
         $this->assertSame([], $news_entry->getImageIds());
@@ -198,7 +198,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testCreateNewsEndpointMaximal(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'any' => true,
@@ -254,8 +254,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
@@ -268,7 +268,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('Das muss man gelesen haben!', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());
-        $this->assertSame(null, $news_entry->getExternalUrl());
+        $this->assertNull($news_entry->getExternalUrl());
         $this->assertSame(' test unit ', $news_entry->getTags());
         $this->assertSame(0, $news_entry->getTermin());
         $this->assertSame(['uploaded_image.jpg', 'inexistent.jpg'], $news_entry->getImageIds());
@@ -292,7 +292,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
     }
 
     public function testCreateNewsEndpointMinimal(): void {
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $entity_manager = WithUtilsCache::get('entityManager');
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'any' => true,
@@ -340,21 +340,21 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
-        $this->assertSame(null, $news_entry->getAuthorName());
-        $this->assertSame(null, $news_entry->getAuthorEmail());
-        $this->assertSame(null, $news_entry->getAuthorUser());
-        $this->assertSame(null, $news_entry->getAuthorRole());
+        $this->assertNull($news_entry->getAuthorName());
+        $this->assertNull($news_entry->getAuthorEmail());
+        $this->assertNull($news_entry->getAuthorUser());
+        $this->assertNull($news_entry->getAuthorRole());
         $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
         $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Cannot be empty', $news_entry->getTitle());
         $this->assertSame('', $news_entry->getTeaser());
         $this->assertSame('', $news_entry->getContent());
-        $this->assertSame(null, $news_entry->getExternalUrl());
+        $this->assertNull($news_entry->getExternalUrl());
         $this->assertSame('  ', $news_entry->getTags());
         $this->assertSame(0, $news_entry->getTermin());
         $this->assertSame([], $news_entry->getImageIds());

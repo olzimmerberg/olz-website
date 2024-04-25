@@ -58,6 +58,7 @@ class IntegrationTestCase extends KernelTestCase {
     }
 
     protected function tearDown(): void {
+        parent::tearDown();
         $_SERVER = $this->previous_server;
 
         $duration = microtime(true) - $this->setUpAt;

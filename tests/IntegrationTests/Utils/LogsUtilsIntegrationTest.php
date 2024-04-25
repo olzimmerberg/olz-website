@@ -17,7 +17,7 @@ final class LogsUtilsIntegrationTest extends IntegrationTestCase {
     public function testLogsUtilsFromEnvExists(): void {
         $logs_utils = LogsUtils::fromEnv();
 
-        $this->assertSame(false, !$logs_utils);
+        $this->assertFalse(!$logs_utils);
     }
 
     public function testLogsUtilsFromEnv(): void {
@@ -30,14 +30,14 @@ final class LogsUtilsIntegrationTest extends IntegrationTestCase {
             $general_utils = GeneralUtils::fromEnv();
             $general_utils->removeRecursive($logs_path);
         }
-        $this->assertSame(false, is_dir($logs_path));
+        $this->assertFalse(is_dir($logs_path));
 
         $logger = $logs_utils->getLogger('test');
         $logger->debug('just for test');
 
         $this->assertSame('test', $logger->getName());
-        $this->assertSame(true, is_dir($data_path));
-        $this->assertSame(true, is_dir($logs_path));
+        $this->assertTrue(is_dir($data_path));
+        $this->assertTrue(is_dir($logs_path));
         $this->assertMatchesRegularExpression(
             '/^merged\\-[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}\\.log$/',
             scandir($logs_path)[2]

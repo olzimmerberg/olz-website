@@ -95,6 +95,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'lastName' => [['.' => ['Feld darf nicht leer sein.']]],
                 'username' => [['.' => ['Feld darf nicht leer sein.']]],
                 'recaptchaToken' => [['.' => ['Feld darf nicht leer sein.']]],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }
@@ -141,6 +142,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'username' => ['Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }
@@ -168,6 +170,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'password' => ['Das Passwort muss mindestens 8 Zeichen lang sein.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }
@@ -195,6 +198,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Bitte keine @olzimmerberg.ch E-Mail verwenden.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }
@@ -222,6 +226,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Feld darf nicht leer sein.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }
@@ -249,6 +254,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'password' => ['Feld darf nicht leer sein.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }
@@ -288,25 +294,25 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'username' => 'fakeUsername',
             ],
         ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertCount(1, $entity_manager->persisted);
         $user = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
         $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertSame(null, $user->getOldUsername());
+        $this->assertNull($user->getOldUsername());
         $this->assertSame('fakeEmail', $user->getEmail());
-        $this->assertSame(false, $user->isEmailVerified());
-        $this->assertSame(null, $user->getEmailVerificationToken());
-        $this->assertSame(false, $user->hasPermission('verified_email'));
+        $this->assertFalse($user->isEmailVerified());
+        $this->assertNull($user->getEmailVerificationToken());
+        $this->assertFalse($user->hasPermission('verified_email'));
         $this->assertSame('fakeFirstName', $user->getFirstName());
         $this->assertSame('fakeLastName', $user->getLastName());
-        $this->assertSame(null, $user->getPhone());
-        $this->assertSame(null, $user->getGender());
-        $this->assertSame(null, $user->getBirthdate());
-        $this->assertSame(null, $user->getStreet());
-        $this->assertSame(null, $user->getPostalCode());
-        $this->assertSame(null, $user->getCity());
-        $this->assertSame(null, $user->getRegion());
-        $this->assertSame(null, $user->getCountryCode());
+        $this->assertNull($user->getPhone());
+        $this->assertNull($user->getGender());
+        $this->assertNull($user->getBirthdate());
+        $this->assertNull($user->getStreet());
+        $this->assertNull($user->getPostalCode());
+        $this->assertNull($user->getCity());
+        $this->assertNull($user->getRegion());
+        $this->assertNull($user->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
             $user->getLastModifiedAt()->format('Y-m-d H:i:s')
@@ -349,15 +355,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'username' => 'fakeUsername',
             ],
         ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertCount(1, $entity_manager->persisted);
         $user = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
         $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertSame(null, $user->getOldUsername());
+        $this->assertNull($user->getOldUsername());
         $this->assertSame('fakeEmail', $user->getEmail());
-        $this->assertSame(false, $user->isEmailVerified());
-        $this->assertSame(null, $user->getEmailVerificationToken());
-        $this->assertSame(false, $user->hasPermission('verified_email'));
+        $this->assertFalse($user->isEmailVerified());
+        $this->assertNull($user->getEmailVerificationToken());
+        $this->assertFalse($user->hasPermission('verified_email'));
         $this->assertSame('fakeFirstName', $user->getFirstName());
         $this->assertSame('fakeLastName', $user->getLastName());
         $this->assertSame('+41441234567', $user->getPhone());
@@ -401,25 +407,25 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([], $session->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertCount(1, $entity_manager->persisted);
         $user = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
         $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertSame(null, $user->getOldUsername());
-        $this->assertSame(null, $user->getEmail());
-        $this->assertSame(false, $user->isEmailVerified());
-        $this->assertSame(null, $user->getEmailVerificationToken());
-        $this->assertSame(false, $user->hasPermission('verified_email'));
+        $this->assertNull($user->getOldUsername());
+        $this->assertNull($user->getEmail());
+        $this->assertFalse($user->isEmailVerified());
+        $this->assertNull($user->getEmailVerificationToken());
+        $this->assertFalse($user->hasPermission('verified_email'));
         $this->assertSame('fakeFirstName', $user->getFirstName());
         $this->assertSame('fakeLastName', $user->getLastName());
-        $this->assertSame(null, $user->getPhone());
-        $this->assertSame(null, $user->getGender());
-        $this->assertSame(null, $user->getBirthdate());
-        $this->assertSame(null, $user->getStreet());
-        $this->assertSame(null, $user->getPostalCode());
-        $this->assertSame(null, $user->getCity());
-        $this->assertSame(null, $user->getRegion());
-        $this->assertSame(null, $user->getCountryCode());
+        $this->assertNull($user->getPhone());
+        $this->assertNull($user->getGender());
+        $this->assertNull($user->getBirthdate());
+        $this->assertNull($user->getStreet());
+        $this->assertNull($user->getPostalCode());
+        $this->assertNull($user->getCity());
+        $this->assertNull($user->getRegion());
+        $this->assertNull($user->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
             $user->getLastModifiedAt()->format('Y-m-d H:i:s')
@@ -449,15 +455,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([], $session->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertCount(1, $entity_manager->persisted);
         $user = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
         $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertSame(null, $user->getOldUsername());
+        $this->assertNull($user->getOldUsername());
         $this->assertSame('fakeEmail', $user->getEmail());
-        $this->assertSame(false, $user->isEmailVerified());
-        $this->assertSame(null, $user->getEmailVerificationToken());
-        $this->assertSame(false, $user->hasPermission('verified_email'));
+        $this->assertFalse($user->isEmailVerified());
+        $this->assertNull($user->getEmailVerificationToken());
+        $this->assertFalse($user->hasPermission('verified_email'));
         $this->assertSame('fakeFirstName', $user->getFirstName());
         $this->assertSame('fakeLastName', $user->getLastName());
         $this->assertSame('+41441234567', $user->getPhone());
@@ -680,25 +686,25 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
                 'username' => 'fakeUsername',
             ],
         ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
-        $this->assertSame(1, count($entity_manager->persisted));
+        $this->assertCount(1, $entity_manager->persisted);
         $user = $entity_manager->persisted[0];
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
         $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertSame(null, $user->getOldUsername());
+        $this->assertNull($user->getOldUsername());
         $this->assertSame('fakeEmail', $user->getEmail());
-        $this->assertSame(false, $user->isEmailVerified());
-        $this->assertSame(null, $user->getEmailVerificationToken());
-        $this->assertSame(false, $user->hasPermission('verified_email'));
+        $this->assertFalse($user->isEmailVerified());
+        $this->assertNull($user->getEmailVerificationToken());
+        $this->assertFalse($user->hasPermission('verified_email'));
         $this->assertSame('fakeFirstName', $user->getFirstName());
         $this->assertSame('fakeLastName', $user->getLastName());
-        $this->assertSame(null, $user->getPhone());
-        $this->assertSame(null, $user->getGender());
-        $this->assertSame(null, $user->getBirthdate());
-        $this->assertSame(null, $user->getStreet());
-        $this->assertSame(null, $user->getPostalCode());
-        $this->assertSame(null, $user->getCity());
-        $this->assertSame(null, $user->getRegion());
-        $this->assertSame(null, $user->getCountryCode());
+        $this->assertNull($user->getPhone());
+        $this->assertNull($user->getGender());
+        $this->assertNull($user->getBirthdate());
+        $this->assertNull($user->getStreet());
+        $this->assertNull($user->getPostalCode());
+        $this->assertNull($user->getCity());
+        $this->assertNull($user->getRegion());
+        $this->assertNull($user->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
             $user->getLastModifiedAt()->format('Y-m-d H:i:s')

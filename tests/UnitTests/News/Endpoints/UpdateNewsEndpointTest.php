@@ -193,8 +193,8 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             'id' => 123,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
         $this->assertSame(123, $news_entry->getId());
@@ -207,7 +207,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('Test Titel', $news_entry->getTitle());
         $this->assertSame('Das muss man gelesen haben!', $news_entry->getTeaser());
         $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());
-        $this->assertSame(null, $news_entry->getExternalUrl());
+        $this->assertNull($news_entry->getExternalUrl());
         $this->assertSame(' test unit ', $news_entry->getTags());
         $this->assertSame(0, $news_entry->getTermin());
 
@@ -270,21 +270,21 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             'id' => 123,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->persisted));
-        $this->assertSame(1, count($entity_manager->flushed_persisted));
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
         $this->assertSame(123, $news_entry->getId());
-        $this->assertSame(null, $news_entry->getAuthorName());
-        $this->assertSame(null, $news_entry->getAuthorEmail());
-        $this->assertSame(null, $news_entry->getAuthorUser());
-        $this->assertSame(null, $news_entry->getAuthorRole());
+        $this->assertNull($news_entry->getAuthorName());
+        $this->assertNull($news_entry->getAuthorEmail());
+        $this->assertNull($news_entry->getAuthorUser());
+        $this->assertNull($news_entry->getAuthorRole());
         $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
         $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
         $this->assertSame('Cannot be empty', $news_entry->getTitle());
         $this->assertSame('', $news_entry->getTeaser());
         $this->assertSame('', $news_entry->getContent());
-        $this->assertSame(null, $news_entry->getExternalUrl());
+        $this->assertNull($news_entry->getExternalUrl());
         $this->assertSame('  ', $news_entry->getTags());
         $this->assertSame(0, $news_entry->getTermin());
 

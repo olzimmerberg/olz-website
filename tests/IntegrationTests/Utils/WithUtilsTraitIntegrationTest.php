@@ -127,7 +127,7 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             },
         ];
         $instance = new WithUtilsTraitIntegrationClassWithUtilsTrait();
-        $mailer = $this->createStub(MailerInterface::class);
+        $mailer = $this->createMock(MailerInterface::class);
         $instance->setMailer($mailer);
         $this->assertGreaterThan(0, count($all_utils));
         foreach ($all_utils as $util_name) {

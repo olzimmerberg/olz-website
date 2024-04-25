@@ -364,10 +364,10 @@ final class AuthUtilsTest extends UnitTestCase {
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setSession($session);
-        $this->assertSame(false, $auth_utils->hasPermission('test'));
-        $this->assertSame(false, $auth_utils->hasPermission('other'));
-        $this->assertSame(false, $auth_utils->hasPermission('all'));
-        $this->assertSame(false, $auth_utils->hasPermission('any'));
+        $this->assertFalse($auth_utils->hasPermission('test'));
+        $this->assertFalse($auth_utils->hasPermission('other'));
+        $this->assertFalse($auth_utils->hasPermission('all'));
+        $this->assertFalse($auth_utils->hasPermission('any'));
     }
 
     public function testHasPermissionWithNoPermission(): void {
@@ -377,10 +377,10 @@ final class AuthUtilsTest extends UnitTestCase {
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setSession($session);
-        $this->assertSame(false, $auth_utils->hasPermission('test'));
-        $this->assertSame(false, $auth_utils->hasPermission('other'));
-        $this->assertSame(false, $auth_utils->hasPermission('all'));
-        $this->assertSame(true, $auth_utils->hasPermission('any'));
+        $this->assertFalse($auth_utils->hasPermission('test'));
+        $this->assertFalse($auth_utils->hasPermission('other'));
+        $this->assertFalse($auth_utils->hasPermission('all'));
+        $this->assertTrue($auth_utils->hasPermission('any'));
     }
 
     public function testHasPermissionWithSpecificPermission(): void {
@@ -390,10 +390,10 @@ final class AuthUtilsTest extends UnitTestCase {
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setSession($session);
-        $this->assertSame(true, $auth_utils->hasPermission('test'));
-        $this->assertSame(false, $auth_utils->hasPermission('other'));
-        $this->assertSame(false, $auth_utils->hasPermission('all'));
-        $this->assertSame(true, $auth_utils->hasPermission('any'));
+        $this->assertTrue($auth_utils->hasPermission('test'));
+        $this->assertFalse($auth_utils->hasPermission('other'));
+        $this->assertFalse($auth_utils->hasPermission('all'));
+        $this->assertTrue($auth_utils->hasPermission('any'));
     }
 
     public function testHasPermissionWithAllPermissions(): void {
@@ -403,10 +403,10 @@ final class AuthUtilsTest extends UnitTestCase {
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setSession($session);
-        $this->assertSame(true, $auth_utils->hasPermission('test'));
-        $this->assertSame(true, $auth_utils->hasPermission('other'));
-        $this->assertSame(true, $auth_utils->hasPermission('all'));
-        $this->assertSame(true, $auth_utils->hasPermission('any'));
+        $this->assertTrue($auth_utils->hasPermission('test'));
+        $this->assertTrue($auth_utils->hasPermission('other'));
+        $this->assertTrue($auth_utils->hasPermission('all'));
+        $this->assertTrue($auth_utils->hasPermission('any'));
     }
 
     public function testHasPermissionWithRolePermissions(): void {
@@ -416,96 +416,96 @@ final class AuthUtilsTest extends UnitTestCase {
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setSession($session);
-        $this->assertSame(true, $auth_utils->hasPermission('vorstand_user'));
-        $this->assertSame(true, $auth_utils->hasPermission('vorstand_role'));
-        $this->assertSame(false, $auth_utils->hasPermission('all'));
-        $this->assertSame(true, $auth_utils->hasPermission('any'));
+        $this->assertTrue($auth_utils->hasPermission('vorstand_user'));
+        $this->assertTrue($auth_utils->hasPermission('vorstand_role'));
+        $this->assertFalse($auth_utils->hasPermission('all'));
+        $this->assertTrue($auth_utils->hasPermission('any'));
     }
 
     public function testHasUserPermissionNoUser(): void {
         $auth_utils = new AuthUtils();
-        $this->assertSame(false, $auth_utils->hasUserPermission('test', null));
-        $this->assertSame(false, $auth_utils->hasUserPermission('other', null));
-        $this->assertSame(false, $auth_utils->hasUserPermission('all', null));
-        $this->assertSame(false, $auth_utils->hasUserPermission('any', null));
+        $this->assertFalse($auth_utils->hasUserPermission('test', null));
+        $this->assertFalse($auth_utils->hasUserPermission('other', null));
+        $this->assertFalse($auth_utils->hasUserPermission('all', null));
+        $this->assertFalse($auth_utils->hasUserPermission('any', null));
     }
 
     public function testHasUserPermissionWithNoPermission(): void {
         $user = new User();
         $user->setPermissions('');
         $auth_utils = new AuthUtils();
-        $this->assertSame(false, $auth_utils->hasUserPermission('test', $user));
-        $this->assertSame(false, $auth_utils->hasUserPermission('other', $user));
-        $this->assertSame(false, $auth_utils->hasUserPermission('all', $user));
-        $this->assertSame(true, $auth_utils->hasUserPermission('any', $user));
+        $this->assertFalse($auth_utils->hasUserPermission('test', $user));
+        $this->assertFalse($auth_utils->hasUserPermission('other', $user));
+        $this->assertFalse($auth_utils->hasUserPermission('all', $user));
+        $this->assertTrue($auth_utils->hasUserPermission('any', $user));
     }
 
     public function testHasUserPermissionWithSpecificPermission(): void {
         $user = new User();
         $user->setPermissions(' test ');
         $auth_utils = new AuthUtils();
-        $this->assertSame(true, $auth_utils->hasUserPermission('test', $user));
-        $this->assertSame(false, $auth_utils->hasUserPermission('other', $user));
-        $this->assertSame(false, $auth_utils->hasUserPermission('all', $user));
-        $this->assertSame(true, $auth_utils->hasUserPermission('any', $user));
+        $this->assertTrue($auth_utils->hasUserPermission('test', $user));
+        $this->assertFalse($auth_utils->hasUserPermission('other', $user));
+        $this->assertFalse($auth_utils->hasUserPermission('all', $user));
+        $this->assertTrue($auth_utils->hasUserPermission('any', $user));
     }
 
     public function testHasUserPermissionWithAllPermissions(): void {
         $user = new User();
         $user->setPermissions(' all ');
         $auth_utils = new AuthUtils();
-        $this->assertSame(true, $auth_utils->hasUserPermission('test', $user));
-        $this->assertSame(true, $auth_utils->hasUserPermission('other', $user));
-        $this->assertSame(true, $auth_utils->hasUserPermission('all', $user));
-        $this->assertSame(true, $auth_utils->hasUserPermission('any', $user));
+        $this->assertTrue($auth_utils->hasUserPermission('test', $user));
+        $this->assertTrue($auth_utils->hasUserPermission('other', $user));
+        $this->assertTrue($auth_utils->hasUserPermission('all', $user));
+        $this->assertTrue($auth_utils->hasUserPermission('any', $user));
     }
 
     public function testHasUserPermissionWithRolePermissions(): void {
         $user = new User();
         $user->setPermissions('aktuell ftp vorstand_user');
         $auth_utils = new AuthUtils();
-        $this->assertSame(true, $auth_utils->hasUserPermission('vorstand_user', $user));
-        $this->assertSame(false, $auth_utils->hasUserPermission('vorstand_role', $user));
-        $this->assertSame(false, $auth_utils->hasUserPermission('all', $user));
-        $this->assertSame(true, $auth_utils->hasUserPermission('any', $user));
+        $this->assertTrue($auth_utils->hasUserPermission('vorstand_user', $user));
+        $this->assertFalse($auth_utils->hasUserPermission('vorstand_role', $user));
+        $this->assertFalse($auth_utils->hasUserPermission('all', $user));
+        $this->assertTrue($auth_utils->hasUserPermission('any', $user));
     }
 
     public function testHasRolePermissionNoRole(): void {
         $auth_utils = new AuthUtils();
-        $this->assertSame(false, $auth_utils->hasRolePermission('test', null));
-        $this->assertSame(false, $auth_utils->hasRolePermission('other', null));
-        $this->assertSame(false, $auth_utils->hasRolePermission('all', null));
-        $this->assertSame(false, $auth_utils->hasRolePermission('any', null));
+        $this->assertFalse($auth_utils->hasRolePermission('test', null));
+        $this->assertFalse($auth_utils->hasRolePermission('other', null));
+        $this->assertFalse($auth_utils->hasRolePermission('all', null));
+        $this->assertFalse($auth_utils->hasRolePermission('any', null));
     }
 
     public function testHasRolePermissionWithNoPermission(): void {
         $role = new Role();
         $role->setPermissions('');
         $auth_utils = new AuthUtils();
-        $this->assertSame(false, $auth_utils->hasRolePermission('test', $role));
-        $this->assertSame(false, $auth_utils->hasRolePermission('other', $role));
-        $this->assertSame(false, $auth_utils->hasRolePermission('all', $role));
-        $this->assertSame(true, $auth_utils->hasRolePermission('any', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('test', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('other', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('all', $role));
+        $this->assertTrue($auth_utils->hasRolePermission('any', $role));
     }
 
     public function testHasRolePermissionWithSpecificPermission(): void {
         $role = new Role();
         $role->setPermissions('test');
         $auth_utils = new AuthUtils();
-        $this->assertSame(true, $auth_utils->hasRolePermission('test', $role));
-        $this->assertSame(false, $auth_utils->hasRolePermission('other', $role));
-        $this->assertSame(false, $auth_utils->hasRolePermission('all', $role));
-        $this->assertSame(true, $auth_utils->hasRolePermission('any', $role));
+        $this->assertTrue($auth_utils->hasRolePermission('test', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('other', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('all', $role));
+        $this->assertTrue($auth_utils->hasRolePermission('any', $role));
     }
 
     public function testHasRolePermissionWithAllPermissions(): void {
         $role = new Role();
         $role->setPermissions('all');
         $auth_utils = new AuthUtils();
-        $this->assertSame(true, $auth_utils->hasRolePermission('test', $role));
-        $this->assertSame(true, $auth_utils->hasRolePermission('other', $role));
-        $this->assertSame(true, $auth_utils->hasRolePermission('all', $role));
-        $this->assertSame(true, $auth_utils->hasRolePermission('any', $role));
+        $this->assertTrue($auth_utils->hasRolePermission('test', $role));
+        $this->assertTrue($auth_utils->hasRolePermission('other', $role));
+        $this->assertTrue($auth_utils->hasRolePermission('all', $role));
+        $this->assertTrue($auth_utils->hasRolePermission('any', $role));
     }
 
     public function testGetCurrentUserFromToken(): void {
@@ -537,7 +537,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams(['access_token' => 'invalid-token']);
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $this->assertSame(null, $auth_utils->getTokenUser());
+        $this->assertNull($auth_utils->getTokenUser());
     }
 
     public function testGetSessionUser(): void {
@@ -590,7 +590,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame(null, $auth_utils->getAuthenticatedRoles());
+        $this->assertNull($auth_utils->getAuthenticatedRoles());
     }
 
     public function testGetAuthenticatedRolesAdmin(): void {
@@ -615,9 +615,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(1));
-        $this->assertSame(true, $auth_utils->isRoleIdAuthenticated(2));
-        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(3));
+        $this->assertFalse($auth_utils->isRoleIdAuthenticated(1));
+        $this->assertTrue($auth_utils->isRoleIdAuthenticated(2));
+        $this->assertFalse($auth_utils->isRoleIdAuthenticated(3));
     }
 
     public function testIsRoleIdAuthenticatedUnauthenticated(): void {
@@ -626,9 +626,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(1));
-        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(2));
-        $this->assertSame(false, $auth_utils->isRoleIdAuthenticated(3));
+        $this->assertFalse($auth_utils->isRoleIdAuthenticated(1));
+        $this->assertFalse($auth_utils->isRoleIdAuthenticated(2));
+        $this->assertFalse($auth_utils->isRoleIdAuthenticated(3));
     }
 
     public function testHasRoleEditPermissionAdmin(): void {
@@ -639,9 +639,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame(true, $auth_utils->hasRoleEditPermission(1));
-        $this->assertSame(true, $auth_utils->hasRoleEditPermission(2));
-        $this->assertSame(true, $auth_utils->hasRoleEditPermission(3));
+        $this->assertTrue($auth_utils->hasRoleEditPermission(1));
+        $this->assertTrue($auth_utils->hasRoleEditPermission(2));
+        $this->assertTrue($auth_utils->hasRoleEditPermission(3));
     }
 
     public function testHasRoleEditPermissionVorstand(): void {
@@ -652,30 +652,30 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
         $auth_utils->setSession($session);
-        $this->assertSame(false, $auth_utils->hasRoleEditPermission(1));
-        $this->assertSame(false, $auth_utils->hasRoleEditPermission(2));
-        $this->assertSame(true, $auth_utils->hasRoleEditPermission(3));
-        $this->assertSame(true, $auth_utils->hasRoleEditPermission(33));
-        $this->assertSame(true, $auth_utils->hasRoleEditPermission(333));
-        $this->assertSame(true, $auth_utils->hasRoleEditPermission(3333));
-        $this->assertSame(true, $auth_utils->hasRoleEditPermission(33333));
-        $this->assertSame(false, $auth_utils->hasRoleEditPermission(333333));
+        $this->assertFalse($auth_utils->hasRoleEditPermission(1));
+        $this->assertFalse($auth_utils->hasRoleEditPermission(2));
+        $this->assertTrue($auth_utils->hasRoleEditPermission(3));
+        $this->assertTrue($auth_utils->hasRoleEditPermission(33));
+        $this->assertTrue($auth_utils->hasRoleEditPermission(333));
+        $this->assertTrue($auth_utils->hasRoleEditPermission(3333));
+        $this->assertTrue($auth_utils->hasRoleEditPermission(33333));
+        $this->assertFalse($auth_utils->hasRoleEditPermission(333333));
     }
 
     public function testIsUsernameAllowed(): void {
         $auth_utils = new AuthUtils();
-        $this->assertSame(true, $auth_utils->isUsernameAllowed('testTEST1234.-_'));
-        $this->assertSame(false, $auth_utils->isUsernameAllowed('test@wtf'));
-        $this->assertSame(false, $auth_utils->isUsernameAllowed('ötzi'));
-        $this->assertSame(false, $auth_utils->isUsernameAllowed('\';DROP TABLE users;'));
+        $this->assertTrue($auth_utils->isUsernameAllowed('testTEST1234.-_'));
+        $this->assertFalse($auth_utils->isUsernameAllowed('test@wtf'));
+        $this->assertFalse($auth_utils->isUsernameAllowed('ötzi'));
+        $this->assertFalse($auth_utils->isUsernameAllowed('\';DROP TABLE users;'));
     }
 
     public function testIsPasswordAllowed(): void {
         $auth_utils = new AuthUtils();
-        $this->assertSame(false, $auth_utils->isPasswordAllowed('test'));
-        $this->assertSame(true, $auth_utils->isPasswordAllowed('longpassword'));
-        $this->assertSame(false, $auth_utils->isPasswordAllowed('1234567'));
-        $this->assertSame(true, $auth_utils->isPasswordAllowed('12345678'));
+        $this->assertFalse($auth_utils->isPasswordAllowed('test'));
+        $this->assertTrue($auth_utils->isPasswordAllowed('longpassword'));
+        $this->assertFalse($auth_utils->isPasswordAllowed('1234567'));
+        $this->assertTrue($auth_utils->isPasswordAllowed('12345678'));
     }
 
     public function testGetUserAvatarNoUser(): void {

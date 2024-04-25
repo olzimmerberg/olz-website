@@ -56,7 +56,7 @@ final class SyncSolvEventsCommandTest extends UnitTestCase {
 
         $entity_manager = WithUtilsCache::get('entityManager');
         $flushed = $entity_manager->flushed_persisted;
-        $this->assertSame(1, count($flushed));
+        $this->assertCount(1, $flushed);
         $this->assertSame('20203', $flushed[0]->getSolvUid());
         $this->assertSame('Inserted Event', $flushed[0]->getName());
         $this->assertSame('2020-03-13 09:13:27', $flushed[0]->getLastModification()->format('Y-m-d H:i:s'));

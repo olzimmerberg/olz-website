@@ -16,6 +16,6 @@ final class GeneralUtilsIntegrationTest extends IntegrationTestCase {
     public function testGeneralUtilsFromEnv(): void {
         $general_utils = GeneralUtils::fromEnv();
 
-        $this->assertSame(false, !$general_utils);
+        $this->assertFalse(!$general_utils);
     }
 }

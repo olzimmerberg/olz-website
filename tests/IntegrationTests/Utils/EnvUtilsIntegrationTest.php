@@ -38,7 +38,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
 
     public function testEnvUtilsFromEnvWithinUnitTest(): void {
         $_SERVER = [
-            'DOCUMENT_ROOT' => $previous_server['DOCUMENT_ROOT'] ?? 'test-no-root',
+            'DOCUMENT_ROOT' => $this->previous_server['DOCUMENT_ROOT'] ?? 'test-no-root',
             'argv' => ['phpunit', 'tests/UnitTests'],
         ];
 

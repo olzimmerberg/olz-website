@@ -15,6 +15,6 @@ use Olz\Utils\EmailUtils;
 final class EmailUtilsIntegrationTest extends IntegrationTestCase {
     public function testEmailUtilsFromEnv(): void {
         $email_utils = EmailUtils::fromEnv();
-        $this->assertSame(true, (bool) $email_utils);
+        $this->assertTrue((bool) $email_utils);
     }
 }

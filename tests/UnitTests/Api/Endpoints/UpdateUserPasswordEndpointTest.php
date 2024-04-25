@@ -46,6 +46,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             ], $this->getLogs());
             $this->assertSame([
                 'newPassword' => ['Das neue Passwort muss mindestens 8 Zeichen lang sein.'],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
     }

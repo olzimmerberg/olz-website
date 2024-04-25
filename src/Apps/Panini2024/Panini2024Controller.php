@@ -97,7 +97,7 @@ class Panini2024Controller extends AbstractController {
             return new Response("Must be 'duplicates' or 'duplicates-grid'");
         }
         $options = [
-            'grid' => ($spec ?? '') === 'duplicates-grid',
+            'grid' => $spec === 'duplicates-grid',
         ];
         $zip_out = $this->paniniUtils()->render4x4Zip($options);
         $response = new Response($zip_out);

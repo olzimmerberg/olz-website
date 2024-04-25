@@ -51,7 +51,7 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
             'status' => 'OK',
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(1, count($entity_manager->removed));
+        $this->assertCount(1, $entity_manager->removed);
         $this->assertSame(FakeAccessToken::default(), $entity_manager->removed[0]);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
     }
@@ -68,7 +68,7 @@ final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
             'status' => 'OK',
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertSame(0, count($entity_manager->removed));
+        $this->assertCount(0, $entity_manager->removed);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
     }
 }

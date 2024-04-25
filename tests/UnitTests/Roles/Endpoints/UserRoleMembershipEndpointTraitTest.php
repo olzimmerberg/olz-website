@@ -24,8 +24,8 @@ final class UserRoleMembershipEndpointTraitTest extends UnitTestCase {
         $endpoint = new UserRoleMembershipEndpointTraitConcreteEndpoint();
 
         $field = $endpoint->getIdsField();
-        $this->assertSame(true, $field instanceof FieldTypes\ObjectField);
-        $this->assertSame(false, $field->getAllowNull());
+        $this->assertTrue($field instanceof FieldTypes\ObjectField);
+        $this->assertFalse($field->getAllowNull());
         $field_structure = $field->getFieldStructure();
         $keys = array_keys($field_structure);
         sort($keys);

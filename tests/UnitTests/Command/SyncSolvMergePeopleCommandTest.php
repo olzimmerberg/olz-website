@@ -85,7 +85,7 @@ final class SyncSolvMergePeopleCommandTest extends UnitTestCase {
         ], $this->getLogs());
 
         $flushed = $entity_manager->flushed_persisted;
-        $this->assertSame(0, count($flushed));
+        $this->assertCount(0, $flushed);
 
         $solv_result_repo = $entity_manager->getRepository(SolvResult::class);
         $this->assertSame([['old' => 2, 'new' => 1]], $solv_result_repo->merged);

@@ -148,7 +148,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
             ]);
         }
 
-        $text_html = $this->htmlUtils()->renderMarkdown($text ?? '');
+        $text_html = $this->htmlUtils()->renderMarkdown($text);
         $out .= "<div>{$text_html}</div>";
 
         $link = $this->fileUtils()->replaceFileTags($link, 'termin_templates', $id, $title);

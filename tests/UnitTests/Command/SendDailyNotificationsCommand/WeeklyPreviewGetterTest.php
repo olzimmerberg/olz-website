@@ -24,9 +24,9 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $job = new WeeklyPreviewGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getWeeklyPreviewNotification([]);
+        $notification = $job->getWeeklyPreviewNotification();
 
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 
     public function testWeeklyPreviewGetter(): void {
@@ -83,6 +83,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
 
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame(null, $notification);
+        $this->assertNull($notification);
     }
 }

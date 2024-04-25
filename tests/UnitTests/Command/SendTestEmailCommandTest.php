@@ -17,6 +17,6 @@ final class SendTestEmailCommandTest extends UnitTestCase {
     public function testDummy(): void {
         $message_bus = $this->createMock(MessageBusInterface::class);
         $command = new SendTestEmailCommand($message_bus);
-        $this->assertSame(true, (bool) $command);
+        $this->assertTrue((bool) $command);
     }
 }

@@ -16,8 +16,8 @@ final class MemorySessionTest extends UnitTestCase {
     public function testMemorySessionInit(): void {
         $session = new MemorySession();
 
-        $this->assertSame(false, $session->has('a'));
-        $this->assertSame(null, $session->get('a'));
+        $this->assertFalse($session->has('a'));
+        $this->assertNull($session->get('a'));
     }
 
     public function testMemorySessionSetValue(): void {
@@ -25,7 +25,7 @@ final class MemorySessionTest extends UnitTestCase {
 
         $session->set('a', 'value of a');
 
-        $this->assertSame(true, $session->has('a'));
+        $this->assertTrue($session->has('a'));
         $this->assertSame('value of a', $session->get('a'));
     }
 
@@ -35,7 +35,7 @@ final class MemorySessionTest extends UnitTestCase {
 
         $session->set('a', 'new value of a');
 
-        $this->assertSame(true, $session->has('a'));
+        $this->assertTrue($session->has('a'));
         $this->assertSame('new value of a', $session->get('a'));
     }
 
@@ -45,9 +45,9 @@ final class MemorySessionTest extends UnitTestCase {
 
         $session->set('b', 'value of b');
 
-        $this->assertSame(true, $session->has('a'));
+        $this->assertTrue($session->has('a'));
         $this->assertSame('value of a', $session->get('a'));
-        $this->assertSame(true, $session->has('b'));
+        $this->assertTrue($session->has('b'));
         $this->assertSame('value of b', $session->get('b'));
     }
 
@@ -57,8 +57,8 @@ final class MemorySessionTest extends UnitTestCase {
 
         $session->delete('a');
 
-        $this->assertSame(false, $session->has('a'));
-        $this->assertSame(null, $session->get('a'));
+        $this->assertFalse($session->has('a'));
+        $this->assertNull($session->get('a'));
     }
 
     public function testMemorySessionClear(): void {
@@ -67,8 +67,8 @@ final class MemorySessionTest extends UnitTestCase {
 
         $session->clear();
 
-        $this->assertSame(false, $session->has('a'));
-        $this->assertSame(null, $session->get('a'));
-        $this->assertSame(true, $session->cleared);
+        $this->assertFalse($session->has('a'));
+        $this->assertNull($session->get('a'));
+        $this->assertTrue($session->cleared);
     }
 }

@@ -20,7 +20,7 @@ final class SymfonyUtilsTest extends UnitTestCase {
 
         $application = $symfony_utils->getApplication();
 
-        $this->assertSame(null, $application);
+        $this->assertNull($application);
     }
 
     public function testSymfonyUtilsGetApplicationWithKernel(): void {
@@ -30,6 +30,6 @@ final class SymfonyUtilsTest extends UnitTestCase {
 
         $application = $symfony_utils->getApplication();
 
-        $this->assertSame(true, $application instanceof Application);
+        $this->assertTrue($application instanceof Application);
     }
 }

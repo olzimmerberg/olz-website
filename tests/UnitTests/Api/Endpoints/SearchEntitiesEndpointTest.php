@@ -46,6 +46,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
                 'entityType' => ["Fehlender Schlüssel: entityType."],
                 'query' => ["Fehlender Schlüssel: query."],
                 'id' => ["Fehlender Schlüssel: id."],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -66,6 +67,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'entityType' => [['.' => ["Feld darf nicht leer sein."]]],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -86,6 +88,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'entityType' => [['.' => ["Wert muss unter den erlaubten Werten sein."]]],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",

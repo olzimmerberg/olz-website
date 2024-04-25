@@ -35,6 +35,7 @@ final class LoginEndpointTest extends UnitTestCase {
                 'usernameOrEmail' => ["Fehlender Schlüssel: usernameOrEmail."],
                 'password' => ["Fehlender Schlüssel: password."],
                 'rememberMe' => ["Fehlender Schlüssel: rememberMe."],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -57,6 +58,7 @@ final class LoginEndpointTest extends UnitTestCase {
                 'usernameOrEmail' => [['.' => ['Feld darf nicht leer sein.']]],
                 'password' => [['.' => ['Feld darf nicht leer sein.']]],
                 'rememberMe' => [['.' => ['Feld darf nicht leer sein.']]],
+                // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
                 "WARNING Bad user request",
@@ -99,7 +101,7 @@ final class LoginEndpointTest extends UnitTestCase {
             '2020-03-13 19:30:00',
             $user->getLastLoginAt()->format('Y-m-d H:i:s')
         );
-        $this->assertSame(true, $entity_manager->flushed);
+        $this->assertTrue($entity_manager->flushed);
     }
 
     public function testLoginEndpointWithInvalidCredentials(): void {

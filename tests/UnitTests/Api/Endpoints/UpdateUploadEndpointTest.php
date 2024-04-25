@@ -60,7 +60,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
             "ERROR Could not update upload. Invalid ID: 'invalid'.",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(false, is_file(__DIR__.'/../../tmp/temp/invalid_0'));
+        $this->assertFalse(is_file(__DIR__.'/../../tmp/temp/invalid_0'));
     }
 
     public function testUpdateUploadEndpoint(): void {
@@ -82,7 +82,7 @@ final class UpdateUploadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(true, is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
+        $this->assertTrue(is_file(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
         $this->assertSame('H1', file_get_contents(__DIR__.'/../../tmp/temp/AAAAAAAAAAAAAAAAAAAAAAAA_0'));
     }
 }

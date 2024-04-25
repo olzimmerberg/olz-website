@@ -32,9 +32,9 @@ final class UpdateUserEndpointIntegrationTest extends IntegrationTestCase {
         $endpoint = new UpdateUserEndpointForIntegrationTest();
         $path = __DIR__.'/../../document-root/temp/update_user_endpoint.txt';
         file_put_contents($path, 'some content');
-        $this->assertSame(true, is_file($path));
+        $this->assertTrue(is_file($path));
         $endpoint->testOnlyUnlink($path);
-        $this->assertSame(false, is_file($path));
+        $this->assertFalse(is_file($path));
     }
 
     public function testRename(): void {
@@ -42,11 +42,11 @@ final class UpdateUserEndpointIntegrationTest extends IntegrationTestCase {
         $from_path = __DIR__.'/../../document-root/temp/update_user_endpoint_from.txt';
         $to_path = __DIR__.'/../../document-root/temp/update_user_endpoint_to.txt';
         file_put_contents($from_path, 'some content');
-        $this->assertSame(true, is_file($from_path));
-        $this->assertSame(false, is_file($to_path));
+        $this->assertTrue(is_file($from_path));
+        $this->assertFalse(is_file($to_path));
         $endpoint->testOnlyRename($from_path, $to_path);
-        $this->assertSame(false, is_file($from_path));
-        $this->assertSame(true, is_file($to_path));
+        $this->assertFalse(is_file($from_path));
+        $this->assertTrue(is_file($to_path));
         unlink($to_path);
     }
 }

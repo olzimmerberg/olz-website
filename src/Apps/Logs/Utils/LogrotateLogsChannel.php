@@ -23,8 +23,8 @@ abstract class LogrotateLogsChannel extends BaseLogsChannel {
                     $index++;
                 }
             } catch (\Exception $exc) {
-                throw $exc;
                 $continue = false;
+                throw $exc;
             }
         }
         $log_file = $this->getLogFileForIndex($index);

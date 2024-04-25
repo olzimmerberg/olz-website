@@ -367,7 +367,7 @@ class EnvUtils {
     public static function getConfigPath(): ?string {
         global $_SERVER;
 
-        $env = $_ENV['APP_ENV'] ?? getenv('APP_ENV') ?? null;
+        $env = $_ENV['APP_ENV'] ?? getenv('APP_ENV');
         if ($env) {
             $injected_env_path = __DIR__."/../../config/olz.{$env}.php";
             if (is_file($injected_env_path)) {

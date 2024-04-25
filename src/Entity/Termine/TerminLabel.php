@@ -45,6 +45,11 @@ class TerminLabel extends OlzEntity implements SearchableInterface, DataStorageI
     #[ORM\ManyToMany(targetEntity: TerminTemplate::class, mappedBy: 'labels')]
     private $termin_templates;
 
+    public function __construct() {
+        $this->termine = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->termin_templates = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     public function getId() {
         return $this->id;
     }

@@ -78,6 +78,10 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
     #[ORM\Column(type: 'text', nullable: true)]
     private $image_ids;
 
+    public function __construct() {
+        $this->labels = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     public function getId() {
         return $this->id;
     }
@@ -180,6 +184,18 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
 
     public function setTypes($new_value) {
         $this->types = $new_value;
+    }
+
+    public function getLabels() {
+        return $this->labels;
+    }
+
+    public function addLabel(TerminLabel $label) {
+        $this->labels->add($label);
+    }
+
+    public function removeLabel(TerminLabel $label) {
+        $this->labels->removeElement($label);
     }
 
     public function getLocation() {

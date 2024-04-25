@@ -17,10 +17,6 @@ class DeleteTerminLocationEndpoint extends OlzDeleteEntityEndpoint {
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$entity) {
-            return ['status' => 'ERROR'];
-        }
-
         if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }

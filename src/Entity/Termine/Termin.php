@@ -108,6 +108,10 @@ class Termin extends OlzEntity implements DataStorageInterface {
     // KEY `datum_end` (`datum_end`),
     // KEY `datum_off` (`datum_off`)
 
+    public function __construct() {
+        $this->labels = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     public function getId() {
         return $this->id;
     }
@@ -188,6 +192,18 @@ class Termin extends OlzEntity implements DataStorageInterface {
         $this->typ = $new_value;
     }
 
+    public function getLabels() {
+        return $this->labels;
+    }
+
+    public function addLabel(TerminLabel $label) {
+        $this->labels->add($label);
+    }
+
+    public function removeLabel(TerminLabel $label) {
+        $this->labels->removeElement($label);
+    }
+
     public function getSolvId() {
         return $this->solv_uid;
     }
@@ -247,6 +263,70 @@ class Termin extends OlzEntity implements DataStorageInterface {
 
     public function setImageIds($new_value) {
         $this->image_ids = json_encode($new_value);
+    }
+
+    public function getParticipantsRegistration() {
+        return $this->participants_registration;
+    }
+
+    public function setParticipantsRegistration($new_value) {
+        $this->participants_registration = $new_value;
+    }
+
+    public function getNumParticipants() {
+        return $this->num_participants;
+    }
+
+    public function setNumParticipants($new_value) {
+        $this->num_participants = $new_value;
+    }
+
+    public function getMinParticipants() {
+        return $this->min_participants;
+    }
+
+    public function setMinParticipants($new_value) {
+        $this->min_participants = $new_value;
+    }
+
+    public function getMaxParticipants() {
+        return $this->max_participants;
+    }
+
+    public function setMaxParticipants($new_value) {
+        $this->max_participants = $new_value;
+    }
+
+    public function getVolunteersRegistration() {
+        return $this->volunteers_registration;
+    }
+
+    public function setVolunteersRegistration($new_value) {
+        $this->volunteers_registration = $new_value;
+    }
+
+    public function getNumVolunteers() {
+        return $this->num_volunteers;
+    }
+
+    public function setNumVolunteers($new_value) {
+        $this->num_volunteers = $new_value;
+    }
+
+    public function getMinVolunteers() {
+        return $this->min_volunteers;
+    }
+
+    public function setMinVolunteers($new_value) {
+        $this->min_volunteers = $new_value;
+    }
+
+    public function getMaxVolunteers() {
+        return $this->max_volunteers;
+    }
+
+    public function setMaxVolunteers($new_value) {
+        $this->max_volunteers = $new_value;
     }
 
     // ---

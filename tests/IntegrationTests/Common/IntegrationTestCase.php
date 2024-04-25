@@ -18,8 +18,6 @@ class IntegrationTestCase extends KernelTestCase {
     private static $is_first_call = true;
     private static $is_db_locked = false;
 
-    private $previous_document_root;
-
     protected static $slowestTests = [];
     protected static $numSlowestTests = 25;
     protected static $shutdownFunctionRegistered = false;

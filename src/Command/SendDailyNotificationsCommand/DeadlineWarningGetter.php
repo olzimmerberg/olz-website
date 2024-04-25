@@ -73,9 +73,6 @@ class DeadlineWarningGetter {
         ;
         $deadlines = $termin_repo->matching($criteria);
         foreach ($deadlines as $termin) {
-            if (!$termin) {
-                continue;
-            }
             $deadline_date = $termin->getDeadline();
             $date = $deadline_date?->format('d.m.');
             $id = $termin->getId();

@@ -16,6 +16,6 @@ final class RecaptchaUtilsIntegrationTest extends IntegrationTestCase {
     public function testRecaptchaUtilsFromEnv(): void {
         $recaptcha_utils = RecaptchaUtils::fromEnv();
 
-        $this->assertFalse(!$recaptcha_utils);
+        $this->assertTrue($recaptcha_utils instanceof RecaptchaUtils);
     }
 }

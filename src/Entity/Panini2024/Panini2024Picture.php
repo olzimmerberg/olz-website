@@ -48,71 +48,87 @@ class Panini2024Picture extends OlzEntity {
         return $this->id;
     }
 
-    public function setId($new_id) {
-        $this->id = $new_id;
+    public function setId($new_value) {
+        $this->id = $new_value;
     }
 
     public function getLine1() {
         return $this->line1;
     }
 
-    public function setLine1($new_line1) {
-        $this->line1 = $new_line1;
+    public function setLine1($new_value) {
+        $this->line1 = $new_value;
     }
 
     public function getLine2() {
         return $this->line2;
     }
 
-    public function setLine2($new_line2) {
-        $this->line2 = $new_line2;
+    public function setLine2($new_value) {
+        $this->line2 = $new_value;
     }
 
     public function getAssociation() {
         return $this->association;
     }
 
-    public function setAssociation($new_association) {
-        $this->association = $new_association;
+    public function setAssociation($new_value) {
+        $this->association = $new_value;
     }
 
     public function getImgSrc() {
         return $this->img_src;
     }
 
-    public function setImgSrc($new_img_src) {
-        $this->img_src = $new_img_src;
+    public function setImgSrc($new_value) {
+        $this->img_src = $new_value;
     }
 
     public function getImgStyle() {
         return $this->img_style;
     }
 
-    public function setImgStyle($new_img_style) {
-        $this->img_style = $new_img_style;
+    public function setImgStyle($new_value) {
+        $this->img_style = $new_value;
     }
 
     public function getIsLandscape() {
         return $this->is_landscape;
     }
 
-    public function setIsLandscape($new_is_landscape) {
-        $this->is_landscape = $new_is_landscape;
+    public function setIsLandscape($new_value) {
+        $this->is_landscape = $new_value;
     }
 
     public function getHasTop() {
         return $this->has_top;
     }
 
-    public function setHasTop($new_has_top) {
-        $this->has_top = $new_has_top;
+    public function setHasTop($new_value) {
+        $this->has_top = $new_value;
+    }
+
+    public function getBirthdate() {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate($new_value) {
+        $this->birthdate = $new_value;
+    }
+
+    public function getNumMispunches() {
+        return $this->num_mispunches;
+    }
+
+    public function setNumMispunches($new_value) {
+        $this->num_mispunches = $new_value;
     }
 
     public function getInfos() {
         return json_decode($this->infos ?? '[]', true);
     }
 
-    public function setInfos($new_infos) {
-        $this->infos = json_encode($new_infos);
+    public function setInfos($new_value) {
+        $this->infos = json_encode($new_value);
     }
 }

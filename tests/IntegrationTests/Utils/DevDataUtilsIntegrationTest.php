@@ -17,12 +17,6 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
     private $dev_db_structure_path = __DIR__.'/../../../src/Utils/data/db_structure.sql';
     private $dev_db_content_path = __DIR__.'/../../../src/Utils/data/db_content.sql';
 
-    public function testDevDataUtilsFromEnv(): void {
-        $dev_data_utils = DevDataUtils::fromEnv();
-
-        $this->assertFalse(!$dev_data_utils);
-    }
-
     public function testInitAndDump(): void {
         $this->withLockedDb(function () {
             $dev_data_utils = DevDataUtils::fromEnv();

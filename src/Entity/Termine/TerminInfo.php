@@ -54,6 +54,14 @@ class TerminInfo {
         $this->language = $new_value;
     }
 
+    public function getIndex() {
+        return $this->index;
+    }
+
+    public function setIndex($new_value) {
+        $this->index = $new_value;
+    }
+
     public function getName() {
         return $this->name;
     }

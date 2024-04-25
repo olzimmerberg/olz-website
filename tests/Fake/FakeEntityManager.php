@@ -11,9 +11,6 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataFactory;
-use Doctrine\ORM\Mapping\NamedQuery;
 use Doctrine\ORM\NativeQuery;
 use Doctrine\ORM\Proxy\ProxyFactory;
 use Doctrine\ORM\Query;
@@ -21,6 +18,8 @@ use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\FilterCollection;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Doctrine\Persistence\ObjectRepository;
 use Olz\Entity\AccessToken;
 use Olz\Entity\Anmelden\Booking;
@@ -159,7 +158,7 @@ class FakeEntityManager implements EntityManagerInterface {
         throw new \Exception('not implemented');
     }
 
-    public function createNamedQuery($name): NamedQuery {
+    public function createNamedQuery($name): Query {
         throw new \Exception('not implemented');
     }
 

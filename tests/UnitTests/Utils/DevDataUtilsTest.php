@@ -17,6 +17,6 @@ final class DevDataUtilsTest extends UnitTestCase {
         $dev_data_utils = new DevDataUtils();
 
         // There's not much to test in unit tests without an actual DB...
-        $this->assertFalse(!$dev_data_utils);
+        $this->assertTrue($dev_data_utils instanceof DevDataUtils);
     }
 }

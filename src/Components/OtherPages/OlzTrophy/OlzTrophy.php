@@ -110,21 +110,21 @@ class OlzTrophy extends OlzComponent {
             <tr><td style='width:100px;'>Datum:</td><td><b>".$etappe[0]."</b></td></tr>
             <tr><td>Besammlung:</td><td>".$etappe[3]."</td></tr>
             <tr><td>Anmeldung:</td><td>".$etappe[1]."</td></tr>
-            ".($etappe[14] ? "<tr><td></td><td>".$etappe[14]."</td></tr>" : "")."
+            ".(/* @phpstan-ignore-line */ $etappe[14] ? "<tr><td></td><td>".$etappe[14]."</td></tr>" : "")."
             <tr><td>Kategorien:</td><td>".$etappe[10]."</td></tr>
             <tr><td>Kosten:</td><td>".$etappe[11]."</td></tr>
             <tr><td>öV:</td><td>".$etappe[6]."</td></tr>
             <tr><td>Parkplätze:</td><td>".$etappe[7]."</td></tr>
             <tr><td>Garderobe:</td><td>".$etappe[8]."</td></tr>
-            <tr><td></td><td><a href='{$code_href}termine/".$etappe[13]."' class='linkint'>Termine-Eintrag</a>".($etappe[9] ? "</td></tr>
-            <tr><td></td><td><a href='".$etappe[9]."' class='linkext'>weitere Infos</a>" : "").($etappe[12] && is_file("{$data_path}results/{$etappe[12]}.xml") ? "</td></tr>
+            <tr><td></td><td><a href='{$code_href}termine/".$etappe[13]."' class='linkint'>Termine-Eintrag</a>".(/* @phpstan-ignore-line */ $etappe[9] ? "</td></tr>
+            <tr><td></td><td><a href='".$etappe[9]."' class='linkext'>weitere Infos</a>" : "").(/* @phpstan-ignore-line */ $etappe[12] && is_file("{$data_path}results/{$etappe[12]}.xml") ? "</td></tr>
             <tr><td></td><td><a href='/apps/resultate/?file=".$etappe[12].".xml' class='linkint'>Resultate</a>" : "")."</td></tr>
-            </table></div></td><td style='width:40%; padding:5px 0px 5px 10px;' class='trophy-map-container'>".($etappe[4] != 0 ? OlzLocationMap::render([
+            </table></div></td><td style='width:40%; padding:5px 0px 5px 10px;' class='trophy-map-container'>".(/* @phpstan-ignore-line */ $etappe[4] != 0 ? OlzLocationMap::render([
                 'xkoord' => $etappe[4],
                 'ykoord' => $etappe[5],
                 'zoom' => 13,
             ]) : "")."</td></tr>";
-            if ($has_permission && $etappe[12]) {
+            if ($has_permission && /* @phpstan-ignore-line */ $etappe[12]) {
                 if (isset($_FILES["resultate_upload_".$etappe[13]])) {
                     move_uploaded_file(
                         $_FILES["resultate_upload_".$etappe[13]]['tmp_name'],

@@ -295,6 +295,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         // TODO
         $this->markTestSkipped('Too slow and broken.');
 
+        // @phpstan-ignore-next-line
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $endpoint = new SearchTransportConnectionEndpoint();
@@ -350,6 +351,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
         // TODO
         $this->markTestSkipped('Too slow and broken.');
 
+        // @phpstan-ignore-next-line
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $fake_transport_api_fetcher = new FakeSearchTransportConnectionEndpointTransportApiFetcher();
         $endpoint = new SearchTransportConnectionEndpoint();

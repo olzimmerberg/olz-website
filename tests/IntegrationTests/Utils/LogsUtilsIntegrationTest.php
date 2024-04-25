@@ -14,12 +14,6 @@ use Olz\Utils\LogsUtils;
  * @covers \Olz\Utils\LogsUtils
  */
 final class LogsUtilsIntegrationTest extends IntegrationTestCase {
-    public function testLogsUtilsFromEnvExists(): void {
-        $logs_utils = LogsUtils::fromEnv();
-
-        $this->assertFalse(!$logs_utils);
-    }
-
     public function testLogsUtilsFromEnv(): void {
         $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
         $logs_utils = LogsUtils::fromEnv();

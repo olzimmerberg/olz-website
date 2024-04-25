@@ -128,6 +128,7 @@ final class GeneralUtilsTest extends UnitTestCase {
         $list = [];
         $this->assertSame(0, $general_utils->binarySearch(
             function ($index) use ($list) {
+                // @phpstan-ignore-next-line
                 return 3 <=> $list[$index];
             },
             0,

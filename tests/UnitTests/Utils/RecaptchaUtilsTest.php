@@ -56,10 +56,26 @@ class RecaptchaUtilsForTest extends RecaptchaUtils {
  * @covers \Olz\Utils\RecaptchaUtils
  */
 final class RecaptchaUtilsTest extends UnitTestCase {
+    public function testValidateRecaptchaTokenDevEnv(): void {
+        $env_utils = new Fake\FakeEnvUtils();
+        $env_utils->app_env = 'dev';
+        $recaptcha_utils = new RecaptchaUtils();
+        $google_fetcher = new FakeRecaptchaUtilsGoogleFetcher();
+        $recaptcha_utils->setEnvUtils($env_utils);
+        $recaptcha_utils->setGoogleFetcher($google_fetcher);
+        $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+
+        $result = $recaptcha_utils->validateRecaptchaToken('fake-recaptcha-token');
+
+        $this->assertSame([
+            "NOTICE Accept recaptcha, because env is 'dev'",
+        ], $this->getLogs());
+        $this->assertTrue($result);
+    }
+
     public function testValidateRecaptchaToken(): void {
         $recaptcha_utils = new RecaptchaUtils();
         $google_fetcher = new FakeRecaptchaUtilsGoogleFetcher();
-        $recaptcha_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $recaptcha_utils->setGoogleFetcher($google_fetcher);
         $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
@@ -72,7 +88,6 @@ final class RecaptchaUtilsTest extends UnitTestCase {
     public function testValidateRecaptchaTokenInvalid(): void {
         $recaptcha_utils = new RecaptchaUtils();
         $google_fetcher = new FakeRecaptchaUtilsGoogleFetcher();
-        $recaptcha_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $recaptcha_utils->setGoogleFetcher($google_fetcher);
         $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
@@ -87,7 +102,6 @@ final class RecaptchaUtilsTest extends UnitTestCase {
     public function testValidateRecaptchaTokenNull(): void {
         $recaptcha_utils = new RecaptchaUtils();
         $google_fetcher = new FakeRecaptchaUtilsGoogleFetcher();
-        $recaptcha_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $recaptcha_utils->setGoogleFetcher($google_fetcher);
         $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
@@ -103,7 +117,6 @@ final class RecaptchaUtilsTest extends UnitTestCase {
         RecaptchaUtilsForTest::testOnlyResetCache();
         $recaptcha_utils = new RecaptchaUtilsForTest();
         $google_fetcher = new FakeRecaptchaUtilsGoogleFetcher();
-        $recaptcha_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $recaptcha_utils->setGoogleFetcher($google_fetcher);
         $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $recaptcha_utils->validateRecaptchaToken('fake-recaptcha-token');

@@ -42,7 +42,7 @@ class OlzICal extends OlzComponent {
             // Links extrahieren
             $links = $row['link'];
             $dom = new \DOMDocument();
-            $dom->loadHTML($links ?? ' ');
+            $dom->loadHTML($links ? $links : ' ');
             $_links = "OLZ-Termin: {$base_href}{$code_href}termine/{$id}";
             $_attach = "\r\nATTACH;FMTTYPE=text/html:{$base_href}{$code_href}termine/{$id}";
             foreach ($dom->getElementsByTagName("a") as $a) {

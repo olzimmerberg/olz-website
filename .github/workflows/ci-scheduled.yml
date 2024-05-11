@@ -51,7 +51,11 @@ jobs:
         restore-keys: ${{ runner.os }}-composerdev-
     - name: Install PHP (composer) dependencies
       run: composer install --dev --prefer-dist
-    - name: PHP System Tests
+    - name: PHP System Tests (prod)
       env:
         MOZ_HEADLESS: 1
-      run: composer system_tests
+      run: composer system_tests -- --prod --no-build
+    - name: PHP System Tests (meta)
+      env:
+        MOZ_HEADLESS: 1
+      run: composer system_tests -- --meta --no-build

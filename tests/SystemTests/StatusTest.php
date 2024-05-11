@@ -19,6 +19,8 @@ final class StatusTest extends SystemTestCase {
     public static string $statusPassword = "jup,thisIsPublic";
 
     public function testStatusIsUp(): void {
+        $this->onlyRunInModes('meta');
+
         $url = "{$this::$statusUrl}";
         $headers = $this->getHeaders($url);
 
@@ -27,6 +29,8 @@ final class StatusTest extends SystemTestCase {
     }
 
     public function testStatusIsWorking(): void {
+        $this->onlyRunInModes('meta');
+
         $url = "{$this::$statusUrl}";
         $body = file_get_contents($url);
 
@@ -35,6 +39,8 @@ final class StatusTest extends SystemTestCase {
     }
 
     public function testStatusIsMonitoring(): void {
+        $this->onlyRunInModes('meta');
+
         $browser = $this->getBrowser('firefox');
         $browser->get("{$this::$statusUrl}");
         $username_input = $this->findBrowserElement('#input-username');
@@ -63,6 +69,8 @@ final class StatusTest extends SystemTestCase {
     }
 
     protected function parseLastCheck(string $text): ?int {
+        $this->onlyRunInModes('meta');
+
         $res = preg_match('/Last check:\s*(([0-9]+) (seconds|minutes) ago|about a minute ago)/im', $text, $matches);
         if (!$res) {
             return null;
@@ -88,6 +96,8 @@ final class StatusTest extends SystemTestCase {
     }
 
     public function testHttpGetsRedirected(): void {
+        $this->onlyRunInModes('meta');
+
         $url = "http://{$this::$statusDomain}/";
         $headers = $this->getHeaders($url);
 

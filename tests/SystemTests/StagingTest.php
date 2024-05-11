@@ -16,6 +16,8 @@ final class StagingTest extends SystemTestCase {
     public static string $stagingUrl = "https://staging.olzimmerberg.ch/";
 
     public function testStagingIsUp(): void {
+        $this->onlyRunInModes(['staging', 'staging_rw']);
+
         $url = "{$this::$stagingUrl}";
         $headers = $this->getHeaders($url);
 
@@ -24,6 +26,8 @@ final class StagingTest extends SystemTestCase {
     }
 
     public function testStagingIsWorking(): void {
+        $this->onlyRunInModes(['staging', 'staging_rw']);
+
         $url = "{$this::$stagingUrl}";
         $body = file_get_contents($url);
 
@@ -31,6 +35,8 @@ final class StagingTest extends SystemTestCase {
     }
 
     public function testHttpGetsRedirected(): void {
+        $this->onlyRunInModes(['staging', 'staging_rw']);
+
         $url = "http://{$this::$stagingDomain}/";
         $headers = $this->getHeaders($url);
 

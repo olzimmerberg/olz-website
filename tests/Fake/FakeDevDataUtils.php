@@ -25,7 +25,12 @@ class FakeDevDataUtils extends DevDataUtils {
         $this->commands_called[] = 'dumpDb';
     }
 
-    public function migrateTo($version = 'latest') {
+    public function generateMigration(): string {
+        $this->commands_called[] = 'generateMigration';
+        return 'fake output';
+    }
+
+    public function migrateTo($version = 'latest'): string {
         $this->commands_called[] = ['migrateTo', $version];
         return 'fake output';
     }

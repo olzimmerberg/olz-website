@@ -54,13 +54,9 @@ export function loaded(): void {
 
 /* EMAILADRESSE MASKIEREN (global) */
 export function MailTo(name: string, domain: string, text: string, subject = ''): string {
-    let mytext = '';
-    const linktext = text;
-    const email1 = name;
-    const email2 = domain;
-    const email3 = subject;
-    const mailtoPrefix = 'mailto:';
-    mytext = (`<a href="${mailtoPrefix}${email1}@${email2}?subject=${email3}" class="linkmail">${linktext}</a>`);
+    // eslint-disable-next-line no-useless-concat
+    const protocol = ('mail' + 'to:');
+    const mytext = `<a href="${protocol}${name}@${domain}?subject=${subject}" class="linkmail">${text}</a>`;
     const scriptElement = document.currentScript;
     const parentNode = scriptElement?.parentNode;
     if (!scriptElement || !parentNode) {

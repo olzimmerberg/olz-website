@@ -88,6 +88,15 @@ class TermineFilterUtils {
         return $has_correct_type && $has_correct_date_range && $has_correct_archive;
     }
 
+    public function getValidFilter($filter) {
+        $default_filter = $this->getDefaultFilter();
+        $merged_filter = [];
+        foreach ($default_filter as $key => $default_value) {
+            $merged_filter[$key] = $filter[$key] ?? $default_value;
+        }
+        return $this->isValidFilter($merged_filter) ? $merged_filter : $default_filter;
+    }
+
     public function getAllValidFiltersForSitemap() {
         $all_valid_filters = [];
         foreach ($this->allTypeOptions as $type_option) {

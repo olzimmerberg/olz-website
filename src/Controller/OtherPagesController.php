@@ -3,7 +3,6 @@
 namespace Olz\Controller;
 
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
-use Olz\Components\OtherPages\OlzFragenUndAntworten\OlzFragenUndAntworten;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
 use Olz\Components\OtherPages\OlzTrophy\OlzTrophy;
@@ -24,16 +23,6 @@ class OtherPagesController extends AbstractController {
     ): Response {
         $this->httpUtils()->countRequest($request);
         $out = OlzDatenschutz::render();
-        return new Response($out);
-    }
-
-    #[Route('/fragen_und_antworten')]
-    public function fragenUndAntworten(
-        Request $request,
-        LoggerInterface $logger,
-    ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzFragenUndAntworten::render();
         return new Response($out);
     }
 

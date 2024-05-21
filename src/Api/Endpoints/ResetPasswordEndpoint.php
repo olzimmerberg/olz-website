@@ -3,7 +3,6 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzEndpoint;
-use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use Symfony\Component\Mime\Email;
 
@@ -31,11 +30,7 @@ class ResetPasswordEndpoint extends OlzEndpoint {
 
     protected function handle($input) {
         $username_or_email = trim($input['usernameOrEmail']);
-        $user_repo = $this->entityManager()->getRepository(User::class);
-        $user = $user_repo->findOneBy(['username' => $username_or_email]);
-        if (!$user) {
-            $user = $user_repo->findOneBy(['email' => $username_or_email]);
-        }
+        $user = $this->authUtils()->resolveUsernameOrEmail($username_or_email);
         if (!$user) {
             $this->log()->notice("Password reset for unknown user: {$username_or_email}.");
             return ['status' => 'DENIED'];

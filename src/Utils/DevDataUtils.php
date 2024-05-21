@@ -139,7 +139,21 @@ class DevDataUtils {
         return $is_match ? $matches[1] ?? null : null;
     }
 
-    public function migrateTo($version = 'latest') {
+    public function generateMigration(): string {
+        $input = new ArrayInput([
+            '--no-interaction' => true,
+        ]);
+        $input->setInteractive(false);
+        $output = new BufferedOutput();
+        $this->symfonyUtils()->callCommand(
+            'doctrine:migrations:diff',
+            $input,
+            $output
+        );
+        return $output->fetch();
+    }
+
+    public function migrateTo($version = 'latest'): string {
         $input = new ArrayInput([
             'version' => $version,
             '--no-interaction' => true,

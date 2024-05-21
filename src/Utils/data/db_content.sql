@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240406120652
+-- MIGRATION: DoctrineMigrations\Version20240521174343
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -82,7 +82,8 @@ VALUES
     ('DoctrineMigrations\\Version20240317181327', '2024-03-17 19:32:18', '672'),
     ('DoctrineMigrations\\Version20240324230314', '2024-03-25 00:05:14', '704'),
     ('DoctrineMigrations\\Version20240325152618', '2024-03-25 16:31:50', '669'),
-    ('DoctrineMigrations\\Version20240406120652', '2024-04-06 14:08:51', '699');
+    ('DoctrineMigrations\\Version20240406120652', '2024-04-06 14:08:51', '699'),
+    ('DoctrineMigrations\\Version20240521174343', '2024-05-21 19:44:54', '1085');
 
 -- Table downloads
 INSERT INTO downloads
@@ -212,6 +213,33 @@ VALUES
     ('1010', NULL, NULL, NULL, NULL, 'Fill', 'Up (10)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
     ('1011', NULL, NULL, NULL, NULL, 'Fill', 'Up (11)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
     ('1012', NULL, NULL, NULL, NULL, 'Fill', 'Up (12)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL);
+
+-- Table question_categories
+INSERT INTO question_categories
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`, `position`, `name`)
+VALUES
+    ('1', '1', NULL, '1', '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '0', 'Allgemein'),
+    ('2', '1', NULL, '1', '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '1', 'Website');
+
+-- Table questions
+INSERT INTO questions
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `category_id`, `on_off`, `created_at`, `last_modified_at`, `ident`, `position_within_category`, `question`, `answer`)
+VALUES
+    ('1', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '0', 'Was ist OL?', 'Das erklären wir dir in unserem kurzen [Youtube Video](https://youtu.be/JVL0vgcnM6c).'),
+    ('2', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '1', 'Was tun?', 'Am besten kommst du in eines unserer **Trainings** (mit [Youtube Video](https://youtu.be/PjsDAQM1kxA) zur Vorbereitung).\r\n\r\nJährlich organisieren wir ein **OL-Lager** und ein **Tageslager** für Kinder und Jugendliche. Wann genau diese stattfinden, verraten wir dir bei den [Terminen](/termine). '),
+    ('3', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '2', 'Wann finden diese Trainings statt?', 'Alle Anlässe und damit auch die [Trainings](/termine?filter={\"typ\":\"training\",\"datum\":\"bevorstehend\"}) werden bei uns auf der [**Termine-Seite**](/termine) bekannt gegeben.\n'),
+    ('4', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '3', 'Wo finden die OL-Trainings statt?', 'Meistens in der Region Zimmerberg, auf [**unseren Karten**](/karten). \n'),
+    ('5', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '4', 'Wie reise ich zu einem Training?', 'Entweder du kommst zu Fuss, mit dem Velo, mit dem eigenen Auto, mit einer Fahrgemeinschaft, oder mit dem Trainings-Büssli.\n\nWenn du mit dem Büssli anreisen möchtest, melde dich bitte im Voraus beim [Büsslikoordinator](mailto:buessli@olzimmerberg.ch) an.'),
+    ('6', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '5', 'Wie reise ich zum OL?', 'Bei manchen Läufen wird im [**Forum**](/news?filter={\"format\":\"forum\"}) eine **öV-Verbindung** bestimmt, mit der die meisten anreisen werden.'),
+    ('7', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '6', 'Wie erkenne ich andere OL Zimmerberg Mitglieder?', 'An der guten Stimmung und an unserem grün-gelb-schwarzen Dress, das auch tausendfach in den [**Galerien**](/news?filter={\"format\":\"galerie\"}) zu sehen ist.'),
+    ('8', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '7', 'Wie werde ich OL Zimmerberg Mitglied?', 'Melde dich [per E-Mail](mailto:aktuariat@olzimmerberg.ch) als Neumitglied an.'),
+    ('9', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '8', 'Gibt es auch schnelle Läufer in der OL Zimmerberg?', 'Ja. Sie schreiben sogar manchmal Beiträge im [**Kaderblog**](/news?filter={\"format\":\"kaderblog\"}).'),
+    ('10', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '9', 'Wo kann ich Berichte von vergangenen Anlässen nachlesen?', 'Auf der [**News-Seite**](/news).'),
+    ('11', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', '', '10', 'Wer ist im Vorstand der OL Zimmerberg?', 'Porträts unseres Vorstandes sind auf der [**Vereins-Seite**](/verein) zu finden.'),
+    ('12', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'forumsregeln', '0', 'Welche Regeln gelten für das Forum?', '**Im Forum können Mitteilungen aller Art platziert werden (Kommentare, Fragen, Hinweise usw.). Dabei ist folgendes zu beachten:**\r\n\r\n- Ein Eintrag muss mit dem richtigen Namen und Vornamen gemacht werden.\r\n- Es muss eine gültige Emailadresse angegeben werden. An diese Emailadresse wird ein Code geschickt, mit welchem der Eintrag später bearbeitet oder gelöscht werden kann. Um die Gefahr von Spam zu minimieren werden Emailadressen verschlüsselt angezeigt.\r\n- Es liegt im Ermessen des Website-Betreibers, Einträge jederzeit zu entfernen, insbesondere wenn sie verletzenden Inhalt haben, gegen Gesetze verstossen oder Spam enthalten.\r\n'),
+    ('13', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'weshalb-telegram-push', '1', 'Weshalb verwendet ihr Telegram für den Nachrichten-Push?', 'Das ist natürlich eine sehr berechtigte Frage, denn die Chat-App Telegram steht oft datenschutztechnisch in der Kritik, und wird auch politisch teilweise als nicht neutral wahrgenommen.\r\n\r\nDie einfache Antwort ist, dass kein anderes Chat-App einen solchen automatisierten Chat so einfach und kostenfrei anbietet. Um genau zu sein:\r\n\r\n- Threema hat zwar eine solche Funktionalität, sie ist aber kompliziert zu implementieren und kostenpflichtig: Es kostet sowohl für uns jede Nachricht als auch das App für den Nutzer.\r\n- WhatsApp hat zwar die \"WhatsApp Business API\" mit einer ähnichen Funktionalität, diese ist aber ausdrücklich eher an Grossunternehmen gerichtet, und somit auch kostenpflichtig.\r\n- Signal bietet zwar auch eine Möglichkeit, automatische Nachrichten zu schreiben, aber auch diese ist kompliziert und nur mit weiteren Kosten zu implementieren.\r\n\r\nDie Website-Entwickler danken für euer Verständnis. '),
+    ('14', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'benutzername-email-herausfinden', '2', 'Wie finde ich meinen Benutzernamen bzw. E-Mail heraus?', '- Erhälst du den Newsletter? Dann ist es die E-Mail Adresse, an welche der Newsletter versendet wird.\r\n- Hast du Telegram verlinkt? Dann schreib deinem OLZ Bot die Nachricht `/ich`, und er wird dir deinen Benutzernamen und deine E-Mail Adresse mitteilen.\r\n- Wenn du hier angelangt bist, bleibt leider nur noch raten, welche E-Mail Adresse du verwendet haben könntest.\r\n\r\n'),
+    ('15', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'neues-familienmitglied', '3', 'Wie kann ich ein OLZ-Konto für ein Familienmitglied erstellen?', '1. Stelle sicher, dass du eingeloggt bist\r\n2. Gehe auf dein Profil (OLZ-Konto-Menu rechts oben > Profil)\r\n3. Wähle \"Neues Familienmitglied erstellen\"\r\n4. Formular ausfüllen und abschicken (Hinweis: Im Gegensatz zum Hauptkonto dürfen E-Mail und Passwort leer bleiben)\r\n5. Nun hast du im OLZ-Konto-Menu rechts oben die Möglichkeit, zwischen deinem Hauptkonto und dem Kind-Konto hin- und herzuwechseln\r\n\r\n');
 
 -- Table quiz_categories
 INSERT INTO quiz_categories

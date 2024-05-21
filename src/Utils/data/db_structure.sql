@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240406120652
+-- MIGRATION: DoctrineMigrations\Version20240521174343
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -356,6 +356,64 @@ CREATE TABLE `panini24` (
   CONSTRAINT `FK_1254A2E55A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_1254A2E57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1013 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `ident` varchar(31) NOT NULL,
+  `position_within_category` int(11) NOT NULL,
+  `question` longtext NOT NULL,
+  `answer` longtext DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_8ADC54D52B18554A` (`owner_user_id`),
+  KEY `IDX_8ADC54D55A75A473` (`owner_role_id`),
+  KEY `IDX_8ADC54D57D182D95` (`created_by_user_id`),
+  KEY `IDX_8ADC54D51A04EF5A` (`last_modified_by_user_id`),
+  KEY `IDX_8ADC54D512469DE2` (`category_id`),
+  KEY `ident_index` (`on_off`,`ident`),
+  KEY `category_position_index` (`on_off`,`category_id`,`position_within_category`),
+  CONSTRAINT `FK_8ADC54D512469DE2` FOREIGN KEY (`category_id`) REFERENCES `question_categories` (`id`),
+  CONSTRAINT `FK_8ADC54D51A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_8ADC54D52B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_8ADC54D55A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_8ADC54D57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `question_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `position` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_5D27D9E02B18554A` (`owner_user_id`),
+  KEY `IDX_5D27D9E05A75A473` (`owner_role_id`),
+  KEY `IDX_5D27D9E07D182D95` (`created_by_user_id`),
+  KEY `IDX_5D27D9E01A04EF5A` (`last_modified_by_user_id`),
+  KEY `position_index` (`on_off`,`position`),
+  CONSTRAINT `FK_5D27D9E01A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_5D27D9E02B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_5D27D9E05A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_5D27D9E07D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

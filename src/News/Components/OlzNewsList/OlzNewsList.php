@@ -28,7 +28,8 @@ class OlzNewsList extends OlzComponent {
         $current_filter = json_decode($this->getParams()['filter'] ?? '{}', true);
 
         if (!$news_utils->isValidFilter($current_filter)) {
-            $enc_json_filter = urlencode(json_encode($news_utils->getDefaultFilter()));
+            $valid_filter = $news_utils->getValidFilter($current_filter);
+            $enc_json_filter = urlencode(json_encode($valid_filter));
             $this->httpUtils()->redirect("?filter={$enc_json_filter}", 308);
         }
 

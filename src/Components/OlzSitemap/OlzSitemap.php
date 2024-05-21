@@ -6,12 +6,12 @@ use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
-use Olz\Components\OtherPages\OlzFragenUndAntworten\OlzFragenUndAntworten;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Termine\Termin;
+use Olz\Faq\Components\OlzFaq\OlzFaq;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
 use Olz\News\Components\OlzNewsList\OlzNewsList;
 use Olz\News\Utils\NewsFilterUtils;
@@ -48,8 +48,8 @@ abstract class OlzSitemap extends OlzComponent {
             'level' => 0,
         ];
         $entries[] = [
-            'title' => OlzFragenUndAntworten::$title,
-            'description' => OlzFragenUndAntworten::$description,
+            'title' => OlzFaq::$title,
+            'description' => OlzFaq::$description,
             'url' => "{$base_href}/fragen_und_antworten",
             'updates' => 'daily',
             'importance' => '0.8',

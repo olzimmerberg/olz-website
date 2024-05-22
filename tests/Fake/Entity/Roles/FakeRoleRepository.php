@@ -33,7 +33,14 @@ class FakeRoleRepository extends FakeOlzRepository {
         if (preg_match('/^[3]+$/', strval($criteria['id'] ?? ''))) {
             return FakeRole::subVorstandRole(false, strlen(strval($criteria['id'] ?? '')) - 1);
         }
-        if ($criteria === ['username' => 'test'] || $criteria === ['old_username' => 'test']) {
+        if (
+            $criteria === ['username' => 'inexistent']
+            || $criteria === ['old_username' => 'inexistent']
+            || $criteria === ['username' => 'test']
+            || $criteria === ['old_username' => 'test']
+            || $criteria === ['username' => 'admin'] // the user, not the role
+            || $criteria === ['username' => 'vorstand'] // the user, not the role
+        ) {
             return null;
         }
         // if ($criteria === ['username' => 'specific']) {

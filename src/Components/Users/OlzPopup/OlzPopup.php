@@ -10,7 +10,7 @@ class OlzPopup extends OlzComponent {
         $popup = $args['popup'];
         $trigger_type = $args['trigger_type'] ?? 'click';
 
-        $ident = md5(rand().rand().microtime(true));
+        $ident = $this->getIdent();
         $ident_for_js = htmlentities(json_encode($ident));
         $out = "<span class='olz-popup'>";
         $out .= "<div class='popup' id='popup{$ident}'>{$popup}</div>";
@@ -21,5 +21,9 @@ class OlzPopup extends OlzComponent {
         $out .= "<span {$triggers} class='trigger' id='trigger{$ident}'>{$trigger}</span>";
         $out .= "</span>";
         return $out;
+    }
+
+    protected function getIdent(): string {
+        return md5(rand().rand().microtime(true));
     }
 }

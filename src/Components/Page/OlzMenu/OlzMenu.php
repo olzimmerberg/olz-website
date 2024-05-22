@@ -142,13 +142,13 @@ class OlzMenu extends OlzComponent {
                 preg_match("/^\\/{$menupunkt[1]}(\\/|\\?|#|$)/", $request_uri)
                 || ($menupunkt[1] === '' && $request_uri === '')
             );
-            $tag = $is_active ? 'h1' : 'div';
+            $active_class = $is_active ? ' active' : '';
             if ($name != '') {
                 $out .= <<<ZZZZZZZZZZ
                     <a href='{$code_href}{$href}' id='menu_a_page_{$href}' class='menu-link'>
-                        <{$tag} class='menutag'>
+                        <div class='menutag{$active_class}'>
                             {$name}
-                        </{$tag}>
+                        </div>
                     </a>
                     ZZZZZZZZZZ;
             } else {

@@ -40,7 +40,7 @@ class FakeAuthUtils extends AuthUtils {
             return false;
         }
         if ($has_permission === null) {
-            throw new \Exception("hasPermission has not been mocked for {$query}");
+            throw new \Exception("hasRolePermission has not been mocked for {$query}");
         }
         return $has_permission;
     }

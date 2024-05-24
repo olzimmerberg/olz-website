@@ -44,34 +44,17 @@ class OlzNewsListItem extends OlzComponent {
         $link = "news/{$id}{$filter_arg}";
 
         $image_ids = $news_entry->getImageIds();
-
-        // Show images in teaser
-        $teaser = $this->imageUtils()->replaceImageTags(
-            $teaser,
-            $id,
-            $image_ids,
-            'image',
-            " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'"
-        );
-
-        // Strip images and legacy files from content
-        preg_match_all("/<(bild|dl)([0-9]+)>/i", $content, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $content = str_replace($matches[0][$i], '', $content);
-        }
-
-        // Show files in teaser
-        preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $teaser, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $new_teaser = $matches[4][$i];
-            $teaser = str_replace($matches[0][$i], $new_teaser, $teaser);
-        }
-
-        // Show files in content
-        preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $content, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $new_content = $matches[4][$i];
-            $content = str_replace($matches[0][$i], $new_content, $content);
+        $thumb = '';
+        $size = count($image_ids);
+        if ($size > 0) {
+            $thumb = $this->imageUtils()->olzImage(
+                'news',
+                $id,
+                $image_ids[0] ?? null,
+                110,
+                'image',
+                " class='box'",
+            );
         }
 
         $author_badge = OlzAuthorBadge::render([
@@ -107,62 +90,33 @@ class OlzNewsListItem extends OlzComponent {
                 'date' => $published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
-                'text' => $this->htmlUtils()->renderMarkdown($teaser, [
-                    'html_input' => 'allow', // TODO: Do NOT allow!
-                ]),
+                'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown($teaser, [])),
                 'link' => $link,
+                'class' => 'has-thumb',
             ]);
         } elseif ($format === 'kaderblog') {
-            $thumb = '';
-            $size = count($image_ids);
-            if ($size > 0) {
-                $thumb = $this->imageUtils()->olzImage(
-                    'news',
-                    $id,
-                    $image_ids[0] ?? null,
-                    110,
-                    'image',
-                    " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'",
-                );
-            }
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
-                'text' => $thumb.$this->htmlUtils()->renderMarkdown(
+                'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown(
                     self::truncateText($content),
-                    [
-                        'html_input' => 'allow', // TODO: Do NOT allow!
-                    ],
-                ),
+                )),
                 'link' => $link,
+                'class' => 'has-thumb',
             ]);
         } elseif ($format === 'forum') {
-            $thumb = '';
-            $size = count($image_ids);
-            if ($size > 0) {
-                $thumb = $this->imageUtils()->olzImage(
-                    'news',
-                    $id,
-                    $image_ids[0] ?? null,
-                    110,
-                    'image',
-                    " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'",
-                );
-            }
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
                 'date' => $published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
-                'text' => $thumb.$this->htmlUtils()->renderMarkdown(
+                'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown(
                     self::truncateText($content),
-                    [
-                        'html_input' => 'allow', // TODO: Do NOT allow!
-                    ],
-                ),
+                )),
                 'link' => $link,
+                'class' => 'has-thumb',
             ]);
         } elseif ($format === 'galerie') {
             $thumbs = '';
@@ -218,12 +172,6 @@ class OlzNewsListItem extends OlzComponent {
 
         $text = preg_replace("/\\s*\\n\\s*/", "\n", $text);
         $text_length = mb_strlen($text);
-        $num_br = preg_match_all("/\\n/", $text, $tmp);
-        if ($num_br < 3) {
-            $text = str_replace("\n", "<br>", $text);
-        } else {
-            $text = str_replace("\n", " &nbsp; ", $text);
-        }
 
         if ($text_length <= $max_length) {
             return $text;

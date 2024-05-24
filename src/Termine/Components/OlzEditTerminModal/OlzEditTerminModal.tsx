@@ -23,7 +23,6 @@ interface OlzEditTerminForm {
     endTime: string;
     title: string;
     text: string;
-    link: string;
     deadline: string;
     types: (string|boolean)[];
     locationId: number|null;
@@ -59,7 +58,6 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         endTime: getFormString(apiData?.endTime),
         title: getFormString(apiData?.title),
         text: getFormString(apiData?.text),
-        link: getFormString(apiData?.link),
         deadline: getFormString(apiData?.deadline),
         types: labels.map((label) => getFormBoolean(typesSet.has(label.data.ident))),
         locationId: apiData?.locationId ?? null,
@@ -85,7 +83,7 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditT
         endTime: getApiString(formData.endTime),
         title: getApiString(formData.title) ?? '',
         text: getApiString(formData.text) ?? '',
-        link: getApiString(formData.link) ?? '',
+        link: '', // TODO: Remove link
         deadline: getApiString(formData.deadline) || null,
         types: Array.from(typesSet),
         locationId: formData.locationId,
@@ -159,7 +157,6 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         }
         setValue('title', getFormString(templateData.title));
         setValue('text', getFormString(templateData.text));
-        setValue('link', getFormString(templateData.link));
         setValue('deadline', '');
         setValue('hasNewsletter', getFormBoolean(templateData.newsletter));
         const typesSet = new Set(templateData.types ?? []);
@@ -327,15 +324,6 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                                     mode='textarea'
                                     title='Text'
                                     name='text'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    mode='textarea'
-                                    title='Link'
-                                    name='link'
                                     errors={errors}
                                     register={register}
                                 />

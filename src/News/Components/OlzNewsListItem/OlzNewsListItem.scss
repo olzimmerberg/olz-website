@@ -1,4 +1,14 @@
 .olz-posting-list-item {
+    .olz-author-badge {
+        margin-right: 6px;
+    }
+
+    &.has-thumb .lightgallery {
+        float: left;
+        clear: left;
+        margin: 3px 5px 3px 0;
+    }
+
     .edit-news-list-button {
         margin: -5px 0;
 

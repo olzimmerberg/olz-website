@@ -45,7 +45,7 @@ class HtmlUtils {
     public function replaceEmailAdresses($html) {
         $role_repo = $this->entityManager()->getRepository(Role::class);
 
-        $html = str_replace(['<p>', '</p>'], ['<div>', '</div>'], $html);
+        $html = str_replace(['<p>', '<p ', '</p>'], ['<div>', '<div ', '</div>'], $html);
 
         preg_match_all(
             '/'.self::PREFIX_REGEX.self::OLZ_EMAIL_REGEX.self::SUBJECT_REGEX.self::SUFFIX_REGEX.'/',

@@ -112,7 +112,6 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
                                     errors={errors}
                                     control={control}
                                     setIsLoading={setIsImagesLoading}
-                                    isMarkdown
                                 />
                             </div>
                             <div id='files-upload'>
@@ -122,7 +121,6 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
                                     errors={errors}
                                     control={control}
                                     setIsLoading={setIsFilesLoading}
-                                    isMarkdown
                                 />
                             </div>
                             <div className='success-message alert alert-success' role='alert'>

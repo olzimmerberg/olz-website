@@ -82,7 +82,9 @@ class OlzTerminTemplatesListItem extends OlzComponent {
                 : ''
         );
         $text = $this->htmlUtils()->renderMarkdown($text ?? '');
-        $links = $this->fileUtils()->replaceFileTags($links, 'termin_templates', $id, $title);
+        $text = $termin_template->replaceImagePaths($text);
+        $text = $termin_template->replaceFilePaths($text);
+        $links = '';
         if ($termin_location) {
             $sane_termin_location_id = intval($termin_location->getId());
             $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");

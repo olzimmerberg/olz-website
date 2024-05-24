@@ -62,16 +62,14 @@ class OlzTerminDetail extends OlzComponent {
             $this->httpUtils()->dieWithHttpError(401);
         }
 
-        $sql = "SELECT * FROM termine WHERE (id = '{$id}') AND (on_off = '1') ORDER BY start_date DESC";
-        $result = $db->query($sql);
-        $row = $result->fetch_assoc();
+        $termin = $this->getTerminById($id);
 
-        if (!$row) {
+        if (!$termin) {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
-        $title = $row['title'] ?? '';
-        $termin_year = date('Y', strtotime($row['start_date']));
+        $title = $termin->getTitle() ?? '';
+        $termin_year = $termin->getStartDate()->format('Y');
         $this_year = $this->dateUtils()->getCurrentDateInFormat('Y');
         $maybe_date = ($termin_year !== $this_year) ? " {$termin_year}" : '';
         $title = "{$title}{$maybe_date}";
@@ -92,37 +90,31 @@ class OlzTerminDetail extends OlzComponent {
             <div class='content-middle'>
             ZZZZZZZZZZ;
 
-        $start_date = $row['start_date'] ?? '';
-        $end_date = $row['end_date'] ?? '';
-        $start_time = $row['start_time'] ?? '';
-        $end_time = $row['end_time'] ?? '';
-        $text = $row['text'] ?? '';
-        $link = $row['link'] ?? '';
-        $typ = $row['typ'] ?? '';
+        $start_date = $termin->getStartDate() ?? null;
+        $end_date = $termin->getEndDate() ?? null;
+        $start_time = $termin->getStartTime() ?? null;
+        $end_time = $termin->getEndTime() ?? null;
+        $text = $termin->getText() ?? '';
+        $link = $termin->getLink() ?? '';
+        $typ = $termin->getTypes() ?? '';
         $types = explode(' ', $typ);
-        $xkoord = $row['xkoord'] ?? '';
-        $ykoord = $row['ykoord'] ?? '';
-        $go2ol = $row['go2ol'] ?? '';
-        $solv_uid = $row['solv_uid'] ?? '';
-        $termin_location_id = $row['location_id'] ?? '';
+        $xkoord = $termin->getCoordinateX() ?? '';
+        $ykoord = $termin->getCoordinateY() ?? '';
+        $go2ol = $termin->getGo2olId() ?? '';
+        $solv_uid = $termin->getSolvId() ?? '';
+        $termin_location = $termin->getLocation();
         $row_solv = false;
         if ($solv_uid) {
             $sane_solv_uid = intval($solv_uid);
             $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='{$sane_solv_uid}'");
             $row_solv = $result_solv->fetch_assoc();
         }
-        $row_location = false;
-        if ($termin_location_id) {
-            $sane_termin_location_id = intval($termin_location_id);
-            $result_location = $db->query("SELECT * FROM termin_locations WHERE id='{$sane_termin_location_id}'");
-            $row_location = $result_location->fetch_assoc();
-        }
         $has_olz_location = ($xkoord > 0 && $ykoord > 0);
         $has_termin_location = (
             $typ != 'meldeschluss'
-            && $row_location
-            && $row_location['latitude'] > 0
-            && $row_location['longitude'] > 0
+            && $termin_location
+            && $termin_location->getLatitude() > 0
+            && $termin_location->getLongitude() > 0
         );
         $has_solv_location = (
             $typ != 'meldeschluss'
@@ -139,9 +131,9 @@ class OlzTerminDetail extends OlzComponent {
             $location_name = $row_solv['location'];
         }
         if ($has_termin_location) {
-            $lat = $row_location['latitude'];
-            $lng = $row_location['longitude'];
-            $location_name = $row_location['name'];
+            $lat = $termin_location->getLatitude();
+            $lng = $termin_location->getLongitude();
+            $location_name = $termin_location->getName();
         }
         if ($has_olz_location) {
             $lat = $this->mapUtils()->CHtoWGSlat($xkoord, $ykoord);
@@ -149,7 +141,7 @@ class OlzTerminDetail extends OlzComponent {
             $location_name = null;
         }
         $has_location = $has_olz_location || $has_termin_location || $has_solv_location;
-        $image_ids = json_decode($row['image_ids'] ?? 'null', true);
+        $image_ids = $termin->getImageIds();
 
         $out .= OlzEventData::render([
             'name' => $title,
@@ -189,7 +181,7 @@ class OlzTerminDetail extends OlzComponent {
         $out .= "</div>";
 
         // Editing Tools
-        $is_owner = $user && intval($row['owner_user_id'] ?? 0) === intval($user->getId());
+        $is_owner = $user && intval($termin->getOwnerUser()?->getId() ?? 0) === intval($user->getId());
         $has_termine_permissions = $this->authUtils()->hasPermission('termine');
         $can_edit = $is_owner || $has_termine_permissions;
         if ($can_edit) {
@@ -217,7 +209,13 @@ class OlzTerminDetail extends OlzComponent {
         }
 
         // Date & Title
-        $pretty_date = $this->dateUtils()->formatDateTimeRange($start_date, $start_time, $end_date, $end_time, $format = 'long');
+        $pretty_date = $this->dateUtils()->formatDateTimeRange(
+            $start_date?->format('Y-m-d'),
+            $start_time?->format('H:i:s'),
+            $end_date?->format('Y-m-d'),
+            $end_time?->format('H:i:s'),
+            $format = 'long',
+        );
         $maybe_solv_link = '';
         if ($row_solv) {
             // SOLV-Übersicht-Link zeigen
@@ -239,19 +237,21 @@ class OlzTerminDetail extends OlzComponent {
         // TODO: Temporary fix for broken Markdown
         $text = str_replace("\n", "\n\n", $text);
         $text = str_replace("\n\n\n\n", "\n\n", $text);
-        $text = $this->htmlUtils()->renderMarkdown($text, [
+        $text_html = $this->htmlUtils()->renderMarkdown($text, [
             'html_input' => 'allow', // TODO: Do NOT allow!
         ]);
+        $text_html = $termin->replaceImagePaths($text_html);
+        $text_html = $termin->replaceFilePaths($text_html);
         if ($typ != 'meldeschluss' && $row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
-            $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $row_solv['deadline']);
+            $text_html .= ($text_html == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $row_solv['deadline']);
         }
-        if ($typ != 'meldeschluss' && isset($row['deadline']) && $row['deadline'] && $row['deadline'] != "0000-00-00") {
-            $text .= ($text == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $row['deadline']);
+        if ($typ != 'meldeschluss' && $termin->getDeadline() && $termin->getDeadline() != "0000-00-00") {
+            $text_html .= ($text_html == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $termin->getDeadline());
         }
-        $out .= "<div>".$text."</div>";
+        $out .= "<div>".$text_html."</div>";
 
         // Link
-        $link = $this->fileUtils()->replaceFileTags($link, 'termine', $id, $title);
+        $link = '';
         if ($go2ol > "" && $start_date >= $today) {
             $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
         } elseif ($row_solv && $row_solv['entryportal'] == 1 && $start_date >= $today) {
@@ -289,7 +289,7 @@ class OlzTerminDetail extends OlzComponent {
             if ($location_name !== null) {
                 $location_maybe_link = $location_name;
                 if ($has_termin_location) {
-                    $location_maybe_link = "<a href='{$code_href}termine/orte/{$termin_location_id}?filter={$back_filter}&id={$id}' class='linkmap'>{$location_name}</a>";
+                    $location_maybe_link = "<a href='{$code_href}termine/orte/{$termin_location->getId()}?filter={$back_filter}&id={$id}' class='linkmap'>{$location_name}</a>";
                 }
                 $out .= "<h3>Ort: {$location_maybe_link}</h3>";
             } else {
@@ -309,5 +309,13 @@ class OlzTerminDetail extends OlzComponent {
         $out .= OlzFooter::render();
 
         return $out;
+    }
+
+    protected function getTerminById(int $id): ?Termin {
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
+        return $termin_repo->findOneBy([
+            'id' => $id,
+            'on_off' => 1,
+        ]);
     }
 }

@@ -85,7 +85,13 @@ final class HtmlUtilsTest extends UnitTestCase {
         // does not work
         $this->assertSame("<div class='rendered-markdown'><h1 id=\"anchor\">So linkable</h1>\n</div>", $html);
 
-        // Heading ID
+        // CSS Class
+        $html = $html_utils->renderMarkdown("So classy {.test}\n");
+        $this->assertSame("<div class='rendered-markdown'><div class=\"test\">So classy</div>\n</div>", $html);
+        $html = $html_utils->renderMarkdown("# So classy {.test}\n");
+        $this->assertSame("<div class='rendered-markdown'><h1 class=\"test\">So classy</h1>\n</div>", $html);
+
+        // Checkbox list
         $html = $html_utils->renderMarkdown("- [x] finish\n- [ ] this\n- [ ] list\n");
         $this->assertSame("<div class='rendered-markdown'><ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> finish</li>\n<li><input disabled=\"\" type=\"checkbox\"> this</li>\n<li><input disabled=\"\" type=\"checkbox\"> list</li>\n</ul>\n</div>", $html);
     }

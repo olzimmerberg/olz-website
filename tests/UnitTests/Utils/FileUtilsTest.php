@@ -41,32 +41,4 @@ final class FileUtilsTest extends UnitTestCase {
             $file_utils->olzFile('news', 123, 'abcdefghijklmnopqrstuvwx.pdf', "Test", 'test_file')
         );
     }
-
-    public function testReplaceFileTagsNotMigrated(): void {
-        $file_utils = new FileUtils();
-        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
-        $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
-        $file_path = "{$data_path}files/downloads/123/001.pdf";
-        mkdir(dirname($file_path), 0o777, true);
-        copy($sample_file_path, $file_path);
-        touch($file_path, strtotime('2020-03-13 19:30:00'));
-        $this->assertSame(
-            "test <a href='/data-href/files/downloads//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools/thumb/downloads\$123\$1\$16.svg); background-repeat:no-repeat;'>Datei</a> text",
-            $file_utils->replaceFileTags('test <DATEI1 text="Datei"> text', 'downloads', 123, 'test_file')
-        );
-    }
-
-    public function testReplaceFileTagsMigrated(): void {
-        $file_utils = new FileUtils();
-        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
-        $sample_file_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-document.pdf';
-        $file_path = "{$data_path}files/news/123/abcdefghijklmnopqrstuvwx.pdf";
-        mkdir(dirname($file_path), 0o777, true);
-        copy($sample_file_path, $file_path);
-        touch($file_path, strtotime('2020-03-13 19:30:00'));
-        $this->assertSame(
-            "test <span class='rendered-markdown'><a href='/data-href/files/news//123/abcdefghijklmnopqrstuvwx.pdf?modified=1584127800' download='News-Eintrag - Datei.pdf'>Datei</a></span> text",
-            $file_utils->replaceFileTags('test <DATEI=abcdefghijklmnopqrstuvwx.pdf text="Datei"> text', 'news', 123, 'News-Eintrag')
-        );
-    }
 }

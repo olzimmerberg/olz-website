@@ -60,42 +60,6 @@ class FileUtils {
         'zip' => 'zip',
     ];
 
-    public function replaceFileTags($text, $db_table, $id, $download_name, $icon = 'mini') {
-        preg_match_all("/<datei([0-9]+|\\=[0-9A-Za-z_\\-]{24}\\.\\S{1,10})(\\s+text=(\"|\\')([^\"\\']+)(\"|\\'))?([^>]*)>/i", $text, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $index = $matches[1][$i];
-            $is_migrated = !(is_numeric($index) && intval($index) > 0 && intval($index) == $index);
-            $tmptext = $matches[4][$i];
-            if (mb_strlen($tmptext) < 1) {
-                $tmptext = "Datei {$index}";
-            }
-
-            if ($is_migrated) {
-                $new_html = $this->olzFile(
-                    $db_table == 'aktuell' ? 'news' : $db_table,
-                    $id,
-                    substr($index, 1),
-                    $tmptext,
-                    "{$download_name} - {$tmptext}",
-                    $icon
-                );
-            } else {
-                // TODO: Delete this monster-logic!
-                $is_blog = $db_table !== 'termine' && $id >= 6400 && $id < 6700;
-                $new_html = $this->olzFile(
-                    $is_blog ? 'blog' : ($db_table == 'news' ? 'aktuell' : $db_table),
-                    $is_blog ? $id - 6400 : $id,
-                    intval($index),
-                    $tmptext,
-                    "{$download_name} - {$tmptext}",
-                    $icon
-                );
-            }
-            $text = str_replace($matches[0][$i], $new_html, $text);
-        }
-        return $text;
-    }
-
     public function olzFile($db_table, $id, $index, $text, $download_name, $icon = 'mini') {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();

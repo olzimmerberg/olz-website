@@ -18,7 +18,6 @@ interface OlzEditTerminTemplateForm {
     durationSeconds: string;
     title: string;
     text: string;
-    link: string;
     deadlineEarlierSeconds: string;
     deadlineTime: string;
     types: (string|boolean)[];
@@ -44,7 +43,6 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         durationSeconds: getFormNumber(apiData?.durationSeconds),
         title: getFormString(apiData?.title),
         text: getFormString(apiData?.text),
-        link: getFormString(apiData?.link),
         deadlineEarlierSeconds: getFormNumber(apiData?.deadlineEarlierSeconds),
         deadlineTime: getFormString(apiData?.deadlineTime),
         types: labels.map((label) => getFormBoolean(typesSet.has(label.data.ident))),
@@ -66,7 +64,7 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditT
         durationSeconds: getApiNumber(formData.durationSeconds),
         title: getApiString(formData.title) ?? '',
         text: getApiString(formData.text) ?? '',
-        link: getApiString(formData.link) ?? '',
+        link: '', // TODO: Remove link
         deadlineEarlierSeconds: getApiNumber(formData.deadlineEarlierSeconds),
         deadlineTime: getApiString(formData.deadlineTime),
         types: Array.from(typesSet),
@@ -170,15 +168,6 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                                     mode='textarea'
                                     title='Text'
                                     name='text'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    mode='textarea'
-                                    title='Link'
-                                    name='link'
                                     errors={errors}
                                     register={register}
                                 />

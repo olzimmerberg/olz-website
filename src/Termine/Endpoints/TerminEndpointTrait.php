@@ -25,7 +25,6 @@ trait TerminEndpointTrait {
                 'endTime' => new FieldTypes\TimeField(['allow_null' => true]),
                 'title' => new FieldTypes\StringField([]),
                 'text' => new FieldTypes\StringField(['allow_empty' => true]),
-                'link' => new FieldTypes\StringField(['allow_empty' => true]),
                 'deadline' => new FieldTypes\DateTimeField(['allow_null' => true]),
                 'newsletter' => new FieldTypes\BooleanField([]),
                 'solvId' => new FieldTypes\IntegerField(['allow_null' => true]),
@@ -51,20 +50,7 @@ trait TerminEndpointTrait {
     public function getEntityData(Termin $entity): array {
         $types_for_api = $this->getTypesForApi($entity->getTypes() ?? '');
 
-        // TODO: Migrate to this!
-        // $file_ids = $entity->getStoredFileUploadIds();
-
-        // TODO: Deprecate this!
-        $data_path = $this->envUtils()->getDataPath();
-        $file_ids = [];
-        $termin_files_path = "{$data_path}files/termine/{$entity->getId()}/";
-        $files_path_entries = is_dir($termin_files_path)
-            ? scandir($termin_files_path) : [];
-        foreach ($files_path_entries as $file_id) {
-            if (substr($file_id, 0, 1) != '.') {
-                $file_ids[] = $file_id;
-            }
-        }
+        $file_ids = $entity->getStoredFileUploadIds();
 
         return [
             'startDate' => $entity->getStartDate()->format('Y-m-d'),
@@ -73,7 +59,6 @@ trait TerminEndpointTrait {
             'endTime' => $entity->getEndTime()?->format('H:i:s'),
             'title' => $entity->getTitle(),
             'text' => $entity->getText() ?? '',
-            'link' => $entity->getLink() ?? '',
             'deadline' => $entity->getDeadline()?->format('Y-m-d H:i:s'),
             'newsletter' => $entity->getNewsletter(),
             'solvId' => $entity->getSolvId() ? $entity->getSolvId() : null,
@@ -99,7 +84,6 @@ trait TerminEndpointTrait {
         $entity->setEndTime($input_data['endTime'] ? new \DateTime($input_data['endTime']) : null);
         $entity->setTitle($input_data['title']);
         $entity->setText($input_data['text']);
-        $entity->setLink($input_data['link']);
         $entity->setDeadline($input_data['deadline'] ? new \DateTime($input_data['deadline']) : null);
         $entity->setNewsletter($input_data['newsletter']);
         $entity->setSolvId($input_data['solvId']);

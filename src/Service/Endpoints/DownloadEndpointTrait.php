@@ -27,25 +27,11 @@ trait DownloadEndpointTrait {
     }
 
     public function getEntityData(Download $entity): array {
-        // TODO: Migrate to this!
-        // $file_ids = $entity->getStoredFileUploadIds();
-
-        // TODO: Deprecate this!
-        $data_path = $this->envUtils()->getDataPath();
-        $one_file_id = null;
-        $download_files_path = "{$data_path}files/downloads/{$entity->getId()}/";
-        $files_path_entries = is_dir($download_files_path)
-            ? scandir($download_files_path) : [];
-        foreach ($files_path_entries as $file_id) {
-            if (substr($file_id, 0, 1) != '.') {
-                $one_file_id = $file_id;
-            }
-        }
-
+        $file_ids = $entity->getStoredFileUploadIds();
         return [
             'name' => $entity->getName(),
             'position' => $entity->getPosition(),
-            'fileId' => $one_file_id,
+            'fileId' => $file_ids[0] ?? null,
         ];
     }
 

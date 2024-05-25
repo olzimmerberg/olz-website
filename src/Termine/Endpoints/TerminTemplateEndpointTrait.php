@@ -23,7 +23,6 @@ trait TerminTemplateEndpointTrait {
                 'durationSeconds' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'title' => new FieldTypes\StringField(['allow_empty' => true]),
                 'text' => new FieldTypes\StringField(['allow_empty' => true]),
-                'link' => new FieldTypes\StringField(['allow_empty' => true]),
                 'deadlineEarlierSeconds' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'deadlineTime' => new FieldTypes\TimeField(['allow_null' => true]),
                 'newsletter' => new FieldTypes\BooleanField(['allow_null' => false]),
@@ -46,27 +45,13 @@ trait TerminTemplateEndpointTrait {
     public function getEntityData(TerminTemplate $entity): array {
         $types_for_api = $this->getTypesForApi($entity->getTypes() ?? '');
 
-        // TODO: Migrate to this!
-        // $file_ids = $entity->getStoredFileUploadIds();
-
-        // TODO: Deprecate this!
-        $data_path = $this->envUtils()->getDataPath();
-        $file_ids = [];
-        $termin_template_files_path = "{$data_path}files/termin_templates/{$entity->getId()}/";
-        $files_path_entries = is_dir($termin_template_files_path)
-            ? scandir($termin_template_files_path) : [];
-        foreach ($files_path_entries as $file_id) {
-            if (substr($file_id, 0, 1) != '.') {
-                $file_ids[] = $file_id;
-            }
-        }
+        $file_ids = $entity->getStoredFileUploadIds();
 
         return [
             'startTime' => $entity->getStartTime()?->format('H:i:s'),
             'durationSeconds' => $entity->getDurationSeconds(),
             'title' => $entity->getTitle() ?? '',
             'text' => $entity->getText() ?? '',
-            'link' => $entity->getLink() ?? '',
             'deadlineEarlierSeconds' => $entity->getDeadlineEarlierSeconds(),
             'deadlineTime' => $entity->getDeadlineTime()?->format('H:i:s'),
             'newsletter' => $entity->getNewsletter(),
@@ -87,7 +72,6 @@ trait TerminTemplateEndpointTrait {
         $entity->setDurationSeconds($input_data['durationSeconds']);
         $entity->setTitle($input_data['title']);
         $entity->setText($input_data['text']);
-        $entity->setLink($input_data['link']);
         $entity->setDeadlineEarlierSeconds($input_data['deadlineEarlierSeconds']);
         $entity->setDeadlineTime($input_data['deadlineTime'] ? new \DateTime($input_data['deadlineTime']) : null);
         $entity->setNewsletter($input_data['newsletter']);

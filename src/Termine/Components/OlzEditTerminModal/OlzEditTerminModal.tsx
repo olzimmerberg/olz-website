@@ -83,7 +83,6 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditT
         endTime: getApiString(formData.endTime),
         title: getApiString(formData.title) ?? '',
         text: getApiString(formData.text) ?? '',
-        link: '', // TODO: Remove link
         deadline: getApiString(formData.deadline) || null,
         types: Array.from(typesSet),
         locationId: formData.locationId,

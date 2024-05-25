@@ -28,8 +28,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
             'endDate' => null,
             'endTime' => null,
             'title' => 'Test event',
-            'text' => 'some info',
-            'link' => '<a href="test-anlass.ch">Home</a>',
+            'text' => "some info\n\n[Home](test-anlass.ch)",
             'deadline' => null,
             'newsletter' => false,
             'solvId' => null,
@@ -122,8 +121,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $this->assertNull($termin->getEndDate());
         $this->assertNull($termin->getEndTime());
         $this->assertSame('Test event', $termin->getTitle());
-        $this->assertSame('some info', $termin->getText());
-        $this->assertSame('<a href="test-anlass.ch">Home</a>', $termin->getLink());
+        $this->assertSame("some info\n\n[Home](test-anlass.ch)", $termin->getText());
         $this->assertNull($termin->getDeadline());
         $this->assertFalse($termin->getNewsletter());
         $this->assertNull($termin->getSolvId());

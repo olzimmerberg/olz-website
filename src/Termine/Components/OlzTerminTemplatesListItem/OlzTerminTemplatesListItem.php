@@ -31,7 +31,6 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $duration_seconds = $termin_template->getDurationSeconds();
         $title = $termin_template->getTitle();
         $text = $termin_template->getText();
-        $links = $termin_template->getLink();
         $types = explode(' ', $termin_template->getTypes());
         $termin_location = $termin_template->getLocation();
 
@@ -84,13 +83,12 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $text = $this->htmlUtils()->renderMarkdown($text ?? '');
         $text = $termin_template->replaceImagePaths($text);
         $text = $termin_template->replaceFilePaths($text);
-        $links = '';
         if ($termin_location) {
             $sane_termin_location_id = intval($termin_location->getId());
             $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");
             $row_location = $result_location->fetch_assoc();
             $location_name = $row_location['name'];
-            $links = "<a href='{$code_href}termine/orte/{$sane_termin_location_id}?filter={$enc_current_filter}' class='linkmap'>{$location_name}</a> {$links}";
+            $text = "<a href='{$code_href}termine/orte/{$sane_termin_location_id}?filter={$enc_current_filter}' class='linkmap'>{$location_name}</a> {$text}";
         }
 
         $out .= <<<ZZZZZZZZZZ
@@ -103,7 +101,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
                     </div>
                     <div class='title-text-container'>
                         <div class='title'>{$title} {$type_imgs}</div>
-                        <div class='text'>{$text} {$links}</div>
+                        <div class='text'>{$text}</div>
                     </div>
                 </div>
             </div>

@@ -73,9 +73,6 @@ class Termin extends OlzEntity implements DataStorageInterface {
     #[ORM\Column(type: 'text', nullable: true)]
     private $text;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $link;
-
     // @deprecated Use labels
     #[ORM\Column(type: 'string', nullable: true)]
     private $typ;
@@ -174,14 +171,6 @@ class Termin extends OlzEntity implements DataStorageInterface {
 
     public function setText($new_value) {
         $this->text = $new_value;
-    }
-
-    public function getLink() {
-        return $this->link;
-    }
-
-    public function setLink($new_value) {
-        $this->link = $new_value;
     }
 
     public function getTypes() {

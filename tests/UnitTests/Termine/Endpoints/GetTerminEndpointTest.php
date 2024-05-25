@@ -66,7 +66,6 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'endTime' => null,
                 'title' => 'Fake title',
                 'text' => '',
-                'link' => '',
                 'deadline' => null,
                 'newsletter' => false,
                 'solvId' => null,
@@ -108,7 +107,6 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'endTime' => '00:00:00',
                 'title' => 'Cannot be empty',
                 'text' => '',
-                'link' => '',
                 'deadline' => '0000-01-01 00:00:00',
                 'newsletter' => false,
                 'solvId' => null,
@@ -131,8 +129,8 @@ final class GetTerminEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/termine/');
         mkdir(__DIR__.'/../../tmp/files/termine/1234/');
-        file_put_contents(__DIR__.'/../../tmp/files/termine/1234/file1.pdf', '');
-        file_put_contents(__DIR__.'/../../tmp/files/termine/1234/file2.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/termine/1234/file___________________1.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/termine/1234/file___________________2.pdf', '');
 
         $result = $endpoint->call([
             'id' => 1234,
@@ -156,7 +154,6 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'endTime' => '12:00:00',
                 'title' => 'Fake title',
                 'text' => 'Fake content',
-                'link' => '<a href="test-anlass.ch">Home</a>',
                 'deadline' => '2020-03-13 18:00:00',
                 'newsletter' => true,
                 'solvId' => 11012,
@@ -166,7 +163,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'coordinateX' => 684835,
                 'coordinateY' => 237021,
                 'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
-                'fileIds' => ['file1.pdf', 'file2.pdf'],
+                'fileIds' => ['file___________________1.pdf', 'file___________________2.pdf'],
             ],
         ], $result);
     }

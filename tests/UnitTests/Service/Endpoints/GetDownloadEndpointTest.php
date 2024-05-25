@@ -104,7 +104,7 @@ final class GetDownloadEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/downloads/');
         mkdir(__DIR__.'/../../tmp/files/downloads/1234/');
-        file_put_contents(__DIR__.'/../../tmp/files/downloads/1234/file1.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/downloads/1234/file___________________1.pdf', '');
 
         $result = $endpoint->call([
             'id' => 1234,
@@ -124,7 +124,7 @@ final class GetDownloadEndpointTest extends UnitTestCase {
             'data' => [
                 'name' => 'Fake Download',
                 'position' => 1234,
-                'fileId' => 'file1.pdf',
+                'fileId' => 'file___________________1.pdf',
             ],
         ], $result);
     }

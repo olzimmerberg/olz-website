@@ -32,7 +32,6 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setDurationSeconds(null);
                 $entity->setTitle(null);
                 $entity->setText(null);
-                $entity->setLink(null);
                 $entity->setDeadlineEarlierSeconds(null);
                 $entity->setDeadlineTime(null);
                 $entity->setNewsletter(false);
@@ -57,7 +56,6 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setDurationSeconds(7200);
                 $entity->setTitle("Fake title");
                 $entity->setText("Fake text");
-                $entity->setLink("Fake link");
                 $entity->setDeadlineEarlierSeconds(86400 * 2);
                 $entity->setDeadlineTime(new \DateTime('18:00:00'));
                 $entity->setNewsletter(true);

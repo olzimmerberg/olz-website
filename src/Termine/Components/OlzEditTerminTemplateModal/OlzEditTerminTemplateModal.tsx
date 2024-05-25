@@ -64,7 +64,6 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditT
         durationSeconds: getApiNumber(formData.durationSeconds),
         title: getApiString(formData.title) ?? '',
         text: getApiString(formData.text) ?? '',
-        link: '', // TODO: Remove link
         deadlineEarlierSeconds: getApiNumber(formData.deadlineEarlierSeconds),
         deadlineTime: getApiString(formData.deadlineTime),
         types: Array.from(typesSet),

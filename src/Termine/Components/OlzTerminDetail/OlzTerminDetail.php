@@ -95,7 +95,6 @@ class OlzTerminDetail extends OlzComponent {
         $start_time = $termin->getStartTime() ?? null;
         $end_time = $termin->getEndTime() ?? null;
         $text = $termin->getText() ?? '';
-        $link = $termin->getLink() ?? '';
         $typ = $termin->getTypes() ?? '';
         $types = explode(' ', $typ);
         $xkoord = $termin->getCoordinateX() ?? '';

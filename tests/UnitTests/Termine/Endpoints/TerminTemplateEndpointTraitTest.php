@@ -37,7 +37,6 @@ final class TerminTemplateEndpointTraitTest extends UnitTestCase {
             'durationSeconds',
             'fileIds',
             'imageIds',
-            'link',
             'locationId',
             'newsletter',
             'startTime',

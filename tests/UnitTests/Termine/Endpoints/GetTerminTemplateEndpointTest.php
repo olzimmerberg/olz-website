@@ -64,7 +64,6 @@ final class GetTerminTemplateEndpointTest extends UnitTestCase {
                 'durationSeconds' => null,
                 'title' => '',
                 'text' => '',
-                'link' => '',
                 'deadlineEarlierSeconds' => null,
                 'deadlineTime' => null,
                 'newsletter' => true,
@@ -101,7 +100,6 @@ final class GetTerminTemplateEndpointTest extends UnitTestCase {
                 'durationSeconds' => null,
                 'title' => '',
                 'text' => '',
-                'link' => '',
                 'deadlineEarlierSeconds' => null,
                 'deadlineTime' => null,
                 'newsletter' => false,
@@ -123,13 +121,13 @@ final class GetTerminTemplateEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/img/termin_templates/');
         mkdir(__DIR__.'/../../tmp/img/termin_templates/1234/');
         mkdir(__DIR__.'/../../tmp/img/termin_templates/1234/img/');
-        file_put_contents(__DIR__.'/../../tmp/img/termin_templates/1234/img/img1.jpg', '');
-        file_put_contents(__DIR__.'/../../tmp/img/termin_templates/1234/img/img2.png', '');
+        file_put_contents(__DIR__.'/../../tmp/img/termin_templates/1234/img/image__________________1.jpg', '');
+        file_put_contents(__DIR__.'/../../tmp/img/termin_templates/1234/img/image__________________2.png', '');
         mkdir(__DIR__.'/../../tmp/files/');
         mkdir(__DIR__.'/../../tmp/files/termin_templates/');
         mkdir(__DIR__.'/../../tmp/files/termin_templates/1234/');
-        file_put_contents(__DIR__.'/../../tmp/files/termin_templates/1234/file1.pdf', '');
-        file_put_contents(__DIR__.'/../../tmp/files/termin_templates/1234/file2.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/termin_templates/1234/file___________________1.pdf', '');
+        file_put_contents(__DIR__.'/../../tmp/files/termin_templates/1234/file___________________2.pdf', '');
 
         $result = $endpoint->call([
             'id' => 1234,
@@ -151,14 +149,13 @@ final class GetTerminTemplateEndpointTest extends UnitTestCase {
                 'durationSeconds' => 7200,
                 'title' => 'Fake title',
                 'text' => 'Fake text',
-                'link' => 'Fake link',
                 'deadlineEarlierSeconds' => 172800,
                 'deadlineTime' => '18:00:00',
                 'newsletter' => true,
                 'types' => ['ol', 'club'],
                 'locationId' => 12341,
                 'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
-                'fileIds' => ['file1.pdf', 'file2.pdf'],
+                'fileIds' => ['file___________________1.pdf', 'file___________________2.pdf'],
             ],
         ], $result);
     }

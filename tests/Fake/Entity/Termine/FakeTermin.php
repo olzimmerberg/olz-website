@@ -37,7 +37,6 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(new \DateTime('00:00:00'));
                 $entity->setTitle("Cannot be empty");
                 $entity->setText("");
-                $entity->setLink('');
                 $entity->setTypes('');
                 $entity->setLocation(null);
                 $entity->setCoordinateX(0);
@@ -67,7 +66,6 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(new \DateTime('12:00:00'));
                 $entity->setTitle("Fake title");
                 $entity->setText("Fake content");
-                $entity->setLink('<a href="test-anlass.ch">Home</a>');
                 $entity->setTypes(' training weekends ');
                 $entity->setLocation($termin_location);
                 $entity->setCoordinateX(684835);

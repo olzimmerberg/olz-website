@@ -60,20 +60,7 @@ trait NewsEndpointTrait {
         $external_url = $entity->getExternalUrl();
         $termin_id = $entity->getTermin();
 
-        // TODO: Migrate to this!
-        // $file_ids = $entity->getStoredFileUploadIds();
-
-        // TODO: Deprecate this!
-        $data_path = $this->envUtils()->getDataPath();
-        $file_ids = [];
-        $news_entry_files_path = "{$data_path}files/news/{$entity->getId()}/";
-        $files_path_entries = is_dir($news_entry_files_path)
-            ? scandir($news_entry_files_path) : [];
-        foreach ($files_path_entries as $file_id) {
-            if (substr($file_id, 0, 1) != '.') {
-                $file_ids[] = $file_id;
-            }
-        }
+        $file_ids = $entity->getStoredFileUploadIds();
 
         return [
             'format' => $entity->getFormat(),

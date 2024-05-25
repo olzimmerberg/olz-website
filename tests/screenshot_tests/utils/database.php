@@ -4,7 +4,7 @@ namespace Facebook\WebDriver;
 
 require_once __DIR__.'/timing.php';
 
-function reset_dev_data() {
+function reset_dev_data(): void {
     global $base_url;
     tick('reset');
     for ($i = 0; $i < 100; $i++) {

@@ -2,12 +2,14 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $app_files_url = '/apps/files/';
 
-function test_app_files($driver, $base_url) {
+function test_app_files(RemoteWebDriver $driver, string $base_url): void {
     global $app_files_url;
     tick('app_files');
 
@@ -16,7 +18,7 @@ function test_app_files($driver, $base_url) {
     tock('app_files', 'app_files');
 }
 
-function test_app_files_readonly($driver, $base_url) {
+function test_app_files_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $app_files_url;
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$app_files_url}");

@@ -2,12 +2,14 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 
 $webdav_url = '/apps/files/webdav/';
 
-function test_webdav($driver, $base_url) {
+function test_webdav(RemoteWebDriver $driver, string $base_url): void {
     global $webdav_url;
     tick('webdav');
 
@@ -16,7 +18,7 @@ function test_webdav($driver, $base_url) {
     tock('webdav', 'webdav');
 }
 
-function test_webdav_readonly($driver, $base_url) {
+function test_webdav_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $webdav_url;
 
     $declare_flaky_elements = <<<'ZZZZZZZZZZ'

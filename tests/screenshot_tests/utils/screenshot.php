@@ -2,10 +2,12 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/timing.php';
 require_once __DIR__.'/window.php';
 
-function take_pageshot($driver, $name) {
+function take_pageshot(RemoteWebDriver $driver, string $name): void {
     tick('take_pageshot');
     adjust_css_for_pageshot($driver);
     $browser_name = $driver->getCapabilities()->getBrowserName();
@@ -39,21 +41,21 @@ function take_pageshot($driver, $name) {
     tock('take_pageshot', 'take_pageshot');
 }
 
-function take_screenshot($driver, $name) {
+function take_screenshot(RemoteWebDriver $driver, string $name): void {
     $browser_name = $driver->getCapabilities()->getBrowserName();
     $screenshots_path = __DIR__.'/../../../screenshots/';
     $screenshot_filename = "{$name}-{$browser_name}.png";
     $driver->takeScreenshot("{$screenshots_path}{$screenshot_filename}");
 }
 
-function adjust_css_for_pageshot($driver) {
+function adjust_css_for_pageshot(RemoteWebDriver $driver): void {
     $adjust_for_pageshot = file_get_contents(__DIR__.'/adjust_for_pageshot.css');
     $css_string = json_encode($adjust_for_pageshot);
     $js_code = "document.head.innerHTML += '<style>'+{$css_string}+'</style>';";
     $driver->executeScript($js_code);
 }
 
-function hide_flaky_elements($driver) {
+function hide_flaky_elements(RemoteWebDriver $driver): void {
     $hide_flaky_code = file_get_contents(__DIR__.'/hideFlaky.js');
     $driver->executeScript($hide_flaky_code);
 }

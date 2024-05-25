@@ -2,6 +2,8 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
@@ -10,7 +12,7 @@ $startseite_url = '/';
 $username = 'admin';
 $password = 'adm1n';
 
-function test_login_logout($driver, $base_url) {
+function test_login_logout(RemoteWebDriver $driver, string $base_url): void {
     global $startseite_url, $username, $password;
     tick('login_logout');
 
@@ -20,7 +22,7 @@ function test_login_logout($driver, $base_url) {
 }
 
 // This is not actually readonly, as `AuthRequest`s will be created, but it does not change the looks of the interface.
-function test_login_logout_readonly($driver, $base_url) {
+function test_login_logout_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $startseite_url, $username, $password;
 
     $driver->get("{$base_url}{$startseite_url}");

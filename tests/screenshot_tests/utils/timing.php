@@ -5,20 +5,20 @@ global $timing_timestamps, $timing_report;
 $timing_timestamps = [];
 $timing_report = [];
 
-function reset_timing() {
+function reset_timing(): void {
     global $timing_timestamps, $timing_report;
     $timing_timestamps = [];
     $timing_report = [];
     tick('total');
 }
 
-function tick($name) {
+function tick(string $name): void {
     global $timing_timestamps;
     $now = microtime(true);
     $timing_timestamps[$name] = $now;
 }
 
-function tock($name, $report) {
+function tock(string $name, string $report): void {
     global $timing_timestamps, $timing_report;
     $now = microtime(true);
     $existing_report = $timing_report[$report] ?? 0.0;

@@ -2,6 +2,8 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
@@ -12,7 +14,7 @@ $news_id_5_url = "{$news_url}/5";
 $news_id_8_url = "{$news_url}/8";
 $news_id_10_url = "{$news_url}/10";
 
-function test_news($driver, $base_url) {
+function test_news(RemoteWebDriver $driver, string $base_url): void {
     tick('news');
 
     test_news_readonly($driver, $base_url);
@@ -26,7 +28,7 @@ function test_news($driver, $base_url) {
     tock('news', 'news');
 }
 
-function test_create_aktuell_new($driver, $base_url) {
+function test_create_aktuell_new(RemoteWebDriver $driver, string $base_url): void {
     global $news_url, $news_id_5_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -120,7 +122,7 @@ function test_create_aktuell_new($driver, $base_url) {
     logout($driver, $base_url);
 }
 
-function test_create_kaderblog_new($driver, $base_url) {
+function test_create_kaderblog_new(RemoteWebDriver $driver, string $base_url): void {
     global $news_url, $news_id_10_url;
 
     login($driver, $base_url, 'kaderlaeufer', 'kad3rla3uf3r');
@@ -210,7 +212,7 @@ function test_create_kaderblog_new($driver, $base_url) {
     logout($driver, $base_url);
 }
 
-function test_create_anonymous_new($driver, $base_url) {
+function test_create_anonymous_new(RemoteWebDriver $driver, string $base_url): void {
     global $news_url, $news_id_5_url;
 
     logout($driver, $base_url);
@@ -257,7 +259,7 @@ function test_create_anonymous_new($driver, $base_url) {
     take_pageshot($driver, 'news_new_anonymous_finished');
 }
 
-function test_create_forum_new($driver, $base_url) {
+function test_create_forum_new(RemoteWebDriver $driver, string $base_url): void {
     global $news_url, $news_id_8_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -335,7 +337,7 @@ function test_create_forum_new($driver, $base_url) {
     logout($driver, $base_url);
 }
 
-function test_create_galerie_new($driver, $base_url) {
+function test_create_galerie_new(RemoteWebDriver $driver, string $base_url): void {
     global $news_url, $news_id_5_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -409,7 +411,7 @@ function test_create_galerie_new($driver, $base_url) {
     logout($driver, $base_url);
 }
 
-function test_news_readonly($driver, $base_url) {
+function test_news_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $news_url, $news_id_3_url;
     $driver->get("{$base_url}{$news_url}");
     take_pageshot($driver, 'news');

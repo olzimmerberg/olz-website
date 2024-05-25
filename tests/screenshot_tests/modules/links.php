@@ -2,13 +2,15 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
 $service_url = '/service';
 
-function test_links($driver, $base_url) {
+function test_links(RemoteWebDriver $driver, string $base_url): void {
     global $service_url;
     tick('links');
 

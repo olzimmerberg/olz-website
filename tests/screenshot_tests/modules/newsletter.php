@@ -2,6 +2,8 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
@@ -10,7 +12,7 @@ $newsletter_url = '/apps/newsletter';
 $name = 'Test, User';
 $email = 'newsletter-test@olzimmerberg.ch';
 
-function test_newsletter($driver, $base_url) {
+function test_newsletter(RemoteWebDriver $driver, string $base_url): void {
     global $newsletter_url, $name, $email;
     tick('newsletter');
 

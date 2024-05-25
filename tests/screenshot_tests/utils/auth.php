@@ -2,12 +2,14 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/timing.php';
 
 $login_api_url = '/api/login';
 $logout_api_url = '/api/logout';
 
-function login($driver, $base_url, $username, $password) {
+function login(RemoteWebDriver $driver, string $base_url, string $username, string $password): void {
     global $login_api_url;
     tick('login');
     $esc_request = json_encode([
@@ -21,7 +23,7 @@ function login($driver, $base_url, $username, $password) {
     tock('login', 'login');
 }
 
-function logout($driver, $base_url) {
+function logout(RemoteWebDriver $driver, string $base_url): void {
     global $logout_api_url;
     tick('logout');
     $driver->get("{$base_url}{$logout_api_url}");

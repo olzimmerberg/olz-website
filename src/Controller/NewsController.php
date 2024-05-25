@@ -75,7 +75,7 @@ class NewsController extends AbstractController {
             $file_path = "{$imgdir}{$image_id}";
             if (is_file($file_path)) {
                 $index = $i + 1;
-                $pad_len = ceil(log10($num_images));
+                $pad_len = intval(ceil(log10($num_images)));
                 $name = str_pad("{$index}", $pad_len, '0', STR_PAD_LEFT);
                 $zip->addFile($file_path, "{$name}.jpg");
             } else {

@@ -147,10 +147,10 @@ class Panini2024Utils {
             throw new AccessDeniedHttpException("Kein Zugriff");
         }
 
-        $wid = round(($is_landscape ? self::PANINI_LONG : self::PANINI_SHORT)
-        * self::DPI / self::MM_PER_INCH);
-        $hei = round(($is_landscape ? self::PANINI_SHORT : self::PANINI_LONG)
-            * self::DPI / self::MM_PER_INCH);
+        $wid = intval(round(($is_landscape ? self::PANINI_LONG : self::PANINI_SHORT)
+        * self::DPI / self::MM_PER_INCH));
+        $hei = intval(round(($is_landscape ? self::PANINI_SHORT : self::PANINI_LONG)
+            * self::DPI / self::MM_PER_INCH));
         $suffix = "{$lp_suffix}_{$wid}x{$hei}";
         $payload_folder = (intval($id) >= 1000) ? "portraits/{$id}/" : '';
         $payload_path = "{$panini_path}{$payload_folder}{$img_src}";
@@ -195,12 +195,12 @@ class Panini2024Utils {
             imagecopyresampled(
                 $img,
                 $payload_img,
-                round($img_left_percent * $wid / 100),
-                round($img_top_percent * $hei / 100),
+                intval(round($img_left_percent * $wid / 100)),
+                intval(round($img_top_percent * $hei / 100)),
                 0,
                 0,
-                round($wid * $img_wid_percent / 100),
-                round($wid * $img_wid_percent * $payload_hei / $payload_wid / 100),
+                intval(round($wid * $img_wid_percent / 100)),
+                intval(round($wid * $img_wid_percent * $payload_hei / $payload_wid / 100)),
                 $payload_wid,
                 $payload_hei,
             );
@@ -227,8 +227,8 @@ class Panini2024Utils {
             imagedestroy($association_mask);
             gc_collect_cycles();
 
-            $offset = round(($wid + $hei) * 0.01) - 1;
-            $size = round(($wid + $hei) * 0.09) + 1;
+            $offset = intval(round(($wid + $hei) * 0.01) - 1);
+            $size = intval(round(($wid + $hei) * 0.09) + 1);
 
             $flag_mask = imagecreatefrompng($flag_mask_path);
 
@@ -297,15 +297,15 @@ class Panini2024Utils {
         $textwid = $box[2];
         $x = ($line2 ? $wid * 0.95 - $textwid : $wid / 2 - $textwid / 2);
         $y = $hei * ($is_landscape ? 0.95 : ($line2 ? 0.915 : 0.945));
-        imagettftext($img, $size, 0, $x + $shoff, $y + $shoff, $shady, $font_path, $line1);
-        imagettftext($img, $size, 0, $x, $y, $yellow, $font_path, $line1);
+        $this->drawText($img, $size, 0, $x + $shoff, $y + $shoff, $shady, $font_path, $line1);
+        $this->drawText($img, $size, 0, $x, $y, $yellow, $font_path, $line1);
         if ($line2) {
             $box = imagettfbbox($size, 0, $font_path, $line2);
             $textwid = $box[2];
             $x = $wid * 0.95 - $textwid;
             $y = $hei * 0.975;
-            imagettftext($img, $size, 0, $x + $shoff, $y + $shoff, $shady, $font_path, $line2);
-            imagettftext($img, $size, 0, $x, $y, $yellow, $font_path, $line2);
+            $this->drawText($img, $size, 0, $x + $shoff, $y + $shoff, $shady, $font_path, $line2);
+            $this->drawText($img, $size, 0, $x, $y, $yellow, $font_path, $line2);
         }
         gc_collect_cycles();
 
@@ -645,6 +645,22 @@ class Panini2024Utils {
         $motto = $this->convertString($infos[4] ?? '');
         $pdf->setXY($x, $y + 14);
         $pdf->Multicell($wid, 11, $motto, 0, 'L');
+    }
+
+    private function drawText(
+        \GdImage|int $image,
+        float $size,
+        float $angle,
+        int|float $x,
+        int|float $y,
+        int $color,
+        string $font_filename,
+        string $text,
+        array $options = [],
+    ) {
+        $x = intval(round($x));
+        $y = intval(round($y));
+        return imagettftext($image, $size, $angle, $x, $y, $color, $font_filename, $text, $options);
     }
 
     private function convertString($string) {

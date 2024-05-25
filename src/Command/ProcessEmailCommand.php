@@ -366,7 +366,7 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
-    protected function sendReportEmail(Message $mail, string $address, int $smtp_code) {
+    protected function sendReportEmail(Message $mail, ?string $address, int $smtp_code) {
         $smtp_from = $this->envUtils()->getSmtpFrom();
         $from = $mail->getFrom()->first();
         $from_name = $from->personal;
@@ -393,7 +393,7 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
-    public function getReportMessage(int $smtp_code, Message $mail, string $address) {
+    public function getReportMessage(int $smtp_code, Message $mail, ?string $address) {
         $message_by_code = [
             431 => "{$smtp_code} Not enough storage or out of memory",
             550 => "<{$address}>: {$smtp_code} sorry, no mailbox here by that name",

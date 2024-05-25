@@ -61,7 +61,7 @@ class OlzCustomizableHome extends OlzComponent {
         }
 
         usort($tiles, function ($tile_a, $tile_b) {
-            return $tile_a['relevance'] < $tile_b['relevance'];
+            return $tile_a['relevance'] < $tile_b['relevance'] ? 1 : -1;
         });
 
         foreach ($tiles as $tile) {

@@ -41,7 +41,6 @@ class OlzTermineListItem extends OlzComponent {
         $end_time = $args['end_time'];
         $title = $args['title'];
         $text = $args['text'];
-        $links = $args['link'];
         $types = $args['types'];
         $termin_location_id = $args['location_id'];
         $is_deadline = array_search('meldeschluss', $types) !== false;
@@ -76,14 +75,14 @@ class OlzTermineListItem extends OlzComponent {
                 ? "{$start_time_text} &ndash; {$end_time_text}"
                 : "{$start_time_text}"
         ) : null;
-        $links = $this->fileUtils()->replaceFileTags($links, 'termine', $id, $title);
         if ($termin_location_id) {
             $sane_termin_location_id = intval($termin_location_id);
             $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");
             $row_location = $result_location->fetch_assoc();
             $location_name = $row_location['name'];
-            $links = "<a href='{$code_href}termine/orte/{$termin_location_id}{$filter_arg}' class='linkmap'>{$location_name}</a> {$links}";
+            $text = "{$location_name} {$text}";
         }
+        $text = strip_tags($this->htmlUtils()->renderMarkdown($text));
 
         $user = $this->authUtils()->getCurrentUser();
         $is_owner = $user && $owner_user_id && intval($owner_user_id) === intval($user->getId());
@@ -112,7 +111,7 @@ class OlzTermineListItem extends OlzComponent {
                     </div>
                     <div class='title-text-container'>
                         <div class='title'>{$title}{$edit_admin} {$type_imgs}</div>
-                        <div class='text'>{$text} {$links}</div>
+                        <div class='text'>{$text}</div>
                     </div>
                 </div>
             </div>

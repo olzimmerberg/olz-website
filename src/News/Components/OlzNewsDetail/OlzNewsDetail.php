@@ -12,8 +12,6 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
-use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Utils\NewsFilterUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
@@ -31,8 +29,6 @@ class OlzNewsDetail extends OlzComponent {
 
         $news_utils = NewsFilterUtils::fromEnv();
         $news_repo = $entityManager->getRepository(NewsEntry::class);
-        $role_repo = $entityManager->getRepository(Role::class);
-        $user_repo = $entityManager->getRepository(User::class);
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
@@ -60,15 +56,13 @@ class OlzNewsDetail extends OlzComponent {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
-        $sql = "SELECT * FROM news WHERE (id = '{$id}') AND (on_off = '1') ORDER BY published_date DESC";
-        $result = $db->query($sql);
-        $row = $result->fetch_assoc();
+        $news_entry = $this->getNewsEntryById($id);
 
-        if (!$row) {
+        if (!$news_entry) {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
-        $title = $row['title'] ?? '';
+        $title = $news_entry->getTitle() ?? '';
         $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out = OlzHeader::render([
             'back_link' => "{$code_href}news?filter={$back_filter}",
@@ -81,20 +75,18 @@ class OlzNewsDetail extends OlzComponent {
             ],
         ]);
 
-        $pretty_date = $this->dateUtils()->olzDate("tt.mm.jjjj", $row['published_date']);
-        $author_user = $row['author_user_id'] ?
-            $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
-        $author_role = $row['author_role_id'] ?
-            $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
-        $author_name = $row['author_name'];
-        $author_email = $row['author_email'];
+        $pretty_date = $this->dateUtils()->olzDate("tt.mm.jjjj", $news_entry->getPublishedDate());
+        $author_user = $news_entry->getAuthorUser();
+        $author_role = $news_entry->getAuthorRole();
+        $author_name = $news_entry->getAuthorName();
+        $author_email = $news_entry->getAuthorEmail();
         $pretty_author = OlzAuthorBadge::render([
             'user' => $author_user,
             'role' => $author_role,
             'name' => $author_name,
             'email' => $author_email,
         ]);
-        $image_ids = json_decode($row['image_ids'] ?? 'null', true);
+        $image_ids = $news_entry->getImageIds();
         $num_images = count($image_ids);
         $download_all_link = $this->authUtils()->hasPermission('any')
             ? "<a href='{$code_href}news/{$id}/all.zip'>Alle herunterladen</a>" : '';
@@ -113,15 +105,15 @@ class OlzNewsDetail extends OlzComponent {
 
         $db->query("UPDATE news SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
 
-        $format = $row['format'];
-        $title = $row['title'];
-        $teaser = $row['teaser'];
-        $content = $row['content'];
-        $published_date = $row['published_date'];
+        $format = $news_entry->getFormat();
+        $title = $news_entry->getTitle();
+        $teaser = $news_entry->getTeaser();
+        $content = $news_entry->getContent();
+        $published_date = $news_entry->getPublishedDate();
 
         $published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
 
-        $is_owner = $user && intval($row['owner_user_id'] ?? 0) === intval($user->getId());
+        $is_owner = $user && intval($news_entry->getOwnerUser()?->getId() ?? 0) === intval($user->getId());
         $has_all_permissions = $this->authUtils()->hasPermission('all');
         $can_edit = $is_owner || $has_all_permissions;
         $edit_admin = '';
@@ -155,23 +147,6 @@ class OlzNewsDetail extends OlzComponent {
         $content = str_replace("\n", "\n\n", $content);
         $content = str_replace("\n\n\n\n", "\n\n", $content);
 
-        // Bildercode einfügen
-        preg_match_all('/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i', $teaser, $matches);
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $teaser = str_replace($matches[0][$i], '', $teaser);
-        }
-        $content = $this->imageUtils()->replaceImageTags(
-            $content,
-            $id,
-            $image_ids,
-            "gallery[myset]",
-            " class='box' style='float:left;clear:left;margin:3px 5px 3px 0px;'"
-        );
-
-        // Dateicode einfügen
-        $teaser = $this->fileUtils()->replaceFileTags($teaser, 'aktuell', $id, $title);
-        $content = $this->fileUtils()->replaceFileTags($content, 'aktuell', $id, $title);
-
         // Markdown
         $teaser = $this->htmlUtils()->renderMarkdown($teaser, [
             'html_input' => 'allow', // TODO: Do NOT allow!
@@ -179,6 +154,12 @@ class OlzNewsDetail extends OlzComponent {
         $content = $this->htmlUtils()->renderMarkdown($content, [
             'html_input' => 'allow', // TODO: Do NOT allow!
         ]);
+
+        // Datei- & Bildpfade
+        $teaser = $news_entry->replaceImagePaths($teaser);
+        $teaser = $news_entry->replaceFilePaths($teaser);
+        $content = $news_entry->replaceImagePaths($content);
+        $content = $news_entry->replaceFilePaths($content);
 
         $out .= "<h1>{$edit_admin}{$title}</h1>";
 
@@ -232,7 +213,7 @@ class OlzNewsDetail extends OlzComponent {
             }
             $out .= "</div>\n";
         } elseif ($format === 'video') {
-            $youtube_url = $row['content'];
+            $youtube_url = $news_entry->getContent();
             $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9]{6,})/", $youtube_url, $matches0);
             $res1 = preg_match("/^https\\:\\/\\/(www\\.)?youtube\\.com\\/watch\\?v\\=([a-zA-Z0-9]{6,})/", $youtube_url, $matches1);
             $youtube_match = null;
@@ -262,5 +243,13 @@ class OlzNewsDetail extends OlzComponent {
         $out .= OlzFooter::render();
 
         return $out;
+    }
+
+    protected function getNewsEntryById(int $id): ?NewsEntry {
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
+        return $news_repo->findOneBy([
+            'id' => $id,
+            'on_off' => 1,
+        ]);
     }
 }

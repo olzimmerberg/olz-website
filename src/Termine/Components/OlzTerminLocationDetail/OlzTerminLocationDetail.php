@@ -6,6 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Entity\Termine\TerminLocation;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminLocationDetail extends OlzComponent {
@@ -16,19 +17,16 @@ class OlzTerminLocationDetail extends OlzComponent {
         ]);
 
         $code_href = $this->envUtils()->getCodeHref();
-        $db = $this->dbUtils()->getDb();
         $user = $this->authUtils()->getCurrentUser();
         $id = $args['id'] ?? null;
 
-        $sql = "SELECT * FROM termin_locations WHERE (id = '{$id}') AND (on_off = '1')";
-        $result = $db->query($sql);
-        $row = $result->fetch_assoc();
+        $termin_location = $this->getTerminLocationById($id);
 
-        if (!$row) {
+        if (!$termin_location) {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
-        $title = $row['name'] ?? '';
+        $title = $termin_location->getName() ?? '';
         $back_link = "{$code_href}termine";
         if ($params['filter'] ?? null) {
             $enc_filter = urlencode($params['filter']);
@@ -77,16 +75,17 @@ class OlzTerminLocationDetail extends OlzComponent {
             <div class='content-middle'>
             ZZZZZZZZZZ;
 
-        $name = $row['name'] ?? '';
-        $details = $row['details'] ?? '';
-        $latitude = $row['latitude'] ?? '';
-        $longitude = $row['longitude'] ?? '';
-        $image_ids = json_decode($row['image_ids'] ?? 'null', true);
+        $name = $termin_location->getName() ?? '';
+        $name = $termin_location->getName() ?? '';
+        $details = $termin_location->getDetails() ?? '';
+        $latitude = $termin_location->getLatitude() ?? '';
+        $longitude = $termin_location->getLongitude() ?? '';
+        $image_ids = $termin_location->getImageIds();
 
         $out .= "<div class='olz-termin-location-detail'>";
 
         // Editing Tools
-        $is_owner = $user && intval($row['owner_user_id'] ?? 0) === intval($user->getId());
+        $is_owner = $user && intval($termin_location->getOwnerUser()?->getId() ?? 0) === intval($user->getId());
         $has_termine_permissions = $this->authUtils()->hasPermission('termine');
         $can_edit = $is_owner || $has_termine_permissions;
         if ($can_edit) {
@@ -123,6 +122,8 @@ class OlzTerminLocationDetail extends OlzComponent {
         ]);
 
         $details_html = $this->htmlUtils()->renderMarkdown($details);
+        $details_html = $termin_location->replaceImagePaths($details_html);
+        $details_html = $termin_location->replaceFilePaths($details_html);
         $out .= "<div>{$details_html}</div>";
 
         if ($image_ids && count($image_ids) > 0) {
@@ -147,5 +148,13 @@ class OlzTerminLocationDetail extends OlzComponent {
         $out .= OlzFooter::render();
 
         return $out;
+    }
+
+    protected function getTerminLocationById(int $id): ?TerminLocation {
+        $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
+        return $termin_location_repo->findOneBy([
+            'id' => $id,
+            'on_off' => 1,
+        ]);
     }
 }

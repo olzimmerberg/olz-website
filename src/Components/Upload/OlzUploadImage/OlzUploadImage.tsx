@@ -8,7 +8,6 @@ import './OlzUploadImage.scss';
 interface OlzUploadImageProps {
     uploadFile?: UploadFile;
     onDelete?: (uploadId: string) => unknown;
-    isMarkdown?: boolean;
 }
 
 export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement => {
@@ -48,11 +47,11 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
             const copyContent = `![](./${uploadFile.uploadId})`;
             navigator.clipboard.writeText(copyContent);
         }, [props.uploadFile]);
-        const copyButton = props.isMarkdown ? (
+        const copyButton = (
             <button className='button' type='button' onClick={onCopy}>
                 <img src={`${dataHref}assets/icns/copy_16.svg`} alt='Cp' />
             </button>
-        ) : null;
+        );
         const deleteButton = props.onDelete ? (
             <button className='button' type='button' onClick={() => {
                 if (props.onDelete) {

@@ -17,40 +17,6 @@ class ImageUtils {
         'weekly_picture' => 'img/weekly_picture/',
     ];
 
-    public function replaceImageTags(
-        $text,
-        $id,
-        $image_ids,
-        $lightview = 'image',
-        $attrs = '',
-    ): string {
-        $res = preg_match_all(
-            '/<bild([0-9]+)(\\s+size=([0-9]+))?([^>]*)>/i',
-            $text ?? '',
-            $matches
-        );
-        if (!$res) {
-            return $text ?? '';
-        }
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $size = intval($matches[3][$i]);
-            if ($size < 1) {
-                $size = 110;
-            }
-            $index = intval($matches[1][$i]);
-            $new_html = $this->olzImage(
-                'news',
-                $id,
-                $image_ids[$index - 1] ?? null,
-                $size,
-                $lightview,
-                $attrs
-            );
-            $text = str_replace($matches[0][$i], $new_html, $text);
-        }
-        return $text;
-    }
-
     public function olzImage(
         $db_table,
         $id,

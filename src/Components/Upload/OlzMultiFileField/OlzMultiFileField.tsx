@@ -22,7 +22,6 @@ interface OlzMultiFileFieldProps<Values extends FieldValues, Name extends Path<V
     control: Control<Values, Name>;
     setIsLoading: (isLoading: boolean) => void;
     disabled?: boolean;
-    isMarkdown?: boolean;
 }
 
 export const OlzMultiFileField = <
@@ -155,7 +154,6 @@ export const OlzMultiFileField = <
                     key={serializeUploadFile(uploadFile)}
                     uploadFile={uploadFile}
                     onDelete={onDelete}
-                    isMarkdown={props.isMarkdown}
                 />)}
             </div>
             <div className={`dropzone${errorClassName}`} {...getRootProps()}>

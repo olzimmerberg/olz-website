@@ -82,10 +82,8 @@ class OlzTerminTemplateDetail extends OlzComponent {
         $duration_seconds = $termin_template->getDurationSeconds() ?? '';
         $title = $termin_template->getTitle() ?? '';
         $text = $termin_template->getText() ?? '';
-        $link = $termin_template->getLink() ?? '';
         $typ = $termin_template->getTypes() ?? '';
         $types = explode(' ', $typ);
-        $newsletter = $termin_template->getNewsletter() ?? '';
         $termin_location = $termin_template->getLocation();
         $image_ids = $termin_template->getImageIds();
 
@@ -149,10 +147,9 @@ class OlzTerminTemplateDetail extends OlzComponent {
         }
 
         $text_html = $this->htmlUtils()->renderMarkdown($text);
+        $text_html = $termin_template->replaceImagePaths($text_html);
+        $text_html = $termin_template->replaceFilePaths($text_html);
         $out .= "<div>{$text_html}</div>";
-
-        $link = $this->fileUtils()->replaceFileTags($link, 'termin_templates', $id, $title);
-        $out .= "<div class='links'>".$link."</div>";
 
         if ($image_ids && count($image_ids) > 0) {
             $out .= "<h3>Bilder</h3><div class='lightgallery gallery-container'>";

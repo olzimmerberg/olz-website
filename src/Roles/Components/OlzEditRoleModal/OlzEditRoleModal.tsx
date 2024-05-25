@@ -176,7 +176,6 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                     errors={errors}
                                     control={control}
                                     setIsLoading={setIsImagesLoading}
-                                    isMarkdown
                                 />
                             </div>
                             <div id='files-upload'>
@@ -186,7 +185,6 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                     errors={errors}
                                     control={control}
                                     setIsLoading={setIsFilesLoading}
-                                    isMarkdown
                                 />
                             </div>
                             <div className='row'>

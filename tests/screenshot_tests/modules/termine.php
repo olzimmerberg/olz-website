@@ -62,11 +62,7 @@ function test_create_termin_new($driver, $base_url) {
     $text_input = $driver->findElement(
         WebDriverBy::cssSelector('#text-input')
     );
-    sendKeys($text_input, '...wird episch!');
-    $link_input = $driver->findElement(
-        WebDriverBy::cssSelector('#link-input')
-    );
-    sendKeys($link_input, '<a href="https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822" class="linkext">Infos</a>');
+    sendKeys($text_input, "...wird episch!\n\n[Infos](https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822)");
     $deadline_input = $driver->findElement(
         WebDriverBy::cssSelector('#deadline-input')
     );
@@ -219,11 +215,7 @@ function test_create_termin_template_new($driver, $base_url) {
     $text_input = $driver->findElement(
         WebDriverBy::cssSelector('#text-input')
     );
-    sendKeys($text_input, '...wird jedes Mal episch!');
-    $link_input = $driver->findElement(
-        WebDriverBy::cssSelector('#link-input')
-    );
-    sendKeys($link_input, '<a href="https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822" class="linkext">immer dasselbe</a>');
+    sendKeys($text_input, "...wird jedes Mal episch!\n\n[immer dasselbe](https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822)");
     $deadline_earlier_seconds_input = $driver->findElement(
         WebDriverBy::cssSelector('#deadlineEarlierSeconds-input')
     );

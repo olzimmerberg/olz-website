@@ -2,6 +2,8 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
@@ -9,7 +11,7 @@ require_once __DIR__.'/../utils/wrappers.php';
 $konto_passwort_url = '/konto_passwort';
 $webdav_url = '/apps/files/webdav/';
 
-function test_konto_passwort($driver, $base_url) {
+function test_konto_passwort(RemoteWebDriver $driver, string $base_url): void {
     global $konto_passwort_url, $webdav_url;
     tick('konto_passwort');
 
@@ -64,7 +66,7 @@ function test_konto_passwort($driver, $base_url) {
     tock('konto_passwort', 'konto_passwort');
 }
 
-function test_konto_passwort_readonly($driver, $base_url) {
+function test_konto_passwort_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $konto_passwort_url;
     $driver->get("{$base_url}{$konto_passwort_url}");
 

@@ -2,6 +2,7 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Olz\Utils\AbstractDateUtils;
 
 require_once __DIR__.'/../utils/screenshot.php';
@@ -9,7 +10,7 @@ require_once __DIR__.'/../utils/screenshot.php';
 $startseite_url = '/';
 $live_file_path = './public/results/_live.json';
 
-function test_live_results($driver, $base_url) {
+function test_live_results(RemoteWebDriver $driver, string $base_url): void {
     global $live_file_path, $startseite_url;
     tick('live_results');
 
@@ -18,7 +19,7 @@ function test_live_results($driver, $base_url) {
     tock('live_results', 'live_results');
 }
 
-function test_live_results_readonly($driver, $base_url) {
+function test_live_results_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $live_file_path, $startseite_url;
     $date_utils = AbstractDateUtils::fromEnv();
     $live_file_content = json_encode([

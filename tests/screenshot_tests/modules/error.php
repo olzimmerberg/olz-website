@@ -2,11 +2,13 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/screenshot.php';
 
 $error_url = '/error';
 
-function test_error($driver, $base_url) {
+function test_error(RemoteWebDriver $driver, string $base_url): void {
     global $error_url;
     tick('error');
 
@@ -15,7 +17,7 @@ function test_error($driver, $base_url) {
     tock('error', 'error');
 }
 
-function test_error_readonly($driver, $base_url) {
+function test_error_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $error_url;
 
     $driver->get("{$base_url}{$error_url}/400");

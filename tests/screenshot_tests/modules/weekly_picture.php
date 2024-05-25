@@ -2,13 +2,15 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
 $startseite_url = '/';
 
-function test_weekly_picture($driver, $base_url) {
+function test_weekly_picture(RemoteWebDriver $driver, string $base_url): void {
     global $startseite_url;
     tick('weekly_picture');
 
@@ -56,7 +58,7 @@ function test_weekly_picture($driver, $base_url) {
     tock('weekly_picture', 'weekly_picture');
 }
 
-function test_weekly_picture_readonly($driver, $base_url) {
+function test_weekly_picture_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $startseite_url;
     $driver->get("{$base_url}{$startseite_url}");
     $driver->navigate()->refresh();

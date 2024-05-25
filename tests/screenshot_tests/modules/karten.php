@@ -2,6 +2,8 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
@@ -9,7 +11,7 @@ require_once __DIR__.'/../utils/wrappers.php';
 $karten_url = '/karten';
 $karten_id_1_url = '/karten/1';
 
-function test_karten($driver, $base_url) {
+function test_karten(RemoteWebDriver $driver, string $base_url): void {
     global $karten_url;
     tick('karten');
 
@@ -85,7 +87,7 @@ function test_karten($driver, $base_url) {
     tock('karten', 'karten');
 }
 
-function test_karten_readonly($driver, $base_url) {
+function test_karten_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $karten_url, $karten_id_1_url;
 
     $driver->get("{$base_url}{$karten_url}");

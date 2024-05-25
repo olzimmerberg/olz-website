@@ -2,6 +2,8 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
@@ -18,7 +20,7 @@ $termin_templates_url = '/termine/vorlagen';
 $termin_template_id_2_url = "{$termin_templates_url}/2";
 $termin_template_id_7_url = "{$termin_templates_url}/7";
 
-function test_termine($driver, $base_url) {
+function test_termine(RemoteWebDriver $driver, string $base_url): void {
     tick('termine');
 
     test_termine_readonly($driver, $base_url);
@@ -30,7 +32,7 @@ function test_termine($driver, $base_url) {
     tock('termine', 'termine');
 }
 
-function test_create_termin_new($driver, $base_url) {
+function test_create_termin_new(RemoteWebDriver $driver, string $base_url): void {
     global $termine_url, $termine_id_7_url, $termine_id_1002_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -129,7 +131,7 @@ function test_create_termin_new($driver, $base_url) {
     logout($driver, $base_url);
 }
 
-function test_create_termin_location_new($driver, $base_url) {
+function test_create_termin_location_new(RemoteWebDriver $driver, string $base_url): void {
     global $termin_locations_url, $termin_location_id_3_url, $termin_location_id_4_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -187,7 +189,7 @@ function test_create_termin_location_new($driver, $base_url) {
     logout($driver, $base_url);
 }
 
-function test_create_termin_template_new($driver, $base_url) {
+function test_create_termin_template_new(RemoteWebDriver $driver, string $base_url): void {
     global $termin_templates_url, $termin_template_id_2_url, $termin_template_id_7_url;
 
     login($driver, $base_url, 'admin', 'adm1n');
@@ -286,7 +288,7 @@ function test_create_termin_template_new($driver, $base_url) {
     logout($driver, $base_url);
 }
 
-function test_termine_readonly($driver, $base_url) {
+function test_termine_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $termine_url;
     $driver->get("{$base_url}{$termine_url}");
     take_pageshot($driver, 'termine');

@@ -62,14 +62,14 @@ $driver = RemoteWebDriver::create($host, $capabilities);
 
 $base_url = 'http://127.0.0.1:30270';
 
-function init_test_block($driver) {
+function init_test_block(RemoteWebDriver $driver): void {
     reset_timing();
 
     set_window_size($driver, 1280, 1024);
 }
 
 $blocks = [
-    function ($driver, $base_url) {
+    function (RemoteWebDriver $driver, string $base_url) {
         init_test_block($driver);
 
         // no specific order
@@ -78,7 +78,7 @@ $blocks = [
 
         echo get_pretty_timing_report();
     },
-    function ($driver, $base_url) {
+    function (RemoteWebDriver $driver, string $base_url) {
         init_test_block($driver);
 
         // no specific order
@@ -96,7 +96,7 @@ $blocks = [
 
         echo get_pretty_timing_report();
     },
-    function ($driver, $base_url) {
+    function (RemoteWebDriver $driver, string $base_url) {
         init_test_block($driver);
 
         // no specific order

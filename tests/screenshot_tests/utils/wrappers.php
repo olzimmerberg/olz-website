@@ -2,13 +2,15 @@
 
 namespace Facebook\WebDriver;
 
-function click($element) {
+use Facebook\WebDriver\Remote\RemoteWebElement;
+
+function click(RemoteWebElement $element): void {
     $element->getLocationOnScreenOnceScrolledIntoView();
     usleep(100 * 1000);
     $element->click();
 }
 
-function sendKeys($element, $string) {
+function sendKeys(RemoteWebElement $element, string $string): void {
     $element->getLocationOnScreenOnceScrolledIntoView();
     usleep(100 * 1000);
     $element->sendKeys($string);

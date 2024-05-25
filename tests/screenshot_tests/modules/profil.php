@@ -2,13 +2,15 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/auth.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
 $profil_url = '/profil';
 
-function test_profil($driver, $base_url) {
+function test_profil(RemoteWebDriver $driver, string $base_url): void {
     global $profil_url;
     tick('profil');
 
@@ -17,7 +19,7 @@ function test_profil($driver, $base_url) {
     tock('profil', 'profil');
 }
 
-function test_profil_readonly($driver, $base_url) {
+function test_profil_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $profil_url;
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$profil_url}");

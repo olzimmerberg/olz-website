@@ -2,6 +2,7 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Olz\Apps\OlzApps;
 
 require_once __DIR__.'/../utils/auth.php';
@@ -9,7 +10,7 @@ require_once __DIR__.'/../utils/screenshot.php';
 
 $service_url = '/service/';
 
-function test_apps($driver, $base_url) {
+function test_apps(RemoteWebDriver $driver, string $base_url): void {
     global $service_url;
     tick('apps');
 
@@ -18,7 +19,7 @@ function test_apps($driver, $base_url) {
     tock('apps', 'apps');
 }
 
-function test_apps_readonly($driver, $base_url) {
+function test_apps_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $service_url;
     login($driver, $base_url, 'admin', 'adm1n');
     $driver->get("{$base_url}{$service_url}");

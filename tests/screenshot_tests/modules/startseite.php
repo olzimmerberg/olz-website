@@ -2,13 +2,15 @@
 
 namespace Facebook\WebDriver;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
 require_once __DIR__.'/../utils/database.php';
 require_once __DIR__.'/../utils/screenshot.php';
 require_once __DIR__.'/../utils/wrappers.php';
 
 $startseite_url = '/';
 
-function test_startseite($driver, $base_url) {
+function test_startseite(RemoteWebDriver $driver, string $base_url): void {
     global $startseite_url;
     tick('startseite');
 
@@ -32,7 +34,7 @@ function test_startseite($driver, $base_url) {
     tock('startseite', 'startseite');
 }
 
-function test_startseite_readonly($driver, $base_url) {
+function test_startseite_readonly(RemoteWebDriver $driver, string $base_url): void {
     global $startseite_url;
     $driver->get("{$base_url}{$startseite_url}");
     take_pageshot($driver, 'startseite');

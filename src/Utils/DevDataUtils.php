@@ -694,10 +694,10 @@ class DevDataUtils {
             $y = floor($hash % 4) * $height / 4;
             imagefilledrectangle(
                 $destination,
-                round($x),
-                round($y),
-                round($x + $width / 4),
-                round($y + $height / 4),
+                intval(round($x)),
+                intval(round($y)),
+                intval(round($x + $width / 4)),
+                intval(round($y + $height / 4)),
                 $red
             );
             if (preg_match('/\.jpg$/', $destination_relative_path)) {
@@ -728,7 +728,10 @@ class DevDataUtils {
             $long_line .= ' so much content';
         }
         for ($i = 0; $i < 1440; $i++) {
-            $time = str_pad(floor($i / 60), 2, '0', STR_PAD_LEFT).':'.str_pad(floor($i % 60), 2, '0', STR_PAD_LEFT).':'.str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT).'.'.str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $time = str_pad(strval(floor($i / 60)), 2, '0', STR_PAD_LEFT).':'.
+                str_pad(strval(floor($i % 60)), 2, '0', STR_PAD_LEFT).':'.
+                str_pad(strval(random_int(0, 59)), 2, '0', STR_PAD_LEFT).'.'.
+                str_pad(strval(random_int(0, 999999)), 6, '0', STR_PAD_LEFT);
             $level = $log_levels[$i % $num_log_levels];
             $fill_up = ($i % ($num_log_levels + 1)) === 0 ? $long_line : '';
             $line = "[{$iso_date}T{$time}+01:00] Command:ProcessEmail.{$level}: Something happened... {$fill_up} [] []\n";

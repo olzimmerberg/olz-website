@@ -73,7 +73,7 @@ abstract class BaseLogsChannel {
 
     public function readAroundDateTime(\DateTime $date_time, array $query): ReadResult {
         $line_location = $this->getLineLocationForDateTime($date_time);
-        $line_limit = floor(self::$pageSize / 2) + 1;
+        $line_limit = intval(self::$pageSize / 2) + 1;
         $time_limit = time() + 5;
         $lines_before = $this->readMatchingLinesBefore($line_location, $query, $line_limit, $time_limit);
         $line_limit = self::$pageSize - count($lines_before->lines) + 1;

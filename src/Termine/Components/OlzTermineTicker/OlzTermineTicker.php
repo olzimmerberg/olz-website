@@ -89,7 +89,7 @@ class OlzTermineTicker extends OlzComponent {
             }
             // if ($case!=$case_tmp and 0<strlen($sections[$case_tmp-1])) $out .= "<div class='tablebar'>".str_replace("[x]",$diff_start,$sections[$case_tmp-1])."</div>";
             if ($case != $case_tmp && isset($sections[$case_tmp - 1])) {
-                $out .= "<h2{$class_heute} style='margin-top:15px;'>".str_replace("[x]", $diff_start, $sections[$case_tmp - 1])."</h2>";
+                $out .= "<h2{$class_heute} style='margin-top:15px;'>".str_replace("[x]", strval($diff_start), $sections[$case_tmp - 1])."</h2>";
             }
             $case = $case_tmp;
             // ENDE TEST

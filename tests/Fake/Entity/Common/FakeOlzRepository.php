@@ -25,6 +25,7 @@ class FakeOlzRepository extends EntityRepository {
     public $entitiesToBeFound;
 
     public function __construct(EntityManagerInterface $em) {
+        // @phpstan-ignore-next-line
         parent::__construct($em, new ClassMetadata('Fake'));
     }
 

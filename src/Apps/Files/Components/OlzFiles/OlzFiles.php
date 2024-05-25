@@ -30,7 +30,6 @@ class OlzFiles extends OlzComponent {
 
         $iframe_url = "{$base_href}/apps/files/artgris/?conf=default&tree=0";
 
-        // TODO: Remove link to old view
         $out .= <<<ZZZZZZZZZZ
             <div class='content-full'>
                 <iframe class='files-iframe' src='{$iframe_url}'></iframe>

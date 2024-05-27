@@ -12,7 +12,7 @@ class DeleteRoleEndpoint extends OlzDeleteEntityEndpoint {
         return 'DeleteRoleEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $entity = $this->getEntityById($input['id']);
 
         $is_superior = $this->authUtils()->hasRoleEditPermission($input['id']);

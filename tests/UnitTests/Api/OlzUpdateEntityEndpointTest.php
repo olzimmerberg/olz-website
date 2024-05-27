@@ -15,7 +15,7 @@ class OlzUpdateEntityConcreteEndpoint extends OlzUpdateEntityEndpoint {
         return 'ident';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         return [
             'status' => 'OK',
             'id' => $input['id'],

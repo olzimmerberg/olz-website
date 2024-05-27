@@ -24,7 +24,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         $this->originStations = $data;
     }
 
-    public function runtimeSetup() {
+    public function runtimeSetup(): void {
         parent::runtimeSetup();
         $transport_api_fetcher = new TransportApiFetcher();
         $this->setTransportApiFetcher($transport_api_fetcher);
@@ -59,7 +59,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 
         $destination = $input['destination'];

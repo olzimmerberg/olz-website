@@ -47,7 +47,7 @@ class UpdateUserEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $auth_username = $this->session()->get('user');
 
         $user_repo = $this->entityManager()->getRepository(User::class);

@@ -28,7 +28,7 @@ class ResetPasswordEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $username_or_email = trim($input['usernameOrEmail']);
         $user = $this->authUtils()->resolveUsernameOrEmail($username_or_email);
         if (!$user) {

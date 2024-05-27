@@ -12,7 +12,7 @@ class CreateWeeklyPictureEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateWeeklyPictureEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('weekly_picture');
 
         $weekly_picture = new WeeklyPicture();

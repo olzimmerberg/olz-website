@@ -34,7 +34,7 @@ class LoginEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $username_or_email = trim($input['usernameOrEmail']);
         $password = $input['password'];
         $remember_me = $input['rememberMe'];

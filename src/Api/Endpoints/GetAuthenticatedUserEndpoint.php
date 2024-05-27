@@ -32,7 +32,7 @@ class GetAuthenticatedUserEndpoint extends OlzEndpoint {
         ]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $auth_utils = $this->authUtils();
         $user = $auth_utils->getCurrentUser();
         if (!$user) {

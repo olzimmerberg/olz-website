@@ -12,7 +12,7 @@ class DeleteKarteEndpoint extends OlzDeleteEntityEndpoint {
         return 'DeleteKarteEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 
         $entity = $this->getEntityById($input['id']);

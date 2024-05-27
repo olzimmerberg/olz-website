@@ -28,13 +28,13 @@ class OnDailyEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function parseInput(Request $request) {
+    public function parseInput(Request $request): mixed {
         return [
             'authenticityCode' => $request->query->get('authenticityCode'),
         ];
     }
 
-    public function shouldFailThrottling() {
+    public function shouldFailThrottling(): bool {
         if ($this->envUtils()->hasUnlimitedCron()) {
             return false;
         }
@@ -49,7 +49,7 @@ class OnDailyEndpoint extends OlzEndpoint {
         return $now < $min_now;
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $expected_code = $this->envUtils()->getCronAuthenticityCode();
         $actual_code = $input['authenticityCode'];
         if ($actual_code != $expected_code) {

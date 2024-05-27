@@ -34,7 +34,7 @@ class RegisterSkillsEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $skill_repo = $this->entityManager()->getRepository(Skill::class);
         $skill_category_repo = $this->entityManager()->getRepository(SkillCategory::class);
         $skill_by_name = [];

@@ -27,7 +27,7 @@ class OlzEntityConcreteEndpoint extends OlzEntityEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         return ['data' => 'test'];
     }
 

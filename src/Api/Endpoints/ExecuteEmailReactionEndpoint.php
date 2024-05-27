@@ -30,7 +30,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $token = $input['token'];
         $this->reaction_data = $this->emailUtils()->decryptEmailReactionToken($token);
 

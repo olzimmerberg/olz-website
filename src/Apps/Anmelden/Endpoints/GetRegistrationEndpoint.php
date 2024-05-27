@@ -12,7 +12,7 @@ class GetRegistrationEndpoint extends OlzGetEntityEndpoint {
         return 'GetRegistrationEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $external_id = $input['id'];
         $internal_id = $this->idUtils()->toInternalId($external_id, 'Registration');
         $registration_repo = $this->entityManager()->getRepository(Registration::class);

@@ -40,7 +40,7 @@ class GetPrefillValuesEndpoint extends OlzEndpoint {
         ]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 
         $auth_user = $this->authUtils()->getCurrentUser();

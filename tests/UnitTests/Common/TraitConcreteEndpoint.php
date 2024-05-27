@@ -19,6 +19,7 @@ trait TraitConcreteEndpoint {
         return new FieldTypes\Field();
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
+        return null;
     }
 }

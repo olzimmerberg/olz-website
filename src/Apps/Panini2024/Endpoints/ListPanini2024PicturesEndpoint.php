@@ -44,7 +44,7 @@ class ListPanini2024PicturesEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('panini2024');
 
         // TODO: Implement

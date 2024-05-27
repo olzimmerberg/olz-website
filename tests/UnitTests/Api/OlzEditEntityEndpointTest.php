@@ -15,7 +15,7 @@ class OlzEditEntityConcreteEndpoint extends OlzEditEntityEndpoint {
         return 'ident';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         return [
             'id' => $input['id'],
             'meta' => [

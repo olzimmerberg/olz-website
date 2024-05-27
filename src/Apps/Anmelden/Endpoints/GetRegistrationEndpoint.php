@@ -8,7 +8,7 @@ use Olz\Entity\Anmelden\Registration;
 class GetRegistrationEndpoint extends OlzGetEntityEndpoint {
     use RegistrationEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetRegistrationEndpoint';
     }
 

@@ -6,7 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
 
 class OlzAccountMenu extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $out = '';
 
         $auth_user = $this->authUtils()->getCurrentAuthUser();

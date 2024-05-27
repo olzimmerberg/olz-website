@@ -7,11 +7,11 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 use Symfony\Component\Mime\Email;
 
 class ResetPasswordEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'ResetPasswordEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'DENIED',
@@ -21,7 +21,7 @@ class ResetPasswordEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'usernameOrEmail' => new FieldTypes\StringField([]),
             'recaptchaToken' => new FieldTypes\StringField([]),

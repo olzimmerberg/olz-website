@@ -22,7 +22,7 @@ use Olz\Startseite\Components\OlzTermineUpcomingTile\OlzTermineUpcomingTile;
 use Olz\Startseite\Components\OlzWeeklyPictureTile\OlzWeeklyPictureTile;
 
 class OlzCustomizableHome extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $user = $this->authUtils()->getCurrentUser();
 
         $tile_classes = [

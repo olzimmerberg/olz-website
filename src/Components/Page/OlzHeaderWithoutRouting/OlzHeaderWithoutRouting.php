@@ -8,7 +8,7 @@ use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
 use Olz\Utils\StandardSession;
 
 class OlzHeaderWithoutRouting extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         global $_SESSION;
 
         StandardSession::session_start_if_cookie_set();

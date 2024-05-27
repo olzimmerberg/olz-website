@@ -7,7 +7,7 @@ use Olz\Entity\Karten\Karte;
 use Olz\Karten\Components\OlzKartenListItem\OlzKartenListItem;
 
 class OlzKartenList extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $out = '';
 
         $db = $this->dbUtils()->getDb();

@@ -9,7 +9,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzKontoStrava extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $params = $this->httpUtils()->validateGetParams([
             'code' => new FieldTypes\StringField(['allow_null' => true]),
             'scope' => new FieldTypes\StringField(['allow_null' => true]),

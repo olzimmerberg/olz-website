@@ -9,7 +9,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzAnmelden extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([
             'id' => new FieldTypes\IntegerField(['allow_null' => true]),
         ]);

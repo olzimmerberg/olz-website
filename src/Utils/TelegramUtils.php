@@ -15,7 +15,7 @@ class TelegramUtils {
     use WithUtilsTrait;
     use \Psr\Log\LoggerAwareTrait;
 
-    protected $telegramFetcher;
+    protected TelegramFetcher $telegramFetcher;
 
     public static function fromEnv(): self {
         $telegram_fetcher = new TelegramFetcher();
@@ -26,24 +26,24 @@ class TelegramUtils {
         return $instance;
     }
 
-    public function setTelegramFetcher($telegramFetcher) {
+    public function setTelegramFetcher(TelegramFetcher $telegramFetcher): void {
         $this->telegramFetcher = $telegramFetcher;
     }
 
-    public function getBotName() {
+    public function getBotName(): string {
         return $this->envUtils()->getTelegramBotName();
     }
 
-    private function getBotToken() {
+    private function getBotToken(): string {
         return $this->envUtils()->getTelegramBotToken();
     }
 
-    public function getFreshPinForUser(User $user) {
+    public function getFreshPinForUser(User $user): string {
         $telegram_link = $this->startChatForUser($user);
         return $telegram_link->getPin();
     }
 
-    public function startAnonymousChat($chat_id, $user_id): TelegramLink {
+    public function startAnonymousChat(string $chat_id, string $user_id): TelegramLink {
         $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing != null) {
@@ -92,7 +92,7 @@ class TelegramUtils {
         return $telegram_link;
     }
 
-    public function linkChatUsingPin($pin, $chat_id, $user_id) {
+    public function linkChatUsingPin(string $pin, string $chat_id, string $user_id): TelegramLink {
         $now = new \DateTime($this->dateUtils()->getIsoNow());
 
         $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
@@ -112,7 +112,7 @@ class TelegramUtils {
         return $existing_telegram_link;
     }
 
-    public function linkUserUsingPin($pin, $user) {
+    public function linkUserUsingPin(string $pin, User $user): TelegramLink {
         $now = new \DateTime($this->dateUtils()->getIsoNow());
 
         $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
@@ -140,7 +140,7 @@ class TelegramUtils {
         return \DateInterval::createFromDateString("+10 min");
     }
 
-    public function getFreshPinForChat($chat_id) {
+    public function getFreshPinForChat(string $chat_id): string {
         $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing == null) {
@@ -150,7 +150,7 @@ class TelegramUtils {
         return $telegram_link->getPin();
     }
 
-    public function setNewPinForLink($telegram_link) {
+    public function setNewPinForLink(TelegramLink $telegram_link): TelegramLink {
         $pin = $this->generateUniqueTelegramPin();
         $now = new \DateTime($this->dateUtils()->getIsoNow());
         $pin_expires_at = $now->add($this->getTelegramExpirationInterval());
@@ -163,7 +163,7 @@ class TelegramUtils {
         return $telegram_link;
     }
 
-    public function generateUniqueTelegramPin() {
+    public function generateUniqueTelegramPin(): string {
         while (true) {
             $pin = $this->generateTelegramPin();
             $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
@@ -179,7 +179,7 @@ class TelegramUtils {
 
     // @codeCoverageIgnoreEnd
 
-    public function generateTelegramPin() {
+    public function generateTelegramPin(): string {
         $pin_chars = $this->getTelegramPinChars();
         $pin_length = $this->getTelegramPinLength();
         $pin = '';
@@ -198,7 +198,7 @@ class TelegramUtils {
         return 8;
     }
 
-    public function isAnonymousChat($chat_id) {
+    public function isAnonymousChat(string $chat_id): bool {
         $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing == null) {
@@ -207,7 +207,7 @@ class TelegramUtils {
         return $existing->getUser() == null;
     }
 
-    public function getChatState($chat_id) {
+    public function getChatState(string $chat_id): ?array {
         $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing == null) {
@@ -216,16 +216,16 @@ class TelegramUtils {
         return $existing->getTelegramChatState();
     }
 
-    public function setChatState($chat_id, $chat_state) {
+    public function setChatState(string $chat_id, array $chat_state): void {
         $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
         if ($existing == null) {
             throw new \Exception('Unbekannter Chat.');
         }
-        return $existing->setTelegramChatState($chat_state);
+        $existing->setTelegramChatState($chat_state);
     }
 
-    public function sendConfiguration() {
+    public function sendConfiguration(): void {
         try {
             $response = $this->callTelegramApi('setMyCommands', [
                 'commands' => json_encode([
@@ -256,7 +256,7 @@ class TelegramUtils {
         }
     }
 
-    public function callTelegramApi($command, $args) {
+    public function callTelegramApi(string $command, array $args): array {
         $response = $this->telegramFetcher->callTelegramApi($command, $args, $this->getBotToken());
         if (!$response) {
             $this->log()->warning("Telegram API response was empty");
@@ -291,7 +291,7 @@ class TelegramUtils {
         return $response;
     }
 
-    public function renderMarkdown($markdown) {
+    public function renderMarkdown(string $markdown): string {
         $environment = new Environment([
             'html_input' => 'strip',
             'allow_unsafe_links' => false,

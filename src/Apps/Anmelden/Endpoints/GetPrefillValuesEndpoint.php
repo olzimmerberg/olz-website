@@ -8,11 +8,11 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 class GetPrefillValuesEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetPrefillValuesEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'firstName' => new FieldTypes\StringField(['allow_empty' => false]),
             'lastName' => new FieldTypes\StringField(['allow_empty' => false]),
@@ -31,7 +31,7 @@ class GetPrefillValuesEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'field_structure' => [
                 // Can be a managed user

@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class DeleteTerminEndpoint extends OlzDeleteEntityEndpoint {
     use TerminEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'DeleteTerminEndpoint';
     }
 

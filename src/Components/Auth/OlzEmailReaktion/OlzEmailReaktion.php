@@ -9,7 +9,7 @@ use Olz\Utils\EmailUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzEmailReaktion extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $params = $this->httpUtils()->validateGetParams([
             'token' => new FieldTypes\StringField(['allow_null' => true]),
         ]);

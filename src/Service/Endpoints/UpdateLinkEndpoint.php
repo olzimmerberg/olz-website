@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class UpdateLinkEndpoint extends OlzUpdateEntityEndpoint {
     use LinkEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'UpdateLinkEndpoint';
     }
 

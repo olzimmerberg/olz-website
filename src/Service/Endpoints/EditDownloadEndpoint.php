@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class EditDownloadEndpoint extends OlzEditEntityEndpoint {
     use DownloadEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'EditDownloadEndpoint';
     }
 

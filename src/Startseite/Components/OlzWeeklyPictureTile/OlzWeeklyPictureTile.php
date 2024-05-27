@@ -15,7 +15,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         return 0.9;
     }
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $out = "";
 
         $has_access = $this->authUtils()->hasPermission('weekly_picture');

@@ -11,17 +11,17 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class OlzEntityConcreteEndpoint extends OlzEntityEndpoint {
     public $uses_external_id = false;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'ident';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'data' => $this->getEntityDataField(/* allow_null= */ false),
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'id' => $this->getIdField(/* allow_null= */ true),
         ]]);

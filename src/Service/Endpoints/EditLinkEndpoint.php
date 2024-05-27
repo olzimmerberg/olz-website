@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class EditLinkEndpoint extends OlzEditEntityEndpoint {
     use LinkEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'EditLinkEndpoint';
     }
 

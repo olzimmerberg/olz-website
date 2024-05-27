@@ -7,7 +7,7 @@ use Olz\Utils\WithUtilsTrait;
 abstract class OlzComponent {
     use WithUtilsTrait;
 
-    public static function render($args = [], $caller = null): string {
+    public static function render(array $args = [], mixed $caller = null): string {
         $class_name = get_called_class();
         $instance = new $class_name();
         if ($caller) {
@@ -16,5 +16,5 @@ abstract class OlzComponent {
         return $instance->getHtml($args);
     }
 
-    abstract public function getHtml($args = []): string;
+    abstract public function getHtml(array $args = []): string;
 }

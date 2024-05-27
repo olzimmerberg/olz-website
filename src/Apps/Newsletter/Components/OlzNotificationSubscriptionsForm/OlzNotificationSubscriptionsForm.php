@@ -6,7 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 
 class OlzNotificationSubscriptionsForm extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $subscriptions = $args['subscriptions'];
         $out = '';
 

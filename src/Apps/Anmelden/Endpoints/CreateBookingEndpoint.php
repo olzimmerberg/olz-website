@@ -8,7 +8,7 @@ use Olz\Entity\Anmelden\Booking;
 class CreateBookingEndpoint extends OlzCreateEntityEndpoint {
     use BookingEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateBookingEndpoint';
     }
 

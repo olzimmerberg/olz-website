@@ -23,7 +23,7 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
         return 0.7;
     }
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $db = $this->dbUtils()->getDb();
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();

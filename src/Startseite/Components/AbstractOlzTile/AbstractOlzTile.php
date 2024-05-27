@@ -12,5 +12,5 @@ use Olz\Entity\User;
 abstract class AbstractOlzTile extends OlzComponent {
     abstract public function getRelevance(?User $user): float;
 
-    abstract public function getHtml($args = []): string;
+    abstract public function getHtml(array $args = []): string;
 }

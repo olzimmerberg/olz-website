@@ -9,11 +9,11 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
 class UpdateMyPanini2024Endpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'UpdateMyPanini2024Endpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
@@ -22,7 +22,7 @@ class UpdateMyPanini2024Endpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         $panini_2024_picture_field = new FieldTypes\ObjectField([
             'field_structure' => [
                 'id' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),

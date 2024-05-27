@@ -5,7 +5,7 @@ namespace Olz\News\Components\OlzArticleMetadata;
 use Olz\Components\Common\OlzComponent;
 
 class OlzArticleMetadata extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $db = $this->dbUtils()->getDb();
         $data_href = $this->envUtils()->getDataHref();
         $base_href = $this->envUtils()->getBaseHref();

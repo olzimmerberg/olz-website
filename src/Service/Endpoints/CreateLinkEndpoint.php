@@ -8,7 +8,7 @@ use Olz\Entity\Service\Link;
 class CreateLinkEndpoint extends OlzCreateEntityEndpoint {
     use LinkEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateLinkEndpoint';
     }
 

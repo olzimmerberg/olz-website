@@ -23,7 +23,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         return 0.7;
     }
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
         $today = $this->dateUtils()->getIsoToday();

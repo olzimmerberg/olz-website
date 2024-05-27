@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class UpdateTerminLocationEndpoint extends OlzUpdateEntityEndpoint {
     use TerminLocationEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'UpdateTerminLocationEndpoint';
     }
 

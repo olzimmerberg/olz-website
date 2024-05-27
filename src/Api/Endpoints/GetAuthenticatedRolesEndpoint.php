@@ -6,11 +6,11 @@ use Olz\Api\OlzEndpoint;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class GetAuthenticatedRolesEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetAuthenticatedRolesEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'roles' => new FieldTypes\ArrayField([
                 'item_field' => new FieldTypes\ObjectField([
@@ -26,7 +26,7 @@ class GetAuthenticatedRolesEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'field_structure' => [],
             'allow_null' => true,

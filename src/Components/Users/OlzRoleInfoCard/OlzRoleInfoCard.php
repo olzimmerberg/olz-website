@@ -5,7 +5,7 @@ namespace Olz\Components\Users\OlzRoleInfoCard;
 use Olz\Components\Common\OlzComponent;
 
 class OlzRoleInfoCard extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $role = $args['role'];
         $user = $args['user'] ?? null;
 

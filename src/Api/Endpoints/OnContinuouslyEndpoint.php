@@ -10,18 +10,18 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 
 class OnContinuouslyEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'OnContinuouslyEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'field_structure' => [],
             'allow_null' => true,
         ]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'authenticityCode' => new FieldTypes\StringField([]),
         ]]);

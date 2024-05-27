@@ -22,7 +22,7 @@ use Olz\Termine\Components\OlzTermineList\OlzTermineList;
 use Olz\Termine\Utils\TermineFilterUtils;
 
 abstract class OlzSitemap extends OlzComponent {
-    abstract public function getHtml($args = []): string;
+    abstract public function getHtml(array $args = []): string;
 
     protected function getEntries(): array {
         $entityManager = $this->dbUtils()->getEntityManager();

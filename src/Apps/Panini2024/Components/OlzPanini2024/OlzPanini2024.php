@@ -11,7 +11,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
 
 class OlzPanini2024 extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $current_user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();

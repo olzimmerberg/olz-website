@@ -9,18 +9,18 @@ use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
 
 class OnTelegramEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'OnTelegramEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'field_structure' => [],
             'allow_null' => true,
         ]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'authenticityCode' => new FieldTypes\StringField([]),
             'telegramEvent' => new FieldTypes\StringField([]),

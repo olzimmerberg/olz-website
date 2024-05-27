@@ -9,11 +9,11 @@ use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class SignUpWithStravaEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'SignUpWithStravaEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
@@ -21,7 +21,7 @@ class SignUpWithStravaEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'stravaUser' => new FieldTypes\StringField(['allow_empty' => false]),
             'accessToken' => new FieldTypes\StringField(['allow_empty' => false]),

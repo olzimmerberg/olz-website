@@ -7,11 +7,11 @@ use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class GetManagedUsersEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetManagedUsersEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
@@ -30,7 +30,7 @@ class GetManagedUsersEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'field_structure' => [],
             'allow_null' => true,

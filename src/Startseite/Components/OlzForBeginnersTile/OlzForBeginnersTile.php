@@ -16,7 +16,7 @@ class OlzForBeginnersTile extends AbstractOlzTile {
         return $user ? 0.0 : 1.0;
     }
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $fan_role = $role_repo->getPredefinedRole(PredefinedRole::FanOlzElite);

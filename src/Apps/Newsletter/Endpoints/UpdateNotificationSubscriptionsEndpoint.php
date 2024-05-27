@@ -7,11 +7,11 @@ use Olz\Entity\NotificationSubscription;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'UpdateNotificationSubscriptionsEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
@@ -20,7 +20,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'deliveryType' => new FieldTypes\EnumField(['allowed_values' => [
                 NotificationSubscription::DELIVERY_EMAIL,

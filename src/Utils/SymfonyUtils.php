@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SymfonyUtils {
     use WithUtilsTrait;
 
-    protected static $application;
+    protected static ?Application $application = null;
 
     public function callCommand(
         string $command_name,
@@ -32,7 +32,7 @@ class SymfonyUtils {
         }
     }
 
-    public function getApplication() {
+    public function getApplication(): ?Application {
         if (self::$application !== null) {
             return self::$application;
         }

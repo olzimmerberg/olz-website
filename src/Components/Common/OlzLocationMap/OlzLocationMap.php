@@ -5,7 +5,7 @@ namespace Olz\Components\Common\OlzLocationMap;
 use Olz\Components\Common\OlzComponent;
 
 class OlzLocationMap extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $xkoord = $args['xkoord'] ?? null;
         $ykoord = $args['ykoord'] ?? null;
         $latitude = $args['latitude'] ?? null;

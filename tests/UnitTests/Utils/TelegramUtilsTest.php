@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
+use Olz\Fetchers\TelegramFetcher;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\TelegramUtils;
@@ -23,14 +24,14 @@ $generated_pin_2 = '00000002';
 // The $generated_pin_2 expiration has been updated, now the first available PIN is this.
 $generated_pin_3 = '00000003';
 
-class FakeTelegramUtilsTelegramFetcher {
-    public $fetchEmpty = false;
-    public $fetchNotOk = false;
-    public $fetchBlocked = false;
-    public $fetchWithError = false;
-    public $sentCommands = [];
+class FakeTelegramUtilsTelegramFetcher extends TelegramFetcher {
+    public bool $fetchEmpty = false;
+    public bool $fetchNotOk = false;
+    public bool $fetchBlocked = false;
+    public bool $fetchWithError = false;
+    public array $sentCommands = [];
 
-    public function callTelegramApi($command, $args, $bot_token) {
+    public function callTelegramApi(string $command, array $args, string $bot_token): ?array {
         $this->sentCommands[] = [$command, $args, $bot_token];
         if ($this->fetchEmpty) {
             return null;
@@ -53,9 +54,9 @@ class FakeTelegramUtilsTelegramFetcher {
 }
 
 class DeterministicTelegramUtils extends TelegramUtils {
-    private $generateTelegramPinCallCount = 0;
+    private int $generateTelegramPinCallCount = 0;
 
-    public function generateTelegramPin() {
+    public function generateTelegramPin(): string {
         $pin = str_pad(strval($this->generateTelegramPinCallCount), 8, '0', STR_PAD_LEFT);
         $this->generateTelegramPinCallCount++;
         return $pin;
@@ -117,7 +118,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $expired_pin;
         $telegram_utils = new DeterministicTelegramUtils();
 
-        $telegram_link = $telegram_utils->startAnonymousChat(2, 2);
+        $telegram_link = $telegram_utils->startAnonymousChat('2', '2');
 
         $this->assertSame($expired_pin, $telegram_link->getPin());
         $this->assertSame('2020-03-13 19:25:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
@@ -129,13 +130,13 @@ final class TelegramUtilsTest extends UnitTestCase {
         $this->assertNull($telegram_link->getLinkedAt());
         $this->assertSame([], $this->getLogs());
 
-        $telegram_link = $telegram_utils->startAnonymousChat(4, 4);
+        $telegram_link = $telegram_utils->startAnonymousChat('4', '4');
 
         $this->assertNull($telegram_link->getPin());
         $this->assertNull($telegram_link->getPinExpiresAt());
         $this->assertNull($telegram_link->getUser());
-        $this->assertSame(4, $telegram_link->getTelegramChatId());
-        $this->assertSame(4, $telegram_link->getTelegramUserId());
+        $this->assertSame('4', $telegram_link->getTelegramChatId());
+        $this->assertSame('4', $telegram_link->getTelegramUserId());
         $this->assertSame([], $telegram_link->getTelegramChatState());
         $this->assertSame($iso_now, $telegram_link->getCreatedAt()->format('Y-m-d H:i:s'));
         $this->assertNull($telegram_link->getLinkedAt());
@@ -146,8 +147,8 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $valid_pin, $expired_pin, $inexistent_pin;
         $telegram_utils = new DeterministicTelegramUtils();
 
-        $telegram_chat_id = 1;
-        $telegram_user_id = 10;
+        $telegram_chat_id = '1';
+        $telegram_user_id = '10';
         $telegram_link = $telegram_utils->linkChatUsingPin($valid_pin, $telegram_chat_id, $telegram_user_id);
 
         $this->assertSame($valid_pin, $telegram_link->getPin());
@@ -161,7 +162,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $this->assertSame([], $this->getLogs());
 
         try {
-            $telegram_link = $telegram_utils->linkChatUsingPin($expired_pin, 2, 2);
+            $telegram_link = $telegram_utils->linkChatUsingPin($expired_pin, '2', '2');
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('PIN ist abgelaufen.', $exc->getMessage());
@@ -169,7 +170,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         }
 
         try {
-            $telegram_link = $telegram_utils->linkChatUsingPin($inexistent_pin, 3, 3);
+            $telegram_link = $telegram_utils->linkChatUsingPin($inexistent_pin, '3', '3');
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('Falscher PIN.', $exc->getMessage());
@@ -247,26 +248,26 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_utils = new DeterministicTelegramUtils();
 
-        $telegram_chat_id = 1;
+        $telegram_chat_id = '1';
         $chat_link = $telegram_utils->getFreshPinForChat($telegram_chat_id);
 
         $this->assertSame($generated_pin_1, $chat_link);
         $this->assertSame([], $this->getLogs());
 
-        $telegram_chat_id = 2;
+        $telegram_chat_id = '2';
         $chat_link = $telegram_utils->getFreshPinForChat($telegram_chat_id);
 
         $this->assertSame($generated_pin_2, $chat_link);
         $this->assertSame([], $this->getLogs());
 
-        $telegram_chat_id = 3;
+        $telegram_chat_id = '3';
         $chat_link = $telegram_utils->getFreshPinForChat($telegram_chat_id);
 
         $this->assertSame($generated_pin_3, $chat_link);
         $this->assertSame([], $this->getLogs());
 
         try {
-            $telegram_chat_id = 4;
+            $telegram_chat_id = '4';
             $chat_link = $telegram_utils->getFreshPinForChat($telegram_chat_id);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
@@ -279,10 +280,10 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now;
         $telegram_utils = new DeterministicTelegramUtils();
 
-        $this->assertFalse($telegram_utils->isAnonymousChat(1));
-        $this->assertTrue($telegram_utils->isAnonymousChat(2));
-        $this->assertTrue($telegram_utils->isAnonymousChat(3));
-        $this->assertTrue($telegram_utils->isAnonymousChat(4));
+        $this->assertFalse($telegram_utils->isAnonymousChat('1'));
+        $this->assertTrue($telegram_utils->isAnonymousChat('2'));
+        $this->assertTrue($telegram_utils->isAnonymousChat('3'));
+        $this->assertTrue($telegram_utils->isAnonymousChat('4'));
         $this->assertSame([], $this->getLogs());
     }
 
@@ -290,10 +291,10 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now;
         $telegram_utils = new DeterministicTelegramUtils();
 
-        $this->assertSame([], $telegram_utils->getChatState(1));
-        $this->assertSame([], $telegram_utils->getChatState(2));
-        $this->assertSame([], $telegram_utils->getChatState(3));
-        $this->assertNull($telegram_utils->getChatState(4));
+        $this->assertSame([], $telegram_utils->getChatState('1'));
+        $this->assertSame([], $telegram_utils->getChatState('2'));
+        $this->assertSame([], $telegram_utils->getChatState('3'));
+        $this->assertNull($telegram_utils->getChatState('4'));
         $this->assertSame([], $this->getLogs());
     }
 
@@ -301,11 +302,11 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now;
         $telegram_utils = new DeterministicTelegramUtils();
 
-        $telegram_utils->setChatState(1, ['test' => true]);
-        $telegram_utils->setChatState(2, ['test' => 2]);
-        $telegram_utils->setChatState(3, []);
+        $telegram_utils->setChatState('1', ['test' => true]);
+        $telegram_utils->setChatState('2', ['test' => 2]);
+        $telegram_utils->setChatState('3', []);
         try {
-            $telegram_utils->setChatState(4, ['test' => 4]);
+            $telegram_utils->setChatState('4', ['test' => 4]);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('Unbekannter Chat.', $exc->getMessage());

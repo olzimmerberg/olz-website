@@ -10,7 +10,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Karten\Karte;
 
 class OlzKarteDetail extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $karten_repo = $this->entityManager()->getRepository(Karte::class);

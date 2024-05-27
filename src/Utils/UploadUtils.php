@@ -5,7 +5,7 @@ namespace Olz\Utils;
 class UploadUtils {
     use WithUtilsTrait;
 
-    private $suffixPattern = '[a-zA-Z0-9]+';
+    private string $suffixPattern = '[a-zA-Z0-9]+';
 
     /**
      * Kompatibilitäts-Layer, falls der Hoster eine bescheuerte Content Security

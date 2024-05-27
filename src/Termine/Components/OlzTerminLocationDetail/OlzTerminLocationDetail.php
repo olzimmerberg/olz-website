@@ -10,7 +10,7 @@ use Olz\Entity\Termine\TerminLocation;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminLocationDetail extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $params = $this->httpUtils()->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),
             'id' => new FieldTypes\IntegerField(['allow_null' => true]),

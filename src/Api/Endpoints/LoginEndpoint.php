@@ -8,11 +8,11 @@ use Olz\Exceptions\InvalidCredentialsException;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class LoginEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'LoginEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'INVALID_CREDENTIALS',
@@ -26,7 +26,7 @@ class LoginEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'usernameOrEmail' => new FieldTypes\StringField([]),
             'password' => new FieldTypes\StringField([]),

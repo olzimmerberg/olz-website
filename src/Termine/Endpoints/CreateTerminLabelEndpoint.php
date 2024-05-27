@@ -8,7 +8,7 @@ use Olz\Entity\Termine\TerminLabel;
 class CreateTerminLabelEndpoint extends OlzCreateEntityEndpoint {
     use TerminLabelEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateTerminLabelEndpoint';
     }
 

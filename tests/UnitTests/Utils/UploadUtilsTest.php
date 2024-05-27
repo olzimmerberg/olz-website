@@ -13,7 +13,7 @@ use Olz\Utils\UploadUtils;
  * @covers \Olz\Utils\UploadUtils
  */
 final class UploadUtilsTest extends UnitTestCase {
-    protected $uploadUtils;
+    protected UploadUtils $uploadUtils;
 
     protected function setUp(): void {
         parent::setUp();
@@ -199,7 +199,7 @@ final class UploadUtilsTest extends UnitTestCase {
         $this->assertSame([$valid1, $valid2], $this->uploadUtils->getStoredUploadIds("{$data_path}temp"));
     }
 
-    private function simulateUpload(string $upload_id, $path = 'temp'): void {
+    private function simulateUpload(string $upload_id, string $path = 'temp'): void {
         $data_path = $this->envUtils()->getDataPath();
         if (!is_dir("{$data_path}{$path}/")) {
             mkdir("{$data_path}{$path}/", 0o777, true);

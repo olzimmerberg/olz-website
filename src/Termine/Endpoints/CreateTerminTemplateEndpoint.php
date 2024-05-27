@@ -8,7 +8,7 @@ use Olz\Entity\Termine\TerminTemplate;
 class CreateTerminTemplateEndpoint extends OlzCreateEntityEndpoint {
     use TerminTemplateEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateTerminTemplateEndpoint';
     }
 

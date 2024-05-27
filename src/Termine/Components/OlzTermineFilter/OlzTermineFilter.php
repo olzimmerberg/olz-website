@@ -6,7 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Termine\Utils\TermineFilterUtils;
 
 class OlzTermineFilter extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
         $code_href = $this->envUtils()->getCodeHref();
         $current_filter = json_decode($this->getParams()['filter'] ?? '{}', true);

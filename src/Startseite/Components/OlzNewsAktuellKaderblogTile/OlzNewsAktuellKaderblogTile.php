@@ -21,7 +21,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         return 0.65;
     }
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
         $news_filter_utils = NewsFilterUtils::fromEnv();

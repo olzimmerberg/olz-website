@@ -9,7 +9,7 @@ use Olz\Entity\Anmelden\RegistrationInfo;
 class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
     use RegistrationEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateRegistrationEndpoint';
     }
 

@@ -7,7 +7,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 
 class Olz401Unauthorized extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
 
         $out = '';

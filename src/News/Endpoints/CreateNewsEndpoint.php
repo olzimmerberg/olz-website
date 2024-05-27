@@ -11,7 +11,7 @@ use Symfony\Component\Mime\Email;
 class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
     use NewsEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateNewsEndpoint';
     }
 

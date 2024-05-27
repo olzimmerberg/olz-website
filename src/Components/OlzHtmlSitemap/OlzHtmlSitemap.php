@@ -10,7 +10,7 @@ class OlzHtmlSitemap extends OlzSitemap {
     public static $title = "Sitemap";
     public static $description = "Eine Übersicht über alle aktiven Inhalte der Website der OL Zimmerberg.";
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
 
         $out = OlzHeader::render([

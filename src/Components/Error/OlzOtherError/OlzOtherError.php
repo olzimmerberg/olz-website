@@ -7,7 +7,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 
 class OlzOtherError extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $http_status_code = $args['http_status_code'] ?? 500;
         $code_href = $this->envUtils()->getCodeHref();
 

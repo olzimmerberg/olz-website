@@ -7,11 +7,11 @@ use Olz\Entity\Quiz\SkillCategory;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class RegisterSkillCategoriesEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'RegisterSkillCategoriesEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'idByName' => new FieldTypes\DictField([
                 'item_field' => new FieldTypes\StringField([]),
@@ -19,7 +19,7 @@ class RegisterSkillCategoriesEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         $skill_category_field = new FieldTypes\ObjectField(['field_structure' => [
             'name' => new FieldTypes\StringField([]),
             'parentCategoryName' => new FieldTypes\StringField(['allow_null' => true]),

@@ -8,7 +8,7 @@ use Olz\Entity\Service\Download;
 class CreateDownloadEndpoint extends OlzCreateEntityEndpoint {
     use DownloadEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateDownloadEndpoint';
     }
 

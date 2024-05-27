@@ -23,11 +23,11 @@ class SearchEntitiesEndpoint extends OlzEndpoint {
         'User' => User::class,
     ];
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'SearchEntitiesEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'result' => new FieldTypes\ArrayField([
                 'item_field' => new FieldTypes\ObjectField([
@@ -41,7 +41,7 @@ class SearchEntitiesEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'entityType' => new FieldTypes\EnumField([
                 'export_as' => 'OlzSearchableEntityTypes',

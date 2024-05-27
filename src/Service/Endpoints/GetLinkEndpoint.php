@@ -7,7 +7,7 @@ use Olz\Api\OlzGetEntityEndpoint;
 class GetLinkEndpoint extends OlzGetEntityEndpoint {
     use LinkEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetLinkEndpoint';
     }
 

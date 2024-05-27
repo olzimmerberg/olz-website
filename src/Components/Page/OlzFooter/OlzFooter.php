@@ -5,7 +5,7 @@ namespace Olz\Components\Page\OlzFooter;
 use Olz\Components\Common\OlzComponent;
 
 class OlzFooter extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
 
         return <<<ZZZZZZZZZZ

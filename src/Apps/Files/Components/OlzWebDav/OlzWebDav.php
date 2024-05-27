@@ -7,7 +7,7 @@ use Olz\Components\Common\OlzComponent;
 use Sabre\DAV;
 
 class OlzWebDav extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $data_path = $this->envUtils()->getDataPath();
         error_reporting(0);
 

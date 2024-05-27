@@ -10,7 +10,7 @@ use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
 
 class OlzProfil extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $auth_utils = $this->authUtils();
         $entityManager = $this->dbUtils()->getEntityManager();

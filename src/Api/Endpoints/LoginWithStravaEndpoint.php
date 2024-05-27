@@ -23,11 +23,11 @@ class LoginWithStravaEndpoint extends OlzEndpoint {
         'profilePictureUrl' => null,
     ];
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'LoginWithStravaEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'NOT_REGISTERED',
@@ -49,7 +49,7 @@ class LoginWithStravaEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'code' => new FieldTypes\StringField([]),
         ]]);

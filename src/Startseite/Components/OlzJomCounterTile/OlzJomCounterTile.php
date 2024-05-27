@@ -10,7 +10,7 @@ class OlzJomCounterTile extends AbstractOlzTile {
         return 0.5;
     }
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         // OLZ JOM-Counter 2020
         // --------------------
         // Chris Seitz - 15

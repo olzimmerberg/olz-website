@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class DeleteKarteEndpoint extends OlzDeleteEntityEndpoint {
     use KarteEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'DeleteKarteEndpoint';
     }
 

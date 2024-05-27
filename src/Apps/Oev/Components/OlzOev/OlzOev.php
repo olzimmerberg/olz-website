@@ -10,6 +10,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzOev extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([
             'nach' => new FieldTypes\StringField(['allow_null' => true]),

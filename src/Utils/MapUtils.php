@@ -10,7 +10,7 @@ class MapUtils {
     use WithUtilsTrait;
 
     // Convert WGS lat/long (° dec) to CH y
-    public function WGStoCHy($lat, $long) {
+    public function WGStoCHy(int|float $lat, int|float $long): int|float {
         // Converts decimal degrees sexagesimal seconds
         $lat = $this->DECtoSEX($lat);
         $long = $this->DECtoSEX($long);
@@ -28,7 +28,7 @@ class MapUtils {
     }
 
     // Convert WGS lat/long (° dec) to CH x
-    public function WGStoCHx($lat, $long) {
+    public function WGStoCHx(int|float $lat, int|float $long): int|float {
         // Converts decimal degrees sexagesimal seconds
         $lat = $this->DECtoSEX($lat);
         $long = $this->DECtoSEX($long);
@@ -47,7 +47,7 @@ class MapUtils {
     }
 
     // Convert CH y/x to WGS lat
-    public function CHtoWGSlat($y, $x) {
+    public function CHtoWGSlat(int|float $y, int|float $x): int|float {
         // Converts military to civil and  to unit = 1000km
         // Auxiliary values (% Bern)
         $y_aux = ($y - 600000) / 1000000;
@@ -66,7 +66,7 @@ class MapUtils {
     }
 
     // Convert CH y/x to WGS long
-    public function CHtoWGSlng($y, $x) {
+    public function CHtoWGSlng(int|float $y, int|float $x): int|float {
         // Converts military to civil and  to unit = 1000km
         // Auxiliary values (% Bern)
         $y_aux = ($y - 600000) / 1000000;
@@ -84,7 +84,7 @@ class MapUtils {
     }
 
     // Convert DEC angle to SEX DMS
-    protected function DECtoSEX($angle) {
+    protected function DECtoSEX(int|float $angle): int|float {
         // Extract DMS
         $deg = intval($angle);
         $min = intval(($angle - $deg) * 60);

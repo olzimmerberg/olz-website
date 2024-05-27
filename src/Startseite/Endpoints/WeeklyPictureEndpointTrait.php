@@ -26,6 +26,7 @@ trait WeeklyPictureEndpointTrait {
     }
 
     // TODO: Implement once needed
+    /** @return array<string, mixed> */
     public function getEntityData(WeeklyPicture $entity): array {
         return [];
     }

@@ -19,6 +19,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         return 0.8;
     }
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
         $this->db = $this->dbUtils()->getDb();

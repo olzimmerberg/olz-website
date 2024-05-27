@@ -11,6 +11,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
 
 class OlzPanini2024 extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $current_user = $this->authUtils()->getCurrentUser();

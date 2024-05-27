@@ -34,6 +34,7 @@ trait TerminLabelEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(TerminLabel $entity): array {
         return [
             'ident' => $entity->getIdent() ? $entity->getIdent() : '-',

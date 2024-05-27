@@ -10,9 +10,10 @@ use Olz\Service\Components\OlzDownloads\OlzDownloads;
 use Olz\Service\Components\OlzLinks\OlzLinks;
 
 class OlzService extends OlzComponent {
-    public static $title = "Service";
-    public static $description = "Diverse Online-Tools rund um OL und die OL Zimmerberg.";
+    public static string $title = "Service";
+    public static string $description = "Diverse Online-Tools rund um OL und die OL Zimmerberg.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
 

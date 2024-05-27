@@ -24,6 +24,7 @@ class OlzTerminDetail extends OlzComponent {
         'meldeschluss' => 'termine_type_meldeschluss_20.svg',
     ];
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $params = $this->httpUtils()->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),

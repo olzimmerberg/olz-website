@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Entity\User;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\GeneralUtils;
 use Webklex\PHPIMAP\Client;
@@ -23,7 +24,7 @@ class FakeEmailUtils extends EmailUtils {
         $this->client = new FakeImapClient();
     }
 
-    public function sendEmailVerificationEmail($user, $token) {
+    public function sendEmailVerificationEmail(User $user, string $token): void {
         if ($this->send_email_verification_email_error !== null) {
             if ($this->logger) {
                 $this->logger->error('Error sending fake verification email');
@@ -37,16 +38,16 @@ class FakeEmailUtils extends EmailUtils {
         return $this->client;
     }
 
-    public function encryptEmailReactionToken($data) {
+    public function encryptEmailReactionToken(mixed $data): string {
         $general_utils = new GeneralUtils();
         return $general_utils->base64EncodeUrl(json_encode($data));
     }
 
-    public function decryptEmailReactionToken($token) {
+    public function decryptEmailReactionToken(string $token): mixed {
         return json_decode($token, true);
     }
 
-    public function renderMarkdown($markdown) {
+    public function renderMarkdown(string $markdown): string {
         return $markdown;
     }
 }

@@ -14,9 +14,10 @@ use Olz\News\Utils\NewsFilterUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsList extends OlzComponent {
-    public static $title = "News";
-    public static $description = "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.";
+    public static string $title = "News";
+    public static string $description = "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),

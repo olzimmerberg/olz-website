@@ -9,6 +9,7 @@ namespace Olz\Components\Page\OlzMenu;
 use Olz\Components\Common\OlzComponent;
 
 class OlzMenu extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $out = '';
 

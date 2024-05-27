@@ -11,6 +11,7 @@ namespace Olz\Termine\Components\OlzICal;
 use Olz\Components\Common\OlzComponent;
 
 class OlzICal extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $db = $this->dbUtils()->getDb();
         $jahr = $this->dateUtils()->getCurrentDateInFormat('Y');

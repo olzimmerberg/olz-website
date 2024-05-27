@@ -9,6 +9,7 @@ use Olz\Entity\Termine\TerminTemplate;
 use Olz\Termine\Components\OlzTerminTemplatesListItem\OlzTerminTemplatesListItem;
 
 class OlzTerminTemplatesList extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $code_href = $this->envUtils()->getCodeHref();

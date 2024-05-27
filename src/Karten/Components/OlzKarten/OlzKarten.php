@@ -9,9 +9,10 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Karten\Components\OlzKartenList\OlzKartenList;
 
 class OlzKarten extends OlzComponent {
-    public static $title = "Karten";
-    public static $description = "Die OL-Karten, die die OL Zimmerberg aufnimmt, unterhält und verkauft.";
+    public static string $title = "Karten";
+    public static string $description = "Die OL-Karten, die die OL Zimmerberg aufnimmt, unterhält und verkauft.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $db = $this->dbUtils()->getDb();

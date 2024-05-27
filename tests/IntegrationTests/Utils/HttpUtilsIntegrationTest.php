@@ -20,19 +20,19 @@ class HttpUtilsForIntegrationTest extends HttpUtils {
     public $sent_http_body;
     public $has_exited_execution = false;
 
-    protected function sendHttpResponseCode($http_response_code) {
+    protected function sendHttpResponseCode(int $http_response_code): void {
         $this->sent_http_response_code = $http_response_code;
     }
 
-    protected function sendHeader($http_header_line) {
+    protected function sendHeader(string $http_header_line): void {
         $this->sent_http_header_lines[] = $http_header_line;
     }
 
-    protected function sendHttpBody($http_body) {
+    protected function sendHttpBody(string $http_body): void {
         $this->sent_http_body = $http_body;
     }
 
-    protected function exitExecution() {
+    protected function exitExecution(): void {
         $this->has_exited_execution = true;
     }
 

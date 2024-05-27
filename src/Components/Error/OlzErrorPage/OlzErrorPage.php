@@ -11,6 +11,7 @@ use Olz\Components\Error\Olz500ServerInternalError\Olz500ServerInternalError;
 use Olz\Components\Error\OlzOtherError\OlzOtherError;
 
 class OlzErrorPage extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $http_status_code = $args['http_status_code'] ?? 500;
         if ($http_status_code === 400) {

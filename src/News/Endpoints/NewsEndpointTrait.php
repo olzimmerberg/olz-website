@@ -49,6 +49,7 @@ trait NewsEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(NewsEntry $entity): array {
         $author_user = $entity->getAuthorUser();
         $author_role = $entity->getAuthorRole();

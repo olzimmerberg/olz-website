@@ -26,6 +26,7 @@ trait DownloadEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(Download $entity): array {
         $file_ids = $entity->getStoredFileUploadIds();
         return [

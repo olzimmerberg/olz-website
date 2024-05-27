@@ -8,6 +8,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Service\Link;
 
 class OlzLinks extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $has_permission = $this->authUtils()->hasPermission('links');
         $code_href = $this->envUtils()->getCodeHref();

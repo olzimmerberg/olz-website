@@ -20,6 +20,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
         return 0.6;
     }
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();

@@ -11,6 +11,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzMenu\OlzMenu;
 
 class OlzHeaderBar extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();

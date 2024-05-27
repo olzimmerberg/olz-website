@@ -9,7 +9,7 @@ use Olz\Entity\User;
 class EntityUtils {
     use WithUtilsTrait;
 
-    public function createOlzEntity(OlzEntity $entity, array $input) {
+    public function createOlzEntity(OlzEntity $entity, array $input): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getCurrentUser();
@@ -38,7 +38,7 @@ class EntityUtils {
         $entity->setLastModifiedByUser($current_user);
     }
 
-    public function updateOlzEntity(OlzEntity $entity, array $input) {
+    public function updateOlzEntity(OlzEntity $entity, array $input): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getCurrentUser();
@@ -67,7 +67,7 @@ class EntityUtils {
         OlzEntity $entity,
         ?array $meta_arg,
         string $edit_permission = 'all',
-    ) {
+    ): bool {
         $meta = $meta_arg ?? [];
         $auth_utils = $this->authUtils();
         $current_user = $auth_utils->getCurrentUser();

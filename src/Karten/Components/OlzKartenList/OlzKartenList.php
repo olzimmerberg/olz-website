@@ -7,6 +7,7 @@ use Olz\Entity\Karten\Karte;
 use Olz\Karten\Components\OlzKartenListItem\OlzKartenListItem;
 
 class OlzKartenList extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $out = '';
 

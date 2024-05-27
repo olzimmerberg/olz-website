@@ -9,10 +9,10 @@ use Symfony\Component\Console\Output\BufferedOutput;
 class DevDataUtils {
     use WithUtilsTrait;
 
-    private $enqueuedForTouch = [];
+    private array $enqueuedForTouch = [];
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
-    public function fullResetDb() {
+    public function fullResetDb(): void {
         // Overwrite database with dev content.
         $this->dropDbTables();
         $this->addDbStructure();
@@ -25,7 +25,7 @@ class DevDataUtils {
     }
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
-    public function resetDbStructure() {
+    public function resetDbStructure(): void {
         // Overwrite database with dev content.
         $this->dropDbTables();
         $this->addDbStructure();
@@ -37,13 +37,13 @@ class DevDataUtils {
     }
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
-    public function resetDbContent() {
+    public function resetDbContent(): void {
         $this->truncateDbTables();
         $this->addDbContent();
     }
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
-    public function dropDbTables() {
+    public function dropDbTables(): void {
         $db = $this->dbUtils()->getDb();
 
         // Remove all database tables.
@@ -65,7 +65,7 @@ class DevDataUtils {
     }
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
-    public function truncateDbTables() {
+    public function truncateDbTables(): void {
         $db = $this->dbUtils()->getDb();
 
         // Remove all database tables.
@@ -86,7 +86,7 @@ class DevDataUtils {
         $this->log()->debug("Truncating took {$duration}s");
     }
 
-    public function addDbStructure() {
+    public function addDbStructure(): void {
         $db = $this->dbUtils()->getDb();
         $dev_data_dir = __DIR__.'/data/';
 
@@ -105,7 +105,7 @@ class DevDataUtils {
         $this->log()->debug("Adding structure took {$duration}s");
     }
 
-    public function addDbContent() {
+    public function addDbContent(): void {
         $db = $this->dbUtils()->getDb();
         $dev_data_dir = __DIR__.'/data/';
 
@@ -126,7 +126,7 @@ class DevDataUtils {
         $this->log()->debug("Adding content took {$duration}s");
     }
 
-    public function getCurrentMigration() {
+    public function getCurrentMigration(): ?string {
         $input = new ArrayInput(['--no-interaction' => true]);
         $input->setInteractive(false);
         $output = new BufferedOutput();
@@ -153,7 +153,7 @@ class DevDataUtils {
         return $output->fetch();
     }
 
-    public function migrateTo($version = 'latest'): string {
+    public function migrateTo(string $version = 'latest'): string {
         $input = new ArrayInput([
             'version' => $version,
             '--no-interaction' => true,
@@ -168,7 +168,7 @@ class DevDataUtils {
         return $output->fetch();
     }
 
-    public function getDbBackup($key) {
+    public function getDbBackup(string $key): void {
         $db = $this->dbUtils()->getDb();
 
         if (!$key || strlen($key) < 10) {
@@ -208,7 +208,7 @@ class DevDataUtils {
         unlink($cipher_path);
     }
 
-    public function dumpDb() {
+    public function dumpDb(): void {
         $dev_data_dir = __DIR__.'/data/';
 
         $sql_structure = $this->getDbStructureSql();
@@ -219,7 +219,7 @@ class DevDataUtils {
         file_put_contents($sql_content_path, $sql_content);
     }
 
-    public function getDbStructureSql() {
+    public function getDbStructureSql(): string {
         $env_utils = $this->envUtils();
 
         $current_migration = $this->getCurrentMigration();
@@ -249,7 +249,7 @@ class DevDataUtils {
         return $sql_content;
     }
 
-    public function getDbContentSql() {
+    public function getDbContentSql(): string {
         $db = $this->dbUtils()->getDb();
         $current_migration = $this->getCurrentMigration();
         $sql_content = (
@@ -310,7 +310,7 @@ class DevDataUtils {
         return $sql_content;
     }
 
-    public function clearFiles() {
+    public function clearFiles(): void {
         $env_utils = $this->envUtils();
         $data_path = $env_utils->getDataPath();
         $general_utils = $this->generalUtils();
@@ -328,7 +328,7 @@ class DevDataUtils {
         $general_utils->removeRecursive("{$data_path}temp");
     }
 
-    public function addFiles() {
+    public function addFiles(): void {
         $env_utils = $this->envUtils();
         $data_path = $env_utils->getDataPath();
 
@@ -635,21 +635,27 @@ class DevDataUtils {
         $this->touchEnqueued(1584118800);
     }
 
-    protected function mkdir($path, $mode = 0o777, $recursive = false) {
+    protected function mkdir(string $path, int $mode = 0o777, bool $recursive = false): void {
         if (!is_dir($path)) {
             mkdir($path, $mode, $recursive);
         }
         $this->enqueueForTouch($path);
     }
 
-    protected function copy($source, $dest) {
+    protected function copy(string $source, string $dest): void {
         if (!is_file($dest)) {
             copy($source, $dest);
         }
         $this->enqueueForTouch($dest);
     }
 
-    protected function mkimg($source_path, $data_path, $destination_relative_path, $width, $height) {
+    protected function mkimg(
+        string $source_path,
+        string $data_path,
+        string $destination_relative_path,
+        int $width,
+        int $height,
+    ): void {
         $destination_path = "{$data_path}{$destination_relative_path}";
         if (is_file($destination_path)) {
             return;
@@ -710,7 +716,7 @@ class DevDataUtils {
         $this->copy($tmp_path, $destination_path);
     }
 
-    protected function mklog($file_path, $iso_date) {
+    protected function mklog(string $file_path, string $iso_date): void {
         $log_levels = [
             'DEBUG',
             'INFO',
@@ -740,11 +746,11 @@ class DevDataUtils {
         fclose($fp);
     }
 
-    protected function enqueueForTouch($path) {
+    protected function enqueueForTouch(string $path): void {
         $this->enqueuedForTouch[] = $path;
     }
 
-    protected function touchEnqueued($timestamp) {
+    protected function touchEnqueued(?int $timestamp): void {
         foreach ($this->enqueuedForTouch as $path) {
             touch($path, $timestamp, $timestamp);
         }

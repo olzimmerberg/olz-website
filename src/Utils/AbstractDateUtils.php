@@ -8,59 +8,53 @@ abstract class AbstractDateUtils {
     public const MONTHS_SHORT_DE = ["Jan.", "Feb.", "März", "April", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
     public const MONTHS_LONG_DE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
-    abstract public function getCurrentDateInFormat($format);
+    abstract public function getCurrentDateInFormat(string $format): string;
 
-    public function getIsoToday() {
+    public function getIsoToday(): string {
         return $this->getCurrentDateInFormat('Y-m-d');
     }
 
-    public function sanitizeDatetimeValue($value) {
+    public function sanitizeDatetimeValue(string|\DateTime|null $value): ?\DateTime {
         if ($value == null) {
             return null;
         }
         if ($value instanceof \DateTime) {
             return $value;
         }
-        if (is_string($value)) {
-            $res = preg_match('/[0-9]+\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $value);
-            if (!$res) {
-                throw new \Exception("Invalid datetime: {$value}", 1);
-            }
-            $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $value);
-            if (!$datetime) {
-                throw new \Exception("Invalid datetime: {$value}", 1);
-            }
-            return $datetime;
+        $res = preg_match('/[0-9]+\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $value);
+        if (!$res) {
+            throw new \Exception("Invalid datetime: {$value}", 1);
         }
-        throw new \Exception("Invalid datetime: {$value}", 1);
+        $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $value);
+        if (!$datetime) {
+            throw new \Exception("Invalid datetime: {$value}", 1);
+        }
+        return $datetime;
     }
 
-    public function sanitizeDateValue($value) {
+    public function sanitizeDateValue(string|\DateTime|null $value): ?\DateTime {
         if ($value == null) {
             return null;
         }
         if ($value instanceof \DateTime) {
             return $value;
         }
-        if (is_string($value)) {
-            $res = preg_match('/[0-9]+\-[0-9]{2}\-[0-9]{2}/', $value);
-            if (!$res) {
-                throw new \Exception("Invalid datetime: {$value}", 1);
-            }
-            $datetime = \DateTime::createFromFormat('Y-m-d', $value);
-            if (!$datetime) {
-                throw new \Exception("Invalid datetime: {$value}", 1);
-            }
-            return $datetime;
+        $res = preg_match('/[0-9]+\-[0-9]{2}\-[0-9]{2}/', $value);
+        if (!$res) {
+            throw new \Exception("Invalid datetime: {$value}", 1);
         }
-        throw new \Exception("Invalid datetime: {$value}", 1);
+        $datetime = \DateTime::createFromFormat('Y-m-d', $value);
+        if (!$datetime) {
+            throw new \Exception("Invalid datetime: {$value}", 1);
+        }
+        return $datetime;
     }
 
-    public function getIsoNow() {
+    public function getIsoNow(): string {
         return $this->getCurrentDateInFormat('Y-m-d H:i:s');
     }
 
-    public function olzDate($format, $date = null) {
+    public function olzDate(string $format, string|\DateTime|null $date = null): string {
         if ($date == null || $date == '') {
             $date = $this->getIsoNow();
         }
@@ -104,7 +98,13 @@ abstract class AbstractDateUtils {
         );
     }
 
-    public function formatDateTimeRange($start_date, $start_time, $end_date, $end_time, $format = 'long') {
+    public function formatDateTimeRange(
+        string $start_date,
+        ?string $start_time,
+        ?string $end_date,
+        ?string $end_time,
+        string $format = 'long',
+    ): string {
         if (!$end_date) {
             $end_date = $start_date;
         }

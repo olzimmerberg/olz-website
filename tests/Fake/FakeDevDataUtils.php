@@ -9,19 +9,19 @@ use Olz\Utils\DevDataUtils;
 class FakeDevDataUtils extends DevDataUtils {
     public $commands_called = [];
 
-    public function fullResetDb() {
+    public function fullResetDb(): void {
         $this->commands_called[] = 'fullResetDb';
     }
 
-    public function resetDbStructure() {
+    public function resetDbStructure(): void {
         $this->commands_called[] = 'resetDbStructure';
     }
 
-    public function resetDbContent() {
+    public function resetDbContent(): void {
         $this->commands_called[] = 'resetDbContent';
     }
 
-    public function dumpDb() {
+    public function dumpDb(): void {
         $this->commands_called[] = 'dumpDb';
     }
 
@@ -30,12 +30,12 @@ class FakeDevDataUtils extends DevDataUtils {
         return 'fake output';
     }
 
-    public function migrateTo($version = 'latest'): string {
+    public function migrateTo(string $version = 'latest'): string {
         $this->commands_called[] = ['migrateTo', $version];
         return 'fake output';
     }
 
-    public function getDbBackup($key) {
+    public function getDbBackup(string $key): void {
         $this->commands_called[] = ['getDbBackup', $key];
     }
 }

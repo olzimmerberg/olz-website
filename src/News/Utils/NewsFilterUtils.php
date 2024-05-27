@@ -3,6 +3,7 @@
 namespace Olz\News\Utils;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Comparison;
 use Olz\Utils\WithUtilsTrait;
 
 class NewsFilterUtils {
@@ -24,7 +25,8 @@ class NewsFilterUtils {
         ['ident' => 'mit', 'name' => "mit Archiv"],
     ];
 
-    public function getDefaultFilter() {
+    /** @return array{format: string, datum: string, archiv: string} */
+    public function getDefaultFilter(): array {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         return [
             'format' => 'alle',
@@ -33,7 +35,8 @@ class NewsFilterUtils {
         ];
     }
 
-    public function isValidFilter($filter) {
+    /** @param array{format?: string, datum?: string, archiv?: string} $filter */
+    public function isValidFilter(array $filter): bool {
         $has_correct_format = (
             isset($filter['format'])
             && array_filter(
@@ -64,7 +67,12 @@ class NewsFilterUtils {
         return $has_correct_format && $has_correct_date_range && $has_correct_archive;
     }
 
-    public function getValidFilter($filter) {
+    /**
+     * @param array{format?: string, datum?: string, archiv?: string} $filter
+     *
+     * @return array{format: string, datum: string, archiv: string}
+     */
+    public function getValidFilter(array $filter): array {
         $default_filter = $this->getDefaultFilter();
         $merged_filter = [];
         foreach ($default_filter as $key => $default_value) {
@@ -73,7 +81,8 @@ class NewsFilterUtils {
         return $this->isValidFilter($merged_filter) ? $merged_filter : $default_filter;
     }
 
-    public function getAllValidFiltersForSitemap() {
+    /** @return array<array{format: string, datum: string, archiv: string}> */
+    public function getAllValidFiltersForSitemap(): array {
         $all_valid_filters = [];
         foreach (NewsFilterUtils::ALL_FORMAT_OPTIONS as $format_option) {
             $date_range_options = $this->getDateRangeOptions(['archiv' => 'ohne']);
@@ -88,7 +97,12 @@ class NewsFilterUtils {
         return $all_valid_filters;
     }
 
-    public function getUiFormatFilterOptions($filter) {
+    /**
+     * @param array{format: string, datum: string, archiv: string} $filter
+     *
+     * @return array<array{selected: bool, new_filter: array{format: string, datum: string, archiv: string}, name: string, icon: ?string, ident: string}>
+     */
+    public function getUiFormatFilterOptions(array $filter): array {
         return array_map(function ($format_option) use ($filter) {
             $new_filter = $filter;
             $new_filter['format'] = $format_option['ident'];
@@ -102,7 +116,12 @@ class NewsFilterUtils {
         }, NewsFilterUtils::ALL_FORMAT_OPTIONS);
     }
 
-    public function getUiDateRangeFilterOptions($filter) {
+    /**
+     * @param array{format: string, datum: string, archiv: string} $filter
+     *
+     * @return array<array{selected: bool, new_filter: array{format: string, datum: string, archiv: string}, name: string, ident: string}>
+     */
+    public function getUiDateRangeFilterOptions(array $filter): array {
         return array_map(function ($date_range_option) use ($filter) {
             $new_filter = $filter;
             $new_filter['datum'] = $date_range_option['ident'];
@@ -115,7 +134,12 @@ class NewsFilterUtils {
         }, $this->getDateRangeOptions($filter));
     }
 
-    public function getUiArchiveFilterOptions($filter) {
+    /**
+     * @param array{format: string, datum: string, archiv: string} $filter
+     *
+     * @return array<array{selected: bool, new_filter: array{format: string, datum: string, archiv: string}, name: string, ident: string}>
+     */
+    public function getUiArchiveFilterOptions(array $filter): array {
         return array_map(function ($archive_option) use ($filter) {
             $new_filter = $filter;
             $new_filter['archiv'] = $archive_option['ident'];
@@ -128,8 +152,13 @@ class NewsFilterUtils {
         }, NewsFilterUtils::ALL_ARCHIVE_OPTIONS);
     }
 
-    public function getDateRangeOptions($filter = []) {
-        $include_archive = ($filter['archiv'] ?? null) === 'mit';
+    /**
+     * @param array{format?: string, datum?: string, archiv: string} $filter
+     *
+     * @return array<array{ident: string, name: string}>
+     */
+    public function getDateRangeOptions(array $filter): array {
+        $include_archive = $filter['archiv'] === 'mit';
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $first_year = $include_archive ? 2006 : $current_year - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [];
@@ -140,7 +169,8 @@ class NewsFilterUtils {
         return $options;
     }
 
-    public function getSqlFromFilter($filter) {
+    /** @param array{format: string, datum: string, archiv: string} $filter */
+    public function getSqlFromFilter(array $filter): string {
         if (!$this->isValidFilter($filter)) {
             return "'1'='0'";
         }
@@ -149,7 +179,8 @@ class NewsFilterUtils {
         return "({$date_range_filter}) AND ({$format_filter})";
     }
 
-    private function getSqlDateRangeFilter($filter) {
+    /** @param array{format: string, datum: string, archiv: string} $filter */
+    private function getSqlDateRangeFilter(array $filter): string {
         $today = $this->dateUtils()->getIsoToday();
         if (intval($filter['datum']) > 2000) {
             $sane_year = strval(intval($filter['datum']));
@@ -161,7 +192,8 @@ class NewsFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    private function getSqlFormatFilter($filter) {
+    /** @param array{format: string, datum: string, archiv: string} $filter */
+    private function getSqlFormatFilter(array $filter): string {
         if ($filter['format'] === 'alle') {
             return "'1' = '1'";
         }
@@ -186,7 +218,8 @@ class NewsFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    public function getTitleFromFilter($filter) {
+    /** @param array{format: string, datum: string, archiv: string} $filter */
+    public function getTitleFromFilter(array $filter): string {
         if (!$this->isValidFilter($filter)) {
             return "News";
         }
@@ -207,7 +240,8 @@ class NewsFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    private function getPresentFormatFilterTitle($filter) {
+    /** @param array{format: string, datum: string, archiv: string} $filter */
+    private function getPresentFormatFilterTitle(array $filter): string {
         if ($filter['format'] === 'aktuell') {
             return "Aktuell";
         }
@@ -226,7 +260,8 @@ class NewsFilterUtils {
         return "News";
     }
 
-    private function getPastFormatFilterTitle($filter) {
+    /** @param array{format: string, datum: string, archiv: string} $filter */
+    private function getPastFormatFilterTitle(array $filter): string {
         if ($filter['format'] === 'aktuell') {
             return "Aktuelles von";
         }
@@ -245,31 +280,28 @@ class NewsFilterUtils {
         return "News von";
     }
 
-    private function getArchiveFilterTitleSuffix($filter) {
+    /** @param array{format: string, datum: string, archiv: string} $filter */
+    private function getArchiveFilterTitleSuffix(array $filter): string {
         if ($filter['archiv'] === 'mit') {
             return " (Archiv)";
         }
         return "";
     }
 
-    public function isFilterNotArchived($filter) {
-        return ($filter['archiv'] ?? null) === 'ohne';
+    /** @param array{format?: string, datum?: string, archiv: string} $filter */
+    public function isFilterNotArchived(array $filter): bool {
+        return $filter['archiv'] === 'ohne';
     }
 
-    public function getIsNotArchivedCriteria() {
-        $years_ago = $this->dateUtils()->getCurrentDateInFormat('Y') - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
+    public function getIsNotArchivedCriteria(): Comparison {
+        $years_ago = intval($this->dateUtils()->getCurrentDateInFormat('Y')) - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_years_ago = "{$years_ago}-01-01";
         return Criteria::expr()->gte('published_date', new \DateTime($beginning_of_years_ago));
     }
 
-    public function getUrl($filter_override = []) {
+    /** @param array{format?: string, datum?: string, archiv?: string} $filter */
+    public function getUrl(array $filter = []): string {
         $code_href = $this->envUtils()->getCodeHref();
-
-        $default_filter = $this->getDefaultFilter();
-        $filter = [
-            ...$default_filter,
-            ...$filter_override,
-        ];
         $enc_json_filter = urlencode(json_encode($filter));
         return "{$code_href}news?filter={$enc_json_filter}";
     }

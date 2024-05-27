@@ -17,9 +17,10 @@ use Olz\Termine\Utils\TermineFilterUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTermineList extends OlzComponent {
-    public static $title = "Termine";
-    public static $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
+    public static string $title = "Termine";
+    public static string $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $params = $this->httpUtils()->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),

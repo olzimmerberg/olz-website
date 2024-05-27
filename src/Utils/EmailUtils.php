@@ -19,7 +19,7 @@ use Webklex\PHPIMAP\ClientManager;
 class EmailUtils {
     use WithUtilsTrait;
 
-    public function sendEmailVerificationEmail($user, $token) {
+    public function sendEmailVerificationEmail(User $user, string $token): void {
         if (!$this->recaptchaUtils()->validateRecaptchaToken($token)) {
             $this->log()->warning("reCaptcha token was invalid");
             throw new RecaptchaDeniedException("ReCaptcha Token ist ungültig");
@@ -64,7 +64,7 @@ class EmailUtils {
         }
     }
 
-    protected function getRandomEmailVerificationToken() {
+    protected function getRandomEmailVerificationToken(): string {
         return $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(6));
     }
 
@@ -210,17 +210,17 @@ class EmailUtils {
         }, $arr));
     }
 
-    public function encryptEmailReactionToken($data) {
+    public function encryptEmailReactionToken(mixed $data): string {
         $key = $this->envUtils()->getEmailReactionKey();
         return $this->generalUtils()->encrypt($key, $data);
     }
 
-    public function decryptEmailReactionToken($token) {
+    public function decryptEmailReactionToken(string $token): mixed {
         $key = $this->envUtils()->getEmailReactionKey();
         return $this->generalUtils()->decrypt($key, $token);
     }
 
-    public function renderMarkdown($markdown) {
+    public function renderMarkdown(string $markdown): string {
         $environment = new Environment([
             'html_input' => 'strip',
             'allow_unsafe_links' => false,

@@ -6,6 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\News\Utils\NewsFilterUtils;
 
 class OlzNewsFilter extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $news_utils = NewsFilterUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();

@@ -33,6 +33,7 @@ trait BookingEndpointTrait {
     }
 
     // TODO: Implement once needed
+    /** @return array<string, mixed> */
     public function getEntityData(Booking $entity): array {
         return [];
     }

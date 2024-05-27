@@ -40,6 +40,7 @@ trait RoleEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(Role $entity): array {
         return [
             'username' => $entity->getUsername() ? $entity->getUsername() : '-',

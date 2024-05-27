@@ -6,6 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Snippets\Snippet;
 
 class OlzEditableText extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
 

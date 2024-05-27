@@ -12,6 +12,7 @@ use Olz\Components\Users\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 use Olz\Entity\Panini2024\Panini2024Picture;
 
 class OlzPanini2024All extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $code_href = $this->envUtils()->getCodeHref();

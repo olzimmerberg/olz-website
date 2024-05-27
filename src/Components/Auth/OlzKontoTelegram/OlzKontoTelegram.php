@@ -8,6 +8,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzKontoTelegram extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $params = $this->httpUtils()->validateGetParams([
             'pin' => new FieldTypes\StringField(['allow_null' => true]),

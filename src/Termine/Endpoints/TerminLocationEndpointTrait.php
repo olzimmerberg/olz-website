@@ -30,6 +30,7 @@ trait TerminLocationEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(TerminLocation $entity): array {
         return [
             'name' => $entity->getName(),

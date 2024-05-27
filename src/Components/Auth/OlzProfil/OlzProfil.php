@@ -10,6 +10,7 @@ use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
 
 class OlzProfil extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $auth_utils = $this->authUtils();

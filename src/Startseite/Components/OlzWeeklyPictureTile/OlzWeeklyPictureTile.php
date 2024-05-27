@@ -15,6 +15,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         return 0.9;
     }
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $out = "";
 

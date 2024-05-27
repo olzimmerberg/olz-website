@@ -822,7 +822,6 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testGetSqlDateRangeFilter(): void {
         $termine_utils = $this->getTermineFilterUtils();
-        $this->assertSame("'1'='0'", $termine_utils->getSqlDateRangeFilter([]));
         $this->assertSame(
             "(t.start_date >= '2020-03-13') OR (t.end_date >= '2020-03-13')",
             $termine_utils->getSqlDateRangeFilter([
@@ -851,7 +850,6 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testGetSqlTypeFilter(): void {
         $termine_utils = $this->getTermineFilterUtils();
-        $this->assertSame("'1'='0'", $termine_utils->getSqlTypeFilter([]));
         $this->assertSame(
             "'1' = '1'",
             $termine_utils->getSqlTypeFilter([
@@ -912,7 +910,6 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testGetTitleFromFilter(): void {
         $termine_utils = $this->getTermineFilterUtils();
-        $this->assertSame("Termine", $termine_utils->getTitleFromFilter([]));
         $this->assertSame(
             "Bevorstehende Termine",
             $termine_utils->getTitleFromFilter([
@@ -1037,7 +1034,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testIsFilterNotArchived(): void {
         $termine_utils = $this->getTermineFilterUtils();
-        $this->assertFalse($termine_utils->isFilterNotArchived([]));
+        $this->assertFalse($termine_utils->isFilterNotArchived(['archiv' => 'invalid']));
         $this->assertTrue($termine_utils->isFilterNotArchived(['archiv' => 'ohne']));
         $this->assertFalse($termine_utils->isFilterNotArchived(['archiv' => 'mit']));
     }

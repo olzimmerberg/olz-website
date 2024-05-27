@@ -8,6 +8,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzSuche extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $params = $this->httpUtils()->validateGetParams([
             'anfrage' => new FieldTypes\StringField(['allow_null' => true]),
@@ -76,11 +77,10 @@ class OlzSuche extends OlzComponent {
 
         for ($i = 0; $i < $num; $i++) {
             $row = mysqli_fetch_array($result);
-            $start_date = strtotime($row['start_date']);
             $title = strip_tags($row['title']);
             $text = strip_tags($row['text']);
             $id = $row['id'];
-            $start_date = $date_utils->olzDate("t. MM jjjj", $start_date);
+            $start_date = $date_utils->olzDate("t. MM jjjj", $row['start_date']);
             $cutout = $this->cutout($text, $search_words);
             $result_termine .= <<<ZZZZZZZZZZ
                 <tr>
@@ -109,11 +109,10 @@ class OlzSuche extends OlzComponent {
 
         for ($i = 0; $i < $num; $i++) {
             $row = mysqli_fetch_array($result);
-            $published_date = strtotime($row['published_date']);
             $title = strip_tags($row['title']);
             $text = strip_tags($row['teaser']).strip_tags($row['content']);
             $id = $row['id'];
-            $published_date = $date_utils->olzDate("t. MM jjjj", $published_date);
+            $published_date = $date_utils->olzDate("t. MM jjjj", $row['published_date']);
             $cutout = $this->cutout($text, $search_words);
             $result_news .= <<<ZZZZZZZZZZ
                 <tr>

@@ -12,11 +12,11 @@ class DeterministicEmailUtils extends EmailUtils {
         $this->setGeneralUtils(new DeterministicGeneralUtils());
     }
 
-    public function renderMarkdown($markdown) {
+    public function renderMarkdown(string $markdown): string {
         return $markdown;
     }
 
-    protected function getRandomEmailVerificationToken() {
+    protected function getRandomEmailVerificationToken(): string {
         return 'veryrandom';
     }
 }

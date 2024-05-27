@@ -5,63 +5,63 @@ namespace Olz\Utils;
 // require_once __DIR__.'/../OlzInit.php';
 
 class EnvUtils {
-    private $data_path;
-    private $data_href;
-    private $code_path;
-    private $code_href;
+    private ?string $data_path = null;
+    private ?string $data_href = null;
+    private ?string $code_path = null;
+    private ?string $code_href = null;
 
-    private $syslog_path;
-    private $base_href;
-    private $app_env;
+    private ?string $syslog_path = null;
+    private ?string $base_href = null;
+    private ?string $app_env = null;
 
-    private $mysql_host;
-    private $mysql_port;
-    private $mysql_username;
-    private $mysql_password;
-    private $mysql_schema;
+    private ?string $mysql_host = null;
+    private ?string $mysql_port = null;
+    private ?string $mysql_username = null;
+    private ?string $mysql_password = null;
+    private ?string $mysql_schema = null;
 
-    private $has_unlimited_cron = false;
+    private bool $has_unlimited_cron = false;
 
-    private $date_utils_class_name = 'LiveDateUtils';
-    private $date_utils_class_args = [];
+    private string $date_utils_class_name = 'LiveDateUtils';
+    private array $date_utils_class_args = [];
 
-    private $database_backup_key;
-    private $email_reaction_key;
-    private $id_encryption_key;
+    private ?string $database_backup_key = null;
+    private ?string $email_reaction_key = null;
+    private ?string $id_encryption_key = null;
 
-    private $cron_authenticity_code;
+    private ?string $cron_authenticity_code = null;
 
-    private $recaptcha_secret_key;
+    private ?string $recaptcha_secret_key = null;
 
-    private $strava_client_id;
-    private $strava_client_secret;
+    private ?string $strava_client_id = null;
+    private ?string $strava_client_secret = null;
 
-    private $telegram_bot_name;
-    private $telegram_bot_token;
-    private $telegram_authenticity_code;
+    private ?string $telegram_bot_name = null;
+    private ?string $telegram_bot_token = null;
+    private ?string $telegram_authenticity_code = null;
 
-    private $imap_host;
-    private $imap_port;
-    private $imap_flags = '';
-    private $imap_username;
-    private $imap_password;
+    private ?string $imap_host = null;
+    private ?string $imap_port = null;
+    private ?string $imap_flags = '';
+    private ?string $imap_username = null;
+    private ?string $imap_password = null;
 
-    private $smtp_host;
-    private $smtp_port;
-    private $smtp_username;
-    private $smtp_password;
-    private $smtp_secure = '';
-    private $smtp_debug = 0;
-    private $smtp_from;
+    private ?string $smtp_host = null;
+    private ?string $smtp_port = null;
+    private ?string $smtp_username = null;
+    private ?string $smtp_password = null;
+    private ?string $smtp_secure = '';
+    private int $smtp_debug = 0;
+    private ?string $smtp_from = null;
 
-    private $app_search_engines_username;
-    private $app_search_engines_password;
+    private ?string $app_search_engines_username = null;
+    private ?string $app_search_engines_password = null;
 
-    private $app_monitoring_username;
-    private $app_monitoring_password;
+    private ?string $app_monitoring_username = null;
+    private ?string $app_monitoring_password = null;
 
-    private $app_statistics_username;
-    private $app_statistics_password;
+    private ?string $app_statistics_username = null;
+    private ?string $app_statistics_password = null;
 
     public function setDataPath(string $data_path): void {
         $this->data_path = $data_path;
@@ -310,7 +310,7 @@ class EnvUtils {
         return $this->app_statistics_password;
     }
 
-    protected static $from_env_instance;
+    protected static ?EnvUtils $from_env_instance = null;
 
     public static function fromEnv(): self {
         if (self::$from_env_instance == null) {

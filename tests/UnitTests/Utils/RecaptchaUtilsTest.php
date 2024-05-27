@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
+use Olz\Fetchers\GoogleFetcher;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\RecaptchaUtils;
 
-class FakeRecaptchaUtilsGoogleFetcher {
+class FakeRecaptchaUtilsGoogleFetcher extends GoogleFetcher {
     public function fetchRecaptchaVerification($siteverify_request_data) {
         $successful_request = [
             'secret' => 'some-secret-key',

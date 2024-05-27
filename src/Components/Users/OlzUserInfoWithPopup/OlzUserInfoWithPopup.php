@@ -7,6 +7,7 @@ use Olz\Components\Users\OlzPopup\OlzPopup;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 
 class OlzUserInfoWithPopup extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $user = $args['user'];
         $mode = $args['mode'] ?? 'name';

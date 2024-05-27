@@ -6,6 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
 
 class OlzNoAppAccess extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $no_access_out = <<<'ZZZZZZZZZZ'
             <div id='profile-message' class='alert alert-danger' role='alert'>

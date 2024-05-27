@@ -8,6 +8,7 @@ use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
 use Olz\Utils\StandardSession;
 
 class OlzHeaderWithoutRouting extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         global $_SESSION;
 

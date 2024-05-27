@@ -13,9 +13,10 @@ use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzFuerEinsteiger extends OlzComponent {
-    public static $title = "Für Einsteiger";
-    public static $description = "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.";
+    public static string $title = "Für Einsteiger";
+    public static string $description = "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([
             'von' => new FieldTypes\StringField(['allow_null' => true]),

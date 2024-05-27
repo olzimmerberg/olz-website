@@ -15,6 +15,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         return 0.75;
     }
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $db = $this->dbUtils()->getDb();
         $date_utils = $this->dateUtils();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
+use Olz\Fetchers\StravaFetcher;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\StravaUtils;
 
@@ -36,7 +37,7 @@ $empty_people_api_response = [
     ],
 ];
 
-class FakeStravaUtilsStravaFetcher {
+class FakeStravaUtilsStravaFetcher extends StravaFetcher {
     private $strava_fetcher_response;
 
     public function __construct($strava_fetcher_response) {
@@ -135,6 +136,6 @@ final class StravaUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserData(): void {
-        $this->assertSame('fake-code', $this->stravaUtils->getUserData('fake-code'));
+        $this->assertSame(['fake-code'], $this->stravaUtils->getUserData(['fake-code']));
     }
 }

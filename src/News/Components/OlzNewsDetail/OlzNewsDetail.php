@@ -17,6 +17,7 @@ use Olz\News\Utils\NewsFilterUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzNewsDetail extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),

@@ -6,6 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 
 class OlzHeader extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $is_insecure_nonlocal = !($_SERVER['HTTPS'] ?? false) && preg_match('/olzimmerberg\.ch/', $_SERVER['HTTP_HOST']);
         $host_has_www = preg_match('/www\./', $_SERVER['HTTP_HOST']);

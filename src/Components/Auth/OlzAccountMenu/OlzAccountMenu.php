@@ -6,6 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
 
 class OlzAccountMenu extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $out = '';
 

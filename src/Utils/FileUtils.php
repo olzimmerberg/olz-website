@@ -60,7 +60,14 @@ class FileUtils {
         'zip' => 'zip',
     ];
 
-    public function olzFile($db_table, $id, $index, $text, $download_name, $icon = 'mini') {
+    public function olzFile(
+        string $db_table,
+        int|string $id,
+        int|string $index,
+        string $text,
+        string $download_name,
+        string $icon = 'mini',
+    ): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();

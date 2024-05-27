@@ -9,7 +9,7 @@ use PhpTypeScriptApi\HttpError;
 abstract class OlzEndpoint extends Endpoint {
     use WithUtilsTrait;
 
-    public function runtimeSetup() {
+    public function runtimeSetup(): void {
         $this->setLogger($this->log());
     }
 

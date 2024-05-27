@@ -12,7 +12,7 @@ class UpdateTerminLabelEndpoint extends OlzUpdateEntityEndpoint {
         return 'UpdateTerminLabelEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('termine');
 
         $entity = $this->getEntityById($input['id']);

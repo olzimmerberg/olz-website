@@ -33,7 +33,7 @@ class GetAuthenticatedRolesEndpoint extends OlzEndpoint {
         ]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $auth_utils = $this->authUtils();
         $roles = $auth_utils->getAuthenticatedRoles();
         if ($roles === null) {

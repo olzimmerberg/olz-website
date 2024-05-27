@@ -15,7 +15,7 @@ class OlzCreateEntityConcreteEndpoint extends OlzCreateEntityEndpoint {
         return 'ident';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         return [
             'status' => 'OK',
             'id' => $this->uses_external_id ? 'external-id' : 5,

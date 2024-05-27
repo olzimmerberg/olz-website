@@ -12,7 +12,7 @@ class CreateDownloadEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateDownloadEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('downloads');
 
         $entity = new Download();

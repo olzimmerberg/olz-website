@@ -27,14 +27,14 @@ class OnTelegramEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function parseInput(Request $request) {
+    public function parseInput(Request $request): mixed {
         return [
             'authenticityCode' => $request->query->get('authenticityCode'),
             'telegramEvent' => json_encode(json_decode($request->getContent(), true)),
         ];
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $expected_code = $this->envUtils()->getTelegramAuthenticityCode();
         $actual_code = $input['authenticityCode'];
         if ($actual_code != $expected_code) {

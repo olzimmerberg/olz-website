@@ -12,7 +12,7 @@ class CreateKarteEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateKarteEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('karten');
 
         $entity = new Karte();

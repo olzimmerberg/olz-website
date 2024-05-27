@@ -12,7 +12,7 @@ class CreateTerminLocationEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateTerminLocationEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('termine');
 
         $entity = new TerminLocation();

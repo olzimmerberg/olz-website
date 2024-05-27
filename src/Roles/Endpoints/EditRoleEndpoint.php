@@ -12,7 +12,7 @@ class EditRoleEndpoint extends OlzEditEntityEndpoint {
         return 'EditRoleEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $entity = $this->getEntityById($input['id']);
 
         $is_superior = $this->authUtils()->hasRoleEditPermission($input['id']);

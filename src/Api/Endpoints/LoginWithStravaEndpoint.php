@@ -55,7 +55,7 @@ class LoginWithStravaEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $ip_address = $this->server()['REMOTE_ADDR'];
         $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
 

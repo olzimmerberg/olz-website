@@ -13,7 +13,7 @@ class CreateRegistrationEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateRegistrationEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 
         $input_data = $input['data'];

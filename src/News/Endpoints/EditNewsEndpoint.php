@@ -12,7 +12,7 @@ class EditNewsEndpoint extends OlzEditEntityEndpoint {
         return 'EditNewsEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 
         $news_entry = $this->getEntityById($input['id']);

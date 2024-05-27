@@ -30,7 +30,7 @@ class UpdateResultsEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 
         $data_path = $this->envUtils()->getDataPath();

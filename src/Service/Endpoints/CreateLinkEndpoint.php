@@ -12,7 +12,7 @@ class CreateLinkEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateLinkEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('links');
 
         $entity = new Link();

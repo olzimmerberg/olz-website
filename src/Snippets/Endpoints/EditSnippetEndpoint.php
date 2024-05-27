@@ -12,7 +12,7 @@ class EditSnippetEndpoint extends OlzEditEntityEndpoint {
         return 'EditSnippetEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $id = $input['id'];
         $this->checkPermission("snippet_{$id}");
 

@@ -28,7 +28,7 @@ class ExecuteCommandEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $command_name = $input['command'];
         try {
             $has_access = $this->authUtils()->hasPermission('commands');

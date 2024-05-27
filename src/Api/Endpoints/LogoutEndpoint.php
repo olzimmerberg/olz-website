@@ -26,7 +26,7 @@ class LogoutEndpoint extends OlzEndpoint {
         ]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->session()->delete('auth');
         $this->session()->delete('root');
         $this->session()->delete('user');

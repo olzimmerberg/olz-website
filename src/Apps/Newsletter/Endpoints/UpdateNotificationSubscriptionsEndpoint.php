@@ -47,7 +47,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $user = $this->authUtils()->getCurrentUser();
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 

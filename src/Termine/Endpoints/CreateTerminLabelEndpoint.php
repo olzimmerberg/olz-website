@@ -12,7 +12,7 @@ class CreateTerminLabelEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateTerminLabelEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('termine');
 
         $entity = new TerminLabel();

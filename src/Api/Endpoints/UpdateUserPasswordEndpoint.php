@@ -30,7 +30,7 @@ class UpdateUserPasswordEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $auth_username = $this->session()->get('user');
 
         $old_password = $input['oldPassword'];

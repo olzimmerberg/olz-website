@@ -31,7 +31,7 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $input_data = $input['data'];
         $format = $input_data['format'];
 

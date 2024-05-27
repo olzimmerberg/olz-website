@@ -44,7 +44,7 @@ class UpdateMyPanini2024Endpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 
         $current_user = $this->authUtils()->getCurrentUser();

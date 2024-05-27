@@ -12,7 +12,7 @@ class AddUserRoleMembershipEndpoint extends OlzAddRelationEndpoint {
         return 'AddUserRoleMembershipEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $role = $this->getRoleEntityById($input['ids']['roleId']);
         $user = $this->getUserEntityById($input['ids']['userId']);
 

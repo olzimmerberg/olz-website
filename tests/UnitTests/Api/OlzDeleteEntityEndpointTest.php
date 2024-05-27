@@ -15,7 +15,7 @@ class OlzDeleteEntityConcreteEndpoint extends OlzDeleteEntityEndpoint {
         return 'ident';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         return [
             'status' => 'OK',
         ];

@@ -15,7 +15,7 @@ class UpdateRoleEndpoint extends OlzUpdateEntityEndpoint {
         return 'UpdateRoleEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $entity = $this->getEntityById($input['id']);

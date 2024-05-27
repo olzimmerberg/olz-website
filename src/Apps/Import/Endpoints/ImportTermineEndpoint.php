@@ -19,7 +19,7 @@ class ImportTermineEndpoint extends OlzEndpoint {
         return new FieldTypes\ObjectField(['field_structure' => []]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         if (!$this->authUtils()->hasPermission('termine')) {
             throw new HttpError(403, "Kein Zugriff!");
         }

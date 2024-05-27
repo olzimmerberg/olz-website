@@ -12,7 +12,7 @@ class CreateBookingEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateBookingEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $booking = new Booking();
         $this->entityUtils()->createOlzEntity($booking, $input['meta']);
         $this->updateEntityWithData($booking, $input['data']);

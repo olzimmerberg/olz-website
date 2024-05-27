@@ -45,7 +45,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $token = $input['recaptchaToken'];
         if (!$this->recaptchaUtils()->validateRecaptchaToken($token)) {
             return ['status' => 'DENIED'];

@@ -15,7 +15,7 @@ class CreateRoleEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateRoleEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         if (!$this->authUtils()->hasRoleEditPermission($input['data']['parentRole'])) {
             throw new HttpError(403, "Kein Zugriff!");
         }

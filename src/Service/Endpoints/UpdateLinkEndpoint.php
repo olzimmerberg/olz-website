@@ -12,7 +12,7 @@ class UpdateLinkEndpoint extends OlzUpdateEntityEndpoint {
         return 'UpdateLinkEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 
         $entity = $this->getEntityById($input['id']);

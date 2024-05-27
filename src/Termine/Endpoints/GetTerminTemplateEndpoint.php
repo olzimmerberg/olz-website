@@ -11,7 +11,7 @@ class GetTerminTemplateEndpoint extends OlzGetEntityEndpoint {
         return 'GetTerminTemplateEndpoint';
     }
 
-    protected function handle($input) {
+    protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 
         $entity = $this->getEntityById($input['id']);

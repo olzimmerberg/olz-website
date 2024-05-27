@@ -8,7 +8,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzSuche extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $params = $this->httpUtils()->validateGetParams([
             'anfrage' => new FieldTypes\StringField(['allow_null' => true]),
         ]);

@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class RemoveUserRoleMembershipEndpoint extends OlzRemoveRelationEndpoint {
     use UserRoleMembershipEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'RemoveUserRoleMembershipEndpoint';
     }
 

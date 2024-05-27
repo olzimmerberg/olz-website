@@ -15,7 +15,7 @@ class OlzFaq extends OlzComponent {
     public static $title = "Fragen & Antworten";
     public static $description = "Antworten auf die wichtigsten Fragen rund um den OL, die OL Zimmerberg und diese Website.";
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $entityManager = $this->dbUtils()->getEntityManager();
         $question_repo = $entityManager->getRepository(Question::class);

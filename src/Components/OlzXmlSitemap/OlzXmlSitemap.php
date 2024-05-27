@@ -5,7 +5,7 @@ namespace Olz\Components\OlzXmlSitemap;
 use Olz\Components\OlzSitemap\OlzSitemap;
 
 class OlzXmlSitemap extends OlzSitemap {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $out = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $out .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 

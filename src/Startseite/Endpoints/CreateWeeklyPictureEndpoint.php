@@ -8,7 +8,7 @@ use Olz\Entity\Startseite\WeeklyPicture;
 class CreateWeeklyPictureEndpoint extends OlzCreateEntityEndpoint {
     use WeeklyPictureEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateWeeklyPictureEndpoint';
     }
 

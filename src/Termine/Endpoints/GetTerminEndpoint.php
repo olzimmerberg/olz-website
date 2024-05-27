@@ -7,7 +7,7 @@ use Olz\Api\OlzGetEntityEndpoint;
 class GetTerminEndpoint extends OlzGetEntityEndpoint {
     use TerminEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetTerminEndpoint';
     }
 

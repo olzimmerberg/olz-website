@@ -8,7 +8,7 @@ use Olz\Entity\Karten\Karte;
 class CreateKarteEndpoint extends OlzCreateEntityEndpoint {
     use KarteEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateKarteEndpoint';
     }
 

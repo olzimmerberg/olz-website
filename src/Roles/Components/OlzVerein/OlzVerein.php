@@ -11,7 +11,7 @@ class OlzVerein extends OlzComponent {
     public static $title = "Verein";
     public static $description = "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.";
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
 
         $out = OlzHeader::render([

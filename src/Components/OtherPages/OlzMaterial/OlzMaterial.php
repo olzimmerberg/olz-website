@@ -13,7 +13,7 @@ class OlzMaterial extends OlzComponent {
     public static $title = "Material & Kleider";
     public static $description = "Material und OLZ-Kleider, die die OL Zimmerberg vermietet bzw. verkauft.";
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $code_href = $this->envUtils()->getCodeHref();
 

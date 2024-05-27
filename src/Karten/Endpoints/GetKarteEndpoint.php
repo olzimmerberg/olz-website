@@ -7,7 +7,7 @@ use Olz\Api\OlzGetEntityEndpoint;
 class GetKarteEndpoint extends OlzGetEntityEndpoint {
     use KarteEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetKarteEndpoint';
     }
 

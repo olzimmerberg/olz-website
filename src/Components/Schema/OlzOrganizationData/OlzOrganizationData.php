@@ -9,7 +9,7 @@ namespace Olz\Components\Schema\OlzOrganizationData;
 use Olz\Components\Common\OlzComponent;
 
 class OlzOrganizationData extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $sports_organization_data = [
             '@context' => 'https://schema.org',
             '@type' => 'SportsOrganization',

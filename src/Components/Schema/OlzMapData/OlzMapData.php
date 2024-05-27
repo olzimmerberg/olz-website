@@ -9,7 +9,7 @@ namespace Olz\Components\Schema\OlzMapData;
 use Olz\Components\Common\OlzComponent;
 
 class OlzMapData extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $name = $args['name'] ?? '';
         $year = $args['year'] ?? '';
         $scale = $args['scale'] ?? '';

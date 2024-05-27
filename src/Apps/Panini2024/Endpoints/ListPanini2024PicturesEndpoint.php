@@ -6,11 +6,11 @@ use Olz\Api\OlzEndpoint;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class ListPanini2024PicturesEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'ListPanini2024PicturesEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         $panini_2024_picture_field = new FieldTypes\ObjectField([
             'export_as' => 'OlzPanini2024PictureData',
             'field_structure' => [
@@ -31,7 +31,7 @@ class ListPanini2024PicturesEndpoint extends OlzEndpoint {
         ]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         $skill_filter = new FieldTypes\ChoiceField([
             'field_map' => [
                 'idIs' => new FieldTypes\IntegerField(['min_value' => 1]),

@@ -15,7 +15,7 @@ class OlzNewsListsTile extends AbstractOlzTile {
         return 0.8;
     }
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $news_filter_utils = NewsFilterUtils::fromEnv();
 

@@ -8,7 +8,7 @@ use Olz\Entity\Termine\TerminLocation;
 class CreateTerminLocationEndpoint extends OlzCreateEntityEndpoint {
     use TerminLocationEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'CreateTerminLocationEndpoint';
     }
 

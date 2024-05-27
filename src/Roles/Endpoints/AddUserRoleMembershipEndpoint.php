@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class AddUserRoleMembershipEndpoint extends OlzAddRelationEndpoint {
     use UserRoleMembershipEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'AddUserRoleMembershipEndpoint';
     }
 

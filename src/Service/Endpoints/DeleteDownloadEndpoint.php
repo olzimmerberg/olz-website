@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class DeleteDownloadEndpoint extends OlzDeleteEntityEndpoint {
     use DownloadEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'DeleteDownloadEndpoint';
     }
 

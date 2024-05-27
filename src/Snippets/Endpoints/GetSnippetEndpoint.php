@@ -7,7 +7,7 @@ use Olz\Api\OlzGetEntityEndpoint;
 class GetSnippetEndpoint extends OlzGetEntityEndpoint {
     use SnippetEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetSnippetEndpoint';
     }
 

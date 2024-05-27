@@ -11,11 +11,11 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class ExecuteEmailReactionEndpoint extends OlzEndpoint {
     protected $reaction_data;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'ExecuteEmailReactionEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'INVALID_TOKEN',
@@ -24,7 +24,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'token' => new FieldTypes\StringField([]),
         ]]);

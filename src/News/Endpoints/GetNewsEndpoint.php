@@ -7,7 +7,7 @@ use Olz\Api\OlzGetEntityEndpoint;
 class GetNewsEndpoint extends OlzGetEntityEndpoint {
     use NewsEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetNewsEndpoint';
     }
 

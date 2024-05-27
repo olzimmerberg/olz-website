@@ -11,7 +11,7 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class OlzUpdateEntityConcreteEndpoint extends OlzUpdateEntityEndpoint {
     public $uses_external_id = false;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'ident';
     }
 

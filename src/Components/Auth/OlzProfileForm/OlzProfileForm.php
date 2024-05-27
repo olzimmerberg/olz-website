@@ -5,7 +5,7 @@ namespace Olz\Components\Auth\OlzProfileForm;
 use Olz\Components\Common\OlzComponent;
 
 class OlzProfileForm extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();

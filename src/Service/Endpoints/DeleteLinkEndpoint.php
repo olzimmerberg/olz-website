@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class DeleteLinkEndpoint extends OlzDeleteEntityEndpoint {
     use LinkEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'DeleteLinkEndpoint';
     }
 

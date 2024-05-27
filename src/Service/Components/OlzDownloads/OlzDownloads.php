@@ -8,7 +8,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Service\Download;
 
 class OlzDownloads extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $has_permission = $this->authUtils()->hasPermission('downloads');
 

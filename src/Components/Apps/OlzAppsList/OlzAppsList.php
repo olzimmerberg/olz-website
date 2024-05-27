@@ -7,7 +7,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\User;
 
 class OlzAppsList extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $user = $this->authUtils()->getCurrentUser();
         $available_apps = OlzApps::getAppsForUser($user);

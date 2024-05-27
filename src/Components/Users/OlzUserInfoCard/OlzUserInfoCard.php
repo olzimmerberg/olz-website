@@ -5,7 +5,7 @@ namespace Olz\Components\Users\OlzUserInfoCard;
 use Olz\Components\Common\OlzComponent;
 
 class OlzUserInfoCard extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $user = $args['user'];
 
         $image_paths = $this->authUtils()->getUserAvatar($user);

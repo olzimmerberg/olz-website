@@ -15,7 +15,7 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
         return 0.5;
     }
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
 

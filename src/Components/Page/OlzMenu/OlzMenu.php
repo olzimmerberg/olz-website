@@ -9,7 +9,7 @@ namespace Olz\Components\Page\OlzMenu;
 use Olz\Components\Common\OlzComponent;
 
 class OlzMenu extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $out = '';
 
         $code_href = $this->envUtils()->getCodeHref();

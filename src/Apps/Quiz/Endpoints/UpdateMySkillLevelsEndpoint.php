@@ -9,11 +9,11 @@ use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'UpdateMySkillLevelsEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
                 'OK',
@@ -22,7 +22,7 @@ class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'updates' => new FieldTypes\DictField([
                 'item_field' => new FieldTypes\ObjectField(['field_structure' => [

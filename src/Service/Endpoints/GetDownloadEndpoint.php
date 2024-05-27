@@ -7,7 +7,7 @@ use Olz\Api\OlzGetEntityEndpoint;
 class GetDownloadEndpoint extends OlzGetEntityEndpoint {
     use DownloadEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetDownloadEndpoint';
     }
 

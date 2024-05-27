@@ -16,7 +16,7 @@ class OlzNewsListItem extends OlzComponent {
         'video' => 'entry_type_movie_20.svg',
     ];
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $news_utils = NewsFilterUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
 

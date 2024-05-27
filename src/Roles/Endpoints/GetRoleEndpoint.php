@@ -7,7 +7,7 @@ use Olz\Api\OlzGetEntityEndpoint;
 class GetRoleEndpoint extends OlzGetEntityEndpoint {
     use RoleEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetRoleEndpoint';
     }
 

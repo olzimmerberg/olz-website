@@ -11,7 +11,7 @@ use PhpTypeScriptApi\HttpError;
 class UpdateRoleEndpoint extends OlzUpdateEntityEndpoint {
     use RoleEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'UpdateRoleEndpoint';
     }
 

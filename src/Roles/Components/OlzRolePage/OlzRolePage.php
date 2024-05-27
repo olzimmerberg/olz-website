@@ -9,7 +9,7 @@ use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 
 class OlzRolePage extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $is_member = $this->authUtils()->hasPermission('member');
         $user = $this->authUtils()->getCurrentUser();

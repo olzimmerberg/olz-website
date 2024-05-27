@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Olz\Entity\TelegramLink;
+use Olz\Entity\User;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Utils\TelegramUtils;
 
@@ -13,7 +14,7 @@ class FakeTelegramUtils extends TelegramUtils {
     public $configurationSent = false;
     public $telegramApiCalls = [];
 
-    public function renderMarkdown($markdown) {
+    public function renderMarkdown(string $markdown): string {
         return $markdown;
     }
 
@@ -21,7 +22,7 @@ class FakeTelegramUtils extends TelegramUtils {
         return new TelegramLink();
     }
 
-    public function linkChatUsingPin($pin, $chat_id, $user_id) {
+    public function linkChatUsingPin(string $pin, string $chat_id, string $user_id): TelegramLink {
         if ($pin != 'validpin') {
             throw new \Exception('Error linking chat using PIN.');
         }
@@ -32,7 +33,7 @@ class FakeTelegramUtils extends TelegramUtils {
         return $telegram_link;
     }
 
-    public function getFreshPinForChat($chat_id) {
+    public function getFreshPinForChat(string $chat_id): string {
         return 'freshpin';
     }
 
@@ -44,19 +45,19 @@ class FakeTelegramUtils extends TelegramUtils {
         return 8;
     }
 
-    public function isAnonymousChat($chat_id) {
+    public function isAnonymousChat(string $chat_id): bool {
         return $this->isAnonymousChat;
     }
 
-    public function getChatState($chat_id) {
+    public function getChatState(string $chat_id): array {
         return [];
     }
 
-    public function sendConfiguration() {
+    public function sendConfiguration(): void {
         $this->configurationSent = true;
     }
 
-    public function callTelegramApi($command, $args) {
+    public function callTelegramApi(string $command, array $args): array {
         if ($args['chat_id'] == 'provoke_error') {
             throw new \Exception('provoked telegram error');
         }
@@ -64,11 +65,11 @@ class FakeTelegramUtils extends TelegramUtils {
         return [];
     }
 
-    public function getBotName() {
+    public function getBotName(): string {
         return 'bot-name';
     }
 
-    public function getFreshPinForUser($user) {
+    public function getFreshPinForUser(User $user): string {
         if ($user->getUsername() == 'admin') {
             return 'correct-pin';
         }

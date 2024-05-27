@@ -9,11 +9,11 @@ use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class GetMySkillLevelsEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'GetMySkillLevelsEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\DictField([
             'item_field' => new FieldTypes\ObjectField(['field_structure' => [
                 'value' => new FieldTypes\NumberField(['min_value' => 0.0, 'max_value' => 1.0]),
@@ -21,7 +21,7 @@ class GetMySkillLevelsEndpoint extends OlzEndpoint {
         ]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         $skill_filter = new FieldTypes\ChoiceField([
             'field_map' => [
                 'categoryIdIn' => new FieldTypes\ArrayField([

@@ -16,7 +16,7 @@ class OlzStartseite extends OlzComponent {
     public static $title = "Startseite";
     public static $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
 
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
 
         $out = OlzHeader::render([

@@ -34,11 +34,11 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         $this->transportApiFetcher = $transportApiFetcher;
     }
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'SearchTransportConnectionEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         $suggestion_field = TransportSuggestion::getField();
         return new FieldTypes\ObjectField(['field_structure' => [
             'status' => new FieldTypes\EnumField(['allowed_values' => [
@@ -52,7 +52,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'destination' => new FieldTypes\StringField(['allow_null' => false]),
             'arrival' => new FieldTypes\DateTimeField(['allow_null' => false]),

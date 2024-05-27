@@ -8,7 +8,7 @@ use PhpTypeScriptApi\HttpError;
 class EditSnippetEndpoint extends OlzEditEntityEndpoint {
     use SnippetEndpointTrait;
 
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'EditSnippetEndpoint';
     }
 

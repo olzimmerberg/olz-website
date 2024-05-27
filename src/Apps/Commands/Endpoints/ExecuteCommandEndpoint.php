@@ -10,18 +10,18 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class ExecuteCommandEndpoint extends OlzEndpoint {
-    public static function getIdent() {
+    public static function getIdent(): string {
         return 'ExecuteCommandEndpoint';
     }
 
-    public function getResponseField() {
+    public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'error' => new FieldTypes\BooleanField(['allow_null' => false]),
             'output' => new FieldTypes\StringField(['allow_null' => false]),
         ]]);
     }
 
-    public function getRequestField() {
+    public function getRequestField(): FieldTypes\Field {
         return new FieldTypes\ObjectField(['field_structure' => [
             'command' => new FieldTypes\StringField(['allow_null' => false]),
             'argv' => new FieldTypes\StringField(['allow_null' => true]),

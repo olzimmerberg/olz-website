@@ -6,7 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 
 class OlzZielsprint extends OlzComponent {
-    public function getHtml($args = []): string {
+    public function getHtml(array $args = []): string {
         $out = '';
 
         $db = $this->dbUtils()->getDb();

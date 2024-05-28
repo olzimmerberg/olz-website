@@ -64,9 +64,9 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth' => 'parent',
             'root' => 'parent',
             'user' => 'child1',
-            'user_id' => 5,
+            'user_id' => '5',
             'auth_user' => 'parent',
-            'auth_user_id' => 4,
+            'auth_user_id' => '4',
         ];
         $endpoint->setSession($session);
 
@@ -81,9 +81,9 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth' => 'child1',
             'root' => 'child1',
             'user' => 'child1',
-            'user_id' => 5,
+            'user_id' => '5',
             'auth_user' => 'parent',
-            'auth_user_id' => 4,
+            'auth_user_id' => '4',
         ], $session->session_storage);
         $this->assertSame([
             "INFO Valid user request",
@@ -99,9 +99,9 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth' => 'child1',
             'root' => 'child1',
             'user' => 'child1',
-            'user_id' => 5,
+            'user_id' => '5',
             'auth_user' => 'parent',
-            'auth_user_id' => 4,
+            'auth_user_id' => '4',
         ];
         $endpoint->setSession($session);
 
@@ -116,9 +116,9 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth' => 'child2',
             'root' => 'child2',
             'user' => 'child2',
-            'user_id' => 6,
+            'user_id' => '6',
             'auth_user' => 'parent',
-            'auth_user_id' => 4,
+            'auth_user_id' => '4',
         ], $session->session_storage);
         $this->assertSame([
             "INFO Valid user request",
@@ -134,9 +134,9 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth' => 'child1',
             'root' => 'child1',
             'user' => 'child1',
-            'user_id' => 5,
+            'user_id' => '5',
             'auth_user' => 'parent',
-            'auth_user_id' => 4,
+            'auth_user_id' => '4',
         ];
         $endpoint->setSession($session);
 
@@ -151,9 +151,9 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth' => 'parent',
             'root' => 'parent',
             'user' => 'parent',
-            'user_id' => 4,
+            'user_id' => '4',
             'auth_user' => 'parent',
-            'auth_user_id' => 4,
+            'auth_user_id' => '4',
         ], $session->session_storage);
         $this->assertSame([
             "INFO Valid user request",
@@ -169,14 +169,14 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth' => 'parent',
             'root' => 'parent',
             'user' => 'child1',
-            'user_id' => 5,
+            'user_id' => '5',
             'auth_user' => 'parent',
-            'auth_user_id' => 4,
+            'auth_user_id' => '4',
         ];
         $endpoint->setSession($session);
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 'userId' => 404, // inexistent
             ]);
             $this->fail('Exception expected.');
@@ -191,9 +191,9 @@ final class SwitchUserEndpointTest extends UnitTestCase {
                 'auth' => 'parent',
                 'root' => 'parent',
                 'user' => 'child1',
-                'user_id' => 5,
+                'user_id' => '5',
                 'auth_user' => 'parent',
-                'auth_user_id' => 4,
+                'auth_user_id' => '4',
             ], $session->session_storage);
         }
     }
@@ -206,14 +206,14 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth' => 'parent',
             'root' => 'parent',
             'user' => 'child1',
-            'user_id' => 5,
+            'user_id' => '5',
             'auth_user' => 'parent',
-            'auth_user_id' => 4,
+            'auth_user_id' => '4',
         ];
         $endpoint->setSession($session);
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 'userId' => 3, // vorstand (not a child)
             ]);
             $this->fail('Exception expected.');
@@ -228,9 +228,9 @@ final class SwitchUserEndpointTest extends UnitTestCase {
                 'auth' => 'parent',
                 'root' => 'parent',
                 'user' => 'child1',
-                'user_id' => 5,
+                'user_id' => '5',
                 'auth_user' => 'parent',
-                'auth_user_id' => 4,
+                'auth_user_id' => '4',
             ], $session->session_storage);
         }
     }

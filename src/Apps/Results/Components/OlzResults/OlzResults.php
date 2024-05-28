@@ -10,6 +10,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzResults extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([
             'file' => new FieldTypes\StringField(['allow_null' => true]),

@@ -7,17 +7,17 @@ class GeneralUtils {
 
     // Base64
 
-    public function base64EncodeUrl($string) {
+    public function base64EncodeUrl(string $string): string {
         return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($string));
     }
 
-    public function base64DecodeUrl($string) {
+    public function base64DecodeUrl(string $string): string {
         return base64_decode(str_replace(['-', '_'], ['+', '/'], $string));
     }
 
     // Crypto
 
-    public function encrypt($key, $data) {
+    public function encrypt(string $key, mixed $data): string {
         $plaintext = json_encode($data);
         $algo = 'aes-256-gcm';
         $iv = $this->getRandomIvForAlgo($algo);
@@ -30,11 +30,11 @@ class GeneralUtils {
         ]));
     }
 
-    protected function getRandomIvForAlgo($algo) {
+    protected function getRandomIvForAlgo(string $algo): string {
         return openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
     }
 
-    public function decrypt($key, $token) {
+    public function decrypt(string $key, string $token): mixed {
         $decrypt_data = json_decode($this->base64DecodeUrl($token), true);
         if (!$decrypt_data) {
             return null;
@@ -49,7 +49,7 @@ class GeneralUtils {
 
     // Algorithms
 
-    public function binarySearch($compare_fn, int $start, int $end): int {
+    public function binarySearch(callable $compare_fn, int $start, int $end): int {
         $search_start = $start;
         $search_end = $end;
         while ($search_start < $search_end) {
@@ -69,7 +69,7 @@ class GeneralUtils {
 
     // Debugging
 
-    public function getPrettyTrace($trace) {
+    public function getPrettyTrace(array $trace): string {
         $output = 'Stack trace:'.PHP_EOL;
 
         $trace_len = count($trace);
@@ -91,7 +91,7 @@ class GeneralUtils {
         return $output;
     }
 
-    public function measureLatency(callable $fn) {
+    public function measureLatency(callable $fn): array {
         $before = microtime(true);
         $result = $fn();
         $duration = round((microtime(true) - $before) * 1000, 1);
@@ -101,7 +101,7 @@ class GeneralUtils {
 
     // Tools
 
-    public function removeRecursive($path) {
+    public function removeRecursive(string $path): void {
         if (is_dir($path)) {
             $entries = scandir($path);
             foreach ($entries as $entry) {

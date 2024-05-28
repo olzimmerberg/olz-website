@@ -12,7 +12,7 @@ class FakeEntityUtils extends EntityUtils {
     public $update_olz_entity_calls = [];
     public $can_update_olz_entity;
 
-    public function createOlzEntity(OlzEntity $entity, $input) {
+    public function createOlzEntity(OlzEntity $entity, array $input): void {
         $this->create_olz_entity_calls[] = [
             $entity,
             ($input['onOff'] ?? null) ? 1 : 0,
@@ -21,7 +21,7 @@ class FakeEntityUtils extends EntityUtils {
         ];
     }
 
-    public function updateOlzEntity(OlzEntity $entity, $input) {
+    public function updateOlzEntity(OlzEntity $entity, array $input): void {
         $this->update_olz_entity_calls[] = [
             $entity,
             ($input['onOff'] ?? null) ? 1 : 0,
@@ -34,7 +34,7 @@ class FakeEntityUtils extends EntityUtils {
         OlzEntity $entity,
         $meta_arg,
         $edit_permission = 'all',
-    ) {
+    ): bool {
         if ($this->can_update_olz_entity === null) {
             throw new \Exception("FakeEntityUtils::canUpdateOlzEntity not mocked");
         }

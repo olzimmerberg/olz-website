@@ -585,7 +585,6 @@ final class NewsFilterUtilsTest extends UnitTestCase {
 
     public function testGetSqlFromFilter(): void {
         $news_utils = new NewsFilterUtils();
-        $this->assertSame("'1'='0'", $news_utils->getSqlFromFilter([]));
         $this->assertSame(
             "(YEAR(n.published_date) = '2020') AND ('1' = '1')",
             $news_utils->getSqlFromFilter([
@@ -638,7 +637,6 @@ final class NewsFilterUtilsTest extends UnitTestCase {
 
     public function testGetTitleFromFilter(): void {
         $news_utils = new NewsFilterUtils();
-        $this->assertSame("News", $news_utils->getTitleFromFilter([]));
         $this->assertSame(
             "News",
             $news_utils->getTitleFromFilter([
@@ -771,7 +769,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
 
     public function testIsFilterNotArchived(): void {
         $news_utils = new NewsFilterUtils();
-        $this->assertFalse($news_utils->isFilterNotArchived([]));
+        $this->assertFalse($news_utils->isFilterNotArchived(['archiv' => 'invalid']));
         $this->assertTrue($news_utils->isFilterNotArchived(['archiv' => 'ohne']));
         $this->assertFalse($news_utils->isFilterNotArchived(['archiv' => 'mit']));
     }

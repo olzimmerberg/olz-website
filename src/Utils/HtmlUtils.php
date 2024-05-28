@@ -20,7 +20,7 @@ class HtmlUtils {
     public const OLZ_EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@olzimmerberg\.ch';
     public const EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\\.[A-Za-z]{2,64})';
 
-    public function renderMarkdown($markdown, $override_config = []) {
+    public function renderMarkdown(string $markdown, array $override_config = []): string {
         $default_config = [
             'html_input' => 'escape',
             'allow_unsafe_links' => false,
@@ -38,11 +38,11 @@ class HtmlUtils {
         return "<div class='rendered-markdown'>{$postprocessed}</div>";
     }
 
-    public function postprocess($html) {
+    public function postprocess(string $html): string {
         return $this->replaceEmailAdresses($html);
     }
 
-    public function replaceEmailAdresses($html) {
+    public function replaceEmailAdresses(string $html): string {
         $role_repo = $this->entityManager()->getRepository(Role::class);
 
         $html = str_replace(['<p>', '<p ', '</p>'], ['<div>', '<div ', '</div>'], $html);
@@ -161,17 +161,17 @@ class HtmlUtils {
             ZZZZZZZZZZ;
     }
 
-    protected function getPrefix($match) {
+    protected function getPrefix(string $match): string {
         $esc_match = preg_quote($match);
         return "<a {$esc_match}href=['\"]mailto:";
     }
 
-    protected function getSubject($match) {
+    protected function getSubject(string $match): string {
         $esc_match = preg_quote($match);
         return "\\?subject={$esc_match}";
     }
 
-    protected function getSuffix($match1, $match2, $match3) {
+    protected function getSuffix(string $match1, string $match2, string $match3): string {
         $esc_match1 = preg_quote($match1);
         $esc_match2 = preg_quote($match2);
         $esc_match3 = preg_quote($match3);

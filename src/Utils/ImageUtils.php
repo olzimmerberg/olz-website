@@ -18,12 +18,12 @@ class ImageUtils {
     ];
 
     public function olzImage(
-        $db_table,
-        $id,
-        $index,
-        $dim,
-        $lightview = 'image',
-        $attrs = '',
+        string $db_table,
+        int|string $id,
+        string $index,
+        int $dim,
+        ?string $lightview = 'image',
+        string $attrs = '',
     ): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
@@ -50,8 +50,8 @@ class ImageUtils {
             $hei = $dim;
             $wid = intval($hei * $swid / $shei);
         }
-        $span_before = $lightview == 'image' ? "<span class='lightgallery'>" : "";
-        $span_after = $lightview == 'image' ? "</span>" : "";
+        $span_before = $lightview === 'image' ? "<span class='lightgallery'>" : "";
+        $span_after = $lightview === 'image' ? "</span>" : "";
         $a_before = $lightview ? "<a href='{$data_href}{$imgfile}' aria-label='Bild vergrössern' data-src='{$data_href}{$imgfile}' onclick='event.stopPropagation()'>" : "";
         $a_after = $lightview ? "</a>" : "";
 

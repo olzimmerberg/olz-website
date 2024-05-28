@@ -5,6 +5,7 @@ namespace Olz\Components\Common\OlzPostingListItem;
 use Olz\Components\Common\OlzComponent;
 
 class OlzPostingListItem extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $icon = $args['icon'] ?? "";
         $date = $args['date'] ?? "";

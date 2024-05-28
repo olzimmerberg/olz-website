@@ -26,6 +26,7 @@ trait LinkEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(Link $entity): array {
         return [
             'name' => $entity->getName(),

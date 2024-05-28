@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Entity\Roles\Role;
+use Olz\Entity\User;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Utils\AuthUtils;
@@ -16,14 +18,14 @@ class FakeAuthUtils extends AuthUtils {
     public $has_permission_by_query = [];
     public $has_role_permission_by_query = [];
 
-    public function authenticate($username_or_email, $password) {
+    public function authenticate(string $username_or_email, string $password): ?User {
         if ($this->authenticate_with_error) {
             throw $this->authenticate_with_error;
         }
         return $this->authenticate_user;
     }
 
-    public function hasPermission($query, $user = null) {
+    public function hasPermission(string $query, ?User $user = null): bool {
         $has_permission = $this->has_permission_by_query[$query] ?? null;
         if ($user !== null && $user->getUsername() === 'no-permission') {
             return false;
@@ -34,7 +36,7 @@ class FakeAuthUtils extends AuthUtils {
         return $has_permission;
     }
 
-    public function hasRolePermission($query, $role) {
+    public function hasRolePermission(string $query, ?Role $role): bool {
         $has_permission = $this->has_role_permission_by_query[$query] ?? null;
         if ($role !== null && $role->getUsername() === 'no-role-permission') {
             return false;
@@ -45,19 +47,19 @@ class FakeAuthUtils extends AuthUtils {
         return $has_permission;
     }
 
-    public function getCurrentUser() {
+    public function getCurrentUser(): ?User {
         return $this->current_user;
     }
 
-    public function getSessionUser() {
+    public function getSessionUser(): ?User {
         return FakeUser::adminUser();
     }
 
-    public function getAuthenticatedRoles($user = null) {
+    public function getAuthenticatedRoles(?User $user = null): ?array {
         return $this->authenticated_roles;
     }
 
-    public function isRoleIdAuthenticated($role_id) {
+    public function isRoleIdAuthenticated(int $role_id): bool {
         if ($role_id === FakeRole::adminRole()->getId()) {
             return true;
         }
@@ -67,11 +69,11 @@ class FakeAuthUtils extends AuthUtils {
         return false;
     }
 
-    public function isUsernameAllowed($username) {
+    public function isUsernameAllowed(string $username): bool {
         return $username !== 'invalid@';
     }
 
-    public function isPasswordAllowed($password) {
+    public function isPasswordAllowed(string $password): bool {
         return strlen($password) >= 8;
     }
 

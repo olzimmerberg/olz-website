@@ -30,6 +30,7 @@ trait SnippetEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(Snippet $entity): array {
         return [
             'text' => $entity->getText() ?? '',

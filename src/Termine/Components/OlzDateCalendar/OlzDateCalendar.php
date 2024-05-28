@@ -5,6 +5,7 @@ namespace Olz\Termine\Components\OlzDateCalendar;
 use Olz\Components\Common\OlzComponent;
 
 class OlzDateCalendar extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
 

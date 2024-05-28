@@ -8,6 +8,7 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\User;
 
 class OlzEmailCard extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $entityManager = $this->dbUtils()->getEntityManager();

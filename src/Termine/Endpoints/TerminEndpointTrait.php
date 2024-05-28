@@ -47,6 +47,7 @@ trait TerminEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(Termin $entity): array {
         $types_for_api = $this->getTypesForApi($entity->getTypes() ?? '');
 

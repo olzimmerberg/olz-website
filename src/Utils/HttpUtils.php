@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 class HttpUtils {
     use WithUtilsTrait;
 
-    public function countRequest(Request $request, $get_params = []) {
+    public function countRequest(Request $request, array $get_params = []): void {
         $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';
         if (
             preg_match('/bingbot/i', $user_agent)
@@ -34,7 +34,7 @@ class HttpUtils {
         $counter_repo->record("{$path}{$pretty_query}");
     }
 
-    public function dieWithHttpError(int $http_status_code) {
+    public function dieWithHttpError(int $http_status_code): void {
         $this->sendHttpResponseCode($http_status_code);
 
         $out = OlzErrorPage::render([
@@ -45,7 +45,7 @@ class HttpUtils {
         $this->exitExecution();
     }
 
-    public function redirect($redirect_url, $http_status_code = 301) {
+    public function redirect(string $redirect_url, int $http_status_code = 301): void {
         $this->sendHttpResponseCode($http_status_code);
         $this->sendHeader("Location: {$redirect_url}");
 
@@ -67,7 +67,11 @@ class HttpUtils {
         $this->exitExecution();
     }
 
-    public function validateGetParams($fields, $get_params = null, $options = []) {
+    public function validateGetParams(
+        array $fields,
+        ?array $get_params = null,
+        array $options = [],
+    ): array {
         if ($get_params === null) {
             $get_params = $this->getParams();
         }
@@ -100,19 +104,19 @@ class HttpUtils {
     // @codeCoverageIgnoreStart
     // Reason: Mock functions for tests.
 
-    protected function sendHttpResponseCode($http_response_code) {
+    protected function sendHttpResponseCode(int $http_response_code): void {
         http_response_code($http_response_code);
     }
 
-    protected function sendHeader($http_header_line) {
+    protected function sendHeader(string $http_header_line): void {
         header($http_header_line);
     }
 
-    protected function sendHttpBody($http_body) {
+    protected function sendHttpBody(string $http_body): void {
         echo $http_body;
     }
 
-    protected function exitExecution() {
+    protected function exitExecution(): void {
         exit('');
     }
 

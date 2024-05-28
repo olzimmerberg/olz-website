@@ -7,6 +7,7 @@ use Olz\Components\Users\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 use Olz\Entity\Roles\Role;
 
 class OlzOrganigramm extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $has_all_permissions = $this->authUtils()->hasPermission('all');
 

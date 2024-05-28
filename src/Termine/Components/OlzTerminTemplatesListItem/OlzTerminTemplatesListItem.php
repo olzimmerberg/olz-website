@@ -16,6 +16,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         'meldeschluss' => 'termine_type_meldeschluss_20.svg',
     ];
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();

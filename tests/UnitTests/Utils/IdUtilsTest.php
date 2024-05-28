@@ -48,7 +48,7 @@ final class IdUtilsTest extends UnitTestCase {
     public function testToExternalId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
         $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
-        $max_id = pow(2, 40) - 1;
+        $max_id = intval(pow(2, 40) - 1);
         $this->assertSame('9AUh0IsXMgc', $id_utils->toExternalId(123));
         $this->assertSame('KvwHIC1COIo', $id_utils->toExternalId(123, 'Test'));
         $this->assertSame('YI/noV3FCIs', $id_utils->toExternalId($max_id));
@@ -59,7 +59,7 @@ final class IdUtilsTest extends UnitTestCase {
         $id_utils = new IdUtilsIdUtilsForTest();
         $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         try {
-            $id_utils->toExternalId(1.25);
+            $id_utils->toExternalId('1.25');
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('Internal ID must be int', $exc->getMessage());
@@ -108,7 +108,7 @@ final class IdUtilsTest extends UnitTestCase {
         $id_utils = new IdUtilsIdUtilsForTest();
         $id_utils->setEnvUtils(new Fake\FakeEnvUtils());
         try {
-            $id_utils->testOnlySerializeId(1.25, '');
+            $id_utils->testOnlySerializeId('1.25', '');
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('Internal ID must be int', $exc->getMessage());

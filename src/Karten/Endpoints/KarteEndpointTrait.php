@@ -37,6 +37,7 @@ trait KarteEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(Karte $entity): array {
         $name = $entity->getName();
         $center_x = $entity->getCenterX();

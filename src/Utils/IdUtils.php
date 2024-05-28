@@ -5,15 +5,15 @@ namespace Olz\Utils;
 class IdUtils {
     use WithUtilsTrait;
 
-    protected $base64Iv = '9V0IXtcQo5o=';
-    protected $algo = 'des-ede-cbc'; // Find one using `composer get_id_algos`
+    protected string $base64Iv = '9V0IXtcQo5o=';
+    protected string $algo = 'des-ede-cbc'; // Find one using `composer get_id_algos`
 
-    public function toExternalId($internal_id, $type = '') {
+    public function toExternalId(int|string $internal_id, string $type = ''): string {
         $serialized_id = $this->serializeId($internal_id, $type);
         return $this->encryptId($serialized_id);
     }
 
-    protected function serializeId($internal_id, $type) {
+    protected function serializeId(int|string $internal_id, string $type): string {
         $int_internal_id = intval($internal_id);
         if (strval($int_internal_id) !== strval($internal_id)) {
             throw new \Exception("Internal ID must be int");
@@ -29,7 +29,7 @@ class IdUtils {
         return hex2bin($type_hash_hex.$id_hex);
     }
 
-    protected function encryptId($serialized_id) {
+    protected function encryptId(string $serialized_id): string {
         $plaintext = $serialized_id;
         $key = $this->envUtils()->getIdEncryptionKey();
         $iv = base64_decode($this->base64Iv);
@@ -40,19 +40,19 @@ class IdUtils {
         return $this->trimmedBase64Encode($ciphertext);
     }
 
-    public function toInternalId($external_id, $type = '') {
+    public function toInternalId(string $external_id, string $type = ''): int {
         $serialized_id = $this->decryptId($external_id);
         return $this->deserializeId($serialized_id, $type);
     }
 
-    protected function decryptId($encrypted_id) {
+    protected function decryptId(string $encrypted_id): string {
         $ciphertext = base64_decode($encrypted_id);
         $key = $this->envUtils()->getIdEncryptionKey();
         $iv = base64_decode($this->base64Iv);
         return openssl_decrypt($ciphertext, $this->algo, $key, OPENSSL_RAW_DATA, $iv);
     }
 
-    protected function deserializeId($serialized_id, $type) {
+    protected function deserializeId(string $serialized_id, string $type): int {
         $type_hash_hex = str_pad(dechex($this->crc16($type)), 4, '0', STR_PAD_LEFT);
         $serialized_id_hex = bin2hex($serialized_id);
         if (substr($serialized_id_hex, 0, 4) !== $type_hash_hex) {
@@ -61,7 +61,7 @@ class IdUtils {
         return hexdec(substr($serialized_id_hex, 4));
     }
 
-    protected function crc16($data) {
+    protected function crc16(string $data): int {
         $crc = 0xFFFF;
         for ($i = 0; $i < strlen($data); $i++) {
             $x = (($crc >> 8) ^ ord($data[$i])) & 0xFF;
@@ -71,7 +71,7 @@ class IdUtils {
         return $crc;
     }
 
-    protected function trimmedBase64Encode($data) {
+    protected function trimmedBase64Encode(string $data): string {
         return trim(base64_encode($data), '=');
     }
 

@@ -7,10 +7,10 @@ use Olz\Fetchers\StravaFetcher;
 class StravaUtils {
     use WithUtilsTrait;
 
-    protected $client_id;
-    protected $client_secret;
-    protected $redirect_url;
-    protected $strava_fetcher;
+    protected ?string $client_id = null;
+    protected ?string $client_secret = null;
+    protected ?string $redirect_url = null;
+    protected ?StravaFetcher $strava_fetcher = null;
 
     public static function fromEnv(): self {
         $env_utils = EnvUtils::fromEnv();
@@ -27,23 +27,23 @@ class StravaUtils {
         return $instance;
     }
 
-    public function setClientId($client_id) {
+    public function setClientId(?string $client_id): void {
         $this->client_id = $client_id;
     }
 
-    public function setClientSecret($client_secret) {
+    public function setClientSecret(?string $client_secret): void {
         $this->client_secret = $client_secret;
     }
 
-    public function setRedirectUrl($redirect_url) {
+    public function setRedirectUrl(?string $redirect_url): void {
         $this->redirect_url = $redirect_url;
     }
 
-    public function setStravaFetcher($strava_fetcher) {
+    public function setStravaFetcher(?StravaFetcher $strava_fetcher): void {
         $this->strava_fetcher = $strava_fetcher;
     }
 
-    public function getAuthUrl() {
+    public function getAuthUrl(): string {
         $strava_auth_url = 'https://www.strava.com/oauth/authorize';
         $data = [
             'client_id' => $this->client_id,
@@ -55,7 +55,7 @@ class StravaUtils {
         return "{$strava_auth_url}?".http_build_query($data);
     }
 
-    public function getTokenDataForCode($code) {
+    public function getTokenDataForCode(string $code): ?array {
         $token_request_data = [
             'client_id' => $this->client_id,
             'client_secret' => $this->client_secret,
@@ -84,7 +84,7 @@ class StravaUtils {
         ];
     }
 
-    public function getUserData($token_data) {
+    public function getUserData(array $token_data): array {
         return $token_data;
     }
 }

@@ -8,13 +8,13 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AbstractDateUtils;
 
 class FakeDateUtils extends AbstractDateUtils {
-    private $fixed_date;
+    private ?int $fixed_date;
 
-    public function __construct($fixed_date) {
-        $this->fixed_date = is_numeric($fixed_date) ? $fixed_date : strtotime($fixed_date);
+    public function __construct(string $fixed_date) {
+        $this->fixed_date = strtotime($fixed_date);
     }
 
-    public function getCurrentDateInFormat($format) {
+    public function getCurrentDateInFormat(string $format): string {
         return date($format, $this->fixed_date);
     }
 }

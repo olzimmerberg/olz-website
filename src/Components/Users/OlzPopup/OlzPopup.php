@@ -5,6 +5,7 @@ namespace Olz\Components\Users\OlzPopup;
 use Olz\Components\Common\OlzComponent;
 
 class OlzPopup extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $trigger = $args['trigger'];
         $popup = $args['popup'];

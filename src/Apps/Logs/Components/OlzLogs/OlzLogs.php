@@ -10,6 +10,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 
 class OlzLogs extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $code_href = $this->envUtils()->getCodeHref();

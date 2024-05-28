@@ -7,9 +7,10 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 
 class OlzHtmlSitemap extends OlzSitemap {
-    public static $title = "Sitemap";
-    public static $description = "Eine Übersicht über alle aktiven Inhalte der Website der OL Zimmerberg.";
+    public static string $title = "Sitemap";
+    public static string $description = "Eine Übersicht über alle aktiven Inhalte der Website der OL Zimmerberg.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
 

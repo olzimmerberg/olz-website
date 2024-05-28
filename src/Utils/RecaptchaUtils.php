@@ -7,9 +7,9 @@ use Olz\Fetchers\GoogleFetcher;
 class RecaptchaUtils {
     use WithUtilsTrait;
 
-    protected static $cache = [];
+    protected static array $cache = [];
 
-    protected $googleFetcher;
+    protected ?GoogleFetcher $googleFetcher = null;
 
     public static function fromEnv(): self {
         $google_fetcher = new GoogleFetcher();
@@ -18,7 +18,7 @@ class RecaptchaUtils {
         return $instance;
     }
 
-    public function setGoogleFetcher($google_fetcher) {
+    public function setGoogleFetcher(GoogleFetcher $google_fetcher): void {
         $this->googleFetcher = $google_fetcher;
     }
 

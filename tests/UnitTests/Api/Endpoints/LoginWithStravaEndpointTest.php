@@ -6,13 +6,14 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\LoginWithStravaEndpoint;
 use Olz\Entity\AuthRequest;
+use Olz\Fetchers\StravaFetcher;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\StravaUtils;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
-class FakeLoginWithStravaEndpointStravaFetcher {
+class FakeLoginWithStravaEndpointStravaFetcher extends StravaFetcher {
     protected $response;
 
     public function __construct($response) {
@@ -113,9 +114,9 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'auth' => null,
             'root' => null,
             'user' => 'user',
-            'user_id' => 1,
+            'user_id' => '1',
             'auth_user' => 'user',
-            'auth_user_id' => 1,
+            'auth_user_id' => '1',
         ], $session->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([

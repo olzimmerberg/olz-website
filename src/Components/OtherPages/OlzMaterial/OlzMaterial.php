@@ -10,9 +10,10 @@ use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
 
 class OlzMaterial extends OlzComponent {
-    public static $title = "Material & Kleider";
-    public static $description = "Material und OLZ-Kleider, die die OL Zimmerberg vermietet bzw. verkauft.";
+    public static string $title = "Material & Kleider";
+    public static string $description = "Material und OLZ-Kleider, die die OL Zimmerberg vermietet bzw. verkauft.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $code_href = $this->envUtils()->getCodeHref();

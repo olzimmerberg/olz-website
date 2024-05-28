@@ -13,9 +13,10 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
 
 class OlzStartseite extends OlzComponent {
-    public static $title = "Startseite";
-    public static $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
+    public static string $title = "Startseite";
+    public static string $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
 

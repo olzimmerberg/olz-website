@@ -9,6 +9,7 @@ use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\User;
 
 class OlzAuthorBadge extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $user = $args['user'] ?? null;
         $role = $args['role'] ?? null;

@@ -8,9 +8,10 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;
 
 class OlzVerein extends OlzComponent {
-    public static $title = "Verein";
-    public static $description = "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.";
+    public static string $title = "Verein";
+    public static string $description = "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
 

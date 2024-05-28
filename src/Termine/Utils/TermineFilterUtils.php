@@ -3,6 +3,7 @@
 namespace Olz\Termine\Utils;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Comparison;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Utils\WithUtilsTrait;
 
@@ -16,6 +17,7 @@ class TermineFilterUtils {
         ['ident' => 'mit', 'name' => "mit Archiv"],
     ];
 
+    /** @var array<array{ident: string, name: string, icon?: string}> */
     public array $allTypeOptions = [];
 
     public function loadTypeOptions(): self {
@@ -49,7 +51,8 @@ class TermineFilterUtils {
         return $this;
     }
 
-    public function getDefaultFilter() {
+    /** @return array{typ: string, datum: string, archiv: string} */
+    public function getDefaultFilter(): array {
         return [
             'typ' => 'alle',
             'datum' => 'bevorstehend',
@@ -57,7 +60,8 @@ class TermineFilterUtils {
         ];
     }
 
-    public function isValidFilter($filter) {
+    /** @param array{typ?: string, datum?: string, archiv?: string} $filter */
+    public function isValidFilter(array $filter): bool {
         $has_correct_type = (
             isset($filter['typ'])
             && array_filter(
@@ -88,7 +92,12 @@ class TermineFilterUtils {
         return $has_correct_type && $has_correct_date_range && $has_correct_archive;
     }
 
-    public function getValidFilter($filter) {
+    /**
+     * @param array{typ?: string, datum?: string, archiv?: string} $filter
+     *
+     * @return array{typ: string, datum: string, archiv: string}
+     */
+    public function getValidFilter(array $filter): array {
         $default_filter = $this->getDefaultFilter();
         $merged_filter = [];
         foreach ($default_filter as $key => $default_value) {
@@ -97,7 +106,8 @@ class TermineFilterUtils {
         return $this->isValidFilter($merged_filter) ? $merged_filter : $default_filter;
     }
 
-    public function getAllValidFiltersForSitemap() {
+    /** @return array<array{typ: string, datum: string, archiv: string}> */
+    public function getAllValidFiltersForSitemap(): array {
         $all_valid_filters = [];
         foreach ($this->allTypeOptions as $type_option) {
             $date_range_options = $this->getDateRangeOptions(['archiv' => 'ohne']);
@@ -112,7 +122,12 @@ class TermineFilterUtils {
         return $all_valid_filters;
     }
 
-    public function getUiTypeFilterOptions($filter) {
+    /**
+     * @param array{typ: string, datum: string, archiv: string} $filter
+     *
+     * @return array<array{selected: bool, new_filter: array{typ: string, datum: string, archiv: string}, name: string, icon: ?string, ident: string}>
+     */
+    public function getUiTypeFilterOptions(array $filter): array {
         return array_map(function ($type_option) use ($filter) {
             $new_filter = $filter;
             $new_filter['typ'] = $type_option['ident'];
@@ -126,7 +141,12 @@ class TermineFilterUtils {
         }, $this->allTypeOptions);
     }
 
-    public function getUiDateRangeFilterOptions($filter) {
+    /**
+     * @param array{typ: string, datum: string, archiv: string} $filter
+     *
+     * @return array<array{selected: bool, new_filter: array{typ: string, datum: string, archiv: string}, name: string, ident: string}>
+     */
+    public function getUiDateRangeFilterOptions(array $filter): array {
         return array_map(function ($date_range_option) use ($filter) {
             $new_filter = $filter;
             $new_filter['datum'] = $date_range_option['ident'];
@@ -139,7 +159,12 @@ class TermineFilterUtils {
         }, $this->getDateRangeOptions($filter));
     }
 
-    public function getUiArchiveFilterOptions($filter) {
+    /**
+     * @param array{typ: string, datum: string, archiv: string} $filter
+     *
+     * @return array<array{selected: bool, new_filter: array{typ: string, datum: string, archiv: string}, name: string, ident: string}>
+     */
+    public function getUiArchiveFilterOptions(array $filter): array {
         return array_map(function ($archive_option) use ($filter) {
             $new_filter = $filter;
             $new_filter['archiv'] = $archive_option['ident'];
@@ -152,8 +177,13 @@ class TermineFilterUtils {
         }, TermineFilterUtils::ALL_ARCHIVE_OPTIONS);
     }
 
-    public function getDateRangeOptions($filter = []) {
-        $include_archive = ($filter['archiv'] ?? null) === 'mit';
+    /**
+     * @param array{typ?: string, datum?: string, archiv: string} $filter
+     *
+     * @return array<array{ident: string, name: string}>
+     */
+    public function getDateRangeOptions(array $filter): array {
+        $include_archive = $filter['archiv'] === 'mit';
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $first_year = $include_archive ? 2006 : $current_year - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [
@@ -166,7 +196,8 @@ class TermineFilterUtils {
         return $options;
     }
 
-    public function getSqlDateRangeFilter($filter, $tbl = 't') {
+    /** @param array{typ: string, datum: string, archiv: string} $filter */
+    public function getSqlDateRangeFilter(array $filter, string $tbl = 't'): string {
         if (!$this->isValidFilter($filter)) {
             return "'1'='0'";
         }
@@ -184,7 +215,8 @@ class TermineFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    public function getSqlTypeFilter($filter, $tbl = 't') {
+    /** @param array{typ: string, datum: string, archiv: string} $filter */
+    public function getSqlTypeFilter(array $filter, string $tbl = 't'): string {
         if (!$this->isValidFilter($filter)) {
             return "'1'='0'";
         }
@@ -206,7 +238,8 @@ class TermineFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    public function getTitleFromFilter($filter) {
+    /** @param array{typ: string, datum: string, archiv: string} $filter */
+    public function getTitleFromFilter(array $filter): string {
         if (!$this->isValidFilter($filter)) {
             return "Termine";
         }
@@ -240,7 +273,8 @@ class TermineFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    private function getDateFilterTitleYearSuffix($filter) {
+    /** @param array{typ: string, datum: string, archiv: string} $filter */
+    private function getDateFilterTitleYearSuffix(array $filter): string {
         if ($filter['datum'] == 'bevorstehend') {
             return "";
         }
@@ -255,19 +289,21 @@ class TermineFilterUtils {
         return " {$year}";
     }
 
-    private function getArchiveFilterTitleSuffix($filter) {
+    /** @param array{typ: string, datum: string, archiv: string} $filter */
+    private function getArchiveFilterTitleSuffix(array $filter): string {
         if ($filter['archiv'] === 'mit') {
             return " (Archiv)";
         }
         return "";
     }
 
-    public function isFilterNotArchived($filter) {
-        return ($filter['archiv'] ?? null) === 'ohne';
+    /** @param array{typ?: string, datum?: string, archiv: string} $filter */
+    public function isFilterNotArchived(array $filter): bool {
+        return $filter['archiv'] === 'ohne';
     }
 
-    public function getIsNotArchivedCriteria() {
-        $years_ago = $this->dateUtils()->getCurrentDateInFormat('Y') - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
+    public function getIsNotArchivedCriteria(): Comparison {
+        $years_ago = intval($this->dateUtils()->getCurrentDateInFormat('Y')) - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
         $beginning_of_years_ago = "{$years_ago}-01-01";
         return Criteria::expr()->gte('start_date', new \DateTime($beginning_of_years_ago));
     }

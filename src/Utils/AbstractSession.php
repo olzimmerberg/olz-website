@@ -3,15 +3,15 @@
 namespace Olz\Utils;
 
 abstract class AbstractSession {
-    abstract public function resetConfigure($config);
+    abstract public function resetConfigure(array $config): void;
 
-    abstract public function has($key);
+    abstract public function has(string $key): bool;
 
-    abstract public function get($key);
+    abstract public function get(string $key): ?string;
 
-    abstract public function set($key, $new_value);
+    abstract public function set(string $key, ?string $new_value): void;
 
-    abstract public function delete($key);
+    abstract public function delete(string $key): void;
 
-    abstract public function clear();
+    abstract public function clear(): void;
 }

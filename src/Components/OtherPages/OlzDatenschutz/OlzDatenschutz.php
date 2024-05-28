@@ -10,9 +10,10 @@ use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
 
 class OlzDatenschutz extends OlzComponent {
-    public static $title = "Datenschutz";
-    public static $description = "Die Datenschutzerklärung der OL Zimmerberg.";
+    public static string $title = "Datenschutz";
+    public static string $description = "Die Datenschutzerklärung der OL Zimmerberg.";
 
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $entityManager = $this->dbUtils()->getEntityManager();

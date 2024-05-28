@@ -5,6 +5,7 @@ namespace Olz\Components\Users\OlzUserInfoCard;
 use Olz\Components\Common\OlzComponent;
 
 class OlzUserInfoCard extends OlzComponent {
+    /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $user = $args['user'];
 

@@ -14,11 +14,11 @@ class AuthUtils {
 
     public const MAX_LOOP = 5;
 
-    protected $cached_permission_map_by_user = [];
-    protected $cached_permission_map_by_role = [];
-    protected $cached_users = [];
+    protected array $cached_permission_map_by_user = [];
+    protected array $cached_permission_map_by_role = [];
+    protected array $cached_users = [];
 
-    public function authenticate($username_or_email, $password) {
+    public function authenticate(string $username_or_email, string $password): ?User {
         $ip_address = $this->server()['REMOTE_ADDR'];
         $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
 
@@ -48,7 +48,7 @@ class AuthUtils {
         return $user;
     }
 
-    public function validateAccessToken($access_token) {
+    public function validateAccessToken(string $access_token): ?User {
         $ip_address = $this->server()['REMOTE_ADDR'];
         $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
 
@@ -93,7 +93,7 @@ class AuthUtils {
         return $user;
     }
 
-    public function resolveUsernameOrEmail($username_or_email) {
+    public function resolveUsernameOrEmail(string $username_or_email): ?User {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['username' => $username_or_email]);
         if (!$user) {
@@ -116,7 +116,7 @@ class AuthUtils {
         return $user;
     }
 
-    public function hasPermission($query, $user = null) {
+    public function hasPermission(string $query, ?User $user = null): bool {
         if (!$user) {
             $user = $this->getCurrentUser();
         }
@@ -130,12 +130,12 @@ class AuthUtils {
         return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
     }
 
-    public function hasUserPermission($query, $user) {
+    public function hasUserPermission(string $query, ?User $user): bool {
         $permission_map = $this->getUserPermissionMap($user);
         return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
     }
 
-    protected function getUserPermissionMap($user) {
+    protected function getUserPermissionMap(?User $user): array {
         if (!$user) {
             return ['any' => false];
         }
@@ -153,12 +153,12 @@ class AuthUtils {
         return $permission_map;
     }
 
-    public function hasRolePermission($query, $role) {
+    public function hasRolePermission(string $query, ?Role $role): bool {
         $permission_map = $this->getRolePermissionMap($role);
         return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
     }
 
-    protected function getRolePermissionMap($role) {
+    protected function getRolePermissionMap(?Role $role): array {
         if (!$role) {
             return ['any' => false];
         }
@@ -176,7 +176,7 @@ class AuthUtils {
         return $permission_map;
     }
 
-    public function getCurrentUser() {
+    public function getCurrentUser(): ?User {
         $user = $this->getTokenUser();
         if ($user) {
             return $user;
@@ -184,11 +184,11 @@ class AuthUtils {
         return $this->getSessionUser();
     }
 
-    public function getCurrentAuthUser() {
+    public function getCurrentAuthUser(): ?User {
         return $this->getSessionAuthUser();
     }
 
-    public function getTokenUser() {
+    public function getTokenUser(): ?User {
         $access_token = $this->getParams()['access_token'] ?? null;
         if (!$access_token) {
             return null;
@@ -200,17 +200,17 @@ class AuthUtils {
         }
     }
 
-    public function getSessionUser() {
+    public function getSessionUser(): ?User {
         $username = $this->session()->get('user');
         return $this->getUserByUsername($username);
     }
 
-    public function getSessionAuthUser() {
+    public function getSessionAuthUser(): ?User {
         $auth_username = $this->session()->get('auth_user');
         return $this->getUserByUsername($auth_username);
     }
 
-    private function getUserByUsername(?string $username) {
+    private function getUserByUsername(?string $username): ?User {
         if (!$username) {
             return null;
         }
@@ -226,7 +226,7 @@ class AuthUtils {
         return $fetched_user;
     }
 
-    public function getAuthenticatedRoles($user = null) {
+    public function getAuthenticatedRoles(?User $user = null): ?array {
         if (!$user) {
             $user = $this->getCurrentUser();
         }
@@ -236,7 +236,7 @@ class AuthUtils {
         return [...$user->getRoles()];
     }
 
-    public function isRoleIdAuthenticated($role_id) {
+    public function isRoleIdAuthenticated(int $role_id): bool {
         $authenticated_roles = $this->getAuthenticatedRoles() ?? [];
         foreach ($authenticated_roles as $authenticated_role) {
             if ($authenticated_role->getId() === $role_id) {
@@ -246,7 +246,7 @@ class AuthUtils {
         return false;
     }
 
-    public function hasRoleEditPermission($role_id = null) {
+    public function hasRoleEditPermission(?int $role_id = null): bool {
         $user = $this->getCurrentUser();
         if ($this->hasPermission('roles', $user)) {
             return true;
@@ -270,11 +270,11 @@ class AuthUtils {
         return false;
     }
 
-    public function isUsernameAllowed($username) {
+    public function isUsernameAllowed(string $username): bool {
         return preg_match('/^[a-zA-Z0-9-_\\.]+$/', $username) ? true : false;
     }
 
-    public function isPasswordAllowed($password) {
+    public function isPasswordAllowed(string $password): bool {
         return strlen($password) >= 8;
     }
 

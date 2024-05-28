@@ -36,6 +36,7 @@ trait RegistrationEndpointTrait {
         ]);
     }
 
+    /** @return array<string, mixed> */
     public function getEntityData(Registration $entity): array {
         $infos = [];
         $registration_info_repo = $this->entityManager()->getRepository(RegistrationInfo::class);

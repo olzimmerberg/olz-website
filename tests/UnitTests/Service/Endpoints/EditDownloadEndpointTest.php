@@ -97,7 +97,7 @@ final class EditDownloadEndpointTest extends UnitTestCase {
             'meta' => [
                 'ownerUserId' => null,
                 'ownerRoleId' => null,
-                'onOff' => false,
+                'onOff' => true,
             ],
             'data' => [
                 'name' => 'Fake Download',
@@ -159,8 +159,8 @@ final class EditDownloadEndpointTest extends UnitTestCase {
         $this->assertSame([
             'id' => 1234,
             'meta' => [
-                'ownerUserId' => null,
-                'ownerRoleId' => null,
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
                 'onOff' => true,
             ],
             'data' => [

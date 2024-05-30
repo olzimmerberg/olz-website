@@ -69,10 +69,6 @@ class FakeAuthUtils extends AuthUtils {
         return false;
     }
 
-    public function isUsernameAllowed(string $username): bool {
-        return $username !== 'invalid@';
-    }
-
     public function isPasswordAllowed(string $password): bool {
         return strlen($password) >= 8;
     }

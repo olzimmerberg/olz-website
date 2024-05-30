@@ -46,14 +46,14 @@ trait RoleEndpointTrait {
             'username' => $entity->getUsername() ? $entity->getUsername() : '-',
             'name' => $entity->getName() ? $entity->getName() : '-',
             'title' => $entity->getTitle() ? $entity->getTitle() : null,
-            'description' => $entity->getDescription() ?? '',
-            'guide' => $entity->getGuide() ?? '',
+            'description' => $entity->getDescription(),
+            'guide' => $entity->getGuide(),
             'imageIds' => $entity->getStoredImageUploadIds(),
             'fileIds' => $entity->getStoredFileUploadIds(),
             'parentRole' => $entity->getParentRoleId() ?? null,
             'indexWithinParent' => ($entity->getIndexWithinParent() ?? -1) < 0 ? null : $entity->getIndexWithinParent(),
             'featuredIndex' => $entity->getFeaturedIndex() ?? null,
-            'canHaveChildRoles' => $entity->getCanHaveChildRoles() ?? false,
+            'canHaveChildRoles' => $entity->getCanHaveChildRoles(),
         ];
     }
 

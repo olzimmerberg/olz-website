@@ -59,7 +59,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $last_name = $input['lastName'];
         $username = $input['username'];
         $email = $input['email'];
-        $this->log()->info("New sign-up (using password): {$first_name} {$last_name} ({$username})");
+        $this->log()->info("New sign-up (using password): {$first_name} {$last_name} ({$username}@) <{$email}>");
         if (!$parent_user && !$email) {
             throw new ValidationError(['email' => ["Feld darf nicht leer sein."]]);
         }
@@ -109,6 +109,7 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
         $birthdate = $input['birthdate'] ? new \DateTime($input['birthdate'].' 12:00:00') : null;
 
         $user->setUsername($username);
+        $user->setOldUsername(null);
         $user->setEmail($email);
         $user->setEmailIsVerified(false);
         $user->setEmailVerificationToken(null);
@@ -152,9 +153,9 @@ class SignUpWithPasswordEndpoint extends OlzEndpoint {
             $this->session()->set('auth', $user->getPermissions());
             $this->session()->set('root', $root);
             $this->session()->set('user', $user->getUsername());
-            $this->session()->set('user_id', $user->getId());
+            $this->session()->set('user_id', "{$user->getId()}");
             $this->session()->set('auth_user', $user->getUsername());
-            $this->session()->set('auth_user_id', $user->getId());
+            $this->session()->set('auth_user_id', "{$user->getId()}");
             $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_PASSWORD', $user->getUsername());
 
             $this->emailUtils()->setLogger($this->log());

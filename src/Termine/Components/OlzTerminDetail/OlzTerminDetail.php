@@ -91,7 +91,7 @@ class OlzTerminDetail extends OlzComponent {
             <div class='content-middle'>
             ZZZZZZZZZZ;
 
-        $start_date = $termin->getStartDate() ?? null;
+        $start_date = $termin->getStartDate();
         $end_date = $termin->getEndDate() ?? null;
         $start_time = $termin->getStartTime() ?? null;
         $end_time = $termin->getEndTime() ?? null;
@@ -158,7 +158,7 @@ class OlzTerminDetail extends OlzComponent {
 
         $out .= "<div class='preview'>";
         // Bild anzeigen
-        if ($image_ids && count($image_ids) > 0) {
+        if (count($image_ids) > 0) {
             $out .= $this->imageUtils()->olzImage(
                 'termine',
                 $id,
@@ -210,7 +210,7 @@ class OlzTerminDetail extends OlzComponent {
 
         // Date & Title
         $pretty_date = $this->dateUtils()->formatDateTimeRange(
-            $start_date?->format('Y-m-d'),
+            $start_date->format('Y-m-d'),
             $start_time?->format('H:i:s'),
             $end_date?->format('Y-m-d'),
             $end_time?->format('H:i:s'),

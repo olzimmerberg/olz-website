@@ -71,7 +71,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
             $icon = "{$code_href}assets/icns/{$icon_basename}";
             $image = '';
             $is_image_right = ($index % 2) === 1;
-            if (count($image_ids ?? []) > 0) {
+            if (count($image_ids) > 0) {
                 $olz_image = $this->imageUtils()->olzImage(
                     'news',
                     $id,

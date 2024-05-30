@@ -9,88 +9,89 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 
 #[ORM\MappedSuperclass]
 class OlzEntity {
-    #[ORM\Column(type: 'integer', options: ['default' => 1])]
-    protected $on_off;
+    #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 1])]
+    protected int $on_off;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'owner_user_id', referencedColumnName: 'id', nullable: true)]
-    protected $owner_user;
+    protected ?User $owner_user;
 
     #[ORM\ManyToOne(targetEntity: Role::class)]
     #[ORM\JoinColumn(name: 'owner_role_id', referencedColumnName: 'id', nullable: true)]
-    protected $owner_role;
+    protected ?Role $owner_role;
 
-    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    protected $created_at;
+    #[ORM\Column(type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    protected \DateTime $created_at;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'created_by_user_id', referencedColumnName: 'id', nullable: true)]
-    protected $created_by_user;
+    protected ?User $created_by_user;
 
-    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    protected $last_modified_at;
+    #[ORM\Column(type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    protected \DateTime $last_modified_at;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'last_modified_by_user_id', referencedColumnName: 'id', nullable: true)]
-    protected $last_modified_by_user;
+    protected ?User $last_modified_by_user;
 
-    public function getOnOff() {
+    public function getOnOff(): int {
         return $this->on_off;
     }
 
-    public function setOnOff($new_on_off) {
-        $this->on_off = $new_on_off;
+    public function setOnOff(int $new_value): void {
+        $this->on_off = $new_value;
     }
 
-    public function getOwnerUser() {
+    public function getOwnerUser(): ?User {
         return $this->owner_user;
     }
 
-    public function setOwnerUser($new_owner_user) {
-        $this->owner_user = $new_owner_user;
+    public function setOwnerUser(?User $new_value): void {
+        $this->owner_user = $new_value;
     }
 
-    public function getOwnerRole() {
+    public function getOwnerRole(): ?Role {
         return $this->owner_role;
     }
 
-    public function setOwnerRole($new_owner_role) {
-        $this->owner_role = $new_owner_role;
+    public function setOwnerRole(?Role $new_value): void {
+        $this->owner_role = $new_value;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt(): \DateTime {
         return $this->created_at;
     }
 
-    public function setCreatedAt($new_created_at) {
-        $this->created_at = $new_created_at;
+    public function setCreatedAt(\DateTime $new_value): void {
+        $this->created_at = $new_value;
     }
 
-    public function getCreatedByUser() {
+    public function getCreatedByUser(): ?User {
         return $this->created_by_user;
     }
 
-    public function setCreatedByUser($new_created_by_user) {
-        $this->created_by_user = $new_created_by_user;
+    public function setCreatedByUser(?User $new_value): void {
+        $this->created_by_user = $new_value;
     }
 
-    public function getLastModifiedAt() {
+    public function getLastModifiedAt(): \DateTime {
         return $this->last_modified_at;
     }
 
-    public function setLastModifiedAt($new_last_modified_at) {
-        $this->last_modified_at = $new_last_modified_at;
+    public function setLastModifiedAt(\DateTime $new_value): void {
+        $this->last_modified_at = $new_value;
     }
 
-    public function getLastModifiedByUser() {
+    public function getLastModifiedByUser(): ?User {
         return $this->last_modified_by_user;
     }
 
-    public function setLastModifiedByUser($new_last_modified_by_user) {
-        $this->last_modified_by_user = $new_last_modified_by_user;
+    public function setLastModifiedByUser(?User $new_value): void {
+        $this->last_modified_by_user = $new_value;
     }
 
-    public function getMetaData() {
+    /** @return array{ownerUserId: ?int, ownerRoleId: ?int, onOff: bool} */
+    public function getMetaData(): array {
         $owner_user = $this->getOwnerUser();
         $owner_role = $this->getOwnerRole();
         return [
@@ -100,7 +101,7 @@ class OlzEntity {
         ];
     }
 
-    public static function getMetaField(bool $allow_null) {
+    public static function getMetaField(bool $allow_null): FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'export_as' => $allow_null ? 'OlzMetaDataOrNull' : 'OlzMetaData',
             'field_structure' => [

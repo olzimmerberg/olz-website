@@ -26,11 +26,7 @@ final class UserTest extends UnitTestCase {
         $user = new User();
         $user->setPermissions(' ');
         $this->assertSame([], $user->getPermissionMap());
-    }
-
-    public function testUserGetPermissionMapNull(): void {
-        $user = new User();
-        $user->setPermissions(null);
+        $user->setPermissions('');
         $this->assertSame([], $user->getPermissionMap());
     }
 

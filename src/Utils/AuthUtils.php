@@ -299,8 +299,8 @@ class AuthUtils {
         if (count($user_images) > 0) {
             return $user_images;
         }
-        $first_initial = mb_substr($user->getFirstName() ?? '?', 0, 1);
-        $last_initial = mb_substr($user->getLastName() ?? '?', 0, 1);
+        $first_initial = mb_substr($user->getFirstName(), 0, 1);
+        $last_initial = mb_substr($user->getLastName(), 0, 1);
         $initials_enc = urlencode(strtoupper("{$first_initial}{$last_initial}"));
         return ['1x' => "{$code_href}assets/user_initials_{$initials_enc}.svg"];
     }

@@ -131,8 +131,8 @@ final class GetKarteEndpointTest extends UnitTestCase {
         $this->assertSame([
             'id' => 1234,
             'meta' => [
-                'ownerUserId' => null,
-                'ownerRoleId' => null,
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
                 'onOff' => true,
             ],
             'data' => [

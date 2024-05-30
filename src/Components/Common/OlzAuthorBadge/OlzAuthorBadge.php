@@ -46,6 +46,7 @@ class OlzAuthorBadge extends OlzComponent {
                 $user->setFirstName($name);
                 $user->setLastName(' ');
                 $user->setEmail($email);
+                $user->setPermissions('');
                 $popup = OlzUserInfoCard::render(['user' => $user]);
             }
         }

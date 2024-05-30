@@ -20,72 +20,79 @@ class TerminLocation extends OlzEntity implements SearchableInterface, DataStora
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 127, nullable: false)]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $details;
+    private ?string $details;
 
     #[ORM\Column(type: 'float', nullable: false)]
-    private $latitude;
+    private float $latitude;
 
     #[ORM\Column(type: 'float', nullable: false)]
-    private $longitude;
+    private float $longitude;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $image_ids;
+    private ?string $image_ids;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName($new_value) {
+    public function setName(string $new_value): void {
         $this->name = $new_value;
     }
 
-    public function getDetails() {
+    public function getDetails(): ?string {
         return $this->details;
     }
 
-    public function setDetails($new_value) {
+    public function setDetails(?string $new_value): void {
         $this->details = $new_value;
     }
 
-    public function getLatitude() {
+    public function getLatitude(): float {
         return $this->latitude;
     }
 
-    public function setLatitude($new_value) {
+    public function setLatitude(float $new_value): void {
         $this->latitude = $new_value;
     }
 
-    public function getLongitude() {
+    public function getLongitude(): float {
         return $this->longitude;
     }
 
-    public function setLongitude($new_value) {
+    public function setLongitude(float $new_value): void {
         $this->longitude = $new_value;
     }
 
-    public function getImageIds() {
+    /** @return array<string> */
+    public function getImageIds(): array {
         if ($this->image_ids == null) {
-            return null;
+            return [];
         }
-        return json_decode($this->image_ids, true);
+        $array = json_decode($this->image_ids, true);
+        return is_array($array) ? $array : [];
     }
 
-    public function setImageIds($new_value) {
-        $this->image_ids = json_encode($new_value);
+    /** @param array<string> $new_value */
+    public function setImageIds(array $new_value): void {
+        $enc_value = json_encode($new_value);
+        if (!$enc_value) {
+            return;
+        }
+        $this->image_ids = $enc_value;
     }
 
     // ---
@@ -95,7 +102,7 @@ class TerminLocation extends OlzEntity implements SearchableInterface, DataStora
     }
 
     public function getIdForSearch(): int {
-        return $this->getId();
+        return $this->getId() ?? 0;
     }
 
     public static function getCriteriaForQuery(string $query): Expression {

@@ -6,6 +6,7 @@ namespace Olz\Tests\Fake\Entity;
 
 use Olz\Entity\User;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 
 class FakeUser extends FakeEntity {
@@ -53,6 +54,7 @@ class FakeUser extends FakeEntity {
                 $entity->setLastName('Mitglied');
                 $entity->setUsername('vorstand');
                 $entity->setEmail('vorstand-user@staging.olzimmerberg.ch');
+                $entity->setParentUserId(null);
                 $entity->setPasswordHash(md5('v0r57and')); // just for test
                 $entity->setPermissions('aktuell ftp vorstand_user');
                 $entity->setRoot('vorstand');
@@ -88,6 +90,7 @@ class FakeUser extends FakeEntity {
             $fresh,
             function () {
                 $entity = new User();
+                FakeOlzEntity::maximal($entity);
                 $entity->setId(5);
                 $entity->setFirstName('Kind');
                 $entity->setLastName('Eins');
@@ -129,12 +132,24 @@ class FakeUser extends FakeEntity {
                 $entity->setId(1);
                 $entity->setFirstName('Default');
                 $entity->setLastName('User');
-                $entity->setUsername('user');
+                $entity->setUsername('default');
                 $entity->setEmail('default-user@staging.olzimmerberg.ch');
                 $entity->setEmailIsVerified(false);
                 $entity->setEmailVerificationToken('defaulttoken');
                 $entity->setPasswordHash(md5('u53r')); // just for test
+                $entity->setPermissions('default');
+                $entity->setRoot(null);
                 $entity->setParentUserId(2);
+                $entity->setPhone('+0815');
+                $entity->setGender('F');
+                $entity->setBirthdate(new \DateTime('1970-01-01'));
+                $entity->setStreet('Hauptstrasse 1');
+                $entity->setPostalCode('0815');
+                $entity->setRegion('XX');
+                $entity->setCity('Muster');
+                $entity->setCountryCode('CH');
+                $entity->setSiCardNumber('8150815');
+                $entity->setSolvNumber('D3F4UL7');
                 return $entity;
             }
         );

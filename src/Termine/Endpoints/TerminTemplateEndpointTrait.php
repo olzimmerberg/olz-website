@@ -58,7 +58,7 @@ trait TerminTemplateEndpointTrait {
             'newsletter' => $entity->getNewsletter(),
             'types' => $types_for_api,
             'locationId' => $entity->getLocation()?->getId(),
-            'imageIds' => $entity->getImageIds() ?? [],
+            'imageIds' => $entity->getImageIds(),
             'fileIds' => $file_ids,
         ];
     }

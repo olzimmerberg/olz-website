@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
@@ -29,8 +29,6 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $entity_manager->repositories[SolvEvent::class]->entitiesToBeMatched = [];
         $entity_manager->repositories[Termin::class]->entitiesToBeMatched = [];
-        $user = new User();
-        $user->setFirstName('First');
 
         $job = new DeadlineWarningGetter();
 
@@ -40,15 +38,14 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
     }
 
     public function testDeadlineWarningGetter(): void {
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new DeadlineWarningGetter();
 
         $notification = $job->getDeadlineWarningNotification(['days' => 3]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Folgende Meldeschlüsse stehen bevor:
 

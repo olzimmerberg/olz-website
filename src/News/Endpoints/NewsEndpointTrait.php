@@ -57,7 +57,7 @@ trait NewsEndpointTrait {
         $author_email = $entity->getAuthorEmail();
         $published_date = $entity->getPublishedDate()->format('Y-m-d');
         $published_time = $entity->getPublishedTime()?->format('H:i:s') ?? '00:00:00';
-        $tags_for_api = $this->getTagsForApi($entity->getTags() ?? '');
+        $tags_for_api = $this->getTagsForApi($entity->getTags());
         $external_url = $entity->getExternalUrl();
         $termin_id = $entity->getTermin();
 
@@ -125,7 +125,7 @@ trait NewsEndpointTrait {
         $entity->setTermin(0);
         $entity->setCounter(0);
         $entity->setFormat($this->getFormat($input_data['format']));
-        $entity->setNewsletter(1);
+        $entity->setNewsletter(true);
     }
 
     public function persistUploads(NewsEntry $entity, array $input_data): void {

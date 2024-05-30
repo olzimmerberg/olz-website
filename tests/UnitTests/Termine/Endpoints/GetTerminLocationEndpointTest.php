@@ -62,8 +62,8 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
             'data' => [
                 'name' => 'Fake title',
                 'details' => '',
-                'latitude' => 0,
-                'longitude' => 0,
+                'latitude' => 0.0,
+                'longitude' => 0.0,
                 'imageIds' => [],
             ],
         ], $result);
@@ -92,8 +92,8 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
             'data' => [
                 'name' => 'Cannot be empty',
                 'details' => '',
-                'latitude' => 0,
-                'longitude' => 0,
+                'latitude' => 0.0,
+                'longitude' => 0.0,
                 'imageIds' => [],
             ],
         ], $result);
@@ -121,8 +121,8 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
         $this->assertSame([
             'id' => 1234,
             'meta' => [
-                'ownerUserId' => null,
-                'ownerRoleId' => null,
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
                 'onOff' => true,
             ],
             'data' => [

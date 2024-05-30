@@ -734,9 +734,9 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $user = FakeUser::adminUser();
         $user->setFirstName("Özdemir");
-        $user->setLastName(null);
+        $user->setLastName('Äbersold');
         $this->assertSame(
-            ['1x' => '/_/assets/user_initials_%C3%96%3F.svg'],
+            ['1x' => '/_/assets/user_initials_%C3%96%C3%84.svg'],
             $auth_utils->getUserAvatar($user)
         );
     }

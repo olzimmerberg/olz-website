@@ -10,59 +10,59 @@ use Olz\Repository\AuthRequestRepository;
 #[ORM\Entity(repositoryClass: AuthRequestRepository::class)]
 class AuthRequest {
     #[ORM\Column(type: 'string', length: 40, nullable: false)]
-    public $ip_address;
+    public string $ip_address;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    public $timestamp;
+    public ?\DateTime $timestamp;
 
     #[ORM\Column(type: 'string', length: 31, nullable: false)]
-    public $action;
+    public string $action;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    public $username;
+    public string $username;
 
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_id) {
+    public function setId(int $new_id): void {
         $this->id = $new_id;
     }
 
-    public function getIpAddress() {
+    public function getIpAddress(): string {
         return $this->ip_address;
     }
 
-    public function setIpAddress($new_ip_address) {
+    public function setIpAddress(string $new_ip_address): void {
         $this->ip_address = $new_ip_address;
     }
 
-    public function getTimestamp() {
+    public function getTimestamp(): ?\DateTime {
         return $this->timestamp;
     }
 
-    public function setTimestamp($new_timestamp) {
+    public function setTimestamp(?\DateTime $new_timestamp): void {
         $this->timestamp = $new_timestamp;
     }
 
-    public function getAction() {
+    public function getAction(): string {
         return $this->action;
     }
 
-    public function setAction($new_action) {
+    public function setAction(string $new_action): void {
         $this->action = $new_action;
     }
 
-    public function getUsername() {
+    public function getUsername(): string {
         return $this->username;
     }
 
-    public function setUsername($new_username) {
+    public function setUsername(string $new_username): void {
         $this->username = $new_username;
     }
 }

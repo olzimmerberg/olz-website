@@ -41,6 +41,9 @@ class OlzKartenList extends OlzComponent {
 
         while ($row = $result->fetch_assoc()) {
             $karte = new Karte();
+            $karte->setOwnerUser(null);
+            $karte->setOwnerRole(null);
+            $karte->setOnOff(1);
             $karte->setId($row['id']);
             $karte->setKartenNr($row['kartennr'] ? $row['kartennr'] : null);
             $karte->setName($row['name']);

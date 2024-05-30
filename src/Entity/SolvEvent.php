@@ -17,66 +17,67 @@ class SolvEvent implements SearchableInterface {
 
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $solv_uid;
+    private int $solv_uid;
 
     #[ORM\Column(type: 'date', nullable: false)]
-    private $date;
+    private \DateTime $date;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $duration;
+    private int $duration;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $kind;
+    private string $kind;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $day_night;
+    private string $day_night;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $national;
+    private int $national;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $region;
+    private string $region;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $type;
+    private string $type;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $link;
+    private string $link;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $club;
+    private string $club;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $map;
+    private string $map;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $location;
+    private string $location;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $coord_x;
+    private int $coord_x;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $coord_y;
+    private int $coord_y;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    private $deadline;
+    private ?\DateTime $deadline;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $entryportal;
+    private int $entryportal;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $start_link;
+    private ?string $start_link;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $rank_link;
+    private ?string $rank_link;
 
     #[ORM\Column(type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private $last_modification;
+    private \DateTime $last_modification;
 
-    private $valid_field_names = [
+    /** @var array<string, true> */
+    private array $valid_field_names = [
         'solv_uid' => true,
         'date' => true,
         'duration' => true,
@@ -100,178 +101,178 @@ class SolvEvent implements SearchableInterface {
     ];
     // PRIMARY KEY (`solv_uid`)
 
-    public function getSolvUid() {
+    public function getSolvUid(): int {
         return $this->solv_uid;
     }
 
-    public function setSolvUid($new_solv_uid) {
-        $this->solv_uid = $new_solv_uid;
+    public function setSolvUid(int $new_value): void {
+        $this->solv_uid = $new_value;
     }
 
-    public function getDate() {
+    public function getDate(): \DateTime {
         return $this->date;
     }
 
-    public function setDate($new_date) {
-        $this->date = $this->dateUtils()->sanitizeDateValue($new_date);
+    public function setDate(\DateTime $new_value): void {
+        $this->date = $new_value;
     }
 
-    public function getDuration() {
+    public function getDuration(): int {
         return $this->duration;
     }
 
-    public function setDuration($new_duration) {
-        $this->duration = $new_duration;
+    public function setDuration(int $new_value): void {
+        $this->duration = $new_value;
     }
 
-    public function getKind() {
+    public function getKind(): string {
         return $this->kind;
     }
 
-    public function setKind($new_kind) {
-        $this->kind = $new_kind;
+    public function setKind(string $new_value): void {
+        $this->kind = $new_value;
     }
 
-    public function getDayNight() {
+    public function getDayNight(): string {
         return $this->day_night;
     }
 
-    public function setDayNight($new_day_night) {
-        $this->day_night = $new_day_night;
+    public function setDayNight(string $new_value): void {
+        $this->day_night = $new_value;
     }
 
-    public function getNational() {
+    public function getNational(): int {
         return $this->national;
     }
 
-    public function setNational($new_national) {
-        $this->national = $new_national;
+    public function setNational(int $new_value): void {
+        $this->national = $new_value;
     }
 
-    public function getRegion() {
+    public function getRegion(): string {
         return $this->region;
     }
 
-    public function setRegion($new_region) {
-        $this->region = $new_region;
+    public function setRegion(string $new_value): void {
+        $this->region = $new_value;
     }
 
-    public function getType() {
+    public function getType(): string {
         return $this->type;
     }
 
-    public function setType($new_type) {
-        $this->type = $new_type;
+    public function setType(string $new_value): void {
+        $this->type = $new_value;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName($new_name) {
-        $this->name = $new_name;
+    public function setName(string $new_value): void {
+        $this->name = $new_value;
     }
 
-    public function getLink() {
+    public function getLink(): string {
         return $this->link;
     }
 
-    public function setLink($new_link) {
-        $this->link = $new_link;
+    public function setLink(string $new_value): void {
+        $this->link = $new_value;
     }
 
-    public function getClub() {
+    public function getClub(): string {
         return $this->club;
     }
 
-    public function setClub($new_club) {
-        $this->club = $new_club;
+    public function setClub(string $new_value): void {
+        $this->club = $new_value;
     }
 
-    public function getMap() {
+    public function getMap(): string {
         return $this->map;
     }
 
-    public function setMap($new_map) {
-        $this->map = $new_map;
+    public function setMap(string $new_value): void {
+        $this->map = $new_value;
     }
 
-    public function getLocation() {
+    public function getLocation(): string {
         return $this->location;
     }
 
-    public function setLocation($new_location) {
-        $this->location = $new_location;
+    public function setLocation(string $new_value): void {
+        $this->location = $new_value;
     }
 
-    public function getCoordX() {
+    public function getCoordX(): int {
         return $this->coord_x;
     }
 
-    public function setCoordX($new_coord_x) {
-        $this->coord_x = $new_coord_x;
+    public function setCoordX(int $new_value): void {
+        $this->coord_x = $new_value;
     }
 
-    public function getCoordY() {
+    public function getCoordY(): int {
         return $this->coord_y;
     }
 
-    public function setCoordY($new_coord_y) {
-        $this->coord_y = $new_coord_y;
+    public function setCoordY(int $new_value): void {
+        $this->coord_y = $new_value;
     }
 
-    public function getDeadline() {
+    public function getDeadline(): ?\DateTime {
         return $this->deadline;
     }
 
-    public function setDeadline($new_deadline) {
-        $this->deadline = $this->dateUtils()->sanitizeDateValue($new_deadline);
+    public function setDeadline(?\DateTime $new_value): void {
+        $this->deadline = $new_value;
     }
 
-    public function getEntryportal() {
+    public function getEntryportal(): int {
         return $this->entryportal;
     }
 
-    public function setEntryportal($new_entryportal) {
-        $this->entryportal = $new_entryportal;
+    public function setEntryportal(int $new_value): void {
+        $this->entryportal = $new_value;
     }
 
-    public function getStartLink() {
+    public function getStartLink(): ?string {
         return $this->start_link;
     }
 
-    public function setStartLink($new_start_link) {
-        $this->start_link = $new_start_link;
+    public function setStartLink(?string $new_value): void {
+        $this->start_link = $new_value;
     }
 
-    public function getRankLink() {
+    public function getRankLink(): ?string {
         return $this->rank_link;
     }
 
-    public function setRankLink($new_rank_link) {
-        $this->rank_link = $new_rank_link;
+    public function setRankLink(?string $new_value): void {
+        $this->rank_link = $new_value;
     }
 
-    public function getLastModification() {
+    public function getLastModification(): \DateTime {
         return $this->last_modification;
     }
 
-    public function setLastModification($new_last_modification) {
-        $this->last_modification = $this->dateUtils()->sanitizeDatetimeValue($new_last_modification);
+    public function setLastModification(\DateTime $new_value): void {
+        $this->last_modification = $new_value;
     }
 
-    public function getFieldValue($field_name) {
+    public function getFieldValue(string $field_name): mixed {
         if (!isset($this->valid_field_names[$field_name])) {
             throw new \Exception("getFieldValue: Invalid field name: {$field_name}", 1);
         }
         return $this->{$field_name};
     }
 
-    public function setFieldValue($field_name, $new_field_value) {
+    public function setFieldValue(string $field_name, mixed $new_value): void {
         if (!isset($this->valid_field_names[$field_name])) {
             throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
         }
-        $this->{$field_name} = $new_field_value;
+        $this->{$field_name} = $new_value;
     }
 
     // ---

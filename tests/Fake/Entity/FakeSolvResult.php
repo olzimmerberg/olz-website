@@ -14,7 +14,7 @@ class FakeSolvResult extends FakeEntity {
             function () {
                 $solv_result = new SolvResult();
                 $solv_result->setId(1);
-                $solv_result->setPerson(null);
+                $solv_result->setPerson(12);
                 $solv_result->setEvent(1);
                 $solv_result->setClass('H12');
                 $solv_result->setName('Test Runner');

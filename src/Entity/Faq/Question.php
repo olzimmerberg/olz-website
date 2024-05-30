@@ -13,69 +13,69 @@ class Question extends OlzEntity {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 31, nullable: false)]
-    private $ident;
+    private string $ident;
 
     #[ORM\ManyToOne(targetEntity: QuestionCategory::class)]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: true)]
-    private $category;
+    private ?QuestionCategory $category;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $position_within_category;
+    private int $position_within_category;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $question;
+    private string $question;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $answer;
+    private ?string $answer;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getIdent() {
+    public function getIdent(): string {
         return $this->ident;
     }
 
-    public function setIdent($new_value) {
+    public function setIdent(string $new_value): void {
         $this->ident = $new_value;
     }
 
-    public function getQuestion() {
+    public function getQuestion(): string {
         return $this->question;
     }
 
-    public function setQuestion($new_value) {
+    public function setQuestion(string $new_value): void {
         $this->question = $new_value;
     }
 
-    public function getCategory() {
+    public function getCategory(): ?QuestionCategory {
         return $this->category;
     }
 
-    public function setCategory($new_value) {
+    public function setCategory(?QuestionCategory $new_value): void {
         $this->category = $new_value;
     }
 
-    public function getPositionWithinCategory() {
+    public function getPositionWithinCategory(): int {
         return $this->position_within_category;
     }
 
-    public function setPositionWithinCategory($new_value) {
+    public function setPositionWithinCategory(int $new_value): void {
         $this->position_within_category = $new_value;
     }
 
-    public function getAnswer() {
+    public function getAnswer(): ?string {
         return $this->answer;
     }
 
-    public function setAnswer($new_value) {
+    public function setAnswer(?string $new_value): void {
         $this->answer = $new_value;
     }
 }

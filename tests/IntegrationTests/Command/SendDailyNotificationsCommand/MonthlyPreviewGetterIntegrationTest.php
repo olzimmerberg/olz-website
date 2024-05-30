@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -20,8 +20,7 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testMonthlyPreviewGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-07-18 16:00:00'); // the second last Saturday of the month
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entityManager);
@@ -30,7 +29,7 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
         $notification = $job->getMonthlyPreviewNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Im August haben wir Folgendes auf dem Programm:
 

@@ -33,7 +33,12 @@ class FakeUserRepository extends FakeOlzRepository {
         if ($criteria === ['username' => 'user'] || $criteria === ['id' => 1]) {
             return FakeUser::defaultUser();
         }
-        if ($criteria === ['username' => 'admin'] || $criteria === ['id' => 2] || $criteria === ['old_username' => 'admin-old']) {
+        if (
+            $criteria === ['username' => 'admin']
+            || $criteria === ['email' => 'admin@gmail.com']
+            || $criteria === ['id' => 2]
+            || $criteria === ['old_username' => 'admin-old']
+        ) {
             return FakeUser::adminUser();
         }
         if (
@@ -46,7 +51,11 @@ class FakeUserRepository extends FakeOlzRepository {
         if ($criteria === ['username' => 'parent'] || $criteria === ['id' => 4]) {
             return FakeUser::parentUser();
         }
-        if ($criteria === ['username' => 'child1'] || $criteria === ['id' => 5]) {
+        if (
+            $criteria === ['username' => 'child1']
+            || $criteria === ['email' => 'child1@gmail.com']
+            || $criteria === ['id' => 5]
+        ) {
             return FakeUser::child1User();
         }
         if ($criteria === ['username' => 'child2'] || $criteria === ['id' => 6]) {

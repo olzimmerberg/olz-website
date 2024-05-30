@@ -68,7 +68,7 @@ trait TerminEndpointTrait {
             'locationId' => $entity->getLocation()?->getId(),
             'coordinateX' => $entity->getCoordinateX(),
             'coordinateY' => $entity->getCoordinateY(),
-            'imageIds' => $entity->getImageIds() ?? [],
+            'imageIds' => $entity->getImageIds(),
             'fileIds' => $file_ids,
         ];
     }

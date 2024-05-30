@@ -149,7 +149,7 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         $this->assertSame(2, $entity->getIndexWithinParent());
         $this->assertSame(6, $entity->getFeaturedIndex());
         $this->assertTrue($entity->getCanHaveChildRoles());
-        $this->assertTrue($entity->getOnOff());
+        $this->assertSame(1, $entity->getOnOff());
 
         $this->assertSame([
             [$entity, 1, 1, 1],

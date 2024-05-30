@@ -13,102 +13,102 @@ class RegistrationInfo extends OlzEntity {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
     #[ORM\ManyToOne(targetEntity: Registration::class)]
     #[ORM\JoinColumn(name: 'registration_id', referencedColumnName: 'id', nullable: false)]
-    private $registration;
+    private Registration $registration;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $index_within_registration;
+    private int $index_within_registration;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    private $ident;
+    private string $ident;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $title;
+    private string $title;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $description;
+    private string $description;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    private $type;
+    private string $type;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
-    private $is_optional;
+    private bool $is_optional;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $options;
+    private string $options;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_id) {
+    public function setId(int $new_id): void {
         $this->id = $new_id;
     }
 
-    public function getRegistration() {
+    public function getRegistration(): Registration {
         return $this->registration;
     }
 
-    public function setRegistration($new_registration) {
+    public function setRegistration(Registration $new_registration): void {
         $this->registration = $new_registration;
     }
 
-    public function getIdent() {
+    public function getIdent(): string {
         return $this->ident;
     }
 
-    public function setIdent($new_ident) {
+    public function setIdent(string $new_ident): void {
         $this->ident = $new_ident;
     }
 
-    public function getIndexWithinRegistration() {
+    public function getIndexWithinRegistration(): int {
         return $this->index_within_registration;
     }
 
-    public function setIndexWithinRegistration($new_index_within_registration) {
+    public function setIndexWithinRegistration(int $new_index_within_registration): void {
         $this->index_within_registration = $new_index_within_registration;
     }
 
-    public function getTitle() {
+    public function getTitle(): string {
         return $this->title;
     }
 
-    public function setTitle($new_title) {
+    public function setTitle(string $new_title): void {
         $this->title = $new_title;
     }
 
-    public function getDescription() {
+    public function getDescription(): string {
         return $this->description;
     }
 
-    public function setDescription($new_description) {
+    public function setDescription(string $new_description): void {
         $this->description = $new_description;
     }
 
-    public function getType() {
+    public function getType(): string {
         return $this->type;
     }
 
-    public function setType($new_type) {
+    public function setType(string $new_type): void {
         $this->type = $new_type;
     }
 
-    public function getIsOptional() {
+    public function getIsOptional(): bool {
         return $this->is_optional;
     }
 
-    public function setIsOptional($new_is_optional) {
+    public function setIsOptional(bool $new_is_optional): void {
         $this->is_optional = $new_is_optional;
     }
 
-    public function getOptions() {
+    public function getOptions(): string {
         return $this->options;
     }
 
-    public function setOptions($new_options) {
+    public function setOptions(string $new_options): void {
         $this->options = $new_options;
     }
 }

@@ -63,7 +63,7 @@ class OlzNewsDetail extends OlzComponent {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
-        $title = $news_entry->getTitle() ?? '';
+        $title = $news_entry->getTitle();
         $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out = OlzHeader::render([
             'back_link' => "{$code_href}news?filter={$back_filter}",

@@ -3,8 +3,11 @@
 namespace Olz\Parsers;
 
 use Olz\Entity\SolvEvent;
+use Olz\Utils\WithUtilsTrait;
 
 class SolvEventParser {
+    use WithUtilsTrait;
+
     public $solv_entryportals = [
         1 => "GO2OL",
         2 => "picoTIMING",
@@ -19,18 +22,20 @@ class SolvEventParser {
             $line = html_entity_decode($data[$row_index], ENT_QUOTES);
             $row = str_getcsv($line, ";");
             $solv_event = new SolvEvent();
+            $solv_event->setStartLink(null);
+            $solv_event->setRankLink(null);
             for ($col_index = 0; $col_index < count($header); $col_index++) {
                 $csv_column_name = $header[$col_index];
                 $field_value = $row[$col_index];
                 switch ($csv_column_name) {
                     case 'unique_id':
-                        $solv_event->setSolvUid($field_value);
+                        $solv_event->setSolvUid(intval($field_value));
                         break;
                     case 'date':
-                        $solv_event->setDate($field_value);
+                        $solv_event->setDate($this->dateUtils()->sanitizeDateValue($field_value));
                         break;
                     case 'duration':
-                        $solv_event->setDuration($field_value);
+                        $solv_event->setDuration(intval($field_value));
                         break;
                     case 'kind':
                         $solv_event->setKind($field_value);
@@ -39,7 +44,7 @@ class SolvEventParser {
                         $solv_event->setDayNight($field_value);
                         break;
                     case 'national':
-                        $solv_event->setNational($field_value);
+                        $solv_event->setNational(intval($field_value));
                         break;
                     case 'region':
                         $solv_event->setRegion($field_value);
@@ -63,19 +68,19 @@ class SolvEventParser {
                         $solv_event->setLocation($field_value);
                         break;
                     case 'coord_x':
-                        $solv_event->setCoordX($field_value);
+                        $solv_event->setCoordX(intval($field_value));
                         break;
                     case 'coord_y':
-                        $solv_event->setCoordY($field_value);
+                        $solv_event->setCoordY(intval($field_value));
                         break;
                     case 'deadline':
-                        $solv_event->setDeadline($field_value);
+                        $solv_event->setDeadline($this->dateUtils()->sanitizeDateValue($field_value));
                         break;
                     case 'entryportal':
-                        $solv_event->setEntryportal($field_value);
+                        $solv_event->setEntryportal(intval($field_value));
                         break;
                     case 'last_modification':
-                        $solv_event->setLastModification($field_value);
+                        $solv_event->setLastModification($this->dateUtils()->sanitizeDatetimeValue($field_value));
                         break;
                     default:
                         break;

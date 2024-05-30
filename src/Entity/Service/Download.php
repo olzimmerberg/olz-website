@@ -16,46 +16,46 @@ class Download extends OlzEntity implements DataStorageInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $name;
+    private ?string $name;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $position;
+    private int $position;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $file_id;
+    private ?string $file_id;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName($new_value) {
+    public function setName(?string $new_value): void {
         $this->name = $new_value;
     }
 
-    public function getPosition() {
+    public function getPosition(): int {
         return $this->position;
     }
 
-    public function setPosition($new_value) {
+    public function setPosition(int $new_value): void {
         $this->position = $new_value;
     }
 
-    public function getFileId() {
+    public function getFileId(): ?string {
         return $this->file_id;
     }
 
-    public function setFileId($new_value) {
+    public function setFileId(?string $new_value): void {
         $this->file_id = $new_value;
     }
 

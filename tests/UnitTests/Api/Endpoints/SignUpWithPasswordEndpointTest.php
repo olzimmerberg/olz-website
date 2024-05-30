@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\SignUpWithPasswordEndpoint;
 use Olz\Entity\AuthRequest;
-use Olz\Entity\User;
 use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -128,15 +127,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 ...self::MINIMAL_INPUT,
-                'username' => 'invalid@',
+                'username' => 'inv@lid',
             ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "INFO New sign-up (using password): fakeFirstName fakeLastName (invalid@)",
+                "INFO New sign-up (using password): fakeFirstName fakeLastName (inv@lid@) <fakeEmail>",
                 "WARNING Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
@@ -156,7 +155,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 ...self::MINIMAL_INPUT,
                 'password' => 'short',
             ]);
@@ -164,7 +163,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail>",
                 "WARNING Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
@@ -184,7 +183,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 ...self::MINIMAL_INPUT,
                 'email' => 'bot@olzimmerberg.ch',
             ]);
@@ -192,7 +191,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <bot@olzimmerberg.ch>",
                 "WARNING Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
@@ -212,7 +211,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 ...self::MINIMAL_INPUT,
                 'email' => null,
             ]);
@@ -220,7 +219,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <>",
                 "WARNING Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
@@ -240,7 +239,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 ...self::MINIMAL_INPUT,
                 'password' => null,
             ]);
@@ -248,7 +247,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail>",
                 "WARNING Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
@@ -271,7 +270,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail>",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
@@ -332,7 +331,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail>",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
@@ -398,7 +397,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <>",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
@@ -446,7 +445,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail>",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
@@ -482,10 +481,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithoutPassword(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $existing_user = new User();
-        $existing_user->setId(123);
-        $entity_manager->repositories[User::class]->userToBeFound = $existing_user;
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -493,11 +488,14 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
-        $result = $endpoint->call(self::MINIMAL_INPUT);
+        $result = $endpoint->call([
+            ...self::MINIMAL_INPUT,
+            'username' => 'child1', // has no password yet
+        ]);
 
         $this->assertSame([
             "INFO Valid user request",
-            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+            "INFO New sign-up (using password): fakeFirstName fakeLastName (child1@) <fakeEmail>",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
@@ -506,27 +504,23 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => '',
             'root' => null,
-            'user' => 'fakeUsername',
-            'user_id' => '123',
-            'auth_user' => 'fakeUsername',
-            'auth_user_id' => '123',
+            'user' => 'child1',
+            'user_id' => '5',
+            'auth_user' => 'child1',
+            'auth_user_id' => '5',
         ], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',
                 'action' => 'AUTHENTICATED_PASSWORD',
                 'timestamp' => null,
-                'username' => 'fakeUsername',
+                'username' => 'child1',
             ],
         ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithPassword(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $existing_user = new User();
-        $existing_user->setId(123);
-        $existing_user->setPasswordHash('some-hash');
-        $entity_manager->repositories[User::class]->userToBeFound = $existing_user;
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -535,12 +529,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
-            $endpoint->call(self::MINIMAL_INPUT);
+            $endpoint->call([
+                ...self::MINIMAL_INPUT,
+                'username' => 'admin', // has a password
+            ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+                "INFO New sign-up (using password): fakeFirstName fakeLastName (admin@) <fakeEmail>",
                 "WARNING Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
@@ -560,16 +557,6 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithoutPassword(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $existing_user = new User();
-        $existing_user->setId(123);
-        $entity_manager->repositories[User::class]->userToBeFoundForQuery =
-            function ($where) use ($existing_user) {
-                if ($where === ['email' => 'fakeEmail']) {
-                    return $existing_user;
-                }
-                return null;
-            };
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -577,11 +564,15 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
-        $result = $endpoint->call(self::MINIMAL_INPUT);
+        $result = $endpoint->call([
+            ...self::MINIMAL_INPUT,
+            'username' => 'inexistent',
+            'email' => 'child1@gmail.com',
+        ]);
 
         $this->assertSame([
             "INFO Valid user request",
-            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+            "INFO New sign-up (using password): fakeFirstName fakeLastName (inexistent@) <child1@gmail.com>",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
@@ -590,33 +581,23 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => '',
             'root' => null,
-            'user' => 'fakeUsername',
-            'user_id' => '123',
-            'auth_user' => 'fakeUsername',
-            'auth_user_id' => '123',
+            'user' => 'inexistent',
+            'user_id' => '5',
+            'auth_user' => 'inexistent',
+            'auth_user_id' => '5',
         ], $session->session_storage);
+        $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',
                 'action' => 'AUTHENTICATED_PASSWORD',
                 'timestamp' => null,
-                'username' => 'fakeUsername',
+                'username' => 'inexistent',
             ],
         ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }
 
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithPassword(): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $existing_user = new User();
-        $existing_user->setId(123);
-        $existing_user->setPasswordHash('some-hash');
-        $entity_manager->repositories[User::class]->userToBeFoundForQuery =
-            function ($where) use ($existing_user) {
-                if ($where === ['email' => 'fakeEmail']) {
-                    return $existing_user;
-                }
-                return null;
-            };
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
         $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
@@ -625,12 +606,16 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
-            $result = $endpoint->call(self::MINIMAL_INPUT);
+            $endpoint->call([
+                ...self::MINIMAL_INPUT,
+                'username' => 'inexistent',
+                'email' => 'admin@gmail.com',
+            ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+                "INFO New sign-up (using password): fakeFirstName fakeLastName (inexistent@) <admin@gmail.com>",
                 "WARNING Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
@@ -662,7 +647,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername)",
+            "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail>",
             "ERROR Error sending fake verification email",
             "INFO Valid user response",
         ], $this->getLogs());

@@ -14,115 +14,115 @@ class TerminNotificationTemplate {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
     #[ORM\ManyToOne(targetEntity: TerminTemplate::class)]
     #[ORM\JoinColumn(name: 'termin_template_id', referencedColumnName: 'id', nullable: false)]
-    private $termin_template;
+    private TerminTemplate $termin_template;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $fires_earlier_seconds;
+    private ?int $fires_earlier_seconds;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $title;
+    private string $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $content;
+    private ?string $content;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'recipient_user_id', referencedColumnName: 'id', nullable: true)]
-    private $recipient_user;
+    private ?User $recipient_user;
 
     #[ORM\ManyToOne(targetEntity: Role::class)]
     #[ORM\JoinColumn(name: 'recipient_role_id', referencedColumnName: 'id', nullable: true)]
-    private $recipient_role;
+    private ?Role $recipient_role;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
-    private $recipient_termin_owners;
+    private bool $recipient_termin_owners;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
-    private $recipient_termin_volunteers;
+    private bool $recipient_termin_volunteers;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
-    private $recipient_termin_participants;
+    private bool $recipient_termin_participants;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getTerminTemplate() {
+    public function getTerminTemplate(): TerminTemplate {
         return $this->termin_template;
     }
 
-    public function setTerminTemplate(TerminTemplate $new_value) {
+    public function setTerminTemplate(TerminTemplate $new_value): void {
         $this->termin_template = $new_value;
     }
 
-    public function getFiresEarlierSeconds() {
+    public function getFiresEarlierSeconds(): ?int {
         return $this->fires_earlier_seconds;
     }
 
-    public function setFiresEarlierSeconds($new_value) {
+    public function setFiresEarlierSeconds(?int $new_value): void {
         $this->fires_earlier_seconds = $new_value;
     }
 
-    public function getTitle() {
+    public function getTitle(): string {
         return $this->title;
     }
 
-    public function setTitle($new_value) {
+    public function setTitle(string $new_value): void {
         $this->title = $new_value;
     }
 
-    public function getContent() {
+    public function getContent(): ?string {
         return $this->content;
     }
 
-    public function setContent($new_value) {
+    public function setContent(?string $new_value): void {
         $this->content = $new_value;
     }
 
-    public function getRecipientUser() {
+    public function getRecipientUser(): ?User {
         return $this->recipient_user;
     }
 
-    public function setRecipientUser(User $new_value) {
+    public function setRecipientUser(?User $new_value): void {
         $this->recipient_user = $new_value;
     }
 
-    public function getRecipientRole() {
+    public function getRecipientRole(): ?Role {
         return $this->recipient_role;
     }
 
-    public function setRecipientRole(Role $new_value) {
+    public function setRecipientRole(?Role $new_value): void {
         $this->recipient_role = $new_value;
     }
 
-    public function getRecipientTerminOwners() {
+    public function getRecipientTerminOwners(): bool {
         return $this->recipient_termin_owners;
     }
 
-    public function setRecipientTerminOwners($new_value) {
+    public function setRecipientTerminOwners(bool $new_value): void {
         $this->recipient_termin_owners = $new_value;
     }
 
-    public function getRecipientTerminVolunteers() {
+    public function getRecipientTerminVolunteers(): bool {
         return $this->recipient_termin_volunteers;
     }
 
-    public function setRecipientTerminVolunteers($new_value) {
+    public function setRecipientTerminVolunteers(bool $new_value): void {
         $this->recipient_termin_volunteers = $new_value;
     }
 
-    public function getRecipientTerminParticipants() {
+    public function getRecipientTerminParticipants(): bool {
         return $this->recipient_termin_participants;
     }
 
-    public function setRecipientTerminParticipants($new_value) {
+    public function setRecipientTerminParticipants(bool $new_value): void {
         $this->recipient_termin_participants = $new_value;
     }
 }

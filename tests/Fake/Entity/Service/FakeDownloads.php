@@ -6,6 +6,7 @@ namespace Olz\Tests\Fake\Entity\Service;
 
 use Olz\Entity\Service\Download;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 
 class FakeDownloads extends FakeEntity {
     public static function minimal($fresh = false) {
@@ -13,6 +14,7 @@ class FakeDownloads extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Download();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
                 $entity->setName('Fake Download');
                 $entity->setPosition(12);
@@ -27,6 +29,7 @@ class FakeDownloads extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Download();
+                FakeOlzEntity::empty($entity);
                 $entity->setId(123);
                 $entity->setName('Fake Download');
                 $entity->setPosition(123);
@@ -41,11 +44,11 @@ class FakeDownloads extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Download();
+                FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
                 $entity->setName('Fake Download');
                 $entity->setPosition(1234);
                 $entity->setFileId('uploaded_file.pdf');
-                $entity->setOnOff(true);
                 return $entity;
             }
         );

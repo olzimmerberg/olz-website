@@ -27,7 +27,7 @@ class OlzTerminLocationDetail extends OlzComponent {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
-        $title = $termin_location->getName() ?? '';
+        $title = $termin_location->getName();
         $back_link = "{$code_href}termine";
         if ($params['filter'] ?? null) {
             $enc_filter = urlencode($params['filter']);
@@ -76,11 +76,10 @@ class OlzTerminLocationDetail extends OlzComponent {
             <div class='content-middle'>
             ZZZZZZZZZZ;
 
-        $name = $termin_location->getName() ?? '';
-        $name = $termin_location->getName() ?? '';
+        $name = $termin_location->getName();
         $details = $termin_location->getDetails() ?? '';
-        $latitude = $termin_location->getLatitude() ?? '';
-        $longitude = $termin_location->getLongitude() ?? '';
+        $latitude = $termin_location->getLatitude();
+        $longitude = $termin_location->getLongitude();
         $image_ids = $termin_location->getImageIds();
 
         $out .= "<div class='olz-termin-location-detail'>";
@@ -127,7 +126,7 @@ class OlzTerminLocationDetail extends OlzComponent {
         $details_html = $termin_location->replaceFilePaths($details_html);
         $out .= "<div>{$details_html}</div>";
 
-        if ($image_ids && count($image_ids) > 0) {
+        if (count($image_ids) > 0) {
             $out .= "<h3>Bilder</h3><div class='lightgallery gallery-container'>";
             foreach ($image_ids as $image_id) {
                 $out .= "<div class='gallery-image'>";

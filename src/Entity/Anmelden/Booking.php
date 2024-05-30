@@ -13,48 +13,48 @@ class Booking extends OlzEntity {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
     #[ORM\ManyToOne(targetEntity: Registration::class)]
     #[ORM\JoinColumn(name: 'registration_id', referencedColumnName: 'id', nullable: false)]
-    private $registration;
+    private Registration $registration;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
-    private $user;
+    private ?User $user;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $form_data;
+    private string $form_data;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_id) {
+    public function setId(int $new_id): void {
         $this->id = $new_id;
     }
 
-    public function getRegistration() {
+    public function getRegistration(): Registration {
         return $this->registration;
     }
 
-    public function setRegistration($new_registration) {
+    public function setRegistration(Registration $new_registration): void {
         $this->registration = $new_registration;
     }
 
-    public function getUser() {
+    public function getUser(): ?User {
         return $this->user;
     }
 
-    public function setUser($new_user) {
+    public function setUser(?User $new_user): void {
         $this->user = $new_user;
     }
 
-    public function getFormData() {
+    public function getFormData(): string {
         return $this->form_data;
     }
 
-    public function setFormData($new_form_data) {
+    public function setFormData(string $new_form_data): void {
         $this->form_data = $new_form_data;
     }
 }

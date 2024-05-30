@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -20,8 +20,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
     public function testDeadlineWarningGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-08-15 19:30:00');
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entityManager);
@@ -30,7 +29,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
         $notification = $job->getDeadlineWarningNotification(['days' => 2]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Folgende Meldeschlüsse stehen bevor:
 
@@ -46,8 +45,6 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
     public function testDeadlineWarningGetterNone(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-08-15 19:30:00');
-        $user = new User();
-        $user->setFirstName('First');
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entityManager);

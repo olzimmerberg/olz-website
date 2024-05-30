@@ -14,9 +14,10 @@ class FakeStravaLink extends FakeEntity {
             function () {
                 $strava_link = new StravaLink();
                 $strava_link->setAccessToken('fake-access-token');
-                $strava_link->setExpiresAt('1992-08-05 13:27:00');
+                $strava_link->setExpiresAt(new \DateTime('1992-08-05 13:27:00'));
                 $strava_link->setRefreshToken('fake-access-token');
                 $strava_link->setStravaUser('fake-strava-user-id');
+                $strava_link->setUser(FakeUser::defaultUser());
                 return $strava_link;
             }
         );

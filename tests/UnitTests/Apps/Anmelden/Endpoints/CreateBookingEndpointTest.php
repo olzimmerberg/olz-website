@@ -57,7 +57,7 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $this->assertSame(FakeUser::defaultUser(), $booking->getUser());
 
         $this->assertSame([
-            [$booking, 1, null, null],
+            [$booking, 1, 1, null],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
     }
 }

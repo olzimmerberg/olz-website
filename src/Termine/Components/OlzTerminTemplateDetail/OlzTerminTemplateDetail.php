@@ -152,7 +152,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
         $text_html = $termin_template->replaceFilePaths($text_html);
         $out .= "<div>{$text_html}</div>";
 
-        if ($image_ids && count($image_ids) > 0) {
+        if (count($image_ids) > 0) {
             $out .= "<h3>Bilder</h3><div class='lightgallery gallery-container'>";
             foreach ($image_ids as $image_id) {
                 $out .= "<div class='gallery-image'>";

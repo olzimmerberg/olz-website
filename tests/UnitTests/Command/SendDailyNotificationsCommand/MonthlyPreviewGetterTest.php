@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\WithUtilsCache;
@@ -59,8 +59,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
 
     public function testMonthlyPreviewGetter(): void {
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
@@ -68,7 +67,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $notification = $job->getMonthlyPreviewNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Im April haben wir Folgendes auf dem Programm:
 
@@ -101,8 +100,6 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $entity_manager->repositories[SolvEvent::class]->entitiesToBeMatched = [];
         $entity_manager->repositories[Termin::class]->entitiesToBeMatched = [];
         $date_utils = new FixedDateUtils('2021-03-20 16:00:00'); // the second last Saturday of the month
-        $user = new User();
-        $user->setFirstName('First');
 
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);

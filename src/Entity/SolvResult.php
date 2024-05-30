@@ -13,52 +13,52 @@ class SolvResult {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $person;
+    private int $person;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $event;
+    private int $event;
 
     #[ORM\Column(type: 'string', nullable: false, length: 15)]
-    private $class;
+    private string $class;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $rank;
+    private int $rank;
 
     #[ORM\Column(type: 'string', nullable: false, length: 31)]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'string', nullable: false, length: 3)]
-    private $birth_year;
+    private string $birth_year;
 
     #[ORM\Column(type: 'string', nullable: false, length: 31)]
-    private $domicile;
+    private string $domicile;
 
     #[ORM\Column(type: 'string', nullable: false, length: 31)]
-    private $club;
+    private string $club;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $result;
+    private int $result;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $splits;
+    private string $splits;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $finish_split;
+    private int $finish_split;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $class_distance;
+    private int $class_distance;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $class_elevation;
+    private int $class_elevation;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $class_control_count;
+    private int $class_control_count;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $class_competitor_count;
+    private int $class_competitor_count;
 
     public function __toString(): string {
         return <<<ZZZZZZZZZZ
@@ -75,7 +75,8 @@ class SolvResult {
             ZZZZZZZZZZ;
     }
 
-    private $valid_field_names = [
+    /** @var array<string, true> */
+    private array $valid_field_names = [
         'id' => true,
         'person' => true,
         'event' => true,
@@ -96,142 +97,142 @@ class SolvResult {
     // PRIMARY KEY (`id`),
     // UNIQUE KEY `person` (`person`,`event`,`class`,`name`,`birth_year`,`domicile`,`club`)
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_id) {
+    public function setId(int $new_id): void {
         $this->id = $new_id;
     }
 
-    public function getPerson() {
+    public function getPerson(): int {
         return $this->person;
     }
 
-    public function setPerson($new_person) {
+    public function setPerson(int $new_person): void {
         $this->person = $new_person;
     }
 
-    public function getEvent() {
+    public function getEvent(): int {
         return $this->event;
     }
 
-    public function setEvent($new_event) {
+    public function setEvent(int $new_event): void {
         $this->event = $new_event;
     }
 
-    public function getClass() {
+    public function getClass(): string {
         return $this->class;
     }
 
-    public function setClass($new_class) {
+    public function setClass(string $new_class): void {
         $this->class = $new_class;
     }
 
-    public function getRank() {
+    public function getRank(): int {
         return $this->rank;
     }
 
-    public function setRank($new_rank) {
+    public function setRank(int $new_rank): void {
         $this->rank = $new_rank;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName($new_name) {
+    public function setName(string $new_name): void {
         $this->name = $new_name;
     }
 
-    public function getBirthYear() {
+    public function getBirthYear(): string {
         return $this->birth_year;
     }
 
-    public function setBirthYear($new_birth_year) {
+    public function setBirthYear(string $new_birth_year): void {
         $this->birth_year = $new_birth_year;
     }
 
-    public function getDomicile() {
+    public function getDomicile(): string {
         return $this->domicile;
     }
 
-    public function setDomicile($new_domicile) {
+    public function setDomicile(string $new_domicile): void {
         $this->domicile = $new_domicile;
     }
 
-    public function getClub() {
+    public function getClub(): string {
         return $this->club;
     }
 
-    public function setClub($new_club) {
+    public function setClub(string $new_club): void {
         $this->club = $new_club;
     }
 
-    public function getResult() {
+    public function getResult(): int {
         return $this->result;
     }
 
-    public function setResult($new_result) {
+    public function setResult(int $new_result): void {
         $this->result = $new_result;
     }
 
-    public function getSplits() {
+    public function getSplits(): string {
         return $this->splits;
     }
 
-    public function setSplits($new_splits) {
+    public function setSplits(string $new_splits): void {
         $this->splits = $new_splits;
     }
 
-    public function getFinishSplit() {
+    public function getFinishSplit(): int {
         return $this->finish_split;
     }
 
-    public function setFinishSplit($new_finish_split) {
+    public function setFinishSplit(int $new_finish_split): void {
         $this->finish_split = $new_finish_split;
     }
 
-    public function getClassDistance() {
+    public function getClassDistance(): int {
         return $this->class_distance;
     }
 
-    public function setClassDistance($new_class_distance) {
+    public function setClassDistance(int $new_class_distance): void {
         $this->class_distance = $new_class_distance;
     }
 
-    public function getClassElevation() {
+    public function getClassElevation(): int {
         return $this->class_elevation;
     }
 
-    public function setClassElevation($new_class_elevation) {
+    public function setClassElevation(int $new_class_elevation): void {
         $this->class_elevation = $new_class_elevation;
     }
 
-    public function getClassControlCount() {
+    public function getClassControlCount(): int {
         return $this->class_control_count;
     }
 
-    public function setClassControlCount($new_class_control_count) {
+    public function setClassControlCount(int $new_class_control_count): void {
         $this->class_control_count = $new_class_control_count;
     }
 
-    public function getClassCompetitorCount() {
+    public function getClassCompetitorCount(): int {
         return $this->class_competitor_count;
     }
 
-    public function setClassCompetitorCount($new_class_competitor_count) {
+    public function setClassCompetitorCount(int $new_class_competitor_count): void {
         $this->class_competitor_count = $new_class_competitor_count;
     }
 
-    public function getFieldValue($field_name) {
+    public function getFieldValue(string $field_name): mixed {
         if (!isset($this->valid_field_names[$field_name])) {
             throw new \Exception("getFieldValue: Invalid field name: {$field_name}", 1);
         }
         return $this->{$field_name};
     }
 
-    public function setFieldValue($field_name, $new_field_value) {
+    public function setFieldValue(string $field_name, mixed $new_field_value): void {
         if (!isset($this->valid_field_names[$field_name])) {
             throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
         }

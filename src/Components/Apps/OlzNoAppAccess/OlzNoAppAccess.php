@@ -22,7 +22,6 @@ class OlzNoAppAccess extends OlzComponent {
             return $no_access_out;
         }
         $hypothetical_logged_in_user = new User();
-        $hypothetical_logged_in_user->setId(null);
         $hypothetical_logged_in_user->setPermissions(' verified_email ');
         if (!$app->isAccessibleToUser($hypothetical_logged_in_user)) {
             // Hypothetical logged-in user wouldn't have access either.
@@ -30,7 +29,6 @@ class OlzNoAppAccess extends OlzComponent {
         }
         $icon = $app->getIcon();
         $display_name = $app->getDisplayName();
-        $href = $app->getHref();
         $basename = $app->getBasename();
         return <<<ZZZZZZZZZZ
             <div class='olz-no-app-access'>

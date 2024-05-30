@@ -14,59 +14,59 @@ class SkillLevel extends OlzEntity {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
-    private $user;
+    private ?User $user;
 
     #[ORM\ManyToOne(targetEntity: Skill::class)]
     #[ORM\JoinColumn(name: 'skill_id', referencedColumnName: 'id', nullable: true)]
-    private $skill;
+    private ?Skill $skill;
 
     #[ORM\Column(type: 'float', nullable: false)]
-    private $value;
+    private float $value;
 
     #[ORM\Column(type: 'datetime', nullable: false)]
-    private $recorded_at;
+    private \DateTime $recorded_at;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_id) {
+    public function setId(int $new_id): void {
         $this->id = $new_id;
     }
 
-    public function getUser() {
+    public function getUser(): ?User {
         return $this->user;
     }
 
-    public function setUser($new_user) {
+    public function setUser(?User $new_user): void {
         $this->user = $new_user;
     }
 
-    public function getSkill() {
+    public function getSkill(): ?Skill {
         return $this->skill;
     }
 
-    public function setSkill($new_skill) {
+    public function setSkill(?Skill $new_skill): void {
         $this->skill = $new_skill;
     }
 
-    public function getValue() {
+    public function getValue(): float {
         return $this->value;
     }
 
-    public function setValue($new_value) {
+    public function setValue(float $new_value): void {
         $this->value = $new_value;
     }
 
-    public function getRecordedAt() {
+    public function getRecordedAt(): \DateTime {
         return $this->recorded_at;
     }
 
-    public function setRecordedAt($new_recorded_at) {
+    public function setRecordedAt(\DateTime $new_recorded_at): void {
         $this->recorded_at = $new_recorded_at;
     }
 }

@@ -66,7 +66,7 @@ final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
 
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
-            [Fake\FakeEntityManager::AUTO_INCREMENT_ID, 2, 1, 0],
+            [Fake\FakeEntityManager::AUTO_INCREMENT_ID, 2, 1, 0.0],
         ], array_map(
             function ($skill_level) {
                 return [

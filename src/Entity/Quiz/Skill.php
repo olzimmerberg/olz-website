@@ -2,6 +2,8 @@
 
 namespace Olz\Entity\Quiz;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Quiz\SkillRepository;
@@ -13,46 +15,48 @@ class Skill extends OlzEntity {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    private $name;
+    private string $name;
 
+    /** @var Collection<int|string, SkillCategory>&iterable<SkillCategory> */
     #[ORM\JoinTable(name: 'quiz_skills_categories')]
     #[ORM\JoinColumn(name: 'skill_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'category_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: SkillCategory::class, inversedBy: 'skills')]
-    private $categories;
+    private Collection $categories;
 
     public function __construct() {
-        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_id) {
+    public function setId(int $new_id): void {
         $this->id = $new_id;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName($new_name) {
+    public function setName(string $new_name): void {
         $this->name = $new_name;
     }
 
-    public function getCategories() {
+    /** @return Collection<int|string, SkillCategory>&iterable<SkillCategory> */
+    public function getCategories(): Collection {
         return $this->categories;
     }
 
-    public function addCategory($new_category) {
+    public function addCategory(SkillCategory $new_category): void {
         $this->categories->add($new_category);
     }
 
-    public function clearCategories() {
+    public function clearCategories(): void {
         $this->categories->clear();
     }
 }

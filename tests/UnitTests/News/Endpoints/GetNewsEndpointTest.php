@@ -57,7 +57,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
             'meta' => [
                 'ownerUserId' => null,
                 'ownerRoleId' => null,
-                'onOff' => false,
+                'onOff' => true,
             ],
             'data' => [
                 'format' => 'aktuell',
@@ -72,7 +72,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
                 'externalUrl' => null,
                 'tags' => [],
                 'terminId' => null,
-                'imageIds' => null,
+                'imageIds' => [],
                 'fileIds' => [],
             ],
         ], $result);
@@ -111,7 +111,7 @@ final class GetNewsEndpointTest extends UnitTestCase {
                 'externalUrl' => null,
                 'tags' => [],
                 'terminId' => null,
-                'imageIds' => null,
+                'imageIds' => [],
                 'fileIds' => [],
             ],
         ], $result);
@@ -146,16 +146,16 @@ final class GetNewsEndpointTest extends UnitTestCase {
         $this->assertSame([
             'id' => 1234,
             'meta' => [
-                'ownerUserId' => null,
-                'ownerRoleId' => null,
-                'onOff' => false,
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
+                'onOff' => true,
             ],
             'data' => [
                 'format' => 'aktuell',
-                'authorUserId' => null,
-                'authorRoleId' => null,
-                'authorName' => null,
-                'authorEmail' => null,
+                'authorUserId' => 2,
+                'authorRoleId' => 2,
+                'authorName' => 'Manuel',
+                'authorEmail' => 'manual-author@staging.olzimmerberg.ch',
                 'publishAt' => '2020-03-13 18:00:00',
                 'title' => 'Fake title',
                 'teaser' => 'Fake teaser',

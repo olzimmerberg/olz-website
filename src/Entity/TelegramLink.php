@@ -13,107 +13,114 @@ use Olz\Repository\TelegramLinkRepository;
 #[ORM\Entity(repositoryClass: TelegramLinkRepository::class)]
 class TelegramLink {
     #[ORM\Column(type: 'string', nullable: true)]
-    private $pin;
+    private ?string $pin;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $pin_expires_at;
+    private ?\DateTime $pin_expires_at;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    private $user;
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
+    private ?User $user;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $telegram_chat_id;
+    private ?string $telegram_chat_id;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $telegram_user_id;
+    private ?string $telegram_user_id;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $telegram_chat_state;
+    private string $telegram_chat_state;
 
-    #[ORM\Column(type: 'datetime', nullable: false)]
-    private $created_at;
+    #[ORM\Column(type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private \DateTime $created_at;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $linked_at;
+    private ?\DateTime $linked_at;
 
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_id) {
-        $this->id = $new_id;
+    public function setId(int $new_value): void {
+        $this->id = $new_value;
     }
 
-    public function getPin() {
+    public function getPin(): ?string {
         return $this->pin;
     }
 
-    public function setPin($new_pin) {
-        $this->pin = $new_pin;
+    public function setPin(?string $new_value): void {
+        $this->pin = $new_value;
     }
 
-    public function getPinExpiresAt() {
+    public function getPinExpiresAt(): ?\DateTime {
         return $this->pin_expires_at;
     }
 
-    public function setPinExpiresAt($new_pin_expires_at) {
-        $this->pin_expires_at = $new_pin_expires_at;
+    public function setPinExpiresAt(?\DateTime $new_value): void {
+        $this->pin_expires_at = $new_value;
     }
 
-    public function getUser() {
+    public function getUser(): ?User {
         return $this->user;
     }
 
-    public function setUser($new_user) {
-        $this->user = $new_user;
+    public function setUser(?User $new_value): void {
+        $this->user = $new_value;
     }
 
-    public function getTelegramChatId() {
+    public function getTelegramChatId(): ?string {
         return $this->telegram_chat_id;
     }
 
-    public function setTelegramChatId($new_telegram_chat_id) {
-        $this->telegram_chat_id = $new_telegram_chat_id;
+    public function setTelegramChatId(?string $new_value): void {
+        $this->telegram_chat_id = $new_value;
     }
 
-    public function getTelegramUserId() {
+    public function getTelegramUserId(): ?string {
         return $this->telegram_user_id;
     }
 
-    public function setTelegramUserId($new_telegram_user_id) {
-        $this->telegram_user_id = $new_telegram_user_id;
+    public function setTelegramUserId(?string $new_value): void {
+        $this->telegram_user_id = $new_value;
     }
 
-    public function getTelegramChatState() {
+    /** @return array<string, mixed> */
+    public function getTelegramChatState(): array {
         if ($this->telegram_chat_state == null) {
             return [];
         }
-        return json_decode($this->telegram_chat_state, true);
+        $array = json_decode($this->telegram_chat_state, true);
+        return is_array($array) ? $array : [];
     }
 
-    public function setTelegramChatState($new_telegram_chat_state) {
-        $this->telegram_chat_state = json_encode($new_telegram_chat_state);
+    /** @param array<string, mixed> $new_value */
+    public function setTelegramChatState(array $new_value): void {
+        $enc_value = json_encode($new_value);
+        if (!$enc_value) {
+            return;
+        }
+        $this->telegram_chat_state = $enc_value;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt(): \DateTime {
         return $this->created_at;
     }
 
-    public function setCreatedAt($new_created_at) {
-        $this->created_at = $new_created_at;
+    public function setCreatedAt(\DateTime $new_value): void {
+        $this->created_at = $new_value;
     }
 
-    public function getLinkedAt() {
+    public function getLinkedAt(): ?\DateTime {
         return $this->linked_at;
     }
 
-    public function setLinkedAt($new_linked_at) {
-        $this->linked_at = $new_linked_at;
+    public function setLinkedAt(?\DateTime $new_value): void {
+        $this->linked_at = $new_value;
     }
 }

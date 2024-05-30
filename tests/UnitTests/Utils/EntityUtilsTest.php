@@ -119,6 +119,7 @@ final class EntityUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $entity_utils = new EntityUtils();
         $entity = new OlzEntity();
+        $entity->setOwnerUser(null);
         $entity->setCreatedByUser(FakeUser::defaultUser());
 
         $result = $entity_utils->canUpdateOlzEntity(
@@ -133,6 +134,8 @@ final class EntityUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $entity_utils = new EntityUtils();
         $entity = new OlzEntity();
+        $entity->setOwnerUser(null);
+        $entity->setCreatedByUser(null);
 
         $result = $entity_utils->canUpdateOlzEntity(
             $entity,

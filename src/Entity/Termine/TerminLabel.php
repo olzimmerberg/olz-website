@@ -2,6 +2,8 @@
 
 namespace Olz\Entity\Termine;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,79 +24,81 @@ class TerminLabel extends OlzEntity implements SearchableInterface, DataStorageI
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 31, nullable: false)]
-    private $ident;
+    private string $ident;
 
     #[ORM\Column(type: 'string', length: 127, nullable: false)]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $details;
+    private ?string $details;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $icon;
+    private ?string $icon;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $position;
+    private int $position;
 
+    /** @var Collection<int|string, Termin>&iterable<Termin> */
     #[ORM\ManyToMany(targetEntity: Termin::class, mappedBy: 'labels')]
-    private $termine;
+    private Collection $termine;
 
+    /** @var Collection<int|string, TerminTemplate>&iterable<TerminTemplate> */
     #[ORM\ManyToMany(targetEntity: TerminTemplate::class, mappedBy: 'labels')]
-    private $termin_templates;
+    private Collection $termin_templates;
 
     public function __construct() {
-        $this->termine = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->termin_templates = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->termine = new ArrayCollection();
+        $this->termin_templates = new ArrayCollection();
     }
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getIdent() {
+    public function getIdent(): string {
         return $this->ident;
     }
 
-    public function setIdent($new_value) {
+    public function setIdent(string $new_value): void {
         $this->ident = $new_value;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName($new_value) {
+    public function setName(string $new_value): void {
         $this->name = $new_value;
     }
 
-    public function getDetails() {
+    public function getDetails(): ?string {
         return $this->details;
     }
 
-    public function setDetails($new_value) {
+    public function setDetails(?string $new_value): void {
         $this->details = $new_value;
     }
 
-    public function getIcon() {
+    public function getIcon(): ?string {
         return $this->icon;
     }
 
-    public function setIcon($new_value) {
+    public function setIcon(?string $new_value): void {
         $this->icon = $new_value;
     }
 
-    public function getPosition() {
+    public function getPosition(): int {
         return $this->position;
     }
 
-    public function setPosition($new_value) {
+    public function setPosition(int $new_value): void {
         $this->position = $new_value;
     }
 
@@ -105,7 +109,7 @@ class TerminLabel extends OlzEntity implements SearchableInterface, DataStorageI
     }
 
     public function getIdForSearch(): int {
-        return $this->getId();
+        return $this->getId() ?? 0;
     }
 
     public static function getCriteriaForQuery(string $query): Expression {

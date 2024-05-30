@@ -193,7 +193,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $session->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
-            'user' => 'user',
+            'user' => 'default',
         ];
         $endpoint->setSession($session);
 
@@ -201,7 +201,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Valid user request',
-            'WARNING Removing user user (User ID: 1).',
+            'WARNING Removing user default (User ID: 1).',
             'INFO Valid user response',
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);

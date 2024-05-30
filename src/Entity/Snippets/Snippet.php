@@ -15,24 +15,24 @@ class Snippet extends OlzEntity implements DataStorageInterface {
 
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $text;
+    private ?string $text;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getText() {
+    public function getText(): ?string {
         return $this->text;
     }
 
-    public function setText($new_value) {
+    public function setText(?string $new_value): void {
         $this->text = $new_value;
     }
 

@@ -207,16 +207,6 @@ final class EmailUtilsTest extends UnitTestCase {
             ZZZZZZZZZZ, $email_utils->getComparableEmail($email));
     }
 
-    public function testGetUserAddressWithoutName(): void {
-        $email_utils = new EmailUtils();
-        $user = new User();
-        $user->setEmail('fake@staging.olzimmerberg.ch');
-        $this->assertSame(
-            'fake@staging.olzimmerberg.ch',
-            $email_utils->getUserAddress($user)->toString(),
-        );
-    }
-
     public function testGetUserAddressWithName(): void {
         $email_utils = new EmailUtils();
         $user = new User();

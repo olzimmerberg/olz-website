@@ -12,69 +12,69 @@ class TerminInfo {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
     #[ORM\ManyToOne(targetEntity: Termin::class)]
     #[ORM\JoinColumn(name: 'termin_id', referencedColumnName: 'id', nullable: false)]
-    private $termin;
+    private Termin $termin;
 
     #[ORM\Column(type: 'string', length: 7, nullable: true)]
-    private $language;
+    private ?string $language;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $index;
+    private int $index;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $content;
+    private ?string $content;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getTermin() {
+    public function getTermin(): Termin {
         return $this->termin;
     }
 
-    public function setTermin(Termin $new_value) {
+    public function setTermin(Termin $new_value): void {
         $this->termin = $new_value;
     }
 
-    public function getLanguage() {
+    public function getLanguage(): ?string {
         return $this->language;
     }
 
-    public function setLanguage($new_value) {
+    public function setLanguage(?string $new_value): void {
         $this->language = $new_value;
     }
 
-    public function getIndex() {
+    public function getIndex(): int {
         return $this->index;
     }
 
-    public function setIndex($new_value) {
+    public function setIndex(int $new_value): void {
         $this->index = $new_value;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName($new_value) {
+    public function setName(string $new_value): void {
         $this->name = $new_value;
     }
 
-    public function getContent() {
+    public function getContent(): ?string {
         return $this->content;
     }
 
-    public function setContent($new_value) {
+    public function setContent(?string $new_value): void {
         $this->content = $new_value;
     }
 }

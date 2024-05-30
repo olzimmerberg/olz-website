@@ -14,11 +14,13 @@ class FakeRegistrationRepository extends FakeOlzRepository {
         if ($criteria === ['id' => FakeEntityManager::AUTO_INCREMENT_ID]) {
             $registration = new Registration();
             $registration->setId(264);
+            $registration->setOpensAt(new \DateTime('2020-03-13 15:00:00'));
+            $registration->setClosesAt(new \DateTime('2020-03-16 09:00:00'));
             $registration->setTitle('Test title');
             $registration->setDescription('');
             $registration->setOwnerUser(FakeUser::adminUser());
             $registration->setOwnerRole(null);
-            $registration->setOnOff(true);
+            $registration->setOnOff(1);
             return $registration;
         }
         $criteria_json = json_encode($criteria);

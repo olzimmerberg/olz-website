@@ -7,11 +7,13 @@ use Olz\Utils\WithUtilsTrait;
 trait DataStorageTrait {
     use WithUtilsTrait;
 
+    /** @return array<string> */
     public function getStoredImageUploadIds(): array {
         $img_path = $this->getImagesPathForStorage();
         return $this->uploadUtils()->getStoredUploadIds("{$img_path}img/");
     }
 
+    /** @return array<string> */
     public function getStoredFileUploadIds(): array {
         return $this->uploadUtils()->getStoredUploadIds($this->getFilesPathForStorage());
     }
@@ -36,7 +38,8 @@ trait DataStorageTrait {
         foreach ($upload_ids as $upload_id) {
             $file_path = "{$data_path}files/{$entity_path}{$upload_id}";
             $file_href = "{$data_href}files/{$entity_path}{$upload_id}";
-            $modified = is_file($file_path) ? date('Y-m-d_H-i-s', filemtime($file_path)) : '';
+            $filemtime = is_file($file_path) ? filemtime($file_path) : false;
+            $modified = is_int($filemtime) ? date('Y-m-d_H-i-s', $filemtime) : '';
             $search = "\"./{$upload_id}\"";
             $replace = "\"{$file_href}?modified={$modified}\"";
             $html = str_replace($search, $replace, $html);
@@ -50,7 +53,8 @@ trait DataStorageTrait {
         $entity_path = $this->getEntityPathForStorage();
         $file_path = "{$data_path}files/{$entity_path}{$upload_id}";
         $file_href = "{$data_href}files/{$entity_path}{$upload_id}";
-        $modified = is_file($file_path) ? date('Y-m-d_H-i-s', filemtime($file_path)) : '';
+        $filemtime = is_file($file_path) ? filemtime($file_path) : false;
+        $modified = is_int($filemtime) ? date('Y-m-d_H-i-s', $filemtime) : '';
         return "{$file_href}?modified={$modified}";
     }
 
@@ -66,7 +70,7 @@ trait DataStorageTrait {
         return "{$data_path}files/{$entity_path}";
     }
 
-    public function getEntityPathForStorage() {
+    public function getEntityPathForStorage(): string {
         $entity_name = $this::getEntityNameForStorage();
         $entity_id = $this->getEntityIdForStorage();
         return "{$entity_name}/{$entity_id}/";

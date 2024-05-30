@@ -508,9 +508,9 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $this->assertSame([
             "INFO Running command Olz\\Command\\SendDailyNotificationsCommand...",
             "INFO Autogenerating notifications...",
-            "INFO Removing email configuration reminder subscription for 'user (User ID: 1)'...",
+            "INFO Removing email configuration reminder subscription for 'default (User ID: 1)'...",
             "INFO Generating email configuration reminder subscription for 'vorstand (User ID: 3)'...",
-            "INFO Removing telegram configuration reminder subscription for 'user (User ID: 1)'...",
+            "INFO Removing telegram configuration reminder subscription for 'default (User ID: 1)'...",
             "INFO Generating telegram configuration reminder subscription for 'vorstand (User ID: 3)'...",
             "INFO Sending 'monthly_preview' notifications...",
             "INFO Getting notification for '[]'...",
@@ -603,13 +603,13 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $this->assertSame([
             [
-                'user (User ID: 1)',
+                'default (User ID: 1)',
                 NotificationSubscription::DELIVERY_EMAIL,
                 NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
                 '{"cancelled":false}',
             ],
             [
-                'user (User ID: 1)',
+                'default (User ID: 1)',
                 NotificationSubscription::DELIVERY_TELEGRAM,
                 NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
                 '{"cancelled":false}',

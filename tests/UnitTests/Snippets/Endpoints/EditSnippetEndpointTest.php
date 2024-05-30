@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Snippets\Endpoints;
 
 use Olz\Snippets\Endpoints\EditSnippetEndpoint;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -44,6 +45,7 @@ final class EditSnippetEndpointTest extends UnitTestCase {
     public function testEditSnippetEndpointNoSuchEntity(): void {
         $id = FakeOlzRepository::NULL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ["snippet_{$id}" => true];
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditSnippetEndpoint();
         $endpoint->runtimeSetup();
@@ -59,9 +61,9 @@ final class EditSnippetEndpointTest extends UnitTestCase {
         $this->assertSame([
             'id' => $id,
             'meta' => [
-                'ownerUserId' => null,
+                'ownerUserId' => 1,
                 'ownerRoleId' => null,
-                'onOff' => false,
+                'onOff' => true,
             ],
             'data' => [
                 'text' => '',
@@ -78,7 +80,7 @@ final class EditSnippetEndpointTest extends UnitTestCase {
         $this->assertSame('', $snippet->getText());
 
         $this->assertSame([
-            [$snippet, 1, null, null],
+            [$snippet, 1, 1, null],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
@@ -176,8 +178,8 @@ final class EditSnippetEndpointTest extends UnitTestCase {
         $this->assertSame([
             'id' => $id,
             'meta' => [
-                'ownerUserId' => null,
-                'ownerRoleId' => null,
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
                 'onOff' => true,
             ],
             'data' => [

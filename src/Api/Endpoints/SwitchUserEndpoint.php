@@ -44,7 +44,7 @@ class SwitchUserEndpoint extends OlzEndpoint {
         $this->session()->set('auth', $user->getPermissions());
         $this->session()->set('root', $root);
         $this->session()->set('user', $user->getUsername());
-        $this->session()->set('user_id', $user->getId());
+        $this->session()->set('user_id', "{$user->getId()}");
         return [
             'status' => 'OK',
         ];

@@ -77,7 +77,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
             $icon = "{$code_href}assets/icns/{$icon_basename}";
             $image = '';
             $is_image_right = ($index % 2) === 0;
-            if (count($image_ids ?? []) > 0) {
+            if (count($image_ids) > 0) {
                 $class = $is_image_right ? 'right' : 'left';
                 $olz_image = $this->imageUtils()->olzImage(
                     'news',

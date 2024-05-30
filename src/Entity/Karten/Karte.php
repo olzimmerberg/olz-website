@@ -17,147 +17,147 @@ class Karte extends OlzEntity implements DataStorageInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $kartennr;
+    private ?int $kartennr;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    private $name;
+    private string $name;
 
     // @deprecated
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $center_x;
+    private ?int $center_x;
 
     // @deprecated
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $center_y;
+    private ?int $center_y;
 
     #[ORM\Column(type: 'float', nullable: true)]
-    private $latitude;
+    private ?float $latitude;
 
     #[ORM\Column(type: 'float', nullable: true)]
-    private $longitude;
+    private ?float $longitude;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $jahr;
+    private ?string $jahr;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $massstab;
+    private ?string $massstab;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $ort;
+    private ?string $ort;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $zoom;
+    private ?int $zoom;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $typ;
+    private ?string $typ;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $vorschau;
+    private ?string $vorschau;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getKartenNr() {
+    public function getKartenNr(): ?int {
         return $this->kartennr;
     }
 
-    public function setKartenNr($new_value) {
+    public function setKartenNr(?int $new_value): void {
         $this->kartennr = $new_value;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName($new_value) {
+    public function setName(string $new_value): void {
         $this->name = $new_value;
     }
 
-    public function getCenterX() {
+    public function getCenterX(): ?int {
         return $this->center_x;
     }
 
-    public function setCenterX($new_value) {
+    public function setCenterX(?int $new_value): void {
         $this->center_x = $new_value;
     }
 
-    public function getCenterY() {
+    public function getCenterY(): ?int {
         return $this->center_y;
     }
 
-    public function setCenterY($new_value) {
+    public function setCenterY(?int $new_value): void {
         $this->center_y = $new_value;
     }
 
-    public function getLatitude() {
+    public function getLatitude(): ?float {
         return $this->latitude;
     }
 
-    public function setLatitude($new_value) {
+    public function setLatitude(?float $new_value): void {
         $this->latitude = $new_value;
     }
 
-    public function getLongitude() {
+    public function getLongitude(): ?float {
         return $this->longitude;
     }
 
-    public function setLongitude($new_value) {
+    public function setLongitude(?float $new_value): void {
         $this->longitude = $new_value;
     }
 
-    public function getYear() {
+    public function getYear(): ?string {
         return $this->jahr;
     }
 
-    public function setYear($new_value) {
+    public function setYear(?string $new_value): void {
         $this->jahr = $new_value;
     }
 
-    public function getScale() {
+    public function getScale(): ?string {
         return $this->massstab;
     }
 
-    public function setScale($new_value) {
+    public function setScale(?string $new_value): void {
         $this->massstab = $new_value;
     }
 
-    public function getPlace() {
+    public function getPlace(): ?string {
         return $this->ort;
     }
 
-    public function setPlace($new_value) {
+    public function setPlace(?string $new_value): void {
         $this->ort = $new_value;
     }
 
-    public function getZoom() {
+    public function getZoom(): ?int {
         return $this->zoom;
     }
 
-    public function setZoom($new_value) {
+    public function setZoom(?int $new_value): void {
         $this->zoom = $new_value;
     }
 
-    public function getKind() {
+    public function getKind(): ?string {
         return $this->typ;
     }
 
-    public function setKind($new_value) {
+    public function setKind(?string $new_value): void {
         $this->typ = $new_value;
     }
 
-    public function getPreviewImageId() {
+    public function getPreviewImageId(): ?string {
         return $this->vorschau;
     }
 
-    public function setPreviewImageId($new_value) {
+    public function setPreviewImageId(?string $new_value): void {
         $this->vorschau = $new_value;
     }
 

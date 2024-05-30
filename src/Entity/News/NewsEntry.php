@@ -19,198 +19,205 @@ class NewsEntry extends OlzEntity implements DataStorageInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    private $termin;
+    private int $termin;
 
     #[ORM\Column(type: 'date', nullable: false)]
-    private $published_date;
+    private \DateTime $published_date;
 
     #[ORM\Column(type: 'time', nullable: true)]
-    private $published_time;
+    private ?\DateTime $published_time;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 1])]
-    private $newsletter;
+    private bool $newsletter;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $title;
+    private string $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $teaser;
+    private ?string $teaser;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $content;
+    private ?string $content;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $image_ids;
+    private ?string $image_ids;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $external_url;
+    private ?string $external_url;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $author_name;
+    private ?string $author_name;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $author_email;
+    private ?string $author_email;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'author_user_id', referencedColumnName: 'id', nullable: true)]
-    private $author_user;
+    private ?User $author_user;
 
     #[ORM\ManyToOne(targetEntity: Role::class)]
     #[ORM\JoinColumn(name: 'author_role_id', referencedColumnName: 'id', nullable: true)]
-    private $author_role;
+    private ?Role $author_role;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $format;
+    private string $format;
 
     #[ORM\Column(type: 'text', nullable: false, options: ['default' => ''])]
-    private $tags;
+    private string $tags;
 
     #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 0])]
-    private $counter;
+    private int $counter;
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`)
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getPublishedDate() {
+    public function getPublishedDate(): \DateTime {
         return $this->published_date;
     }
 
-    public function setPublishedDate($new_value) {
+    public function setPublishedDate(\DateTime $new_value): void {
         $this->published_date = $new_value;
     }
 
-    public function getPublishedTime() {
+    public function getPublishedTime(): ?\DateTime {
         return $this->published_time;
     }
 
-    public function setPublishedTime($new_value) {
+    public function setPublishedTime(?\DateTime $new_value): void {
         $this->published_time = $new_value;
     }
 
-    public function getFormat() {
+    public function getFormat(): string {
         return $this->format;
     }
 
-    public function setFormat($new_value) {
+    public function setFormat(string $new_value): void {
         $this->format = $new_value;
     }
 
-    public function getAuthorName() {
+    public function getAuthorName(): ?string {
         return $this->author_name;
     }
 
-    public function setAuthorName($new_value) {
+    public function setAuthorName(?string $new_value): void {
         $this->author_name = $new_value;
     }
 
-    public function getAuthorEmail() {
+    public function getAuthorEmail(): ?string {
         return $this->author_email;
     }
 
-    public function setAuthorEmail($new_value) {
+    public function setAuthorEmail(?string $new_value): void {
         $this->author_email = $new_value;
     }
 
-    public function getAuthorUser() {
+    public function getAuthorUser(): ?User {
         return $this->author_user;
     }
 
-    public function setAuthorUser($new_value) {
+    public function setAuthorUser(?User $new_value): void {
         $this->author_user = $new_value;
     }
 
-    public function getAuthorRole() {
+    public function getAuthorRole(): ?Role {
         return $this->author_role;
     }
 
-    public function setAuthorRole($new_value) {
+    public function setAuthorRole(?Role $new_value): void {
         $this->author_role = $new_value;
     }
 
-    public function getTitle() {
+    public function getTitle(): string {
         return $this->title;
     }
 
-    public function setTitle($new_value) {
+    public function setTitle(string $new_value): void {
         $this->title = $new_value;
     }
 
-    public function getTeaser() {
+    public function getTeaser(): ?string {
         return $this->teaser;
     }
 
-    public function setTeaser($new_value) {
+    public function setTeaser(?string $new_value): void {
         $this->teaser = $new_value;
     }
 
-    public function getContent() {
+    public function getContent(): ?string {
         return $this->content;
     }
 
-    public function setContent($new_value) {
+    public function setContent(?string $new_value): void {
         $this->content = $new_value;
     }
 
-    public function getImageIds() {
+    /** @return array<string> */
+    public function getImageIds(): array {
         if ($this->image_ids == null) {
-            return null;
+            return [];
         }
-        return json_decode($this->image_ids, true);
+        $array = json_decode($this->image_ids, true);
+        return is_array($array) ? $array : [];
     }
 
-    public function setImageIds($new_value) {
-        $this->image_ids = json_encode($new_value);
+    /** @param array<string> $new_value */
+    public function setImageIds(array $new_value): void {
+        $enc_value = json_encode($new_value);
+        if (!$enc_value) {
+            return;
+        }
+        $this->image_ids = $enc_value;
     }
 
-    public function getTags() {
+    public function getTags(): string {
         return $this->tags;
     }
 
-    public function setTags($new_value) {
+    public function setTags(string $new_value): void {
         $this->tags = $new_value;
     }
 
-    public function getExternalUrl() {
+    public function getExternalUrl(): ?string {
         return $this->external_url;
     }
 
-    public function setExternalUrl($new_value) {
+    public function setExternalUrl(?string $new_value): void {
         $this->external_url = $new_value;
     }
 
-    public function getTermin() {
+    public function getTermin(): int {
         return $this->termin;
     }
 
-    public function setTermin($new_value) {
+    public function setTermin(int $new_value): void {
         $this->termin = $new_value;
     }
 
-    public function getCounter() {
+    public function getCounter(): int {
         return $this->counter;
     }
 
-    public function setCounter($new_value) {
+    public function setCounter(int $new_value): void {
         $this->counter = $new_value;
     }
 
     /** @deprecated */
-    public function getNewsletter() {
+    public function getNewsletter(): bool {
         return $this->newsletter;
     }
 
     /** @deprecated */
-    public function setNewsletter($new_value) {
+    public function setNewsletter(bool $new_value): void {
         $this->newsletter = $new_value;
     }
 

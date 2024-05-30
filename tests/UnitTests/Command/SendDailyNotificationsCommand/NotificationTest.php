@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\Notification;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
@@ -15,13 +15,11 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  */
 final class NotificationTest extends UnitTestCase {
     public function testNotification(): void {
-        $user = new User();
-        $user->setFirstName('First');
-        $user->setLastName('Last');
+        $user = FakeUser::defaultUser();
 
         $notification = new Notification('Test title', 'Hallo %%userFirstName%% %%userLastName%%');
 
         $this->assertSame('Test title', $notification->title);
-        $this->assertSame("Hallo First Last", $notification->getTextForUser($user));
+        $this->assertSame("Hallo Default User", $notification->getTextForUser($user));
     }
 }

@@ -14,57 +14,57 @@ class Registration extends OlzEntity {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $title;
+    private string $title;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $description;
+    private string $description;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $opens_at;
+    private ?\DateTime $opens_at;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $closes_at;
+    private ?\DateTime $closes_at;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_id) {
+    public function setId(int $new_id): void {
         $this->id = $new_id;
     }
 
-    public function getTitle() {
+    public function getTitle(): string {
         return $this->title;
     }
 
-    public function setTitle($new_title) {
+    public function setTitle(string $new_title): void {
         $this->title = $new_title;
     }
 
-    public function getDescription() {
+    public function getDescription(): string {
         return $this->description;
     }
 
-    public function setDescription($new_description) {
+    public function setDescription(string $new_description): void {
         $this->description = $new_description;
     }
 
-    public function getOpensAt() {
+    public function getOpensAt(): ?\DateTime {
         return $this->opens_at;
     }
 
-    public function setOpensAt($new_opens_at) {
+    public function setOpensAt(?\DateTime $new_opens_at): void {
         $this->opens_at = $new_opens_at;
     }
 
-    public function getClosesAt() {
+    public function getClosesAt(): ?\DateTime {
         return $this->closes_at;
     }
 
-    public function setClosesAt($new_closes_at) {
+    public function setClosesAt(?\DateTime $new_closes_at): void {
         $this->closes_at = $new_closes_at;
     }
 }

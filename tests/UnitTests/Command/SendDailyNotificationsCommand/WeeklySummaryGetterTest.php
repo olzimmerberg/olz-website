@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -17,8 +17,6 @@ use Olz\Utils\FixedDateUtils;
 final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWrongWeekday(): void {
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Friday
-        $user = new User();
-        $user->setFirstName('First');
 
         $job = new WeeklySummaryGetter();
         $job->setDateUtils($date_utils);
@@ -36,8 +34,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
 
     public function testWeeklySummaryGetterWithAllContent(): void {
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new WeeklySummaryGetter();
         $job->setDateUtils($date_utils);
@@ -51,7 +48,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Das lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):
 
@@ -98,8 +95,6 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
 
     public function testWeeklySummaryGetterWithNoContent(): void {
         $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
-        $user = new User();
-        $user->setFirstName('First');
 
         $job = new WeeklySummaryGetter();
         $job->setDateUtils($date_utils);

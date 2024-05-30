@@ -71,7 +71,7 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
             $date = $news_entry->getPublishedDate()->format('d.m.');
             $title = $news_entry->getTitle();
             $format = $news_entry->getFormat();
-            $image_ids = $news_entry->getImageIds() ?? [];
+            $image_ids = $news_entry->getImageIds();
 
             $icon_basename = self::$iconBasenameByFormat[$format];
             $icon = "{$code_href}assets/icns/{$icon_basename}";

@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
 use Olz\Roles\Endpoints\CreateRoleEndpoint;
 use Olz\Tests\Fake;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
@@ -64,6 +65,7 @@ final class CreateRoleEndpointTest extends UnitTestCase {
 
     public function testCreateRoleEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true];
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         $endpoint = new CreateRoleEndpoint();
         $endpoint->runtimeSetup();
 

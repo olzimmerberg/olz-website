@@ -42,7 +42,7 @@ final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
                 'id' => 1,
                 'firstName' => 'Default',
                 'lastName' => 'User',
-                'username' => 'user',
+                'username' => 'default',
             ],
         ], $result);
     }

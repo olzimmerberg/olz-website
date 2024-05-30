@@ -6,6 +6,7 @@ namespace Olz\Tests\Fake\Entity\Termine;
 
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 
 class FakeTerminLocation extends FakeEntity {
     public static function minimal($fresh = false) {
@@ -13,12 +14,13 @@ class FakeTerminLocation extends FakeEntity {
             $fresh,
             function () {
                 $entity = new TerminLocation();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
                 $entity->setName("Fake title");
                 $entity->setDetails("");
                 $entity->setLatitude(0);
                 $entity->setLongitude(0);
-                $entity->setOnOff(true);
+                $entity->setImageIds([]);
                 return $entity;
             }
         );
@@ -29,13 +31,13 @@ class FakeTerminLocation extends FakeEntity {
             $fresh,
             function () {
                 $entity = new TerminLocation();
+                FakeOlzEntity::empty($entity);
                 $entity->setId(123);
                 $entity->setName("Cannot be empty");
                 $entity->setDetails("");
                 $entity->setLatitude(0);
                 $entity->setLongitude(0);
                 $entity->setImageIds([]);
-                $entity->setOnOff(false);
                 return $entity;
             }
         );
@@ -46,13 +48,13 @@ class FakeTerminLocation extends FakeEntity {
             $fresh,
             function () {
                 $entity = new TerminLocation();
+                FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
                 $entity->setName("Fake title");
                 $entity->setDetails("Fake content");
                 $entity->setLatitude(47.2790953);
                 $entity->setLongitude(8.5591936);
                 $entity->setImageIds(['image__________________1.jpg', 'image__________________2.png']);
-                $entity->setOnOff(true);
                 return $entity;
             }
         );

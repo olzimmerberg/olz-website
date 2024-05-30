@@ -6,6 +6,7 @@ namespace Olz\Tests\Fake\Entity\Roles;
 
 use Olz\Entity\Roles\Role;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 use Olz\Tests\Fake\Entity\FakeUser;
 
 class FakeRole extends FakeEntity {
@@ -14,9 +15,18 @@ class FakeRole extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Role();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
+                $entity->setUsername('');
+                $entity->setOldUsername(null);
                 $entity->setName('');
-                $entity->setOnOff(true);
+                $entity->setTitle(null);
+                $entity->setDescription('');
+                $entity->setGuide('');
+                $entity->setParentRoleId(null);
+                $entity->setIndexWithinParent(null);
+                $entity->setFeaturedIndex(null);
+                $entity->setCanHaveChildRoles(false);
                 return $entity;
             }
         );
@@ -27,6 +37,7 @@ class FakeRole extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Role();
+                FakeOlzEntity::empty($entity);
                 $entity->setId(123);
                 $entity->setUsername('');
                 $entity->setOldUsername('');
@@ -38,7 +49,6 @@ class FakeRole extends FakeEntity {
                 $entity->setIndexWithinParent(-1);
                 $entity->setFeaturedIndex(null);
                 $entity->setCanHaveChildRoles(false);
-                $entity->setOnOff(false);
                 return $entity;
             }
         );
@@ -49,6 +59,7 @@ class FakeRole extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Role();
+                FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
                 $entity->setUsername('test-role');
                 $entity->setOldUsername('old-test-role');
@@ -60,7 +71,6 @@ class FakeRole extends FakeEntity {
                 $entity->setIndexWithinParent(2);
                 $entity->setFeaturedIndex(6);
                 $entity->setCanHaveChildRoles(true);
-                $entity->setOnOff(true);
                 return $entity;
             }
         );
@@ -71,10 +81,12 @@ class FakeRole extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Role();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(2);
                 $entity->setUsername('admin_role');
                 $entity->setName('Administrator');
                 $entity->setPermissions('all');
+                $entity->setParentRoleId(null);
                 return $entity;
             },
             function ($entity) {
@@ -88,10 +100,12 @@ class FakeRole extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Role();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(3);
                 $entity->setUsername('vorstand_role');
                 $entity->setName('Vorstand');
                 $entity->setPermissions('aktuell ftp vorstand_role');
+                $entity->setParentRoleId(null);
                 return $entity;
             },
             function ($entity) {
@@ -105,6 +119,7 @@ class FakeRole extends FakeEntity {
             $fresh,
             function () use ($degree) {
                 $entity = new Role();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(intval(str_repeat('3', $degree + 1)));
                 $entity->setUsername(str_repeat('sub_', $degree + 1).'vorstand_role');
                 $entity->setName(str_repeat('Sub-', $degree + 1).'Vorstand');
@@ -120,10 +135,12 @@ class FakeRole extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Role();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(1);
                 $entity->setUsername('role');
                 $entity->setName('Default');
                 $entity->setPermissions('');
+                $entity->setParentRoleId(null);
                 return $entity;
             }
         );
@@ -134,11 +151,13 @@ class FakeRole extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Role();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(1);
                 $entity->setUsername('somerole');
                 $entity->setOldUsername('somerole-old');
                 $entity->setName('Some Role');
                 $entity->setPermissions('');
+                $entity->setParentRoleId(null);
                 $entity->addUser(FakeUser::adminUser());
                 $entity->addUser(FakeUser::vorstandUser());
                 return $entity;

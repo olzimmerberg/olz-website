@@ -160,8 +160,8 @@ final class GetRoleEndpointTest extends UnitTestCase {
         $this->assertSame([
             'id' => $id,
             'meta' => [
-                'ownerUserId' => null,
-                'ownerRoleId' => null,
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
                 'onOff' => true,
             ],
             'data' => [

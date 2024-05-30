@@ -12,123 +12,140 @@ class Panini2024Picture extends OlzEntity {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    private $line1;
+    private string $line1;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $line2;
+    private ?string $line2;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $association;
+    private ?string $association;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    private $img_src;
+    private string $img_src;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    private $img_style;
+    private string $img_style;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
-    private $is_landscape;
+    private bool $is_landscape;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
-    private $has_top;
+    private bool $has_top;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    private $birthdate;
+    private ?\DateTime $birthdate;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $num_mispunches;
+    private ?int $num_mispunches;
 
     #[ORM\Column(type: 'text', nullable: false)]
-    private $infos;
+    private string $infos;
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getLine1() {
+    public function getLine1(): string {
         return $this->line1;
     }
 
-    public function setLine1($new_value) {
+    public function setLine1(string $new_value): void {
         $this->line1 = $new_value;
     }
 
-    public function getLine2() {
+    public function getLine2(): ?string {
         return $this->line2;
     }
 
-    public function setLine2($new_value) {
+    public function setLine2(?string $new_value): void {
         $this->line2 = $new_value;
     }
 
-    public function getAssociation() {
+    public function getAssociation(): ?string {
         return $this->association;
     }
 
-    public function setAssociation($new_value) {
+    public function setAssociation(?string $new_value): void {
         $this->association = $new_value;
     }
 
-    public function getImgSrc() {
+    public function getImgSrc(): string {
         return $this->img_src;
     }
 
-    public function setImgSrc($new_value) {
+    public function setImgSrc(string $new_value): void {
         $this->img_src = $new_value;
     }
 
-    public function getImgStyle() {
+    public function getImgStyle(): string {
         return $this->img_style;
     }
 
-    public function setImgStyle($new_value) {
+    public function setImgStyle(string $new_value): void {
         $this->img_style = $new_value;
     }
 
-    public function getIsLandscape() {
+    public function getIsLandscape(): bool {
         return $this->is_landscape;
     }
 
-    public function setIsLandscape($new_value) {
+    public function setIsLandscape(bool $new_value): void {
         $this->is_landscape = $new_value;
     }
 
-    public function getHasTop() {
+    public function getHasTop(): bool {
         return $this->has_top;
     }
 
-    public function setHasTop($new_value) {
+    public function setHasTop(bool $new_value): void {
         $this->has_top = $new_value;
     }
 
-    public function getBirthdate() {
+    public function getBirthdate(): ?\DateTime {
         return $this->birthdate;
     }
 
-    public function setBirthdate($new_value) {
+    public function setBirthdate(?\DateTime $new_value): void {
         $this->birthdate = $new_value;
     }
 
-    public function getNumMispunches() {
+    public function getNumMispunches(): ?int {
         return $this->num_mispunches;
     }
 
-    public function setNumMispunches($new_value) {
+    public function setNumMispunches(?int $new_value): void {
         $this->num_mispunches = $new_value;
     }
 
-    public function getInfos() {
-        return json_decode($this->infos ?? '[]', true);
+    /** @return array<string> */
+    public function getInfos(): array {
+        $array = json_decode($this->infos ?? '[]', true);
+        if (!is_array($array)) {
+            return [];
+        }
+        $strings = [];
+        foreach ($array as $string) {
+            if (!is_string($string)) {
+                return [];
+            }
+            $strings[] = $string;
+        }
+        return $strings;
     }
 
-    public function setInfos($new_value) {
-        $this->infos = json_encode($new_value);
+    /** @param array<string> $new_value */
+    public function setInfos(array $new_value): void {
+        $sane_value = json_encode($new_value);
+        if (!$sane_value) {
+            return;
+        }
+        $this->infos = $sane_value;
     }
 }

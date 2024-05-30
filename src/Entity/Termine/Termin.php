@@ -2,6 +2,8 @@
 
 namespace Olz\Entity\Termine;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Common\DataStorageInterface;
@@ -18,86 +20,87 @@ class Termin extends OlzEntity implements DataStorageInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'date', nullable: false)]
-    private $start_date;
+    private \DateTime $start_date;
 
     #[ORM\Column(type: 'time', nullable: true)]
-    private $start_time;
+    private ?\DateTime $start_time;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    private $end_date;
+    private ?\DateTime $end_date;
 
     #[ORM\Column(type: 'time', nullable: true)]
-    private $end_time;
+    private ?\DateTime $end_time;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $deadline;
+    private ?\DateTime $deadline;
 
     #[ORM\ManyToOne(targetEntity: Registration::class)]
     #[ORM\JoinColumn(name: 'participants_registration_id', referencedColumnName: 'id')]
-    private $participants_registration;
+    private ?Registration $participants_registration;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $num_participants;
+    private ?int $num_participants;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $min_participants;
+    private ?int $min_participants;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $max_participants;
+    private ?int $max_participants;
 
     #[ORM\ManyToOne(targetEntity: Registration::class)]
     #[ORM\JoinColumn(name: 'volunteers_registration_id', referencedColumnName: 'id')]
-    private $volunteers_registration;
+    private ?Registration $volunteers_registration;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $num_volunteers;
+    private ?int $num_volunteers;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $min_volunteers;
+    private ?int $min_volunteers;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $max_volunteers;
+    private ?int $max_volunteers;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
-    private $newsletter;
+    private bool $newsletter;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $title;
+    private ?string $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $go2ol;
+    private ?string $go2ol;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $text;
+    private ?string $text;
 
     // @deprecated Use labels
     #[ORM\Column(type: 'string', nullable: true)]
-    private $typ;
+    private ?string $typ;
 
+    /** @var Collection<int|string, TerminLabel>&iterable<TerminLabel> */
     #[ORM\JoinTable(name: 'termin_label_map')]
     #[ORM\JoinColumn(name: 'termin_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'label_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: TerminLabel::class, inversedBy: 'termine')]
-    private $labels;
+    private Collection $labels;
 
     #[ORM\ManyToOne(targetEntity: TerminLocation::class)]
     #[ORM\JoinColumn(name: 'location_id', referencedColumnName: 'id', nullable: true)]
-    private $location;
+    private ?TerminLocation $location;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $xkoord;
+    private ?int $xkoord;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $ykoord;
+    private ?int $ykoord;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $solv_uid;
+    private ?int $solv_uid;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $image_ids;
+    private ?string $image_ids;
 
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`),
@@ -106,215 +109,223 @@ class Termin extends OlzEntity implements DataStorageInterface {
     // KEY `datum_off` (`datum_off`)
 
     public function __construct() {
-        $this->labels = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->labels = new ArrayCollection();
     }
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getStartDate() {
+    public function getStartDate(): \DateTime {
         return $this->start_date;
     }
 
-    public function setStartDate($new_value) {
+    public function setStartDate(\DateTime $new_value): void {
         $this->start_date = $new_value;
     }
 
-    public function getStartTime() {
+    public function getStartTime(): ?\DateTime {
         return $this->start_time;
     }
 
-    public function setStartTime($new_value) {
+    public function setStartTime(?\DateTime $new_value): void {
         $this->start_time = $new_value;
     }
 
-    public function getEndDate() {
+    public function getEndDate(): ?\DateTime {
         return $this->end_date;
     }
 
-    public function setEndDate($new_value) {
+    public function setEndDate(?\DateTime $new_value): void {
         $this->end_date = $new_value;
     }
 
-    public function getEndTime() {
+    public function getEndTime(): ?\DateTime {
         return $this->end_time;
     }
 
-    public function setEndTime($new_value) {
+    public function setEndTime(?\DateTime $new_value): void {
         $this->end_time = $new_value;
     }
 
-    public function getDeadline() {
+    public function getDeadline(): ?\DateTime {
         return $this->deadline;
     }
 
-    public function setDeadline($new_value) {
+    public function setDeadline(?\DateTime $new_value): void {
         $this->deadline = $new_value;
     }
 
-    public function getTitle() {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    public function setTitle($new_value) {
+    public function setTitle(?string $new_value): void {
         $this->title = $new_value;
     }
 
-    public function getText() {
+    public function getText(): ?string {
         return $this->text;
     }
 
-    public function setText($new_value) {
+    public function setText(?string $new_value): void {
         $this->text = $new_value;
     }
 
-    public function getTypes() {
+    public function getTypes(): ?string {
         return $this->typ;
     }
 
-    public function setTypes($new_value) {
+    public function setTypes(?string $new_value): void {
         $this->typ = $new_value;
     }
 
-    public function getLabels() {
+    /** @return Collection<int|string, TerminLabel>&iterable<TerminLabel> */
+    public function getLabels(): Collection {
         return $this->labels;
     }
 
-    public function addLabel(TerminLabel $label) {
+    public function addLabel(TerminLabel $label): void {
         $this->labels->add($label);
     }
 
-    public function removeLabel(TerminLabel $label) {
+    public function removeLabel(TerminLabel $label): void {
         $this->labels->removeElement($label);
     }
 
-    public function getSolvId() {
+    public function getSolvId(): ?int {
         return $this->solv_uid;
     }
 
-    public function setSolvId($new_value) {
+    public function setSolvId(?int $new_value): void {
         $this->solv_uid = $new_value;
     }
 
     // @deprecated Use SolvId to get the go2ol (or other platform) ID
-    public function getGo2olId() {
+    public function getGo2olId(): ?string {
         return $this->go2ol;
     }
 
     // @deprecated Use SolvId to get the go2ol (or other platform) ID
-    public function setGo2olId($new_value) {
+    public function setGo2olId(?string $new_value): void {
         $this->go2ol = $new_value;
     }
 
-    public function getCoordinateX() {
+    public function getCoordinateX(): ?int {
         return $this->xkoord;
     }
 
-    public function setCoordinateX($new_value) {
+    public function setCoordinateX(?int $new_value): void {
         $this->xkoord = $new_value;
     }
 
-    public function getCoordinateY() {
+    public function getCoordinateY(): ?int {
         return $this->ykoord;
     }
 
-    public function setCoordinateY($new_value) {
+    public function setCoordinateY(?int $new_value): void {
         $this->ykoord = $new_value;
     }
 
-    public function getLocation() {
+    public function getLocation(): ?TerminLocation {
         return $this->location;
     }
 
-    public function setLocation(?TerminLocation $new_value) {
+    public function setLocation(?TerminLocation $new_value): void {
         $this->location = $new_value;
     }
 
-    public function getNewsletter() {
+    public function getNewsletter(): bool {
         return $this->newsletter;
     }
 
-    public function setNewsletter($new_value) {
+    public function setNewsletter(bool $new_value): void {
         $this->newsletter = $new_value;
     }
 
-    public function getImageIds() {
+    /** @return array<string> */
+    public function getImageIds(): array {
         if ($this->image_ids == null) {
-            return null;
+            return [];
         }
-        return json_decode($this->image_ids, true);
+        $array = json_decode($this->image_ids, true);
+        return is_array($array) ? $array : [];
     }
 
-    public function setImageIds($new_value) {
-        $this->image_ids = json_encode($new_value);
+    /** @param array<string> $new_value */
+    public function setImageIds(array $new_value): void {
+        $enc_value = json_encode($new_value);
+        if (!$enc_value) {
+            return;
+        }
+        $this->image_ids = $enc_value;
     }
 
-    public function getParticipantsRegistration() {
+    public function getParticipantsRegistration(): ?Registration {
         return $this->participants_registration;
     }
 
-    public function setParticipantsRegistration($new_value) {
+    public function setParticipantsRegistration(?Registration $new_value): void {
         $this->participants_registration = $new_value;
     }
 
-    public function getNumParticipants() {
+    public function getNumParticipants(): ?int {
         return $this->num_participants;
     }
 
-    public function setNumParticipants($new_value) {
+    public function setNumParticipants(?int $new_value): void {
         $this->num_participants = $new_value;
     }
 
-    public function getMinParticipants() {
+    public function getMinParticipants(): ?int {
         return $this->min_participants;
     }
 
-    public function setMinParticipants($new_value) {
+    public function setMinParticipants(?int $new_value): void {
         $this->min_participants = $new_value;
     }
 
-    public function getMaxParticipants() {
+    public function getMaxParticipants(): ?int {
         return $this->max_participants;
     }
 
-    public function setMaxParticipants($new_value) {
+    public function setMaxParticipants(?int $new_value): void {
         $this->max_participants = $new_value;
     }
 
-    public function getVolunteersRegistration() {
+    public function getVolunteersRegistration(): ?Registration {
         return $this->volunteers_registration;
     }
 
-    public function setVolunteersRegistration($new_value) {
+    public function setVolunteersRegistration(?Registration $new_value): void {
         $this->volunteers_registration = $new_value;
     }
 
-    public function getNumVolunteers() {
+    public function getNumVolunteers(): ?int {
         return $this->num_volunteers;
     }
 
-    public function setNumVolunteers($new_value) {
+    public function setNumVolunteers(?int $new_value): void {
         $this->num_volunteers = $new_value;
     }
 
-    public function getMinVolunteers() {
+    public function getMinVolunteers(): ?int {
         return $this->min_volunteers;
     }
 
-    public function setMinVolunteers($new_value) {
+    public function setMinVolunteers(?int $new_value): void {
         $this->min_volunteers = $new_value;
     }
 
-    public function getMaxVolunteers() {
+    public function getMaxVolunteers(): ?int {
         return $this->max_volunteers;
     }
 
-    public function setMaxVolunteers($new_value) {
+    public function setMaxVolunteers(?int $new_value): void {
         $this->max_volunteers = $new_value;
     }
 

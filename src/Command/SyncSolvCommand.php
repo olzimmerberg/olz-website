@@ -58,7 +58,7 @@ class SyncSolvCommand extends OlzCommand {
                 $this->output,
             );
         } catch (\Throwable $th) {
-            $this->logAndOutput("olz:sync-solv-results({$current_year}) failed.", [$th], level: 'warning');
+            $this->logAndOutput("olz:sync-solv-results({$current_year}) failed. {$th}", [$th], level: 'warning');
         }
     }
 

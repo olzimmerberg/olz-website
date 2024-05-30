@@ -55,8 +55,8 @@ final class GetRegistrationEndpointTest extends UnitTestCase {
                         'options' => null,
                     ],
                 ],
-                'opensAt' => null,
-                'closesAt' => null,
+                'opensAt' => '2020-03-13 15:00:00',
+                'closesAt' => '2020-03-16 09:00:00',
             ],
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');

@@ -29,7 +29,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
             'permissions' => $_SESSION['auth'] ?? null,
             'root' => $_SESSION['root'] ?? null,
             'username' => $_SESSION['user'] ?? null,
-            'id' => $_SESSION['user_id'] ?? null,
+            'id' => intval($_SESSION['user_id'] ?? null),
         ]);
         $iso_now_json = json_encode($this->dateUtils()->getIsoNow());
 

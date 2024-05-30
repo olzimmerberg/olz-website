@@ -13,20 +13,22 @@ class FakeEntityUtils extends EntityUtils {
     public $can_update_olz_entity;
 
     public function createOlzEntity(OlzEntity $entity, array $input): void {
+        parent::createOlzEntity($entity, $input);
         $this->create_olz_entity_calls[] = [
             $entity,
-            ($input['onOff'] ?? null) ? 1 : 0,
-            $input['ownerUserId'] ?? null,
-            $input['ownerRoleId'] ?? null,
+            $entity->getOnOff() ? 1 : 0,
+            $entity->getOwnerUser()?->getId() ?? null,
+            $entity->getOwnerRole()?->getId() ?? null,
         ];
     }
 
     public function updateOlzEntity(OlzEntity $entity, array $input): void {
+        parent::updateOlzEntity($entity, $input);
         $this->update_olz_entity_calls[] = [
             $entity,
-            ($input['onOff'] ?? null) ? 1 : 0,
-            $input['ownerUserId'] ?? null,
-            $input['ownerRoleId'] ?? null,
+            $entity->getOnOff() ? 1 : 0,
+            $entity->getOwnerUser()?->getId() ?? null,
+            $entity->getOwnerRole()?->getId() ?? null,
         ];
     }
 

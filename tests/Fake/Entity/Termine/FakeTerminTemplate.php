@@ -7,6 +7,7 @@ namespace Olz\Tests\Fake\Entity\Termine;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 
 class FakeTerminTemplate extends FakeEntity {
     public static function minimal($fresh = false) {
@@ -14,9 +15,18 @@ class FakeTerminTemplate extends FakeEntity {
             $fresh,
             function () {
                 $entity = new TerminTemplate();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
+                $entity->setStartTime(null);
+                $entity->setDurationSeconds(null);
+                $entity->setTitle(null);
+                $entity->setText(null);
+                $entity->setDeadlineEarlierSeconds(null);
+                $entity->setDeadlineTime(null);
                 $entity->setNewsletter(true);
-                $entity->setOnOff(true);
+                $entity->setTypes(null);
+                $entity->setLocation(null);
+                $entity->setImageIds([]);
                 return $entity;
             }
         );
@@ -27,6 +37,7 @@ class FakeTerminTemplate extends FakeEntity {
             $fresh,
             function () {
                 $entity = new TerminTemplate();
+                FakeOlzEntity::empty($entity);
                 $entity->setId(123);
                 $entity->setStartTime(null);
                 $entity->setDurationSeconds(null);
@@ -37,8 +48,7 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setNewsletter(false);
                 $entity->setTypes(null);
                 $entity->setLocation(null);
-                $entity->setImageIds(null);
-                $entity->setOnOff(false);
+                $entity->setImageIds([]);
                 return $entity;
             }
         );
@@ -51,6 +61,7 @@ class FakeTerminTemplate extends FakeEntity {
                 $termin_location = new TerminLocation();
                 $termin_location->setId(12341);
                 $entity = new TerminTemplate();
+                FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
                 $entity->setStartTime(new \DateTime('09:00:00'));
                 $entity->setDurationSeconds(7200);
@@ -63,7 +74,6 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setLocation($termin_location);
                 $entity->setImageIds([
                     'image__________________1.jpg', 'image__________________2.png']);
-                $entity->setOnOff(true);
                 return $entity;
             }
         );

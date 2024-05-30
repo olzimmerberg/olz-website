@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -20,8 +20,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testWeeklySummaryGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-06 16:00:00'); // a Monday
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new WeeklySummaryGetter();
         $job->setEntityManager($entityManager);
@@ -36,7 +35,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Das lief diese Woche auf [olzimmerberg.ch](https://olzimmerberg.ch):
 

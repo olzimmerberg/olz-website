@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\WeeklyPreviewGetter;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\WithUtilsCache;
@@ -31,8 +31,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
 
     public function testWeeklyPreviewGetter(): void {
         $date_utils = new FixedDateUtils('2020-03-19 16:00:00'); // a Thursday
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new WeeklyPreviewGetter();
         $job->setDateUtils($date_utils);
@@ -40,7 +39,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $notification = $job->getWeeklyPreviewNotification();
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Bis Ende nächster Woche haben wir Folgendes auf dem Programm:
 
@@ -73,8 +72,6 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $entity_manager->repositories[Termin::class]->entitiesToBeMatched = [];
         $entity_manager->repositories[SolvEvent::class]->entitiesToBeMatched = [];
         $date_utils = new FixedDateUtils('2021-03-18 16:00:00'); // a Thursday
-        $user = new User();
-        $user->setFirstName('First');
 
         $job = new WeeklyPreviewGetter();
         $job->setDateUtils($date_utils);

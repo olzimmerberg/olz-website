@@ -36,7 +36,7 @@ class KernelExceptionListener {
                 'http_status_code' => $http_status_code,
             ], $this));
         } else {
-            $this->log()->warning("Non-HttpExceptionInterface exception: {$exception->getMessage()}", [$exception]);
+            $this->log()->warning("Non-HttpExceptionInterface exception: {$exception->getMessage()}\n{$exception->getTraceAsString()}");
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             $response->setContent(OlzErrorPage::render([], $this));
         }

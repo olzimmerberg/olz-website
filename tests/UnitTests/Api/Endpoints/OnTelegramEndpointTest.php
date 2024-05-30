@@ -220,7 +220,7 @@ final class OnTelegramEndpointTest extends UnitTestCase {
             ['sendMessage', [
                 'chat_id' => 17089367,
                 'parse_mode' => 'HTML',
-                'text' => "<b>Du bist angemeldet als:</b>\n<b>Name:</b> Default User\n<b>Benutzername:</b> user\n<b>E-Mail:</b> default-user@staging.olzimmerberg.ch",
+                'text' => "<b>Du bist angemeldet als:</b>\n<b>Name:</b> Default User\n<b>Benutzername:</b> default\n<b>E-Mail:</b> default-user@staging.olzimmerberg.ch",
             ]],
         ], WithUtilsCache::get('telegramUtils')->telegramApiCalls);
     }

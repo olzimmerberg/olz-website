@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -45,8 +45,7 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
         $the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
         $date_utils = new FixedDateUtils("2020-03-{$the_day_str} 19:00:00");
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new TelegramConfigurationReminderGetter();
         $job->setDateUtils($date_utils);
@@ -54,7 +53,7 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
         $notification = $job->getNotification(['cancelled' => false]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Du hast bisher keinerlei Push-Nachrichten für Telegram abonniert.
 

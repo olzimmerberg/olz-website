@@ -7,6 +7,7 @@ namespace Olz\Tests\Fake\Entity\Termine;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 
 class FakeTermin extends FakeEntity {
     public static function minimal($fresh = false) {
@@ -14,12 +15,23 @@ class FakeTermin extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Termin();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
                 $entity->setStartDate(new \DateTime('2020-03-13'));
+                $entity->setStartTime(null);
+                $entity->setEndDate(null);
+                $entity->setEndTime(null);
                 $entity->setTitle("Fake title");
                 $entity->setText("");
+                $entity->setTypes(null);
+                $entity->setLocation(null);
+                $entity->setCoordinateX(null);
+                $entity->setCoordinateY(null);
+                $entity->setDeadline(null);
+                $entity->setSolvId(null);
+                $entity->setGo2olId(null);
                 $entity->setNewsletter(false);
-                $entity->setOnOff(true);
+                $entity->setImageIds([]);
                 return $entity;
             }
         );
@@ -30,6 +42,7 @@ class FakeTermin extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Termin();
+                FakeOlzEntity::empty($entity);
                 $entity->setId(123);
                 $entity->setStartDate(new \DateTime('0000-01-01'));
                 $entity->setStartTime(new \DateTime('00:00:00'));
@@ -42,11 +55,10 @@ class FakeTermin extends FakeEntity {
                 $entity->setCoordinateX(0);
                 $entity->setCoordinateY(0);
                 $entity->setDeadline(new \DateTime('0000-01-01 00:00:00'));
-                $entity->setSolvId('');
+                $entity->setSolvId(0);
                 $entity->setGo2olId('');
                 $entity->setNewsletter(false);
                 $entity->setImageIds([]);
-                $entity->setOnOff(false);
                 return $entity;
             }
         );
@@ -59,6 +71,7 @@ class FakeTermin extends FakeEntity {
                 $termin_location = new TerminLocation();
                 $termin_location->setId(12341);
                 $entity = new Termin();
+                FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
                 $entity->setStartDate(new \DateTime('2020-03-13'));
                 $entity->setStartTime(new \DateTime('19:30:00'));
@@ -75,7 +88,6 @@ class FakeTermin extends FakeEntity {
                 $entity->setGo2olId('deprecated');
                 $entity->setNewsletter(true);
                 $entity->setImageIds(['image__________________1.jpg', 'image__________________2.png']);
-                $entity->setOnOff(true);
                 return $entity;
             }
         );

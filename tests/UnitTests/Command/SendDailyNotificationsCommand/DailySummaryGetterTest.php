@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\DailySummaryGetter;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 
@@ -17,8 +17,7 @@ use Olz\Utils\FixedDateUtils;
 final class DailySummaryGetterTest extends UnitTestCase {
     public function testDailySummaryGetterWithAllContent(): void {
         $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Saturday
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new DailySummaryGetter();
         $job->setDateUtils($date_utils);
@@ -32,7 +31,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Das lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):
 
@@ -79,8 +78,6 @@ final class DailySummaryGetterTest extends UnitTestCase {
 
     public function testDailySummaryGetterWithNoContent(): void {
         $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // a Saturday
-        $user = new User();
-        $user->setFirstName('First');
 
         $job = new DailySummaryGetter();
         $job->setDateUtils($date_utils);

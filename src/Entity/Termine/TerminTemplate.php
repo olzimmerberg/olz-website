@@ -2,6 +2,8 @@
 
 namespace Olz\Entity\Termine;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,199 +21,208 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'time', nullable: true)]
-    private $start_time;
+    private ?\DateTime $start_time;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $duration_seconds;
+    private ?int $duration_seconds;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $deadline_earlier_seconds;
+    private ?int $deadline_earlier_seconds;
 
     #[ORM\Column(type: 'time', nullable: true)]
-    private $deadline_time;
+    private ?\DateTime $deadline_time;
 
     // TODO: Participants registration template
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $min_participants;
+    private ?int $min_participants;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $max_participants;
+    private ?int $max_participants;
 
     // TODO: Volunteers registration template
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $min_volunteers;
+    private ?int $min_volunteers;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $max_volunteers;
+    private ?int $max_volunteers;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
-    private $newsletter;
+    private bool $newsletter;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $title;
+    private ?string $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $text;
+    private ?string $text;
 
     // @deprecated Use labels
     #[ORM\Column(type: 'string', nullable: true)]
-    private $types;
+    private ?string $types;
 
+    /** @var Collection<int|string, TerminLabel>&iterable<TerminLabel> */
     #[ORM\JoinTable(name: 'termin_template_label_map')]
     #[ORM\JoinColumn(name: 'termin_template_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'label_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: TerminLabel::class, inversedBy: 'termin_templates')]
-    private $labels;
+    private Collection $labels;
 
     #[ORM\ManyToOne(targetEntity: TerminLocation::class)]
     #[ORM\JoinColumn(name: 'location_id', referencedColumnName: 'id', nullable: true)]
-    private $location;
+    private ?TerminLocation $location;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $image_ids;
+    private ?string $image_ids;
 
     public function __construct() {
-        $this->labels = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->labels = new ArrayCollection();
     }
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_value) {
+    public function setId(int $new_value): void {
         $this->id = $new_value;
     }
 
-    public function getStartTime() {
+    public function getStartTime(): ?\DateTime {
         return $this->start_time;
     }
 
-    public function setStartTime($new_value) {
+    public function setStartTime(?\DateTime $new_value): void {
         $this->start_time = $new_value;
     }
 
-    public function getDurationSeconds() {
+    public function getDurationSeconds(): ?int {
         return $this->duration_seconds;
     }
 
-    public function setDurationSeconds($new_value) {
+    public function setDurationSeconds(?int $new_value): void {
         $this->duration_seconds = $new_value;
     }
 
-    public function getDeadlineEarlierSeconds() {
+    public function getDeadlineEarlierSeconds(): ?int {
         return $this->deadline_earlier_seconds;
     }
 
-    public function setDeadlineEarlierSeconds($new_value) {
+    public function setDeadlineEarlierSeconds(?int $new_value): void {
         $this->deadline_earlier_seconds = $new_value;
     }
 
-    public function getDeadlineTime() {
+    public function getDeadlineTime(): ?\DateTime {
         return $this->deadline_time;
     }
 
-    public function setDeadlineTime($new_value) {
+    public function setDeadlineTime(?\DateTime $new_value): void {
         $this->deadline_time = $new_value;
     }
 
-    public function getMinParticipants() {
+    public function getMinParticipants(): ?int {
         return $this->min_participants;
     }
 
-    public function setMinParticipants($new_value) {
+    public function setMinParticipants(?int $new_value): void {
         $this->min_participants = $new_value;
     }
 
-    public function getMaxParticipants() {
+    public function getMaxParticipants(): ?int {
         return $this->max_participants;
     }
 
-    public function setMaxParticipants($new_value) {
+    public function setMaxParticipants(?int $new_value): void {
         $this->max_participants = $new_value;
     }
 
-    public function getMinVolunteers() {
+    public function getMinVolunteers(): ?int {
         return $this->min_volunteers;
     }
 
-    public function setMinVolunteers($new_value) {
+    public function setMinVolunteers(?int $new_value): void {
         $this->min_volunteers = $new_value;
     }
 
-    public function getMaxVolunteers() {
+    public function getMaxVolunteers(): ?int {
         return $this->max_volunteers;
     }
 
-    public function setMaxVolunteers($new_value) {
+    public function setMaxVolunteers(?int $new_value): void {
         $this->max_volunteers = $new_value;
     }
 
-    public function getTitle() {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    public function setTitle($new_value) {
+    public function setTitle(?string $new_value): void {
         $this->title = $new_value;
     }
 
-    public function getText() {
+    public function getText(): ?string {
         return $this->text;
     }
 
-    public function setText($new_value) {
+    public function setText(?string $new_value): void {
         $this->text = $new_value;
     }
 
-    public function getTypes() {
+    public function getTypes(): ?string {
         return $this->types;
     }
 
-    public function setTypes($new_value) {
+    public function setTypes(?string $new_value): void {
         $this->types = $new_value;
     }
 
-    public function getLabels() {
+    /** @return Collection<int|string, TerminLabel>&iterable<TerminLabel> */
+    public function getLabels(): Collection {
         return $this->labels;
     }
 
-    public function addLabel(TerminLabel $label) {
+    public function addLabel(TerminLabel $label): void {
         $this->labels->add($label);
     }
 
-    public function removeLabel(TerminLabel $label) {
+    public function removeLabel(TerminLabel $label): void {
         $this->labels->removeElement($label);
     }
 
-    public function getLocation() {
+    public function getLocation(): ?TerminLocation {
         return $this->location;
     }
 
-    public function setLocation(?TerminLocation $new_value) {
+    public function setLocation(?TerminLocation $new_value): void {
         $this->location = $new_value;
     }
 
-    public function getNewsletter() {
+    public function getNewsletter(): bool {
         return $this->newsletter;
     }
 
-    public function setNewsletter($new_value) {
+    public function setNewsletter(bool $new_value): void {
         $this->newsletter = $new_value;
     }
 
-    public function getImageIds() {
+    /** @return array<string> */
+    public function getImageIds(): array {
         if ($this->image_ids == null) {
-            return null;
+            return [];
         }
-        return json_decode($this->image_ids, true);
+        $array = json_decode($this->image_ids, true);
+        return is_array($array) ? $array : [];
     }
 
-    public function setImageIds($new_value) {
-        $this->image_ids = json_encode($new_value);
+    /** @param array<string> $new_value */
+    public function setImageIds(array $new_value): void {
+        $enc_value = json_encode($new_value);
+        if (!$enc_value) {
+            return;
+        }
+        $this->image_ids = $enc_value;
     }
 
     // ---
@@ -221,7 +232,7 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
     }
 
     public function getIdForSearch(): int {
-        return $this->getId();
+        return $this->getId() ?? 0;
     }
 
     public static function getCriteriaForQuery(string $query): Expression {
@@ -231,7 +242,7 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
     }
 
     public function getTitleForSearch(): string {
-        return $this->getTitle();
+        return $this->getTitle() ?? '';
     }
 
     public static function getEntityNameForStorage(): string {

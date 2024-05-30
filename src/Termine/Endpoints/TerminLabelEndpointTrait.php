@@ -41,7 +41,7 @@ trait TerminLabelEndpointTrait {
             'name' => $entity->getName() ? $entity->getName() : '-',
             'details' => $entity->getDetails() ?? '',
             'icon' => $entity->getIcon() ? $entity->getIcon() : null,
-            'position' => $entity->getPosition() ?? 0,
+            'position' => $entity->getPosition(),
             'imageIds' => $entity->getStoredImageUploadIds(),
             'fileIds' => $entity->getStoredFileUploadIds(),
         ];

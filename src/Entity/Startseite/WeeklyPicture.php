@@ -11,50 +11,50 @@ use Olz\Repository\Startseite\WeeklyPictureRepository;
 #[ORM\Entity(repositoryClass: WeeklyPictureRepository::class)]
 class WeeklyPicture extends OlzEntity {
     #[ORM\Column(type: 'date', nullable: true)]
-    private $datum;
+    private ?\DateTime $datum;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $image_id;
+    private ?string $image_id;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $text;
+    private ?string $text;
 
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int $id;
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`)
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return $this->id ?? null;
     }
 
-    public function setId($new_id) {
+    public function setId(int $new_id): void {
         $this->id = $new_id;
     }
 
-    public function getPublishedDate() {
+    public function getPublishedDate(): ?\DateTime {
         return $this->datum;
     }
 
-    public function setPublishedDate($new_datum) {
+    public function setPublishedDate(?\DateTime $new_datum): void {
         $this->datum = $new_datum;
     }
 
-    public function getText() {
+    public function getText(): ?string {
         return $this->text;
     }
 
-    public function setText($new_text) {
+    public function setText(?string $new_text): void {
         $this->text = $new_text;
     }
 
-    public function getImageId() {
+    public function getImageId(): ?string {
         return $this->image_id;
     }
 
-    public function setImageId($new_image_id) {
+    public function setImageId(?string $new_image_id): void {
         $this->image_id = $new_image_id;
     }
 }

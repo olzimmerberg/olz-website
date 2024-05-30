@@ -129,7 +129,7 @@ final class UpdateKarteEndpointTest extends UnitTestCase {
         $this->assertSame('Test Karte', $karte->getName());
         $this->assertSame(600000, $karte->getCenterX());
         $this->assertSame(300000, $karte->getCenterY());
-        $this->assertSame(2020, $karte->getYear());
+        $this->assertSame('2020', $karte->getYear());
         $this->assertSame('1:10\'000', $karte->getScale());
         $this->assertSame('Testiswil', $karte->getPlace());
         $this->assertSame(3, $karte->getZoom());

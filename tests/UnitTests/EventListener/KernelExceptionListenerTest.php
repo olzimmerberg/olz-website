@@ -53,9 +53,11 @@ final class KernelExceptionListenerTest extends UnitTestCase {
 
         $listener->onKernelException($exception_event);
 
-        $this->assertSame([
-            'WARNING Non-HttpExceptionInterface exception: fake-exception',
-        ], $this->getLogs());
+        $this->assertCount(1, $this->getLogs());
+        $this->assertMatchesRegularExpression(
+            '/^WARNING Non\-HttpExceptionInterface exception\: fake\-exception\n\#0 \//',
+            $this->getLogs()[0],
+        );
     }
 
     public function testOnKernelRecursiveException(): void {

@@ -6,6 +6,7 @@ namespace Olz\Tests\Fake\Entity\Karten;
 
 use Olz\Entity\Karten\Karte;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 
 class FakeKarte extends FakeEntity {
     public static function minimal($fresh = false) {
@@ -13,9 +14,18 @@ class FakeKarte extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Karte();
+                FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
+                $entity->setKartenNr(null);
                 $entity->setName('');
-                $entity->setOnOff(true);
+                $entity->setCenterX(null);
+                $entity->setCenterY(null);
+                $entity->setYear(null);
+                $entity->setScale(null);
+                $entity->setPlace(null);
+                $entity->setZoom(null);
+                $entity->setKind(null);
+                $entity->setPreviewImageId(null);
                 return $entity;
             }
         );
@@ -26,6 +36,7 @@ class FakeKarte extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Karte();
+                FakeOlzEntity::empty($entity);
                 $entity->setId(123);
                 $entity->setKartenNr(0);
                 $entity->setName('');
@@ -37,7 +48,6 @@ class FakeKarte extends FakeEntity {
                 $entity->setZoom(null);
                 $entity->setKind(null);
                 $entity->setPreviewImageId('');
-                $entity->setOnOff(false);
                 return $entity;
             }
         );
@@ -48,18 +58,18 @@ class FakeKarte extends FakeEntity {
             $fresh,
             function () {
                 $entity = new Karte();
+                FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
                 $entity->setKartenNr(12);
                 $entity->setName('Fake Karte');
                 $entity->setCenterX(1200000);
                 $entity->setCenterY(120000);
-                $entity->setYear(1200);
+                $entity->setYear('1200');
                 $entity->setScale('1:1\'200');
                 $entity->setPlace('Fake Place');
                 $entity->setZoom(12);
                 $entity->setKind('ol');
                 $entity->setPreviewImageId('image__________________1.jpg');
-                $entity->setOnOff(true);
                 return $entity;
             }
         );

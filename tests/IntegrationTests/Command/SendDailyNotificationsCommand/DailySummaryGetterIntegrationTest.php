@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
 use Olz\Command\SendDailyNotificationsCommand\DailySummaryGetter;
-use Olz\Entity\User;
+use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
@@ -20,8 +20,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay1(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-01 12:51:00');
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entityManager);
@@ -36,7 +35,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Das lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):
 
@@ -66,8 +65,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay2(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-02 12:51:00');
-        $user = new User();
-        $user->setFirstName('First');
+        $user = FakeUser::defaultUser();
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entityManager);
@@ -82,7 +80,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
-            Hallo First,
+            Hallo Default,
 
             Das lief heute auf [olzimmerberg.ch](https://olzimmerberg.ch):
 
@@ -107,8 +105,6 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay3(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
         $date_utils = new FixedDateUtils('2020-01-03 12:51:00');
-        $user = new User();
-        $user->setFirstName('First');
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entityManager);

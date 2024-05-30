@@ -39,25 +39,25 @@ class NotificationSubscription {
     ];
 
     #[ORM\Column(type: 'string', nullable: false)]
-    private $delivery_type;
+    private string $delivery_type;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    private $user;
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
+    private User $user;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    private $notification_type;
+    private string $notification_type;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $notification_type_args;
+    private ?string $notification_type_args;
 
     #[ORM\Column(type: 'datetime', nullable: false)]
-    private $created_at;
+    private \DateTime $created_at;
 
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
-    private $id;
+    private int|string $id;
 
     public function __toString() {
         $label = 'NotificationSubscription(';
@@ -69,51 +69,51 @@ class NotificationSubscription {
         return $label;
     }
 
-    public function getId() {
-        return $this->id;
+    public function getId(): ?int {
+        return isset($this->id) ? intval($this->id) : null;
     }
 
-    public function setId($new_id) {
+    public function setId(int $new_id): void {
         $this->id = $new_id;
     }
 
-    public function getDeliveryType() {
+    public function getDeliveryType(): string {
         return $this->delivery_type;
     }
 
-    public function setDeliveryType($new_delivery_type) {
+    public function setDeliveryType(string $new_delivery_type): void {
         $this->delivery_type = $new_delivery_type;
     }
 
-    public function getUser() {
+    public function getUser(): User {
         return $this->user;
     }
 
-    public function setUser($new_user) {
+    public function setUser(User $new_user): void {
         $this->user = $new_user;
     }
 
-    public function getNotificationType() {
+    public function getNotificationType(): string {
         return $this->notification_type;
     }
 
-    public function setNotificationType($new_notification_type) {
+    public function setNotificationType(string $new_notification_type): void {
         $this->notification_type = $new_notification_type;
     }
 
-    public function getNotificationTypeArgs() {
+    public function getNotificationTypeArgs(): ?string {
         return $this->notification_type_args;
     }
 
-    public function setNotificationTypeArgs($new_notification_type_args) {
+    public function setNotificationTypeArgs(?string $new_notification_type_args): void {
         $this->notification_type_args = $new_notification_type_args;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt(): \DateTime {
         return $this->created_at;
     }
 
-    public function setCreatedAt($new_created_at) {
+    public function setCreatedAt(\DateTime $new_created_at): void {
         $this->created_at = $new_created_at;
     }
 }

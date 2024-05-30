@@ -111,11 +111,11 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
             'status' => 'AUTHENTICATED',
         ], $result);
         $this->assertSame([
-            'auth' => null,
+            'auth' => 'default',
             'root' => null,
-            'user' => 'user',
+            'user' => 'default',
             'user_id' => '1',
-            'auth_user' => 'user',
+            'auth_user' => 'default',
             'auth_user_id' => '1',
         ], $session->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
@@ -124,7 +124,7 @@ final class LoginWithStravaEndpointTest extends UnitTestCase {
                 'ip_address' => '1.2.3.4',
                 'action' => 'AUTHENTICATED_STRAVA',
                 'timestamp' => null,
-                'username' => 'user',
+                'username' => 'default',
             ],
         ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
     }

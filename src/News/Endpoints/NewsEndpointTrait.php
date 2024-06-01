@@ -81,6 +81,7 @@ trait NewsEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(NewsEntry $entity, array $input_data): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
@@ -128,6 +129,7 @@ trait NewsEndpointTrait {
         $entity->setNewsletter(true);
     }
 
+    /** @param array<string, mixed> $input_data */
     public function persistUploads(NewsEntry $entity, array $input_data): void {
         $this->persistOlzImages($entity, $entity->getImageIds());
         $this->persistOlzFiles($entity, $input_data['fileIds']);
@@ -149,18 +151,20 @@ trait NewsEndpointTrait {
 
     // ---
 
-    protected function getFormat($format) {
+    protected function getFormat(string $format): string {
         if ($format === 'anonymous') {
             return 'forum';
         }
         return $format;
     }
 
-    protected function getTagsForDb($tags) {
+    /** @param array<string> $tags */
+    protected function getTagsForDb(?array $tags): string {
         return ' '.implode(' ', $tags ?? []).' ';
     }
 
-    protected function getTagsForApi($tags) {
+    /** @return array<string> */
+    protected function getTagsForApi(?string $tags): array {
         $tags_string = $tags ?? '';
         $tags_for_api = [];
         foreach (explode(' ', $tags_string) as $tag) {

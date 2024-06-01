@@ -2,17 +2,20 @@
 
 namespace Olz\Repository;
 
+use Olz\Entity\SolvResult;
 use Olz\Repository\Common\OlzRepository;
 use Olz\Utils\DbUtils;
 
 class SolvResultRepository extends OlzRepository {
-    public function getUnassignedSolvResults() {
+    /** @return array<SolvResult> */
+    public function getUnassignedSolvResults(): array {
         $dql = "SELECT sr FROM Olz:SolvResult sr WHERE sr.person = '0'";
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();
     }
 
-    public function getAllAssignedSolvResultPersonData() {
+    /** @return array<array{person: int, name: string, birth_year: string, domicile: string}> */
+    public function getAllAssignedSolvResultPersonData(): array {
         $dql = "
             SELECT DISTINCT
                 sr.person,
@@ -26,7 +29,7 @@ class SolvResultRepository extends OlzRepository {
         return $query->getResult();
     }
 
-    public function getExactPersonId($solv_result) {
+    public function getExactPersonId(SolvResult $solv_result): int {
         $db = DbUtils::fromEnv()->getDb();
 
         $sane_name = $db->real_escape_string($solv_result->getName());
@@ -51,7 +54,7 @@ class SolvResultRepository extends OlzRepository {
         }
     }
 
-    public function mergePerson($old_person_id, $new_person_id) {
+    public function mergePerson(int $old_person_id, int $new_person_id): mixed {
         $sane_old_id = intval($old_person_id);
         $sane_new_id = intval($new_person_id);
         $dql = "
@@ -63,7 +66,7 @@ class SolvResultRepository extends OlzRepository {
         return $query->execute();
     }
 
-    public function solvPersonHasResults($id) {
+    public function solvPersonHasResults(int $id): bool {
         $sane_id = intval($id);
         $dql = "
             SELECT COUNT(sr.id)

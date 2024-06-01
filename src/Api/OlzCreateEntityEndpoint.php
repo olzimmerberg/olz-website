@@ -20,7 +20,7 @@ abstract class OlzCreateEntityEndpoint extends OlzEntityEndpoint {
         return null;
     }
 
-    protected function getStatusField() {
+    protected function getStatusField(): FieldTypes\Field {
         return new FieldTypes\EnumField(['allowed_values' => [
             'OK',
             'ERROR',
@@ -37,7 +37,7 @@ abstract class OlzCreateEntityEndpoint extends OlzEntityEndpoint {
         ]]);
     }
 
-    protected function getCustomRequestField() {
+    protected function getCustomRequestField(): ?FieldTypes\Field {
         return null;
     }
 }

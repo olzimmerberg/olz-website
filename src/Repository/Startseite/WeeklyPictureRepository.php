@@ -2,10 +2,12 @@
 
 namespace Olz\Repository\Startseite;
 
+use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Repository\Common\OlzRepository;
 
 class WeeklyPictureRepository extends OlzRepository {
-    public function getLatestThree() {
+    /** @return array<WeeklyPicture> */
+    public function getLatestThree(): array {
         $dql = "
             SELECT wp
             FROM Olz\\Entity\\Startseite\\WeeklyPicture wp

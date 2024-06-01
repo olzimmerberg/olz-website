@@ -23,6 +23,7 @@ use Webklex\PHPIMAP\Support\MessageCollection;
 
 #[AsCommand(name: 'olz:process-email')]
 class ProcessEmailCommand extends OlzCommand {
+    /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }

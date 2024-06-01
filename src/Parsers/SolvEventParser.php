@@ -8,13 +8,15 @@ use Olz\Utils\WithUtilsTrait;
 class SolvEventParser {
     use WithUtilsTrait;
 
-    public $solv_entryportals = [
+    /** @var array<int, string> */
+    public array $solv_entryportals = [
         1 => "GO2OL",
         2 => "picoTIMING",
         3 => "anderes",
     ];
 
-    public function parse_solv_events_csv($csv_content) {
+    /** @return array<SolvEvent> */
+    public function parse_solv_events_csv(string $csv_content): array {
         $data = str_getcsv($csv_content, "\n");
         $header = str_getcsv($data[0], ";");
         $solv_events = [];

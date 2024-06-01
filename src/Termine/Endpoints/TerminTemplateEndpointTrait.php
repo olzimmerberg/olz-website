@@ -63,6 +63,7 @@ trait TerminTemplateEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(TerminTemplate $entity, array $input_data): void {
         $types_for_db = $this->getTypesForDb($input_data['types']);
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
@@ -81,6 +82,7 @@ trait TerminTemplateEndpointTrait {
         $entity->setImageIds($valid_image_ids);
     }
 
+    /** @param array<string, mixed> $input_data */
     public function persistUploads(TerminTemplate $entity, array $input_data): void {
         $this->persistOlzImages($entity, $entity->getImageIds());
         $this->persistOlzFiles($entity, $input_data['fileIds']);
@@ -102,11 +104,13 @@ trait TerminTemplateEndpointTrait {
 
     // ---
 
-    protected function getTypesForDb($types) {
+    /** @param array<string> $types */
+    protected function getTypesForDb(?array $types): string {
         return ' '.implode(' ', $types ?? []).' ';
     }
 
-    protected function getTypesForApi($types) {
+    /** @return array<string> */
+    protected function getTypesForApi(?string $types): array {
         $types_string = $types ?? '';
         $types_for_api = [];
         foreach (explode(' ', $types_string) as $type) {

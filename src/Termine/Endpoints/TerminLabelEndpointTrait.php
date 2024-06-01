@@ -47,6 +47,7 @@ trait TerminLabelEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(TerminLabel $entity, array $input_data): void {
         $valid_icon_file_id = $this->uploadUtils()->getValidUploadId($input_data['icon']);
 
@@ -57,6 +58,7 @@ trait TerminLabelEndpointTrait {
         $entity->setPosition($input_data['position']);
     }
 
+    /** @param array<string, mixed> $input_data */
     public function persistUploads(TerminLabel $entity, array $input_data): void {
         $this->persistOlzImages($entity, $input_data['imageIds']);
         $this->persistOlzFiles($entity, $input_data['fileIds']);
@@ -80,6 +82,7 @@ trait TerminLabelEndpointTrait {
         return $entity;
     }
 
+    /** @return array<TerminLabel> */
     protected function listEntities(): array {
         $repo = $this->entityManager()->getRepository(TerminLabel::class);
         return $repo->findBy([], ['position' => 'ASC']);

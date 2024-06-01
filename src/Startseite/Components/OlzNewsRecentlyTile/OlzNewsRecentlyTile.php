@@ -11,6 +11,7 @@ use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsRecentlyTile extends AbstractOlzTile {
+    /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
         'aktuell' => 'entry_type_aktuell_20.svg',
         'forum' => 'entry_type_forum_20.svg',

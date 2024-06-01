@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MonitorBackupCommand extends OlzCommand {
     protected static $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/main/_/tools/monitoring/backup_monitoring.php)";
 
+    /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }

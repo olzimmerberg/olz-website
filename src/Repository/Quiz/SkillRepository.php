@@ -2,12 +2,18 @@
 
 namespace Olz\Repository\Quiz;
 
+use Olz\Entity\Quiz\Skill;
 use Olz\Repository\Common\OlzRepository;
 
 class SkillRepository extends OlzRepository {
     public const ITERATION_LIMIT = 1000;
 
-    public function getSkillsInCategories($category_ids) {
+    /**
+     * @param array<int> $category_ids
+     *
+     * @return array<Skill>
+     */
+    public function getSkillsInCategories(array $category_ids): array {
         $transitive_category_ids = array_map(
             function ($id) {
                 return intval($id);

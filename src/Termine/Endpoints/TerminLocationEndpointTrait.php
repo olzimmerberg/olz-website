@@ -41,6 +41,7 @@ trait TerminLocationEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(TerminLocation $entity, array $input_data): void {
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
 

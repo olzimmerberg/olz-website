@@ -6,7 +6,7 @@ use Olz\Entity\Throttling;
 use Olz\Repository\Common\OlzRepository;
 
 class ThrottlingRepository extends OlzRepository {
-    public function getLastOccurrenceOf($event_name) {
+    public function getLastOccurrenceOf(string $event_name): ?\DateTime {
         $throttling = $this->findOneBy(['event_name' => $event_name]);
         if (!$throttling) {
             return null;
@@ -14,7 +14,7 @@ class ThrottlingRepository extends OlzRepository {
         return $throttling->getLastOccurrence();
     }
 
-    public function recordOccurrenceOf($event_name, $datetime) {
+    public function recordOccurrenceOf(string $event_name, \DateTime|string $datetime): void {
         $throttling = $this->findOneBy(['event_name' => $event_name]);
         if (!$throttling) {
             $throttling = new Throttling();

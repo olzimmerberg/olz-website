@@ -22,7 +22,7 @@ abstract class OlzRemoveRelationEndpoint extends OlzEndpoint {
         return null;
     }
 
-    protected function getStatusField() {
+    protected function getStatusField(): FieldTypes\Field {
         return new FieldTypes\EnumField(['allowed_values' => [
             'OK',
             'ERROR',
@@ -38,7 +38,7 @@ abstract class OlzRemoveRelationEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function getCustomRequestField() {
+    protected function getCustomRequestField(): ?FieldTypes\Field {
         return null;
     }
 }

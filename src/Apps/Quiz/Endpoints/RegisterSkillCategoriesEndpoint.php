@@ -41,7 +41,7 @@ class RegisterSkillCategoriesEndpoint extends OlzEndpoint {
                 $category = $existing_category;
             } else {
                 $category = new SkillCategory();
-                $this->entityUtils()->createOlzEntity($category, ['onOff' => 1]);
+                $this->entityUtils()->createOlzEntity($category, ['onOff' => true]);
             }
             $category->setName($category_name);
             $category_by_name[$category_name] = $category;

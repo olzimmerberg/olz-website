@@ -6,12 +6,14 @@ use Olz\Components\Error\OlzErrorPage\OlzErrorPage;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use Olz\Entity\Counter;
+use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 use Symfony\Component\HttpFoundation\Request;
 
 class HttpUtils {
     use WithUtilsTrait;
 
+    /** @param array<string> $get_params */
     public function countRequest(Request $request, array $get_params = []): void {
         $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';
         if (
@@ -67,6 +69,13 @@ class HttpUtils {
         $this->exitExecution();
     }
 
+    /**
+     * @param array<string, FieldTypes\Field> $fields
+     * @param ?array<string, ?string>         $get_params
+     * @param array{just_log?: bool}          $options
+     *
+     * @return array<string, string>
+     */
     public function validateGetParams(
         array $fields,
         ?array $get_params = null,
@@ -86,7 +95,7 @@ class HttpUtils {
                 try {
                     $validated_get_params[$key] = $this->fieldUtils()->validate(
                         $field,
-                        $get_params[$key] ?? null,
+                        $get_params[$key],
                         ['parse' => true]
                     );
                 } catch (ValidationError $verr) {

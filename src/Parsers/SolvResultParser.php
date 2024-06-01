@@ -5,13 +5,14 @@ namespace Olz\Parsers;
 use Olz\Entity\SolvResult;
 
 class SolvResultParser {
-    protected $timeParser;
+    protected TimeParser $timeParser;
 
     public function __construct() {
         $this->timeParser = new TimeParser();
     }
 
-    public function parse_solv_yearly_results_json($json_content) {
+    /** @return array<int|string, array{result_list_id: int|string}> */
+    public function parse_solv_yearly_results_json(string $json_content): array {
         $hacky_sanitized_json = str_replace(["\n", "\t"], ['', '  '], $json_content);
         if (!json_validate($hacky_sanitized_json, 512, JSON_INVALID_UTF8_IGNORE)) {
             $msg = json_last_error_msg();
@@ -41,7 +42,8 @@ class SolvResultParser {
         return $result_by_uid;
     }
 
-    public function parse_solv_event_result_html($html_content, $event_uid) {
+    /** @return array<SolvResult> */
+    public function parse_solv_event_result_html(string $html_content, int $event_uid): array {
         $class_headers_count = preg_match_all('/<b>(?:<p><\\/p>)?<a href="results\\?type=rang&year=([0-9]+)&rl_id=([0-9]+)&kat=([^"]+)&zwizt=1">([^<]+)<\\/a><\\/b>\s*<pre>/is', $html_content, $class_matches);
         $results = [];
         for ($class_ind = 0; $class_ind < $class_headers_count; $class_ind++) {

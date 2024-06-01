@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:sync-solv-merge-people')]
 class SyncSolvMergePeopleCommand extends OlzCommand {
+    /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }

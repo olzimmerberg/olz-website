@@ -78,7 +78,7 @@ class OlzCustomizableHome extends OlzComponent {
         return $out;
     }
 
-    protected static function getIdFromClass($class) {
+    protected static function getIdFromClass(string $class): string {
         $class_name = strval($class);
         $base_class_name = substr($class_name, strrpos($class_name, '\\') + 1);
         return preg_replace_callback('/[A-Z]/', function ($matches) {

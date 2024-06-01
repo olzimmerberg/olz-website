@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:on-continuously')]
 class OnContinuouslyCommand extends OlzCommand {
+    /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }

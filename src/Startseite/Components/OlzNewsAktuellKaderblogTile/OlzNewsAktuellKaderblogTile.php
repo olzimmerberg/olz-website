@@ -12,6 +12,7 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
+    /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
         'aktuell' => 'entry_type_aktuell_20.svg',
         'kaderblog' => 'entry_type_kaderblog_20.svg',

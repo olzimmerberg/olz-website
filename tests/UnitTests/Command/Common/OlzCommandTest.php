@@ -23,6 +23,7 @@ class OlzCommandForTest extends OlzCommand {
     public $returnCode;
     public $failWithError;
 
+    /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return $this->allowedAppEnvs;
     }

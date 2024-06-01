@@ -13,6 +13,7 @@ $solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
 
 #[AsCommand(name: 'olz:sync-solv')]
 class SyncSolvCommand extends OlzCommand {
+    /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }

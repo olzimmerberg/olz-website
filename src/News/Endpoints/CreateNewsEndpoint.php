@@ -15,7 +15,7 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         return 'CreateNewsEndpoint';
     }
 
-    protected function getCustomRequestField() {
+    protected function getCustomRequestField(): ?FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'field_structure' => [
                 'recaptchaToken' => new FieldTypes\StringField(['allow_null' => true]),
@@ -23,7 +23,7 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         ]);
     }
 
-    protected function getStatusField() {
+    protected function getStatusField(): FieldTypes\Field {
         return new FieldTypes\EnumField(['allowed_values' => [
             'OK',
             'DENIED',

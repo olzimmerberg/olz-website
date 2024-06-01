@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @coversNothing
  */
 class OlzCommandForIntegrationTest extends OlzCommand {
+    /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['test'];
     }

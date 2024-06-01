@@ -3,6 +3,7 @@
 namespace Olz\Utils;
 
 abstract class AbstractSession {
+    /** @param array{timeout?: int} $config */
     abstract public function resetConfigure(array $config): void;
 
     abstract public function has(string $key): bool;

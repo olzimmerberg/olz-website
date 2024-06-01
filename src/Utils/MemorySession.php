@@ -3,9 +3,11 @@
 namespace Olz\Utils;
 
 class MemorySession extends AbstractSession {
+    /** @var array<string, string> */
     public array $session_storage = [];
     public bool $cleared = false;
 
+    /** @param array{timeout?: int} $config */
     public function resetConfigure(array $config): void {
         $this->clear();
     }

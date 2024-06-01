@@ -7,6 +7,7 @@ use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 
 class OlzTerminTemplatesListItem extends OlzComponent {
+    /** @var array<string, string> */
     protected static $iconBasenameByType = [
         'programm' => 'termine_type_programm_20.svg',
         'weekend' => 'termine_type_weekend_20.svg',
@@ -110,7 +111,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         return $out;
     }
 
-    protected function getTimeText($datetime_time) {
+    protected function getTimeText(?\DateTime $datetime_time): ?string {
         if (!$datetime_time) {
             return null;
         }

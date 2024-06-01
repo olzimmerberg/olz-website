@@ -36,7 +36,7 @@ class NewsFilterUtils {
     }
 
     /** @param array{format?: string, datum?: string, archiv?: string} $filter */
-    public function isValidFilter(array $filter): bool {
+    public function isValidFilter(?array $filter): bool {
         $has_correct_format = (
             isset($filter['format'])
             && array_filter(

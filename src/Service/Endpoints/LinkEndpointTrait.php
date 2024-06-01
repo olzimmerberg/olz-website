@@ -35,6 +35,7 @@ trait LinkEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Link $entity, array $input_data): void {
         $entity->setName($input_data['name']);
         $entity->setPosition(intval($input_data['position']));

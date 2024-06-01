@@ -52,7 +52,7 @@ class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
                     throw new \Exception("No such skill: {$internal_skill_id}");
                 }
                 $skill_level = new SkillLevel();
-                $this->entityUtils()->createOlzEntity($skill_level, ['onOff' => 1]);
+                $this->entityUtils()->createOlzEntity($skill_level, ['onOff' => true]);
                 $skill_level->setSkill($skill);
                 $skill_level->setUser($current_user);
                 $skill_level->setRecordedAt($now_datetime);

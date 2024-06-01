@@ -99,7 +99,7 @@ abstract class OlzSitemap extends OlzComponent {
                 'mode' => 'text',
             ]);
             $pretty_date = $this->dateUtils()->formatDateTimeRange(
-                $news_entry->getPublishedDate()?->format('Y-m-d'),
+                $news_entry->getPublishedDate()->format('Y-m-d'),
                 $news_entry->getPublishedTime()?->format('H:i:s'),
                 null,
                 null,
@@ -143,10 +143,10 @@ abstract class OlzSitemap extends OlzComponent {
 
         $termine = $entityManager->getRepository(Termin::class)->getAllActive();
         foreach ($termine as $termin) {
-            $termin_year = $termin->getStartDate()?->format('Y');
+            $termin_year = $termin->getStartDate()->format('Y');
             $title = $termin->getTitle().($termin_year === $current_year ? '' : " {$termin_year}");
             $pretty_date = $this->dateUtils()->formatDateTimeRange(
-                $termin->getStartDate()?->format('Y-m-d'),
+                $termin->getStartDate()->format('Y-m-d'),
                 $termin->getStartTime()?->format('H:i:s'),
                 $termin->getEndDate()?->format('Y-m-d'),
                 $termin->getEndTime()?->format('H:i:s'),
@@ -197,9 +197,10 @@ abstract class OlzSitemap extends OlzComponent {
             'level' => 0,
         ];
 
-        $verein_ressorts = $entityManager->getRepository(Role::class)->getAllActive();
+        $role_repo = $entityManager->getRepository(Role::class);
+        $verein_ressorts = $role_repo->getAllActive();
         foreach ($verein_ressorts as $verein_ressort) {
-            $title = $verein_ressort->getTitle() ?? $verein_ressort->getName() ?? '(kein Titel)';
+            $title = $verein_ressort->getTitle() ?? $verein_ressort->getName();
             $description = "{$verein_ressort->getDescription()}"; // TODO: SEO description
             $entries[] = [
                 'title' => $title,

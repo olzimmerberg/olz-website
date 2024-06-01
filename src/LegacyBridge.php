@@ -32,7 +32,7 @@ class LegacyBridge {
         return null;
     }
 
-    private static function getLegacyScript($script_path) {
+    private static function getLegacyScript(string $script_path): ?string {
         if (is_file($script_path)) {
             return $script_path;
         }
@@ -47,7 +47,7 @@ class LegacyBridge {
         return null;
     }
 
-    private static function useLegacyScript($script_path) {
+    private static function useLegacyScript(string $script_path): string {
         $_SERVER["SCRIPT_FILENAME"] = realpath($script_path);
         $_SERVER["SCRIPT_NAME"] = realpath($script_path);
         $_SERVER["PHP_SELF"] = substr(realpath($script_path), strlen(realpath(__DIR__.'/../_')));

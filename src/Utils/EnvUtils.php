@@ -23,6 +23,7 @@ class EnvUtils {
     private bool $has_unlimited_cron = false;
 
     private string $date_utils_class_name = 'LiveDateUtils';
+    /** @var array<string, mixed> */
     private array $date_utils_class_args = [];
 
     private ?string $database_backup_key = null;
@@ -79,6 +80,7 @@ class EnvUtils {
         $this->code_href = $code_href;
     }
 
+    /** @param array<string, mixed> $config_dict */
     public function configure(array $config_dict): void {
         $this->syslog_path = $config_dict['syslog_path'] ?? $this->syslog_path;
         $this->base_href = $config_dict['base_href'] ?? $this->base_href;
@@ -194,6 +196,7 @@ class EnvUtils {
         return $this->date_utils_class_name;
     }
 
+    /** @return array<mixed> */
     public function getDateUtilsClassArgs(): array {
         return $this->date_utils_class_args;
     }

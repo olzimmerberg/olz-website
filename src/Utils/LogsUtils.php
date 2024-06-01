@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 class LogsUtils {
     use WithUtilsTrait;
 
+    /** @var array<LoggerInterface|Logger> */
     private static array $activated_loggers_stack = [];
 
     public function getLogger(string $ident): Logger {
@@ -33,7 +34,11 @@ class LogsUtils {
 
     public static function deactivateLogger(LoggerInterface|Logger $logger): void {
         $expected_logger = array_pop(self::$activated_loggers_stack);
-        if ($logger instanceof Logger && $expected_logger != $logger) {
+        if (
+            $logger instanceof Logger
+            && $expected_logger instanceof Logger
+            && $expected_logger != $logger
+        ) {
             $expected_name = $expected_logger->getName();
             $actual_name = $logger->getName();
             $logger->error("Inconsistency deactivating handler: Expected {$expected_name}, but deactivating {$actual_name}");

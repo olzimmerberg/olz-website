@@ -8,6 +8,7 @@ use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Termine\Utils\TermineFilterUtils;
 
 class OlzTermineListItem extends OlzComponent {
+    /** @var array<string, string> */
     protected static $iconBasenameByType = [
         'programm' => 'termine_type_programm_20.svg',
         'weekend' => 'termine_type_weekend_20.svg',
@@ -120,7 +121,7 @@ class OlzTermineListItem extends OlzComponent {
         return $out;
     }
 
-    protected function getTimeText($iso_time) {
+    protected function getTimeText(?string $iso_time): ?string {
         if (!$iso_time || $iso_time === '00:00:00') {
             return null;
         }

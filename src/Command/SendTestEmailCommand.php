@@ -19,6 +19,7 @@ class SendTestEmailCommand extends OlzCommand {
         $this->messageBus = $bus;
     }
 
+    /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'staging', 'prod'];
     }

@@ -57,6 +57,7 @@ trait RoleEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Role $entity, array $input_data): void {
         $entity->setUsername($input_data['username']);
         $entity->setName($input_data['name']);
@@ -69,6 +70,7 @@ trait RoleEndpointTrait {
         $entity->setCanHaveChildRoles($input_data['canHaveChildRoles']);
     }
 
+    /** @param array<string, mixed> $input_data */
     public function persistUploads(Role $entity, array $input_data): void {
         $this->persistOlzImages($entity, $input_data['imageIds']);
         $this->persistOlzFiles($entity, $input_data['fileIds']);

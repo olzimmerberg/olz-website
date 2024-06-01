@@ -11,9 +11,9 @@ use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 use Olz\Termine\Utils\TermineFilterUtils;
 
 class OlzTermineListsTile extends AbstractOlzTile {
-    private $termine_utils;
-    private $db;
-    private $this_year;
+    private ?TermineFilterUtils $termine_utils = null;
+    private ?\mysqli $db = null;
+    private ?int $this_year = null;
 
     public function getRelevance(?User $user): float {
         return 0.8;
@@ -38,7 +38,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         return $out;
     }
 
-    protected function renderAllUpcomingList() {
+    protected function renderAllUpcomingList(): string {
         $code_href = $this->envUtils()->getCodeHref();
         $icon = "{$code_href}assets/icns/termine_type_all_20.svg";
         $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
@@ -53,7 +53,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
             ZZZZZZZZZZ;
     }
 
-    protected function renderProgramList() {
+    protected function renderProgramList(): string {
         $code_href = $this->envUtils()->getCodeHref();
         $icon = "{$code_href}assets/icns/termine_type_programm_20.svg";
         $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
@@ -97,7 +97,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         return $out;
     }
 
-    protected function renderWeekendsList() {
+    protected function renderWeekendsList(): string {
         $code_href = $this->envUtils()->getCodeHref();
         $icon = "{$code_href}assets/icns/termine_type_weekend_20.svg";
         $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
@@ -115,7 +115,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
             ZZZZZZZZZZ;
     }
 
-    protected function renderTrophyList() {
+    protected function renderTrophyList(): string {
         $code_href = $this->envUtils()->getCodeHref();
         $icon = "{$code_href}assets/icns/termine_type_trophy_20.svg";
         $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
@@ -134,7 +134,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
             ZZZZZZZZZZ;
     }
 
-    protected function renderUpcomingTrainingsList() {
+    protected function renderUpcomingTrainingsList(): string {
         $code_href = $this->envUtils()->getCodeHref();
         $icon = "{$code_href}assets/icns/termine_type_training_20.svg";
         $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
@@ -151,7 +151,8 @@ class OlzTermineListsTile extends AbstractOlzTile {
             ZZZZZZZZZZ;
     }
 
-    protected function getNumberOfEntries($filter) {
+    /** @param array{typ?: string, datum?: string, archiv?: string} $filter */
+    protected function getNumberOfEntries(array $filter): int {
         $date_filter = $this->termine_utils->getSqlDateRangeFilter($filter);
         $type_filter = $this->termine_utils->getSqlTypeFilter($filter);
         $filter_sql = "({$date_filter}) AND ({$type_filter})";

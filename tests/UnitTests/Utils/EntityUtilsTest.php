@@ -24,7 +24,7 @@ final class EntityUtilsTest extends UnitTestCase {
 
         $entity_utils->createOlzEntity(
             $entity,
-            ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]
+            ['onOff' => true, 'ownerUserId' => 1, 'ownerRoleId' => 2]
         );
 
         $this->assertSame(1, $entity->getOnOff());
@@ -57,7 +57,7 @@ final class EntityUtilsTest extends UnitTestCase {
 
         $entity_utils->updateOlzEntity(
             $entity,
-            ['onOff' => 1, 'ownerUserId' => 1, 'ownerRoleId' => 2]
+            ['onOff' => true, 'ownerUserId' => 1, 'ownerRoleId' => 2]
         );
 
         $this->assertSame(1, $entity->getOnOff());

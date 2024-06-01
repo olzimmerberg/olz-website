@@ -95,7 +95,7 @@ final class SolvResultParserTest extends UnitTestCase {
         $parser = new SolvResultParser();
 
         $result = $parser->parse_solv_yearly_results_json('{"ResultLists": [{"UniqueID": 1, "ResultListID": 1}, {"UniqueID": 1, "ResultListID": 2}]}');
-        $this->assertSame(['1' => ['result_list_id' => 1]], $result);
+        $this->assertSame([1 => ['result_list_id' => 1]], $result);
     }
 
     public function testParseResultHtml3230(): void {

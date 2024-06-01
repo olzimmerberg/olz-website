@@ -93,6 +93,7 @@ class EmailUtils {
         //    https://github.com/Webklex/php-imap
     }
 
+    /** @param array{no_header?: bool, no_unsubscribe?: bool, notification_type?: string} $config */
     public function buildOlzEmail(Email $email, User $user, string $text, array $config): Email {
         // TODO: Check if verified?
         $user_id = $user->getId();
@@ -204,6 +205,7 @@ class EmailUtils {
             ZZZZZZZZZZ;
     }
 
+    /** @param array<mixed> $arr */
     protected function arr2str(array $arr): string {
         return implode(', ', array_map(function ($item) {
             return $item->toString();

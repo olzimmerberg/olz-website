@@ -20,6 +20,7 @@ class HtmlUtils {
     public const OLZ_EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@olzimmerberg\.ch';
     public const EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\\.[A-Za-z]{2,64})';
 
+    /** @param array<string, mixed> $override_config */
     public function renderMarkdown(string $markdown, array $override_config = []): string {
         $default_config = [
             'html_input' => 'escape',
@@ -138,6 +139,7 @@ class HtmlUtils {
         );
     }
 
+    /** @param array<string, string> $image_hrefs */
     public function getImageSrcHtml(array $image_hrefs): string {
         $keys = array_keys($image_hrefs);
         if (count($keys) < 1) {

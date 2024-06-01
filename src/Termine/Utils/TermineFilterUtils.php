@@ -61,7 +61,7 @@ class TermineFilterUtils {
     }
 
     /** @param array{typ?: string, datum?: string, archiv?: string} $filter */
-    public function isValidFilter(array $filter): bool {
+    public function isValidFilter(?array $filter): bool {
         $has_correct_type = (
             isset($filter['typ'])
             && array_filter(

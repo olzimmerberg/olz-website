@@ -2,6 +2,7 @@
 
 namespace Olz\Repository\Roles;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Common\OlzRepository;
@@ -25,19 +26,20 @@ class RoleRepository extends OlzRepository {
         return $role;
     }
 
-    public function findFuzzilyByUsername($username) {
+    public function findFuzzilyByUsername(string $username): ?Role {
         $dql = "SELECT r FROM Olz:Roles\\Role r WHERE r.username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);
         return $query->getOneOrNullResult();
     }
 
-    public function findFuzzilyByOldUsername($old_username) {
+    public function findFuzzilyByOldUsername(string $old_username): ?Role {
         $dql = "SELECT r FROM Olz:Roles\\Role r WHERE r.old_username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $old_username);
         return $query->getOneOrNullResult();
     }
 
-    public function getRolesWithParent($roleId, $limit = 100) {
+    /** @return array<Role> */
+    public function getRolesWithParent(?int $roleId, int $limit = 100): array {
         if ($roleId === null) {
             $dql = "
                 SELECT r
@@ -65,7 +67,8 @@ class RoleRepository extends OlzRepository {
         return $query->getResult();
     }
 
-    public function getAllActive() {
+    /** @return Collection<int, object>&iterable<Role> */
+    public function getAllActive(): Collection {
         // TODO: Remove guide != '' condition again, after all ressort
         // descriptions have been updated. This is just temporary logic!
         $criteria = Criteria::create()

@@ -8,6 +8,7 @@ use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\News\Utils\NewsFilterUtils;
 
 class OlzNewsListItem extends OlzComponent {
+    /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
         'aktuell' => 'entry_type_aktuell_20.svg',
         'forum' => 'entry_type_forum_20.svg',
@@ -168,7 +169,7 @@ class OlzNewsListItem extends OlzComponent {
         return $out;
     }
 
-    protected static function truncateText($text) {
+    protected static function truncateText(string $text): string {
         $max_length = 300;
 
         $text = preg_replace("/\\s*\\n\\s*/", "\n", $text);

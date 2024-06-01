@@ -144,6 +144,7 @@ class OlzSuche extends OlzComponent {
         return $out;
     }
 
+    /** @param array<string> $search_words */
     protected function cutout(string $text, array $search_words): string {
         $length_a = 40;
         $length_b = 40;
@@ -168,6 +169,7 @@ class OlzSuche extends OlzComponent {
         return "{$prefix}{$text}{$suffix}";
     }
 
+    /** @param array<string> $search_words */
     protected function highlight(string $text, array $search_words): string {
         for ($n = 0; $n < 3; $n++) {
             $search_key = $search_words[$n] ?? '';

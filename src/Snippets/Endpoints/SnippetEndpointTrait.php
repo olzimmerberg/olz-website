@@ -39,10 +39,12 @@ trait SnippetEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Snippet $entity, array $input_data): void {
         $entity->setText($input_data['text']);
     }
 
+    /** @param array<string, mixed> $input_data */
     public function persistUploads(Snippet $entity, array $input_data): void {
         $this->persistOlzImages($entity, $input_data['imageIds']);
         $this->persistOlzFiles($entity, $input_data['fileIds']);

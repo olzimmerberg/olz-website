@@ -6,7 +6,7 @@ use Olz\Entity\Counter;
 use Olz\Repository\Common\OlzRepository;
 
 class CounterRepository extends OlzRepository {
-    public function record($page) {
+    public function record(string $page): void {
         $truncated_page = substr($page, 0, 255);
         $config = [
             'page' => $truncated_page,
@@ -16,7 +16,8 @@ class CounterRepository extends OlzRepository {
         $this->recordWithConfig($config);
     }
 
-    public function recordWithConfig($config) {
+    /** @param array{page: string, date_range: string, args: ?string} $config */
+    public function recordWithConfig(array $config): void {
         $counters = $this->findBy($config);
         if (count($counters) > 1) {
             $new_count = 0;

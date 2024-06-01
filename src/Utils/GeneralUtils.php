@@ -69,6 +69,7 @@ class GeneralUtils {
 
     // Debugging
 
+    /** @param array<array<string, mixed>> $trace */
     public function getPrettyTrace(array $trace): string {
         $output = 'Stack trace:'.PHP_EOL;
 
@@ -91,6 +92,7 @@ class GeneralUtils {
         return $output;
     }
 
+    /** @return array<mixed> */
     public function measureLatency(callable $fn): array {
         $before = microtime(true);
         $result = $fn();

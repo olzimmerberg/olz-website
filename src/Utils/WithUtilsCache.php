@@ -3,12 +3,15 @@
 namespace Olz\Utils;
 
 class WithUtilsCache {
+    /** @var array<string, mixed> */
     private static array $utilsCache = [];
 
+    /** @return array<string, mixed> */
     public static function getAll(): array {
         return [...self::$utilsCache];
     }
 
+    /** @param array<string, mixed> $utils */
     public static function setAll(array $utils): void {
         self::$utilsCache = $utils;
     }

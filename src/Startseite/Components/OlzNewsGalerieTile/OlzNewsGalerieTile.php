@@ -12,6 +12,7 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsGalerieTile extends AbstractOlzTile {
+    /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
         'galerie' => 'entry_type_gallery_white_20.svg',
         'video' => 'entry_type_movie_white_20.svg',

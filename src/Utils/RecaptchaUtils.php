@@ -7,6 +7,7 @@ use Olz\Fetchers\GoogleFetcher;
 class RecaptchaUtils {
     use WithUtilsTrait;
 
+    /** @var array<string, bool> */
     protected static array $cache = [];
 
     protected ?GoogleFetcher $googleFetcher = null;

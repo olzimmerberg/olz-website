@@ -15,6 +15,7 @@ use Olz\Termine\Utils\TermineFilterUtils;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminDetail extends OlzComponent {
+    /** @var array<string, string> */
     protected static $iconBasenameByType = [
         'programm' => 'termine_type_programm_20.svg',
         'weekend' => 'termine_type_weekend_20.svg',
@@ -126,8 +127,10 @@ class OlzTerminDetail extends OlzComponent {
         $lng = null;
         $location_name = null;
         if ($has_solv_location) {
-            $lat = $this->mapUtils()->CHtoWGSlat($row_solv['coord_x'], $row_solv['coord_y']);
-            $lng = $this->mapUtils()->CHtoWGSlng($row_solv['coord_x'], $row_solv['coord_y']);
+            $coord_x = floatval($row_solv['coord_x']);
+            $coord_y = floatval($row_solv['coord_y']);
+            $lat = $this->mapUtils()->CHtoWGSlat($coord_x, $coord_y);
+            $lng = $this->mapUtils()->CHtoWGSlng($coord_x, $coord_y);
             $location_name = $row_solv['location'];
         }
         if ($has_termin_location) {

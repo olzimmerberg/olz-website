@@ -46,7 +46,7 @@ class RegisterSkillsEndpoint extends OlzEndpoint {
                 $skill = $existing_skill;
             } else {
                 $skill = new Skill();
-                $this->entityUtils()->createOlzEntity($skill, ['onOff' => 1]);
+                $this->entityUtils()->createOlzEntity($skill, ['onOff' => true]);
             }
             $skill->setName($skill_name);
             $skill->clearCategories();

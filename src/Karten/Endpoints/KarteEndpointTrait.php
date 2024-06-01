@@ -62,6 +62,7 @@ trait KarteEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Karte $entity, array $input_data): void {
         $valid_preview_image_id = $this->uploadUtils()->getValidUploadId($input_data['previewImageId']);
 
@@ -77,6 +78,7 @@ trait KarteEndpointTrait {
         $entity->setPreviewImageId($valid_preview_image_id);
     }
 
+    /** @param array<string, mixed> $input_data */
     public function persistUploads(Karte $entity, array $input_data): void {
         $this->persistOlzImages($entity, [$entity->getPreviewImageId()]);
     }

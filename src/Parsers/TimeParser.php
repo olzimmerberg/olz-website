@@ -3,7 +3,7 @@
 namespace Olz\Parsers;
 
 class TimeParser {
-    public function time_str_to_seconds($time_str) {
+    public function time_str_to_seconds(string $time_str): int {
         $res = preg_match("/^(([0-9]+)[:\\.])?([0-9]+)[:\\.]([0-9]+)$/", $time_str, $matches);
         if (!$res) {
             return -1;

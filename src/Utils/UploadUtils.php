@@ -71,6 +71,11 @@ class UploadUtils {
         return "{$random_id}{$suffix}";
     }
 
+    /**
+     * @param ?array<string> $upload_ids
+     *
+     * @return array<string>
+     */
     public function getValidUploadIds(?array $upload_ids): array {
         $valid_upload_ids = [];
         foreach ($upload_ids ?? [] as $upload_id) {
@@ -96,6 +101,7 @@ class UploadUtils {
         return $upload_id;
     }
 
+    /** @return array<string> */
     public function getStoredUploadIds(string $base_path): array {
         $stored_upload_ids = [];
         if (!is_dir($base_path)) {
@@ -110,6 +116,7 @@ class UploadUtils {
         return $stored_upload_ids;
     }
 
+    /** @param ?array<string> $upload_ids */
     public function overwriteUploads(?array $upload_ids, string $new_base_path): void {
         if (!is_dir($new_base_path)) {
             mkdir($new_base_path, 0o777, true);
@@ -145,6 +152,7 @@ class UploadUtils {
         }
     }
 
+    /** @param ?array<string> $upload_ids */
     public function editUploads(?array $upload_ids, string $base_path): void {
         $data_path = $this->envUtils()->getDataPath();
         foreach ($upload_ids ?? [] as $upload_id) {

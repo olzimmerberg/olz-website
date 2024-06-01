@@ -173,7 +173,7 @@ class OlzNewsList extends OlzComponent {
                     $news_entry->setTitle($row['title']);
                     $news_entry->setTeaser($row['teaser']);
                     $news_entry->setContent($row['content']);
-                    $news_entry->setId($row['id']);
+                    $news_entry->setId(intval($row['id']));
                     $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
 
                     $page_content .= OlzNewsListItem::render(['news_entry' => $news_entry]);

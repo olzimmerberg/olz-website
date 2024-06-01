@@ -11,7 +11,7 @@ use Symfony\Component\Mime\Email;
 class SendEmailMessageHandler {
     use WithUtilsTrait;
 
-    public function __invoke(SendEmailMessage $message) {
+    public function __invoke(SendEmailMessage $message): void {
         $email = (new Email())
             ->to($message->getTo())
             ->subject("[OLZ] {$message->getSubject()}")

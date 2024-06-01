@@ -2,10 +2,12 @@
 
 namespace Olz\Repository;
 
+use Olz\Entity\TelegramLink;
 use Olz\Repository\Common\OlzRepository;
 
 class TelegramLinkRepository extends OlzRepository {
-    public function getActivatedTelegramLinks() {
+    /** @return array<TelegramLink> */
+    public function getActivatedTelegramLinks(): array {
         $dql = "
             SELECT tl
             FROM Olz:TelegramLink tl

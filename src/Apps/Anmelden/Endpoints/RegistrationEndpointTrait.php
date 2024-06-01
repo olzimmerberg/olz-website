@@ -64,6 +64,7 @@ trait RegistrationEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Registration $entity, array $input_data): void {
         $entity->setTitle($input_data['title']);
         $entity->setDescription($input_data['description']);

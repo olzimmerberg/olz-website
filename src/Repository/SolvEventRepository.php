@@ -2,11 +2,13 @@
 
 namespace Olz\Repository;
 
+use Olz\Entity\SolvEvent;
 use Olz\Repository\Common\OlzRepository;
 use Olz\Utils\DbUtils;
 
 class SolvEventRepository extends OlzRepository {
-    public function getSolvEventsForYear($year) {
+    /** @return array<SolvEvent> */
+    public function getSolvEventsForYear(int $year): array {
         $sane_year = intval($year);
         $sane_next_year = $sane_year + 1;
         $dql = "
@@ -20,10 +22,10 @@ class SolvEventRepository extends OlzRepository {
         return $query->getResult();
     }
 
-    public function setResultForSolvEvent($solv_uid, $rank_link) {
+    public function setResultForSolvEvent(int $solv_uid, string $rank_link): mixed {
         $db = DbUtils::fromEnv()->getDb();
 
-        $sane_solv_uid = $db->escape_string($solv_uid);
+        $sane_solv_uid = intval($solv_uid);
         $sane_rank_link = $db->escape_string($rank_link);
         $dql = "
             UPDATE Olz:SolvEvent se
@@ -34,7 +36,7 @@ class SolvEventRepository extends OlzRepository {
         return $query->execute();
     }
 
-    public function deleteBySolvUid($solv_uid) {
+    public function deleteBySolvUid(int $solv_uid): mixed {
         $sane_solv_uid = intval($solv_uid);
         $dql = "
             DELETE Olz:SolvEvent se

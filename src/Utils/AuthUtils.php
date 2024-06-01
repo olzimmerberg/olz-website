@@ -14,8 +14,11 @@ class AuthUtils {
 
     public const MAX_LOOP = 5;
 
+    /** @var array<string, array<string, bool>> */
     protected array $cached_permission_map_by_user = [];
+    /** @var array<string, array<string, bool>> */
     protected array $cached_permission_map_by_role = [];
+    /** @var array<string, User> */
     protected array $cached_users = [];
 
     public function authenticate(string $username_or_email, string $password): ?User {
@@ -135,6 +138,7 @@ class AuthUtils {
         return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
     }
 
+    /** @return array<string, bool> */
     protected function getUserPermissionMap(?User $user): array {
         if (!$user) {
             return ['any' => false];
@@ -158,6 +162,7 @@ class AuthUtils {
         return ($permission_map['all'] ?? false) || ($permission_map[$query] ?? false);
     }
 
+    /** @return array<string, bool> */
     protected function getRolePermissionMap(?Role $role): array {
         if (!$role) {
             return ['any' => false];
@@ -226,6 +231,7 @@ class AuthUtils {
         return $fetched_user;
     }
 
+    /** @return ?array<Role> */
     public function getAuthenticatedRoles(?User $user = null): ?array {
         if (!$user) {
             $user = $this->getCurrentUser();
@@ -278,6 +284,7 @@ class AuthUtils {
         return strlen($password) >= 8;
     }
 
+    /** @return array<string, string> */
     public function getUserAvatar(?User $user): array {
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();

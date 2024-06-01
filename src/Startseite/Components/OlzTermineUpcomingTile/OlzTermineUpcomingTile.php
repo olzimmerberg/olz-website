@@ -10,6 +10,7 @@ use Olz\Entity\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzTermineUpcomingTile extends AbstractOlzTile {
+    /** @var array<string, string> */
     protected static $iconBasenameByType = [
         'programm' => 'termine_type_programm_20.svg',
         'weekend' => 'termine_type_weekend_20.svg',

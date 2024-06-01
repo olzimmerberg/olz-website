@@ -207,6 +207,7 @@ class TelegramUtils {
         return $existing->getUser() == null;
     }
 
+    /** @return array<string, mixed> */
     public function getChatState(string $chat_id): ?array {
         $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
@@ -216,6 +217,7 @@ class TelegramUtils {
         return $existing->getTelegramChatState();
     }
 
+    /** @param array<string, mixed> $chat_state */
     public function setChatState(string $chat_id, array $chat_state): void {
         $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
         $existing = $telegram_link_repo->findOneBy(['telegram_chat_id' => $chat_id]);
@@ -256,6 +258,11 @@ class TelegramUtils {
         }
     }
 
+    /**
+     * @param array<string, mixed> $args
+     *
+     * @return array<string, mixed>
+     */
     public function callTelegramApi(string $command, array $args): array {
         $response = $this->telegramFetcher->callTelegramApi($command, $args, $this->getBotToken());
         if (!$response) {

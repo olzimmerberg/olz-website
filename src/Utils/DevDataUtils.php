@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 class DevDataUtils {
     use WithUtilsTrait;
 
+    /** @var array<string> */
     private array $enqueuedForTouch = [];
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
@@ -291,7 +292,7 @@ class DevDataUtils {
                     }
                     $field_values = [];
                     foreach ($field_names as $name) {
-                        $content = $row_contents[$name];
+                        $content = $row_contents[$name] ?? null;
                         if ($content === null) {
                             $field_values[] = 'NULL';
                         } else {

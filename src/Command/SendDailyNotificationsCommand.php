@@ -23,6 +23,7 @@ use Symfony\Component\Mime\Email;
 
 #[AsCommand(name: 'olz:send-daily-notifications')]
 class SendDailyNotificationsCommand extends OlzCommand {
+    /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }

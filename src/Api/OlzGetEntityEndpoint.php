@@ -30,7 +30,7 @@ abstract class OlzGetEntityEndpoint extends OlzEntityEndpoint {
         ]]);
     }
 
-    protected function getCustomRequestField() {
+    protected function getCustomRequestField(): ?FieldTypes\Field {
         return null;
     }
 }

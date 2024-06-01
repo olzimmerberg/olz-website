@@ -55,6 +55,7 @@ class StravaUtils {
         return "{$strava_auth_url}?".http_build_query($data);
     }
 
+    /** @return ?array<string, mixed> */
     public function getTokenDataForCode(string $code): ?array {
         $token_request_data = [
             'client_id' => $this->client_id,
@@ -84,6 +85,11 @@ class StravaUtils {
         ];
     }
 
+    /**
+     * @param array<string, mixed> $token_data
+     *
+     * @return array<string, mixed>
+     */
     public function getUserData(array $token_data): array {
         return $token_data;
     }

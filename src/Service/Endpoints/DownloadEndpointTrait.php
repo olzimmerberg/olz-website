@@ -36,12 +36,14 @@ trait DownloadEndpointTrait {
         ];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Download $entity, array $input_data): void {
         $entity->setName($input_data['name']);
         $entity->setPosition(intval($input_data['position']));
         $entity->setFileId($input_data['fileId']);
     }
 
+    /** @param array<string, mixed> $input_data */
     public function persistUploads(Download $entity, array $input_data): void {
         $this->persistOlzFiles($entity, [$input_data['fileId']]);
     }

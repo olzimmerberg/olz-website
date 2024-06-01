@@ -5,6 +5,7 @@ namespace Olz\Repository;
 use Olz\Repository\Common\OlzRepository;
 
 class SolvPersonRepository extends OlzRepository {
+    /** @return array<array{id: int, same_as: ?int}> */
     public function getSolvPersonsMarkedForMerge() {
         $dql = "
             SELECT sp.id, sp.same_as
@@ -15,7 +16,7 @@ class SolvPersonRepository extends OlzRepository {
         return $query->getResult();
     }
 
-    public function resetSolvPersonSameAs($id) {
+    public function resetSolvPersonSameAs(int $id): mixed {
         $sane_id = intval($id);
         $dql = "
             UPDATE Olz:SolvPerson sp
@@ -26,7 +27,7 @@ class SolvPersonRepository extends OlzRepository {
         return $query->execute();
     }
 
-    public function deleteById($id) {
+    public function deleteById(int $id): mixed {
         $sane_id = intval($id);
         $dql = "
             DELETE Olz:SolvPerson sp

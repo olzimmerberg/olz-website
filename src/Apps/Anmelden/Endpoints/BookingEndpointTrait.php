@@ -38,6 +38,7 @@ trait BookingEndpointTrait {
         return [];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Booking $entity, array $input_data): void {
         $current_user = $this->authUtils()->getCurrentUser();
 

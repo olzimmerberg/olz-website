@@ -44,17 +44,17 @@ class OlzKartenList extends OlzComponent {
             $karte->setOwnerUser(null);
             $karte->setOwnerRole(null);
             $karte->setOnOff(1);
-            $karte->setId($row['id']);
-            $karte->setKartenNr($row['kartennr'] ? $row['kartennr'] : null);
+            $karte->setId(intval($row['id']));
+            $karte->setKartenNr($row['kartennr'] ? intval($row['kartennr']) : null);
             $karte->setName($row['name']);
-            $karte->setCenterX($row['center_x']);
-            $karte->setCenterY($row['center_y']);
-            $karte->setLatitude($row['latitude']);
-            $karte->setLongitude($row['longitude']);
+            $karte->setCenterX($row['center_x'] ? intval($row['center_x']) : null);
+            $karte->setCenterY($row['center_y'] ? intval($row['center_y']) : null);
+            $karte->setLatitude($row['latitude'] ? floatval($row['latitude']) : null);
+            $karte->setLongitude($row['longitude'] ? floatval($row['longitude']) : null);
             $karte->setYear($row['jahr']);
             $karte->setScale($row['massstab']);
             $karte->setPlace($row['ort']);
-            $karte->setZoom($row['zoom']);
+            $karte->setZoom($row['zoom'] ? intval($row['zoom']) : null);
             $karte->setKind($row['typ']);
             $karte->setPreviewImageId($row['vorschau']);
 

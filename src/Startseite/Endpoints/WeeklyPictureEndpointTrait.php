@@ -31,6 +31,7 @@ trait WeeklyPictureEndpointTrait {
         return [];
     }
 
+    /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(WeeklyPicture $entity, array $input_data): void {
         $now = new \DateTime($this->dateUtils()->getIsoNow());
         $valid_image_id = $this->uploadUtils()->getValidUploadId($input_data['imageId']);

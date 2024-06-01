@@ -3,7 +3,6 @@
 namespace Olz\Utils;
 
 use Doctrine\ORM\EntityManager;
-use Olz\Tests\Fake\FakeMysqli;
 
 class DbUtils {
     use WithUtilsTrait;
@@ -11,8 +10,7 @@ class DbUtils {
     protected static ?\mysqli $db = null;
     protected static ?EntityManager $entityManager = null;
 
-    // TODO: Do not depend on FakeMysqli
-    public function getDb(): \mysqli|FakeMysqli {
+    public function getDb(): \mysqli {
         if (self::$db !== null) {
             return self::$db;
         }

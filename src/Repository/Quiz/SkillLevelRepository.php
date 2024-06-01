@@ -3,10 +3,12 @@
 namespace Olz\Repository\Quiz;
 
 use Olz\Entity\Quiz\Skill;
+use Olz\Entity\Quiz\SkillLevel;
 use Olz\Repository\Common\OlzRepository;
 
 class SkillLevelRepository extends OlzRepository {
-    public function getSkillLevelsForUserId($user_id) {
+    /** @return array<SkillLevel> */
+    public function getSkillLevelsForUserId(int $user_id): array {
         $sane_user_id = intval($user_id);
         $dql = "
             SELECT sl
@@ -16,7 +18,12 @@ class SkillLevelRepository extends OlzRepository {
         return $query->getResult();
     }
 
-    public function getSkillLevelsForUserIdInCategories($user_id, $category_ids) {
+    /**
+     * @param array<int> $category_ids
+     *
+     * @return array<SkillLevel>
+     */
+    public function getSkillLevelsForUserIdInCategories(int $user_id, array $category_ids): array {
         $sane_user_id = intval($user_id);
         $skill_repo = $this->getEntityManager()->getRepository(Skill::class);
         $skills = $skill_repo->getSkillsInCategories($category_ids);

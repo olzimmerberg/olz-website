@@ -11,6 +11,7 @@ use Olz\Entity\Termine\TerminTemplate;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzTerminTemplateDetail extends OlzComponent {
+    /** @var array<string, string> */
     protected static $iconBasenameByType = [
         'programm' => 'termine_type_programm_20.svg',
         'weekend' => 'termine_type_weekend_20.svg',

@@ -2,12 +2,15 @@
 
 namespace Olz\Repository\Termine;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Olz\Entity\Termine\Termin;
 use Olz\Repository\Common\OlzRepository;
 use Olz\Termine\Utils\TermineFilterUtils;
 
 class TerminRepository extends OlzRepository {
-    public function getAllActive() {
+    /** @return Collection<int, object>&iterable<Termin> */
+    public function getAllActive(): Collection {
         $termine_utils = TermineFilterUtils::fromEnv();
         $is_not_archived = $termine_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()

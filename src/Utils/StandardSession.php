@@ -11,6 +11,7 @@ class StandardSession extends AbstractSession {
         self::session_start_if_cookie_set();
     }
 
+    /** @param array{timeout?: int} $config */
     public function resetConfigure(array $config): void {
         global $_SESSION;
         $session_already_exists = session_id() != '' && isset($_SESSION);

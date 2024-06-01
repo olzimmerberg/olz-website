@@ -12,6 +12,7 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsForumTile extends AbstractOlzTile {
+    /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
         'forum' => 'entry_type_forum_20.svg',
     ];

@@ -10,7 +10,12 @@ class AuthRequestRepository extends OlzRepository {
     public const NUM_TRIES = 8;
     public const TRIES_RESET_INTERVAL = '+8 hour'; // Reset after 8h
 
-    public function addAuthRequest($ip_address, $action, $username, $timestamp = null) {
+    public function addAuthRequest(
+        string $ip_address,
+        string $action,
+        string $username,
+        ?\DateTime $timestamp = null,
+    ): void {
         if ($timestamp === null) {
             $timestamp = new \DateTime();
         }
@@ -23,7 +28,7 @@ class AuthRequestRepository extends OlzRepository {
         $this->getEntityManager()->flush();
     }
 
-    public function numRemainingAttempts($ip_address, $timestamp = null) {
+    public function numRemainingAttempts(string $ip_address, ?\DateTime $timestamp = null): int {
         $db = DbUtils::fromEnv()->getDb();
 
         $tries_reset_interval = \DateInterval::createFromDateString(self::TRIES_RESET_INTERVAL);
@@ -55,7 +60,7 @@ class AuthRequestRepository extends OlzRepository {
         return self::NUM_TRIES - $num_unsuccessful_auth_requests;
     }
 
-    public function canValidateAccessToken($ip_address, $timestamp = null) {
+    public function canValidateAccessToken(string $ip_address, ?\DateTime $timestamp = null): bool {
         $db = DbUtils::fromEnv()->getDb();
 
         $tries_reset_interval = \DateInterval::createFromDateString(self::TRIES_RESET_INTERVAL);

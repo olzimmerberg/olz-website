@@ -19,7 +19,7 @@ use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Client;
 
 class TestOnlyEmailUtils extends EmailUtils {
-    public function testOnlyGetRandomEmailVerificationToken() {
+    public function testOnlyGetRandomEmailVerificationToken(): string {
         return $this->getRandomEmailVerificationToken();
     }
 }

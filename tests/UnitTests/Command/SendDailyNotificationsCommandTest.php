@@ -209,12 +209,22 @@ $all_notification_subscriptions = [
     $subscription_22,
 ];
 
+/**
+ * @extends FakeOlzRepository<NotificationSubscription>
+ */
 class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository extends FakeOlzRepository {
+    /** @return array<NotificationSubscription> */
     public function findAll(): array {
         global $all_notification_subscriptions;
         return $all_notification_subscriptions;
     }
 
+    /**
+     * @param array<string, mixed> $criteria
+     * @param array<string, mixed> $orderBy
+     * @param mixed|null           $limit
+     * @param mixed|null           $offset
+     */
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         global $user1, $user2, $user3, $user_provoke_error, $all_notification_subscriptions;
 
@@ -289,6 +299,10 @@ class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository extend
         return $all_notification_subscriptions;
     }
 
+    /**
+     * @param array<string, mixed> $criteria
+     * @param array<string, mixed> $orderBy
+     */
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         global $user1;
         if ($criteria['user'] === $user1) {
@@ -298,7 +312,11 @@ class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository extend
     }
 }
 
+/**
+ * @extends FakeOlzRepository<TelegramLink>
+ */
 class FakeSendDailyNotificationsCommandTelegramLinkRepository extends FakeOlzRepository {
+    /** @param array<string, mixed> $criteria */
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         global $user1, $user2, $user3, $user_provoke_error;
         if ($criteria == ['user' => $user1]) {
@@ -324,7 +342,8 @@ class FakeSendDailyNotificationsCommandTelegramLinkRepository extends FakeOlzRep
         return null;
     }
 
-    public function getActivatedTelegramLinks() {
+    /** @return array<TelegramLink> */
+    public function getActivatedTelegramLinks(): array {
         global $user1, $user2, $user3, $user_provoke_error;
 
         $telegram_link_1 = new TelegramLink();
@@ -350,8 +369,10 @@ class FakeSendDailyNotificationsCommandTelegramLinkRepository extends FakeOlzRep
 class FakeSendDailyNotificationsCommandDailySummaryGetter extends DailySummaryGetter {
     use WithUtilsTrait;
 
-    public $calledWithArgs;
+    /** @var array<string, mixed> */
+    public array $calledWithArgs;
 
+    /** @param array<string, mixed> $args */
     public function getDailySummaryNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
@@ -366,8 +387,10 @@ class FakeSendDailyNotificationsCommandDailySummaryGetter extends DailySummaryGe
 class FakeSendDailyNotificationsCommandDeadlineWarningGetter extends DeadlineWarningGetter {
     use WithUtilsTrait;
 
-    public $calledWithArgs;
+    /** @var array<string, mixed> */
+    public array $calledWithArgs;
 
+    /** @param array<string, mixed> $args */
     public function getDeadlineWarningNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
@@ -383,8 +406,10 @@ class FakeSendDailyNotificationsCommandDeadlineWarningGetter extends DeadlineWar
 class FakeSendDailyNotificationsEmailConfigurationReminderGetter extends EmailConfigurationReminderGetter {
     use WithUtilsTrait;
 
-    public $calledWithArgs;
+    /** @var array<string, mixed> */
+    public array $calledWithArgs;
 
+    /** @param array<string, mixed> $args */
     public function getNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['cancelled'] ?? false) {
@@ -400,8 +425,10 @@ class FakeSendDailyNotificationsEmailConfigurationReminderGetter extends EmailCo
 class FakeSendDailyNotificationsCommandMonthlyPreviewGetter extends MonthlyPreviewGetter {
     use WithUtilsTrait;
 
-    public $calledWithArgs;
+    /** @var array<string, mixed> */
+    public array $calledWithArgs;
 
+    /** @param array<string, mixed> $args */
     public function getMonthlyPreviewNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
@@ -416,8 +443,10 @@ class FakeSendDailyNotificationsCommandMonthlyPreviewGetter extends MonthlyPrevi
 class FakeSendDailyNotificationsTelegramConfigurationReminderGetter extends TelegramConfigurationReminderGetter {
     use WithUtilsTrait;
 
-    public $calledWithArgs;
+    /** @var array<string, mixed> */
+    public array $calledWithArgs;
 
+    /** @param array<string, mixed> $args */
     public function getNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['cancelled'] ?? false) {
@@ -433,8 +462,10 @@ class FakeSendDailyNotificationsTelegramConfigurationReminderGetter extends Tele
 class FakeSendDailyNotificationsCommandWeeklyPreviewGetter extends WeeklyPreviewGetter {
     use WithUtilsTrait;
 
-    public $calledWithArgs;
+    /** @var array<string, mixed> */
+    public array $calledWithArgs;
 
+    /** @param array<string, mixed> $args */
     public function getWeeklyPreviewNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
@@ -449,8 +480,10 @@ class FakeSendDailyNotificationsCommandWeeklyPreviewGetter extends WeeklyPreview
 class FakeSendDailyNotificationsCommandWeeklySummaryGetter extends WeeklySummaryGetter {
     use WithUtilsTrait;
 
-    public $calledWithArgs;
+    /** @var array<string, mixed> */
+    public array $calledWithArgs;
 
+    /** @param array<string, mixed> $args */
     public function getWeeklySummaryNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {

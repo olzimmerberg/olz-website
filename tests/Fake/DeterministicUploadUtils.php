@@ -7,7 +7,8 @@ namespace Olz\Tests\Fake;
 use Olz\Utils\UploadUtils;
 
 class DeterministicUploadUtils extends UploadUtils {
-    public $move_uploads_calls = [];
+    /** @var array<array{0: ?array<string>, 1: string}> */
+    public array $move_uploads_calls = [];
 
     public function getRandomUploadId(string $suffix): string {
         return "AAAAAAAAAAAAAAAAAAAAAAAA{$suffix}";

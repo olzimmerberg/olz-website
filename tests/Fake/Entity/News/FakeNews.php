@@ -10,8 +10,11 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 
+/**
+ * @extends FakeEntity<NewsEntry>
+ */
 class FakeNews extends FakeEntity {
-    public static function minimal($fresh = false) {
+    public static function minimal(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -38,7 +41,7 @@ class FakeNews extends FakeEntity {
         );
     }
 
-    public static function empty($fresh = false) {
+    public static function empty(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -65,7 +68,7 @@ class FakeNews extends FakeEntity {
         );
     }
 
-    public static function maximal($fresh = false) {
+    public static function maximal(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {

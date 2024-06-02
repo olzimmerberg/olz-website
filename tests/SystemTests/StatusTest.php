@@ -12,11 +12,11 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class StatusTest extends SystemTestCase {
-    public static $statusDomain = "status.olzimmerberg.ch";
-    public static $statusUrl = "https://status.olzimmerberg.ch/";
+    public static string $statusDomain = "status.olzimmerberg.ch";
+    public static string $statusUrl = "https://status.olzimmerberg.ch/";
 
-    public static $statusUsername = "olz_system_test";
-    public static $statusPassword = "jup,thisIsPublic";
+    public static string $statusUsername = "olz_system_test";
+    public static string $statusPassword = "jup,thisIsPublic";
 
     public function testStatusIsUp(): void {
         $url = "{$this::$statusUrl}";
@@ -62,7 +62,7 @@ final class StatusTest extends SystemTestCase {
         $this->assertLessThanOrEqual(15 * 60, $last_check);
     }
 
-    protected function parseLastCheck($text) {
+    protected function parseLastCheck(string $text): ?int {
         $res = preg_match('/Last check:\s*(([0-9]+) (seconds|minutes) ago|about a minute ago)/im', $text, $matches);
         if (!$res) {
             return null;

@@ -9,7 +9,12 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\FakeEntityManager;
 
+/**
+ * @extends FakeOlzRepository<Registration>
+ */
 class FakeRegistrationRepository extends FakeOlzRepository {
+    public string $olzEntityClass = Registration::class;
+
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($criteria === ['id' => FakeEntityManager::AUTO_INCREMENT_ID]) {
             $registration = new Registration();

@@ -8,9 +8,9 @@ use Monolog\Logger;
 use Olz\Utils\EnvUtils;
 
 class FakeEnvUtils extends EnvUtils {
-    public $app_env = 'test';
-    public $has_unlimited_cron = false;
-    public $fake_data_path;
+    public string $app_env = 'test';
+    public bool $has_unlimited_cron = false;
+    public ?string $fake_data_path = null;
 
     public function hasUnlimitedCron(): bool {
         return $this->has_unlimited_cron;
@@ -149,7 +149,7 @@ class FakeEnvUtils extends EnvUtils {
 }
 
 class FakeLogsUtils {
-    public function getLogger($ident) {
+    public function getLogger(string $ident): Logger {
         return new Logger('');
     }
 }

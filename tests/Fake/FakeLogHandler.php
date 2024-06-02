@@ -8,7 +8,8 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\LogRecord;
 
 class FakeLogHandler implements HandlerInterface {
-    public $records = [];
+    /** @var array<LogRecord> */
+    public array $records = [];
 
     public function isHandling(LogRecord $args): bool {
         return true;
@@ -19,6 +20,7 @@ class FakeLogHandler implements HandlerInterface {
         return true;
     }
 
+    /** @param array<LogRecord> $records */
     public function handleBatch(array $records): void {
         foreach ($records as $record) {
             $this->records[] = $record;
@@ -28,7 +30,8 @@ class FakeLogHandler implements HandlerInterface {
     public function close(): void {
     }
 
-    public function getPrettyRecords($map_fn = null) {
+    /** @return array<string> */
+    public function getPrettyRecords(?callable $map_fn = null) {
         $env_utils = new FakeEnvUtils();
         $data_path = $env_utils->getDataPath();
         $data_realpath = realpath($data_path);

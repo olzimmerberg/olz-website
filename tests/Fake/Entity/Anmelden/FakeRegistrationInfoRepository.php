@@ -7,7 +7,12 @@ namespace Olz\Tests\Fake\Entity\Anmelden;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
+/**
+ * @extends FakeOlzRepository<RegistrationInfo>
+ */
 class FakeRegistrationInfoRepository extends FakeOlzRepository {
+    public string $olzEntityClass = RegistrationInfo::class;
+
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($criteria['ident'] === '0-vorname') {
             return new RegistrationInfo();

@@ -8,9 +8,11 @@ use Olz\Entity\Common\OlzEntity;
 use Olz\Utils\EntityUtils;
 
 class FakeEntityUtils extends EntityUtils {
-    public $create_olz_entity_calls = [];
-    public $update_olz_entity_calls = [];
-    public $can_update_olz_entity;
+    /** @var array<array{0: OlzEntity, 1: int, 2: ?int, 3: ?int}> */
+    public array $create_olz_entity_calls = [];
+    /** @var array<array{0: OlzEntity, 1: int, 2: ?int, 3: ?int}> */
+    public array $update_olz_entity_calls = [];
+    public ?bool $can_update_olz_entity = null;
 
     public function createOlzEntity(OlzEntity $entity, array $input): void {
         parent::createOlzEntity($entity, $input);
@@ -35,7 +37,7 @@ class FakeEntityUtils extends EntityUtils {
     public function canUpdateOlzEntity(
         OlzEntity $entity,
         $meta_arg,
-        $edit_permission = 'all',
+        string $edit_permission = 'all',
     ): bool {
         if ($this->can_update_olz_entity === null) {
             throw new \Exception("FakeEntityUtils::canUpdateOlzEntity not mocked");

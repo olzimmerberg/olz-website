@@ -11,12 +11,15 @@ use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Utils\AuthUtils;
 
 class FakeAuthUtils extends AuthUtils {
-    public $current_user;
-    public $authenticated_roles;
-    public $authenticate_user;
-    public $authenticate_with_error;
-    public $has_permission_by_query = [];
-    public $has_role_permission_by_query = [];
+    public ?User $current_user = null;
+    /** @var array<Role> */
+    public ?array $authenticated_roles = null;
+    public ?User $authenticate_user = null;
+    public ?\Exception $authenticate_with_error = null;
+    /** @var array<string, bool> */
+    public array $has_permission_by_query = [];
+    /** @var array<string, bool> */
+    public array $has_role_permission_by_query = [];
 
     public function authenticate(string $username_or_email, string $password): ?User {
         if ($this->authenticate_with_error) {

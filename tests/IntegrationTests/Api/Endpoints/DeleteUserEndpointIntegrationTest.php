@@ -13,11 +13,11 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @coversNothing
  */
 class DeleteUserEndpointForIntegrationTest extends DeleteUserEndpoint {
-    public function testOnlyIsFile($path) {
+    public function testOnlyIsFile(string $path): bool {
         return $this->isFile($path);
     }
 
-    public function testOnlyUnlink($path) {
+    public function testOnlyUnlink(string $path): void {
         $this->unlink($path);
     }
 }

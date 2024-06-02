@@ -13,7 +13,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @covers \Olz\Fetchers\StravaFetcher
  */
 final class StravaFetcherTest extends IntegrationTestCase {
-    protected $strava_fetcher;
+    protected StravaFetcher $strava_fetcher;
 
     public function setUp(): void {
         parent::setUp();

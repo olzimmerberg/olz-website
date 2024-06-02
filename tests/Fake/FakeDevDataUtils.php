@@ -7,7 +7,8 @@ namespace Olz\Tests\Fake;
 use Olz\Utils\DevDataUtils;
 
 class FakeDevDataUtils extends DevDataUtils {
-    public $commands_called = [];
+    /** @var array<mixed> */
+    public array $commands_called = [];
 
     public function fullResetDb(): void {
         $this->commands_called[] = 'fullResetDb';

@@ -46,7 +46,7 @@ class FakeRecaptchaUtilsGoogleFetcher extends GoogleFetcher {
  * @coversNothing
  */
 class RecaptchaUtilsForTest extends RecaptchaUtils {
-    public static function testOnlyResetCache() {
+    public static function testOnlyResetCache(): void {
         parent::$cache = [];
     }
 }

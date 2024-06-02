@@ -12,7 +12,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class WebmailTest extends SystemTestCase {
-    public static $webmailUrl = "https://webmail.olzimmerberg.ch/";
+    public static string $webmailUrl = "https://webmail.olzimmerberg.ch/";
 
     public function testWebmalIsWorking(): void {
         $url = "{$this::$webmailUrl}";

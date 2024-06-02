@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  * @coversNothing
  */
 class KernelExceptionListenerForTest extends KernelExceptionListener {
-    public function testOnlySetIsHandlingException(\Throwable $exception) {
+    public function testOnlySetIsHandlingException(\Throwable $exception): void {
         $this->is_handling_exception = $exception;
     }
 }

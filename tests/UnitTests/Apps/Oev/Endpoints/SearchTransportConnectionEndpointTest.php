@@ -14,6 +14,7 @@ use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\FakeTransportApiFetcher {
+    /** @param array<string, mixed> $request_data */
     public function fetchConnection(array $request_data): mixed {
         $from = str_replace(' ', '_', $request_data['from']);
         $to = str_replace(' ', '_', $request_data['to']);
@@ -40,19 +41,25 @@ class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\Fake
  * @coversNothing
  */
 class SearchTransportConnectionEndpointForTest extends SearchTransportConnectionEndpoint {
-    public function testOnlyGetCenterOfOriginStations() {
+    /** @return array{x: int|float, y: int|float} */
+    public function testOnlyGetCenterOfOriginStations(): array {
         return $this->getCenterOfOriginStations();
     }
 
-    public function testOnlyGetMostPeripheralOriginStations() {
+    /** @return array<array{id: string, name: string, coordinate: array{type: string, x: float, y: float}, weight: float}> */
+    public function testOnlyGetMostPeripheralOriginStations(): array {
         return $this->getMostPeripheralOriginStations();
     }
 
+    /**
+     * @param array<int|string, int> $latest_joining_time_by_station_id
+     * @param array<int|string, int> $latest_departure_by_station_id
+     */
     public function testOnlyGetJoiningStationFromConnection(
-        $connection,
-        $latest_joining_time_by_station_id,
-        $latest_departure_by_station_id,
-    ) {
+        TransportConnection $connection,
+        array $latest_joining_time_by_station_id,
+        array $latest_departure_by_station_id,
+    ): ?string {
         return $this->getJoiningStationFromConnection(
             $connection,
             $latest_joining_time_by_station_id,

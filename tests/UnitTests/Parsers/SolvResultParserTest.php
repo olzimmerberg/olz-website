@@ -13,14 +13,14 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  * @covers \Olz\Parsers\SolvResultParser
  */
 final class SolvResultParserTest extends UnitTestCase {
-    private $results_2006_path = __DIR__.'/data/results-2006.json';
+    private string $results_2006_path = __DIR__.'/data/results-2006.json';
 
-    private $results_2018_path = __DIR__.'/data/results-2018.json';
+    private string $results_2018_path = __DIR__.'/data/results-2018.json';
 
     // In 2006, rankings did not have IDs yet...
-    private $result_2006_path = __DIR__.'/data/result-2006-?.html';
+    private string $result_2006_path = __DIR__.'/data/result-2006-?.html';
 
-    private $result_2018_path = __DIR__.'/data/result-2018-4491.html';
+    private string $result_2018_path = __DIR__.'/data/result-2018-4491.html';
 
     public function testParseResults2006(): void {
         $results_2006 = file_get_contents($this->results_2006_path);

@@ -7,8 +7,11 @@ namespace Olz\Tests\Fake\Entity;
 use Olz\Entity\NotificationSubscription;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 
+/**
+ * @extends FakeEntity<NotificationSubscription>
+ */
 class FakeNotificationSubscription extends FakeEntity {
-    public static function minimal($fresh = false) {
+    public static function minimal(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -24,7 +27,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function empty($fresh = false) {
+    public static function empty(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -40,7 +43,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function maximal($fresh = false) {
+    public static function maximal(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -56,7 +59,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function defaultNotificationSubscription($fresh = false) {
+    public static function defaultNotificationSubscription(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {

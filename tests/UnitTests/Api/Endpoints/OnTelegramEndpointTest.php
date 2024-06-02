@@ -11,7 +11,7 @@ use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
 
-function getFakeTelegramMessage($from_key, $chat_key, $text) {
+function getFakeTelegramMessage(mixed $from_key, mixed $chat_key, string $text): string {
     $users = [
         'test' => [
             'id' => 17089367,

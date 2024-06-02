@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SyncSolvMergePeopleCommand;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
@@ -14,11 +15,14 @@ use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
+/**
+ * @extends FakeOlzRepository<SolvPerson>
+ */
 class FakeSyncSolvMergePeopleCommandSolvPersonRepository extends FakeOlzRepository {
-    public $targetPerson = [];
-    public $samePerson = [];
+    public SolvPerson $targetPerson;
+    public SolvPerson $samePerson;
 
-    public function __construct($em) {
+    public function __construct(EntityManagerInterface $em) {
         parent::__construct($em);
         $target_person = FakeSolvPerson::defaultSolvPerson(true);
         $target_person->setId(1);
@@ -31,17 +35,22 @@ class FakeSyncSolvMergePeopleCommandSolvPersonRepository extends FakeOlzReposito
         $this->samePerson = $same_person;
     }
 
-    public function getSolvPersonsMarkedForMerge() {
+    /** @return array<array{id: int, same_as: int}> */
+    public function getSolvPersonsMarkedForMerge(): array {
         return [
             ['id' => 2, 'same_as' => 1],
         ];
     }
 }
 
+/**
+ * @extends FakeOlzRepository<SolvResult>
+ */
 class FakeSyncSolvMergePeopleCommandSolvResultRepository extends FakeOlzRepository {
-    public $merged = [];
+    /** @var array<array{old: int, new: int}> */
+    public array $merged = [];
 
-    public function solvPersonHasResults($person_id) {
+    public function solvPersonHasResults(int $person_id): bool {
         switch ($person_id) {
             case 1:
                 return true;
@@ -52,7 +61,7 @@ class FakeSyncSolvMergePeopleCommandSolvResultRepository extends FakeOlzReposito
         }
     }
 
-    public function mergePerson($old_person_id, $new_person_id) {
+    public function mergePerson(int $old_person_id, int $new_person_id): bool {
         $this->merged[] = ['old' => $old_person_id, 'new' => $new_person_id];
         return true;
     }

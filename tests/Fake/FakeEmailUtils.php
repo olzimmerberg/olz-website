@@ -9,16 +9,18 @@ use Olz\Utils\EmailUtils;
 use Olz\Utils\GeneralUtils;
 use Webklex\PHPIMAP\Client;
 use Webklex\PHPIMAP\Folder;
+use Webklex\PHPIMAP\Message;
 use Webklex\PHPIMAP\Query\WhereQuery;
 use Webklex\PHPIMAP\Support\MessageCollection;
 
 class FakeEmailUtils extends EmailUtils {
     use \Psr\Log\LoggerAwareTrait;
 
-    public $email_verification_emails_sent = [];
-    public $send_email_verification_email_error;
+    /** @var array<array{user: User, token: string}> */
+    public array $email_verification_emails_sent = [];
+    public ?\Exception $send_email_verification_email_error = null;
 
-    public $client;
+    public FakeImapClient $client;
 
     public function __construct() {
         $this->client = new FakeImapClient();
@@ -53,9 +55,10 @@ class FakeEmailUtils extends EmailUtils {
 }
 
 class FakeImapClient extends Client {
-    public $exception = false;
-    public $folders = [];
-    public $is_connected = false;
+    public bool $exception = false;
+    /** @var array<string, array<Message>> */
+    public array $folders = [];
+    public bool $is_connected = false;
 
     public function __construct() {
     }
@@ -72,30 +75,34 @@ class FakeImapClient extends Client {
         return $this;
     }
 
+    // @phpstan-ignore-next-line
     public function getFolderByPath($folder_path, bool $utf7 = false, bool $soft_fail = false): Folder {
         return new FakeImapFolder($this, $this->folders[$folder_path] ?? []);
     }
 }
 
 class FakeImapFolder extends Folder {
+    /** @param array<Message> $mails */
     public function __construct(
         protected Client $client,
-        public $mails = [],
+        public array $mails = [],
     ) {
     }
 
+    /** @param array<mixed> $extensions */
     public function messages(array $extensions = []): WhereQuery {
         return new FakeWhereQuery($this->client, $this->mails);
     }
 }
 
 class FakeWhereQuery extends WhereQuery {
-    public $should_leave_unread = false;
-    public $should_fetch_body = true;
+    public bool $should_leave_unread = false;
+    public bool $should_fetch_body = true;
 
+    /** @param array<Message> $mails */
     public function __construct(
         protected Client $client,
-        public $mails = [],
+        public array $mails = [],
     ) {
     }
 
@@ -104,12 +111,12 @@ class FakeWhereQuery extends WhereQuery {
         return $this;
     }
 
-    public function setFetchBody($value): WhereQuery {
+    public function setFetchBody(bool $value): WhereQuery {
         $this->should_fetch_body = $value;
         return $this;
     }
 
-    public function all() {
+    public function all(): WhereQuery {
         return $this;
     }
 

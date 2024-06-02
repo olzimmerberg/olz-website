@@ -19,9 +19,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @coversNothing
  */
 class OlzCommandForTest extends OlzCommand {
-    public $allowedAppEnvs = ['test'];
-    public $returnCode;
-    public $failWithError;
+    /** @var array<string> */
+    public array $allowedAppEnvs = ['test'];
+    public int $returnCode = 0;
+    public ?\Exception $failWithError = null;
 
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {

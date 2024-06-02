@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Doctrine\Common\Collections\AbstractLazyCollection;
+use Doctrine\Common\Collections\Criteria;
 use Olz\Api\Endpoints\SearchEntitiesEndpoint;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Tests\Fake\Entity\Common\FakeLazyCollection;
@@ -13,8 +14,12 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
+/**
+ * @extends FakeOlzRepository<TerminLocation>
+ */
 class FakeSearchEntitiesEndpointTerminLocationRepository extends FakeOlzRepository {
-    public function matching($criteria): AbstractLazyCollection {
+    /** @return AbstractLazyCollection<int, TerminLocation> */
+    public function matching(Criteria $criteria): AbstractLazyCollection {
         $termin_location_1 = new TerminLocation();
         $termin_location_1->setId(1);
         $termin_location_1->setName('Query-Hütte');

@@ -157,7 +157,7 @@ final class SyncSolvResultsCommandTest extends UnitTestCase {
         $this->assertCount(3, $flushed);
 
         $solv_event_repo = $entity_manager->getRepository(SolvEvent::class);
-        $this->assertSame([20201 => 1234], $solv_event_repo->updatedRankIdBySolvUid);
+        $this->assertSame([20201 => '1234'], $solv_event_repo->updatedRankIdBySolvUid);
         $this->assertSame('Martin Tester', $flushed[0]->getName());
         $this->assertSame('Unser Gewinner', $flushed[1]->getName());
         $this->assertSame('Toni Pfister', $flushed[2]->getName());

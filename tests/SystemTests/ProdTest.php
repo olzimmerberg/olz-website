@@ -12,8 +12,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class ProdTest extends SystemTestCase {
-    public static $prodDomain = "olzimmerberg.ch";
-    public static $prodUrl = "https://olzimmerberg.ch/";
+    public static string $prodDomain = "olzimmerberg.ch";
+    public static string $prodUrl = "https://olzimmerberg.ch/";
 
     public function testProdIsUp(): void {
         $url = "{$this::$prodUrl}";

@@ -15,10 +15,11 @@ use PhpTypeScriptApi\Fields\FieldUtils;
  * @coversNothing
  */
 class HttpUtilsForIntegrationTest extends HttpUtils {
-    public $sent_http_response_code;
-    public $sent_http_header_lines = [];
-    public $sent_http_body;
-    public $has_exited_execution = false;
+    public int $sent_http_response_code;
+    /** @var array<string> */
+    public array $sent_http_header_lines = [];
+    public string $sent_http_body;
+    public bool $has_exited_execution = false;
 
     protected function sendHttpResponseCode(int $http_response_code): void {
         $this->sent_http_response_code = $http_response_code;

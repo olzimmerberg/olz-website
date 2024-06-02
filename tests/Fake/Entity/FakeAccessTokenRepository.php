@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake\Entity;
 
+use Olz\Entity\AccessToken;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
+/**
+ * @extends FakeOlzRepository<AccessToken>
+ */
 class FakeAccessTokenRepository extends FakeOlzRepository {
-    public $fakeOlzEntityClass = FakeAccessToken::class;
+    public string $olzEntityClass = AccessToken::class;
+    public string $fakeOlzEntityClass = FakeAccessToken::class;
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if (($criteria['purpose'] ?? null) === 'WebDAV') {

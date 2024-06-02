@@ -9,6 +9,7 @@ class OlzArtgrisFileManagerConf implements CustomConfServiceInterface {
     use WithUtilsTrait;
 
     /** @return array{dir: string} */
+    // @phpstan-ignore-next-line
     public function getConf($extra = []): array {
         $data_path = $this->envUtils()->getDataPath();
 

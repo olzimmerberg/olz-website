@@ -7,7 +7,12 @@ namespace Olz\Tests\Fake\Entity\Quiz;
 use Olz\Entity\Quiz\SkillCategory;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
+/**
+ * @extends FakeOlzRepository<SkillCategory>
+ */
 class FakeSkillCategoryRepository extends FakeOlzRepository {
+    public string $olzEntityClass = SkillCategory::class;
+
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($criteria === ['name' => 'Child Category 1']) {
             $skill_category = new SkillCategory();

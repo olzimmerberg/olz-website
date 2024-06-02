@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\GetAuthenticatedUserEndpoint;
+use Olz\Entity\User;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
 class FakeGetAuthenticatedUserEndpointAuthUtils {
-    public function getCurrentUser() {
+    public function getCurrentUser(): ?User {
         return null;
     }
 }

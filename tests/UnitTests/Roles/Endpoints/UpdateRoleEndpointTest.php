@@ -17,7 +17,8 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Roles\Endpoints\UpdateRoleEndpoint
  */
 final class UpdateRoleEndpointTest extends UnitTestCase {
-    protected function getValidInput() {
+    /** @return array<string, mixed> */
+    protected function getValidInput(): array {
         return [
             'id' => FakeOlzRepository::MAXIMAL_ID,
             'meta' => [

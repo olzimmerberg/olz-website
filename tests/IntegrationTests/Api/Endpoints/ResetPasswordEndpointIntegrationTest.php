@@ -13,7 +13,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @coversNothing
  */
 class ResetPasswordEndpointForIntegrationTest extends ResetPasswordEndpoint {
-    public function testOnlyGetRandomPassword() {
+    public function testOnlyGetRandomPassword(): string {
         return $this->getRandomPassword();
     }
 }

@@ -13,7 +13,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @covers \Olz\Fetchers\TelegramFetcher
  */
 final class TelegramFetcherTest extends IntegrationTestCase {
-    protected $telegramFetcher;
+    protected TelegramFetcher $telegramFetcher;
 
     public function setUp(): void {
         parent::setUp();

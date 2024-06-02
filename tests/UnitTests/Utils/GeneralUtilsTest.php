@@ -8,7 +8,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\GeneralUtils;
 
 class TestOnlyGeneralUtils extends GeneralUtils {
-    public function testOnlyGetRandomIvForAlgo($algo) {
+    public function testOnlyGetRandomIvForAlgo(string $algo): string {
         return $this->getRandomIvForAlgo($algo);
     }
 }

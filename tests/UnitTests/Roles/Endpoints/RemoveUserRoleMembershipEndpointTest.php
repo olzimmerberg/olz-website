@@ -18,7 +18,8 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Roles\Endpoints\RemoveUserRoleMembershipEndpoint
  */
 final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
-    protected function getValidInput() {
+    /** @return array<string, mixed> */
+    protected function getValidInput(): array {
         return [
             'ids' => [
                 'roleId' => FakeRole::adminRole()->getId(),

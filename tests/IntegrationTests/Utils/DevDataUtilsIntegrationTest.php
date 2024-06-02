@@ -13,9 +13,9 @@ use Olz\Utils\DevDataUtils;
  * @covers \Olz\Utils\DevDataUtils
  */
 final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
-    private $dev_data_path = __DIR__.'/../document-root/';
-    private $dev_db_structure_path = __DIR__.'/../../../src/Utils/data/db_structure.sql';
-    private $dev_db_content_path = __DIR__.'/../../../src/Utils/data/db_content.sql';
+    private string $dev_data_path = __DIR__.'/../document-root/';
+    private string $dev_db_structure_path = __DIR__.'/../../../src/Utils/data/db_structure.sql';
+    private string $dev_db_content_path = __DIR__.'/../../../src/Utils/data/db_content.sql';
 
     public function testInitAndDump(): void {
         $this->withLockedDb(function () {

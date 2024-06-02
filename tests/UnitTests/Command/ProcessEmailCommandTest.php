@@ -21,8 +21,8 @@ use Webklex\PHPIMAP\Support\FlagCollection;
 
 class FakeProcessEmailAddress {
     public function __construct(
-        public $mail,
-        public $personal,
+        public string $mail,
+        public ?string $personal,
     ) {
     }
 }
@@ -34,49 +34,51 @@ function getAddress(string $address, ?string $name = null): ImapAddress {
 class FakeProcessEmailCommandMail extends Message {
     public AttachmentCollection $attachments;
 
-    public $is_body_fetched = false;
-    public $flag_actions = [];
-    public $moved_to;
+    public bool $is_body_fetched = false;
+    /** @var array<string> */
+    public array $flag_actions = [];
+    public ?string $moved_to = null;
 
     public function __construct(
-        public $uid,
-        public $x_original_to = null,
-        public $to = [],
-        public $cc = [],
-        public $bcc = [],
-        public $from = '',
-        public $subject = '',
-        protected $textHtml = null,
-        protected $textPlain = null,
-        public $message_id = null,
+        public int|string $uid,
+        public ?string $x_original_to = null,
+        public ?Attribute $to = null,
+        public ?Attribute $cc = null,
+        public ?Attribute $bcc = null,
+        public ?Attribute $from = null,
+        public ?Attribute $subject = null,
+        protected ?string $textHtml = null,
+        protected ?string $textPlain = null,
+        public int|string|null $message_id = null,
     ) {
         $this->attachments = new AttachmentCollection([]);
     }
 
-    public function getUid() {
+    public function getUid(): int|string {
         return $this->uid;
     }
 
-    public function getTo() {
+    public function getTo(): Attribute {
         return $this->to;
     }
 
-    public function getCc() {
+    public function getCc(): Attribute {
         return $this->cc;
     }
 
-    public function getBcc() {
+    public function getBcc(): Attribute {
         return $this->bcc;
     }
 
-    public function getFrom() {
+    public function getFrom(): Attribute {
         return $this->from;
     }
 
-    public function getSubject() {
+    public function getSubject(): Attribute {
         return $this->subject;
     }
 
+    // @phpstan-ignore-next-line
     public function get($key): mixed {
         return $this->{$key};
     }
@@ -102,6 +104,7 @@ class FakeProcessEmailCommandMail extends Message {
         return $this->textHtml;
     }
 
+    /** @return array<Attribute> */
     public function getAttributes(): array {
         return [
             new Attribute('fake_attribute', 'fake_attribute value'),
@@ -112,11 +115,13 @@ class FakeProcessEmailCommandMail extends Message {
         return new FlagCollection();
     }
 
+    /** @param array<string>|string $flag */
     public function setFlag(array|string $flag): bool {
         $this->flag_actions[] = "+{$flag}";
         return true;
     }
 
+    /** @param array<string>|string $flag */
     public function unsetFlag(array|string $flag): bool {
         $this->flag_actions[] = "-{$flag}";
         return true;
@@ -137,15 +142,16 @@ class FakeProcessEmailCommandMail extends Message {
 }
 
 class FakeProcessEmailCommandAttachment {
-    public $saved = [];
+    /** @var array<array{0: string, 1: string}> */
+    public array $saved = [];
 
     public function __construct(
-        public $name,
-        protected $should_fail = false,
+        public string $name,
+        protected bool $should_fail = false,
     ) {
     }
 
-    public function save($path, $filename) {
+    public function save(string $path, string $filename): bool {
         $this->saved[] = [$path, $filename];
         return $this->should_fail ? false : true;
     }

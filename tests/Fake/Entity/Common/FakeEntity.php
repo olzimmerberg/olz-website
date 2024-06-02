@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake\Entity\Common;
 
+/**
+ * @template T of object
+ */
 class FakeEntity {
-    public static $cache = [];
+    /** @var array<string, T> */
+    public static array $cache = [];
 
+    /** @return T */
     protected static function getFake(
         bool $should_generate_new,
         callable $generate_new,
         ?callable $populate_new = null,
-    ) {
+    ): object {
         $trace = debug_backtrace(0, 2);
         $class = $trace[1]['class'];
         $function = $trace[1]['function'];
@@ -32,7 +37,7 @@ class FakeEntity {
         return $fake;
     }
 
-    public static function reset() {
+    public static function reset(): void {
         self::$cache = [];
     }
 }

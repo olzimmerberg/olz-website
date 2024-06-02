@@ -73,12 +73,17 @@ use Olz\Tests\Fake\Entity\Termine\FakeTerminTemplateRepository;
 class FakeEntityManager implements EntityManagerInterface {
     public const AUTO_INCREMENT_ID = 270;
 
-    public $persisted = [];
-    public $removed = [];
-    public $flushed = false;
-    public $flushed_persisted = [];
-    public $flushed_removed = [];
-    public $repositories = [];
+    /** @var array<mixed> */
+    public array $persisted = [];
+    /** @var array<mixed> */
+    public array $removed = [];
+    public bool $flushed = false;
+    /** @var array<mixed> */
+    public array $flushed_persisted = [];
+    /** @var array<mixed> */
+    public array $flushed_removed = [];
+    /** @var array<string, mixed> */
+    public array $repositories = [];
 
     public function __construct() {
         $this->repositories = [
@@ -131,7 +136,7 @@ class FakeEntityManager implements EntityManagerInterface {
         $this->removed[] = $object;
     }
 
-    public function flush($entity = null): void {
+    public function flush(mixed $entity = null): void {
         $this->flushed = true;
         $this->flushed_persisted = $this->persisted;
         $this->flushed_removed = $this->removed;

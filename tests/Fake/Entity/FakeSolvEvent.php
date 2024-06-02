@@ -7,8 +7,11 @@ namespace Olz\Tests\Fake\Entity;
 use Olz\Entity\SolvEvent;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 
+/**
+ * @extends FakeEntity<SolvEvent>
+ */
 class FakeSolvEvent extends FakeEntity {
-    public static function minimal($fresh = false) {
+    public static function minimal(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -37,7 +40,7 @@ class FakeSolvEvent extends FakeEntity {
         );
     }
 
-    public static function empty($fresh = false) {
+    public static function empty(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -66,7 +69,7 @@ class FakeSolvEvent extends FakeEntity {
         );
     }
 
-    public static function maximal($fresh = false) {
+    public static function maximal(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -95,7 +98,7 @@ class FakeSolvEvent extends FakeEntity {
         );
     }
 
-    public static function defaultSolvEvent($fresh = false) {
+    public static function defaultSolvEvent(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -124,7 +127,7 @@ class FakeSolvEvent extends FakeEntity {
         );
     }
 
-    public static function withResults($fresh = false) {
+    public static function withResults(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -138,7 +141,7 @@ class FakeSolvEvent extends FakeEntity {
         );
     }
 
-    public static function withoutResults($fresh = false) {
+    public static function withoutResults(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {

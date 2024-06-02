@@ -7,8 +7,11 @@ namespace Olz\Tests\Fake\Entity;
 use Olz\Entity\StravaLink;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 
+/**
+ * @extends FakeEntity<StravaLink>
+ */
 class FakeStravaLink extends FakeEntity {
-    public static function defaultStravaLink($fresh = false) {
+    public static function defaultStravaLink(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {

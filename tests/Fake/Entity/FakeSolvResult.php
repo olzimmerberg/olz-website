@@ -7,8 +7,11 @@ namespace Olz\Tests\Fake\Entity;
 use Olz\Entity\SolvResult;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 
+/**
+ * @extends FakeEntity<SolvResult>
+ */
 class FakeSolvResult extends FakeEntity {
-    public static function defaultSolvResult($fresh = false) {
+    public static function defaultSolvResult(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {

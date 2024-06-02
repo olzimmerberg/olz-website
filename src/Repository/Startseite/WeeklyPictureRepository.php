@@ -5,6 +5,9 @@ namespace Olz\Repository\Startseite;
 use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Repository\Common\OlzRepository;
 
+/**
+ * @extends OlzRepository<WeeklyPicture>
+ */
 class WeeklyPictureRepository extends OlzRepository {
     /** @return array<WeeklyPicture> */
     public function getLatestThree(): array {

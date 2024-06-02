@@ -7,12 +7,12 @@ class InvalidCredentialsException extends \Exception {
         string $message = "",
         protected int $num_remaining_attempts = 0,
         int $code = 0,
-        $previous = null,
+        ?\Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
     }
 
-    public function getNumRemainingAttempts() {
+    public function getNumRemainingAttempts(): int {
         return $this->num_remaining_attempts;
     }
 }

@@ -12,7 +12,7 @@ abstract class OlzEntityEndpoint extends OlzEndpoint {
 
     abstract public function getEntityDataField(bool $allow_null): FieldTypes\Field;
 
-    protected function getIdField($allow_null = false) {
+    protected function getIdField(bool $allow_null = false): FieldTypes\Field {
         if ($this->usesExternalId()) {
             return new FieldTypes\StringField([
                 'allow_null' => $allow_null,
@@ -24,7 +24,8 @@ abstract class OlzEntityEndpoint extends OlzEndpoint {
         ]);
     }
 
-    protected function persistOlzImages(DataStorageInterface $entity, ?array $image_ids) {
+    /** @param ?array<string> $image_ids */
+    protected function persistOlzImages(DataStorageInterface $entity, ?array $image_ids): void {
         $data_path = $this->envUtils()->getDataPath();
         $entity_name = $entity::getEntityNameForStorage();
         $entity_id = $entity->getEntityIdForStorage();
@@ -40,7 +41,8 @@ abstract class OlzEntityEndpoint extends OlzEndpoint {
         // TODO: Generate default thumbnails.
     }
 
-    protected function editOlzImages(DataStorageInterface $entity, ?array $image_ids) {
+    /** @param ?array<string> $image_ids */
+    protected function editOlzImages(DataStorageInterface $entity, ?array $image_ids): void {
         $data_path = $this->envUtils()->getDataPath();
         $entity_name = $entity::getEntityNameForStorage();
         $entity_id = $entity->getEntityIdForStorage();
@@ -49,7 +51,8 @@ abstract class OlzEntityEndpoint extends OlzEndpoint {
         $this->uploadUtils()->editUploads($image_ids, "{$entity_img_path}img/");
     }
 
-    protected function persistOlzFiles(DataStorageInterface $entity, array $file_ids) {
+    /** @param ?array<string> $file_ids */
+    protected function persistOlzFiles(DataStorageInterface $entity, ?array $file_ids): void {
         $data_path = $this->envUtils()->getDataPath();
         $entity_name = $entity::getEntityNameForStorage();
         $entity_id = $entity->getEntityIdForStorage();
@@ -61,7 +64,7 @@ abstract class OlzEntityEndpoint extends OlzEndpoint {
         $this->uploadUtils()->overwriteUploads($file_ids, $entity_files_path);
     }
 
-    protected function editOlzFiles(DataStorageInterface $entity) {
+    protected function editOlzFiles(DataStorageInterface $entity): void {
         $data_path = $this->envUtils()->getDataPath();
         $entity_name = $entity::getEntityNameForStorage();
         $entity_id = $entity->getEntityIdForStorage();

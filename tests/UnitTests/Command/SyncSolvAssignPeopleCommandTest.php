@@ -121,7 +121,7 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
             '07',
             'Uster',
             'Test',
-            7,
+            '7',
             'Uster',
         ));
         $this->assertSame(1, $job->getDifferenceBetweenPersonInfo(

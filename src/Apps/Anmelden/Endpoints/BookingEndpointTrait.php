@@ -20,7 +20,7 @@ trait BookingEndpointTrait {
         return self::getBookingDataField($allow_null);
     }
 
-    public static function getBookingDataField(bool $allow_null = false) {
+    public static function getBookingDataField(bool $allow_null = false): FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'export_as' => $allow_null ? 'OlzBookingDataOrNull' : 'OlzBookingData',
             'field_structure' => [

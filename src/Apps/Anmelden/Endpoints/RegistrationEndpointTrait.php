@@ -19,7 +19,7 @@ trait RegistrationEndpointTrait {
         return self::getRegistrationDataField($allow_null);
     }
 
-    public static function getRegistrationDataField(bool $allow_null = false) {
+    public static function getRegistrationDataField(bool $allow_null = false): FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'export_as' => $allow_null ? 'OlzRegistrationDataOrNull' : 'OlzRegistrationData',
             'field_structure' => [
@@ -41,11 +41,11 @@ trait RegistrationEndpointTrait {
         $infos = [];
         $registration_info_repo = $this->entityManager()->getRepository(RegistrationInfo::class);
         $registration_infos = $registration_info_repo->findBy(
-            ['registration' => $entity, 'onOff' => true],
+            ['registration' => $entity, 'on_off' => true],
             ['indexWithinRegistration' => 'ASC'],
         );
         foreach ($registration_infos as $registration_info) {
-            $options = json_decode($registration_info->getOptions() ?? 'null', true);
+            $options = json_decode($registration_info->getOptions(), true);
             $infos[] = [
                 'type' => $registration_info->getType(),
                 'isOptional' => $registration_info->getIsOptional(),

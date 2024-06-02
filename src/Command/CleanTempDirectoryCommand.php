@@ -10,8 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:clean-temp-directory')]
 class CleanTempDirectoryCommand extends OlzCommand {
-    protected $temp_realpath;
-    protected $clean_older_than;
+    protected string $temp_realpath;
+    protected int $clean_older_than;
 
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
@@ -31,7 +31,7 @@ class CleanTempDirectoryCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    private function recursiveCleanDirectory($directory) {
+    private function recursiveCleanDirectory(string $directory): void {
         $handle = $this->opendir($directory);
         if (!$handle) {
             $this->log()->warning("Failed to open directory {$directory}");
@@ -56,7 +56,7 @@ class CleanTempDirectoryCommand extends OlzCommand {
         $this->closedir($handle);
     }
 
-    private function shouldEntryBeRemoved($entry_path) {
+    private function shouldEntryBeRemoved(string $entry_path): bool {
         $last_modification_date = max([
             $this->filemtime($entry_path),
             $this->filectime($entry_path),
@@ -75,26 +75,29 @@ class CleanTempDirectoryCommand extends OlzCommand {
         return true;
     }
 
-    protected function opendir($path) {
+    /** @return bool|resource */
+    protected function opendir(string $path): mixed {
         return opendir($path);
     }
 
-    protected function readdir($handle) {
+    /** @param resource|null $handle */
+    protected function readdir(mixed $handle): bool|string {
         return readdir($handle);
     }
 
-    protected function closedir($handle): void {
+    /** @param resource|null $handle */
+    protected function closedir(mixed $handle): void {
         closedir($handle);
     }
 
-    protected function filemtime($path) {
+    protected function filemtime(string $path): bool|int {
         // @codeCoverageIgnoreStart
         // Reason: Mocked in tests.
         return filemtime($path);
         // @codeCoverageIgnoreEnd
     }
 
-    protected function filectime($path) {
+    protected function filectime(string $path): bool|int {
         // @codeCoverageIgnoreStart
         // Reason: Mocked in tests.
         return filectime($path);
@@ -104,11 +107,11 @@ class CleanTempDirectoryCommand extends OlzCommand {
     // @codeCoverageIgnoreStart
     // Reason: Mocked in tests.
 
-    protected function rmdir($path) {
+    protected function rmdir(string $path): void {
         rmdir($path);
     }
 
-    protected function unlink($path) {
+    protected function unlink(string $path): void {
         unlink($path);
     }
 

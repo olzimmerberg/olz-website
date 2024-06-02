@@ -8,12 +8,15 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class TransportSuggestion {
     use WithUtilsTrait;
 
-    protected $mainConnection;
-    protected $sideConnections = [];
-    protected $originInfo = [];
-    protected $debug = [];
+    protected TransportConnection $mainConnection;
+    /** @var array<array{connection: TransportConnection, joiningStationId: string}> */
+    protected array $sideConnections = [];
+    /** @var array<mixed> */
+    protected array $originInfo = [];
+    /** @var array<string> */
+    protected array $debug = [];
 
-    public static function getField() {
+    public static function getField(): FieldTypes\Field {
         $halt_field = TransportHalt::getField();
         $connection_field = TransportConnection::getField();
         $origin_info_field = new FieldTypes\ObjectField([
@@ -42,7 +45,8 @@ class TransportSuggestion {
         ]);
     }
 
-    public function getFieldValue() {
+    /** @return array<string, mixed> */
+    public function getFieldValue(): array {
         return [
             'mainConnection' => $this->mainConnection->getFieldValue(),
             'sideConnections' => array_map(function ($side_connection) {
@@ -56,13 +60,15 @@ class TransportSuggestion {
         ];
     }
 
-    public static function fromFieldValue($value) {
+    /** @param array<string, mixed> $value */
+    public static function fromFieldValue(array $value): self {
         $instance = new self();
         $instance->populateFromFieldValue($value);
         return $instance;
     }
 
-    protected function populateFromFieldValue($value) {
+    /** @param array<string, mixed> $value */
+    protected function populateFromFieldValue(array $value): void {
         $this->mainConnection = TransportConnection::fromFieldValue($value['mainConnection']);
         $this->sideConnections = array_map(function ($side_connection) {
             return [
@@ -74,7 +80,7 @@ class TransportSuggestion {
         $this->debug = explode("\n", $value['debug']);
     }
 
-    public function getPrettyPrint() {
+    public function getPrettyPrint(): string {
         $all_entries = [];
         foreach ($this->mainConnection->getFlatHalts() as $halt) {
             $all_entries[] = [
@@ -119,39 +125,49 @@ class TransportSuggestion {
         }, $all_entries));
     }
 
-    public function getMainConnection() {
+    public function getMainConnection(): TransportConnection {
         return $this->mainConnection;
     }
 
-    public function setMainConnection($new_main_connection) {
+    public function setMainConnection(TransportConnection $new_main_connection): void {
         $this->mainConnection = $new_main_connection;
     }
 
-    public function getSideConnections() {
+    /** @return array<array{connection: TransportConnection, joiningStationId: string}> */
+    public function getSideConnections(): array {
         return $this->sideConnections;
     }
 
-    public function addSideConnection($new_side_connection) {
+    /** @param array{connection: TransportConnection, joiningStationId: string} $new_side_connection */
+    public function addSideConnection(array $new_side_connection): void {
         $this->sideConnections[] = $new_side_connection;
     }
 
-    public function getOriginInfo() {
+    /** @return array<mixed> */
+    public function getOriginInfo(): array {
         return $this->originInfo;
     }
 
-    public function setOriginInfo($new_origin_info) {
+    /** @param array<mixed> $new_origin_info */
+    public function setOriginInfo(array $new_origin_info): void {
         $this->originInfo = $new_origin_info;
     }
 
-    public function getDebug() {
+    /** @return array<string> */
+    public function getDebug(): array {
         return $this->debug;
     }
 
-    public function addDebug($line) {
+    public function addDebug(string $line): void {
         $this->debug[] = $line;
     }
 
-    public function generateOriginInfo($origin_stations) {
+    /**
+     * @param array<mixed> $origin_stations
+     *
+     * @return array<mixed>
+     */
+    public function generateOriginInfo(array $origin_stations): array {
         $most_important_stations = array_slice($origin_stations, 0);
         usort(
             $most_important_stations,
@@ -177,16 +193,16 @@ class TransportSuggestion {
         }, $most_important_stations);
     }
 
-    public function getDestinationHalt() {
+    public function getDestinationHalt(): TransportHalt {
         return $this->mainConnection->getDestinationHalt();
     }
 
-    public function getHaltAtStation($station_id) {
+    public function getHaltAtStation(string $station_id): ?TransportHalt {
         $halts = $this->getFlatHalts();
         $halts_at_station = array_values(array_filter(
             $halts,
             function ($halt) use ($station_id) {
-                return $halt->stationId === $station_id;
+                return $halt->getStationId() === $station_id;
             }
         ));
         $last_index = count($halts_at_station) - 1;
@@ -196,7 +212,8 @@ class TransportSuggestion {
         return $halts_at_station[$last_index];
     }
 
-    public function getFlatHalts() {
+    /** @return array<TransportHalt> */
+    public function getFlatHalts(): array {
         return array_merge(
             $this->mainConnection->getFlatHalts(),
             ...array_map(function ($side_connection) {
@@ -205,11 +222,11 @@ class TransportSuggestion {
         );
     }
 
-    public function getRatingForHalt($halt, $destination_halt) {
+    public function getRatingForHalt(?TransportHalt $halt, ?TransportHalt $destination_halt): float {
         if (!$halt || !$destination_halt) {
             return 0;
         }
-        $duration_seconds = $destination_halt->timeSeconds - $halt->timeSeconds;
+        $duration_seconds = $destination_halt->getTimeSeconds() - $halt->getTimeSeconds();
         return 1 / max(1, log($duration_seconds));
     }
 }

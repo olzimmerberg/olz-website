@@ -60,7 +60,7 @@ class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
         ];
     }
 
-    protected function generateRandomAccessToken() {
+    protected function generateRandomAccessToken(): string {
         return $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(18));
     }
 }

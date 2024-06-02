@@ -22,7 +22,7 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    public function assignSolvPeople() {
+    public function assignSolvPeople(): void {
         $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
         $solv_results = $solv_result_repo->getUnassignedSolvResults();
         foreach ($solv_results as $solv_result) {
@@ -40,7 +40,7 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         $this->forceFlush();
     }
 
-    private function findOrCreateSolvPerson($solv_result) {
+    private function findOrCreateSolvPerson(SolvResult $solv_result): int {
         $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
         [$solv_result_data, $msg] = $this->generalUtils()->measureLatency(
             function () use ($solv_result_repo) {
@@ -81,12 +81,13 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         return $insert_id;
     }
 
+    /** @param array<array{person: int, name: string, birth_year: string, domicile: string}> $person_infos */
     public function getMatchingPerson(
-        $name,
-        $birth_year,
-        $domicile,
-        $person_infos
-    ) {
+        string $name,
+        string $birth_year,
+        string $domicile,
+        array $person_infos
+    ): ?int {
         $closest_matches = $this->getClosestMatchesOfPersonInfo(
             $name,
             $birth_year,
@@ -113,7 +114,8 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         return $unambiguous_person;
     }
 
-    public function getUnambiguousPerson($person_infos) {
+    /** @param array<array{person: int, name?: string, birth_year?: string, domicile?: string}> $person_infos */
+    public function getUnambiguousPerson(array $person_infos): ?int {
         if (count($person_infos) == 0) {
             return null;
         }
@@ -126,12 +128,17 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         return $suggested_person_id;
     }
 
+    /**
+     * @param array<array{person?: int, name: string, birth_year: string, domicile: string}> $person_infos
+     *
+     * @return array{difference: int, matches: array<array{person: int, name: string, birth_year: string, domicile: string}>}
+     */
     public function getClosestMatchesOfPersonInfo(
-        $name,
-        $birth_year,
-        $domicile,
-        $person_infos
-    ) {
+        string $name,
+        string $birth_year,
+        string $domicile,
+        array $person_infos
+    ): array {
         $least_difference = strlen($name);
         $person_infos_with_least_difference = [];
         foreach ($person_infos as $row) {
@@ -157,13 +164,13 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
     }
 
     public function getDifferenceBetweenPersonInfo(
-        $name_1,
-        $birth_year_1,
-        $domicile_1,
-        $name_2,
-        $birth_year_2,
-        $domicile_2
-    ) {
+        string $name_1,
+        string $birth_year_1,
+        string $domicile_1,
+        string $name_2,
+        string $birth_year_2,
+        string $domicile_2
+    ): int {
         $name_difference = levenshtein($name_1, $name_2);
         $int_birth_year_1 = intval($birth_year_1);
         $int_birth_year_2 = intval($birth_year_2);
@@ -177,8 +184,8 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         return $name_difference + $birth_year_difference + $domicile_difference;
     }
 
-    protected $num_updates = 0;
-    protected $flush_every = 1000;
+    protected int $num_updates = 0;
+    protected int $flush_every = 1000;
 
     protected function occasionallyFlush(): void {
         $this->num_updates++;

@@ -276,7 +276,8 @@ class OlzFuerEinsteiger extends OlzComponent {
         return $out;
     }
 
-    protected function getTile($img_name, $options = []) {
+    /** @param array{lightgallery?: string} $options */
+    protected function getTile(string $img_name, array $options = []): string {
         $data_href = $this->envUtils()->getDataHref();
         $img = <<<ZZZZZZZZZZ
             <picture>
@@ -294,7 +295,7 @@ class OlzFuerEinsteiger extends OlzComponent {
                 />
             </picture>
             ZZZZZZZZZZ;
-        if ($options['lightgallery'] ?? '' == 'off') {
+        if (($options['lightgallery'] ?? '') === 'off') {
             return $img;
         }
         return <<<ZZZZZZZZZZ

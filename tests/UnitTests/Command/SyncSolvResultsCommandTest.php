@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class FakeSyncSolvResultsCommandSolvFetcher extends SolvFetcher {
-    public function fetchYearlyResultsJson($year) {
+    public function fetchYearlyResultsJson(int|string $year): ?string {
         switch ($year) {
             case '2020':
                 return json_encode(['ResultLists' => [
@@ -49,7 +49,7 @@ class FakeSyncSolvResultsCommandSolvFetcher extends SolvFetcher {
         }
     }
 
-    public function fetchEventResultsHtml($rank_id) {
+    public function fetchEventResultsHtml(int|string $rank_id): ?string {
         switch ($rank_id) {
             case 1234:
                 return

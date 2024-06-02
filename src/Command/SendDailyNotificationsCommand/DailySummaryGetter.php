@@ -17,7 +17,8 @@ class DailySummaryGetter {
     protected \DateTime $today;
     protected \DateTime $yesterday;
 
-    public function getDailySummaryNotification($args) {
+    /** @param array<string, mixed> $args */
+    public function getDailySummaryNotification(array $args): ?Notification {
         $this->today = new \DateTime($this->dateUtils()->getIsoToday());
         $minus_one_day = \DateInterval::createFromDateString("-1 days");
         $this->yesterday = (new \DateTime($this->dateUtils()->getIsoToday()))->add($minus_one_day);
@@ -156,7 +157,7 @@ class DailySummaryGetter {
         ]);
     }
 
-    protected function getPrettyDateAndMaybeTime($date, $time = null) {
+    protected function getPrettyDateAndMaybeTime(?\DateTime $date, ?\DateTime $time = null): string {
         if (!$date) {
             return "??";
         }
@@ -168,7 +169,8 @@ class DailySummaryGetter {
         return "{$pretty_date} {$pretty_time}";
     }
 
-    protected function getNewsCriteria(array $formats) {
+    /** @param array<string> $formats */
+    protected function getNewsCriteria(array $formats): Criteria {
         return Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->in('format', $formats),

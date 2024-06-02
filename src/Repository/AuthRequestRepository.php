@@ -6,6 +6,9 @@ use Olz\Entity\AuthRequest;
 use Olz\Repository\Common\OlzRepository;
 use Olz\Utils\DbUtils;
 
+/**
+ * @extends OlzRepository<AuthRequest>
+ */
 class AuthRequestRepository extends OlzRepository {
     public const NUM_TRIES = 8;
     public const TRIES_RESET_INTERVAL = '+8 hour'; // Reset after 8h

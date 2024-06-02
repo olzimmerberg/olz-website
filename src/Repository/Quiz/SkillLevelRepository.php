@@ -6,6 +6,9 @@ use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use Olz\Repository\Common\OlzRepository;
 
+/**
+ * @extends OlzRepository<SkillLevel>
+ */
 class SkillLevelRepository extends OlzRepository {
     /** @return array<SkillLevel> */
     public function getSkillLevelsForUserId(int $user_id): array {

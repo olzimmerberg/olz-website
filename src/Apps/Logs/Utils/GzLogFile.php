@@ -9,11 +9,11 @@ class GzLogFile implements LogFileInterface {
     ) {
     }
 
-    public function getPath() {
+    public function getPath(): string {
         return $this->path;
     }
 
-    public function exists() {
+    public function exists(): bool {
         return is_file($this->filePath);
     }
 
@@ -21,7 +21,7 @@ class GzLogFile implements LogFileInterface {
         return filemtime($this->filePath);
     }
 
-    public function open($mode) {
+    public function open(string $mode): mixed {
         $compatibility_map = [
             'r' => 'rb',
             'w' => 'wb',
@@ -31,7 +31,7 @@ class GzLogFile implements LogFileInterface {
         return gzopen($this->filePath, $compatibility_map[$mode]);
     }
 
-    public function seek($fp, $offset, $whence = SEEK_SET) {
+    public function seek(mixed $fp, int $offset, int $whence = SEEK_SET): int {
         if ($whence === SEEK_END) {
             ob_start();
             gzpassthru($fp);
@@ -42,19 +42,19 @@ class GzLogFile implements LogFileInterface {
         return gzseek($fp, $offset, $whence);
     }
 
-    public function tell($fp): int {
+    public function tell(mixed $fp): int {
         return gztell($fp);
     }
 
-    public function eof($fp): bool {
+    public function eof(mixed $fp): bool {
         return gzeof($fp);
     }
 
-    public function gets($fp) {
+    public function gets(mixed $fp): bool|string {
         return gzgets($fp);
     }
 
-    public function close($fp) {
+    public function close(mixed $fp): bool {
         return gzclose($fp);
     }
 

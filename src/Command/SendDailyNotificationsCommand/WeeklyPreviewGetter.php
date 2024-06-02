@@ -12,7 +12,8 @@ use Olz\Utils\WithUtilsTrait;
 class WeeklyPreviewGetter {
     use WithUtilsTrait;
 
-    public function getWeeklyPreviewNotification() {
+    /** @param array<string, mixed> $args */
+    public function getWeeklyPreviewNotification(array $args): ?Notification {
         $current_weekday = intval($this->dateUtils()->getCurrentDateInFormat('N'));
         $thursday = 4;
         if ($current_weekday != $thursday) {
@@ -48,7 +49,7 @@ class WeeklyPreviewGetter {
         ]);
     }
 
-    public function getTermineText($today, $end_of_timespan) {
+    public function getTermineText(\DateTime $today, \DateTime $end_of_timespan): string {
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
@@ -80,7 +81,7 @@ class WeeklyPreviewGetter {
         return $termine_text;
     }
 
-    public function getDeadlinesText($today, $end_of_timespan) {
+    public function getDeadlinesText(\DateTime $today, \DateTime $end_of_timespan): string {
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
 

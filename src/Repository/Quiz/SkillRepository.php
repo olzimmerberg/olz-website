@@ -5,6 +5,9 @@ namespace Olz\Repository\Quiz;
 use Olz\Entity\Quiz\Skill;
 use Olz\Repository\Common\OlzRepository;
 
+/**
+ * @extends OlzRepository<Skill>
+ */
 class SkillRepository extends OlzRepository {
     public const ITERATION_LIMIT = 1000;
 

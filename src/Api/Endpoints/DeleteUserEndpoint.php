@@ -151,16 +151,12 @@ class DeleteUserEndpoint extends OlzEndpoint {
     // @codeCoverageIgnoreStart
     // Reason: Mocked in tests.
 
-    protected function isFile($path) {
+    protected function isFile(string $path): bool {
         return is_file($path);
     }
 
-    protected function unlink($path) {
-        return unlink($path);
-    }
-
-    protected function rename($source_path, $destination_path) {
-        return rename($source_path, $destination_path);
+    protected function unlink(string $path): void {
+        unlink($path);
     }
 
     // @codeCoverageIgnoreEnd

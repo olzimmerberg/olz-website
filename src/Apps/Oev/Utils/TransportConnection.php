@@ -8,9 +8,10 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class TransportConnection {
     use WithUtilsTrait;
 
-    protected $sections = [];
+    /** @var array<TransportSection> */
+    protected array $sections = [];
 
-    public static function getField() {
+    public static function getField(): FieldTypes\Field {
         $section_field = TransportSection::getField();
         return new FieldTypes\ObjectField([
             'field_structure' => [
@@ -22,13 +23,15 @@ class TransportConnection {
         ]);
     }
 
-    public static function fromTransportApi($api_connection) {
+    /** @param array<string, mixed> $api_connection */
+    public static function fromTransportApi(array $api_connection): self {
         $connection = new self();
         $connection->parseFromTransportApi($api_connection);
         return $connection;
     }
 
-    protected function parseFromTransportApi($api_connection) {
+    /** @param array<string, mixed> $api_connection */
+    protected function parseFromTransportApi(array $api_connection): void {
         $this->sections = [];
         $api_sections = $api_connection['sections'] ?? [];
         foreach ($api_sections as $api_section) {
@@ -37,6 +40,7 @@ class TransportConnection {
         }
     }
 
+    /** @return array<string, mixed> */
     public function getFieldValue() {
         return [
             'sections' => array_map(function ($section) {
@@ -45,27 +49,31 @@ class TransportConnection {
         ];
     }
 
-    public static function fromFieldValue($value) {
+    /** @param array<string, mixed> $value */
+    public static function fromFieldValue(array $value): self {
         $instance = new self();
         $instance->populateFromFieldValue($value);
         return $instance;
     }
 
-    protected function populateFromFieldValue($value) {
+    /** @param array<string, mixed> $value */
+    protected function populateFromFieldValue(array $value): void {
         $this->sections = array_map(function ($section) {
             return TransportSection::fromFieldValue($section);
         }, $value['sections']);
     }
 
-    public function getSections() {
+    /** @return array<TransportSection> */
+    public function getSections(): array {
         return $this->sections;
     }
 
-    public function setSections($new_sections) {
+    /** @param array<TransportSection> $new_sections */
+    public function setSections(array $new_sections): void {
         $this->sections = $new_sections;
     }
 
-    public function isSuperConnectionOf($sub_connection) {
+    public function isSuperConnectionOf(TransportConnection $sub_connection): bool {
         $super_halts = $this->getFlatHalts();
         $sub_halts = $sub_connection->getFlatHalts();
         $sub_halt_index = 0;
@@ -81,19 +89,20 @@ class TransportConnection {
         return false;
     }
 
-    public function getFlatHalts() {
+    /** @return array<TransportHalt> */
+    public function getFlatHalts(): array {
         return array_merge(...array_map(function ($section) {
             return $section->getHalts();
         }, $this->sections));
     }
 
-    public function getDestinationHalt() {
+    public function getDestinationHalt(): TransportHalt {
         $flat_halts = $this->getFlatHalts();
         $last_index = count($flat_halts) - 1;
         return $flat_halts[$last_index];
     }
 
-    public function getCropped($start_halt, $end_halt) {
+    public function getCropped(?TransportHalt $start_halt, ?TransportHalt $end_halt): TransportConnection {
         $stage = 'search_start';
         $cropped_sections = [];
         foreach ($this->sections as $section) {

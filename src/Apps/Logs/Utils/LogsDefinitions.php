@@ -3,7 +3,8 @@
 namespace Olz\Apps\Logs\Utils;
 
 class LogsDefinitions {
-    public static function getLogsChannels() {
+    /** @return array<BaseLogsChannel> */
+    public static function getLogsChannels(): array {
         return [
             new OlzLogsChannel(),
             new AccessSslLogsChannel(),

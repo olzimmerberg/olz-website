@@ -13,6 +13,7 @@ abstract class OlzCommand extends Command {
 
     protected ?OutputInterface $output = null;
 
+    /** @return array<string> */
     abstract protected function getAllowedAppEnvs(): array;
 
     abstract protected function handle(InputInterface $input, OutputInterface $output): int;
@@ -66,7 +67,8 @@ abstract class OlzCommand extends Command {
         return get_called_class();
     }
 
-    protected function logAndOutput(string $message, array $context = [], $level = 'info') {
+    /** @param array<mixed> $context */
+    protected function logAndOutput(string $message, array $context = [], string $level = 'info'): void {
         $this->log()->log($level, $message, $context);
         if ($this->output !== null) {
             $this->output->writeln($message);

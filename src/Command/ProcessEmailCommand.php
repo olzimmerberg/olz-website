@@ -16,6 +16,8 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
+use Webklex\PHPIMAP\Attribute;
+use Webklex\PHPIMAP\Client;
 use Webklex\PHPIMAP\Exceptions\ImapServerErrorException;
 use Webklex\PHPIMAP\Exceptions\ResponseException;
 use Webklex\PHPIMAP\Message;
@@ -29,10 +31,10 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     public const MAX_LOOP = 100;
-    public $deleteAfterSeconds = 30 * 24 * 60 * 60;
-    public $host = 'olzimmerberg.ch';
+    public int $deleteAfterSeconds = 30 * 24 * 60 * 60;
+    public string $host = 'olzimmerberg.ch';
 
-    protected $client;
+    protected Client $client;
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
         ini_set('memory_limit', '500M');
@@ -114,6 +116,7 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
+    /** @return array<int|string, bool> */
     protected function getIsMessageIdProcessed(MessageCollection $processed_mails): array {
         $is_message_id_processed = [];
         foreach ($processed_mails as $mail) {
@@ -316,7 +319,8 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
-    protected function getAddresses($field): array {
+    /** @return array<Address> */
+    protected function getAddresses(Attribute $field): array {
         $addresses = [];
         foreach ($field->toArray() as $item) {
             if (!empty($item->mail)) {
@@ -333,13 +337,13 @@ class ProcessEmailCommand extends OlzCommand {
         return new Address($item->mail);
     }
 
-    protected function sendRedirectEmail(Message $mail, string $old_address, string $new_address) {
+    protected function sendRedirectEmail(Message $mail, string $old_address, string $new_address): void {
         $smtp_from = $this->envUtils()->getSmtpFrom();
         $from = $mail->getFrom()->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
         if ("{$old_address}" === "{$smtp_from}" || "{$old_address}" === "{$from_address}" || "{$new_address}" === "{$smtp_from}" || "{$new_address}" === "{$from_address}") {
-            $this->log()->notice("sendReportEmail: Avoiding email loop for redirect {$old_address} => {$new_address}");
+            $this->log()->notice("sendRedirectEmail: Avoiding email loop for redirect {$old_address} => {$new_address}");
             return;
         }
 
@@ -361,13 +365,13 @@ class ProcessEmailCommand extends OlzCommand {
         } catch (RfcComplianceException $exc) {
             $message = $exc->getMessage();
             $this->log()->notice("sendRedirectEmail: Email to {$from_address} is not RFC-compliant: {$message}", [$exc]);
-            return true;
+            return;
         } catch (\Throwable $th) {
             $this->log()->error("Failed to send redirect email to {$from_address}: {$th->getMessage()}", [$th]);
         }
     }
 
-    protected function sendReportEmail(Message $mail, ?string $address, int $smtp_code) {
+    protected function sendReportEmail(Message $mail, ?string $address, int $smtp_code): void {
         $smtp_from = $this->envUtils()->getSmtpFrom();
         $from = $mail->getFrom()->first();
         $from_name = $from->personal;
@@ -388,13 +392,13 @@ class ProcessEmailCommand extends OlzCommand {
         } catch (RfcComplianceException $exc) {
             $message = $exc->getMessage();
             $this->log()->notice("sendReportEmail: Email to {$from_address} is not RFC-compliant: {$message}", [$exc]);
-            return true;
+            return;
         } catch (\Throwable $th) {
             $this->log()->error("Failed to send report email to {$from_address}: {$th->getMessage()}", [$th]);
         }
     }
 
-    public function getReportMessage(int $smtp_code, Message $mail, ?string $address) {
+    public function getReportMessage(int $smtp_code, Message $mail, ?string $address): string {
         $message_by_code = [
             431 => "{$smtp_code} Not enough storage or out of memory",
             550 => "<{$address}>: {$smtp_code} sorry, no mailbox here by that name",

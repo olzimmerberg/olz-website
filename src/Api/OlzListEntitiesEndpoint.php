@@ -24,11 +24,11 @@ abstract class OlzListEntitiesEndpoint extends OlzEntityEndpoint {
         ]]);
     }
 
-    protected function getCustomResponseField() {
+    protected function getCustomResponseField(): ?FieldTypes\Field {
         return null;
     }
 
-    protected function getCustomItemResponseField() {
+    protected function getCustomItemResponseField(): ?FieldTypes\Field {
         return null;
     }
 

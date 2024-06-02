@@ -5,6 +5,9 @@ namespace Olz\Repository;
 use Olz\Entity\Counter;
 use Olz\Repository\Common\OlzRepository;
 
+/**
+ * @extends OlzRepository<Counter>
+ */
 class CounterRepository extends OlzRepository {
     public function record(string $page): void {
         $truncated_page = substr($page, 0, 255);

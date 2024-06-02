@@ -2,18 +2,22 @@
 
 namespace Olz\Command\SendDailyNotificationsCommand;
 
-class Notification {
-    public $title;
-    public $text;
-    public $config;
+use Olz\Entity\User;
 
-    public function __construct($title, $text, $config = []) {
+class Notification {
+    public string $title;
+    public string $text;
+    /** @var array{notification_type?: string} */
+    public array $config;
+
+    /** @param array{notification_type?: string} $config */
+    public function __construct(string $title, string $text, array $config = []) {
         $this->title = $title;
         $this->text = $text;
         $this->config = $config;
     }
 
-    public function getTextForUser($user) {
+    public function getTextForUser(User $user): string {
         $placeholders = [
             '%%userFirstName%%',
             '%%userLastName%%',

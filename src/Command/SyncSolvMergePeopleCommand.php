@@ -22,7 +22,7 @@ class SyncSolvMergePeopleCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    public function mergeSolvPeople() {
+    public function mergeSolvPeople(): void {
         $solv_person_repo = $this->entityManager()->getRepository(SolvPerson::class);
         $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
 

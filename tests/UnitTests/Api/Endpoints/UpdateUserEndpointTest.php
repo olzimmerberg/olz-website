@@ -22,11 +22,11 @@ class UpdateUserEndpointForTest extends UpdateUserEndpoint {
     public $unlink_calls = [];
     public $rename_calls = [];
 
-    protected function unlink($path) {
+    protected function unlink(string $path): void {
         $this->unlink_calls[] = $path;
     }
 
-    protected function rename($source_path, $destination_path) {
+    protected function rename(string $source_path, string $destination_path): void {
         $this->rename_calls[] = [$source_path, $destination_path];
     }
 }

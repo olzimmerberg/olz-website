@@ -14,7 +14,7 @@ use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\FakeTransportApiFetcher {
-    public function fetchConnection($request_data) {
+    public function fetchConnection(array $request_data): mixed {
         $from = str_replace(' ', '_', $request_data['from']);
         $to = str_replace(' ', '_', $request_data['to']);
         $date = $request_data['date'];
@@ -110,23 +110,23 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     public function testSearchTransportConnectionEndpointGetJoiningStationFromConnection(): void {
         $connection = TransportConnection::fromFieldValue(['sections' => [
             [
-                'departure' => ['stationId' => 1, 'stationName' => 'A', 'time' => 1],
-                'arrival' => ['stationId' => 2, 'stationName' => 'B', 'time' => 2],
+                'departure' => ['stationId' => '1', 'stationName' => 'A', 'time' => 1],
+                'arrival' => ['stationId' => '2', 'stationName' => 'B', 'time' => 2],
                 'passList' => [],
                 'isWalk' => false,
             ],
         ]]);
         $latest_joining_time_by_station_id = [
             // Cannot join at A (1)
-            1 => 0 + SearchTransportConnectionEndpoint::MIN_CHANGING_TIME,
+            '1' => 0 + SearchTransportConnectionEndpoint::MIN_CHANGING_TIME,
             // Can join at B (2)
-            2 => 2 + SearchTransportConnectionEndpoint::MIN_CHANGING_TIME,
+            '2' => 2 + SearchTransportConnectionEndpoint::MIN_CHANGING_TIME,
         ];
         $latest_departure_by_station_id = [];
         $endpoint = new SearchTransportConnectionEndpointForTest();
         $endpoint->runtimeSetup();
         $this->assertSame(
-            2,
+            '2',
             $endpoint->testOnlyGetJoiningStationFromConnection(
                 $connection,
                 $latest_joining_time_by_station_id,

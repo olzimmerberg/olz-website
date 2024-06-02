@@ -169,11 +169,11 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();
 
-        $result = $endpoint->call(['token' => json_encode('')]);
+        $result = $endpoint->call(['token' => json_encode(null)]);
 
         $this->assertSame([
             "INFO Valid user request",
-            "ERROR Invalid email reaction token: \"\"",
+            "ERROR Invalid email reaction token: null",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'INVALID_TOKEN'], $result);

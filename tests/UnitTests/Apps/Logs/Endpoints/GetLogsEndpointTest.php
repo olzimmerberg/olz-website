@@ -11,30 +11,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
-// /**
-//  * @internal
-//  *
-//  * @coversNothing
-//  */
-// class GetLogsEndpointForTest extends GetLogsEndpoint {
-//     public $scandir_calls = [];
-//     public $read_file_calls = [];
-
-//     protected function scandir($path, $sorting) {
-//         $this->scandir_calls[] = [$path, $sorting];
-//         return [
-//             'merged-2022-03-12.log',
-//             'merged-2022-03-13.log',
-//         ];
-//     }
-
-//     protected function readFile($path) {
-//         $this->read_file_calls[] = [$path];
-//         $basename = basename($path);
-//         return "test log entry in {$basename}";
-//     }
-// }
-
 /**
  * @internal
  *

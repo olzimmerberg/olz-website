@@ -110,9 +110,10 @@ class GetLogsEndpoint extends OlzEndpoint {
         ]);
     }
 
+    /** @return array{lineLocation: LineLocation, mode: ?string} */
     protected function deserializePageToken(
         string $serialized,
-    ) {
+    ): array {
         $data = json_decode($serialized, true);
         $log_file = PlainLogFile::deserialize($data['logFile']);
         if (!$log_file) {

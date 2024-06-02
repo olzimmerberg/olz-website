@@ -13,6 +13,7 @@ class LineLocation {
 }
 
 class ReadResult {
+    /** @param array<string> $lines */
     public function __construct(
         public array $lines,
         public ?LineLocation $previous,
@@ -42,7 +43,7 @@ abstract class BaseLogsChannel {
     abstract public static function getName(): string;
 
     // Page size; number of lines of log entires.
-    public static $pageSize = 1000;
+    public static int $pageSize = 1000;
 
     // Assumes there are files, though...
     abstract protected function getLogFileBefore(LogFileInterface $log_file): LogFileInterface;
@@ -53,6 +54,7 @@ abstract class BaseLogsChannel {
         \DateTime $date_time,
     ): LineLocation;
 
+    /** @param array{targetDate?: ?string, firstDate?: ?string, lastDate?: ?string, minLogLevel?: ?string, textSearch?: ?string, pageToken?: ?string} $query */
     public function continueReading(
         LineLocation $line_location,
         string $mode,
@@ -71,6 +73,7 @@ abstract class BaseLogsChannel {
         throw new \Exception("Mode must be 'previous' or 'next', was '{$mode}'.");
     }
 
+    /** @param array{targetDate?: ?string, firstDate?: ?string, lastDate?: ?string, minLogLevel?: ?string, textSearch?: ?string, pageToken?: ?string} $query */
     public function readAroundDateTime(\DateTime $date_time, array $query): ReadResult {
         $line_location = $this->getLineLocationForDateTime($date_time);
         $line_limit = intval(self::$pageSize / 2) + 1;
@@ -86,7 +89,8 @@ abstract class BaseLogsChannel {
         ], $lines_before->previous, $lines_after->next);
     }
 
-    protected function getOrCreateIndex(LogFileInterface $log_file) {
+    /** @return array{version?: string, modified: int, start_date: ?string, lines: array<int>} */
+    protected function getOrCreateIndex(LogFileInterface $log_file): array {
         $file_path = $log_file->getPath();
         $index_path = "{$file_path}.index.json.gz";
         if (is_file($index_path)) {
@@ -109,7 +113,8 @@ abstract class BaseLogsChannel {
         return $index;
     }
 
-    protected function indexFile(LogFileInterface $log_file) {
+    /** @return array{version?: string, modified: int, start_date: ?string, lines: array<int>} */
+    protected function indexFile(LogFileInterface $log_file): array {
         $file_path = $log_file->getPath();
         $index = [];
         $index['version'] = self::INDEX_FILE_VERSION;
@@ -139,14 +144,17 @@ abstract class BaseLogsChannel {
         return $index;
     }
 
+    /** @return array{version?: string, modified: int, start_date: ?string, lines: array<int>} */
     protected function readIndexFile(string $index_path): array {
         return json_decode(gzdecode(file_get_contents($index_path)), true);
     }
 
+    /** @param array{version?: string, modified: int, start_date: ?string, lines: array<int>} $content */
     protected function writeIndexFile(string $index_path, array $content): void {
         file_put_contents($index_path, gzencode(json_encode($content)));
     }
 
+    /** @param array{targetDate?: ?string, firstDate?: ?string, lastDate?: ?string, minLogLevel?: ?string, textSearch?: ?string, pageToken?: ?string} $query */
     protected function readMatchingLinesBefore(
         LineLocation $line_location,
         array $query,
@@ -195,6 +203,7 @@ abstract class BaseLogsChannel {
         return new ReadResult($matching_lines, $continuation_location, $line_location);
     }
 
+    /** @param array{targetDate?: ?string, firstDate?: ?string, lastDate?: ?string, minLogLevel?: ?string, textSearch?: ?string, pageToken?: ?string} $query */
     protected function readMatchingLinesAfter(
         LineLocation $line_location,
         array $query,
@@ -245,6 +254,7 @@ abstract class BaseLogsChannel {
         return new ReadResult($matching_lines, $line_location, $continuation_location);
     }
 
+    /** @param array{targetDate?: ?string, firstDate?: ?string, lastDate?: ?string, minLogLevel?: ?string, textSearch?: ?string, pageToken?: ?string} $query */
     protected function isLineMatching(string $line, array $query): bool {
         $min_log_level = $query['minLogLevel'] ?? null;
         if (!$this->isLineMatchingMinLogLevel($line, $min_log_level)) {

@@ -90,25 +90,41 @@ class MonitorLogsCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    protected function checkEmergencies($logs_in_last_hour, $logs_in_last_day) {
+    /**
+     * @param array<string> $logs_in_last_hour
+     * @param array<string> $logs_in_last_day
+     */
+    protected function checkEmergencies(array $logs_in_last_hour, array $logs_in_last_day): void {
         if (count(array_filter($logs_in_last_hour, function ($line) { return $this->isEmergencyLine($line); })) > 0) {
             throw new \Exception("Expected no emergencies");
         }
     }
 
-    protected function checkAlerts($logs_in_last_hour, $logs_in_last_day) {
+    /**
+     * @param array<string> $logs_in_last_hour
+     * @param array<string> $logs_in_last_day
+     */
+    protected function checkAlerts(array $logs_in_last_hour, array $logs_in_last_day): void {
         if (count(array_filter($logs_in_last_hour, function ($line) { return $this->isAlertLine($line); })) > 0) {
             throw new \Exception("Expected no alerts");
         }
     }
 
-    protected function checkCritical($logs_in_last_hour, $logs_in_last_day) {
+    /**
+     * @param array<string> $logs_in_last_hour
+     * @param array<string> $logs_in_last_day
+     */
+    protected function checkCritical(array $logs_in_last_hour, array $logs_in_last_day): void {
         if (count(array_filter($logs_in_last_hour, function ($line) { return $this->isCriticalLine($line); })) > 0) {
             throw new \Exception("Expected no critical log entries");
         }
     }
 
-    protected function checkManyErrors($logs_in_last_hour, $logs_in_last_day) {
+    /**
+     * @param array<string> $logs_in_last_hour
+     * @param array<string> $logs_in_last_day
+     */
+    protected function checkManyErrors(array $logs_in_last_hour, array $logs_in_last_day): void {
         $limit_per_hour = 1;
         $limit_per_day = 5;
 
@@ -123,7 +139,11 @@ class MonitorLogsCommand extends OlzCommand {
         }
     }
 
-    protected function checkManyWarnings($logs_in_last_hour, $logs_in_last_day) {
+    /**
+     * @param array<string> $logs_in_last_hour
+     * @param array<string> $logs_in_last_day
+     */
+    protected function checkManyWarnings(array $logs_in_last_hour, array $logs_in_last_day): void {
         $limit_per_hour = 10;
         $limit_per_day = 50;
 
@@ -138,7 +158,11 @@ class MonitorLogsCommand extends OlzCommand {
         }
     }
 
-    protected function checkManyNotices($logs_in_last_hour, $logs_in_last_day) {
+    /**
+     * @param array<string> $logs_in_last_hour
+     * @param array<string> $logs_in_last_day
+     */
+    protected function checkManyNotices(array $logs_in_last_hour, array $logs_in_last_day): void {
         $limit_per_hour = 100;
         $limit_per_day = 5000;
 
@@ -153,27 +177,27 @@ class MonitorLogsCommand extends OlzCommand {
         }
     }
 
-    protected function isEmergencyLine($line) {
+    protected function isEmergencyLine(string $line): bool {
         return preg_match('/\.EMERGENCY\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.EMERGENCY\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
     }
 
-    protected function isAlertLine($line) {
+    protected function isAlertLine(string $line): bool {
         return preg_match('/\.ALERT\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ALERT\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
     }
 
-    protected function isCriticalLine($line) {
+    protected function isCriticalLine(string $line): bool {
         return preg_match('/\.CRITICAL\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.CRITICAL\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
     }
 
-    protected function isErrorLine($line) {
+    protected function isErrorLine(string $line): bool {
         return preg_match('/\.ERROR\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ERROR\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
     }
 
-    protected function isWarningLine($line) {
+    protected function isWarningLine(string $line): bool {
         return preg_match('/\.WARNING\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.WARNING\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
     }
 
-    protected function isNoticeLine($line) {
+    protected function isNoticeLine(string $line): bool {
         return preg_match('/\.NOTICE\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.NOTICE\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
     }
 }

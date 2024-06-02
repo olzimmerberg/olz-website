@@ -9,7 +9,8 @@ use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class ExecuteEmailReactionEndpoint extends OlzEndpoint {
-    protected $reaction_data;
+    /** @var ?array<string, mixed> */
+    protected ?array $reaction_data;
 
     public static function getIdent(): string {
         return 'ExecuteEmailReactionEndpoint';
@@ -55,7 +56,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
         }
     }
 
-    protected function actionUnsubscribe() {
+    protected function actionUnsubscribe(): mixed {
         $user = intval($this->reaction_data['user'] ?? '0');
         if ($user <= 0) {
             $this->log()->error("Invalid user {$user} to unsubscribe from email notifications.", [$this->reaction_data]);
@@ -99,7 +100,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
         return ['status' => 'INVALID_TOKEN'];
     }
 
-    protected function removeNotificationSubscription($subscription) {
+    protected function removeNotificationSubscription(NotificationSubscription $subscription): void {
         // If it is an email config reminder subscription, just mark it cancelled.
         if ($subscription->getNotificationType() === NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER) {
             $subscription->setNotificationTypeArgs(json_encode(['cancelled' => true]));
@@ -108,7 +109,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
         }
     }
 
-    protected function actionResetPassword() {
+    protected function actionResetPassword(): mixed {
         $user_id = intval($this->reaction_data['user'] ?? '0');
         $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $user_id]);
@@ -126,7 +127,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
         return ['status' => 'OK'];
     }
 
-    protected function actionVerifyEmail() {
+    protected function actionVerifyEmail(): mixed {
         $user_id = intval($this->reaction_data['user'] ?? '0');
         $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $user_id]);
@@ -153,7 +154,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
         return ['status' => 'OK'];
     }
 
-    protected function actionDeleteNews() {
+    protected function actionDeleteNews(): mixed {
         $news_id = $this->reaction_data['news_id'] ?? null;
         $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
         $news_entry = $news_repo->findOneBy(['id' => $news_id]);
@@ -161,7 +162,7 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
             $this->log()->error("Trying to delete inexistent news entry: {$news_id}.", [$this->reaction_data]);
             return ['status' => 'INVALID_TOKEN'];
         }
-        $news_entry->setOnOff(false);
+        $news_entry->setOnOff(0);
         $this->entityManager()->flush();
         return ['status' => 'OK'];
     }

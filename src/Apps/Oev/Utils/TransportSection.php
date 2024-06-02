@@ -8,12 +8,13 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class TransportSection {
     use WithUtilsTrait;
 
-    protected $departure;
-    protected $arrival;
-    protected $passList = [];
-    protected $isWalk;
+    protected TransportHalt $departure;
+    protected TransportHalt $arrival;
+    /** @var array<TransportHalt> */
+    protected array $passList = [];
+    protected bool $isWalk;
 
-    public static function getField() {
+    public static function getField(): FieldTypes\Field {
         $halt_field = TransportHalt::getField();
         return new FieldTypes\ObjectField([
             'field_structure' => [
@@ -28,13 +29,15 @@ class TransportSection {
         ]);
     }
 
-    public static function fromTransportApi($api_section) {
+    /** @param array<string, mixed> $api_section */
+    public static function fromTransportApi(array $api_section): self {
         $section = new self();
         $section->parseFromTransportApi($api_section);
         return $section;
     }
 
-    protected function parseFromTransportApi($api_section) {
+    /** @param array<string, mixed> $api_section */
+    protected function parseFromTransportApi(array $api_section): void {
         $this->isWalk = (
             ($api_section['journey'] ?? null) === null
             && $api_section['walk']
@@ -59,7 +62,8 @@ class TransportSection {
         }
     }
 
-    public function getFieldValue() {
+    /** @return array<string, mixed> */
+    public function getFieldValue(): array {
         return [
             'departure' => $this->departure->getFieldValue(),
             'arrival' => $this->arrival->getFieldValue(),
@@ -70,13 +74,15 @@ class TransportSection {
         ];
     }
 
-    public static function fromFieldValue($value) {
+    /** @param array<string, mixed> $value */
+    public static function fromFieldValue(array $value): self {
         $instance = new self();
         $instance->populateFromFieldValue($value);
         return $instance;
     }
 
-    protected function populateFromFieldValue($value) {
+    /** @param array<string, mixed> $value */
+    protected function populateFromFieldValue(array $value): void {
         $this->departure = TransportHalt::fromFieldValue($value['departure']);
         $this->arrival = TransportHalt::fromFieldValue($value['arrival']);
         $this->passList = array_map(function ($halt) {
@@ -85,39 +91,42 @@ class TransportSection {
         $this->isWalk = $value['isWalk'];
     }
 
-    public function getDeparture() {
+    public function getDeparture(): TransportHalt {
         return $this->departure;
     }
 
-    public function setDeparture($new_departure) {
+    public function setDeparture(TransportHalt $new_departure): void {
         $this->departure = $new_departure;
     }
 
-    public function getArrival() {
+    public function getArrival(): TransportHalt {
         return $this->arrival;
     }
 
-    public function setArrival($new_arrival) {
+    public function setArrival(TransportHalt $new_arrival): void {
         $this->arrival = $new_arrival;
     }
 
-    public function getPassList() {
+    /** @return array<TransportHalt> */
+    public function getPassList(): array {
         return $this->passList;
     }
 
-    public function setPassList($new_pass_list) {
+    /** @param array<TransportHalt> $new_pass_list */
+    public function setPassList(array $new_pass_list): void {
         $this->passList = $new_pass_list;
     }
 
-    public function getIsWalk() {
+    public function getIsWalk(): bool {
         return $this->isWalk;
     }
 
-    public function setIsWalk($new_is_walk) {
+    public function setIsWalk(bool $new_is_walk): void {
         $this->isWalk = $new_is_walk;
     }
 
-    public function getHalts() {
+    /** @return array<TransportHalt> */
+    public function getHalts(): array {
         $halts = [];
         $halts[] = $this->departure;
         foreach ($this->passList as $halt) {
@@ -127,7 +136,7 @@ class TransportSection {
         return $halts;
     }
 
-    public function getCropped($start_halt, $end_halt) {
+    public function getCropped(?TransportHalt $start_halt, ?TransportHalt $end_halt): TransportSection {
         $cropped_section = new self();
         $cropped_section->setIsWalk($this->isWalk);
         if ($start_halt === null && $end_halt === null) {

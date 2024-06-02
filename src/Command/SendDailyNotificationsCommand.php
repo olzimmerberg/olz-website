@@ -7,6 +7,7 @@ use Olz\Command\SendDailyNotificationsCommand\DailySummaryGetter;
 use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
 use Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter;
 use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
+use Olz\Command\SendDailyNotificationsCommand\Notification;
 use Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter;
 use Olz\Command\SendDailyNotificationsCommand\WeeklyPreviewGetter;
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
@@ -28,39 +29,39 @@ class SendDailyNotificationsCommand extends OlzCommand {
         return ['dev', 'test', 'staging', 'prod'];
     }
 
-    protected $dailySummaryGetter;
-    protected $deadlineWarningGetter;
-    protected $emailConfigurationReminderGetter;
-    protected $monthlyPreviewGetter;
-    protected $telegramConfigurationReminderGetter;
-    protected $weeklyPreviewGetter;
-    protected $weeklySummaryGetter;
+    protected DailySummaryGetter $dailySummaryGetter;
+    protected DeadlineWarningGetter $deadlineWarningGetter;
+    protected EmailConfigurationReminderGetter $emailConfigurationReminderGetter;
+    protected MonthlyPreviewGetter $monthlyPreviewGetter;
+    protected TelegramConfigurationReminderGetter $telegramConfigurationReminderGetter;
+    protected WeeklyPreviewGetter $weeklyPreviewGetter;
+    protected WeeklySummaryGetter $weeklySummaryGetter;
 
-    public function setDailySummaryGetter($dailySummaryGetter) {
+    public function setDailySummaryGetter(DailySummaryGetter $dailySummaryGetter): void {
         $this->dailySummaryGetter = $dailySummaryGetter;
     }
 
-    public function setDeadlineWarningGetter($deadlineWarningGetter) {
+    public function setDeadlineWarningGetter(DeadlineWarningGetter $deadlineWarningGetter): void {
         $this->deadlineWarningGetter = $deadlineWarningGetter;
     }
 
-    public function setEmailConfigurationReminderGetter($emailConfigurationReminderGetter) {
+    public function setEmailConfigurationReminderGetter(EmailConfigurationReminderGetter $emailConfigurationReminderGetter): void {
         $this->emailConfigurationReminderGetter = $emailConfigurationReminderGetter;
     }
 
-    public function setMonthlyPreviewGetter($monthlyPreviewGetter) {
+    public function setMonthlyPreviewGetter(MonthlyPreviewGetter $monthlyPreviewGetter): void {
         $this->monthlyPreviewGetter = $monthlyPreviewGetter;
     }
 
-    public function setTelegramConfigurationReminderGetter($telegramConfigurationReminderGetter) {
+    public function setTelegramConfigurationReminderGetter(TelegramConfigurationReminderGetter $telegramConfigurationReminderGetter): void {
         $this->telegramConfigurationReminderGetter = $telegramConfigurationReminderGetter;
     }
 
-    public function setWeeklyPreviewGetter($weeklyPreviewGetter) {
+    public function setWeeklyPreviewGetter(WeeklyPreviewGetter $weeklyPreviewGetter): void {
         $this->weeklyPreviewGetter = $weeklyPreviewGetter;
     }
 
-    public function setWeeklySummaryGetter($weeklySummaryGetter) {
+    public function setWeeklySummaryGetter(WeeklySummaryGetter $weeklySummaryGetter): void {
         $this->weeklySummaryGetter = $weeklySummaryGetter;
     }
 
@@ -117,13 +118,13 @@ class SendDailyNotificationsCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    protected function autoupdateNotificationSubscriptions() {
+    protected function autoupdateNotificationSubscriptions(): void {
         $this->autoupdateEmailNotificationSubscriptions();
         $this->autoupdateTelegramNotificationSubscriptions();
         $this->entityManager()->flush();
     }
 
-    protected function autoupdateEmailNotificationSubscriptions() {
+    protected function autoupdateEmailNotificationSubscriptions(): void {
         $email_notifications_state = $this->getEmailConfigReminderState();
 
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
@@ -163,7 +164,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
     }
 
-    protected function getEmailConfigReminderState() {
+    /** @return array<int, array{has_reminder?: bool, needs_reminder?: bool}> */
+    protected function getEmailConfigReminderState(): array {
         $email_notifications_state = [];
 
         // Find users with existing email config reminder notification subscriptions.
@@ -198,7 +200,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         return $email_notifications_state;
     }
 
-    protected function getNonConfigReminderNotificationTypes() {
+    /** @return array<string> */
+    protected function getNonConfigReminderNotificationTypes(): array {
         return array_filter(
             NotificationSubscription::ALL_NOTIFICATION_TYPES,
             function ($notification_type) {
@@ -209,7 +212,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
         );
     }
 
-    private function autoupdateTelegramNotificationSubscriptions() {
+    private function autoupdateTelegramNotificationSubscriptions(): void {
         $telegram_notifications_state = $this->getTelegramConfigReminderState();
 
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
@@ -249,7 +252,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
     }
 
-    protected function getTelegramConfigReminderState() {
+    /** @return array<int, array{has_reminder?: bool, needs_reminder?: bool}> */
+    protected function getTelegramConfigReminderState(): array {
         $telegram_notifications_state = [];
 
         // Find users with existing telegram config reminder notification subscriptions.
@@ -286,7 +290,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         return $telegram_notifications_state;
     }
 
-    private function getNotificationSubscriptions() {
+    /** @return array<string, array<?string, array<NotificationSubscription>>> */
+    private function getNotificationSubscriptions(): array {
         $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
         $subscriptions = $notification_subscription_repo->findAll();
 
@@ -303,7 +308,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         return $subscriptions_by_type_and_args;
     }
 
-    private function sendDailySummaryNotifications($subscriptions_by_args) {
+    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
+    private function sendDailySummaryNotifications(array $subscriptions_by_args): void {
         $daily_summary_getter = $this->dailySummaryGetter;
         $daily_summary_getter->setAllUtils($this->getAllUtils());
 
@@ -321,7 +327,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
     }
 
-    private function sendDeadlineWarningNotifications($subscriptions_by_args) {
+    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
+    private function sendDeadlineWarningNotifications(array $subscriptions_by_args): void {
         $deadline_warning_getter = $this->deadlineWarningGetter;
         $deadline_warning_getter->setAllUtils($this->getAllUtils());
 
@@ -339,7 +346,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
     }
 
-    private function sendEmailConfigurationReminderNotifications($subscriptions_by_args) {
+    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
+    private function sendEmailConfigurationReminderNotifications(array $subscriptions_by_args): void {
         $configuration_reminder_getter = $this->emailConfigurationReminderGetter;
         $configuration_reminder_getter->setAllUtils($this->getAllUtils());
 
@@ -357,7 +365,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
     }
 
-    private function sendMonthlyPreviewNotifications($subscriptions_by_args) {
+    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
+    private function sendMonthlyPreviewNotifications(array $subscriptions_by_args): void {
         $monthly_preview_getter = $this->monthlyPreviewGetter;
         $monthly_preview_getter->setAllUtils($this->getAllUtils());
 
@@ -375,7 +384,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
     }
 
-    private function sendTelegramConfigurationReminderNotifications($subscriptions_by_args) {
+    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
+    private function sendTelegramConfigurationReminderNotifications(array $subscriptions_by_args): void {
         $configuration_reminder_getter = $this->telegramConfigurationReminderGetter;
         $configuration_reminder_getter->setAllUtils($this->getAllUtils());
 
@@ -393,7 +403,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
     }
 
-    private function sendWeeklyPreviewNotifications($subscriptions_by_args) {
+    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
+    private function sendWeeklyPreviewNotifications(array $subscriptions_by_args): void {
         $weekly_preview_getter = $this->weeklyPreviewGetter;
         $weekly_preview_getter->setAllUtils($this->getAllUtils());
 
@@ -411,7 +422,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
     }
 
-    private function sendWeeklySummaryNotifications($subscriptions_by_args) {
+    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
+    private function sendWeeklySummaryNotifications(array $subscriptions_by_args): void {
         $weekly_summary_getter = $this->weeklySummaryGetter;
         $weekly_summary_getter->setAllUtils($this->getAllUtils());
 
@@ -429,7 +441,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
     }
 
-    private function sendNotificationToSubscription($notification, $subscription) {
+    private function sendNotificationToSubscription(Notification $notification, NotificationSubscription $subscription): void {
         $user = $subscription->getUser();
         $title = $notification->title;
         $text = $notification->getTextForUser($user);

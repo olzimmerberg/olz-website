@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:monitor-backup')]
 class MonitorBackupCommand extends OlzCommand {
-    protected static $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/main/_/tools/monitoring/backup_monitoring.php)";
+    protected static string $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/main/_/tools/monitoring/backup_monitoring.php)";
 
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
@@ -54,7 +54,8 @@ class MonitorBackupCommand extends OlzCommand {
         return Command::FAILURE;
     }
 
-    protected function checkWorkflowRun($workflow_run) {
+    /** @param array<string, mixed> $workflow_run */
+    protected function checkWorkflowRun(array $workflow_run): void {
         if ($workflow_run['name'] !== 'CI:scheduled') {
             throw new \Exception("Expected workflow_run name to be CI:scheduled");
         }

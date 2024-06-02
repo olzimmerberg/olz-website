@@ -6,6 +6,9 @@ use Olz\Entity\SolvEvent;
 use Olz\Repository\Common\OlzRepository;
 use Olz\Utils\DbUtils;
 
+/**
+ * @extends OlzRepository<SolvEvent>
+ */
 class SolvEventRepository extends OlzRepository {
     /** @return array<SolvEvent> */
     public function getSolvEventsForYear(int $year): array {

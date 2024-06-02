@@ -16,7 +16,7 @@ class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
         $this->setServer(['REMOTE_ADDR' => '1.2.3.4']);
     }
 
-    protected function getRandomPassword() {
+    protected function getRandomPassword(): string {
         return 'fake-new-password';
     }
 }

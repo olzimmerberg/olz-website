@@ -18,29 +18,29 @@ class FakeCleanTempDirectoryCommand extends CleanTempDirectoryCommand {
     public $rmdir_calls = [];
     public $unlink_calls = [];
 
-    protected function opendir($path) {
+    protected function opendir(string $path): mixed {
         if ($this->opendir_override_result !== null) {
             return $this->opendir_override_result;
         }
         return parent::opendir($path);
     }
 
-    protected function filemtime($path) {
+    protected function filemtime(string $path): bool|int {
         if ($this->filemtime_response !== null) {
             return $this->filemtime_response;
         }
         return 0;
     }
 
-    protected function filectime($path) {
+    protected function filectime(string $path): bool|int {
         return 0;
     }
 
-    protected function rmdir($path) {
+    protected function rmdir(string $path): void {
         $this->rmdir_calls[] = $path;
     }
 
-    protected function unlink($path) {
+    protected function unlink(string $path): void {
         $this->unlink_calls[] = $path;
     }
 }

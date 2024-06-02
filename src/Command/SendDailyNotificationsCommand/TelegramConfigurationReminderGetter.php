@@ -10,7 +10,8 @@ class TelegramConfigurationReminderGetter {
 
     public const DAY_OF_MONTH = 22;
 
-    public function getNotification($args) {
+    /** @param array<string, mixed> $args */
+    public function getNotification(array $args): ?Notification {
         if ($args['cancelled'] ?? false) {
             return null;
         }

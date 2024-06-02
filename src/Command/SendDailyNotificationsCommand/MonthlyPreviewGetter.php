@@ -12,7 +12,8 @@ use Olz\Utils\WithUtilsTrait;
 class MonthlyPreviewGetter {
     use WithUtilsTrait;
 
-    public function getMonthlyPreviewNotification($args) {
+    /** @param array<string, mixed> $args */
+    public function getMonthlyPreviewNotification(array $args): ?Notification {
         $current_weekday = intval($this->dateUtils()->getCurrentDateInFormat('N'));
         $saturday = 6;
         if ($current_weekday != $saturday) {
@@ -57,7 +58,7 @@ class MonthlyPreviewGetter {
         ]);
     }
 
-    public function getTermineText($today, $end_of_timespan) {
+    public function getTermineText(\DateTime $today, \DateTime $end_of_timespan): string {
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
@@ -89,7 +90,7 @@ class MonthlyPreviewGetter {
         return $termine_text;
     }
 
-    public function getDeadlinesText($today, $end_of_timespan) {
+    public function getDeadlinesText(\DateTime $today, \DateTime $end_of_timespan): string {
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
 

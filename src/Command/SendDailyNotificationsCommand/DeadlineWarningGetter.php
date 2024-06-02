@@ -12,8 +12,9 @@ use Olz\Utils\WithUtilsTrait;
 class DeadlineWarningGetter {
     use WithUtilsTrait;
 
-    public function getDeadlineWarningNotification($args) {
-        $days_arg = intval($args['days'] ?? '');
+    /** @param array<string, mixed> $args */
+    public function getDeadlineWarningNotification(array $args): ?Notification {
+        $days_arg = intval($args['days']);
         if ($days_arg <= 0 || $days_arg > 7) {
             return null;
         }

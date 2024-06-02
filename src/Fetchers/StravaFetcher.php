@@ -3,7 +3,12 @@
 namespace Olz\Fetchers;
 
 class StravaFetcher {
-    public function fetchTokenDataForCode($token_request_data) {
+    /**
+     * @param array<string, mixed> $token_request_data
+     *
+     * @return ?array<string, mixed>
+     */
+    public function fetchTokenDataForCode(array $token_request_data): ?array {
         $strava_token_url = 'https://www.strava.com/api/v3/oauth/token';
 
         $ch = curl_init();

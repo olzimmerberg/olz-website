@@ -17,6 +17,9 @@ enum PredefinedRole: string {
     case SportIdent = 'sportident';
 }
 
+/**
+ * @extends OlzRepository<Role>
+ */
 class RoleRepository extends OlzRepository {
     public function getPredefinedRole(PredefinedRole $predefined_role): ?Role {
         $role = $this->findOneBy(['username' => $predefined_role->value]);
@@ -67,7 +70,7 @@ class RoleRepository extends OlzRepository {
         return $query->getResult();
     }
 
-    /** @return Collection<int, object>&iterable<Role> */
+    /** @return Collection<int, Role>&iterable<Role> */
     public function getAllActive(): Collection {
         // TODO: Remove guide != '' condition again, after all ressort
         // descriptions have been updated. This is just temporary logic!

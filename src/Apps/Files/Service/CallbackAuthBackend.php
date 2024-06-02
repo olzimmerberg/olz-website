@@ -15,17 +15,15 @@ use Sabre\HTTP\ResponseInterface;
 class CallbackAuthBackend implements \Sabre\DAV\Auth\Backend\BackendInterface {
     /**
      * This is the prefix that will be used to generate principal urls.
-     *
-     * @var string
      */
-    protected $principalPrefix = 'principals/';
+    protected string $principalPrefix = 'principals/';
 
     /**
      * Callback.
      *
      * @var callable
      */
-    protected $callBack;
+    protected mixed $callBack;
 
     /**
      * Creates the backend.
@@ -60,9 +58,9 @@ class CallbackAuthBackend implements \Sabre\DAV\Auth\Backend\BackendInterface {
      *
      * principals/users/[username]
      *
-     * @return array
+     * @return array{0: bool, 1: string}
      */
-    public function check(RequestInterface $request, ResponseInterface $response) {
+    public function check(RequestInterface $request, ResponseInterface $response): array {
         $cb = $this->callBack;
         $result = $cb();
 
@@ -92,6 +90,6 @@ class CallbackAuthBackend implements \Sabre\DAV\Auth\Backend\BackendInterface {
      * append your own WWW-Authenticate header instead of overwriting the
      * existing one.
      */
-    public function challenge(RequestInterface $request, ResponseInterface $response) {
+    public function challenge(RequestInterface $request, ResponseInterface $response): void {
     }
 }

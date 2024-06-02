@@ -34,7 +34,6 @@ class OlzAppsList extends OlzComponent {
             $hypothetical_logged_in_user = new User();
             $hypothetical_logged_in_user->setPermissions(' verified_email ');
             $logged_in_apps = OlzApps::getAppsForUser($hypothetical_logged_in_user);
-            $available_app_paths = [];
             foreach ($available_apps as $available_app) {
                 $available_apps[$available_app->getPath()] = true;
             }

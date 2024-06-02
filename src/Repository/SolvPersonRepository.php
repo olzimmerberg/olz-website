@@ -2,8 +2,12 @@
 
 namespace Olz\Repository;
 
+use Olz\Entity\SolvPerson;
 use Olz\Repository\Common\OlzRepository;
 
+/**
+ * @extends OlzRepository<SolvPerson>
+ */
 class SolvPersonRepository extends OlzRepository {
     /** @return array<array{id: int, same_as: ?int}> */
     public function getSolvPersonsMarkedForMerge() {

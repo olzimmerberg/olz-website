@@ -82,7 +82,7 @@ class ResetPasswordEndpoint extends OlzEndpoint {
         return ['status' => 'OK'];
     }
 
-    protected function getRandomPassword() {
+    protected function getRandomPassword(): string {
         return $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(6));
     }
 }

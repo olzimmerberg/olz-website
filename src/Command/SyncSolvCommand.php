@@ -26,7 +26,7 @@ class SyncSolvCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    private function syncSolvEvents() {
+    private function syncSolvEvents(): void {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $current_day = intval($this->dateUtils()->getCurrentDateInFormat('d'));
         $this->syncSolvEventForYear($current_year);
@@ -50,7 +50,7 @@ class SyncSolvCommand extends OlzCommand {
         }
     }
 
-    private function syncSolvResults() {
+    private function syncSolvResults(): void {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         try {
             $this->symfonyUtils()->callCommand(
@@ -63,7 +63,7 @@ class SyncSolvCommand extends OlzCommand {
         }
     }
 
-    private function assignSolvPeople() {
+    private function assignSolvPeople(): void {
         try {
             $this->symfonyUtils()->callCommand(
                 'olz:sync-solv-assign-people',
@@ -75,7 +75,7 @@ class SyncSolvCommand extends OlzCommand {
         }
     }
 
-    private function mergeSolvPeople() {
+    private function mergeSolvPeople(): void {
         try {
             $this->symfonyUtils()->callCommand(
                 'olz:sync-solv-merge-people',

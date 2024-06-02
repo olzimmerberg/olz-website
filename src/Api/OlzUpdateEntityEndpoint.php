@@ -16,7 +16,7 @@ abstract class OlzUpdateEntityEndpoint extends OlzEntityEndpoint {
         ]]);
     }
 
-    protected function getCustomResponseField() {
+    protected function getCustomResponseField(): ?FieldTypes\Field {
         return null;
     }
 

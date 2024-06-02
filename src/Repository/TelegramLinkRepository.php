@@ -5,6 +5,9 @@ namespace Olz\Repository;
 use Olz\Entity\TelegramLink;
 use Olz\Repository\Common\OlzRepository;
 
+/**
+ * @extends OlzRepository<TelegramLink>
+ */
 class TelegramLinkRepository extends OlzRepository {
     /** @return array<TelegramLink> */
     public function getActivatedTelegramLinks(): array {

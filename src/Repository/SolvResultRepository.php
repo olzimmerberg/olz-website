@@ -6,6 +6,9 @@ use Olz\Entity\SolvResult;
 use Olz\Repository\Common\OlzRepository;
 use Olz\Utils\DbUtils;
 
+/**
+ * @extends OlzRepository<SolvResult>
+ */
 class SolvResultRepository extends OlzRepository {
     /** @return array<SolvResult> */
     public function getUnassignedSolvResults(): array {

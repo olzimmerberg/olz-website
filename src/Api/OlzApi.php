@@ -197,7 +197,7 @@ class OlzApi extends Api {
         OlzApps::registerAllEndpoints($this);
     }
 
-    public static function generate() {
+    public static function generate(): void {
         $olz_api = self::getShallowInstance();
 
         file_put_contents(
@@ -208,7 +208,7 @@ class OlzApi extends Api {
         echo "\nOLZ API client generated.\n";
     }
 
-    public static function getShallowInstance() {
+    public static function getShallowInstance(): self {
         return new self(
             new Endpoints\OnDailyEndpoint(),
             new Endpoints\OnContinuouslyEndpoint(),

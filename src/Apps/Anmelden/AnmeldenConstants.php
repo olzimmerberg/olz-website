@@ -7,7 +7,7 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class AnmeldenConstants {
     public const VALID_INFO_TYPES = ['email', 'firstName', 'lastName', 'gender', 'street', 'postalCode', 'city', 'region', 'countryCode', 'birthdate', 'phone', 'siCardNumber', 'solvNumber', 'string', 'enum', 'reservation'];
 
-    public static function getRegistrationInfoField() {
+    public static function getRegistrationInfoField(): FieldTypes\Field {
         return new FieldTypes\ObjectField([
             'export_as' => 'OlzRegistrationInfo',
             'field_structure' => [

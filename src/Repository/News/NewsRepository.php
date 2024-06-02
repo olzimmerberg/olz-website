@@ -8,8 +8,11 @@ use Olz\Entity\News\NewsEntry;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Repository\Common\OlzRepository;
 
+/**
+ * @extends OlzRepository<NewsEntry>
+ */
 class NewsRepository extends OlzRepository {
-    /** @return Collection<int, object>&iterable<NewsEntry> */
+    /** @return Collection<int, NewsEntry>&iterable<NewsEntry> */
     public function getAllActive(): Collection {
         $news_utils = NewsFilterUtils::fromEnv();
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();

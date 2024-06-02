@@ -53,7 +53,7 @@ class NewsController extends AbstractController {
         if (!$news_entry) {
             throw new NotFoundHttpException();
         }
-        $image_ids = $news_entry->getImageIds() ?? [];
+        $image_ids = $news_entry->getImageIds();
 
         $data_path = $this->envUtils()->getDataPath();
         $imgdir = "{$data_path}img/news/{$id}/img/";

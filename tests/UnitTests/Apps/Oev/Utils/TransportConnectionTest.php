@@ -38,7 +38,7 @@ final class TransportConnectionTest extends UnitTestCase {
     public function testFromTransportApi(): void {
         $object = TransportConnection::fromTransportApi(self::SAMPLE_API_CONNECTION);
         $sections = $object->getSections();
-        $this->assertSame([[16, 14, 15]], array_map(function ($section) {
+        $this->assertSame([['16', '14', '15']], array_map(function ($section) {
             return array_map(function ($halt) {
                 return $halt->getStationId();
             }, $section->getHalts());
@@ -48,18 +48,18 @@ final class TransportConnectionTest extends UnitTestCase {
             'sections' => [
                 [
                     'departure' => [
-                        'stationId' => 16,
+                        'stationId' => '16',
                         'stationName' => 'Station-sous-test',
                         'time' => '2022-05-17 14:12:54',
                     ],
                     'arrival' => [
-                        'stationId' => 15,
+                        'stationId' => '15',
                         'stationName' => 'Testwil',
                         'time' => '2022-05-17 15:03:13',
                     ],
                     'passList' => [
                         [
-                            'stationId' => 14,
+                            'stationId' => '14',
                             'stationName' => 'Testingen',
                             'time' => '2022-05-17 14:46:14',
                         ],

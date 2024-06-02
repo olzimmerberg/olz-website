@@ -15,7 +15,7 @@ abstract class OlzEndpoint extends Endpoint {
 
     // --- Custom ---
 
-    protected function checkPermission($permission) {
+    protected function checkPermission(string $permission): void {
         $has_access = $this->authUtils()->hasPermission($permission);
         if (!$has_access) {
             throw new HttpError(403, "Kein Zugriff!");

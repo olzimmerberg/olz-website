@@ -14,13 +14,13 @@ use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeLoginWithStravaEndpointStravaFetcher extends StravaFetcher {
-    protected $response;
+    protected ?array $response;
 
-    public function __construct($response) {
+    public function __construct(?array $response) {
         $this->response = $response;
     }
 
-    public function fetchTokenDataForCode($token_request_data) {
+    public function fetchTokenDataForCode(array $token_request_data): ?array {
         return $this->response;
     }
 }

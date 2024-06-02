@@ -166,16 +166,16 @@ class Panini2024Controller extends AbstractController {
         return $this->pdfResponse($pdf_out);
     }
 
-    private function setLimits() {
+    private function setLimits(): void {
         ini_set('memory_limit', '500M');
         set_time_limit(4000);
     }
 
-    private function paniniUtils() {
+    private function paniniUtils(): Panini2024Utils {
         return Panini2024Utils::fromEnv();
     }
 
-    private function pdfResponse($pdf_out) {
+    private function pdfResponse(string $pdf_out): Response {
         $response = new Response($pdf_out);
         $response->headers->set('Content-Type', 'application/pdf');
         return $response;

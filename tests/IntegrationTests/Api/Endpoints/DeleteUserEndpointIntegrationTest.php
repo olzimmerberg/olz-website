@@ -18,11 +18,7 @@ class DeleteUserEndpointForIntegrationTest extends DeleteUserEndpoint {
     }
 
     public function testOnlyUnlink($path) {
-        return $this->unlink($path);
-    }
-
-    public function testOnlyRename($source_path, $destination_path) {
-        return $this->rename($source_path, $destination_path);
+        $this->unlink($path);
     }
 }
 
@@ -45,18 +41,5 @@ final class DeleteUserEndpointIntegrationTest extends IntegrationTestCase {
         $this->assertTrue(is_file($path));
         $endpoint->testOnlyUnlink($path);
         $this->assertFalse(is_file($path));
-    }
-
-    public function testRename(): void {
-        $endpoint = new DeleteUserEndpointForIntegrationTest();
-        $from_path = __DIR__.'/../../document-root/temp/delete_user_endpoint_from.txt';
-        $to_path = __DIR__.'/../../document-root/temp/delete_user_endpoint_to.txt';
-        file_put_contents($from_path, 'some content');
-        $this->assertTrue(is_file($from_path));
-        $this->assertFalse(is_file($to_path));
-        $endpoint->testOnlyRename($from_path, $to_path);
-        $this->assertFalse(is_file($from_path));
-        $this->assertTrue(is_file($to_path));
-        unlink($to_path);
     }
 }

@@ -12,7 +12,7 @@ use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class DeterministicGetWebdavAccessTokenEndpoint extends GetWebdavAccessTokenEndpoint {
-    protected function generateRandomAccessToken() {
+    protected function generateRandomAccessToken(): string {
         return 'AAAAAAAAAAAAAAAAAAAAAAAA';
     }
 }

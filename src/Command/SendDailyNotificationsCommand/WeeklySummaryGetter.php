@@ -17,7 +17,8 @@ class WeeklySummaryGetter {
     protected \DateTime $today;
     protected \DateTime $lastWeek;
 
-    public function getWeeklySummaryNotification($args) {
+    /** @param array<string, mixed> $args */
+    public function getWeeklySummaryNotification(array $args): ?Notification {
         $current_weekday = intval($this->dateUtils()->getCurrentDateInFormat('N'));
         $monday = 1;
         if ($current_weekday != $monday) {
@@ -162,7 +163,7 @@ class WeeklySummaryGetter {
         ]);
     }
 
-    protected function getPrettyDateAndMaybeTime($date, $time = null) {
+    protected function getPrettyDateAndMaybeTime(?\DateTime $date, ?\DateTime $time = null): string {
         if (!$date) {
             return "??";
         }
@@ -174,7 +175,8 @@ class WeeklySummaryGetter {
         return "{$pretty_date} {$pretty_time}";
     }
 
-    protected function getNewsCriteria(array $formats) {
+    /** @param array<string> $formats */
+    protected function getNewsCriteria(array $formats): Criteria {
         return Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->in('format', $formats),

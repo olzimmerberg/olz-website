@@ -160,11 +160,11 @@ class UpdateUserEndpoint extends OlzEndpoint {
     // @codeCoverageIgnoreStart
     // Reason: Mocked in tests.
 
-    protected function unlink($path) {
+    protected function unlink(string $path): void {
         unlink($path);
     }
 
-    protected function rename($source_path, $destination_path) {
+    protected function rename(string $source_path, string $destination_path): void {
         rename($source_path, $destination_path);
     }
 

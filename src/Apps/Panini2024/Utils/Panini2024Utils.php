@@ -58,7 +58,8 @@ class Panini2024Utils {
         'Seewen SZ' => 'wappen/seewen_sz.jpg',
     ];
 
-    public function parseSpec($spec, $num_per_page) {
+    /** @return array{0: array<array{ids?: array<int>}>, 1: array{grid?: bool}} */
+    public function parseSpec(string $spec, int $num_per_page): array {
         $random_res = preg_match('/^random-([0-9]+)(-grid)?$/i', $spec, $random_matches);
         if ($random_res) {
             $num = intval($random_matches[1]);
@@ -113,7 +114,7 @@ class Panini2024Utils {
         throw new NotFoundHttpException("Invalid spec: {$spec} ({$pattern})");
     }
 
-    public function renderSingle($id) {
+    public function renderSingle(int $id): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $data_path = $this->envUtils()->getDataPath();
         $panini_path = "{$data_path}panini_data/";
@@ -319,7 +320,11 @@ class Panini2024Utils {
         return $image_data;
     }
 
-    public function render3x5Pages($pages, $options) {
+    /**
+     * @param array<array{ids?: array<int>}> $pages
+     * @param array{grid?: bool}             $options
+     */
+    public function render3x5Pages(array $pages, array $options): string {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
@@ -390,7 +395,8 @@ class Panini2024Utils {
         return $pdf->Output('3x5.pdf', 'S');
     }
 
-    public function render4x4Zip($options): string {
+    /** @param array{grid?: bool} $options */
+    public function render4x4Zip(array $options): string {
         $grid_or_empty = $options['grid'] ? '-grid' : '';
         $ids = $this->getAllEntries();
 
@@ -418,19 +424,24 @@ class Panini2024Utils {
         return $content;
     }
 
-    private function getAllEntries() {
+    /** @return array<int> */
+    private function getAllEntries(): array {
         $ids = [];
 
         $db = $this->dbUtils()->getDb();
         $result_olz = $db->query("SELECT id FROM panini24 ORDER BY id ASC");
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
             $row_olz = $result_olz->fetch_assoc();
-            $ids[] = $row_olz['id'];
+            $ids[] = intval($row_olz['id']);
         }
         return $ids;
     }
 
-    public function render4x4Pages($pages, $options): string {
+    /**
+     * @param array<array{ids?: array<int>}> $pages
+     * @param array{grid?: bool}             $options
+     */
+    public function render4x4Pages(array $pages, array $options): string {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
@@ -493,7 +504,7 @@ class Panini2024Utils {
         return $pdf->Output('4x4.pdf', 'S');
     }
 
-    private function cachePictureId($id) {
+    private function cachePictureId(int $id): void {
         if ($id === 0) {
             return;
         }
@@ -509,7 +520,7 @@ class Panini2024Utils {
         gc_collect_cycles();
     }
 
-    private function getCachePathForPictureId($id) {
+    private function getCachePathForPictureId(int $id): ?string {
         if ($id === 0) {
             return null;
         }
@@ -521,7 +532,7 @@ class Panini2024Utils {
         return "{$temp_path}paninipdf-{$id}.jpg";
     }
 
-    public function getCachePathForZip($ident) {
+    public function getCachePathForZip(string $ident): string {
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp/";
         if (!is_dir($temp_path)) {
@@ -548,7 +559,7 @@ class Panini2024Utils {
         return $pdf;
     }
 
-    private function addBookPage(\TCPDF $pdf) {
+    private function addBookPage(\TCPDF $pdf): void {
         $pdf->AddPage();
         $mainbg_path = __DIR__.'/../../../../assets/icns/mainbg.png';
         $info = getimagesize($mainbg_path);
@@ -569,7 +580,15 @@ class Panini2024Utils {
         }
     }
 
-    private function drawPlaceholder(\TCPDF $pdf, $entry, $x, $y, $wid, $hei) {
+    /** @param array<string, mixed> $entry */
+    private function drawPlaceholder(
+        \TCPDF $pdf,
+        array $entry,
+        float $x,
+        float $y,
+        float $wid,
+        float $hei,
+    ): void {
         $is_landcape = $wid > $hei;
 
         $pdf->SetLineWidth(0.1);
@@ -591,7 +610,15 @@ class Panini2024Utils {
         }
     }
 
-    private function drawEntryInfobox(\TCPDF $pdf, $entry, $x, $y, $wid, $hei) {
+    /** @param array<string, mixed> $entry */
+    private function drawEntryInfobox(
+        \TCPDF $pdf,
+        array $entry,
+        float $x,
+        float $y,
+        float $wid,
+        float $hei,
+    ): void {
         $pdf->SetLineWidth(0.1);
         $pdf->SetDrawColor(0, 117, 33);
         $pdf->SetFillColor(212, 231, 206);
@@ -647,6 +674,7 @@ class Panini2024Utils {
         $pdf->Multicell($wid, 11, $motto, 0, 'L');
     }
 
+    /** @param array{} $options */
     private function drawText(
         \GdImage|int $image,
         float $size,
@@ -657,17 +685,17 @@ class Panini2024Utils {
         string $font_filename,
         string $text,
         array $options = [],
-    ) {
+    ): void {
         $x = intval(round($x));
         $y = intval(round($y));
-        return imagettftext($image, $size, $angle, $x, $y, $color, $font_filename, $text, $options);
+        imagettftext($image, $size, $angle, $x, $y, $color, $font_filename, $text, $options);
     }
 
-    private function convertString($string) {
+    private function convertString(?string $string): string {
         return $string ?? '';
     }
 
-    public function renderBookPages() {
+    public function renderBookPages(): string {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
@@ -706,7 +734,8 @@ class Panini2024Utils {
         return $pdf->Output('book.pdf', 'S');
     }
 
-    private function getBookEntries() {
+    /** @return array<array<string, mixed>> */
+    private function getBookEntries(): array {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
@@ -736,7 +765,7 @@ class Panini2024Utils {
         return $entries;
     }
 
-    public function renderOlzPages() {
+    public function renderOlzPages(): string {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
@@ -764,7 +793,8 @@ class Panini2024Utils {
         return $pdf->Output('olz.pdf', 'S');
     }
 
-    private function getOlzEntries() {
+    /** @return array<array<string, mixed>> */
+    private function getOlzEntries(): array {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
@@ -776,6 +806,7 @@ class Panini2024Utils {
         return $entries;
     }
 
+    /** @return array{0: int, 1: float, 2: float} */
     private function getOlzPageXY(int $index): array {
         $a4_wid = 210;
         $olz = [
@@ -792,7 +823,7 @@ class Panini2024Utils {
         return $olz[$index];
     }
 
-    public function renderHistoryPages() {
+    public function renderHistoryPages(): string {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
@@ -820,7 +851,8 @@ class Panini2024Utils {
         return $pdf->Output('history.pdf', 'S');
     }
 
-    private function getHistoryEntries() {
+    /** @return array<array<string, mixed>> */
+    private function getHistoryEntries(): array {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
@@ -832,6 +864,7 @@ class Panini2024Utils {
         return $entries;
     }
 
+    /** @return array{0: int, 1: float, 2: float} */
     private function getHistoryPageXY(int $index): array {
         $a4_wid = 210;
         $olz = [
@@ -855,7 +888,7 @@ class Panini2024Utils {
         return $olz[$index];
     }
 
-    public function renderDressesPages() {
+    public function renderDressesPages(): string {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
@@ -883,7 +916,8 @@ class Panini2024Utils {
         return $pdf->Output('dresses.pdf', 'S');
     }
 
-    private function getDressesEntries() {
+    /** @return array<array<string, mixed>> */
+    private function getDressesEntries(): array {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
@@ -895,6 +929,7 @@ class Panini2024Utils {
         return $entries;
     }
 
+    /** @return array{0: int, 1: float, 2: float} */
     private function getDressesPageXY(int $index): array {
         $a4_wid = 210;
         $olz = [
@@ -908,7 +943,7 @@ class Panini2024Utils {
         return $olz[$index];
     }
 
-    public function renderMapsPages() {
+    public function renderMapsPages(): string {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
@@ -938,7 +973,8 @@ class Panini2024Utils {
         return $pdf->Output('maps.pdf', 'S');
     }
 
-    private function getMapsEntries() {
+    /** @return array<array<string, mixed>> */
+    private function getMapsEntries(): array {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
@@ -950,6 +986,7 @@ class Panini2024Utils {
         return $entries;
     }
 
+    /** @return array{0: int, 1: float, 2: float} */
     private function getMapsPageXY(int $index): array {
         $x_step = 46;
         $x_offset = 13;
@@ -995,7 +1032,7 @@ class Panini2024Utils {
         return $olz[$index];
     }
 
-    public function renderBackPages() {
+    public function renderBackPages(): string {
         if (!$this->authUtils()->hasPermission('panini2024')) {
             throw new NotFoundHttpException();
         }
@@ -1023,7 +1060,8 @@ class Panini2024Utils {
         return $pdf->Output('back.pdf', 'S');
     }
 
-    private function getBackEntries() {
+    /** @return array<array<string, mixed>> */
+    private function getBackEntries(): array {
         $entries = [];
 
         $db = $this->dbUtils()->getDb();
@@ -1035,6 +1073,7 @@ class Panini2024Utils {
         return $entries;
     }
 
+    /** @return array{0: int, 1: float, 2: float} */
     private function getBackPageXY(int $index): array {
         $a4_wid = 210;
         $olz = [

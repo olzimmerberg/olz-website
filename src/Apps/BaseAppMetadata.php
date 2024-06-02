@@ -52,7 +52,7 @@ abstract class BaseAppMetadata {
         return null;
     }
 
-    public function getJsCssImports() {
+    public function getJsCssImports(): string {
         $data_path = $this->envUtils()->getDataPath();
         $basename = $this->getBasename();
         $css_path = "{$data_path}jsbuild/app-{$basename}/main.min.css";

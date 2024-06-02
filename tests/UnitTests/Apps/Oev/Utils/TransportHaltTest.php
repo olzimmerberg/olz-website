@@ -15,7 +15,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class TransportHaltTest extends UnitTestCase {
     public const SAMPLE_API_HALT = [
         'station' => [
-            'id' => 14,
+            'id' => '14',
             'name' => 'Testingen',
         ],
         'departureTimestamp' => 1652791574,
@@ -24,7 +24,7 @@ final class TransportHaltTest extends UnitTestCase {
 
     public const SAMPLE_API_HALT_ARRIVAL = [
         'station' => [
-            'id' => 15,
+            'id' => '15',
             'name' => 'Testwil',
         ],
         'arrivalTimestamp' => 1652792593,
@@ -32,7 +32,7 @@ final class TransportHaltTest extends UnitTestCase {
 
     public const SAMPLE_API_HALT_DEPARTURE = [
         'station' => [
-            'id' => 16,
+            'id' => '16',
             'name' => 'Station-sous-test',
         ],
         'departureTimestamp' => 1652789574,
@@ -40,7 +40,7 @@ final class TransportHaltTest extends UnitTestCase {
 
     public const SAMPLE_API_HALT_NEITHER = [
         'station' => [
-            'id' => 17,
+            'id' => '17',
             'name' => 'Testberg',
         ],
     ];
@@ -61,13 +61,13 @@ final class TransportHaltTest extends UnitTestCase {
 
     public function testTransportHalt(): void {
         $object = TransportHalt::fromTransportApi(self::SAMPLE_API_HALT);
-        $this->assertSame(14, $object->getStationId());
+        $this->assertSame('14', $object->getStationId());
         $this->assertSame('Testingen', $object->getStationName());
         $this->assertSame(1652791574, $object->getTimeSeconds());
         $this->assertSame('2022-05-17 14:46:14', $object->getTimeString());
 
         $this->assertSame([
-            'stationId' => 14,
+            'stationId' => '14',
             'stationName' => 'Testingen',
             'time' => '2022-05-17 14:46:14',
         ], $object->getFieldValue());

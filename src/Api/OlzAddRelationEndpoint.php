@@ -18,7 +18,7 @@ abstract class OlzAddRelationEndpoint extends OlzEndpoint {
         ]]);
     }
 
-    protected function getCustomResponseField() {
+    protected function getCustomResponseField(): ?FieldTypes\Field {
         return null;
     }
 

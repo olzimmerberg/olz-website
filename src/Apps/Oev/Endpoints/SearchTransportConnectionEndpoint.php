@@ -12,10 +12,12 @@ use PhpTypeScriptApi\Fields\FieldTypes;
 class SearchTransportConnectionEndpoint extends OlzEndpoint {
     public const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
-    protected $originStations;
-    protected $transportApiFetcher;
+    /** @var array<array{id: string, name: string, coordinate: array{type: string, x: float, y: float}, weight: float}> */
+    protected array $originStations;
+    protected TransportApiFetcher $transportApiFetcher;
 
-    protected $is_origin_station_by_station_id = [];
+    /** @var array<string, bool> */
+    protected array $is_origin_station_by_station_id = [];
 
     public function __construct() {
         $filename = __DIR__.'/../olz_transit_stations.json';
@@ -30,7 +32,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         $this->setTransportApiFetcher($transport_api_fetcher);
     }
 
-    public function setTransportApiFetcher($transportApiFetcher) {
+    public function setTransportApiFetcher(TransportApiFetcher $transportApiFetcher): void {
         $this->transportApiFetcher = $transportApiFetcher;
     }
 
@@ -146,10 +148,11 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         return ['status' => 'OK', 'suggestions' => $suggestions];
     }
 
+    /** @return array<TransportConnection> */
     protected function getConnectionsFromOriginsToDestination(
-        $destination,
-        $arrival_datetime,
-    ) {
+        string $destination,
+        \DateTime $arrival_datetime,
+    ): array {
         $most_peripheral_stations = $this->getMostPeripheralOriginStations();
         $arrival_date = $arrival_datetime->format('Y-m-d');
         $arrival_time = $arrival_datetime->format('H:i');
@@ -207,7 +210,8 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         return $all_connections;
     }
 
-    protected function getMostPeripheralOriginStations() {
+    /** @return array<array{id: string, name: string, coordinate: array{type: string, x: float, y: float}, weight: float}> */
+    protected function getMostPeripheralOriginStations(): array {
         $coord_utils = CoordinateUtils::fromEnv();
         $center_of_stations = $this->getCenterOfOriginStations();
         $most_peripheral_stations = array_slice($this->originStations, 0);
@@ -236,7 +240,8 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         return $most_peripheral_stations;
     }
 
-    protected function getCenterOfOriginStations() {
+    /** @return array{x: int|float, y: int|float} */
+    protected function getCenterOfOriginStations(): array {
         $coord_utils = CoordinateUtils::fromEnv();
         $station_points = array_map(function ($station) {
             return [
@@ -247,7 +252,8 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         return $coord_utils->getCenter($station_points);
     }
 
-    protected function processMainConnection($main_connection) {
+    /** @return array{latest_joining_time_by_station_id: array<string, int>, latest_departure_by_station_id: array<string, int>} */
+    protected function processMainConnection(TransportConnection $main_connection): array {
         $latest_departure_by_station_id = [];
 
         foreach ($this->originStations as $station) {
@@ -256,12 +262,12 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
 
         $latest_joining_time_by_station_id = [];
 
-        $sections = $main_connection->getSections() ?? [];
+        $sections = $main_connection->getSections();
         foreach ($sections as $section) {
             $halts = $section->getHalts();
             foreach ($halts as $halt) {
                 $station_id = $halt->getStationId();
-                $time = $halt->getTimeSeconds() ?? 0;
+                $time = $halt->getTimeSeconds();
                 if (($latest_joining_time_by_station_id[$station_id] ?? 0) < $time) {
                     $latest_joining_time_by_station_id[$station_id] = $time;
                 }
@@ -277,11 +283,15 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         ];
     }
 
+    /**
+     * @param array<string, int> $latest_joining_time_by_station_id
+     * @param array<string, int> $latest_departure_by_station_id
+     */
     protected function getJoiningStationFromConnection(
-        $connection,
-        $latest_joining_time_by_station_id,
-        $latest_departure_by_station_id,
-    ) {
+        TransportConnection $connection,
+        array $latest_joining_time_by_station_id,
+        array $latest_departure_by_station_id,
+    ): ?string {
         $joining_station_id = null;
         $look_for_joining_station = true;
         $halts = $connection->getFlatHalts();
@@ -305,11 +315,16 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         return $joining_station_id;
     }
 
+    /**
+     * @param array<string, int> $latest_departure_by_station_id
+     *
+     * @return array{use_this_connection: bool, latest_departure_by_station_id: array<string, int>}
+     */
     protected function shouldUseConnection(
-        $connection,
-        $joining_station_id,
-        $latest_departure_by_station_id,
-    ) {
+        TransportConnection $connection,
+        string $joining_station_id,
+        array $latest_departure_by_station_id,
+    ): array {
         $use_this_connection = false;
         $is_before_joining = true;
         $halts = $connection->getFlatHalts();
@@ -332,10 +347,11 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         ];
     }
 
+    /** @param array<string, int> $latest_departure_by_station_id */
     protected function getNormalizedSuggestion(
-        $suggestion,
-        $latest_departure_by_station_id,
-    ) {
+        TransportSuggestion $suggestion,
+        array $latest_departure_by_station_id,
+    ): TransportSuggestion {
         $normalized_suggestion = new TransportSuggestion();
 
         $normalized_main_connection = $this->getNormalizedConnection(
@@ -368,10 +384,11 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         return $normalized_suggestion;
     }
 
+    /** @param array<string, int> $latest_departure_by_station_id */
     protected function getNormalizedConnection(
-        $connection,
-        $latest_departure_by_station_id,
-    ) {
+        TransportConnection $connection,
+        array $latest_departure_by_station_id,
+    ): ?TransportConnection {
         $crop_from_halt = null;
         foreach ($connection->getFlatHalts() as $halt) {
             $station_id = $halt->getStationId();
@@ -390,7 +407,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         return $connection->getCropped($crop_from_halt, null);
     }
 
-    protected function isOriginStation($station_id) {
+    protected function isOriginStation(string $station_id): bool {
         if (($this->is_origin_station_by_station_id ?? null) === null) {
             $this->is_origin_station_by_station_id = [];
             foreach ($this->originStations as $station) {

@@ -3,10 +3,10 @@
 namespace Olz\Fetchers;
 
 class SolvFetcher {
-    private $base_url = "https://www.o-l.ch/";
-    private $user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36';
+    private string $base_url = "https://www.o-l.ch/";
+    private string $user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36';
 
-    public function fetchEventsCsvForYear($year) {
+    public function fetchEventsCsvForYear(int|string $year): ?string {
         $this->sleep(3);
 
         $path = "cgi-bin/fixtures";
@@ -20,7 +20,7 @@ class SolvFetcher {
         return iconv('ISO-8859-1', 'UTF-8', $result);
     }
 
-    public function fetchYearlyResultsJson($year) {
+    public function fetchYearlyResultsJson(int|string $year): ?string {
         $this->sleep(3);
 
         $path = "cgi-bin/fixtures";
@@ -34,7 +34,7 @@ class SolvFetcher {
         return iconv('ISO-8859-1', 'UTF-8', $result);
     }
 
-    public function fetchEventResultsHtml($rank_id) {
+    public function fetchEventResultsHtml(int|string $rank_id): ?string {
         $this->sleep(3);
 
         $path = "cgi-bin/results";
@@ -48,7 +48,7 @@ class SolvFetcher {
         return html_entity_decode(iconv('ISO-8859-1', 'UTF-8', $result));
     }
 
-    protected function curlExec($ch) {
+    protected function curlExec(\CurlHandle|int $ch): string {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         curl_setopt($ch, CURLOPT_REFERER, 'https://www.o-l.ch/cgi-bin/fixtures');
@@ -60,14 +60,14 @@ class SolvFetcher {
         $errno = curl_errno($ch);
         $error = curl_error($ch);
         curl_close($ch);
-        if ($errno) {
+        if ($errno || !is_string($result)) {
             $url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
             throw new \Exception("Error fetching {$url}: {$error} ({$errno})");
         }
         return $result;
     }
 
-    protected function sleep($seconds) {
+    protected function sleep(int $seconds): void {
         sleep($seconds);
     }
 }

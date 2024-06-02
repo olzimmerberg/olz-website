@@ -3,23 +3,29 @@
 namespace Olz\Apps\Logs\Utils;
 
 interface LogFileInterface {
-    public function getPath();
+    public function getPath(): string;
 
-    public function exists();
+    public function exists(): bool;
 
     public function modified(): int;
 
-    public function open($mode);
+    /** @return bool|resource */
+    public function open(string $mode): mixed;
 
-    public function seek($fp, $offset, $whence = SEEK_SET);
+    /** @param resource $fp */
+    public function seek(mixed $fp, int $offset, int $whence = SEEK_SET): int;
 
-    public function tell($fp): int;
+    /** @param resource $fp */
+    public function tell(mixed $fp): int;
 
-    public function eof($fp): bool;
+    /** @param resource $fp */
+    public function eof(mixed $fp): bool;
 
-    public function gets($fp);
+    /** @param resource $fp */
+    public function gets(mixed $fp): bool|string;
 
-    public function close($fp);
+    /** @param resource $fp */
+    public function close(mixed $fp): bool;
 
     public function serialize(): string;
 

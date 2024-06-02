@@ -8,7 +8,8 @@ use Olz\Utils\WithUtilsTrait;
 class OlzArtgrisFileManagerConf implements CustomConfServiceInterface {
     use WithUtilsTrait;
 
-    public function getConf($extra = []) {
+    /** @return array{dir: string} */
+    public function getConf($extra = []): array {
         $data_path = $this->envUtils()->getDataPath();
 
         $user = $this->authUtils()->getCurrentUser();

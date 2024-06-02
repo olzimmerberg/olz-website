@@ -44,7 +44,7 @@ class FakeStravaUtilsStravaFetcher extends StravaFetcher {
         $this->strava_fetcher_response = $strava_fetcher_response;
     }
 
-    public function fetchTokenDataForCode($request_data) {
+    public function fetchTokenDataForCode(array $request_data): ?array {
         return $this->strava_fetcher_response;
     }
 }

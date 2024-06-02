@@ -22,14 +22,14 @@ class SyncSolvEventsCommand extends OlzCommand {
         $this->addArgument('year', InputArgument::REQUIRED, 'Year (YYYY; 1996 or later)');
     }
 
-    protected $solvEventParser;
+    protected SolvEventParser $solvEventParser;
 
     public function __construct() {
         parent::__construct();
         $this->solvEventParser = new SolvEventParser();
     }
 
-    public function setSolvEventParser($solvEventParser) {
+    public function setSolvEventParser(SolvEventParser $solvEventParser): void {
         $this->solvEventParser = $solvEventParser;
     }
 
@@ -44,7 +44,7 @@ class SyncSolvEventsCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    public function syncSolvEventsForYear($year) {
+    public function syncSolvEventsForYear(int $year): void {
         $this->logAndOutput("Syncing SOLV events for {$year}...");
 
         $csv = $this->solvFetcher()->fetchEventsCsvForYear($year);
@@ -61,7 +61,8 @@ class SyncSolvEventsCommand extends OlzCommand {
         $this->importSolvEventsForYear($solv_events, $year);
     }
 
-    private function importSolvEventsForYear($solv_events, $year) {
+    /** @param array<SolvEvent> $solv_events */
+    private function importSolvEventsForYear(array $solv_events, int $year): void {
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
         $existing_solv_events = $solv_event_repo->getSolvEventsForYear($year);
         $existing_solv_events_index = [];

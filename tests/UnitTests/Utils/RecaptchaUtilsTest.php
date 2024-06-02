@@ -10,7 +10,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\RecaptchaUtils;
 
 class FakeRecaptchaUtilsGoogleFetcher extends GoogleFetcher {
-    public function fetchRecaptchaVerification($siteverify_request_data) {
+    public function fetchRecaptchaVerification(array $siteverify_request_data): ?array {
         $successful_request = [
             'secret' => 'some-secret-key',
             'response' => 'fake-recaptcha-token',

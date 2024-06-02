@@ -21,14 +21,14 @@ class SyncSolvResultsCommand extends OlzCommand {
     protected function configure(): void {
         $this->addArgument('year', InputArgument::REQUIRED, 'Year (YYYY; 1996 or later)');
     }
-    protected $solvResultParser;
+    protected SolvResultParser $solvResultParser;
 
     public function __construct() {
         parent::__construct();
         $this->solvResultParser = new SolvResultParser();
     }
 
-    public function setSolvResultParser($solvResultParser) {
+    public function setSolvResultParser(SolvResultParser $solvResultParser): void {
         $this->solvResultParser = $solvResultParser;
     }
 
@@ -43,7 +43,7 @@ class SyncSolvResultsCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    public function syncSolvResultsForYear($year) {
+    public function syncSolvResultsForYear(int $year): void {
         $this->logAndOutput("Syncing SOLV results for {$year}...");
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
         $json = $this->solvFetcher()->fetchYearlyResultsJson($year);
@@ -64,13 +64,20 @@ class SyncSolvResultsCommand extends OlzCommand {
         foreach ($existing_solv_events as $existing_solv_event) {
             $solv_uid = $existing_solv_event->getSolvUid();
             $rank_link = $existing_solv_event->getRankLink();
-            $known_result_index[$solv_uid] = ($rank_link !== null) ? 1 : 0;
+            $known_result_index[$solv_uid] = ($rank_link !== null);
         }
 
         $this->importSolvResultsForYear($result_id_by_uid, $known_result_index);
     }
 
-    private function importSolvResultsForYear($result_id_by_uid, $known_result_index) {
+    /**
+     * @param array<int|string, array{result_list_id: int|string}> $result_id_by_uid
+     * @param array<int, bool>                                     $known_result_index
+     */
+    private function importSolvResultsForYear(
+        array $result_id_by_uid,
+        array $known_result_index
+    ): void {
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
         foreach ($result_id_by_uid as $solv_uid => $event_result) {
             if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {

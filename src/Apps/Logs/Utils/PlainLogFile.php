@@ -4,15 +4,15 @@ namespace Olz\Apps\Logs\Utils;
 
 class PlainLogFile implements LogFileInterface {
     public function __construct(
-        public string $path,
+        protected string $path,
     ) {
     }
 
-    public function getPath() {
+    public function getPath(): string {
         return $this->path;
     }
 
-    public function exists() {
+    public function exists(): bool {
         return is_file($this->path);
     }
 
@@ -20,27 +20,28 @@ class PlainLogFile implements LogFileInterface {
         return filemtime($this->path);
     }
 
-    public function open($mode) {
+    /** @return bool|resource */
+    public function open(string $mode): mixed {
         return fopen($this->path, $mode);
     }
 
-    public function seek($fp, $offset, $whence = SEEK_SET) {
+    public function seek(mixed $fp, int $offset, int $whence = SEEK_SET): int {
         return fseek($fp, $offset, $whence);
     }
 
-    public function tell($fp): int {
+    public function tell(mixed $fp): int {
         return ftell($fp);
     }
 
-    public function eof($fp): bool {
+    public function eof(mixed $fp): bool {
         return feof($fp);
     }
 
-    public function gets($fp) {
+    public function gets(mixed $fp): bool|string {
         return fgets($fp);
     }
 
-    public function close($fp) {
+    public function close(mixed $fp): bool {
         return fclose($fp);
     }
 

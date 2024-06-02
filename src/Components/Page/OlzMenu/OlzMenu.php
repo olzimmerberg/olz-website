@@ -132,7 +132,8 @@ class OlzMenu extends OlzComponent {
         return $out;
     }
 
-    protected static function getMenu($menu, $code_href): string {
+    /** @param array<array<string>> $menu */
+    protected static function getMenu(array $menu, string $code_href): string {
         $out = '';
         for ($i = 0; $i < count($menu); $i++) {
             $menupunkt = $menu[$i];

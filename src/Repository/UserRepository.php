@@ -5,6 +5,9 @@ namespace Olz\Repository;
 use Olz\Entity\User;
 use Olz\Repository\Common\OlzRepository;
 
+/**
+ * @extends OlzRepository<User>
+ */
 class UserRepository extends OlzRepository {
     public function findFuzzilyByUsername(string $username): ?User {
         $dql = "SELECT u FROM Olz:User u WHERE u.username LIKE ?1";

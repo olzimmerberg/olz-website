@@ -13,9 +13,9 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 class KernelExceptionListener {
     use WithUtilsTrait;
 
-    protected $is_handling_exception;
+    protected ?\Throwable $is_handling_exception = null;
 
-    public function onKernelException(ExceptionEvent $event) {
+    public function onKernelException(ExceptionEvent $event): void {
         $exception = $event->getThrowable();
         $previous_exception = $this->is_handling_exception;
         $this->is_handling_exception = $exception;

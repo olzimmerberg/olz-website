@@ -3,7 +3,12 @@
 namespace Olz\Fetchers;
 
 class GoogleFetcher {
-    public function fetchRecaptchaVerification($siteverify_request_data) {
+    /**
+     * @param array<string, mixed> $siteverify_request_data
+     *
+     * @return ?array<string, mixed>
+     */
+    public function fetchRecaptchaVerification(array $siteverify_request_data): ?array {
         $google_siteverify_url = 'https://www.google.com/recaptcha/api/siteverify';
 
         $ch = curl_init();

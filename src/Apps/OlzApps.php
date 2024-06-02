@@ -2,10 +2,11 @@
 
 namespace Olz\Apps;
 
+use Olz\Entity\User;
 use PhpTypeScriptApi\Api;
 
 class OlzApps {
-    public static function getApp($basename) {
+    public static function getApp(string $basename): ?BaseAppMetadata {
         $metadata_class_name = "\\Olz\\Apps\\{$basename}\\Metadata";
         if (class_exists($metadata_class_name)) {
             return new $metadata_class_name();
@@ -13,7 +14,8 @@ class OlzApps {
         return null;
     }
 
-    public static function getAppPaths() {
+    /** @return array<string> */
+    public static function getAppPaths(): array {
         $entries = scandir(__DIR__);
         $app_paths = [];
         foreach ($entries as $entry) {
@@ -25,7 +27,8 @@ class OlzApps {
         return $app_paths;
     }
 
-    public static function getApps() {
+    /** @return array<BaseAppMetadata> */
+    public static function getApps(): array {
         $app_paths = self::getAppPaths();
         $apps = [];
         foreach ($app_paths as $app_path) {
@@ -38,7 +41,8 @@ class OlzApps {
         return $apps;
     }
 
-    public static function getAppsForUser($user) {
+    /** @return array<BaseAppMetadata> */
+    public static function getAppsForUser(?User $user): array {
         $apps = self::getApps();
         $apps_for_user = [];
         foreach ($apps as $app) {
@@ -49,7 +53,7 @@ class OlzApps {
         return $apps_for_user;
     }
 
-    public static function registerAllEndpoints(Api $api) {
+    public static function registerAllEndpoints(Api $api): void {
         $app_paths = self::getAppPaths();
         foreach ($app_paths as $app_path) {
             $app_basename = basename($app_path);

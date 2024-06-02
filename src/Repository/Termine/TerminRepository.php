@@ -8,8 +8,11 @@ use Olz\Entity\Termine\Termin;
 use Olz\Repository\Common\OlzRepository;
 use Olz\Termine\Utils\TermineFilterUtils;
 
+/**
+ * @extends OlzRepository<Termin>
+ */
 class TerminRepository extends OlzRepository {
-    /** @return Collection<int, object>&iterable<Termin> */
+    /** @return Collection<int, Termin>&iterable<Termin> */
     public function getAllActive(): Collection {
         $termine_utils = TermineFilterUtils::fromEnv();
         $is_not_archived = $termine_utils->getIsNotArchivedCriteria();

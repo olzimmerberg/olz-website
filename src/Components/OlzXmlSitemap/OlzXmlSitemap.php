@@ -19,7 +19,8 @@ class OlzXmlSitemap extends OlzSitemap {
         return $out;
     }
 
-    private static function getEntry($entry) {
+    /** @param array{title: string, description: string, url: string, updates: string, importance: float, level: int} $entry */
+    private static function getEntry(array $entry): string {
         $url = $entry['url'];
         $change_frequency = $entry['updates'];
         $priority = $entry['importance'];

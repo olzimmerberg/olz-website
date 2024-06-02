@@ -5,6 +5,9 @@ namespace Olz\Repository;
 use Olz\Entity\Throttling;
 use Olz\Repository\Common\OlzRepository;
 
+/**
+ * @extends OlzRepository<Throttling>
+ */
 class ThrottlingRepository extends OlzRepository {
     public function getLastOccurrenceOf(string $event_name): ?\DateTime {
         $throttling = $this->findOneBy(['event_name' => $event_name]);

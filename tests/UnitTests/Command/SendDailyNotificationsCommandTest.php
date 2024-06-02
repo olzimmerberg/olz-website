@@ -5,7 +5,14 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\SendDailyNotificationsCommand;
+use Olz\Command\SendDailyNotificationsCommand\DailySummaryGetter;
+use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
+use Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter;
+use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
 use Olz\Command\SendDailyNotificationsCommand\Notification;
+use Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter;
+use Olz\Command\SendDailyNotificationsCommand\WeeklyPreviewGetter;
+use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
@@ -340,12 +347,12 @@ class FakeSendDailyNotificationsCommandTelegramLinkRepository extends FakeOlzRep
     }
 }
 
-class FakeSendDailyNotificationsCommandDailySummaryGetter {
+class FakeSendDailyNotificationsCommandDailySummaryGetter extends DailySummaryGetter {
     use WithUtilsTrait;
 
     public $calledWithArgs;
 
-    public function getDailySummaryNotification($args) {
+    public function getDailySummaryNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
             return null;
@@ -356,12 +363,12 @@ class FakeSendDailyNotificationsCommandDailySummaryGetter {
     }
 }
 
-class FakeSendDailyNotificationsCommandDeadlineWarningGetter {
+class FakeSendDailyNotificationsCommandDeadlineWarningGetter extends DeadlineWarningGetter {
     use WithUtilsTrait;
 
     public $calledWithArgs;
 
-    public function getDeadlineWarningNotification($args) {
+    public function getDeadlineWarningNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
             return null;
@@ -373,12 +380,12 @@ class FakeSendDailyNotificationsCommandDeadlineWarningGetter {
     }
 }
 
-class FakeSendDailyNotificationsEmailConfigurationReminderGetter {
+class FakeSendDailyNotificationsEmailConfigurationReminderGetter extends EmailConfigurationReminderGetter {
     use WithUtilsTrait;
 
     public $calledWithArgs;
 
-    public function getNotification($args) {
+    public function getNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['cancelled'] ?? false) {
             return null;
@@ -390,12 +397,12 @@ class FakeSendDailyNotificationsEmailConfigurationReminderGetter {
     }
 }
 
-class FakeSendDailyNotificationsCommandMonthlyPreviewGetter {
+class FakeSendDailyNotificationsCommandMonthlyPreviewGetter extends MonthlyPreviewGetter {
     use WithUtilsTrait;
 
     public $calledWithArgs;
 
-    public function getMonthlyPreviewNotification($args) {
+    public function getMonthlyPreviewNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
             return null;
@@ -406,12 +413,12 @@ class FakeSendDailyNotificationsCommandMonthlyPreviewGetter {
     }
 }
 
-class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
+class FakeSendDailyNotificationsTelegramConfigurationReminderGetter extends TelegramConfigurationReminderGetter {
     use WithUtilsTrait;
 
     public $calledWithArgs;
 
-    public function getNotification($args) {
+    public function getNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['cancelled'] ?? false) {
             return null;
@@ -423,12 +430,12 @@ class FakeSendDailyNotificationsTelegramConfigurationReminderGetter {
     }
 }
 
-class FakeSendDailyNotificationsCommandWeeklyPreviewGetter {
+class FakeSendDailyNotificationsCommandWeeklyPreviewGetter extends WeeklyPreviewGetter {
     use WithUtilsTrait;
 
     public $calledWithArgs;
 
-    public function getWeeklyPreviewNotification($args) {
+    public function getWeeklyPreviewNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
             return null;
@@ -439,12 +446,12 @@ class FakeSendDailyNotificationsCommandWeeklyPreviewGetter {
     }
 }
 
-class FakeSendDailyNotificationsCommandWeeklySummaryGetter {
+class FakeSendDailyNotificationsCommandWeeklySummaryGetter extends WeeklySummaryGetter {
     use WithUtilsTrait;
 
     public $calledWithArgs;
 
-    public function getWeeklySummaryNotification($args) {
+    public function getWeeklySummaryNotification(array $args): ?Notification {
         $this->calledWithArgs = $args;
         if ($args['no_notification'] ?? false) {
             return null;

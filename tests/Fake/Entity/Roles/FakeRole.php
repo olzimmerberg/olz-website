@@ -9,8 +9,11 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 use Olz\Tests\Fake\Entity\FakeUser;
 
+/**
+ * @extends FakeEntity<Role>
+ */
 class FakeRole extends FakeEntity {
-    public static function minimal($fresh = false) {
+    public static function minimal(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -32,7 +35,7 @@ class FakeRole extends FakeEntity {
         );
     }
 
-    public static function empty($fresh = false) {
+    public static function empty(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -54,7 +57,7 @@ class FakeRole extends FakeEntity {
         );
     }
 
-    public static function maximal($fresh = false) {
+    public static function maximal(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -76,7 +79,7 @@ class FakeRole extends FakeEntity {
         );
     }
 
-    public static function adminRole($fresh = false) {
+    public static function adminRole(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -95,7 +98,7 @@ class FakeRole extends FakeEntity {
         );
     }
 
-    public static function vorstandRole($fresh = false) {
+    public static function vorstandRole(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -114,7 +117,7 @@ class FakeRole extends FakeEntity {
         );
     }
 
-    public static function subVorstandRole($fresh = false, $degree = 1) {
+    public static function subVorstandRole(bool $fresh = false, int $degree = 1): object {
         return self::getFake(
             $fresh,
             function () use ($degree) {
@@ -130,7 +133,7 @@ class FakeRole extends FakeEntity {
         );
     }
 
-    public static function defaultRole($fresh = false) {
+    public static function defaultRole(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
@@ -146,7 +149,7 @@ class FakeRole extends FakeEntity {
         );
     }
 
-    public static function someRole($fresh = false) {
+    public static function someRole(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {

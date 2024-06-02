@@ -24,9 +24,6 @@ class OlzCommandForIntegrationTest extends OlzCommand {
         return ['test'];
     }
 
-    public $returnCode;
-    public $failWithError;
-
     protected function handle(InputInterface $input, OutputInterface $output): int {
         throw new \Exception('not implemented');
     }

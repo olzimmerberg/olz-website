@@ -12,7 +12,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class DnsTest extends SystemTestCase {
-    public static $dnsHostname = "olzimmerberg.ch";
+    public static string $dnsHostname = "olzimmerberg.ch";
 
     public function testHasGoogleSiteVerificationRecord(): void {
         $records = dns_get_record("{$this::$dnsHostname}", DNS_TXT);

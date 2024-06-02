@@ -48,7 +48,7 @@ final class MarkdownTest extends IntegrationTestCase {
         unlink(__DIR__.'/dummy.md');
     }
 
-    protected function checkMarkdownFile($path) {
+    protected function checkMarkdownFile(string $path): void {
         $repo_root = __DIR__.'/../../';
         $content = file_get_contents("{$repo_root}{$path}");
         $markdown_dir = dirname($path);

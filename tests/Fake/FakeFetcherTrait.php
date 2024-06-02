@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 trait FakeFetcherTrait {
-    protected function getMockedResponse($request_ident, $directory, $get_suggestion_fn = null) {
+    protected function getMockedResponse(
+        string $request_ident,
+        string $directory,
+        ?callable $get_suggestion_fn = null
+    ): bool|string {
         $called_class = get_called_class();
         $file_path = $directory."/data/{$called_class}/{$request_ident}.txt";
         if (is_file($file_path)) {

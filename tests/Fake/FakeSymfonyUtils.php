@@ -9,8 +9,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FakeSymfonyUtils extends SymfonyUtils {
-    public $error;
-    public $output;
+    public ?\Exception $error = null;
+    public ?string $output = null;
+    /** @var array<string> */
     public array $commandsCalled = [];
 
     public function callCommand(

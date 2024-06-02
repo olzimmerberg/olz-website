@@ -11,13 +11,17 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class FakeCleanTempDirectoryCommand extends CleanTempDirectoryCommand {
-    public $opendir_override_result;
+    /** @var bool|resource|null */
+    public mixed $opendir_override_result = null;
 
-    public $filemtime_response;
+    public ?int $filemtime_response = null;
 
-    public $rmdir_calls = [];
-    public $unlink_calls = [];
+    /** @var array<string> */
+    public array $rmdir_calls = [];
+    /** @var array<string> */
+    public array $unlink_calls = [];
 
+    /** @return bool|resource */
     protected function opendir(string $path): mixed {
         if ($this->opendir_override_result !== null) {
             return $this->opendir_override_result;

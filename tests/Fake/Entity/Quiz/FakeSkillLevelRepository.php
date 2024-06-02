@@ -8,7 +8,12 @@ use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
+/**
+ * @extends FakeOlzRepository<SkillLevel>
+ */
 class FakeSkillLevelRepository extends FakeOlzRepository {
+    public string $olzEntityClass = SkillLevel::class;
+
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($criteria['skill'] === 1) {
             $skill_1 = new Skill();
@@ -22,7 +27,8 @@ class FakeSkillLevelRepository extends FakeOlzRepository {
         return null;
     }
 
-    public function getSkillLevelsForUserId($user_id) {
+    /** @return array<SkillLevel> */
+    public function getSkillLevelsForUserId(int $user_id): array {
         $skill_1 = new Skill();
         $skill_1->setId(1);
         $skill_2 = new Skill();
@@ -38,7 +44,12 @@ class FakeSkillLevelRepository extends FakeOlzRepository {
         return [$skill_level_1, $skill_level_2];
     }
 
-    public function getSkillLevelsForUserIdInCategories($user_id, $category_ids) {
+    /**
+     * @param array<int> $category_ids
+     *
+     * @return array<SkillLevel>
+     */
+    public function getSkillLevelsForUserIdInCategories(int $user_id, array $category_ids): array {
         if ($category_ids === [1, 2]) {
             $skill_4 = new Skill();
             $skill_4->setId(4);

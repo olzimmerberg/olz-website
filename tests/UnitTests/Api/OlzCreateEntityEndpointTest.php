@@ -9,7 +9,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class OlzCreateEntityConcreteEndpoint extends OlzCreateEntityEndpoint {
-    public $uses_external_id = false;
+    public bool $uses_external_id = false;
 
     public static function getIdent(): string {
         return 'ident';

@@ -13,9 +13,9 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  * @covers \Olz\Parsers\SolvEventParser
  */
 final class SolvEventParserTest extends UnitTestCase {
-    private $fixtures_2006_path = __DIR__.'/data/fixtures-2006.csv';
-    private $fixtures_2018_path = __DIR__.'/data/fixtures-2018.csv';
-    private $invalid_fixtures_path = __DIR__.'/data/fixtures-invalid.csv';
+    private string $fixtures_2006_path = __DIR__.'/data/fixtures-2006.csv';
+    private string $fixtures_2018_path = __DIR__.'/data/fixtures-2018.csv';
+    private string $invalid_fixtures_path = __DIR__.'/data/fixtures-invalid.csv';
 
     public function testParseFixtures2006(): void {
         $fixtures_2006 = file_get_contents($this->fixtures_2006_path);

@@ -12,8 +12,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class StagingTest extends SystemTestCase {
-    public static $stagingDomain = "staging.olzimmerberg.ch";
-    public static $stagingUrl = "https://staging.olzimmerberg.ch/";
+    public static string $stagingDomain = "staging.olzimmerberg.ch";
+    public static string $stagingUrl = "https://staging.olzimmerberg.ch/";
 
     public function testStagingIsUp(): void {
         $url = "{$this::$stagingUrl}";

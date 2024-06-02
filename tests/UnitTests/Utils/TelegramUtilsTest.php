@@ -29,6 +29,7 @@ class FakeTelegramUtilsTelegramFetcher extends TelegramFetcher {
     public bool $fetchNotOk = false;
     public bool $fetchBlocked = false;
     public bool $fetchWithError = false;
+    /** @var array<array{0: string, 1: array<string, mixed>, 2: string}> */
     public array $sentCommands = [];
 
     public function callTelegramApi(string $command, array $args, string $bot_token): ?array {

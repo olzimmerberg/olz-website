@@ -5,24 +5,35 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity\Common;
 
 use Doctrine\Common\Collections\AbstractLazyCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Olz\Entity\Common\OlzEntity;
 
+/**
+ * @template T of object
+ *
+ * @extends EntityRepository<T>
+ */
 class FakeOlzRepository extends EntityRepository {
     public const MINIMAL_ID = 12;
     public const EMPTY_ID = 123;
     public const MAXIMAL_ID = 1234;
     public const NULL_ID = 9999;
 
-    public $fakeOlzEntityClass = FakeEntity::class;
+    public string $olzEntityClass = OlzEntity::class;
+    public string $fakeOlzEntityClass = FakeEntity::class;
 
-    public $entityToBeFound;
-    public $entityToBeFoundForQuery;
+    /** @var ?T */
+    public ?object $entityToBeFound = null;
+    public mixed $entityToBeFoundForQuery = null;
 
-    public $entitiesToBeMatched;
+    /** @var ?array<T> */
+    public ?array $entitiesToBeMatched = null;
 
-    public $entitiesToBeFound;
+    /** @var ?array<T> */
+    public ?array $entitiesToBeFound = null;
 
     public function __construct(EntityManagerInterface $em) {
         // @phpstan-ignore-next-line
@@ -54,7 +65,8 @@ class FakeOlzRepository extends EntityRepository {
         throw new \Exception("Query not mocked in {$class} repo findOneBy: {$criteria_json}", 1);
     }
 
-    public function matching($criteria): AbstractLazyCollection {
+    /** @return FakeLazyCollection<T> */
+    public function matching(Criteria $criteria): AbstractLazyCollection {
         if ($this->entitiesToBeMatched !== null) {
             return new FakeLazyCollection($this->entitiesToBeMatched);
         }
@@ -66,6 +78,14 @@ class FakeOlzRepository extends EntityRepository {
         ]);
     }
 
+    /**
+     * @param array<string, mixed> $criteria
+     * @param array<string, mixed> $orderBy
+     * @param mixed|null           $limit
+     * @param mixed|null           $offset
+     *
+     * @return array<T>
+     */
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         if ($this->entitiesToBeFound !== null) {
             return $this->entitiesToBeFound;

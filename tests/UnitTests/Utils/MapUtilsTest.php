@@ -8,7 +8,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MapUtils;
 
 class TestOnlyMapUtils extends MapUtils {
-    public function testOnlyDECtoSEX($angle) {
+    public function testOnlyDECtoSEX(int|float $angle): int|float {
         return $this->DECtoSEX($angle);
     }
 }

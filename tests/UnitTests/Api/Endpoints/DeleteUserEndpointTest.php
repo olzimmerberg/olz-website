@@ -16,8 +16,11 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 
+/**
+ * @extends FakeOlzRepository<NewsEntry>
+ */
 class FakeDeleteUserEndpointNewsEntryRepository extends FakeOlzRepository {
-    public $has_news = true;
+    public bool $has_news = true;
 
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new NewsEntry()];
@@ -28,24 +31,36 @@ class FakeDeleteUserEndpointNewsEntryRepository extends FakeOlzRepository {
     }
 }
 
+/**
+ * @extends FakeOlzRepository<NotificationSubscription>
+ */
 class FakeDeleteUserEndpointNotificationSubscriptionRepository extends FakeOlzRepository {
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new NotificationSubscription()];
     }
 }
 
+/**
+ * @extends FakeOlzRepository<TelegramLink>
+ */
 class FakeDeleteUserEndpointTelegramLinkRepository extends FakeOlzRepository {
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new TelegramLink()];
     }
 }
 
+/**
+ * @extends FakeOlzRepository<StravaLink>
+ */
 class FakeDeleteUserEndpointStravaLinkRepository extends FakeOlzRepository {
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new StravaLink()];
     }
 }
 
+/**
+ * @extends FakeOlzRepository<AccessToken>
+ */
 class FakeDeleteUserEndpointAccessTokenRepository extends FakeOlzRepository {
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         return [new AccessToken()];
@@ -58,9 +73,12 @@ class FakeDeleteUserEndpointAccessTokenRepository extends FakeOlzRepository {
  * @coversNothing
  */
 class DeleteUserEndpointForTest extends DeleteUserEndpoint {
-    public $is_file_calls = [];
-    public $unlink_calls = [];
-    public $rename_calls = [];
+    /** @var array<string> */
+    public array $is_file_calls = [];
+    /** @var array<string> */
+    public array $unlink_calls = [];
+    /** @var array<array{0: string, 1: string}> */
+    public array $rename_calls = [];
 
     protected function isFile(string $path): bool {
         $this->is_file_calls[] = $path;

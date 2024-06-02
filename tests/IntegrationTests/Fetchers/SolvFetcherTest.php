@@ -13,8 +13,8 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @covers \Olz\Fetchers\SolvFetcher
  */
 final class SolvFetcherTest extends IntegrationTestCase {
-    protected $solv_fetcher;
-    protected $year_to_fetch;
+    protected SolvFetcher $solv_fetcher;
+    protected int|string $year_to_fetch;
 
     public function setUp(): void {
         parent::setUp();
@@ -54,7 +54,7 @@ final class SolvFetcherTest extends IntegrationTestCase {
         $this->assertMatchesRegularExpression('/<p>Total: [0-9]+ Teilnehmer des Clubs\\./', $content);
     }
 
-    private function getLatestRankId() {
+    private function getLatestRankId(): int|string|null {
         $content = $this->solv_fetcher->fetchYearlyResultsJson($this->year_to_fetch);
         $data = json_decode($content, true);
         $result_lists = $data['ResultLists'] ?? null;

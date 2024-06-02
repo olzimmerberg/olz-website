@@ -22,13 +22,15 @@ use PHPUnit\Framework\TestCase;
 class UnitTestCase extends TestCase {
     use WithUtilsTrait;
 
-    protected $previous_server;
-    protected $setUpAt;
-    protected $fakeLogHandler;
+    /** @var array<string, mixed> */
+    protected array $previous_server;
+    protected float $setUpAt;
+    protected FakeLogHandler $fakeLogHandler;
 
-    protected static $slowestTests = [];
-    protected static $numSlowestTests = 25;
-    protected static $shutdownFunctionRegistered = false;
+    /** @var array<array{name: string, duration: float}> */
+    protected static array $slowestTests = [];
+    protected static int $numSlowestTests = 25;
+    protected static bool $shutdownFunctionRegistered = false;
 
     protected function setUp(): void {
         global $_SERVER;
@@ -103,6 +105,7 @@ class UnitTestCase extends TestCase {
         }
     }
 
+    /** @return array<string> */
     protected function getLogs(?callable $formatter = null): array {
         return $this->fakeLogHandler->getPrettyRecords($formatter);
     }

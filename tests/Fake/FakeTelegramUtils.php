@@ -10,15 +10,16 @@ use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Utils\TelegramUtils;
 
 class FakeTelegramUtils extends TelegramUtils {
-    public $isAnonymousChat = false;
-    public $configurationSent = false;
-    public $telegramApiCalls = [];
+    public bool $isAnonymousChat = false;
+    public bool $configurationSent = false;
+    /** @var array<array{0: string, 1: array<string, mixed>}> */
+    public array $telegramApiCalls = [];
 
     public function renderMarkdown(string $markdown): string {
         return $markdown;
     }
 
-    public function startAnonymousChat($chat_id, $user_id): TelegramLink {
+    public function startAnonymousChat(string $chat_id, string $user_id): TelegramLink {
         return new TelegramLink();
     }
 
@@ -57,6 +58,7 @@ class FakeTelegramUtils extends TelegramUtils {
         $this->configurationSent = true;
     }
 
+    /** @param array<string, mixed> $args */
     public function callTelegramApi(string $command, array $args): array {
         if ($args['chat_id'] == 'provoke_error') {
             throw new \Exception('provoked telegram error');

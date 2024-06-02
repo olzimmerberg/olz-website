@@ -13,6 +13,7 @@ class FakeMysqliResult extends \mysqli_result {
         $this->result_mode = $result_mode;
     }
 
+    /** @return array<string, mixed>|false|null */
     public function fetch_assoc(): array|false|null {
         return null;
     }

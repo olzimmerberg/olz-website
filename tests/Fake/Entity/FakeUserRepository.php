@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake\Entity;
 
+use Olz\Entity\User;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
+/**
+ * @extends FakeOlzRepository<User>
+ */
 class FakeUserRepository extends FakeOlzRepository {
-    public $userToBeFound;
-    public $userToBeFoundForQuery;
-    public $fakeProcessEmailCommandUser;
+    public string $olzEntityClass = User::class;
+
+    public ?User $userToBeFound = null;
+    public mixed $userToBeFoundForQuery = null;
+    public ?User $fakeProcessEmailCommandUser = null;
 
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         if ($criteria == ['parent_user' => 2]) {
@@ -70,7 +76,7 @@ class FakeUserRepository extends FakeOlzRepository {
         return null;
     }
 
-    public function findFuzzilyByUsername($username) {
+    public function findFuzzilyByUsername(string $username): ?User {
         if ($username === 'someone') {
             $fake_process_email_command_user = FakeUser::defaultUser(true);
             $fake_process_email_command_user->setId(1);
@@ -98,7 +104,7 @@ class FakeUserRepository extends FakeOlzRepository {
         return null;
     }
 
-    public function findFuzzilyByOldUsername($old_username) {
+    public function findFuzzilyByOldUsername(string $old_username): ?User {
         if ($old_username === 'someone-old') {
             $fake_process_email_command_user = FakeUser::defaultUser(true);
             $fake_process_email_command_user->setId(2);
@@ -113,7 +119,8 @@ class FakeUserRepository extends FakeOlzRepository {
         return null;
     }
 
-    public function getUsersWithLogin() {
+    /** @return array<User> */
+    public function getUsersWithLogin(): array {
         return [
             FakeUser::adminUser(),
             FakeUser::vorstandUser(),

@@ -15,16 +15,18 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * @coversNothing
  */
 class IntegrationTestCase extends KernelTestCase {
-    private static $is_first_call = true;
-    private static $is_db_locked = false;
+    private static bool $is_first_call = true;
+    private static bool $is_db_locked = false;
 
-    protected static $slowestTests = [];
-    protected static $numSlowestTests = 25;
-    protected static $shutdownFunctionRegistered = false;
+    /** @var array<array{name: string, duration: float}> */
+    protected static array $slowestTests = [];
+    protected static int $numSlowestTests = 25;
+    protected static bool $shutdownFunctionRegistered = false;
 
-    protected $previous_server;
-    protected $setUpAt;
-    protected $fakeLogHandler;
+    /** @var array<string, mixed> */
+    protected array $previous_server;
+    protected float $setUpAt;
+    protected FakeLogHandler $fakeLogHandler;
 
     protected function setUp(): void {
         global $kernel, $_SERVER, $entityManager;
@@ -76,7 +78,7 @@ class IntegrationTestCase extends KernelTestCase {
                 for ($i = 0; $i < self::$numSlowestTests; $i++) {
                     $test = self::$slowestTests[$i];
                     $name = $test['name'];
-                    $duration = number_format($test['duration'] ?? 0, 2);
+                    $duration = number_format($test['duration'], 2);
                     echo "{$name}: {$duration}s\n";
                 }
             });
@@ -84,7 +86,7 @@ class IntegrationTestCase extends KernelTestCase {
         }
     }
 
-    protected function withLockedDb($fn): void {
+    protected function withLockedDb(callable $fn): void {
         $this->lockDb();
         try {
             $fn();
@@ -110,6 +112,7 @@ class IntegrationTestCase extends KernelTestCase {
         $dev_data_utils->resetDbContent();
     }
 
+    /** @return array<string> */
     protected function getLogs(?callable $formatter = null): array {
         return $this->fakeLogHandler->getPrettyRecords($formatter);
     }

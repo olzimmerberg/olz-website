@@ -6,6 +6,7 @@ namespace Olz\Tests\SystemTests\Common;
 
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use PHPUnit\Framework\TestCase;
 
@@ -15,9 +16,9 @@ use PHPUnit\Framework\TestCase;
  * @coversNothing
  */
 class SystemTestCase extends TestCase {
-    private static $browser;
+    private static RemoteWebDriver $browser;
 
-    protected function getBrowser($name = 'firefox') {
+    protected function getBrowser(string $name = 'firefox'): RemoteWebDriver {
         $host = "http://localhost:4444/";
         if ($name == 'firefox') {
             $capabilities = DesiredCapabilities::firefox();
@@ -30,13 +31,14 @@ class SystemTestCase extends TestCase {
         return $this::$browser;
     }
 
-    protected function findBrowserElement($css_selector) {
+    protected function findBrowserElement(string $css_selector): RemoteWebElement {
         return $this::$browser->findElement(
             WebDriverBy::cssSelector($css_selector)
         );
     }
 
-    protected function getHeaders($url) {
+    /** @return array<string, mixed> */
+    protected function getHeaders(string $url): array {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, true);

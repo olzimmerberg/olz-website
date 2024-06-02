@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SyncSolvAssignPeopleCommand;
 use Olz\Entity\SolvResult;
 use Olz\Tests\Fake;
@@ -14,12 +15,15 @@ use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
+/**
+ * @extends FakeOlzRepository<SolvResult>
+ */
 class FakeSyncSolvAssignPeopleCommandSolvResultRepository extends FakeOlzRepository {
-    public $testRunnerResult;
-    public $typoResult;
-    public $differentResult;
+    public SolvResult $testRunnerResult;
+    public SolvResult $typoResult;
+    public SolvResult $differentResult;
 
-    public function __construct($em) {
+    public function __construct(EntityManagerInterface $em) {
         parent::__construct($em);
         $test_runner_result = FakeSolvResult::defaultSolvResult(true);
         $test_runner_result->setId(1);
@@ -37,7 +41,8 @@ class FakeSyncSolvAssignPeopleCommandSolvResultRepository extends FakeOlzReposit
         $this->differentResult = $different_result;
     }
 
-    public function getUnassignedSolvResults() {
+    /** @return array<SolvResult> */
+    public function getUnassignedSolvResults(): array {
         return [
             $this->testRunnerResult,
             $this->typoResult,
@@ -45,7 +50,7 @@ class FakeSyncSolvAssignPeopleCommandSolvResultRepository extends FakeOlzReposit
         ];
     }
 
-    public function getExactPersonId($solv_result) {
+    public function getExactPersonId(SolvResult $solv_result): int {
         switch ($solv_result->getId()) {
             case 1:
                 // `testRunnerResult` exactly matches an existing, assigned result.
@@ -56,7 +61,8 @@ class FakeSyncSolvAssignPeopleCommandSolvResultRepository extends FakeOlzReposit
         }
     }
 
-    public function getAllAssignedSolvResultPersonData() {
+    /** @return array<mixed> */
+    public function getAllAssignedSolvResultPersonData(): array {
         return [
             [
                 'person' => 1,

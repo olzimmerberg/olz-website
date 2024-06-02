@@ -7,7 +7,13 @@ namespace Olz\Tests\Fake\Entity;
 use Olz\Entity\TelegramLink;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
+/**
+ * @extends FakeOlzRepository<TelegramLink>
+ */
 class FakeTelegramLinkRepository extends FakeOlzRepository {
+    public string $olzEntityClass = TelegramLink::class;
+    public string $fakeOlzEntityClass = FakeTelegramLink::class;
+
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         if ($criteria == ['user' => 1]) {
             $redundant_pin_link = new TelegramLink();

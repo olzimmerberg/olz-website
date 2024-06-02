@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake\Entity\Roles;
 
+use Olz\Entity\Roles\Role;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
+/**
+ * @extends FakeOlzRepository<Role>
+ */
 class FakeRoleRepository extends FakeOlzRepository {
-    public $fakeOlzEntityClass = FakeRole::class;
+    public string $olzEntityClass = Role::class;
+    public string $fakeOlzEntityClass = FakeRole::class;
 
-    public $roleToBeFound;
-    public $roleToBeFoundForQuery;
-    public $fakeProcessEmailCommandRole;
+    public ?Role $roleToBeFound = null;
+    public mixed $roleToBeFoundForQuery = null;
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($this->roleToBeFound !== null) {
@@ -56,7 +60,7 @@ class FakeRoleRepository extends FakeOlzRepository {
         return parent::findOneBy($criteria);
     }
 
-    public function findFuzzilyByUsername($username) {
+    public function findFuzzilyByUsername(string $username): ?Role {
         if ($username === 'somerole') {
             return FakeRole::someRole();
         }
@@ -68,7 +72,7 @@ class FakeRoleRepository extends FakeOlzRepository {
         return null;
     }
 
-    public function findFuzzilyByOldUsername($old_username) {
+    public function findFuzzilyByOldUsername(string $old_username): ?Role {
         if ($old_username === 'somerole-old') {
             return FakeRole::someRole();
         }

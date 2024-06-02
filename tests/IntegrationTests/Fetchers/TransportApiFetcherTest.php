@@ -13,7 +13,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @covers \Olz\Fetchers\TransportApiFetcher
  */
 final class TransportApiFetcherTest extends IntegrationTestCase {
-    protected $transportApiFetcher;
+    protected TransportApiFetcher $transportApiFetcher;
 
     public function setUp(): void {
         parent::setUp();

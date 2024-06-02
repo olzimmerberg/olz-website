@@ -284,8 +284,8 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
     }
 
     /**
-     * @param array<string, int> $latest_joining_time_by_station_id
-     * @param array<string, int> $latest_departure_by_station_id
+     * @param array<int|string, int> $latest_joining_time_by_station_id
+     * @param array<int|string, int> $latest_departure_by_station_id
      */
     protected function getJoiningStationFromConnection(
         TransportConnection $connection,
@@ -316,7 +316,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
     }
 
     /**
-     * @param array<string, int> $latest_departure_by_station_id
+     * @param array<int|string, int> $latest_departure_by_station_id
      *
      * @return array{use_this_connection: bool, latest_departure_by_station_id: array<string, int>}
      */
@@ -347,7 +347,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         ];
     }
 
-    /** @param array<string, int> $latest_departure_by_station_id */
+    /** @param array<int|string, int> $latest_departure_by_station_id */
     protected function getNormalizedSuggestion(
         TransportSuggestion $suggestion,
         array $latest_departure_by_station_id,
@@ -384,7 +384,7 @@ class SearchTransportConnectionEndpoint extends OlzEndpoint {
         return $normalized_suggestion;
     }
 
-    /** @param array<string, int> $latest_departure_by_station_id */
+    /** @param array<int|string, int> $latest_departure_by_station_id */
     protected function getNormalizedConnection(
         TransportConnection $connection,
         array $latest_departure_by_station_id,

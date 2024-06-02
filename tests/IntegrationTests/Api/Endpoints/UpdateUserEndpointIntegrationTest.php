@@ -13,11 +13,11 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  * @coversNothing
  */
 class UpdateUserEndpointForIntegrationTest extends UpdateUserEndpoint {
-    public function testOnlyUnlink($path) {
+    public function testOnlyUnlink(string $path): void {
         $this->unlink($path);
     }
 
-    public function testOnlyRename($source_path, $destination_path) {
+    public function testOnlyRename(string $source_path, string $destination_path): void {
         $this->rename($source_path, $destination_path);
     }
 }

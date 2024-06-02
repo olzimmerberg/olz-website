@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake\Entity;
 
+use Olz\Entity\SolvEvent;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
+/**
+ * @extends FakeOlzRepository<SolvEvent>
+ */
 class FakeSolvEventRepository extends FakeOlzRepository {
-    public $fakeOlzEntityClass = FakeSolvEvent::class;
+    public string $olzEntityClass = SolvEvent::class;
+    public string $fakeOlzEntityClass = FakeSolvEvent::class;
 
-    public $eventWithResults;
-    public $eventWithoutResults;
-    public $updatedRankIdBySolvUid = [];
-    public $deletedBySolvUid = [];
+    /** @var array<int, string> */
+    public array $updatedRankIdBySolvUid = [];
+    /** @var array<int> */
+    public array $deletedBySolvUid = [];
 
-    public function getSolvEventsForYear($year) {
+    /** @return array<SolvEvent> */
+    public function getSolvEventsForYear(int|string $year): array {
         switch ($year) {
+            case 2020:
             case '2020':
                 return [
                     FakeSolvEvent::withResults(),
@@ -26,11 +33,11 @@ class FakeSolvEventRepository extends FakeOlzRepository {
         }
     }
 
-    public function setResultForSolvEvent($solv_uid, $rank_id) {
+    public function setResultForSolvEvent(int $solv_uid, string $rank_id): void {
         $this->updatedRankIdBySolvUid[$solv_uid] = $rank_id;
     }
 
-    public function deleteBySolvUid($solv_uid) {
+    public function deleteBySolvUid(int $solv_uid): void {
         $this->deletedBySolvUid[] = $solv_uid;
     }
 }

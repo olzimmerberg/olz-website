@@ -19,8 +19,10 @@ use PhpTypeScriptApi\HttpError;
  * @coversNothing
  */
 class UpdateUserEndpointForTest extends UpdateUserEndpoint {
-    public $unlink_calls = [];
-    public $rename_calls = [];
+    /** @var array<string> */
+    public array $unlink_calls = [];
+    /** @var array<array{0: string, 1: string}> */
+    public array $rename_calls = [];
 
     protected function unlink(string $path): void {
         $this->unlink_calls[] = $path;

@@ -14,27 +14,27 @@ use Olz\Utils\IdUtils;
  * @coversNothing
  */
 class IdUtilsIdUtilsForTest extends IdUtils {
-    public function testOnlySerializeId($internal_id, $type) {
+    public function testOnlySerializeId(int|string $internal_id, string $type): string {
         return $this->serializeId($internal_id, $type);
     }
 
-    public function testOnlyEncryptId($serialized_id) {
+    public function testOnlyEncryptId(string $serialized_id): string {
         return $this->encryptId($serialized_id);
     }
 
-    public function testOnlyDecryptId($encrypted_id) {
+    public function testOnlyDecryptId(string $encrypted_id): string {
         return $this->decryptId($encrypted_id);
     }
 
-    public function testOnlyDeserializeId($serialized_id, $type) {
+    public function testOnlyDeserializeId(string $serialized_id, string $type): int {
         return $this->deserializeId($serialized_id, $type);
     }
 
-    public function testOnlyCrc16($data) {
+    public function testOnlyCrc16(string $data): int {
         return $this->crc16($data);
     }
 
-    public function testOnlyTrimmedBase64Encode($data) {
+    public function testOnlyTrimmedBase64Encode(string $data): string {
         return $this->trimmedBase64Encode($data);
     }
 }

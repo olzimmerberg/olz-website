@@ -38,12 +38,19 @@ $empty_people_api_response = [
 ];
 
 class FakeStravaUtilsStravaFetcher extends StravaFetcher {
-    private $strava_fetcher_response;
+    /** @var array<string, mixed> */
+    private ?array $strava_fetcher_response;
 
-    public function __construct($strava_fetcher_response) {
+    /** @param array<string, mixed> $strava_fetcher_response */
+    public function __construct(?array $strava_fetcher_response) {
         $this->strava_fetcher_response = $strava_fetcher_response;
     }
 
+    /**
+     * @param array<string, mixed> $request_data
+     *
+     * @return ?array<string, mixed>
+     */
     public function fetchTokenDataForCode(array $request_data): ?array {
         return $this->strava_fetcher_response;
     }
@@ -55,9 +62,8 @@ class FakeStravaUtilsStravaFetcher extends StravaFetcher {
  * @covers \Olz\Utils\StravaUtils
  */
 final class StravaUtilsTest extends UnitTestCase {
-    private $stravaUtils;
-
-    protected $fake_strava_fetcher;
+    private StravaUtils $stravaUtils;
+    protected FakeStravaUtilsStravaFetcher $fake_strava_fetcher;
 
     protected function setUp(): void {
         global $sample_strava_fetcher_response;
@@ -136,6 +142,6 @@ final class StravaUtilsTest extends UnitTestCase {
     }
 
     public function testGetUserData(): void {
-        $this->assertSame(['fake-code'], $this->stravaUtils->getUserData(['fake-code']));
+        $this->assertSame(['fake' => 'code'], $this->stravaUtils->getUserData(['fake' => 'code']));
     }
 }

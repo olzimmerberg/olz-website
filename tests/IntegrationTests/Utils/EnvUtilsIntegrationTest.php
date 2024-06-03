@@ -23,6 +23,10 @@ class FakeIntegrationTestEnvUtils extends EnvUtils {
 final class EnvUtilsIntegrationTest extends IntegrationTestCase {
     public function testEnvUtilsFromEnv(): void {
         $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
+        $this->assertSame(
+            realpath(__DIR__.'/../../../../'),
+            $env_utils->getPrivatePath()
+        );
         $this->assertMatchesRegularExpression(
             '/\/tests\/IntegrationTests\/document\-root\/$/',
             $env_utils->getDataPath()
@@ -43,7 +47,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         ];
 
         try {
-            $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
+            FakeIntegrationTestEnvUtils::fromEnv();
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertMatchesRegularExpression(

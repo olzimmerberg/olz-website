@@ -44,6 +44,10 @@ class FakeEnvUtils extends EnvUtils {
         return '/_/';
     }
 
+    public function getPrivatePath(): string {
+        return __DIR__.'/../UnitTests/tmp/private/';
+    }
+
     public function getDataPath(): string {
         if ($this->fake_data_path !== null) {
             return $this->fake_data_path;

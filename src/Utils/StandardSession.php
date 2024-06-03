@@ -2,8 +2,6 @@
 
 namespace Olz\Utils;
 
-// require_once __DIR__.'/../OlzInit.php';
-
 class StandardSession extends AbstractSession {
     use WithUtilsTrait;
 

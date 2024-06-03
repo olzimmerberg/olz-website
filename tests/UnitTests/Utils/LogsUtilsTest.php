@@ -17,8 +17,8 @@ use Olz\Utils\WithUtilsCache;
  */
 final class LogsUtilsTest extends UnitTestCase {
     public function testLogsUtilsGetLogger(): void {
-        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
-        $logs_path = "{$data_path}logs/";
+        $private_path = WithUtilsCache::get('envUtils')->getPrivatePath();
+        $logs_path = "{$private_path}logs/";
         $this->assertFalse(is_dir($logs_path));
         $logs_utils = new LogsUtils();
 
@@ -26,7 +26,7 @@ final class LogsUtilsTest extends UnitTestCase {
         $logger->debug('just for test');
 
         $this->assertSame('test', $logger->getName());
-        $this->assertTrue(is_dir($data_path));
+        $this->assertTrue(is_dir($private_path));
         $this->assertTrue(is_dir($logs_path));
         $this->assertMatchesRegularExpression(
             '/^merged\\-[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}\\.log$/',

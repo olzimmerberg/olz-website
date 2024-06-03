@@ -18,8 +18,8 @@ final class LogsUtilsIntegrationTest extends IntegrationTestCase {
         $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
         $logs_utils = LogsUtils::fromEnv();
         $logs_utils->setEnvUtils($env_utils);
-        $data_path = $env_utils->getDataPath();
-        $logs_path = "{$data_path}logs/";
+        $private_path = $env_utils->getPrivatePath();
+        $logs_path = "{$private_path}logs/";
         if (is_dir($logs_path)) {
             $general_utils = GeneralUtils::fromEnv();
             $general_utils->removeRecursive($logs_path);
@@ -30,7 +30,7 @@ final class LogsUtilsIntegrationTest extends IntegrationTestCase {
         $logger->debug('just for test');
 
         $this->assertSame('test', $logger->getName());
-        $this->assertTrue(is_dir($data_path));
+        $this->assertTrue(is_dir($private_path));
         $this->assertTrue(is_dir($logs_path));
         $this->assertMatchesRegularExpression(
             '/^merged\\-[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}\\.log$/',

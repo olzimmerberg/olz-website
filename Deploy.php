@@ -37,6 +37,7 @@ class Deploy extends AbstractDefaultDeploy {
         $fs->remove(__DIR__.'/node_modules');
         $this->logger->info("Copy to build...");
         $fs->mirror(__DIR__, $build_folder_path);
+        $fs->remove("{$build_folder_path}tests");
 
         $this->logger->info("Done populating build folder.");
     }

@@ -30,18 +30,18 @@ final class GetLogsEndpointTest extends UnitTestCase {
 
         $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
         $num_fake = intval(BaseLogsChannel::$pageSize * 2 / 3);
-        mkdir(__DIR__.'/../../../tmp/logs/');
+        mkdir(__DIR__.'/../../../tmp/private/logs/', 0o777, true);
         $fake_content = [];
         for ($i = 0; $i < $num_fake; $i++) {
             $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') + $i * 600);
             $fake_content[] = "[{$iso_date}] tick 2020-03-12\n";
         }
         file_put_contents(
-            __DIR__.'/../../../tmp/logs/merged-2020-03-12.log',
+            __DIR__.'/../../../tmp/private/logs/merged-2020-03-12.log',
             implode('', $fake_content),
         );
         file_put_contents(
-            __DIR__.'/../../../tmp/logs/merged-2020-03-13.log',
+            __DIR__.'/../../../tmp/private/logs/merged-2020-03-13.log',
             implode('', [
                 "[2020-03-13 12:00:00] tick 2020-03-13\n",
                 "[2020-03-13 14:00:00] OlzEndpoint.WARNING test log entry I\n",
@@ -50,7 +50,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
             ]),
         );
         file_put_contents(
-            __DIR__.'/../../../tmp/logs/merged-2020-03-14.log',
+            __DIR__.'/../../../tmp/private/logs/merged-2020-03-14.log',
             "[2020-03-14 12:00:00] tick 2020-03-14\n",
         );
 
@@ -69,8 +69,8 @@ final class GetLogsEndpointTest extends UnitTestCase {
         $this->assertSame([
             'INFO Valid user request',
             'INFO Logs access by admin.',
-            'DEBUG log_file_before data-path/logs/merged-2020-03-12.log',
-            'DEBUG log_file_after data-path/logs/merged-2020-03-14.log',
+            'DEBUG log_file_before private-path/logs/merged-2020-03-12.log',
+            'DEBUG log_file_after private-path/logs/merged-2020-03-14.log',
             'INFO Valid user response',
         ], $this->getLogs());
         $this->assertSame([
@@ -84,7 +84,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
         ], $result['content']);
         $previous = json_decode($result['pagination']['previous'], true);
         $this->assertMatchesRegularExpression(
-            '/\\\\\/tmp\\\\\/logs\\\\\/merged-2020-03-12\.log/',
+            '/\\\\\/tmp\\\\\/private\\\\\/logs\\\\\/merged-2020-03-12\.log/',
             $previous['logFile'],
         );
         $this->assertSame($num_fake - $num_fake_on_page - 1, $previous['lineNumber']);

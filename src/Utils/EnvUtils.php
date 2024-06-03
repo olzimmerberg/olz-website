@@ -384,7 +384,7 @@ class EnvUtils {
         if ($server_name === '127.0.0.1' || $server_name === 'localhost') {
             return null;
         }
-        return realpath(__DIR__.'/../../../');
+        return realpath(__DIR__.'/../../../../');
     }
 
     public static function getConfigPath(): ?string {

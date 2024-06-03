@@ -2,6 +2,8 @@
 
 namespace Olz;
 
+use Olz\Utils\EnvUtils;
+
 // Ampersand output
 ini_set('arg_separator.output', '&amp;');
 
@@ -18,9 +20,9 @@ date_default_timezone_set('Europe/Zurich');
 if (!headers_sent()) {
     ini_set('session.gc_maxlifetime', 2419200); // keep one month
     ini_set('session.cookie_httponly', 1);
-    $server_name = $_SERVER['SERVER_NAME'] ?? '';
-    if ($server_name != '127.0.0.1' && $server_name != 'localhost') {
-        session_save_path(realpath(__DIR__.'/../../../sessions/'));
+    $private_path = EnvUtils::computePrivatePath();
+    if ($private_path !== null) {
+        session_save_path("{$private_path}sessions/");
         ini_set('session.cookie_secure', 1);
     }
 }

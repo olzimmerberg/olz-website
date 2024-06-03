@@ -2,9 +2,8 @@
 
 namespace Olz\Utils;
 
-// require_once __DIR__.'/../OlzInit.php';
-
 class EnvUtils {
+    private ?string $private_path = null;
     private ?string $data_path = null;
     private ?string $data_href = null;
     private ?string $code_path = null;
@@ -63,6 +62,10 @@ class EnvUtils {
 
     private ?string $app_statistics_username = null;
     private ?string $app_statistics_password = null;
+
+    public function setPrivatePath(?string $private_path): void {
+        $this->private_path = $private_path;
+    }
 
     public function setDataPath(string $data_path): void {
         $this->data_path = $data_path;
@@ -134,6 +137,10 @@ class EnvUtils {
 
         $this->app_statistics_username = $config_dict['app_statistics_username'] ?? $this->app_statistics_username;
         $this->app_statistics_password = $config_dict['app_statistics_password'] ?? $this->app_statistics_password;
+    }
+
+    public function getPrivatePath(): ?string {
+        return $this->private_path;
     }
 
     public function getDataPath(): string {
@@ -323,9 +330,12 @@ class EnvUtils {
 
             $env_utils = new self();
 
-            $data_path = self::computeDataPath();
+            // TODO: Also use the configuration file?
+            $private_path = self::computePrivatePath();
+            $env_utils->setPrivatePath($private_path);
 
             // TODO: Also use the configuration file?
+            $data_path = self::computeDataPath();
             $env_utils->setDataPath($data_path);
             $env_utils->setDataHref('/');
 
@@ -367,8 +377,18 @@ class EnvUtils {
         return "{$local_root}/";
     }
 
-    public static function getConfigPath(): ?string {
+    public static function computePrivatePath(): ?string {
         global $_SERVER;
+
+        $server_name = $_SERVER['SERVER_NAME'] ?? '';
+        if ($server_name === '127.0.0.1' || $server_name === 'localhost') {
+            return null;
+        }
+        return realpath(__DIR__.'/../../../');
+    }
+
+    public static function getConfigPath(): ?string {
+        global $_ENV;
 
         $env = $_ENV['APP_ENV'] ?? getenv('APP_ENV');
         if ($env) {

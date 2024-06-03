@@ -16,6 +16,8 @@ final class EnvUtilsTest extends UnitTestCase {
     public function testConfigure(): void {
         $env_utils = new EnvUtils();
 
+        $env_utils->setPrivatePath('/private/');
+
         $env_utils->setDataPath('//');
         $env_utils->setDataHref('/');
 
@@ -76,6 +78,7 @@ final class EnvUtilsTest extends UnitTestCase {
             'app_statistics_password' => 'qwer',
         ]);
 
+        $this->assertSame('/private/', $env_utils->getPrivatePath());
         $this->assertSame('//', $env_utils->getDataPath());
         $this->assertSame('/', $env_utils->getDataHref());
         $this->assertSame('//_/', $env_utils->getCodePath());
@@ -119,6 +122,18 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('asdf', $env_utils->getAppMonitoringPassword());
         $this->assertSame('fake-user', $env_utils->getAppStatisticsUsername());
         $this->assertSame('qwer', $env_utils->getAppStatisticsPassword());
+    }
+
+    public function testComputePrivatePathDeployed(): void {
+        global $_SERVER;
+        $_SERVER['SERVER_NAME'] = 'fake.url';
+        $this->assertSame(realpath(__DIR__.'/../../../../'), EnvUtils::computePrivatePath());
+    }
+
+    public function testComputePrivatePathLocal(): void {
+        global $_SERVER;
+        $_SERVER['SERVER_NAME'] = '127.0.0.1';
+        $this->assertNull(EnvUtils::computePrivatePath());
     }
 
     public function testComputeDataPathFromDocumentRoot(): void {

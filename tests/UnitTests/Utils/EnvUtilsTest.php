@@ -127,7 +127,7 @@ final class EnvUtilsTest extends UnitTestCase {
     public function testComputePrivatePathDeployed(): void {
         global $_SERVER;
         $_SERVER['SERVER_NAME'] = 'fake.url';
-        $this->assertSame(realpath(__DIR__.'/../../../../../'), EnvUtils::computePrivatePath());
+        $this->assertSame(realpath(__DIR__.'/../../../../../').'/', EnvUtils::computePrivatePath());
     }
 
     public function testComputePrivatePathLocal(): void {

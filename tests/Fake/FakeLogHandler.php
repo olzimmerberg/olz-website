@@ -33,6 +33,7 @@ class FakeLogHandler implements HandlerInterface {
     /** @return array<string> */
     public function getPrettyRecords(?callable $map_fn = null) {
         $env_utils = new FakeEnvUtils();
+        $private_path = $env_utils->getPrivatePath();
         $data_path = $env_utils->getDataPath();
         $data_realpath = realpath($data_path);
         if (!$map_fn) {
@@ -41,15 +42,17 @@ class FakeLogHandler implements HandlerInterface {
             };
         }
         return array_map(
-            function ($record) use ($data_path, $data_realpath, $map_fn) {
+            function ($record) use ($private_path, $data_path, $data_realpath, $map_fn) {
                 $arr = $record->toArray();
                 $level_name = $arr['level_name'];
                 $message = str_replace(
                     [
+                        $private_path,
                         $data_path,
                         $data_realpath,
                     ],
                     [
+                        'private-path/',
                         'data-path/',
                         'data-realpath/',
                     ],

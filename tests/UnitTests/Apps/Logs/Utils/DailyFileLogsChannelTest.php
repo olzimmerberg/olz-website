@@ -25,8 +25,8 @@ class DailyFileLogsChannelForTest extends DailyFileLogsChannel {
     }
 
     protected function getLogFileForDateTime(\DateTime $datetime): PlainLogFile {
-        $data_path = $this->envUtils()->getDataPath();
-        $logs_path = "{$data_path}logs/";
+        $private_path = $this->envUtils()->getPrivatePath();
+        $logs_path = "{$private_path}logs/";
         $formatted = $datetime->format('Y-m-d');
         $file_path = "{$logs_path}{$formatted}.log";
         if (!is_file($file_path)) {
@@ -36,8 +36,8 @@ class DailyFileLogsChannelForTest extends DailyFileLogsChannel {
     }
 
     protected function getDateTimeForFilePath(string $file_path): \DateTime {
-        $data_path = $this->envUtils()->getDataPath();
-        $logs_path = "{$data_path}logs/";
+        $private_path = $this->envUtils()->getPrivatePath();
+        $logs_path = "{$private_path}logs/";
         $esc_logs_path = preg_quote($logs_path, '/');
         $pattern = "/^{$esc_logs_path}(\\d{4}\\-\\d{2}\\-\\d{2})\\.log$/";
         $res = preg_match($pattern, $file_path, $matches);
@@ -67,18 +67,18 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
 
         $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
         $num_fake = intval(BaseLogsChannel::$pageSize * 2 / 3);
-        mkdir(__DIR__.'/../../../tmp/logs/');
+        mkdir(__DIR__.'/../../../tmp/private/logs/');
         $fake_content = [];
         for ($i = 0; $i < $num_fake; $i++) {
             $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') + $i * 600);
             $fake_content[] = "[{$iso_date}] tick 2020-03-12\n";
         }
         file_put_contents(
-            __DIR__.'/../../../tmp/logs/2020-03-12.log',
+            __DIR__.'/../../../tmp/private/logs/2020-03-12.log',
             implode('', $fake_content),
         );
         file_put_contents(
-            __DIR__.'/../../../tmp/logs/2020-03-13.log',
+            __DIR__.'/../../../tmp/private/logs/2020-03-13.log',
             implode('', [
                 "[2020-03-13 12:00:00] tick 2020-03-13\n",
                 "[2020-03-13 14:00:00] OlzEndpoint.WARNING test log entry I\n",
@@ -87,7 +87,7 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             ]),
         );
         file_put_contents(
-            __DIR__.'/../../../tmp/logs/2020-03-14.log',
+            __DIR__.'/../../../tmp/private/logs/2020-03-14.log',
             "[2020-03-14 12:00:00] tick 2020-03-14\n",
         );
 
@@ -102,8 +102,8 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
         ]);
 
         $this->assertSame([
-            'DEBUG log_file_before data-path/logs/2020-03-12.log',
-            'DEBUG log_file_after data-path/logs/2020-03-14.log',
+            'DEBUG log_file_before private-path/logs/2020-03-12.log',
+            'DEBUG log_file_after private-path/logs/2020-03-14.log',
         ], $this->getLogs());
         $this->assertSame([
             ...array_slice($fake_content, $num_fake - $num_fake_on_page, $num_fake_on_page),
@@ -115,7 +115,7 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             "[2020-03-14 12:00:00] tick 2020-03-14\n",
         ], $result->lines);
         $this->assertMatchesRegularExpression(
-            '/\/tmp\/logs\/2020-03-12.log$/',
+            '/\/tmp\/private\/logs\/2020-03-12.log$/',
             $result->previous->logFile->getPath(),
         );
         $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous->lineNumber);

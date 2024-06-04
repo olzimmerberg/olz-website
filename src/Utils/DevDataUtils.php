@@ -331,6 +331,7 @@ class DevDataUtils {
 
     public function addFiles(): void {
         $env_utils = $this->envUtils();
+        $private_path = $env_utils->getPrivatePath();
         $data_path = $env_utils->getDataPath();
 
         $sample_path = __DIR__.'/data/sample-data/';
@@ -624,15 +625,15 @@ class DevDataUtils {
         $this->mkdir("{$data_path}temp");
 
         // Build logs/
-        $this->mkdir("{$data_path}logs");
-        $this->mklog("{$data_path}logs/merged-2020-08-13.log", "2020-08-13");
-        $this->mklog("{$data_path}logs/merged-2020-08-14.log", "2020-08-14");
-        $this->mklog("{$data_path}logs/merged-2020-08-15.log", "2020-08-15");
-        $this->mkdir("{$data_path}logs/server");
-        $this->mklog("{$data_path}logs/server/access_ssl_log", "2020-08-15");
-        $this->mklog("{$data_path}logs/server/access_ssl_log.processed", "2020-08-14");
-        $this->mklog("{$data_path}logs/server/access_ssl_log.processed.1", "2020-08-13");
-        $this->mklog("{$data_path}logs/server/access_ssl_log.processed.2", "2020-08-12");
+        $this->mkdir("{$private_path}logs");
+        $this->mklog("{$private_path}logs/merged-2020-08-13.log", "2020-08-13");
+        $this->mklog("{$private_path}logs/merged-2020-08-14.log", "2020-08-14");
+        $this->mklog("{$private_path}logs/merged-2020-08-15.log", "2020-08-15");
+        $this->mkdir("{$private_path}logs/server");
+        $this->mklog("{$private_path}logs/server/access_ssl_log", "2020-08-15");
+        $this->mklog("{$private_path}logs/server/access_ssl_log.processed", "2020-08-14");
+        $this->mklog("{$private_path}logs/server/access_ssl_log.processed.1", "2020-08-13");
+        $this->mklog("{$private_path}logs/server/access_ssl_log.processed.2", "2020-08-12");
         $this->touchEnqueued(1584118800);
     }
 

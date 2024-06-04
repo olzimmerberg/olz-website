@@ -16,8 +16,8 @@ class MonitorLogsCommand extends OlzCommand {
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
-        $data_path = $this->envUtils()->getDataPath();
-        $logs_path = "{$data_path}logs/";
+        $private_path = $this->envUtils()->getPrivatePath();
+        $logs_path = "{$private_path}logs/";
         if (!is_dir($logs_path)) {
             throw new \Exception("Expected {$logs_path} to be a directory");
         }

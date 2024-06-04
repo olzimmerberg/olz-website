@@ -48,8 +48,10 @@ class UnitTestCase extends TestCase {
         $env_utils = new Fake\FakeEnvUtils();
         $general_utils = new GeneralUtils();
         $data_path = $env_utils->getDataPath();
+        $private_path = $env_utils->getPrivatePath();
         $general_utils->removeRecursive($data_path);
         mkdir($data_path);
+        mkdir($private_path);
 
         FakeEntity::reset();
         $logger = new \Monolog\Logger('Fake');

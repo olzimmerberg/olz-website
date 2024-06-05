@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @coversNothing
  */
 class SystemTestCase extends TestCase {
-    private static RemoteWebDriver $browser;
+    private static ?RemoteWebDriver $browser = null;
 
     protected function getBrowser(string $name = 'firefox'): RemoteWebDriver {
         $host = "http://localhost:4444/";

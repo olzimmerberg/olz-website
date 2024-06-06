@@ -64,12 +64,12 @@ function test_weekly_picture_readonly(RemoteWebDriver $driver, string $base_url)
     $driver->navigate()->refresh();
     $driver->get("{$base_url}{$startseite_url}");
     $weekly_picture_elem = $driver->findElement(
-        WebDriverBy::cssSelector('a[href="/img/weekly_picture//2/img/001.jpg"]')
+        WebDriverBy::cssSelector('a[href="/img/weekly_picture//2/img/C8k84ncvWyVptk6kjtMJxTUu.jpg"]')
     );
     click($weekly_picture_elem);
     $driver->wait()->until(function () use ($driver) {
         $weekly_picture_lightgallery_img = $driver->findElement(
-            WebDriverBy::cssSelector('img[src="/img/weekly_picture//2/img/001.jpg"]')
+            WebDriverBy::cssSelector('img[src="/img/weekly_picture//2/img/C8k84ncvWyVptk6kjtMJxTUu.jpg"]')
         );
         return $weekly_picture_lightgallery_img->getCssValue('opacity') == 1;
     });

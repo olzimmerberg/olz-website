@@ -39,6 +39,19 @@ abstract class OlzEntityEndpoint extends OlzEndpoint {
         }
         $this->uploadUtils()->overwriteUploads($image_ids, "{$entity_img_path}img/");
         // TODO: Generate default thumbnails.
+        /*
+         * Thumnails sollen schon beim Upload, und nicht wie bisher mittels `image_tools` generiert werden!
+         *
+         * z.B.
+         * - `.../img/news/1234/thumb/abcdefghijklmnopqrstuvwx_default.jpg` (default = max. Grösse 128)
+         * - `.../img/news/1234/thumb/abcdefghijklmnopqrstuvwx_160x120.jpg` (möglich für zukünftige Features)
+         * - `.../img/news/1234/thumb/abcdefghijklmnopqrstuvwx_240.jpg` (möglich für zukünftige Features)
+         * - `.../img/news/1234/thumb/9TsaBhb4DvkpIrhJt4kjvhrO_default.jpg`
+         * - `.../img/news/1235/thumb/76ffQmgAiCRv1HOTLdumQJIS_default.jpg`
+         * - `.../img/news/3/thumb/bAKg1ext1rH9_e0h3ky5vN0f_default.jpg`
+         * - `.../img/news/3/thumb/LFm4w-0p1ItH0FVReqS2SU4M_default.jpg`
+         * - etc.
+         */
     }
 
     /** @param ?array<string> $image_ids */

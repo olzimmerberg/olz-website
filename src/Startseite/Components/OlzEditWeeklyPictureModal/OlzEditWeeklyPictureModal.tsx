@@ -44,6 +44,7 @@ function getApiFromForm(formData: OlzEditWeeklyPictureForm): OlzWeeklyPictureDat
 
 interface OlzEditWeeklyPictureModalProps {
     id?: number;
+    meta?: OlzMetaData;
     data?: OlzWeeklyPictureData;
 }
 
@@ -64,7 +65,9 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
             onOff: true,
         };
         const data = getApiFromForm(values);
-        const [err, response] = await olzApi.getResult('createWeeklyPicture', {meta, data});
+        const [err, response] = await (props.id
+            ? olzApi.getResult('updateWeeklyPicture', {id: props.id, meta, data})
+            : olzApi.getResult('createWeeklyPicture', {meta, data}));
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
@@ -138,9 +141,13 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
     );
 };
 
-export function initOlzEditWeeklyPictureModal(id?: number, data?: OlzWeeklyPictureData): boolean {
+export function initOlzEditWeeklyPictureModal(
+    id?: number,
+    meta?: OlzMetaData,
+    data?: OlzWeeklyPictureData,
+): boolean {
     initReact('edit-entity-react-root', (
-        <OlzEditWeeklyPictureModal id={id} data={data} />
+        <OlzEditWeeklyPictureModal id={id} meta={meta} data={data} />
     ));
     window.setTimeout(() => {
         const modal = document.getElementById('edit-weekly-picture-modal');

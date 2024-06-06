@@ -22,9 +22,9 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         $has_access = $this->authUtils()->hasPermission('weekly_picture');
         $code_href = $this->envUtils()->getCodeHref();
 
-        $mgmt_html = '';
+        $add_new_html = '';
         if ($has_access) {
-            $mgmt_html .= <<<ZZZZZZZZZZ
+            $add_new_html .= <<<ZZZZZZZZZZ
                 <a
                     href='#'
                     id='create-weekly-picture-button'
@@ -52,16 +52,36 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
             $id = $weekly_picture->getId();
             $image_id = $weekly_picture->getImageId();
 
+            $edit_html = '';
+            if ($has_access) {
+                $enc_id = json_encode($id);
+                $edit_html .= <<<ZZZZZZZZZZ
+                    <a
+                        href='#'
+                        id='edit-weekly-picture-{$id}-button'
+                        class='header-link'
+                        onclick='return olz.editWeeklyPicture({$enc_id})'
+                    >
+                        <img
+                            src='{$code_href}assets/icns/edit_white_16.svg'
+                            alt='E'
+                            class='header-link-icon'
+                            title='Bild der Woche bearbeiten'
+                        />
+                    </a>
+                    ZZZZZZZZZZ;
+            }
+
             $active_class = $index === 0 ? ' active' : '';
             $carousel_inner .= "<div class='carousel-item{$active_class}'>";
             $carousel_inner .= $this->imageUtils()->olzImage('weekly_picture', $id, $image_id, 512, 'image');
-            $carousel_inner .= "<div class='weekly-picture-tile-text'>".$text."</div>";
+            $carousel_inner .= "<div class='weekly-picture-tile-text'>{$text} {$edit_html}</div>";
             $carousel_inner .= "</div>";
             $index++;
         }
 
         $out .= <<<ZZZZZZZZZZ
-            <h2 class='weekly-picture-h2'>Bild der Woche {$mgmt_html}</h2>
+            <h2 class='weekly-picture-h2'>Bild der Woche {$add_new_html}</h2>
             <div
                 id='weekly-picture-carousel'
                 class='carousel slide'

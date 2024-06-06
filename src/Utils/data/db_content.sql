@@ -488,7 +488,7 @@ VALUES
 INSERT INTO weekly_picture
     (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `datum`, `image_id`, `text`, `on_off`, `created_at`, `last_modified_at`)
 VALUES
-    ('1', NULL, NULL, NULL, NULL, '2020-01-01', '001.jpg', 'Neujahrs-Impression vom Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17'),
-    ('2', NULL, NULL, NULL, NULL, '2020-01-02', '001.jpg', 'Berchtoldstag im Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17');
+    ('1', NULL, NULL, NULL, NULL, '2020-01-01', 'ed48ksmyjVgRsaKXUXmmcbRN.jpg', 'Neujahrs-Impression vom Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17'),
+    ('2', NULL, NULL, NULL, NULL, '2020-01-02', 'C8k84ncvWyVptk6kjtMJxTUu.jpg', 'Berchtoldstag im Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17');
 
 COMMIT;

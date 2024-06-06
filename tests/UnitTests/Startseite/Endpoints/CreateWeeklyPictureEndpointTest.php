@@ -36,6 +36,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
                 'data' => [
                     'text' => 'Test Titel',
                     'imageId' => 'invalid.jpg',
+                    'publishedDate' => null,
                 ],
             ]);
             $this->fail('Error expected');
@@ -67,6 +68,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             'data' => [
                 'text' => 'Test Titel',
                 'imageId' => 'uploaded_image.jpg',
+                'publishedDate' => null,
             ],
         ]);
 
@@ -122,6 +124,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
                 'data' => [
                     'text' => 'Test Titel',
                     'imageId' => 'invalid.jpg',
+                    'publishedDate' => null,
                 ],
             ]);
             $this->fail('Error expected');

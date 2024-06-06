@@ -33,6 +33,7 @@ final class WeeklyPictureEndpointTraitTest extends UnitTestCase {
         sort($keys);
         $this->assertSame([
             'imageId',
+            'publishedDate',
             'text',
         ], $keys);
     }

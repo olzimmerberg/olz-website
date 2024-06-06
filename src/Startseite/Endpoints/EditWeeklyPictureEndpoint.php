@@ -1,15 +1,15 @@
 <?php
 
-namespace Olz\News\Endpoints;
+namespace Olz\Startseite\Endpoints;
 
 use Olz\Api\OlzEditEntityEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class EditNewsEndpoint extends OlzEditEntityEndpoint {
-    use NewsEndpointTrait;
+class EditWeeklyPictureEndpoint extends OlzEditEntityEndpoint {
+    use WeeklyPictureEndpointTrait;
 
     public static function getIdent(): string {
-        return 'EditNewsEndpoint';
+        return 'EditWeeklyPictureEndpoint';
     }
 
     protected function handle(mixed $input): mixed {
@@ -17,7 +17,7 @@ class EditNewsEndpoint extends OlzEditEntityEndpoint {
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'news')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'weekly_picture')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

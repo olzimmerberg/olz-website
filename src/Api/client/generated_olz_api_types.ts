@@ -163,7 +163,14 @@ export type OlzSnippetDataOrNull = {
 export type OlzWeeklyPictureData = {
     'text': string,
     'imageId': string,
+    'publishedDate': string|null,
 };
+
+export type OlzWeeklyPictureDataOrNull = {
+    'text': string,
+    'imageId': string,
+    'publishedDate': string|null,
+}|null;
 
 export type OlzTerminData = {
     'startDate': string,
@@ -404,6 +411,10 @@ export type OlzApiEndpoint =
     'editSnippet'|
     'updateSnippet'|
     'createWeeklyPicture'|
+    'getWeeklyPicture'|
+    'editWeeklyPicture'|
+    'updateWeeklyPicture'|
+    'deleteWeeklyPicture'|
     'createTermin'|
     'getTermin'|
     'editTermin'|
@@ -688,6 +699,20 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     createWeeklyPicture: {
             'meta': OlzMetaData,
             'data': OlzWeeklyPictureData,
+        },
+    getWeeklyPicture: {
+            'id': number,
+        },
+    editWeeklyPicture: {
+            'id': number,
+        },
+    updateWeeklyPicture: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzWeeklyPictureDataOrNull,
+        },
+    deleteWeeklyPicture: {
+            'id': number,
         },
     createTermin: {
             'meta': OlzMetaData,
@@ -1057,6 +1082,23 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     createWeeklyPicture: {
             'status': 'OK'|'ERROR',
             'id': number|null,
+        },
+    getWeeklyPicture: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzWeeklyPictureData,
+        },
+    editWeeklyPicture: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzWeeklyPictureData,
+        },
+    updateWeeklyPicture: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteWeeklyPicture: {
+            'status': 'OK'|'ERROR',
         },
     createTermin: {
             'status': 'OK'|'ERROR',

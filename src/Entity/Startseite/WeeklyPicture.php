@@ -3,13 +3,17 @@
 namespace Olz\Entity\Startseite;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\DataStorageInterface;
+use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Startseite\WeeklyPictureRepository;
 
 #[ORM\Table(name: 'weekly_picture')]
 #[ORM\Index(name: 'datum_index', columns: ['datum'])]
 #[ORM\Entity(repositoryClass: WeeklyPictureRepository::class)]
-class WeeklyPicture extends OlzEntity {
+class WeeklyPicture extends OlzEntity implements DataStorageInterface {
+    use DataStorageTrait;
+
     #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTime $datum;
 
@@ -56,5 +60,15 @@ class WeeklyPicture extends OlzEntity {
 
     public function setImageId(?string $new_image_id): void {
         $this->image_id = $new_image_id;
+    }
+
+    // ---
+
+    public static function getEntityNameForStorage(): string {
+        return 'weekly_picture';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
     }
 }

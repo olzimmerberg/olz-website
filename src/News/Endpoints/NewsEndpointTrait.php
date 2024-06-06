@@ -142,11 +142,11 @@ trait NewsEndpointTrait {
 
     protected function getEntityById(int $id): NewsEntry {
         $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
-        $news_entry = $news_repo->findOneBy(['id' => $id]);
-        if (!$news_entry) {
+        $entity = $news_repo->findOneBy(['id' => $id]);
+        if (!$entity) {
             throw new HttpError(404, "Nicht gefunden.");
         }
-        return $news_entry;
+        return $entity;
     }
 
     // ---

@@ -20,41 +20,50 @@ trait WeeklyPictureEndpointTrait {
             'field_structure' => [
                 'text' => new FieldTypes\StringField(['allow_empty' => true]),
                 'imageId' => new FieldTypes\StringField([]),
+                'publishedDate' => new FieldTypes\DateField(['allow_null' => true]),
             ],
             'allow_null' => $allow_null,
         ]);
     }
 
-    // TODO: Implement once needed
     /** @return array<string, mixed> */
     public function getEntityData(WeeklyPicture $entity): array {
-        return [];
+        return [
+            'text' => $entity->getText() ?? '',
+            'imageId' => $entity->getImageId() ? $entity->getImageId() : '-',
+            'publishedDate' => $entity->getPublishedDate()?->format('Y-m-d'),
+        ];
     }
 
     /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(WeeklyPicture $entity, array $input_data): void {
-        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $iso_now = $this->dateUtils()->getIsoNow();
+        $published_date = new \DateTime($input_data['publishedDate'] ?? $iso_now);
+
         $valid_image_id = $this->uploadUtils()->getValidUploadId($input_data['imageId']);
         if ($valid_image_id === null) {
             throw new HttpError(400, "Kein gültiges Bild!");
         }
 
-        $entity->setPublishedDate($now);
+        $entity->setPublishedDate($published_date);
         $entity->setText($input_data['text']);
         $entity->setImageId($valid_image_id);
     }
 
     public function persistUploads(WeeklyPicture $entity): void {
-        $data_path = $this->envUtils()->getDataPath();
+        $this->persistOlzImages($entity, [$entity->getImageId()]);
+    }
 
-        $weekly_picture_id = $entity->getId();
-        $valid_image_id = $entity->getImageId();
+    public function editUploads(WeeklyPicture $entity): void {
+        $this->editOlzImages($entity, [$entity->getImageId()]);
+    }
 
-        $weekly_picture_img_path = "{$data_path}img/weekly_picture/{$weekly_picture_id}/";
-        mkdir("{$weekly_picture_img_path}img/", 0o777, true);
-        mkdir("{$weekly_picture_img_path}thumb/", 0o777, true);
-        $valid_image_ids = [$valid_image_id];
-        $this->uploadUtils()->overwriteUploads($valid_image_ids, "{$weekly_picture_img_path}img/");
-        // TODO: Generate default thumbnails.
+    protected function getEntityById(int $id): WeeklyPicture {
+        $news_repo = $this->entityManager()->getRepository(WeeklyPicture::class);
+        $entity = $news_repo->findOneBy(['id' => $id]);
+        if (!$entity) {
+            throw new HttpError(404, "Nicht gefunden.");
+        }
+        return $entity;
     }
 }

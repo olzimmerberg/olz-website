@@ -36,6 +36,7 @@ function getApiFromForm(formData: OlzEditWeeklyPictureForm): OlzWeeklyPictureDat
     return {
         text: formData.text,
         imageId: formData.imageId ?? '',
+        publishedDate: null,
     };
 }
 

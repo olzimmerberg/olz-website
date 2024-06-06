@@ -15,17 +15,17 @@ class CreateWeeklyPictureEndpoint extends OlzCreateEntityEndpoint {
     protected function handle(mixed $input): mixed {
         $this->checkPermission('weekly_picture');
 
-        $weekly_picture = new WeeklyPicture();
-        $this->entityUtils()->createOlzEntity($weekly_picture, $input['meta']);
-        $this->updateEntityWithData($weekly_picture, $input['data']);
+        $entity = new WeeklyPicture();
+        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($weekly_picture);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
-        $this->persistUploads($weekly_picture);
+        $this->persistUploads($entity);
 
         return [
             'status' => 'OK',
-            'id' => $weekly_picture->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

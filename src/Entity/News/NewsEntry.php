@@ -221,6 +221,8 @@ class NewsEntry extends OlzEntity implements DataStorageInterface {
         $this->newsletter = $new_value;
     }
 
+    // ---
+
     public static function getEntityNameForStorage(): string {
         return 'news';
     }

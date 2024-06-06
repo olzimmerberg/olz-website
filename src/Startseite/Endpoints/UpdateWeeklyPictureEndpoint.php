@@ -1,15 +1,15 @@
 <?php
 
-namespace Olz\News\Endpoints;
+namespace Olz\Startseite\Endpoints;
 
 use Olz\Api\OlzUpdateEntityEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
-    use NewsEndpointTrait;
+class UpdateWeeklyPictureEndpoint extends OlzUpdateEntityEndpoint {
+    use WeeklyPictureEndpointTrait;
 
     public static function getIdent(): string {
-        return 'UpdateNewsEndpoint';
+        return 'UpdateWeeklyPictureEndpoint';
     }
 
     protected function handle(mixed $input): mixed {
@@ -17,7 +17,7 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'news')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'weekly_picture')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
@@ -26,7 +26,7 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
 
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
-        $this->persistUploads($entity, $input['data']);
+        $this->persistUploads($entity);
 
         return [
             'status' => 'OK',

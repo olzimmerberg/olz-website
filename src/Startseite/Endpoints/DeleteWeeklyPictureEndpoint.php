@@ -1,15 +1,15 @@
 <?php
 
-namespace Olz\News\Endpoints;
+namespace Olz\Startseite\Endpoints;
 
 use Olz\Api\OlzDeleteEntityEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
-    use NewsEndpointTrait;
+class DeleteWeeklyPictureEndpoint extends OlzDeleteEntityEndpoint {
+    use WeeklyPictureEndpointTrait;
 
     public static function getIdent(): string {
-        return 'DeleteNewsEndpoint';
+        return 'DeleteWeeklyPictureEndpoint';
     }
 
     protected function handle(mixed $input): mixed {
@@ -17,7 +17,7 @@ class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'news')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'weekly_picture')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

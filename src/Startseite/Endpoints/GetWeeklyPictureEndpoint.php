@@ -1,14 +1,14 @@
 <?php
 
-namespace Olz\News\Endpoints;
+namespace Olz\Startseite\Endpoints;
 
 use Olz\Api\OlzGetEntityEndpoint;
 
-class GetNewsEndpoint extends OlzGetEntityEndpoint {
-    use NewsEndpointTrait;
+class GetWeeklyPictureEndpoint extends OlzGetEntityEndpoint {
+    use WeeklyPictureEndpointTrait;
 
     public static function getIdent(): string {
-        return 'GetNewsEndpoint';
+        return 'GetWeeklyPictureEndpoint';
     }
 
     protected function handle(mixed $input): mixed {

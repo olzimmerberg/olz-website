@@ -37,6 +37,7 @@ use Olz\Entity\Service\Download;
 use Olz\Entity\Service\Link;
 use Olz\Entity\Snippets\Snippet;
 use Olz\Entity\SolvEvent;
+use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\Termine\Termin;
@@ -65,6 +66,7 @@ use Olz\Tests\Fake\Entity\Roles\FakeRoleRepository;
 use Olz\Tests\Fake\Entity\Service\FakeDownloadRepository;
 use Olz\Tests\Fake\Entity\Service\FakeLinkRepository;
 use Olz\Tests\Fake\Entity\Snippets\FakeSnippetRepository;
+use Olz\Tests\Fake\Entity\Startseite\FakeWeeklyPictureRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminLabelRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminLocationRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
@@ -111,6 +113,7 @@ class FakeEntityManager implements EntityManagerInterface {
             TerminTemplate::class => new FakeTerminTemplateRepository($this),
             Throttling::class => new FakeThrottlingRepository($this),
             User::class => new FakeUserRepository($this),
+            WeeklyPicture::class => new FakeWeeklyPictureRepository($this),
         ];
     }
 

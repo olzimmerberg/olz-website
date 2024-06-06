@@ -63,6 +63,10 @@ class OlzApi extends Api {
         \Olz\Service\Endpoints\UpdateLinkEndpoint $updateLinkEndpoint,
         \Olz\Service\Endpoints\DeleteLinkEndpoint $deleteLinkEndpoint,
         \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint $createWeeklyPictureEndpoint,
+        \Olz\Startseite\Endpoints\GetWeeklyPictureEndpoint $getWeeklyPictureEndpoint,
+        \Olz\Startseite\Endpoints\EditWeeklyPictureEndpoint $editWeeklyPictureEndpoint,
+        \Olz\Startseite\Endpoints\UpdateWeeklyPictureEndpoint $updateWeeklyPictureEndpoint,
+        \Olz\Startseite\Endpoints\DeleteWeeklyPictureEndpoint $deleteWeeklyPictureEndpoint,
         \Olz\Termine\Endpoints\CreateTerminEndpoint $createTerminEndpoint,
         \Olz\Termine\Endpoints\GetTerminEndpoint $getTerminEndpoint,
         \Olz\Termine\Endpoints\EditTerminEndpoint $editTerminEndpoint,
@@ -160,6 +164,10 @@ class OlzApi extends Api {
         // Startseite
 
         $this->registerEndpoint('createWeeklyPicture', $createWeeklyPictureEndpoint);
+        $this->registerEndpoint('getWeeklyPicture', $getWeeklyPictureEndpoint);
+        $this->registerEndpoint('editWeeklyPicture', $editWeeklyPictureEndpoint);
+        $this->registerEndpoint('updateWeeklyPicture', $updateWeeklyPictureEndpoint);
+        $this->registerEndpoint('deleteWeeklyPicture', $deleteWeeklyPictureEndpoint);
 
         // Termine
 
@@ -263,6 +271,10 @@ class OlzApi extends Api {
             new \Olz\Service\Endpoints\UpdateLinkEndpoint(),
             new \Olz\Service\Endpoints\DeleteLinkEndpoint(),
             new \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint(),
+            new \Olz\Startseite\Endpoints\GetWeeklyPictureEndpoint(),
+            new \Olz\Startseite\Endpoints\EditWeeklyPictureEndpoint(),
+            new \Olz\Startseite\Endpoints\UpdateWeeklyPictureEndpoint(),
+            new \Olz\Startseite\Endpoints\DeleteWeeklyPictureEndpoint(),
             new \Olz\Termine\Endpoints\CreateTerminEndpoint(),
             new \Olz\Termine\Endpoints\GetTerminEndpoint(),
             new \Olz\Termine\Endpoints\EditTerminEndpoint(),

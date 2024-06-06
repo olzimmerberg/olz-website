@@ -15,6 +15,8 @@ final class DnsTest extends SystemTestCase {
     public static string $dnsHostname = "olzimmerberg.ch";
 
     public function testHasGoogleSiteVerificationRecord(): void {
+        $this->onlyRunInModes('meta');
+
         $records = dns_get_record("{$this::$dnsHostname}", DNS_TXT);
         $has_google_site_verification = false;
         foreach ($records as $record) {

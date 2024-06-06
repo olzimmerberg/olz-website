@@ -69,13 +69,13 @@ if [ "$NO_BUILD" = "0" ]; then
     export NODE_OPTIONS="--max-old-space-size=4096"
     npm run webpack-build
 else
-    sleep 15
+    sleep 15 # wait until DB reset is finished
 fi
 
 # Run dev server
 APP_ENV=dev symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
 DEVSERVER_PID=$!
-sleep 1
+sleep 3
 
 # Run test, allow aborting
 set +e

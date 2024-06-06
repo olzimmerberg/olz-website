@@ -5,3 +5,4 @@
 - Reset password
 - Verify email
 - Update user (and re-verify email)
+- Email forwarding

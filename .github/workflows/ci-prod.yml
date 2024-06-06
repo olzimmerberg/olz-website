@@ -102,6 +102,10 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
+    - name: Install symfony-cli
+      # https://symfony.com/download
+      run: |
+        curl -sS https://get.symfony.com/cli/installer | bash; mv /home/runner/.symfony5/bin/symfony /usr/local/bin/symfony
     - name: Get PHP (composer) cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -152,6 +156,11 @@ jobs:
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
       run: composer integration_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
+    # - name: PHP System Tests (dev)
+    #   env:
+    #     DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+    #     MOZ_HEADLESS: 1
+    #   run: composer system_tests -- --dev_rw
     - name: Check database migrations
       run: composer check_migrations
     - name: Setup GitHub Pages

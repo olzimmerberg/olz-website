@@ -19,6 +19,7 @@ class RobotsController extends AbstractController {
     ): Response {
         $out = <<<'ZZZZZZZZZZ'
             User-agent: *
+            Disallow: /apps/
             Disallow: /downloads/
             Disallow: /files/
             Disallow: /img/

@@ -13,7 +13,6 @@ class OlzRolePage extends OlzComponent {
     public function getHtml(array $args = []): string {
         $this->httpUtils()->validateGetParams([]);
         $is_member = $this->authUtils()->hasPermission('member');
-        $user = $this->authUtils()->getCurrentUser();
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
         $role_repo = $entityManager->getRepository(Role::class);
@@ -41,6 +40,8 @@ class OlzRolePage extends OlzComponent {
         $role_name = $role->getName();
         $role_title = $role->getTitle() ?? $role->getName();
         $role_description = $role->getDescription();
+        $parent_role_id = $role->getParentRoleId();
+        $parent_role = $role_repo->findOneBy(['id' => $parent_role_id]);
 
         $parent_chain = [];
         $parent = $role;
@@ -76,28 +77,36 @@ class OlzRolePage extends OlzComponent {
 
         $edit_admin = '';
         $add_membership_admin = '';
+        $is_parent_superior = $this->authUtils()->hasRoleEditPermission($parent_role_id);
+        $is_parent_owner = $parent_role && $this->entityUtils()->canUpdateOlzEntity($parent_role, null, 'roles');
+        $can_parent_edit = $is_parent_superior || $is_parent_owner;
         $is_superior = $this->authUtils()->hasRoleEditPermission($role_id);
         $is_owner = $this->entityUtils()->canUpdateOlzEntity($role, null, 'roles');
-        if ($is_superior || $is_owner) {
+        $can_edit = $is_superior || $is_owner;
+        if ($can_edit) {
             $json_id = json_encode(intval($role_id));
+            $json_can_parent_edit = json_encode(boolval($can_parent_edit));
+            $delete_role_button = $can_parent_edit ? <<<ZZZZZZZZZZ
+                <button
+                    id='delete-role-button'
+                    class='btn btn-danger'
+                    onclick='return olz.deleteRole({$json_id})'
+                >
+                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                    Löschen
+                </button>
+                ZZZZZZZZZZ : '';
             $edit_admin = <<<ZZZZZZZZZZ
                 <div>
                     <button
                         id='edit-role-button'
                         class='btn btn-primary'
-                        onclick='return olz.editRole({$json_id})'
+                        onclick='return olz.editRole({$json_id}, {$json_can_parent_edit})'
                     >
                         <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
-                    <button
-                        id='delete-role-button'
-                        class='btn btn-danger'
-                        onclick='return olz.deleteRole({$json_id})'
-                    >
-                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                        Löschen
-                    </button>
+                    {$delete_role_button}
                 </div>
                 ZZZZZZZZZZ;
             $add_membership_admin = <<<ZZZZZZZZZZ

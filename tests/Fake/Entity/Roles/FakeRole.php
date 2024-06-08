@@ -88,6 +88,7 @@ class FakeRole extends FakeEntity {
                 $entity->setId(2);
                 $entity->setUsername('admin_role');
                 $entity->setName('Administrator');
+                $entity->setTitle(null);
                 $entity->setPermissions('all');
                 $entity->setParentRoleId(null);
                 return $entity;
@@ -107,8 +108,14 @@ class FakeRole extends FakeEntity {
                 $entity->setId(3);
                 $entity->setUsername('vorstand_role');
                 $entity->setName('Vorstand');
+                $entity->setTitle(null);
+                $entity->setDescription("Description {$entity->getName()}");
+                $entity->setGuide("Guide {$entity->getName()}");
                 $entity->setPermissions('aktuell ftp vorstand_role');
                 $entity->setParentRoleId(null);
+                $entity->setIndexWithinParent(0);
+                $entity->setFeaturedIndex(null);
+                $entity->setCanHaveChildRoles(true);
                 return $entity;
             },
             function ($entity) {
@@ -124,10 +131,16 @@ class FakeRole extends FakeEntity {
                 $entity = new Role();
                 FakeOlzEntity::minimal($entity);
                 $entity->setId(intval(str_repeat('3', $degree + 1)));
-                $entity->setUsername(str_repeat('sub_', $degree + 1).'vorstand_role');
-                $entity->setName(str_repeat('Sub-', $degree + 1).'Vorstand');
-                $entity->setPermissions(str_repeat('sub_', $degree + 1).'vorstand_role ftp');
+                $entity->setUsername(str_repeat('sub_', $degree).'vorstand_role');
+                $entity->setName(str_repeat('Sub-', $degree).'Vorstand');
+                $entity->setTitle(null);
+                $entity->setDescription("Description {$entity->getName()}");
+                $entity->setGuide("Guide {$entity->getName()}");
+                $entity->setPermissions(str_repeat('sub_', $degree).'vorstand_role ftp');
                 $entity->setParentRoleId(intval(str_repeat('3', $degree)));
+                $entity->setIndexWithinParent(0);
+                $entity->setFeaturedIndex(null);
+                $entity->setCanHaveChildRoles(true);
                 return $entity;
             }
         );
@@ -142,6 +155,7 @@ class FakeRole extends FakeEntity {
                 $entity->setId(1);
                 $entity->setUsername('role');
                 $entity->setName('Default');
+                $entity->setTitle(null);
                 $entity->setPermissions('');
                 $entity->setParentRoleId(null);
                 return $entity;

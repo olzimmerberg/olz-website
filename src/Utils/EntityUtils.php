@@ -65,9 +65,9 @@ class EntityUtils {
         $entity->setLastModifiedByUser($current_user);
     }
 
-    /** @param array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int} $meta_arg */
+    /** @param ?array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int} $meta_arg */
     public function canUpdateOlzEntity(
-        OlzEntity $entity,
+        ?OlzEntity $entity,
         ?array $meta_arg,
         string $edit_permission = 'all',
     ): bool {
@@ -79,12 +79,12 @@ class EntityUtils {
             return true;
         }
 
-        $owner_user = $entity->getOwnerUser();
+        $owner_user = $entity?->getOwnerUser();
         if ($owner_user && $current_user->getId() === $owner_user->getId()) {
             return true;
         }
 
-        $created_by_user = $entity->getCreatedByUser();
+        $created_by_user = $entity?->getCreatedByUser();
         if ($created_by_user && $current_user->getId() === $created_by_user->getId()) {
             return true;
         }

@@ -70,6 +70,7 @@ function getApiFromForm(formData: OlzEditRoleForm): OlzRoleData {
 // ---
 
 interface OlzEditRoleModalProps {
+    canParentRoleEdit: boolean;
     id?: number;
     meta?: OlzMetaData;
     data?: OlzRoleData;
@@ -187,6 +188,9 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                     setIsLoading={setIsFilesLoading}
                                 />
                             </div>
+                            {!props.canParentRoleEdit && (<div className='row'>
+                                <b>Die folgenden Felder können nur von Verantwortlichen für übergeordnete Rollen verändert werden:</b>
+                            </div>)}
                             <div className='row'>
                                 <div className='col mb-3'>
                                     <OlzEntityField
@@ -195,6 +199,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                         name='parentRole'
                                         errors={errors}
                                         control={control}
+                                        disabled={!props.canParentRoleEdit}
                                         setIsLoading={setIsParentRolesLoading}
                                         nullLabel={'Kein Eltern-Ressort (d.h. Vorstandsamt)'}
                                     />
@@ -204,6 +209,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                         type='checkbox'
                                         value='yes'
                                         {...register('canHaveChildRoles')}
+                                        disabled={!props.canParentRoleEdit}
                                         id='canHaveChildRoles-input'
                                     />
                                     <label htmlFor='canHaveChildRoles-input'>
@@ -218,6 +224,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                         name='indexWithinParent'
                                         errors={errors}
                                         register={register}
+                                        disabled={!props.canParentRoleEdit}
                                     />
                                 </div>
                                 <div className='col mb-3'>
@@ -226,6 +233,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                                         name='featuredIndex'
                                         errors={errors}
                                         register={register}
+                                        disabled={!props.canParentRoleEdit}
                                     />
                                 </div>
                             </div>
@@ -261,12 +269,14 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
 };
 
 export function initOlzEditRoleModal(
+    canParentRoleEdit: boolean,
     id?: number,
     meta?: OlzMetaData,
     data?: OlzRoleData,
 ): boolean {
     initReact('edit-entity-react-root', (
         <OlzEditRoleModal
+            canParentRoleEdit={canParentRoleEdit}
             id={id}
             meta={meta}
             data={data}

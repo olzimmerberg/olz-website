@@ -59,15 +59,20 @@ trait RoleEndpointTrait {
 
     /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Role $entity, array $input_data): void {
+        $this->updateEntityWithNonParentData($entity, $input_data);
+        $entity->setParentRoleId($input_data['parentRole'] ?? null);
+        $entity->setIndexWithinParent($input_data['indexWithinParent'] ?? null);
+        $entity->setFeaturedIndex($input_data['featuredIndex']);
+        $entity->setCanHaveChildRoles($input_data['canHaveChildRoles']);
+    }
+
+    /** @param array<string, mixed> $input_data */
+    public function updateEntityWithNonParentData(Role $entity, array $input_data): void {
         $entity->setUsername($input_data['username']);
         $entity->setName($input_data['name']);
         $entity->setTitle($input_data['title']);
         $entity->setDescription($input_data['description']);
         $entity->setGuide($input_data['guide']);
-        $entity->setParentRoleId($input_data['parentRole'] ?? null);
-        $entity->setIndexWithinParent($input_data['indexWithinParent'] ?? null);
-        $entity->setFeaturedIndex($input_data['featuredIndex']);
-        $entity->setCanHaveChildRoles($input_data['canHaveChildRoles']);
     }
 
     /** @param array<string, mixed> $input_data */

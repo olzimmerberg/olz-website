@@ -34,9 +34,10 @@ class FakeEntityUtils extends EntityUtils {
         ];
     }
 
+    /** @param ?array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int} $meta_arg */
     public function canUpdateOlzEntity(
-        OlzEntity $entity,
-        $meta_arg,
+        ?OlzEntity $entity,
+        ?array $meta_arg,
         string $edit_permission = 'all',
     ): bool {
         if ($this->can_update_olz_entity === null) {

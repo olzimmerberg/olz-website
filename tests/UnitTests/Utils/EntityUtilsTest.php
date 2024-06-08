@@ -77,12 +77,8 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity_utils = new EntityUtils();
         $entity = new OlzEntity();
 
-        $result = $entity_utils->canUpdateOlzEntity(
-            $entity,
-            []
-        );
-
-        $this->assertTrue($result);
+        $this->assertTrue($entity_utils->canUpdateOlzEntity($entity, []));
+        $this->assertTrue($entity_utils->canUpdateOlzEntity(null, []));
     }
 
     public function testCanUpdateOlzEntityEditPermission(): void {
@@ -90,13 +86,16 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity_utils = new EntityUtils();
         $entity = new OlzEntity();
 
-        $result = $entity_utils->canUpdateOlzEntity(
+        $this->assertTrue($entity_utils->canUpdateOlzEntity(
             $entity,
             [],
             'edit_permission'
-        );
-
-        $this->assertTrue($result);
+        ));
+        $this->assertTrue($entity_utils->canUpdateOlzEntity(
+            null,
+            [],
+            'edit_permission'
+        ));
     }
 
     public function testCanUpdateOlzEntityIsOwner(): void {

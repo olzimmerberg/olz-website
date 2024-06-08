@@ -104,6 +104,125 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         }
     }
 
+    public function testUpdateRoleEndpointParentRoleAccess(): void {
+        $id = FakeRole::subVorstandRole(false, 2)->getId();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
+        WithUtilsCache::get('authUtils')->authenticated_roles = [FakeRole::subVorstandRole(false, 1)];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
+        $endpoint = new UpdateRoleEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            ...$this->getValidInput(),
+            'id' => $id,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "NOTICE OLD:",
+            "NOTICE NEW:",
+            "INFO Valid user response",
+        ], $this->getLogs());
+
+        $this->assertSame([
+            'status' => 'OK',
+            'id' => $id,
+        ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame($id, $entity->getId());
+        $this->assertSame('test', $entity->getUsername());
+        $this->assertSame('sub_sub_vorstand_role', $entity->getOldUsername());
+        $this->assertSame('Test Role', $entity->getName());
+        $this->assertSame('Title Test Role', $entity->getTitle());
+        $this->assertSame('Description Test Role', $entity->getDescription());
+        $this->assertSame('Just do it!', $entity->getGuide());
+        $this->assertSame(FakeRole::vorstandRole()->getId(), $entity->getParentRoleId());
+        $this->assertSame(2, $entity->getIndexWithinParent());
+        $this->assertSame(6, $entity->getFeaturedIndex());
+        $this->assertTrue($entity->getCanHaveChildRoles());
+        $this->assertSame(1, $entity->getOnOff());
+
+        $this->assertSame([
+            [$entity, 1, 1, 1],
+        ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
+
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/roles/{$id}/img/",
+            ],
+            [
+                ['uploaded_file1.pdf', 'uploaded_file2.txt'],
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/roles/{$id}/",
+            ],
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+    }
+
+    public function testUpdateRoleEndpointRoleAccess(): void {
+        $id = FakeRole::subVorstandRole(false, 2)->getId();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
+        WithUtilsCache::get('authUtils')->authenticated_roles = [FakeRole::subVorstandRole(false, 2)];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
+        $endpoint = new UpdateRoleEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            ...$this->getValidInput(),
+            'id' => $id,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "NOTICE OLD:",
+            "NOTICE NEW:",
+            "INFO Valid user response",
+        ], $this->getLogs());
+
+        $this->assertSame([
+            'status' => 'OK',
+            'id' => $id,
+        ], $result);
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame($id, $entity->getId());
+        $this->assertSame('test', $entity->getUsername());
+        $this->assertSame('sub_sub_vorstand_role', $entity->getOldUsername());
+        $this->assertSame('Test Role', $entity->getName());
+        $this->assertSame('Title Test Role', $entity->getTitle());
+        $this->assertSame('Description Test Role', $entity->getDescription());
+        $this->assertSame('Just do it!', $entity->getGuide());
+        // not updated:
+        $this->assertSame(FakeRole::subVorstandRole(false, 1)->getId(), $entity->getParentRoleId());
+        // not updated:
+        $this->assertSame(0, $entity->getIndexWithinParent());
+        // not updated:
+        $this->assertNull($entity->getFeaturedIndex());
+        // not updated:
+        $this->assertTrue($entity->getCanHaveChildRoles());
+
+        $this->assertSame([
+            [$entity, 1, 1, 1],
+        ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
+
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/roles/{$id}/img/",
+            ],
+            [
+                ['uploaded_file1.pdf', 'uploaded_file2.txt'],
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/roles/{$id}/",
+            ],
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+    }
+
     public function testUpdateRoleEndpoint(): void {
         $id = FakeOlzRepository::MAXIMAL_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => true];

@@ -7,10 +7,11 @@ import './OlzRolePage.scss';
 
 export function editRole(
     roleId: number,
+    canParentRoleEdit: boolean,
 ): boolean {
     olzApi.call('editRole', {id: roleId})
         .then((response) => {
-            initOlzEditRoleModal(response.id, response.meta, response.data);
+            initOlzEditRoleModal(canParentRoleEdit, response.id, response.meta, response.data);
         });
     return false;
 }

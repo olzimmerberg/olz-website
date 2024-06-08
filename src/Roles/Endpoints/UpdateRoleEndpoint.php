@@ -54,7 +54,16 @@ class UpdateRoleEndpoint extends OlzUpdateEntityEndpoint {
         if ($is_username_updated) {
             $entity->setOldUsername($entity->getUsername());
         }
-        $this->updateEntityWithData($entity, $input['data']);
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $parent_role_id = $entity->getParentRoleId();
+        $parent_role = $role_repo->findOneBy(['id' => $parent_role_id]);
+        $is_parent_superior = $this->authUtils()->hasRoleEditPermission($parent_role_id);
+        $is_parent_owner = $parent_role && $this->entityUtils()->canUpdateOlzEntity($parent_role, null, 'roles');
+        if ($is_parent_superior || $is_parent_owner) {
+            $this->updateEntityWithData($entity, $input['data']);
+        } else {
+            $this->updateEntityWithNonParentData($entity, $input['data']);
+        }
 
         // TODO Do this more elegantly?
         $new_data = $this->getEntityData($entity);

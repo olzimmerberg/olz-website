@@ -42,6 +42,7 @@ class OlzRolePage extends OlzComponent {
         $role_description = $role->getDescription();
         $parent_role_id = $role->getParentRoleId();
         $parent_role = $role_repo->findOneBy(['id' => $parent_role_id]);
+        $can_have_child_roles = $role->getCanHaveChildRoles();
 
         $parent_chain = [];
         $parent = $role;
@@ -77,6 +78,7 @@ class OlzRolePage extends OlzComponent {
 
         $edit_admin = '';
         $add_membership_admin = '';
+        $add_child_role_admin = '';
         $is_parent_superior = $this->authUtils()->hasRoleEditPermission($parent_role_id);
         $is_parent_owner = $parent_role && $this->entityUtils()->canUpdateOlzEntity($parent_role, null, 'roles');
         $can_parent_edit = $is_parent_superior || $is_parent_owner;
@@ -117,10 +119,24 @@ class OlzRolePage extends OlzComponent {
                         onclick='return olz.addRoleUser({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                        Hinzufügen
+                        Neuer Verantwortlicher
                     </button>
                 </div>
                 ZZZZZZZZZZ;
+            if ($can_have_child_roles) {
+                $add_child_role_admin = <<<ZZZZZZZZZZ
+                    <div>
+                        <button
+                            id='add-role-user-button'
+                            class='btn btn-primary'
+                            onclick='return olz.addChildRole({$json_id})'
+                        >
+                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            Neues Unter-Ressort
+                        </button>
+                    </div>
+                    ZZZZZZZZZZ;
+            }
         }
 
         $page = $role->getPage();
@@ -176,6 +192,7 @@ class OlzRolePage extends OlzComponent {
                 $child_role_username = $child_role->getUsername();
                 $out .= "<p><a href='{$code_href}verein/{$child_role_username}' class='linkint'><b>{$child_role_name}</b></a></p>";
             }
+            $out .= $add_child_role_admin;
         }
 
         if ($is_member) {

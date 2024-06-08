@@ -35,7 +35,7 @@ const resolver: Resolver<OlzEditRoleForm> = async (values) => {
     return getResolverResult(errors, values);
 };
 
-function getFormFromApi(apiData?: OlzRoleData): OlzEditRoleForm {
+function getFormFromApi(apiData?: Partial<OlzRoleData>): OlzEditRoleForm {
     return {
         username: getFormString(apiData?.username),
         name: getFormString(apiData?.name),
@@ -73,7 +73,7 @@ interface OlzEditRoleModalProps {
     canParentRoleEdit: boolean;
     id?: number;
     meta?: OlzMetaData;
-    data?: OlzRoleData;
+    data?: Partial<OlzRoleData>;
 }
 
 export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactElement => {
@@ -272,7 +272,7 @@ export function initOlzEditRoleModal(
     canParentRoleEdit: boolean,
     id?: number,
     meta?: OlzMetaData,
-    data?: OlzRoleData,
+    data?: Partial<OlzRoleData>,
 ): boolean {
     initReact('edit-entity-react-root', (
         <OlzEditRoleModal

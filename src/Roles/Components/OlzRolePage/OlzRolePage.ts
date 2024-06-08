@@ -46,3 +46,8 @@ export function deleteRoleUser(roleId: number, userId: number): boolean {
     });
     return false;
 }
+
+export function addChildRole(roleId: number): boolean {
+    initOlzEditRoleModal(true, undefined, undefined, {parentRole: roleId});
+    return false;
+}

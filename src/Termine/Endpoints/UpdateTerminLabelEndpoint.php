@@ -17,7 +17,7 @@ class UpdateTerminLabelEndpoint extends OlzUpdateEntityEndpoint {
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'termine')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'termine_admin')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

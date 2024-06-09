@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\News\Endpoints\UpdateNewsEndpoint;
 use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\News\FakeNews;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
@@ -99,6 +100,10 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
             ], $this->getLogs());
+            $this->assertSame(
+                [],
+                WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls
+            );
             $this->assertSame(404, $err->getCode());
         }
     }
@@ -140,6 +145,9 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+            $this->assertSame([
+                [FakeNews::empty(), null, null, null, ['ownerUserId' => 1, 'ownerRoleId' => 1, 'onOff' => true], 'news'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -192,6 +200,9 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => 123,
         ], $result);
+        $this->assertSame([
+            [FakeNews::empty(), null, null, null, ['ownerUserId' => 1, 'ownerRoleId' => 1, 'onOff' => true], 'news'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
@@ -269,6 +280,9 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => 123,
         ], $result);
+        $this->assertSame([
+            [FakeNews::empty(), null, null, null, ['ownerUserId' => 1, 'ownerRoleId' => 1, 'onOff' => true], 'news'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);

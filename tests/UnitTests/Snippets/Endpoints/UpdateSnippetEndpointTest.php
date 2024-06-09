@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Snippets\Endpoints;
 
 use Olz\Snippets\Endpoints\UpdateSnippetEndpoint;
+use Olz\Tests\Fake\Entity\Snippets\FakeSnippet;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -82,12 +83,17 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => $id,
         ], $result);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(2, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $snippet = $entity_manager->persisted[0];
         $this->assertSame($id, $snippet->getId());
         $this->assertSame('Updated text', $snippet->getText());
+
+        $this->assertSame([
+            [$snippet, null, null, null, ['ownerUserId' => 1, 'ownerRoleId' => 1, 'onOff' => true], 'snippet_9999'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
         $this->assertSame([
             [$snippet, 1, 1, 1],
@@ -133,6 +139,11 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => $id,
         ], $result);
+
+        $this->assertSame([
+            [FakeSnippet::empty(), null, null, null, ['ownerUserId' => 1, 'ownerRoleId' => 1, 'onOff' => true], 'snippet_123'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);

@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
 use Olz\Roles\Endpoints\EditRoleEndpoint;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
+use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -37,6 +38,11 @@ final class EditRoleEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeRole::minimal(), null, null, null, null, 'roles'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -76,6 +82,11 @@ final class EditRoleEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeRole::minimal(), null, null, null, null, 'roles'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -103,6 +114,11 @@ final class EditRoleEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeRole::minimal(), null, null, null, null, 'roles'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => $id,
             'meta' => [
@@ -149,6 +165,11 @@ final class EditRoleEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeRole::empty(), null, null, null, null, 'roles'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => $id,
             'meta' => [
@@ -200,6 +221,11 @@ final class EditRoleEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeRole::maximal(), 'default', 'default', 'role', null, 'roles'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => $id,
             'meta' => [

@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Snippets\Endpoints;
 use Olz\Snippets\Endpoints\EditSnippetEndpoint;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Snippets\FakeSnippet;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -58,6 +59,7 @@ final class EditSnippetEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
         $this->assertSame([
             'id' => $id,
             'meta' => [
@@ -78,6 +80,10 @@ final class EditSnippetEndpointTest extends UnitTestCase {
         $snippet = $entity_manager->persisted[0];
         $this->assertSame($id, $snippet->getId());
         $this->assertSame('', $snippet->getText());
+
+        $this->assertSame([
+            [$snippet, 'default', 'default', null, null, 'snippet_9999'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
         $this->assertSame([
             [$snippet, 1, 1, null],
@@ -101,6 +107,11 @@ final class EditSnippetEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeSnippet::minimal(), null, null, null, null, 'snippet_12'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => $id,
             'meta' => [
@@ -131,6 +142,11 @@ final class EditSnippetEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeSnippet::empty(), null, null, null, null, 'snippet_123'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => $id,
             'meta' => [
@@ -175,6 +191,11 @@ final class EditSnippetEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeSnippet::maximal(), 'default', 'default', 'role', null, 'snippet_1234'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => $id,
             'meta' => [

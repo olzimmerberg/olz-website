@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Karten\Endpoints;
 
 use Olz\Karten\Endpoints\EditKarteEndpoint;
+use Olz\Tests\Fake\Entity\Karten\FakeKarte;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -74,6 +75,9 @@ final class EditKarteEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+            $this->assertSame([
+                [FakeKarte::empty(), null, null, null, null, 'karten'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -93,6 +97,9 @@ final class EditKarteEndpointTest extends UnitTestCase {
             "WARNING Upload ID \"\" is invalid.",
             "INFO Valid user response",
         ], $this->getLogs());
+        $this->assertSame([
+            [FakeKarte::minimal(), null, null, null, null, 'karten'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
         $this->assertSame([
             'id' => 12,
             'meta' => [
@@ -130,6 +137,9 @@ final class EditKarteEndpointTest extends UnitTestCase {
             "WARNING Upload ID \"\" is invalid.",
             "INFO Valid user response",
         ], $this->getLogs());
+        $this->assertSame([
+            [FakeKarte::empty(), null, null, null, null, 'karten'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
         $this->assertSame([
             'id' => 123,
             'meta' => [
@@ -173,6 +183,9 @@ final class EditKarteEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+        $this->assertSame([
+            [FakeKarte::maximal(), 'default', 'default', 'role', null, 'karten'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
         $this->assertSame([
             'id' => 1234,
             'meta' => [

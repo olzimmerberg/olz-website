@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Service\Endpoints;
 
 use Olz\Service\Endpoints\UpdateLinkEndpoint;
+use Olz\Tests\Fake\Entity\Service\FakeLink;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -75,6 +76,12 @@ final class UpdateLinkEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
             ], $this->getLogs());
+
+            $this->assertSame(
+                [],
+                WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls,
+            );
+
             $this->assertSame(404, $err->getCode());
         }
     }
@@ -105,6 +112,11 @@ final class UpdateLinkEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeLink::empty(), null, null, null, ['ownerUserId' => 1, 'ownerRoleId' => 1, 'onOff' => true], 'links'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -138,6 +150,11 @@ final class UpdateLinkEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => 123,
         ], $result);
+
+        $this->assertSame([
+            [FakeLink::empty(), null, null, null, ['ownerUserId' => 1, 'ownerRoleId' => 1, 'onOff' => true], 'links'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);

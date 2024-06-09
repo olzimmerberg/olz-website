@@ -61,6 +61,11 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeRole::maximal(), 'default', 'default', 'role', null, 'roles'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -82,6 +87,12 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
             ], $this->getLogs());
+
+            $this->assertSame(
+                [],
+                WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls,
+            );
+
             $this->assertSame(404, $err->getCode());
         }
     }
@@ -100,6 +111,11 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeRole::maximal(), 'default', 'default', 'role', null, 'roles'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -128,6 +144,12 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => $id,
         ], $result);
+
+        $this->assertSame([
+            [FakeRole::subVorstandRole(false, 2), null, null, null, null, 'roles'],
+            [FakeRole::subVorstandRole(false, 1), null, null, null, null, 'roles'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
@@ -186,6 +208,12 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => $id,
         ], $result);
+
+        $this->assertSame([
+            [FakeRole::subVorstandRole(false, 2), null, null, null, null, 'roles'],
+            [FakeRole::subVorstandRole(false, 1), null, null, null, null, 'roles'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
@@ -253,6 +281,12 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
             'status' => 'OK',
             'id' => $id,
         ], $result);
+
+        $this->assertSame([
+            [FakeRole::maximal(), 'default', 'default', 'role', null, 'roles'],
+            [FakeRole::vorstandRole(), null, null, null, null, 'roles'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);

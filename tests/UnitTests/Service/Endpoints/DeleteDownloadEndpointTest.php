@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Service\Endpoints;
 
 use Olz\Service\Endpoints\DeleteDownloadEndpoint;
+use Olz\Tests\Fake\Entity\Service\FakeDownload;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -55,6 +56,11 @@ final class DeleteDownloadEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeDownload::empty(), null, null, null, null, 'downloads'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -77,6 +83,11 @@ final class DeleteDownloadEndpointTest extends UnitTestCase {
         $this->assertSame([
             'status' => 'OK',
         ], $result);
+
+        $this->assertSame([
+            [FakeDownload::empty(), null, null, null, null, 'downloads'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
@@ -103,6 +114,12 @@ final class DeleteDownloadEndpointTest extends UnitTestCase {
                 "WARNING HTTP error 404",
             ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
+
+            $this->assertSame(
+                [],
+                WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls
+            );
+
             $entity_manager = WithUtilsCache::get('entityManager');
             $this->assertCount(0, $entity_manager->removed);
             $this->assertCount(0, $entity_manager->flushed_removed);

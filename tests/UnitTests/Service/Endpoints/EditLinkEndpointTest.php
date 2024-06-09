@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Service\Endpoints;
 
 use Olz\Service\Endpoints\EditLinkEndpoint;
+use Olz\Tests\Fake\Entity\Service\FakeLink;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -74,6 +75,11 @@ final class EditLinkEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeLink::empty(), null, null, null, null, 'links'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -92,6 +98,11 @@ final class EditLinkEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeLink::minimal(), null, null, null, null, 'links'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => 12,
             'meta' => [
@@ -121,6 +132,11 @@ final class EditLinkEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeLink::empty(), null, null, null, null, 'links'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => 123,
             'meta' => [
@@ -150,6 +166,11 @@ final class EditLinkEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeLink::maximal(), 'default', 'default', 'role', null, 'links'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => 1234,
             'meta' => [

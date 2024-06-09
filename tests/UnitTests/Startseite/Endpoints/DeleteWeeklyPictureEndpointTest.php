@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Startseite\Endpoints;
 
 use Olz\Startseite\Endpoints\DeleteWeeklyPictureEndpoint;
+use Olz\Tests\Fake\Entity\Startseite\FakeWeeklyPicture;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -55,6 +56,11 @@ final class DeleteWeeklyPictureEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeWeeklyPicture::empty(), null, null, null, null, 'weekly_picture'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -77,6 +83,11 @@ final class DeleteWeeklyPictureEndpointTest extends UnitTestCase {
         $this->assertSame([
             'status' => 'OK',
         ], $result);
+
+        $this->assertSame([
+            [FakeWeeklyPicture::empty(), null, null, null, null, 'weekly_picture'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
@@ -102,6 +113,12 @@ final class DeleteWeeklyPictureEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
             ], $this->getLogs());
+
+            $this->assertSame(
+                [],
+                WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls
+            );
+
             $this->assertSame(404, $err->getCode());
             $entity_manager = WithUtilsCache::get('entityManager');
             $this->assertCount(0, $entity_manager->removed);

@@ -13,6 +13,8 @@ class FakeEntityUtils extends EntityUtils {
     /** @var array<array{0: OlzEntity, 1: int, 2: ?int, 3: ?int}> */
     public array $update_olz_entity_calls = [];
     public ?bool $can_update_olz_entity = null;
+    /** @var array<array{0: OlzEntity, 1: ?string, 2: ?string, 3: ?string, 4: ?array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int}, 5: string}> */
+    public array $can_update_olz_entity_calls = [];
 
     public function createOlzEntity(OlzEntity $entity, array $input): void {
         parent::createOlzEntity($entity, $input);
@@ -43,6 +45,14 @@ class FakeEntityUtils extends EntityUtils {
         if ($this->can_update_olz_entity === null) {
             throw new \Exception("FakeEntityUtils::canUpdateOlzEntity not mocked");
         }
+        $this->can_update_olz_entity_calls[] = [
+            $entity,
+            $entity?->getOwnerUser()?->getUsername(),
+            $entity?->getCreatedByUser()?->getUsername(),
+            $entity?->getOwnerRole()?->getUsername(),
+            $meta_arg,
+            $edit_permission,
+        ];
         return $this->can_update_olz_entity;
     }
 }

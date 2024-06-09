@@ -47,6 +47,11 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeRole::adminRole(), null, null, null, null, 'roles'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -71,6 +76,12 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
             ], $this->getLogs());
+
+            $this->assertSame(
+                [],
+                WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls,
+            );
+
             $this->assertSame(404, $err->getCode());
         }
     }
@@ -95,6 +106,12 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 404",
             ], $this->getLogs());
+
+            $this->assertSame(
+                [],
+                WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls,
+            );
+
             $this->assertSame(404, $err->getCode());
         }
     }
@@ -119,6 +136,11 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame(['status' => 'OK'], $result);
+
+        $this->assertSame([
+            [FakeRole::adminRole(), null, null, null, null, 'roles'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(2, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
@@ -154,6 +176,11 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame(['status' => 'OK'], $result);
+
+        $this->assertSame([
+            [FakeRole::adminRole(), null, null, null, null, 'roles'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(2, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);

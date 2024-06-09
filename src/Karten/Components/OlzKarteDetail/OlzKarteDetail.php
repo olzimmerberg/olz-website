@@ -65,8 +65,8 @@ class OlzKarteDetail extends OlzComponent {
 
         // Editing Tools
         $is_owner = $user && intval($karte->getOwnerUser()?->getId() ?? 0) === intval($user->getId());
-        $has_termine_permissions = $this->authUtils()->hasPermission('termine');
-        $can_edit = $is_owner || $has_termine_permissions;
+        $has_karten_permissions = $this->authUtils()->hasPermission('karten');
+        $can_edit = $is_owner || $has_karten_permissions;
         if ($can_edit) {
             $json_id = json_encode(intval($id));
             $out .= <<<ZZZZZZZZZZ

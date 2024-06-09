@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\News\Endpoints\EditNewsEndpoint;
+use Olz\Tests\Fake\Entity\News\FakeNews;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -74,6 +75,9 @@ final class EditNewsEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+            $this->assertSame([
+                [FakeNews::empty(), null, null, null, null, 'news'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -92,6 +96,9 @@ final class EditNewsEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+        $this->assertSame([
+            [FakeNews::minimal(), null, null, null, null, 'news'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
         $this->assertSame([
             'id' => 12,
             'meta' => [
@@ -132,6 +139,9 @@ final class EditNewsEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+        $this->assertSame([
+            [FakeNews::empty(), null, null, null, null, 'news'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
         $this->assertSame([
             'id' => 123,
             'meta' => [
@@ -185,6 +195,9 @@ final class EditNewsEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+        $this->assertSame([
+            [FakeNews::maximal(), 'default', 'default', 'role', null, 'news'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
         $this->assertSame([
             'id' => 1234,
             'meta' => [

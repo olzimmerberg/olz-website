@@ -39,7 +39,7 @@ final class CreateTerminLabelEndpointTest extends UnitTestCase {
     }
 
     public function testCreateTerminLabelEndpointNoAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine_admin' => false];
         $endpoint = new CreateTerminLabelEndpoint();
         $endpoint->runtimeSetup();
 
@@ -56,7 +56,7 @@ final class CreateTerminLabelEndpointTest extends UnitTestCase {
     }
 
     public function testCreateTerminLabelEndpoint(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine_admin' => true];
         $endpoint = new CreateTerminLabelEndpoint();
         $endpoint->runtimeSetup();
 

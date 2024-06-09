@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Startseite\Endpoints;
 
 use Olz\Startseite\Endpoints\EditWeeklyPictureEndpoint;
+use Olz\Tests\Fake\Entity\Startseite\FakeWeeklyPicture;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -74,6 +75,11 @@ final class EditWeeklyPictureEndpointTest extends UnitTestCase {
                 "INFO Valid user request",
                 "WARNING HTTP error 403",
             ], $this->getLogs());
+
+            $this->assertSame([
+                [FakeWeeklyPicture::empty(), null, null, null, null, 'weekly_picture'],
+            ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
             $this->assertSame(403, $err->getCode());
         }
     }
@@ -93,6 +99,11 @@ final class EditWeeklyPictureEndpointTest extends UnitTestCase {
             "WARNING Upload ID \"\" is invalid.",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeWeeklyPicture::minimal(), null, null, null, null, 'weekly_picture'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => 12,
             'meta' => [
@@ -123,6 +134,11 @@ final class EditWeeklyPictureEndpointTest extends UnitTestCase {
             "WARNING Upload ID \"\" is invalid.",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeWeeklyPicture::empty(), null, null, null, null, 'weekly_picture'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => 123,
             'meta' => [
@@ -159,6 +175,11 @@ final class EditWeeklyPictureEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeWeeklyPicture::maximal(), 'default', 'default', 'role', null, 'weekly_picture'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => 1234,
             'meta' => [

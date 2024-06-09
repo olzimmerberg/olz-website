@@ -17,7 +17,7 @@ class DeleteTerminTemplateEndpoint extends OlzDeleteEntityEndpoint {
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'termine')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'termine_admin')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

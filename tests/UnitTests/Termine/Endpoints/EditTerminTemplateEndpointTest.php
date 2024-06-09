@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Termine\Endpoints\EditTerminTemplateEndpoint;
+use Olz\Tests\Fake\Entity\Termine\FakeTerminTemplate;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -72,6 +73,11 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeTerminTemplate::minimal(), null, null, null, null, 'termine_admin'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => 12,
             'meta' => [
@@ -109,6 +115,11 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeTerminTemplate::empty(), null, null, null, null, 'termine_admin'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => 123,
             'meta' => [
@@ -159,6 +170,11 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeTerminTemplate::maximal(), 'default', 'default', 'role', null, 'termine_admin'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
         $this->assertSame([
             'id' => 1234,
             'meta' => [

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240525162538
+-- MIGRATION: DoctrineMigrations\Version20240610194821
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -313,7 +313,7 @@ CREATE TABLE `news` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `notification_subscriptions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `delivery_type` varchar(255) NOT NULL,
   `notification_type` varchar(255) NOT NULL,
   `notification_type_args` longtext DEFAULT NULL,
@@ -644,7 +644,7 @@ CREATE TABLE `solv_results` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `strava_links` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `access_token` longtext NOT NULL,
   `expires_at` datetime NOT NULL,
   `refresh_token` longtext NOT NULL,
@@ -665,7 +665,7 @@ CREATE TABLE `telegram_links` (
   `telegram_chat_id` varchar(255) DEFAULT NULL,
   `telegram_user_id` varchar(255) DEFAULT NULL,
   `telegram_chat_state` longtext NOT NULL,
-  `created_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `linked_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `pin_index` (`pin`),

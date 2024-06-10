@@ -49,7 +49,7 @@ class OlzKarten extends OlzComponent {
         $karten_json = json_encode($karten_data);
 
         $out .= <<<ZZZZZZZZZZ
-            <div id='olz-karten-map test-flaky'></div>
+            <div id='olz-karten-map' class='test-flaky'></div>
             <script>olz.olzKartenMapRender({$karten_json});</script>
             <br>
             ZZZZZZZZZZ;

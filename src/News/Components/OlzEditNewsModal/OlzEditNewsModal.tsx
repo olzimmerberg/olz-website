@@ -3,6 +3,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../Api/client/generated_olz_api_types';
+import {OlzMarkdownField} from '../../../Components/Common/OlzMarkdownField/OlzMarkdownField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzAuthenticatedUserRoleField} from '../../../Components/Common/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
@@ -427,12 +428,11 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                             ) : null}
                             {config.hasContent ? (
                                 <div className='mb-3'>
-                                    <OlzTextField
-                                        mode='textarea'
+                                    <OlzMarkdownField
                                         title={config.contentLabel}
                                         name='content'
+                                        control={control}
                                         errors={errors}
-                                        register={register}
                                     />
                                     {config.hasFormattingNotes ? FORMATTING_NOTES_FOR_USERS : ''}
                                 </div>

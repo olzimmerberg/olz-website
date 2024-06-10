@@ -1,7 +1,9 @@
 import React from 'react';
 import {FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister} from 'react-hook-form';
 
-type OlzTextFieldMode = 'text-input'|'password-input'|'textarea';
+import 'easymde/dist/easymde.min.css';
+
+type OlzTextFieldMode = 'text-input'|'password-input'|'textarea'|'markdown';
 
 interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values>> {
     mode?: OlzTextFieldMode;

@@ -40,8 +40,9 @@ class OlzTerminLocationsList extends OlzComponent {
 
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         $termin_locations = $termin_location_repo->findAll();
-        $locations_data = array_map(function (TerminLocation $termin_location) {
+        $locations_data = array_map(function (TerminLocation $termin_location) use ($code_href) {
             return [
+                'url' => "{$code_href}termine/orte/{$termin_location->getId()}",
                 'name' => $termin_location->getName(),
                 'lat' => $termin_location->getLatitude(),
                 'lng' => $termin_location->getLongitude(),

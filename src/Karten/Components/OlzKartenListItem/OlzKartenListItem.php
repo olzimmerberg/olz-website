@@ -54,23 +54,25 @@ class OlzKartenListItem extends OlzComponent {
         if ($scale === '') {
             $scale = "&nbsp;";
         }
-        if ($karte->getCenterX() > 0) {
-            $out .= <<<ZZZZZZZZZZ
-                <tr class='olz-karten-list-item'>
-                    <td>{$edit_admin}<a href='#{$name}' onclick='goto({$karte->getCenterX()},{$karte->getCenterY()},{$karte->getZoom()},&quot;{$name}&quot;);return false' class='linkmap' itemprop='name'>{$name}</a>{$map}</td>
-                    <td>{$scale}</td>
-                    <td>{$karte->getYear()}</td>
-                </tr>
-                ZZZZZZZZZZ;
-        } else {
-            $out .= <<<ZZZZZZZZZZ
-                <tr class='olz-karten-list-item'>
-                    <td>{$edit_admin}<span class='linkmap' itemprop='name'>{$name}</span></td>
-                    <td>{$scale}</td>
-                    <td>{$karte->getYear()}</td>
-                </tr>
-                ZZZZZZZZZZ;
-        }
+        $json_id = json_encode($karte->getId());
+        $out .= <<<ZZZZZZZZZZ
+            <tr class='olz-karten-list-item'>
+                <td>
+                    {$edit_admin}
+                    <a
+                        href='{$code_href}karten/{$karte->getId()}'
+                        onmouseenter='return olz.kartenLinkEnter({$json_id})'
+                        onmouseleave='return olz.kartenLinkLeave({$json_id})'
+                        class='linkmap'
+                    >
+                        {$name}
+                    </a>
+                    {$map}
+                </td>
+                <td>{$scale}</td>
+                <td>{$karte->getYear()}</td>
+            </tr>
+            ZZZZZZZZZZ;
 
         return $out;
     }

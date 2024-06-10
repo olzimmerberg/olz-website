@@ -15,44 +15,54 @@ import Stroke from 'ol/style/Stroke';
 import TextStyle from 'ol/style/Text';
 
 import 'ol/ol.css';
-import './OlzTerminLocationsList.scss';
+import './OlzKarten.scss';
 
-interface TerminListLocation {
+interface KartenList {
+    id: number
     url: string;
     name: string;
     lat: number;
     lng: number;
 }
 
-export function olzTerminLocationsMapRender(
-    olzTerminLocationsList: TerminListLocation[],
-): void {
-    const highlightOverlay = new VectorLayer({
-        source: new VectorSource(),
-        style: (feature, scale) => new Style({
-            image: new CircleStyle({
-                radius: 20 - Math.log(scale),
-                stroke: new Stroke({
-                    color: [200, 0, 50, 0.75],
-                    width: 5 - Math.log(scale) / 5,
-                }),
-                fill: new Fill({color: [0, 0, 0, 0.0]}),
+let features: Feature[] = [];
+const highlightOverlay = new VectorLayer({
+    source: new VectorSource(),
+    style: (feature, scale) => new Style({
+        image: new CircleStyle({
+            radius: 20 - Math.log(scale),
+            stroke: new Stroke({
+                color: [200, 0, 50, 0.75],
+                width: 5 - Math.log(scale) / 5,
             }),
-            text: new TextStyle({
-                textAlign: 'center',
-                textBaseline: 'middle',
-                font: 'Open Sans, sans-serif',
-                text: feature.get('label'),
-                fill: new Fill({color: [200, 0, 50, 1]}),
-                stroke: new Stroke({color: [255, 255, 255, 1], width: 2.5}),
-                offsetX: 0,
-                offsetY: 32 - Math.log(scale),
-                scale: 1.75 - Math.log(scale) / 10,
-            }),
+            fill: new Fill({color: [0, 0, 0, 0.0]}),
         }),
-    });
-    const map = new Map({
-        target: 'olz-termin-locations-map',
+        text: new TextStyle({
+            textAlign: 'center',
+            textBaseline: 'middle',
+            font: 'Open Sans, sans-serif',
+            text: feature.get('label'),
+            fill: new Fill({color: [200, 0, 50, 1]}),
+            stroke: new Stroke({color: [255, 255, 255, 1], width: 2.5}),
+            offsetX: 0,
+            offsetY: 32 - Math.log(scale),
+            scale: 1.75 - Math.log(scale) / 10,
+        }),
+    }),
+});
+let map: Map|null = null;
+
+export function olzKartenMapRender(
+    olzKartenList: KartenList[],
+): void {
+    features = olzKartenList.map((location) => new Feature({
+        geometry: new Point(transform([location.lng, location.lat], 'EPSG:4326', 'EPSG:3857')),
+        label: location.name,
+        url: location.url,
+        id: location.id,
+    }));
+    map = new Map({
+        target: 'olz-karten-map',
         layers: [
             new TileLayer({
                 source: new XYZ({
@@ -61,13 +71,7 @@ export function olzTerminLocationsMapRender(
                 }),
             }),
             new VectorLayer({
-                source: new VectorSource({
-                    features: olzTerminLocationsList.map((location) => new Feature({
-                        geometry: new Point(transform([location.lng, location.lat], 'EPSG:4326', 'EPSG:3857')),
-                        label: location.name,
-                        url: location.url,
-                    })),
-                }),
+                source: new VectorSource({features}),
                 style: (feature, scale) => new Style({
                     image: new CircleStyle({
                         radius: 20 - Math.log(scale),
@@ -100,14 +104,14 @@ export function olzTerminLocationsMapRender(
     });
     let highlightedFeature: FeatureLike|null = null;
     map.on('pointermove', (evt) => {
-        if (evt.dragging) {
+        if (!map || evt.dragging) {
             return;
         }
-        let nearestDistance: number = 20 - Math.log(map.getView().getResolution() ?? 1);
+        let nearestDistance: number = 20 - Math.log(map?.getView().getResolution() ?? 1);
         let nearestFeature: FeatureLike|null = null;
         map.forEachFeatureAtPixel(evt.pixel, (thisFeature) => {
             const extent = thisFeature.getGeometry()?.getExtent();
-            if (!extent) {
+            if (!map || !extent) {
                 return;
             }
             const centerPixel = map.getPixelFromCoordinate(getCenter(extent));
@@ -137,4 +141,28 @@ export function olzTerminLocationsMapRender(
             window.location.href = url;
         }
     });
+}
+
+export function kartenLinkEnter(
+    karteId: number,
+): boolean {
+    console.log('kartenLinkEnter', karteId);
+    const newFeature = features.find((item) => item.get('id') === karteId);
+    highlightOverlay.getSource()?.getFeatures().map((feature) => {
+        highlightOverlay.getSource()?.removeFeature(feature);
+    });
+    if (newFeature) {
+        highlightOverlay.getSource()?.addFeature(newFeature);
+    }
+    return false;
+}
+
+export function kartenLinkLeave(
+    karteId: number,
+): boolean {
+    console.log('kartenLinkLeave', karteId);
+    highlightOverlay.getSource()?.getFeatures().map((feature) => {
+        highlightOverlay.getSource()?.removeFeature(feature);
+    });
+    return false;
 }

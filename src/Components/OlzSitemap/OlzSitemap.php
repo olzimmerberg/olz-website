@@ -8,6 +8,7 @@ use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
+use Olz\Entity\Karten\Karte;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Termine\Termin;
@@ -174,6 +175,26 @@ abstract class OlzSitemap extends OlzComponent {
             'importance' => 0.5,
             'level' => 0,
         ];
+
+        $karten = $entityManager->getRepository(Karte::class)->findBy(['on_off' => 1]);
+        foreach ($karten as $karte) {
+            $title = $karte->getName();
+            $pretty_kind = [
+                'ol' => "🌳 Wald-OL-Karte",
+                'stadt' => "🏘️ Stadt-OL-Karte",
+                'scool' => "🏫 sCOOL-Schulhaus-Karte",
+            ][$karte->getKind()] ?? "Unbekannter Kartentyp";
+            $description = "{$pretty_kind} - Massstab: {$karte->getScale()} - Stand: {$karte->getYear()}";
+            $entries[] = [
+                'title' => $title,
+                'description' => $description,
+                'url' => "{$base_href}/karten/{$karte->getId()}",
+                'updates' => 'monthly',
+                'importance' => 0.5,
+                'level' => 1,
+            ];
+        }
+
         $entries[] = [
             'title' => OlzMaterial::$title,
             'description' => OlzMaterial::$description,

@@ -18,7 +18,7 @@ export function deleteTerminTemplate(terminTemplateId: number): boolean {
     olzConfirm('Wirklich löschen?').then(() => {
         olzApi.call('deleteTerminTemplate', {id: terminTemplateId}).then(() => {
             window.setTimeout(() => {
-                // TODO: This could probably be done more smoothly!
+                // This could probably be done more smoothly!
                 window.location.reload();
             }, 1000);
         });

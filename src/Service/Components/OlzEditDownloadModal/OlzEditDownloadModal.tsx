@@ -79,7 +79,7 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
 
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
         setErrorMessage('');
-        // TODO: This could probably be done more smoothly!
+        // This could probably be done more smoothly!
         window.location.reload();
     };
 

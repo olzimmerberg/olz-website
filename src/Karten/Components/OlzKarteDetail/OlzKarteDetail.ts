@@ -18,7 +18,7 @@ export function deleteKarte(karteId: number): boolean {
     olzConfirm('Wirklich löschen?').then(() => {
         olzApi.call('deleteKarte', {id: karteId}).then(() => {
             window.setTimeout(() => {
-                // TODO: This could probably be done more smoothly!
+                // This could probably be done more smoothly!
                 window.location.reload();
             }, 1000);
         });

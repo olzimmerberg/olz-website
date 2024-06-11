@@ -79,7 +79,7 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
         }
         setSuccessMessage('Login erfolgreich. Bitte warten...');
         setErrorMessage('');
-        // TODO: This could probably be done more smoothly!
+        // This could probably be done more smoothly!
         window.location.href = '#';
         window.location.reload();
     };

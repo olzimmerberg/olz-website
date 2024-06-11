@@ -132,7 +132,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
 
         setSuccessMessage('Änderung erfolgreich. Bitte warten...');
         setErrorMessage('');
-        // TODO: This could probably be done more smoothly!
+        // This could probably be done more smoothly!
         await timeout(1000);
         window.location.reload();
     };

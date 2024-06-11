@@ -11,9 +11,11 @@
 
     .olz-karte-preview {
         margin: 0 -10px;
+        text-align: center;
 
         img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 500px;
         }
     }
 }

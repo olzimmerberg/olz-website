@@ -132,7 +132,6 @@ class OlzNewsList extends OlzComponent {
             WHERE
                 {$filter_where}
                 AND n.on_off='1'
-                AND n.format NOT LIKE 'box%'
             ORDER BY published_date DESC, published_time DESC
             ZZZZZZZZZZ;
         $res = $db->query($sql);

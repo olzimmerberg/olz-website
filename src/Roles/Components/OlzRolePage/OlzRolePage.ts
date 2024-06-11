@@ -20,7 +20,7 @@ export function deleteRole(roleId: number): boolean {
     olzConfirm('Wirklich löschen?').then(() => {
         olzApi.call('deleteRole', {id: roleId}).then(() => {
             window.setTimeout(() => {
-                // TODO: This could probably be done more smoothly!
+                // This could probably be done more smoothly!
                 window.location.reload();
             }, 1000);
         });
@@ -39,7 +39,7 @@ export function deleteRoleUser(roleId: number, userId: number): boolean {
     olzConfirm('Wirklich entfernen?').then(() => {
         olzApi.call('removeUserRoleMembership', {ids: {roleId, userId}}).then(() => {
             window.setTimeout(() => {
-                // TODO: This could probably be done more smoothly!
+                // This could probably be done more smoothly!
                 window.location.reload();
             }, 1000);
         });

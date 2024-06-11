@@ -6,11 +6,11 @@ export function olzAccountMenuSwitchUser(userId: number): void {
         {userId},
     )
         .then(() => {
-            // TODO: This could probably be done more smoothly!
+            // This could probably be done more smoothly!
             window.location.reload();
         })
         .catch(() => {
-            // TODO: This could probably be done more smoothly!
+            // This could probably be done more smoothly!
             window.location.reload();
         });
 }
@@ -22,11 +22,11 @@ export function olzAccountMenuLogout(): void {
         {},
     )
         .then(() => {
-            // TODO: This could probably be done more smoothly!
+            // This could probably be done more smoothly!
             window.location.reload();
         })
         .catch(() => {
-            // TODO: This could probably be done more smoothly!
+            // This could probably be done more smoothly!
             window.location.reload();
         });
 }

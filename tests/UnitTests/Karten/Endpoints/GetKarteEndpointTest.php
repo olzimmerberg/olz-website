@@ -62,8 +62,8 @@ final class GetKarteEndpointTest extends UnitTestCase {
             'data' => [
                 'kartennr' => null,
                 'name' => '-',
-                'centerX' => null,
-                'centerY' => null,
+                'latitude' => null,
+                'longitude' => null,
                 'year' => null,
                 'scale' => null,
                 'place' => null,
@@ -97,8 +97,8 @@ final class GetKarteEndpointTest extends UnitTestCase {
             'data' => [
                 'kartennr' => 0,
                 'name' => '-',
-                'centerX' => null,
-                'centerY' => null,
+                'latitude' => null,
+                'longitude' => null,
                 'year' => null,
                 'scale' => null,
                 'place' => null,
@@ -138,8 +138,8 @@ final class GetKarteEndpointTest extends UnitTestCase {
             'data' => [
                 'kartennr' => 12,
                 'name' => 'Fake Karte',
-                'centerX' => 1200000,
-                'centerY' => 120000,
+                'latitude' => 47.2,
+                'longitude' => 8.6,
                 'year' => 1200,
                 'scale' => '1:1\'200',
                 'place' => 'Fake Place',

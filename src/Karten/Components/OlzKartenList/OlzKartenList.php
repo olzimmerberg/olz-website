@@ -47,8 +47,6 @@ class OlzKartenList extends OlzComponent {
             $karte->setId(intval($row['id']));
             $karte->setKartenNr($row['kartennr'] ? intval($row['kartennr']) : null);
             $karte->setName($row['name']);
-            $karte->setCenterX($row['center_x'] ? intval($row['center_x']) : null);
-            $karte->setCenterY($row['center_y'] ? intval($row['center_y']) : null);
             $karte->setLatitude($row['latitude'] ? floatval($row['latitude']) : null);
             $karte->setLongitude($row['longitude'] ? floatval($row['longitude']) : null);
             $karte->setYear($row['jahr']);

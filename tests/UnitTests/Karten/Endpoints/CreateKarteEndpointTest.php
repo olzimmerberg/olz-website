@@ -25,8 +25,8 @@ final class CreateKarteEndpointTest extends UnitTestCase {
         'data' => [
             'kartennr' => 12345,
             'name' => 'Test Karte',
-            'centerX' => 600000,
-            'centerY' => 300000,
+            'latitude' => 47.2,
+            'longitude' => 8.6,
             'year' => 2020,
             'scale' => '1:10\'000',
             'place' => 'Testiswil',
@@ -87,8 +87,8 @@ final class CreateKarteEndpointTest extends UnitTestCase {
         $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $karte->getId());
         $this->assertSame(12345, $karte->getKartenNr());
         $this->assertSame('Test Karte', $karte->getName());
-        $this->assertSame(600000, $karte->getCenterX());
-        $this->assertSame(300000, $karte->getCenterY());
+        $this->assertSame(47.2, $karte->getLatitude());
+        $this->assertSame(8.6, $karte->getLongitude());
         $this->assertSame('2020', $karte->getYear());
         $this->assertSame('1:10\'000', $karte->getScale());
         $this->assertSame('Testiswil', $karte->getPlace());

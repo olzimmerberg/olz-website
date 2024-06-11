@@ -32,10 +32,10 @@ final class KarteEndpointTraitTest extends UnitTestCase {
         $keys = array_keys($field_structure);
         sort($keys);
         $this->assertSame([
-            'centerX',
-            'centerY',
             'kartennr',
             'kind',
+            'latitude',
+            'longitude',
             'name',
             'place',
             'previewImageId',

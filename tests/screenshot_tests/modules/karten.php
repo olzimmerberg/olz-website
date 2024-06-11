@@ -31,14 +31,14 @@ function test_karten(RemoteWebDriver $driver, string $base_url): void {
         WebDriverBy::cssSelector('#name-input')
     );
     sendKeys($name_input, 'Die Karte');
-    $center_x_input = $driver->findElement(
-        WebDriverBy::cssSelector('#centerX-input')
+    $latitude_input = $driver->findElement(
+        WebDriverBy::cssSelector('#latitude-input')
     );
-    sendKeys($center_x_input, '735550');
-    $center_y_input = $driver->findElement(
-        WebDriverBy::cssSelector('#centerY-input')
+    sendKeys($latitude_input, '46.83474');
+    $longitude_input = $driver->findElement(
+        WebDriverBy::cssSelector('#longitude-input')
     );
-    sendKeys($center_y_input, '188600');
+    sendKeys($longitude_input, '9.21544');
     $year_input = $driver->findElement(
         WebDriverBy::cssSelector('#year-input')
     );

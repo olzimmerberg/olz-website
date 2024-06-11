@@ -20,8 +20,16 @@ trait KarteEndpointTrait {
             'field_structure' => [
                 'kartennr' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'name' => new FieldTypes\StringField([]),
-                'centerX' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'centerY' => new FieldTypes\IntegerField(['allow_null' => true]),
+                'latitude' => new FieldTypes\NumberField([
+                    'min_value' => -90,
+                    'max_value' => 90,
+                    'allow_null' => true,
+                ]),
+                'longitude' => new FieldTypes\NumberField([
+                    'min_value' => -180,
+                    'max_value' => 180,
+                    'allow_null' => true,
+                ]),
                 'year' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'scale' => new FieldTypes\StringField(['allow_null' => true]),
                 'place' => new FieldTypes\StringField(['allow_null' => true]),
@@ -40,8 +48,8 @@ trait KarteEndpointTrait {
     /** @return array<string, mixed> */
     public function getEntityData(Karte $entity): array {
         $name = $entity->getName();
-        $center_x = $entity->getCenterX();
-        $center_y = $entity->getCenterY();
+        $latitude = $entity->getLatitude();
+        $longitude = $entity->getLongitude();
         $year = $entity->getYear();
         $scale = $entity->getScale();
         $place = $entity->getPlace();
@@ -51,8 +59,8 @@ trait KarteEndpointTrait {
         return [
             'kartennr' => $entity->getKartenNr() ?? null,
             'name' => $name ? $name : '-',
-            'centerX' => $center_x ? intval($center_x) : null,
-            'centerY' => $center_y ? intval($center_y) : null,
+            'latitude' => $latitude ? floatval($latitude) : null,
+            'longitude' => $longitude ? floatval($longitude) : null,
             'year' => $year ? intval($year) : null,
             'scale' => $scale ? $scale : null,
             'place' => $place ? $place : null,
@@ -68,8 +76,8 @@ trait KarteEndpointTrait {
 
         $entity->setKartenNr($input_data['kartennr']);
         $entity->setName($input_data['name']);
-        $entity->setCenterX($input_data['centerX']);
-        $entity->setCenterY($input_data['centerY']);
+        $entity->setLatitude($input_data['latitude']);
+        $entity->setLongitude($input_data['longitude']);
         $entity->setYear($input_data['year']);
         $entity->setScale($input_data['scale']);
         $entity->setPlace($input_data['place']);

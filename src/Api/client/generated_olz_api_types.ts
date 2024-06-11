@@ -47,8 +47,8 @@ export type OlzDownloadDataOrNull = {
 export type OlzKarteData = {
     'kartennr': number|null,
     'name': string,
-    'centerX': number|null,
-    'centerY': number|null,
+    'latitude': number|null,
+    'longitude': number|null,
     'year': number|null,
     'scale': string|null,
     'place': string|null,
@@ -62,8 +62,8 @@ export type OlzKarteKind = 'ol'|'stadt'|'scool'|null;
 export type OlzKarteDataOrNull = {
     'kartennr': number|null,
     'name': string,
-    'centerX': number|null,
-    'centerY': number|null,
+    'latitude': number|null,
+    'longitude': number|null,
     'year': number|null,
     'scale': string|null,
     'place': string|null,

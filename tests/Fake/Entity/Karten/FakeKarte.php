@@ -21,8 +21,8 @@ class FakeKarte extends FakeEntity {
                 $entity->setId(12);
                 $entity->setKartenNr(null);
                 $entity->setName('');
-                $entity->setCenterX(null);
-                $entity->setCenterY(null);
+                $entity->setLatitude(null);
+                $entity->setLongitude(null);
                 $entity->setYear(null);
                 $entity->setScale(null);
                 $entity->setPlace(null);
@@ -43,8 +43,8 @@ class FakeKarte extends FakeEntity {
                 $entity->setId(123);
                 $entity->setKartenNr(0);
                 $entity->setName('');
-                $entity->setCenterX(null);
-                $entity->setCenterY(null);
+                $entity->setLatitude(null);
+                $entity->setLongitude(null);
                 $entity->setYear(null);
                 $entity->setScale('');
                 $entity->setPlace('');
@@ -65,8 +65,8 @@ class FakeKarte extends FakeEntity {
                 $entity->setId(1234);
                 $entity->setKartenNr(12);
                 $entity->setName('Fake Karte');
-                $entity->setCenterX(1200000);
-                $entity->setCenterY(120000);
+                $entity->setLatitude(47.2);
+                $entity->setLongitude(8.6);
                 $entity->setYear('1200');
                 $entity->setScale('1:1\'200');
                 $entity->setPlace('Fake Place');

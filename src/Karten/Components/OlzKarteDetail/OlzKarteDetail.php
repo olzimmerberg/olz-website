@@ -47,19 +47,16 @@ class OlzKarteDetail extends OlzComponent {
         $year = $karte->getYear();
         $place = $karte->getPlace();
         $kartennr = $karte->getKartenNr();
-        $center_x = $karte->getCenterX();
-        $center_y = $karte->getCenterY();
-        // TODO: Migrate to lat/long
-        // $latitude = $karte->getLatitude();
-        // $longitude = $karte->getLongitude();
+        $latitude = $karte->getLatitude();
+        $longitude = $karte->getLongitude();
         $preview_image_id = $karte->getPreviewImageId();
 
         $out .= "<div class='olz-karte-detail'>";
 
         $out .= OlzLocationMap::render([
             'name' => $name,
-            'xkoord' => $center_x,
-            'ykoord' => $center_y,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
             'zoom' => 12,
         ]);
 

@@ -5,7 +5,7 @@ import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzKarteData, OlzKarteKind} from '../../../Api/client/generated_olz_api_types';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty, validateNumber} from '../../../Utils/formUtils';
 import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditKarteModal.scss';
@@ -13,8 +13,8 @@ import './OlzEditKarteModal.scss';
 interface OlzEditKarteForm {
     kartenNr: string,
     name: string,
-    centerX: string,
-    centerY: string,
+    latitude: string,
+    longitude: string,
     year: string,
     scale: string,
     place: string,
@@ -27,8 +27,8 @@ const resolver: Resolver<OlzEditKarteForm> = async (values) => {
     const errors: FieldErrors<OlzEditKarteForm> = {};
     errors.kartenNr = validateIntegerOrNull(values.kartenNr);
     errors.name = validateNotEmpty(values.name);
-    errors.centerX = validateIntegerOrNull(values.centerX);
-    errors.centerY = validateIntegerOrNull(values.centerY);
+    errors.latitude = validateNumber(values.latitude);
+    errors.longitude = validateNumber(values.longitude);
     errors.year = validateIntegerOrNull(values.year);
     errors.zoom = validateIntegerOrNull(values.zoom);
     return getResolverResult(errors, values);
@@ -38,8 +38,8 @@ function getFormFromApi(apiData?: OlzKarteData): OlzEditKarteForm {
     return {
         kartenNr: getFormNumber(apiData?.kartennr),
         name: getFormString(apiData?.name),
-        centerX: getFormNumber(apiData?.centerX),
-        centerY: getFormNumber(apiData?.centerY),
+        latitude: getFormNumber(apiData?.latitude),
+        longitude: getFormNumber(apiData?.longitude),
         year: getFormNumber(apiData?.year),
         scale: getFormString(apiData?.scale),
         place: getFormString(apiData?.place),
@@ -58,8 +58,8 @@ function getApiFromForm(formData: OlzEditKarteForm): OlzKarteData {
     return {
         kartennr: getApiNumber(formData?.kartenNr),
         name: getApiString(formData?.name) ?? '',
-        centerX: getApiNumber(formData?.centerX),
-        centerY: getApiNumber(formData?.centerY),
+        latitude: getApiNumber(formData?.latitude),
+        longitude: getApiNumber(formData?.longitude),
         year: getApiNumber(formData?.year),
         scale: getApiString(formData?.scale),
         place: getApiString(formData?.place),
@@ -146,16 +146,16 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
                             <div className='row'>
                                 <div className='col mb-3'>
                                     <OlzTextField
-                                        title='X-Koordinate'
-                                        name='centerX'
+                                        title='Breite (Latitude)'
+                                        name='latitude'
                                         errors={errors}
                                         register={register}
                                     />
                                 </div>
                                 <div className='col mb-3'>
                                     <OlzTextField
-                                        title='Y-Koordinate'
-                                        name='centerY'
+                                        title='Länge (Longitude)'
+                                        name='longitude'
                                         errors={errors}
                                         register={register}
                                     />

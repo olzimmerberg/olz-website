@@ -25,14 +25,6 @@ class Karte extends OlzEntity implements DataStorageInterface {
     #[ORM\Column(type: 'string', nullable: false)]
     private string $name;
 
-    // @deprecated
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $center_x;
-
-    // @deprecated
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $center_y;
-
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $latitude;
 
@@ -79,22 +71,6 @@ class Karte extends OlzEntity implements DataStorageInterface {
 
     public function setName(string $new_value): void {
         $this->name = $new_value;
-    }
-
-    public function getCenterX(): ?int {
-        return $this->center_x;
-    }
-
-    public function setCenterX(?int $new_value): void {
-        $this->center_x = $new_value;
-    }
-
-    public function getCenterY(): ?int {
-        return $this->center_y;
-    }
-
-    public function setCenterY(?int $new_value): void {
-        $this->center_y = $new_value;
     }
 
     public function getLatitude(): ?float {

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240610194821
+-- MIGRATION: DoctrineMigrations\Version20240611170404
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -191,8 +191,6 @@ CREATE TABLE `karten` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `kartennr` int(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `center_x` int(11) DEFAULT NULL,
-  `center_y` int(11) DEFAULT NULL,
   `jahr` varchar(255) DEFAULT NULL,
   `massstab` varchar(255) DEFAULT NULL,
   `ort` varchar(255) DEFAULT NULL,

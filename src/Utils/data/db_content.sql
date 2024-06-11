@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240610194821
+-- MIGRATION: DoctrineMigrations\Version20240611170404
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -87,7 +87,8 @@ VALUES
     ('DoctrineMigrations\\Version20240524112831', '2024-05-25 17:44:57', '51'),
     ('DoctrineMigrations\\Version20240525162538', '2024-05-25 18:48:27', '140'),
     ('DoctrineMigrations\\Version20240530231008', '2024-06-10 21:54:50', '225'),
-    ('DoctrineMigrations\\Version20240610194821', '2024-06-10 21:55:07', '8');
+    ('DoctrineMigrations\\Version20240610194821', '2024-06-10 21:55:07', '8'),
+    ('DoctrineMigrations\\Version20240611170404', '2024-06-11 19:05:53', '80');
 
 -- Table downloads
 INSERT INTO downloads
@@ -99,11 +100,11 @@ VALUES
 
 -- Table karten
 INSERT INTO karten
-    (`id`, `kartennr`, `name`, `center_x`, `center_y`, `jahr`, `massstab`, `ort`, `zoom`, `typ`, `vorschau`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`, `latitude`, `longitude`)
+    (`id`, `kartennr`, `name`, `jahr`, `massstab`, `ort`, `zoom`, `typ`, `vorschau`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`, `latitude`, `longitude`)
 VALUES
-    ('1', '1086', 'Landforst 🗺️', '685000', '236100', '2017', '1:10\'000', NULL, '8', 'ol', 'MIGRATED0000000000010001.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.270326086742', '8.5619145270506'),
-    ('2', '0', 'Eidmatt', '693379', '231463', '2020', '1:1\'000', 'Wädenswil', '2', 'scool', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.227491444839', '8.6716637472003'),
-    ('3', '0', 'Horgen Dorfkern', '687900', '234700', '2011', '1:2\'000', 'Horgen', '8', 'stadt', '6R3bpgwcCU3SfUF8vCpepzRJ.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.257355383409', '8.5999590514731');
+    ('1', '1086', 'Landforst 🗺️', '2017', '1:10\'000', NULL, '8', 'ol', 'MIGRATED0000000000010001.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.270326086742', '8.5619145270506'),
+    ('2', '0', 'Eidmatt', '2020', '1:1\'000', 'Wädenswil', '2', 'scool', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.227491444839', '8.6716637472003'),
+    ('3', '0', 'Horgen Dorfkern', '2011', '1:2\'000', 'Horgen', '8', 'stadt', '6R3bpgwcCU3SfUF8vCpepzRJ.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.257355383409', '8.5999590514731');
 
 -- Table links
 INSERT INTO links

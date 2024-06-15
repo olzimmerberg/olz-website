@@ -96,7 +96,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditTerminTemplateForm> = async (values) => {
-        const meta: OlzMetaData = {
+        const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
             onOff: true,

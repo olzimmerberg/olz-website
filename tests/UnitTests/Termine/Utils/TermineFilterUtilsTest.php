@@ -26,6 +26,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testIsValidFilter(): void {
         $termine_utils = $this->getTermineFilterUtils();
+        $this->assertFalse($termine_utils->isValidFilter(null));
         $this->assertFalse($termine_utils->isValidFilter([]));
         $this->assertFalse($termine_utils->isValidFilter(['foo' => 'bar']));
         $this->assertTrue($termine_utils->isValidFilter([
@@ -44,6 +45,61 @@ final class TermineFilterUtilsTest extends UnitTestCase {
             'archiv' => 'mit',
         ]));
         $this->assertFalse($termine_utils->isValidFilter([
+            'typ' => 'some',
+            'datum' => 'silly',
+            'archiv' => 'rubbish',
+        ]));
+    }
+
+    public function testGetValidFilter(): void {
+        $termine_utils = $this->getTermineFilterUtils();
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => 'bevorstehend',
+            'archiv' => 'ohne',
+        ], $termine_utils->getValidFilter(null));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => 'bevorstehend',
+            'archiv' => 'ohne',
+        ], $termine_utils->getValidFilter([]));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => 'bevorstehend',
+            'archiv' => 'ohne',
+        ], $termine_utils->getValidFilter(['foo' => 'bar']));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => '2020',
+            'archiv' => 'ohne',
+        ], $termine_utils->getValidFilter([
+            'typ' => 'alle',
+            'datum' => '2020',
+            'archiv' => 'ohne',
+        ]));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => 'bevorstehend',
+            'archiv' => 'ohne',
+        ], $termine_utils->getValidFilter([
+            'typ' => 'alle',
+            'datum' => '2011',
+            'archiv' => 'ohne',
+        ]));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => '2011',
+            'archiv' => 'mit',
+        ], $termine_utils->getValidFilter([
+            'typ' => 'alle',
+            'datum' => '2011',
+            'archiv' => 'mit',
+        ]));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => 'bevorstehend',
+            'archiv' => 'ohne',
+        ], $termine_utils->getValidFilter([
             'typ' => 'some',
             'datum' => 'silly',
             'archiv' => 'rubbish',

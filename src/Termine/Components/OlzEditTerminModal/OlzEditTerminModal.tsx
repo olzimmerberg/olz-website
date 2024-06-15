@@ -212,7 +212,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     }, [solvId]);
 
     const onSubmit: SubmitHandler<OlzEditTerminForm> = async (values) => {
-        const meta: OlzMetaData = {
+        const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
             onOff: true,

@@ -88,7 +88,7 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditKarteForm> = async (values) => {
-        const meta: OlzMetaData = {
+        const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
             onOff: true,

@@ -35,7 +35,7 @@ class NewsFilterUtils {
         ];
     }
 
-    /** @param array{format?: string, datum?: string, archiv?: string} $filter */
+    /** @param ?array{format?: string, datum?: string, archiv?: string} $filter */
     public function isValidFilter(?array $filter): bool {
         $has_correct_format = (
             isset($filter['format'])
@@ -68,12 +68,15 @@ class NewsFilterUtils {
     }
 
     /**
-     * @param array{format?: string, datum?: string, archiv?: string} $filter
+     * @param ?array{format?: string, datum?: string, archiv?: string} $filter
      *
      * @return array{format: string, datum: string, archiv: string}
      */
-    public function getValidFilter(array $filter): array {
+    public function getValidFilter(?array $filter): array {
         $default_filter = $this->getDefaultFilter();
+        if (!$filter) {
+            return $default_filter;
+        }
         $merged_filter = [];
         foreach ($default_filter as $key => $default_value) {
             $merged_filter[$key] = $filter[$key] ?? $default_value;

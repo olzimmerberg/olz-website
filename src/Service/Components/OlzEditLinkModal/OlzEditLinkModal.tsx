@@ -57,7 +57,7 @@ export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactEleme
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditLinkForm> = async (values) => {
-        const meta: OlzMetaData = {
+        const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
             onOff: true,

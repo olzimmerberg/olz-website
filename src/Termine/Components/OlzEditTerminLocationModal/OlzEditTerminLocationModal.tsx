@@ -87,7 +87,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
     }, [longitude]);
 
     const onSubmit: SubmitHandler<OlzEditTerminLocationForm> = async (values) => {
-        const meta: OlzMetaData = {
+        const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
             onOff: true,

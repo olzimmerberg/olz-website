@@ -26,6 +26,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
 
     public function testIsValidFilter(): void {
         $news_utils = new NewsFilterUtils();
+        $this->assertFalse($news_utils->isValidFilter(null));
         $this->assertFalse($news_utils->isValidFilter([]));
         $this->assertFalse($news_utils->isValidFilter(['foo' => 'bar']));
         $this->assertTrue($news_utils->isValidFilter([
@@ -44,6 +45,61 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             'archiv' => 'mit',
         ]));
         $this->assertFalse($news_utils->isValidFilter([
+            'format' => 'some',
+            'datum' => 'silly',
+            'archiv' => 'rubbish',
+        ]));
+    }
+
+    public function testGetValidFilter(): void {
+        $news_utils = new NewsFilterUtils();
+        $this->assertSame([
+            'format' => 'alle',
+            'datum' => '2020',
+            'archiv' => 'ohne',
+        ], $news_utils->getValidFilter(null));
+        $this->assertSame([
+            'format' => 'alle',
+            'datum' => '2020',
+            'archiv' => 'ohne',
+        ], $news_utils->getValidFilter([]));
+        $this->assertSame([
+            'format' => 'alle',
+            'datum' => '2020',
+            'archiv' => 'ohne',
+        ], $news_utils->getValidFilter(['foo' => 'bar']));
+        $this->assertSame([
+            'format' => 'aktuell',
+            'datum' => '2020',
+            'archiv' => 'ohne',
+        ], $news_utils->getValidFilter([
+            'format' => 'aktuell',
+            'datum' => '2020',
+            'archiv' => 'ohne',
+        ]));
+        $this->assertSame([
+            'format' => 'alle',
+            'datum' => '2020',
+            'archiv' => 'ohne',
+        ], $news_utils->getValidFilter([
+            'format' => 'aktuell',
+            'datum' => '2011',
+            'archiv' => 'ohne',
+        ]));
+        $this->assertSame([
+            'format' => 'aktuell',
+            'datum' => '2011',
+            'archiv' => 'mit',
+        ], $news_utils->getValidFilter([
+            'format' => 'aktuell',
+            'datum' => '2011',
+            'archiv' => 'mit',
+        ]));
+        $this->assertSame([
+            'format' => 'alle',
+            'datum' => '2020',
+            'archiv' => 'ohne',
+        ], $news_utils->getValidFilter([
             'format' => 'some',
             'datum' => 'silly',
             'archiv' => 'rubbish',

@@ -60,7 +60,7 @@ class TermineFilterUtils {
         ];
     }
 
-    /** @param array{typ?: string, datum?: string, archiv?: string} $filter */
+    /** @param ?array{typ?: string, datum?: string, archiv?: string} $filter */
     public function isValidFilter(?array $filter): bool {
         $has_correct_type = (
             isset($filter['typ'])
@@ -93,12 +93,15 @@ class TermineFilterUtils {
     }
 
     /**
-     * @param array{typ?: string, datum?: string, archiv?: string} $filter
+     * @param ?array{typ?: string, datum?: string, archiv?: string} $filter
      *
      * @return array{typ: string, datum: string, archiv: string}
      */
-    public function getValidFilter(array $filter): array {
+    public function getValidFilter(?array $filter): array {
         $default_filter = $this->getDefaultFilter();
+        if (!$filter) {
+            return $default_filter;
+        }
         $merged_filter = [];
         foreach ($default_filter as $key => $default_value) {
             $merged_filter[$key] = $filter[$key] ?? $default_value;

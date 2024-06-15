@@ -273,7 +273,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         : PUBLISH_AT_OPTIONS.filter((option) => option.id !== 'unchanged');
 
     const onSubmit: SubmitHandler<OlzEditNewsForm> = async (values) => {
-        const meta: OlzMetaData = {
+        const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
             onOff: true,

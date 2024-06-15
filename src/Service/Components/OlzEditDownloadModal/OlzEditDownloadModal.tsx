@@ -62,7 +62,7 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditDownloadForm> = async (values) => {
-        const meta: OlzMetaData = {
+        const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
             onOff: true,

@@ -3,27 +3,29 @@
 set -e
 
 BROWSER='firefox'
-SYSTEM_TEST_MODE='dev'
+MODE='dev'
+NO_BUILD=0
+SLICE='1/1'
 
 while [ ! -z "$1" ]; do
     case "$1" in
         --dev)
-            SYSTEM_TEST_MODE='dev'
+            MODE='dev'
             ;;
         --dev_rw)
-            SYSTEM_TEST_MODE='dev_rw'
+            MODE='dev_rw'
             ;;
         --staging)
-            SYSTEM_TEST_MODE='staging'
+            MODE='staging'
             ;;
         --staging_rw)
-            SYSTEM_TEST_MODE='staging_rw'
+            MODE='staging_rw'
             ;;
         --prod)
-            SYSTEM_TEST_MODE='prod'
+            MODE='prod'
             ;;
         --meta)
-            SYSTEM_TEST_MODE='meta'
+            MODE='meta'
             ;;
         --firefox)
             BROWSER='firefox'
@@ -33,6 +35,9 @@ while [ ! -z "$1" ]; do
             ;;
         --no-build)
             NO_BUILD=1
+            ;;
+        */*)
+            SLICE="$1"
             ;;
         --help|-h|*)
             echo "Usage: $(basename $0) [--dev|--dev_rw|--staging|--staging_rw|--prod|--meta] [--firefox|--chrome]" 2>&1
@@ -47,7 +52,8 @@ mkdir -p ./screenshots
 mkdir -p ./public/logs
 
 echo "BROWSER = $BROWSER"
-echo "SYSTEM_TEST_MODE = $SYSTEM_TEST_MODE"
+echo "MODE = $MODE"
+echo "SLICE = $SLICE"
 
 # Run gecko (Firefox) driver or Chrome driver
 if [ "$BROWSER" = "firefox" ]; then
@@ -60,7 +66,7 @@ else
 fi
 BROWSER_DRIVER_PID=$!
 
-if [ "$SYSTEM_TEST_MODE" = "dev" ] || [ "$SYSTEM_TEST_MODE" = "dev_rw" ]; then
+if [ "$MODE" = "dev" ] || [ "$MODE" = "dev_rw" ]; then
     # Configure env
     if [ ! -z DB_PORT ] && [ ! -f ./config/olz.dev.php ]; then
         cp ./config/olz.dev.template.php ./config/olz.dev.php
@@ -80,18 +86,16 @@ if [ "$SYSTEM_TEST_MODE" = "dev" ] || [ "$SYSTEM_TEST_MODE" = "dev_rw" ]; then
     fi
 
     # Reset the environment
-    APP_ENV=test php bin/console olz:db-reset full > ./public/logs/take-screenshots.log 2>&1 &
+    APP_ENV=dev php bin/console olz:db-reset full > ./public/logs/take-screenshots.log 2>&1
 
     # Build JavaScript code
     if [ "$NO_BUILD" = "0" ]; then
         export NODE_OPTIONS="--max-old-space-size=4096"
         npm run webpack-build
-    else
-        sleep 15 # wait until DB reset is finished
     fi
 
     # Run dev server
-    APP_ENV=test symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
+    APP_ENV=dev symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
     DEVSERVER_PID=$!
     sleep 3
 fi
@@ -99,7 +103,7 @@ fi
 # Run test, allow aborting
 set +e
 EXIT_CODE=0
-APP_ENV=test SYSTEM_TEST_MODE="$SYSTEM_TEST_MODE" SYMFONY_DEPRECATIONS_HELPER='max[direct]=0' php ./bin/phpunit -c ./phpunit.xml.dist $@ ./tests/SystemTests
+APP_ENV=dev SYSTEM_TEST_MODE="$MODE" SYSTEM_TEST_SLICE="$SLICE" SYMFONY_DEPRECATIONS_HELPER='max[direct]=0' php ./bin/phpunit -c ./phpunit.xml.dist $@ ./tests/SystemTests
 EXIT_CODE=$?
 
 # Display logs
@@ -112,7 +116,7 @@ EXIT_CODE=$?
 
 # Clean up
 kill -9 $BROWSER_DRIVER_PID
-if [ "$SYSTEM_TEST_MODE" = "dev" ] || [ "$SYSTEM_TEST_MODE" = "dev_rw" ]; then
+if [ "$MODE" = "dev" ] || [ "$MODE" = "dev_rw" ]; then
     kill -9 $DEVSERVER_PID
 fi
 

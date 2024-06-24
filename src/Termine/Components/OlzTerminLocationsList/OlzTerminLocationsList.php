@@ -54,7 +54,7 @@ class OlzTerminLocationsList extends OlzComponent {
             <div class='content-full'>
                 {$creation_tools}
                 <h1>Termin-Orte</h1>
-                <div id='olz-termin-locations-map'></div>
+                <div id='olz-termin-locations-map' class='test-flaky'></div>
                 <script>olz.olzTerminLocationsMapRender({$locations_json});</script>
             </div>
             ZZZZZZZZZZ;

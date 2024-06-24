@@ -17,6 +17,7 @@
     "preferred-install": {
       "*": "dist"
     },
+    "process-timeout": 1800,
     "sort-packages": true
   },
   "license": "MIT",
@@ -40,7 +41,6 @@
     "jest_tests": "./tools/scripts/jest_tests.sh",
     "c": "./tools/scripts/console.sh",
     "system_tests": "./tools/scripts/system_tests.sh",
-    "take_screenshots": "./tools/scripts/take_screenshots.sh",
     "test": "./tools/scripts/test.sh",
     "to_external_id": "php ./tools/scripts/to_external_id.php",
     "unit_tests": "./tools/scripts/unit_tests.sh",

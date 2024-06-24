@@ -48,6 +48,9 @@
         <testsuite name="Integration Tests">
             <directory>./tests/IntegrationTests</directory>
         </testsuite>
+        <testsuite name="System Tests">
+            <directory>./tests/SystemTests</directory>
+        </testsuite>
     </testsuites>
 
     <coverage 

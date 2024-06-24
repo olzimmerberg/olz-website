@@ -41,7 +41,7 @@ final class StatusTest extends SystemTestCase {
     public function testStatusIsMonitoring(): void {
         $this->onlyRunInModes('meta');
 
-        $browser = $this->getBrowser('firefox');
+        $browser = $this->getBrowser();
         $browser->get("{$this::$statusUrl}");
         $username_input = $this->findBrowserElement('#input-username');
         $username_input->sendKeys($this::$statusUsername);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Fetchers\GoogleFetcher;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\RecaptchaUtils;
 
@@ -58,7 +58,7 @@ class RecaptchaUtilsForTest extends RecaptchaUtils {
  */
 final class RecaptchaUtilsTest extends UnitTestCase {
     public function testValidateRecaptchaTokenDevEnv(): void {
-        $env_utils = new Fake\FakeEnvUtils();
+        $env_utils = new FakeEnvUtils();
         $env_utils->app_env = 'dev';
         $recaptcha_utils = new RecaptchaUtils();
         $google_fetcher = new FakeRecaptchaUtilsGoogleFetcher();

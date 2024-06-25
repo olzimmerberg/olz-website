@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Utils;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\User;
 use Olz\Fetchers\TelegramFetcher;
-use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\TelegramUtils;
 use Olz\Utils\WithUtilsCache;
@@ -73,7 +72,6 @@ final class TelegramUtilsTest extends UnitTestCase {
     public function testGenerateTelegramPin(): void {
         global $iso_now;
         $telegram_utils = new TelegramUtils();
-        $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
 
         $this->assertSame('fake-bot-name', $telegram_utils->getBotName());
         $this->assertSame(26 + 26 + 10, strlen($telegram_utils->getTelegramPinChars()));
@@ -319,7 +317,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
         $telegram_utils->sendConfiguration();
@@ -343,7 +340,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
         $telegram_fetcher->fetchNotOk = true;
@@ -370,7 +366,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
         $result = $telegram_utils->callTelegramApi('fakeCommand', ['fakeArg' => 'fakeValue']);
@@ -385,7 +380,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
         try {
@@ -404,7 +398,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
         try {
@@ -423,7 +416,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
         try {
@@ -452,7 +444,6 @@ final class TelegramUtilsTest extends UnitTestCase {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
         $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setEnvUtils(new Fake\FakeEnvUtils());
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
         try {

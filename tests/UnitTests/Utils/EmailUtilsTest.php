@@ -6,8 +6,10 @@ namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\User;
 use Olz\Exceptions\RecaptchaDeniedException;
-use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\FakeEnvUtils;
+use Olz\Tests\Fake\FakeGeneralUtils;
+use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
 use Symfony\Component\Mailer\Envelope;
@@ -17,6 +19,21 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Client;
+
+class DeterministicEmailUtils extends EmailUtils {
+    public function __construct() {
+        $this->setEnvUtils(new FakeEnvUtils());
+        $this->setGeneralUtils(new FakeGeneralUtils());
+    }
+
+    public function renderMarkdown(string $markdown): string {
+        return $markdown;
+    }
+
+    protected function getRandomEmailVerificationToken(): string {
+        return 'veryrandom';
+    }
+}
 
 class TestOnlyEmailUtils extends EmailUtils {
     public function testOnlyGetRandomEmailVerificationToken(): string {
@@ -33,9 +50,9 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testSendEmailVerificationEmail(): void {
         $user = FakeUser::defaultUser();
         $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
-        $email_utils = new Fake\DeterministicEmailUtils();
+        $email_utils = new DeterministicEmailUtils();
         $email_utils->setMailer($mailer);
-        $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $email_utils->setRecaptchaUtils(new FakeRecaptchaUtils());
         $artifacts = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
@@ -88,8 +105,8 @@ final class EmailUtilsTest extends UnitTestCase {
 
     public function testSendEmailVerificationEmailInvalidRecaptcha(): void {
         $user = FakeUser::defaultUser();
-        $email_utils = new Fake\DeterministicEmailUtils();
-        $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $email_utils = new DeterministicEmailUtils();
+        $email_utils->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         try {
             $email_utils->sendEmailVerificationEmail($user, 'invalid-recaptcha');
@@ -110,9 +127,9 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testSendEmailVerificationEmailFailsSending(): void {
         $user = FakeUser::defaultUser();
         $mailer = $this->createMock(MailerInterface::class);
-        $email_utils = new Fake\DeterministicEmailUtils();
+        $email_utils = new DeterministicEmailUtils();
         $email_utils->setMailer($mailer);
-        $email_utils->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $email_utils->setRecaptchaUtils(new FakeRecaptchaUtils());
         $mailer
             ->expects($this->exactly(1))
             ->method('send')

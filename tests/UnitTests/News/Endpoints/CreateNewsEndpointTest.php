@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\News\Endpoints;
 
 use Olz\News\Endpoints\CreateNewsEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
+use Olz\Tests\Fake\FakeEntityManager;
+use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -77,7 +78,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         ];
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setMailer($mailer);
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $endpoint->runtimeSetup();
         $artifacts = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
@@ -123,13 +124,13 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
         $this->assertSame('Anonymous', $news_entry->getAuthorName());
         $this->assertSame('anonymous@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
         $this->assertNull($news_entry->getAuthorUser());
@@ -148,7 +149,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             [$news_entry, 1, null, null],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -160,6 +161,12 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/news/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                [],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/news/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Anonymous,
@@ -252,13 +259,13 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
         $this->assertSame('t.u.', $news_entry->getAuthorName());
         $this->assertSame('tu@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
         $this->assertSame(FakeUser::adminUser(), $news_entry->getAuthorUser());
@@ -277,7 +284,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             [$news_entry, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -289,6 +296,12 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/news/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg', 'inexistent.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/news/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testCreateNewsEndpointMinimal(): void {
@@ -338,13 +351,13 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $news_entry = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $news_entry->getId());
         $this->assertNull($news_entry->getAuthorName());
         $this->assertNull($news_entry->getAuthorEmail());
         $this->assertNull($news_entry->getAuthorUser());
@@ -363,7 +376,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             [$news_entry, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -375,5 +388,11 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/news/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                [],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/news/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

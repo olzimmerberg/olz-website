@@ -185,6 +185,12 @@ final class UpdateWeeklyPictureEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/weekly_picture/{$id}/img/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/weekly_picture/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testUpdateWeeklyPictureEndpointMinimal(): void {
@@ -243,5 +249,11 @@ final class UpdateWeeklyPictureEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/weekly_picture/{$id}/img/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/weekly_picture/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

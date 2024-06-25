@@ -71,6 +71,57 @@ class ImageUtils {
             ZZZZZZZZZZ;
     }
 
+    /** @param array<string> $image_ids */
+    public function generateThumbnails(array $image_ids, string $entity_img_path): void {
+        foreach ($image_ids as $image_id) {
+            for ($i = 5; $i < 9; $i++) {
+                $size = (1 << $i);
+                $this->getThumbFile($image_id, $entity_img_path, $size);
+            }
+        }
+    }
+
+    public function getThumbFile(string $image_id, string $entity_img_path, int $size): string {
+        $imgfile = "{$entity_img_path}img/{$image_id}";
+        $info = getimagesize($imgfile);
+        $swid = $info[0];
+        $shei = $info[1];
+        if ($shei < $swid) {
+            $wid = $size;
+            $hei = intval($wid * $shei / $swid);
+        } else {
+            $hei = $size;
+            $wid = intval($hei * $swid / $shei);
+        }
+        if ($wid <= 0 || $hei <= 0 || $wid > 800 || $hei > 800) {
+            $message = "getThumbFile: Invalid dimension: {$size}";
+            $this->log()->warning($message);
+            throw new \Exception($message);
+        }
+        if ($wid > 256 || $hei > 256) {
+            $thumbfile = $imgfile;
+        } else {
+            $thumbfile = "{$entity_img_path}thumb/{$image_id}_{$wid}x{$hei}.jpg";
+        }
+        if (!is_file($thumbfile)) {
+            if (!is_dir(dirname($thumbfile))) {
+                mkdir(dirname($thumbfile), 0o777, true);
+            }
+            $img = imagecreatefromjpeg($imgfile);
+            if (!$img) {
+                $message = "getThumbFile: Could not open image {$imgfile}";
+                $this->log()->warning($message);
+                throw new \Exception($message);
+            }
+            $thumb = imagecreatetruecolor($wid, $hei);
+            imagesavealpha($thumb, true);
+            imagecopyresampled($thumb, $img, 0, 0, 0, 0, $wid, $hei, $swid, $shei);
+            imagejpeg($thumb, $thumbfile, 90);
+            imagedestroy($thumb);
+        }
+        return $thumbfile;
+    }
+
     public static function fromEnv(): self {
         return new self();
     }

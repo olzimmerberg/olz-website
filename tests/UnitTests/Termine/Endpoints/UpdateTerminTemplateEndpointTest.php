@@ -150,5 +150,11 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/termin_templates/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg', 'inexistent.png'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/termin_templates/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

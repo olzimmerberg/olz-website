@@ -6,8 +6,8 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\UpdateUserEndpoint;
 use Olz\Entity\User;
-use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
@@ -195,7 +195,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             ...self::MINIMAL_INPUT,
@@ -248,7 +248,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call(self::MAXIMAL_INPUT);
 
@@ -390,7 +390,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             ...self::MINIMAL_INPUT,
@@ -435,7 +435,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         try {
             $endpoint->call([
@@ -487,7 +487,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         try {
             $endpoint->call([
@@ -526,7 +526,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'admin',
         ];
         $endpoint->setSession($session);
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             ...self::MINIMAL_INPUT,

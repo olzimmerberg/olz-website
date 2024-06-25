@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Termine\Endpoints\CreateTerminEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -86,14 +86,14 @@ final class CreateTerminEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $termin = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $termin->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $termin->getId());
         $this->assertSame('2020-03-13', $termin->getStartDate()->format('Y-m-d'));
         $this->assertNull($termin->getStartTime());
         $this->assertNull($termin->getEndDate());
@@ -117,7 +117,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             [$termin, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -129,5 +129,11 @@ final class CreateTerminEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/termine/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg', 'inexistent.png'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/termine/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

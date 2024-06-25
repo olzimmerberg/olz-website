@@ -6,7 +6,7 @@ namespace Olz\Tests\Fake;
 
 use Olz\Utils\UploadUtils;
 
-class DeterministicUploadUtils extends UploadUtils {
+class FakeUploadUtils extends UploadUtils {
     /** @var array<array{0: ?array<string>, 1: string}> */
     public array $move_uploads_calls = [];
 

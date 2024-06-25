@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Termine\Endpoints\CreateTerminLocationEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -72,14 +72,14 @@ final class CreateTerminLocationEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $termin_location = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $termin_location->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $termin_location->getId());
         $this->assertSame('Test location', $termin_location->getName());
         $this->assertSame('some location info', $termin_location->getDetails());
         $this->assertSame(47.2790953, $termin_location->getLatitude());
@@ -93,7 +93,7 @@ final class CreateTerminLocationEndpointTest extends UnitTestCase {
             [$termin_location, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -101,5 +101,11 @@ final class CreateTerminLocationEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/termin_locations/{$id}/img/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg', 'inexistent.png'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/termin_locations/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

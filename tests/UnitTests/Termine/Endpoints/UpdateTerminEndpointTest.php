@@ -163,5 +163,11 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/termine/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg', 'inexistent.png'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/termine/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

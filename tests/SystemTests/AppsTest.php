@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Olz\Apps\OlzApps;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -14,25 +13,10 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class AppsTest extends SystemTestCase {
-    public function testAppsScreenshotReadOnlyLegacy(): void {
-        $this->onlyRunInModes($this::$readOnlyModes);
-        $browser = $this->getBrowser();
-        $this->doAppsReadOnly($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    public function testAppsScreenshotReadWriteLegacy(): void {
+    public function testAppsScreenshots(): void {
         $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
-        $this->doAppsReadWrite($browser);
 
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doAppsReadOnly(RemoteWebDriver $browser): void {
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
         $this->screenshot('apps_admin');
@@ -65,10 +49,9 @@ final class AppsTest extends SystemTestCase {
             $this->screenshot("app_{$app_basename}");
         }
         $this->logout();
-    }
 
-    protected function doAppsReadWrite(RemoteWebDriver $browser): void {
-        $this->doAppsReadOnly($browser);
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
     protected function getUrl(): string {

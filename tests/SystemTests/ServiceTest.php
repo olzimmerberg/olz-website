@@ -34,14 +34,14 @@ final class ServiceTest extends SystemTestCase {
     protected function doServiceReadOnly(RemoteWebDriver $browser): void {
         $browser->get($this->getUrl());
         $this->screenshot('service');
-
-        $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
-        $this->screenshot('service_authenticated');
     }
 
     protected function doServiceReadWrite(RemoteWebDriver $browser): void {
         $this->doServiceReadOnly($browser);
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getUrl());
+        $this->screenshot('service_authenticated');
     }
 
     protected function getUrl(): string {

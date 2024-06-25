@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverSelect;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -14,25 +13,10 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class NewsletterTest extends SystemTestCase {
-    public function testNewsletterScreenshotReadOnlyLegacy(): void {
-        $this->onlyRunInModes($this::$readOnlyModes);
-        $browser = $this->getBrowser();
-        $this->doNewsletterReadOnly($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    public function testNewsletterScreenshotReadWriteLegacy(): void {
+    public function testNewsletterScreenshots(): void {
         $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
-        $this->doNewsletterReadWrite($browser);
 
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doNewsletterReadOnly(RemoteWebDriver $browser): void {
         $this->login('vorstand', 'v0r57and');
         $browser->get($this->getUrl());
 
@@ -42,10 +26,6 @@ final class NewsletterTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->screenshot('newsletter_original');
-    }
-
-    protected function doNewsletterReadWrite(RemoteWebDriver $browser): void {
-        $this->doNewsletterReadOnly($browser);
 
         $this->click('#telegram-notifications-form input[name="monthly-preview"]');
         $this->click('#telegram-notifications-form input[name="weekly-preview"]');
@@ -77,6 +57,9 @@ final class NewsletterTest extends SystemTestCase {
         $this->screenshot('newsletter_modified');
 
         $this->resetDb();
+
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
     protected function getUrl(): string {

@@ -34,9 +34,9 @@ final class WeeklyPictureTest extends SystemTestCase {
 
     protected function doWeeklyPictureReadOnly(RemoteWebDriver $browser): void {
         $browser->get($this->getUrl());
-        $this->click('a[href="/img/weekly_picture//2/img/C8k84ncvWyVptk6kjtMJxTUu.jpg"]');
+        $this->click('#weekly-picture-carousel .active a[href*="/img/weekly_picture/"]');
         $browser->wait()->until(function () {
-            return $this->findBrowserElement('img[src="/img/weekly_picture//2/img/C8k84ncvWyVptk6kjtMJxTUu.jpg"]')->getCssValue('opacity') == 1;
+            return $this->findBrowserElement('.lg-container.lg-show img[src*="/img/weekly_picture/"]')->getCssValue('opacity') == 1;
         });
         $this->screenshot('startseite_weekly_picture');
     }

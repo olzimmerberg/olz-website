@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -13,25 +12,10 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class LoginLogoutTest extends SystemTestCase {
-    public function testLoginLogoutScreenshotReadOnlyLegacy(): void {
-        $this->onlyRunInModes($this::$readOnlyModes);
-        $browser = $this->getBrowser();
-        $this->doLoginLogoutReadOnly($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    public function testLoginLogoutScreenshotReadWriteLegacy(): void {
+    public function testLoginLogoutScreenshots(): void {
         $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
-        $this->doLoginLogoutReadWrite($browser);
 
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doLoginLogoutReadOnly(RemoteWebDriver $browser): void {
         $browser->get($this->getUrl());
 
         $this->click('#account-menu-link');
@@ -60,10 +44,8 @@ final class LoginLogoutTest extends SystemTestCase {
 
         $this->click('#account-menu-link');
         $this->screenshot('login_account_menu');
-    }
-
-    protected function doLoginLogoutReadWrite(RemoteWebDriver $browser): void {
-        $this->doLoginLogoutReadOnly($browser);
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
     protected function getUrl(): string {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -14,25 +13,10 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class DownloadsTest extends SystemTestCase {
-    public function testDownloadsScreenshotReadOnlyLegacy(): void {
-        $this->onlyRunInModes($this::$readOnlyModes);
-        $browser = $this->getBrowser();
-        $this->doDownloadsReadOnly($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    public function testDownloadsScreenshotReadWriteLegacy(): void {
+    public function testDownloadsScreenshots(): void {
         $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
-        $this->doDownloadsReadWrite($browser);
 
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doDownloadsReadOnly(RemoteWebDriver $browser): void {
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
 
@@ -49,16 +33,15 @@ final class DownloadsTest extends SystemTestCase {
         });
 
         $this->screenshot('downloads_new_edit');
-    }
-
-    protected function doDownloadsReadWrite(RemoteWebDriver $browser): void {
-        $this->doDownloadsReadOnly($browser);
 
         $this->click('#submit-button');
         sleep(4);
         $this->screenshot('downloads_new_finished');
 
         $this->resetDb();
+
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
     protected function getUrl(): string {

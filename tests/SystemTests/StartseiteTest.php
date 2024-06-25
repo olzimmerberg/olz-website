@@ -85,10 +85,12 @@ final class StartseiteTest extends SystemTestCase {
     protected function doStartseiteReadOnly(RemoteWebDriver $browser): void {
         $browser->get($this->getUrl());
         $this->screenshot('startseite');
+    }
+
+    protected function doStartseiteReadWrite(RemoteWebDriver $browser): void {
+        $this->doStartseiteReadOnly($browser);
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
-        $browser->navigate()->refresh();
         $browser->get($this->getUrl());
 
         $this->click('#important-banner .olz-editable-text .olz-edit-button');
@@ -115,10 +117,6 @@ final class StartseiteTest extends SystemTestCase {
         });
 
         $this->screenshot('startseite_banner_edit');
-    }
-
-    protected function doStartseiteReadWrite(RemoteWebDriver $browser): void {
-        $this->doStartseiteReadOnly($browser);
 
         $this->click('#edit-snippet-modal #submit-button');
         $browser->wait()->until(function () use ($browser) {

@@ -6,6 +6,7 @@ namespace Olz\Tests\SystemTests;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -14,27 +15,24 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class StartseiteTest extends SystemTestCase {
+    #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
     public function testStartseiteHeaders(): void {
-        $this->onlyRunInModes($this::$sutModes);
-
         $url = "{$this->getTargetUrl()}";
         $headers = $this->getHeaders($url);
 
         $this->assertSame(200, $headers['http_code']);
     }
 
+    #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
     public function testStartseiteHeadersLegacy(): void {
-        $this->onlyRunInModes($this::$sutModes);
-
         $url = "{$this->getTargetUrl()}/startseite.php";
         $headers = $this->getHeaders($url);
 
         $this->assertSame(301, $headers['http_code']);
     }
 
+    #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
     public function testStartseiteBody(): void {
-        $this->onlyRunInModes($this::$sutModes);
-
         $url = "{$this->getTargetUrl()}";
         $body = file_get_contents($url);
 
@@ -48,9 +46,8 @@ final class StartseiteTest extends SystemTestCase {
         );
     }
 
+    #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
     public function testStartseiteBodyLegacy(): void {
-        $this->onlyRunInModes($this::$sutModes);
-
         $url = "{$this->getTargetUrl()}/startseite.php";
         $body = file_get_contents($url);
 
@@ -64,8 +61,8 @@ final class StartseiteTest extends SystemTestCase {
         );
     }
 
+    #[OnlyInModes(['dev', 'staging', 'prod'])]
     public function testStartseiteScreenshotReadOnlyLegacy(): void {
-        $this->onlyRunInModes($this::$readOnlyModes);
         $browser = $this->getBrowser();
         $this->doStartseiteReadOnly($browser);
 
@@ -73,8 +70,8 @@ final class StartseiteTest extends SystemTestCase {
         $this->assertDirectoryExists(__DIR__);
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testStartseiteScreenshotReadWriteLegacy(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
         $this->doStartseiteReadWrite($browser);
 

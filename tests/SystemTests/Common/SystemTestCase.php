@@ -31,13 +31,6 @@ class SystemTestCase extends TestCase {
         'meta' => null,
     ];
 
-    /** @var array<string> */
-    protected static array $sutModes = ['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'];
-    /** @var array<string> */
-    protected static array $readOnlyModes = ['dev', 'staging', 'prod'];
-    /** @var array<string> */
-    protected static array $readWriteModes = ['dev_rw', 'staging_rw'];
-
     protected static bool $shutdownFunctionRegistered = false;
 
     protected bool $isSkipped = false;
@@ -125,16 +118,7 @@ class SystemTestCase extends TestCase {
     }
 
     /** @param string|array<string> $modes */
-    protected function onlyRunInModes(string|array $modes): void {
-        if (!$this->isInModes($modes)) {
-            $actual_mode = getenv('SYSTEM_TEST_MODE');
-            $this->isSkipped = true;
-            $this->markTestSkipped("Shouldn't run in mode {$actual_mode}");
-        }
-    }
-
-    /** @param string|array<string> $modes */
-    protected function isInModes(string|array $modes): bool {
+    protected static function isInModes(string|array $modes): bool {
         $modes_array = is_string($modes) ? [$modes] : $modes;
         $actual_mode = getenv('SYSTEM_TEST_MODE');
         foreach ($modes_array as $mode) {
@@ -159,7 +143,7 @@ class SystemTestCase extends TestCase {
             $this->isSkipped = false;
         } else {
             $this->isSkipped = true;
-            $this->markTestSkipped("TEST");
+            $this->markTestSkipped("Not in slice ({$slice_index})");
         }
         $this::tick($test_name);
         $is_not_prod = $this->isInModes(['dev', 'dev_rw', 'staging', 'staging_rw']);
@@ -224,7 +208,7 @@ class SystemTestCase extends TestCase {
     // Database
 
     protected function resetDb(): void {
-        if (!$this->isInModes($this::$readWriteModes)) {
+        if (!$this->isInModes(['dev_rw', 'staging_rw'])) {
             $actual_mode = getenv('SYSTEM_TEST_MODE');
             throw new \Exception("Cannot call resetDb in mode: {$actual_mode}");
         }
@@ -387,11 +371,24 @@ class SystemTestCase extends TestCase {
         $report = self::getPersistedTimingReport();
         $relevant_reports = [];
         foreach ($report as $name => $time) {
-            if (preg_match('/^Olz\\\\Tests(.*)::(.*)$/', $name)) {
-                $relevant_reports[] = [
-                    'name' => $name,
-                    'time' => $time,
-                ];
+            if (preg_match('/^(Olz\\\\Tests.*)::(.*)$/', $name, $matches)) {
+                try {
+                    $method = new \ReflectionMethod($matches[1], $matches[2]);
+                    $only_in_modes = null;
+                    foreach ($method->getAttributes() as $attribute) {
+                        if ($attribute->getName() === OnlyInModes::class) {
+                            $only_in_modes = $attribute->newInstance();
+                        }
+                    }
+                    $mode_ok = $only_in_modes === null || self::isInModes($only_in_modes->modes);
+                    $relevant_reports[] = [
+                        'name' => $name,
+                        'time' => $time,
+                        'mode_ok' => $mode_ok,
+                    ];
+                } catch (\ReflectionException $exc) {
+                    // ignore
+                }
             }
         }
         usort($relevant_reports, function ($a, $b) {
@@ -400,7 +397,9 @@ class SystemTestCase extends TestCase {
         $slice_by_test = [];
         $num_relevant_reports = count($relevant_reports);
         for ($i = 0; $i < $num_relevant_reports; $i++) {
-            $slice_by_test[$relevant_reports[$i]['name']] = $i % $num_slices;
+            $name = $relevant_reports[$i]['name'];
+            $mode_ok = $relevant_reports[$i]['mode_ok'];
+            $slice_by_test[$name] = $mode_ok ? $i % $num_slices : -1;
         }
         return $slice_by_test;
     }

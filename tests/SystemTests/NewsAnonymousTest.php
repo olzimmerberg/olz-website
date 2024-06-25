@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\SystemTests;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -13,8 +14,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class NewsAnonymousTest extends SystemTestCase {
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsAnonymousScreenshotReadWriteLegacy(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
         $this->doNewsAnonymousReadWrite($browser);
 

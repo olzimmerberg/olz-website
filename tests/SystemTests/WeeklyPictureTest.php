@@ -6,6 +6,7 @@ namespace Olz\Tests\SystemTests;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -14,8 +15,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class WeeklyPictureTest extends SystemTestCase {
+    #[OnlyInModes(['dev', 'staging', 'prod'])]
     public function testWeeklyPictureScreenshotReadOnlyLegacy(): void {
-        $this->onlyRunInModes($this::$readOnlyModes);
         $browser = $this->getBrowser();
         $this->doWeeklyPictureReadOnly($browser);
 
@@ -23,8 +24,8 @@ final class WeeklyPictureTest extends SystemTestCase {
         $this->assertDirectoryExists(__DIR__);
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testWeeklyPictureScreenshotReadWriteLegacy(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
         $this->doWeeklyPictureReadWrite($browser);
 

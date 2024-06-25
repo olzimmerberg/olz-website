@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -14,9 +15,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class ProdTest extends SystemTestCase {
     public static string $prodDomain = "olzimmerberg.ch";
 
+    #[OnlyInModes(['prod'])]
     public function testHeaders(): void {
-        $this->onlyRunInModes('prod');
-
         $url = "{$this->getTargetUrl()}";
         $headers = $this->getHeaders($url);
 
@@ -25,9 +25,8 @@ final class ProdTest extends SystemTestCase {
         $this->assertSame('https', strtolower($headers['scheme']));
     }
 
+    #[OnlyInModes(['prod'])]
     public function testWwwGetsRedirected(): void {
-        $this->onlyRunInModes('prod');
-
         $url = "https://www.{$this::$prodDomain}/";
         $headers = $this->getHeaders($url);
 
@@ -41,9 +40,8 @@ final class ProdTest extends SystemTestCase {
         );
     }
 
+    #[OnlyInModes(['prod'])]
     public function testHttpGetsRedirected(): void {
-        $this->onlyRunInModes('prod');
-
         $url = "http://{$this::$prodDomain}/";
         $headers = $this->getHeaders($url);
 
@@ -57,9 +55,8 @@ final class ProdTest extends SystemTestCase {
         );
     }
 
+    #[OnlyInModes(['prod'])]
     public function testHttpWwwGetsRedirected(): void {
-        $this->onlyRunInModes('prod');
-
         $url = "http://www.{$this::$prodDomain}/";
         $headers = $this->getHeaders($url);
 

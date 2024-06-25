@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -14,25 +13,10 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class TerminVorlagenTest extends SystemTestCase {
-    public function testTerminVorlagenScreenshotReadOnlyLegacy(): void {
-        $this->onlyRunInModes($this::$readOnlyModes);
-        $browser = $this->getBrowser();
-        $this->doTerminVorlagenReadOnly($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    public function testTerminVorlagenScreenshotReadWriteLegacy(): void {
+    public function testTerminVorlagenScreenshots(): void {
         $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
-        $this->doTerminVorlagenReadWrite($browser);
 
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doTerminVorlagenReadOnly(RemoteWebDriver $browser): void {
         $this->login('admin', 'adm1n');
 
         $browser->get($this->getUrl());
@@ -40,10 +24,6 @@ final class TerminVorlagenTest extends SystemTestCase {
 
         $browser->get("{$this->getUrl()}/2");
         $this->screenshot('termin_templates_detail');
-    }
-
-    protected function doTerminVorlagenReadWrite(RemoteWebDriver $browser): void {
-        $this->doTerminVorlagenReadOnly($browser);
 
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
@@ -89,6 +69,9 @@ final class TerminVorlagenTest extends SystemTestCase {
         $this->screenshot('termin_templates_new_finished');
 
         $this->resetDb();
+
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
     protected function getUrl(): string {

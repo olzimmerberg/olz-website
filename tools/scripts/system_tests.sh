@@ -97,8 +97,8 @@ if [ "$MODE" = "dev" ] || [ "$MODE" = "dev_rw" ]; then
     # Run dev server
     APP_ENV=dev symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
     DEVSERVER_PID=$!
-    sleep 3
 fi
+sleep 3
 
 # Run test, allow aborting
 set +e

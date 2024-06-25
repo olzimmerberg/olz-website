@@ -9,7 +9,7 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Fetchers\SolvFetcher;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeSolvFetcher;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 use Olz\Utils\WithUtilsCache;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeSyncSolvCommandIntegrationTestSolvFetcher extends Fake\FakeSolvFetcher {
+class FakeSyncSolvCommandIntegrationTestSolvFetcher extends FakeSolvFetcher {
     public function fetchEventsCsvForYear(int|string $year): ?string {
         return $this->getMockedResponse(
             "solv_events_{$year}",

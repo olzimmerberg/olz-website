@@ -238,6 +238,12 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/news/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg', 'inexistent.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/news/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testUpdateNewsEndpointMinimal(): void {
@@ -318,5 +324,11 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/news/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                [],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/news/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

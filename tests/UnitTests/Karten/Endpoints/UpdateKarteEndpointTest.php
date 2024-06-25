@@ -159,5 +159,11 @@ final class UpdateKarteEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/karten/{$id}/img/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/karten/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

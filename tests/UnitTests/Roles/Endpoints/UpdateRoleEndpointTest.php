@@ -182,6 +182,12 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/roles/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/roles/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testUpdateRoleEndpointRoleAccess(): void {
@@ -249,6 +255,12 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/roles/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/roles/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testUpdateRoleEndpoint(): void {
@@ -319,5 +331,11 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/roles/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/roles/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

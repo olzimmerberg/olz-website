@@ -109,6 +109,12 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/snippets/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/snippets/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testUpdateSnippetEndpoint(): void {
@@ -166,5 +172,11 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/snippets/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/snippets/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

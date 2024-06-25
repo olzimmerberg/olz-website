@@ -8,12 +8,12 @@ use Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint;
 use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
 use Olz\Fetchers\TransportApiFetcher;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeTransportApiFetcher;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
-class FakeSearchTransportConnectionEndpointTransportApiFetcher extends Fake\FakeTransportApiFetcher {
+class FakeSearchTransportConnectionEndpointTransportApiFetcher extends FakeTransportApiFetcher {
     /** @param array<string, mixed> $request_data */
     public function fetchConnection(array $request_data): mixed {
         $from = str_replace(' ', '_', $request_data['from']);

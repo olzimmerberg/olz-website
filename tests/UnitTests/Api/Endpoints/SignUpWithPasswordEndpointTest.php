@@ -8,6 +8,7 @@ use Olz\Api\Endpoints\SignUpWithPasswordEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
@@ -102,7 +103,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithInvalidRecaptchaToken(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -121,7 +122,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithInvalidUsername(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -149,7 +150,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithShortPassword(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -177,7 +178,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithOlzimmerbergEmail(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -205,7 +206,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithoutEmail(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -233,7 +234,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithoutPassword(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -261,7 +262,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithMinimalDataForNewUser(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -322,7 +323,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithMaximalDataForNewUser(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -384,7 +385,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -436,7 +437,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -483,7 +484,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithoutPassword(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -523,7 +524,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithValidDataForExistingUsernameWithPassword(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -559,7 +560,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithoutPassword(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -600,7 +601,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
     public function testSignUpWithPasswordEndpointWithValidDataForExistingEmailWithPassword(): void {
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
@@ -638,7 +639,7 @@ final class SignUpWithPasswordEndpointTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
         $endpoint = new SignUpWithPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $session = new MemorySession();
         $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);

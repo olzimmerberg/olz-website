@@ -148,5 +148,11 @@ final class UpdateTerminLabelEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/termin_labels/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/termin_labels/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

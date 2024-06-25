@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Service\Endpoints;
 
 use Olz\Service\Endpoints\CreateDownloadEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -82,14 +82,14 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $download = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $download->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $download->getId());
         $this->assertSame('Test Download', $download->getName());
         $this->assertSame(3, $download->getPosition());
         $this->assertSame('uploaded_file.pdf', $download->getFileId());
@@ -98,7 +98,7 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
             [$download, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -106,5 +106,7 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/downloads/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

@@ -90,6 +90,8 @@ final class EditSnippetEndpointTest extends UnitTestCase {
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testEditSnippetEndpointMinimal(): void {

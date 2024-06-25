@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\OnContinuouslyEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -36,7 +36,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     public function testOnContinuouslyEndpointWrongToken(): void {
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
+        $endpoint->setEnvUtils(new FakeEnvUtils());
 
         try {
             $result = $endpoint->call([
@@ -56,7 +56,7 @@ final class OnContinuouslyEndpointTest extends UnitTestCase {
     public function testOnContinuouslyEndpoint(): void {
         $endpoint = new OnContinuouslyEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setEnvUtils(new Fake\FakeEnvUtils());
+        $endpoint->setEnvUtils(new FakeEnvUtils());
 
         $result = $endpoint->call([
             'authenticityCode' => 'some-token',

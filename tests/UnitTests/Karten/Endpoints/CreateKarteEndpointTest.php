@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Karten\Endpoints;
 
 use Olz\Karten\Endpoints\CreateKarteEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -77,14 +77,14 @@ final class CreateKarteEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $karte = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $karte->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $karte->getId());
         $this->assertSame(12345, $karte->getKartenNr());
         $this->assertSame('Test Karte', $karte->getName());
         $this->assertSame(47.2, $karte->getLatitude());
@@ -100,7 +100,7 @@ final class CreateKarteEndpointTest extends UnitTestCase {
             [$karte, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -108,5 +108,11 @@ final class CreateKarteEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/karten/{$id}/img/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/karten/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

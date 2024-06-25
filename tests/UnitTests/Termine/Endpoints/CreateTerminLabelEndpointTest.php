@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Termine\Endpoints\CreateTerminLabelEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -80,14 +80,14 @@ final class CreateTerminLabelEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $termin_label = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $termin_label->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $termin_label->getId());
         $this->assertSame('label', $termin_label->getIdent());
         $this->assertSame('Label Title', $termin_label->getName());
         $this->assertSame('Some label info', $termin_label->getDetails());
@@ -98,7 +98,7 @@ final class CreateTerminLabelEndpointTest extends UnitTestCase {
             [$termin_label, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -114,5 +114,11 @@ final class CreateTerminLabelEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/files/termin_labels/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/termin_labels/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

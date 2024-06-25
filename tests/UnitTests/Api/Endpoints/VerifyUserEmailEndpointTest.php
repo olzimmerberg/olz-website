@@ -6,8 +6,8 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\VerifyUserEmailEndpoint;
 use Olz\Exceptions\RecaptchaDeniedException;
-use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -29,7 +29,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new VerifyUserEmailEndpoint();
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'recaptchaToken' => 'fake-recaptcha-token',

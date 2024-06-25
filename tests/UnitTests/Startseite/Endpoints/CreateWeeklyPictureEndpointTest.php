@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Startseite\Endpoints;
 
 use Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -78,14 +78,14 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $weekly_picture = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $weekly_picture->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $weekly_picture->getId());
         $this->assertSame('2020-03-13', $weekly_picture->getPublishedDate()->format('Y-m-d'));
         $this->assertSame('Test Titel', $weekly_picture->getText());
         $this->assertSame('uploaded_image.jpg', $weekly_picture->getImageId());
@@ -94,7 +94,7 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             [$weekly_picture, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -102,6 +102,12 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/weekly_picture/{$id}/img/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_image.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/weekly_picture/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testCreateWeeklyPictureEndpointInvalidPicture(): void {
@@ -144,6 +150,8 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
 
             $this->assertSame([
             ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+            $this->assertSame([
+            ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
         }
     }
 }

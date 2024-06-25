@@ -6,7 +6,7 @@ namespace Olz\Tests\Fake;
 
 use Olz\Utils\GeneralUtils;
 
-class DeterministicGeneralUtils extends GeneralUtils {
+class FakeGeneralUtils extends GeneralUtils {
     protected function getRandomIvForAlgo(string $algo): string {
         $iv = '';
         for ($i = 0; $i < openssl_cipher_iv_length($algo); $i++) {

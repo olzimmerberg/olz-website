@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Roles\Endpoints;
 
 use Olz\Roles\Endpoints\CreateRoleEndpoint;
-use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
+use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -89,14 +89,14 @@ final class CreateRoleEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'id' => Fake\FakeEntityManager::AUTO_INCREMENT_ID,
+            'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $entity = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
         $this->assertSame('test', $entity->getUsername());
         $this->assertNull($entity->getOldUsername());
         $this->assertSame('Test Role', $entity->getName());
@@ -112,7 +112,7 @@ final class CreateRoleEndpointTest extends UnitTestCase {
             [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-        $id = Fake\FakeEntityManager::AUTO_INCREMENT_ID;
+        $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
         $this->assertSame([
             [
@@ -124,5 +124,11 @@ final class CreateRoleEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/roles/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/roles/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

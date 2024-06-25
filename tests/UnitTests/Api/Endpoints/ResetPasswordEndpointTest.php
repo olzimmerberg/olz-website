@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\ResetPasswordEndpoint;
-use Olz\Tests\Fake;
+use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Mailer\MailerInterface;
@@ -82,7 +82,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $artifacts = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
@@ -147,7 +147,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $artifacts = [];
         $mailer
             ->expects($this->exactly(1))
@@ -217,7 +217,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'invalid',
@@ -237,7 +237,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new Fake\FakeRecaptchaUtils());
+        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',

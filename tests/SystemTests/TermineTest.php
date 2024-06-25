@@ -51,7 +51,6 @@ final class TermineTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-termin-button');
-        sleep(1);
         $this->sendKeys('#startTime-input', '14:00');
         $this->sendKeys('#endDate-input', '2020-08-15');
         $this->sendKeys('#endTime-input', '18:00');
@@ -86,7 +85,7 @@ final class TermineTest extends SystemTestCase {
         $this->screenshot('termine_new_edit');
 
         $this->click('#submit-button');
-        sleep(4);
+        sleep(1);
         $browser->get("{$this->getUrl()}/1002");
         $this->screenshot('termine_new_finished');
 

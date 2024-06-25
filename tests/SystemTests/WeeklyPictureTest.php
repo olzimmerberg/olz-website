@@ -62,7 +62,7 @@ final class WeeklyPictureTest extends SystemTestCase {
         $this->screenshot('weekly_picture_new_edit');
 
         $this->click('#edit-weekly-picture-modal #submit-button');
-        sleep(4);
+        sleep(1);
         $this->screenshot('weekly_picture_new_finished');
 
         $this->resetDb();

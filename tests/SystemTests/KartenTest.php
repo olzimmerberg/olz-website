@@ -47,7 +47,6 @@ final class KartenTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-karte-button');
-        sleep(1);
         $this->sendKeys('#name-input', 'Die Karte');
         $this->sendKeys('#latitude-input', '46.83474');
         $this->sendKeys('#longitude-input', '9.21544');
@@ -68,7 +67,7 @@ final class KartenTest extends SystemTestCase {
         $this->screenshot('karten_new_edit');
 
         $this->click('#submit-button');
-        sleep(4);
+        sleep(1);
         $this->screenshot('karten_new_finished');
 
         $this->resetDb();

@@ -29,7 +29,6 @@ final class NewsKaderblogTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-news-button');
-        sleep(1);
         $this->click('#edit-news-modal #authorUserId-authorRoleId-field #dropdownMenuButton');
         $this->click('#edit-news-modal #authorUserId-authorRoleId-field #role-index-0');
         $format_select = new WebDriverSelect($this->findBrowserElement('#edit-news-modal #format-input'));
@@ -58,18 +57,17 @@ final class NewsKaderblogTest extends SystemTestCase {
         $this->screenshot('news_new_kaderblog_edit');
 
         $this->click('#edit-news-modal #submit-button');
-        sleep(4);
+        sleep(1);
         $this->screenshot('news_new_kaderblog_finished');
 
         $browser->get("{$this->getUrl()}/10");
 
         $this->click('#edit-news-button');
-        sleep(1);
         $this->sendKeys('#edit-news-modal #content-input', "\n\n!!! UPDATE !!!: Dieser Eintrag wurde aktualisiert!");
         $this->screenshot('news_update_kaderblog_edit');
 
         $this->click('#edit-news-modal #submit-button');
-        sleep(4);
+        sleep(1);
         $this->screenshot('news_update_kaderblog_finished');
 
         $this->resetDb();

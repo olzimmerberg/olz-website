@@ -29,7 +29,6 @@ final class TerminVorlagenTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-termin-template-button');
-        sleep(1);
         $this->sendKeys('#startTime-input', '14:00');
         $this->sendKeys('#durationSeconds-input', '7200');
         $this->sendKeys('#title-input', 'Die Event-Vorlage');
@@ -64,7 +63,7 @@ final class TerminVorlagenTest extends SystemTestCase {
         $this->screenshot('termin_templates_new_edit');
 
         $this->click('#submit-button');
-        sleep(4);
+        sleep(1);
         $browser->get("{$this->getUrl()}/7");
         $this->screenshot('termin_templates_new_finished');
 

@@ -26,7 +26,7 @@ final class LinksTest extends SystemTestCase {
         $this->screenshot('links_new_edit');
 
         $this->click('#submit-button');
-        sleep(4);
+        sleep(1);
         $this->screenshot('links_new_finished');
 
         $this->resetDb();

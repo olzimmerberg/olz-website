@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 class SystemTestCase extends TestCase {
     private static string $browser_name = 'firefox';
     private static ?RemoteWebDriver $browser = null;
+    private static int $max_timeout_seconds = 3;
 
     /** @var array<string, ?string> */
     private static array $targetUrlByMode = [
@@ -77,6 +78,12 @@ class SystemTestCase extends TestCase {
     }
 
     protected function click(string $css_selector): void {
+        $this::$browser
+            ->wait($this::$max_timeout_seconds)
+            ->until(function () use ($css_selector) {
+                return $this->findBrowserElement($css_selector) !== null;
+            })
+        ;
         $element = $this->findBrowserElement($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
         usleep(100 * 1000);
@@ -151,7 +158,8 @@ class SystemTestCase extends TestCase {
             $this->markTestSkipped("TEST");
         }
         $this::tick($test_name);
-        if ($this::$browser !== null) {
+        $is_not_prod = $this->isInModes(['dev', 'dev_rw', 'staging', 'staging_rw']);
+        if ($this::$browser !== null && $is_not_prod) {
             $this->logout();
         }
     }

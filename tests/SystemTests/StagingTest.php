@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -15,9 +16,8 @@ final class StagingTest extends SystemTestCase {
     public static string $stagingDomain = "staging.olzimmerberg.ch";
     public static string $stagingUrl = "https://staging.olzimmerberg.ch/";
 
+    #[OnlyInModes(['staging', 'staging_rw'])]
     public function testStagingIsUp(): void {
-        $this->onlyRunInModes(['staging', 'staging_rw']);
-
         $url = "{$this::$stagingUrl}";
         $headers = $this->getHeaders($url);
 
@@ -25,18 +25,16 @@ final class StagingTest extends SystemTestCase {
         $this->assertSame(0, $headers['ssl_verify_result']);
     }
 
+    #[OnlyInModes(['staging', 'staging_rw'])]
     public function testStagingIsWorking(): void {
-        $this->onlyRunInModes(['staging', 'staging_rw']);
-
         $url = "{$this::$stagingUrl}";
         $body = file_get_contents($url);
 
         $this->assertMatchesRegularExpression('/token/i', $body);
     }
 
+    #[OnlyInModes(['staging', 'staging_rw'])]
     public function testHttpGetsRedirected(): void {
-        $this->onlyRunInModes(['staging', 'staging_rw']);
-
         $url = "http://{$this::$stagingDomain}/";
         $headers = $this->getHeaders($url);
 

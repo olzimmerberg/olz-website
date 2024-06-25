@@ -6,6 +6,7 @@ namespace Olz\Tests\SystemTests;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -14,8 +15,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class TerminOrteTest extends SystemTestCase {
+    #[OnlyInModes(['dev', 'staging', 'prod'])]
     public function testTerminOrteScreenshotReadOnlyLegacy(): void {
-        $this->onlyRunInModes($this::$readOnlyModes);
         $browser = $this->getBrowser();
         $this->doTerminOrteReadOnly($browser);
 
@@ -23,8 +24,8 @@ final class TerminOrteTest extends SystemTestCase {
         $this->assertDirectoryExists(__DIR__);
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTerminOrteScreenshotReadWriteLegacy(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
         $this->doTerminOrteReadWrite($browser);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 use Olz\Utils\AbstractDateUtils;
 
@@ -13,8 +14,8 @@ use Olz\Utils\AbstractDateUtils;
  * @coversNothing
  */
 final class LiveResultsTest extends SystemTestCase {
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testLiveResultsScreenshots(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
 
         $date_utils = AbstractDateUtils::fromEnv();

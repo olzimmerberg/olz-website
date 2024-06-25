@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -12,8 +13,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class LoginLogoutTest extends SystemTestCase {
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testLoginLogoutScreenshots(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
 
         $browser->get($this->getUrl());

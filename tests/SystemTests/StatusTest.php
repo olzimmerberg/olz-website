@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -18,9 +19,8 @@ final class StatusTest extends SystemTestCase {
     public static string $statusUsername = "olz_system_test";
     public static string $statusPassword = "jup,thisIsPublic";
 
+    #[OnlyInModes(['meta'])]
     public function testStatusIsUp(): void {
-        $this->onlyRunInModes('meta');
-
         $url = "{$this::$statusUrl}";
         $headers = $this->getHeaders($url);
 
@@ -28,9 +28,8 @@ final class StatusTest extends SystemTestCase {
         $this->assertSame(0, $headers['ssl_verify_result']);
     }
 
+    #[OnlyInModes(['meta'])]
     public function testStatusIsWorking(): void {
-        $this->onlyRunInModes('meta');
-
         $url = "{$this::$statusUrl}";
         $body = file_get_contents($url);
 
@@ -38,9 +37,8 @@ final class StatusTest extends SystemTestCase {
         $this->assertMatchesRegularExpression('/Server Monitor/i', $body);
     }
 
+    #[OnlyInModes(['meta'])]
     public function testStatusIsMonitoring(): void {
-        $this->onlyRunInModes('meta');
-
         $browser = $this->getBrowser();
         $browser->get("{$this::$statusUrl}");
         $username_input = $this->findBrowserElement('#input-username');
@@ -68,9 +66,8 @@ final class StatusTest extends SystemTestCase {
         $this->assertLessThanOrEqual(15 * 60, $last_check);
     }
 
+    #[OnlyInModes(['meta'])]
     protected function parseLastCheck(string $text): ?int {
-        $this->onlyRunInModes('meta');
-
         $res = preg_match('/Last check:\s*(([0-9]+) (seconds|minutes) ago|about a minute ago)/im', $text, $matches);
         if (!$res) {
             return null;
@@ -95,9 +92,8 @@ final class StatusTest extends SystemTestCase {
         throw new \Exception("Invalid unit: {$unit}");
     }
 
+    #[OnlyInModes(['meta'])]
     public function testHttpGetsRedirected(): void {
-        $this->onlyRunInModes('meta');
-
         $url = "http://{$this::$statusDomain}/";
         $headers = $this->getHeaders($url);
 

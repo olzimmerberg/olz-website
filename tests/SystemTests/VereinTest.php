@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\SystemTests;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -13,8 +14,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class VereinTest extends SystemTestCase {
+    #[OnlyInModes(['dev', 'staging', 'prod'])]
     public function testVereinScreenshotReadOnlyLegacy(): void {
-        $this->onlyRunInModes($this::$readOnlyModes);
         $browser = $this->getBrowser();
         $this->doVereinReadOnly($browser);
 
@@ -22,8 +23,8 @@ final class VereinTest extends SystemTestCase {
         $this->assertDirectoryExists(__DIR__);
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testVereinScreenshotReadWriteLegacy(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
         $this->doVereinReadWrite($browser);
 

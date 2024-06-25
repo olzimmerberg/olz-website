@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -14,9 +15,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class WebmailTest extends SystemTestCase {
     public static string $webmailUrl = "https://webmail.olzimmerberg.ch/";
 
+    #[OnlyInModes(['meta'])]
     public function testWebmalIsWorking(): void {
-        $this->onlyRunInModes('meta');
-
         $url = "{$this::$webmailUrl}";
         $body = file_get_contents($url);
 

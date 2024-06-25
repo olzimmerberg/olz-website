@@ -7,6 +7,7 @@ namespace Olz\Tests\SystemTests;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverSelect;
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -15,8 +16,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class NewsKaderblogTest extends SystemTestCase {
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsKaderblogScreenshotReadWriteLegacy(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
         $this->doNewsKaderblogReadWrite($browser);
 

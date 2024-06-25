@@ -6,6 +6,7 @@ namespace Olz\Tests\SystemTests;
 
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverSelect;
+use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
 /**
@@ -14,8 +15,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class NewsForumTest extends SystemTestCase {
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsForumCreateScreenshotReadWriteLegacy(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
 
         $this->login('benutzer', 'b3nu723r');
@@ -48,8 +49,8 @@ final class NewsForumTest extends SystemTestCase {
         $this->assertDirectoryExists(__DIR__);
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsForumUpdateScreenshotReadWriteLegacy(): void {
-        $this->onlyRunInModes($this::$readWriteModes);
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');

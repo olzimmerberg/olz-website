@@ -72,18 +72,20 @@ class SystemTestCase extends TestCase {
     }
 
     protected function findBrowserElement(string $css_selector): RemoteWebElement {
+        $this::$browser
+            ->wait($this::$max_timeout_seconds)
+            ->until(function () use ($css_selector) {
+                return $this::$browser->findElement(
+                    WebDriverBy::cssSelector($css_selector)
+                );
+            })
+        ;
         return $this::$browser->findElement(
             WebDriverBy::cssSelector($css_selector)
         );
     }
 
     protected function click(string $css_selector): void {
-        $this::$browser
-            ->wait($this::$max_timeout_seconds)
-            ->until(function () use ($css_selector) {
-                return $this->findBrowserElement($css_selector) !== null;
-            })
-        ;
         $element = $this->findBrowserElement($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
         usleep(100 * 1000);
@@ -92,6 +94,8 @@ class SystemTestCase extends TestCase {
 
     protected function clear(string $css_selector): void {
         $element = $this->findBrowserElement($css_selector);
+        $element->getLocationOnScreenOnceScrolledIntoView();
+        usleep(100 * 1000);
         $element->clear();
     }
 

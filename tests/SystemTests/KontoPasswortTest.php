@@ -70,12 +70,11 @@ final class KontoPasswortTest extends SystemTestCase {
         sleep(random_int(2, 3));
         usleep(random_int(0, 999999));
         $this->click('input[name="cookie-consent-given"]');
-        sleep(random_int(1, 2));
+        sleep(random_int(0, 1));
         usleep(random_int(0, 999999));
         $this->click('#sign-up-with-password-submit-button');
         sleep(1);
         $this->screenshot('konto_passwort_submitted');
-        sleep(1);
 
         $browser->get("{$this->getTargetUrl()}/apps/files/webdav/");
         $this->screenshot('konto_passwort_new_webdav');

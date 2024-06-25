@@ -35,7 +35,7 @@ final class DownloadsTest extends SystemTestCase {
         $this->screenshot('downloads_new_edit');
 
         $this->click('#submit-button');
-        sleep(4);
+        sleep(1);
         $this->screenshot('downloads_new_finished');
 
         $this->resetDb();

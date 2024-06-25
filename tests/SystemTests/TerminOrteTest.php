@@ -47,7 +47,6 @@ final class TerminOrteTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-termin-location-button');
-        sleep(1);
         $this->sendKeys('#name-input', 'Der Austragungsort');
         $this->sendKeys('#details-input', '...ist perfekt!');
         $this->sendKeys('#latitude-input', '46.83479');
@@ -65,7 +64,7 @@ final class TerminOrteTest extends SystemTestCase {
         $this->screenshot('termin_locations_new_edit');
 
         $this->click('#submit-button');
-        sleep(4);
+        sleep(1);
         $browser->get("{$this->getUrl()}/4");
         $this->screenshot('termin_locations_new_finished');
 

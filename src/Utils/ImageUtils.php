@@ -25,7 +25,6 @@ class ImageUtils {
         ?string $lightview = 'image',
         string $attrs = '',
     ): string {
-        $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
         if (!isset($this::TABLES_IMG_DIRS[$db_table])) {
@@ -55,13 +54,14 @@ class ImageUtils {
         $a_before = $lightview ? "<a href='{$data_href}{$imgfile}' aria-label='Bild vergrössern' data-src='{$data_href}{$imgfile}' onclick='event.stopPropagation()'>" : "";
         $a_after = $lightview ? "</a>" : "";
 
-        $url_without_dim = "{$code_href}image_tools/thumb/{$db_table}\${$id}\${$index}";
-        $dim2x = $dim * 2;
+        $url_without_dim = "{$data_href}img/{$db_table}/{$id}/thumb/{$index}";
+        $thumbdim = $this->getThumbSize($dim);
+        $thumbdim2x = $thumbdim * 2;
         return <<<ZZZZZZZZZZ
             {$span_before}{$a_before}
             <img
-                src='{$url_without_dim}\${$dim}.jpg'
-                srcset='{$url_without_dim}\${$dim2x}.jpg 2x, {$url_without_dim}\${$dim}.jpg 1x'
+                src='{$url_without_dim}_{$thumbdim}.jpg'
+                srcset='{$url_without_dim}_{$thumbdim2x}.jpg 2x, {$url_without_dim}_{$thumbdim}.jpg 1x'
                 alt=''
                 width='{$wid}'
                 height='{$hei}'
@@ -69,6 +69,13 @@ class ImageUtils {
             />
             {$a_after}{$span_after}
             ZZZZZZZZZZ;
+    }
+
+    public function getThumbSize(int $size): int {
+        $ndim = $size - 1;
+        for ($i = 1; $i < 9 && ($ndim >> $i) > 0; $i++) {
+        }
+        return 1 << $i;
     }
 
     /** @param array<string> $image_ids */
@@ -82,6 +89,9 @@ class ImageUtils {
     }
 
     public function getThumbFile(string $image_id, string $entity_img_path, int $size): string {
+        if ($size !== 32 && $size !== 64 && $size !== 128 && $size !== 256 && $size !== 512) {
+            throw new \Exception("Size must be a power of two (32,64,128,256,512), was: {$size}");
+        }
         $imgfile = "{$entity_img_path}img/{$image_id}";
         $info = getimagesize($imgfile);
         $swid = $info[0];
@@ -101,7 +111,7 @@ class ImageUtils {
         if ($wid > 256 || $hei > 256) {
             $thumbfile = $imgfile;
         } else {
-            $thumbfile = "{$entity_img_path}thumb/{$image_id}_{$wid}x{$hei}.jpg";
+            $thumbfile = "{$entity_img_path}thumb/{$image_id}_{$size}.jpg";
         }
         if (!is_file($thumbfile)) {
             if (!is_dir(dirname($thumbfile))) {

@@ -41,8 +41,8 @@ final class ImageUtilsTest extends UnitTestCase {
             <<<ZZZZZZZZZZ
                 <span class='lightgallery'><a href='/data-href/img/news//123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news//123/img/abcd.jpg' onclick='event.stopPropagation()'>
                 <img
-                    src='/data-href/img/news/123/thumb/abcd.jpg_128.jpg'
-                    srcset='/data-href/img/news/123/thumb/abcd.jpg_256.jpg 2x, /data-href/img/news/123/thumb/abcd.jpg_128.jpg 1x'
+                    src='/data-href/img/news/123/thumb/abcd.jpg\$128.jpg'
+                    srcset='/data-href/img/news/123/thumb/abcd.jpg\$256.jpg 2x, /data-href/img/news/123/thumb/abcd.jpg\$128.jpg 1x'
                     alt=''
                     width='110'
                     height='73'
@@ -84,7 +84,7 @@ final class ImageUtilsTest extends UnitTestCase {
         $thumbfile = $image_utils->getThumbFile('abcd.jpg', $entity_img_path, 128);
 
         $this->assertTrue(is_file($thumbfile));
-        $this->assertSame("{$entity_img_path}thumb/abcd.jpg_128.jpg", $thumbfile);
+        $this->assertSame("{$entity_img_path}thumb/abcd.jpg\$128.jpg", $thumbfile);
     }
 
     public function testGetThumbFileError(): void {

@@ -60,8 +60,8 @@ class ImageUtils {
         return <<<ZZZZZZZZZZ
             {$span_before}{$a_before}
             <img
-                src='{$url_without_dim}_{$thumbdim}.jpg'
-                srcset='{$url_without_dim}_{$thumbdim2x}.jpg 2x, {$url_without_dim}_{$thumbdim}.jpg 1x'
+                src='{$url_without_dim}\${$thumbdim}.jpg'
+                srcset='{$url_without_dim}\${$thumbdim2x}.jpg 2x, {$url_without_dim}\${$thumbdim}.jpg 1x'
                 alt=''
                 width='{$wid}'
                 height='{$hei}'
@@ -111,7 +111,7 @@ class ImageUtils {
         if ($wid > 256 || $hei > 256) {
             $thumbfile = $imgfile;
         } else {
-            $thumbfile = "{$entity_img_path}thumb/{$image_id}_{$size}.jpg";
+            $thumbfile = "{$entity_img_path}thumb/{$image_id}\${$size}.jpg";
         }
         if (!is_file($thumbfile)) {
             if (!is_dir(dirname($thumbfile))) {

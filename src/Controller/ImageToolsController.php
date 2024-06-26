@@ -15,7 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ImageToolsController extends AbstractController {
     use WithUtilsTrait;
 
-    #[Route('/image_tools/thumb/{db_table}${id}${index}${dimension}.jpg', requirements: [
+    // This is a backup mechanism for the case where the thumbnail does not exist yet
+    #[Route('/img/{db_table}/{id}/thumb/{index}_{dimension}.jpg', requirements: [
         'db_table' => '[a-z_]+',
         'id' => '\d+',
         'dimension' => '\d+',
@@ -40,11 +41,7 @@ class ImageToolsController extends AbstractController {
         if (!is_file($imgfile)) {
             throw new NotFoundHttpException("No such image: {$imgfile}");
         }
-        $ndim = $dimension - 1;
-        $dim = false;
-        for ($i = 1; $i < 9 && ($ndim >> $i) > 0; $i++) {
-        }
-        $dim = (1 << $i);
+        $dim = $this->imageUtils()->getThumbSize($dimension);
         if ($dim < 32) {
             $dim = 32;
         }

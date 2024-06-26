@@ -11,6 +11,21 @@ use Olz\Utils\WithUtilsCache;
 /**
  * @internal
  *
+ * @coversNothing
+ */
+class ImageUtilsForTest extends ImageUtils {
+    /** @var array<array{0: string, 1: string, 2: int}> */
+    public array $getThumbFileCalls = [];
+
+    public function getThumbFile(string $image_id, string $entity_img_path, int $size): string {
+        $this->getThumbFileCalls[] = [$image_id, $entity_img_path, $size];
+        return '';
+    }
+}
+
+/**
+ * @internal
+ *
  * @covers \Olz\Utils\ImageUtils
  */
 final class ImageUtilsTest extends UnitTestCase {
@@ -26,8 +41,8 @@ final class ImageUtilsTest extends UnitTestCase {
             <<<ZZZZZZZZZZ
                 <span class='lightgallery'><a href='/data-href/img/news//123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news//123/img/abcd.jpg' onclick='event.stopPropagation()'>
                 <img
-                    src='/_/image_tools/thumb/news\$123\$abcd.jpg\$110.jpg'
-                    srcset='/_/image_tools/thumb/news\$123\$abcd.jpg\$220.jpg 2x, /_/image_tools/thumb/news\$123\$abcd.jpg\$110.jpg 1x'
+                    src='/data-href/img/news/123/thumb/abcd.jpg_128.jpg'
+                    srcset='/data-href/img/news/123/thumb/abcd.jpg_256.jpg 2x, /data-href/img/news/123/thumb/abcd.jpg_128.jpg 1x'
                     alt=''
                     width='110'
                     height='73'
@@ -37,5 +52,54 @@ final class ImageUtilsTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             $image_utils->olzImage('news', 123, 'abcd.jpg', 110),
         );
+    }
+
+    public function testGenerateThumbnails(): void {
+        $image_utils = new ImageUtilsForTest();
+
+        $image_utils->generateThumbnails(['abcd.jpg', 'efgh.jpg'], 'fake-path');
+
+        $this->assertSame([
+            ['abcd.jpg', 'fake-path', 32],
+            ['abcd.jpg', 'fake-path', 64],
+            ['abcd.jpg', 'fake-path', 128],
+            ['abcd.jpg', 'fake-path', 256],
+            ['efgh.jpg', 'fake-path', 32],
+            ['efgh.jpg', 'fake-path', 64],
+            ['efgh.jpg', 'fake-path', 128],
+            ['efgh.jpg', 'fake-path', 256],
+        ], $image_utils->getThumbFileCalls);
+    }
+
+    public function testGetThumbFile(): void {
+        $image_utils = new ImageUtils();
+        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
+        $entity_img_path = "{$data_path}img/news/123/";
+        mkdir("{$entity_img_path}img", 0o777, true);
+        mkdir("{$entity_img_path}thumb", 0o777, true);
+        $sample_image_path = __DIR__.'/../../../src/Utils/data/sample-data/sample-picture.jpg';
+        $image_path = "{$entity_img_path}img/abcd.jpg";
+        copy($sample_image_path, $image_path);
+
+        $thumbfile = $image_utils->getThumbFile('abcd.jpg', $entity_img_path, 128);
+
+        $this->assertTrue(is_file($thumbfile));
+        $this->assertSame("{$entity_img_path}thumb/abcd.jpg_128.jpg", $thumbfile);
+    }
+
+    public function testGetThumbFileError(): void {
+        $image_utils = new ImageUtils();
+        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
+        $entity_img_path = "{$data_path}img/news/123/";
+
+        try {
+            $image_utils->getThumbFile('abcd.jpg', $entity_img_path, 110);
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame(
+                'Size must be a power of two (32,64,128,256,512), was: 110',
+                $exc->getMessage()
+            );
+        }
     }
 }

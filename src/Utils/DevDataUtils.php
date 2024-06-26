@@ -500,7 +500,7 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/news/1203/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1203/img/MIGRATED0000000012030001.jpg", 800, 600);
         $this->mkdir("{$data_path}img/news/1203/thumb");
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1203/thumb/MIGRATED0000000012030001.jpg", 120, 80);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1203/thumb/MIGRATED0000000012030001.jpg_128.jpg", 128, 96);
         $this->mkdir("{$data_path}img/news/1206");
         $this->mkdir("{$data_path}img/news/1206/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/img/MIGRATED0000000012060001.jpg", 800, 600);
@@ -508,10 +508,10 @@ class DevDataUtils {
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/img/MIGRATED0000000012060003.jpg", 800, 600);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/img/MIGRATED0000000012060004.jpg", 800, 600);
         $this->mkdir("{$data_path}img/news/1206/thumb");
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/thumb/MIGRATED0000000012060001.jpg", 120, 80);
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/thumb/MIGRATED0000000012060002.jpg", 120, 80);
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/thumb/MIGRATED0000000012060003.jpg", 120, 80);
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/thumb/MIGRATED0000000012060004.jpg", 120, 80);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/thumb/MIGRATED0000000012060001.jpg_128.jpg", 128, 96);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/thumb/MIGRATED0000000012060002.jpg_128.jpg", 128, 96);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/thumb/MIGRATED0000000012060003.jpg_128.jpg", 128, 96);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/1206/thumb/MIGRATED0000000012060004.jpg_128.jpg", 128, 96);
         $this->mkdir("{$data_path}img/news/6401");
         $this->mkdir("{$data_path}img/news/6401/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/6401/img/MIGRATED0000000064010001.jpg", 800, 600);

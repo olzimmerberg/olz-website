@@ -16,7 +16,7 @@ class ImageToolsController extends AbstractController {
     use WithUtilsTrait;
 
     // This is a backup mechanism for the case where the thumbnail does not exist yet
-    #[Route('/img/{db_table}/{id}/thumb/{index}_{dimension}.jpg', requirements: [
+    #[Route('/img/{db_table}/{id}/thumb/{index}${dimension}.jpg', requirements: [
         'db_table' => '[a-z_]+',
         'id' => '\d+',
         'dimension' => '\d+',

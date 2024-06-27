@@ -39,7 +39,7 @@ final class ImageUtilsTest extends UnitTestCase {
         $attrs = '';
         $this->assertSame(
             <<<ZZZZZZZZZZ
-                <span class='lightgallery'><a href='/data-href/img/news//123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news//123/img/abcd.jpg' onclick='event.stopPropagation()'>
+                <span class='lightgallery'><a href='/data-href/img/news/123/img/abcd.jpg' aria-label='Bild vergrössern' data-src='/data-href/img/news/123/img/abcd.jpg' onclick='event.stopPropagation()'>
                 <img
                     src='/data-href/img/news/123/thumb/abcd.jpg\$128.jpg'
                     srcset='/data-href/img/news/123/thumb/abcd.jpg\$256.jpg 2x, /data-href/img/news/123/thumb/abcd.jpg\$128.jpg 1x'

@@ -36,7 +36,7 @@ class ImageToolsController extends AbstractController {
             throw new NotFoundHttpException("No such DB table: {$db_table}");
         }
         $db_imgpath = ImageUtils::TABLES_IMG_DIRS[$db_table];
-        $entity_img_path = "{$data_path}{$db_imgpath}/{$id}/";
+        $entity_img_path = "{$data_path}{$db_imgpath}{$id}/";
         $imgfile = "{$entity_img_path}img/{$index}";
         if (!is_file($imgfile)) {
             throw new NotFoundHttpException("No such image: {$imgfile}");

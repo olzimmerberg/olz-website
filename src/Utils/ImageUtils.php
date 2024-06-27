@@ -33,7 +33,7 @@ class ImageUtils {
             return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
         }
         $db_imgpath = $this::TABLES_IMG_DIRS[$db_table];
-        $imgfile = "{$db_imgpath}/{$id}/img/{$index}";
+        $imgfile = "{$db_imgpath}{$id}/img/{$index}";
         if (!is_file("{$data_path}{$imgfile}")) {
             $message = "Bild nicht vorhanden (in olzImage): {$imgfile}";
             $this->log()->error($message);

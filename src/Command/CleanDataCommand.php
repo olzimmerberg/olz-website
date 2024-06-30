@@ -9,8 +9,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'olz:clean-thumbs')]
-class CleanThumbsCommand extends OlzCommand {
+#[AsCommand(name: 'olz:clean-data')]
+class CleanDataCommand extends OlzCommand {
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
@@ -23,8 +23,8 @@ class CleanThumbsCommand extends OlzCommand {
         foreach ($paths as $path) {
             $entities_path = "{$data_path}{$path}";
             if (!is_dir($entities_path)) {
-                $this->logAndOutput("No such directory {$entities_path}");
-                return Command::FAILURE;
+                $this->logAndOutput("Creating directory {$entities_path}...");
+                $this->mkdir($entities_path, 0o777, true);
             }
             $handle = $this->opendir($entities_path);
             if (!$handle) {
@@ -37,6 +37,7 @@ class CleanThumbsCommand extends OlzCommand {
                 }
                 if (strval(intval($entry)) !== $entry) {
                     $this->logAndOutput("Invalid entity ID: {$entry}");
+                    continue;
                 }
                 $entity_img_path = "{$entities_path}{$entry}/";
                 $this->cleanThumbDir($entity_img_path);
@@ -49,8 +50,8 @@ class CleanThumbsCommand extends OlzCommand {
     private function cleanThumbDir(string $entity_img_path): void {
         $thumb_dir = "{$entity_img_path}thumb/";
         if (!is_dir($thumb_dir)) {
-            $this->logAndOutput("No such directory {$thumb_dir}");
-            return;
+            $this->logAndOutput("Creating directory {$thumb_dir}...");
+            $this->mkdir($thumb_dir, 0o777, true);
         }
         $handle = $this->opendir($thumb_dir);
         if (!$handle) {
@@ -65,6 +66,7 @@ class CleanThumbsCommand extends OlzCommand {
             if (!$is_valid_thumb) {
                 $entry_path = "{$thumb_dir}{$entry}";
                 $this->logAndOutput("Invalid thumb: {$entry_path}");
+                $this->unlink($entry_path);
             }
         }
         $this->closedir($handle);
@@ -72,35 +74,25 @@ class CleanThumbsCommand extends OlzCommand {
 
     /** @return bool|resource */
     protected function opendir(string $path): mixed {
-        return opendir($path);
+        return @opendir($path);
     }
 
     /** @param resource|null $handle */
     protected function readdir(mixed $handle): bool|string {
-        return readdir($handle);
+        return @readdir($handle);
     }
 
     /** @param resource|null $handle */
     protected function closedir(mixed $handle): void {
-        closedir($handle);
-    }
-
-    protected function filemtime(string $path): bool|int {
-        // @codeCoverageIgnoreStart
-        // Reason: Mocked in tests.
-        return filemtime($path);
-        // @codeCoverageIgnoreEnd
-    }
-
-    protected function filectime(string $path): bool|int {
-        // @codeCoverageIgnoreStart
-        // Reason: Mocked in tests.
-        return filectime($path);
-        // @codeCoverageIgnoreEnd
+        @closedir($handle);
     }
 
     // @codeCoverageIgnoreStart
     // Reason: Mocked in tests.
+
+    protected function mkdir(string $directory, int $permissions, bool $recursive): void {
+        mkdir($directory, $permissions, $recursive);
+    }
 
     protected function unlink(string $path): void {
         unlink($path);

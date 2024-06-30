@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Command;
 
-use Olz\Command\CleanThumbsCommand;
+use Olz\Command\CleanDataCommand;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class FakeCleanThumbsCommand extends CleanThumbsCommand {
+class FakeCleanDataCommand extends CleanDataCommand {
     /** @var bool|resource|null */
     public mixed $opendir_override_result = null;
 
-    public ?int $filemtime_response = null;
-
-    /** @var array<string> */
-    public array $rmdir_calls = [];
+    /** @var array<array{0: string, 1: int, 2: bool}> */
+    public array $mkdir_calls = [];
     /** @var array<string> */
     public array $unlink_calls = [];
 
@@ -29,19 +28,8 @@ class FakeCleanThumbsCommand extends CleanThumbsCommand {
         return parent::opendir($path);
     }
 
-    protected function filemtime(string $path): bool|int {
-        if ($this->filemtime_response !== null) {
-            return $this->filemtime_response;
-        }
-        return 0;
-    }
-
-    protected function filectime(string $path): bool|int {
-        return 0;
-    }
-
-    protected function rmdir(string $path): void {
-        $this->rmdir_calls[] = $path;
+    protected function mkdir(string $directory, int $permissions, bool $recursive): void {
+        $this->mkdir_calls[] = [$directory, $permissions, $recursive];
     }
 
     protected function unlink(string $path): void {
@@ -52,10 +40,10 @@ class FakeCleanThumbsCommand extends CleanThumbsCommand {
 /**
  * @internal
  *
- * @covers \Olz\Command\CleanThumbsCommand
+ * @covers \Olz\Command\CleanDataCommand
  */
-final class CleanThumbsCommandTest extends UnitTestCase {
-    public function testCleanThumbsCommandCleansUp(): void {
+final class CleanDataCommandTest extends UnitTestCase {
+    public function testCleanDataCommandCleansUp(): void {
         $data_path = WithUtilsCache::get('envUtils')->getDataPath();
         mkdir("{$data_path}img/karten/", 0o777, true);
         mkdir("{$data_path}img/news/10/img/", 0o777, true);
@@ -71,6 +59,7 @@ final class CleanThumbsCommandTest extends UnitTestCase {
         file_put_contents("{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128.jpg", "test");
         file_put_contents("{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128x96.jpg", "test");
         file_put_contents("{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuv-_.jpg$128.jpg", "test");
+        mkdir("{$data_path}img/news/invalid/", 0o777, true);
         mkdir("{$data_path}img/roles/", 0o777, true);
         mkdir("{$data_path}img/snippets/", 0o777, true);
         mkdir("{$data_path}img/termine/", 0o777, true);
@@ -82,19 +71,48 @@ final class CleanThumbsCommandTest extends UnitTestCase {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
-        $job = new FakeCleanThumbsCommand();
-        $job->run($input, $output);
+        $job = new FakeCleanDataCommand();
+        $result = $job->run($input, $output);
 
+        $this->assertSame(Command::SUCCESS, $result);
         $this->assertEqualsCanonicalizing([
-        ], $job->rmdir_calls);
+            ["{$data_path}img/news/10/thumb/", 0o777, true],
+        ], $job->mkdir_calls);
+        $this->assertEqualsCanonicalizing([
+            "{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128.jpg",
+            "{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128x96.jpg",
+        ], $job->unlink_calls);
+        $this->assertEqualsCanonicalizing([
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanDataCommand...',
+            'INFO Creating directory data-path/img/news/10/thumb/...',
+            'INFO Failed to open directory data-path/img/news/10/thumb/',
+            'INFO Invalid entity ID: invalid',
+            'INFO Invalid thumb: data-path/img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128.jpg',
+            'INFO Invalid thumb: data-path/img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128x96.jpg',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanDataCommand.',
+        ], $this->getLogs());
+    }
+
+    public function testCleanDataCommandMissingEntityDir(): void {
+        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
+
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+
+        $job = new FakeCleanDataCommand();
+        $result = $job->run($input, $output);
+
+        $this->assertSame(Command::FAILURE, $result);
+        $this->assertEqualsCanonicalizing([
+            ["{$data_path}img/karten/", 0o777, true],
+        ], $job->mkdir_calls);
         $this->assertEqualsCanonicalizing([
         ], $job->unlink_calls);
         $this->assertEqualsCanonicalizing([
-            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanThumbsCommand...',
-            'INFO No such directory data-path/img/news/10/thumb/',
-            'INFO Invalid thumb: data-path/img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128.jpg',
-            'INFO Invalid thumb: data-path/img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128x96.jpg',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanThumbsCommand.',
+            'INFO Creating directory data-path/img/karten/...',
+            'INFO Failed to open directory data-path/img/karten/',
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanDataCommand...',
+            'NOTICE Failed running command Olz\Tests\UnitTests\Command\FakeCleanDataCommand.',
         ], $this->getLogs());
     }
 }

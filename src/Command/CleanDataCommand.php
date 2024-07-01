@@ -22,52 +22,70 @@ class CleanDataCommand extends OlzCommand {
         sort($paths);
         foreach ($paths as $path) {
             $entities_path = "{$data_path}{$path}";
-            if (!is_dir($entities_path)) {
-                $this->logAndOutput("Creating directory {$entities_path}...");
-                $this->mkdir($entities_path, 0o777, true);
-            }
-            $handle = $this->opendir($entities_path);
-            if (!$handle) {
-                $this->logAndOutput("Failed to open directory {$entities_path}");
-                return Command::FAILURE;
-            }
-            while (false !== ($entry = $this->readdir($handle))) {
-                if ($entry === '.' || $entry === '..') {
-                    continue;
+            $this->forEachDirectoryEntry(
+                $entities_path,
+                function ($entry) use ($entities_path) {
+                    if (strval(intval($entry)) !== $entry) {
+                        $this->logAndOutput("Invalid entity ID: {$entry}");
+                        return;
+                    }
+                    $entity_img_path = "{$entities_path}{$entry}/";
+                    $this->cleanThumbDir($entity_img_path);
                 }
-                if (strval(intval($entry)) !== $entry) {
-                    $this->logAndOutput("Invalid entity ID: {$entry}");
-                    continue;
-                }
-                $entity_img_path = "{$entities_path}{$entry}/";
-                $this->cleanThumbDir($entity_img_path);
-            }
-            $this->closedir($handle);
+            );
         }
         return Command::SUCCESS;
     }
 
     private function cleanThumbDir(string $entity_img_path): void {
         $thumb_dir = "{$entity_img_path}thumb/";
-        if (!is_dir($thumb_dir)) {
-            $this->logAndOutput("Creating directory {$thumb_dir}...");
-            $this->mkdir($thumb_dir, 0o777, true);
+        try {
+            $this->forEachDirectoryEntry(
+                $thumb_dir,
+                function ($entry) use ($thumb_dir) {
+                    $is_valid_thumb = preg_match('/^[a-zA-Z0-9_-]{24}\.jpg\$(32|64|128|256|512)\.jpg$/', $entry);
+                    if (!$is_valid_thumb) {
+                        $entry_path = "{$thumb_dir}{$entry}";
+                        $this->logAndOutput("Invalid thumb: {$entry_path}");
+                        $this->unlink($entry_path);
+                    }
+                }
+            );
+        } catch (\Throwable $th) {
+            $this->logAndOutput("Error validating thumbs: {$th->getMessage()}");
         }
-        $handle = $this->opendir($thumb_dir);
+
+        $img_dir = "{$entity_img_path}img/";
+        $image_ids = [];
+        $this->forEachDirectoryEntry(
+            $img_dir,
+            function ($entry) use ($img_dir, &$image_ids) {
+                $is_valid_img = preg_match('/^[a-zA-Z0-9_-]{24}\.jpg$/', $entry);
+                if ($is_valid_img) {
+                    $image_ids[] = $entry;
+                } else {
+                    $entry_path = "{$img_dir}{$entry}";
+                    $this->logAndOutput("Invalid img: {$entry_path}");
+                }
+            }
+        );
+        $this->imageUtils()->generateThumbnails($image_ids, $entity_img_path);
+    }
+
+    protected function forEachDirectoryEntry(string $directory, callable $callback): void {
+        if (!is_dir($directory)) {
+            $this->logAndOutput("Creating directory {$directory}...");
+            $this->mkdir($directory, 0o777, true);
+        }
+        $handle = $this->opendir($directory);
         if (!$handle) {
-            $this->logAndOutput("Failed to open directory {$thumb_dir}");
-            return;
+            throw new \Exception("Failed to open directory {$directory}");
         }
         while (false !== ($entry = $this->readdir($handle))) {
             if ($entry === '.' || $entry === '..') {
                 continue;
             }
-            $is_valid_thumb = preg_match('/^[a-zA-Z0-9_-]{24}\.jpg\$(32|64|128|256|512)\.jpg$/', $entry);
-            if (!$is_valid_thumb) {
-                $entry_path = "{$thumb_dir}{$entry}";
-                $this->logAndOutput("Invalid thumb: {$entry_path}");
-                $this->unlink($entry_path);
-            }
+            $callback($entry);
         }
         $this->closedir($handle);
     }

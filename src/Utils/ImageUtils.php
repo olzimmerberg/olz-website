@@ -83,7 +83,10 @@ class ImageUtils {
         foreach ($image_ids as $image_id) {
             for ($i = 5; $i < 9; $i++) {
                 $size = (1 << $i);
-                $this->getThumbFile($image_id, $entity_img_path, $size);
+                if (!is_file("{$entity_img_path}thumb/{$image_id}\${$size}.jpg")) {
+                    $this->log()->info("Generate {$entity_img_path}thumb/{$image_id}\${$size}.jpg...");
+                    $this->getThumbFile($image_id, $entity_img_path, $size);
+                }
             }
         }
     }

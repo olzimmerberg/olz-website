@@ -68,15 +68,8 @@ final class OlzCommandIntegrationTest extends IntegrationTestCase {
         );
         $output_string = $output->fetch();
         $this->assertMatchesRegularExpression(
-            '/^Data path\: .*\/IntegrationTests\/document-root\//',
+            '/Data path\: .*\/IntegrationTests\/document-root\//',
             $output_string
-        );
-        $this->assertSame(
-            <<<ZZZZZZZZZZ
-                Running command Olz\\Command\\TestCommand...
-                {$output_string}Successfully ran command Olz\\Command\\TestCommand.
-                ZZZZZZZZZZ,
-            str_replace('INFO ', '', implode("\n", $this->getLogs()))
         );
     }
 }

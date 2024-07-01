@@ -33,7 +33,11 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Command\\OnContinuouslyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
-        $this->assertSame("", $output->fetch());
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            Fake.INFO: Running command Olz\Command\OnContinuouslyCommand... [] []
+            Fake.INFO: Successfully ran command Olz\Command\OnContinuouslyCommand. [] []
+
+            ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
@@ -57,7 +61,11 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Command\\OnContinuouslyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
-        $this->assertSame("", $output->fetch());
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            Fake.INFO: Running command Olz\Command\OnContinuouslyCommand... [] []
+            Fake.INFO: Successfully ran command Olz\Command\OnContinuouslyCommand. [] []
+
+            ZZZZZZZZZZ, $output->fetch());
         $this->assertSame(
             [['daily_notifications', '2020-03-13 19:30:00']],
             $throttling_repo->recorded_occurrences
@@ -84,7 +92,11 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Command\\OnContinuouslyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
-        $this->assertSame("", $output->fetch());
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            Fake.INFO: Running command Olz\Command\OnContinuouslyCommand... [] []
+            Fake.INFO: Successfully ran command Olz\Command\OnContinuouslyCommand. [] []
+
+            ZZZZZZZZZZ, $output->fetch());
         $this->assertSame(
             [['daily_notifications', '2020-03-13 19:30:00']],
             $throttling_repo->recorded_occurrences

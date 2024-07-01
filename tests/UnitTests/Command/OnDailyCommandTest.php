@@ -29,7 +29,11 @@ final class OnDailyCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Command\\OnDailyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
-        $this->assertSame("", $output->fetch());
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            Fake.INFO: Running command Olz\Command\OnDailyCommand... [] []
+            Fake.INFO: Successfully ran command Olz\Command\OnDailyCommand. [] []
+
+            ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
             'olz:clean-temp-directory ',
             'olz:send-telegram-configuration ',

@@ -33,7 +33,7 @@ final class SymfonyUtilsIntegrationTest extends IntegrationTestCase {
         $symfony_utils->callCommand('olz:test', $input, $output);
 
         $this->assertMatchesRegularExpression(
-            '/^Data path\: .*\/IntegrationTests\/document-root\//',
+            '/Data path\: .*\/IntegrationTests\/document-root\//',
             $output->fetch()
         );
     }

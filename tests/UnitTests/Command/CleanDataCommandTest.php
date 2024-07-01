@@ -55,6 +55,7 @@ final class CleanDataCommandTest extends UnitTestCase {
         mkdir("{$data_path}img/news/121/img/", 0o777, true);
         mkdir("{$data_path}img/news/121/thumb/", 0o777, true);
         file_put_contents("{$data_path}img/news/121/img/abcdefghijklmnopqrstuvwx.jpg", "test");
+        file_put_contents("{$data_path}img/news/121/img/invalid.jpg", "test");
         file_put_contents("{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg$128.jpg", "test");
         file_put_contents("{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128.jpg", "test");
         file_put_contents("{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128x96.jpg", "test");
@@ -74,7 +75,16 @@ final class CleanDataCommandTest extends UnitTestCase {
         $job = new FakeCleanDataCommand();
         $result = $job->run($input, $output);
 
-        $this->assertSame(Command::SUCCESS, $result);
+        $this->assertEqualsCanonicalizing([
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanDataCommand...',
+            'INFO Creating directory data-path/img/news/10/thumb/...',
+            'INFO Error validating thumbs: Failed to open directory data-path/img/news/10/thumb/',
+            'INFO Invalid entity ID: invalid',
+            'INFO Invalid thumb: data-path/img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128.jpg',
+            'INFO Invalid thumb: data-path/img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128x96.jpg',
+            'INFO Invalid img: data-path/img/news/121/img/invalid.jpg',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanDataCommand.',
+        ], $this->getLogs());
         $this->assertEqualsCanonicalizing([
             ["{$data_path}img/news/10/thumb/", 0o777, true],
         ], $job->mkdir_calls);
@@ -83,14 +93,15 @@ final class CleanDataCommandTest extends UnitTestCase {
             "{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128x96.jpg",
         ], $job->unlink_calls);
         $this->assertEqualsCanonicalizing([
-            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanDataCommand...',
-            'INFO Creating directory data-path/img/news/10/thumb/...',
-            'INFO Failed to open directory data-path/img/news/10/thumb/',
-            'INFO Invalid entity ID: invalid',
-            'INFO Invalid thumb: data-path/img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128.jpg',
-            'INFO Invalid thumb: data-path/img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128x96.jpg',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\FakeCleanDataCommand.',
-        ], $this->getLogs());
+            [[], realpath(__DIR__.'/../../')."/Fake/../UnitTests/tmp/img/news/10/"],
+            [[], realpath(__DIR__.'/../../')."/Fake/../UnitTests/tmp/img/news/11/"],
+            [[], realpath(__DIR__.'/../../')."/Fake/../UnitTests/tmp/img/news/12/"],
+            [
+                ['abcdefghijklmnopqrstuvwx.jpg'],
+                realpath(__DIR__.'/../../')."/Fake/../UnitTests/tmp/img/news/121/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
+        $this->assertSame(Command::SUCCESS, $result);
     }
 
     public function testCleanDataCommandMissingEntityDir(): void {
@@ -102,17 +113,16 @@ final class CleanDataCommandTest extends UnitTestCase {
         $job = new FakeCleanDataCommand();
         $result = $job->run($input, $output);
 
-        $this->assertSame(Command::FAILURE, $result);
+        $this->assertEqualsCanonicalizing([
+            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanDataCommand...',
+            'INFO Creating directory data-path/img/karten/...',
+            'ERROR Error running command Olz\Tests\UnitTests\Command\FakeCleanDataCommand: Failed to open directory data-path/img/karten/.',
+        ], $this->getLogs());
         $this->assertEqualsCanonicalizing([
             ["{$data_path}img/karten/", 0o777, true],
         ], $job->mkdir_calls);
-        $this->assertEqualsCanonicalizing([
-        ], $job->unlink_calls);
-        $this->assertEqualsCanonicalizing([
-            'INFO Creating directory data-path/img/karten/...',
-            'INFO Failed to open directory data-path/img/karten/',
-            'INFO Running command Olz\Tests\UnitTests\Command\FakeCleanDataCommand...',
-            'NOTICE Failed running command Olz\Tests\UnitTests\Command\FakeCleanDataCommand.',
-        ], $this->getLogs());
+        $this->assertEqualsCanonicalizing([], $job->unlink_calls);
+        $this->assertEqualsCanonicalizing([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
+        $this->assertSame(Command::FAILURE, $result);
     }
 }

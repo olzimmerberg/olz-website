@@ -30,10 +30,14 @@ final class CheckTermineSolvIdCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Command\\CheckTermineSolvIdCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
-        $this->assertSame(
-            "Running with YEAR(start_date) = '2020'\n",
-            $output->fetch()
-        );
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            Fake.INFO: Running command Olz\Command\CheckTermineSolvIdCommand... [] []
+            Fake.INFO: Running with YEAR(start_date) = '2020' [] []
+            Running with YEAR(start_date) = '2020'
+            Fake.INFO: DB: SELECT * FROM termine WHERE YEAR(start_date) = '2020' AND solv_uid IS NULL [] []
+            Fake.INFO: Successfully ran command Olz\Command\CheckTermineSolvIdCommand. [] []
+
+            ZZZZZZZZZZ, $output->fetch());
     }
 
     public function testCheckTermineSolvIdCommandFuture(): void {
@@ -50,10 +54,14 @@ final class CheckTermineSolvIdCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Command\\CheckTermineSolvIdCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
-        $this->assertSame(
-            "Running with start_date > '2020-03-13'\n",
-            $output->fetch()
-        );
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            Fake.INFO: Running command Olz\Command\CheckTermineSolvIdCommand... [] []
+            Fake.INFO: Running with start_date > '2020-03-13' [] []
+            Running with start_date > '2020-03-13'
+            Fake.INFO: DB: SELECT * FROM termine WHERE start_date > '2020-03-13' AND solv_uid IS NULL [] []
+            Fake.INFO: Successfully ran command Olz\Command\CheckTermineSolvIdCommand. [] []
+
+            ZZZZZZZZZZ, $output->fetch());
     }
 
     public function testCheckTermineSolvIdCommandRecent(): void {
@@ -70,9 +78,13 @@ final class CheckTermineSolvIdCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Command\\CheckTermineSolvIdCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
-        $this->assertSame(
-            "Running with last_modified_at > '2020-03-11 23:00:00'\n",
-            $output->fetch()
-        );
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            Fake.INFO: Running command Olz\Command\CheckTermineSolvIdCommand... [] []
+            Fake.INFO: Running with last_modified_at > '2020-03-11 23:00:00' [] []
+            Running with last_modified_at > '2020-03-11 23:00:00'
+            Fake.INFO: DB: SELECT * FROM termine WHERE last_modified_at > '2020-03-11 23:00:00' AND solv_uid IS NULL [] []
+            Fake.INFO: Successfully ran command Olz\Command\CheckTermineSolvIdCommand. [] []
+
+            ZZZZZZZZZZ, $output->fetch());
     }
 }

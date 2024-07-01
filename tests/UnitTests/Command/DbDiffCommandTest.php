@@ -29,7 +29,11 @@ final class DbDiffCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Command\\DbDiffCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
-        $this->assertSame('fake output', $output->fetch());
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            Fake.INFO: Running command Olz\Command\DbDiffCommand... [] []
+            fake outputFake.INFO: Successfully ran command Olz\Command\DbDiffCommand. [] []
+
+            ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
             'generateMigration',
         ], WithUtilsCache::get('devDataUtils')->commands_called);

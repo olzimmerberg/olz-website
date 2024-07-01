@@ -216,7 +216,7 @@ class SystemTestCase extends TestCase {
         for ($i = 0; $i < 100; $i++) {
             $result = file_get_contents("{$this->getTargetUrl()}/api/executeCommand?access_token=public_dev_data_access_token&request={\"command\":\"olz:db-reset\",\"argv\":\"content\"}");
             $output = json_decode($result, true)['output'] ?? null;
-            if ($output === "Database content reset successful.\n") {
+            if (str_contains($output, "Database content reset successful.\n")) {
                 $this->tock('reset', 'db_reset');
                 return;
             }

@@ -20,6 +20,9 @@ abstract class OlzCommand extends Command {
 
     protected function execute(InputInterface $input, OutputInterface $output): int {
         $this->output = $output;
+
+        $this->log()->pushHandler(new OlzCommandOutputLogHandler($output));
+
         LogsUtils::activateLogger($this->log());
         try {
             $app_env = $this->getAppEnv();

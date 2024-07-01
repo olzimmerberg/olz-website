@@ -29,7 +29,11 @@ final class DbMigrateCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Command\\DbMigrateCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
-        $this->assertSame("fake output", $output->fetch());
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            Fake.INFO: Running command Olz\Command\DbMigrateCommand... [] []
+            fake outputFake.INFO: Successfully ran command Olz\Command\DbMigrateCommand. [] []
+
+            ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
             ['migrateTo', 'latest'],
         ], WithUtilsCache::get('devDataUtils')->commands_called);

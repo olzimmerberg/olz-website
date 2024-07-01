@@ -3,9 +3,9 @@
 namespace Olz\Utils;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Logger;
 use Olz\Fetchers\SolvFetcher;
 use PhpTypeScriptApi\Fields\FieldUtils;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
@@ -258,17 +258,17 @@ trait WithUtilsTrait {
         WithUtilsCache::set('imageUtils', $imageUtils);
     }
 
-    public function log(): LoggerInterface {
+    public function log(): Logger {
         return $this->getOrCreate('log');
     }
 
-    public function createLog(): LoggerInterface {
+    public function createLog(): Logger {
         $called_class = get_called_class();
         $logs_utils = LogsUtils::fromEnv();
         return $logs_utils->getLogger(strval($called_class));
     }
 
-    public function setLog(LoggerInterface $log): void {
+    public function setLog(Logger $log): void {
         $this->setLogger($log);
         WithUtilsCache::set('log', $log);
     }

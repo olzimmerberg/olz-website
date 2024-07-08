@@ -69,7 +69,11 @@ class CleanDataCommand extends OlzCommand {
                 }
             }
         );
-        $this->imageUtils()->generateThumbnails($image_ids, $entity_img_path);
+        try {
+            $this->imageUtils()->generateThumbnails($image_ids, $entity_img_path);
+        } catch (\Throwable $th) {
+            $this->logAndOutput("Error generating thumbnails: {$th->getMessage()}");
+        }
     }
 
     protected function forEachDirectoryEntry(string $directory, callable $callback): void {

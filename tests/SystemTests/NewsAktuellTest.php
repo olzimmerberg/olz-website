@@ -55,6 +55,8 @@ final class NewsAktuellTest extends SystemTestCase {
         sleep(1);
         $this->screenshot('news_new_aktuell_finished');
 
+        $this->resetDb();
+
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
     }

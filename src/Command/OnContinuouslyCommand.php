@@ -21,6 +21,9 @@ class OnContinuouslyCommand extends OlzCommand {
         set_time_limit(4000);
         ignore_user_abort(true);
 
+        $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
+        $throttling_repo->recordOccurrenceOf('on_continuously', $this->dateUtils()->getIsoNow());
+
         $this->symfonyUtils()->callCommand(
             'olz:process-email',
             new ArrayInput([]),
@@ -28,7 +31,6 @@ class OnContinuouslyCommand extends OlzCommand {
         );
 
         if ($this->shouldSendDailyMailNow()) {
-            $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
             $throttling_repo->recordOccurrenceOf('daily_notifications', $this->dateUtils()->getIsoNow());
 
             $this->symfonyUtils()->callCommand(

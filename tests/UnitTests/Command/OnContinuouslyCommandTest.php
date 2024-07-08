@@ -38,7 +38,9 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Fake.INFO: Successfully ran command Olz\Command\OnContinuouslyCommand. [] []
 
             ZZZZZZZZZZ, $output->fetch());
-        $this->assertSame([], $throttling_repo->recorded_occurrences);
+        $this->assertSame([
+            ['on_continuously', '2020-03-13 19:30:00'],
+        ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
             'messenger:stop-workers ',
@@ -66,10 +68,10 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Fake.INFO: Successfully ran command Olz\Command\OnContinuouslyCommand. [] []
 
             ZZZZZZZZZZ, $output->fetch());
-        $this->assertSame(
-            [['daily_notifications', '2020-03-13 19:30:00']],
-            $throttling_repo->recorded_occurrences
-        );
+        $this->assertSame([
+            ['on_continuously', '2020-03-13 19:30:00'],
+            ['daily_notifications', '2020-03-13 19:30:00'],
+        ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
             'olz:send-daily-notifications ',
@@ -97,10 +99,10 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Fake.INFO: Successfully ran command Olz\Command\OnContinuouslyCommand. [] []
 
             ZZZZZZZZZZ, $output->fetch());
-        $this->assertSame(
-            [['daily_notifications', '2020-03-13 19:30:00']],
-            $throttling_repo->recorded_occurrences
-        );
+        $this->assertSame([
+            ['on_continuously', '2020-03-13 19:30:00'],
+            ['daily_notifications', '2020-03-13 19:30:00'],
+        ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
             'olz:send-daily-notifications ',

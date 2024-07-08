@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\TestCommand;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * @internal
@@ -14,7 +15,8 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  */
 final class TestCommandTest extends UnitTestCase {
     public function testDummy(): void {
-        $command = new TestCommand();
+        $message_bus = $this->createMock(MessageBusInterface::class);
+        $command = new TestCommand($message_bus);
         $this->assertTrue((bool) $command);
     }
 }

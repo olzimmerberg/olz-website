@@ -45,6 +45,8 @@ final class NewsForumTest extends SystemTestCase {
         sleep(1);
         $this->screenshot('news_new_forum_finished');
 
+        $this->resetDb();
+
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
     }

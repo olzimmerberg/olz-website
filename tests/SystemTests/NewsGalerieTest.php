@@ -44,6 +44,8 @@ final class NewsGalerieTest extends SystemTestCase {
         sleep(1);
         $this->screenshot('news_new_galerie_finished');
 
+        $this->resetDb();
+
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
     }

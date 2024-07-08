@@ -98,5 +98,7 @@
     "Olz\\Tests\\SystemTests\\NewsletterTest::testNewsletterScreenshots": 14,
     "Olz\\Tests\\SystemTests\\ProfilTest::testProfilScreenshots": 6.4,
     "Olz\\Tests\\SystemTests\\TerminVorlagenTest::testTerminVorlagenScreenshots": 13.5,
-    "Olz\\Tests\\SystemTests\\WebdavTest::testWebdavScreenshots": 18
+    "Olz\\Tests\\SystemTests\\WebdavTest::testWebdavScreenshots": 18,
+    "Olz\\Tests\\SystemTests\\MessageQueueTest::testMessageQueueOnDev": 3.3,
+    "Olz\\Tests\\SystemTests\\MessageQueueTest::testMessageQueueOnProd": 3.3
 }

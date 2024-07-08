@@ -6,6 +6,7 @@ BROWSER='firefox'
 MODE='dev'
 NO_BUILD=0
 SLICE='1/1'
+REST=''
 
 while [ ! -z "$1" ]; do
     case "$1" in
@@ -39,9 +40,12 @@ while [ ! -z "$1" ]; do
         */*)
             SLICE="$1"
             ;;
-        --help|-h|*)
+        --help|-h)
             echo "Usage: $(basename $0) [--dev|--dev_rw|--staging|--staging_rw|--prod|--meta] [--firefox|--chrome]" 2>&1
             exit 1
+            ;;
+        *)
+            REST="$REST $1"
             ;;
     esac
     shift
@@ -54,6 +58,7 @@ mkdir -p ./public/logs
 echo "BROWSER = $BROWSER"
 echo "MODE = $MODE"
 echo "SLICE = $SLICE"
+echo "REST = $REST"
 
 # Run gecko (Firefox) driver or Chrome driver
 if [ "$BROWSER" = "firefox" ]; then
@@ -103,7 +108,7 @@ sleep 3
 # Run test, allow aborting
 set +e
 EXIT_CODE=0
-APP_ENV=dev SYSTEM_TEST_MODE="$MODE" SYSTEM_TEST_SLICE="$SLICE" SYMFONY_DEPRECATIONS_HELPER='max[direct]=0' php ./bin/phpunit -c ./phpunit.xml.dist $@ ./tests/SystemTests
+APP_ENV=dev SYSTEM_TEST_MODE="$MODE" SYSTEM_TEST_SLICE="$SLICE" SYMFONY_DEPRECATIONS_HELPER='max[direct]=0' php ./bin/phpunit -c ./phpunit.xml.dist $REST ./tests/SystemTests
 EXIT_CODE=$?
 
 # Display logs

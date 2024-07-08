@@ -9,6 +9,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
+use Olz\Utils\WithUtilsTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,6 +18,8 @@ use PHPUnit\Framework\TestCase;
  * @coversNothing
  */
 class SystemTestCase extends TestCase {
+    use WithUtilsTrait;
+
     private static string $browser_name = 'firefox';
     private static ?RemoteWebDriver $browser = null;
     private static int $max_timeout_seconds = 3;
@@ -203,6 +206,32 @@ class SystemTestCase extends TestCase {
         $this->tick('logout');
         $this::$browser->get("{$this->getTargetUrl()}{$this::$logout_api_url}");
         $this->tock('logout', 'logout');
+    }
+
+    // Commands
+
+    protected function runCommand(string $command, ?string $argv): string {
+        $token = urlencode($this->getBotAccessToken());
+        $request = ['command' => $command, 'argv' => $argv];
+        $enc_request = urlencode(json_encode($request));
+        $result = file_get_contents("{$this->getTargetUrl()}/api/executeCommand?access_token={$token}&request={$enc_request}");
+        if (!is_string($result)) {
+            $actual_mode = getenv('SYSTEM_TEST_MODE');
+            throw new \Exception("Command {$command}({$argv}) failed in mode {$actual_mode}");
+        }
+        return $result;
+    }
+
+    protected function getBotAccessToken(): string {
+        $mode = getenv('SYSTEM_TEST_MODE');
+        if ($mode === 'prod') {
+            $token = getenv('BOT_ACCESS_TOKEN');
+            if (!$token) {
+                throw new \Exception("Prod access token not set (BOT_ACCESS_TOKEN)");
+            }
+            return $token;
+        }
+        return 'public_dev_data_access_token';
     }
 
     // Database

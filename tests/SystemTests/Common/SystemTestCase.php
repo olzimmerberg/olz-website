@@ -141,8 +141,18 @@ class SystemTestCase extends TestCase {
         parent::setUp();
         $test_class_name = get_called_class();
         $test_name = "{$test_class_name}::{$this->getName()}";
-        $slice_index = SystemTestCase::$slice_by_test[$test_name] ?? SystemTestCase::$slice_index;
-        if ($slice_index === SystemTestCase::$slice_index) {
+        $slice_index = SystemTestCase::$slice_by_test[$test_name] ?? null;
+        if ($slice_index === null) {
+            echo <<<ZZZZZZZZZZ
+
+
+                #####################################################
+                {$test_name} is missing in timing_report.json
+                #####################################################
+
+                ZZZZZZZZZZ;
+            $this->isSkipped = false;
+        } elseif ($slice_index === SystemTestCase::$slice_index) {
             $this->isSkipped = false;
         } else {
             $this->isSkipped = true;

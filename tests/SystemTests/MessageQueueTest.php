@@ -28,7 +28,7 @@ final class MessageQueueTest extends SystemTestCase {
     }
 
     #[OnlyInModes(['prod'])]
-    public function testMessageQueueOnProd(): void {
+    public function testIsMessageQueueRunningOnProd(): void {
         $result = $this->runCommand('olz:test', null);
 
         $last_on_continuously = $this->getThrottlingDateTime($result, 'on_continuously');

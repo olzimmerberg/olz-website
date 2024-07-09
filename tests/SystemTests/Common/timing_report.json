@@ -100,5 +100,5 @@
     "Olz\\Tests\\SystemTests\\TerminVorlagenTest::testTerminVorlagenScreenshots": 13.5,
     "Olz\\Tests\\SystemTests\\WebdavTest::testWebdavScreenshots": 18,
     "Olz\\Tests\\SystemTests\\MessageQueueTest::testMessageQueueOnDev": 3.3,
-    "Olz\\Tests\\SystemTests\\MessageQueueTest::testMessageQueueOnProd": 3.3
+    "Olz\\Tests\\SystemTests\\MessageQueueTest::testIsMessageQueueRunningOnProd": 3.3
 }

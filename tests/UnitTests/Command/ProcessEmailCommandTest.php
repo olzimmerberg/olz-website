@@ -112,7 +112,16 @@ class FakeProcessEmailCommandMail extends Message {
     }
 
     public function getFlags(): FlagCollection {
-        return new FlagCollection();
+        $is_set_by_flag = [];
+        foreach ($this->flag_actions as $action) {
+            if ($action[0] === '+') {
+                $is_set_by_flag[substr($action, 1)] = true;
+            }
+            if ($action[0] === '-') {
+                unset($is_set_by_flag[substr($action, 1)]);
+            }
+        }
+        return new FlagCollection($is_set_by_flag);
     }
 
     /** @param array<string>|string $flag */
@@ -1398,6 +1407,40 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertFalse($mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
+    }
+
+    public function testProcessEmailCommandToSpamHoneypotEmailAddress(): void {
+        $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
+        $mail = new FakeProcessEmailCommandMail(
+            12,
+            's.p.a.m@staging.olzimmerberg.ch',
+            new Attribute('to', []),
+            new Attribute('cc', []),
+            new Attribute('bcc', []),
+            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
+            new Attribute('subject', 'Test subject'),
+            'Test html',
+            'Test text',
+        );
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+        $mailer->expects($this->exactly(0))->method('send');
+
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
+        $job->run($input, $output);
+
+        $this->assertSame([
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Spam E-Mail to: s.p.a.m',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+        ], $this->getLogs());
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertSame('INBOX.Spam', $mail->moved_to);
+        $this->assertFalse($mail->is_body_fetched);
+        $this->assertSame(['+spam'], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandGet431ReportMessage(): void {

@@ -54,6 +54,7 @@ jobs:
     - name: PHP System Tests (prod)
       env:
         MOZ_HEADLESS: 1
+        BOT_ACCESS_TOKEN: ${{ secrets.OLZ_BOT_TOKEN_PROD }}
       run: composer system_tests -- --prod --no-build
     - name: PHP System Tests (meta)
       env:

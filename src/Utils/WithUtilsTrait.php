@@ -16,10 +16,10 @@ trait WithUtilsTrait {
 
     // --- Symfony dependency injection ---
 
-    protected MailerInterface $mailer;
+    protected ?MailerInterface $mailer = null;
 
     #[Required]
-    public function setMailer(MailerInterface $mailer): void {
+    public function setMailer(?MailerInterface $mailer): void {
         $this->mailer = $mailer;
     }
 

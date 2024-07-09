@@ -59,12 +59,17 @@ class ProcessEmailCommand extends OlzCommand {
 
         $inbox_mails = $this->getInboxMails();
         $newly_processed_mails = [];
+        $spam_mails = [];
         foreach ($inbox_mails as $mail) {
             $message_id = $mail->message_id ? $mail->message_id->first() : null;
             $is_processed = ($is_message_id_processed[$message_id] ?? false);
             $is_newly_processed = $this->processMail($mail, $is_processed);
             if ($is_newly_processed) {
-                $newly_processed_mails[] = $mail;
+                if ($mail->getFlags()->has('spam')) {
+                    $spam_mails[] = $mail;
+                } else {
+                    $newly_processed_mails[] = $mail;
+                }
             }
             if ($message_id !== null) {
                 $is_message_id_processed[$message_id] = true;
@@ -73,6 +78,9 @@ class ProcessEmailCommand extends OlzCommand {
 
         foreach ($newly_processed_mails as $mail) {
             $mail->move($folder_path = 'INBOX.Processed');
+        }
+        foreach ($spam_mails as $mail) {
+            $mail->move($folder_path = 'INBOX.Spam');
         }
 
         return Command::SUCCESS;
@@ -180,6 +188,11 @@ class ProcessEmailCommand extends OlzCommand {
             return true;
         }
         $username = $matches[1];
+        if ($this->emailUtils()->isSpamEmailAddress($username)) {
+            $this->log()->info("Spam E-Mail to: {$username}");
+            $mail->setFlag('spam');
+            return true;
+        }
 
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $role = $role_repo->findFuzzilyByUsername($username);

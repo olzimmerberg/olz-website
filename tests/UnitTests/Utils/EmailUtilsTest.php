@@ -12,6 +12,8 @@ use Olz\Tests\Fake\FakeGeneralUtils;
 use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
+use Olz\Utils\FixedDateUtils;
+use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -368,5 +370,40 @@ final class EmailUtilsTest extends UnitTestCase {
             '/^[a-zA-Z0-9_-]{8}$/',
             $email_utils->testOnlyGetRandomEmailVerificationToken()
         );
+    }
+
+    public function testGenerateSpamEmailAddress(): void {
+        $email_utils = new DeterministicEmailUtils();
+        $this->assertSame(
+            'stefan.paul.andreas.munz',
+            $email_utils->generateSpamEmailAddress()
+        );
+        // Is deterministic
+        $this->assertSame(
+            'stefan.paul.andreas.munz',
+            $email_utils->generateSpamEmailAddress()
+        );
+
+        // Changes with time
+        WithUtilsCache::set('dateUtils', new FixedDateUtils('2006-01-13 18:00:00'));
+        $this->assertSame(
+            'simon.patrick.alex.matheisen',
+            $email_utils->generateSpamEmailAddress()
+        );
+    }
+
+    public function testIsSpamEmailAddress(): void {
+        $email_utils = new EmailUtils();
+
+        // Matching
+        $this->assertTrue($email_utils->isSpamEmailAddress('s.p.a.m'));
+        $this->assertTrue($email_utils->isSpamEmailAddress('simon.peter.alex.may'));
+
+        // Denylist
+        $this->assertTrue($email_utils->isSpamEmailAddress('jeweils'));
+        $this->assertTrue($email_utils->isSpamEmailAddress('fotoposten'));
+
+        // Valid E-Mail
+        $this->assertFalse($email_utils->isSpamEmailAddress('max.muster'));
     }
 }

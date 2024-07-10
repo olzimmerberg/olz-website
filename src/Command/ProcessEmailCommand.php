@@ -36,10 +36,12 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     public const MAX_LOOP = 100;
-    public int $deleteProcessedAfterSeconds = 30 * 24 * 60 * 60;
+    public int $archiveAfterSeconds = 60 * 60;
+    public int $deleteArchivedAfterSeconds = 30 * 24 * 60 * 60;
     public int $deleteSpamAfterSeconds = 365 * 24 * 60 * 60;
     public string $host = 'olzimmerberg.ch';
     public string $processed_mailbox = 'INBOX.Processed';
+    public string $archive_mailbox = 'INBOX.Archive';
     public string $failed_mailbox = 'INBOX.Failed';
     public string $spam_mailbox = 'INBOX.Spam';
 
@@ -50,28 +52,33 @@ class ProcessEmailCommand extends OlzCommand {
 
         $this->client = $this->emailUtils()->getImapClient();
         $this->client->connect();
-        try {
-            $this->client->createFolder($this->processed_mailbox);
-        } catch (ImapServerErrorException $exc) {
-            // ignore when folder already exists
-        }
-        try {
-            $this->client->createFolder($this->failed_mailbox);
-        } catch (ImapServerErrorException $exc) {
-            // ignore when folder already exists
+
+        $mailboxes = [
+            $this->processed_mailbox,
+            $this->archive_mailbox,
+            $this->failed_mailbox,
+            $this->spam_mailbox,
+        ];
+        foreach ($mailboxes as $mailbox) {
+            try {
+                $this->client->createFolder($mailbox);
+            } catch (ImapServerErrorException $exc) {
+                // ignore when folder already exists
+            }
         }
 
-        // TODO: Test coverage!
-        $processed_mails = $this->getProcessedMails();
         if ($this->shouldDoCleanup()) {
             $this->log()->notice("Doing E-Mail cleanup now...");
-            $this->deleteOldProcessedMails($processed_mails);
+            $archived_mails = $this->getArchivedMails();
+            $this->deleteOldArchivedMails($archived_mails);
             $spam_mails = $this->getSpamMails();
             $this->deleteOldSpamMails($spam_mails);
             $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
             $throttling_repo->recordOccurrenceOf('email_cleanup', $this->dateUtils()->getIsoNow());
         }
 
+        $processed_mails = $this->getProcessedMails();
+        $this->archiveOldProcessedMails($processed_mails);
         $is_message_id_processed = $this->getIsMessageIdProcessed($processed_mails);
         $inbox_mails = $this->getInboxMails();
         $newly_processed_mails = [];
@@ -116,6 +123,10 @@ class ProcessEmailCommand extends OlzCommand {
         return $this->getMails($this->processed_mailbox);
     }
 
+    protected function getArchivedMails(): MessageCollection {
+        return $this->getMails($this->archive_mailbox);
+    }
+
     protected function getSpamMails(): MessageCollection {
         return $this->getMails($this->spam_mailbox);
     }
@@ -143,9 +154,20 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
-    protected function deleteOldProcessedMails(MessageCollection $processed_mails): void {
-        $this->log()->info("Removing old processed E-Mails...");
-        $this->deleteMailsOlderThan($processed_mails, $this->deleteProcessedAfterSeconds);
+    protected function archiveOldProcessedMails(MessageCollection $processed_mails): void {
+        $now_timestamp = strtotime($this->dateUtils()->getIsoNow());
+        foreach ($processed_mails as $mail) {
+            $message_timestamp = $mail->date->first()->timestamp;
+            $should_archive = $message_timestamp < $now_timestamp - $this->archiveAfterSeconds;
+            if ($should_archive) {
+                $mail->move($folder_path = $this->archive_mailbox);
+            }
+        }
+    }
+
+    protected function deleteOldArchivedMails(MessageCollection $archived_mails): void {
+        $this->log()->info("Removing old archived E-Mails...");
+        $this->deleteMailsOlderThan($archived_mails, $this->deleteArchivedAfterSeconds);
     }
 
     protected function deleteOldSpamMails(MessageCollection $spam_mails): void {

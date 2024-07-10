@@ -65,7 +65,7 @@ class ProcessEmailCommand extends OlzCommand {
             $is_processed = ($is_message_id_processed[$message_id] ?? false);
             $is_newly_processed = $this->processMail($mail, $is_processed);
             if ($is_newly_processed) {
-                if ($mail->getFlags()->has('honeypotspam')) {
+                if ($mail->getFlags()->has('junk')) {
                     $spam_mails[] = $mail;
                 } else {
                     $newly_processed_mails[] = $mail;
@@ -190,7 +190,7 @@ class ProcessEmailCommand extends OlzCommand {
         $username = $matches[1];
         if ($this->emailUtils()->isSpamEmailAddress($username)) {
             $this->log()->info("Honeypot Spam E-Mail to: {$username}");
-            $mail->setFlag('honeypotspam');
+            $mail->setFlag('junk');
             return true;
         }
 

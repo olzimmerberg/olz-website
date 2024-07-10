@@ -1434,13 +1434,13 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'INFO Spam E-Mail to: s.p.a.m',
+            'INFO Honeypot Spam E-Mail to: s.p.a.m',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Spam', $mail->moved_to);
         $this->assertFalse($mail->is_body_fetched);
-        $this->assertSame(['+spam'], $mail->flag_actions);
+        $this->assertSame(['+honeypotspam'], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandGet431ReportMessage(): void {

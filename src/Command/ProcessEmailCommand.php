@@ -191,7 +191,6 @@ class ProcessEmailCommand extends OlzCommand {
         $username = $matches[1];
         if ($this->emailUtils()->isSpamEmailAddress($username)) {
             $this->log()->info("Honeypot Spam E-Mail to: {$username}");
-            $mail->setFlag('honeypotspam');
             return 1;
         }
 

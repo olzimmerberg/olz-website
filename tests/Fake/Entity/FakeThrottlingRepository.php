@@ -14,16 +14,16 @@ class FakeThrottlingRepository extends FakeOlzRepository {
     public string $olzEntityClass = Throttling::class;
 
     public ?string $expected_event_name = null;
-    public ?string $last_daily_notifications = '2020-03-12 19:30:00';
+    public ?string $last_occurrence = '2020-03-12 19:30:00';
     /** @var array<array{0: string, 1: \DateTime|string}> */
     public array $recorded_occurrences = [];
 
     public function getLastOccurrenceOf(string $event_name): ?\DateTime {
         if ($event_name == $this->expected_event_name) {
-            if (!$this->last_daily_notifications) {
+            if (!$this->last_occurrence) {
                 return null;
             }
-            return new \DateTime($this->last_daily_notifications);
+            return new \DateTime($this->last_occurrence);
         }
         throw new \Exception("this should never happen");
     }

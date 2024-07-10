@@ -36,7 +36,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
     public function testOnDailyEndpointThrottled(): void {
         $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'on_daily';
-        $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $endpoint = new OnDailyEndpoint();
         $endpoint->runtimeSetup();
 
@@ -55,7 +55,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
     public function testOnDailyEndpointNoThrottlingRecord(): void {
         $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'on_daily';
-        $throttling_repo->last_daily_notifications = null;
+        $throttling_repo->last_occurrence = null;
         $endpoint = new OnDailyEndpoint();
         $endpoint->runtimeSetup();
 
@@ -74,7 +74,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
     public function testOnDailyEndpointUnlimitedCron(): void {
         $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'on_daily';
-        $throttling_repo->last_daily_notifications = '2020-03-13 19:30:00';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $endpoint = new OnDailyEndpoint();
         $endpoint->runtimeSetup();
 

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Command;
 
+use Carbon\Carbon;
 use Olz\Command\ProcessEmailCommand;
+use Olz\Entity\Throttling;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
@@ -38,6 +40,10 @@ class FakeProcessEmailCommandMail extends Message {
     /** @var array<string> */
     public array $flag_actions = [];
     public ?string $moved_to = null;
+    /** @var ?array{0: bool, 1: ?string, 2: bool} */
+    public ?array $deleted = null;
+
+    public ?Attribute $date = null;
 
     public function __construct(
         public int|string $uid,
@@ -148,6 +154,11 @@ class FakeProcessEmailCommandMail extends Message {
         $this->moved_to = $folder_path;
         return $this;
     }
+
+    public function delete(bool $expunge = true, ?string $trash_path = null, bool $force_move = false): bool {
+        $this->deleted = [$expunge, $trash_path, $force_move];
+        return true;
+    }
 }
 
 class FakeProcessEmailCommandAttachment {
@@ -173,6 +184,9 @@ class FakeProcessEmailCommandAttachment {
  */
 final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandWithError(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->client->exception = true;
         $input = new ArrayInput([]);
@@ -191,6 +205,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandWithMailToWrongDomain(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(12, 'someone@other-domain.com');
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
@@ -215,6 +232,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandNoSuchUser(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -269,6 +289,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandNoUserEmailPermission(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -323,6 +346,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandEmptyToException(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -394,6 +420,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandRfcComplianceException(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -430,6 +459,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToUser(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -499,6 +531,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToUserEmptyEmail(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -533,6 +568,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToOldUser(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -621,6 +659,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandNoRoleEmailPermission(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -675,6 +716,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToRole(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -764,6 +808,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToOldRole(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -872,6 +919,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandSendingError(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -910,6 +960,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToMultiple(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
@@ -1024,6 +1077,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandToCcBcc(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
@@ -1135,6 +1191,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandMultipleEmails(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
@@ -1257,6 +1316,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandWithAttachments(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -1336,6 +1398,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandWithFailingAttachment(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -1378,6 +1443,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandEmailToSmtpFrom(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -1409,7 +1477,65 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([], $mail->flag_actions);
     }
 
+    public function testProcessEmailCommandCleanUp(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-05 19:30:00';
+        $mailer = $this->createMock(MailerInterface::class);
+        $old_processed_mail = new FakeProcessEmailCommandMail(12);
+        $old_processed_mail->date = new Attribute('date', [new Carbon('2020-01-13 18:00:00')]);
+        $processed_mail = new FakeProcessEmailCommandMail(12);
+        $processed_mail->date = new Attribute('date', [new Carbon('2020-03-12 18:00:00')]);
+        $old_spam_mail = new FakeProcessEmailCommandMail(12);
+        $old_spam_mail->date = new Attribute('date', [new Carbon('2006-01-13 18:00:00')]);
+        $spam_mail = new FakeProcessEmailCommandMail(12);
+        $spam_mail->date = new Attribute('date', [new Carbon('2020-01-13 18:00:00')]);
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX.Processed'] = [$processed_mail, $old_processed_mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX.Spam'] = [$old_spam_mail, $spam_mail];
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+        // no bounce email!
+        $mailer->expects($this->exactly(0))->method('send');
+
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
+        $job->run($input, $output);
+
+        $this->assertSame([
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'NOTICE Doing E-Mail cleanup now...',
+            'INFO Removing old processed E-Mails...',
+            'INFO Removing old spam E-Mails...',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+        ], $this->getLogs());
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
+
+        $this->assertSame([true, null, false], $old_processed_mail->deleted);
+        $this->assertNull($old_processed_mail->moved_to);
+        $this->assertFalse($old_processed_mail->is_body_fetched);
+        $this->assertSame([], $old_processed_mail->flag_actions);
+
+        $this->assertNull($processed_mail->deleted);
+        $this->assertNull($processed_mail->moved_to);
+        $this->assertFalse($processed_mail->is_body_fetched);
+        $this->assertSame([], $processed_mail->flag_actions);
+
+        $this->assertSame([true, null, false], $old_spam_mail->deleted);
+        $this->assertNull($old_spam_mail->moved_to);
+        $this->assertFalse($old_spam_mail->is_body_fetched);
+        $this->assertSame([], $old_spam_mail->flag_actions);
+
+        $this->assertNull($spam_mail->deleted);
+        $this->assertNull($spam_mail->moved_to);
+        $this->assertFalse($spam_mail->is_body_fetched);
+        $this->assertSame([], $spam_mail->flag_actions);
+    }
+
     public function testProcessEmailCommandToSpamHoneypotEmailAddress(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -1444,6 +1570,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandGet431ReportMessage(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
         $job = new ProcessEmailCommand();
@@ -1455,6 +1584,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandGet550ReportMessage(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
         $job = new ProcessEmailCommand();
@@ -1466,6 +1598,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandGetOtherReportMessage(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
         $job = new ProcessEmailCommand();

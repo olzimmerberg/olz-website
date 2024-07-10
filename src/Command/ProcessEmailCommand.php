@@ -4,6 +4,7 @@ namespace Olz\Command;
 
 use Olz\Command\Common\OlzCommand;
 use Olz\Entity\Roles\Role;
+use Olz\Entity\Throttling;
 use Olz\Entity\User;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -35,8 +36,12 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     public const MAX_LOOP = 100;
-    public int $deleteAfterSeconds = 30 * 24 * 60 * 60;
+    public int $deleteProcessedAfterSeconds = 30 * 24 * 60 * 60;
+    public int $deleteSpamAfterSeconds = 365 * 24 * 60 * 60;
     public string $host = 'olzimmerberg.ch';
+    public string $processed_mailbox = 'INBOX.Processed';
+    public string $failed_mailbox = 'INBOX.Failed';
+    public string $spam_mailbox = 'INBOX.Spam';
 
     protected Client $client;
 
@@ -46,33 +51,39 @@ class ProcessEmailCommand extends OlzCommand {
         $this->client = $this->emailUtils()->getImapClient();
         $this->client->connect();
         try {
-            $this->client->createFolder('INBOX.Processed');
+            $this->client->createFolder($this->processed_mailbox);
         } catch (ImapServerErrorException $exc) {
             // ignore when folder already exists
         }
         try {
-            $this->client->createFolder('INBOX.Failed');
+            $this->client->createFolder($this->failed_mailbox);
         } catch (ImapServerErrorException $exc) {
             // ignore when folder already exists
         }
 
         // TODO: Test coverage!
         $processed_mails = $this->getProcessedMails();
-        $this->deleteOldProcessedMails($processed_mails);
-        $is_message_id_processed = $this->getIsMessageIdProcessed($processed_mails);
+        if ($this->shouldDoCleanup()) {
+            $this->log()->notice("Doing E-Mail cleanup now...");
+            $this->deleteOldProcessedMails($processed_mails);
+            $spam_mails = $this->getSpamMails();
+            $this->deleteOldSpamMails($spam_mails);
+            $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
+            $throttling_repo->recordOccurrenceOf('email_cleanup', $this->dateUtils()->getIsoNow());
+        }
 
+        $is_message_id_processed = $this->getIsMessageIdProcessed($processed_mails);
         $inbox_mails = $this->getInboxMails();
         $newly_processed_mails = [];
-        $spam_mails = [];
+        $newly_spam_mails = [];
         foreach ($inbox_mails as $mail) {
             $message_id = $mail->message_id ? $mail->message_id->first() : null;
             $is_processed = ($is_message_id_processed[$message_id] ?? false);
             $result = $this->processMail($mail, $is_processed);
             if ($result === 2) {
                 $newly_processed_mails[] = $mail;
-            }
-            if ($result === 1) {
-                $spam_mails[] = $mail;
+            } elseif ($result === 1) {
+                $newly_spam_mails[] = $mail;
             }
             if ($message_id !== null) {
                 $is_message_id_processed[$message_id] = true;
@@ -80,17 +91,33 @@ class ProcessEmailCommand extends OlzCommand {
         }
 
         foreach ($newly_processed_mails as $mail) {
-            $mail->move($folder_path = 'INBOX.Processed');
+            $mail->move($folder_path = $this->processed_mailbox);
         }
-        foreach ($spam_mails as $mail) {
-            $mail->move($folder_path = 'INBOX.Spam');
+        foreach ($newly_spam_mails as $mail) {
+            $mail->move($folder_path = $this->spam_mailbox);
         }
 
         return Command::SUCCESS;
     }
 
+    public function shouldDoCleanup(): bool {
+        $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
+        $last_cleanup = $throttling_repo->getLastOccurrenceOf('email_cleanup');
+        if (!$last_cleanup) {
+            return true;
+        }
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $min_interval = \DateInterval::createFromDateString('+1 week');
+        $min_now = $last_cleanup->add($min_interval);
+        return $now > $min_now;
+    }
+
     protected function getProcessedMails(): MessageCollection {
-        return $this->getMails('INBOX.Processed');
+        return $this->getMails($this->processed_mailbox);
+    }
+
+    protected function getSpamMails(): MessageCollection {
+        return $this->getMails($this->spam_mailbox);
     }
 
     protected function getInboxMails(): MessageCollection {
@@ -117,10 +144,20 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function deleteOldProcessedMails(MessageCollection $processed_mails): void {
+        $this->log()->info("Removing old processed E-Mails...");
+        $this->deleteMailsOlderThan($processed_mails, $this->deleteProcessedAfterSeconds);
+    }
+
+    protected function deleteOldSpamMails(MessageCollection $spam_mails): void {
+        $this->log()->info("Removing old spam E-Mails...");
+        $this->deleteMailsOlderThan($spam_mails, $this->deleteSpamAfterSeconds);
+    }
+
+    protected function deleteMailsOlderThan(MessageCollection $mails, int $seconds): void {
         $now_timestamp = strtotime($this->dateUtils()->getIsoNow());
-        foreach ($processed_mails as $mail) {
+        foreach ($mails as $mail) {
             $message_timestamp = $mail->date->first()->timestamp;
-            $should_delete = $message_timestamp < $now_timestamp - $this->deleteAfterSeconds;
+            $should_delete = $message_timestamp < $now_timestamp - $seconds;
             if ($should_delete) {
                 $mail->delete($expunge = true);
             }
@@ -144,7 +181,7 @@ class ProcessEmailCommand extends OlzCommand {
 
         if ($mail->getFlags()->has('flagged')) {
             $this->log()->warning("E-Mail {$mail_uid} has failed processing.");
-            $mail->move($folder_path = 'INBOX.Failed');
+            $mail->move($folder_path = $this->failed_mailbox);
             $mail->unsetFlag('seen');
             $this->sendReportEmail($mail, null, 431);
             return 2;

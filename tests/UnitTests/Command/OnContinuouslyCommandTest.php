@@ -21,7 +21,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
     public function testOnContinuouslyCommandTooSoonToSendDailyEmails(): void {
         $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'daily_notifications';
-        $throttling_repo->last_daily_notifications = '2020-03-13 18:30:00'; // just an hour ago
+        $throttling_repo->last_occurrence = '2020-03-13 18:30:00'; // just an hour ago
         $command = new OnContinuouslyCommand();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -51,7 +51,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
     public function testOnContinuouslyCommandFirstDailyNotifications(): void {
         $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'daily_notifications';
-        $throttling_repo->last_daily_notifications = null;
+        $throttling_repo->last_occurrence = null;
         $command = new OnContinuouslyCommand();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();

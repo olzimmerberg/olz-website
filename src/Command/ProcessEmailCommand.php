@@ -23,6 +23,10 @@ use Webklex\PHPIMAP\Exceptions\ResponseException;
 use Webklex\PHPIMAP\Message;
 use Webklex\PHPIMAP\Support\MessageCollection;
 
+// 2 = processed
+// 1 = spam
+// 0 = failed
+
 #[AsCommand(name: 'olz:process-email')]
 class ProcessEmailCommand extends OlzCommand {
     /** @return array<string> */
@@ -63,13 +67,12 @@ class ProcessEmailCommand extends OlzCommand {
         foreach ($inbox_mails as $mail) {
             $message_id = $mail->message_id ? $mail->message_id->first() : null;
             $is_processed = ($is_message_id_processed[$message_id] ?? false);
-            $is_newly_processed = $this->processMail($mail, $is_processed);
-            if ($is_newly_processed) {
-                if ($mail->getFlags()->has('honeypotspam')) {
-                    $spam_mails[] = $mail;
-                } else {
-                    $newly_processed_mails[] = $mail;
-                }
+            $result = $this->processMail($mail, $is_processed);
+            if ($result === 2) {
+                $newly_processed_mails[] = $mail;
+            }
+            if ($result === 1) {
+                $spam_mails[] = $mail;
             }
             if ($message_id !== null) {
                 $is_message_id_processed[$message_id] = true;
@@ -136,7 +139,7 @@ class ProcessEmailCommand extends OlzCommand {
         return $is_message_id_processed;
     }
 
-    protected function processMail(Message $mail, bool $is_processed): bool {
+    protected function processMail(Message $mail, bool $is_processed): int {
         $mail_uid = $mail->getUid();
 
         if ($mail->getFlags()->has('flagged')) {
@@ -144,7 +147,7 @@ class ProcessEmailCommand extends OlzCommand {
             $mail->move($folder_path = 'INBOX.Failed');
             $mail->unsetFlag('seen');
             $this->sendReportEmail($mail, null, 431);
-            return true;
+            return 2;
         }
 
         $original_to = $mail->get('x_original_to');
@@ -153,9 +156,8 @@ class ProcessEmailCommand extends OlzCommand {
         }
         if ($is_processed) {
             $this->log()->info("E-Mail {$mail_uid} already processed.");
-            return true;
+            return 2;
         }
-        $all_successful = true;
         $to_addresses = array_map(function ($address) {
             return $address->mail;
         }, $mail->getTo()->toArray());
@@ -170,28 +172,27 @@ class ProcessEmailCommand extends OlzCommand {
             ...$cc_addresses,
             ...$bcc_addresses,
         ];
+        $all_successful = 2;
         foreach ($all_addresses as $address) {
-            if (!$this->processMailToAddress($mail, $address)) {
-                $all_successful = false;
-            }
+            $all_successful = min($all_successful, $this->processMailToAddress($mail, $address));
         }
         return $all_successful;
     }
 
-    protected function processMailToAddress(Message $mail, string $address): bool {
+    protected function processMailToAddress(Message $mail, string $address): int {
         $mail_uid = $mail->getUid();
 
         $esc_host = preg_quote($this->host);
         $is_match = preg_match("/^([\\S]+)@(staging\\.)?{$esc_host}$/", $address, $matches);
         if (!$is_match) {
             $this->log()->info("E-Mail {$mail_uid} to non-{$this->host} address: {$address}");
-            return true;
+            return 2;
         }
         $username = $matches[1];
         if ($this->emailUtils()->isSpamEmailAddress($username)) {
             $this->log()->info("Honeypot Spam E-Mail to: {$username}");
             $mail->setFlag('honeypotspam');
-            return true;
+            return 1;
         }
 
         $role_repo = $this->entityManager()->getRepository(Role::class);
@@ -207,14 +208,12 @@ class ProcessEmailCommand extends OlzCommand {
             if (!$has_role_email_permission) {
                 $this->log()->warning("E-Mail {$mail_uid} to role with no role_email permission: {$username}");
                 $this->sendReportEmail($mail, $address, 550);
-                return true;
+                return 2;
             }
             $role_users = $role->getUsers();
-            $all_successful = true;
+            $all_successful = 2;
             foreach ($role_users as $role_user) {
-                if (!$this->forwardEmailToUser($mail, $role_user, $address)) {
-                    $all_successful = false;
-                }
+                $all_successful = min($all_successful, $this->forwardEmailToUser($mail, $role_user, $address));
             }
             return $all_successful;
         }
@@ -232,16 +231,16 @@ class ProcessEmailCommand extends OlzCommand {
             if (!$has_user_email_permission) {
                 $this->log()->notice("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
                 $this->sendReportEmail($mail, $address, 550);
-                return true;
+                return 2;
             }
             return $this->forwardEmailToUser($mail, $user, $address);
         }
         $this->log()->info("E-Mail {$mail_uid} to inexistent user/role username: {$username}");
         $this->sendReportEmail($mail, $address, 550);
-        return true;
+        return 2;
     }
 
-    protected function forwardEmailToUser(Message $mail, User $user, string $address): bool {
+    protected function forwardEmailToUser(Message $mail, User $user, string $address): int {
         $mail->setFlag('flagged');
 
         $forward_address = $user->getEmail();
@@ -316,19 +315,19 @@ class ProcessEmailCommand extends OlzCommand {
             $this->log()->info("Email forwarded from {$address} to {$forward_address}");
 
             $mail->unsetFlag('flagged');
-            return true;
+            return 2;
         } catch (RfcComplianceException $exc) {
             $message = $exc->getMessage();
             $this->log()->notice("Email from {$address} to {$forward_address} is not RFC-compliant: {$message}", [$exc]);
-            return true;
+            return 2;
         } catch (TransportExceptionInterface $exc) {
             $message = $exc->getMessage();
             $this->log()->error("Error sending email (from {$address}) to {$forward_address}: {$message}", [$exc]);
-            return false;
+            return 0;
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
             $this->log()->critical("Error forwarding email from {$address} to {$forward_address}: {$message}", [$exc]);
-            return false;
+            return 0;
         }
     }
 

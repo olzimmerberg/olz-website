@@ -1483,15 +1483,20 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->last_occurrence = '2020-03-05 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $old_processed_mail = new FakeProcessEmailCommandMail(12);
-        $old_processed_mail->date = new Attribute('date', [new Carbon('2020-01-13 18:00:00')]);
-        $processed_mail = new FakeProcessEmailCommandMail(12);
-        $processed_mail->date = new Attribute('date', [new Carbon('2020-03-12 18:00:00')]);
-        $old_spam_mail = new FakeProcessEmailCommandMail(12);
+        $old_processed_mail->date = new Attribute('date', [new Carbon('2020-03-13 18:00:00')]);
+        $processed_mail = new FakeProcessEmailCommandMail(13);
+        $processed_mail->date = new Attribute('date', [new Carbon('2020-03-13 19:00:00')]);
+        $old_archived_mail = new FakeProcessEmailCommandMail(22);
+        $old_archived_mail->date = new Attribute('date', [new Carbon('2020-01-13 18:00:00')]);
+        $archived_mail = new FakeProcessEmailCommandMail(23);
+        $archived_mail->date = new Attribute('date', [new Carbon('2020-03-12 18:00:00')]);
+        $old_spam_mail = new FakeProcessEmailCommandMail(32);
         $old_spam_mail->date = new Attribute('date', [new Carbon('2006-01-13 18:00:00')]);
-        $spam_mail = new FakeProcessEmailCommandMail(12);
+        $spam_mail = new FakeProcessEmailCommandMail(33);
         $spam_mail->date = new Attribute('date', [new Carbon('2020-01-13 18:00:00')]);
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [];
         WithUtilsCache::get('emailUtils')->client->folders['INBOX.Processed'] = [$processed_mail, $old_processed_mail];
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX.Archive'] = [$archived_mail, $old_archived_mail];
         WithUtilsCache::get('emailUtils')->client->folders['INBOX.Spam'] = [$old_spam_mail, $spam_mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -1505,14 +1510,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'NOTICE Doing E-Mail cleanup now...',
-            'INFO Removing old processed E-Mails...',
+            'INFO Removing old archived E-Mails...',
             'INFO Removing old spam E-Mails...',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
 
-        $this->assertSame([true, null, false], $old_processed_mail->deleted);
-        $this->assertNull($old_processed_mail->moved_to);
+        $this->assertNull($old_processed_mail->deleted);
+        $this->assertSame('INBOX.Archive', $old_processed_mail->moved_to);
         $this->assertFalse($old_processed_mail->is_body_fetched);
         $this->assertSame([], $old_processed_mail->flag_actions);
 
@@ -1520,6 +1525,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertNull($processed_mail->moved_to);
         $this->assertFalse($processed_mail->is_body_fetched);
         $this->assertSame([], $processed_mail->flag_actions);
+
+        $this->assertSame([true, null, false], $old_archived_mail->deleted);
+        $this->assertNull($old_archived_mail->moved_to);
+        $this->assertFalse($old_archived_mail->is_body_fetched);
+        $this->assertSame([], $old_archived_mail->flag_actions);
+
+        $this->assertNull($archived_mail->deleted);
+        $this->assertNull($archived_mail->moved_to);
+        $this->assertFalse($archived_mail->is_body_fetched);
+        $this->assertSame([], $archived_mail->flag_actions);
 
         $this->assertSame([true, null, false], $old_spam_mail->deleted);
         $this->assertNull($old_spam_mail->moved_to);

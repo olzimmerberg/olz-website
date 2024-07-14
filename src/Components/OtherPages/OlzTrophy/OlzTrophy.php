@@ -19,9 +19,16 @@ class OlzTrophy extends OlzComponent {
         $code_href = $env_utils->getCodeHref();
         $data_path = $env_utils->getDataPath();
 
+        $filter = [
+            'typ' => 'trophy',
+            'datum' => $this->dateUtils()->getCurrentDateInFormat('Y'),
+            'archiv' => 'ohne',
+        ];
+        $enc_json_filter = urlencode(json_encode($filter));
         $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
+            'canonical_url' => "{$code_href}termine?filter={$enc_json_filter}",
         ]);
 
         $etappen = [
@@ -71,12 +78,6 @@ class OlzTrophy extends OlzComponent {
             ],
         ];
 
-        $filter = [
-            'typ' => 'trophy',
-            'datum' => $this->dateUtils()->getCurrentDateInFormat('Y'),
-            'archiv' => 'ohne',
-        ];
-        $enc_json_filter = urlencode(json_encode($filter));
         $out .= <<<ZZZZZZZZZZ
             <div class='content-full'>
             <div class='alert alert-danger'>

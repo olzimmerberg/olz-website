@@ -1,43 +1,42 @@
-.create-news-container {
-    float: right;
+.olz-news-list-middle {
+    .create-news-container {
+        float: right;
 
-    &.dropdown {
-        background: none;
-        border: 0;
+        &.dropdown {
+            background: none;
+            border: 0;
+        }
+
+        .should-login {
+            font-size: 90%;
+            width: 400px;
+            white-space: normal;
+        }
     }
 
-    .should-login {
-        font-size: 90%;
-        width: 400px;
-        white-space: normal;
-    }
-}
-
-.no-entries {
-    font-weight: bold;
-    text-align: center;
-    margin: 30px 0;
-}
-
-.page {
-    &.hidden {
-        display: none;
+    .no-entries {
+        font-weight: bold;
+        text-align: center;
+        margin: 30px 0;
     }
 
-    &.shown {
-        display: block;
+    nav.pages {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
     }
-}
 
-.olz-no-access {
-    margin-top: 50px;
-    text-align: center;
+    .olz-no-access {
+        margin-top: 50px;
+        text-align: center;
 
-    .auth-buttons {
-        margin: 20px 50px;
+        .auth-buttons {
+            margin: 20px 50px;
 
-        .btn {
-            margin: 0 10px;
+            .btn {
+                margin: 0 10px;
+            }
         }
     }
 }

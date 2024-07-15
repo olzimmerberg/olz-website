@@ -236,15 +236,29 @@ class EmailUtils {
     }
 
     public function generateSpamEmailAddress(): string {
-        $part_0_options = ['severin', 'simon', 'sebastian', 'samuel', 'sascha', 'sven', 'stefan'];
-        $part_1_options = ['pascal', 'patrick', 'paul', 'peter', 'philipp'];
-        $part_2_options = ['adam', 'alex', 'andreas', 'albert', 'anton'];
         $part_3_options = ['mann', 'matheisen', 'meissen', 'melzer', 'mettler', 'moll', 'munz'];
 
-        $part0 = $part_0_options[$this->getTimeBasedRandomInt(0, count($part_0_options) - 1)];
-        $part1 = $part_1_options[$this->getTimeBasedRandomInt(0, count($part_1_options) - 1)];
-        $part2 = $part_2_options[$this->getTimeBasedRandomInt(0, count($part_2_options) - 1)];
-        $part3 = $part_3_options[$this->getTimeBasedRandomInt(0, count($part_3_options) - 1)];
+        $part3 = $part_3_options[$this->getPageAndTimeBasedRandomInt(0, count($part_3_options) - 1)];
+
+        if ($this->getPageAndTimeBasedRandomInt(0, 1) === 1) {
+            $part_0_options = ['severin', 'simon', 'sebastian', 'samuel', 'sascha', 'sven', 'stefan'];
+            $part_1_options = ['pascal', 'patrick', 'paul', 'peter', 'philipp'];
+            $part_2_options = ['adam', 'alex', 'andreas', 'albert', 'anton'];
+
+            $part0 = $part_0_options[$this->getPageAndTimeBasedRandomInt(0, count($part_0_options) - 1)];
+            $part1 = $part_1_options[$this->getPageAndTimeBasedRandomInt(0, count($part_1_options) - 1)];
+            $part2 = $part_2_options[$this->getPageAndTimeBasedRandomInt(0, count($part_2_options) - 1)];
+
+            return "{$part0}.{$part1}.{$part2}.{$part3}";
+        }
+
+        $part_0_options = ['sabine', 'salome', 'samira', 'sara', 'silvia', 'sophie', 'svenja'];
+        $part_1_options = ['pamela', 'patricia', 'paula', 'petra', 'philippa', 'pia'];
+        $part_2_options = ['alena', 'alice', 'alva', 'amelie', 'amy', 'anja', 'anne', 'andrea'];
+
+        $part0 = $part_0_options[$this->getPageAndTimeBasedRandomInt(0, count($part_0_options) - 1)];
+        $part1 = $part_1_options[$this->getPageAndTimeBasedRandomInt(0, count($part_1_options) - 1)];
+        $part2 = $part_2_options[$this->getPageAndTimeBasedRandomInt(0, count($part_2_options) - 1)];
 
         return "{$part0}.{$part1}.{$part2}.{$part3}";
     }
@@ -260,8 +274,10 @@ class EmailUtils {
         return (bool) preg_match('/^s[a-z]*\.p[a-z]*\.a[a-z]*\.m[a-z]*$/i', $username);
     }
 
-    protected function getTimeBasedRandomInt(int $min, int $max): int {
-        mt_srand(intval($this->dateUtils()->getCurrentDateInFormat('Ym')));
+    protected function getPageAndTimeBasedRandomInt(int $min, int $max): int {
+        $page_int = crc32($this->server()['REQUEST_URI'] ?? '');
+        $time_int = intval($this->dateUtils()->getCurrentDateInFormat('Ym'));
+        mt_srand($page_int ^ $time_int);
         return mt_rand($min, $max);
     }
 

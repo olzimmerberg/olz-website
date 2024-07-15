@@ -8,24 +8,24 @@
 >
     <path
         d="M 5.5,10 L 9,10.8"
-        style="fill:none;stroke:rgb(0,150,0);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
+        style="fill:none;stroke:#007700;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
     />
     <path
         d="M 4,12 L 9,13"
-        style="fill:none;stroke:rgb(0,150,0);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
+        style="fill:none;stroke:#007700;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
     />
     <path
         d="M 2.5,14 L 11,15.5"
-        style="fill:none;stroke:rgb(0,150,0);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
+        style="fill:none;stroke:#007700;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
     />
     <g transform="translate(3,1) rotate(25 8,14.5)">
         <path
             d="M 8,14.5 L 9.5,10.5 L 9.5,2.5 L 6.5,2.5 L 6.5,10.5 Z"
-            style="fill:none;stroke:rgb(0,150,0);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
+            style="fill:none;stroke:#007700;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
         />
         <path
             d="M 9,10.5 L 7,10.5"
-            style="fill:none;stroke:rgb(0,150,0);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
+            style="fill:none;stroke:#007700;stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round;"
         />
     </g>
 </svg>

@@ -8,12 +8,12 @@
 >
     <path
         d="M 4.4,9.5 L 2.5,9.5 L 2.5,3.5 L 10.5,3.5 L 10.5,5.3"
-        style="fill:none;stroke:rgb(0,150,0);stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;"
+        style="fill:none;stroke:#007700;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;"
     />
     <g transform="translate(2,1) rotate(-20 16 4)">
         <path
             d="M 2,2 L 10,2 L 10,8 L 2,8 L 2,2 Z"
-            style="fill:none;stroke:rgb(0,150,0);stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;"
+            style="fill:none;stroke:#007700;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;"
         />
     </g>
 </svg>

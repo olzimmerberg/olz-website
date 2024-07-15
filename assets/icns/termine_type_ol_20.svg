@@ -6,6 +6,6 @@
     viewBox="0 0 20 20"
     version="1.1"
 >
-    <path d="M19,1 L1,19 L19,19 Z" style="fill:rgb(0,150,0)" />
-    <path d="M1,1 L1,19 L19,19 L19,1 Z" style="stroke:rgb(0,150,0);stroke-width:1;fill:none;" />
+    <path d="M19,1 L1,19 L19,19 Z" style="fill:#007700" />
+    <path d="M1,1 L1,19 L19,19 L19,1 Z" style="stroke:#007700;stroke-width:1;fill:none;" />
 </svg>

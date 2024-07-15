@@ -1,3 +1,5 @@
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
 .olz-author-badge {
     display: inline-flex;
     align-items: center;
@@ -20,8 +22,8 @@
     }
 
     &.level-user {
-        color: rgb(0,150,0);
-        border: 1px solid rgb(0,150,0);
+        color: colors.$olz-bg;
+        border: 1px solid colors.$olz-bg;
 
         &.has-popup:hover {
             color: rgb(0,75,0);
@@ -31,8 +33,8 @@
 
     &.level-role {
         background-color: rgba(0,150,0, 0.1);
-        color: rgb(0,150,0);
-        border: 1px solid rgb(0,150,0);
+        color: colors.$olz-bg;
+        border: 1px solid colors.$olz-bg;
 
         &.has-popup:hover {
             background-color: rgba(0,75,0, 0.1);

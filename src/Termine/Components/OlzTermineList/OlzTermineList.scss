@@ -1,3 +1,5 @@
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
 .create-termin-container {
     float: right;
 }
@@ -12,9 +14,9 @@
     position: sticky;
     top: 75px;
     transition: top 0.5s;
-    z-index: 101;
-    background: linear-gradient(rgb(0, 200, 0), rgb(0, 150, 0));
-    background-color: rgb(0, 175, 0);
+    z-index: 11;
+    background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg);
+    background-color: colors.$olz-bg-bright;
     height: 22px;
     margin: 0 -10px;
     border: 0;
@@ -30,7 +32,7 @@
     top: 97px;
     transition: top 0.5s;
     bottom: 0;
-    z-index: 102;
+    z-index: 12;
     background: linear-gradient(rgb(250, 0, 0), rgb(180, 0, 0));
     background-color: rgb(175, 0, 0);
     text-align: center;

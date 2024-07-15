@@ -1,3 +1,5 @@
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
 .menu {
     background-color: #f2f2f2;
     background-image: url('../../../../assets/icns/mainbg.svg');
@@ -10,10 +12,10 @@
 
 .back-menu {
     color: rgb(0, 0, 0);
-    background-color: rgb(0, 197, 0);
+    background-color: colors.$olz-bg-bright;
 
     .menu-link {
-        border-bottom: 1px solid rgb(95, 235, 31);
+        border-bottom: 1px solid colors.$olz-bg-ultra-bright;
     }
 }
 
@@ -31,21 +33,21 @@
 }
 
 .main-menu {
-    background: linear-gradient(rgb(0, 140, 0), rgb(0, 180, 0));
-    background-color: rgb(0, 160, 0);
+    background: linear-gradient(colors.$olz-bg, colors.$olz-bg-bright);
+    background-color: colors.$olz-bg;
 
     .menu-link {
-        border-bottom: 1px solid rgb(95, 235, 31);
+        border-bottom: 1px solid colors.$olz-bg-ultra-bright;
 
         .active {
-            background-color: rgba(95, 235, 31, 0.6);
+            background-color: rgba(colors.$olz-bg-ultra-bright, 0.8);
         }
     }
 
     .separator {
-        background-color: rgb(0, 197, 0);
+        background-color: colors.$olz-bg-bright;
         height:3px;
-        border-bottom:1px solid rgb(95, 235, 31);
+        border-bottom:1px solid colors.$olz-bg-ultra-bright;
     }
 }
 
@@ -70,7 +72,7 @@
         transition: background-color 500ms linear;
 
         &:hover {
-            background-color: rgba(95, 235, 31, 0.6);
+            background-color: rgba(colors.$olz-bg-ultra-bright, 0.8);
             transition: background-color 100ms linear;
         }
     }

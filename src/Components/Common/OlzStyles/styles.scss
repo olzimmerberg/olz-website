@@ -16,6 +16,8 @@ liste (für tr oder table): Zellen abgetrennt [z.B. Forum Liste]
 image (für table): Linksbündiges Bild [z.B. Aktuell]
 */
 
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
 body {
     background-image: url('../../../../assets/icns/brushedbgschwarz.png');
     color: rgb(0, 0, 0);
@@ -161,7 +163,7 @@ tr.off * {
 
 .menu-aus {
     background-color: #d4e7ce;
-    border: solid 1px #007521;
+    border: solid 1px colors.$olz-bg-dark;
     font-weight: bold;
     padding: 3px;
     text-align: center;
@@ -175,8 +177,8 @@ tr.off * {
 /*-----------ABSTAENDE-------------*/
 .banner {
     background-color: #d4e7ce;
-    border-bottom: 1px solid #007521;
-    border-top: 1px solid #007521;
+    border-bottom: 1px solid colors.$olz-bg-dark;
+    border-top: 1px solid colors.$olz-bg-dark;
     font-size: 14px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -229,7 +231,7 @@ input.button {
 h2,
 h3,
 .buttonbar {
-    border-bottom: 1px solid #007521;
+    border-bottom: 1px solid colors.$olz-bg-dark;
 }
 
 img,
@@ -289,7 +291,7 @@ input.button {
 
 .bg-bright a,
 a {
-    color: #007521;
+    color: colors.$olz-bg-dark;
     text-decoration: none;
 
     &:hover {
@@ -313,7 +315,7 @@ a.text {
 
 .dropdown,
 input.button {
-    color: #007521;
+    color: colors.$olz-bg-dark;
 }
 
 h2,

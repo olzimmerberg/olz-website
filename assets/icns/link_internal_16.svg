@@ -8,6 +8,6 @@
 >
     <path
         d="M 8,3.5 C 12,8 12,8 8,12.5 L 5,12.5 C 10,8 10,8 5,3.5 L 8,3.5 Z"
-        style="fill:rgb(0,150,0);stroke:rgb(0,150,0);stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;"
+        style="fill:#007700;stroke:#007700;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;"
     />
 </svg>

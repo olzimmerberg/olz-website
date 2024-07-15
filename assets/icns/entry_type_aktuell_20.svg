@@ -9,7 +9,7 @@
     <g transform="translate(10,10) scale(8) rotate(50)">
         <path
             d="M 0.00,1.00 L 0.20,0.27 L 0.95,0.31 L 0.32,-0.10 L 0.59,-0.81 L 0.00,-0.33 L -0.59,-0.81 L -0.32,-0.10 L -0.95,0.31 L -0.20,0.27 Z"
-            style="fill:none;stroke:rgb(0,150,0);stroke-width:0.1875px;stroke-linecap:round;stroke-linejoin:round;"
+            style="fill:none;stroke:#007700;stroke-width:0.1875px;stroke-linecap:round;stroke-linejoin:round;"
         />
     </g>
 </svg>

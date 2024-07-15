@@ -23,7 +23,7 @@ class OlzNewsList extends OlzComponent {
     public function getHtml(array $args = []): string {
         $params = $this->httpUtils()->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),
-            'page' => new FieldTypes\IntegerField(['min_value' => 1, 'default_value' => 1]),
+            'seite' => new FieldTypes\IntegerField(['min_value' => 1, 'default_value' => 1]),
         ]);
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
@@ -115,7 +115,7 @@ class OlzNewsList extends OlzComponent {
         $out .= "<h1>{$news_list_title}</h1>";
 
         $filter_where = $news_utils->getSqlFromFilter($current_filter);
-        $page_index = ($params['page'] ?? 1) - 1;
+        $page_index = ($params['seite'] ?? 1) - 1;
         $first_index = $page_index * $this::$page_size;
         $sql = <<<ZZZZZZZZZZ
             SELECT
@@ -203,14 +203,14 @@ class OlzNewsList extends OlzComponent {
                         <li class='page-item'>
                             <a
                                 class='page-link{$page_link_class}'
-                                href='?filter={$enc_json_filter}&page={$page_number}'
+                                href='?filter={$enc_json_filter}&seite={$page_number}'
                             >
                                 {$page_number}
                             </a>
                         </li>
                         ZZZZZZZZZZ;
                 }
-                $out .= "<nav class='pages'><ul class='pagination'>{$pages}</ul></nav>";
+                $out .= "<nav><ul class='pagination justify-content-center'>{$pages}</ul></nav>";
             }
         } else {
             $out .= <<<ZZZZZZZZZZ

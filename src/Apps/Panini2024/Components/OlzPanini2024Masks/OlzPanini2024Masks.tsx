@@ -26,8 +26,8 @@ function drawTop(
 
     // Green Box
     const grd = ctx.createLinearGradient(0, 0, 0, barHei * 1.2);
-    grd.addColorStop(0, 'rgb(0,150,0)');
-    grd.addColorStop(1, 'rgb(0,120,0)');
+    grd.addColorStop(0, '#00aa00');
+    grd.addColorStop(1, '#007700');
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(wid, 0);
@@ -95,8 +95,8 @@ function drawBottom(
 
     // Green Box
     const grd = ctx.createLinearGradient(0, hei - barHei * 1.2, 0, hei);
-    grd.addColorStop(0, 'rgb(0,150,0)');
-    grd.addColorStop(1, 'rgb(0,120,0)');
+    grd.addColorStop(0, '#00aa00');
+    grd.addColorStop(1, '#007700');
     ctx.beginPath();
     ctx.moveTo(0, hei);
     ctx.lineTo(wid, hei);

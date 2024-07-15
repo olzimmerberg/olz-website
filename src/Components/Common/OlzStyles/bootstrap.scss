@@ -1,7 +1,19 @@
+@use 'colors' as colors;
+
+$primary: colors.$olz-bg !default; // must be below 8b to have dark character.
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+// merge with existing $theme-colors map
+$theme-colors: map-merge($theme-colors, (
+    'primary': $primary
+));
+
 @import '~bootstrap/scss/bootstrap';
 
 .dropdown-item:active {
-    background-color: rgb(0, 150, 0);
+    background-color: colors.$olz-bg-dark;
 }
 
 .breadcrumb {

@@ -9,7 +9,7 @@
 }
 
 .olz-progress-bar {
-    background-color: rgb(0, 150, 0);
+    background-color: colors.$olz-bg;
     border-radius: 6px;
     height: 12px;
     transition: width 1s ease-out;

@@ -1,3 +1,5 @@
+@use '../../../../Components/Common/OlzStyles/colors' as colors;
+
 html,
 body {
     height: 100%;
@@ -100,7 +102,7 @@ body {
 
 .classlink.selected,
 .classlink:active {
-    background: linear-gradient(rgb(0, 100, 0), rgb(0, 200, 0));
+    background: linear-gradient(colors.$olz-bg-dark, colors.$olz-bg-bright);
 }
 
 #backbutton {

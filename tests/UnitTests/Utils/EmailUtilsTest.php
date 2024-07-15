@@ -372,22 +372,43 @@ final class EmailUtilsTest extends UnitTestCase {
         );
     }
 
-    public function testGenerateSpamEmailAddress(): void {
+    public function testGenerateSpamEmailAddressIsDeterministic(): void {
         $email_utils = new DeterministicEmailUtils();
         $this->assertSame(
             'stefan.paul.andreas.munz',
             $email_utils->generateSpamEmailAddress()
         );
-        // Is deterministic
+        $this->assertSame(
+            'stefan.paul.andreas.munz',
+            $email_utils->generateSpamEmailAddress()
+        );
+    }
+
+    public function testGenerateSpamEmailAddressChangesWithTime(): void {
+        $email_utils = new DeterministicEmailUtils();
         $this->assertSame(
             'stefan.paul.andreas.munz',
             $email_utils->generateSpamEmailAddress()
         );
 
-        // Changes with time
         WithUtilsCache::set('dateUtils', new FixedDateUtils('2006-01-13 18:00:00'));
+
         $this->assertSame(
-            'simon.patrick.alex.matheisen',
+            'salome.philippa.alena.matheisen',
+            $email_utils->generateSpamEmailAddress()
+        );
+    }
+
+    public function testGenerateSpamEmailAddressChangesWithRequestURI(): void {
+        $email_utils = new DeterministicEmailUtils();
+        $this->assertSame(
+            'stefan.paul.andreas.munz',
+            $email_utils->generateSpamEmailAddress()
+        );
+
+        WithUtilsCache::set('server', ['REQUEST_URI' => 'test']);
+        $this->assertSame(
+            'samuel.patrick.alex.melzer',
             $email_utils->generateSpamEmailAddress()
         );
     }

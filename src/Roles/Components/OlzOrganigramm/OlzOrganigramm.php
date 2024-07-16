@@ -25,10 +25,9 @@ class OlzOrganigramm extends OlzComponent {
         foreach ($root_roles as $root_role) {
             $root_role_name = nl2br($root_role->getName());
             $root_role_username = $root_role->getUsername();
-            $root_role_id = ($has_all_permissions ? "<br/>(ID: {$root_role->getId()})" : '');
             $out .= "<td style='width:".$colwid."px; vertical-align:top;'>";
             $out .= "<div id='link-role-{$root_role->getId()}' style='margin:0px 0px 0px 1px; padding:0px; border:1px solid #000000; text-align:center;'>";
-            $out .= "<h6 style='font-weight:bold; min-height:36px;'><a href='{$code_href}verein/{$root_role_username}'>{$root_role_name}</a>{$root_role_id}</h6>";
+            $out .= "<h6 style='font-weight:bold; min-height:36px;'><a href='{$code_href}verein/{$root_role_username}'>{$root_role_name}</a></h6>";
             $root_role_assignees = $root_role->getUsers();
             foreach ($root_role_assignees as $root_role_assignee) {
                 $out .= OlzUserInfoWithPopup::render([
@@ -41,10 +40,9 @@ class OlzOrganigramm extends OlzComponent {
             foreach ($charge_roles as $charge_role) {
                 $charge_role_name = nl2br($charge_role->getName());
                 $charge_role_username = nl2br($charge_role->getUsername());
-                $charge_role_id = ($has_all_permissions ? "<br/>(ID: {$charge_role->getId()})" : '');
                 $out .= "<div style='text-align:center; height:20px; overflow:hidden;'><span style='border-left:1px solid #000000; font-size:20px;'></span></div>";
                 $out .= "<div id='link-role-{$charge_role->getId()}' style='margin:0px 0px 0px 1px; padding:0px; border:1px solid #000000; text-align:center;'>";
-                $out .= "<h6 style='font-weight:bold;'><a href='{$code_href}verein/{$charge_role_username}'>{$charge_role_name}</a>{$charge_role_id}</h6>";
+                $out .= "<h6 style='font-weight:bold;'><a href='{$code_href}verein/{$charge_role_username}'>{$charge_role_name}</a></h6>";
                 $charge_role_assignees = $charge_role->getUsers();
                 foreach ($charge_role_assignees as $charge_role_assignee) {
                     $out .= OlzUserInfoWithPopup::render([
@@ -56,8 +54,7 @@ class OlzOrganigramm extends OlzComponent {
                 foreach ($subcharge_roles as $subcharge_role) {
                     $subcharge_role_name = nl2br($subcharge_role->getName());
                     $subcharge_role_username = nl2br($subcharge_role->getUsername());
-                    $subcharge_role_id = ($has_all_permissions ? "<br/>(ID: {$subcharge_role->getId()})" : '');
-                    $out .= "<div id='link-role-{$subcharge_role->getId()}' style='margin-top:4px; text-align:center; font-style:italic;'><a href='{$code_href}verein/{$subcharge_role_username}'>{$subcharge_role_name}</a>{$subcharge_role_id}</div>";
+                    $out .= "<div id='link-role-{$subcharge_role->getId()}' style='margin-top:4px; text-align:center; font-style:italic;'><a href='{$code_href}verein/{$subcharge_role_username}'>{$subcharge_role_name}</a></div>";
                     $subcharge_role_assignees = $subcharge_role->getUsers();
                     foreach ($subcharge_role_assignees as $subcharge_role_assignee) {
                         $out .= OlzUserInfoWithPopup::render([

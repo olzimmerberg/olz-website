@@ -39,7 +39,6 @@ class OlzTerminDetail extends OlzComponent {
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $this->authUtils()->getCurrentUser();
-        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $id = $args['id'] ?? null;
 
         $termine_utils = TermineFilterUtils::fromEnv();
@@ -97,8 +96,7 @@ class OlzTerminDetail extends OlzComponent {
         $start_time = $termin->getStartTime() ?? null;
         $end_time = $termin->getEndTime() ?? null;
         $text = $termin->getText() ?? '';
-        $typ = $termin->getTypes() ?? '';
-        $types = explode(' ', $typ);
+        $labels = [...$termin->getLabels()];
         $xkoord = $termin->getCoordinateX() ?? '';
         $ykoord = $termin->getCoordinateY() ?? '';
         $go2ol = $termin->getGo2olId() ?? '';
@@ -112,14 +110,12 @@ class OlzTerminDetail extends OlzComponent {
         }
         $has_olz_location = ($xkoord > 0 && $ykoord > 0);
         $has_termin_location = (
-            $typ != 'meldeschluss'
-            && $termin_location
+            $termin_location
             && $termin_location->getLatitude() > 0
             && $termin_location->getLongitude() > 0
         );
         $has_solv_location = (
-            $typ != 'meldeschluss'
-            && $row_solv
+            $row_solv
             && $row_solv['coord_x'] > 0
             && $row_solv['coord_y'] > 0
         );
@@ -224,17 +220,17 @@ class OlzTerminDetail extends OlzComponent {
             // SOLV-Übersicht-Link zeigen
             $maybe_solv_link .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
         }
-        $type_imgs = implode('', array_map(function ($type) use ($code_path, $code_href, $termin_label_repo) {
-            $label = $termin_label_repo->findOneBy(['ident' => $type]);
+        $label_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
+            $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?
-            $fallback_path = "{$code_path}assets/icns/termine_type_{$type}_20.svg";
+            $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
             $fallback_href = is_file($fallback_path)
-                ? "{$code_href}assets/icns/termine_type_{$type}_20.svg" : null;
-            $icon_href = $label?->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
+                ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
+            $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
             return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
-        }, $types));
+        }, $labels));
         $out .= "<h2>{$pretty_date}{$maybe_solv_link}</h2>";
-        $out .= "<h1>{$title} {$type_imgs}</h1>";
+        $out .= "<h1>{$title} {$label_imgs}</h1>";
 
         // Text
         // TODO: Temporary fix for broken Markdown
@@ -245,10 +241,10 @@ class OlzTerminDetail extends OlzComponent {
         ]);
         $text_html = $termin->replaceImagePaths($text_html);
         $text_html = $termin->replaceFilePaths($text_html);
-        if ($typ != 'meldeschluss' && $row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
+        if ($row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
             $text_html .= ($text_html == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $row_solv['deadline']);
         }
-        if ($typ != 'meldeschluss' && $termin->getDeadline() && $termin->getDeadline() != "0000-00-00") {
+        if ($termin->getDeadline() && $termin->getDeadline() != "0000-00-00") {
             $text_html .= ($text_html == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $termin->getDeadline());
         }
         $out .= "<div>".$text_html."</div>";

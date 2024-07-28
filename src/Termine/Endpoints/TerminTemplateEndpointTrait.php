@@ -2,6 +2,7 @@
 
 namespace Olz\Termine\Endpoints;
 
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Utils\WithUtilsTrait;
@@ -44,7 +45,7 @@ trait TerminTemplateEndpointTrait {
 
     /** @return array<string, mixed> */
     public function getEntityData(TerminTemplate $entity): array {
-        $types_for_api = $this->getTypesForApi($entity->getTypes() ?? '');
+        $types_for_api = $this->getTypesForApi($entity->getLabels());
 
         $file_ids = $entity->getStoredFileUploadIds();
 
@@ -67,6 +68,7 @@ trait TerminTemplateEndpointTrait {
     public function updateEntityWithData(TerminTemplate $entity, array $input_data): void {
         $types_for_db = $this->getTypesForDb($input_data['types']);
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
+        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         $termin_location = $termin_location_repo->findOneBy(['id' => $input_data['locationId']]);
 
@@ -78,6 +80,14 @@ trait TerminTemplateEndpointTrait {
         $entity->setDeadlineTime($input_data['deadlineTime'] ? new \DateTime($input_data['deadlineTime']) : null);
         $entity->setNewsletter($input_data['newsletter']);
         $entity->setTypes($types_for_db);
+        $entity->clearLabels();
+        foreach ($input_data['types'] as $ident) {
+            $termin_label = $termin_label_repo->findOneBy(['ident' => $ident]);
+            if (!$termin_label) {
+                throw new HttpError(400, "No such TerminLabel: {$ident}");
+            }
+            $entity->addLabel($termin_label);
+        }
         $entity->setLocation($termin_location);
         $entity->setImageIds($valid_image_ids);
     }
@@ -109,14 +119,15 @@ trait TerminTemplateEndpointTrait {
         return ' '.implode(' ', $types ?? []).' ';
     }
 
-    /** @return array<string> */
-    protected function getTypesForApi(?string $types): array {
-        $types_string = $types ?? '';
+    /**
+     * @param iterable<TerminLabel> $labels
+     *
+     * @return array<string>
+     */
+    protected function getTypesForApi(?iterable $labels): array {
         $types_for_api = [];
-        foreach (explode(' ', $types_string) as $type) {
-            if (trim($type) != '') {
-                $types_for_api[] = trim($type);
-            }
+        foreach ($labels as $label) {
+            $types_for_api[] = $label->getIdent();
         }
         return $types_for_api;
     }

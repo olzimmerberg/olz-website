@@ -75,7 +75,7 @@ class Termin extends OlzEntity implements DataStorageInterface {
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $text;
 
-    // @deprecated Use labels
+    /** @deprecated Use labels */
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $typ;
 
@@ -176,10 +176,12 @@ class Termin extends OlzEntity implements DataStorageInterface {
         $this->text = $new_value;
     }
 
+    /** @deprecated Use getLabels() instead. */
     public function getTypes(): ?string {
         return $this->typ;
     }
 
+    /** @deprecated Use addLabel()/removeLabel() instead. */
     public function setTypes(?string $new_value): void {
         $this->typ = $new_value;
     }
@@ -195,6 +197,10 @@ class Termin extends OlzEntity implements DataStorageInterface {
 
     public function removeLabel(TerminLabel $label): void {
         $this->labels->removeElement($label);
+    }
+
+    public function clearLabels(): void {
+        $this->labels->clear();
     }
 
     public function getSolvId(): ?int {

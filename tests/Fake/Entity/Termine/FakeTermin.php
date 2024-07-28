@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity\Termine;
 
 use Olz\Entity\Termine\Termin;
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
@@ -26,7 +27,6 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(null);
                 $entity->setTitle("Fake title");
                 $entity->setText("");
-                $entity->setTypes(null);
                 $entity->setLocation(null);
                 $entity->setCoordinateX(null);
                 $entity->setCoordinateY(null);
@@ -53,7 +53,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(new \DateTime('00:00:00'));
                 $entity->setTitle("Cannot be empty");
                 $entity->setText("");
-                $entity->setTypes('');
+                $entity->clearLabels();
                 $entity->setLocation(null);
                 $entity->setCoordinateX(0);
                 $entity->setCoordinateY(0);
@@ -71,6 +71,12 @@ class FakeTermin extends FakeEntity {
         return self::getFake(
             $fresh,
             function () {
+                $termin_label_1 = new TerminLabel();
+                $termin_label_1->setId(12341);
+                $termin_label_1->setIdent('training');
+                $termin_label_2 = new TerminLabel();
+                $termin_label_2->setId(12342);
+                $termin_label_2->setIdent('weekends');
                 $termin_location = new TerminLocation();
                 $termin_location->setId(12341);
                 $entity = new Termin();
@@ -82,7 +88,9 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(new \DateTime('12:00:00'));
                 $entity->setTitle("Fake title");
                 $entity->setText("Fake content");
-                $entity->setTypes(' training weekends ');
+                $entity->clearLabels();
+                $entity->addLabel($termin_label_1);
+                $entity->addLabel($termin_label_2);
                 $entity->setLocation($termin_location);
                 $entity->setCoordinateX(684835);
                 $entity->setCoordinateY(237021);

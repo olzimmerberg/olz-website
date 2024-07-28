@@ -22,7 +22,6 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();
-        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
 
         $out = '';
         $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
@@ -33,19 +32,19 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $duration_seconds = $termin_template->getDurationSeconds();
         $title = $termin_template->getTitle();
         $text = $termin_template->getText();
-        $types = explode(' ', $termin_template->getTypes());
+        $labels = [...$termin_template->getLabels()];
         $termin_location = $termin_template->getLocation();
 
         $link = "{$code_href}termine/vorlagen/{$id}?filter={$enc_current_filter}";
-        $type_imgs = implode('', array_map(function ($type) use ($code_path, $code_href, $termin_label_repo) {
-            $label = $termin_label_repo->findOneBy(['ident' => $type]);
+        $type_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
+            $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?
-            $fallback_path = "{$code_path}assets/icns/termine_type_{$type}_20.svg";
+            $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
             $fallback_href = is_file($fallback_path)
-                ? "{$code_href}assets/icns/termine_type_{$type}_20.svg" : null;
-            $icon_href = $label?->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
+                ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
+            $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
             return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
-        }, $types));
+        }, $labels));
 
         $duration_seconds_or_zero = $duration_seconds ?? 0;
         $duration_interval = \DateInterval::createFromDateString(

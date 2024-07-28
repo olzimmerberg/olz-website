@@ -10,6 +10,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
@@ -100,6 +101,7 @@ class OlzTermineList extends OlzComponent {
         }
 
         $out .= "<h1>{$termine_list_title}</h1>";
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $termin_label = $termin_label_repo->findOneBy(['ident' => $current_filter['typ']]);
         $details = $termin_label?->getDetails();
@@ -133,7 +135,7 @@ class OlzTermineList extends OlzComponent {
                     t.title as title,
                     t.text as text,
                     t.id as id,
-                    t.typ as typ,
+                    (SELECT GROUP_CONCAT(l.ident SEPARATOR ' ') FROM termin_label_map tl JOIN termin_labels l ON (l.id = tl.label_id) WHERE tl.termin_id = t.id GROUP BY t.id) as typ,
                     t.on_off as on_off,
                     t.newsletter as newsletter,
                     t.xkoord as xkoord,
@@ -200,6 +202,9 @@ class OlzTermineList extends OlzComponent {
         if ($is_not_archived || $has_archive_access) {
             $result = $db->query($sql);
             $today = $this->dateUtils()->getCurrentDateInFormat('Y-m-d');
+            $meldeschluss_label = new TerminLabel();
+            $meldeschluss_label->setIdent('meldeschluss');
+            $meldeschluss_label->setIcon(null);
             $last_date = null;
             while ($row = $result->fetch_assoc()) {
                 $this_date = $row['start_date'];
@@ -215,8 +220,11 @@ class OlzTermineList extends OlzComponent {
                 if ($today <= $this_date && $today > $last_date && $today >= $this_month_start) {
                     $out .= "<div class='todaybar'>Heute</div>";
                 }
-
-                $last_date = $this_date;
+                $labels = [$meldeschluss_label];
+                if ($row['item_type'] === 'termin') {
+                    $termin = $termin_repo->findOneBy(['id' => $row['id']]);
+                    $labels = [...$termin->getLabels()];
+                }
 
                 $out .= OlzTermineListItem::render([
                     'item_type' => $row['item_type'],
@@ -229,10 +237,12 @@ class OlzTermineList extends OlzComponent {
                     'title' => $row['title'],
                     'text' => $row['text'],
                     'solv_uid' => $row['solv_uid'],
-                    'types' => explode(' ', $row['typ']),
+                    'labels' => $labels,
                     'image_ids' => $row['image_ids'] ? json_decode($row['image_ids'], true) : null,
                     'location_id' => $row['location_id'],
                 ]);
+
+                $last_date = $this_date;
             }
             $out .= "</div>";
         } else {

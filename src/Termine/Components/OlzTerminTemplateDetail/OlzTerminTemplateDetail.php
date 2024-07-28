@@ -30,7 +30,6 @@ class OlzTerminTemplateDetail extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();
         $user = $this->authUtils()->getCurrentUser();
-        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $id = $args['id'] ?? null;
 
         $termin_template = $this->getTerminTemplateById($id);
@@ -84,8 +83,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
         $duration_seconds = $termin_template->getDurationSeconds() ?? '';
         $title = $termin_template->getTitle() ?? '';
         $text = $termin_template->getText() ?? '';
-        $typ = $termin_template->getTypes() ?? '';
-        $types = explode(' ', $typ);
+        $labels = [...$termin_template->getLabels()];
         $termin_location = $termin_template->getLocation();
         $image_ids = $termin_template->getImageIds();
 
@@ -126,18 +124,18 @@ class OlzTerminTemplateDetail extends OlzComponent {
             ? $start_time->format('H:i')." – ".$end_time->format('H:i')
             : $start_time->format('H:i')
         ) : '(irgendwann)';
-        $type_imgs = implode('', array_map(function ($type) use ($code_path, $code_href, $termin_label_repo) {
-            $label = $termin_label_repo->findOneBy(['ident' => $type]);
+        $label_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
+            $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?
-            $fallback_path = "{$code_path}assets/icns/termine_type_{$type}_20.svg";
+            $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
             $fallback_href = is_file($fallback_path)
-                ? "{$code_href}assets/icns/termine_type_{$type}_20.svg" : null;
-            $icon_href = $label?->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
+                ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
+            $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
             return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
-        }, $types));
+        }, $labels));
 
         $out .= "<h2>{$pretty_date}</h2>";
-        $out .= "<h1>{$title} {$type_imgs}</h1>";
+        $out .= "<h1>{$title} {$label_imgs}</h1>";
 
         if ($termin_location) {
             $out .= OlzLocationMap::render([

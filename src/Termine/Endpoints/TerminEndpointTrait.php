@@ -76,7 +76,6 @@ trait TerminEndpointTrait {
 
     /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Termin $entity, array $input_data): void {
-        $types_for_db = $this->getTypesForDb($input_data['types']);
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
@@ -92,7 +91,6 @@ trait TerminEndpointTrait {
         $entity->setNewsletter($input_data['newsletter']);
         $entity->setSolvId($input_data['solvId']);
         $entity->setGo2olId($input_data['go2olId']);
-        $entity->setTypes($types_for_db);
         $entity->clearLabels();
         foreach ($input_data['types'] as $ident) {
             $termin_label = $termin_label_repo->findOneBy(['ident' => $ident]);
@@ -128,11 +126,6 @@ trait TerminEndpointTrait {
     }
 
     // ---
-
-    /** @param array<string> $types */
-    protected function getTypesForDb(?array $types): string {
-        return ' '.implode(' ', $types ?? []).' ';
-    }
 
     /**
      * @param iterable<TerminLabel> $labels

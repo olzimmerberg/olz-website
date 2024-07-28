@@ -60,10 +60,6 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $text;
 
-    /** @deprecated Use labels */
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $types;
-
     /** @var Collection<int|string, TerminLabel>&iterable<TerminLabel> */
     #[ORM\JoinTable(name: 'termin_template_label_map')]
     #[ORM\JoinColumn(name: 'termin_template_id', referencedColumnName: 'id')]
@@ -168,16 +164,6 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
 
     public function setText(?string $new_value): void {
         $this->text = $new_value;
-    }
-
-    /** @deprecated Use getLabels() instead. */
-    public function getTypes(): ?string {
-        return $this->types;
-    }
-
-    /** @deprecated Use addLabel()/removeLabel() instead. */
-    public function setTypes(?string $new_value): void {
-        $this->types = $new_value;
     }
 
     /** @return Collection<int|string, TerminLabel>&iterable<TerminLabel> */

@@ -138,6 +138,9 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $this->assertFalse($termin->getNewsletter());
         $this->assertNull($termin->getSolvId());
         $this->assertNull($termin->getGo2olId());
+        $this->assertSame(['training', 'weekend'], array_map(function ($label) {
+            return $label->getIdent();
+        }, [...$termin->getLabels()]));
         $this->assertSame(123, $termin->getLocation()->getId());
         $this->assertSame('Cannot be empty', $termin->getLocation()->getName());
         $this->assertNull($termin->getCoordinateX());

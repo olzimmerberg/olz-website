@@ -33,7 +33,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             'newsletter' => false,
             'solvId' => null,
             'go2olId' => null,
-            'types' => [],
+            'types' => ['training', 'weekend'],
             'locationId' => 1234,
             'coordinateX' => null,
             'coordinateY' => null,
@@ -104,6 +104,9 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $this->assertFalse($termin->getNewsletter());
         $this->assertNull($termin->getSolvId());
         $this->assertNull($termin->getGo2olId());
+        $this->assertSame(['training', 'weekend'], array_map(function ($label) {
+            return $label->getIdent();
+        }, [...$termin->getLabels()]));
         $this->assertSame(1234, $termin->getLocation()->getId());
         $this->assertSame('Fake title', $termin->getLocation()->getName());
         $this->assertNull($termin->getCoordinateX());

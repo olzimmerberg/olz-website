@@ -25,7 +25,7 @@ class FakeTerminLabelRepository extends FakeOlzRepository {
         ];
         $ident = $criteria['ident'] ?? '';
         if ($is_ident_valid[$ident] ?? false) {
-            $termin_label = FakeTerminLabel::maximal();
+            $termin_label = new TerminLabel();
             $termin_label->setIdent($ident);
             return $termin_label;
         }

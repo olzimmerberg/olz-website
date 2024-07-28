@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240728095826
+-- MIGRATION: DoctrineMigrations\Version20240728114645
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -685,7 +685,6 @@ CREATE TABLE `termine` (
   `title` longtext DEFAULT NULL,
   `go2ol` longtext DEFAULT NULL,
   `text` longtext DEFAULT NULL,
-  `typ` varchar(255) DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `xkoord` int(11) DEFAULT NULL,
   `ykoord` int(11) DEFAULT NULL,
@@ -883,7 +882,6 @@ CREATE TABLE `termin_templates` (
   `newsletter` tinyint(1) NOT NULL DEFAULT 0,
   `title` longtext DEFAULT NULL,
   `text` longtext DEFAULT NULL,
-  `types` varchar(255) DEFAULT NULL,
   `image_ids` longtext DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),

@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240611170404
+-- MIGRATION: DoctrineMigrations\Version20240728095826
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -88,7 +88,8 @@ VALUES
     ('DoctrineMigrations\\Version20240525162538', '2024-05-25 18:48:27', '140'),
     ('DoctrineMigrations\\Version20240530231008', '2024-06-10 21:54:50', '225'),
     ('DoctrineMigrations\\Version20240610194821', '2024-06-10 21:55:07', '8'),
-    ('DoctrineMigrations\\Version20240611170404', '2024-06-11 19:05:53', '80');
+    ('DoctrineMigrations\\Version20240611170404', '2024-06-11 19:05:53', '80'),
+    ('DoctrineMigrations\\Version20240728095826', '2024-07-28 12:16:02', '33');
 
 -- Table downloads
 INSERT INTO downloads
@@ -397,6 +398,29 @@ VALUES
 -- Table termin_infos
 
 -- Table termin_label_map
+INSERT INTO termin_label_map
+    (`termin_id`, `label_id`)
+VALUES
+    ('2', '6'),
+    ('3', '3'),
+    ('4', '3'),
+    ('5', '4'),
+    ('5', '5'),
+    ('6', '3'),
+    ('7', '3'),
+    ('8', '3'),
+    ('9', '3'),
+    ('10', '1'),
+    ('10', '5'),
+    ('11', '1'),
+    ('11', '2'),
+    ('11', '5'),
+    ('12', '1'),
+    ('12', '5'),
+    ('13', '1'),
+    ('13', '6'),
+    ('1001', '1'),
+    ('1001', '6');
 
 -- Table termin_labels
 INSERT INTO termin_labels
@@ -422,6 +446,14 @@ VALUES
 -- Table termin_notifications
 
 -- Table termin_template_label_map
+INSERT INTO termin_template_label_map
+    (`termin_template_id`, `label_id`)
+VALUES
+    ('1', '3'),
+    ('2', '3'),
+    ('3', '1'),
+    ('3', '2'),
+    ('3', '6');
 
 -- Table termin_templates
 INSERT INTO termin_templates

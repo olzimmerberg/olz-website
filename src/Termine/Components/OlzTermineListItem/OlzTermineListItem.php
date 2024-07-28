@@ -24,7 +24,6 @@ class OlzTermineListItem extends OlzComponent {
         $code_path = $this->envUtils()->getCodePath();
         $code_href = $this->envUtils()->getCodeHref();
         $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
-        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
 
         $out = '';
         $current_filter = json_decode($_GET['filter'] ?? '{}', true);
@@ -34,7 +33,6 @@ class OlzTermineListItem extends OlzComponent {
             $filter_arg = "?filter={$enc_current_filter}";
         }
 
-        $item_type = $args['item_type'];
         $id = $args['id'];
         $owner_user_id = $args['owner_user_id'];
         $start_date = $args['start_date'];
@@ -43,20 +41,20 @@ class OlzTermineListItem extends OlzComponent {
         $end_time = $args['end_time'];
         $title = $args['title'];
         $text = $args['text'];
-        $types = $args['types'];
+        $labels = $args['labels'];
         $termin_location_id = $args['location_id'];
-        $is_deadline = array_search('meldeschluss', $types) !== false;
+        $is_deadline = count($labels) > 0 && $labels[0]->getIdent() === 'meldeschluss';
 
         $link = "{$code_href}termine/{$id}{$filter_arg}";
-        $type_imgs = implode('', array_map(function ($type) use ($code_path, $code_href, $termin_label_repo) {
-            $label = $termin_label_repo->findOneBy(['ident' => $type]);
+        $type_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
+            $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?
-            $fallback_path = "{$code_path}assets/icns/termine_type_{$type}_20.svg";
+            $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
             $fallback_href = is_file($fallback_path)
-                ? "{$code_href}assets/icns/termine_type_{$type}_20.svg" : null;
-            $icon_href = $label?->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
+                ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
+            $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
             return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
-        }, $types));
+        }, $labels));
         $start_icon = OlzDateCalendar::render([
             'date' => $start_date,
             'size' => 'S',

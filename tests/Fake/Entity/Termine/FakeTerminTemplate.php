@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake\Entity\Termine;
 
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
@@ -27,7 +28,6 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setDeadlineEarlierSeconds(null);
                 $entity->setDeadlineTime(null);
                 $entity->setNewsletter(true);
-                $entity->setTypes(null);
                 $entity->setLocation(null);
                 $entity->setImageIds([]);
                 return $entity;
@@ -49,7 +49,7 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setDeadlineEarlierSeconds(null);
                 $entity->setDeadlineTime(null);
                 $entity->setNewsletter(false);
-                $entity->setTypes(null);
+                $entity->clearLabels();
                 $entity->setLocation(null);
                 $entity->setImageIds([]);
                 return $entity;
@@ -61,6 +61,12 @@ class FakeTerminTemplate extends FakeEntity {
         return self::getFake(
             $fresh,
             function () {
+                $termin_label_1 = new TerminLabel();
+                $termin_label_1->setId(12341);
+                $termin_label_1->setIdent('ol');
+                $termin_label_2 = new TerminLabel();
+                $termin_label_2->setId(12342);
+                $termin_label_2->setIdent('club');
                 $termin_location = new TerminLocation();
                 $termin_location->setId(12341);
                 $entity = new TerminTemplate();
@@ -73,7 +79,9 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setDeadlineEarlierSeconds(86400 * 2);
                 $entity->setDeadlineTime(new \DateTime('18:00:00'));
                 $entity->setNewsletter(true);
-                $entity->setTypes(' ol club ');
+                $entity->clearLabels();
+                $entity->addLabel($termin_label_1);
+                $entity->addLabel($termin_label_2);
                 $entity->setLocation($termin_location);
                 $entity->setImageIds([
                     'image__________________1.jpg', 'image__________________2.png']);

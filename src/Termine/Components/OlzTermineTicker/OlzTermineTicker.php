@@ -26,7 +26,19 @@ class OlzTermineTicker extends OlzComponent {
         $out .= "<div class='layout'>";
         $out .= "<h4 class='tablebar'>".$title."</h4>";
         // Tabelle auslesen
-        $sql = "SELECT * FROM {$db_table} WHERE ((start_date >= '{$heute}') OR (end_date >= '{$heute}')) AND (on_off = 1)".$sql_where." ORDER BY start_date ASC LIMIT {$listenlaenge}";
+        $sql = <<<ZZZZZZZZZZ
+            SELECT *
+            FROM termine t
+            WHERE 
+            (
+                (start_date >= '{$heute}')
+                OR (end_date >= '{$heute}')
+            )
+            AND (on_off = 1)
+            {$sql_where}
+            ORDER BY start_date ASC
+            LIMIT {$listenlaenge}
+            ZZZZZZZZZZ;
         $result = $db->query($sql);
 
         // TEST uu/1.4.2011

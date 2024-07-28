@@ -50,7 +50,14 @@ class OlzFuerEinsteiger extends OlzComponent {
             "eintrag_laenge" => 80,
             "eintrag_anzahl" => 3,
             "titel" => "",
-            "sql_where" => " AND typ LIKE '%training%'",
+            "sql_where" => " AND (
+                SELECT GROUP_CONCAT(l.ident SEPARATOR ' ')
+                FROM 
+                    termin_label_map tl
+                    JOIN termin_labels l ON (l.id = tl.label_id)
+                WHERE tl.termin_id = t.id
+                GROUP BY t.id
+            ) LIKE '%training%'",
             "heute_highlight" => false,
         ]);
 

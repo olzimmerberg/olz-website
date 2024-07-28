@@ -93,7 +93,9 @@ final class CreateTerminTemplateEndpointTest extends UnitTestCase {
         $this->assertSame(86400, $termin_template->getDeadlineEarlierSeconds());
         $this->assertSame('22:00:00', $termin_template->getDeadlineTime()->format('H:i:s'));
         $this->assertTrue($termin_template->getNewsletter());
-        $this->assertSame(' ol club ', $termin_template->getTypes());
+        $this->assertSame(['ol', 'club'], array_map(function ($label) {
+            return $label->getIdent();
+        }, [...$termin_template->getLabels()]));
         $this->assertSame(123, $termin_template->getLocation()->getId());
         $this->assertSame(
             ['uploaded_image.jpg', 'inexistent.png'],

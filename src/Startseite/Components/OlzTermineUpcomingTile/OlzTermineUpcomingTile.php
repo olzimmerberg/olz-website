@@ -34,11 +34,22 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
 
         $out .= "<ul class='links'>";
         $res = $db->query(<<<ZZZZZZZZZZ
-                SELECT t.id, t.start_date as date, t.title as title, t.typ as type
-                FROM termine t
-                WHERE t.on_off = '1' AND t.start_date >= '{$today}'
-                ORDER BY t.start_date ASC
-                LIMIT 7
+            SELECT
+                t.id,
+                t.start_date as date,
+                t.title as title,
+                (
+                    SELECT GROUP_CONCAT(l.ident SEPARATOR ' ')
+                    FROM 
+                        termin_label_map tl
+                        JOIN termin_labels l ON (l.id = tl.label_id)
+                    WHERE tl.termin_id = t.id
+                    GROUP BY t.id
+                ) as type
+            FROM termine t
+            WHERE t.on_off = '1' AND t.start_date >= '{$today}'
+            ORDER BY t.start_date ASC
+            LIMIT 7
             ZZZZZZZZZZ);
         while ($row = $res->fetch_assoc()) {
             $id = $row['id'];

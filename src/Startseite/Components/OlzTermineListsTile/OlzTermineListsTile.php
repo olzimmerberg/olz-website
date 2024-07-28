@@ -153,10 +153,29 @@ class OlzTermineListsTile extends AbstractOlzTile {
 
     /** @param array{typ?: string, datum?: string, archiv?: string} $filter */
     protected function getNumberOfEntries(array $filter): int {
-        $date_filter = $this->termine_utils->getSqlDateRangeFilter($filter);
-        $type_filter = $this->termine_utils->getSqlTypeFilter($filter);
+        $date_filter = $this->termine_utils->getSqlDateRangeFilter($filter, 'c');
+        $type_filter = $this->termine_utils->getSqlTypeFilter($filter, 'c');
         $filter_sql = "({$date_filter}) AND ({$type_filter})";
-        $res = $this->db->query("SELECT t.id FROM termine t WHERE {$filter_sql}");
+        $sql = <<<ZZZZZZZZZZ
+            SELECT * 
+            FROM (
+                SELECT
+                    t.id AS id,
+                    t.start_date AS start_date,
+                    t.end_date AS end_date,
+                    (
+                        SELECT GROUP_CONCAT(l.ident SEPARATOR ' ')
+                        FROM 
+                            termin_label_map tl
+                            JOIN termin_labels l ON (l.id = tl.label_id)
+                        WHERE tl.termin_id = t.id
+                        GROUP BY t.id
+                    ) as typ
+                FROM termine t
+            ) AS c
+            WHERE {$filter_sql}
+            ZZZZZZZZZZ;
+        $res = $this->db->query($sql);
         return $res->num_rows;
     }
 }

@@ -75,10 +75,6 @@ class Termin extends OlzEntity implements DataStorageInterface {
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $text;
 
-    /** @deprecated Use labels */
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $typ;
-
     /** @var Collection<int|string, TerminLabel>&iterable<TerminLabel> */
     #[ORM\JoinTable(name: 'termin_label_map')]
     #[ORM\JoinColumn(name: 'termin_id', referencedColumnName: 'id')]
@@ -174,16 +170,6 @@ class Termin extends OlzEntity implements DataStorageInterface {
 
     public function setText(?string $new_value): void {
         $this->text = $new_value;
-    }
-
-    /** @deprecated Use getLabels() instead. */
-    public function getTypes(): ?string {
-        return $this->typ;
-    }
-
-    /** @deprecated Use addLabel()/removeLabel() instead. */
-    public function setTypes(?string $new_value): void {
-        $this->typ = $new_value;
     }
 
     /** @return Collection<int|string, TerminLabel>&iterable<TerminLabel> */

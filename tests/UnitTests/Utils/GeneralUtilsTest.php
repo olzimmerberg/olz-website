@@ -37,7 +37,7 @@ final class GeneralUtilsTest extends UnitTestCase {
 
         $token = $general_utils->encrypt($key, ['test' => 'data']);
 
-        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9\\-_]+$/', $token);
+        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9\-_]+$/', $token);
         $this->assertSame(
             ['test' => 'data'],
             $general_utils->decrypt($key, $token)

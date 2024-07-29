@@ -33,7 +33,7 @@ final class LogsUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertTrue(is_dir($private_path));
         $this->assertTrue(is_dir($logs_path));
         $this->assertMatchesRegularExpression(
-            '/^merged\\-[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}\\.log$/',
+            '/^merged\-[0-9]{4}\-[0-9]{2}\-[0-9]{2}\.log$/',
             scandir($logs_path)[2]
         );
     }

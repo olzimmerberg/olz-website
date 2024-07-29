@@ -44,7 +44,7 @@ class SolvResultParser {
 
     /** @return array<SolvResult> */
     public function parse_solv_event_result_html(string $html_content, int $event_uid): array {
-        $class_headers_count = preg_match_all('/<b>(?:<p><\\/p>)?<a href="results\\?type=rang&year=([0-9]+)&rl_id=([0-9]+)&kat=([^"]+)&zwizt=1">([^<]+)<\\/a><\\/b>\s*<pre>/is', $html_content, $class_matches);
+        $class_headers_count = preg_match_all('/<b>(?:<p><\/p>)?<a href="results\?type=rang&year=([0-9]+)&rl_id=([0-9]+)&kat=([^"]+)&zwizt=1">([^<]+)<\/a><\/b>\s*<pre>/is', $html_content, $class_matches);
         $results = [];
         for ($class_ind = 0; $class_ind < $class_headers_count; $class_ind++) {
             $class_name = $class_matches[4][$class_ind];
@@ -63,7 +63,7 @@ class SolvResultParser {
                 'competitor_count' => $does_class_info_match ? intval($class_info_matches[4]) : 0,
             ];
 
-            $competitors_count = preg_match_all('/<b>([^<]+)<\\/b>/', $class_body, $competitor_matches);
+            $competitors_count = preg_match_all('/<b>([^<]+)<\/b>/', $class_body, $competitor_matches);
             for ($competitor_ind = 0; $competitor_ind < $competitors_count; $competitor_ind++) {
                 $competitor_line = $competitor_matches[1][$competitor_ind];
                 $rank = intval(mb_substr($competitor_line, 0, 3));

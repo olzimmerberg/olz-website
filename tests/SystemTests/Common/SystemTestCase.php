@@ -410,7 +410,7 @@ class SystemTestCase extends TestCase {
         $report = self::getPersistedTimingReport();
         $relevant_reports = [];
         foreach ($report as $name => $time) {
-            if (preg_match('/^(Olz\\\\Tests.*)::(.*)$/', $name, $matches)) {
+            if (preg_match('/^(Olz\\\Tests.*)::(.*)$/', $name, $matches)) {
                 try {
                     $method = new \ReflectionMethod($matches[1], $matches[2]);
                     $only_in_modes = null;

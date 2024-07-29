@@ -104,7 +104,7 @@ class OlzZielsprint extends OlzComponent {
                 $event_max_points = $event_calculation['max_points'];
                 $finish_split = $event_calculation['finish_split'];
                 $finish_minutes = floor(intval($finish_split) / 60);
-                $finish_seconds = str_pad(strval($finish_split % 60), 2, '0');
+                $finish_seconds = str_pad(strval(intval($finish_split) % 60), 2, '0');
                 $pretty_finish_split = "{$finish_minutes}:{$finish_seconds}";
                 $calculation .= "{$event_name}: {$event_points} / {$event_max_points} ({$pretty_finish_split})\\n";
             }

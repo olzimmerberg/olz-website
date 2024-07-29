@@ -23,7 +23,7 @@ final class UploadUtilsTest extends UnitTestCase {
 
     public function testObfuscateForUpload(): void {
         $obfuscated = $this->uploadUtils->obfuscateForUpload('test');
-        $this->assertMatchesRegularExpression('/^[0-9]+;[a-zA-Z0-9\\+\\/]+[=]*$/', $obfuscated);
+        $this->assertMatchesRegularExpression('/^[0-9]+;[a-zA-Z0-9\+\/]+[=]*$/', $obfuscated);
     }
 
     public function testDeobfuscateUpload(): void {
@@ -106,7 +106,7 @@ final class UploadUtilsTest extends UnitTestCase {
     }
 
     public function testGetUploadIdRegex(): void {
-        $this->assertSame('([a-zA-Z0-9_-]{24})(\\.[a-zA-Z0-9]+)', $this->uploadUtils->getUploadIdRegex());
+        $this->assertSame('([a-zA-Z0-9_-]{24})(\.[a-zA-Z0-9]+)', $this->uploadUtils->getUploadIdRegex());
     }
 
     public function testGetValidUploadId(): void {

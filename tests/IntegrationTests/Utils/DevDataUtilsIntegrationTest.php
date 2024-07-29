@@ -50,7 +50,7 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
             $current_migration = $dev_data_utils->getCurrentMigration();
 
             $structure_has_migration = preg_match(
-                '/-- MIGRATION: ([a-zA-Z0-9\\\\]+)\\s+/',
+                '/-- MIGRATION: ([a-zA-Z0-9\\\]+)\s+/',
                 $old_dev_db_structure,
                 $structure_matches
             );
@@ -59,7 +59,7 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
             $this->assertSame($structure_version, $current_migration);
 
             $content_has_migration = preg_match(
-                '/-- MIGRATION: ([a-zA-Z0-9\\\\]+)\\s+/',
+                '/-- MIGRATION: ([a-zA-Z0-9\\\]+)\s+/',
                 $old_dev_db_content,
                 $content_matches
             );

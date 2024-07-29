@@ -106,7 +106,7 @@ class AuthUtils {
             $user = $user_repo->findOneBy(['old_username' => $username_or_email]);
         }
         $res = preg_match(
-            '/^([a-zA-Z0-9-_\\.]+)@olzimmerberg.ch$/',
+            '/^([a-zA-Z0-9-_\.]+)@olzimmerberg.ch$/',
             $username_or_email,
             $matches
         );
@@ -277,7 +277,7 @@ class AuthUtils {
     }
 
     public function isUsernameAllowed(string $username): bool {
-        return preg_match('/^[a-zA-Z0-9-_\\.]+$/', $username) ? true : false;
+        return preg_match('/^[a-zA-Z0-9-_\.]+$/', $username) ? true : false;
     }
 
     public function isPasswordAllowed(string $password): bool {

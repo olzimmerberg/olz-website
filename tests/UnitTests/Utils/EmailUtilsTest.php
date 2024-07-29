@@ -169,7 +169,7 @@ final class EmailUtilsTest extends UnitTestCase {
 
         $token = $email_utils->encryptEmailReactionToken(['test' => 'data']);
 
-        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9\\-_]+$/', $token);
+        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9\-_]+$/', $token);
         $this->assertSame(
             ['test' => 'data'],
             $email_utils->decryptEmailReactionToken($token)

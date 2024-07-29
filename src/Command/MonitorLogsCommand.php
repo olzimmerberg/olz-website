@@ -178,26 +178,26 @@ class MonitorLogsCommand extends OlzCommand {
     }
 
     protected function isEmergencyLine(string $line): bool {
-        return preg_match('/\.EMERGENCY\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.EMERGENCY\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
+        return preg_match('/\.EMERGENCY\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.EMERGENCY\:/', $line) && !preg_match('/Olz\\\Command\\\Monitor/', $line);
     }
 
     protected function isAlertLine(string $line): bool {
-        return preg_match('/\.ALERT\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ALERT\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
+        return preg_match('/\.ALERT\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ALERT\:/', $line) && !preg_match('/Olz\\\Command\\\Monitor/', $line);
     }
 
     protected function isCriticalLine(string $line): bool {
-        return preg_match('/\.CRITICAL\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.CRITICAL\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
+        return preg_match('/\.CRITICAL\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.CRITICAL\:/', $line) && !preg_match('/Olz\\\Command\\\Monitor/', $line);
     }
 
     protected function isErrorLine(string $line): bool {
-        return preg_match('/\.ERROR\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ERROR\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
+        return preg_match('/\.ERROR\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.ERROR\:/', $line) && !preg_match('/Olz\\\Command\\\Monitor/', $line);
     }
 
     protected function isWarningLine(string $line): bool {
-        return preg_match('/\.WARNING\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.WARNING\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
+        return preg_match('/\.WARNING\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.WARNING\:/', $line) && !preg_match('/Olz\\\Command\\\Monitor/', $line);
     }
 
     protected function isNoticeLine(string $line): bool {
-        return preg_match('/\.NOTICE\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.NOTICE\:/', $line) && !preg_match('/Olz\\\\Command\\\\Monitor/', $line);
+        return preg_match('/\.NOTICE\:/', $line) && !preg_match('/Tool\:\w+-monitoring\.NOTICE\:/', $line) && !preg_match('/Olz\\\Command\\\Monitor/', $line);
     }
 }

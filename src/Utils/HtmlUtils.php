@@ -18,7 +18,7 @@ class HtmlUtils {
     public const SUBJECT_REGEX = '\?subject=([^\'"]*)';
     public const SUFFIX_REGEX = '[\'"]([^>]*)>([^<@]*)([^<]*)<\/a>';
     public const OLZ_EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@olzimmerberg\.ch';
-    public const EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\\.[A-Za-z]{2,64})';
+    public const EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,64})';
 
     /** @param array<string, mixed> $override_config */
     public function renderMarkdown(string $markdown, array $override_config = []): string {

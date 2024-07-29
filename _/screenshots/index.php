@@ -61,7 +61,7 @@ echo "<div id='progress'></div>";
 $screenshot_paths_json = json_encode($screenshot_paths);
 echo "<script>const screenshotPaths = {$screenshot_paths_json};</script>";
 foreach ($screenshot_paths as $screenshot_path) {
-    $has_screenshot_id = preg_match('/^([a-z0-9\\-\\_]+)\\.png$/', $screenshot_path, $matches);
+    $has_screenshot_id = preg_match('/^([a-z0-9\-\_]+)\.png$/', $screenshot_path, $matches);
     $screenshot_id = $has_screenshot_id ? " id='{$matches[1]}'" : "";
     echo "<div class='pair'>\n";
     echo "<h2{$screenshot_id}>{$screenshot_path}</h2>\n";

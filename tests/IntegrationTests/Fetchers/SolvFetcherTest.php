@@ -51,7 +51,7 @@ final class SolvFetcherTest extends IntegrationTestCase {
     public function testFetchEventResultsHtml(): void {
         $rank_id = $this->getLatestRankId();
         $content = $this->solv_fetcher->fetchEventResultsHtml($rank_id);
-        $this->assertMatchesRegularExpression('/<p>Total: [0-9]+ Teilnehmer des Clubs\\./', $content);
+        $this->assertMatchesRegularExpression('/<p>Total: [0-9]+ Teilnehmer des Clubs\./', $content);
     }
 
     private function getLatestRankId(): int|string|null {

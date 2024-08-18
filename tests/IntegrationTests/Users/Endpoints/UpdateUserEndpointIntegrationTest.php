@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Api\Endpoints;
 
-use Olz\Api\Endpoints\UpdateUserEndpoint;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Users\Endpoints\UpdateUserEndpoint;
 
 /**
  * @internal

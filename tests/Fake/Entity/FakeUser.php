@@ -16,8 +16,9 @@ class FakeUser extends FakeEntity {
     public static function adminUser(bool $fresh = false): object {
         return self::getFake(
             $fresh,
-            function () {
+            function () use ($fresh) {
                 $entity = new User();
+                self::populateEntityFields($entity, $fresh);
                 $entity->setId(2);
                 $entity->setFirstName('Admin');
                 $entity->setLastName('Istrator');
@@ -130,8 +131,9 @@ class FakeUser extends FakeEntity {
     public static function defaultUser(bool $fresh = false): object {
         return self::getFake(
             $fresh,
-            function () {
+            function () use ($fresh) {
                 $entity = new User();
+                self::populateEntityFields($entity, $fresh);
                 $entity->setId(1);
                 $entity->setFirstName('Default');
                 $entity->setLastName('User');
@@ -178,5 +180,15 @@ class FakeUser extends FakeEntity {
                 return $entity;
             }
         );
+    }
+
+    protected static function populateEntityFields(User $entity, bool $fresh = false): void {
+        $entity->setOnOff(1);
+        $entity->setOwnerUser($fresh ? null : $entity);
+        $entity->setOwnerRole(null);
+        $entity->setCreatedAt(new \DateTime('2006-01-13 18:43:36'));
+        $entity->setCreatedByUser($fresh ? null : $entity);
+        $entity->setLastModifiedAt(new \DateTime('2020-03-13 18:43:36'));
+        $entity->setLastModifiedByUser($fresh ? null : $entity);
     }
 }

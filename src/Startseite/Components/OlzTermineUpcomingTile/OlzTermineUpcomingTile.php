@@ -39,7 +39,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
                 t.start_date as date,
                 t.title as title,
                 (
-                    SELECT GROUP_CONCAT(l.ident SEPARATOR ' ')
+                    SELECT GROUP_CONCAT(l.ident ORDER BY l.position ASC SEPARATOR ' ')
                     FROM 
                         termin_label_map tl
                         JOIN termin_labels l ON (l.id = tl.label_id)

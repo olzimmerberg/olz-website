@@ -67,6 +67,14 @@ class SystemTestCase extends TestCase {
         $this::$browser->manage()->window()->setSize($size_to_set);
     }
 
+    protected function getBrowserElement(string $css_selector): ?RemoteWebElement {
+        try {
+            return $this->findBrowserElement($css_selector);
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+
     protected function findBrowserElement(string $css_selector): RemoteWebElement {
         $this::$browser
             ->wait($this::$max_timeout_seconds)
@@ -100,6 +108,15 @@ class SystemTestCase extends TestCase {
         $element->getLocationOnScreenOnceScrolledIntoView();
         usleep(100 * 1000);
         $element->sendKeys($string);
+    }
+
+    protected function waitUntilGone(string $css_selector): void {
+        $this::$browser->wait()->until(function () use ($css_selector) {
+            $elements = $this::$browser->findElements(
+                WebDriverBy::cssSelector($css_selector)
+            );
+            return count($elements) == 0;
+        });
     }
 
     /** @return array<string, mixed> */

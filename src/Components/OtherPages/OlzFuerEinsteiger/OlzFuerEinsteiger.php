@@ -51,7 +51,7 @@ class OlzFuerEinsteiger extends OlzComponent {
             "eintrag_anzahl" => 3,
             "titel" => "",
             "sql_where" => " AND (
-                SELECT GROUP_CONCAT(l.ident SEPARATOR ' ')
+                SELECT GROUP_CONCAT(l.ident ORDER BY l.position ASC SEPARATOR ' ')
                 FROM 
                     termin_label_map tl
                     JOIN termin_labels l ON (l.id = tl.label_id)

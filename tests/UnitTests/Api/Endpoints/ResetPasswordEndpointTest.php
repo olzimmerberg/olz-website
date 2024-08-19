@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\ResetPasswordEndpoint;
-use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -28,19 +28,15 @@ class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
  */
 final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpointIdent(): void {
-        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setMailer($mailer);
         $this->assertSame('ResetPasswordEndpoint', $endpoint->getIdent());
     }
 
     public function testResetPasswordEndpointWithoutInput(): void {
-        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
         try {
-            $result = $endpoint->call([]);
+            $endpoint->call([]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
@@ -55,12 +51,10 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     }
 
     public function testResetPasswordEndpointWithNullInput(): void {
-        $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 'usernameOrEmail' => null,
                 'recaptchaToken' => null,
             ]);
@@ -80,9 +74,9 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpoint(): void {
         $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setMailer($mailer);
+        $email_utils = WithUtilsCache::get('emailUtils');
+        $email_utils->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $artifacts = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
@@ -145,9 +139,9 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpointUsingEmailErrorSending(): void {
         $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setMailer($mailer);
+        $email_utils = WithUtilsCache::get('emailUtils');
+        $email_utils->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $artifacts = [];
         $mailer
             ->expects($this->exactly(1))
@@ -215,9 +209,10 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpointInvalidUser(): void {
         $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setMailer($mailer);
+        $email_utils = WithUtilsCache::get('emailUtils');
+        $email_utils->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $mailer->expects($this->exactly(0))->method('send');
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'invalid',
@@ -235,9 +230,10 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
     public function testResetPasswordEndpointInvalidRecaptchaToken(): void {
         $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
-        $endpoint->setMailer($mailer);
+        $email_utils = WithUtilsCache::get('emailUtils');
+        $email_utils->setMailer($mailer);
         $endpoint->runtimeSetup();
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
+        $mailer->expects($this->exactly(0))->method('send');
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',

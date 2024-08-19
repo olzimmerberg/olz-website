@@ -27,7 +27,7 @@ final class GoogleFetcherTest extends IntegrationTestCase {
         ]);
         $this->assertSame([
             'success' => false,
-            'error-codes' => ['invalid-input-secret'],
+            'error-codes' => ['invalid-input-response'],
         ], $content);
     }
 }

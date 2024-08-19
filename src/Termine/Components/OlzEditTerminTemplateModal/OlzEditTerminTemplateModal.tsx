@@ -89,6 +89,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
         defaultValues: getFormFromApi(props.labels, props.data),
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [isLocationLoading, setIsLocationLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
@@ -96,6 +97,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditTerminTemplateForm> = async (values) => {
+        setIsSubmitting(true);
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -109,6 +111,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setIsSubmitting(false);
             return;
         }
 
@@ -263,7 +266,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                             <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                             <button
                                 type='submit'
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                                 className='btn btn-primary'
                                 id='submit-button'
                             >

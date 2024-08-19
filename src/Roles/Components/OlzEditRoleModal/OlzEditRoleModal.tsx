@@ -82,6 +82,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
         defaultValues: getFormFromApi(props.data),
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [isParentRolesLoading, setIsParentRolesLoading] = React.useState<boolean>(false);
@@ -89,6 +90,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditRoleForm> = async (values) => {
+        setIsSubmitting(true);
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -102,6 +104,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setIsSubmitting(false);
             return;
         }
 
@@ -254,7 +257,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                             </button>
                             <button
                                 type='submit'
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                                 className={'btn btn-primary'}
                                 id='submit-button'
                             >

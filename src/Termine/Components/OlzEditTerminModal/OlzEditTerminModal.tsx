@@ -111,6 +111,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         defaultValues: getFormFromApi(props.labels, props.data),
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [isTemplateLoading, setIsTemplateLoading] = React.useState<boolean>(false);
     const [isSolvLoading, setIsSolvLoading] = React.useState<boolean>(false);
     const [isLocationLoading, setIsLocationLoading] = React.useState<boolean>(false);
@@ -212,6 +213,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     }, [solvId]);
 
     const onSubmit: SubmitHandler<OlzEditTerminForm> = async (values) => {
+        setIsSubmitting(true);
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -225,6 +227,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setIsSubmitting(false);
             return;
         }
 
@@ -437,7 +440,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                             <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                             <button
                                 type='submit'
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                                 className='btn btn-primary'
                                 id='submit-button'
                             >

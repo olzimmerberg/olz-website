@@ -53,10 +53,12 @@ export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactEleme
         defaultValues: getFormFromApi(props.data),
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditLinkForm> = async (values) => {
+        setIsSubmitting(true);
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -69,6 +71,7 @@ export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactEleme
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setIsSubmitting(false);
             return;
         }
 
@@ -130,6 +133,7 @@ export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactEleme
                                 type='submit'
                                 className='btn btn-primary'
                                 id='submit-button'
+                                disabled={isSubmitting}
                             >
                                 Speichern
                             </button>

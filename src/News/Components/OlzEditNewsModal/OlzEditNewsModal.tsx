@@ -245,6 +245,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         },
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [isRolesLoading, setIsRolesLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
@@ -273,6 +274,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         : PUBLISH_AT_OPTIONS.filter((option) => option.id !== 'unchanged');
 
     const onSubmit: SubmitHandler<OlzEditNewsForm> = async (values) => {
+        setIsSubmitting(true);
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -291,6 +293,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setIsSubmitting(false);
             return;
         }
 
@@ -512,7 +515,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                             </button>
                             <button
                                 type='submit'
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                                 className={isWaitingForCaptcha ? 'btn btn-secondary' : 'btn btn-primary'}
                                 id='submit-button'
                             >

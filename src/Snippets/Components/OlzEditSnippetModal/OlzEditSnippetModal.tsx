@@ -52,12 +52,14 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
         defaultValues: getFormFromApi(props.data),
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditSnippetForm> = async (values) => {
+        setIsSubmitting(true);
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -69,6 +71,7 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setIsSubmitting(false);
             return;
         }
 
@@ -134,7 +137,7 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
                             <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                             <button
                                 type='submit'
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                                 className='btn btn-primary'
                                 id='submit-button'
                             >

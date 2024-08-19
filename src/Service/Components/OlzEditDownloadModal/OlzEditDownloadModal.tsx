@@ -57,11 +57,13 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
         defaultValues: getFormFromApi(props.data),
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditDownloadForm> = async (values) => {
+        setIsSubmitting(true);
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -74,6 +76,7 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setIsSubmitting(false);
             return;
         }
 
@@ -137,7 +140,7 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
                                 type='submit'
                                 className='btn btn-primary'
                                 id='submit-button'
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                             >
                                 Speichern
                             </button>

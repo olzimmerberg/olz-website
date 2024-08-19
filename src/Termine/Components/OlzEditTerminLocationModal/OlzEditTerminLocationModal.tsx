@@ -63,6 +63,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
         defaultValues: getFormFromApi(props.data),
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
@@ -87,6 +88,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
     }, [longitude]);
 
     const onSubmit: SubmitHandler<OlzEditTerminLocationForm> = async (values) => {
+        setIsSubmitting(true);
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -98,6 +100,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
             ? olzApi.getResult('updateTerminLocation', {id: props.id, meta, data})
             : olzApi.getResult('createTerminLocation', {meta, data}));
         if (err || response.status !== 'OK') {
+            setIsSubmitting(false);
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             return;
@@ -182,7 +185,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
                             <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
                             <button
                                 type='submit'
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                                 className='btn btn-primary'
                                 id='submit-button'
                             >

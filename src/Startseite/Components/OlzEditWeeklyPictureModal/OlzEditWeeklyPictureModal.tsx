@@ -1,11 +1,10 @@
-import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzWeeklyPictureData} from '../../../Api/client/generated_olz_api_types';
+import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
-import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditWeeklyPictureModal.scss';
 
@@ -83,64 +82,37 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
         window.location.reload();
     };
 
+    const dialogTitle = 'Bild der Woche bearbeiten';
     const isLoading = isImageLoading;
 
     return (
-        <div className='modal fade' id='edit-weekly-picture-modal' tabIndex={-1} aria-labelledby='edit-weekly-picture-modal-label' aria-hidden='true'>
-            <div className='modal-dialog'>
-                <div className='modal-content'>
-                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='modal-header'>
-                            <h5 className='modal-title' id='edit-weekly-picture-modal-label'>Bild der Woche bearbeiten</h5>
-                            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
-                        </div>
-                        <div className='modal-body'>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Text'
-                                    name='text'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div id='image-upload'>
-                                <OlzImageField
-                                    title='Bild'
-                                    name='imageId'
-                                    errors={errors}
-                                    control={control}
-                                    setIsLoading={setIsImageLoading}
-                                />
-                            </div>
-                            <div className='success-message alert alert-success' role='alert'>
-                                {successMessage}
-                            </div>
-                            <div className='error-message alert alert-danger' role='alert'>
-                                {errorMessage}
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button
-                                type='button'
-                                className='btn btn-secondary'
-                                data-bs-dismiss='modal'
-                                id='cancel-button'
-                            >
-                                Abbrechen
-                            </button>
-                            <button
-                                type='submit'
-                                className='btn btn-primary'
-                                id='submit-button'
-                                disabled={isLoading || isSubmitting}
-                            >
-                                Speichern
-                            </button>
-                        </div>
-                    </form>
-                </div>
+        <OlzEditModal
+            modalId='edit-weekly-picture-modal'
+            dialogTitle={dialogTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <div className='mb-3'>
+                <OlzTextField
+                    title='Text'
+                    name='text'
+                    errors={errors}
+                    register={register}
+                />
             </div>
-        </div>
+            <div id='image-upload'>
+                <OlzImageField
+                    title='Bild'
+                    name='imageId'
+                    errors={errors}
+                    control={control}
+                    setIsLoading={setIsImageLoading}
+                />
+            </div>
+        </OlzEditModal>
     );
 };
 
@@ -149,14 +121,7 @@ export function initOlzEditWeeklyPictureModal(
     meta?: OlzMetaData,
     data?: OlzWeeklyPictureData,
 ): boolean {
-    initReact('edit-entity-react-root', (
+    return initOlzEditModal('edit-weekly-picture-modal', () => (
         <OlzEditWeeklyPictureModal id={id} meta={meta} data={data} />
     ));
-    window.setTimeout(() => {
-        const modal = document.getElementById('edit-weekly-picture-modal');
-        if (modal) {
-            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-        }
-    }, 1);
-    return false;
 }

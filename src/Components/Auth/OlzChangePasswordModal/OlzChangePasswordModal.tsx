@@ -1,13 +1,12 @@
-import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzApiRequests} from '../../../Api/client/generated_olz_api_types';
+import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {user} from '../../../Utils/constants';
 import {getApiString, getResolverResult, validateNotEmpty, validatePassword} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
-import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzChangePasswordModal.scss';
 
@@ -48,24 +47,29 @@ export const OlzChangePasswordModal = (): React.ReactElement => {
         },
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzChangePasswordForm> = async (values) => {
+        setIsSubmitting(true);
         const data = getApiFromForm(values);
 
         const [err, response] = await olzApi.getResult('updatePassword', data);
         if (response?.status === 'INVALID_OLD') {
             setSuccessMessage('');
             setErrorMessage('Das bisherige Passwort wurde nicht korrekt eingegeben.');
+            setIsSubmitting(false);
             return;
         } else if (response?.status === 'OTHER_USER') {
             setSuccessMessage('');
             setErrorMessage('Jeder Benutzer kann nur sein eigenes Passwort ändern.');
+            setIsSubmitting(false);
             return;
         } else if (response?.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Fehler: ${err?.message} (Antwort: ${response?.status}).`);
+            setIsSubmitting(false);
             return;
         }
         setSuccessMessage('Passwort erfolgreich aktualisiert. Bitte warten...');
@@ -75,117 +79,70 @@ export const OlzChangePasswordModal = (): React.ReactElement => {
         window.location.reload();
     };
 
+    const dialogTitle = 'Passwort ändern';
+    const isLoading = false;
+
     return (
-        <div
-            className='modal fade'
-            id='change-password-modal'
-            tabIndex={-1}
-            aria-labelledby='change-password-modal-label'
-            aria-hidden='true'
+        <OlzEditModal
+            modalId='change-password-modal'
+            dialogTitle={dialogTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            submitLabel='Passwort ändern'
+            onSubmit={handleSubmit(onSubmit)}
         >
-            <div className='modal-dialog'>
-                <div className='modal-content'>
-                    <form
-                        className='default-form'
-                        onSubmit={handleSubmit(onSubmit)}
-                    >
-                        <div className='modal-header'>
-                            <h5 className='modal-title' id='change-password-modal-label'>
-                                Passwort ändern
-                            </h5>
-                            <button
-                                type='button'
-                                className='btn-close'
-                                data-bs-dismiss='modal'
-                                aria-label='Schliessen'
-                            >
-                            </button>
-                        </div>
-                        <div className='modal-body'>
-                            <div className='mb-3'>
-                                <label htmlFor='username-input'>Benutzername</label>
-                                <input
-                                    type='text'
-                                    name='username'
-                                    value={user.username}
-                                    id='username-input'
-                                    autoComplete='username'
-                                    disabled
-                                    className='form-control'
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    mode='password-input'
-                                    title='Bisheriges Passwort'
-                                    name='oldPassword'
-                                    errors={errors}
-                                    register={register}
-                                    autoComplete='current-password'
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    mode='password-input'
-                                    title='Neues Passwort'
-                                    name='newPassword'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    mode='password-input'
-                                    title='Neues Passwort wiederholen'
-                                    name='newPasswordRepeat'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='success-message alert alert-success' role='alert'>
-                                {successMessage}
-                            </div>
-                            <div className='error-message alert alert-danger' role='alert'>
-                                {errorMessage}
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button
-                                type='button'
-                                className='btn btn-secondary'
-                                data-bs-dismiss='modal'
-                            >
-                                Abbrechen
-                            </button>
-                            <button
-                                type='submit'
-                                className='btn btn-primary'
-                                id='submit-button'
-                            >
-                                Passwort ändern
-                            </button>
-                        </div>
-                    </form>
-                </div>
+            <div className='mb-3'>
+                <label htmlFor='username-input'>Benutzername</label>
+                <input
+                    type='text'
+                    name='username'
+                    value={user.username}
+                    id='username-input'
+                    autoComplete='username'
+                    disabled
+                    className='form-control'
+                />
             </div>
-        </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    mode='password-input'
+                    title='Bisheriges Passwort'
+                    name='oldPassword'
+                    errors={errors}
+                    register={register}
+                    autoComplete='current-password'
+                />
+            </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    mode='password-input'
+                    title='Neues Passwort'
+                    name='newPassword'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    mode='password-input'
+                    title='Neues Passwort wiederholen'
+                    name='newPasswordRepeat'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+        </OlzEditModal>
     );
 };
 
 export function initOlzChangePasswordModal(): boolean {
-    initReact('dialog-react-root', (
+    return initOlzEditModal('change-password-modal', () => (
         <OlzChangePasswordModal/>
-    ));
-    window.setTimeout(() => {
-        const modal = document.getElementById('change-password-modal');
-        if (!modal) {
-            return;
-        }
-        new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-
+    ), (modal) => {
         modal.addEventListener('shown.bs.modal', () => {
             document.getElementById('oldPassword-input')?.focus();
         });
-    }, 1);
-    return false;
+    });
 }

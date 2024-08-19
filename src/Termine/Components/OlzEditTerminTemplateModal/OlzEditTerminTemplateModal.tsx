@@ -1,15 +1,14 @@
-import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzTerminLabelData, OlzTerminTemplateData} from '../../../Api/client/generated_olz_api_types';
+import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateTimeOrNull} from '../../../Utils/formUtils';
 import {Entity, isDefined} from '../../../Utils/generalUtils';
-import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditTerminTemplateModal.scss';
 
@@ -128,155 +127,132 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
     const isLoading = isLocationLoading || isImagesLoading || isFilesLoading;
 
     return (
-        <div className='modal fade' id='edit-termin-template-modal' tabIndex={-1} aria-labelledby='edit-termin-template-modal-label' aria-hidden='true'>
-            <div className='modal-dialog'>
-                <div className='modal-content'>
-                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='modal-header'>
-                            <h5 className='modal-title' id='edit-termin-template-modal-label'>
-                                {dialogTitle}
-                            </h5>
-                            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
-                        </div>
-                        <div className='modal-body'>
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Beginn Zeit'
-                                        name='startTime'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Dauer (in Sekunden)'
-                                        name='durationSeconds'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Titel'
-                                    name='title'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    mode='textarea'
-                                    title='Text'
-                                    name='text'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Meldeschluss vorher (in Sekunden)'
-                                        name='deadlineEarlierSeconds'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Meldeschluss Zeit'
-                                        name='deadlineTime'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                            </div>
-                            <div className='mb-3'>
-                                <label htmlFor='types-container'>Typ</label>
-                                <div id='types-container'>
-                                    {props.labels?.map((label, index) => (
-                                        <span className='types-option'>
-                                            <input
-                                                type='checkbox'
-                                                value='yes'
-                                                {...register(`types.${index}`)}
-                                                id={`types-${label.data.ident}-input`}
-                                                key={label.id}
-                                            />
-                                            <label htmlFor={`types-${label.data.ident}-input`}>
-                                                {label.data.name}
-                                            </label>
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <OlzEntityField
-                                        title='Ort'
-                                        entityType='TerminLocation'
-                                        name='locationId'
-                                        errors={errors}
-                                        control={control}
-                                        setIsLoading={setIsLocationLoading}
-                                        nullLabel={'Kein Termin-Ort ausgewählt'}
-                                    />
-                                </div>
-                                <div className='col mb-3'>
-                                </div>
-                            </div>
-                            <div className='mb-3' id='images-upload'>
-                                <OlzMultiImageField
-                                    title='Bilder'
-                                    name='imageIds'
-                                    errors={errors}
-                                    control={control}
-                                    setIsLoading={setIsImagesLoading}
-                                />
-                            </div>
-                            <div className='mb-3' id='files-upload'>
-                                <OlzMultiFileField
-                                    title='Dateien'
-                                    name='fileIds'
-                                    errors={errors}
-                                    control={control}
-                                    setIsLoading={setIsFilesLoading}
-                                />
-                            </div>
-                            <div className='hasNewsletter-container'>
-                                <input
-                                    type='checkbox'
-                                    value='yes'
-                                    {...register('hasNewsletter')}
-                                    id='hasNewsletter-input'
-                                />
-                                <label htmlFor='hasNewsletter-input'>
-                                    Newsletter für Änderung
-                                </label>
-                            </div>
-                            <div className='success-message alert alert-success' role='alert'>
-                                {successMessage}
-                            </div>
-                            <div className='error-message alert alert-danger' role='alert'>
-                                {errorMessage}
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
-                            <button
-                                type='submit'
-                                disabled={isLoading || isSubmitting}
-                                className='btn btn-primary'
-                                id='submit-button'
-                            >
-                                Speichern
-                            </button>
-                        </div>
-                    </form>
+        <OlzEditModal
+            modalId='edit-termin-template-modal'
+            dialogTitle={dialogTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Beginn Zeit'
+                        name='startTime'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Dauer (in Sekunden)'
+                        name='durationSeconds'
+                        errors={errors}
+                        register={register}
+                    />
                 </div>
             </div>
-        </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    title='Titel'
+                    name='title'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    mode='textarea'
+                    title='Text'
+                    name='text'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Meldeschluss vorher (in Sekunden)'
+                        name='deadlineEarlierSeconds'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Meldeschluss Zeit'
+                        name='deadlineTime'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+            </div>
+            <div className='mb-3'>
+                <label htmlFor='types-container'>Typ</label>
+                <div id='types-container'>
+                    {props.labels?.map((label, index) => (
+                        <span className='types-option' key={`${index}-${label.data.ident}`}>
+                            <input
+                                type='checkbox'
+                                value='yes'
+                                {...register(`types.${index}`)}
+                                id={`types-${label.data.ident}-input`}
+                                key={label.id}
+                            />
+                            <label htmlFor={`types-${label.data.ident}-input`}>
+                                {label.data.name}
+                            </label>
+                        </span>
+                    ))}
+                </div>
+            </div>
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzEntityField
+                        title='Ort'
+                        entityType='TerminLocation'
+                        name='locationId'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsLocationLoading}
+                        nullLabel={'Kein Termin-Ort ausgewählt'}
+                    />
+                </div>
+                <div className='col mb-3'>
+                </div>
+            </div>
+            <div className='mb-3' id='images-upload'>
+                <OlzMultiImageField
+                    title='Bilder'
+                    name='imageIds'
+                    errors={errors}
+                    control={control}
+                    setIsLoading={setIsImagesLoading}
+                />
+            </div>
+            <div className='mb-3' id='files-upload'>
+                <OlzMultiFileField
+                    title='Dateien'
+                    name='fileIds'
+                    errors={errors}
+                    control={control}
+                    setIsLoading={setIsFilesLoading}
+                />
+            </div>
+            <div className='hasNewsletter-container'>
+                <input
+                    type='checkbox'
+                    value='yes'
+                    {...register('hasNewsletter')}
+                    id='hasNewsletter-input'
+                />
+                <label htmlFor='hasNewsletter-input'>
+                                    Newsletter für Änderung
+                </label>
+            </div>
+        </OlzEditModal>
     );
 };
 
@@ -286,7 +262,7 @@ export function initOlzEditTerminTemplateModal(
     data?: OlzTerminTemplateData,
 ): boolean {
     olzApi.call('listTerminLabels', {}).then((response) => {
-        initReact('edit-entity-react-root', (
+        initOlzEditModal('edit-termin-template-modal', () => (
             <OlzEditTerminTemplateModal
                 id={id}
                 labels={response.items}
@@ -294,12 +270,6 @@ export function initOlzEditTerminTemplateModal(
                 data={data}
             />
         ));
-        window.setTimeout(() => {
-            const modal = document.getElementById('edit-termin-template-modal');
-            if (modal) {
-                new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-            }
-        }, 1);
     });
     return false;
 }

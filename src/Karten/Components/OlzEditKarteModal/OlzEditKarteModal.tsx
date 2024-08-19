@@ -1,12 +1,11 @@
-import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzKarteData, OlzKarteKind} from '../../../Api/client/generated_olz_api_types';
+import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty, validateNumber} from '../../../Utils/formUtils';
-import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditKarteModal.scss';
 
@@ -119,156 +118,127 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
     const isLoading = isImageLoading;
 
     return (
-        <div className='modal fade' id='edit-karte-modal' tabIndex={-1} aria-labelledby='edit-karte-modal-label' aria-hidden='true'>
-            <div className='modal-dialog'>
-                <div className='modal-content'>
-                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='modal-header'>
-                            <h5 className='modal-title' id='edit-karte-modal-label'>
-                                {dialogTitle}
-                            </h5>
-                            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
-                        </div>
-                        <div className='modal-body'>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Karten-Nummer'
-                                    name='kartenNr'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Name'
-                                    name='name'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Breite (Latitude)'
-                                        name='latitude'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Länge (Longitude)'
-                                        name='longitude'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                            </div>
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Stand'
-                                        name='year'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Massstab'
-                                        name='scale'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                            </div>
-                            <div className='mb-3'>
-                                <label htmlFor='kind-container'>Typ</label>
-                                <div id='kind-container'>
-                                    <span className='kind-option'>
-                                        <input
-                                            type='radio'
-                                            {...register('kind')}
-                                            value='ol'
-                                            id='isKindOl-input'
-                                        />
-                                        <label htmlFor='isKindOl-input'>OL</label>
-                                    </span>
-                                    <span className='kind-option'>
-                                        <input
-                                            type='radio'
-                                            {...register('kind')}
-                                            value='stadt'
-                                            id='isKindStadt-input'
-                                        />
-                                        <label htmlFor='isKindStadt-input'>Stadt</label>
-                                    </span>
-                                    <span className='kind-option'>
-                                        <input
-                                            type='radio'
-                                            {...register('kind')}
-                                            value='scool'
-                                            id='isKindScool-input'
-                                        />
-                                        <label htmlFor='isKindScool-input'>sCOOL</label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Ort'
-                                        name='place'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Zoom (z.B. 8, für sCOOL 2)'
-                                        name='zoom'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                            </div>
-                            <div id='images-upload'>
-                                <OlzImageField
-                                    title='Vorschau-Bild'
-                                    name='previewImageId'
-                                    errors={errors}
-                                    control={control}
-                                    setIsLoading={setIsImageLoading}
-                                />
-                            </div>
-                            <div className='success-message alert alert-success' role='alert'>
-                                {successMessage}
-                            </div>
-                            <div className='error-message alert alert-danger' role='alert'>
-                                {errorMessage}
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button
-                                type='button'
-                                className='btn btn-secondary'
-                                data-bs-dismiss='modal'
-                            >
-                                Abbrechen
-                            </button>
-                            <button
-                                type='submit'
-                                disabled={isLoading || isSubmitting}
-                                className={'btn btn-primary'}
-                                id='submit-button'
-                            >
-                                Speichern
-                            </button>
-                        </div>
-                    </form>
+        <OlzEditModal
+            modalId='edit-karte-modal'
+            dialogTitle={dialogTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <div className='mb-3'>
+                <OlzTextField
+                    title='Karten-Nummer'
+                    name='kartenNr'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    title='Name'
+                    name='name'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Breite (Latitude)'
+                        name='latitude'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Länge (Longitude)'
+                        name='longitude'
+                        errors={errors}
+                        register={register}
+                    />
                 </div>
             </div>
-        </div>
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Stand'
+                        name='year'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Massstab'
+                        name='scale'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+            </div>
+            <div className='mb-3'>
+                <label htmlFor='kind-container'>Typ</label>
+                <div id='kind-container'>
+                    <span className='kind-option'>
+                        <input
+                            type='radio'
+                            {...register('kind')}
+                            value='ol'
+                            id='isKindOl-input'
+                        />
+                        <label htmlFor='isKindOl-input'>OL</label>
+                    </span>
+                    <span className='kind-option'>
+                        <input
+                            type='radio'
+                            {...register('kind')}
+                            value='stadt'
+                            id='isKindStadt-input'
+                        />
+                        <label htmlFor='isKindStadt-input'>Stadt</label>
+                    </span>
+                    <span className='kind-option'>
+                        <input
+                            type='radio'
+                            {...register('kind')}
+                            value='scool'
+                            id='isKindScool-input'
+                        />
+                        <label htmlFor='isKindScool-input'>sCOOL</label>
+                    </span>
+                </div>
+            </div>
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Ort'
+                        name='place'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Zoom (z.B. 8, für sCOOL 2)'
+                        name='zoom'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+            </div>
+            <div id='images-upload'>
+                <OlzImageField
+                    title='Vorschau-Bild'
+                    name='previewImageId'
+                    errors={errors}
+                    control={control}
+                    setIsLoading={setIsImageLoading}
+                />
+            </div>
+        </OlzEditModal>
     );
 };
 
@@ -277,18 +247,11 @@ export function initOlzEditKarteModal(
     meta?: OlzMetaData,
     data?: OlzKarteData,
 ): boolean {
-    initReact('edit-entity-react-root', (
+    return initOlzEditModal('edit-karte-modal', () => (
         <OlzEditKarteModal
             id={id}
             meta={meta}
             data={data}
         />
     ));
-    window.setTimeout(() => {
-        const modal = document.getElementById('edit-karte-modal');
-        if (modal) {
-            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-        }
-    }, 1);
-    return false;
 }

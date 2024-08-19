@@ -1,8 +1,8 @@
-import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../Api/client/generated_olz_api_types';
+import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzAuthenticatedUserRoleField} from '../../../Components/Common/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
@@ -10,7 +10,6 @@ import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/
 import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
 import {codeHref, dataHref} from '../../../Utils/constants';
 import {assert} from '../../../Utils/generalUtils';
-import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditNewsModal.scss';
 
@@ -312,220 +311,192 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
     const isLoading = isRolesLoading || isImagesLoading || isFilesLoading;
 
     return (
-        <div className='modal fade' id='edit-news-modal' tabIndex={-1} aria-labelledby='edit-news-modal-label' aria-hidden='true'>
-            <div className='modal-dialog'>
-                <div className='modal-content'>
-                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='modal-header'>
-                            <h5 className='modal-title' id='edit-news-modal-label'>
-                                {dialogTitle}
-                            </h5>
-                            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
-                        </div>
-                        <div className='modal-body'>
-                            {config.hasFreeFormAuthor ? (<>
-                                <div className='row'>
-                                    <div className='col mb-3'>
-                                        <OlzTextField
-                                            title='Autor'
-                                            name='authorName'
-                                            errors={errors}
-                                            register={register}
-                                        />
-                                    </div>
-                                </div>
-                                <div className='row'>
-                                    <div className='col mb-3'>
-                                        <OlzTextField
-                                            title='E-Mail'
-                                            name='authorEmail'
-                                            errors={errors}
-                                            register={register}
-                                        />
-                                    </div>
-                                </div>
-                            </>) : (
-                                <div className='row'>
-                                    <div className='col mb-3'>
-                                        <OlzAuthenticatedUserRoleField
-                                            title='Autor'
-                                            userName='authorUserId'
-                                            roleName='authorRoleId'
-                                            errors={errors}
-                                            userControl={control}
-                                            roleControl={control}
-                                            setIsLoading={setIsRolesLoading}
-                                            nullLabel={props.id ? '(unverändert)' : 'Bitte wählen...'}
-                                        />
-                                    </div>
-                                    {availableFormats.length > 1 ? (
-                                        <div className='col mb-3'>
-                                            <label htmlFor='format-input'>Format</label>
-                                            <select
-                                                className='form-control form-select'
-                                                id='format-input'
-                                                {...register('format')}
-                                                defaultValue={format ?? 'UNDEFINED'}
-                                            >
-                                                <option disabled value='UNDEFINED'>
-                                                    Bitte wählen...
-                                                </option>
-                                                {availableFormats.map((formatOption) => (
-                                                    <option value={formatOption} key={formatOption}>
-                                                        {CONFIG_BY_FORMAT[formatOption].name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    ) : null}
-                                </div>
-                            )}
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <label htmlFor='publishAtOption-input'>Veröffentlichung</label>
-                                    <select
-                                        className='form-control form-select'
-                                        id='publishAtOption-input'
-                                        {...register('publishAtOption')}
-                                        defaultValue={publishAtOption ?? publishAtOptions[0]}
-                                    >
-                                        {publishAtOptions.map((option) => (
-                                            <option value={option.id} key={option.id}>
-                                                {option.title}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                {publishAtOption === 'custom' ? (
-                                    <div className='col mb-3'>
-                                        <OlzTextField
-                                            title=''
-                                            name='publishAtDateTime'
-                                            errors={errors}
-                                            register={register}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className='col mb-3'></div>
-                                )}
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Titel'
-                                    name='title'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            {config.hasTeaser ? (
-                                <div className='mb-3'>
-                                    <OlzTextField
-                                        mode='textarea'
-                                        title='Teaser'
-                                        name='teaser'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                            ) : null}
-                            {config.hasContent ? (
-                                <div className='mb-3'>
-                                    <OlzTextField
-                                        mode='textarea'
-                                        title={config.contentLabel}
-                                        name='content'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                    {config.hasFormattingNotes ? FORMATTING_NOTES_FOR_USERS : ''}
-                                </div>
-                            ) : null}
-                            {config.hasExternalLink ? (
-                                <div className='mb-3'>
-                                    <OlzTextField
-                                        title='Externer Link'
-                                        name='externalUrl'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                            ) : null}
-                            {config.hasImages ? (
-                                <div id='images-upload'>
-                                    <OlzMultiImageField
-                                        title='Bilder'
-                                        name='imageIds'
-                                        errors={errors}
-                                        control={control}
-                                        setIsLoading={setIsImagesLoading}
-                                    />
-                                </div>
-                            ) : null}
-                            {config.hasFiles ? (
-                                <div id='files-upload'>
-                                    <OlzMultiFileField
-                                        title='Dateien'
-                                        name='fileIds'
-                                        errors={errors}
-                                        control={control}
-                                        setIsLoading={setIsFilesLoading}
-                                    />
-                                </div>
-                            ) : null}
-                            {config.hasCaptcha ? (
-                                <p>
-                                    <input
-                                        type='checkbox'
-                                        name='recaptcha-consent-given'
-                                        value='yes'
-                                        checked={recaptchaConsentGiven}
-                                        onChange={(e) => setRecaptchaConsentGiven(e.target.checked)}
-                                        id='recaptcha-consent-given-input'
-                                    />
-                                    &nbsp;
-                                    <span className='required-field-asterisk'>*</span>
-                                    Ich akzeptiere, dass beim Erstellen des Kontos einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.
-                                </p>
-                            ) : null}
-                            <p>
-                                <span className='required-field-asterisk'>*</span>
-                                {' Mit dem Speichern erklärst du dich mit den '}
-                                <a
-                                    href={`${codeHref}fragen_und_antworten#forumsregeln`}
-                                    target='_blank'
-                                >
-                                    Forumsregeln
-                                </a>
-                                {' einverstanden'}
-                            </p>
-                            <div className='success-message alert alert-success' role='alert'>
-                                {successMessage}
-                            </div>
-                            <div className='error-message alert alert-danger' role='alert'>
-                                {errorMessage}
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button
-                                type='button'
-                                className='btn btn-secondary'
-                                data-bs-dismiss='modal'
-                            >
-                                Abbrechen
-                            </button>
-                            <button
-                                type='submit'
-                                disabled={isLoading || isSubmitting}
-                                className={isWaitingForCaptcha ? 'btn btn-secondary' : 'btn btn-primary'}
-                                id='submit-button'
-                            >
-                                {isWaitingForCaptcha ? 'Bitte warten...' : 'Speichern'}
-                            </button>
-                        </div>
-                    </form>
+        <OlzEditModal
+            modalId='edit-news-modal'
+            dialogTitle={dialogTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            isLoading={isLoading}
+            isWaitingForCaptcha={isWaitingForCaptcha}
+            isSubmitting={isSubmitting}
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            {config.hasFreeFormAuthor ? (<>
+                <div className='row'>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='Autor'
+                            name='authorName'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
                 </div>
+                <div className='row'>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='E-Mail'
+                            name='authorEmail'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                </div>
+            </>) : (
+                <div className='row'>
+                    <div className='col mb-3'>
+                        <OlzAuthenticatedUserRoleField
+                            title='Autor'
+                            userName='authorUserId'
+                            roleName='authorRoleId'
+                            errors={errors}
+                            userControl={control}
+                            roleControl={control}
+                            setIsLoading={setIsRolesLoading}
+                            nullLabel={props.id ? '(unverändert)' : 'Bitte wählen...'}
+                        />
+                    </div>
+                    {availableFormats.length > 1 ? (
+                        <div className='col mb-3'>
+                            <label htmlFor='format-input'>Format</label>
+                            <select
+                                className='form-control form-select'
+                                id='format-input'
+                                {...register('format')}
+                                defaultValue={format ?? 'UNDEFINED'}
+                            >
+                                <option disabled value='UNDEFINED'>
+                                                    Bitte wählen...
+                                </option>
+                                {availableFormats.map((formatOption) => (
+                                    <option value={formatOption} key={formatOption}>
+                                        {CONFIG_BY_FORMAT[formatOption].name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    ) : null}
+                </div>
+            )}
+            <div className='row'>
+                <div className='col mb-3'>
+                    <label htmlFor='publishAtOption-input'>Veröffentlichung</label>
+                    <select
+                        className='form-control form-select'
+                        id='publishAtOption-input'
+                        {...register('publishAtOption')}
+                        defaultValue={publishAtOption ?? publishAtOptions[0]}
+                    >
+                        {publishAtOptions.map((option) => (
+                            <option value={option.id} key={option.id}>
+                                {option.title}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                {publishAtOption === 'custom' ? (
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title=''
+                            name='publishAtDateTime'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                ) : (
+                    <div className='col mb-3'></div>
+                )}
             </div>
-        </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    title='Titel'
+                    name='title'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            {config.hasTeaser ? (
+                <div className='mb-3'>
+                    <OlzTextField
+                        mode='textarea'
+                        title='Teaser'
+                        name='teaser'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+            ) : null}
+            {config.hasContent ? (
+                <div className='mb-3'>
+                    <OlzTextField
+                        mode='textarea'
+                        title={config.contentLabel}
+                        name='content'
+                        errors={errors}
+                        register={register}
+                    />
+                    {config.hasFormattingNotes ? FORMATTING_NOTES_FOR_USERS : ''}
+                </div>
+            ) : null}
+            {config.hasExternalLink ? (
+                <div className='mb-3'>
+                    <OlzTextField
+                        title='Externer Link'
+                        name='externalUrl'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+            ) : null}
+            {config.hasImages ? (
+                <div id='images-upload'>
+                    <OlzMultiImageField
+                        title='Bilder'
+                        name='imageIds'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsImagesLoading}
+                    />
+                </div>
+            ) : null}
+            {config.hasFiles ? (
+                <div id='files-upload'>
+                    <OlzMultiFileField
+                        title='Dateien'
+                        name='fileIds'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsFilesLoading}
+                    />
+                </div>
+            ) : null}
+            {config.hasCaptcha ? (
+                <p>
+                    <input
+                        type='checkbox'
+                        name='recaptcha-consent-given'
+                        value='yes'
+                        checked={recaptchaConsentGiven}
+                        onChange={(e) => setRecaptchaConsentGiven(e.target.checked)}
+                        id='recaptcha-consent-given-input'
+                    />
+                        &nbsp;
+                    <span className='required-field-asterisk'>*</span>
+                        Ich akzeptiere, dass beim Erstellen des Kontos einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.
+                </p>
+            ) : null}
+            <p>
+                <span className='required-field-asterisk'>*</span>
+                {' Mit dem Speichern erklärst du dich mit den '}
+                <a
+                    href={`${codeHref}fragen_und_antworten#forumsregeln`}
+                    target='_blank'
+                >
+                                    Forumsregeln
+                </a>
+                {' einverstanden'}
+            </p>
+        </OlzEditModal>
     );
 };
 
@@ -535,7 +506,7 @@ export function initOlzEditNewsModal(
     meta?: OlzMetaData,
     data?: OlzNewsData,
 ): boolean {
-    initReact('edit-entity-react-root', (
+    return initOlzEditModal('edit-news-modal', () => (
         <OlzEditNewsModal
             mode={mode}
             id={id}
@@ -543,11 +514,4 @@ export function initOlzEditNewsModal(
             data={data}
         />
     ));
-    window.setTimeout(() => {
-        const modal = document.getElementById('edit-news-modal');
-        if (modal) {
-            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-        }
-    }, 1);
-    return false;
 }

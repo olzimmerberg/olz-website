@@ -29,7 +29,9 @@ class OlzNewsList extends OlzComponent {
         $entityManager = $this->dbUtils()->getEntityManager();
 
         $news_utils = NewsFilterUtils::fromEnv();
-        $current_filter = json_decode($this->getParams()['filter'] ?? '{}', true);
+        $current_filter = json_decode($params['filter'] ?? '{}', true);
+        $page_number = $params['seite'] ?? 1;
+        $page_index = $page_number - 1;
 
         if (!$news_utils->isValidFilter($current_filter)) {
             $valid_filter = $news_utils->getValidFilter($current_filter);
@@ -43,7 +45,8 @@ class OlzNewsList extends OlzComponent {
         $host = str_replace('www.', '', $this->server()['HTTP_HOST']);
         $code_href = $this->envUtils()->getCodeHref();
         $enc_json_filter = urlencode(json_encode($current_filter));
-        $canonical_url = "https://{$host}{$code_href}news?filter={$enc_json_filter}";
+        $page_param = $page_number === 1 ? '' : "&seite={$page_number}";
+        $canonical_url = "https://{$host}{$code_href}news?filter={$enc_json_filter}{$page_param}";
         $news_list_title = $news_utils->getTitleFromFilter($current_filter);
         $out = OlzHeader::render([
             'title' => $news_list_title,
@@ -115,7 +118,6 @@ class OlzNewsList extends OlzComponent {
         $out .= "<h1>{$news_list_title}</h1>";
 
         $filter_where = $news_utils->getSqlFromFilter($current_filter);
-        $page_index = ($params['seite'] ?? 1) - 1;
         $first_index = $page_index * $this::$page_size;
         $sql = <<<ZZZZZZZZZZ
             SELECT

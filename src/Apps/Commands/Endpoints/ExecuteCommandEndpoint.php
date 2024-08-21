@@ -40,7 +40,8 @@ class ExecuteCommandEndpoint extends OlzEndpoint {
             // Could be a migration issue
             // => if the command is db-migrate or db-reset, continue nevertheless!
             $should_continue = (
-                $command_name === 'olz:db-migrate'
+                $command_name === 'cache:clear'
+                || $command_name === 'olz:db-migrate'
                 || $command_name === 'olz:db-reset'
             );
             if (!$should_continue) {

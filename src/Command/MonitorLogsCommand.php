@@ -38,12 +38,7 @@ class MonitorLogsCommand extends OlzCommand {
         $minus_one_hour = \DateInterval::createFromDateString("-1 hours");
         $one_hour_ago = $now->add($minus_one_hour);
 
-        $now = new \DateTime();
-        $minus_one_day = \DateInterval::createFromDateString("-1 days");
-        $one_day_ago = $now->add($minus_one_day);
-
         $logs_in_last_hour = [];
-        $logs_in_last_day = [];
 
         foreach (explode("\n", $last_two_merged_log_file_contents) as $line) {
             $res = preg_match('/^\[([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2})/', $line, $matches);
@@ -52,39 +47,29 @@ class MonitorLogsCommand extends OlzCommand {
                 if ($line_timestamp > $one_hour_ago->getTimestamp()) {
                     $logs_in_last_hour[] = $line;
                 }
-                if ($line_timestamp > $one_day_ago->getTimestamp()) {
-                    $logs_in_last_day[] = $line;
-                }
             }
         }
 
         $output->writeln("Last hour: ".count($logs_in_last_hour)." logs");
-        $output->writeln("Last day: ".count($logs_in_last_day)." logs");
 
         $output->writeln("Last hour: ".count(array_filter($logs_in_last_hour, function ($line) { return $this->isEmergencyLine($line); }))." emergency logs");
-        $output->writeln("Last day: ".count(array_filter($logs_in_last_day, function ($line) { return $this->isEmergencyLine($line); }))." emergency logs");
 
         $output->writeln("Last hour: ".count(array_filter($logs_in_last_hour, function ($line) { return $this->isAlertLine($line); }))." alert logs");
-        $output->writeln("Last day: ".count(array_filter($logs_in_last_day, function ($line) { return $this->isAlertLine($line); }))." alert logs");
 
         $output->writeln("Last hour: ".count(array_filter($logs_in_last_hour, function ($line) { return $this->isCriticalLine($line); }))." critical logs");
-        $output->writeln("Last day: ".count(array_filter($logs_in_last_day, function ($line) { return $this->isCriticalLine($line); }))." critical logs");
 
         $output->writeln("Last hour: ".count(array_filter($logs_in_last_hour, function ($line) { return $this->isErrorLine($line); }))." error logs");
-        $output->writeln("Last day: ".count(array_filter($logs_in_last_day, function ($line) { return $this->isErrorLine($line); }))." error logs");
 
         $output->writeln("Last hour: ".count(array_filter($logs_in_last_hour, function ($line) { return $this->isWarningLine($line); }))." warning logs");
-        $output->writeln("Last day: ".count(array_filter($logs_in_last_day, function ($line) { return $this->isWarningLine($line); }))." warning logs");
 
         $output->writeln("Last hour: ".count(array_filter($logs_in_last_hour, function ($line) { return $this->isNoticeLine($line); }))." notice logs");
-        $output->writeln("Last day: ".count(array_filter($logs_in_last_day, function ($line) { return $this->isNoticeLine($line); }))." notice logs");
 
-        $this->checkEmergencies($logs_in_last_hour, $logs_in_last_day);
-        $this->checkAlerts($logs_in_last_hour, $logs_in_last_day);
-        $this->checkCritical($logs_in_last_hour, $logs_in_last_day);
-        $this->checkManyErrors($logs_in_last_hour, $logs_in_last_day);
-        $this->checkManyWarnings($logs_in_last_hour, $logs_in_last_day);
-        $this->checkManyNotices($logs_in_last_hour, $logs_in_last_day);
+        $this->checkEmergencies($logs_in_last_hour);
+        $this->checkAlerts($logs_in_last_hour);
+        $this->checkCritical($logs_in_last_hour);
+        $this->checkManyErrors($logs_in_last_hour);
+        $this->checkManyWarnings($logs_in_last_hour);
+        $this->checkManyNotices($logs_in_last_hour);
 
         $output->writeln("OK:");
         return Command::SUCCESS;
@@ -92,9 +77,8 @@ class MonitorLogsCommand extends OlzCommand {
 
     /**
      * @param array<string> $logs_in_last_hour
-     * @param array<string> $logs_in_last_day
      */
-    protected function checkEmergencies(array $logs_in_last_hour, array $logs_in_last_day): void {
+    protected function checkEmergencies(array $logs_in_last_hour): void {
         if (count(array_filter($logs_in_last_hour, function ($line) { return $this->isEmergencyLine($line); })) > 0) {
             throw new \Exception("Expected no emergencies");
         }
@@ -102,9 +86,8 @@ class MonitorLogsCommand extends OlzCommand {
 
     /**
      * @param array<string> $logs_in_last_hour
-     * @param array<string> $logs_in_last_day
      */
-    protected function checkAlerts(array $logs_in_last_hour, array $logs_in_last_day): void {
+    protected function checkAlerts(array $logs_in_last_hour): void {
         if (count(array_filter($logs_in_last_hour, function ($line) { return $this->isAlertLine($line); })) > 0) {
             throw new \Exception("Expected no alerts");
         }
@@ -112,9 +95,8 @@ class MonitorLogsCommand extends OlzCommand {
 
     /**
      * @param array<string> $logs_in_last_hour
-     * @param array<string> $logs_in_last_day
      */
-    protected function checkCritical(array $logs_in_last_hour, array $logs_in_last_day): void {
+    protected function checkCritical(array $logs_in_last_hour): void {
         if (count(array_filter($logs_in_last_hour, function ($line) { return $this->isCriticalLine($line); })) > 0) {
             throw new \Exception("Expected no critical log entries");
         }
@@ -122,58 +104,37 @@ class MonitorLogsCommand extends OlzCommand {
 
     /**
      * @param array<string> $logs_in_last_hour
-     * @param array<string> $logs_in_last_day
      */
-    protected function checkManyErrors(array $logs_in_last_hour, array $logs_in_last_day): void {
+    protected function checkManyErrors(array $logs_in_last_hour): void {
         $limit_per_hour = 1;
-        $limit_per_day = 5;
 
         $errors_per_hour = count(array_filter($logs_in_last_hour, function ($line) { return $this->isErrorLine($line); }));
         if ($errors_per_hour > $limit_per_hour) {
             throw new \Exception("Expected fewer error log entries per hour ({$errors_per_hour} > {$limit_per_hour})");
         }
-
-        $errors_per_day = count(array_filter($logs_in_last_day, function ($line) { return $this->isErrorLine($line); }));
-        if ($errors_per_day > $limit_per_day) {
-            throw new \Exception("Expected fewer error log entries per day ({$errors_per_day} > {$limit_per_day})");
-        }
     }
 
     /**
      * @param array<string> $logs_in_last_hour
-     * @param array<string> $logs_in_last_day
      */
-    protected function checkManyWarnings(array $logs_in_last_hour, array $logs_in_last_day): void {
+    protected function checkManyWarnings(array $logs_in_last_hour): void {
         $limit_per_hour = 10;
-        $limit_per_day = 50;
 
         $warnings_per_hour = count(array_filter($logs_in_last_hour, function ($line) { return $this->isWarningLine($line); }));
         if ($warnings_per_hour > $limit_per_hour) {
             throw new \Exception("Expected fewer warning log entries per hour ({$warnings_per_hour} > {$limit_per_hour})");
         }
-
-        $warnings_per_day = count(array_filter($logs_in_last_day, function ($line) { return $this->isWarningLine($line); }));
-        if ($warnings_per_day > $limit_per_day) {
-            throw new \Exception("Expected fewer warning log entries per day ({$warnings_per_day} > {$limit_per_day})");
-        }
     }
 
     /**
      * @param array<string> $logs_in_last_hour
-     * @param array<string> $logs_in_last_day
      */
-    protected function checkManyNotices(array $logs_in_last_hour, array $logs_in_last_day): void {
+    protected function checkManyNotices(array $logs_in_last_hour): void {
         $limit_per_hour = 100;
-        $limit_per_day = 5000;
 
         $notices_per_hour = count(array_filter($logs_in_last_hour, function ($line) { return $this->isNoticeLine($line); }));
         if ($notices_per_hour > $limit_per_hour) {
             throw new \Exception("Expected fewer notice log entries per hour ({$notices_per_hour} > {$limit_per_hour})");
-        }
-
-        $notices_per_day = count(array_filter($logs_in_last_day, function ($line) { return $this->isNoticeLine($line); }));
-        if ($notices_per_day > $limit_per_day) {
-            throw new \Exception("Expected fewer notice log entries per day ({$notices_per_day} > {$limit_per_day})");
         }
     }
 

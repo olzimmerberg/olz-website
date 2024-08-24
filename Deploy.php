@@ -9,33 +9,40 @@ use PhpDeploy\AbstractDefaultDeploy;
 require_once __DIR__.'/vendor/autoload.php';
 
 class MirroringFilter extends RecursiveFilterIterator {
+    protected RecursiveDirectoryIterator $iterator;
+
+    /** @var array<string> */
+    protected array $excludes = [];
+
     /** @var array<string, bool> */
-    protected $excludes = [];
+    protected array $excludes_dict = [];
 
     /** @param array<string> $excludes */
     public function __construct(RecursiveDirectoryIterator $iterator, array $excludes) {
+        $this->iterator = $iterator;
         parent::__construct($iterator);
-        $this->excludes = [];
+        $this->excludes = $excludes;
+        $this->excludes_dict = [];
         foreach ($excludes as $exclude) {
-            $this->excludes[$exclude] = true;
+            $this->excludes_dict[$exclude] = true;
         }
     }
 
-    public function accept() {
-        return !($this->excludes[$this->current()->getFilename()] ?? false);
+    public function accept(): bool {
+        return !($this->excludes_dict[$this->current()->getFilename()] ?? false);
     }
 
-    public function getChildren() {
-        return new MirroringFilter($this->getInnerIterator()->getChildren(), $this->excludes);
+    public function getChildren(): RecursiveFilterIterator {
+        return new MirroringFilter($this->iterator->getChildren(), $this->excludes);
     }
 }
 
 class Deploy extends AbstractDefaultDeploy {
     use Psr\Log\LoggerAwareTrait;
 
-    protected $bot_access_token;
+    protected ?string $bot_access_token;
 
-    public function initFromEnv() {
+    public function initFromEnv(): void {
         parent::initFromEnv();
 
         $access_token = $this->getEnvironmentVariable('BOT_ACCESS_TOKEN');
@@ -43,7 +50,7 @@ class Deploy extends AbstractDefaultDeploy {
         $this->bot_access_token = $access_token;
     }
 
-    protected function populateFolder() {
+    protected function populateFolder(): void {
         $fs = new Symfony\Component\Filesystem\Filesystem();
         $build_folder_path = $this->getLocalBuildFolderPath();
 
@@ -77,7 +84,7 @@ class Deploy extends AbstractDefaultDeploy {
         $this->logger->info("Done populating build folder: {$build_folder_path}");
     }
 
-    protected function getFlysystemFilesystem() {
+    protected function getFlysystemFilesystem(): League\Flysystem\Filesystem {
         if ($this->target === 'hosttech') {
             $options = FtpConnectionOptions::fromArray([
                 'host' => '219.hosttech.eu', // required
@@ -101,7 +108,7 @@ class Deploy extends AbstractDefaultDeploy {
         throw new Exception("Target must be `hosttech`");
     }
 
-    public function getRemotePublicPath() {
+    public function getRemotePublicPath(): string {
         if ($this->target === 'hosttech') {
             if ($this->environment === 'staging') {
                 return "httpdocsstaging";
@@ -114,7 +121,7 @@ class Deploy extends AbstractDefaultDeploy {
         throw new Exception("Target must be `hosttech`");
     }
 
-    public function getRemotePublicUrl() {
+    public function getRemotePublicUrl(): string {
         if ($this->target === 'hosttech') {
             if ($this->environment === 'staging') {
                 return "https://staging.olzimmerberg.ch";
@@ -127,7 +134,7 @@ class Deploy extends AbstractDefaultDeploy {
         throw new Exception("Target must be `hosttech`");
     }
 
-    public function getRemotePrivatePath() {
+    public function getRemotePrivatePath(): string {
         if ($this->target === 'hosttech') {
             if ($this->environment === 'staging') {
                 return "private/staging";
@@ -140,7 +147,12 @@ class Deploy extends AbstractDefaultDeploy {
         throw new Exception("Target must be `hosttech`");
     }
 
-    public function install($public_path) {
+    /**
+     * @param string $public_path
+     *
+     * @return array{staging_token: string}
+     */
+    public function install($public_path): array {
         $fs = new Symfony\Component\Filesystem\Filesystem();
 
         $this->logger->info("Prepare for installation (env={$this->environment})...");
@@ -208,7 +220,10 @@ class Deploy extends AbstractDefaultDeploy {
         ];
     }
 
-    protected function afterDeploy($result) {
+    /**
+     * @param array{staging_token: string} $result
+     */
+    protected function afterDeploy($result): void {
         $staging_token = $result['staging_token'];
 
         if ($this->environment === 'staging') {
@@ -224,7 +239,11 @@ class Deploy extends AbstractDefaultDeploy {
         }
     }
 
-    protected function executeCommand($command, $argv = null, $staging_token = null) {
+    protected function executeCommand(
+        string $command,
+        ?string $argv = null,
+        ?string $staging_token = null,
+    ): void {
         $public_url = $this->getRemotePublicUrl();
         $prefix = ($this->environment === 'staging')
             ? "{$public_url}/{$staging_token}"
@@ -238,7 +257,7 @@ class Deploy extends AbstractDefaultDeploy {
         $is_error = $output === false
             || !is_array($data)
             || ($data['error'] ?? true)
-            || !((bool) $data['output'] ?? false);
+            || !($data['output'] ?? false);
         if ($is_error) {
             $this->logger->error($output);
             $this->logger->error("Error executing \"{$command}\".");

@@ -200,13 +200,14 @@ class Deploy extends AbstractDefaultDeploy {
         $request = urlencode(json_encode(['command' => $command, 'argv' => $argv]));
         $output = file_get_contents("{$execute_command_url}&request={$request}");
         $data = json_decode($output, true) ?? [];
-        $is_error = is_array($data)
-            && ($data['error'] ?? true)
-            && ((bool) $data['output'] ?? false);
+        $is_error = $output === false
+            || !is_array($data)
+            || ($data['error'] ?? true)
+            || !((bool) $data['output'] ?? false);
         if ($is_error) {
             $this->logger->error($output);
-            $this->logger->error("Executing \"{$command}\" done.");
-            throw new Exception($output);
+            $this->logger->error("Error executing \"{$command}\".");
+            throw new Exception("Error executing \"{$command}\".");
         }
         $this->logger->info($data['output'] ?? '(output empty)');
         $this->logger->info("Executing \"{$command}\" done.");

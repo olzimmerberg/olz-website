@@ -200,8 +200,12 @@ class AuthUtils {
         }
         try {
             return $this->validateAccessToken($access_token);
-        } catch (\Exception $exc) {
+        } catch (AuthBlockedException $exc) {
             return null;
+        } catch (InvalidCredentialsException $exc) {
+            return null;
+        } catch (\Exception $exc) {
+            throw $exc;
         }
     }
 

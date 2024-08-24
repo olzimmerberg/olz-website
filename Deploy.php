@@ -8,6 +8,28 @@ use PhpDeploy\AbstractDefaultDeploy;
 
 require_once __DIR__.'/vendor/autoload.php';
 
+class MirroringFilter extends RecursiveFilterIterator {
+    /** @var array<string, bool> */
+    protected $excludes = [];
+
+    /** @param array<string> $excludes */
+    public function __construct(RecursiveDirectoryIterator $iterator, array $excludes) {
+        parent::__construct($iterator);
+        $this->excludes = [];
+        foreach ($excludes as $exclude) {
+            $this->excludes[$exclude] = true;
+        }
+    }
+
+    public function accept() {
+        return !($this->excludes[$this->current()->getFilename()] ?? false);
+    }
+
+    public function getChildren() {
+        return new MirroringFilter($this->getInnerIterator()->getChildren(), $this->excludes);
+    }
+}
+
 class Deploy extends AbstractDefaultDeploy {
     use Psr\Log\LoggerAwareTrait;
 
@@ -33,13 +55,26 @@ class Deploy extends AbstractDefaultDeploy {
             'npm run webpack-build',
         ];
         shell_exec(implode(';', $commands));
-        $this->logger->info("Remove node_modules...");
-        $fs->remove(__DIR__.'/node_modules');
-        $this->logger->info("Copy to build...");
-        $fs->mirror(__DIR__, $build_folder_path);
-        $fs->remove("{$build_folder_path}tests");
 
-        $this->logger->info("Done populating build folder.");
+        $this->logger->info("Copy to build...");
+        $iterator = new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS);
+        $iterator = new MirroringFilter($iterator, [
+            '.git',
+            '.github',
+            '.vscode',
+            'bin',
+            'ci',
+            'coverage',
+            'docs/coverage',
+            'node_modules',
+            'php-coverage',
+            'tests',
+            'tscbuild',
+        ]);
+        $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
+        $fs->mirror(__DIR__, $build_folder_path, $iterator);
+
+        $this->logger->info("Done populating build folder: {$build_folder_path}");
     }
 
     protected function getFlysystemFilesystem() {

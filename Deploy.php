@@ -69,7 +69,6 @@ class Deploy extends AbstractDefaultDeploy {
             '.git',
             '.github',
             '.vscode',
-            'bin',
             'ci',
             'coverage',
             'docs/coverage',

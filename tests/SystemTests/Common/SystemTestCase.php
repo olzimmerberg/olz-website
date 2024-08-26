@@ -225,7 +225,7 @@ class SystemTestCase extends TestCase {
         $request = ['command' => $command, 'argv' => $argv];
         $enc_request = urlencode(json_encode($request));
         $result = file_get_contents("{$this->getTargetUrl()}/api/executeCommand?access_token={$token}&request={$enc_request}");
-        if (!is_string($result)) {
+        if (!$result) {
             $actual_mode = getenv('SYSTEM_TEST_MODE');
             throw new \Exception("Command {$command}({$argv}) failed in mode {$actual_mode}");
         }
@@ -366,7 +366,7 @@ class SystemTestCase extends TestCase {
     /** @return array<string, float> */
     protected static function getPersistedTimingReport(): array {
         $json_content = file_get_contents(self::$timing_report_filename);
-        if (!is_string($json_content)) {
+        if (!$json_content) {
             return [];
         }
         $report = json_decode($json_content, true);

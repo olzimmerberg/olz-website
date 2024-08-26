@@ -28,6 +28,7 @@ abstract class OlzSitemap extends OlzComponent {
 
     /** @return array<array{title: string, description: string, url: string, updates: string, importance: float, level: int}> */
     protected function getEntries(): array {
+        $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
         $base_href = $this->envUtils()->getBaseHref();
         $current_year = $this->dateUtils()->getCurrentDateInFormat('Y');
@@ -72,15 +73,33 @@ abstract class OlzSitemap extends OlzComponent {
         foreach ($news_filters as $news_filter) {
             $enc_json_filter = urlencode(json_encode($news_filter));
             $title = $news_utils->getTitleFromFilter($news_filter);
-            $description = "News-Liste \"{$title}\"";
-            $entries[] = [
-                'title' => $title,
-                'description' => $description,
-                'url' => "{$base_href}/news?filter={$enc_json_filter}",
-                'updates' => 'monthly',
-                'importance' => 0.4,
-                'level' => 1,
-            ];
+
+            $filter_where = $news_utils->getSqlFromFilter($news_filter);
+            $sql = <<<ZZZZZZZZZZ
+                SELECT
+                    COUNT(n.id) as count
+                FROM news n
+                WHERE
+                    {$filter_where}
+                    AND n.on_off='1'
+                ORDER BY published_date DESC, published_time DESC
+                ZZZZZZZZZZ;
+            $count = intval($db->query($sql)->fetch_assoc()['count']);
+            $num_pages = intval($count / OlzNewsList::$page_size) + 1;
+
+            for ($page = 1; $page <= $num_pages; $page++) {
+                $maybe_page_label = $page > 1 ? " (Seite {$page})" : '';
+                $maybe_page_url = $page > 1 ? "&seite={$page}" : '';
+                $description = "News-Liste \"{$title}\"{$maybe_page_label}";
+                $entries[] = [
+                    'title' => "{$title}{$maybe_page_label}",
+                    'description' => $description,
+                    'url' => "{$base_href}/news?filter={$enc_json_filter}{$maybe_page_url}",
+                    'updates' => 'weekly',
+                    'importance' => $page === 1 ? 0.4 : 0.2,
+                    'level' => 1,
+                ];
+            }
         }
 
         $news_entries = $entityManager->getRepository(NewsEntry::class)->getAllActive();

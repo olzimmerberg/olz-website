@@ -1,9 +1,9 @@
-export function olzPopupToggle(ident: string): void {
+export function olzPopupToggle(ident: string): boolean {
     const popupElem = document.getElementById(`popup${ident}`);
     const triggerElem = document.getElementById(`trigger${ident}`);
     const hiddenPopupHost = triggerElem?.parentElement;
     if (!popupElem || !triggerElem || !hiddenPopupHost) {
-        return;
+        return false;
     }
     if (popupElem.style.display === 'block') {
         popupElem.style.display = 'none';
@@ -20,4 +20,5 @@ export function olzPopupToggle(ident: string): void {
         popupElem.style.top = `${Math.round(top)}px`;
         popupElem.style.left = `${Math.round(left)}px`;
     }
+    return false;
 }

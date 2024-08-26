@@ -17,7 +17,7 @@ class OlzPopup extends OlzComponent {
         $out .= "<div class='popup' id='popup{$ident}'>{$popup}</div>";
         $triggers = "";
         if ($trigger_type == 'click') {
-            $triggers = "onclick='olz.olzPopupToggle({$ident_for_js})'";
+            $triggers = "onclick='return olz.olzPopupToggle({$ident_for_js})'";
         }
         $out .= "<span {$triggers} class='trigger' id='trigger{$ident}'>{$trigger}</span>";
         $out .= "</span>";

@@ -506,10 +506,6 @@ input.button,
     &[href^='mailto:'] {
         background-image: url('../../../../assets/icns/link_mail_16.svg');
     }
-
-    &.linkrole {
-        background-image: url('../../../../assets/icns/link_role_16.svg');
-    }
 }
 
 .rendered-markdown .lightgallery a[href],
@@ -540,6 +536,10 @@ input.button,
 
 .rendered-markdown table.equal {
     table-layout: fixed;
+}
+
+.rendered-markdown .linkrole {
+    background-image: url('../../../../assets/icns/link_role_16.svg');
 }
 
 .responsive-flex {

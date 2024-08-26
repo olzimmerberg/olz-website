@@ -27,20 +27,6 @@ class OlzKarteDetail extends OlzComponent {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
-        $title = $karte->getName();
-        $back_link = "{$code_href}karten";
-        $out = OlzHeader::render([
-            'back_link' => $back_link,
-            'title' => "{$title} - Karten",
-            'description' => "OL-Karten, die von der OL Zimmerberg unterhalten und angeboten werden.",
-        ]);
-
-        $out .= <<<'ZZZZZZZZZZ'
-            <div class='content-right'>
-            </div>
-            <div class='content-middle'>
-            ZZZZZZZZZZ;
-
         $name = $karte->getName();
         $kind = $karte->getKind();
         $scale = $karte->getScale();
@@ -51,6 +37,26 @@ class OlzKarteDetail extends OlzComponent {
         $longitude = $karte->getLongitude();
         $preview_image_id = $karte->getPreviewImageId();
 
+        $pretty_kind = [
+            'ol' => "🌳 Wald-OL-Karte",
+            'stadt' => "🏘️ Stadt-OL-Karte",
+            'scool' => "🏫 sCOOL-Schulhaus-Karte",
+        ][$kind] ?? "Unbekannter Kartentyp";
+
+        $title = $karte->getName();
+        $back_link = "{$code_href}karten";
+        $maybe_place = $place ? "Ort: {$place}, " : '';
+        $out = OlzHeader::render([
+            'back_link' => $back_link,
+            'title' => "{$title} - Karten",
+            'description' => "OL-Karte {$name} ({$pretty_kind}), Masstab: {$scale}, Stand {$year}, {$maybe_place}Herausgeber: OL Zimmerberg.",
+        ]);
+
+        $out .= <<<'ZZZZZZZZZZ'
+            <div class='content-right'>
+            </div>
+            <div class='content-middle'>
+            ZZZZZZZZZZ;
         $out .= "<div class='olz-karte-detail'>";
 
         $out .= OlzLocationMap::render([
@@ -96,12 +102,6 @@ class OlzKarteDetail extends OlzComponent {
 
         $maybe_place = $place ? "<div>Ort: {$place}</div>" : '';
 
-        $pretty_kind = [
-            'ol' => "🌳 Wald-OL-Karte",
-            'stadt' => "🏘️ Stadt-OL-Karte",
-            'scool' => "🏫 sCOOL-Schulhaus-Karte",
-        ][$kind] ?? "Unbekannter Kartentyp";
-
         $out .= <<<ZZZZZZZZZZ
             <h1>OL-Karte {$name}</h1>
             <div><b>{$pretty_kind}</b></div>
@@ -109,6 +109,7 @@ class OlzKarteDetail extends OlzComponent {
             <div>Stand: {$year}</div>
             {$maybe_place}
             {$maybe_solv_link}
+            <div>Herausgeber: OL Zimmerberg</div>
             ZZZZZZZZZZ;
 
         if ($preview_image_id) {

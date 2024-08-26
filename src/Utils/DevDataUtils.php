@@ -448,7 +448,12 @@ class DevDataUtils {
 
         // Generate thumbs
         if (function_exists('shell_exec')) {
-            $this->copy(__DIR__."/../../tools/fuer_einsteiger/thumbize.sh", "{$data_path}img/fuer_einsteiger/thumbize.sh");
+            $thumbize_src = __DIR__."/../../tools/fuer_einsteiger/thumbize.sh";
+            $thumbize_dest = "{$data_path}img/fuer_einsteiger/thumbize.sh";
+            if (is_file($thumbize_dest)) {
+                unlink($thumbize_dest);
+            }
+            $this->copy($thumbize_src, $thumbize_dest);
             $pwd = getcwd();
             chdir("{$data_path}img/fuer_einsteiger");
             shell_exec("sh ./thumbize.sh");
@@ -676,10 +681,14 @@ class DevDataUtils {
             $info = getimagesize($source_path);
             $source_width = $info[0];
             $source_height = $info[1];
-            try {
+            $image_type = $info[2];
+            $source = null;
+            if ($image_type === 2) {
                 $source = imagecreatefromjpeg($source_path);
-            } catch (\Throwable $th) {
+            } elseif ($image_type === 3) {
                 $source = imagecreatefrompng($source_path);
+            } else {
+                throw new \Exception("mkimg: Image must be JPEG or PNG, was: {$image_type}");
             }
             $destination = imagecreatetruecolor($width, $height);
             imagealphablending($destination, false);

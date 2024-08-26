@@ -1606,7 +1606,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                From: "Stefan Paul Andreas Munz@olzimmerberg Ch" <stefan.paul.andreas.munz@olzimmerberg.ch>
+                From: "Stefan Paul Andreas Munz" <stefan.paul.andreas.munz@olzimmerberg.ch>
                 Reply-To: 
                 To: "From Name" <from@from-domain.com>
                 Cc: 
@@ -1623,7 +1623,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $artifacts['email']));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                Sender: "Stefan Paul Andreas Munz@olzimmerberg Ch" <stefan.paul.andreas.munz@olzimmerberg.ch>
+                Sender: "Stefan Paul Andreas Munz" <stefan.paul.andreas.munz@olzimmerberg.ch>
                 Recipients: from@from-domain.com
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {

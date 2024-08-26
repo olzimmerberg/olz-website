@@ -525,10 +525,11 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function sendSpamResponseHoneypotEmail(Message $mail, ?string $address): void {
-        $honeypot_address = "{$this->emailUtils()->generateSpamEmailAddress()}@olzimmerberg.ch";
+        $honeypot_username = $this->emailUtils()->generateSpamEmailAddress();
         $honeypot_name = implode(' ', array_map(function ($part) {
             return ucfirst($part);
-        }, explode('.', $honeypot_address)));
+        }, explode('.', $honeypot_username)));
+        $honeypot_address = "{$honeypot_username}@olzimmerberg.ch";
         $honeypot_contact = new Address($honeypot_address, $honeypot_name);
         $from = null; // for exception handling below
         try {

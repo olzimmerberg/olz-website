@@ -21,7 +21,7 @@ class OlzXmlSitemap extends OlzSitemap {
 
     /** @param array{title: string, description: string, url: string, updates: string, importance: float, level: int} $entry */
     private static function getEntry(array $entry): string {
-        $url = $entry['url'];
+        $url = htmlentities($entry['url']);
         $change_frequency = $entry['updates'];
         $priority = $entry['importance'];
         $change_frequency_line = $change_frequency ? "<changefreq>{$change_frequency}</changefreq>" : '';

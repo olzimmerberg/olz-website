@@ -121,7 +121,7 @@ class OlzTrophy extends OlzComponent {
             <tr><td></td><td><a href='{$code_href}termine/".$etappe[13]."' class='linkint'>Termine-Eintrag</a>".(/* @phpstan-ignore-line */ $etappe[9] ? "</td></tr>
             <tr><td></td><td><a href='".$etappe[9]."' class='linkext'>weitere Infos</a>" : "").(/* @phpstan-ignore-line */ $etappe[12] && is_file("{$data_path}results/{$etappe[12]}.xml") ? "</td></tr>
             <tr><td></td><td><a href='/apps/resultate/?file=".$etappe[12].".xml' class='linkint'>Resultate</a>" : "")."</td></tr>
-            </table></div></td><td style='width:40%; padding:5px 0px 5px 10px;' class='trophy-map-container'>".(/* @phpstan-ignore-line */ $etappe[4] != 0 ? OlzLocationMap::render([
+            </table></div></td><td style='width:40%; padding:5px 0px 5px 10px;' class='trophy-map-container'>".($etappe[4] != 0 ? OlzLocationMap::render([
                 'xkoord' => $etappe[4],
                 'ykoord' => $etappe[5],
                 'zoom' => 13,

@@ -39,6 +39,7 @@ class ProcessEmailCommand extends OlzCommand {
     public int $archiveAfterSeconds = 60 * 60;
     public int $deleteArchivedAfterSeconds = 30 * 24 * 60 * 60;
     public int $deleteSpamAfterSeconds = 365 * 24 * 60 * 60;
+    public int $respondToSpamPercent = 100; // 0 = never respond, 100 = always respond
     public string $host = 'olzimmerberg.ch';
     public string $processed_mailbox = 'INBOX.Processed';
     public string $archive_mailbox = 'INBOX.Archive';
@@ -250,13 +251,16 @@ class ProcessEmailCommand extends OlzCommand {
         $username = $matches[1];
         if ($this->emailUtils()->isSpamEmailAddress($username)) {
             $this->log()->info("Honeypot Spam E-Mail to: {$username}");
+            if ($this->shouldRespondToSpam()) {
+                $this->sendSpamResponseHoneypotEmail($mail, $address);
+            }
             return 1;
         }
 
         $role_repo = $this->entityManager()->getRepository(Role::class);
-        $role = $role_repo->findFuzzilyByUsername($username);
+        $role = $role_repo->findRoleFuzzilyByUsername($username);
         if (!$role) {
-            $role = $role_repo->findFuzzilyByOldUsername($username);
+            $role = $role_repo->findRoleFuzzilyByOldUsername($username);
             if ($role) {
                 $this->sendRedirectEmail($mail, $address, "{$role->getUsername()}@{$this->host}");
             }
@@ -277,9 +281,9 @@ class ProcessEmailCommand extends OlzCommand {
         }
 
         $user_repo = $this->entityManager()->getRepository(User::class);
-        $user = $user_repo->findFuzzilyByUsername($username);
+        $user = $user_repo->findUserFuzzilyByUsername($username);
         if (!$user) {
-            $user = $user_repo->findFuzzilyByOldUsername($username);
+            $user = $user_repo->findUserFuzzilyByOldUsername($username);
             if ($user) {
                 $this->sendRedirectEmail($mail, $address, "{$user->getUsername()}@{$this->host}");
             }
@@ -514,5 +518,44 @@ class ProcessEmailCommand extends OlzCommand {
         }
 
         return $report_message;
+    }
+
+    protected function shouldRespondToSpam(): bool {
+        return rand(0, 99) < $this->respondToSpamPercent;
+    }
+
+    protected function sendSpamResponseHoneypotEmail(Message $mail, ?string $address): void {
+        $honeypot_address = "{$this->emailUtils()->generateSpamEmailAddress()}@olzimmerberg.ch";
+        $honeypot_name = implode(' ', array_map(function ($part) {
+            return ucfirst($part);
+        }, explode('.', $honeypot_address)));
+        $honeypot_contact = new Address($honeypot_address, $honeypot_name);
+        $from = null; // for exception handling below
+        try {
+            $from = $mail->getFrom()->first();
+            $spammer_contact = new Address($from->mail, $from->personal);
+            $subject = "Re: {$mail->getSubject()->first()}";
+            $mail->parseBody();
+            $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
+            $text = $mail->hasTextBody() ? $mail->getTextBody() : null;
+            if (!$html) {
+                $html = nl2br($text);
+            }
+            $this->emailUtils()->setLogger($this->log());
+
+            $email = (new Email())
+                ->from($honeypot_contact)
+                ->to($spammer_contact)
+                ->subject($subject)
+                ->text($text ? $text : '')
+                ->html($html ? $html : '')
+            ;
+            $envelope = new Envelope($honeypot_contact, [$spammer_contact]);
+            $this->mailer->send($email, $envelope);
+            $this->log()->info("Responded as honeypot {$honeypot_address} to spam email sent from {$from->mail} to {$address}");
+        } catch (\Exception $exc) {
+            $message = $exc->getMessage();
+            $this->log()->critical("Error responding as honeypot {$honeypot_address} to spam email sent from {$from->mail} to {$address}: {$message}", [$exc]);
+        }
     }
 }

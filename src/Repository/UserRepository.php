@@ -9,13 +9,13 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<User>
  */
 class UserRepository extends OlzRepository {
-    public function findFuzzilyByUsername(string $username): ?User {
+    public function findUserFuzzilyByUsername(string $username): ?User {
         $dql = "SELECT u FROM Olz:User u WHERE u.username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);
         return $query->getOneOrNullResult();
     }
 
-    public function findFuzzilyByOldUsername(string $old_username): ?User {
+    public function findUserFuzzilyByOldUsername(string $old_username): ?User {
         $dql = "SELECT u FROM Olz:User u WHERE u.old_username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $old_username);
         return $query->getOneOrNullResult();

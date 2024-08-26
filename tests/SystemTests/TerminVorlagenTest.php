@@ -30,6 +30,7 @@ final class TerminVorlagenTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-termin-template-button');
+        usleep(100 * 1000);
         $this->sendKeys('#startTime-input', '14:00');
         $this->sendKeys('#durationSeconds-input', '7200');
         $this->sendKeys('#title-input', 'Die Event-Vorlage');

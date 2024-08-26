@@ -20,7 +20,7 @@ $configure_env_utils = function ($env_utils) {
         'has_unlimited_cron' => true,
 
         'date_utils_class_name' => 'FixedDateUtils',
-        'date_utils_class_args' => ['2020-08-15 12:51:00'],
+        'date_utils_class_args' => ['2020-08-15 16:51:00'],
 
         'database_backup_key' => 'aaaaaaaaaaaaaaaaaaaa',
         'email_reaction_key' => 'aaaaaaaaaaaaaaaaaaab',

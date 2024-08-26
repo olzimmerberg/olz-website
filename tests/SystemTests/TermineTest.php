@@ -52,6 +52,7 @@ final class TermineTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-termin-button');
+        usleep(100 * 1000); // Wait for TerminLabels
         $this->sendKeys('#startTime-input', '14:00');
         $this->sendKeys('#endDate-input', '2020-08-15');
         $this->sendKeys('#endTime-input', '18:00');

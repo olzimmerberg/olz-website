@@ -60,7 +60,7 @@ class FakeRoleRepository extends FakeOlzRepository {
         return parent::findOneBy($criteria);
     }
 
-    public function findFuzzilyByUsername(string $username): ?Role {
+    public function findRoleFuzzilyByUsername(string $username): ?Role {
         if ($username === 'somerole') {
             return FakeRole::someRole();
         }
@@ -72,7 +72,7 @@ class FakeRoleRepository extends FakeOlzRepository {
         return null;
     }
 
-    public function findFuzzilyByOldUsername(string $old_username): ?Role {
+    public function findRoleFuzzilyByOldUsername(string $old_username): ?Role {
         if ($old_username === 'somerole-old') {
             return FakeRole::someRole();
         }

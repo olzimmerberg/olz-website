@@ -29,13 +29,13 @@ class RoleRepository extends OlzRepository {
         return $role;
     }
 
-    public function findFuzzilyByUsername(string $username): ?Role {
+    public function findRoleFuzzilyByUsername(string $username): ?Role {
         $dql = "SELECT r FROM Olz:Roles\\Role r WHERE r.username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);
         return $query->getOneOrNullResult();
     }
 
-    public function findFuzzilyByOldUsername(string $old_username): ?Role {
+    public function findRoleFuzzilyByOldUsername(string $old_username): ?Role {
         $dql = "SELECT r FROM Olz:Roles\\Role r WHERE r.old_username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $old_username);
         return $query->getOneOrNullResult();

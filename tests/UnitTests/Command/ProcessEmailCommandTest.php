@@ -180,6 +180,17 @@ class FakeProcessEmailCommandAttachment {
 /**
  * @internal
  *
+ * @coversNothing
+ */
+class ProcessEmailCommandForTest extends ProcessEmailCommand {
+    protected function shouldRespondToSpam(): bool {
+        return true;
+    }
+}
+
+/**
+ * @internal
+ *
  * @covers \Olz\Command\ProcessEmailCommand
  */
 final class ProcessEmailCommandTest extends UnitTestCase {
@@ -193,13 +204,13 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'ERROR Error running command Olz\Command\ProcessEmailCommand: Failed at something.',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'ERROR Error running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest: Failed at something.',
         ], $this->getLogs());
         $this->assertFalse(WithUtilsCache::get('emailUtils')->client->is_connected);
     }
@@ -215,14 +226,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO E-Mail 12 to non-olzimmerberg.ch address: someone@other-domain.com',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
 
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
@@ -256,14 +267,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO E-Mail 12 to inexistent user/role username: no-such-username',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -313,14 +324,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'NOTICE E-Mail 12 to user with no user_email permission: no-permission',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -379,14 +390,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -443,14 +454,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'NOTICE Email from someone@staging.olzimmerberg.ch to someone@gmail.com is not RFC-compliant: Email "non-rfc-compliant-email" does not comply with addr-spec of RFC 2822.',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -490,14 +501,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -552,14 +563,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'CRITICAL Error forwarding email from empty-email@staging.olzimmerberg.ch to : getUserAddress: empty-email (User ID: 1) has no email.',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertNull($mail->moved_to);
@@ -599,14 +610,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Email forwarded from someone-old@staging.olzimmerberg.ch to someone-old@gmail.com',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -683,14 +694,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -748,15 +759,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -840,15 +851,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -944,14 +955,14 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             ->will($this->throwException(new \Exception('mocked-error')))
         ;
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'CRITICAL Error forwarding email from someone@staging.olzimmerberg.ch to someone@gmail.com: mocked-error',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertNull($mail->moved_to);
@@ -996,16 +1007,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -1110,16 +1121,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -1235,16 +1246,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail1->moved_to);
@@ -1353,16 +1364,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Saving attachment Attachment1.pdf to AAAAAAAAAAAAAAAAAAAAAAAA.pdf...',
             'INFO Saving attachment Attachment2.docx to AAAAAAAAAAAAAAAAAAAAAAAA.docx...',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -1426,15 +1437,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Saving attachment Attachment1.pdf to AAAAAAAAAAAAAAAAAAAAAAAA.pdf...',
             'CRITICAL Error forwarding email from someone@staging.olzimmerberg.ch to someone@gmail.com: Could not save attachment Attachment1.pdf to AAAAAAAAAAAAAAAAAAAAAAAA.pdf.',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertNull($mail->moved_to);
@@ -1461,15 +1472,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         // no bounce email!
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO E-Mail 12 to inexistent user/role username: fake',
             'NOTICE sendReportEmail: Avoiding email loop for fake@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -1503,16 +1514,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         // no bounce email!
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'NOTICE Doing E-Mail cleanup now...',
             'INFO Removing old archived E-Mails...',
             'INFO Removing old spam E-Mails...',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
 
@@ -1567,21 +1578,57 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $mailer->expects($this->exactly(0))->method('send');
+        $artifacts = [];
+        $mailer->expects($this->exactly(1))->method('send')->with(
+            $this->callback(function (Email $email) use (&$artifacts) {
+                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+                return true;
+            }),
+            $this->callback(function (Envelope $envelope) use (&$artifacts) {
+                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+                return true;
+            }),
+        );
 
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
             'INFO Honeypot Spam E-Mail to: s.p.a.m',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+            'INFO Responded as honeypot stefan.paul.andreas.munz@olzimmerberg.ch to spam email sent from from@from-domain.com to s.p.a.m@staging.olzimmerberg.ch',
+            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Spam', $mail->moved_to);
-        $this->assertFalse($mail->is_body_fetched);
+        $this->assertTrue($mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+                From: "Stefan Paul Andreas Munz@olzimmerberg Ch" <stefan.paul.andreas.munz@olzimmerberg.ch>
+                Reply-To: 
+                To: "From Name" <from@from-domain.com>
+                Cc: 
+                Bcc: 
+                Subject: Re: Test subject
+
+                Test text
+
+                Test html
+
+                ZZZZZZZZZZ,
+        ], array_map(function ($email) {
+            return $this->emailUtils()->getComparableEmail($email);
+        }, $artifacts['email']));
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+                Sender: "Stefan Paul Andreas Munz@olzimmerberg Ch" <stefan.paul.andreas.munz@olzimmerberg.ch>
+                Recipients: from@from-domain.com
+                ZZZZZZZZZZ,
+        ], array_map(function ($envelope) {
+            return $this->emailUtils()->getComparableEnvelope($envelope);
+        }, $artifacts['envelope']));
     }
 
     public function testProcessEmailCommandGet431ReportMessage(): void {
@@ -1590,7 +1637,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $this->assertStringContainsString(
             '431 Not enough storage or out of memory',
@@ -1604,7 +1651,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $this->assertStringContainsString(
             '<no-such-username@staging.olzimmerberg.ch>: 550 sorry, no mailbox here by that name',
@@ -1618,7 +1665,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
-        $job = new ProcessEmailCommand();
+        $job = new ProcessEmailCommandForTest();
         $job->setMailer($mailer);
         $this->assertStringContainsString(
             '123456 Unknown error',

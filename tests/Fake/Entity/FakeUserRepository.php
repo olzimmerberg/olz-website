@@ -76,7 +76,7 @@ class FakeUserRepository extends FakeOlzRepository {
         return null;
     }
 
-    public function findFuzzilyByUsername(string $username): ?User {
+    public function findUserFuzzilyByUsername(string $username): ?User {
         if ($username === 'someone') {
             $fake_process_email_command_user = FakeUser::defaultUser(true);
             $fake_process_email_command_user->setId(1);
@@ -104,7 +104,7 @@ class FakeUserRepository extends FakeOlzRepository {
         return null;
     }
 
-    public function findFuzzilyByOldUsername(string $old_username): ?User {
+    public function findUserFuzzilyByOldUsername(string $old_username): ?User {
         if ($old_username === 'someone-old') {
             $fake_process_email_command_user = FakeUser::defaultUser(true);
             $fake_process_email_command_user->setId(2);

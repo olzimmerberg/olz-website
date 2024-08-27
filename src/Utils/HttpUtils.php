@@ -23,6 +23,7 @@ class HttpUtils {
             || preg_match('/applebot/i', $user_agent)
             || preg_match('/yandexbot/i', $user_agent)
             || preg_match('/bot\//i', $user_agent)
+            || preg_match('/crawler\//i', $user_agent)
         ) {
             return;
         }

@@ -288,7 +288,7 @@ abstract class BaseLogsChannel {
             return true;
         }
         $esc_text_search = preg_quote($text_search, '/');
-        return (bool) preg_match("/{$esc_text_search}/", $line);
+        return (bool) preg_match("/{$esc_text_search}/i", $line);
     }
 
     protected function escapeSpecialChars(?string $line): string {

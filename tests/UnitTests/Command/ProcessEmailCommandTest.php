@@ -1596,7 +1596,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
-            'INFO Honeypot Spam E-Mail to: s.p.a.m',
+            'INFO Received honeypot spam E-Mail to: s.p.a.m',
             'INFO Responded as honeypot stefan.paul.andreas.munz@olzimmerberg.ch to spam email sent from from@from-domain.com to s.p.a.m@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
         ], $this->getLogs());

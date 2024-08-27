@@ -250,7 +250,7 @@ class ProcessEmailCommand extends OlzCommand {
         }
         $username = $matches[1];
         if ($this->emailUtils()->isSpamEmailAddress($username)) {
-            $this->log()->info("Honeypot Spam E-Mail to: {$username}");
+            $this->log()->info("Received honeypot spam E-Mail to: {$username}");
             if ($this->shouldRespondToSpam()) {
                 $this->sendSpamResponseHoneypotEmail($mail, $address);
             }

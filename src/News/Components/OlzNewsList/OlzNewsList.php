@@ -201,11 +201,12 @@ class OlzNewsList extends OlzComponent {
                 for ($page_number = 1; $page_number <= $num_pages; $page_number++) {
                     $is_current_page = $page_number === $page_index + 1;
                     $page_link_class = $is_current_page ? ' active' : '';
+                    $page_param = $page_number === 1 ? '' : "&seite={$page_number}";
                     $pages .= <<<ZZZZZZZZZZ
                         <li class='page-item'>
                             <a
                                 class='page-link{$page_link_class}'
-                                href='?filter={$enc_json_filter}&seite={$page_number}'
+                                href='?filter={$enc_json_filter}{$page_param}'
                             >
                                 {$page_number}
                             </a>

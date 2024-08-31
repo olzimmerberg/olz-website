@@ -9,7 +9,6 @@ use Olz\Exceptions\RecaptchaDeniedException;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\Fake\FakeGeneralUtils;
-use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\FixedDateUtils;
@@ -54,7 +53,6 @@ final class EmailUtilsTest extends UnitTestCase {
         $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
         $email_utils = new DeterministicEmailUtils();
         $email_utils->setMailer($mailer);
-        $email_utils->setRecaptchaUtils(new FakeRecaptchaUtils());
         $artifacts = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
@@ -108,7 +106,6 @@ final class EmailUtilsTest extends UnitTestCase {
     public function testSendEmailVerificationEmailInvalidRecaptcha(): void {
         $user = FakeUser::defaultUser();
         $email_utils = new DeterministicEmailUtils();
-        $email_utils->setRecaptchaUtils(new FakeRecaptchaUtils());
 
         try {
             $email_utils->sendEmailVerificationEmail($user, 'invalid-recaptcha');
@@ -131,7 +128,6 @@ final class EmailUtilsTest extends UnitTestCase {
         $mailer = $this->createMock(MailerInterface::class);
         $email_utils = new DeterministicEmailUtils();
         $email_utils->setMailer($mailer);
-        $email_utils->setRecaptchaUtils(new FakeRecaptchaUtils());
         $mailer
             ->expects($this->exactly(1))
             ->method('send')
@@ -426,5 +422,90 @@ final class EmailUtilsTest extends UnitTestCase {
 
         // Valid E-Mail
         $this->assertFalse($email_utils->isSpamEmailAddress('max.muster'));
+    }
+
+    public function testSend(): void {
+        $data_path = $this->envUtils()->getDataPath();
+        $last_email_file = "{$data_path}last_email.txt";
+        $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
+        $email_utils = new DeterministicEmailUtils();
+        $email_utils->setMailer($mailer);
+        $artifacts = [];
+        $mailer->expects($this->exactly(1))->method('send')->with(
+            $this->callback(function (Email $email) use (&$artifacts) {
+                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+                return true;
+            }),
+            $this->callback(function (Envelope $envelope) use (&$artifacts) {
+                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+                return true;
+            }),
+        );
+        $email = (new Email())
+            ->from(new Address('fake-from@staging.olzimmerberg.ch', 'Fake From'))
+            ->replyTo(new Address('fake-reply-to@staging.olzimmerberg.ch', 'Fake Reply-To'))
+            ->to(
+                new Address('to1@staging.olzimmerberg.ch', 'Fake To1'),
+                new Address('to2@staging.olzimmerberg.ch', 'Fake To2'),
+            )
+            ->cc(
+                new Address('cc1@staging.olzimmerberg.ch', 'Fake Cc1'),
+                new Address('cc2@staging.olzimmerberg.ch', 'Fake Cc2'),
+            )
+            ->bcc(
+                new Address('bcc1@staging.olzimmerberg.ch', 'Fake Bcc1'),
+                new Address('bcc2@staging.olzimmerberg.ch', 'Fake Bcc2'),
+            )
+            ->subject('Fake Subject')
+            ->text('Fake Text')
+            ->html('Fake HTML')
+            ->addPart((new DataPart(new File(__DIR__.'/../../../assets/icns/olz_logo_schwarzweiss_300.png'), 'olz_logo', 'image/png'))->asInline())
+        ;
+        $envelope = new Envelope(
+            new Address('fake-sender@staging.olzimmerberg.ch', 'Fake Sender'),
+            [
+                new Address('recipient1@staging.olzimmerberg.ch', 'Fake Recipient1'),
+                new Address('recipient2@staging.olzimmerberg.ch', 'Fake Recipient2'),
+            ],
+        );
+
+        $this->assertFileDoesNotExist($last_email_file);
+
+        $email_utils->send($email, $envelope);
+
+        $this->assertFileExists($last_email_file);
+        $expected_email = <<<'ZZZZZZZZZZ'
+            From: "Fake From" <fake-from@staging.olzimmerberg.ch>
+            Reply-To: "Fake Reply-To" <fake-reply-to@staging.olzimmerberg.ch>
+            To: "Fake To1" <to1@staging.olzimmerberg.ch>, "Fake To2" <to2@staging.olzimmerberg.ch>
+            Cc: "Fake Cc1" <cc1@staging.olzimmerberg.ch>, "Fake Cc2" <cc2@staging.olzimmerberg.ch>
+            Bcc: "Fake Bcc1" <bcc1@staging.olzimmerberg.ch>, "Fake Bcc2" <bcc2@staging.olzimmerberg.ch>
+            Subject: Fake Subject
+
+            Fake Text
+
+            Fake HTML
+
+            olz_logo
+            ZZZZZZZZZZ;
+        $expected_envelope = <<<'ZZZZZZZZZZ'
+            Sender: "Fake Sender" <fake-sender@staging.olzimmerberg.ch>
+            Recipients: recipient1@staging.olzimmerberg.ch, recipient2@staging.olzimmerberg.ch
+            ZZZZZZZZZZ;
+        $this->assertSame(<<<ZZZZZZZZZZ
+            {$expected_envelope}
+
+            {$expected_email}
+            ZZZZZZZZZZ, file_get_contents($last_email_file));
+        $this->assertSame([
+            $expected_email,
+        ], array_map(function ($email) {
+            return $this->emailUtils()->getComparableEmail($email);
+        }, $artifacts['email']));
+        $this->assertSame([
+            $expected_envelope,
+        ], array_map(function ($envelope) {
+            return $this->emailUtils()->getComparableEnvelope($envelope);
+        }, $artifacts['envelope']));
     }
 }

@@ -19,7 +19,7 @@ class SendEmailMessageHandler {
         ;
 
         try {
-            $this->mailer->send($email);
+            $this->emailUtils()->send($email);
             $this->log()->info("Handled SendEmailMessage");
         } catch (\Throwable $th) {
             $this->log()->error("Error handling SendEmailMessage", [$th]);

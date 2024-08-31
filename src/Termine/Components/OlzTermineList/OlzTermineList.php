@@ -135,7 +135,14 @@ class OlzTermineList extends OlzComponent {
                     t.title as title,
                     t.text as text,
                     t.id as id,
-                    (SELECT GROUP_CONCAT(l.ident SEPARATOR ' ') FROM termin_label_map tl JOIN termin_labels l ON (l.id = tl.label_id) WHERE tl.termin_id = t.id GROUP BY t.id) as typ,
+                    (
+                        SELECT GROUP_CONCAT(l.ident ORDER BY l.position ASC SEPARATOR ' ')
+                        FROM
+                            termin_label_map tl
+                            JOIN termin_labels l ON (l.id = tl.label_id)
+                        WHERE tl.termin_id = t.id
+                        GROUP BY t.id
+                    ) as typ,
                     t.on_off as on_off,
                     t.newsletter as newsletter,
                     t.xkoord as xkoord,

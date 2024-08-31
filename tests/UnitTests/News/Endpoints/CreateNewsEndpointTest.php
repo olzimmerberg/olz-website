@@ -8,7 +8,6 @@ use Olz\News\Endpoints\CreateNewsEndpoint;
 use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\Fake\FakeEntityManager;
-use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -78,7 +77,6 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         ];
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setMailer($mailer);
-        $endpoint->setRecaptchaUtils(new FakeRecaptchaUtils());
         $endpoint->runtimeSetup();
         $artifacts = [];
         $mailer->expects($this->exactly(1))->method('send')->with(

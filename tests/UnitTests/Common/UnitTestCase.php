@@ -16,6 +16,7 @@ use Olz\Tests\Fake\FakeGeneralUtils;
 use Olz\Tests\Fake\FakeIdUtils;
 use Olz\Tests\Fake\FakeImageUtils;
 use Olz\Tests\Fake\FakeLogHandler;
+use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\Fake\FakeSymfonyUtils;
 use Olz\Tests\Fake\FakeTelegramUtils;
 use Olz\Tests\Fake\FakeUploadUtils;
@@ -84,6 +85,7 @@ class UnitTestCase extends TestCase {
             'imageUtils' => new FakeImageUtils(),
             'log' => $logger,
             'logger' => $logger,
+            'recaptchaUtils' => new FakeRecaptchaUtils(),
             'symfonyUtils' => new FakeSymfonyUtils(),
             'telegramUtils' => new FakeTelegramUtils(),
             'uploadUtils' => new FakeUploadUtils(),

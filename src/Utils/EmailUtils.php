@@ -54,7 +54,7 @@ class EmailUtils {
         try {
             $email = (new Email())->subject("[OLZ] E-Mail bestätigen");
             $email = $this->buildOlzEmail($email, $user, $text, $config);
-            $this->mailer->send($email);
+            $this->send($email);
             $this->log()->info("Email verification email sent to user ({$user_id}).");
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
@@ -272,6 +272,18 @@ class EmailUtils {
             return true;
         }
         return (bool) preg_match('/^s[a-z]*\.p[a-z]*\.a[a-z]*\.m[a-z]*$/i', $username);
+    }
+
+    public function send(Email $email, ?Envelope $envelope = null): void {
+        $app_env = $this->envUtils()->getAppEnv();
+        if ($app_env === 'dev' || $app_env === 'test') {
+            $data_path = $this->envUtils()->getDataPath();
+            file_put_contents(
+                "{$data_path}last_email.txt",
+                "{$this->getComparableEnvelope($envelope)}\n\n{$this->getComparableEmail($email)}"
+            );
+        }
+        $this->mailer->send($email, $envelope);
     }
 
     protected function getPageAndTimeBasedRandomInt(int $min, int $max): int {

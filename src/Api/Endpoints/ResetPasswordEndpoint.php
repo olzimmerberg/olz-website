@@ -71,7 +71,7 @@ class ResetPasswordEndpoint extends OlzEndpoint {
         try {
             $email = (new Email())->subject("[OLZ] Passwort zurücksetzen");
             $email = $this->emailUtils()->buildOlzEmail($email, $user, $text, $config);
-            $this->mailer->send($email);
+            $this->emailUtils()->send($email);
             $this->log()->info("Password reset email sent to user ({$user_id}).");
         } catch (\Exception $exc) {
             $message = $exc->getMessage();

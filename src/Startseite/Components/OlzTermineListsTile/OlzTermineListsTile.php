@@ -164,8 +164,8 @@ class OlzTermineListsTile extends AbstractOlzTile {
                     t.start_date AS start_date,
                     t.end_date AS end_date,
                     (
-                        SELECT GROUP_CONCAT(l.ident SEPARATOR ' ')
-                        FROM 
+                        SELECT GROUP_CONCAT(l.ident ORDER BY l.position ASC SEPARATOR ' ')
+                        FROM
                             termin_label_map tl
                             JOIN termin_labels l ON (l.id = tl.label_id)
                         WHERE tl.termin_id = t.id

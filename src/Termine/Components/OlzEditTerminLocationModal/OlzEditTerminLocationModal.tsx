@@ -1,12 +1,11 @@
-import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzTerminLocationData} from '../../../Api/client/generated_olz_api_types';
+import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNotEmpty, validateNumber} from '../../../Utils/formUtils';
-import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzEditTerminLocationModal.scss';
 
@@ -119,83 +118,60 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
     const isLoading = isImagesLoading;
 
     return (
-        <div className='modal fade' id='edit-termin-location-modal' tabIndex={-1} aria-labelledby='edit-termin-location-modal-label' aria-hidden='true'>
-            <div className='modal-dialog'>
-                <div className='modal-content'>
-                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='modal-header'>
-                            <h5 className='modal-title' id='edit-termin-location-modal-label'>
-                                {dialogTitle}
-                            </h5>
-                            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
-                        </div>
-                        <div className='modal-body'>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Name'
-                                    name='name'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    mode='textarea'
-                                    title='Details'
-                                    name='details'
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Breite (Latitude)'
-                                        name='latitude'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                                <div className='col mb-3'>
-                                    <OlzTextField
-                                        title='Länge (Longitude)'
-                                        name='longitude'
-                                        errors={errors}
-                                        register={register}
-                                    />
-                                </div>
-                            </div>
-                            <div id='images-upload'>
-                                <OlzMultiImageField
-                                    title='Bilder'
-                                    name='imageIds'
-                                    errors={errors}
-                                    control={control}
-                                    setIsLoading={setIsImagesLoading}
-                                />
-                            </div>
-                            <div className='success-message alert alert-success' role='alert'>
-                                {successMessage}
-                            </div>
-                            <div className='error-message alert alert-danger' role='alert'>
-                                {errorMessage}
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
-                            <button
-                                type='submit'
-                                disabled={isLoading || isSubmitting}
-                                className='btn btn-primary'
-                                id='submit-button'
-                            >
-                                Speichern
-                            </button>
-                        </div>
-                    </form>
+        <OlzEditModal
+            modalId='edit-termin-location-modal'
+            dialogTitle={dialogTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <div className='mb-3'>
+                <OlzTextField
+                    title='Name'
+                    name='name'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    mode='textarea'
+                    title='Details'
+                    name='details'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Breite (Latitude)'
+                        name='latitude'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Länge (Longitude)'
+                        name='longitude'
+                        errors={errors}
+                        register={register}
+                    />
                 </div>
             </div>
-        </div>
+            <div id='images-upload'>
+                <OlzMultiImageField
+                    title='Bilder'
+                    name='imageIds'
+                    errors={errors}
+                    control={control}
+                    setIsLoading={setIsImagesLoading}
+                />
+            </div>
+        </OlzEditModal>
     );
 };
 
@@ -204,18 +180,11 @@ export function initOlzEditTerminLocationModal(
     meta?: OlzMetaData,
     data?: OlzTerminLocationData,
 ): boolean {
-    initReact('edit-entity-react-root', (
+    return initOlzEditModal('edit-termin-location-modal', () => (
         <OlzEditTerminLocationModal
             id={id}
             meta={meta}
             data={data}
         />
     ));
-    window.setTimeout(() => {
-        const modal = document.getElementById('edit-termin-location-modal');
-        if (modal) {
-            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-        }
-    }, 1);
-    return false;
 }

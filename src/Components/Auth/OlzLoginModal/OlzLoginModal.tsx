@@ -1,12 +1,11 @@
-import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzApiRequests} from '../../../Api/client/generated_olz_api_types';
+import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {codeHref, user} from '../../../Utils/constants';
 import {getApiBoolean, getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
-import {initReact} from '../../../Utils/reactUtils';
 import {initOlzResetPasswordModal} from '../OlzResetPasswordModal/OlzResetPasswordModal';
 
 import './OlzLoginModal.scss';
@@ -49,12 +48,12 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
         },
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-    const formRef = React.useRef<HTMLFormElement>(null);
-
     const onSubmit: SubmitHandler<OlzLoginForm> = async (values) => {
+        setIsSubmitting(true);
         const data = getApiFromForm(values);
 
         const [err, response] = await olzApi.getResult('login', data);
@@ -62,14 +61,17 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
             const attempts = response.numRemainingAttempts;
             setSuccessMessage('');
             setErrorMessage(`Falsche Login-Daten. Verbleibende Versuche: ${attempts}.`);
+            setIsSubmitting(false);
             return;
         } else if (response?.status === 'BLOCKED') {
             setSuccessMessage('');
             setErrorMessage('Zu viele erfolglose Login-Versuche. Du bist vorübergehend gesperrt.');
+            setIsSubmitting(false);
             return;
         } else if (response?.status !== 'AUTHENTICATED') {
             setSuccessMessage('');
             setErrorMessage(`Fehler: ${err?.message} (Antwort: ${response?.status}).`);
+            setIsSubmitting(false);
             return;
         }
         if (data.rememberMe) {
@@ -108,107 +110,76 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
         return () => undefined;
     }, [props.autoSubmitAutoFilled]);
 
+    const dialogTitle = 'Login';
+    const isLoading = false;
+
     return (
-        <div className='modal fade' id='login-modal' tabIndex={-1} aria-labelledby='login-modal-label' aria-hidden='true'>
-            <div className='modal-dialog'>
-                <div className='modal-content'>
-                    <form ref={formRef} className='default-form' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='modal-header'>
-                            <h5 className='modal-title' id='login-modal-label'>
-                                Login
-                            </h5>
-                            <button
-                                type='button'
-                                className='btn-close'
-                                data-bs-dismiss='modal'
-                                aria-label='Schliessen'
-                            >
-                            </button>
-                        </div>
-                        <div className='modal-body'>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Benutzername oder E-Mail'
-                                    name='usernameOrEmail'
-                                    errors={errors}
-                                    register={register}
-                                    autoComplete='username'
-                                />
-                            </div>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    mode='password-input'
-                                    title='Passwort'
-                                    name='password'
-                                    errors={errors}
-                                    register={register}
-                                    autoComplete='current-password'
-                                />
-                            </div>
-                            <div className='mb-3 rememberMe-row'>
-                                <input
-                                    type='checkbox'
-                                    value='yes'
-                                    {...register('rememberMe')}
-                                    id='rememberMe-input'
-                                />
-                                <label htmlFor='rememberMe-input'>
-                                    Eingeloggt bleiben
-                                </label>
-                            </div>
-                            <div className='success-message alert alert-success' role='alert'>
-                                {successMessage}
-                            </div>
-                            <div className='error-message alert alert-danger' role='alert'>
-                                {errorMessage}
-                            </div>
-                            <div className='mb-3'>
-                                <a
-                                    id='reset-password-link'
-                                    href='#'
-                                    data-bs-dismiss='modal'
-                                    onClick={() => initOlzResetPasswordModal()}
-                                >
-                                    Passwort vergessen?
-                                </a>
-                            </div>
-                            <div className='mb-3'>
-                                <a
-                                    id='sign-up-link'
-                                    href={`${codeHref}konto_passwort`}
-                                >
-                                    Noch kein OLZ-Konto?
-                                </a>
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
-                            <button
-                                type='submit'
-                                className='btn btn-primary'
-                                id='submit-button'
-                            >
-                                Login
-                            </button>
-                        </div>
-                    </form>
-                </div>
+        <OlzEditModal
+            modalId='login-modal'
+            dialogTitle={dialogTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            submitLabel='Login'
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <div className='mb-3'>
+                <OlzTextField
+                    title='Benutzername oder E-Mail'
+                    name='usernameOrEmail'
+                    errors={errors}
+                    register={register}
+                    autoComplete='username'
+                />
             </div>
-        </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    mode='password-input'
+                    title='Passwort'
+                    name='password'
+                    errors={errors}
+                    register={register}
+                    autoComplete='current-password'
+                />
+            </div>
+            <div className='mb-3 rememberMe-row'>
+                <input
+                    type='checkbox'
+                    value='yes'
+                    {...register('rememberMe')}
+                    id='rememberMe-input'
+                />
+                <label htmlFor='rememberMe-input'>
+                    Eingeloggt bleiben
+                </label>
+            </div>
+            <div className='mb-3'>
+                <a
+                    id='reset-password-link'
+                    href='#'
+                    data-bs-dismiss='modal'
+                    onClick={() => initOlzResetPasswordModal()}
+                >
+                    Passwort vergessen?
+                </a>
+            </div>
+            <div className='mb-3'>
+                <a
+                    id='sign-up-link'
+                    href={`${codeHref}konto_passwort`}
+                >
+                    Noch kein OLZ-Konto?
+                </a>
+            </div>
+        </OlzEditModal>
     );
 };
 
 export function initOlzLoginModal(props: OlzLoginModalProps): boolean {
-    initReact('dialog-react-root', (
+    return initOlzEditModal('login-modal', () => (
         <OlzLoginModal {...props}/>
-    ));
-    window.setTimeout(() => {
-        const modal = document.getElementById('login-modal');
-        if (!modal) {
-            return;
-        }
-        new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-
+    ), (modal) => {
         modal.addEventListener('shown.bs.modal', () => {
             document.getElementById('usernameOrEmail-input')?.focus();
             window.location.href = '#login-dialog';
@@ -217,8 +188,7 @@ export function initOlzLoginModal(props: OlzLoginModalProps): boolean {
             window.location.href = '#';
             localStorage.removeItem('OLZ_AUTO_LOGIN');
         });
-    }, 1);
-    return false;
+    });
 }
 
 window.addEventListener('load', () => {

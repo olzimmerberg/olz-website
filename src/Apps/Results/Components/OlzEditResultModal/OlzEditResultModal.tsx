@@ -1,12 +1,11 @@
-import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../../Api/client';
 import {OlzApiRequests} from '../../../../Api/client/generated_olz_api_types';
+import {initOlzEditModal, OlzEditModal} from '../../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzMultiFileField} from '../../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzTextField} from '../../../../Components/Common/OlzTextField/OlzTextField';
 import {getApiString, getResolverResult, validateNotEmpty} from '../../../../Utils/formUtils';
-import {initReact} from '../../../../Utils/reactUtils';
 
 import './OlzEditResultModal.scss';
 
@@ -72,57 +71,34 @@ export const OlzEditResultModal = (props: OlzEditResultModalProps): React.ReactE
     const isLoading = isFilesLoading;
 
     return (
-        <div className='modal fade' id='edit-result-modal' tabIndex={-1} aria-labelledby='edit-result-modal-label' aria-hidden='true'>
-            <div className='modal-dialog'>
-                <div className='modal-content'>
-                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='modal-header'>
-                            <h5 className='modal-title' id='edit-result-modal-label'>
-                                {dialogTitle}
-                            </h5>
-                            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
-                        </div>
-                        <div className='modal-body'>
-                            <div className='mb-3'>
-                                <OlzTextField
-                                    title='Dateiname (muss auf .xml enden)'
-                                    name='name'
-                                    options={{required: 'Name darf nicht leer sein!'}}
-                                    errors={errors}
-                                    register={register}
-                                />
-                            </div>
-                            <div id='file-upload'>
-                                <OlzMultiFileField
-                                    title='IOF-XML Resultate-Datei'
-                                    name='iofXmlFileIds'
-                                    errors={errors}
-                                    control={control}
-                                    setIsLoading={setIsFilesLoading}
-                                />
-                            </div>
-                            <div className='success-message alert alert-success' role='alert'>
-                                {successMessage}
-                            </div>
-                            <div className='error-message alert alert-danger' role='alert'>
-                                {errorMessage}
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Abbrechen</button>
-                            <button
-                                type='submit'
-                                className='btn btn-primary'
-                                id='submit-button'
-                                disabled={isLoading || isSubmitting}
-                            >
-                                Speichern
-                            </button>
-                        </div>
-                    </form>
-                </div>
+        <OlzEditModal
+            modalId='edit-result-modal'
+            dialogTitle={dialogTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <div className='mb-3'>
+                <OlzTextField
+                    title='Dateiname (muss auf .xml enden)'
+                    name='name'
+                    options={{required: 'Name darf nicht leer sein!'}}
+                    errors={errors}
+                    register={register}
+                />
             </div>
-        </div>
+            <div id='file-upload'>
+                <OlzMultiFileField
+                    title='IOF-XML Resultate-Datei'
+                    name='iofXmlFileIds'
+                    errors={errors}
+                    control={control}
+                    setIsLoading={setIsFilesLoading}
+                />
+            </div>
+        </OlzEditModal>
     );
 };
 
@@ -130,17 +106,10 @@ export function initOlzEditResultModal(
     id?: number,
     data?: OlzApiRequests['updateResults'],
 ): boolean {
-    initReact('edit-entity-react-root', (
+    return initOlzEditModal('edit-result-modal', () => (
         <OlzEditResultModal
             id={id}
             data={data}
         />
     ));
-    window.setTimeout(() => {
-        const modal = document.getElementById('edit-result-modal');
-        if (modal) {
-            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-        }
-    }, 1);
-    return false;
 }

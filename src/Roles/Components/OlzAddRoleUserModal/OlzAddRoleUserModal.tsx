@@ -1,11 +1,10 @@
-import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
+import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {getResolverResult} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
-import {initReact} from '../../../Utils/reactUtils';
 
 import './OlzAddRoleUserModal.scss';
 
@@ -35,11 +34,13 @@ export const OlzAddRoleUserModal = (props: OlzAddRoleUserModalProps): React.Reac
         resolver,
     });
 
+    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
     const [isUsersLoading, setIsUsersLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzAddRoleUserForm> = async (values) => {
+        setIsSubmitting(true);
         const data = getApiFromForm(values);
 
         const [err, response] = await olzApi.getResult('addUserRoleMembership', {ids: {
@@ -49,6 +50,7 @@ export const OlzAddRoleUserModal = (props: OlzAddRoleUserModalProps): React.Reac
         if (err || response.status !== 'OK') {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setIsSubmitting(false);
             return;
         }
 
@@ -62,72 +64,36 @@ export const OlzAddRoleUserModal = (props: OlzAddRoleUserModalProps): React.Reac
     const isLoading = isUsersLoading;
 
     return (
-        <div className='modal fade' id='add-role-user-modal' tabIndex={-1} aria-labelledby='add-role-user-modal-label' aria-hidden='true'>
-            <div className='modal-dialog'>
-                <div className='modal-content'>
-                    <form className='default-form' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='modal-header'>
-                            <h5 className='modal-title' id='add-role-user-modal-label'>
-                                {dialogTitle}
-                            </h5>
-                            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Schliessen'></button>
-                        </div>
-                        <div className='modal-body'>
-                            <div className='row'>
-                                <div className='col mb-3'>
-                                    <OlzEntityField
-                                        title='Neuer Verantwortlicher'
-                                        entityType='User'
-                                        name='newUser'
-                                        errors={errors}
-                                        control={control}
-                                        setIsLoading={setIsUsersLoading}
-                                        nullLabel={'Bitte wählen...'}
-                                    />
-                                </div>
-                            </div>
-                            <div className='success-message alert alert-success' role='alert'>
-                                {successMessage}
-                            </div>
-                            <div className='error-message alert alert-danger' role='alert'>
-                                {errorMessage}
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button
-                                type='button'
-                                className='btn btn-secondary'
-                                data-bs-dismiss='modal'
-                            >
-                                Abbrechen
-                            </button>
-                            <button
-                                type='submit'
-                                disabled={isLoading}
-                                className={'btn btn-primary'}
-                                id='submit-button'
-                            >
-                                Speichern
-                            </button>
-                        </div>
-                    </form>
+        <OlzEditModal
+            modalId='add-role-user-modal'
+            dialogTitle={dialogTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            isLoading={isLoading}
+            isSubmitting={isSubmitting}
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzEntityField
+                        title='Neuer Verantwortlicher'
+                        entityType='User'
+                        name='newUser'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsUsersLoading}
+                        nullLabel={'Bitte wählen...'}
+                    />
                 </div>
             </div>
-        </div>
+        </OlzEditModal>
     );
 };
 
 export function initOlzAddRoleUserModal(
     roleId: number,
 ): boolean {
-    initReact('edit-entity-react-root', (
+    return initOlzEditModal('add-role-user-modal', () => (
         <OlzAddRoleUserModal roleId={roleId} />
     ));
-    window.setTimeout(() => {
-        const modal = document.getElementById('add-role-user-modal');
-        if (modal) {
-            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-        }
-    }, 1);
-    return false;
 }

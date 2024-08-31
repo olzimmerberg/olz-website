@@ -67,6 +67,15 @@ class SystemTestCase extends TestCase {
         $this::$browser->manage()->window()->setSize($size_to_set);
     }
 
+    /**
+     * @return array<RemoteWebElement>
+     */
+    protected function getBrowserElements(string $css_selector): array {
+        return $this::$browser->findElements(
+            WebDriverBy::cssSelector($css_selector)
+        );
+    }
+
     protected function getBrowserElement(string $css_selector): ?RemoteWebElement {
         try {
             return $this->findBrowserElement($css_selector);
@@ -108,6 +117,12 @@ class SystemTestCase extends TestCase {
         $element->getLocationOnScreenOnceScrolledIntoView();
         usleep(100 * 1000);
         $element->sendKeys($string);
+    }
+
+    protected function waitForModal(string $css_selector): void {
+        $this::$browser->wait()->until(function () use ($css_selector) {
+            return $this->findBrowserElement($css_selector)->getCssValue('opacity') == 1;
+        });
     }
 
     protected function waitUntilGone(string $css_selector): void {
@@ -396,9 +411,15 @@ class SystemTestCase extends TestCase {
             $previous_time = $report[$name] ?? $time;
             $report[$name] = round(($time + $previous_time) / 2, 1);
         }
+        $sorted_report = [];
+        $keys = array_keys($report);
+        sort($keys);
+        foreach ($keys as $key) {
+            $sorted_report[$key] = $report[$key];
+        }
         file_put_contents(
             self::$timing_report_filename,
-            json_encode($report, JSON_PRETTY_PRINT)
+            json_encode($sorted_report, JSON_PRETTY_PRINT)
         );
     }
 

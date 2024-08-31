@@ -127,7 +127,7 @@ class OlzRolePage extends OlzComponent {
                 $add_child_role_admin = <<<ZZZZZZZZZZ
                     <div>
                         <button
-                            id='add-role-user-button'
+                            id='add-sub-role-button'
                             class='btn btn-primary'
                             onclick='return olz.addChildRole({$json_id})'
                         >
@@ -159,7 +159,7 @@ class OlzRolePage extends OlzComponent {
         } else {
             $out .= "<div class='olz-user-info-card-list'>";
             foreach ($assignees as $assignee) {
-                $out .= "<div>";
+                $out .= "<div class='assignee'>";
                 if ($is_superior || $is_owner) {
                     $json_role_id = json_encode(intval($role_id));
                     $json_user_id = json_encode(intval($assignee->getId()));
@@ -181,17 +181,22 @@ class OlzRolePage extends OlzComponent {
             $out .= "</div>";
         }
 
-        $child_roles = $role_repo->findBy(['parent_role' => $role_id], ['index_within_parent' => 'ASC']);
+        $child_roles = $role_repo->findBy([
+            'parent_role' => $role_id,
+            'on_off' => 1,
+        ], ['index_within_parent' => 'ASC']);
         $num_child_roles = count($child_roles);
         $out .= "<br/><h2>Unter-Ressorts</h2>";
         if ($num_child_roles === 0) {
-            $out .= "<p><i>Keine Unter-Ressorts</i></p>";
+            $out .= "<p id='sub-roles'><i>Keine Unter-Ressorts</i></p>";
         } else {
+            $out .= "<ul id='sub-roles'>";
             foreach ($child_roles as $child_role) {
                 $child_role_name = $child_role->getName();
                 $child_role_username = $child_role->getUsername();
-                $out .= "<p><a href='{$code_href}verein/{$child_role_username}' class='linkint'><b>{$child_role_name}</b></a></p>";
+                $out .= "<li><a href='{$code_href}verein/{$child_role_username}' class='linkint'><b>{$child_role_name}</b></a></li>";
             }
+            $out .= "</ul>";
             $out .= $add_child_role_admin;
         }
 

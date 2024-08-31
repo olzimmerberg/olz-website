@@ -48,12 +48,12 @@ export const OlzUploadFile = (props: OlzUploadFileProps): React.ReactElement => 
             navigator.clipboard.writeText(copyContent);
         }, [props.uploadFile]);
         const copyButton = (
-            <button className='button' type='button' onClick={onCopy}>
+            <button id='copy-button' className='button' type='button' onClick={onCopy}>
                 <img src={`${dataHref}assets/icns/copy_16.svg`} alt='Cp' />
             </button>
         );
         const deleteButton = props.onDelete ? (
-            <button className='button' type='button' onClick={() => {
+            <button id='delete-button' className='button' type='button' onClick={() => {
                 if (props.onDelete) {
                     props.onDelete(uploadedFile.uploadId);
                 }

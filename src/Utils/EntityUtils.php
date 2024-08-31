@@ -80,12 +80,12 @@ class EntityUtils {
         }
 
         $owner_user = $entity?->getOwnerUser();
-        if ($owner_user && $current_user->getId() === $owner_user->getId()) {
+        if ($owner_user && $current_user?->getId() === $owner_user->getId()) {
             return true;
         }
 
         $created_by_user = $entity?->getCreatedByUser();
-        if ($created_by_user && $current_user->getId() === $created_by_user->getId()) {
+        if ($created_by_user && $current_user?->getId() === $created_by_user->getId()) {
             return true;
         }
 

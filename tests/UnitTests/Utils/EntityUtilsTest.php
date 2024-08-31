@@ -143,4 +143,20 @@ final class EntityUtilsTest extends UnitTestCase {
 
         $this->assertFalse($result);
     }
+
+    public function testCanUpdateOlzEntityAnonymous(): void {
+        WithUtilsCache::get('authUtils')->current_user = null;
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
+        $entity_utils = new EntityUtils();
+        $entity = new OlzEntity();
+        $entity->setOwnerUser(FakeUser::defaultUser());
+        $entity->setCreatedByUser(FakeUser::defaultUser());
+
+        $result = $entity_utils->canUpdateOlzEntity(
+            $entity,
+            []
+        );
+
+        $this->assertFalse($result);
+    }
 }

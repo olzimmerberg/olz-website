@@ -129,12 +129,16 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
         return $this->page;
     }
 
+    public function setPage(string $new_value): void {
+        $this->page = $new_value;
+    }
+
     public function getPermissions(): string {
         return $this->permissions;
     }
 
-    public function setPermissions(string $new_permissions): void {
-        $this->permissions = $new_permissions;
+    public function setPermissions(string $new_value): void {
+        $this->permissions = $new_value;
     }
 
     public function getParentRoleId(): ?int {

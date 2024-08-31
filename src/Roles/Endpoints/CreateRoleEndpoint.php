@@ -43,6 +43,8 @@ class CreateRoleEndpoint extends OlzCreateEntityEndpoint {
         $entity = new Role();
         $this->entityUtils()->createOlzEntity($entity, $input['meta']);
         $entity->setOldUsername(null);
+        $entity->setPage('');
+        $entity->setPermissions('');
         $this->updateEntityWithData($entity, $input['data']);
 
         $this->entityManager()->persist($entity);

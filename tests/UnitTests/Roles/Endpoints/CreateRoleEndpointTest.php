@@ -103,6 +103,8 @@ final class CreateRoleEndpointTest extends UnitTestCase {
         $this->assertSame('Title Test Role', $entity->getTitle());
         $this->assertSame('Description Test Role', $entity->getDescription());
         $this->assertSame('Just do it!', $entity->getGuide());
+        $this->assertSame('', $entity->getPage());
+        $this->assertSame('', $entity->getPermissions());
         $this->assertSame(FakeRole::vorstandRole()->getId(), $entity->getParentRoleId());
         $this->assertSame(2, $entity->getIndexWithinParent());
         $this->assertSame(6, $entity->getFeaturedIndex());

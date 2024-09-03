@@ -143,7 +143,7 @@ abstract class OlzSitemap extends OlzComponent {
             'description' => OlzTermineList::$description,
             'url' => "{$base_href}/termine",
             'updates' => 'daily',
-            'importance' => 0.6,
+            'importance' => 0.7,
             'level' => 0,
         ];
 
@@ -158,7 +158,7 @@ abstract class OlzSitemap extends OlzComponent {
                 'description' => $description,
                 'url' => "{$base_href}/termine?filter={$enc_json_filter}",
                 'updates' => 'monthly',
-                'importance' => 0.4,
+                'importance' => 0.6,
                 'level' => 1,
             ];
         }
@@ -181,7 +181,7 @@ abstract class OlzSitemap extends OlzComponent {
                 'description' => $description,
                 'url' => "{$base_href}/termine/{$termin->getId()}",
                 'updates' => 'monthly',
-                'importance' => 0.2,
+                'importance' => 0.5,
                 'level' => 2,
             ];
         }
@@ -235,7 +235,7 @@ abstract class OlzSitemap extends OlzComponent {
             'description' => OlzVerein::$description,
             'url' => "{$base_href}/verein",
             'updates' => 'monthly',
-            'importance' => 0.5,
+            'importance' => 0.8,
             'level' => 0,
         ];
 
@@ -249,7 +249,7 @@ abstract class OlzSitemap extends OlzComponent {
                 'description' => $description,
                 'url' => "{$base_href}/verein/{$verein_ressort->getUsername()}",
                 'updates' => 'monthly',
-                'importance' => 0.5,
+                'importance' => 0.8,
                 'level' => 1,
             ];
         }
@@ -267,7 +267,7 @@ abstract class OlzSitemap extends OlzComponent {
             'description' => OlzHtmlSitemap::$description,
             'url' => "{$base_href}/sitemap",
             'updates' => 'daily',
-            'importance' => 1.0,
+            'importance' => 0.5,
             'level' => 0,
         ];
 

@@ -102,6 +102,9 @@ final class VereinTest extends SystemTestCase {
         $this->assertSame(404, $this->getHeaders("{$this->getUrl()}/finanzen")['http_code']);
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/kassier")['http_code']);
 
+        $browser->get("{$this->getUrl()}/kassier");
+        $this->screenshot('verein_ressort_finished');
+
         $this->resetDb();
     }
 

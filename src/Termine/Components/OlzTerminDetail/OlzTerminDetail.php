@@ -39,7 +39,11 @@ class OlzTerminDetail extends OlzComponent {
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $this->authUtils()->getCurrentUser();
-        $id = $args['id'] ?? null;
+        $termin = $args['termin'] ?? null;
+
+        if (!$termin) {
+            $this->httpUtils()->dieWithHttpError(404);
+        }
 
         $termine_utils = TermineFilterUtils::fromEnv();
         $termin_repo = $entityManager->getRepository(Termin::class);
@@ -47,7 +51,7 @@ class OlzTerminDetail extends OlzComponent {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 $is_not_archived,
-                Criteria::expr()->eq('id', $id),
+                Criteria::expr()->eq('id', $termin->getIdent()),
                 Criteria::expr()->eq('on_off', 1),
             ))
             ->setFirstResult(0)
@@ -57,16 +61,10 @@ class OlzTerminDetail extends OlzComponent {
         $num_termine = $termine->count();
         $is_archived = $num_termine !== 1;
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $canonical_url = "https://{$host}{$code_href}termine/{$id}";
+        $canonical_url = "https://{$host}{$code_href}termine/{$termin->getIdent()}";
 
         if ($is_archived && !$this->authUtils()->hasPermission('any')) {
             $this->httpUtils()->dieWithHttpError(401);
-        }
-
-        $termin = $this->getTerminById($id);
-
-        if (!$termin) {
-            $this->httpUtils()->dieWithHttpError(404);
         }
 
         $title = $termin->getTitle() ?? '';
@@ -91,6 +89,7 @@ class OlzTerminDetail extends OlzComponent {
             <div class='content-middle'>
             ZZZZZZZZZZ;
 
+        $id = $termin->getId();
         $start_date = $termin->getStartDate();
         $end_date = $termin->getEndDate() ?? null;
         $start_time = $termin->getStartTime() ?? null;
@@ -221,11 +220,10 @@ class OlzTerminDetail extends OlzComponent {
             $maybe_solv_link .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
         }
         $label_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
-            $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?
-            $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
+            $fallback_path = "{$code_path}assets/icns/termine_type_{$label->getIdent()}_20.svg";
             $fallback_href = is_file($fallback_path)
-                ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
+                ? "{$code_href}assets/icns/termine_type_{$label->getIdent()}_20.svg" : null;
             $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
             return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
         }, $labels));
@@ -262,7 +260,7 @@ class OlzTerminDetail extends OlzComponent {
             // SOLV Ranglisten-Link zeigen
             $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id={$solv_uid}&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
         }
-        $result_filename = "{$termin_year}-termine-{$id}.xml";
+        $result_filename = "{$termin_year}-termine-{$termin->getIdent()}.xml";
         if (is_file("{$data_path}results/{$result_filename}")) {
             // OLZ Ranglisten-Link zeigen
             $link .= "<div><a href='{$code_href}apps/resultate?file={$result_filename}' target='_blank' class='linkext'>Ranglisten</a></div>\n";
@@ -288,7 +286,7 @@ class OlzTerminDetail extends OlzComponent {
             if ($location_name !== null) {
                 $location_maybe_link = $location_name;
                 if ($has_termin_location) {
-                    $location_maybe_link = "<a href='{$code_href}termine/orte/{$termin_location->getId()}?filter={$back_filter}&id={$id}' class='linkmap'>{$location_name}</a>";
+                    $location_maybe_link = "<a href='{$code_href}termin_orte/{$termin_location->getIdent()}?filter={$back_filter}&id={$id}' class='linkmap'>{$location_name}</a>";
                 }
                 $out .= "<h3>Ort: {$location_maybe_link}</h3>";
             } else {

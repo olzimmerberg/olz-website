@@ -73,6 +73,6 @@ final class TerminOrteTest extends SystemTestCase {
     }
 
     protected function getUrl(): string {
-        return "{$this->getTargetUrl()}/termine/orte";
+        return "{$this->getTargetUrl()}/termin_orte";
     }
 }

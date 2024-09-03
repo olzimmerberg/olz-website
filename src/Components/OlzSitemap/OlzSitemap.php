@@ -179,7 +179,7 @@ abstract class OlzSitemap extends OlzComponent {
             $entries[] = [
                 'title' => $title,
                 'description' => $description,
-                'url' => "{$base_href}/termine/{$termin->getId()}",
+                'url' => "{$base_href}/termine/{$termin->getIdent()}",
                 'updates' => 'monthly',
                 'importance' => 0.5,
                 'level' => 2,
@@ -207,7 +207,7 @@ abstract class OlzSitemap extends OlzComponent {
             $entries[] = [
                 'title' => $title,
                 'description' => $description,
-                'url' => "{$base_href}/karten/{$karte->getId()}",
+                'url' => "{$base_href}/karten/{$karte->getIdent()}",
                 'updates' => 'monthly',
                 'importance' => 0.5,
                 'level' => 1,

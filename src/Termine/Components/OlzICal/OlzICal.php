@@ -35,6 +35,7 @@ class OlzICal extends OlzComponent {
         // Termine
         while ($row = $result->fetch_assoc()) {
             $id = $row['id'];
+            $ident = $row['ident'];
             $start_date = $row['start_date'];
             $end_date = $row['end_date'];
             $duration_days = (strtotime($end_date) - strtotime($start_date)) / 86400;
@@ -44,8 +45,8 @@ class OlzICal extends OlzComponent {
             $links = $row['link'];
             $dom = new \DOMDocument();
             $dom->loadHTML($links ? $links : ' ');
-            $_links = "OLZ-Termin: {$base_href}{$code_href}termine/{$id}";
-            $_attach = "\r\nATTACH;FMTTYPE=text/html:{$base_href}{$code_href}termine/{$id}";
+            $_links = "OLZ-Termin: {$base_href}{$code_href}termine/{$ident}";
+            $_attach = "\r\nATTACH;FMTTYPE=text/html:{$base_href}{$code_href}termine/{$ident}";
             foreach ($dom->getElementsByTagName("a") as $a) {
                 $text = $a->textContent;
                 $url = $a->getAttribute("href");

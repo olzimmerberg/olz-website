@@ -7,26 +7,20 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Entity\Karten\Karte;
 
 class OlzKarteDetail extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
-        $karten_repo = $this->entityManager()->getRepository(Karte::class);
         $user = $this->authUtils()->getCurrentUser();
-        $id = $args['id'] ?? null;
-
-        $karte = $karten_repo->findOneBy([
-            'id' => $id,
-            'on_off' => 1,
-        ]);
+        $karte = $args['karte'] ?? null;
 
         if (!$karte) {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
+        $id = $karte->getId();
         $name = $karte->getName();
         $kind = $karte->getKind();
         $scale = $karte->getScale();

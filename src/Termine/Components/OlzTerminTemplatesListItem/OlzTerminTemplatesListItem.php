@@ -4,6 +4,7 @@ namespace Olz\Termine\Components\OlzTerminTemplatesListItem;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Entity\Termine\TerminLocation;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 
 class OlzTerminTemplatesListItem extends OlzComponent {
@@ -22,6 +23,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();
+        $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
 
         $out = '';
         $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
@@ -35,7 +37,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $labels = [...$termin_template->getLabels()];
         $termin_location = $termin_template->getLocation();
 
-        $link = "{$code_href}termine/vorlagen/{$id}?filter={$enc_current_filter}";
+        $link = "{$code_href}termin_vorlagen/{$id}?filter={$enc_current_filter}";
         $type_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
             $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?
@@ -85,11 +87,8 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $text = $termin_template->replaceImagePaths($text);
         $text = $termin_template->replaceFilePaths($text);
         if ($termin_location) {
-            $sane_termin_location_id = intval($termin_location->getId());
-            $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");
-            $row_location = $result_location->fetch_assoc();
-            $location_name = $row_location['name'];
-            $text = "<a href='{$code_href}termine/orte/{$sane_termin_location_id}?filter={$enc_current_filter}' class='linkmap'>{$location_name}</a> {$text}";
+            $location = $termin_location_repo->findOneBy(['id' => $termin_location->getId()]);
+            $text = "<a href='{$code_href}termin_orte/{$location->getIdent()}?filter={$enc_current_filter}' class='linkmap'>{$location->getName()}</a> {$text}";
         }
 
         $out .= <<<ZZZZZZZZZZ

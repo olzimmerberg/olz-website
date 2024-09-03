@@ -60,6 +60,7 @@
     "Olz\\Tests\\SystemTests\\ProfilTest::testProfilScreenshotReadOnlyLegacy": 1.2,
     "Olz\\Tests\\SystemTests\\ProfilTest::testProfilScreenshotReadWriteLegacy": 7.5,
     "Olz\\Tests\\SystemTests\\ProfilTest::testProfilScreenshots": 5.9,
+    "Olz\\Tests\\SystemTests\\RedirectsTest::testRedirects": 1.8,
     "Olz\\Tests\\SystemTests\\ResetPasswordTest::testResetPasswordScreenshots": 17,
     "Olz\\Tests\\SystemTests\\ResultateTest::testResultateScreenshotReadOnlyLegacy": 0.1,
     "Olz\\Tests\\SystemTests\\ResultateTest::testResultateScreenshotReadWriteLegacy": 7.9,
@@ -107,5 +108,5 @@
     "login": 23.3,
     "logout": 29.8,
     "screenshot": 37.3,
-    "total": 363.5
+    "total": 1.9
 }

@@ -32,6 +32,7 @@ class OlzNewsListItem extends OlzComponent {
         }
 
         $id = $news_entry->getId();
+        $ident = $news_entry->getIdent();
         $published_date = $news_entry->getPublishedDate();
         $format = $news_entry->getFormat();
         $icon_basename = self::$iconBasenameByFormat[$format];
@@ -43,7 +44,7 @@ class OlzNewsListItem extends OlzComponent {
         $title = $news_entry->getTitle();
         $teaser = $news_entry->getTeaser();
         $content = $news_entry->getContent();
-        $link = "news/{$id}{$filter_arg}";
+        $link = "news/{$ident}{$filter_arg}";
 
         $image_ids = $news_entry->getImageIds();
         $thumb = '';

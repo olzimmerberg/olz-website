@@ -5,13 +5,20 @@ namespace Olz\Repository\Termine;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\Termine\Termin;
+use Olz\Repository\Common\IdentStringRepositoryInterface;
+use Olz\Repository\Common\IdentStringRepositoryTrait;
 use Olz\Repository\Common\OlzRepository;
 use Olz\Termine\Utils\TermineFilterUtils;
 
 /**
  * @extends OlzRepository<Termin>
+ *
+ * @implements IdentStringRepositoryInterface<Termin>
  */
-class TerminRepository extends OlzRepository {
+class TerminRepository extends OlzRepository implements IdentStringRepositoryInterface {
+    /** @use IdentStringRepositoryTrait<Termin> */
+    use IdentStringRepositoryTrait;
+
     /** @return Collection<int, Termin>&iterable<Termin> */
     public function getAllActive(): Collection {
         $termine_utils = TermineFilterUtils::fromEnv();

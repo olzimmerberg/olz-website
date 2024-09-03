@@ -76,6 +76,6 @@ final class TerminVorlagenTest extends SystemTestCase {
     }
 
     protected function getUrl(): string {
-        return "{$this->getTargetUrl()}/termine/vorlagen";
+        return "{$this->getTargetUrl()}/termin_vorlagen";
     }
 }

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
+use Olz\Entity\Common\IdentStringEntityInterface;
+use Olz\Entity\Common\IdentStringEntityTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Repository\Termine\TerminLocationRepository;
@@ -14,8 +16,9 @@ use Olz\Repository\Termine\TerminLocationRepository;
 #[ORM\Table(name: 'termin_locations')]
 #[ORM\Index(name: 'name_index', columns: ['name'])]
 #[ORM\Entity(repositoryClass: TerminLocationRepository::class)]
-class TerminLocation extends OlzEntity implements SearchableInterface, DataStorageInterface {
+class TerminLocation extends OlzEntity implements SearchableInterface, DataStorageInterface, IdentStringEntityInterface {
     use DataStorageTrait;
+    use IdentStringEntityTrait;
 
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]

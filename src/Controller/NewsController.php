@@ -26,22 +26,24 @@ class NewsController extends AbstractController {
         return new Response($out);
     }
 
-    #[Route('/news/{id}', requirements: ['id' => '\d+'])]
+    #[Route('/news/{ident}', requirements: ['ident' => '\S+'])]
     public function newsDetail(
         Request $request,
         LoggerInterface $logger,
-        int $id,
+        string $ident,
     ): Response {
         $this->httpUtils()->countRequest($request);
-        $out = OlzNewsDetail::render(['id' => $id]);
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
+        $news_entry = $news_repo->findOneByIdent($ident);
+        $out = OlzNewsDetail::render(['news_entry' => $news_entry]);
         return new Response($out);
     }
 
-    #[Route('/news/{id}/all.zip', requirements: ['id' => '\d+'])]
+    #[Route('/news/{ident}/all.zip', requirements: ['ident' => '\S+'])]
     public function all(
         Request $request,
         LoggerInterface $logger,
-        int $id,
+        string $ident,
     ): Response {
         $this->httpUtils()->countRequest($request);
         if (!$this->authUtils()->hasPermission('any')) {
@@ -49,19 +51,19 @@ class NewsController extends AbstractController {
         }
 
         $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
-        $news_entry = $news_repo->findOneBy(['id' => $id]);
+        $news_entry = $news_repo->findOneByIdent($ident);
         if (!$news_entry) {
             throw new NotFoundHttpException();
         }
         $image_ids = $news_entry->getImageIds();
 
         $data_path = $this->envUtils()->getDataPath();
-        $imgdir = "{$data_path}img/news/{$id}/img/";
+        $imgdir = "{$data_path}img/news/{$news_entry->getId()}/img/";
         if (!is_dir($imgdir)) {
             throw new NotFoundHttpException("No such image directory: {$imgdir}");
         }
 
-        $this->log()->info("Downloading all images zip file for news/{$id}");
+        $this->log()->info("Downloading all images zip file for news/{$ident}");
         $zip_id = $this->uploadUtils()->getRandomUploadId('.zip');
         $zip_path = "{$data_path}temp/{$zip_id}";
         $zip = new \ZipArchive();
@@ -79,7 +81,7 @@ class NewsController extends AbstractController {
                 $name = str_pad("{$index}", $pad_len, '0', STR_PAD_LEFT);
                 $zip->addFile($file_path, "{$name}.jpg");
             } else {
-                $this->log()->warning("Missing image in news/{$id}: {$file_path}");
+                $this->log()->warning("Missing image in news/{$ident}: {$file_path}");
             }
         }
         if ($zip->status != \ZipArchive::ER_OK) {

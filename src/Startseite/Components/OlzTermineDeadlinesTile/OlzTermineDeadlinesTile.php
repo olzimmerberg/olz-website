@@ -49,7 +49,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                     se.deadline as deadline,
                     t.start_date as date,
                     t.title as title,
-                    t.id as id
+                    t.ident as ident
                 FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
                 WHERE 
                     se.deadline IS NOT NULL
@@ -60,7 +60,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                     DATE(t.deadline) as deadline,
                     t.start_date as date,
                     t.title as title,
-                    t.id as id
+                    t.ident as ident
                 FROM termine t
                 WHERE
                     t.deadline IS NOT NULL
@@ -76,14 +76,14 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         }
         $out .= "<ul class='links'>";
         while ($row = $res->fetch_assoc()) {
-            $id = $row['id'];
+            $ident = $row['ident'];
             $deadline = date('d.m.', strtotime($row['deadline']));
             $date = date('d.m.', strtotime($row['date']));
             $title = $row['title'];
             $icon_basename = 'termine_type_meldeschluss_20.svg';
             $icon = "{$code_href}assets/icns/{$icon_basename}";
             $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
-            $out .= "<li><a href='{$code_href}termine/{$id}'>
+            $out .= "<li><a href='{$code_href}termine/{$ident}'>
               {$icon_img} <b>{$deadline}</b>: Für {$title} vom {$date}
             </a></li>";
         }

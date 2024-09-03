@@ -19,14 +19,13 @@ class OlzTerminLocationDetail extends OlzComponent {
 
         $code_href = $this->envUtils()->getCodeHref();
         $user = $this->authUtils()->getCurrentUser();
-        $id = $args['id'] ?? null;
-
-        $termin_location = $this->getTerminLocationById($id);
+        $termin_location = $args['termin_location'] ?? null;
 
         if (!$termin_location) {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
+        $id = $termin_location->getId();
         $title = $termin_location->getName();
         $back_link = "{$code_href}termine";
         if ($params['filter'] ?? null) {
@@ -67,7 +66,7 @@ class OlzTerminLocationDetail extends OlzComponent {
                 <div style='padding:4px 3px 10px 3px;'>
                     {$creation_tools}
                     <p>
-                        <a href='{$code_href}termine/orte' class='linkint'>
+                        <a href='{$code_href}termin_orte' class='linkint'>
                             Alle Termin-Orte
                         </a>
                     </p>

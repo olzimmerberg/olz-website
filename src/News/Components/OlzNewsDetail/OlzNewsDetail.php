@@ -26,7 +26,11 @@ class OlzNewsDetail extends OlzComponent {
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $this->authUtils()->getCurrentUser();
-        $id = $args['id'] ?? null;
+        $news_entry = $args['news_entry'] ?? null;
+
+        if (!$news_entry) {
+            $this->httpUtils()->dieWithHttpError(404);
+        }
 
         $news_utils = NewsFilterUtils::fromEnv();
         $news_repo = $entityManager->getRepository(NewsEntry::class);
@@ -34,7 +38,7 @@ class OlzNewsDetail extends OlzComponent {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 $is_not_archived,
-                Criteria::expr()->eq('id', $id),
+                Criteria::expr()->eq('id', $news_entry->getId()),
                 Criteria::expr()->eq('on_off', 1),
             ))
             ->setFirstResult(0)
@@ -44,11 +48,14 @@ class OlzNewsDetail extends OlzComponent {
         $num_news_entries = $news_entries->count();
         $is_archived = $num_news_entries !== 1;
         $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $canonical_url = "https://{$host}{$code_href}news/{$id}";
+        $canonical_url = "https://{$host}{$code_href}news/{$news_entry->getIdent()}";
 
         if ($is_archived && !$this->authUtils()->hasPermission('any')) {
             $this->httpUtils()->dieWithHttpError(401);
         }
+
+        $id = $news_entry->getId();
+        $title = $news_entry->getTitle();
 
         $article_metadata = "";
         try {
@@ -57,13 +64,6 @@ class OlzNewsDetail extends OlzComponent {
             $this->httpUtils()->dieWithHttpError(404);
         }
 
-        $news_entry = $this->getNewsEntryById($id);
-
-        if (!$news_entry) {
-            $this->httpUtils()->dieWithHttpError(404);
-        }
-
-        $title = $news_entry->getTitle();
         $back_filter = urlencode($_GET['filter'] ?? '{}');
         $out = OlzHeader::render([
             'back_link' => "{$code_href}news?filter={$back_filter}",

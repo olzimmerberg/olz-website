@@ -2,6 +2,7 @@
 
 namespace Olz\Controller;
 
+use Olz\Entity\Karten\Karte;
 use Olz\Karten\Components\OlzKarteDetail\OlzKarteDetail;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
 use Olz\Utils\WithUtilsTrait;
@@ -24,14 +25,16 @@ class KartenController extends AbstractController {
         return new Response($out);
     }
 
-    #[Route('/karten/{id}', requirements: ['id' => '\d+'])]
+    #[Route('/karten/{ident}')]
     public function karteDetail(
         Request $request,
         LoggerInterface $logger,
-        int $id,
+        string $ident,
     ): Response {
         $this->httpUtils()->countRequest($request);
-        $out = OlzKarteDetail::render(['id' => $id]);
+        $karten_repo = $this->entityManager()->getRepository(Karte::class);
+        $karte = $karten_repo->findOneByIdent($ident);
+        $out = OlzKarteDetail::render(['karte' => $karte]);
         return new Response($out);
     }
 }

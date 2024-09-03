@@ -39,7 +39,7 @@ class OlzKarten extends OlzComponent {
             ];
             return [
                 'id' => $karte->getId(),
-                'url' => "{$code_href}karten/{$karte->getId()}",
+                'url' => "{$code_href}karten/{$karte->getIdent()}",
                 'icon' => $icon_by_type[$karte->getKind()] ?? 'orienteering_scool_16.svg',
                 'name' => $karte->getName(),
                 'lat' => $karte->getLatitude(),

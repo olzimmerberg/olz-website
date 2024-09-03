@@ -40,18 +40,18 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
 
         $out .= "<ul class='links'>";
         $res = $db->query(<<<'ZZZZZZZZZZ'
-                SELECT t.id, t.start_date as date, t.title as title, t.last_modified_at
+                SELECT t.ident, t.start_date as date, t.title as title, t.last_modified_at
                 FROM termine t
                 WHERE t.on_off = '1' AND t.newsletter = '1'
                 ORDER BY t.last_modified_at DESC
                 LIMIT 5
             ZZZZZZZZZZ);
         while ($row = $res->fetch_assoc()) {
-            $id = $row['id'];
+            $ident = $row['ident'];
             $modified = date('d.m.', strtotime($row['last_modified_at']));
             $date = date('d.m.', strtotime($row['date']));
             $title = $row['title'];
-            $out .= "<li><a href='{$code_href}termine/{$id}' class='linkint'><b>{$modified}</b>: Änderung an {$title} vom {$date}</a></li>";
+            $out .= "<li><a href='{$code_href}termine/{$ident}' class='linkint'><b>{$modified}</b>: Änderung an {$title} vom {$date}</a></li>";
         }
         $out .= "</ul>";
 

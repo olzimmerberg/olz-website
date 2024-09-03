@@ -39,10 +39,10 @@ class OlzTerminTemplateDetail extends OlzComponent {
         }
 
         $title = $termin_template->getTitle() ?? '';
-        $back_link = "{$code_href}termine/vorlagen";
+        $back_link = "{$code_href}termin_vorlagen";
         if ($params['filter'] ?? null) {
             $enc_filter = urlencode($params['filter']);
-            $back_link = "{$code_href}termine/vorlagen?filter={$enc_filter}";
+            $back_link = "{$code_href}termin_vorlagen?filter={$enc_filter}";
         }
         $out = OlzHeader::render([
             'back_link' => $back_link,

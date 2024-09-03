@@ -79,18 +79,18 @@ class OlzSuche extends OlzComponent {
             $row = mysqli_fetch_array($result);
             $title = strip_tags($row['title']);
             $text = strip_tags($row['text']);
-            $id = $row['id'];
+            $ident = $row['ident'];
             $start_date = $date_utils->olzDate("t. MM jjjj", $row['start_date']);
             $cutout = $this->cutout($text, $search_words);
             $result_termine .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>
-                        <a href="{$code_href}termine/{$id}" class="linkint">
+                        <a href="{$code_href}termine/{$ident}" class="linkint">
                             <b>{$start_date}</b>
                         </a>
                     </td>
                     <td>
-                        <a href="{$code_href}termine/{$id}" class="linkint">
+                        <a href="{$code_href}termine/{$ident}" class="linkint">
                             <b>{$this->highlight($title, $search_words)}</b>
                         </a>
                         <br>

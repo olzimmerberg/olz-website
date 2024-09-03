@@ -42,7 +42,7 @@ class OlzTerminLocationsList extends OlzComponent {
         $termin_locations = $termin_location_repo->findAll();
         $locations_data = array_map(function (TerminLocation $termin_location) use ($code_href) {
             return [
-                'url' => "{$code_href}termine/orte/{$termin_location->getId()}",
+                'url' => "{$code_href}termin_orte/{$termin_location->getIdent()}",
                 'name' => $termin_location->getName(),
                 'lat' => $termin_location->getLatitude(),
                 'lng' => $termin_location->getLongitude(),

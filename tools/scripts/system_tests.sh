@@ -91,7 +91,7 @@ if [ "$MODE" = "dev" ] || [ "$MODE" = "dev_rw" ]; then
     fi
 
     # Reset the environment
-    APP_ENV=dev php bin/console olz:db-reset full > ./public/logs/take-screenshots.log 2>&1
+    APP_ENV=dev php bin/console olz:db-reset full
 
     # Build JavaScript code
     if [ "$NO_BUILD" = "0" ]; then
@@ -100,7 +100,7 @@ if [ "$MODE" = "dev" ] || [ "$MODE" = "dev_rw" ]; then
     fi
 
     # Run dev server
-    APP_ENV=dev symfony server:start --port=30270 > ./public/logs/take-screenshots.log 2>&1 &
+    APP_ENV=dev symfony server:start --port=30270 > ./public/logs/system-tests.log 2>&1 &
     DEVSERVER_PID=$!
 fi
 sleep 3

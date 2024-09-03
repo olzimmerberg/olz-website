@@ -60,7 +60,7 @@ class OlzKartenListItem extends OlzComponent {
                 <td>
                     {$edit_admin}
                     <a
-                        href='{$code_href}karten/{$karte->getId()}'
+                        href='{$code_href}karten/{$karte->getIdent()}'
                         onmouseenter='return olz.kartenLinkEnter({$json_id})'
                         onmouseleave='return olz.kartenLinkLeave({$json_id})'
                         class='linkmap'

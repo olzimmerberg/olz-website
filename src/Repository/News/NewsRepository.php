@@ -6,12 +6,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Utils\NewsFilterUtils;
+use Olz\Repository\Common\IdentStringRepositoryInterface;
+use Olz\Repository\Common\IdentStringRepositoryTrait;
 use Olz\Repository\Common\OlzRepository;
 
 /**
  * @extends OlzRepository<NewsEntry>
+ *
+ * @implements IdentStringRepositoryInterface<NewsEntry>
  */
-class NewsRepository extends OlzRepository {
+class NewsRepository extends OlzRepository implements IdentStringRepositoryInterface {
+    /** @use IdentStringRepositoryTrait<NewsEntry> */
+    use IdentStringRepositoryTrait;
+
     /** @return Collection<int, NewsEntry>&iterable<NewsEntry> */
     public function getAllActive(): Collection {
         $news_utils = NewsFilterUtils::fromEnv();

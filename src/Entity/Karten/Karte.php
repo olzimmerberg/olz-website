@@ -5,14 +5,17 @@ namespace Olz\Entity\Karten;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
+use Olz\Entity\Common\IdentStringEntityInterface;
+use Olz\Entity\Common\IdentStringEntityTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Repository\Karten\KartenRepository;
 
 #[ORM\Table(name: 'karten')]
 #[ORM\Index(name: 'typ_index', columns: ['on_off', 'typ'])]
 #[ORM\Entity(repositoryClass: KartenRepository::class)]
-class Karte extends OlzEntity implements DataStorageInterface {
+class Karte extends OlzEntity implements DataStorageInterface, IdentStringEntityInterface {
     use DataStorageTrait;
+    use IdentStringEntityTrait;
 
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
@@ -36,6 +39,9 @@ class Karte extends OlzEntity implements DataStorageInterface {
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $massstab;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $equidistance;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $ort;
@@ -105,6 +111,14 @@ class Karte extends OlzEntity implements DataStorageInterface {
         $this->massstab = $new_value;
     }
 
+    public function getEquidistance(): ?string {
+        return $this->equidistance;
+    }
+
+    public function setEquidistance(?string $new_value): void {
+        $this->equidistance = $new_value;
+    }
+
     public function getPlace(): ?string {
         return $this->ort;
     }
@@ -136,6 +150,8 @@ class Karte extends OlzEntity implements DataStorageInterface {
     public function setPreviewImageId(?string $new_value): void {
         $this->vorschau = $new_value;
     }
+
+    // ---
 
     public static function getEntityNameForStorage(): string {
         return 'karten';

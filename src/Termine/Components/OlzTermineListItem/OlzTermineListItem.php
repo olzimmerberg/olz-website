@@ -34,6 +34,7 @@ class OlzTermineListItem extends OlzComponent {
         }
 
         $id = $args['id'];
+        $ident = $args['ident'];
         $owner_user_id = $args['owner_user_id'];
         $start_date = $args['start_date'];
         $start_time = $args['start_time'];
@@ -45,7 +46,7 @@ class OlzTermineListItem extends OlzComponent {
         $termin_location_id = $args['location_id'];
         $is_deadline = count($labels) > 0 && $labels[0]->getIdent() === 'meldeschluss';
 
-        $link = "{$code_href}termine/{$id}{$filter_arg}";
+        $link = "{$code_href}termine/{$ident}{$filter_arg}";
         $type_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
             $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?

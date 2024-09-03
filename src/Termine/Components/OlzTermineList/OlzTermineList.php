@@ -54,12 +54,12 @@ class OlzTermineList extends OlzComponent {
             $admin_menu_out = <<<ZZZZZZZZZZ
                 <div class='termine-list-admin-menu'>
                     <span class='entry'>
-                        <a href='{$code_href}termine/orte' class='linkmap'>
+                        <a href='{$code_href}termin_orte' class='linkmap'>
                             Termin-Orte
                         </a>
                     </span>
                     <span class='entry'>
-                        <a href='{$code_href}termine/vorlagen' class='linkint'>
+                        <a href='{$code_href}termin_vorlagen' class='linkint'>
                             Termin-Vorlagen
                         </a>
                     </span>
@@ -135,6 +135,7 @@ class OlzTermineList extends OlzComponent {
                     t.title as title,
                     t.text as text,
                     t.id as id,
+                    t.ident as ident,
                     (
                         SELECT GROUP_CONCAT(l.ident ORDER BY l.position ASC SEPARATOR ' ')
                         FROM
@@ -165,6 +166,7 @@ class OlzTermineList extends OlzComponent {
                     CONCAT('Meldeschluss für ', t.title) as title,
                     '' as text,
                     t.id as id,
+                    t.ident as ident,
                     'meldeschluss' as typ,
                     t.on_off as on_off,
                     NULL as newsletter,
@@ -188,6 +190,7 @@ class OlzTermineList extends OlzComponent {
                     CONCAT('Meldeschluss für ', t.title) as title,
                     '' as text,
                     t.id as id,
+                    t.ident as ident,
                     'meldeschluss' as typ,
                     t.on_off as on_off,
                     NULL as newsletter,
@@ -236,6 +239,7 @@ class OlzTermineList extends OlzComponent {
                 $out .= OlzTermineListItem::render([
                     'item_type' => $row['item_type'],
                     'id' => $row['id'],
+                    'ident' => $row['ident'],
                     'owner_user_id' => $row['owner_user_id'],
                     'start_date' => $row['start_date'],
                     'start_time' => $row['start_time'],

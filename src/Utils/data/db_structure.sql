@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240728114645
+-- MIGRATION: DoctrineMigrations\Version20240903121355
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -189,6 +189,8 @@ CREATE TABLE `downloads` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `karten` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ident` varchar(63) NOT NULL,
+  `old_ident` varchar(63) DEFAULT NULL,
   `kartennr` int(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `jahr` varchar(255) DEFAULT NULL,
@@ -206,6 +208,7 @@ CREATE TABLE `karten` (
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `latitude` double DEFAULT NULL,
   `longitude` double DEFAULT NULL,
+  `equidistance` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_57ED7BE12B18554A` (`owner_user_id`),
   KEY `IDX_57ED7BE15A75A473` (`owner_role_id`),
@@ -267,6 +270,8 @@ CREATE TABLE `messenger_messages` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ident` varchar(63) NOT NULL,
+  `old_ident` varchar(63) DEFAULT NULL,
   `author_user_id` int(11) DEFAULT NULL,
   `author_role_id` int(11) DEFAULT NULL,
   `owner_user_id` int(11) DEFAULT NULL,
@@ -360,6 +365,7 @@ CREATE TABLE `panini24` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ident` varchar(63) NOT NULL,
   `owner_user_id` int(11) DEFAULT NULL,
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
@@ -368,7 +374,7 @@ CREATE TABLE `questions` (
   `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `ident` varchar(31) NOT NULL,
+  `old_ident` varchar(63) DEFAULT NULL,
   `position_within_category` int(11) NOT NULL,
   `question` longtext NOT NULL,
   `answer` longtext DEFAULT NULL,
@@ -544,7 +550,7 @@ CREATE TABLE `roles` (
   CONSTRAINT `FK_B63E2EC72B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_B63E2EC75A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_B63E2EC77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -678,6 +684,8 @@ CREATE TABLE `telegram_links` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `termine` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ident` varchar(63) NOT NULL,
+  `old_ident` varchar(63) DEFAULT NULL,
   `start_date` date NOT NULL,
   `start_time` time DEFAULT NULL,
   `end_date` date DEFAULT NULL,
@@ -790,6 +798,8 @@ CREATE TABLE `termin_label_map` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `termin_locations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ident` varchar(63) NOT NULL,
+  `old_ident` varchar(63) DEFAULT NULL,
   `owner_user_id` int(11) DEFAULT NULL,
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,

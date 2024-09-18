@@ -20,8 +20,8 @@ jobs:
   take-screenshots:
     strategy:
       matrix:
-        slice: ['1/3', '2/3', '3/3']
-    name: Take screenshots (${{ matrix.slice }})
+        slice: ['1', '2', '3']
+    name: Take screenshots (${{ matrix.slice }}/3)
     runs-on: ubuntu-latest
     services:
       mariadb:
@@ -71,10 +71,10 @@ jobs:
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         MOZ_HEADLESS: 1
-      run: composer system_tests -- --dev_rw ${{ matrix.slice }}
-    - uses: actions/upload-artifact@v1
+      run: composer system_tests -- --dev_rw ${{ matrix.slice }}/3
+    - uses: actions/upload-artifact@v4
       with:
-        name: prod-screenshots
+        name: prod-screenshots-${{ matrix.slice }}
         path: ./screenshots
 
   run-tests:
@@ -221,9 +221,10 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v4
       with:
-        name: prod-screenshots
+        pattern: prod-screenshots-*
+        merge-multiple: true
         path: ./screenshots
     - name: Get PHP (composer) cache directory
       id: composer-cache

@@ -5,10 +5,11 @@ namespace Olz\Controller;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
-use Olz\Components\OtherPages\OlzTrophy\OlzTrophy;
+use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,7 +54,16 @@ class OtherPagesController extends AbstractController {
         LoggerInterface $logger,
     ): Response {
         $this->httpUtils()->countRequest($request);
-        $out = OlzTrophy::render();
-        return new Response($out);
+        $code_href = $this->envUtils()->getCodeHref();
+        $this_year = $this->dateUtils()->getCurrentDateInFormat('Y');
+        $termine_utils = TermineFilterUtils::fromEnv();
+        $filter = [
+            ...$termine_utils->getDefaultFilter(),
+            'typ' => 'trophy',
+            'datum' => strval($this_year),
+        ];
+        $enc_filter = urlencode(json_encode($filter));
+        $url = "{$code_href}termine?filter={$enc_filter}";
+        return new RedirectResponse($url);
     }
 }

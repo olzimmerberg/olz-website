@@ -388,7 +388,6 @@ class DevDataUtils {
 
         // Build img/
         $this->mkdir("{$data_path}img");
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/trophy.png", 140, 140);
         $this->mkdir("{$data_path}img/weekly_picture");
         $this->mkdir("{$data_path}img/weekly_picture/1");
         $this->mkdir("{$data_path}img/weekly_picture/1/img");

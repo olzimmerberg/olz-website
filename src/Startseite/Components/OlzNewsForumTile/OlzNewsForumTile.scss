@@ -32,6 +32,7 @@
         .bubble {
             margin-right: 30px;
             padding-right: 8px;
+            border-bottom-left-radius: 0;
         }
     }
 
@@ -41,6 +42,7 @@
         .bubble {
             margin-left: 30px;
             padding-left: 8px;
+            border-bottom-right-radius: 0;
         }
     }
 }

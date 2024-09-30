@@ -18,6 +18,7 @@ trait UserEndpointTrait {
         return new FieldTypes\ObjectField([
             'export_as' => $allow_null ? 'OlzUserDataOrNull' : 'OlzUserData',
             'field_structure' => [
+                'parentUserId' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'firstName' => new FieldTypes\StringField(['allow_empty' => false]),
                 'lastName' => new FieldTypes\StringField(['allow_empty' => false]),
                 'username' => new FieldTypes\StringField(['allow_empty' => false]),
@@ -44,6 +45,7 @@ trait UserEndpointTrait {
     /** @return array<string, mixed> */
     public function getEntityData(User $entity): array {
         return [
+            'parentUserId' => $entity->getParentUserId(),
             'firstName' => $entity->getFirstName(),
             'lastName' => $entity->getLastName(),
             'username' => $entity->getUsername(),
@@ -68,6 +70,7 @@ trait UserEndpointTrait {
 
     /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(User $entity, array $input_data): void {
+        $entity->setParentUserId($input_data['parentUserId']);
         $entity->setUsername($input_data['username']);
         $entity->setFirstName($input_data['firstName']);
         $entity->setLastName($input_data['lastName']);

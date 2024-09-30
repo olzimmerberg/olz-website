@@ -34,6 +34,10 @@ describe('assert', () => {
     it('works for false', () => {
         expect(assert(false)).toEqual(false);
     });
+
+    it('works with message', () => {
+        expect(() => assert(null, 'message')).toThrow('message');
+    });
 });
 
 describe('assertUnreachable', () => {

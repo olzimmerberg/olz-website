@@ -32,7 +32,7 @@ class OlzEmailCard extends OlzComponent {
                         <p class="card-text">Nichts verpassen mit dem E-Mail Newsletter in deiner Mailbox!</p>
                         <p class="card-text text-end">
                             <a 
-                                href="{$code_href}profil"
+                                href="{$code_href}benutzer/ich"
                                 class="btn btn-light btn-sm"
                             >
                                 E-Mail Adresse eintragen
@@ -44,7 +44,7 @@ class OlzEmailCard extends OlzComponent {
                         <p class="card-text">Nichts verpassen mit dem E-Mail Newsletter in deiner Mailbox!</p>
                         <p class="card-text text-end">
                             <a 
-                                href="{$code_href}profil"
+                                href="{$code_href}benutzer/ich"
                                 class="btn btn-light btn-sm"
                             >
                                 E-Mail Adresse bestätigen

@@ -63,6 +63,11 @@ describe('getApiBoolean', () => {
     it('works for true', () => {
         expect(formUtils.getApiBoolean('yes')).toEqual(true);
     });
+
+    it('works for booleans', () => {
+        expect(formUtils.getApiBoolean(false)).toEqual(false);
+        expect(formUtils.getApiBoolean(true)).toEqual(true);
+    });
 });
 
 // Numeric
@@ -208,6 +213,282 @@ describe('validateNotEmpty', () => {
     });
 });
 
+describe('validateCountryCode', () => {
+    it('returns validation error for nullish user inputs', () => {
+        expect(formUtils.validateCountryCode(''))
+            .toEqual([
+                {type: 'validate', message: 'Der Ländercode muss zwei Zeichen lang sein.'},
+                '',
+            ]);
+        expect(formUtils.validateCountryCode(' '))
+            .toEqual([
+                {type: 'validate', message: 'Der Ländercode muss zwei Zeichen lang sein.'},
+                '',
+            ]);
+        expect(formUtils.validateCountryCode('\t'))
+            .toEqual([
+                {type: 'validate', message: 'Der Ländercode muss zwei Zeichen lang sein.'},
+                '',
+            ]);
+    });
+
+    it('returns countryCode for correct user inputs', () => {
+        expect(formUtils.validateCountryCode('CH'))
+            .toEqual([undefined, 'CH']);
+        expect(formUtils.validateCountryCode('DE'))
+            .toEqual([undefined, 'DE']);
+        expect(formUtils.validateCountryCode('US \t'))
+            .toEqual([undefined, 'US']);
+    });
+
+    it('returns countryCode for some country names', () => {
+        expect(formUtils.validateCountryCode(' Switzerland'))
+            .toEqual([undefined, 'CH']);
+        expect(formUtils.validateCountryCode('Schweiz'))
+            .toEqual([undefined, 'CH']);
+        expect(formUtils.validateCountryCode('SUI'))
+            .toEqual([undefined, 'CH']);
+    });
+
+    it('returns validation error for invalid user inputs', () => {
+        expect(formUtils.validateCountryCode('P'))
+            .toEqual([
+                {type: 'validate', message: 'Der Ländercode muss zwei Zeichen lang sein.'},
+                'P',
+            ]);
+        expect(formUtils.validateCountryCode('WTF'))
+            .toEqual([
+                {type: 'validate', message: 'Der Ländercode muss zwei Zeichen lang sein.'},
+                'WTF',
+            ]);
+        expect(formUtils.validateCountryCode('not.a.country'))
+            .toEqual([
+                {type: 'validate', message: 'Der Ländercode muss zwei Zeichen lang sein.'},
+                'not.a.country',
+            ]);
+    });
+});
+
+describe('validateCountryCodeOrNull', () => {
+    it('returns null for nullish user inputs', () => {
+        expect(formUtils.validateCountryCodeOrNull(''))
+            .toEqual([undefined, '']);
+    });
+
+    it('returns same as validateCountryCode for non-nullish user inputs', () => {
+        expect(formUtils.validateCountryCodeOrNull('CH'))
+            .toEqual(formUtils.validateCountryCode('CH'));
+    });
+});
+
+describe('validateEmail', () => {
+    it('returns validation error for nullish user inputs', () => {
+        expect(formUtils.validateEmail(''))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige E-Mail Adresse "".'},
+                '',
+            ]);
+        expect(formUtils.validateEmail(' '))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige E-Mail Adresse "".'},
+                '',
+            ]);
+        expect(formUtils.validateEmail('\t'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige E-Mail Adresse "".'},
+                '',
+            ]);
+    });
+
+    it('returns email address for correct user inputs', () => {
+        expect(formUtils.validateEmail('test.adress@olzimmerberg.ch'))
+            .toEqual([undefined, 'test.adress@olzimmerberg.ch']);
+        expect(formUtils.validateEmail('plus+adress@some-hoster.tv'))
+            .toEqual([undefined, 'plus+adress@some-hoster.tv']);
+        expect(formUtils.validateEmail(' whitespace@being-trimmed.org \t'))
+            .toEqual([undefined, 'whitespace@being-trimmed.org']);
+    });
+
+    it('returns validation error for invalid user inputs', () => {
+        expect(formUtils.validateEmail('not.an.email'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige E-Mail Adresse "not.an.email".'},
+                'not.an.email',
+            ]);
+        expect(formUtils.validateEmail('also@weird'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige E-Mail Adresse "also@weird".'},
+                'also@weird',
+            ]);
+    });
+});
+
+describe('validateEmailOrNull', () => {
+    it('returns null for nullish user inputs', () => {
+        expect(formUtils.validateEmailOrNull(''))
+            .toEqual([undefined, '']);
+    });
+
+    it('returns same as validateEmail for non-nullish user inputs', () => {
+        expect(formUtils.validateEmailOrNull('test.adress@olzimmerberg.ch'))
+            .toEqual(formUtils.validateEmail('test.adress@olzimmerberg.ch'));
+    });
+});
+
+describe('validateGender', () => {
+    it('returns null for nullish user inputs', () => {
+        expect(formUtils.validateGender(''))
+            .toEqual([undefined, null]);
+        expect(formUtils.validateGender(null))
+            .toEqual([undefined, null]);
+        expect(formUtils.validateGender(undefined))
+            .toEqual([undefined, null]);
+    });
+
+    it('returns gender for correct user inputs', () => {
+        expect(formUtils.validateGender('M'))
+            .toEqual([undefined, 'M']);
+        expect(formUtils.validateGender('F'))
+            .toEqual([undefined, 'F']);
+        expect(formUtils.validateGender('O'))
+            .toEqual([undefined, 'O']);
+    });
+
+    it('returns validation error for invalid user inputs', () => {
+        expect(formUtils.validateGender('not.a.gender'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültiges Geschlecht "not.a.gender" ausgewählt.'},
+                null,
+            ]);
+        expect(formUtils.validateGender('P'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültiges Geschlecht "P" ausgewählt.'},
+                null,
+            ]);
+    });
+});
+
+describe('validatePassword', () => {
+    it('returns validation error for nullish user inputs', () => {
+        expect(formUtils.validatePassword(''))
+            .toEqual(
+                {type: 'validate', message: 'Das Passwort muss mindestens 8 Zeichen lang sein.'},
+            );
+    });
+
+    it('returns undefined for correct user inputs', () => {
+        expect(formUtils.validatePassword('longenough'))
+            .toEqual(undefined);
+        expect(formUtils.validatePassword('also..ok'))
+            .toEqual(undefined);
+    });
+
+    it('returns validation error for invalid user inputs', () => {
+        expect(formUtils.validatePassword('tooshor'))
+            .toEqual(
+                {type: 'validate', message: 'Das Passwort muss mindestens 8 Zeichen lang sein.'},
+            );
+        expect(formUtils.validatePassword('wtf'))
+            .toEqual(
+                {type: 'validate', message: 'Das Passwort muss mindestens 8 Zeichen lang sein.'},
+            );
+        expect(formUtils.validatePassword('1234'))
+            .toEqual(
+                {type: 'validate', message: 'Das Passwort muss mindestens 8 Zeichen lang sein.'},
+            );
+        expect(formUtils.validatePassword('admin'))
+            .toEqual(
+                {type: 'validate', message: 'Das Passwort muss mindestens 8 Zeichen lang sein.'},
+            );
+    });
+});
+
+describe('validatePhone', () => {
+    it('returns validation error for nullish user inputs', () => {
+        expect(formUtils.validatePhone(''))
+            .toEqual([
+                {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+                '',
+            ]);
+        expect(formUtils.validatePhone(' '))
+            .toEqual([
+                {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+                ' ',
+            ]);
+        expect(formUtils.validatePhone('\t'))
+            .toEqual([
+                {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+                '\t',
+            ]);
+    });
+
+    it('returns phone for correct user inputs', () => {
+        expect(formUtils.validatePhone('+41441234567'))
+            .toEqual([undefined, '+41441234567']);
+        expect(formUtils.validatePhone(' +41 79 123 45 67'))
+            .toEqual([undefined, '+41791234567']);
+        expect(formUtils.validatePhone('+41\t78\t1234567 \t'))
+            .toEqual([undefined, '+41781234567']);
+    });
+
+    it('returns validation error for invalid user inputs', () => {
+        expect(formUtils.validatePhone('no letters allowed'))
+            .toEqual([
+                {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+                'no letters allowed',
+            ]);
+        expect(formUtils.validatePhone('+'))
+            .toEqual([
+                {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+                '+',
+            ]);
+        expect(formUtils.validatePhone('+ '))
+            .toEqual([
+                {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+                '+ ',
+            ]);
+        expect(formUtils.validatePhone('123 45 67'))
+            .toEqual([
+                {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+                '123 45 67',
+            ]);
+        expect(formUtils.validatePhone('01 123 45 67'))
+            .toEqual([
+                {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+                '01 123 45 67',
+            ]);
+        expect(formUtils.validatePhone('044 765 43 21'))
+            .toEqual([
+                {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+                '044 765 43 21',
+            ]);
+    });
+});
+
+describe('validatePhoneOrNull', () => {
+    it('returns null for nullish user inputs', () => {
+        expect(formUtils.validatePhoneOrNull(''))
+            .toEqual([undefined, '']);
+    });
+
+    it('returns same as validatePhone for non-nullish user inputs', () => {
+        expect(formUtils.validatePhoneOrNull('+41441234567'))
+            .toEqual(formUtils.validatePhone('+41441234567'));
+    });
+});
+
+describe('validateEmailOrNull', () => {
+    it('returns null for nullish user inputs', () => {
+        expect(formUtils.validateEmailOrNull(''))
+            .toEqual([undefined, '']);
+    });
+
+    it('returns same as validateEmail for non-nullish user inputs', () => {
+        expect(formUtils.validateEmailOrNull('test.adress@olzimmerberg.ch'))
+            .toEqual(formUtils.validateEmail('test.adress@olzimmerberg.ch'));
+    });
+});
+
 describe('getApiString', () => {
     it('works for text', () => {
         expect(formUtils.getApiString('text')).toEqual('text');
@@ -326,7 +607,7 @@ describe('validateDateOrNull', () => {
             .toEqual([undefined, '']);
     });
 
-    it('returns same as validateTime for non-nullish user inputs', () => {
+    it('returns same as validateDate for non-nullish user inputs', () => {
         expect(formUtils.validateDateOrNull('13.01.2006'))
             .toEqual(formUtils.validateDate('13.01.2006'));
     });

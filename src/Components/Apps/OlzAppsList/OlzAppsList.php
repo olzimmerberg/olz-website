@@ -44,12 +44,11 @@ class OlzAppsList extends OlzComponent {
                 }
             }
             $out .= "<div class='hypothetical-container'>";
-            $out .= <<<ZZZZZZZZZZ
+            $out .= <<<'ZZZZZZZZZZ'
                 <div class='hypothetical-overlay'>
                     <div>Diese zusätzlichen Apps sind nur für eingeloggte Benutzer verfügbar.</div>
                     <div class='auth-buttons'>
                         <a class='btn btn-primary' href='#login-dialog' role='button'>Login</a>
-                        <a class='btn btn-secondary' href='{$code_href}konto_passwort' role='button'>Konto erstellen</a>
                     </div>
                 </div>
                 ZZZZZZZZZZ;

@@ -1,4 +1,5 @@
 import {Area} from 'react-easy-crop/types';
+import {assert} from './generalUtils';
 
 export interface LoadImageFromBase64Options {
     image?: HTMLImageElement;
@@ -53,11 +54,7 @@ export function getCroppedCanvas(
     const offsetY = safeArea / 2 - original.height / 2;
 
     const canvas = getCanvasOfSize(original, safeArea, safeArea);
-    const ctx = canvas.getContext('2d');
-
-    if (!ctx) {
-        throw new Error('2D context is not available');
-    }
+    const ctx = assert(canvas.getContext('2d'), '2D context is not available');
 
     // translate canvas context to a central location on image to allow rotating
     // around the center.
@@ -124,10 +121,7 @@ export function getCanvasOfSize(
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
-    const context = canvas.getContext('2d');
-    if (!context) {
-        throw new Error('2D context is not available');
-    }
+    const context = assert(canvas.getContext('2d'), '2D context is not available');
     context.drawImage(drawable, 0, 0, width, height);
     return canvas;
 }

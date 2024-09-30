@@ -37,9 +37,39 @@ describe('readBase64', () => {
         }
     });
 
+    it('rejects for undefined error reading', async () => {
+        const fileReader = {readAsDataURL: () => {}} as unknown as FileReader;
+        const fakeErrorEvent = {target: null} as ProgressEvent<FileReader>;
+        const promise = readBase64(SIMPLE_FILE, {fileReader});
+        if (fileReader.onerror) {
+            fileReader.onerror(fakeErrorEvent);
+        }
+        try {
+            await promise;
+            fail('Error expected');
+        } catch (err: unknown) {
+            expect(err).toEqual(undefined);
+        }
+    });
+
     it('rejects for invalid result', async () => {
         const fileReader = {readAsDataURL: () => {}} as unknown as FileReader;
         const fakeLoadEvent = {target: {result: null}} as ProgressEvent<FileReader>;
+        const promise = readBase64(SIMPLE_FILE, {fileReader});
+        if (fileReader.onload) {
+            fileReader.onload(fakeLoadEvent);
+        }
+        try {
+            await promise;
+            fail('Error expected');
+        } catch (err: unknown) {
+            expect(err).not.toEqual(undefined);
+        }
+    });
+
+    it('rejects for undefined result', async () => {
+        const fileReader = {readAsDataURL: () => {}} as unknown as FileReader;
+        const fakeLoadEvent = {target: null} as ProgressEvent<FileReader>;
         const promise = readBase64(SIMPLE_FILE, {fileReader});
         if (fileReader.onload) {
             fileReader.onload(fakeLoadEvent);

@@ -275,6 +275,7 @@ export type OlzTerminTemplateDataOrNull = {
 }|null;
 
 export type OlzUserData = {
+    'parentUserId': number|null,
     'firstName': string,
     'lastName': string,
     'username': string,
@@ -294,6 +295,7 @@ export type OlzUserData = {
 };
 
 export type OlzUserDataOrNull = {
+    'parentUserId': number|null,
     'firstName': string,
     'lastName': string,
     'username': string,
@@ -406,9 +408,6 @@ export type OlzApiEndpoint =
     'getAuthenticatedRoles'|
     'verifyUserEmail'|
     'updatePassword'|
-    'signUpWithPassword'|
-    'loginWithStrava'|
-    'signUpWithStrava'|
     'executeEmailReaction'|
     'linkTelegram'|
     'onTelegram'|
@@ -532,47 +531,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'id': number,
             'oldPassword': string,
             'newPassword': string,
-        },
-    signUpWithPassword: {
-            'firstName': string,
-            'lastName': string,
-            'username': string,
-            'password': string|null,
-            'email': string|null,
-            'phone': string|null,
-            'gender': 'M'|'F'|'O'|null,
-            'birthdate': string|null,
-            'street': string|null,
-            'postalCode': string|null,
-            'city': string|null,
-            'region': string|null,
-            'countryCode': string|null,
-            'siCardNumber': number|null,
-            'solvNumber': string|null,
-            'recaptchaToken': string,
-        },
-    loginWithStrava: {
-            'code': string,
-        },
-    signUpWithStrava: {
-            'stravaUser': string,
-            'accessToken': string,
-            'refreshToken': string,
-            'expiresAt': string,
-            'firstName': string,
-            'lastName': string,
-            'username': string,
-            'email': string,
-            'phone': string|null,
-            'gender': 'M'|'F'|'O'|null,
-            'birthdate': string|null,
-            'street': string,
-            'postalCode': string,
-            'city': string,
-            'region': string,
-            'countryCode': string,
-            'siCardNumber': number|null,
-            'solvNumber': string|null,
         },
     executeEmailReaction: {
             'token': string,
@@ -945,27 +903,6 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     updatePassword: {
             'status': 'OK'|'OTHER_USER'|'INVALID_OLD',
-        },
-    signUpWithPassword: {
-            'status': 'OK'|'OK_NO_EMAIL_VERIFICATION'|'DENIED',
-        },
-    loginWithStrava: {
-            'status': 'NOT_REGISTERED'|'INVALID_CODE'|'AUTHENTICATED',
-            'tokenType': string|null,
-            'expiresAt': string|null,
-            'refreshToken': string|null,
-            'accessToken': string|null,
-            'userIdentifier': string|null,
-            'firstName': string|null,
-            'lastName': string|null,
-            'gender': 'M'|'F'|'O'|null,
-            'city': string|null,
-            'region': string|null,
-            'country': string|null,
-            'profilePictureUrl': string|null,
-        },
-    signUpWithStrava: {
-            'status': 'OK',
         },
     executeEmailReaction: {
             'status': 'INVALID_TOKEN'|'OK',

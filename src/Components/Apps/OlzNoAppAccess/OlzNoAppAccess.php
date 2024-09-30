@@ -9,7 +9,7 @@ class OlzNoAppAccess extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
         $no_access_out = <<<'ZZZZZZZZZZ'
-            <div id='profile-message' class='alert alert-danger' role='alert'>
+            <div class='alert alert-danger' role='alert'>
                 Kein Zugriff!
             </div>
             ZZZZZZZZZZ;
@@ -40,7 +40,6 @@ class OlzNoAppAccess extends OlzComponent {
                 <div>Die "{$display_name}"-App ist nur für eingeloggte Benutzer verfügbar.</div>
                 <div class='auth-buttons'>
                     <a class='btn btn-primary' href='#login-dialog' role='button'>Login</a>
-                    <a class='btn btn-secondary' href='{$code_href}konto_passwort' role='button'>Konto erstellen</a>
                 </div>
             </div>
             ZZZZZZZZZZ;

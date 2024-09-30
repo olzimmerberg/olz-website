@@ -40,6 +40,7 @@ final class UserEndpointTraitTest extends UnitTestCase {
             'firstName',
             'gender',
             'lastName',
+            'parentUserId',
             'password',
             'phone',
             'postalCode',

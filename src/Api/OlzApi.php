@@ -20,9 +20,6 @@ class OlzApi extends Api {
         Endpoints\GetAuthenticatedRolesEndpoint $getAuthenticatedRolesEndpoint,
         Endpoints\VerifyUserEmailEndpoint $verifyUserEmailEndpoint,
         Endpoints\UpdateUserPasswordEndpoint $updateUserPasswordEndpoint,
-        Endpoints\SignUpWithPasswordEndpoint $signUpWithPasswordEndpoint,
-        Endpoints\LoginWithStravaEndpoint $loginWithStravaEndpoint,
-        Endpoints\SignUpWithStravaEndpoint $signUpWithStravaEndpoint,
         Endpoints\ExecuteEmailReactionEndpoint $executeEmailReactionEndpoint,
         Endpoints\LinkTelegramEndpoint $linkTelegramEndpoint,
         Endpoints\OnTelegramEndpoint $onTelegramEndpoint,
@@ -102,9 +99,6 @@ class OlzApi extends Api {
         $this->registerEndpoint('getAuthenticatedRoles', $getAuthenticatedRolesEndpoint);
         $this->registerEndpoint('verifyUserEmail', $verifyUserEmailEndpoint);
         $this->registerEndpoint('updatePassword', $updateUserPasswordEndpoint);
-        $this->registerEndpoint('signUpWithPassword', $signUpWithPasswordEndpoint);
-        $this->registerEndpoint('loginWithStrava', $loginWithStravaEndpoint);
-        $this->registerEndpoint('signUpWithStrava', $signUpWithStravaEndpoint);
         $this->registerEndpoint('executeEmailReaction', $executeEmailReactionEndpoint);
         $this->registerEndpoint('linkTelegram', $linkTelegramEndpoint);
         $this->registerEndpoint('onTelegram', $onTelegramEndpoint);
@@ -237,9 +231,6 @@ class OlzApi extends Api {
             new Endpoints\GetAuthenticatedRolesEndpoint(),
             new Endpoints\VerifyUserEmailEndpoint(),
             new Endpoints\UpdateUserPasswordEndpoint(),
-            new Endpoints\SignUpWithPasswordEndpoint(),
-            new Endpoints\LoginWithStravaEndpoint(),
-            new Endpoints\SignUpWithStravaEndpoint(),
             new Endpoints\ExecuteEmailReactionEndpoint(),
             new Endpoints\LinkTelegramEndpoint(),
             new Endpoints\OnTelegramEndpoint(),

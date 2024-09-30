@@ -13,11 +13,108 @@ use Olz\Tests\Fake\Entity\Roles\FakeRole;
  * @extends FakeEntity<User>
  */
 class FakeUser extends FakeEntity {
-    public static function adminUser(bool $fresh = false): object {
+    public static function minimal(bool $fresh = false): object {
         return self::getFake(
             $fresh,
             function () {
                 $entity = new User();
+                FakeOlzEntity::minimal($entity);
+                $entity->setId(12);
+                $entity->setFirstName('Required');
+                $entity->setLastName('Non-empty');
+                $entity->setUsername('minimal-user');
+                $entity->setOldUsername(null);
+                $entity->setEmail('minimal-user@staging.olzimmerberg.ch');
+                $entity->setEmailIsVerified(false);
+                $entity->setEmailVerificationToken(null);
+                $entity->setPasswordHash(null);
+                $entity->setPermissions('');
+                $entity->setRoot(null);
+                $entity->setPhone(null);
+                $entity->setGender(null);
+                $entity->setBirthdate(null);
+                $entity->setStreet(null);
+                $entity->setPostalCode(null);
+                $entity->setRegion(null);
+                $entity->setCity(null);
+                $entity->setCountryCode(null);
+                $entity->setSiCardNumber(null);
+                $entity->setSolvNumber(null);
+                return $entity;
+            }
+        );
+    }
+
+    public static function empty(bool $fresh = false): object {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = new User();
+                FakeOlzEntity::empty($entity);
+                $entity->setId(123);
+                $entity->setFirstName('Required');
+                $entity->setLastName('Non-empty');
+                $entity->setUsername('empty-user');
+                $entity->setOldUsername(null);
+                $entity->setEmail('empty-user@staging.olzimmerberg.ch');
+                $entity->setEmailIsVerified(false);
+                $entity->setEmailVerificationToken('');
+                $entity->setPasswordHash('');
+                $entity->setPermissions('');
+                $entity->setRoot('');
+                $entity->setPhone(null);
+                $entity->setGender(null);
+                $entity->setBirthdate(new \DateTime('1970-01-01 00:00:00'));
+                $entity->setStreet(null);
+                $entity->setPostalCode(null);
+                $entity->setRegion(null);
+                $entity->setCity(null);
+                $entity->setCountryCode(null);
+                $entity->setSiCardNumber(null);
+                $entity->setSolvNumber(null);
+                return $entity;
+            }
+        );
+    }
+
+    public static function maximal(bool $fresh = false): object {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = new User();
+                FakeOlzEntity::maximal($entity);
+                $entity->setId(1234);
+                $entity->setFirstName('Maximal');
+                $entity->setLastName('User');
+                $entity->setUsername('maximal-user');
+                $entity->setOldUsername('maximal-user-old');
+                $entity->setEmail('maximal-user@staging.olzimmerberg.ch');
+                $entity->setEmailIsVerified(true);
+                $entity->setEmailVerificationToken('admintoken');
+                $entity->setPasswordHash(md5('adm1n')); // just for test
+                $entity->setPermissions('all verified_email');
+                $entity->setRoot('karten');
+                $entity->setPhone('+410123456');
+                $entity->setGender('M');
+                $entity->setBirthdate(new \DateTime('2020-03-13'));
+                $entity->setStreet('Data Hwy. 42');
+                $entity->setPostalCode('19216811');
+                $entity->setRegion('XX');
+                $entity->setCity('Test');
+                $entity->setCountryCode('CH');
+                $entity->setSiCardNumber('127001');
+                $entity->setSolvNumber('000ADM');
+                return $entity;
+            }
+        );
+    }
+
+    public static function adminUser(bool $fresh = false): object {
+        return self::getFake(
+            $fresh,
+            function () use ($fresh) {
+                $entity = new User();
+                self::populateEntityFields($entity, $fresh);
                 $entity->setId(2);
                 $entity->setFirstName('Admin');
                 $entity->setLastName('Istrator');
@@ -50,8 +147,9 @@ class FakeUser extends FakeEntity {
     public static function vorstandUser(bool $fresh = false): object {
         return self::getFake(
             $fresh,
-            function () {
+            function () use ($fresh) {
                 $entity = new User();
+                self::populateEntityFields($entity, $fresh);
                 $entity->setId(3);
                 $entity->setFirstName('Vorstand');
                 $entity->setLastName('Mitglied');
@@ -72,8 +170,9 @@ class FakeUser extends FakeEntity {
     public static function parentUser(bool $fresh = false): object {
         return self::getFake(
             $fresh,
-            function () {
+            function () use ($fresh) {
                 $entity = new User();
+                self::populateEntityFields($entity, $fresh);
                 $entity->setId(4);
                 $entity->setFirstName('Eltern');
                 $entity->setLastName('Teil');
@@ -111,8 +210,9 @@ class FakeUser extends FakeEntity {
     public static function child2User(bool $fresh = false): object {
         return self::getFake(
             $fresh,
-            function () {
+            function () use ($fresh) {
                 $entity = new User();
+                self::populateEntityFields($entity, $fresh);
                 $entity->setId(6);
                 $entity->setFirstName('Kind');
                 $entity->setLastName('Zwei');
@@ -130,8 +230,9 @@ class FakeUser extends FakeEntity {
     public static function defaultUser(bool $fresh = false): object {
         return self::getFake(
             $fresh,
-            function () {
+            function () use ($fresh) {
                 $entity = new User();
+                self::populateEntityFields($entity, $fresh);
                 $entity->setId(1);
                 $entity->setFirstName('Default');
                 $entity->setLastName('User');
@@ -178,5 +279,15 @@ class FakeUser extends FakeEntity {
                 return $entity;
             }
         );
+    }
+
+    protected static function populateEntityFields(User $entity, bool $fresh = false): void {
+        $entity->setOnOff(1);
+        $entity->setOwnerUser($fresh ? null : $entity);
+        $entity->setOwnerRole(null);
+        $entity->setCreatedAt(new \DateTime('2006-01-13 18:43:36'));
+        $entity->setCreatedByUser($fresh ? null : $entity);
+        $entity->setLastModifiedAt(new \DateTime('2020-03-13 18:43:36'));
+        $entity->setLastModifiedByUser($fresh ? null : $entity);
     }
 }

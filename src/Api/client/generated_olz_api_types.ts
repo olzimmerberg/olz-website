@@ -274,6 +274,44 @@ export type OlzTerminTemplateDataOrNull = {
     'fileIds': Array<string>,
 }|null;
 
+export type OlzUserData = {
+    'firstName': string,
+    'lastName': string,
+    'username': string,
+    'password': string|null,
+    'email': string|null,
+    'phone': string|null,
+    'gender': 'M'|'F'|'O'|null,
+    'birthdate': string|null,
+    'street': string|null,
+    'postalCode': string|null,
+    'city': string|null,
+    'region': string|null,
+    'countryCode': string|null,
+    'siCardNumber': number|null,
+    'solvNumber': string|null,
+    'avatarId': string|null,
+};
+
+export type OlzUserDataOrNull = {
+    'firstName': string,
+    'lastName': string,
+    'username': string,
+    'password': string|null,
+    'email': string|null,
+    'phone': string|null,
+    'gender': 'M'|'F'|'O'|null,
+    'birthdate': string|null,
+    'street': string|null,
+    'postalCode': string|null,
+    'city': string|null,
+    'region': string|null,
+    'countryCode': string|null,
+    'siCardNumber': number|null,
+    'solvNumber': string|null,
+    'avatarId': string|null,
+}|null;
+
 export type OlzBookingData = {
     'registrationId': string,
     'values': {[key: string]: unknown},
@@ -366,13 +404,11 @@ export type OlzApiEndpoint =
     'logout'|
     'getAuthenticatedUser'|
     'getAuthenticatedRoles'|
-    'updateUser'|
     'verifyUserEmail'|
     'updatePassword'|
     'signUpWithPassword'|
     'loginWithStrava'|
     'signUpWithStrava'|
-    'deleteUser'|
     'executeEmailReaction'|
     'linkTelegram'|
     'onTelegram'|
@@ -436,6 +472,11 @@ export type OlzApiEndpoint =
     'editTerminTemplate'|
     'updateTerminTemplate'|
     'deleteTerminTemplate'|
+    'createUser'|
+    'getUser'|
+    'editUser'|
+    'updateUser'|
+    'deleteUser'|
     'createBooking'|
     'createRegistration'|
     'getManagedUsers'|
@@ -484,25 +525,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     logout: Record<string, never>|null,
     getAuthenticatedUser: Record<string, never>|null,
     getAuthenticatedRoles: Record<string, never>|null,
-    updateUser: {
-            'id': number,
-            'firstName': string,
-            'lastName': string,
-            'username': string,
-            'email': string,
-            'phone': string|null,
-            'gender': 'M'|'F'|'O'|null,
-            'birthdate': string|null,
-            'street': string|null,
-            'postalCode': string|null,
-            'city': string|null,
-            'region': string|null,
-            'countryCode': string|null,
-            'siCardNumber': number|null,
-            'solvNumber': string|null,
-            'avatarId': string|null,
-            'recaptchaToken': string|null,
-        },
     verifyUserEmail: {
             'recaptchaToken': string,
         },
@@ -551,9 +573,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'countryCode': string,
             'siCardNumber': number|null,
             'solvNumber': string|null,
-        },
-    deleteUser: {
-            'id': number,
         },
     executeEmailReaction: {
             'token': string,
@@ -787,6 +806,27 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     deleteTerminTemplate: {
             'id': number,
         },
+    createUser: {
+            'custom': {
+            'recaptchaToken': string|null,
+        },
+            'meta': OlzMetaData,
+            'data': OlzUserData,
+        },
+    getUser: {
+            'id': number,
+        },
+    editUser: {
+            'id': number,
+        },
+    updateUser: {
+            'id': number,
+            'meta': OlzMetaDataOrNull,
+            'data': OlzUserDataOrNull,
+        },
+    deleteUser: {
+            'id': number,
+        },
     createBooking: {
             'meta': OlzMetaData,
             'data': OlzBookingData,
@@ -900,9 +940,6 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     getAuthenticatedRoles: {
             'roles': Array<OlzAuthenticatedRole>|null,
         },
-    updateUser: {
-            'status': 'OK'|'OK_NO_EMAIL_VERIFICATION'|'DENIED'|'ERROR',
-        },
     verifyUserEmail: {
             'status': 'OK'|'DENIED'|'ERROR',
         },
@@ -929,9 +966,6 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
         },
     signUpWithStrava: {
             'status': 'OK',
-        },
-    deleteUser: {
-            'status': 'OK'|'ERROR',
         },
     executeEmailReaction: {
             'status': 'INVALID_TOKEN'|'OK',
@@ -1189,6 +1223,27 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'id': number,
         },
     deleteTerminTemplate: {
+            'status': 'OK'|'ERROR',
+        },
+    createUser: {
+            'status': 'OK'|'OK_NO_EMAIL_VERIFICATION'|'DENIED'|'ERROR',
+            'id': number|null,
+        },
+    getUser: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzUserData,
+        },
+    editUser: {
+            'id': number,
+            'meta': OlzMetaData,
+            'data': OlzUserData,
+        },
+    updateUser: {
+            'status': 'OK'|'ERROR',
+            'id': number,
+        },
+    deleteUser: {
             'status': 'OK'|'ERROR',
         },
     createBooking: {

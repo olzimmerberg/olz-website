@@ -36,6 +36,15 @@ class FakeUserRepository extends FakeOlzRepository {
             $fn = $this->userToBeFoundForQuery;
             return $fn($criteria);
         }
+        if ($criteria === ['id' => FakeOlzRepository::MINIMAL_ID]) {
+            return FakeUser::minimal();
+        }
+        if ($criteria === ['id' => FakeOlzRepository::EMPTY_ID]) {
+            return FakeUser::empty();
+        }
+        if ($criteria === ['id' => FakeOlzRepository::MAXIMAL_ID]) {
+            return FakeUser::maximal();
+        }
         if ($criteria === ['username' => 'user'] || $criteria === ['id' => 1]) {
             return FakeUser::defaultUser();
         }

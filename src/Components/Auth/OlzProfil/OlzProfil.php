@@ -162,7 +162,6 @@ class OlzProfil extends OlzComponent {
                 'solv_number' => $user->getSolvNumber(),
             ]);
             $out .= <<<ZZZZZZZZZZ
-                    <p id='recaptcha-consent-container'><input type='checkbox' name='recaptcha-consent-given' onchange='olz.olzProfileRecaptchaConsent(this.checked)'> <span class='required-field-asterisk'>*</span> Ich akzeptiere, dass beim Ändern der E-Mail-Adresse einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.</p>
                     <button id='update-user-submit-button' type='submit' class='btn btn-primary'>Speichern</button>
                     <div class='error-message alert alert-danger' role='alert'></div>
                 </form>
@@ -174,11 +173,6 @@ class OlzProfil extends OlzComponent {
                 >
                     Familienmitglied hinzufügen
                 </a>
-                <script>
-                window.addEventListener('load', () => {
-                    olz.olzProfileInit();
-                });
-                </script>
                 ZZZZZZZZZZ;
         } else {
             $out .= "<div id='profile-message' class='alert alert-danger' role='alert'>Da musst du schon eingeloggt sein!</div>";

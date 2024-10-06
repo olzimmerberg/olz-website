@@ -95,7 +95,7 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]): React.
         <svg width={500} height={height}>
             <rect x={0} y={0} width={500} height={height} fill={BACKGROUND_COLOR} />
             {instructions.flatMap((instruction, index) => {
-                if (!instruction.connection) {
+                if (instruction.connection === undefined) {
                     throw new Error('Instruction must have connection');
                 }
                 const output: React.ReactElement[] = [];
@@ -157,7 +157,7 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]): React.
                 return output;
             })}
             {instructions.map((instruction, index) => {
-                if (!instruction.connection) {
+                if (instruction.connection === undefined) {
                     throw new Error('Instruction must have connection');
                 }
                 const isImportant = IS_OLZ_STATION[instruction.stationId] || instruction.role !== 'halt';

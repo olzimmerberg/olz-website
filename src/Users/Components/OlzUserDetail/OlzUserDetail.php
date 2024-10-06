@@ -76,7 +76,7 @@ class OlzUserDetail extends OlzComponent {
         $city = $user->getCity() ?? '(Kein Ort)';
         $region = $user->getRegion() ?? 'Keine Region';
         $country_code = $user->getCountryCode() ?? 'Kein Land';
-        $birthdate = $user->getBirthdate() ?? '(Unbekannt)';
+        $birthdate = $user->getBirthdate()?->format('d.m.Y') ?? '(Unbekannt)';
         $phone = $user->getPhone() ?? '(Unbekannt)';
 
         if (

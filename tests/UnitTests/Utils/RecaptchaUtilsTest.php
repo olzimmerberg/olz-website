@@ -106,6 +106,20 @@ final class RecaptchaUtilsTest extends UnitTestCase {
         $recaptcha_utils->setGoogleFetcher($google_fetcher);
         $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
+        $result = $recaptcha_utils->validateRecaptchaToken(null);
+
+        $this->assertSame([
+            "ERROR No reCaptcha token provided.",
+        ], $this->getLogs());
+        $this->assertFalse($result);
+    }
+
+    public function testValidateRecaptchaTokenNullResponse(): void {
+        $recaptcha_utils = new RecaptchaUtils();
+        $google_fetcher = new FakeRecaptchaUtilsGoogleFetcher();
+        $recaptcha_utils->setGoogleFetcher($google_fetcher);
+        $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+
         $result = $recaptcha_utils->validateRecaptchaToken('null-recaptcha-token');
 
         $this->assertSame([

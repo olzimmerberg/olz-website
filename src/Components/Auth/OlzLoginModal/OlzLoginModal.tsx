@@ -4,7 +4,8 @@ import {olzApi} from '../../../Api/client';
 import {OlzApiRequests} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {codeHref, user} from '../../../Utils/constants';
+import {initOlzEditUserModal} from '../../../Users/Components/OlzEditUserModal/OlzEditUserModal';
+import {user} from '../../../Utils/constants';
 import {getApiBoolean, getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
 import {initOlzResetPasswordModal} from '../OlzResetPasswordModal/OlzResetPasswordModal';
 
@@ -167,7 +168,9 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
             <div className='mb-3'>
                 <a
                     id='sign-up-link'
-                    href={`${codeHref}konto_passwort`}
+                    href='#'
+                    data-bs-dismiss='modal'
+                    onClick={() => openSignUpModal()}
                 >
                     Noch kein OLZ-Konto?
                 </a>
@@ -175,6 +178,15 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
         </OlzEditModal>
     );
 };
+
+function openSignUpModal() {
+    const options = {
+        showPassword: true,
+        isPasswordRequired: true,
+        isEmailRequired: true,
+    };
+    initOlzEditUserModal(options);
+}
 
 export function initOlzLoginModal(props: OlzLoginModalProps): boolean {
     return initOlzEditModal('login-modal', () => (

@@ -60,17 +60,17 @@ final class ResetPasswordTest extends SystemTestCase {
         usleep(100 * 1000); // Wait until executed
 
         $this->login('benutzer', 'b3nu723r');
-        $browser->get($this->getUrl());
-        $this->assertNull($this->getBrowserElement('#profile-form'));
+        $browser->get("{$this->getTargetUrl()}/benutzer/ich");
+        $this->assertNull($this->getBrowserElement('h1.name-container'));
 
         $this->login('benutzer', $new_password);
-        $browser->get($this->getUrl());
-        $this->assertNotNull($this->getBrowserElement('#profile-form'));
+        $browser->get("{$this->getTargetUrl()}/benutzer/ich");
+        $this->assertNotNull($this->getBrowserElement('h1.name-container'));
 
         $this->resetDb();
     }
 
     protected function getUrl(): string {
-        return "{$this->getTargetUrl()}/profil";
+        return "{$this->getTargetUrl()}/";
     }
 }

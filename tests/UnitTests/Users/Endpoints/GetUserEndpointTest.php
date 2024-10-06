@@ -62,6 +62,7 @@ final class GetUserEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
+                'parentUserId' => null,
                 'firstName' => 'Required',
                 'lastName' => 'Non-empty',
                 'username' => 'minimal-user',
@@ -104,6 +105,7 @@ final class GetUserEndpointTest extends UnitTestCase {
                 'onOff' => false,
             ],
             'data' => [
+                'parentUserId' => null,
                 'firstName' => 'Required',
                 'lastName' => 'Non-empty',
                 'username' => 'empty-user',
@@ -153,6 +155,7 @@ final class GetUserEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
+                'parentUserId' => 1,
                 'firstName' => 'Maximal',
                 'lastName' => 'User',
                 'username' => 'maximal-user',

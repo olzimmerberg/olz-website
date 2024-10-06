@@ -57,6 +57,6 @@ final class VerifyEmailTest extends SystemTestCase {
     }
 
     protected function getUrl(): string {
-        return "{$this->getTargetUrl()}/profil";
+        return "{$this->getTargetUrl()}/benutzer/ich";
     }
 }

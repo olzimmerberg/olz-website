@@ -47,7 +47,7 @@ export const OlzVerifyUserEmailModal = (): React.ReactElement => {
         setSuccessMessage('E-Mail versendet. Bitte warten...');
         setErrorMessage('');
         // This removes Google's injected reCaptcha script again
-        window.location.href = `${codeHref}profil`;
+        window.location.href = `${codeHref}benutzer/ich`;
     };
 
     const dialogTitle = 'E-Mail-Adresse bestätigen';

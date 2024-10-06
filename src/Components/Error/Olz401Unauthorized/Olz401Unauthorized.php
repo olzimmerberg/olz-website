@@ -33,7 +33,6 @@ class Olz401Unauthorized extends OlzComponent {
             <p><b>Du hast vergessen, dich anzumelden!</b></p>
             <p>Du tauchst auf der Startliste einfach nicht auf.</p>
             <p>Aber keine Bange, <a href='#login-dialog' class='linkint'>hier kannst du dich nachmelden</a>.</p>
-            <p>...und falls du noch kein OLZ-Konto besitzst, kannst du <a href='{$code_href}konto_passwort' class='linkint'>hier eins erstellen</a>.</p>
             ZZZZZZZZZZ;
         $out .= "</div>";
         $out .= OlzFooter::render([], $this);

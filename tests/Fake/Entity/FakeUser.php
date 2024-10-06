@@ -20,6 +20,7 @@ class FakeUser extends FakeEntity {
                 $entity = new User();
                 FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
+                $entity->setParentUserId(null);
                 $entity->setFirstName('Required');
                 $entity->setLastName('Non-empty');
                 $entity->setUsername('minimal-user');
@@ -52,6 +53,7 @@ class FakeUser extends FakeEntity {
                 $entity = new User();
                 FakeOlzEntity::empty($entity);
                 $entity->setId(123);
+                $entity->setParentUserId(null);
                 $entity->setFirstName('Required');
                 $entity->setLastName('Non-empty');
                 $entity->setUsername('empty-user');
@@ -84,6 +86,7 @@ class FakeUser extends FakeEntity {
                 $entity = new User();
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
+                $entity->setParentUserId(1);
                 $entity->setFirstName('Maximal');
                 $entity->setLastName('User');
                 $entity->setUsername('maximal-user');
@@ -116,6 +119,7 @@ class FakeUser extends FakeEntity {
                 $entity = new User();
                 self::populateEntityFields($entity, $fresh);
                 $entity->setId(2);
+                $entity->setParentUserId(null);
                 $entity->setFirstName('Admin');
                 $entity->setLastName('Istrator');
                 $entity->setUsername('admin');

@@ -9,6 +9,14 @@ export const ISO_DATE_REGEX = /^\s*([0-9]{4})\s*-\s*([0-9]{1,2})\s*-\s*([0-9]{1,
 export const SWISS_DATE_REGEX = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\s*$/;
 export const TIME_REGEX = /^\s*([0-9]{1,2})\s*:\s*([0-9]{1,2})\s*(:\s*([0-9]{1,2})\s*)?$/;
 
+export const COUNTRY_CODE_MAP: {[countryName: string]: string} = {
+    'switzerland': 'CH',
+    'schweiz': 'CH',
+    'che': 'CH',
+    'sui': 'CH',
+};
+
+
 export function getResolverResult<T extends FieldValues>(
     errorsOrUndefined: FieldErrors<T>,
     values: T,
@@ -99,11 +107,94 @@ export function validateNotEmpty(value: string): FieldError|undefined {
     return undefined;
 }
 
+export function validateCountryCodeOrNull(valueArg: string): [FieldError|undefined, string] {
+    const value = valueArg.trim();
+    if (value === '') {
+        return [undefined, ''];
+    }
+    return validateCountryCode(value);
+}
+
+export function validateCountryCode(valueArg: string): [FieldError|undefined, string] {
+    const trimmedValue = valueArg.trim();
+    // TODO: Remove this case?!?
+    if (trimmedValue.length === 1) {
+        return [
+            {type: 'validate', message: 'Der Ländercode muss zwei Zeichen lang sein.'},
+            trimmedValue,
+        ];
+    } else if (trimmedValue.length === 2) {
+        return [undefined, trimmedValue.toUpperCase()];
+    }
+    const normalizedCountryName = trimmedValue.toLowerCase();
+    const countryCodeByName = COUNTRY_CODE_MAP[normalizedCountryName];
+    if (countryCodeByName) {
+        return [undefined, countryCodeByName];
+    }
+    return [
+        {type: 'validate', message: 'Der Ländercode muss zwei Zeichen lang sein.'},
+        trimmedValue,
+    ];
+}
+
+export function validateEmailOrNull(valueArg: string): [FieldError|undefined, string] {
+    const value = valueArg.trim();
+    if (value === '') {
+        return [undefined, ''];
+    }
+    return validateEmail(value);
+}
+
+export function validateEmail(valueArg: string): [FieldError|undefined, string] {
+    const trimmedValue = valueArg.trim();
+    if (!EMAIL_REGEX.exec(trimmedValue)) {
+        return [
+            {type: 'validate', message: `Ungültige E-Mail Adresse "${trimmedValue}".`},
+            trimmedValue,
+        ];
+    }
+    return [undefined, trimmedValue];
+}
+
+export function validateGender(valueArg: string|null|undefined): [FieldError|undefined, 'M'|'F'|'O'|null] {
+    switch (valueArg) {
+        case 'M': return [undefined, valueArg];
+        case 'F': return [undefined, valueArg];
+        case 'O': return [undefined, valueArg];
+        case '': return [undefined, null];
+        case null: return [undefined, null];
+        case undefined: return [undefined, null];
+        default: return [
+            {type: 'validate', message: `Ungültiges Geschlecht "${valueArg}" ausgewählt.`},
+            null,
+        ];
+    }
+}
+
 export function validatePassword(value: string): FieldError|undefined {
     if (value.length < 8) {
-        return {type: 'required', message: 'Das Passwort muss mindestens 8 Zeichen lang sein.'};
+        return {type: 'validate', message: 'Das Passwort muss mindestens 8 Zeichen lang sein.'};
     }
     return undefined;
+}
+
+export function validatePhoneOrNull(valueArg: string): [FieldError|undefined, string] {
+    const value = valueArg.trim();
+    if (value === '') {
+        return [undefined, ''];
+    }
+    return validatePhone(value);
+}
+
+export function validatePhone(valueArg: string): [FieldError|undefined, string] {
+    const valueWithoutSpaces = valueArg.replace(/\s+/g, '');
+    if (!/^\+[0-9]+$/.exec(valueWithoutSpaces)) {
+        return [
+            {type: 'validate', message: 'Die Telefonnummer muss mit internationalem Präfix (Schweiz: +41) eingegeben werden.'},
+            valueArg,
+        ];
+    }
+    return [undefined, valueWithoutSpaces];
 }
 
 export function getApiString(value: string): string|null {

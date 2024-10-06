@@ -48,6 +48,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'onOff' => true,
         ],
         'data' => [
+            'parentUserId' => null,
             'firstName' => 'First',
             'lastName' => 'Last',
             'username' => 'test',
@@ -74,6 +75,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'onOff' => true,
         ],
         'data' => [
+            'parentUserId' => 1,
             'firstName' => 'First',
             'lastName' => 'Last',
             'username' => 'test',

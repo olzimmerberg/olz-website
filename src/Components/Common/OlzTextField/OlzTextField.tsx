@@ -13,6 +13,7 @@ interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values
     disabled?: boolean;
     placeholder?: string;
     autoComplete?: string;
+    onFocus?: React.FocusEventHandler<HTMLTextAreaElement&HTMLInputElement>;
 }
 
 export const OlzTextField = <
@@ -35,6 +36,7 @@ export const OlzTextField = <
                 id={inputId}
                 disabled={props.disabled}
                 placeholder={props.placeholder}
+                onFocus={props.onFocus}
             />
             {errorComponent}
         </>);
@@ -49,6 +51,7 @@ export const OlzTextField = <
             disabled={props.disabled}
             autoComplete={props.autoComplete}
             placeholder={props.placeholder}
+            onFocus={props.onFocus}
         />
         {errorComponent}
     </>);

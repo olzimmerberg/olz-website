@@ -7,6 +7,7 @@ use Olz\Entity\AuthRequest;
 use Olz\Entity\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
+use PhpTypeScriptApi\HttpError;
 
 class CreateUserEndpoint extends OlzCreateEntityEndpoint {
     use UserEndpointTrait;
@@ -39,25 +40,34 @@ class CreateUserEndpoint extends OlzCreateEntityEndpoint {
             return ['status' => 'DENIED', 'id' => null];
         }
 
-        // TODO: The user should specify the desired parent user; to be validated here.
-        $parent_user = $current_user;
-        $parent_user_id = $parent_user ? $parent_user->getId() : null;
+        $parent_user_id = $input['data']['parentUserId'];
+        if ($parent_user_id !== null) {
+            if (!$current_user) {
+                throw new HttpError(403, "Kein Zugriff!");
+            }
+            if ($parent_user_id !== $current_user->getId()) {
+                // Create child of someone else
+                if (!$this->authUtils()->hasPermission('users')) {
+                    throw new HttpError(403, "Kein Zugriff!");
+                }
+            }
+        }
 
         $first_name = $input['data']['firstName'];
         $last_name = $input['data']['lastName'];
         $username = $input['data']['username'];
         $email = $input['data']['email'];
-        $this->log()->info("New sign-up (using password): {$first_name} {$last_name} ({$username}@) <{$email}>");
-        if (!$parent_user && !$email) {
+        $this->log()->info("New sign-up (using password): {$first_name} {$last_name} ({$username}@) <{$email}> (Parent: {$parent_user_id})");
+        if (!$parent_user_id && !$email) {
             throw new ValidationError(['email' => ["Feld darf nicht leer sein."]]);
         }
-        if (!$parent_user && !$input['data']['password']) {
+        if (!$parent_user_id && !$input['data']['password']) {
             throw new ValidationError(['password' => ["Feld darf nicht leer sein."]]);
         }
         if (!$this->authUtils()->isUsernameAllowed($username)) {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
-        if (!$parent_user && !$this->authUtils()->isPasswordAllowed($input['data']['password'])) {
+        if (!$parent_user_id && !$this->authUtils()->isPasswordAllowed($input['data']['password'])) {
             throw new ValidationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
         }
         if ($email && preg_match('/@olzimmerberg\.ch$/i', $email)) {
@@ -76,17 +86,17 @@ class CreateUserEndpoint extends OlzCreateEntityEndpoint {
             }
             // If it's an existing user WITHOUT password, we just update that existing user!
             $entity = $same_username_user;
-            $this->entityUtils()->updateOlzEntity($entity, ['on_off' => true]);
+            $this->entityUtils()->updateOlzEntity($entity, ['onOff' => true]);
         } elseif ($email && $same_email_user) {
             if ($same_email_user->getPasswordHash()) {
                 throw new ValidationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
             }
             // If it's an existing user WITHOUT password, we just update that existing user!
             $entity = $same_email_user;
-            $this->entityUtils()->updateOlzEntity($entity, ['on_off' => true]);
+            $this->entityUtils()->updateOlzEntity($entity, ['onOff' => true]);
         } else {
             $entity = new User();
-            $this->entityUtils()->createOlzEntity($entity, ['on_off' => true]);
+            $this->entityUtils()->createOlzEntity($entity, ['onOff' => true]);
         }
 
         $entity->setOldUsername(null);
@@ -116,7 +126,7 @@ class CreateUserEndpoint extends OlzCreateEntityEndpoint {
         $this->entityManager()->flush();
         $this->persistUploads($entity, $input['data']);
 
-        if (!$parent_user) {
+        if (!$parent_user_id) {
             $this->session()->resetConfigure(['timeout' => 3600]);
 
             $root = $entity->getRoot() !== '' ? $entity->getRoot() : './';

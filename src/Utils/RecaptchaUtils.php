@@ -23,7 +23,11 @@ class RecaptchaUtils {
         $this->googleFetcher = $google_fetcher;
     }
 
-    public function validateRecaptchaToken(string $token): bool {
+    public function validateRecaptchaToken(?string $token): bool {
+        if (!$token) {
+            $this->log()->error("No reCaptcha token provided.");
+            return false;
+        }
         $app_env = $this->envUtils()->getAppEnv();
         if ($app_env === 'dev') {
             $this->log()->notice("Accept recaptcha, because env is '{$app_env}'");

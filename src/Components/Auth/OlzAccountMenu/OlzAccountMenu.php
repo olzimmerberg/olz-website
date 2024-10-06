@@ -36,7 +36,7 @@ class OlzAccountMenu extends OlzComponent {
                 $this->log()->warning("User is set (ID:{$user->getId()}), but auth_user is not.");
             }
 
-            $out .= "<a class='dropdown-item' href='{$code_href}profil'>";
+            $out .= "<a class='dropdown-item' href='{$code_href}benutzer/ich'>";
             if ($show_profile_notification_dot) {
                 $out .= "<div class='notification-dot'></div>";
             }

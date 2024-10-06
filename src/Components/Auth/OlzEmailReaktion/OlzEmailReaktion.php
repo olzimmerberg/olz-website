@@ -71,10 +71,10 @@ class OlzEmailReaktion extends OlzComponent {
                     <div id='email-reaction-error-message' class='alert alert-danger' role='alert'></div>
                     ZZZZZZZZZZ;
             } else {
-                $out .= "<div id='profile-message' class='alert alert-danger' role='alert'>Ungültiger Link!</div>";
+                $out .= "<div class='alert alert-danger' role='alert'>Ungültiger Link!</div>";
             }
         } else {
-            $out .= "<div id='profile-message' class='alert alert-danger' role='alert'>Ungültiger Link!</div>";
+            $out .= "<div class='alert alert-danger' role='alert'>Ungültiger Link!</div>";
         }
 
         $out .= "</div>";

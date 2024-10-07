@@ -22,9 +22,6 @@ final class VerifyEmailTest extends SystemTestCase {
 
         $this->click('#verify-user-email-link');
         usleep(100 * 1000); // Wait a bit
-        $this->click('#verify-user-email-modal #recaptcha-consent-given-input');
-        sleep(random_int(2, 3));
-        usleep(random_int(0, 999999));
         $this->screenshot('profil_verify_email');
         $this->click('#verify-user-email-modal #submit-button');
         $this->waitUntilGone('#verify-user-email-modal');

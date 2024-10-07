@@ -32,8 +32,8 @@ class OlzUserDetail extends OlzComponent {
         $img_html = "<img {$image_src_html} alt='' class='image'>";
 
         $auth_user_id = $this->session()->get('auth_user_id');
-        $is_parent = intval($user->getParentUserId()) === intval($auth_user_id);
-        $is_self = intval($user->getId()) === intval($auth_user_id);
+        $is_parent = $auth_user_id && intval($user->getParentUserId()) === intval($auth_user_id);
+        $is_self = $auth_user_id && intval($user->getId()) === intval($auth_user_id);
         $has_permissions = $this->authUtils()->hasPermission('users');
         $can_edit = $is_parent || $is_self || $has_permissions;
         $edit_admin = '';

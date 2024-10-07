@@ -524,9 +524,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     logout: Record<string, never>|null,
     getAuthenticatedUser: Record<string, never>|null,
     getAuthenticatedRoles: Record<string, never>|null,
-    verifyUserEmail: {
-            'recaptchaToken': string,
-        },
+    verifyUserEmail: Record<string, never>,
     updatePassword: {
             'id': number,
             'oldPassword': string,
@@ -899,7 +897,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'roles': Array<OlzAuthenticatedRole>|null,
         },
     verifyUserEmail: {
-            'status': 'OK'|'DENIED'|'ERROR',
+            'status': 'OK'|'ERROR',
         },
     updatePassword: {
             'status': 'OK'|'OTHER_USER'|'INVALID_OLD',

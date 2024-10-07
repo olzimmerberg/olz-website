@@ -34,8 +34,8 @@ class SwitchUserEndpoint extends OlzEndpoint {
         }
 
         $auth_user_id = $this->session()->get('auth_user_id');
-        $is_parent = intval($user->getParentUserId()) === intval($auth_user_id);
-        $is_self = intval($user->getId()) === intval($auth_user_id);
+        $is_parent = $auth_user_id && intval($user->getParentUserId()) === intval($auth_user_id);
+        $is_self = $auth_user_id && intval($user->getId()) === intval($auth_user_id);
         if (!$is_self && !$is_parent) {
             throw new HttpError(403, "Kein Zugriff!");
         }

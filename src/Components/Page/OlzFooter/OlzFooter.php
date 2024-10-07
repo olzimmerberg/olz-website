@@ -32,7 +32,6 @@ class OlzFooter extends OlzComponent {
                 </div>
                 <div id='edit-entity-react-root'></div>
                 <div id='dialog-react-root'></div>
-                <div id='update-user-avatar-react-root'></div>
             </body>
             </html>
             ZZZZZZZZZZ;

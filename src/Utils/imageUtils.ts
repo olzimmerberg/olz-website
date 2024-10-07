@@ -1,4 +1,3 @@
-import {Area} from 'react-easy-crop/types';
 import {assert} from './generalUtils';
 
 export interface LoadImageFromBase64Options {
@@ -38,46 +37,6 @@ export function getResizedDimensions(
         resizedWidth = resizedHeight * originalWidth / originalHeight;
     }
     return [resizedWidth, resizedHeight];
-}
-
-/** Crop an image according to specs provided by react-easy-crop. */
-export function getCroppedCanvas(
-    original: HTMLImageElement|HTMLCanvasElement,
-    area: Area,
-    rotation = 0,
-): HTMLCanvasElement {
-    // set each dimensions to double largest dimension to allow for a safe area
-    // for the image to rotate in without being clipped by canvas context
-    const maxSize = Math.max(original.width, original.height);
-    const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2));
-    const offsetX = safeArea / 2 - original.width / 2;
-    const offsetY = safeArea / 2 - original.height / 2;
-
-    const canvas = getCanvasOfSize(original, safeArea, safeArea);
-    const ctx = assert(canvas.getContext('2d'), '2D context is not available');
-
-    // translate canvas context to a central location on image to allow rotating
-    // around the center.
-    ctx.translate(safeArea / 2, safeArea / 2);
-    ctx.rotate(getRadianAngle(rotation));
-    ctx.translate(-safeArea / 2, -safeArea / 2);
-
-    // draw rotated original image and store data.
-    ctx.drawImage(original, offsetX, offsetY);
-    const data = ctx.getImageData(0, 0, safeArea, safeArea);
-
-    // set canvas width to final desired crop size
-    canvas.width = area.width;
-    canvas.height = area.height;
-
-    // paste generated rotate image with correct offsets for x,y crop values.
-    ctx.putImageData(
-        data,
-        Math.round(0 - offsetX - area.x),
-        Math.round(0 - offsetY - area.y),
-    );
-
-    return canvas;
 }
 
 export function getRadianAngle(degreeValue: number): number {

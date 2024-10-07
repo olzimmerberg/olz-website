@@ -1,7 +1,7 @@
 /* eslint-env jasmine */
 
 import {getFakeContext} from '../../Fake/FakeContext';
-import {loadImageFromBase64, getBase64FromCanvas, getResizedDimensions, getCanvasOfSize, getCroppedCanvas, getRadianAngle, getResizedCanvas} from '../../../src/Utils/imageUtils';
+import {loadImageFromBase64, getBase64FromCanvas, getResizedDimensions, getCanvasOfSize, getRadianAngle, getResizedCanvas} from '../../../src/Utils/imageUtils';
 
 const FAKE_IMAGE = new Image(800, 600);
 
@@ -92,73 +92,6 @@ describe('getCanvasOfSize', () => {
                 'sw': 16,
                 'sx': 0,
                 'sy': 0,
-            },
-        ]);
-    });
-});
-
-describe('getCroppedCanvas', () => {
-    it('works', () => {
-        const ctx = getFakeContext();
-        HTMLCanvasElement.prototype.getContext = () => ctx;
-        const result = getCroppedCanvas(
-            FAKE_IMAGE, {x: 10, y: 0, width: 100, height: 100},
-        );
-        expect(result instanceof HTMLCanvasElement).toEqual(true);
-        expect(result.width).toEqual(100);
-        expect(result.height).toEqual(100);
-        const safeArea = 2 * ((800 / 2) * Math.sqrt(2));
-        const offsetX = safeArea / 2 - 800 / 2;
-        const offsetY = safeArea / 2 - 600 / 2;
-        expect(ctx.translations).toEqual([
-            {'x': safeArea / 2, 'y': safeArea / 2},
-            {'x': -safeArea / 2, 'y': -safeArea / 2},
-        ]);
-        expect(ctx.rotations).toEqual([
-            {angle: 0},
-        ]);
-        expect(ctx.drawnImages).toEqual([
-            {
-                'dh': undefined,
-                'dw': undefined,
-                'dx': undefined,
-                'dy': undefined,
-                'image': FAKE_IMAGE,
-                'sh': safeArea,
-                'sw': safeArea,
-                'sx': 0,
-                'sy': 0,
-            },
-            {
-                'dh': undefined,
-                'dw': undefined,
-                'dx': undefined,
-                'dy': undefined,
-                'image': FAKE_IMAGE,
-                'sh': undefined,
-                'sw': undefined,
-                'sx': offsetX,
-                'sy': offsetY,
-            },
-        ]);
-        expect(ctx.gottenImageData).toEqual([
-            {
-                'settings': undefined,
-                'sh': safeArea,
-                'sw': safeArea,
-                'sx': 0,
-                'sy': 0,
-            },
-        ]);
-        expect(ctx.puttedImageData).toEqual([
-            {
-                'dirtyHeight': undefined,
-                'dirtyWidth': undefined,
-                'dirtyX': undefined,
-                'dirtyY': undefined,
-                'dx': Math.round(-offsetX - 10),
-                'dy': Math.round(-offsetY - 0),
-                'imagedata': {},
             },
         ]);
     });

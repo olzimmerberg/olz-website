@@ -30,8 +30,26 @@ class OlzResults extends OlzComponent {
         $out .= "<div class='content-full'>";
         if ($filename !== null) {
             if (is_file("{$data_path}results/{$filename}")) {
-                $out .= <<<'ZZZZZZZZZZ'
-                    <div id='title-box'><div id='backbutton' onclick='olzResults.popHash()'>&lt;</div><h1 id='title'></h1></div>
+                $edit_admin = '';
+                if ($this->authUtils()->hasPermission('any')) {
+                    $enc_filename = json_encode(['file' => $filename]);
+                    $edit_admin = <<<ZZZZZZZZZZ
+                            <button
+                                id='edit-result-button'
+                                class='btn btn-secondary'
+                                onclick='return olzResults.initOlzEditResultModal(null, {$enc_filename})'
+                            >
+                                <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                                Resultate bearbeiten
+                            </button>
+                        ZZZZZZZZZZ;
+                }
+                $out .= <<<ZZZZZZZZZZ
+                    {$edit_admin}
+                    <div id='title-box'>
+                        <div id='backbutton' onclick='olzResults.popHash()'>&lt;</div>
+                        <h1 id='title'></h1>
+                    </div>
                     <div id='results-content'>
                         <div id='classes-box'></div>
                         <div id='content-box'></div>

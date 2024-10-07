@@ -67,6 +67,7 @@ final class CleanDataCommandTest extends UnitTestCase {
         mkdir("{$data_path}img/termin_labels/", 0o777, true);
         mkdir("{$data_path}img/termin_locations/", 0o777, true);
         mkdir("{$data_path}img/termin_templates/", 0o777, true);
+        mkdir("{$data_path}img/users/", 0o777, true);
         mkdir("{$data_path}img/weekly_picture/", 0o777, true);
 
         $input = new ArrayInput([]);

@@ -688,36 +688,13 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testGetUserAvatarHasAvatar(): void {
         $auth_utils = new AuthUtils();
-        $user = FakeUser::adminUser();
-
-        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
-        $user_image_path = "{$data_path}img/users/{$user->getId()}.jpg";
-        mkdir(dirname($user_image_path), 0o777, true);
-        file_put_contents($user_image_path, '');
-
-        $this->assertSame(
-            ['1x' => "/data-href/img/users/{$user->getId()}.jpg"],
-            $auth_utils->getUserAvatar($user)
-        );
-    }
-
-    public function testGetUserAvatarHasHighResolutionAvatar(): void {
-        $auth_utils = new AuthUtils();
-        $user = FakeUser::adminUser();
-
-        $data_path = WithUtilsCache::get('envUtils')->getDataPath();
-        $user_image_path = "{$data_path}img/users/{$user->getId()}.jpg";
-        $user_image_2x_path = "{$data_path}img/users/{$user->getId()}@2x.jpg";
-        mkdir(dirname($user_image_path), 0o777, true);
-        file_put_contents($user_image_path, '');
-        file_put_contents($user_image_2x_path, '');
 
         $this->assertSame(
             [
-                '2x' => "/data-href/img/users/{$user->getId()}@2x.jpg",
-                '1x' => "/data-href/img/users/{$user->getId()}.jpg",
+                '2x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$256.jpg',
+                '1x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$128.jpg',
             ],
-            $auth_utils->getUserAvatar($user)
+            $auth_utils->getUserAvatar(FakeUser::maximal())
         );
     }
 

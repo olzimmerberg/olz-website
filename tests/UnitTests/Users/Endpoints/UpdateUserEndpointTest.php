@@ -17,26 +17,6 @@ use PhpTypeScriptApi\HttpError;
 /**
  * @internal
  *
- * @coversNothing
- */
-class UpdateUserEndpointForTest extends UpdateUserEndpoint {
-    /** @var array<string> */
-    public array $unlink_calls = [];
-    /** @var array<array{0: string, 1: string}> */
-    public array $copy_calls = [];
-
-    protected function unlink(string $path): void {
-        $this->unlink_calls[] = $path;
-    }
-
-    protected function copy(string $source_path, string $destination_path): void {
-        $this->copy_calls[] = [$source_path, $destination_path];
-    }
-}
-
-/**
- * @internal
- *
  * @covers \Olz\Users\Endpoints\UpdateUserEndpoint
  */
 final class UpdateUserEndpointTest extends UnitTestCase {
@@ -96,14 +76,14 @@ final class UpdateUserEndpointTest extends UnitTestCase {
     ];
 
     public function testUpdateUserEndpointIdent(): void {
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $this->assertSame('UpdateUserEndpoint', $endpoint->getIdent());
     }
 
     public function testUpdateUserEndpointWrongUsername(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -127,15 +107,16 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'root' => 'karten',
                 'user' => 'wrong_user',
             ], $session->session_storage);
-            $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->copy_calls);
+
+            $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+            $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
         }
     }
 
     public function testUpdateUserEndpointInvalidNewUsername(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -169,15 +150,16 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'root' => 'karten',
                 'user' => 'admin',
             ], $session->session_storage);
-            $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->copy_calls);
+
+            $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+            $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
         }
     }
 
     public function testUpdateUserEndpointWithNewOlzimmerbergEmail(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -211,16 +193,16 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'root' => 'karten',
                 'user' => 'admin',
             ], $session->session_storage);
-            $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->copy_calls);
+
+            $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+            $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
         }
     }
 
     public function testUpdateUserEndpointMinimal(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -268,15 +250,15 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'root' => 'karten',
             'user' => 'test',
         ], $session->session_storage);
-        $this->assertSame([], $endpoint->unlink_calls);
-        $this->assertSame([], $endpoint->copy_calls);
+
+        $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testUpdateUserEndpointMaximal(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -322,20 +304,26 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'root' => 'karten',
             'user' => 'test',
         ], $session->session_storage);
-        $this->assertSame([], $endpoint->unlink_calls);
+
+        $id = 2;
         $this->assertSame([
             [
-                'fake-data-path/img/users/2/img/fake-avatar-id.jpg',
-                'fake-data-path/img/users/2.jpg',
+                ['fake-avatar-id.jpg'],
+                realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/img/users/{$id}/img/",
             ],
-        ], $endpoint->copy_calls);
+        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([
+            [
+                ['fake-avatar-id.jpg'],
+                realpath(__DIR__.'/../../../')."/Fake/../UnitTests/tmp/img/users/{$id}/",
+            ],
+        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testUpdateUserEndpointSameEmail(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -386,8 +374,9 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'root' => 'karten',
             'user' => 'test',
         ], $session->session_storage);
-        $this->assertSame([], $endpoint->unlink_calls);
-        $this->assertSame([], $endpoint->copy_calls);
+
+        $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testUpdateUserEndpointWithExistingUsername(): void {
@@ -406,8 +395,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 }
                 return null;
             };
-        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -438,8 +426,9 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'root' => 'karten',
                 'user' => 'admin',
             ], $session->session_storage);
-            $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->copy_calls);
+
+            $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+            $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
         }
     }
 
@@ -459,8 +448,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 }
                 return null;
             };
-        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -491,16 +479,16 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'root' => 'karten',
                 'user' => 'admin',
             ], $session->session_storage);
-            $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->copy_calls);
+
+            $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+            $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
         }
     }
 
     public function testUpdateUserEndpointRemoveAvatar(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
-        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $endpoint = new UpdateUserEndpointForTest();
+        $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -515,7 +503,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             ...self::MINIMAL_INPUT,
             'data' => [
                 ...self::MINIMAL_INPUT['data'],
-                'avatarImageId' => '-',
+                'avatarImageId' => null,
             ],
         ]);
 
@@ -552,10 +540,9 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'root' => 'karten',
             'user' => 'test',
         ], $session->session_storage);
-        $this->assertSame([
-            'fake-data-path/img/users/2.jpg',
-        ], $endpoint->unlink_calls);
-        $this->assertSame([], $endpoint->copy_calls);
+
+        $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 
     public function testUpdateUserEndpointNoAccess(): void {
@@ -576,6 +563,9 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 [FakeUser::adminUser(), 'admin', 'admin', null, null, 'users'],
             ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
+            $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+            $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
 
             $this->assertSame(403, $err->getCode());
         }
@@ -603,6 +593,9 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 [],
                 WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls,
             );
+
+            $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+            $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
 
             $this->assertSame(404, $err->getCode());
         }

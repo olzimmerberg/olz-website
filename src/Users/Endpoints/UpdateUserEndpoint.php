@@ -88,18 +88,6 @@ class UpdateUserEndpoint extends OlzUpdateEntityEndpoint {
         $this->entityManager()->flush();
         $this->persistUploads($entity, $input['data']);
 
-        // TODO: Store avatar ID in DB
-        $user_id = $entity->getId();
-        $data_path = $this->envUtils()->getDataPath();
-        $avatar_id = $input['data']['avatarImageId'];
-        $source_path = "{$data_path}img/users/{$user_id}/img/{$avatar_id}";
-        $destination_path = "{$data_path}img/users/{$user_id}.jpg";
-        if ($avatar_id === '-') {
-            $this->unlink($destination_path);
-        } elseif ($avatar_id) {
-            $this->copy($source_path, $destination_path);
-        }
-
         if ($is_username_updated && $this->session()->get('user') === $old_username) {
             $this->session()->set('user', $new_username);
         }
@@ -119,17 +107,4 @@ class UpdateUserEndpoint extends OlzUpdateEntityEndpoint {
             'id' => $entity->getId(),
         ];
     }
-
-    // @codeCoverageIgnoreStart
-    // Reason: Mocked in tests.
-
-    protected function unlink(string $path): void {
-        unlink($path);
-    }
-
-    protected function copy(string $source_path, string $destination_path): void {
-        copy($source_path, $destination_path);
-    }
-
-    // @codeCoverageIgnoreEnd
 }

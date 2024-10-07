@@ -561,7 +561,11 @@ class DevDataUtils {
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1/img/8sVwnV3aAEtQUUxmQYFmojMs.jpg", 300, 300);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1/thumb/8sVwnV3aAEtQUUxmQYFmojMs.jpg\$256.jpg", 256, 256);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1/thumb/8sVwnV3aAEtQUUxmQYFmojMs.jpg\$128.jpg", 128, 128);
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/3.jpg", 84, 120);
+        $this->mkdir("{$data_path}img/users/3");
+        $this->mkdir("{$data_path}img/users/3/img");
+        $this->mkdir("{$data_path}img/users/3/thumb");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/3/img/oyLeyPTaCfmadcm5ShEJ236e.jpg", 150, 150);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/3/thumb/oyLeyPTaCfmadcm5ShEJ236e.jpg\$128.jpg", 128, 128);
 
         // Build movies/
         $this->mkdir("{$data_path}movies");

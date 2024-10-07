@@ -63,7 +63,6 @@ trait UserEndpointTrait {
                 ? intval($entity->getSiCardNumber())
                 : null,
             'solvNumber' => $entity->getSolvNumber(),
-            // TODO: Store avatar ID in DB
             'avatarImageId' => $entity->getAvatarImageId(),
         ];
     }

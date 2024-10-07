@@ -273,6 +273,9 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
     get wordSpacing(): string {
         throw new Error('Method not implemented.');
     }
+
+    // @ts-ignore
+    isContextLost: boolean;
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 

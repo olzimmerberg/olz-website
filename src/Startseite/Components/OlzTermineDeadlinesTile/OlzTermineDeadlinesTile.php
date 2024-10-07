@@ -7,7 +7,7 @@
 namespace Olz\Startseite\Components\OlzTermineDeadlinesTile;
 
 use Olz\Apps\OlzApps;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzTermineDeadlinesTile extends AbstractOlzTile {

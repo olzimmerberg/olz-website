@@ -6,7 +6,7 @@
 
 namespace Olz\Startseite\Components\OlzTermineUpcomingTile;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzTermineUpcomingTile extends AbstractOlzTile {

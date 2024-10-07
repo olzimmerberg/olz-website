@@ -3,7 +3,7 @@
 namespace Olz\Components\Auth\OlzAccountMenu;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 class OlzAccountMenu extends OlzComponent {
     /** @param array<string, mixed> $args */

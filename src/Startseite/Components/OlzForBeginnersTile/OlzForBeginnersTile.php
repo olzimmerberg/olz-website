@@ -7,7 +7,7 @@
 namespace Olz\Startseite\Components\OlzForBeginnersTile;
 
 use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Repository\Roles\PredefinedRole;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 

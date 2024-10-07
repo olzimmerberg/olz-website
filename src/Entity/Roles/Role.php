@@ -11,7 +11,7 @@ use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Repository\Roles\RoleRepository;
 
 #[ORM\Table(name: 'roles')]

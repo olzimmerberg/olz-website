@@ -3,7 +3,7 @@
 namespace Olz\Apps\Anmelden\Endpoints;
 
 use Olz\Api\OlzEndpoint;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 

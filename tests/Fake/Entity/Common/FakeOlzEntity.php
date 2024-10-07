@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity\Common;
 
 use Olz\Entity\Common\OlzEntity;
-use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 
 class FakeOlzEntity {
     public static function minimal(OlzEntity $entity): void {

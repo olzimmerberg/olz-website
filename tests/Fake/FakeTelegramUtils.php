@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Olz\Entity\TelegramLink;
-use Olz\Entity\User;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Entity\Users\User;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Utils\TelegramUtils;
 
 class FakeTelegramUtils extends TelegramUtils {

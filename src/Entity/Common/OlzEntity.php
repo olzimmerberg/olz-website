@@ -4,7 +4,7 @@ namespace Olz\Entity\Common;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 #[ORM\MappedSuperclass]

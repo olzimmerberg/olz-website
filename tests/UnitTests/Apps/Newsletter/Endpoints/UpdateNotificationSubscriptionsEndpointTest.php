@@ -6,7 +6,7 @@ namespace Olz\Tests\UnitTests\Apps\Newsletter\Endpoints;
 
 use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;
 use Olz\Entity\NotificationSubscription;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 

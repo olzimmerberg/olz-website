@@ -3,6 +3,7 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Users\User;
 use Olz\Repository\StravaLinkRepository;
 
 #[ORM\Table(name: 'strava_links')]

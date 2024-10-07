@@ -7,8 +7,8 @@ namespace Olz\Tests\Fake\Entity\News;
 use Olz\Entity\News\NewsEntry;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
-use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 
 /**
  * @extends FakeEntity<NewsEntry>

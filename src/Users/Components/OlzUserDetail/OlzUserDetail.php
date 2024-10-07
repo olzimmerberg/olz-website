@@ -5,7 +5,7 @@ namespace Olz\Users\Components\OlzUserDetail;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 class OlzUserDetail extends OlzComponent {
     /** @param array<string, mixed> $args */

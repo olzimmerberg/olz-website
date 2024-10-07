@@ -10,7 +10,7 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\DeleteUserEndpoint;
 use Olz\Utils\MemorySession;
@@ -71,33 +71,6 @@ class FakeDeleteUserEndpointAccessTokenRepository extends FakeOlzRepository {
 /**
  * @internal
  *
- * @coversNothing
- */
-class DeleteUserEndpointForTest extends DeleteUserEndpoint {
-    /** @var array<string> */
-    public array $is_file_calls = [];
-    /** @var array<string> */
-    public array $unlink_calls = [];
-    /** @var array<array{0: string, 1: string}> */
-    public array $rename_calls = [];
-
-    protected function isFile(string $path): bool {
-        $this->is_file_calls[] = $path;
-        return true;
-    }
-
-    protected function unlink(string $path): void {
-        $this->unlink_calls[] = $path;
-    }
-
-    protected function rename(string $source_path, string $destination_path): void {
-        $this->rename_calls[] = [$source_path, $destination_path];
-    }
-}
-
-/**
- * @internal
- *
  * @covers \Olz\Users\Endpoints\DeleteUserEndpoint
  */
 final class DeleteUserEndpointTest extends UnitTestCase {
@@ -109,7 +82,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
     public function testDeleteUserEndpointWrongUsername(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
-        $endpoint = new DeleteUserEndpointForTest();
+        $endpoint = new DeleteUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -133,8 +106,6 @@ final class DeleteUserEndpointTest extends UnitTestCase {
                 'root' => 'karten',
                 'user' => 'wrong_user',
             ], $session->session_storage);
-            $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->rename_calls);
         }
     }
 
@@ -199,8 +170,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository($entity_manager);
         $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository($entity_manager);
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository($entity_manager);
-        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $endpoint = new DeleteUserEndpointForTest();
+        $endpoint = new DeleteUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -210,6 +180,15 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         ];
         $endpoint->setSession($session);
         $default_user = FakeUser::defaultUser();
+
+        mkdir(__DIR__.'/../../tmp/img/');
+        mkdir(__DIR__.'/../../tmp/img/users/');
+        mkdir(__DIR__."/../../tmp/img/users/{$default_user->getId()}");
+        mkdir(__DIR__."/../../tmp/img/users/{$default_user->getId()}/img");
+        mkdir(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb");
+        file_put_contents(__DIR__."/../../tmp/img/users/{$default_user->getId()}/img/image__________________1.jpg", '');
+        file_put_contents(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$256.jpg", '');
+        file_put_contents(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$128.jpg", '');
 
         $result = $endpoint->call(['id' => $default_user->getId()]); // another user
 
@@ -251,13 +230,10 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'root' => 'karten',
             'user' => 'admin',
         ], $session->session_storage);
-        $this->assertSame([
-            'fake-data-path/img/users/1.jpg',
-        ], $endpoint->is_file_calls);
-        $this->assertSame([
-            'fake-data-path/img/users/1.jpg',
-        ], $endpoint->unlink_calls);
-        $this->assertSame([], $endpoint->rename_calls);
+        $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/img/image__________________1.jpg");
+        $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$256.jpg");
+        $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$128.jpg");
+        $this->assertDirectoryDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}");
     }
 
     public function testDeleteUserEndpointCanDelete(): void {
@@ -272,8 +248,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[TelegramLink::class] = new FakeDeleteUserEndpointTelegramLinkRepository($entity_manager);
         $entity_manager->repositories[StravaLink::class] = new FakeDeleteUserEndpointStravaLinkRepository($entity_manager);
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository($entity_manager);
-        WithUtilsCache::get('envUtils')->fake_data_path = 'fake-data-path/';
-        $endpoint = new DeleteUserEndpointForTest();
+        $endpoint = new DeleteUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
         $session->session_storage = [
@@ -282,6 +257,15 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'user' => 'default',
         ];
         $endpoint->setSession($session);
+
+        mkdir(__DIR__.'/../../tmp/img/');
+        mkdir(__DIR__.'/../../tmp/img/users/');
+        mkdir(__DIR__."/../../tmp/img/users/{$default_user->getId()}");
+        mkdir(__DIR__."/../../tmp/img/users/{$default_user->getId()}/img");
+        mkdir(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb");
+        file_put_contents(__DIR__."/../../tmp/img/users/{$default_user->getId()}/img/image__________________1.jpg", '');
+        file_put_contents(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$256.jpg", '');
+        file_put_contents(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$128.jpg", '');
 
         $result = $endpoint->call(['id' => $default_user->getId()]);
 
@@ -300,12 +284,9 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $this->assertTrue($entity_manager->removed[4] instanceof AccessToken);
         $this->assertSame(0, $default_user->getOnOff());
         $this->assertSame([], $session->session_storage);
-        $this->assertSame([
-            'fake-data-path/img/users/1.jpg',
-        ], $endpoint->is_file_calls);
-        $this->assertSame([
-            'fake-data-path/img/users/1.jpg',
-        ], $endpoint->unlink_calls);
-        $this->assertSame([], $endpoint->rename_calls);
+        $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/img/image__________________1.jpg");
+        $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$256.jpg");
+        $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$128.jpg");
+        $this->assertDirectoryDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}");
     }
 }

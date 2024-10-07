@@ -6,7 +6,7 @@
 
 namespace Olz\Startseite\Components\OlzNewsListsTile;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 

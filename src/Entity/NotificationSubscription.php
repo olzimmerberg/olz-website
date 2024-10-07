@@ -3,6 +3,7 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Users\User;
 use Olz\Repository\NotificationSubscriptionRepository;
 
 #[ORM\Table(name: 'notification_subscriptions')]

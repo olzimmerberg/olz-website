@@ -59,7 +59,7 @@ export function addChildUser(
                 countryCode: null,
                 siCardNumber: null,
                 solvNumber: null,
-                avatarId: null,
+                avatarImageId: null,
             };
             initOlzEditUserModal(options, undefined, undefined, prefillData);
         });

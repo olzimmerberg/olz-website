@@ -3,7 +3,7 @@
 namespace Olz\Apps\Youtube;
 
 use Olz\Apps\BaseAppMetadata;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 class Metadata extends BaseAppMetadata {
     public function getDisplayName(): string {

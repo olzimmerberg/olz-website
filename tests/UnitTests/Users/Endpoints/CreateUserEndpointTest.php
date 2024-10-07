@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Users\Endpoints;
 
 use Olz\Entity\AuthRequest;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\CreateUserEndpoint;
@@ -42,7 +42,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'countryCode' => null,
             'siCardNumber' => null,
             'solvNumber' => null,
-            'avatarId' => null,
+            'avatarImageId' => null,
         ],
         'custom' => [
             'recaptchaToken' => 'valid-token',
@@ -72,7 +72,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'countryCode' => 'CC',
             'siCardNumber' => 1234567,
             'solvNumber' => 'JACK7NORRIS',
-            'avatarId' => 'fake-avatar-id.jpg',
+            'avatarImageId' => 'fake-avatar-id.jpg',
         ],
         'custom' => [
             'recaptchaToken' => 'valid-token',
@@ -111,7 +111,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
                     'countryCode' => null,
                     'siCardNumber' => null,
                     'solvNumber' => null,
-                    'avatarId' => null,
+                    'avatarImageId' => null,
                 ],
                 'custom' => [
                     'recaptchaToken' => null,

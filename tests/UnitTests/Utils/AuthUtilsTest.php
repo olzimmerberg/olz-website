@@ -6,8 +6,8 @@ namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\AuthRequest;
 use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Entity\Users\User;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\MemorySession;

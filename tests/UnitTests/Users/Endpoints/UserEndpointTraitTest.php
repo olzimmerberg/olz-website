@@ -32,7 +32,7 @@ final class UserEndpointTraitTest extends UnitTestCase {
         $keys = array_keys($field_structure);
         sort($keys);
         $this->assertSame([
-            'avatarId',
+            'avatarImageId',
             'birthdate',
             'city',
             'countryCode',

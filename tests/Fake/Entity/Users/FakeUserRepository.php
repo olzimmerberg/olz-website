@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake\Entity;
+namespace Olz\Tests\Fake\Entity\Users;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
 /**

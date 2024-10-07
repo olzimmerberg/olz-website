@@ -13,7 +13,7 @@ use Olz\Command\SendDailyNotificationsCommand\WeeklyPreviewGetter;
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

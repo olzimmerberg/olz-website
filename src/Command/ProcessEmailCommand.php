@@ -5,7 +5,7 @@ namespace Olz\Command;
 use Olz\Command\Common\OlzCommand;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Throttling;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\TelegramLink;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Fetchers\TelegramFetcher;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\TelegramUtils;

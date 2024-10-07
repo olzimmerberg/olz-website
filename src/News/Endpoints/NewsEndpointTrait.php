@@ -4,7 +4,7 @@ namespace Olz\News\Endpoints;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;

@@ -4,7 +4,7 @@ namespace Olz\Components\Apps\OlzAppsList;
 
 use Olz\Apps\OlzApps;
 use Olz\Components\Common\OlzComponent;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 class OlzAppsList extends OlzComponent {
     /** @param array<string, mixed> $args */

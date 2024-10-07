@@ -5,7 +5,7 @@ namespace Olz\Utils;
 use Olz\Entity\AccessToken;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
 
@@ -297,6 +297,13 @@ class AuthUtils {
         if (!$user) {
             $initials_enc = urlencode('?');
             return ['1x' => "{$code_href}assets/user_initials_{$initials_enc}.svg"];
+        }
+        if ($user->getAvatarImageId()) {
+            $image_id = $user->getAvatarImageId();
+            return [
+                '2x' => "{$data_href}img/users/{$user->getId()}/thumb/{$image_id}\$256.jpg",
+                '1x' => "{$data_href}img/users/{$user->getId()}/thumb/{$image_id}\$128.jpg",
+            ];
         }
         $user_images = [];
         $user_image_path_2x = "img/users/{$user->getId()}@2x.jpg";

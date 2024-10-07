@@ -6,7 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Users\OlzPopup\OlzPopup;
 use Olz\Components\Users\OlzRoleInfoCard\OlzRoleInfoCard;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 class OlzAuthorBadge extends OlzComponent {
     /** @param array<string, mixed> $args */
@@ -47,6 +47,7 @@ class OlzAuthorBadge extends OlzComponent {
                 $user->setLastName(' ');
                 $user->setEmail($email);
                 $user->setPermissions('');
+                $user->setAvatarImageId(null);
                 $popup = OlzUserInfoCard::render(['user' => $user]);
             }
         }

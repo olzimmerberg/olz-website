@@ -4,7 +4,7 @@ namespace Olz\Entity\Anmelden;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Repository\Anmelden\BookingRepository;
 
 #[ORM\Table(name: 'anmelden_bookings')]

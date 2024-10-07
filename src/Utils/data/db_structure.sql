@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20240728114645
+-- MIGRATION: DoctrineMigrations\Version20241007152642
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -544,7 +544,7 @@ CREATE TABLE `roles` (
   CONSTRAINT `FK_B63E2EC72B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_B63E2EC75A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_B63E2EC77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -967,6 +967,7 @@ CREATE TABLE `users` (
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
+  `avatar_image_id` longtext DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `username_index` (`username`),
   KEY `IDX_1483A5E92B18554A` (`owner_user_id`),

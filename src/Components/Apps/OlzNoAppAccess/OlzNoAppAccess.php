@@ -3,7 +3,7 @@
 namespace Olz\Components\Apps\OlzNoAppAccess;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 class OlzNoAppAccess extends OlzComponent {
     /** @param array<string, mixed> $args */

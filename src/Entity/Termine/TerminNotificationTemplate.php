@@ -4,7 +4,7 @@ namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Repository\Termine\TerminNotificationTemplateRepository;
 
 #[ORM\Table(name: 'termin_notification_templates')]

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\Fake\Entity;
+namespace Olz\Tests\Fake\Entity\Users;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
@@ -41,6 +41,7 @@ class FakeUser extends FakeEntity {
                 $entity->setCountryCode(null);
                 $entity->setSiCardNumber(null);
                 $entity->setSolvNumber(null);
+                $entity->setAvatarImageId(null);
                 return $entity;
             }
         );
@@ -74,6 +75,7 @@ class FakeUser extends FakeEntity {
                 $entity->setCountryCode(null);
                 $entity->setSiCardNumber(null);
                 $entity->setSolvNumber(null);
+                $entity->setAvatarImageId(null);
                 return $entity;
             }
         );
@@ -107,6 +109,7 @@ class FakeUser extends FakeEntity {
                 $entity->setCountryCode('CH');
                 $entity->setSiCardNumber('127001');
                 $entity->setSolvNumber('000ADM');
+                $entity->setAvatarImageId('image__________________1.jpg');
                 return $entity;
             }
         );
@@ -140,6 +143,7 @@ class FakeUser extends FakeEntity {
                 $entity->setCountryCode('CH');
                 $entity->setSiCardNumber('127001');
                 $entity->setSolvNumber('000ADM');
+                $entity->setAvatarImageId(null);
                 return $entity;
             },
             function ($entity) {
@@ -163,6 +167,7 @@ class FakeUser extends FakeEntity {
                 $entity->setPasswordHash(md5('v0r57and')); // just for test
                 $entity->setPermissions('aktuell ftp vorstand_user');
                 $entity->setRoot('vorstand');
+                $entity->setAvatarImageId(null);
                 return $entity;
             },
             function ($entity) {

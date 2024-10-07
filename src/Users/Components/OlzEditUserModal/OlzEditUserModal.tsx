@@ -29,7 +29,7 @@ interface OlzEditUserForm {
     countryCode: string;
     siCardNumber: string;
     solvNumber: string;
-    avatarId: string|null;
+    avatarImageId: string|null;
 }
 
 const resolver: Resolver<OlzEditUserForm> = async (values) => {
@@ -76,7 +76,7 @@ function getFormFromApi(apiData?: OlzUserData): OlzEditUserForm {
         countryCode: getFormString(apiData?.countryCode),
         siCardNumber: getFormNumber(apiData?.siCardNumber),
         solvNumber: getFormString(apiData?.solvNumber),
-        avatarId: getFormString(apiData?.avatarId),
+        avatarImageId: getFormString(apiData?.avatarImageId),
     };
 }
 
@@ -98,7 +98,7 @@ function getApiFromForm(formData: OlzEditUserForm): OlzUserData {
         countryCode: getApiString(formData.countryCode),
         siCardNumber: getApiNumber(formData.siCardNumber),
         solvNumber: getApiString(formData.solvNumber),
-        avatarId: formData.avatarId ? getApiString(formData.avatarId) : null,
+        avatarImageId: formData.avatarImageId ? getApiString(formData.avatarImageId) : null,
     };
 }
 
@@ -393,7 +393,7 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
             <div id='images-upload'>
                 <OlzImageField
                     title='Profilbild'
-                    name='avatarId'
+                    name='avatarImageId'
                     errors={errors}
                     control={control}
                     setIsLoading={setIsImagesLoading}

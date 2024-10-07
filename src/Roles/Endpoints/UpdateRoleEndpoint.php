@@ -4,7 +4,7 @@ namespace Olz\Roles\Endpoints;
 
 use Olz\Api\OlzUpdateEntityEndpoint;
 use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 

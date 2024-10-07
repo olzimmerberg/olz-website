@@ -17,8 +17,8 @@ class UpdateUserEndpointForIntegrationTest extends UpdateUserEndpoint {
         $this->unlink($path);
     }
 
-    public function testOnlyRename(string $source_path, string $destination_path): void {
-        $this->rename($source_path, $destination_path);
+    public function testOnlyCopy(string $source_path, string $destination_path): void {
+        $this->copy($source_path, $destination_path);
     }
 }
 
@@ -37,15 +37,15 @@ final class UpdateUserEndpointIntegrationTest extends IntegrationTestCase {
         $this->assertFalse(is_file($path));
     }
 
-    public function testRename(): void {
+    public function testCopy(): void {
         $endpoint = new UpdateUserEndpointForIntegrationTest();
         $from_path = __DIR__.'/../../document-root/temp/update_user_endpoint_from.txt';
         $to_path = __DIR__.'/../../document-root/temp/update_user_endpoint_to.txt';
         file_put_contents($from_path, 'some content');
         $this->assertTrue(is_file($from_path));
         $this->assertFalse(is_file($to_path));
-        $endpoint->testOnlyRename($from_path, $to_path);
-        $this->assertFalse(is_file($from_path));
+        $endpoint->testOnlyCopy($from_path, $to_path);
+        $this->assertTrue(is_file($from_path));
         $this->assertTrue(is_file($to_path));
         unlink($to_path);
     }

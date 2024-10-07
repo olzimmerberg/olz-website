@@ -7,7 +7,7 @@
 namespace Olz\Startseite\Components\OlzCustomTile;
 
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzCustomTile extends AbstractOlzTile {

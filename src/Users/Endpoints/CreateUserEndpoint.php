@@ -4,7 +4,7 @@ namespace Olz\Users\Endpoints;
 
 use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\AuthRequest;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;

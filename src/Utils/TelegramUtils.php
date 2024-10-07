@@ -8,7 +8,7 @@ use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
 use League\CommonMark\MarkdownConverter;
 use Olz\Entity\TelegramLink;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Fetchers\TelegramFetcher;
 
 class TelegramUtils {

@@ -4,7 +4,7 @@ namespace Olz\Utils;
 
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 class EntityUtils {
     use WithUtilsTrait;

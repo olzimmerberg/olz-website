@@ -4,7 +4,7 @@ namespace Olz\News\Endpoints;
 
 use Olz\Api\OlzCreateEntityEndpoint;
 use Olz\Entity\News\NewsEntry;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use Symfony\Component\Mime\Email;
 

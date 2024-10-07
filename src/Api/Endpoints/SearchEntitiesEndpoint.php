@@ -10,7 +10,7 @@ use Olz\Entity\Roles\Role;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 

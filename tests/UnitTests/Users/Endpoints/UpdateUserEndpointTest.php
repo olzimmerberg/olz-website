@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Users\Endpoints;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\UpdateUserEndpoint;
@@ -23,14 +23,14 @@ class UpdateUserEndpointForTest extends UpdateUserEndpoint {
     /** @var array<string> */
     public array $unlink_calls = [];
     /** @var array<array{0: string, 1: string}> */
-    public array $rename_calls = [];
+    public array $copy_calls = [];
 
     protected function unlink(string $path): void {
         $this->unlink_calls[] = $path;
     }
 
-    protected function rename(string $source_path, string $destination_path): void {
-        $this->rename_calls[] = [$source_path, $destination_path];
+    protected function copy(string $source_path, string $destination_path): void {
+        $this->copy_calls[] = [$source_path, $destination_path];
     }
 }
 
@@ -64,7 +64,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'countryCode' => null,
             'siCardNumber' => null,
             'solvNumber' => null,
-            'avatarId' => null,
+            'avatarImageId' => null,
         ],
     ];
     public const MAXIMAL_INPUT = [
@@ -91,7 +91,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'countryCode' => 'CH',
             'siCardNumber' => 1234567,
             'solvNumber' => 'JACK7NORRIS',
-            'avatarId' => 'fake-avatar-id.jpg',
+            'avatarImageId' => 'fake-avatar-id.jpg',
         ],
     ];
 
@@ -128,7 +128,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'user' => 'wrong_user',
             ], $session->session_storage);
             $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->rename_calls);
+            $this->assertSame([], $endpoint->copy_calls);
         }
     }
 
@@ -170,7 +170,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'user' => 'admin',
             ], $session->session_storage);
             $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->rename_calls);
+            $this->assertSame([], $endpoint->copy_calls);
         }
     }
 
@@ -212,7 +212,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'user' => 'admin',
             ], $session->session_storage);
             $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->rename_calls);
+            $this->assertSame([], $endpoint->copy_calls);
         }
     }
 
@@ -269,7 +269,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'test',
         ], $session->session_storage);
         $this->assertSame([], $endpoint->unlink_calls);
-        $this->assertSame([], $endpoint->rename_calls);
+        $this->assertSame([], $endpoint->copy_calls);
     }
 
     public function testUpdateUserEndpointMaximal(): void {
@@ -325,10 +325,10 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame([], $endpoint->unlink_calls);
         $this->assertSame([
             [
-                'fake-data-path/temp/fake-avatar-id.jpg',
+                'fake-data-path/img/users/2/img/fake-avatar-id.jpg',
                 'fake-data-path/img/users/2.jpg',
             ],
-        ], $endpoint->rename_calls);
+        ], $endpoint->copy_calls);
     }
 
     public function testUpdateUserEndpointSameEmail(): void {
@@ -387,7 +387,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'user' => 'test',
         ], $session->session_storage);
         $this->assertSame([], $endpoint->unlink_calls);
-        $this->assertSame([], $endpoint->rename_calls);
+        $this->assertSame([], $endpoint->copy_calls);
     }
 
     public function testUpdateUserEndpointWithExistingUsername(): void {
@@ -439,7 +439,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'user' => 'admin',
             ], $session->session_storage);
             $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->rename_calls);
+            $this->assertSame([], $endpoint->copy_calls);
         }
     }
 
@@ -492,7 +492,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'user' => 'admin',
             ], $session->session_storage);
             $this->assertSame([], $endpoint->unlink_calls);
-            $this->assertSame([], $endpoint->rename_calls);
+            $this->assertSame([], $endpoint->copy_calls);
         }
     }
 
@@ -515,7 +515,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             ...self::MINIMAL_INPUT,
             'data' => [
                 ...self::MINIMAL_INPUT['data'],
-                'avatarId' => '-',
+                'avatarImageId' => '-',
             ],
         ]);
 
@@ -555,7 +555,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             'fake-data-path/img/users/2.jpg',
         ], $endpoint->unlink_calls);
-        $this->assertSame([], $endpoint->rename_calls);
+        $this->assertSame([], $endpoint->copy_calls);
     }
 
     public function testUpdateUserEndpointNoAccess(): void {

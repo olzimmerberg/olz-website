@@ -6,7 +6,7 @@ namespace Olz\Tests\UnitTests\Apps\Logs\Endpoints;
 
 use Olz\Apps\Logs\Endpoints\GetLogsEndpoint;
 use Olz\Apps\Logs\Utils\BaseLogsChannel;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;

@@ -7,7 +7,7 @@
 namespace Olz\Startseite\Components\AbstractOlzTile;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 abstract class AbstractOlzTile extends OlzComponent {
     abstract public function getRelevance(?User $user): float;

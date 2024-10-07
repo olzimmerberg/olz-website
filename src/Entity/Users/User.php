@@ -1,21 +1,25 @@
 <?php
 
-namespace Olz\Entity;
+namespace Olz\Entity\Users;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\DataStorageInterface;
+use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Roles\Role;
-use Olz\Repository\UserRepository;
+use Olz\Repository\Users\UserRepository;
 
 #[ORM\Table(name: 'users')]
 #[ORM\Index(name: 'username_index', columns: ['username'])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User extends OlzEntity implements SearchableInterface {
+class User extends OlzEntity implements DataStorageInterface, SearchableInterface {
+    use DataStorageTrait;
+
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -71,6 +75,9 @@ class User extends OlzEntity implements SearchableInterface {
 
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $phone;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    public ?string $avatar_image_id;
 
     #[ORM\Column(type: 'text', nullable: false)]
     public string $permissions;
@@ -419,6 +426,14 @@ class User extends OlzEntity implements SearchableInterface {
 
     public function setSiCardNumber(?string $new_si_card_number): void {
         $this->si_card_number = $new_si_card_number;
+    }
+
+    public function getAvatarImageId(): ?string {
+        return $this->avatar_image_id;
+    }
+
+    public function setAvatarImageId(?string $new_value): void {
+        $this->avatar_image_id = $new_value;
     }
 
     public function getNotes(): string {

@@ -2,7 +2,7 @@
 
 namespace Olz\Startseite\Components\OlzJomCounterTile;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzJomCounterTile extends AbstractOlzTile {

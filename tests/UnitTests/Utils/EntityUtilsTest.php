@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\Common\OlzEntity;
-use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EntityUtils;
 use Olz\Utils\WithUtilsCache;

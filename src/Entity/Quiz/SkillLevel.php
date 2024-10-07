@@ -4,7 +4,7 @@ namespace Olz\Entity\Quiz;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Repository\Quiz\SkillLevelRepository;
 
 #[ORM\Table(name: 'quiz_skill_levels')]

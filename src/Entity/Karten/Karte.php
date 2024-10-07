@@ -137,6 +137,8 @@ class Karte extends OlzEntity implements DataStorageInterface {
         $this->vorschau = $new_value;
     }
 
+    // ---
+
     public static function getEntityNameForStorage(): string {
         return 'karten';
     }

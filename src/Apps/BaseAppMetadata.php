@@ -2,7 +2,7 @@
 
 namespace Olz\Apps;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
 
 abstract class BaseAppMetadata {

@@ -45,7 +45,7 @@ use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Entity\Throttling;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Anmelden\FakeBookingRepository;
 use Olz\Tests\Fake\Entity\Anmelden\FakeRegistrationInfoRepository;
 use Olz\Tests\Fake\Entity\Anmelden\FakeRegistrationRepository;
@@ -56,7 +56,6 @@ use Olz\Tests\Fake\Entity\FakeSolvEventRepository;
 use Olz\Tests\Fake\Entity\FakeStravaLinkRepository;
 use Olz\Tests\Fake\Entity\FakeTelegramLinkRepository;
 use Olz\Tests\Fake\Entity\FakeThrottlingRepository;
-use Olz\Tests\Fake\Entity\FakeUserRepository;
 use Olz\Tests\Fake\Entity\Karten\FakeKarteRepository;
 use Olz\Tests\Fake\Entity\News\FakeNewsRepository;
 use Olz\Tests\Fake\Entity\Quiz\FakeSkillCategoryRepository;
@@ -71,6 +70,7 @@ use Olz\Tests\Fake\Entity\Termine\FakeTerminLabelRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminLocationRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminTemplateRepository;
+use Olz\Tests\Fake\Entity\Users\FakeUserRepository;
 
 class FakeEntityManager implements EntityManagerInterface {
     public const AUTO_INCREMENT_ID = 270;

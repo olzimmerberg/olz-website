@@ -6,7 +6,7 @@
 
 namespace Olz\Startseite\Components\OlzTermineListsTile;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 use Olz\Termine\Utils\TermineFilterUtils;
 

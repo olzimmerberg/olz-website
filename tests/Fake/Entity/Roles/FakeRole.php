@@ -7,7 +7,7 @@ namespace Olz\Tests\Fake\Entity\Roles;
 use Olz\Entity\Roles\Role;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 
 /**
  * @extends FakeEntity<Role>

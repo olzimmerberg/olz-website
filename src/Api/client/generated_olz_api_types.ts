@@ -291,7 +291,7 @@ export type OlzUserData = {
     'countryCode': string|null,
     'siCardNumber': number|null,
     'solvNumber': string|null,
-    'avatarId': string|null,
+    'avatarImageId': string|null,
 };
 
 export type OlzUserDataOrNull = {
@@ -311,7 +311,7 @@ export type OlzUserDataOrNull = {
     'countryCode': string|null,
     'siCardNumber': number|null,
     'solvNumber': string|null,
-    'avatarId': string|null,
+    'avatarImageId': string|null,
 }|null;
 
 export type OlzBookingData = {

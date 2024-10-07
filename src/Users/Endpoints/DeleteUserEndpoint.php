@@ -74,10 +74,8 @@ class DeleteUserEndpoint extends OlzDeleteEntityEndpoint {
 
         // Remove avatar
         $data_path = $this->envUtils()->getDataPath();
-        $avatar_path = "{$data_path}img/users/{$entity->getId()}.jpg";
-        if ($this->isFile($avatar_path)) {
-            $this->unlink($avatar_path);
-        }
+        $avatar_path = "{$data_path}img/users/{$entity->getId()}";
+        $this->generalUtils()->removeRecursive($avatar_path);
 
         // Log out
         if ($this->session()->get('user') === $entity->getUsername()) {
@@ -121,17 +119,4 @@ class DeleteUserEndpoint extends OlzDeleteEntityEndpoint {
 
         return ['status' => 'OK'];
     }
-
-    // @codeCoverageIgnoreStart
-    // Reason: Mocked in tests.
-
-    protected function isFile(string $path): bool {
-        return is_file($path);
-    }
-
-    protected function unlink(string $path): void {
-        unlink($path);
-    }
-
-    // @codeCoverageIgnoreEnd
 }

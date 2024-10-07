@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Users\Endpoints;
 
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\EditUserEndpoint;
 use Olz\Utils\WithUtilsCache;
@@ -135,7 +135,7 @@ final class EditUserEndpointTest extends UnitTestCase {
                 'countryCode' => null,
                 'siCardNumber' => null,
                 'solvNumber' => null,
-                'avatarId' => null,
+                'avatarImageId' => null,
             ],
         ], $result);
     }
@@ -184,7 +184,7 @@ final class EditUserEndpointTest extends UnitTestCase {
                 'countryCode' => null,
                 'siCardNumber' => null,
                 'solvNumber' => null,
-                'avatarId' => null,
+                'avatarImageId' => null,
             ],
         ], $result);
     }
@@ -200,8 +200,11 @@ final class EditUserEndpointTest extends UnitTestCase {
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/users/');
         mkdir(__DIR__."/../../tmp/img/users/{$id}/");
-        file_put_contents(__DIR__."/../../tmp/img/users/{$id}.jpg", '');
-        file_put_contents(__DIR__."/../../tmp/img/users/{$id}@2x.jpg", '');
+        mkdir(__DIR__."/../../tmp/img/users/{$id}/img/");
+        mkdir(__DIR__."/../../tmp/img/users/{$id}/thumb/");
+        file_put_contents(__DIR__."/../../tmp/img/users/{$id}/img/image__________________1.jpg", '');
+        file_put_contents(__DIR__."/../../tmp/img/users/{$id}/thumb/image__________________1\$256.jpg", '');
+        file_put_contents(__DIR__."/../../tmp/img/users/{$id}/thumb/image__________________1\$128.jpg", '');
 
         $result = $endpoint->call([
             'id' => $id,
@@ -240,7 +243,7 @@ final class EditUserEndpointTest extends UnitTestCase {
                 'countryCode' => 'CH',
                 'siCardNumber' => 127001,
                 'solvNumber' => '000ADM',
-                'avatarId' => null,
+                'avatarImageId' => 'image__________________1.jpg',
             ],
         ], $result);
     }

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity;
 
 use Olz\Entity\TelegramLink;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 
 /**
  * @extends FakeOlzRepository<TelegramLink>

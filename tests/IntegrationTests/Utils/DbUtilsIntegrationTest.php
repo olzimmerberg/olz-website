@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Utils;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DbUtils;
 

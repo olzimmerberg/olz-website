@@ -17,7 +17,7 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\FakeNotificationSubscription;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Olz\Utils\WithUtilsTrait;

@@ -4,7 +4,7 @@ namespace Olz\Users\Endpoints;
 
 use Olz\Api\OlzUpdateEntityEndpoint;
 use Olz\Entity\Roles\Role;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
@@ -91,13 +91,13 @@ class UpdateUserEndpoint extends OlzUpdateEntityEndpoint {
         // TODO: Store avatar ID in DB
         $user_id = $entity->getId();
         $data_path = $this->envUtils()->getDataPath();
-        $avatar_id = $input['data']['avatarId'];
-        $source_path = "{$data_path}temp/{$avatar_id}";
+        $avatar_id = $input['data']['avatarImageId'];
+        $source_path = "{$data_path}img/users/{$user_id}/img/{$avatar_id}";
         $destination_path = "{$data_path}img/users/{$user_id}.jpg";
         if ($avatar_id === '-') {
             $this->unlink($destination_path);
         } elseif ($avatar_id) {
-            $this->rename($source_path, $destination_path);
+            $this->copy($source_path, $destination_path);
         }
 
         if ($is_username_updated && $this->session()->get('user') === $old_username) {
@@ -127,8 +127,8 @@ class UpdateUserEndpoint extends OlzUpdateEntityEndpoint {
         unlink($path);
     }
 
-    protected function rename(string $source_path, string $destination_path): void {
-        rename($source_path, $destination_path);
+    protected function copy(string $source_path, string $destination_path): void {
+        copy($source_path, $destination_path);
     }
 
     // @codeCoverageIgnoreEnd

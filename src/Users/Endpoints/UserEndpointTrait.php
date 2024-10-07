@@ -2,7 +2,7 @@
 
 namespace Olz\Users\Endpoints;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
@@ -36,7 +36,7 @@ trait UserEndpointTrait {
                 'countryCode' => new FieldTypes\StringField(['max_length' => 2, 'allow_null' => true]),
                 'siCardNumber' => new FieldTypes\IntegerField(['min_value' => 100000, 'allow_null' => true]),
                 'solvNumber' => new FieldTypes\StringField(['allow_null' => true]),
-                'avatarId' => new FieldTypes\StringField(['allow_null' => true]),
+                'avatarImageId' => new FieldTypes\StringField(['allow_null' => true]),
             ],
             'allow_null' => $allow_null,
         ]);
@@ -64,12 +64,16 @@ trait UserEndpointTrait {
                 : null,
             'solvNumber' => $entity->getSolvNumber(),
             // TODO: Store avatar ID in DB
-            'avatarId' => null,
+            'avatarImageId' => $entity->getAvatarImageId(),
         ];
     }
 
     /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(User $entity, array $input_data): void {
+        $valid_avatar_image_id = $input_data['avatarImageId']
+            ? $this->uploadUtils()->getValidUploadId($input_data['avatarImageId'])
+            : null;
+
         $entity->setParentUserId($input_data['parentUserId']);
         $entity->setUsername($input_data['username']);
         $entity->setFirstName($input_data['firstName']);
@@ -87,15 +91,20 @@ trait UserEndpointTrait {
         $entity->setCountryCode($input_data['countryCode']);
         $entity->setSiCardNumber($input_data['siCardNumber']);
         $entity->setSolvNumber($input_data['solvNumber']);
+        $entity->setAvatarImageId($valid_avatar_image_id);
     }
 
     /** @param array<string, mixed> $input_data */
     public function persistUploads(User $entity, array $input_data): void {
-        // TODO: Store avatar ID in DB
+        if ($entity->getAvatarImageId()) {
+            $this->persistOlzImages($entity, [$entity->getAvatarImageId()]);
+        }
     }
 
     public function editUploads(User $entity): void {
-        // TODO: Store avatar ID in DB
+        if ($entity->getAvatarImageId()) {
+            $this->editOlzImages($entity, [$entity->getAvatarImageId()]);
+        }
     }
 
     protected function getEntityById(int $id): User {

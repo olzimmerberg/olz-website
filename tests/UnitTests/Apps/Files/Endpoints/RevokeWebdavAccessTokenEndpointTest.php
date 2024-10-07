@@ -6,7 +6,7 @@ namespace Olz\Tests\UnitTests\Apps\Files\Endpoints;
 
 use Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint;
 use Olz\Tests\Fake\Entity\FakeAccessToken;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;

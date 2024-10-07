@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Entity;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 /**
  * @internal
  *
- * @covers \Olz\Entity\User
+ * @covers \Olz\Entity\Users\User
  */
 final class UserTest extends UnitTestCase {
     public function testUserGetPermissionMap(): void {

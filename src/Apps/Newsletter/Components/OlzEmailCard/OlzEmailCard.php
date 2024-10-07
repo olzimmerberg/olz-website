@@ -5,7 +5,7 @@ namespace Olz\Apps\Newsletter\Components\OlzEmailCard;
 use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 class OlzEmailCard extends OlzComponent {
     /** @param array<string, mixed> $args */

@@ -2,7 +2,7 @@
 
 namespace Olz\Command\SendDailyNotificationsCommand;
 
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 
 class Notification {
     public string $title;

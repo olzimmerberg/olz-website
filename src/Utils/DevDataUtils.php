@@ -555,8 +555,12 @@ class DevDataUtils {
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/termin_templates/1/img/bv3KeYVKDJNg3MTyjhSQsDRx.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/users");
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1.jpg", 84, 120);
-        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1@2x.jpg", 168, 240);
+        $this->mkdir("{$data_path}img/users/1");
+        $this->mkdir("{$data_path}img/users/1/img");
+        $this->mkdir("{$data_path}img/users/1/thumb");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1/img/8sVwnV3aAEtQUUxmQYFmojMs.jpg", 300, 300);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1/thumb/8sVwnV3aAEtQUUxmQYFmojMs.jpg\$256.jpg", 256, 256);
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/1/thumb/8sVwnV3aAEtQUUxmQYFmojMs.jpg\$128.jpg", 128, 128);
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/users/3.jpg", 84, 120);
 
         // Build movies/

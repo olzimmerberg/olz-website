@@ -6,8 +6,8 @@ namespace Olz\Tests\UnitTests\Snippets\Endpoints;
 
 use Olz\Snippets\Endpoints\EditSnippetEndpoint;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
-use Olz\Tests\Fake\Entity\FakeUser;
 use Olz\Tests\Fake\Entity\Snippets\FakeSnippet;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;

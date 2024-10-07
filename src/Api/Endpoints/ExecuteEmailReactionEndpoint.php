@@ -5,7 +5,7 @@ namespace Olz\Api\Endpoints;
 use Olz\Api\OlzEndpoint;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 class ExecuteEmailReactionEndpoint extends OlzEndpoint {

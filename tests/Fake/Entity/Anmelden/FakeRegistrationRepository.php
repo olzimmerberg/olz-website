@@ -6,7 +6,7 @@ namespace Olz\Tests\Fake\Entity\Anmelden;
 
 use Olz\Entity\Anmelden\Registration;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\FakeEntityManager;
 
 /**

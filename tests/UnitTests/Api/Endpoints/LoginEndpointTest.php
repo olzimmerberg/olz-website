@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\LoginEndpoint;
 use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
-use Olz\Tests\Fake\Entity\FakeUser;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;

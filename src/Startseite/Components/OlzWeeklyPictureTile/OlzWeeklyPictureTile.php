@@ -7,7 +7,7 @@
 namespace Olz\Startseite\Components\OlzWeeklyPictureTile;
 
 use Olz\Entity\Startseite\WeeklyPicture;
-use Olz\Entity\User;
+use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzWeeklyPictureTile extends AbstractOlzTile {

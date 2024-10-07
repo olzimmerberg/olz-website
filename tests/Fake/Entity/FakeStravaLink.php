@@ -6,6 +6,7 @@ namespace Olz\Tests\Fake\Entity;
 
 use Olz\Entity\StravaLink;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 
 /**
  * @extends FakeEntity<StravaLink>

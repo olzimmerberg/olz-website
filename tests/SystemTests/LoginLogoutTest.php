@@ -21,17 +21,14 @@ final class LoginLogoutTest extends SystemTestCase {
 
         $this->click('#account-menu-link');
         $this->click('#login-menu-item');
-        $browser->wait()->until(function () {
-            return $this->findBrowserElement('#login-modal')->getCssValue('opacity') == 1;
-        });
-        usleep(100 * 1000);
+        $this->waitForModal('#login-modal');
 
         $this->screenshot('login_modal');
 
         $this->sendKeys('#login-modal #usernameOrEmail-input', 'admin');
         $this->sendKeys('#login-modal #password-input', 'adm1n');
         $this->click('#login-modal #submit-button');
-        sleep(1);
+        $this->waitUntilGone('#login-modal');
 
         $browser->get($this->getUrl());
 
@@ -39,7 +36,7 @@ final class LoginLogoutTest extends SystemTestCase {
         $this->screenshot('logout_account_menu');
 
         $this->click('#logout-menu-item');
-        usleep(100 * 1000);
+        $this->waitABit();
 
         $browser->get($this->getUrl());
 

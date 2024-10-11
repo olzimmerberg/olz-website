@@ -22,9 +22,7 @@ final class ProfilTest extends SystemTestCase {
         $this->screenshot('profil_admin');
 
         $this->click('#change-password-button');
-        $browser->wait()->until(function () {
-            return $this->findBrowserElement('#change-password-modal')->getCssValue('opacity') == 1;
-        });
+        $this->waitForModal('#change-password-modal');
         $this->sendKeys('#change-password-modal #oldPassword-input', 'kurz');
         $this->sendKeys('#change-password-modal #newPassword-input', 'zukurz');
         $this->sendKeys('#change-password-modal #newPasswordRepeat-input', 'anders');

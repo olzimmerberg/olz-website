@@ -48,27 +48,28 @@ final class KartenTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-karte-button');
-        $this->sendKeys('#name-input', 'Die Karte');
-        $this->sendKeys('#latitude-input', '46.83474');
-        $this->sendKeys('#longitude-input', '9.21544');
-        $this->sendKeys('#year-input', '2020');
-        $this->sendKeys('#scale-input', '1:15\'000');
-        $this->click('#isKindScool-input');
-        $this->sendKeys('#place-input', 'Wuut');
-        $this->sendKeys('#zoom-input', '2');
+        $this->waitForModal('#edit-karte-modal');
+        $this->sendKeys('#edit-karte-modal #name-input', 'Die Karte');
+        $this->sendKeys('#edit-karte-modal #latitude-input', '46.83474');
+        $this->sendKeys('#edit-karte-modal #longitude-input', '9.21544');
+        $this->sendKeys('#edit-karte-modal #year-input', '2020');
+        $this->sendKeys('#edit-karte-modal #scale-input', '1:15\'000');
+        $this->click('#edit-karte-modal #isKindScool-input');
+        $this->sendKeys('#edit-karte-modal #place-input', 'Wuut');
+        $this->sendKeys('#edit-karte-modal #zoom-input', '2');
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
-        $this->sendKeys('#images-upload input[type=file]', $image_path);
+        $this->sendKeys('#edit-karte-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#images-upload .olz-upload-image.uploaded')
+                WebDriverBy::cssSelector('#edit-karte-modal #images-upload .olz-upload-image.uploaded')
             );
             return count($image_uploaded) == 1;
         });
 
         $this->screenshot('karten_new_edit');
 
-        $this->click('#submit-button');
-        sleep(1);
+        $this->click('#edit-karte-modal #submit-button');
+        $this->waitUntilGone('#edit-karte-modal');
         $this->screenshot('karten_new_finished');
 
         $this->resetDb();

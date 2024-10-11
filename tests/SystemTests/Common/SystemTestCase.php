@@ -102,7 +102,7 @@ class SystemTestCase extends TestCase {
         try {
             $this->doClick($css_selector);
         } catch (\Throwable $th) {
-            usleep(100 * 1000);
+            $this->waitABit();
             $this->doClick($css_selector);
         }
     }
@@ -110,7 +110,7 @@ class SystemTestCase extends TestCase {
     protected function doClick(string $css_selector): void {
         $element = $this->findBrowserElement($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
-        usleep(100 * 1000);
+        $this->waitABit();
         $element->click();
     }
 
@@ -118,7 +118,7 @@ class SystemTestCase extends TestCase {
         try {
             $this->doClear($css_selector);
         } catch (\Throwable $th) {
-            usleep(100 * 1000);
+            $this->waitABit();
             $this->doClear($css_selector);
         }
     }
@@ -126,7 +126,7 @@ class SystemTestCase extends TestCase {
     protected function doClear(string $css_selector): void {
         $element = $this->findBrowserElement($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
-        usleep(100 * 1000);
+        $this->waitABit();
         $element->clear();
     }
 
@@ -134,7 +134,7 @@ class SystemTestCase extends TestCase {
         try {
             $this->doSendKeys($css_selector, $string);
         } catch (\Throwable $th) {
-            usleep(100 * 1000);
+            $this->waitABit();
             $this->doSendKeys($css_selector, $string);
         }
     }
@@ -142,8 +142,12 @@ class SystemTestCase extends TestCase {
     protected function doSendKeys(string $css_selector, string $string): void {
         $element = $this->findBrowserElement($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
-        usleep(100 * 1000);
+        $this->waitABit();
         $element->sendKeys($string);
+    }
+
+    protected function waitABit(): void {
+        usleep(100 * 1000);
     }
 
     protected function waitForModal(string $css_selector): void {
@@ -328,7 +332,7 @@ class SystemTestCase extends TestCase {
                 return;
             }
             echo "DB content reset failed: {$output}\n";
-            usleep(100 * 1000);
+            $this->waitABit();
         }
         throw new \Exception("Resetting dev data timed out");
     }

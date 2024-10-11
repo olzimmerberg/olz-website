@@ -48,24 +48,25 @@ final class TerminOrteTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-termin-location-button');
-        $this->sendKeys('#name-input', 'Der Austragungsort');
-        $this->sendKeys('#details-input', '...ist perfekt!');
-        $this->sendKeys('#latitude-input', '46.83479');
-        $this->sendKeys('#longitude-input', '9.21555');
+        $this->waitForModal('#edit-termin-location-modal');
+        $this->sendKeys('#edit-termin-location-modal #name-input', 'Der Austragungsort');
+        $this->sendKeys('#edit-termin-location-modal #details-input', '...ist perfekt!');
+        $this->sendKeys('#edit-termin-location-modal #latitude-input', '46.83479');
+        $this->sendKeys('#edit-termin-location-modal #longitude-input', '9.21555');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
-        $this->sendKeys('#images-upload input[type=file]', $image_path);
+        $this->sendKeys('#edit-termin-location-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#images-upload .olz-upload-image.uploaded')
+                WebDriverBy::cssSelector('#edit-termin-location-modal #images-upload .olz-upload-image.uploaded')
             );
             return count($image_uploaded) == 1;
         });
 
         $this->screenshot('termin_locations_new_edit');
 
-        $this->click('#submit-button');
-        sleep(1);
+        $this->click('#edit-termin-location-modal #submit-button');
+        $this->waitUntilGone('#edit-termin-location-modal');
         $browser->get("{$this->getUrl()}/4");
         $this->screenshot('termin_locations_new_finished');
 

@@ -91,15 +91,15 @@ final class StartseiteTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#important-banner .olz-editable-text .olz-edit-button');
-        sleep(1);
 
+        $this->waitForModal('#edit-snippet-modal');
         $this->sendKeys('#edit-snippet-modal #text-input', 'Neue Information!');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         $this->sendKeys('#edit-snippet-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#images-upload .olz-upload-image.uploaded')
+                WebDriverBy::cssSelector('#edit-snippet-modal #images-upload .olz-upload-image.uploaded')
             );
             return count($image_uploaded) == 1;
         });

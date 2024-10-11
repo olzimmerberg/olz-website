@@ -35,7 +35,7 @@ final class ResultateTest extends SystemTestCase {
 
     protected function doResultateReadOnly(RemoteWebDriver $browser): void {
         $browser->get("{$this->getUrl()}/?file=results.xml#/class0");
-        sleep(1);
+        $this->waitABit();
 
         $this->click('input#chk-0');
         $this->click('input#chk-1');

@@ -30,42 +30,43 @@ final class TerminVorlagenTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-termin-template-button');
-        usleep(100 * 1000);
-        $this->sendKeys('#startTime-input', '14:00');
-        $this->sendKeys('#durationSeconds-input', '7200');
-        $this->sendKeys('#title-input', 'Die Event-Vorlage');
-        $this->sendKeys('#text-input', "...wird jedes Mal episch!\n\n[immer dasselbe](https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822)");
-        $this->sendKeys('#deadlineEarlierSeconds-input', '259200');
-        $this->sendKeys('#deadlineTime-input', '23:59:59');
-        $this->click('#types-programm-input');
-        $this->click('#types-ol-input');
-        $this->click('#locationId-field button[data-bs-toggle="dropdown"]');
-        $this->click('#locationId-field #entity-index-1');
+        $this->waitForModal('#edit-termin-template-modal');
+        $this->sendKeys('#edit-termin-template-modal #startTime-input', '14:00');
+        $this->sendKeys('#edit-termin-template-modal #durationSeconds-input', '7200');
+        $this->sendKeys('#edit-termin-template-modal #title-input', 'Die Event-Vorlage');
+        $this->sendKeys('#edit-termin-template-modal #text-input', "...wird jedes Mal episch!\n\n[immer dasselbe](https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822)");
+        $this->sendKeys('#edit-termin-template-modal #deadlineEarlierSeconds-input', '259200');
+        $this->sendKeys('#edit-termin-template-modal #deadlineTime-input', '23:59:59');
+        $this->click('#edit-termin-template-modal #types-programm-input');
+        $this->click('#edit-termin-template-modal #types-ol-input');
+        $this->click('#edit-termin-template-modal #locationId-field button[data-bs-toggle="dropdown"]');
+        $this->click('#edit-termin-template-modal #locationId-field #entity-index-1');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
-        $this->sendKeys('#images-upload input[type=file]', $image_path);
+        $this->sendKeys('#edit-termin-template-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#images-upload .olz-upload-image.uploaded')
+                WebDriverBy::cssSelector('#edit-termin-template-modal #images-upload .olz-upload-image.uploaded')
             );
             return count($image_uploaded) == 1;
         });
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
-        $this->sendKeys('#files-upload input[type=file]', $document_path);
+        $this->sendKeys('#edit-termin-template-modal #files-upload input[type=file]', $document_path);
         $browser->wait()->until(function () use ($browser) {
             $file_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#files-upload .olz-upload-file.uploaded')
+                WebDriverBy::cssSelector('#edit-termin-template-modal #files-upload .olz-upload-file.uploaded')
             );
             return count($file_uploaded) == 1;
         });
 
-        $this->click('#hasNewsletter-input');
+        $this->click('#edit-termin-template-modal #hasNewsletter-input');
 
         $this->screenshot('termin_templates_new_edit');
 
-        $this->click('#submit-button');
-        sleep(1);
+        $this->click('#edit-termin-template-modal #submit-button');
+        $this->waitUntilGone('#edit-termin-template-modal');
+
         $browser->get("{$this->getUrl()}/7");
         $this->screenshot('termin_templates_new_finished');
 

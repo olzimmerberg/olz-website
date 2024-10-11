@@ -21,17 +21,11 @@ final class ResetPasswordTest extends SystemTestCase {
 
         $this->click('#account-menu-link');
         $this->click('#login-menu-item');
-        $browser->wait()->until(function () {
-            return $this->findBrowserElement('#login-modal')->getCssValue('opacity') == 1;
-        });
+        $this->waitForModal('#login-modal');
         $this->click('#login-modal #reset-password-link');
-        $browser->wait()->until(function () {
-            return $this->findBrowserElement('#reset-password-modal')->getCssValue('opacity') == 1;
-        });
+        $this->waitForModal('#reset-password-modal');
         $this->sendKeys('#reset-password-modal #usernameOrEmail-input', 'benutzer');
         $this->click('#reset-password-modal #recaptcha-consent-given-input');
-        sleep(random_int(2, 3));
-        usleep(random_int(0, 999999));
         $this->screenshot('profil_password_reset');
         $this->click('#reset-password-modal #submit-button');
         $this->waitUntilGone('#reset-password-modal');
@@ -57,7 +51,7 @@ final class ResetPasswordTest extends SystemTestCase {
 
         $browser->get($link);
         $this->click('#execute-reaction-button');
-        usleep(100 * 1000); // Wait until executed
+        $this->waitABit(); // Wait until executed
 
         $this->login('benutzer', 'b3nu723r');
         $browser->get("{$this->getTargetUrl()}/benutzer/ich");

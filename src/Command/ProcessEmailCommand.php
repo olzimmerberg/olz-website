@@ -39,7 +39,6 @@ class ProcessEmailCommand extends OlzCommand {
     public int $archiveAfterSeconds = 60 * 60;
     public int $deleteArchivedAfterSeconds = 30 * 24 * 60 * 60;
     public int $deleteSpamAfterSeconds = 365 * 24 * 60 * 60;
-    public int $respondToSpamPercent = 100; // 0 = never respond, 100 = always respond
     public string $host = 'olzimmerberg.ch';
     public string $processed_mailbox = 'INBOX.Processed';
     public string $archive_mailbox = 'INBOX.Archive';
@@ -251,9 +250,6 @@ class ProcessEmailCommand extends OlzCommand {
         $username = $matches[1];
         if ($this->emailUtils()->isSpamEmailAddress($username)) {
             $this->log()->info("Received honeypot spam E-Mail to: {$username}");
-            if ($this->shouldRespondToSpam()) {
-                $this->sendSpamResponseHoneypotEmail($mail, $address);
-            }
             return 1;
         }
 
@@ -518,45 +514,5 @@ class ProcessEmailCommand extends OlzCommand {
         }
 
         return $report_message;
-    }
-
-    protected function shouldRespondToSpam(): bool {
-        return rand(0, 99) < $this->respondToSpamPercent;
-    }
-
-    protected function sendSpamResponseHoneypotEmail(Message $mail, ?string $address): void {
-        $honeypot_username = $this->emailUtils()->generateSpamEmailAddress();
-        $honeypot_name = implode(' ', array_map(function ($part) {
-            return ucfirst($part);
-        }, explode('.', $honeypot_username)));
-        $honeypot_address = "{$honeypot_username}@olzimmerberg.ch";
-        $honeypot_contact = new Address($honeypot_address, $honeypot_name);
-        $from = null; // for exception handling below
-        try {
-            $from = $mail->getFrom()->first();
-            $spammer_contact = new Address($from->mail, $from->personal);
-            $subject = "Re: {$mail->getSubject()->first()}";
-            $mail->parseBody();
-            $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
-            $text = $mail->hasTextBody() ? $mail->getTextBody() : null;
-            if (!$html) {
-                $html = nl2br($text);
-            }
-            $this->emailUtils()->setLogger($this->log());
-
-            $email = (new Email())
-                ->from($honeypot_contact)
-                ->to($spammer_contact)
-                ->subject($subject)
-                ->text($text ? $text : '')
-                ->html($html ? $html : '')
-            ;
-            $envelope = new Envelope($honeypot_contact, [$spammer_contact]);
-            $this->mailer->send($email, $envelope);
-            $this->log()->info("Responded as honeypot {$honeypot_address} to spam email sent from {$from->mail} to {$address}");
-        } catch (\Exception $exc) {
-            $message = $exc->getMessage();
-            $this->log()->critical("Error responding as honeypot {$honeypot_address} to spam email sent from {$from->mail} to {$address}: {$message}", [$exc]);
-        }
     }
 }

@@ -117,6 +117,15 @@ class OlzMenu extends OlzComponent {
                         <img src='{$code_href}assets/icns/facebook_16.svg' alt='f' class='noborder' />
                     </a>
                     <a
+                        href='https://www.instagram.com/olzimmerberg'
+                        target='_blank'
+                        rel='noreferrer noopener'
+                        title='OL Zimmerberg auf Instagram'
+                        class='platform-link'
+                    >
+                        <img src='{$code_href}assets/icns/instagram_16.svg' alt='i' class='noborder' />
+                    </a>
+                    <a
                         href='https://www.strava.com/clubs/olzimmerberg'
                         target='_blank'
                         rel='noreferrer noopener'

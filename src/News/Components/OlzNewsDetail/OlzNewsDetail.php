@@ -227,14 +227,14 @@ class OlzNewsDetail extends OlzComponent {
 
             $content_to_show = $youtube_match ? "<a href='{$content}'>Link zu YouTube, falls das Video nicht abgespielt werden kann</a>" : $content;
             $out .= "<div class='video-container'>";
-            $out .= "<div style='background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
+            $out .= "<div style='background-image:url({$code_href}assets/icns/movie_dot.svg);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
             if ($youtube_match != null) {
                 $out .= "<iframe width='560' height='315' src='https://www.youtube.com/embed/{$youtube_match}' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
             } else {
                 $this->log()->error("Invalid YouTube link (ID:{$id}): {$youtube_url}");
                 $out .= "Fehlerhafter YouTube-Link!";
             }
-            $out .= "<div style='background-image:url({$code_href}assets/icns/movie_dot.gif);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";
+            $out .= "<div style='background-image:url({$code_href}assets/icns/movie_dot.svg);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>";
             $out .= "</div>";
         } else {
             $out .= "<div class='lightgallery'><p><b>{$teaser}</b><p>{$content}</p></div>\n";

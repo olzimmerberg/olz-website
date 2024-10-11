@@ -63,6 +63,9 @@ echo "\n";
 $all_approved = true;
 $approvals_needed = [];
 foreach (array_keys($all_screenshots) as $screenshot_name) {
+    if (substr($screenshot_name, 0, 13) === 'testing_error') {
+        continue;
+    }
     $has_local = isset($local_screenshots[$screenshot_name]);
     $has_remote = isset($remote_screenshots[$screenshot_name]);
     $change = 'UNKNOWN';

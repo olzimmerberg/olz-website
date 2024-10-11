@@ -69,7 +69,6 @@ final class NewsAktuellTest extends SystemTestCase {
         $browser->get("{$this->getUrl()}/5");
 
         $this->click('#edit-news-button');
-        $this->click('#edit-news-modal #content-input');
         $this->sendKeys('#edit-news-modal #content-input', "\n\n!!! UPDATE !!!: Dieser Eintrag wurde aktualisiert!");
         $this->screenshot('news_update_aktuell_edit');
 

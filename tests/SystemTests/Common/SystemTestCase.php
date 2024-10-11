@@ -99,6 +99,15 @@ class SystemTestCase extends TestCase {
     }
 
     protected function click(string $css_selector): void {
+        try {
+            $this->doClick($css_selector);
+        } catch (\Throwable $th) {
+            usleep(100 * 1000);
+            $this->doClick($css_selector);
+        }
+    }
+
+    protected function doClick(string $css_selector): void {
         $element = $this->findBrowserElement($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
         usleep(100 * 1000);
@@ -106,6 +115,15 @@ class SystemTestCase extends TestCase {
     }
 
     protected function clear(string $css_selector): void {
+        try {
+            $this->doClear($css_selector);
+        } catch (\Throwable $th) {
+            usleep(100 * 1000);
+            $this->doClear($css_selector);
+        }
+    }
+
+    protected function doClear(string $css_selector): void {
         $element = $this->findBrowserElement($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
         usleep(100 * 1000);
@@ -113,6 +131,15 @@ class SystemTestCase extends TestCase {
     }
 
     protected function sendKeys(string $css_selector, string $string): void {
+        try {
+            $this->doSendKeys($css_selector, $string);
+        } catch (\Throwable $th) {
+            usleep(100 * 1000);
+            $this->doSendKeys($css_selector, $string);
+        }
+    }
+
+    protected function doSendKeys(string $css_selector, string $string): void {
         $element = $this->findBrowserElement($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
         usleep(100 * 1000);
@@ -225,6 +252,15 @@ class SystemTestCase extends TestCase {
             });
             self::$shutdownFunctionRegistered = true;
         }
+    }
+
+    public function onNotSuccessfulTest(\Throwable $t): void {
+        try {
+            $this->screenshot('testing_error');
+        } catch (\Throwable $th) {
+            echo "\n  Could not get testing_error screenshot!\n";
+        }
+        throw $t;
     }
 
     // Auth

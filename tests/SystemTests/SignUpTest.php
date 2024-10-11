@@ -37,12 +37,11 @@ final class SignUpTest extends SystemTestCase {
 
         $this->click('#account-menu-link');
         $this->click('#login-menu-item');
-        $browser->wait()->until(function () {
-            return $this->findBrowserElement('#login-modal')->getCssValue('opacity') == 1;
-        });
-        usleep(100 * 1000);
+        $this->waitForModal('#login-modal');
+        $this->waitABit();
         $this->click('#sign-up-link');
 
+        $this->waitForModal('#edit-user-modal');
         $this->sendKeys('#edit-user-modal #firstName-input', 'Integration T.');
         $this->sendKeys('#edit-user-modal #lastName-input', 'User');
         $this->click('#edit-user-modal #username-input');
@@ -78,13 +77,9 @@ final class SignUpTest extends SystemTestCase {
         $this->clear('#edit-user-modal #birthdate-input');
         $this->sendKeys('#edit-user-modal #birthdate-input', '13.1.2006');
         $this->click('#edit-user-modal #recaptcha-consent-given-input');
-        sleep(random_int(2, 3));
-        usleep(random_int(0, 999999));
         $this->click('#edit-user-modal #cookie-consent-given-input');
-        sleep(random_int(0, 1));
-        usleep(random_int(0, 999999));
         $this->click('#edit-user-modal #submit-button');
-        sleep(1);
+        $this->waitUntilGone('#edit-user-modal');
         $this->screenshot('sign_up_submitted');
 
         $browser->get("{$this->getTargetUrl()}/apps/files/webdav/");

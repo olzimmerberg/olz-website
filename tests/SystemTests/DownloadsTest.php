@@ -22,6 +22,7 @@ final class DownloadsTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-download-button');
+        $this->waitForModal('#edit-download-modal');
         $this->sendKeys('#edit-download-modal #name-input', 'Neues Jahresprogramm');
         $this->sendKeys('#edit-download-modal #position-input', '0');
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
@@ -35,8 +36,8 @@ final class DownloadsTest extends SystemTestCase {
 
         $this->screenshot('downloads_new_edit');
 
-        $this->click('#submit-button');
-        sleep(1);
+        $this->click('#edit-download-modal #submit-button');
+        $this->waitUntilGone('#edit-download-modal');
         $this->screenshot('downloads_new_finished');
 
         $this->resetDb();

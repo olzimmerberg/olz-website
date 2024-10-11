@@ -21,7 +21,7 @@ final class VerifyEmailTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#verify-user-email-link');
-        usleep(100 * 1000); // Wait a bit
+        $this->waitForModal('#verify-user-email-modal');
         $this->screenshot('profil_verify_email');
         $this->click('#verify-user-email-modal #submit-button');
         $this->waitUntilGone('#verify-user-email-modal');
@@ -44,7 +44,7 @@ final class VerifyEmailTest extends SystemTestCase {
 
         $browser->get($link);
         $this->click('#execute-reaction-button');
-        usleep(100 * 1000); // Wait until executed
+        $this->waitABit(); // Wait until executed
 
         $this->login('benutzer', 'b3nu723r');
         $browser->get($this->getUrl());

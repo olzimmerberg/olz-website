@@ -21,13 +21,14 @@ final class LinksTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-link-button');
+        $this->waitForModal('#edit-link-modal');
         $this->sendKeys('#edit-link-modal #name-input', 'OLZ');
         $this->sendKeys('#edit-link-modal #position-input', '0');
         $this->sendKeys('#edit-link-modal #url-input', 'https://olzimmerberg.ch');
         $this->screenshot('links_new_edit');
 
-        $this->click('#submit-button');
-        sleep(1);
+        $this->click('#edit-link-modal #submit-button');
+        $this->waitUntilGone('#edit-link-modal');
         $this->screenshot('links_new_finished');
 
         $this->resetDb();

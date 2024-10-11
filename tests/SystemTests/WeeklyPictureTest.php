@@ -49,6 +49,7 @@ final class WeeklyPictureTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-weekly-picture-button');
+        $this->waitForModal('#edit-weekly-picture-modal');
         $this->sendKeys('#edit-weekly-picture-modal #text-input', 'Neues Bild der Woche');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
@@ -63,7 +64,7 @@ final class WeeklyPictureTest extends SystemTestCase {
         $this->screenshot('weekly_picture_new_edit');
 
         $this->click('#edit-weekly-picture-modal #submit-button');
-        sleep(1);
+        $this->waitUntilGone('#edit-weekly-picture-modal');
         $this->screenshot('weekly_picture_new_finished');
 
         $this->resetDb();

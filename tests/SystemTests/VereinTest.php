@@ -109,19 +109,20 @@ final class VereinTest extends SystemTestCase {
     public function testAddRessortAssignee(): void {
         $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
-        $browser->get("{$this->getUrl()}/finanzen");
 
+        $browser->get("{$this->getUrl()}/finanzen");
         $this->assertCount(2, $this->getBrowserElements('.olz-user-info-card-list .assignee'));
         $this->click('#add-role-user-button');
         $this->waitForModal('#add-role-user-modal');
         $this->click('#add-role-user-modal #newUser-field #dropdownMenuButton');
         $this->sendKeys('#add-role-user-modal #newUser-field #entity-search-input', 'Nutzer');
-        sleep(1);
+        $this->waitABit(); // wait for users
         $this->screenshot('verein_add_assignee');
         $this->click('#add-role-user-modal #newUser-field #entity-index-0');
-        sleep(1);
         $this->click('#add-role-user-modal #submit-button');
         $this->waitUntilGone('#add-role-user-modal');
+
+        $browser->get("{$this->getUrl()}/finanzen");
         $this->assertCount(3, $this->getBrowserElements('.olz-user-info-card-list .assignee'));
 
         $this->resetDb();
@@ -131,13 +132,15 @@ final class VereinTest extends SystemTestCase {
     public function testRemoveRessortAssignee(): void {
         $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
-        $browser->get("{$this->getUrl()}/finanzen");
 
+        $browser->get("{$this->getUrl()}/finanzen");
         $this->assertCount(2, $this->getBrowserElements('.olz-user-info-card-list .assignee'));
         $this->click('.olz-user-info-card-list .assignee:nth-of-type(2) #delete-role-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
-        sleep(1);
+        $this->waitUntilGone('#confirmation-dialog-modal');
+
+        $browser->get("{$this->getUrl()}/finanzen");
         $this->assertCount(1, $this->getBrowserElements('.olz-user-info-card-list .assignee'));
 
         $this->resetDb();
@@ -163,6 +166,7 @@ final class VereinTest extends SystemTestCase {
         $this->click('#edit-role-modal #submit-button');
         $this->waitUntilGone('#edit-role-modal');
 
+        $browser->get("{$this->getUrl()}/finanzen");
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/rechnungspruefer")['http_code']);
         $this->assertStringContainsString('Rechnungsprüfer', $this->getBrowserElement('#sub-roles')->getText());
 
@@ -178,9 +182,9 @@ final class VereinTest extends SystemTestCase {
         $this->click('#delete-role-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
-        sleep(1);
         $this->waitUntilGone('#confirmation-dialog-modal');
 
+        $browser->get("{$this->getUrl()}/revisoren");
         $this->assertSame(404, $this->getHeaders("{$this->getUrl()}/revisoren")['http_code']);
 
         $this->resetDb();

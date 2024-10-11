@@ -23,6 +23,7 @@ final class NewsAktuellTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-news-button');
+        $this->waitForModal('#edit-news-modal');
         $this->click('#edit-news-modal #authorUserId-authorRoleId-field #dropdownMenuButton');
         $this->click('#edit-news-modal #authorUserId-authorRoleId-field #role-index-0');
         $format_select = new WebDriverSelect($this->findBrowserElement('#edit-news-modal #format-input'));
@@ -52,7 +53,7 @@ final class NewsAktuellTest extends SystemTestCase {
         $this->screenshot('news_new_aktuell_edit');
 
         $this->click('#edit-news-modal #submit-button');
-        sleep(1);
+        $this->waitUntilGone('#edit-news-modal');
         $this->screenshot('news_new_aktuell_finished');
 
         $this->resetDb();
@@ -69,11 +70,12 @@ final class NewsAktuellTest extends SystemTestCase {
         $browser->get("{$this->getUrl()}/5");
 
         $this->click('#edit-news-button');
+        $this->waitForModal('#edit-news-modal');
         $this->sendKeys('#edit-news-modal #content-input', "\n\n!!! UPDATE !!!: Dieser Eintrag wurde aktualisiert!");
         $this->screenshot('news_update_aktuell_edit');
 
         $this->click('#edit-news-modal #submit-button');
-        sleep(1);
+        $this->waitUntilGone('#edit-news-modal');
         $this->screenshot('news_update_aktuell_finished');
 
         $this->resetDb();

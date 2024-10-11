@@ -52,42 +52,43 @@ final class TermineTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#create-termin-button');
-        usleep(100 * 1000); // Wait for TerminLabels
-        $this->sendKeys('#startTime-input', '14:00');
-        $this->sendKeys('#endDate-input', '2020-08-15');
-        $this->sendKeys('#endTime-input', '18:00');
-        $this->sendKeys('#title-input', 'Der Event');
-        $this->sendKeys('#text-input', "...wird episch!\n\n[Infos](https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822)");
-        $this->sendKeys('#deadline-input', '2020-08-01 23:59:59');
-        $this->click('#types-programm-input');
-        $this->click('#types-ol-input');
-        $this->click('#locationId-field button[data-bs-toggle="dropdown"]');
-        $this->click('#locationId-field #entity-index-1');
+        $this->waitForModal('#edit-termin-modal');
+        $this->waitABit(); // Wait for TerminLabels
+        $this->sendKeys('#edit-termin-modal #startTime-input', '14:00');
+        $this->sendKeys('#edit-termin-modal #endDate-input', '2020-08-15');
+        $this->sendKeys('#edit-termin-modal #endTime-input', '18:00');
+        $this->sendKeys('#edit-termin-modal #title-input', 'Der Event');
+        $this->sendKeys('#edit-termin-modal #text-input', "...wird episch!\n\n[Infos](https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822)");
+        $this->sendKeys('#edit-termin-modal #deadline-input', '2020-08-01 23:59:59');
+        $this->click('#edit-termin-modal #types-programm-input');
+        $this->click('#edit-termin-modal #types-ol-input');
+        $this->click('#edit-termin-modal #locationId-field button[data-bs-toggle="dropdown"]');
+        $this->click('#edit-termin-modal #locationId-field #entity-index-1');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
-        $this->sendKeys('#images-upload input[type=file]', $image_path);
+        $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#images-upload .olz-upload-image.uploaded')
+                WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
             );
             return count($image_uploaded) == 1;
         });
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
-        $this->sendKeys('#files-upload input[type=file]', $document_path);
+        $this->sendKeys('#edit-termin-modal #files-upload input[type=file]', $document_path);
         $browser->wait()->until(function () use ($browser) {
             $file_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#files-upload .olz-upload-file.uploaded')
+                WebDriverBy::cssSelector('#edit-termin-modal #files-upload .olz-upload-file.uploaded')
             );
             return count($file_uploaded) == 1;
         });
 
-        $this->click('#hasNewsletter-input');
+        $this->click('#edit-termin-modal #hasNewsletter-input');
 
         $this->screenshot('termine_new_edit');
 
-        $this->click('#submit-button');
-        sleep(1);
+        $this->click('#edit-termin-modal #submit-button');
+        $this->waitUntilGone('#edit-termin-modal');
         $browser->get("{$this->getUrl()}/1002");
         $this->screenshot('termine_new_finished');
 

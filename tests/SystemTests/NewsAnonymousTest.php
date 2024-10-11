@@ -28,17 +28,17 @@ final class NewsAnonymousTest extends SystemTestCase {
 
         $this->click('#create-news-button');
         $this->click('#create-anonymous-button');
+        $this->waitForModal('#edit-news-modal');
         $this->sendKeys('#edit-news-modal #authorName-input', 'Anonymous Integration Test');
+        $this->sendKeys('#edit-news-modal #authorEmail-input', 'anonymous@staging.olzimmerberg.ch');
         $this->sendKeys('#edit-news-modal #title-input', 'Der Eintrag');
         $this->sendKeys('#edit-news-modal #content-input', "Der Inhalt des Eintrags");
         $this->click('#edit-news-modal #recaptcha-consent-given-input');
-        sleep(random_int(2, 3));
-        usleep(random_int(0, 999999));
 
         $this->screenshot('news_new_anonymous_edit');
 
         $this->click('#edit-news-modal #submit-button');
-        sleep(1);
+        $this->waitUntilGone('#edit-news-modal');
         $this->screenshot('news_new_anonymous_finished');
         $this->resetDb();
     }

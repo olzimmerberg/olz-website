@@ -515,8 +515,8 @@ input.button,
 
 .rendered-markdown table thead,
 .tablebar {
-    background-image: url('../../../../assets/icns/listheaderbg.png') !important;
-    background-repeat: repeat;
+    background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg);
+    background-color: colors.$olz-bg-bright;
 }
 
 .rendered-markdown table th,

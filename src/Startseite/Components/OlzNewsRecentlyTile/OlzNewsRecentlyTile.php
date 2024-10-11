@@ -6,7 +6,6 @@
 
 namespace Olz\Startseite\Components\OlzNewsRecentlyTile;
 
-use Olz\Apps\OlzApps;
 use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
@@ -26,27 +25,10 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $db = $this->dbUtils()->getDb();
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
 
-        $newsletter_link = '';
-        $newsletter_app = OlzApps::getApp('Newsletter');
-        if ($newsletter_app) {
-            $newsletter_link = <<<ZZZZZZZZZZ
-                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
-                    <img
-                        src='{$newsletter_app->getIcon()}'
-                        alt='newsletter'
-                        class='newsletter-link-icon'
-                        title='Newsletter abonnieren!'
-                    />
-                </a>
-                ZZZZZZZZZZ;
-        } else {
-            $this->log()->error('Newsletter App does not exist!');
-        }
-        $out = "<h2>Letzte News {$newsletter_link}</h2>";
+        $out = "<h2>Letzte News</h2>";
 
         $out .= "<ul class='links'>";
         $query = $entity_manager->createQuery(<<<'ZZZZZZZZZZ'

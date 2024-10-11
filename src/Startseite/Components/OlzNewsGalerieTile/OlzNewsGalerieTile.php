@@ -6,7 +6,6 @@
 
 namespace Olz\Startseite\Components\OlzNewsGalerieTile;
 
-use Olz\Apps\OlzApps;
 use Olz\Entity\Users\User;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
@@ -28,34 +27,20 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $news_filter_utils = NewsFilterUtils::fromEnv();
 
-        $newsletter_link = '';
-        $newsletter_app = OlzApps::getApp('Newsletter');
-        if ($newsletter_app) {
-            $newsletter_link = <<<ZZZZZZZZZZ
-                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
-                    <img
-                        src='{$newsletter_app->getIcon()}'
-                        alt='newsletter'
-                        class='newsletter-link-icon'
-                        title='Newsletter abonnieren!'
-                    />
-                </a>
-                ZZZZZZZZZZ;
-        } else {
-            $this->log()->error('Newsletter App does not exist!');
-        }
         $galerie_url = $news_filter_utils->getUrl(['format' => 'galerie']);
         $video_url = $news_filter_utils->getUrl(['format' => 'video']);
         $out = <<<ZZZZZZZZZZ
-            <h2><a href='{$galerie_url}'>
-                <img src='{$code_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
-                Galerie
-            </a>
-            &nbsp;&amp;&nbsp;
-            <a href='{$video_url}'>
-                <img src='{$code_href}assets/icns/entry_type_movie_20.svg' alt='Video' class='link-icon'>
-                Video
-            </a> {$newsletter_link}</h2>
+            <h2>
+                <a href='{$galerie_url}'>
+                    <img src='{$code_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
+                    Galerie
+                </a>
+                &nbsp;&amp;&nbsp;
+                <a href='{$video_url}'>
+                    <img src='{$code_href}assets/icns/entry_type_movie_20.svg' alt='Video' class='link-icon'>
+                    Video
+                </a>
+            </h2>
             ZZZZZZZZZZ;
 
         $out .= "<ul class='links'>";

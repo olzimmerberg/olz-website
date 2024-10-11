@@ -2,6 +2,7 @@
 
 namespace Olz\News\Components\OlzNewsList;
 
+use Olz\Apps\OlzApps;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
@@ -115,7 +116,23 @@ class OlzNewsList extends OlzComponent {
             $out .= "</div>";
         }
 
-        $out .= "<h1>{$news_list_title}</h1>";
+        $newsletter_link = '';
+        $newsletter_app = OlzApps::getApp('Newsletter');
+        if ($newsletter_app) {
+            $newsletter_link = <<<ZZZZZZZZZZ
+                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
+                    <img
+                        src='{$newsletter_app->getIcon()}'
+                        alt='newsletter'
+                        class='newsletter-link-icon'
+                        title='Newsletter abonnieren!'
+                    />
+                </a>
+                ZZZZZZZZZZ;
+        } else {
+            $this->log()->error('Newsletter App does not exist!');
+        }
+        $out .= "<h1>{$news_list_title} {$newsletter_link}</h1>";
 
         $filter_where = $news_utils->getSqlFromFilter($current_filter);
         $first_index = $page_index * $this::$page_size;

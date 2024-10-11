@@ -27,15 +27,6 @@ class OlzTerminTemplatesList extends OlzComponent {
 
         $out .= <<<ZZZZZZZZZZ
             <div class='content-right'>
-                <div style='padding:0 10px 10px 10px;'>
-                    <button
-                        id='termin-solv-import-button'
-                        class='btn btn-secondary'
-                    >
-                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                        Von SOLV importieren (TODO)
-                    </button>
-                </div>
             </div>
             <div class='content-middle'>
                 <button

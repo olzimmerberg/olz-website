@@ -6,7 +6,6 @@
 
 namespace Olz\Startseite\Components\OlzNewsAktuellKaderblogTile;
 
-use Olz\Apps\OlzApps;
 use Olz\Entity\Users\User;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
@@ -28,34 +27,20 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $news_filter_utils = NewsFilterUtils::fromEnv();
 
-        $newsletter_link = '';
-        $newsletter_app = OlzApps::getApp('Newsletter');
-        if ($newsletter_app) {
-            $newsletter_link = <<<ZZZZZZZZZZ
-                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
-                    <img
-                        src='{$newsletter_app->getIcon()}'
-                        alt='newsletter'
-                        class='newsletter-link-icon'
-                        title='Newsletter abonnieren!'
-                    />
-                </a>
-                ZZZZZZZZZZ;
-        } else {
-            $this->log()->error('Newsletter App does not exist!');
-        }
         $aktuell_url = $news_filter_utils->getUrl(['format' => 'aktuell']);
         $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
         $out = <<<ZZZZZZZZZZ
-            <h2><a href='{$aktuell_url}'>
-                <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
-                Aktuell
-            </a>
-            &nbsp;&amp;&nbsp;
-            <a href='{$kaderblog_url}'>
-                <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
-                Kaderblog
-            </a> {$newsletter_link}</h2>
+            <h2>
+                <a href='{$aktuell_url}'>
+                    <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
+                    Aktuell
+                </a>
+                &nbsp;&amp;&nbsp;
+                <a href='{$kaderblog_url}'>
+                    <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
+                    Kaderblog
+                </a>
+            </h2>
             ZZZZZZZZZZ;
 
         $out .= "<ul class='links'>";

@@ -6,7 +6,6 @@
 
 namespace Olz\Startseite\Components\OlzTermineUpdatesTile;
 
-use Olz\Apps\OlzApps;
 use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
@@ -20,23 +19,7 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
 
-        $newsletter_link = '';
-        $newsletter_app = OlzApps::getApp('Newsletter');
-        if ($newsletter_app) {
-            $newsletter_link = <<<ZZZZZZZZZZ
-                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
-                    <img
-                        src='{$newsletter_app->getIcon()}'
-                        alt='newsletter'
-                        class='newsletter-link-icon'
-                        title='Newsletter abonnieren!'
-                    />
-                </a>
-                ZZZZZZZZZZ;
-        } else {
-            $this->log()->error('Newsletter App does not exist!');
-        }
-        $out = "<h2>Aktualisierte Termine {$newsletter_link}</h2>";
+        $out = "<h2>Aktualisierte Termine</h2>";
 
         $out .= "<ul class='links'>";
         $res = $db->query(<<<'ZZZZZZZZZZ'

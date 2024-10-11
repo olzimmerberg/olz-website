@@ -6,7 +6,6 @@
 
 namespace Olz\Startseite\Components\OlzNewsForumTile;
 
-use Olz\Apps\OlzApps;
 use Olz\Entity\Users\User;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
@@ -27,29 +26,15 @@ class OlzNewsForumTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $news_filter_utils = NewsFilterUtils::fromEnv();
 
-        $newsletter_link = '';
-        $newsletter_app = OlzApps::getApp('Newsletter');
-        if ($newsletter_app) {
-            $newsletter_link = <<<ZZZZZZZZZZ
-                <a href='{$code_href}{$newsletter_app->getHref()}' class='newsletter-link'>
-                    <img
-                        src='{$newsletter_app->getIcon()}'
-                        alt='newsletter'
-                        class='newsletter-link-icon'
-                        title='Newsletter abonnieren!'
-                    />
-                </a>
-                ZZZZZZZZZZ;
-        } else {
-            $this->log()->error('Newsletter App does not exist!');
-        }
         $forum_url = $news_filter_utils->getUrl(['format' => 'forum']);
 
         $out = <<<ZZZZZZZZZZ
-            <h2><a href='{$forum_url}'>
-                <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
-                Forum
-            </a> {$newsletter_link}</h2>
+            <h2>
+                <a href='{$forum_url}'>
+                    <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
+                    Forum
+                </a>
+            </h2>
             ZZZZZZZZZZ;
 
         $out .= "<ul class='links'>";

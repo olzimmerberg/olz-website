@@ -50,20 +50,20 @@ trait UserEndpointTrait {
             'lastName' => $entity->getLastName(),
             'username' => $entity->getUsername(),
             'password' => null,
-            'email' => $entity->getEmail(),
-            'phone' => $entity->getPhone(),
-            'gender' => $entity->getGender(),
+            'email' => $entity->getEmail() ? $entity->getEmail() : null,
+            'phone' => $entity->getPhone() ? $entity->getPhone() : null,
+            'gender' => $entity->getGender() ? $entity->getGender() : null,
             'birthdate' => $entity->getBirthdate()?->format('Y-m-d'),
-            'street' => $entity->getStreet(),
-            'postalCode' => $entity->getPostalCode(),
-            'city' => $entity->getCity(),
-            'region' => $entity->getRegion(),
-            'countryCode' => $entity->getCountryCode(),
+            'street' => $entity->getStreet() ? $entity->getStreet() : null,
+            'postalCode' => $entity->getPostalCode() ? $entity->getPostalCode() : null,
+            'city' => $entity->getCity() ? $entity->getCity() : null,
+            'region' => $entity->getRegion() ? $entity->getRegion() : null,
+            'countryCode' => $entity->getCountryCode() ? $entity->getCountryCode() : null,
             'siCardNumber' => $entity->getSiCardNumber()
                 ? intval($entity->getSiCardNumber())
                 : null,
-            'solvNumber' => $entity->getSolvNumber(),
-            'avatarImageId' => $entity->getAvatarImageId(),
+            'solvNumber' => $entity->getSolvNumber() ? $entity->getSolvNumber() : null,
+            'avatarImageId' => $entity->getAvatarImageId() ? $entity->getAvatarImageId() : null,
         ];
     }
 

@@ -65,17 +65,17 @@ class FakeUser extends FakeEntity {
                 $entity->setPasswordHash('');
                 $entity->setPermissions('');
                 $entity->setRoot('');
-                $entity->setPhone(null);
-                $entity->setGender(null);
+                $entity->setPhone('');
+                $entity->setGender('');
                 $entity->setBirthdate(new \DateTime('1970-01-01 00:00:00'));
-                $entity->setStreet(null);
-                $entity->setPostalCode(null);
-                $entity->setRegion(null);
-                $entity->setCity(null);
-                $entity->setCountryCode(null);
-                $entity->setSiCardNumber(null);
-                $entity->setSolvNumber(null);
-                $entity->setAvatarImageId(null);
+                $entity->setStreet('');
+                $entity->setPostalCode('');
+                $entity->setRegion('');
+                $entity->setCity('');
+                $entity->setCountryCode('');
+                $entity->setSiCardNumber('');
+                $entity->setSolvNumber('');
+                $entity->setAvatarImageId('');
                 return $entity;
             }
         );

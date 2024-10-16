@@ -105,7 +105,7 @@ class OlzKarteDetail extends OlzComponent {
         $maybe_omap_link = '';
         if ($latitude !== null && $longitude !== null) {
             // OMap-Kartenverzeichnis-Link zeigen
-            $maybe_omap_link .= "<div><a href='https://omap.ch/map.php#7/{$latitude}/{$longitude}' target='_blank' class='linkol'>SOLV Karten-Nr. {$kartennr}</a></div>\n";
+            $maybe_omap_link .= "<div><a href='https://omap.ch/map.php#7/{$latitude}/{$longitude}' target='_blank' class='linkol'>Karte auf omap.ch</a></div>\n";
         }
 
         $out .= <<<ZZZZZZZZZZ

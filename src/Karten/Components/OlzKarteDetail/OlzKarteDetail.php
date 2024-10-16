@@ -93,7 +93,7 @@ class OlzKarteDetail extends OlzComponent {
                 </div>
                 ZZZZZZZZZZ;
         }
-        
+
         $maybe_place = $place ? "<div>Ort: {$place}</div>" : '';
 
         $maybe_solv_link = '';
@@ -101,7 +101,7 @@ class OlzKarteDetail extends OlzComponent {
             // SOLV-Kartenverzeichnis-Link zeigen
             $maybe_solv_link .= "<div><a href='https://www.swiss-orienteering.ch/karten/kartedetail.php?kid={$kartennr}' target='_blank' class='linkol'>SOLV Karten-Nr. {$kartennr}</a></div>\n";
         }
-        
+
         $maybe_omap_link = '';
         if ($latitude !== null && $longitude !== null) {
             // OMap-Kartenverzeichnis-Link zeigen

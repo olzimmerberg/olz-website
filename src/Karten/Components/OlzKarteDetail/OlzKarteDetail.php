@@ -94,13 +94,19 @@ class OlzKarteDetail extends OlzComponent {
                 ZZZZZZZZZZ;
         }
 
+        $maybe_place = $place ? "<div>Ort: {$place}</div>" : '';
+
         $maybe_solv_link = '';
         if ($kartennr) {
             // SOLV-Kartenverzeichnis-Link zeigen
             $maybe_solv_link .= "<div><a href='https://www.swiss-orienteering.ch/karten/kartedetail.php?kid={$kartennr}' target='_blank' class='linkol'>SOLV Karten-Nr. {$kartennr}</a></div>\n";
         }
 
-        $maybe_place = $place ? "<div>Ort: {$place}</div>" : '';
+        $maybe_omap_link = '';
+        if ($latitude !== null && $longitude !== null) {
+            // OMap-Kartenverzeichnis-Link zeigen
+            $maybe_omap_link .= "<div><a href='https://omap.ch/map.php#7/{$latitude}/{$longitude}' target='_blank' class='linkol'>Karte auf omap.ch</a></div>\n";
+        }
 
         $out .= <<<ZZZZZZZZZZ
             <h1>OL-Karte {$name}</h1>
@@ -109,6 +115,7 @@ class OlzKarteDetail extends OlzComponent {
             <div>Stand: {$year}</div>
             {$maybe_place}
             {$maybe_solv_link}
+            {$maybe_omap_link}
             <div>Herausgeber: OL Zimmerberg</div>
             ZZZZZZZZZZ;
 

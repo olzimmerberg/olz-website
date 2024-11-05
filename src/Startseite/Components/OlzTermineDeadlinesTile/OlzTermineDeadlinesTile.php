@@ -21,8 +21,12 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $today = $date_utils->getIsoToday();
         $now = $date_utils->getIsoNow();
-        $plus_two_weeks = \DateInterval::createFromDateString("+4 weeks");
-        $in_two_weeks = (new \DateTime($today))->add($plus_two_weeks)->format('Y-m-d');
+        $plus_three_days = \DateInterval::createFromDateString("+3 days");
+        $plus_ten_days = \DateInterval::createFromDateString("+10 days");
+        $plus_four_weeks = \DateInterval::createFromDateString("+4 weeks");
+        $in_three_days = (new \DateTime($today))->add($plus_three_days)->format('Y-m-d');
+        $in_ten_days = (new \DateTime($today))->add($plus_ten_days)->format('Y-m-d');
+        $in_four_weeks = (new \DateTime($today))->add($plus_four_weeks)->format('Y-m-d');
 
         $out = "<h2>Meldeschlüsse</h2>";
 
@@ -37,7 +41,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                 WHERE 
                     se.deadline IS NOT NULL
                     AND se.deadline >= '{$today}'
-                    AND se.deadline <= '{$in_two_weeks}'
+                    AND se.deadline <= '{$in_four_weeks}'
             ) UNION ALL (
                 SELECT
                     DATE(t.deadline) as deadline,
@@ -48,7 +52,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                 WHERE
                     t.deadline IS NOT NULL
                     AND t.deadline >= '{$now}'
-                    AND t.deadline <= '{$in_two_weeks}'
+                    AND t.deadline <= '{$in_four_weeks}'
             )
             ORDER BY deadline ASC
             LIMIT 7
@@ -63,7 +67,13 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             $deadline = date('d.m.', strtotime($row['deadline']));
             $date = date('d.m.', strtotime($row['date']));
             $title = $row['title'];
-            $icon_basename = 'termine_type_meldeschluss_20.svg';
+            $icon_color = 'green';
+            if ($row['deadline'] <= $in_three_days) {
+                $icon_color = 'red';
+            } elseif ($row['deadline'] <= $in_ten_days) {
+                $icon_color = 'orange';
+            }
+            $icon_basename = "termine_type_meldeschluss_{$icon_color}_20.svg";
             $icon = "{$code_href}assets/icns/{$icon_basename}";
             $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
             $out .= "<li><a href='{$code_href}termine/{$id}'>

@@ -141,7 +141,11 @@ class ProcessEmailCommand extends OlzCommand {
             $query = $folder->messages();
             $query->leaveUnread();
             $query->setFetchBody(false);
-            return $query->all()->get();
+            $messages = $query->all()->softFail()->get();
+            foreach ($query->errors() as $error) {
+                $this->log()->warning("getMails soft error:", [$error]);
+            }
+            return $messages;
         } catch (ResponseException $exc) {
             if (!preg_match('/Empty response/i', $exc->getMessage())) {
                 $this->log()->critical("ResponseException in getMails: {$exc->getMessage()}", [$exc]);

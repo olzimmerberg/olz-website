@@ -26,6 +26,11 @@ class OnDailyCommand extends OlzCommand {
             $output,
         );
         $this->symfonyUtils()->callCommand(
+            'olz:clean-temp-database',
+            new ArrayInput([]),
+            $output,
+        );
+        $this->symfonyUtils()->callCommand(
             'olz:send-telegram-configuration',
             new ArrayInput([]),
             $output,

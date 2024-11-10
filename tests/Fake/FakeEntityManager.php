@@ -26,6 +26,7 @@ use Olz\Entity\Anmelden\Booking;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Entity\AuthRequest;
+use Olz\Entity\Counter;
 use Olz\Entity\Karten\Karte;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
@@ -51,6 +52,7 @@ use Olz\Tests\Fake\Entity\Anmelden\FakeRegistrationInfoRepository;
 use Olz\Tests\Fake\Entity\Anmelden\FakeRegistrationRepository;
 use Olz\Tests\Fake\Entity\FakeAccessTokenRepository;
 use Olz\Tests\Fake\Entity\FakeAuthRequestRepository;
+use Olz\Tests\Fake\Entity\FakeCounterRepository;
 use Olz\Tests\Fake\Entity\FakeNotificationSubscriptionRepository;
 use Olz\Tests\Fake\Entity\FakeSolvEventRepository;
 use Olz\Tests\Fake\Entity\FakeStravaLinkRepository;
@@ -92,6 +94,7 @@ class FakeEntityManager implements EntityManagerInterface {
             AccessToken::class => new FakeAccessTokenRepository($this),
             AuthRequest::class => new FakeAuthRequestRepository($this),
             Booking::class => new FakeBookingRepository($this),
+            Counter::class => new FakeCounterRepository($this),
             Download::class => new FakeDownloadRepository($this),
             Karte::class => new FakeKarteRepository($this),
             Link::class => new FakeLinkRepository($this),

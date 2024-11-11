@@ -7,6 +7,7 @@ namespace Olz\Tests\Fake\Entity\Termine;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
+use Olz\Entity\Termine\TerminTemplate;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 
@@ -21,6 +22,7 @@ class FakeTermin extends FakeEntity {
                 $entity = new Termin();
                 FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
+                $entity->setFromTemplate(null);
                 $entity->setStartDate(new \DateTime('2020-03-13'));
                 $entity->setStartTime(null);
                 $entity->setEndDate(null);
@@ -47,6 +49,7 @@ class FakeTermin extends FakeEntity {
                 $entity = new Termin();
                 FakeOlzEntity::empty($entity);
                 $entity->setId(123);
+                $entity->setFromTemplate(null);
                 $entity->setStartDate(new \DateTime('0000-01-01'));
                 $entity->setStartTime(new \DateTime('00:00:00'));
                 $entity->setEndDate(new \DateTime('0000-01-01'));
@@ -71,6 +74,8 @@ class FakeTermin extends FakeEntity {
         return self::getFake(
             $fresh,
             function () {
+                $termin_template = new TerminTemplate();
+                $termin_template->setId(12341);
                 $termin_label_1 = new TerminLabel();
                 $termin_label_1->setId(12341);
                 $termin_label_1->setIdent('training');
@@ -82,6 +87,7 @@ class FakeTermin extends FakeEntity {
                 $entity = new Termin();
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
+                $entity->setFromTemplate($termin_template);
                 $entity->setStartDate(new \DateTime('2020-03-13'));
                 $entity->setStartTime(new \DateTime('19:30:00'));
                 $entity->setEndDate(new \DateTime('2020-03-16'));

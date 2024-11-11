@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20241007152642
+-- MIGRATION: DoctrineMigrations\Version20241111170011
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -91,7 +91,8 @@ VALUES
     ('DoctrineMigrations\\Version20240611170404', '2024-06-11 19:05:53', '80'),
     ('DoctrineMigrations\\Version20240728095826', '2024-07-28 12:16:02', '33'),
     ('DoctrineMigrations\\Version20240728114645', '2024-07-28 13:48:11', '119'),
-    ('DoctrineMigrations\\Version20241007152642', '2024-10-07 17:28:16', '58');
+    ('DoctrineMigrations\\Version20241007152642', '2024-10-07 17:28:16', '58'),
+    ('DoctrineMigrations\\Version20241111170011', '2024-11-11 18:00:58', '241');
 
 -- Table downloads
 INSERT INTO downloads
@@ -471,22 +472,22 @@ VALUES
 
 -- Table termine
 INSERT INTO termine
-    (`id`, `start_date`, `start_time`, `end_date`, `end_time`, `title`, `go2ol`, `text`, `on_off`, `xkoord`, `ykoord`, `solv_uid`, `newsletter`, `deadline`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `participants_registration_id`, `volunteers_registration_id`, `num_participants`, `min_participants`, `max_participants`, `num_volunteers`, `min_volunteers`, `max_volunteers`, `location_id`, `image_ids`)
+    (`id`, `start_date`, `start_time`, `end_date`, `end_time`, `title`, `go2ol`, `text`, `on_off`, `xkoord`, `ykoord`, `solv_uid`, `newsletter`, `deadline`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `participants_registration_id`, `volunteers_registration_id`, `num_participants`, `min_participants`, `max_participants`, `num_volunteers`, `min_volunteers`, `max_volunteers`, `location_id`, `image_ids`, `from_template_id`)
 VALUES
-    ('1', '2020-01-02', '00:00:00', NULL, '00:00:00', 'Berchtoldstag 🥈', '', '\n\n', '1', '0', '0', '0', '1', NULL, NULL, NULL, NULL, NULL, '2019-02-22 01:17:09', '2020-01-01 17:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('2', '2020-06-06', '10:15:00', NULL, '12:30:00', 'Brunch OL', '', 'Dä Samschtig gits en bsunderä Läckerbissä!\n\n[Infos](./MIGRATED0000000000020001.pdf)', '1', '685000', '236100', '0', '1', NULL, NULL, NULL, NULL, NULL, '2019-12-31 07:17:09', '2019-12-31 20:17:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('3', '2020-08-18', '18:30:00', NULL, '20:00:00', 'Training 1', '', '\n\n', '1', NULL, NULL, '0', '0', '2020-08-17 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL),
-    ('4', '2020-08-25', '18:30:00', NULL, '20:00:00', 'Training 2', '', '\n\n', '1', '683498', '236660', '0', '0', '2020-08-24 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL),
-    ('5', '2020-08-26', '18:00:00', '2020-08-26', '19:30:00', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '', 'Organisation: OL Zimmerberg\r\nKarte: Chopfholz\n\n[OLZ Trophy 2020](/termine?filter={\"typ\":\"trophy\",\"datum\":\"2020\",\"archiv\":\"ohne\"})\r\n[Anmeldung](https://forms.gle/ixS1ZD22PmbdeYcy6)\r\n[Ausschreibung](./MIGRATED0000000000050001.pdf)', '1', '0', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, '2019-11-20 09:04:26', '2020-08-24 22:40:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"Ffpi3PK5wBjKfN4etpvGK3ti.jpg\"]'),
-    ('6', '2020-09-01', '18:30:00', NULL, '20:00:00', 'Training 3', '', '\n\n', '1', '684376', '236945', '0', '0', '2020-08-31 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('7', '2020-09-08', '18:00:00', NULL, '19:30:00', 'Training 4', '', '\n\n[Details](./Kzt5p5g6cjM5k9CXdVaSsGFx.pdf)', '1', '0', '0', '0', '0', '2020-09-06 23:59:59', '2', NULL, '2', '2', '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('8', '2020-08-11', '18:30:00', NULL, '20:00:00', 'Training 0', '', '\n\n', '1', '0', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('9', '2020-08-04', '18:30:00', NULL, '20:00:00', 'Training -1', '', '\n\n', '1', '0', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('10', '2020-08-22', '00:00:00', NULL, '00:00:00', 'Grossanlass', 'gal', 'Mit allem drum und dran!\n\n', '1', NULL, NULL, '12345', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('11', '2020-09-13', '00:00:00', '2020-09-19', '00:00:00', 'Mehrtägeler', 'sow', 'Mir werdeds schaffe!\n\n', '1', NULL, NULL, '123456', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('12', '2020-08-16', '17:00:00', '2020-08-17', '17:00:00', '24h-OL', '24h', 'Dauert genau 24h\n\n', '1', NULL, NULL, '1234567', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('13', '2021-03-12', '18:30:00', NULL, NULL, 'Mitgliederversammlung', NULL, 'schon jetzt für 2021 geplant!\n\n', '1', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    ('1001', '2006-01-13', '18:00:00', NULL, '18:00:00', 'Gründungsversammlung OL Zimmerberg', NULL, 'wir gründen uns!\n\n', '1', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    ('1', '2020-01-02', '00:00:00', NULL, '00:00:00', 'Berchtoldstag 🥈', '', '\n\n', '1', '0', '0', '0', '1', NULL, NULL, NULL, NULL, NULL, '2019-02-22 01:17:09', '2020-01-01 17:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('2', '2020-06-06', '10:15:00', NULL, '12:30:00', 'Brunch OL', '', 'Dä Samschtig gits en bsunderä Läckerbissä!\n\n[Infos](./MIGRATED0000000000020001.pdf)', '1', '685000', '236100', '0', '1', NULL, NULL, NULL, NULL, NULL, '2019-12-31 07:17:09', '2019-12-31 20:17:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('3', '2020-08-18', '18:30:00', NULL, '20:00:00', 'Training 1', '', '\n\n', '1', NULL, NULL, '0', '0', '2020-08-17 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, '2'),
+    ('4', '2020-08-25', '18:30:00', NULL, '20:00:00', 'Training 2', '', '\n\n', '1', '683498', '236660', '0', '0', '2020-08-24 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL, '2'),
+    ('5', '2020-08-26', '18:00:00', '2020-08-26', '19:30:00', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '', 'Organisation: OL Zimmerberg\r\nKarte: Chopfholz\n\n[OLZ Trophy 2020](/termine?filter={\"typ\":\"trophy\",\"datum\":\"2020\",\"archiv\":\"ohne\"})\r\n[Anmeldung](https://forms.gle/ixS1ZD22PmbdeYcy6)\r\n[Ausschreibung](./MIGRATED0000000000050001.pdf)', '1', '0', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, '2019-11-20 09:04:26', '2020-08-24 22:40:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"Ffpi3PK5wBjKfN4etpvGK3ti.jpg\"]', NULL),
+    ('6', '2020-09-01', '18:30:00', NULL, '20:00:00', 'Training 3', '', '\n\n', '1', '684376', '236945', '0', '0', '2020-08-31 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2'),
+    ('7', '2020-09-08', '18:00:00', NULL, '19:30:00', 'Training 4', '', '\n\n[Details](./Kzt5p5g6cjM5k9CXdVaSsGFx.pdf)', '1', '0', '0', '0', '0', '2020-09-06 23:59:59', '2', NULL, '2', '2', '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2'),
+    ('8', '2020-08-11', '18:30:00', NULL, '20:00:00', 'Training 0', '', '\n\n', '1', '0', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2'),
+    ('9', '2020-08-04', '18:30:00', NULL, '20:00:00', 'Training -1', '', '\n\n', '1', '0', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2'),
+    ('10', '2020-08-22', '00:00:00', NULL, '00:00:00', 'Grossanlass', 'gal', 'Mit allem drum und dran!\n\n', '1', NULL, NULL, '12345', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('11', '2020-09-13', '00:00:00', '2020-09-19', '00:00:00', 'Mehrtägeler', 'sow', 'Mir werdeds schaffe!\n\n', '1', NULL, NULL, '123456', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('12', '2020-08-16', '17:00:00', '2020-08-17', '17:00:00', '24h-OL', '24h', 'Dauert genau 24h\n\n', '1', NULL, NULL, '1234567', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('13', '2021-03-12', '18:30:00', NULL, NULL, 'Mitgliederversammlung', NULL, 'schon jetzt für 2021 geplant!\n\n', '1', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('1001', '2006-01-13', '18:00:00', NULL, '18:00:00', 'Gründungsversammlung OL Zimmerberg', NULL, 'wir gründen uns!\n\n', '1', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Table throttlings
 

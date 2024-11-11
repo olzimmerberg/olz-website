@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20241007152642
+-- MIGRATION: DoctrineMigrations\Version20241111170011
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -707,6 +707,7 @@ CREATE TABLE `termine` (
   `max_volunteers` int(11) DEFAULT NULL,
   `location_id` int(11) DEFAULT NULL,
   `image_ids` longtext DEFAULT NULL,
+  `from_template_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_168C0A8F2B18554A` (`owner_user_id`),
   KEY `IDX_168C0A8F5A75A473` (`owner_role_id`),
@@ -716,13 +717,15 @@ CREATE TABLE `termine` (
   KEY `IDX_168C0A8F6D54E666` (`volunteers_registration_id`),
   KEY `IDX_168C0A8F64D218E` (`location_id`),
   KEY `start_date_on_off_index` (`start_date`,`on_off`),
+  KEY `IDX_168C0A8F9B953EDD` (`from_template_id`),
   CONSTRAINT `FK_168C0A8F1A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_168C0A8F2B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_168C0A8F5A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_168C0A8F64D218E` FOREIGN KEY (`location_id`) REFERENCES `termin_locations` (`id`),
   CONSTRAINT `FK_168C0A8F6D54E666` FOREIGN KEY (`volunteers_registration_id`) REFERENCES `anmelden_registrations` (`id`),
   CONSTRAINT `FK_168C0A8F7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_168C0A8F80299162` FOREIGN KEY (`participants_registration_id`) REFERENCES `anmelden_registrations` (`id`)
+  CONSTRAINT `FK_168C0A8F80299162` FOREIGN KEY (`participants_registration_id`) REFERENCES `anmelden_registrations` (`id`),
+  CONSTRAINT `FK_168C0A8F9B953EDD` FOREIGN KEY (`from_template_id`) REFERENCES `termin_templates` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

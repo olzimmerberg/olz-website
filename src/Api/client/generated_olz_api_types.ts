@@ -173,6 +173,7 @@ export type OlzWeeklyPictureDataOrNull = {
 }|null;
 
 export type OlzTerminData = {
+    'fromTemplateId': number|null,
     'startDate': string,
     'startTime': string|null,
     'endDate': string|null,
@@ -192,6 +193,7 @@ export type OlzTerminData = {
 };
 
 export type OlzTerminDataOrNull = {
+    'fromTemplateId': number|null,
     'startDate': string,
     'startTime': string|null,
     'endDate': string|null,

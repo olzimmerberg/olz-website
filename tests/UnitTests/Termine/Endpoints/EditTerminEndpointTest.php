@@ -86,6 +86,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
+                'fromTemplateId' => null,
                 'startDate' => '2020-03-13',
                 'startTime' => null,
                 'endDate' => null,
@@ -133,6 +134,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
                 'onOff' => false,
             ],
             'data' => [
+                'fromTemplateId' => null,
                 'startDate' => '0000-01-01',
                 'startTime' => '00:00:00',
                 'endDate' => '0000-01-01',
@@ -193,6 +195,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
+                'fromTemplateId' => 12341,
                 'startDate' => '2020-03-13',
                 'startTime' => '19:30:00',
                 'endDate' => '2020-03-16',

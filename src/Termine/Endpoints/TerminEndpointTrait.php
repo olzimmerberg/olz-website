@@ -5,6 +5,7 @@ namespace Olz\Termine\Endpoints;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
+use Olz\Entity\Termine\TerminTemplate;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
@@ -20,6 +21,7 @@ trait TerminEndpointTrait {
         return new FieldTypes\ObjectField([
             'export_as' => $allow_null ? 'OlzTerminDataOrNull' : 'OlzTerminData',
             'field_structure' => [
+                'fromTemplateId' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'startDate' => new FieldTypes\DateField(['allow_null' => false]),
                 'startTime' => new FieldTypes\TimeField(['allow_null' => true]),
                 'endDate' => new FieldTypes\DateField(['allow_null' => true]),
@@ -55,6 +57,7 @@ trait TerminEndpointTrait {
         $file_ids = $entity->getStoredFileUploadIds();
 
         return [
+            'fromTemplateId' => $entity->getFromTemplate()?->getId(),
             'startDate' => $entity->getStartDate()->format('Y-m-d'),
             'startTime' => $entity->getStartTime()?->format('H:i:s'),
             'endDate' => $entity->getEndDate()?->format('Y-m-d'),
@@ -77,10 +80,13 @@ trait TerminEndpointTrait {
     /** @param array<string, mixed> $input_data */
     public function updateEntityWithData(Termin $entity, array $input_data): void {
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
+        $termin_template_repo = $this->entityManager()->getRepository(TerminTemplate::class);
+        $termin_template = $termin_template_repo->findOneBy(['id' => $input_data['fromTemplateId']]);
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         $termin_location = $termin_location_repo->findOneBy(['id' => $input_data['locationId']]);
 
+        $entity->setFromTemplate($termin_template);
         $entity->setStartDate(new \DateTime($input_data['startDate']));
         $entity->setStartTime($input_data['startTime'] ? new \DateTime($input_data['startTime']) : null);
         $entity->setEndDate($input_data['endDate'] ? new \DateTime($input_data['endDate']) : null);

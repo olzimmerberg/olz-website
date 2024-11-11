@@ -23,6 +23,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             'onOff' => true,
         ],
         'data' => [
+            'fromTemplateId' => 123,
             'startDate' => '2020-03-13',
             'startTime' => null,
             'endDate' => null,

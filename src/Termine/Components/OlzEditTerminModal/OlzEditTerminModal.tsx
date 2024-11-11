@@ -68,13 +68,14 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
     };
 }
 
-function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditTerminForm): OlzTerminData {
+function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number|undefined, formData: OlzEditTerminForm): OlzTerminData {
     const typesSet = new Set(labels
         .map((label, index) => (
             getApiBoolean(formData.types[index]) ? label.data.ident : undefined
         ))
         .filter(isDefined));
     return {
+        fromTemplateId: templateId ?? null,
         solvId: formData.solvId,
         startDate: getApiString(formData.startDate) ?? '',
         startTime: getApiString(formData.startTime),
@@ -142,6 +143,10 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
 
     React.useEffect(() => {
         if (!templateData) {
+            return;
+        }
+        if (props.id) {
+            // Existing entry, do not prefill!
             return;
         }
         setValue('startTime', getFormString(templateData.startTime));
@@ -218,7 +223,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             ownerRoleId: null,
             onOff: true,
         };
-        const data = getApiFromForm(props.labels, values);
+        const data = getApiFromForm(props.labels, props.templateId, values);
 
         const [err, response] = await (props.id
             ? olzApi.getResult('updateTermin', {id: props.id, meta, data})

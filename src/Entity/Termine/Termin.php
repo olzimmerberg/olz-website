@@ -22,6 +22,10 @@ class Termin extends OlzEntity implements DataStorageInterface {
     #[ORM\GeneratedValue]
     private int $id;
 
+    #[ORM\ManyToOne(targetEntity: TerminTemplate::class)]
+    #[ORM\JoinColumn(name: 'from_template_id', referencedColumnName: 'id')]
+    private ?TerminTemplate $from_template;
+
     #[ORM\Column(type: 'date', nullable: false)]
     private \DateTime $start_date;
 
@@ -114,6 +118,14 @@ class Termin extends OlzEntity implements DataStorageInterface {
 
     public function setId(int $new_value): void {
         $this->id = $new_value;
+    }
+
+    public function getFromTemplate(): ?TerminTemplate {
+        return $this->from_template;
+    }
+
+    public function setFromTemplate(?TerminTemplate $new_value): void {
+        $this->from_template = $new_value;
     }
 
     public function getStartDate(): \DateTime {

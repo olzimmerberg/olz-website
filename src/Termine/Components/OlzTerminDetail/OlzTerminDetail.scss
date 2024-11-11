@@ -30,6 +30,14 @@
     .date-calendar-container {
         position: absolute;
         bottom: 0;
+        flex: 0 0 90px;
+        text-align: center;
+
+        .date-calendars {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
     .type-icon {

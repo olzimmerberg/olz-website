@@ -538,6 +538,9 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/termine/5");
         $this->mkdir("{$data_path}img/termine/5/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/termine/5/img/Ffpi3PK5wBjKfN4etpvGK3ti.jpg", 800, 600);
+        $this->mkdir("{$data_path}img/termine/10");
+        $this->mkdir("{$data_path}img/termine/10/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/termine/10/img/659gCbqzigX8D37XgWMbedB3.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/termin_labels");
         $this->mkdir("{$data_path}img/termin_labels/3");

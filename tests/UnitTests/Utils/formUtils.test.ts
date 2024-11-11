@@ -560,6 +560,23 @@ describe('validateDateTimeOrNull', () => {
     });
 });
 
+describe('getDateTimeFeedback', () => {
+    it('returns empty for nullish user inputs', () => {
+        expect(formUtils.getDateTimeFeedback(''))
+            .toEqual('');
+    });
+
+    it('returns empty for invalid user inputs', () => {
+        expect(formUtils.getDateTimeFeedback('invalid'))
+            .toEqual('');
+    });
+
+    it('returns feedback', () => {
+        expect(formUtils.getDateTimeFeedback('13.01.2006 18:03'))
+            .toEqual('✅ Freitag');
+    });
+});
+
 describe('validateDate', () => {
     it('returns date for correct swiss user inputs', () => {
         expect(formUtils.validateDate('13.01.2006'))
@@ -610,6 +627,23 @@ describe('validateDateOrNull', () => {
     it('returns same as validateDate for non-nullish user inputs', () => {
         expect(formUtils.validateDateOrNull('13.01.2006'))
             .toEqual(formUtils.validateDate('13.01.2006'));
+    });
+});
+
+describe('getDateFeedback', () => {
+    it('returns empty for nullish user inputs', () => {
+        expect(formUtils.getDateFeedback(''))
+            .toEqual('');
+    });
+
+    it('returns empty for invalid user inputs', () => {
+        expect(formUtils.getDateFeedback('invalid'))
+            .toEqual('');
+    });
+
+    it('returns feedback', () => {
+        expect(formUtils.getDateFeedback('13.01.2006'))
+            .toEqual('✅ Freitag');
     });
 });
 

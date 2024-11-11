@@ -9,7 +9,7 @@ import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {isoNow} from '../../../Utils/constants';
-import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateIntegerOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
+import {getApiBoolean, getApiNumber, getApiString, getDateFeedback, getDateTimeFeedback, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateIntegerOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
 import {isDefined, Entity} from '../../../Utils/generalUtils';
 
 import './OlzEditTerminModal.scss';
@@ -39,9 +39,7 @@ const resolver: Resolver<OlzEditTerminForm> = async (values) => {
     [errors.endDate, values.endDate] = validateDateOrNull(values.endDate);
     [errors.endTime, values.endTime] = validateTimeOrNull(values.endTime);
     errors.title = validateNotEmpty(values.title);
-    [errors.deadline, values.deadline] = validateDateTimeOrNull(
-        values.deadline.length === 10 ? `${values.deadline} 23:59:59` : values.deadline,
-    );
+    [errors.deadline, values.deadline] = validateDateTimeOrNull(getDeadlineDateTime(values.deadline));
     errors.coordinateX = validateIntegerOrNull(values.coordinateX);
     errors.coordinateY = validateIntegerOrNull(values.coordinateY);
     return getResolverResult(errors, values);
@@ -95,6 +93,10 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number
     };
 }
 
+function getDeadlineDateTime(valueArg: string): string {
+    return valueArg.length === 10 ? `${valueArg} 23:59:59` : valueArg;
+}
+
 // ---
 
 interface OlzEditTerminModalProps {
@@ -124,6 +126,8 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
 
     const startDate = watch('startDate');
     const startTime = watch('startTime');
+    const endDate = watch('endDate');
+    const deadline = watch('deadline');
     const solvId = watch('solvId');
     const locationId = watch('locationId');
 
@@ -245,6 +249,9 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         ? 'Termin-Eintrag erstellen'
         : 'Termin-Eintrag bearbeiten'
     );
+    const startDateInfo = getDateFeedback(startDate);
+    const endDateInfo = getDateFeedback(endDate);
+    const deadlineInfo = getDateTimeFeedback(getDeadlineDateTime(deadline));
     const isLoading = isTemplateLoading || isSolvLoading || isLocationLoading || isImagesLoading || isFilesLoading;
 
     return (
@@ -287,6 +294,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         errors={errors}
                         register={register}
                     />
+                    {startDateInfo}
                 </div>
                 <div className='col mb-3'>
                     <OlzTextField
@@ -305,6 +313,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         errors={errors}
                         register={register}
                     />
+                    {endDateInfo}
                 </div>
                 <div className='col mb-3'>
                     <OlzTextField
@@ -341,6 +350,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                     disabled={solvId !== null}
                     placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                 />
+                {deadlineInfo}
             </div>
             <div className='mb-3'>
                 <label htmlFor='types-container'>Typ</label>

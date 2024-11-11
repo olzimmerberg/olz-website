@@ -174,7 +174,23 @@ class OlzTerminDetail extends OlzComponent {
         }
         // Date Calendar Icon
         $out .= "<div class='date-calendar-container'>";
+        $out .= "<div class='date-calendars'>";
+        $out .= "<div class='date-calendar'>";
         $out .= OlzDateCalendar::render(['date' => $start_date]);
+        $out .= $this->getTimeText($start_time) ?? '';
+        $out .= ($end_time && (!$end_date || $end_date === $start_date))
+            ? ' &ndash; '.$this->getTimeText($end_time)
+            : '';
+        $out .= "</div>";
+        $out .= "<div class='date-calendar'>";
+        $out .= ($end_date && $end_date !== $start_date)
+            ? OlzDateCalendar::render(['date' => $end_date])
+            : '';
+        $out .= ($end_time && $end_date && $end_date !== $start_date)
+            ? $this->getTimeText($end_time)
+            : '';
+        $out .= "</div>";
+        $out .= "</div>";
         $out .= "</div>";
 
         $out .= "</div>";
@@ -316,5 +332,12 @@ class OlzTerminDetail extends OlzComponent {
             'id' => $id,
             'on_off' => 1,
         ]);
+    }
+
+    protected function getTimeText(?\DateTime $time): ?string {
+        if (!$time || $time->format('H:i:s') === '00:00:00') {
+            return null;
+        }
+        return $time->format('H:i');
     }
 }

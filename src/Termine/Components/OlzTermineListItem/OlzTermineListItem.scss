@@ -35,7 +35,7 @@
         }
     }
 
-    .date {
+    .date-container {
         flex: 0 0 90px;
         text-align: center;
 
@@ -79,5 +79,9 @@
         * {
             display: inline;
         }
+    }
+
+    .image-container img {
+        border: 0;
     }
 }

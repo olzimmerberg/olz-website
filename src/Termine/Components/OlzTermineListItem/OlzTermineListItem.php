@@ -43,6 +43,7 @@ class OlzTermineListItem extends OlzComponent {
         $text = $args['text'];
         $labels = $args['labels'];
         $termin_location_id = $args['location_id'];
+        $image_ids = $args['image_ids'];
         $is_deadline = count($labels) > 0 && $labels[0]->getIdent() === 'meldeschluss';
 
         $link = "{$code_href}termine/{$id}{$filter_arg}";
@@ -83,6 +84,16 @@ class OlzTermineListItem extends OlzComponent {
             $text = "{$location_name} {$text}";
         }
         $text = strip_tags($this->htmlUtils()->renderMarkdown($text));
+        $image = '';
+        if (count($image_ids ?? []) > 0) {
+            $image = $this->imageUtils()->olzImage(
+                'termine',
+                $id,
+                $image_ids[0],
+                64,
+                'image'
+            );
+        }
 
         $user = $this->authUtils()->getCurrentUser();
         $is_owner = $user && $owner_user_id && intval($owner_user_id) === intval($user->getId());
@@ -105,13 +116,16 @@ class OlzTermineListItem extends OlzComponent {
             <div class='olz-termine-list-item'>
                 <a class='link' href='{$link}'></a>
                 <div class='content'>
-                    <div class='date'>
+                    <div class='date-container'>
                         <div class='date-calendars'>{$start_icon}{$end_icon}</div>
                         <div class='time-text'>{$time_text}</div>
                     </div>
                     <div class='title-text-container'>
                         <div class='title'>{$title}{$edit_admin} {$type_imgs}</div>
                         <div class='text'>{$text}</div>
+                    </div>
+                    <div class='image-container'>
+                        {$image}
                     </div>
                 </div>
             </div>

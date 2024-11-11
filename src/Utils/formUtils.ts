@@ -245,6 +245,16 @@ export function validateDateTime(valueArg: string): [FieldError|undefined, strin
     return [undefined, newValue];
 }
 
+export function getDateTimeFeedback(valueArg: string): string {
+    const [error, isoDateTime] = validateDateTime(valueArg);
+    if (error) {
+        return '';
+    }
+    const jsDate = new Date(isoDateTime);
+    const weekday = jsDate.toLocaleString('de-ch', {weekday: 'long'});
+    return `✅ ${weekday}`;
+}
+
 export function validateDateOrNull(valueArg: string): [FieldError|undefined, string] {
     const value = valueArg.trim();
     if (value === '') {
@@ -278,6 +288,16 @@ export function validateDate(valueArg: string): [FieldError|undefined, string] {
     const day = String(dateObject.getDate()).padStart(2, '0');
     const newValue = `${year}-${month}-${day}`;
     return [undefined, newValue];
+}
+
+export function getDateFeedback(valueArg: string): string {
+    const [error, isoDateTime] = validateDate(valueArg);
+    if (error) {
+        return '';
+    }
+    const jsDate = new Date(`${isoDateTime} 12:00:00`);
+    const weekday = jsDate.toLocaleString('de-ch', {weekday: 'long'});
+    return `✅ ${weekday}`;
 }
 
 export function validateTimeOrNull(valueArg: string): [FieldError|undefined, string] {

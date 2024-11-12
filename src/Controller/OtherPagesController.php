@@ -64,6 +64,6 @@ class OtherPagesController extends AbstractController {
         ];
         $enc_filter = urlencode(json_encode($filter));
         $url = "{$code_href}termine?filter={$enc_filter}";
-        return new RedirectResponse($url);
+        return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'trophy']);
     }
 }

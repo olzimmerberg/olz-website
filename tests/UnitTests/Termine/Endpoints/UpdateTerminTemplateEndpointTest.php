@@ -30,6 +30,7 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
             'text' => 'Fake text',
             'deadlineEarlierSeconds' => 86400,
             'deadlineTime' => '22:00:00',
+            'shouldPromote' => true,
             'newsletter' => true,
             'types' => ['ol', 'club'],
             'locationId' => 123,
@@ -126,6 +127,7 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
         $this->assertSame('Fake text', $termin_template->getText());
         $this->assertSame(86400, $termin_template->getDeadlineEarlierSeconds());
         $this->assertSame('22:00:00', $termin_template->getDeadlineTime()->format('H:i:s'));
+        $this->assertTrue($termin_template->getShouldPromote());
         $this->assertTrue($termin_template->getNewsletter());
         $this->assertSame(['ol', 'club'], array_map(function ($label) {
             return $label->getIdent();

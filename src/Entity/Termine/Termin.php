@@ -41,6 +41,9 @@ class Termin extends OlzEntity implements DataStorageInterface {
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTime $deadline;
 
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
+    private bool $should_promote;
+
     #[ORM\ManyToOne(targetEntity: Registration::class)]
     #[ORM\JoinColumn(name: 'participants_registration_id', referencedColumnName: 'id')]
     private ?Registration $participants_registration;
@@ -166,6 +169,14 @@ class Termin extends OlzEntity implements DataStorageInterface {
 
     public function setDeadline(?\DateTime $new_value): void {
         $this->deadline = $new_value;
+    }
+
+    public function getShouldPromote(): bool {
+        return $this->should_promote;
+    }
+
+    public function setShouldPromote(bool $new_value): void {
+        $this->should_promote = $new_value;
     }
 
     public function getTitle(): ?string {

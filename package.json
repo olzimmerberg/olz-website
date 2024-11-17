@@ -8,7 +8,7 @@
   },
   "scripts": {
     "eslint": "eslint ./ --fix",
-    "jest": "jest",
+    "jest": "TZ=Europe/Zurich jest",
     "lint": "npm run eslint && npm run stylelint",
     "stylelint": "stylelint ./**/*.*css --fix",
     "test": "npm run jest",

@@ -26,6 +26,7 @@ trait TerminTemplateEndpointTrait {
                 'text' => new FieldTypes\StringField(['allow_empty' => true]),
                 'deadlineEarlierSeconds' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'deadlineTime' => new FieldTypes\TimeField(['allow_null' => true]),
+                'shouldPromote' => new FieldTypes\BooleanField([]),
                 'newsletter' => new FieldTypes\BooleanField(['allow_null' => false]),
                 // TODO: Migrate to labels
                 'types' => new FieldTypes\ArrayField([
@@ -56,6 +57,7 @@ trait TerminTemplateEndpointTrait {
             'text' => $entity->getText() ?? '',
             'deadlineEarlierSeconds' => $entity->getDeadlineEarlierSeconds(),
             'deadlineTime' => $entity->getDeadlineTime()?->format('H:i:s'),
+            'shouldPromote' => $entity->getShouldPromote(),
             'newsletter' => $entity->getNewsletter(),
             'types' => $types_for_api,
             'locationId' => $entity->getLocation()?->getId(),
@@ -77,6 +79,11 @@ trait TerminTemplateEndpointTrait {
         $entity->setText($input_data['text']);
         $entity->setDeadlineEarlierSeconds($input_data['deadlineEarlierSeconds']);
         $entity->setDeadlineTime($input_data['deadlineTime'] ? new \DateTime($input_data['deadlineTime']) : null);
+        if (count($valid_image_ids) > 0) {
+            $entity->setShouldPromote($input_data['shouldPromote']);
+        } else {
+            $entity->setShouldPromote(false);
+        }
         $entity->setNewsletter($input_data['newsletter']);
         $entity->clearLabels();
         foreach ($input_data['types'] as $ident) {

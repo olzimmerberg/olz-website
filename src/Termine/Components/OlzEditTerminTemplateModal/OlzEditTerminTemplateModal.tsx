@@ -19,6 +19,7 @@ interface OlzEditTerminTemplateForm {
     text: string;
     deadlineEarlierSeconds: string;
     deadlineTime: string;
+    shouldPromote: string;
     types: (string|boolean)[];
     locationId: number|null;
     imageIds: string[];
@@ -44,6 +45,7 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         text: getFormString(apiData?.text),
         deadlineEarlierSeconds: getFormNumber(apiData?.deadlineEarlierSeconds),
         deadlineTime: getFormString(apiData?.deadlineTime),
+        shouldPromote: getFormBoolean(apiData?.shouldPromote),
         types: labels.map((label) => getFormBoolean(typesSet.has(label.data.ident))),
         locationId: apiData?.locationId ?? null,
         fileIds: apiData?.fileIds ?? [],
@@ -65,6 +67,7 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditT
         text: getApiString(formData.text) ?? '',
         deadlineEarlierSeconds: getApiNumber(formData.deadlineEarlierSeconds),
         deadlineTime: getApiString(formData.deadlineTime),
+        shouldPromote: getApiBoolean(formData.shouldPromote),
         types: Array.from(typesSet),
         locationId: formData.locationId,
         fileIds: formData.fileIds,
@@ -83,7 +86,7 @@ interface OlzEditTerminTemplateModalProps {
 }
 
 export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProps): React.ReactElement => {
-    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditTerminTemplateForm>({
+    const {register, handleSubmit, formState: {errors}, control, watch} = useForm<OlzEditTerminTemplateForm>({
         resolver,
         defaultValues: getFormFromApi(props.labels, props.data),
     });
@@ -94,6 +97,8 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [successMessage, setSuccessMessage] = React.useState<string>('');
     const [errorMessage, setErrorMessage] = React.useState<string>('');
+
+    const imageIds = watch('imageIds');
 
     const onSubmit: SubmitHandler<OlzEditTerminTemplateForm> = async (values) => {
         setIsSubmitting(true);
@@ -124,6 +129,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
         ? 'Termin-Vorlage erstellen'
         : 'Termin-Vorlage bearbeiten'
     );
+    const isShouldPromoteEnabled = imageIds.length > 0;
     const isLoading = isLocationLoading || isImagesLoading || isFilesLoading;
 
     return (
@@ -187,6 +193,19 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                         errors={errors}
                         register={register}
                     />
+                </div>
+                <div className='col mb-3 shouldPromote-container'>
+                    <input
+                        type='checkbox'
+                        value='yes'
+                        {...register('shouldPromote')}
+                        disabled={!isShouldPromoteEnabled}
+                        id='shouldPromote-input'
+                    />
+                    <label htmlFor='shouldPromote-input'>
+                        Termin-Meldeschluss sofort auf der Startseite anzeigen
+                        {isShouldPromoteEnabled ? '' : ' (zuerst Bilder hinzufügen!)'}
+                    </label>
                 </div>
             </div>
             <div className='mb-3'>

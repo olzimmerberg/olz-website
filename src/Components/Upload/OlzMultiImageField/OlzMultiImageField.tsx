@@ -47,6 +47,19 @@ export const OlzMultiImageField = <
     const [registeringId, setRegisteringId] = React.useState<string|null>(null);
 
     React.useEffect(() => {
+        const uploadedFiles = uploadFiles.filter((uploadFile) => uploadFile.uploadState === 'UPLOADED');
+        // If the field.value has changed
+        if (
+            uploadedFiles.length !== field.value.length
+            || uploadedFiles.some((uploadFile, index) => uploadFile.uploadId !== field.value[index])
+        ) {
+            setUploadFiles(field.value.map(
+                (uploadId: string) => ({uploadState: 'UPLOADED', uploadId}),
+            ));
+        }
+    }, [field.value]);
+
+    React.useEffect(() => {
         if (uploadFiles.length === 0) {
             return () => undefined;
         }

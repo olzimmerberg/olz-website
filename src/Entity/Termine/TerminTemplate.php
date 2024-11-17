@@ -35,6 +35,9 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
     #[ORM\Column(type: 'time', nullable: true)]
     private ?\DateTime $deadline_time;
 
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
+    private bool $should_promote;
+
     // TODO: Participants registration template
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -116,6 +119,14 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
 
     public function setDeadlineTime(?\DateTime $new_value): void {
         $this->deadline_time = $new_value;
+    }
+
+    public function getShouldPromote(): bool {
+        return $this->should_promote;
+    }
+
+    public function setShouldPromote(bool $new_value): void {
+        $this->should_promote = $new_value;
     }
 
     public function getMinParticipants(): ?int {

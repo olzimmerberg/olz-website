@@ -180,62 +180,6 @@ class FakeProcessEmailCommandAttachment {
 /**
  * @internal
  *
- * @coversNothing
- */
-class ProcessEmailCommandForTest extends ProcessEmailCommand {
-    protected function basicImapOpen(
-        string $mailbox,
-        string $user,
-        string $password,
-        int $flags = 0,
-        int $retries = 0,
-    ): mixed {
-        return 'fake-connection';
-    }
-
-    /** @return array<int|string> */
-    protected function basicImapSearch(
-        mixed $imap,
-        string $criteria,
-        int $flags = 0,
-        string $charset = ""
-    ): array|bool {
-        if ($imap === 'fake-connection' && $criteria === 'TEXT "<fake-message-id>"') {
-            return [274565];
-        }
-        throw new \Exception("Invalid fake basicImapSearch: {$imap}, {$criteria}");
-    }
-
-    protected function basicImapMailMove(
-        mixed $imap,
-        string $message_nums,
-        string $mailbox,
-        int $flags = 0
-    ): bool {
-        if ($imap === 'fake-connection' && $message_nums === '274565' && $mailbox === 'INBOX.Failed') {
-            return true;
-        }
-        throw new \Exception("Invalid fake basicImapMailMove: {$imap}, {$message_nums}, {$mailbox}");
-    }
-
-    protected function basicImapExpunge(mixed $imap): bool {
-        if ($imap === 'fake-connection') {
-            return true;
-        }
-        throw new \Exception("Invalid fake basicImapExpunge: {$imap}");
-    }
-
-    protected function basicImapClose(mixed $imap, int $flags = 0): bool {
-        if ($imap === 'fake-connection') {
-            return true;
-        }
-        throw new \Exception("Invalid fake basicImapClose: {$imap}");
-    }
-}
-
-/**
- * @internal
- *
  * @covers \Olz\Command\ProcessEmailCommand
  */
 final class ProcessEmailCommandTest extends UnitTestCase {
@@ -249,13 +193,13 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
-            'ERROR Error running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest: Failed at something.',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'ERROR Error running command Olz\Command\ProcessEmailCommand: Failed at something.',
         ], $this->getLogs());
         $this->assertFalse(WithUtilsCache::get('emailUtils')->client->is_connected);
     }
@@ -271,18 +215,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO E-Mail 12 to non-olzimmerberg.ch address: someone@other-domain.com',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
 
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
@@ -316,18 +258,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO E-Mail 12 to inexistent user/role username: no-such-username',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -377,18 +317,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'NOTICE E-Mail 12 to user with no user_email permission: no-permission',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -447,18 +385,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -515,18 +451,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'NOTICE Email from someone@staging.olzimmerberg.ch to someone@gmail.com is not RFC-compliant: Email "non-rfc-compliant-email" does not comply with addr-spec of RFC 2822.',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -566,18 +500,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -632,18 +564,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'CRITICAL Error forwarding email from empty-email@staging.olzimmerberg.ch to : getUserAddress: empty-email (User ID: 1) has no email.',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertNull($mail->moved_to);
@@ -683,18 +613,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Email forwarded from someone-old@staging.olzimmerberg.ch to someone-old@gmail.com',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -771,18 +699,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -840,19 +766,17 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -936,19 +860,17 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -1044,18 +966,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             ->will($this->throwException(new \Exception('mocked-error')))
         ;
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'CRITICAL Error forwarding email from someone@staging.olzimmerberg.ch to someone@gmail.com: mocked-error',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertNull($mail->moved_to);
@@ -1100,20 +1020,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -1218,20 +1136,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -1347,20 +1263,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail1->moved_to);
@@ -1469,20 +1383,18 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             }),
         );
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Saving attachment Attachment1.pdf to AAAAAAAAAAAAAAAAAAAAAAAA.pdf...',
             'INFO Saving attachment Attachment2.docx to AAAAAAAAAAAAAAAAAAAAAAAA.docx...',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -1546,19 +1458,17 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Saving attachment Attachment1.pdf to AAAAAAAAAAAAAAAAAAAAAAAA.pdf...',
             'CRITICAL Error forwarding email from someone@staging.olzimmerberg.ch to someone@gmail.com: Could not save attachment Attachment1.pdf to AAAAAAAAAAAAAAAAAAAAAAAA.pdf.',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertNull($mail->moved_to);
@@ -1585,19 +1495,17 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         // no bounce email!
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO E-Mail 12 to inexistent user/role username: fake',
             'NOTICE sendReportEmail: Avoiding email loop for fake@staging.olzimmerberg.ch',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Processed', $mail->moved_to);
@@ -1631,24 +1539,20 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         // no bounce email!
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'NOTICE Doing E-Mail cleanup now...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Removing old archived E-Mails...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Removing old spam E-Mails...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
 
@@ -1705,18 +1609,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
-            'INFO Running command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest...',
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'WARNING getMails soft error:',
-            'INFO Soft-failed message with Message-ID <fake-message-id> was successfully moved to INBOX.Failed',
             'INFO Received honeypot spam E-Mail to: s.p.a.m',
-            'INFO Successfully ran command Olz\Tests\UnitTests\Command\ProcessEmailCommandForTest.',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
         $this->assertSame('INBOX.Spam', $mail->moved_to);
@@ -1730,7 +1632,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $this->assertStringContainsString(
             '431 Not enough storage or out of memory',
@@ -1744,7 +1646,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $this->assertStringContainsString(
             '<no-such-username@staging.olzimmerberg.ch>: 550 sorry, no mailbox here by that name',
@@ -1758,7 +1660,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $mail = new FakeProcessEmailCommandMail(1);
-        $job = new ProcessEmailCommandForTest();
+        $job = new ProcessEmailCommand();
         $job->setMailer($mailer);
         $this->assertStringContainsString(
             '123456 Unknown error',

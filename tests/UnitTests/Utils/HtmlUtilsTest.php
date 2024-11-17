@@ -172,10 +172,9 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testReplaceOlzMailToLinksWithoutSubject(): void {
         $html_utils = new HtmlUtils();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
-        $this->assertMatchesRegularExpression(
-            '/\/_\/verein\/vorstand_role/',
-            $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@olzimmerberg.ch">Test</a>')
-        );
+        $html = $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@olzimmerberg.ch">Test</a>');
+        $this->assertMatchesRegularExpression('/\/_\/verein\/vorstand_role/', $html);
+        $this->assertStringContainsString('img/users/3/thumb/oyLeyPTaCfmadcm5ShEJ236e.jpg$256.jpg 2x', $html);
         $this->assertSame(
             'Mail: <script>olz.MailTo("inexistent", "olzimmerberg.ch", "Contact me" + "")</script>!',
             $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:inexistent@olzimmerberg.ch" class="linkmail">Contact me</a>!')

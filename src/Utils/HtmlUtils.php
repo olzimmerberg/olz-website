@@ -65,10 +65,10 @@ class HtmlUtils {
                 $suffix = $this->getSuffix($matches[4][$i], $matches[5][$i], $matches[6][$i]);
                 $html = preg_replace(
                     "/{$prefix}{$email}{$subject}{$suffix}/",
-                    OlzPopup::render([
+                    $this->escapeDollar(OlzPopup::render([
                         'trigger' => "<a href='#' class='linkrole'>{$matches[5][$i]}</a>",
                         'popup' => OlzRoleInfoCard::render(['role' => $role]),
-                    ]),
+                    ])),
                     $html
                 );
             }
@@ -90,10 +90,10 @@ class HtmlUtils {
                 $suffix = $this->getSuffix($matches[3][$i], $matches[4][$i], $matches[5][$i]);
                 $html = preg_replace(
                     "/{$prefix}{$email}{$suffix}/",
-                    OlzPopup::render([
+                    $this->escapeDollar(OlzPopup::render([
                         'trigger' => "<a href='#' class='linkrole'>{$matches[4][$i]}</a>",
                         'popup' => OlzRoleInfoCard::render(['role' => $role]),
-                    ]),
+                    ])),
                     $html
                 );
             }
@@ -113,10 +113,10 @@ class HtmlUtils {
                 $email = "{$username}@olzimmerberg.ch";
                 $html = preg_replace(
                     "/{$email}/",
-                    OlzPopup::render([
+                    $this->escapeDollar(OlzPopup::render([
                         'trigger' => "<a href='#' class='linkrole'>{$email}</a>",
                         'popup' => OlzRoleInfoCard::render(['role' => $role]),
-                    ]),
+                    ])),
                     $html
                 );
             }
@@ -124,17 +124,17 @@ class HtmlUtils {
 
         $html = preg_replace(
             '/'.self::PREFIX_REGEX.self::EMAIL_REGEX.self::SUBJECT_REGEX.self::SUFFIX_REGEX.'/',
-            "<script>olz.MailTo(\"$2\", \"$3\", \"$6\" + \"$7\", \"$4\")</script>",
+            "<script>olz.MailTo(\"\$2\", \"\$3\", \"\$6\" + \"\$7\", \"\$4\")</script>",
             $html
         );
         $html = preg_replace(
             '/'.self::PREFIX_REGEX.self::EMAIL_REGEX.''.self::SUFFIX_REGEX.'/',
-            "<script>olz.MailTo(\"$2\", \"$3\", \"$5\" + \"$6\")</script>",
+            "<script>olz.MailTo(\"\$2\", \"\$3\", \"\$5\" + \"\$6\")</script>",
             $html
         );
         return preg_replace(
             '/(\s|^)'.self::EMAIL_REGEX.'([\s,\.!\?]|$)/',
-            "$1<script>olz.MailTo(\"$2\", \"$3\", \"E-Mail\")</script>$4",
+            "\$1<script>olz.MailTo(\"\$2\", \"\$3\", \"E-Mail\")</script>\$4",
             $html
         );
     }
@@ -178,6 +178,10 @@ class HtmlUtils {
         $esc_match2 = preg_quote($match2);
         $esc_match3 = preg_quote($match3);
         return "['\"]{$esc_match1}>{$esc_match2}{$esc_match3}<\\/a>";
+    }
+
+    protected function escapeDollar(string $replacement): string {
+        return str_replace('$', '\$', $replacement);
     }
 
     public static function fromEnv(): self {

@@ -167,7 +167,7 @@ class FakeUser extends FakeEntity {
                 $entity->setPasswordHash(md5('v0r57and')); // just for test
                 $entity->setPermissions('aktuell ftp vorstand_user');
                 $entity->setRoot('vorstand');
-                $entity->setAvatarImageId(null);
+                $entity->setAvatarImageId('oyLeyPTaCfmadcm5ShEJ236e.jpg');
                 return $entity;
             },
             function ($entity) {

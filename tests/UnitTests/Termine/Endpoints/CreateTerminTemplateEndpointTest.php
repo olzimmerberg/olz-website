@@ -29,6 +29,7 @@ final class CreateTerminTemplateEndpointTest extends UnitTestCase {
             'text' => 'Fake text',
             'deadlineEarlierSeconds' => 86400,
             'deadlineTime' => '22:00:00',
+            'shouldPromote' => true,
             'newsletter' => true,
             'types' => ['ol', 'club'],
             'locationId' => 123,

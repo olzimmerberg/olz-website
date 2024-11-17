@@ -85,6 +85,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                 WHERE 
                     se.deadline IS NOT NULL
                     AND se.deadline > '{$this->in_four_weeks}'
+                    AND t.should_promote != '0'
                     AND t.image_ids IS NOT NULL
                     AND t.image_ids != '[]'
             ) UNION ALL (
@@ -98,6 +99,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                 WHERE
                     t.deadline IS NOT NULL
                     AND t.deadline > '{$this->in_four_weeks}'
+                    AND t.should_promote != '0'
                     AND t.image_ids IS NOT NULL
                     AND t.image_ids != '[]'
             )

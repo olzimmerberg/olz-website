@@ -11,6 +11,7 @@ import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/
 import {isoNow} from '../../../Utils/constants';
 import {getApiBoolean, getApiNumber, getApiString, getDateFeedback, getDateTimeFeedback, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateIntegerOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
 import {isDefined, Entity} from '../../../Utils/generalUtils';
+import {getTerminUpdateFromTemplate} from '../../Utils/termineUtils';
 
 import './OlzEditTerminModal.scss';
 
@@ -23,6 +24,7 @@ interface OlzEditTerminForm {
     title: string;
     text: string;
     deadline: string;
+    shouldPromote: string;
     types: (string|boolean)[];
     locationId: number|null;
     coordinateX: string;
@@ -56,6 +58,7 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         title: getFormString(apiData?.title),
         text: getFormString(apiData?.text),
         deadline: getFormString(apiData?.deadline),
+        shouldPromote: getFormBoolean(apiData?.shouldPromote),
         types: labels.map((label) => getFormBoolean(typesSet.has(label.data.ident))),
         locationId: apiData?.locationId ?? null,
         coordinateX: getFormNumber(apiData?.coordinateX),
@@ -82,6 +85,7 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number
         title: getApiString(formData.title) ?? '',
         text: getApiString(formData.text) ?? '',
         deadline: getApiString(formData.deadline) || null,
+        shouldPromote: getApiBoolean(formData.shouldPromote),
         types: Array.from(typesSet),
         locationId: formData.locationId,
         coordinateX: formData.locationId ? null : getApiNumber(formData.coordinateX),
@@ -130,13 +134,15 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const deadline = watch('deadline');
     const solvId = watch('solvId');
     const locationId = watch('locationId');
+    const imageIds = watch('imageIds');
 
     React.useEffect(() => {
         if (!templateId) {
             return;
         }
         setIsTemplateLoading(true);
-        olzApi.call('getTerminTemplate', {
+        // We use edit (not get) in order to copy the images & files to temp/
+        olzApi.call('editTerminTemplate', {
             id: templateId,
         })
             .then((response) => {
@@ -153,62 +159,37 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             // Existing entry, do not prefill!
             return;
         }
-        setValue('startTime', getFormString(templateData.startTime));
-        if (templateData.startTime && templateData.durationSeconds) {
-            const isStartDateValid = true; // TODO: Actually check!
-            const startIso = isStartDateValid ? `${startDate} ${templateData.startTime}` : `${templateData.startTime}`;
-            const start = new Date(Date.parse(startIso));
-            const end = new Date(start.getTime() + templateData.durationSeconds * 1000);
-            const utcEnd = new Date(end.getTime() - end.getTimezoneOffset() * 60 * 1000);
-            setValue('endDate', getFormString(utcEnd.toISOString().substring(0, 10)));
-            setValue('endTime', getFormString(utcEnd.toISOString().substring(11, 19)));
+        // Ignore (overwrite) the start time in this case
+        const terminUpdate = getTerminUpdateFromTemplate(templateData, startDate, '', props.labels);
+        if (!terminUpdate) {
+            return;
         }
-        setValue('title', getFormString(templateData.title));
-        setValue('text', getFormString(templateData.text));
-        setValue('deadline', '');
-        setValue('hasNewsletter', getFormBoolean(templateData.newsletter));
-        const typesSet = new Set(templateData.types ?? []);
-        setValue('types', props.labels.map(
-            (label) => getFormBoolean(typesSet.has(label.data.ident)),
-        ));
-        setValue('locationId', templateData.locationId ?? null);
-        // TODO: Images & Files
+        setValue('startTime', terminUpdate.startTime);
+        setValue('endDate', terminUpdate.endDate);
+        setValue('endTime', terminUpdate.endTime);
+        setValue('title', terminUpdate.title);
+        setValue('text', terminUpdate.text);
+        setValue('deadline', terminUpdate.deadline);
+        setValue('shouldPromote', terminUpdate.shouldPromote);
+        setValue('hasNewsletter', terminUpdate.hasNewsletter);
+        setValue('types', terminUpdate.types);
+        setValue('locationId', terminUpdate.locationId);
+        setValue('imageIds', terminUpdate.imageIds);
+        setValue('fileIds', terminUpdate.fileIds);
     }, [templateData]);
 
     React.useEffect(() => {
         if (!templateData || !startTime) {
             return;
         }
-        const isStartDateValid = true; // TODO: Actually check!
-        const startIso = isStartDateValid ? `${startDate} ${startTime}` : `${startTime}`;
-        const start = new Date(Date.parse(startIso));
-        if (!(start instanceof Date) || isNaN(start.valueOf())) {
+        const terminUpdate = getTerminUpdateFromTemplate(templateData, startDate, startTime, props.labels);
+        if (!terminUpdate) {
             return;
         }
-
-        if (templateData?.durationSeconds) {
-            // Calculate end date & time
-            const endDateObj = new Date(start.getTime() + templateData.durationSeconds * 1000);
-            const utcEnd = new Date(endDateObj.getTime() - endDateObj.getTimezoneOffset() * 60 * 1000);
-            if (!(utcEnd instanceof Date) || isNaN(utcEnd.valueOf())) {
-                return;
-            }
-            setValue('endDate', utcEnd.toISOString().substring(0, 10));
-            setValue('endTime', utcEnd.toISOString().substring(11, 19));
-        }
-
-        if (templateData.deadlineEarlierSeconds) {
-            // Calculate deadline datetime
-            const deadlineDateObj = new Date(start.getTime() - templateData.deadlineEarlierSeconds * 1000);
-            const utcDeadline = new Date(deadlineDateObj.getTime() - deadlineDateObj.getTimezoneOffset() * 60 * 1000);
-            if (!(utcDeadline instanceof Date) || isNaN(utcDeadline.valueOf())) {
-                return;
-            }
-            const deadlineDateIso = utcDeadline.toISOString().substring(0, 10);
-            const deadlineTimeIso = templateData.deadlineTime ?? utcDeadline.toISOString().substring(11, 19);
-            setValue('deadline', `${deadlineDateIso} ${deadlineTimeIso}`);
-        }
-    }, [templateData, startDate, startTime]);
+        setValue('endDate', terminUpdate.endDate);
+        setValue('endTime', terminUpdate.endTime);
+        setValue('deadline', terminUpdate.deadline);
+    }, [startDate, startTime]);
 
     React.useEffect(() => {
         if (!solvId) {
@@ -252,6 +233,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const startDateInfo = getDateFeedback(startDate);
     const endDateInfo = getDateFeedback(endDate);
     const deadlineInfo = getDateTimeFeedback(getDeadlineDateTime(deadline));
+    const isShouldPromoteEnabled = imageIds.length > 0;
     const isLoading = isTemplateLoading || isSolvLoading || isLocationLoading || isImagesLoading || isFilesLoading;
 
     return (
@@ -341,16 +323,31 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                     register={register}
                 />
             </div>
-            <div className='mb-3'>
-                <OlzTextField
-                    title='Meldeschluss'
-                    name='deadline'
-                    errors={errors}
-                    register={register}
-                    disabled={solvId !== null}
-                    placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
-                />
-                {deadlineInfo}
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='Meldeschluss'
+                        name='deadline'
+                        errors={errors}
+                        register={register}
+                        disabled={solvId !== null}
+                        placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
+                    />
+                    {deadlineInfo}
+                </div>
+                <div className='col mb-3 shouldPromote-container'>
+                    <input
+                        type='checkbox'
+                        value='yes'
+                        {...register('shouldPromote')}
+                        disabled={!isShouldPromoteEnabled}
+                        id='shouldPromote-input'
+                    />
+                    <label htmlFor='shouldPromote-input'>
+                        Meldeschluss sofort auf der Startseite anzeigen
+                        {isShouldPromoteEnabled ? '' : ' (zuerst Bilder hinzufügen!)'}
+                    </label>
+                </div>
             </div>
             <div className='mb-3'>
                 <label htmlFor='types-container'>Typ</label>
@@ -438,7 +435,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                     id='hasNewsletter-input'
                 />
                 <label htmlFor='hasNewsletter-input'>
-                                    Newsletter für Änderung
+                    Newsletter für Änderung
                 </label>
             </div>
         </OlzEditModal>

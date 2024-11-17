@@ -27,6 +27,7 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setText(null);
                 $entity->setDeadlineEarlierSeconds(null);
                 $entity->setDeadlineTime(null);
+                $entity->setShouldPromote(false);
                 $entity->setNewsletter(true);
                 $entity->setLocation(null);
                 $entity->setImageIds([]);
@@ -48,6 +49,7 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setText(null);
                 $entity->setDeadlineEarlierSeconds(null);
                 $entity->setDeadlineTime(null);
+                $entity->setShouldPromote(false);
                 $entity->setNewsletter(false);
                 $entity->clearLabels();
                 $entity->setLocation(null);
@@ -78,6 +80,7 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setText("Fake text");
                 $entity->setDeadlineEarlierSeconds(86400 * 2);
                 $entity->setDeadlineTime(new \DateTime('18:00:00'));
+                $entity->setShouldPromote(true);
                 $entity->setNewsletter(true);
                 $entity->clearLabels();
                 $entity->addLabel($termin_label_1);

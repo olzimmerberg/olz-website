@@ -29,6 +29,7 @@ trait TerminEndpointTrait {
                 'title' => new FieldTypes\StringField([]),
                 'text' => new FieldTypes\StringField(['allow_empty' => true]),
                 'deadline' => new FieldTypes\DateTimeField(['allow_null' => true]),
+                'shouldPromote' => new FieldTypes\BooleanField([]),
                 'newsletter' => new FieldTypes\BooleanField([]),
                 'solvId' => new FieldTypes\IntegerField(['allow_null' => true]),
                 'go2olId' => new FieldTypes\StringField(['allow_null' => true]),
@@ -65,6 +66,7 @@ trait TerminEndpointTrait {
             'title' => $entity->getTitle(),
             'text' => $entity->getText() ?? '',
             'deadline' => $entity->getDeadline()?->format('Y-m-d H:i:s'),
+            'shouldPromote' => $entity->getShouldPromote(),
             'newsletter' => $entity->getNewsletter(),
             'solvId' => $entity->getSolvId() ? $entity->getSolvId() : null,
             'go2olId' => $entity->getGo2olId() ? $entity->getGo2olId() : null,
@@ -94,6 +96,11 @@ trait TerminEndpointTrait {
         $entity->setTitle($input_data['title']);
         $entity->setText($input_data['text']);
         $entity->setDeadline($input_data['deadline'] ? new \DateTime($input_data['deadline']) : null);
+        if (count($valid_image_ids) > 0) {
+            $entity->setShouldPromote($input_data['shouldPromote']);
+        } else {
+            $entity->setShouldPromote(false);
+        }
         $entity->setNewsletter($input_data['newsletter']);
         $entity->setSolvId($input_data['solvId']);
         $entity->setGo2olId($input_data['go2olId']);

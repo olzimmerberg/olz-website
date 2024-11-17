@@ -31,6 +31,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             'title' => 'Test event',
             'text' => "some info\n\n[Home](test-anlass.ch)",
             'deadline' => null,
+            'shouldPromote' => false,
             'newsletter' => false,
             'solvId' => null,
             'go2olId' => null,

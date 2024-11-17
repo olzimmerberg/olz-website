@@ -24,7 +24,6 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $code_path = $this->envUtils()->getCodePath();
 
         $out = '';
-        $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
 
         $termin_template = $args['termin_template'];
         $id = $termin_template->getId();
@@ -35,7 +34,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $labels = [...$termin_template->getLabels()];
         $termin_location = $termin_template->getLocation();
 
-        $link = "{$code_href}termine/vorlagen/{$id}?filter={$enc_current_filter}";
+        $link = "{$code_href}termine/vorlagen/{$id}";
         $type_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
             $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?
@@ -89,7 +88,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
             $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");
             $row_location = $result_location->fetch_assoc();
             $location_name = $row_location['name'];
-            $text = "<a href='{$code_href}termine/orte/{$sane_termin_location_id}?filter={$enc_current_filter}' class='linkmap'>{$location_name}</a> {$text}";
+            $text = "<a href='{$code_href}termine/orte/{$sane_termin_location_id}' class='linkmap'>{$location_name}</a> {$text}";
         }
 
         $out .= <<<ZZZZZZZZZZ

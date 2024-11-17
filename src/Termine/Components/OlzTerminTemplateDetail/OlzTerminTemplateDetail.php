@@ -23,7 +23,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $params = $this->httpUtils()->validateGetParams([
+        $this->httpUtils()->validateGetParams([
             'filter' => new FieldTypes\StringField(['allow_null' => true]),
         ]);
 
@@ -40,10 +40,6 @@ class OlzTerminTemplateDetail extends OlzComponent {
 
         $title = $termin_template->getTitle() ?? '';
         $back_link = "{$code_href}termine/vorlagen";
-        if ($params['filter'] ?? null) {
-            $enc_filter = urlencode($params['filter']);
-            $back_link = "{$code_href}termine/vorlagen?filter={$enc_filter}";
-        }
         $out = OlzHeader::render([
             'back_link' => $back_link,
             'title' => "{$title} - Vorlagen",

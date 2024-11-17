@@ -33,6 +33,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setCoordinateX(null);
                 $entity->setCoordinateY(null);
                 $entity->setDeadline(null);
+                $entity->setShouldPromote(false);
                 $entity->setSolvId(null);
                 $entity->setGo2olId(null);
                 $entity->setNewsletter(false);
@@ -61,6 +62,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setCoordinateX(0);
                 $entity->setCoordinateY(0);
                 $entity->setDeadline(new \DateTime('0000-01-01 00:00:00'));
+                $entity->setShouldPromote(false);
                 $entity->setSolvId(0);
                 $entity->setGo2olId('');
                 $entity->setNewsletter(false);
@@ -101,6 +103,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setCoordinateX(684835);
                 $entity->setCoordinateY(237021);
                 $entity->setDeadline(new \DateTime('2020-03-13 18:00:00'));
+                $entity->setShouldPromote(true);
                 $entity->setSolvId(11012);
                 $entity->setGo2olId('deprecated');
                 $entity->setNewsletter(true);

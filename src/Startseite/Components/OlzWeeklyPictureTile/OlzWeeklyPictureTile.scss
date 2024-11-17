@@ -27,6 +27,16 @@
 }
 
 #weekly-picture-carousel {
+    .carousel-control-prev,
+    .carousel-control-next {
+        transition: background-color 0.2s, opacity 0.2s;
+        background-color: rgba(0,0,0,0);
+
+        &:hover {
+            background-color: rgba(0,0,0,0.3);
+        }
+    }
+
     .carousel-control-prev-icon,
     .carousel-control-next-icon {
         background-size: 75% 75%;

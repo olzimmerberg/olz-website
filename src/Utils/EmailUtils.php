@@ -70,7 +70,11 @@ class EmailUtils {
         $imap_username = $env_utils->getImapUsername();
         $imap_password = $env_utils->getImapPassword();
 
-        $cm = new ClientManager();
+        $cm = new ClientManager([
+            'options' => [
+                'fallback_date' => '1970-01-01 00:00:00',
+            ],
+        ]);
         return $cm->make([
             'host' => $imap_host,
             'port' => $imap_port,

@@ -142,13 +142,8 @@ class ProcessEmailCommand extends OlzCommand {
             $query->leaveUnread();
             $query->setFetchBody(false);
             $messages = $query->all()->softFail()->get();
-            $soft_errors = [];
             foreach ($query->errors() as $error) {
                 $this->log()->warning("getMails soft error:", [$error]);
-                $soft_errors[] = $error->getMessage();
-            }
-            if (count($soft_errors) > 0) {
-                $this->handleSoftErrors($folder_path, $soft_errors);
             }
             return $messages;
         } catch (ResponseException $exc) {
@@ -160,45 +155,6 @@ class ProcessEmailCommand extends OlzCommand {
         } catch (\Exception $exc) {
             $this->log()->critical("Exception in getMails: {$exc->getMessage()}", [$exc]);
             throw $exc;
-        }
-    }
-
-    /** @param array<string> $soft_errors */
-    protected function handleSoftErrors(string $folder_path, array $soft_errors): void {
-        $env_utils = $this->envUtils();
-        $imap_host = $env_utils->getImapHost();
-        $imap_port = $env_utils->getImapPort();
-        $imap_flags = $env_utils->getImapFlags();
-        $imap_username = $env_utils->getImapUsername();
-        $imap_password = $env_utils->getImapPassword();
-
-        $imap_mailbox = "{{$imap_host}:{$imap_port}{$imap_flags}}{$folder_path}";
-        try {
-            $mbox = $this->basicImapOpen($imap_mailbox, $imap_username, $imap_password);
-            foreach ($soft_errors as $soft_error) {
-                $has_message_id = preg_match('/\sMessage\-ID\:\s*(<[^>]+>)/', $soft_error, $matches);
-                if (!$has_message_id) {
-                    $this->log()->warning("Does not contain Message-ID: {$soft_error}");
-                    continue;
-                }
-                $message_id = $matches[1];
-                $result = $this->basicImapSearch($mbox, "TEXT \"{$message_id}\"");
-                $num_result = count($result);
-                if ($num_result !== 1) {
-                    $this->log()->warning("Found {$num_result} emails with Message-ID {$message_id}, expected 1");
-                    continue;
-                }
-                $success = $this->basicImapMailMove($mbox, strval($result[0]), $this->failed_mailbox);
-                if (!$success) {
-                    $this->log()->warning("Failed to move soft-failed message with Message-ID {$message_id} to {$this->failed_mailbox}");
-                    continue;
-                }
-                $this->log()->info("Soft-failed message with Message-ID {$message_id} was successfully moved to {$this->failed_mailbox}", [$result]);
-            }
-            $this->basicImapExpunge($mbox);
-            $this->basicImapClose($mbox);
-        } catch (\Throwable $th) {
-            $this->log()->warning("Could not handle soft errors: {$th->getMessage()}", [$th]);
         }
     }
 
@@ -563,53 +519,4 @@ class ProcessEmailCommand extends OlzCommand {
 
         return $report_message;
     }
-
-    // @codeCoverageIgnoreStart
-    // Reason: Mocked in tests.
-
-    protected function basicImapOpen(
-        string $mailbox,
-        string $user,
-        string $password,
-        int $flags = 0,
-        int $retries = 0,
-    ): mixed {
-        return \imap_open(
-            $mailbox,
-            $user,
-            $password,
-            $flags,
-            $retries,
-            [],
-        );
-    }
-
-    /** @return array<int|string> */
-    protected function basicImapSearch(
-        mixed $imap,
-        string $criteria,
-        int $flags = 0,
-        string $charset = ""
-    ): array|bool {
-        return \imap_search($imap, $criteria, $flags | \SE_UID, $charset);
-    }
-
-    protected function basicImapMailMove(
-        mixed $imap,
-        string $message_nums,
-        string $mailbox,
-        int $flags = 0
-    ): bool {
-        return \imap_mail_move($imap, $message_nums, $mailbox, $flags | \CP_UID);
-    }
-
-    protected function basicImapExpunge(mixed $imap): bool {
-        return \imap_expunge($imap);
-    }
-
-    protected function basicImapClose(mixed $imap, int $flags = 0): bool {
-        return \imap_close($imap, $flags);
-    }
-
-    // @codeCoverageIgnoreEnd
 }

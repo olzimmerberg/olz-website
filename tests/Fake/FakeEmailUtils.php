@@ -120,7 +120,16 @@ class FakeWhereQuery extends WhereQuery {
         return $this;
     }
 
+    public function softFail(bool $state = true): WhereQuery {
+        return $this;
+    }
+
     public function get(): MessageCollection {
         return new MessageCollection($this->mails ?? []);
+    }
+
+    /** @return array<\Exception> */
+    public function errors(): array {
+        return [new \Exception('test soft error: Message-ID: <fake-message-id>')];
     }
 }

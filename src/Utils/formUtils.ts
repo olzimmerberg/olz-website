@@ -252,7 +252,7 @@ export function getDateTimeFeedback(valueArg: string): string {
     }
     const jsDate = new Date(isoDateTime);
     const weekday = jsDate.toLocaleString('de-ch', {weekday: 'long'});
-    return `✅ ${weekday}`;
+    return `🟢 ${weekday}`;
 }
 
 export function validateDateOrNull(valueArg: string): [FieldError|undefined, string] {
@@ -297,7 +297,7 @@ export function getDateFeedback(valueArg: string): string {
     }
     const jsDate = new Date(`${isoDateTime} 12:00:00`);
     const weekday = jsDate.toLocaleString('de-ch', {weekday: 'long'});
-    return `✅ ${weekday}`;
+    return `🟢 ${weekday}`;
 }
 
 export function validateTimeOrNull(valueArg: string): [FieldError|undefined, string] {

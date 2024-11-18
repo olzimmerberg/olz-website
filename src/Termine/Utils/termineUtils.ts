@@ -2,6 +2,7 @@ import {OlzTerminLabelData, OlzTerminTemplateData} from '../../Api/client/genera
 import {getFormBoolean, getFormString, validateDateOrNull} from '../../Utils/formUtils';
 import {Entity} from '../../Utils/generalUtils';
 import {isoNow} from '../../Utils/constants';
+import {toISO} from '../../Utils/dateUtils';
 
 export interface TerminUpdate {
     startTime: string;
@@ -39,7 +40,7 @@ export function getTerminUpdateFromTemplate(
     let endTime = '';
     if (templateData.startTime && templateData.durationSeconds) {
         const end = new Date(start.getTime() + templateData.durationSeconds * 1000);
-        const isoEnd = getISO(end);
+        const isoEnd = toISO(end);
         endDate = getFormString(isoEnd.substring(0, 10));
         endTime = getFormString(isoEnd.substring(11, 19));
     }
@@ -48,7 +49,7 @@ export function getTerminUpdateFromTemplate(
     if (templateData.startTime && templateData.deadlineEarlierSeconds) {
         const deadlineOffset = new Date(start.getTime() - templateData.deadlineEarlierSeconds * 1000);
         if (!templateData.deadlineTime) {
-            deadline = getFormString(getISO(deadlineOffset));
+            deadline = getFormString(toISO(deadlineOffset));
         } else {
             const deadlineDay = deadlineOffset.toISOString().substring(0, 10);
             const deadlineTimeThatDayIso = `${deadlineDay} ${templateData.deadlineTime}`;
@@ -60,7 +61,7 @@ export function getTerminUpdateFromTemplate(
             } else if (diffSeconds > 12 * 60 * 60) {
                 deadlineAtTime = new Date(deadlineTimeThatDay.getTime() + 24 * 60 * 60 * 1000);
             }
-            const isoDeadlineAtTime = getISO(deadlineAtTime);
+            const isoDeadlineAtTime = toISO(deadlineAtTime);
             deadline = getFormString(isoDeadlineAtTime);
         }
     }
@@ -84,15 +85,4 @@ export function getTerminUpdateFromTemplate(
         imageIds: templateData.imageIds ?? [],
         fileIds: templateData.fileIds ?? [],
     };
-}
-
-function getISO(dateTime: Date): string {
-    const utcDate = toUTC(dateTime);
-    const datePart = utcDate.toISOString().substring(0, 10);
-    const timePart = utcDate.toISOString().substring(11, 19);
-    return getFormString(`${datePart} ${timePart}`);
-}
-
-function toUTC(dateTime: Date): Date {
-    return new Date(dateTime.getTime() - dateTime.getTimezoneOffset() * 60 * 1000);
 }

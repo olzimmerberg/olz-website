@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {initReact} from '../../Utils/reactUtils';
 import {OlzStatistics} from './Components/index';
 
-ReactDOM.render(
-    <OlzStatistics />,
-    document.getElementById('react-root'),
-);
+initReact('react-root', <OlzStatistics />);
 
 export function loaded(): void {
     console.log('olzStatistics loaded');

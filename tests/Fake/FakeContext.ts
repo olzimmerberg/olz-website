@@ -1,5 +1,6 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* istanbul ignore next */
 class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingContext {
     createConicGradient(startAngle: number, x: number, y: number): CanvasGradient {
         throw new Error('Method not implemented.');

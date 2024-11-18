@@ -1,14 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {initReact} from '../../Utils/reactUtils';
 import {OlzLogs} from './Components/index';
 
-const elem = document.getElementById('react-root');
-if (elem) {
-    ReactDOM.render(
-        <OlzLogs />,
-        elem,
-    );
-}
+initReact('react-root', <OlzLogs />);
 
 export function loaded(): void {
     console.log('olzLogs loaded');

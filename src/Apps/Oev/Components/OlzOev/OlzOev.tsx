@@ -1,13 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {initReact} from '../../../../Utils/reactUtils';
 import {OlzTransportConnectionSearch} from '../OlzTransportConnectionSearch/OlzTransportConnectionSearch';
 
 import './OlzOev.scss';
 
 export function initOlzTransportConnectionSearch(): boolean {
-    ReactDOM.render(
-        <OlzTransportConnectionSearch />,
-        document.getElementById('oev-root'),
-    );
+    initReact('oev-root', <OlzTransportConnectionSearch />);
     return false;
 }

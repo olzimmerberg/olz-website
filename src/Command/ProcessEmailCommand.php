@@ -44,6 +44,18 @@ class ProcessEmailCommand extends OlzCommand {
     public string $archive_mailbox = 'INBOX.Archive';
     public string $failed_mailbox = 'INBOX.Failed';
     public string $spam_mailbox = 'INBOX.Spam';
+    /** @var array<string> */
+    public array $spam_report_froms = ['MAILER-DAEMON@219.hosttech.eu'];
+    /** @var array<string> */
+    public array $spam_report_subjects = ['Undelivered Mail Returned to Sender'];
+    /** @var array<string, int> */
+    public array $spam_report_body_patterns = [
+        '/\W550\W/' => 1,
+        '/\s+URL\s+in\s+this\s+email\W/i' => 2,
+        '/\Wlisted\W/i' => 1,
+        '/\Wspam\W/i' => 3,
+    ];
+    public int $min_num_spam_matches = 3;
 
     protected Client $client;
 
@@ -135,13 +147,19 @@ class ProcessEmailCommand extends OlzCommand {
         return $this->getMails('INBOX');
     }
 
-    protected function getMails(string $folder_path): MessageCollection {
+    protected function getMails(string $folder_path, mixed $where = null): MessageCollection {
         try {
             $folder = $this->client->getFolderByPath($folder_path);
             $query = $folder->messages();
+            $query->softFail();
             $query->leaveUnread();
             $query->setFetchBody(false);
-            $messages = $query->all()->softFail()->get();
+            if ($where !== null) {
+                $query->where($where);
+            } else {
+                $query->all();
+            }
+            $messages = $query->get();
             foreach ($query->errors() as $error) {
                 $this->log()->warning("getMails soft error:", [$error]);
             }
@@ -297,8 +315,62 @@ class ProcessEmailCommand extends OlzCommand {
             }
             return $this->forwardEmailToUser($mail, $user, $address);
         }
+
+        $smtp_from = $this->envUtils()->getSmtpFrom();
+        if ($address === $smtp_from) {
+            $this->log()->info("E-Mail {$mail_uid} to bot...");
+            return $this->processMailToBot($mail);
+        }
+
         $this->log()->info("E-Mail {$mail_uid} to inexistent user/role username: {$username}");
         $this->sendReportEmail($mail, $address, 550);
+        return 2;
+    }
+
+    protected function processMailToBot(Message $mail): int {
+        $from = $mail->getFrom()->first()->mail;
+        $subject = $mail->getSubject()->first();
+        if (
+            array_search($from, $this->spam_report_froms) === false
+            || array_search($subject, $this->spam_report_subjects) === false
+        ) {
+            $this->log()->info("E-Mail \"{$subject}\" from {$from} to bot");
+            return 2;
+        }
+        $mail->parseBody();
+        $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : '';
+        $text = $mail->hasTextBody() ? $mail->getTextBody() : '';
+        $body = "{$html}\n\n{$text}";
+        $num_spam_matches = 0;
+        foreach ($this->spam_report_body_patterns as $pattern => $increment) {
+            if (preg_match($pattern, $body)) {
+                $num_spam_matches += $increment;
+            }
+        }
+        $this->log()->info("Spam notice score {$num_spam_matches} of {$this->min_num_spam_matches}", [$body]);
+        if ($num_spam_matches < $this->min_num_spam_matches) {
+            $this->log()->info("Delivery notice E-Mail from {$from} to bot", []);
+            return 2;
+        }
+        $original_message_id = null;
+        $attachments = $mail->hasAttachments() ? $mail->getAttachments() : [];
+        foreach ($attachments as $attachment_id => $attachment) {
+            $content = $attachment->getContent();
+            $has_message_id = preg_match('/Message-ID:\s*(<[^>]+>)/', $content, $matches);
+            if ($has_message_id) {
+                $original_message_id = $matches[1];
+            }
+        }
+        if (!$original_message_id) {
+            $this->log()->info("Spam notice E-Mail from {$from} to bot has no Message-ID", []);
+            return 2;
+        }
+        $this->log()->info("Spam notice E-Mail from {$from} to bot: Message-ID {$original_message_id} is spam", []);
+        $spam_mails = $this->getMails($this->processed_mailbox, [['TEXT' => $original_message_id]]);
+        foreach ($spam_mails as $spam_mail) {
+            $this->log()->info("Move spam E-Mail", [$spam_mail]);
+            $spam_mail->move($folder_path = $this->spam_mailbox);
+        }
         return 2;
     }
 

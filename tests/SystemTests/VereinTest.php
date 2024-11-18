@@ -35,7 +35,9 @@ final class VereinTest extends SystemTestCase {
     }
 
     protected function doVereinReadOnly(RemoteWebDriver $browser): void {
-        $this->login('vorstand', 'v0r57and');
+        if (!$this->isInModes('prod')) {
+            $this->login('vorstand', 'v0r57and');
+        }
         $browser->get($this->getUrl());
         $this->screenshot('verein');
 

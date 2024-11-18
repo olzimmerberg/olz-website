@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {initReact} from '../../Utils/reactUtils';
 import {OlzYoutube} from './Components/index';
 
-ReactDOM.render(
-    <OlzYoutube />,
-    document.getElementById('react-root'),
-);
+initReact('react-root', <OlzYoutube />);
 
 export function loaded(): void {
     console.log('olzYoutube loaded');

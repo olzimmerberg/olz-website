@@ -1,6 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {initReact} from '../../../Utils/reactUtils';
 
 interface OlzConfirmationDialogProps {
     title: string;
@@ -67,18 +67,20 @@ export async function olzConfirm(
     params?: OlzConfirmOptionalParams,
 ): Promise<true> {
     return new Promise((resolve, reject) => {
-        ReactDOM.render(
+        initReact(
+            'dialog-react-root',
             <OlzConfirmationDialog
                 title={title}
                 onCancel={() => reject(new Error('Abgebrochen'))}
                 onConfirm={() => resolve(true)}
                 {...params}
             />,
-            document.getElementById('dialog-react-root'),
         );
-        const modal = document.getElementById('confirmation-dialog-modal');
-        if (modal) {
-            new bootstrap.Modal(modal, {backdrop: 'static'}).show();
-        }
+        setTimeout(() => {
+            const modal = document.getElementById('confirmation-dialog-modal');
+            if (modal) {
+                new bootstrap.Modal(modal, {backdrop: 'static'}).show();
+            }
+        }, 1);
     });
 }

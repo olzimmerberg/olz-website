@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {initReact} from '../../Utils/reactUtils';
 import {OlzMonitoring} from './Components/index';
 
-ReactDOM.render(
-    <OlzMonitoring />,
-    document.getElementById('react-root'),
-);
+initReact('react-root', <OlzMonitoring />);
 
 export function loaded(): void {
     console.log('olzMonitoring loaded');

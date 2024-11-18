@@ -1,11 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {initReact} from '../../Utils/reactUtils';
 import {OlzSearchEngines} from './Components/index';
 
-ReactDOM.render(
-    <OlzSearchEngines />,
-    document.getElementById('react-root'),
-);
+
+initReact('react-root', <OlzSearchEngines />);
 
 export function loaded(): void {
     console.log('olzSearchEngines loaded');

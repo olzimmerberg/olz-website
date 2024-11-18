@@ -573,7 +573,7 @@ describe('getDateTimeFeedback', () => {
 
     it('returns feedback', () => {
         expect(formUtils.getDateTimeFeedback('13.01.2006 18:03'))
-            .toEqual('✅ Freitag');
+            .toEqual('🟢 Freitag');
     });
 });
 
@@ -643,7 +643,7 @@ describe('getDateFeedback', () => {
 
     it('returns feedback', () => {
         expect(formUtils.getDateFeedback('13.01.2006'))
-            .toEqual('✅ Freitag');
+            .toEqual('🟢 Freitag');
     });
 });
 

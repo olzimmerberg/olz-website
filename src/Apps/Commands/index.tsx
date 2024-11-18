@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {initReact} from '../../Utils/reactUtils';
 import {OlzCommands} from './Components/index';
 
-ReactDOM.render(
-    <OlzCommands />,
-    document.getElementById('react-root'),
-);
+initReact('react-root', <OlzCommands />);
 
 export function loaded(): void {
     console.log('olzCommands loaded');

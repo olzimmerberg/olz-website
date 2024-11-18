@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {OlzRegistrationView} from './Components/index';
+import {initReact} from '../../Utils/reactUtils';
 
-ReactDOM.render(
-    <OlzRegistrationView />,
-    document.getElementById('react-root'),
-);
+initReact('react-root', <OlzRegistrationView />);
 
 export function loaded(): void {
     console.log('olzAnmelden loaded');

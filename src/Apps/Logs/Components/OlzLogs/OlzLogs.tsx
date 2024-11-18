@@ -5,6 +5,9 @@ import {olzApi} from '../../../../Api/client';
 import {OlzLogLevel, OlzLogsQuery} from '../../../../Api/client/generated_olz_api_types';
 import {OlzInfiniteScroll} from '../OlzInfiniteScroll/OlzInfiniteScroll';
 import {dataHref, isoNow} from '../../../../Utils/constants';
+import {validateDate, validateDateTime} from '../../../../Utils/formUtils';
+import {toISO} from '../../../../Utils/dateUtils';
+import {assert} from '../../../../Utils';
 
 import './OlzLogs.scss';
 
@@ -45,21 +48,25 @@ const elementFromHash = (
     ] as const;
 };
 
-const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, textSearchArg: string): OlzLogsQuery => {
+const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, textSearchArg: string): OlzLogsQuery|null => {
     let targetDate: string|null = null;
     let firstDate: string|null = null;
     let lastDate: string|null = null;
-    let match: RegExpExecArray|null;
-    const isoRegex = /^\s*(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*$/i;
+    const [dateTimeError, isoDateTime] = validateDateTime(dateArg);
+    const [dateError, isoDate] = validateDate(dateArg);
     if (/^\s*(now|jetzt)\s*$/i.exec(dateArg)) {
-        const nowIso = (new Date()).toISOString();
-        targetDate = `${nowIso.substring(0, 10)} ${nowIso.substring(11, 19)}`;
+        targetDate = toISO(new Date());
     } else if (/^\s*(today|heute)\s*$/i.exec(dateArg)) {
-        const todayIso = (new Date()).toISOString().substring(0, 10);
+        const todayIso = toISO(new Date()).substring(0, 10);
         firstDate = `${todayIso} 00:00:00`;
         lastDate = `${todayIso} 23:59:59`;
-    } else if ((match = isoRegex.exec(dateArg))) {
-        targetDate = match[1] ?? null;
+    } else if (!dateTimeError) {
+        targetDate = isoDateTime;
+    } else if (!dateError) {
+        firstDate = `${isoDate} 00:00:00`;
+        lastDate = `${isoDate} 23:59:59`;
+    } else {
+        return null;
     }
 
     const logLevelMap: {[key: string]: OlzLogLevel} = {
@@ -166,8 +173,8 @@ export const OlzLogs = (): React.ReactElement => {
         );
         return {
             items: response.content,
-            prevQuery: getTokenQuery(initialQuery, response.pagination.previous),
-            nextQuery: getTokenQuery(initialQuery, response.pagination.next),
+            prevQuery: getTokenQuery(assert(initialQuery), response.pagination.previous),
+            nextQuery: getTokenQuery(assert(initialQuery), response.pagination.next),
         };
     };
 
@@ -239,11 +246,15 @@ export const OlzLogs = (): React.ReactElement => {
             </div>
         </div>
         <div id='logs'>
-            <OlzInfiniteScroll
-                initialQuery={initialQuery}
-                fetch={fetch}
-                renderItem={renderItem}
-            />
+            {initialQuery ? (
+                <OlzInfiniteScroll
+                    initialQuery={initialQuery}
+                    fetch={fetch}
+                    renderItem={renderItem}
+                />
+            ) : (
+                <div className='error-message'>Ungültige Anfrage</div>
+            )}
         </div>
     </>);
 };

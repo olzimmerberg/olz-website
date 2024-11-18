@@ -142,7 +142,11 @@ export const OlzInfiniteScroll = <Item, Query>(
                     mehr...
                 </button>
             ) : null}
-            {items.map((item) => props.renderItem(item))}
+            {items.map((item, index) => (
+                <div key={`item-${index}`}>
+                    {props.renderItem(item)}
+                </div>
+            ))}
             {nextQuery ? (
                 <button
                     type='button'

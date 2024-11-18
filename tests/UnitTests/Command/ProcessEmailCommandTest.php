@@ -175,6 +175,11 @@ class FakeProcessEmailCommandAttachment {
         $this->saved[] = [$path, $filename];
         return $this->should_fail ? false : true;
     }
+
+    public function getContent(): string {
+        // Used for spam notification emails
+        return 'Message-ID: <fake-message-id> Some spam email content';
+    }
 }
 
 /**
@@ -1476,7 +1481,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged'], $mail->flag_actions);
     }
 
-    public function testProcessEmailCommandEmailToSmtpFrom(): void {
+    public function testProcessEmailCommandEmailDeliveryNoticeSpam(): void {
         $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
@@ -1487,7 +1492,54 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             new Attribute('to', []),
             new Attribute('cc', []),
             new Attribute('bcc', []),
-            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
+            new Attribute('from', getAddress('MAILER-DAEMON@219.hosttech.eu', 'Mail Delivery System')),
+            new Attribute('subject', 'Undelivered Mail Returned to Sender'),
+            'replied: 550 likely spam',
+            '',
+        );
+        $attachment = new FakeProcessEmailCommandAttachment('a8e4cc3b');
+        $mail->attachments = new AttachmentCollection([
+            'attachmentId' => $attachment,
+        ]);
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+        // no bounce email!
+        $mailer->expects($this->exactly(0))->method('send');
+
+        $job = new ProcessEmailCommand();
+        $job->setMailer($mailer);
+        $job->run($input, $output);
+
+        $this->assertSame([
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'WARNING getMails soft error:',
+            'WARNING getMails soft error:',
+            'INFO E-Mail 12 to bot...',
+            'INFO Spam notice score 4 of 3',
+            'INFO Spam notice E-Mail from MAILER-DAEMON@219.hosttech.eu to bot: Message-ID <fake-message-id> is spam',
+            'WARNING getMails soft error:',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+        ], $this->getLogs());
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertSame('INBOX.Processed', $mail->moved_to);
+        $this->assertTrue($mail->is_body_fetched);
+        $this->assertSame([], $mail->flag_actions);
+    }
+
+    public function testProcessEmailCommandEmailToFrom(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
+        $mailer = $this->createMock(MailerInterface::class);
+        $mail = new FakeProcessEmailCommandMail(
+            12,
+            'from@staging.olzimmerberg.ch',
+            new Attribute('to', []),
+            new Attribute('cc', []),
+            new Attribute('bcc', []),
+            new Attribute('from', getAddress('from@staging.olzimmerberg.ch', 'From Name')),
+            new Attribute('subject', 'Test subject'),
         );
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
@@ -1503,8 +1555,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'INFO E-Mail 12 to inexistent user/role username: fake',
-            'NOTICE sendReportEmail: Avoiding email loop for fake@staging.olzimmerberg.ch',
+            'INFO E-Mail 12 to inexistent user/role username: from',
+            'NOTICE sendReportEmail: Avoiding email loop for from@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);

@@ -116,6 +116,10 @@ class FakeWhereQuery extends WhereQuery {
         return $this;
     }
 
+    public function where(mixed $criteria, mixed $value = null): WhereQuery {
+        return $this;
+    }
+
     public function all(): WhereQuery {
         return $this;
     }

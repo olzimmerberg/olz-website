@@ -92,6 +92,33 @@ class GeneralUtils {
         return $output;
     }
 
+    /** @param array<array<string, mixed>> $trace */
+    public function getTraceOverview(array $trace, int $first_index = 1): string {
+        $output = '';
+        $trace_len = count($trace);
+        $last_class_name = null;
+        for ($i = $trace_len - 1; $i >= $first_index; $i--) {
+            $entry = $trace[$i];
+
+            $class_name = $entry['class'] ?? '';
+            if (
+                $class_name === ''
+                || $class_name === $last_class_name
+                || substr($class_name, 0, 4) !== 'Olz\\'
+            ) {
+                continue;
+            }
+            $last_class_name = $class_name;
+            $base_class_name = substr($class_name, strrpos($class_name, '\\') + 1);
+
+            if ($output !== '') {
+                $output .= ">";
+            }
+            $output .= "{$base_class_name}";
+        }
+        return $output;
+    }
+
     /** @return array<mixed> */
     public function measureLatency(callable $fn): array {
         $before = microtime(true);

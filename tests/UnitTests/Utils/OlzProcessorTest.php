@@ -31,7 +31,7 @@ final class OlzProcessorTest extends UnitTestCase {
         ]);
         $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'channel', Level::Info, "Message", ['con' => 'text']);
 
-        $auth_processor($fake_log_record);
+        $result = $auth_processor($fake_log_record);
 
         $this->assertSame([
             'url' => '/path?access_token=ABC***123',
@@ -39,7 +39,8 @@ final class OlzProcessorTest extends UnitTestCase {
             'user_agent' => 'user-agent',
             'user' => 'child',
             'auth_user' => 'parent',
-        ], $fake_log_record->extra);
+        ], $result->extra);
+        $this->assertSame('OlzProcessorTest', $result->channel);
     }
 
     public function testOlzProcessorMinimal(): void {
@@ -49,7 +50,7 @@ final class OlzProcessorTest extends UnitTestCase {
         $this->setSession($session);
         $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'channel', Level::Info, "Message", ['con' => 'text']);
 
-        $auth_processor($fake_log_record);
+        $result = $auth_processor($fake_log_record);
 
         $this->assertSame([
             'url' => null,
@@ -57,6 +58,7 @@ final class OlzProcessorTest extends UnitTestCase {
             'user_agent' => null,
             'user' => null,
             'auth_user' => null,
-        ], $fake_log_record->extra);
+        ], $result->extra);
+        $this->assertSame('OlzProcessorTest', $result->channel);
     }
 }

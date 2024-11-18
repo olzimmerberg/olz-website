@@ -53,7 +53,7 @@ jobs:
         key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composerdev-
     - name: Install PHP (composer) dependencies
-      run: composer install --dev --prefer-dist
+      run: composer install --prefer-dist
     - name: Get JavaScript (npm) cache directory
       id: npm-cache
       run: |
@@ -116,7 +116,7 @@ jobs:
         key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composerdev-
     - name: Install PHP (composer) dependencies
-      run: composer install --dev --prefer-dist
+      run: composer install --prefer-dist
     - name: Get JavaScript (npm) cache directory
       id: npm-cache
       run: |
@@ -156,11 +156,6 @@ jobs:
       env:
         DB_PORT: ${{ job.services.mariadb.ports[3306] }}
       run: composer integration_tests; cat ./php-coverage/coverage.txt || echo "no coverage!"
-    # - name: PHP System Tests (dev)
-    #   env:
-    #     DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-    #     MOZ_HEADLESS: 1
-    #   run: composer system_tests -- --dev_rw
     - name: Check database migrations
       run: composer check_migrations
     - name: Setup GitHub Pages

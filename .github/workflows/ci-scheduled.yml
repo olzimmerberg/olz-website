@@ -50,7 +50,7 @@ jobs:
         key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composerdev-
     - name: Install PHP (composer) dependencies
-      run: composer install --dev --prefer-dist
+      run: composer install --prefer-dist
     - name: PHP System Tests (prod)
       env:
         MOZ_HEADLESS: 1

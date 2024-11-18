@@ -520,6 +520,8 @@ describe('validateDateTime', () => {
     it('returns datetime for correct ISO user inputs', () => {
         expect(formUtils.validateDateTime('2006-01-13 18:03:00'))
             .toEqual([undefined, '2006-01-13 18:03:00']);
+        expect(formUtils.validateDateTime('2006-01-13T18:03:00'))
+            .toEqual([undefined, '2006-01-13 18:03:00']);
         expect(formUtils.validateDateTime('2006-1-13 18:03'))
             .toEqual([undefined, '2006-01-13 18:03:00']);
         expect(formUtils.validateDateTime('2006 - 1 - 13 18:43:36'))

@@ -263,9 +263,8 @@ trait WithUtilsTrait {
     }
 
     public function createLog(): Logger {
-        $called_class = get_called_class();
         $logs_utils = LogsUtils::fromEnv();
-        return $logs_utils->getLogger(strval($called_class));
+        return $logs_utils->getLogger('');
     }
 
     public function setLog(Logger $log): void {

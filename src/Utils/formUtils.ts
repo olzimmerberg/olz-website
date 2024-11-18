@@ -1,10 +1,11 @@
 import {FieldError, FieldErrors, FieldValues, ResolverResult} from 'react-hook-form';
 import {isDefined} from './generalUtils';
+import { toISO } from './dateUtils';
 
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export const ISO_DATETIME_REGEX = /^\s*([0-9]{4})\s*-\s*([0-9]{1,2})\s*-\s*([0-9]{1,2})\W+([0-9]{1,2})\s*:\s*([0-9]{1,2})\s*(:\s*([0-9]{1,2})\s*)?$/;
-export const SWISS_DATETIME_REGEX = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\W+([0-9]{1,2})\s*:\s*([0-9]{1,2})\s*(:\s*([0-9]{1,2})\s*)?$/;
+export const ISO_DATETIME_REGEX = /^\s*([0-9]{4})\s*-\s*([0-9]{1,2})\s*-\s*([0-9]{1,2})[\WT]+([0-9]{1,2})\s*:\s*([0-9]{1,2})\s*(:\s*([0-9]{1,2})\s*)?$/;
+export const SWISS_DATETIME_REGEX = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})[\WT]+([0-9]{1,2})\s*:\s*([0-9]{1,2})\s*(:\s*([0-9]{1,2})\s*)?$/;
 export const ISO_DATE_REGEX = /^\s*([0-9]{4})\s*-\s*([0-9]{1,2})\s*-\s*([0-9]{1,2})\s*$/;
 export const SWISS_DATE_REGEX = /^\s*([0-9]{1,2})\.\s*([0-9]{1,2})\.\s*([0-9]{4})\s*$/;
 export const TIME_REGEX = /^\s*([0-9]{1,2})\s*:\s*([0-9]{1,2})\s*(:\s*([0-9]{1,2})\s*)?$/;
@@ -235,13 +236,7 @@ export function validateDateTime(valueArg: string): [FieldError|undefined, strin
         return [{type: 'validate', message: 'Muss ein gültiger Zeitpunkt sein.'}, ''];
     }
     const dateObject = new Date(timestamp);
-    const year = String(dateObject.getFullYear()).padStart(4, '0');
-    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-    const day = String(dateObject.getDate()).padStart(2, '0');
-    const hours = String(dateObject.getHours()).padStart(2, '0');
-    const minutes = String(dateObject.getMinutes()).padStart(2, '0');
-    const seconds = String(dateObject.getSeconds()).padStart(2, '0');
-    const newValue = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    const newValue = toISO(dateObject);
     return [undefined, newValue];
 }
 
@@ -283,10 +278,7 @@ export function validateDate(valueArg: string): [FieldError|undefined, string] {
         return [{type: 'validate', message: 'Muss ein gültiges Datum sein.'}, ''];
     }
     const dateObject = new Date(timestamp);
-    const year = String(dateObject.getFullYear()).padStart(4, '0');
-    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-    const day = String(dateObject.getDate()).padStart(2, '0');
-    const newValue = `${year}-${month}-${day}`;
+    const newValue = toISO(dateObject).substring(0, 10);
     return [undefined, newValue];
 }
 

@@ -44,7 +44,7 @@ jobs:
         key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composerdev-
     - name: Install PHP (composer) dependencies
-      run: composer install --dev --prefer-dist --optimize-autoloader
+      run: composer install --prefer-dist --optimize-autoloader
     - name: Get JavaScript (npm) cache directory
       id: npm-cache
       run: |
@@ -121,7 +121,7 @@ jobs:
         key: ${{ runner.os }}-composerdev-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composerdev-
     - name: Install PHP (composer) dependencies
-      run: composer install --dev --prefer-dist --optimize-autoloader
+      run: composer install --prefer-dist --optimize-autoloader
     - name: Get JavaScript (npm) cache directory
       id: npm-cache
       run: |

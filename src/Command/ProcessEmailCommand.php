@@ -352,24 +352,43 @@ class ProcessEmailCommand extends OlzCommand {
             $this->log()->info("Delivery notice E-Mail from {$from} to bot", []);
             return 2;
         }
-        $original_message_id = null;
+        $spam_mail = null;
         $attachments = $mail->hasAttachments() ? $mail->getAttachments() : [];
         foreach ($attachments as $attachment_id => $attachment) {
             $content = $attachment->getContent();
-            $has_message_id = preg_match('/Message-ID:\s*(<[^>]+>)/', $content, $matches);
-            if ($has_message_id) {
-                $original_message_id = $matches[1];
+            $has_subject = preg_match('/(\n|^)Subject:\s*([^\n]+)\n/', $content, $matches);
+            if ($has_subject) {
+                try {
+                    $spam_mail = Message::fromString($content);
+                    $preg_subject = $matches[1];
+                    if (strcmp($spam_mail->getSubject(), $preg_subject) != 0) {
+                        $this->log()->notice("Subjects don't match: \"{$spam_mail->getSubject()}\" (php-imap) vs. \"{$preg_subject}\" (preg)");
+                    }
+                } catch (\Throwable $th) {
+                    // ignore
+                }
             }
         }
-        if (!$original_message_id) {
-            $this->log()->info("Spam notice E-Mail from {$from} to bot has no Message-ID", []);
+        if (!$spam_mail) {
+            $this->log()->info("Spam notice E-Mail from {$from} to bot has no attached message", []);
             return 2;
         }
-        $this->log()->info("Spam notice E-Mail from {$from} to bot: Message-ID {$original_message_id} is spam", []);
-        $spam_mails = $this->getMails($this->processed_mailbox, [['TEXT' => $original_message_id]]);
-        foreach ($spam_mails as $spam_mail) {
-            $this->log()->info("Move spam E-Mail", [$spam_mail]);
-            $spam_mail->move($folder_path = $this->spam_mailbox);
+        $this->log()->info("Spam notice E-Mail from {$from} to bot: E-Mail \"{$spam_mail->getSubject()}\" is spam", []);
+        $spam_html = $spam_mail->hasHTMLBody() ? $spam_mail->getHTMLBody() : '';
+        $spam_text = $spam_mail->hasTextBody() ? $spam_mail->getTextBody() : '';
+        $processed_mails = $this->getMails($this->processed_mailbox);
+        foreach ($processed_mails as $processed_mail) {
+            if (strcmp($processed_mail->getSubject(), $spam_mail->getSubject()) != 0) {
+                continue;
+            }
+            $processed_mail->parseBody();
+            $processed_html = $processed_mail->hasHTMLBody() ? $processed_mail->getHTMLBody() : '';
+            $processed_text = $processed_mail->hasTextBody() ? $processed_mail->getTextBody() : '';
+            if (strcmp($processed_html, $spam_html) != 0 || strcmp($processed_text, $spam_text) != 0) {
+                continue;
+            }
+            $this->log()->info("Move spam E-Mail", [$processed_mail]);
+            $processed_mail->move($folder_path = $this->spam_mailbox);
         }
         return 2;
     }

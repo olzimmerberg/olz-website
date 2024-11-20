@@ -357,16 +357,17 @@ class ProcessEmailCommand extends OlzCommand {
         foreach ($attachments as $attachment_id => $attachment) {
             $content = $attachment->getContent();
             $has_subject = preg_match('/(\n|^)Subject:\s*([^\n]+)\n/', $content, $matches);
-            if ($has_subject) {
-                try {
-                    $spam_mail = Message::fromString($content);
-                    $preg_subject = $matches[1];
-                    if (strcmp($spam_mail->getSubject(), $preg_subject) != 0) {
-                        $this->log()->notice("Subjects don't match: \"{$spam_mail->getSubject()}\" (php-imap) vs. \"{$preg_subject}\" (preg)");
-                    }
-                } catch (\Throwable $th) {
-                    // ignore
+            if (!$has_subject) {
+                continue;
+            }
+            try {
+                $spam_mail = Message::fromString($content);
+                $preg_subject = $matches[1];
+                if (strcmp($spam_mail->getSubject(), $preg_subject) != 0) {
+                    $this->log()->notice("Subjects don't match: \"{$spam_mail->getSubject()}\" (php-imap) vs. \"{$preg_subject}\" (preg)");
                 }
+            } catch (\Throwable $th) {
+                // ignore
             }
         }
         if (!$spam_mail) {

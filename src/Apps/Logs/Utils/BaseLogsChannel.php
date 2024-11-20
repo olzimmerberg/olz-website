@@ -5,9 +5,11 @@ namespace Olz\Apps\Logs\Utils;
 use Olz\Utils\WithUtilsTrait;
 
 class LineLocation {
+    /** @param int<-1, 1> $comparison */
     public function __construct(
         public LogFileInterface $logFile,
-        public int $lineNumber, // -1 = last line
+        public int $lineNumber, // TODO still necessary? -1 = last line
+        public int $comparison,
     ) {
     }
 }
@@ -76,14 +78,14 @@ abstract class BaseLogsChannel {
     /** @param array{targetDate?: ?string, firstDate?: ?string, lastDate?: ?string, minLogLevel?: ?string, textSearch?: ?string, pageToken?: ?string} $query */
     public function readAroundDateTime(\DateTime $date_time, array $query): ReadResult {
         $line_location = $this->getLineLocationForDateTime($date_time);
-        $line_limit = intval(self::$pageSize / 2) + 1;
+        $line_limit = intval(self::$pageSize / 2);
         $time_limit = time() + 5;
         $lines_before = $this->readMatchingLinesBefore($line_location, $query, $line_limit, $time_limit);
         $line_limit = self::$pageSize - count($lines_before->lines) + 1;
         $time_limit = time() + 5;
         $lines_after = $this->readMatchingLinesAfter($line_location, $query, $line_limit, $time_limit);
         return new ReadResult([
-            ...array_slice($lines_before->lines, 0, count($lines_before->lines) - 1),
+            ...$lines_before->lines,
             '---',
             ...$lines_after->lines,
         ], $lines_before->previous, $lines_after->next);
@@ -170,20 +172,26 @@ abstract class BaseLogsChannel {
             // last line is empty
             $continuation_location->lineNumber = count($file_index['lines']) - 2;
         }
+        if ($continuation_location->comparison <= 0) {
+            $continuation_location->lineNumber--;
+        }
         $matching_lines = [];
         while (count($matching_lines) < $line_limit && time() <= $time_limit) {
-            $index = $file_index['lines'][$continuation_location->lineNumber];
-            $log_file->seek($fp, $index);
-            $line = $this->escapeSpecialChars($log_file->gets($fp));
-            if ($this->isLineMatching($line, $query)) {
-                array_unshift($matching_lines, $line);
+            if ($continuation_location->lineNumber >= 0) {
+                $index = $file_index['lines'][$continuation_location->lineNumber];
+                $log_file->seek($fp, $index);
+                $line = $this->escapeSpecialChars($log_file->gets($fp));
+                if ($this->isLineMatching($line, $query)) {
+                    array_unshift($matching_lines, $line);
+                }
+                $continuation_location->lineNumber--;
             }
-            $continuation_location->lineNumber--;
+            $continuation_location->comparison = -1;
             if ($continuation_location->lineNumber < 0) {
                 try {
                     $log_file_before = $this->getLogFileBefore($log_file);
                     $this->log()->debug("log_file_before {$log_file_before->getPath()}");
-                    $prev_file_location = new LineLocation($log_file_before, -1);
+                    $prev_file_location = new LineLocation($log_file_before, -1, 1);
                     $new_line_limit = $line_limit - count($matching_lines);
                     $result = $this->readMatchingLinesBefore($prev_file_location, $query, $new_line_limit, $time_limit);
                     $matching_lines = [
@@ -221,20 +229,26 @@ abstract class BaseLogsChannel {
             // last line is empty
             $continuation_location->lineNumber = count($file_index['lines']) - 2;
         }
+        if ($continuation_location->comparison > 0) {
+            $continuation_location->lineNumber++;
+        }
         $matching_lines = [];
         while (count($matching_lines) < $line_limit && time() <= $time_limit) {
-            $index = $file_index['lines'][$continuation_location->lineNumber];
-            $log_file->seek($fp, $index);
-            $line = $this->escapeSpecialChars($log_file->gets($fp));
-            if ($this->isLineMatching($line, $query)) {
-                array_push($matching_lines, $line);
+            if ($continuation_location->lineNumber < $number_of_lines) {
+                $index = $file_index['lines'][$continuation_location->lineNumber];
+                $log_file->seek($fp, $index);
+                $line = $this->escapeSpecialChars($log_file->gets($fp));
+                if ($this->isLineMatching($line, $query)) {
+                    array_push($matching_lines, $line);
+                }
+                $continuation_location->lineNumber++;
             }
-            $continuation_location->lineNumber++;
+            $continuation_location->comparison = 1;
             if ($continuation_location->lineNumber >= $number_of_lines) {
                 try {
                     $log_file_after = $this->getLogFileAfter($log_file);
                     $this->log()->debug("log_file_after {$log_file_after->getPath()}");
-                    $next_file_location = new LineLocation($log_file_after, 0);
+                    $next_file_location = new LineLocation($log_file_after, 0, -1);
                     $new_line_limit = $line_limit - count($matching_lines);
                     $result = $this->readMatchingLinesAfter($next_file_location, $query, $new_line_limit, $time_limit);
                     $matching_lines = [

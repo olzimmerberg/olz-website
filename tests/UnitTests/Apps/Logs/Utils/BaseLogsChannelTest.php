@@ -29,7 +29,7 @@ class BaseLogsChannelForTest extends BaseLogsChannel {
         \DateTime $date_time,
     ): LineLocation {
         $log_file = new PlainLogFile(realpath(__DIR__.'/../../../tmp/private/logs/fake.log'));
-        return new LineLocation($log_file, 1);
+        return new LineLocation($log_file, 1, 0);
     }
 
     protected function getLogFileBefore(LogFileInterface $log_file): LogFileInterface {
@@ -95,7 +95,6 @@ final class BaseLogsChannelTest extends UnitTestCase {
             "[2020-03-12 12:00:00] tick 2020-03-12 \xc3\xb1 ~*%&*)(öä\n",
             "[2020-03-13 12:00:00] tick 2020-03-13 (\n",
             "---",
-            "", // TODO: avoid this
             "[2020-03-14 12:00:00] tick 2020-03-14 ((\n",
         ], $result->lines);
         $this->assertNull($result->previous);

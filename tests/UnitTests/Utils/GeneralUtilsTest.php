@@ -51,12 +51,60 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertNull($general_utils->decrypt($key, ''));
     }
 
+    public function testBinarySearchBeforeAllOdd(): void {
+        $general_utils = new GeneralUtils();
+        $list = [2, 3, 5];
+        $this->assertSame([0, -1], $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 1 <=> $list[$index];
+            },
+            0,
+            3,
+        ));
+    }
+
+    public function testBinarySearchExactFirstOdd(): void {
+        $general_utils = new GeneralUtils();
+        $list = [2, 3, 5];
+        $this->assertSame([0, 0], $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 2 <=> $list[$index];
+            },
+            0,
+            3,
+        ));
+    }
+
+    public function testBinarySearchExactMiddleOdd(): void {
+        $general_utils = new GeneralUtils();
+        $list = [2, 3, 5];
+        $this->assertSame([1, 0], $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 3 <=> $list[$index];
+            },
+            0,
+            3,
+        ));
+    }
+
     public function testBinarySearchOdd(): void {
         $general_utils = new GeneralUtils();
         $list = [1, 2, 4];
-        $this->assertSame(2, $general_utils->binarySearch(
+        $this->assertSame([2, -1], $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 3 <=> $list[$index];
+            },
+            0,
+            3,
+        ));
+    }
+
+    public function testBinarySearchExactLastOdd(): void {
+        $general_utils = new GeneralUtils();
+        $list = [1, 2, 4];
+        $this->assertSame([2, 0], $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 4 <=> $list[$index];
             },
             0,
             3,
@@ -66,7 +114,7 @@ final class GeneralUtilsTest extends UnitTestCase {
     public function testBinarySearchAfterAllOdd(): void {
         $general_utils = new GeneralUtils();
         $list = [1, 2, 4];
-        $this->assertSame(3, $general_utils->binarySearch(
+        $this->assertSame([2, 1], $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 5 <=> $list[$index];
             },
@@ -75,24 +123,48 @@ final class GeneralUtilsTest extends UnitTestCase {
         ));
     }
 
-    public function testBinarySearchBeforeAllOdd(): void {
+    public function testBinarySearchBeforeAllEven(): void {
         $general_utils = new GeneralUtils();
-        $list = [2, 3, 5];
-        $this->assertSame(0, $general_utils->binarySearch(
+        $list = [3, 5];
+        $this->assertSame([0, -1], $general_utils->binarySearch(
             function ($index) use ($list) {
-                return 1 <=> $list[$index];
+                return 2 <=> $list[$index];
             },
             0,
-            3,
+            2,
+        ));
+    }
+
+    public function testBinarySearchExactFirstEven(): void {
+        $general_utils = new GeneralUtils();
+        $list = [3, 5];
+        $this->assertSame([0, 0], $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 3 <=> $list[$index];
+            },
+            0,
+            2,
         ));
     }
 
     public function testBinarySearchEven(): void {
         $general_utils = new GeneralUtils();
         $list = [2, 4];
-        $this->assertSame(1, $general_utils->binarySearch(
+        $this->assertSame([1, -1], $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 3 <=> $list[$index];
+            },
+            0,
+            2,
+        ));
+    }
+
+    public function testBinarySearchExactLastEven(): void {
+        $general_utils = new GeneralUtils();
+        $list = [2, 4];
+        $this->assertSame([1, 0], $general_utils->binarySearch(
+            function ($index) use ($list) {
+                return 4 <=> $list[$index];
             },
             0,
             2,
@@ -102,21 +174,9 @@ final class GeneralUtilsTest extends UnitTestCase {
     public function testBinarySearchAfterAllEven(): void {
         $general_utils = new GeneralUtils();
         $list = [2, 4];
-        $this->assertSame(2, $general_utils->binarySearch(
+        $this->assertSame([1, 1], $general_utils->binarySearch(
             function ($index) use ($list) {
                 return 5 <=> $list[$index];
-            },
-            0,
-            2,
-        ));
-    }
-
-    public function testBinarySearchBeforeAllEven(): void {
-        $general_utils = new GeneralUtils();
-        $list = [3, 5];
-        $this->assertSame(0, $general_utils->binarySearch(
-            function ($index) use ($list) {
-                return 2 <=> $list[$index];
             },
             0,
             2,
@@ -126,7 +186,7 @@ final class GeneralUtilsTest extends UnitTestCase {
     public function testBinarySearchEmptyList(): void {
         $general_utils = new GeneralUtils();
         $list = [];
-        $this->assertSame(0, $general_utils->binarySearch(
+        $this->assertSame([0, 0], $general_utils->binarySearch(
             function ($index) use ($list) {
                 // @phpstan-ignore-next-line
                 return 3 <=> $list[$index];

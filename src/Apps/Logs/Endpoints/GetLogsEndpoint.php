@@ -106,6 +106,7 @@ class GetLogsEndpoint extends OlzEndpoint {
         return json_encode([
             'logFile' => $line_location->logFile->serialize(),
             'lineNumber' => $line_location->lineNumber,
+            'comparison' => $line_location->comparison,
             'mode' => $mode,
         ]);
     }
@@ -119,7 +120,7 @@ class GetLogsEndpoint extends OlzEndpoint {
         if (!$log_file) {
             $log_file = GzLogFile::deserialize($data['logFile']);
         }
-        $line_location = new LineLocation($log_file, $data['lineNumber']);
+        $line_location = new LineLocation($log_file, $data['lineNumber'], $data['comparison']);
         $mode = $data['mode'];
         return [
             'lineLocation' => $line_location,

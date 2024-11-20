@@ -49,9 +49,13 @@ class GeneralUtils {
 
     // Algorithms
 
-    public function binarySearch(callable $compare_fn, int $start, int $end): int {
+    /** @return array{0: int, 1: int<-1, 1>} */
+    public function binarySearch(callable $compare_fn, int $start, int $end): array {
         $search_start = $start;
         $search_end = $end;
+        if ($search_start === $search_end) {
+            return [0, 0];
+        }
         while ($search_start < $search_end) {
             $probe_index = (int) floor(($search_start + $search_end) / 2);
             $result = $compare_fn($probe_index);
@@ -60,11 +64,20 @@ class GeneralUtils {
             } elseif ($result > 0) {
                 $search_start = $probe_index + 1;
             } else {
-                // TODO: Or do we want the first occurrence of multiple?
-                return $probe_index;
+                return [$probe_index, 0];
             }
         }
-        return $search_start;
+        if ($search_start === $end) {
+            return [$end - 1, 1];
+        }
+        $result = $compare_fn($search_start);
+        if ($result < 0) {
+            return [$search_start, -1];
+        }
+        if ($result > 0) {
+            return [$search_start, 1];
+        }
+        return [$search_start, 0];
     }
 
     // Debugging

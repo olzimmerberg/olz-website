@@ -32,7 +32,7 @@ abstract class LogrotateLogsChannel extends BaseLogsChannel {
         $number_of_lines = count($file_index['lines']);
         $fp = $log_file->open('r');
 
-        $line_number = $this->generalUtils()->binarySearch(
+        [$line_number, $cmp] = $this->generalUtils()->binarySearch(
             function ($line_number) use ($log_file, $fp, $file_index, $date_time) {
                 $index = $file_index['lines'][$line_number];
                 $log_file->seek($fp, $index);
@@ -45,7 +45,7 @@ abstract class LogrotateLogsChannel extends BaseLogsChannel {
         );
 
         $log_file->close($fp);
-        return new LineLocation($log_file, $line_number);
+        return new LineLocation($log_file, $line_number, $cmp);
     }
 
     protected function getLogFileBefore(LogFileInterface $log_file): LogFileInterface {

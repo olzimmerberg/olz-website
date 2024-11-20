@@ -17,6 +17,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Webklex\PHPIMAP\Address as ImapAddress;
 use Webklex\PHPIMAP\Attribute;
+use Webklex\PHPIMAP\ClientManager;
 use Webklex\PHPIMAP\Message;
 use Webklex\PHPIMAP\Support\AttachmentCollection;
 use Webklex\PHPIMAP\Support\FlagCollection;
@@ -178,7 +179,7 @@ class FakeProcessEmailCommandAttachment {
 
     public function getContent(): string {
         // Used for spam notification emails
-        return 'Message-ID: <fake-message-id> Some spam email content';
+        return "Subject: Fake subject\r\n Some spam email content";
     }
 }
 
@@ -1482,6 +1483,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     }
 
     public function testProcessEmailCommandEmailDeliveryNoticeSpam(): void {
+        new ClientManager([]);
         $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
@@ -1517,7 +1519,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'INFO E-Mail 12 to bot...',
             'INFO Spam notice score 4 of 3',
-            'INFO Spam notice E-Mail from MAILER-DAEMON@219.hosttech.eu to bot: Message-ID <fake-message-id> is spam',
+            'INFO Spam notice E-Mail from MAILER-DAEMON@219.hosttech.eu to bot: E-Mail "" is spam',
             'WARNING getMails soft error:',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());

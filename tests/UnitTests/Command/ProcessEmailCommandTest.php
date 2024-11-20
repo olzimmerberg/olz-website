@@ -56,7 +56,7 @@ class FakeProcessEmailCommandMail extends Message {
         public ?Attribute $subject = null,
         protected ?string $textHtml = null,
         protected ?string $textPlain = null,
-        public int|string|null $message_id = null,
+        public ?Attribute $message_id = null,
     ) {
         $this->attachments = new AttachmentCollection([]);
     }
@@ -83,6 +83,10 @@ class FakeProcessEmailCommandMail extends Message {
 
     public function getSubject(): Attribute {
         return $this->subject;
+    }
+
+    public function getMessageId(): Attribute {
+        return $this->message_id ?? new Attribute('message_id');
     }
 
     // @phpstan-ignore-next-line
@@ -179,7 +183,7 @@ class FakeProcessEmailCommandAttachment {
 
     public function getContent(): string {
         // Used for spam notification emails
-        return "Subject: Fake subject\r\n Some spam email content";
+        return "References: <fake-message-id>\r\n Some spam email content";
     }
 }
 
@@ -1519,7 +1523,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'INFO E-Mail 12 to bot...',
             'INFO Spam notice score 4 of 3',
-            'INFO Spam notice E-Mail from MAILER-DAEMON@219.hosttech.eu to bot: E-Mail "" is spam',
+            'INFO Spam notice E-Mail from MAILER-DAEMON@219.hosttech.eu to bot: Message-ID "fake-message-id" is spam',
             'WARNING getMails soft error:',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());

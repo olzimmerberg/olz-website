@@ -352,40 +352,24 @@ class ProcessEmailCommand extends OlzCommand {
             $this->log()->info("Delivery notice E-Mail from {$from} to bot", []);
             return 2;
         }
-        $spam_mail = null;
+        $spam_message_id = null;
         $attachments = $mail->hasAttachments() ? $mail->getAttachments() : [];
         foreach ($attachments as $attachment_id => $attachment) {
             $content = $attachment->getContent();
-            $has_subject = preg_match('/(\n|^)Subject:\s*([^\n]+)\n/', $content, $matches);
-            if (!$has_subject) {
-                continue;
-            }
-            try {
-                $spam_mail = Message::fromString($content);
-                $preg_subject = $matches[1];
-                if (strcmp($spam_mail->getSubject(), $preg_subject) != 0) {
-                    $this->log()->notice("Subjects don't match: \"{$spam_mail->getSubject()}\" (php-imap) vs. \"{$preg_subject}\" (preg)");
-                }
-            } catch (\Throwable $th) {
-                // ignore
+            $has_reference = preg_match('/(\s|^)References:\s*<([^>]+)>\s*\n/', $content, $matches);
+            if ($has_reference) {
+                $spam_message_id = $matches[2];
             }
         }
-        if (!$spam_mail) {
-            $this->log()->info("Spam notice E-Mail from {$from} to bot has no attached message", []);
+        if (!$spam_message_id) {
+            $this->log()->info("Spam notice E-Mail from {$from} to bot has no References header", []);
             return 2;
         }
-        $this->log()->info("Spam notice E-Mail from {$from} to bot: E-Mail \"{$spam_mail->getSubject()}\" is spam", []);
-        $spam_html = $spam_mail->hasHTMLBody() ? $spam_mail->getHTMLBody() : '';
-        $spam_text = $spam_mail->hasTextBody() ? $spam_mail->getTextBody() : '';
+        $this->log()->info("Spam notice E-Mail from {$from} to bot: Message-ID \"{$spam_message_id}\" is spam", []);
         $processed_mails = $this->getMails($this->processed_mailbox);
         foreach ($processed_mails as $processed_mail) {
-            if (strcmp($processed_mail->getSubject(), $spam_mail->getSubject()) != 0) {
-                continue;
-            }
-            $processed_mail->parseBody();
-            $processed_html = $processed_mail->hasHTMLBody() ? $processed_mail->getHTMLBody() : '';
-            $processed_text = $processed_mail->hasTextBody() ? $processed_mail->getTextBody() : '';
-            if (strcmp($processed_html, $spam_html) != 0 || strcmp($processed_text, $spam_text) != 0) {
+            $message_id = $processed_mail->getMessageId()->first();
+            if ($message_id !== $spam_message_id) {
                 continue;
             }
             $this->log()->info("Move spam E-Mail", [$processed_mail]);
@@ -405,6 +389,7 @@ class ProcessEmailCommand extends OlzCommand {
             $to = $this->getAddresses($mail->getTo());
             $cc = $this->getAddresses($mail->getCc());
             $bcc = $this->getAddresses($mail->getBcc());
+            $message_id = $mail->getMessageId()->first();
             $subject = $mail->getSubject()->first();
             $mail->parseBody();
             $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
@@ -424,6 +409,9 @@ class ProcessEmailCommand extends OlzCommand {
                 ->text($text ? $text : '(leer)')
                 ->html($html ? $html : '(leer)')
             ;
+            if ($message_id) {
+                $email->getHeaders()->addIdHeader("References", [$message_id]);
+            }
 
             if ($mail->hasAttachments()) {
                 $attachments = $mail->getAttachments();

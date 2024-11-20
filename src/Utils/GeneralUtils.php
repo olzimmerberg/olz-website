@@ -121,6 +121,10 @@ class GeneralUtils {
             ) {
                 continue;
             }
+            $reflection_class = new \ReflectionClass($class_name);
+            if ($reflection_class->isAbstract()) {
+                continue;
+            }
             $last_class_name = $class_name;
             $base_class_name = substr($class_name, strrpos($class_name, '\\') + 1);
 

@@ -36,7 +36,7 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     public const MAX_LOOP = 100;
-    public int $archiveAfterSeconds = 60 * 60;
+    public int $archiveAfterSeconds = 8 * 60 * 60;
     public int $deleteArchivedAfterSeconds = 30 * 24 * 60 * 60;
     public int $deleteSpamAfterSeconds = 365 * 24 * 60 * 60;
     public string $host = 'olzimmerberg.ch';

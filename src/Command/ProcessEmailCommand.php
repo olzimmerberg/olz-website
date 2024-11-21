@@ -50,10 +50,18 @@ class ProcessEmailCommand extends OlzCommand {
     public array $spam_report_subjects = ['Undelivered Mail Returned to Sender'];
     /** @var array<string, int> */
     public array $spam_report_body_patterns = [
-        '/\W550\W/' => 1,
-        '/\s+URL\s+in\s+this\s+email\W/i' => 2,
+        '/[^0-9]550[^0-9]/' => 1,
+        '/[^0-9]554[^0-9]/' => 1,
+        '/[^0-9]5\.2\.0[^0-9]/' => 1,
+        '/[^0-9]5\.7\.509[^0-9]/' => 1,
+        '/URL\s+in\s+this\s+email/i' => 2,
         '/\Wlisted\W/i' => 1,
+        '/\Wreputation\W/i' => 1,
+        '/\Wreject\W/i' => 1,
+        '/\WDMARC\W/i' => 2,
         '/\Wspam\W/i' => 3,
+        '/Message\s+rejected\s+due\s+to\s+local\s+policy/i' => 2,
+        '/spamrl\.com/' => 3,
     ];
     public int $min_num_spam_matches = 3;
 
@@ -334,7 +342,7 @@ class ProcessEmailCommand extends OlzCommand {
             array_search($from, $this->spam_report_froms) === false
             || array_search($subject, $this->spam_report_subjects) === false
         ) {
-            $this->log()->info("E-Mail \"{$subject}\" from {$from} to bot");
+            $this->log()->info("E-Mail \"{$subject}\" from {$from} to bot. Nothing to do.");
             return 2;
         }
         $mail->parseBody();
@@ -362,18 +370,23 @@ class ProcessEmailCommand extends OlzCommand {
             }
         }
         if (!$spam_message_id) {
-            $this->log()->info("Spam notice E-Mail from {$from} to bot has no References header", []);
+            $this->log()->notice("Spam notice E-Mail from {$from} to bot has no References header", []);
             return 2;
         }
         $this->log()->info("Spam notice E-Mail from {$from} to bot: Message-ID \"{$spam_message_id}\" is spam", []);
         $processed_mails = $this->getMails($this->processed_mailbox);
+        $message_found = false;
         foreach ($processed_mails as $processed_mail) {
             $message_id = $processed_mail->getMessageId()->first();
             if ($message_id !== $spam_message_id) {
                 continue;
             }
-            $this->log()->info("Move spam E-Mail", [$processed_mail]);
             $processed_mail->move($folder_path = $this->spam_mailbox);
+            $this->log()->info("Spam E-Mail with Message-ID \"{$spam_message_id}\" moved", []);
+            $message_found = true;
+        }
+        if (!$message_found) {
+            $this->log()->notice("Spam E-Mail with Message-ID \"{$spam_message_id}\" not found!", []);
         }
         return 2;
     }
@@ -516,6 +529,7 @@ class ProcessEmailCommand extends OlzCommand {
                     ZZZZZZZZZZ)
             ;
             $this->mailer->send($email);
+            $this->log()->info("Redirect E-Mail sent to {$from_address}: {$old_address} -> {$new_address}", []);
         } catch (RfcComplianceException $exc) {
             $message = $exc->getMessage();
             $this->log()->notice("sendRedirectEmail: Email to {$from_address} is not RFC-compliant: {$message}", [$exc]);
@@ -543,6 +557,7 @@ class ProcessEmailCommand extends OlzCommand {
                 ->text($this->getReportMessage($smtp_code, $mail, $address))
             ;
             $this->mailer->send($email);
+            $this->log()->info("Report E-Mail sent to {$from_address}", []);
         } catch (RfcComplianceException $exc) {
             $message = $exc->getMessage();
             $this->log()->notice("sendReportEmail: Email to {$from_address} is not RFC-compliant: {$message}", [$exc]);

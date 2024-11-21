@@ -277,6 +277,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
             'INFO E-Mail 12 to inexistent user/role username: no-such-username',
+            'INFO Report E-Mail sent to from@from-domain.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
@@ -336,6 +337,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
             'NOTICE E-Mail 12 to user with no user_email permission: no-permission',
+            'INFO Report E-Mail sent to from@from-domain.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
@@ -631,6 +633,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'INFO Redirect E-Mail sent to from@from-domain.com: someone-old@staging.olzimmerberg.ch -> someone@olzimmerberg.ch',
             'INFO Email forwarded from someone-old@staging.olzimmerberg.ch to someone-old@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -718,6 +721,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
             'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
+            'INFO Report E-Mail sent to from@from-domain.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
@@ -878,6 +882,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'INFO Redirect E-Mail sent to from@from-domain.com: somerole-old@staging.olzimmerberg.ch -> somerole@olzimmerberg.ch',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
@@ -1525,6 +1530,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Spam notice score 4 of 3',
             'INFO Spam notice E-Mail from MAILER-DAEMON@219.hosttech.eu to bot: Message-ID "fake-message-id" is spam',
             'WARNING getMails soft error:',
+            'NOTICE Spam E-Mail with Message-ID "fake-message-id" not found!',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);

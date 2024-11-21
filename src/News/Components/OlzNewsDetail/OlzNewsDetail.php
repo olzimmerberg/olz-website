@@ -165,7 +165,7 @@ class OlzNewsDetail extends OlzComponent {
         $out .= "<h1>{$edit_admin}{$title}</h1>";
 
         if ($format === 'aktuell') {
-            $out .= "<div class='lightgallery'><p><b>{$teaser}</b><p>{$content}</p></div>\n";
+            $out .= "<p><b>{$teaser}</b><p>{$content}</p>\n";
         } elseif ($format === 'kaderblog') {
             $gallery = '';
             $num_images = count($image_ids);

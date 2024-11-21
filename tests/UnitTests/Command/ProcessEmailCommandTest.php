@@ -1577,7 +1577,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->last_occurrence = '2020-03-05 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
         $old_processed_mail = new FakeProcessEmailCommandMail(12);
-        $old_processed_mail->date = new Attribute('date', [new Carbon('2020-03-13 18:00:00')]);
+        $old_processed_mail->date = new Attribute('date', [new Carbon('2020-03-13 11:00:00')]);
         $processed_mail = new FakeProcessEmailCommandMail(13);
         $processed_mail->date = new Attribute('date', [new Carbon('2020-03-13 19:00:00')]);
         $old_archived_mail = new FakeProcessEmailCommandMail(22);

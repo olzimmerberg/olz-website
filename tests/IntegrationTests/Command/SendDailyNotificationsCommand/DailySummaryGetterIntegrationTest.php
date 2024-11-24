@@ -26,7 +26,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $notification = $job->getDailySummaryNotification([
+        $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,
@@ -71,7 +71,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $notification = $job->getDailySummaryNotification([
+        $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,
@@ -110,7 +110,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $notification = $job->getDailySummaryNotification([
+        $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,

@@ -9,7 +9,7 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Termine\Termin;
 use Olz\Utils\WithUtilsTrait;
 
-class DailySummaryGetter {
+class DailySummaryGetter implements NotificationGetterInterface {
     use WithUtilsTrait;
 
     public const CUT_OFF_TIME = '16:00:00';
@@ -18,7 +18,7 @@ class DailySummaryGetter {
     protected \DateTime $yesterday;
 
     /** @param array<string, mixed> $args */
-    public function getDailySummaryNotification(array $args): ?Notification {
+    public function getNotification(array $args): ?Notification {
         $this->today = new \DateTime($this->dateUtils()->getIsoToday());
         $minus_one_day = \DateInterval::createFromDateString("-1 days");
         $this->yesterday = (new \DateTime($this->dateUtils()->getIsoToday()))->add($minus_one_day);

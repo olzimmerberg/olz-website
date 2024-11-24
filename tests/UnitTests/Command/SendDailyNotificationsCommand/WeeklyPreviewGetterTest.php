@@ -24,7 +24,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $job = new WeeklyPreviewGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getWeeklyPreviewNotification([]);
+        $notification = $job->getNotification([]);
 
         $this->assertNull($notification);
     }
@@ -36,7 +36,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $job = new WeeklyPreviewGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getWeeklyPreviewNotification([]);
+        $notification = $job->getNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -76,7 +76,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $job = new WeeklyPreviewGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getWeeklyPreviewNotification([]);
+        $notification = $job->getNotification([]);
 
         $this->assertSame([
         ], $this->getLogs());

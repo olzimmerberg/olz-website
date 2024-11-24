@@ -26,7 +26,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $notification = $job->getDeadlineWarningNotification(['days' => 2]);
+        $notification = $job->getNotification(['days' => 2]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -50,7 +50,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $notification = $job->getDeadlineWarningNotification(['days' => 3]);
+        $notification = $job->getNotification(['days' => 3]);
 
         $this->assertSame([
         ], $this->getLogs());

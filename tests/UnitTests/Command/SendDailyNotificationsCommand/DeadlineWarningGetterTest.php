@@ -20,7 +20,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
     public function testDeadlineWarningGetterWithIncorrectDaysArg(): void {
         $job = new DeadlineWarningGetter();
 
-        $notification = $job->getDeadlineWarningNotification(['days' => 10]);
+        $notification = $job->getNotification(['days' => 10]);
 
         $this->assertNull($notification);
     }
@@ -32,7 +32,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
 
         $job = new DeadlineWarningGetter();
 
-        $notification = $job->getDeadlineWarningNotification(['days' => 3]);
+        $notification = $job->getNotification(['days' => 3]);
 
         $this->assertNull($notification);
     }
@@ -42,7 +42,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
 
         $job = new DeadlineWarningGetter();
 
-        $notification = $job->getDeadlineWarningNotification(['days' => 3]);
+        $notification = $job->getNotification(['days' => 3]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,

@@ -8,6 +8,7 @@ use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
 use Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter;
 use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
 use Olz\Command\SendDailyNotificationsCommand\Notification;
+use Olz\Command\SendDailyNotificationsCommand\NotificationGetterInterface;
 use Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter;
 use Olz\Command\SendDailyNotificationsCommand\WeeklyPreviewGetter;
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
@@ -27,55 +28,20 @@ class SendDailyNotificationsCommand extends OlzCommand {
         return ['dev', 'test', 'staging', 'prod'];
     }
 
-    protected DailySummaryGetter $dailySummaryGetter;
-    protected DeadlineWarningGetter $deadlineWarningGetter;
-    protected EmailConfigurationReminderGetter $emailConfigurationReminderGetter;
-    protected MonthlyPreviewGetter $monthlyPreviewGetter;
-    protected TelegramConfigurationReminderGetter $telegramConfigurationReminderGetter;
-    protected WeeklyPreviewGetter $weeklyPreviewGetter;
-    protected WeeklySummaryGetter $weeklySummaryGetter;
-
-    public function setDailySummaryGetter(DailySummaryGetter $dailySummaryGetter): void {
-        $this->dailySummaryGetter = $dailySummaryGetter;
-    }
-
-    public function setDeadlineWarningGetter(DeadlineWarningGetter $deadlineWarningGetter): void {
-        $this->deadlineWarningGetter = $deadlineWarningGetter;
-    }
-
-    public function setEmailConfigurationReminderGetter(EmailConfigurationReminderGetter $emailConfigurationReminderGetter): void {
-        $this->emailConfigurationReminderGetter = $emailConfigurationReminderGetter;
-    }
-
-    public function setMonthlyPreviewGetter(MonthlyPreviewGetter $monthlyPreviewGetter): void {
-        $this->monthlyPreviewGetter = $monthlyPreviewGetter;
-    }
-
-    public function setTelegramConfigurationReminderGetter(TelegramConfigurationReminderGetter $telegramConfigurationReminderGetter): void {
-        $this->telegramConfigurationReminderGetter = $telegramConfigurationReminderGetter;
-    }
-
-    public function setWeeklyPreviewGetter(WeeklyPreviewGetter $weeklyPreviewGetter): void {
-        $this->weeklyPreviewGetter = $weeklyPreviewGetter;
-    }
-
-    public function setWeeklySummaryGetter(WeeklySummaryGetter $weeklySummaryGetter): void {
-        $this->weeklySummaryGetter = $weeklySummaryGetter;
-    }
+    /** @var array<string, NotificationGetterInterface> */
+    protected array $notification_getter_by_type;
 
     public function __construct() {
         parent::__construct();
-        $this->setDailySummaryGetter(new DailySummaryGetter());
-        $this->setDeadlineWarningGetter(new DeadlineWarningGetter());
-        $this->setEmailConfigurationReminderGetter(
-            new EmailConfigurationReminderGetter()
-        );
-        $this->setMonthlyPreviewGetter(new MonthlyPreviewGetter());
-        $this->setTelegramConfigurationReminderGetter(
-            new TelegramConfigurationReminderGetter()
-        );
-        $this->setWeeklyPreviewGetter(new WeeklyPreviewGetter());
-        $this->setWeeklySummaryGetter(new WeeklySummaryGetter());
+        $this->notification_getter_by_type = [
+            NotificationSubscription::TYPE_DAILY_SUMMARY => new DailySummaryGetter(),
+            NotificationSubscription::TYPE_DEADLINE_WARNING => new DeadlineWarningGetter(),
+            NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER => new EmailConfigurationReminderGetter(),
+            NotificationSubscription::TYPE_MONTHLY_PREVIEW => new MonthlyPreviewGetter(),
+            NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER => new TelegramConfigurationReminderGetter(),
+            NotificationSubscription::TYPE_WEEKLY_PREVIEW => new WeeklyPreviewGetter(),
+            NotificationSubscription::TYPE_WEEKLY_SUMMARY => new WeeklySummaryGetter(),
+        ];
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
@@ -83,34 +49,8 @@ class SendDailyNotificationsCommand extends OlzCommand {
         $this->autoupdateNotificationSubscriptions();
 
         $subscriptions_by_type_and_args = $this->getNotificationSubscriptions();
-        foreach ($subscriptions_by_type_and_args as $notification_type => $subscriptions_by_args) {
-            $this->log()->info("Sending '{$notification_type}' notifications...");
-            switch ($notification_type) {
-                case NotificationSubscription::TYPE_DAILY_SUMMARY:
-                    $this->sendDailySummaryNotifications($subscriptions_by_args);
-                    break;
-                case NotificationSubscription::TYPE_DEADLINE_WARNING:
-                    $this->sendDeadlineWarningNotifications($subscriptions_by_args);
-                    break;
-                case NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER:
-                    $this->sendEmailConfigurationReminderNotifications($subscriptions_by_args);
-                    break;
-                case NotificationSubscription::TYPE_MONTHLY_PREVIEW:
-                    $this->sendMonthlyPreviewNotifications($subscriptions_by_args);
-                    break;
-                case NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER:
-                    $this->sendTelegramConfigurationReminderNotifications($subscriptions_by_args);
-                    break;
-                case NotificationSubscription::TYPE_WEEKLY_PREVIEW:
-                    $this->sendWeeklyPreviewNotifications($subscriptions_by_args);
-                    break;
-                case NotificationSubscription::TYPE_WEEKLY_SUMMARY:
-                    $this->sendWeeklySummaryNotifications($subscriptions_by_args);
-                    break;
-                default:
-                    $this->log()->critical("Unknown notification type '{$notification_type}'");
-                    break;
-            }
+        foreach ($subscriptions_by_type_and_args as $type => $subscriptions_by_args) {
+            $this->sendNotifications($type, $subscriptions_by_args);
         }
 
         return Command::SUCCESS;
@@ -202,7 +142,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
     protected function getNonConfigReminderNotificationTypes(): array {
         return array_filter(
             NotificationSubscription::ALL_NOTIFICATION_TYPES,
-            function ($notification_type) {
+            function ($notification_type): bool {
                 return
                     $notification_type !== NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER
                     && $notification_type !== NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER;
@@ -307,128 +247,20 @@ class SendDailyNotificationsCommand extends OlzCommand {
     }
 
     /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
-    private function sendDailySummaryNotifications(array $subscriptions_by_args): void {
-        $daily_summary_getter = $this->dailySummaryGetter;
-        $daily_summary_getter->setAllUtils($this->getAllUtils());
+    private function sendNotifications(string $type, array $subscriptions_by_args): void {
+        $this->log()->info("Sending '{$type}' notifications...");
 
-        foreach ($subscriptions_by_args as $args_json => $subscriptions) {
-            $this->log()->info("Getting notification for '{$args_json}'...");
-            $args = json_decode($args_json, true);
-            $notification = $daily_summary_getter->getDailySummaryNotification($args);
-            if ($notification) {
-                foreach ($subscriptions as $subscription) {
-                    $this->sendNotificationToSubscription($notification, $subscription);
-                }
-            } else {
-                $this->log()->info("Nothing to send.");
-            }
+        $notification_getter = $this->notification_getter_by_type[$type] ?? null;
+        if (!$notification_getter) {
+            $this->log()->critical("Unknown notification type '{$type}'");
+            return;
         }
-    }
-
-    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
-    private function sendDeadlineWarningNotifications(array $subscriptions_by_args): void {
-        $deadline_warning_getter = $this->deadlineWarningGetter;
-        $deadline_warning_getter->setAllUtils($this->getAllUtils());
+        $notification_getter->setAllUtils($this->getAllUtils()); // TODO: Necessary?
 
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
             $this->log()->info("Getting notification for '{$args_json}'...");
             $args = json_decode($args_json, true);
-            $notification = $deadline_warning_getter->getDeadlineWarningNotification($args);
-            if ($notification) {
-                foreach ($subscriptions as $subscription) {
-                    $this->sendNotificationToSubscription($notification, $subscription);
-                }
-            } else {
-                $this->log()->info("Nothing to send.");
-            }
-        }
-    }
-
-    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
-    private function sendEmailConfigurationReminderNotifications(array $subscriptions_by_args): void {
-        $configuration_reminder_getter = $this->emailConfigurationReminderGetter;
-        $configuration_reminder_getter->setAllUtils($this->getAllUtils());
-
-        foreach ($subscriptions_by_args as $args_json => $subscriptions) {
-            $this->log()->info("Getting notification for '{$args_json}'...");
-            $args = json_decode($args_json, true);
-            $notification = $configuration_reminder_getter->getNotification($args);
-            if ($notification) {
-                foreach ($subscriptions as $subscription) {
-                    $this->sendNotificationToSubscription($notification, $subscription);
-                }
-            } else {
-                $this->log()->info("Nothing to send.");
-            }
-        }
-    }
-
-    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
-    private function sendMonthlyPreviewNotifications(array $subscriptions_by_args): void {
-        $monthly_preview_getter = $this->monthlyPreviewGetter;
-        $monthly_preview_getter->setAllUtils($this->getAllUtils());
-
-        foreach ($subscriptions_by_args as $args_json => $subscriptions) {
-            $this->log()->info("Getting notification for '{$args_json}'...");
-            $args = json_decode($args_json, true);
-            $notification = $monthly_preview_getter->getMonthlyPreviewNotification($args);
-            if ($notification) {
-                foreach ($subscriptions as $subscription) {
-                    $this->sendNotificationToSubscription($notification, $subscription);
-                }
-            } else {
-                $this->log()->info("Nothing to send.");
-            }
-        }
-    }
-
-    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
-    private function sendTelegramConfigurationReminderNotifications(array $subscriptions_by_args): void {
-        $configuration_reminder_getter = $this->telegramConfigurationReminderGetter;
-        $configuration_reminder_getter->setAllUtils($this->getAllUtils());
-
-        foreach ($subscriptions_by_args as $args_json => $subscriptions) {
-            $this->log()->info("Getting notification for '{$args_json}'...");
-            $args = json_decode($args_json, true);
-            $notification = $configuration_reminder_getter->getNotification($args);
-            if ($notification) {
-                foreach ($subscriptions as $subscription) {
-                    $this->sendNotificationToSubscription($notification, $subscription);
-                }
-            } else {
-                $this->log()->info("Nothing to send.");
-            }
-        }
-    }
-
-    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
-    private function sendWeeklyPreviewNotifications(array $subscriptions_by_args): void {
-        $weekly_preview_getter = $this->weeklyPreviewGetter;
-        $weekly_preview_getter->setAllUtils($this->getAllUtils());
-
-        foreach ($subscriptions_by_args as $args_json => $subscriptions) {
-            $this->log()->info("Getting notification for '{$args_json}'...");
-            $args = json_decode($args_json, true);
-            $notification = $weekly_preview_getter->getWeeklyPreviewNotification($args);
-            if ($notification) {
-                foreach ($subscriptions as $subscription) {
-                    $this->sendNotificationToSubscription($notification, $subscription);
-                }
-            } else {
-                $this->log()->info("Nothing to send.");
-            }
-        }
-    }
-
-    /** @param array<?string, array<NotificationSubscription>> $subscriptions_by_args */
-    private function sendWeeklySummaryNotifications(array $subscriptions_by_args): void {
-        $weekly_summary_getter = $this->weeklySummaryGetter;
-        $weekly_summary_getter->setAllUtils($this->getAllUtils());
-
-        foreach ($subscriptions_by_args as $args_json => $subscriptions) {
-            $this->log()->info("Getting notification for '{$args_json}'...");
-            $args = json_decode($args_json, true);
-            $notification = $weekly_summary_getter->getWeeklySummaryNotification($args);
+            $notification = $notification_getter->getNotification($args);
             if ($notification) {
                 foreach ($subscriptions as $subscription) {
                     $this->sendNotificationToSubscription($notification, $subscription);

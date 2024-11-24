@@ -190,6 +190,17 @@ class FakeProcessEmailCommandAttachment {
 /**
  * @internal
  *
+ * @coversNothing
+ */
+class ProcessEmailCommandForTest extends ProcessEmailCommand {
+    public function testOnlyGetSpamNoticeScore(string $body): int {
+        return $this->getSpamNoticeScore($body);
+    }
+}
+
+/**
+ * @internal
+ *
  * @covers \Olz\Command\ProcessEmailCommand
  */
 final class ProcessEmailCommandTest extends UnitTestCase {
@@ -1729,6 +1740,35 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertStringContainsString(
             '123456 Unknown error',
             $job->getReportMessage(123456, $mail, 'no-such-username@staging.olzimmerberg.ch'),
+        );
+    }
+
+    public function testProcessEmailCommandGetSpamNoticeScore(): void {
+        $expected_spam_notice_scores = [
+            "\r\n\r\n<monitor@status.olzimmerberg.ch>: mail for status.olzimmerberg.ch loops back to\r\n myself" => 0,
+            "\r\n\r\n<anonymous@domain.com>: host mx01.domain.com[123.234.12.23] said: 550 The\r\n content of this message looked like spam. (in reply to end of DATA command)" => 4,
+            "\r\n\r\n<anonymous@domain.com>: host domain.com[100.99.98.97]\r\n said: 550 No Such User Here\" (in reply to RCPT TO command)" => 0,
+            "\r\n\r\n<anonymous@domain.com>: host\r\n mail.domain.com[2.3.4.5] said: 550 5.1.1\r\n <anonymous@domain.com>: Recipient address rejected:\r\n domain.com (in reply to RCPT TO command)" => 1,
+            "\r\n\r\n<anonymous@domain.com>: host mx02.domain.com[194.195.192.193] said: 550 A URL\r\n in this email (focuspower . in) is listed on https://spamrl.com/. Please\r\n resolve and retry (in reply to end of DATA command)" => 7,
+            "\r\n\r\n<anonymous@domain.com>: host\r\n mx02.domain.com[90.91.92.93] said: 554 5.2.0 MXIN603\r\n DMARC validation failed.\r\n ;id=DzDctlIXbqGHSDzDctcDSp;sid=DzDctlIXbqGHS;mta=mx1-prd-nl1-sun;dt=2024-11-21T05:55:04+01:00;ipsrc=185.178.193.60;\r\n (in reply to end of DATA command)" => 4,
+            "\r\n\r\n<anonymous@domain.com>: host mail.domain.com[160.161.162.163] said: 550 No\r\n Such User Here (in reply to RCPT TO command)" => 0,
+            "\r\n\r\n<anonymous@domain.com>: host\r\n mx02.domain.com[30.31.32.33] said: 554 5.2.0 sc999:\r\n reputation ratelimit in effect -\r\n https://support.bluewin.ch/provider/bounce/aXA9MTg1LjE3OC4xOTMuNjA7Yz1zYzk5OTtpZD1FOFJYdDhzYmhNY0d3RThSWHQwQmdkO3RzPTE3MzIyMDAzNjM=\r\n (in reply to end of DATA command)" => 3,
+            "\r\n\r\n<anonymous@domain.com>: host\r\n mx02.domain.com[52.53.54.55] said: 550 5.7.509\r\n Access denied, sending domain [DOMAIN.EU] does not pass DMARC\r\n verification and has a DMARC policy of reject.\r\n [ReC8B6sUXqTcV.EUR2.PROD.DOMAIN.COM 2024-11-21T16:31:06.930Z\r\n b3vmJAod8nxQKYRZ] [TEiJtMyoqMx9A.namprd02.prod.domain.com\r\n 2024-11-21T16:31:06.998Z b5TXkQyfj23R9bUU]\r\n [j37b9htJM78iEmh.namprd04.prod.domain.com 2024-11-21T16:31:07.008Z\r\n v8ctKsNv3XUjpei9] (in reply to end of DATA command)" => 6,
+            "\r\n\r\n<anonymous@domain.com>: host mx02.mail.domain.com[17.18.19.20] said:\r\n 554 5.7.1 [CS01] Message rejected due to local policy. Please visit\r\n https://support.apple.com/en-us/HT204137 (in reply to end of DATA command)" => 5,
+            "\r\n\r\n<anonymous@domain.com>: host mx02.domain.com[123.234.12.23] said: 550 This\r\n message has been reported as spam by other users. (in reply to end of DATA\r\n command)" => 4,
+            "\r\n\r\n<anonymous@domain.com>: Host or domain name not found. Name service error for\r\n name=domain.com type=A: Host not found" => 0,
+            "\r\n\r\n<anonymous@domain.com>: host mx02.domain.com[191.192.193.194]\r\n said: 554 5.2.0 sc981: Rejected due to policy reasons -\r\n https://support.bluewin.ch/en/provider/bounce/aXA9MTg1LjE3OC4xOTMuNjA7Yz1zYzk4MTtpZD1FTVNhdGx0YXZxNzFDRU1TYXR6cm1qO3RzPTE3MzIyNTQyNDU=\r\n (in reply to end of DATA command)" => 4,
+            "\r\n\r\n<anonymous@domain.com>: host mx02.domain.com[199.200.201.202] said: 550 High\r\n probability of spam (in reply to end of DATA command)" => 4,
+            "\r\n\r\n<anonymous@domain.com>: host\r\n mx.mail.protection.domain.com[51.52.53.54] said: 550\r\n 5.4.1 Recipient address rejected: Access denied.\r\n [ASkDUMyjW63vx9p.eur06.prod.domain.com 2024-11-22T15:27:37.730Z\r\n HEZKiZPX5xebDqsq] (in reply to RCPT TO command)" => 1,
+        ];
+        $job = new ProcessEmailCommandForTest();
+        $actual_spam_notice_scores = [];
+        foreach ($expected_spam_notice_scores as $body => $score) {
+            $actual_spam_notice_scores[$body] = $job->testOnlyGetSpamNoticeScore($body);
+        }
+        $this->assertSame(
+            $expected_spam_notice_scores,
+            $actual_spam_notice_scores,
         );
     }
 }

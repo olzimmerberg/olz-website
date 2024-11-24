@@ -57,13 +57,16 @@ class ProcessEmailCommand extends OlzCommand {
         '/URL\s+in\s+this\s+email/i' => 2,
         '/\Wlisted\W/i' => 1,
         '/\Wreputation\W/i' => 1,
-        '/\Wreject\W/i' => 1,
+        '/\Wreject(ed)?\W/i' => 1,
+        '/\Waddress\s+rejected\W/i' => -1,
+        '/\Wpolicy\W/i' => 1,
         '/\WDMARC\W/i' => 2,
         '/\Wspam\W/i' => 3,
         '/Message\s+rejected\s+due\s+to\s+local\s+policy/i' => 2,
-        '/spamrl\.com/' => 3,
+        '/spamrl\.com/i' => 3,
+        '/No\s+Such\s+User\s+Here/im' => -1,
     ];
-    public int $min_num_spam_matches = 3;
+    public int $min_spam_notice_score = 3;
 
     protected Client $client;
 
@@ -349,14 +352,10 @@ class ProcessEmailCommand extends OlzCommand {
         $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : '';
         $text = $mail->hasTextBody() ? $mail->getTextBody() : '';
         $body = "{$html}\n\n{$text}";
-        $num_spam_matches = 0;
-        foreach ($this->spam_report_body_patterns as $pattern => $increment) {
-            if (preg_match($pattern, $body)) {
-                $num_spam_matches += $increment;
-            }
-        }
-        $this->log()->info("Spam notice score {$num_spam_matches} of {$this->min_num_spam_matches}", [$body]);
-        if ($num_spam_matches < $this->min_num_spam_matches) {
+        $score = $this->getSpamNoticeScore($body);
+        $min_score = $this->min_spam_notice_score;
+        $this->log()->info("Spam notice score {$score} of {$min_score}", [$body]);
+        if ($score < $min_score) {
             $this->log()->info("Delivery notice E-Mail from {$from} to bot", []);
             return 2;
         }
@@ -389,6 +388,16 @@ class ProcessEmailCommand extends OlzCommand {
             $this->log()->notice("Spam E-Mail with Message-ID \"{$spam_message_id}\" not found!", []);
         }
         return 2;
+    }
+
+    protected function getSpamNoticeScore(string $body): int {
+        $num_spam_matches = 0;
+        foreach ($this->spam_report_body_patterns as $pattern => $increment) {
+            if (preg_match($pattern, $body)) {
+                $num_spam_matches += $increment;
+            }
+        }
+        return $num_spam_matches;
     }
 
     protected function forwardEmailToUser(Message $mail, User $user, string $address): int {

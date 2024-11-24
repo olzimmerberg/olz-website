@@ -24,7 +24,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getMonthlyPreviewNotification([]);
+        $notification = $job->getNotification([]);
 
         $this->assertSame([
         ], $this->getLogs());
@@ -37,7 +37,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getMonthlyPreviewNotification([]);
+        $notification = $job->getNotification([]);
 
         $this->assertSame([
         ], $this->getLogs());
@@ -50,7 +50,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getMonthlyPreviewNotification([]);
+        $notification = $job->getNotification([]);
 
         $this->assertSame([
         ], $this->getLogs());
@@ -64,7 +64,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getMonthlyPreviewNotification([]);
+        $notification = $job->getNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -104,7 +104,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getMonthlyPreviewNotification([]);
+        $notification = $job->getNotification([]);
 
         $this->assertSame([
         ], $this->getLogs());

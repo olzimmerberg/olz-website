@@ -9,7 +9,7 @@ use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Termine\Termin;
 use Olz\Utils\WithUtilsTrait;
 
-class WeeklySummaryGetter {
+class WeeklySummaryGetter implements NotificationGetterInterface {
     use WithUtilsTrait;
 
     public const CUT_OFF_TIME = '16:00:00';
@@ -18,7 +18,7 @@ class WeeklySummaryGetter {
     protected \DateTime $lastWeek;
 
     /** @param array<string, mixed> $args */
-    public function getWeeklySummaryNotification(array $args): ?Notification {
+    public function getNotification(array $args): ?Notification {
         $current_weekday = intval($this->dateUtils()->getCurrentDateInFormat('N'));
         $monday = 1;
         if ($current_weekday != $monday) {

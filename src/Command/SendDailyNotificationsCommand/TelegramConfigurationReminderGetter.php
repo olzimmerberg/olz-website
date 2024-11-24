@@ -5,7 +5,7 @@ namespace Olz\Command\SendDailyNotificationsCommand;
 use Olz\Entity\NotificationSubscription;
 use Olz\Utils\WithUtilsTrait;
 
-class TelegramConfigurationReminderGetter {
+class TelegramConfigurationReminderGetter implements NotificationGetterInterface {
     use WithUtilsTrait;
 
     public const DAY_OF_MONTH = 22;

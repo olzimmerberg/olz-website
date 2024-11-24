@@ -9,11 +9,11 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Utils\WithUtilsTrait;
 
-class MonthlyPreviewGetter {
+class MonthlyPreviewGetter implements NotificationGetterInterface {
     use WithUtilsTrait;
 
     /** @param array<string, mixed> $args */
-    public function getMonthlyPreviewNotification(array $args): ?Notification {
+    public function getNotification(array $args): ?Notification {
         $current_weekday = intval($this->dateUtils()->getCurrentDateInFormat('N'));
         $saturday = 6;
         if ($current_weekday != $saturday) {

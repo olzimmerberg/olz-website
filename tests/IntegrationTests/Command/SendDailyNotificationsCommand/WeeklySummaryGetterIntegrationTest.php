@@ -26,7 +26,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $notification = $job->getWeeklySummaryNotification([
+        $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,

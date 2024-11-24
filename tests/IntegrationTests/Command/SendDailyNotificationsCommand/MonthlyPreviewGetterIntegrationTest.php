@@ -26,7 +26,7 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $notification = $job->getMonthlyPreviewNotification([]);
+        $notification = $job->getNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,

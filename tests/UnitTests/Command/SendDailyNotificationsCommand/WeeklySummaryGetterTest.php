@@ -21,7 +21,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $job = new WeeklySummaryGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getWeeklySummaryNotification([
+        $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,
             'galerie' => true,
@@ -39,7 +39,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $job = new WeeklySummaryGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getWeeklySummaryNotification([
+        $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,
             'galerie' => true,
@@ -99,7 +99,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
         $job = new WeeklySummaryGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getWeeklySummaryNotification([]);
+        $notification = $job->getNotification([]);
 
         $this->assertNull($notification);
     }

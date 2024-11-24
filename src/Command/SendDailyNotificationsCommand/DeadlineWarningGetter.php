@@ -9,11 +9,11 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Utils\WithUtilsTrait;
 
-class DeadlineWarningGetter {
+class DeadlineWarningGetter implements NotificationGetterInterface {
     use WithUtilsTrait;
 
     /** @param array<string, mixed> $args */
-    public function getDeadlineWarningNotification(array $args): ?Notification {
+    public function getNotification(array $args): ?Notification {
         $days_arg = intval($args['days']);
         if ($days_arg <= 0 || $days_arg > 7) {
             return null;

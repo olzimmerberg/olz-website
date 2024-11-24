@@ -22,7 +22,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $job = new DailySummaryGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getDailySummaryNotification([
+        $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,
@@ -82,7 +82,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
         $job = new DailySummaryGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getDailySummaryNotification([]);
+        $notification = $job->getNotification([]);
 
         $this->assertNull($notification);
     }

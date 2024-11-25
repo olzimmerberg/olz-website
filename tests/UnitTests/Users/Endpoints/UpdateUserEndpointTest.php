@@ -385,7 +385,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $existing_user = new User();
         $existing_user->setId(123);
-        $entity_manager->repositories[User::class]->userToBeFoundForQuery =
+        $entity_manager->repositories[User::class]->entityToBeFoundForQuery =
             function ($where) use ($existing_user) {
                 if ($where === ['id' => 2]) {
                     return FakeUser::adminUser();
@@ -438,7 +438,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $existing_user = new User();
         $existing_user->setId(123);
-        $entity_manager->repositories[User::class]->userToBeFoundForQuery =
+        $entity_manager->repositories[User::class]->entityToBeFoundForQuery =
             function ($where) use ($existing_user) {
                 if ($where === ['id' => 2]) {
                     return FakeUser::adminUser();

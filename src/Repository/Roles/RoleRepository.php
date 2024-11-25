@@ -13,7 +13,7 @@ enum PredefinedRole: string {
     case Buessli = 'buessli';
     case Aktuariat = 'aktuariat';
     case Nachwuchs = 'nachwuchs-kontakt';
-    case Datenschutz = 'website';
+    case Sysadmin = 'website';
     case SportIdent = 'sportident';
 }
 

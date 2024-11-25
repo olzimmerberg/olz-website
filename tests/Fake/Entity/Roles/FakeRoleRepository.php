@@ -14,17 +14,7 @@ class FakeRoleRepository extends FakeOlzRepository {
     public string $olzEntityClass = Role::class;
     public string $fakeOlzEntityClass = FakeRole::class;
 
-    public ?Role $roleToBeFound = null;
-    public mixed $roleToBeFoundForQuery = null;
-
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        if ($this->roleToBeFound !== null) {
-            return $this->roleToBeFound;
-        }
-        if ($this->roleToBeFoundForQuery !== null) {
-            $fn = $this->roleToBeFoundForQuery;
-            return $fn($criteria);
-        }
         if ($criteria === ['username' => 'role'] || $criteria === ['id' => 1]) {
             return FakeRole::defaultRole();
         }

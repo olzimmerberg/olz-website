@@ -290,6 +290,28 @@ class FakeUser extends FakeEntity {
         );
     }
 
+    public static function provokeErrorUser(bool $fresh = false): object {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = self::defaultUser(true);
+                $entity->setId(666);
+                return $entity;
+            }
+        );
+    }
+
+    public static function noTelegramLinkUser(bool $fresh = false): object {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = self::defaultUser(true);
+                $entity->setId(404);
+                return $entity;
+            }
+        );
+    }
+
     protected static function populateEntityFields(User $entity, bool $fresh = false): void {
         $entity->setOnOff(1);
         $entity->setOwnerUser($fresh ? null : $entity);

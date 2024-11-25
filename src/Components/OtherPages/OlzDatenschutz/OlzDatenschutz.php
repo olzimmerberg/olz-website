@@ -18,7 +18,7 @@ class OlzDatenschutz extends OlzComponent {
         $this->httpUtils()->validateGetParams([]);
         $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
-        $datenschutz_role = $role_repo->getPredefinedRole(PredefinedRole::Datenschutz);
+        $datenschutz_role = $role_repo->getPredefinedRole(PredefinedRole::Sysadmin);
 
         $out = OlzHeader::render([
             'title' => self::$title,

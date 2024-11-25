@@ -24,6 +24,7 @@ class NotificationSubscription {
     public const TYPE_EMAIL_CONFIG_REMINDER = 'email_config_reminder';
     public const TYPE_IMMEDIATE = 'immediate';
     public const TYPE_MONTHLY_PREVIEW = 'monthly_preview';
+    public const TYPE_ROLE_REMINDER = 'role_reminder';
     public const TYPE_TELEGRAM_CONFIG_REMINDER = 'telegram_config_reminder';
     public const TYPE_WEEKLY_PREVIEW = 'weekly_preview';
     public const TYPE_WEEKLY_SUMMARY = 'weekly_summary';
@@ -34,6 +35,7 @@ class NotificationSubscription {
         self::TYPE_EMAIL_CONFIG_REMINDER,
         self::TYPE_IMMEDIATE,
         self::TYPE_MONTHLY_PREVIEW,
+        self::TYPE_ROLE_REMINDER,
         self::TYPE_TELEGRAM_CONFIG_REMINDER,
         self::TYPE_WEEKLY_PREVIEW,
         self::TYPE_WEEKLY_SUMMARY,

@@ -185,7 +185,7 @@ class TransportSuggestion {
                 'halt' => [
                     'stationId' => $station_id,
                     'stationName' => $station['name'],
-                    'time' => $halt_at_station->timeString ?? '',
+                    'time' => $halt_at_station->getTimeString() ?? '',
                 ],
                 'isSkipped' => $halt_at_station === null,
                 'rating' => $this->getRatingForHalt($halt_at_station, $destination_halt),

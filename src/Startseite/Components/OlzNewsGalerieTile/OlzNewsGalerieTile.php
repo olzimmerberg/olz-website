@@ -6,6 +6,7 @@
 
 namespace Olz\Startseite\Components\OlzNewsGalerieTile;
 
+use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
@@ -44,9 +45,10 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
             ZZZZZZZZZZ;
 
         $out .= "<ul class='links'>";
-        $query = $entity_manager->createQuery(<<<'ZZZZZZZZZZ'
+        $news_entry_class = NewsEntry::class;
+        $query = $entity_manager->createQuery(<<<ZZZZZZZZZZ
                 SELECT n
-                FROM Olz:News\NewsEntry n
+                FROM {$news_entry_class} n
                 WHERE n.on_off = '1' and n.format IN ('galerie', 'video')
                 ORDER BY n.published_date DESC, n.published_time DESC
             ZZZZZZZZZZ);

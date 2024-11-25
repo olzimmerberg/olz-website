@@ -9,23 +9,25 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<User>
  */
 class UserRepository extends OlzRepository {
+    protected string $user_class = User::class;
+
     public function findUserFuzzilyByUsername(string $username): ?User {
-        $dql = "SELECT u FROM Olz:Users\\User u WHERE u.username LIKE ?1";
+        $dql = "SELECT u FROM {$this->user_class} u WHERE u.username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);
         return $query->getOneOrNullResult();
     }
 
     public function findUserFuzzilyByOldUsername(string $old_username): ?User {
-        $dql = "SELECT u FROM Olz:Users\\User u WHERE u.old_username LIKE ?1";
+        $dql = "SELECT u FROM {$this->user_class} u WHERE u.old_username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $old_username);
         return $query->getOneOrNullResult();
     }
 
     /** @return array<User> */
     public function getUsersWithLogin(): array {
-        $dql = <<<'ZZZZZZZZZZ'
+        $dql = <<<ZZZZZZZZZZ
             SELECT u
-            FROM Olz:Users\User u
+            FROM {$this->user_class} u
             WHERE
                 u.email != ''
                 AND

@@ -6,6 +6,7 @@
 
 namespace Olz\Startseite\Components\OlzNewsRecentlyTile;
 
+use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
@@ -31,9 +32,10 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
         $out = "<h2>Letzte News</h2>";
 
         $out .= "<ul class='links'>";
-        $query = $entity_manager->createQuery(<<<'ZZZZZZZZZZ'
+        $news_entry_class = NewsEntry::class;
+        $query = $entity_manager->createQuery(<<<ZZZZZZZZZZ
                 SELECT n
-                FROM Olz:News\NewsEntry n
+                FROM {$news_entry_class} n
                 WHERE n.on_off = '1'
                 ORDER BY n.published_date DESC, n.published_time DESC
             ZZZZZZZZZZ);

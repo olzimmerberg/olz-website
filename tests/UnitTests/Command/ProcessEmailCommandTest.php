@@ -220,7 +220,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'ERROR Error running command Olz\Command\ProcessEmailCommand: Failed at something.',
+            'ERROR Error connecting to IMAP: Failed at something',
+            'NOTICE Failed running command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertFalse(WithUtilsCache::get('emailUtils')->client->is_connected);
     }

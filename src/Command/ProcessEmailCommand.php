@@ -19,6 +19,7 @@ use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Attribute;
 use Webklex\PHPIMAP\Client;
+use Webklex\PHPIMAP\Exceptions\ConnectionFailedException;
 use Webklex\PHPIMAP\Exceptions\ImapServerErrorException;
 use Webklex\PHPIMAP\Exceptions\ResponseException;
 use Webklex\PHPIMAP\Message;
@@ -73,8 +74,16 @@ class ProcessEmailCommand extends OlzCommand {
     protected function handle(InputInterface $input, OutputInterface $output): int {
         ini_set('memory_limit', '500M');
 
-        $this->client = $this->emailUtils()->getImapClient();
-        $this->client->connect();
+        try {
+            $this->client = $this->emailUtils()->getImapClient();
+            $this->client->connect();
+        } catch (ConnectionFailedException $exc) {
+            $this->log()->error("Failed to connect to IMAP: {$exc->getMessage()}", [$exc]);
+            return Command::SUCCESS;
+        } catch (\Throwable $th) {
+            $this->log()->error("Error connecting to IMAP: {$th->getMessage()}", [$th]);
+            return Command::FAILURE;
+        }
 
         $mailboxes = [
             $this->processed_mailbox,

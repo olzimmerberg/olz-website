@@ -8,10 +8,6 @@ use Olz\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\Notification;
 use Olz\Command\SendDailyNotificationsCommand\NotificationGetterInterface;
 use Olz\Entity\NotificationSubscription;
-use Olz\Entity\TelegramLink;
-use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
-use Olz\Tests\Fake\Entity\FakeNotificationSubscription;
-use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use Olz\Utils\WithUtilsTrait;
@@ -19,346 +15,6 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-
-$user1 = FakeUser::defaultUser(true);
-$user1->setId(1);
-$user1->setFirstName('First');
-$user1->setLastName('User');
-
-$user2 = FakeUser::defaultUser(true);
-$user2->setId(2);
-$user2->setFirstName('Second');
-$user2->setLastName('User');
-
-$user3 = FakeUser::defaultUser(true);
-$user3->setId(3);
-$user3->setFirstName('Third');
-$user3->setLastName('User');
-
-$user_provoke_error = FakeUser::defaultUser(true);
-$user_provoke_error->setId(3);
-$user_provoke_error->setFirstName('Provoke');
-$user_provoke_error->setLastName('Error');
-
-$user_no_telegram_link = FakeUser::defaultUser(true);
-$user_no_telegram_link->setId(4);
-$user_no_telegram_link->setFirstName('No Telegram');
-$user_no_telegram_link->setLastName('Link');
-
-$subscription_1 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_1->setId(1);
-$subscription_1->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_1->setUser($user1);
-$subscription_1->setNotificationType(NotificationSubscription::TYPE_MONTHLY_PREVIEW);
-$subscription_1->setNotificationTypeArgs(json_encode([]));
-$subscription_2 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_2->setId(2);
-$subscription_2->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_2->setUser($user2);
-$subscription_2->setNotificationType(NotificationSubscription::TYPE_MONTHLY_PREVIEW);
-$subscription_2->setNotificationTypeArgs(json_encode(['no_notification' => true]));
-$subscription_3 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_3->setId(3);
-$subscription_3->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-$subscription_3->setUser($user1);
-$subscription_3->setNotificationType(NotificationSubscription::TYPE_WEEKLY_PREVIEW);
-$subscription_3->setNotificationTypeArgs(json_encode([]));
-$subscription_4 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_4->setId(4);
-$subscription_4->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-$subscription_4->setUser($user1);
-$subscription_4->setNotificationType(NotificationSubscription::TYPE_WEEKLY_PREVIEW);
-$subscription_4->setNotificationTypeArgs(json_encode(['no_notification' => true]));
-$subscription_5 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_5->setId(5);
-$subscription_5->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-$subscription_5->setUser($user1);
-$subscription_5->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-$subscription_5->setNotificationTypeArgs(json_encode(['days' => 7]));
-$subscription_6 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_6->setId(6);
-$subscription_6->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-$subscription_6->setUser($user2);
-$subscription_6->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-$subscription_6->setNotificationTypeArgs(json_encode(['days' => 3]));
-$subscription_7 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_7->setId(7);
-$subscription_7->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-$subscription_7->setUser($user3);
-$subscription_7->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-$subscription_7->setNotificationTypeArgs(json_encode(['days' => 3]));
-$subscription_8 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_8->setId(8);
-$subscription_8->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_8->setUser($user1);
-$subscription_8->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-$subscription_8->setNotificationTypeArgs(json_encode(['days' => 3]));
-$subscription_9 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_9->setId(9);
-$subscription_9->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_9->setUser($user1);
-$subscription_9->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-$subscription_9->setNotificationTypeArgs(json_encode(['no_notification' => true]));
-$subscription_10 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_10->setId(10);
-$subscription_10->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_10->setUser($user1);
-$subscription_10->setNotificationType(NotificationSubscription::TYPE_DAILY_SUMMARY);
-$subscription_10->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
-$subscription_11 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_11->setId(11);
-$subscription_11->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_11->setUser($user1);
-$subscription_11->setNotificationType(NotificationSubscription::TYPE_DAILY_SUMMARY);
-$subscription_11->setNotificationTypeArgs(json_encode(['no_notification' => true]));
-$subscription_12 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_12->setId(12);
-$subscription_12->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_12->setUser($user2);
-$subscription_12->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-$subscription_12->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
-$subscription_13 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_13->setId(13);
-$subscription_13->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_13->setUser($user2);
-$subscription_13->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-$subscription_13->setNotificationTypeArgs(json_encode(['no_notification' => true]));
-$subscription_14 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_14->setId(14);
-$subscription_14->setDeliveryType('invalid-delivery');
-$subscription_14->setUser($user2);
-$subscription_14->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-$subscription_14->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
-$subscription_15 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_15->setId(15);
-$subscription_15->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_15->setUser($user2);
-$subscription_15->setNotificationType('invalid-type');
-$subscription_15->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
-$subscription_16 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_16->setId(16);
-$subscription_16->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_16->setUser($user2);
-$subscription_16->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-$subscription_16->setNotificationTypeArgs(json_encode(['provoke_error' => true]));
-$subscription_17 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_17->setId(17);
-$subscription_17->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-$subscription_17->setUser($user_provoke_error);
-$subscription_17->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-$subscription_17->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
-$subscription_18 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_18->setId(18);
-$subscription_18->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-$subscription_18->setUser($user2);
-$subscription_18->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-$subscription_18->setNotificationTypeArgs(json_encode(['cancelled' => false]));
-$subscription_19 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_19->setId(19);
-$subscription_19->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-$subscription_19->setUser($user2);
-$subscription_19->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-$subscription_19->setNotificationTypeArgs(json_encode(['cancelled' => true]));
-$subscription_20 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_20->setId(20);
-$subscription_20->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_20->setUser($user1);
-$subscription_20->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-$subscription_20->setNotificationTypeArgs(json_encode(['cancelled' => false]));
-$subscription_21 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_21->setId(21);
-$subscription_21->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-$subscription_21->setUser($user1);
-$subscription_21->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-$subscription_21->setNotificationTypeArgs(json_encode(['cancelled' => true]));
-$subscription_22 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-$subscription_22->setId(22);
-$subscription_22->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-$subscription_22->setUser($user_no_telegram_link);
-$subscription_22->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-$subscription_22->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
-
-$all_notification_subscriptions = [
-    $subscription_1,
-    $subscription_2,
-    $subscription_3,
-    $subscription_4,
-    $subscription_5,
-    $subscription_6,
-    $subscription_7,
-    $subscription_8,
-    $subscription_9,
-    $subscription_10,
-    $subscription_11,
-    $subscription_12,
-    $subscription_13,
-    $subscription_14,
-    $subscription_15,
-    $subscription_16,
-    $subscription_17,
-    $subscription_18,
-    $subscription_19,
-    $subscription_20,
-    $subscription_21,
-    $subscription_22,
-];
-
-/**
- * @extends FakeOlzRepository<NotificationSubscription>
- */
-class FakeSendDailyNotificationsCommandNotificationSubscriptionRepository extends FakeOlzRepository {
-    /** @return array<NotificationSubscription> */
-    public function findAll(): array {
-        global $all_notification_subscriptions;
-        return $all_notification_subscriptions;
-    }
-
-    /**
-     * @param array<string, mixed> $criteria
-     * @param array<string, mixed> $orderBy
-     * @param mixed|null           $limit
-     * @param mixed|null           $offset
-     */
-    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
-        global $user1, $user2, $user3, $user_provoke_error, $all_notification_subscriptions;
-
-        if ($criteria === ['notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER]) {
-            $subscription_31 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-            $subscription_31->setId(1);
-            $subscription_31->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-            $subscription_31->setUser($user1);
-            $subscription_31->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-            $subscription_31->setNotificationTypeArgs(json_encode(['cancelled' => false]));
-            $subscription_32 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-            $subscription_32->setId(2);
-            $subscription_32->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-            $subscription_32->setUser($user2);
-            $subscription_32->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-            $subscription_32->setNotificationTypeArgs(json_encode(['cancelled' => false]));
-            return [
-                $subscription_31,
-                $subscription_32,
-            ];
-        }
-
-        if ($criteria === [
-            'user' => FakeUser::defaultUser(),
-            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
-        ]) {
-            $subscription_41 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-            $subscription_41->setId(1);
-            $subscription_41->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-            $subscription_41->setUser($user1);
-            $subscription_41->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-            $subscription_41->setNotificationTypeArgs(json_encode(['cancelled' => false]));
-            return [
-                $subscription_41,
-            ];
-        }
-
-        if ($criteria === ['notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER]) {
-            $subscription_51 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-            $subscription_51->setId(1);
-            $subscription_51->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-            $subscription_51->setUser($user1);
-            $subscription_51->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-            $subscription_51->setNotificationTypeArgs(json_encode(['cancelled' => false]));
-            $subscription_52 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-            $subscription_52->setId(2);
-            $subscription_52->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-            $subscription_52->setUser($user2);
-            $subscription_52->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-            $subscription_52->setNotificationTypeArgs(json_encode(['cancelled' => false]));
-            return [
-                $subscription_51,
-                $subscription_52,
-            ];
-        }
-
-        if ($criteria === [
-            'user' => FakeUser::defaultUser(),
-            'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
-        ]) {
-            $subscription_61 = FakeNotificationSubscription::defaultNotificationSubscription(true);
-            $subscription_61->setId(1);
-            $subscription_61->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-            $subscription_61->setUser($user1);
-            $subscription_61->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-            $subscription_61->setNotificationTypeArgs(json_encode(['cancelled' => false]));
-            return [
-                $subscription_61,
-            ];
-        }
-
-        return $all_notification_subscriptions;
-    }
-
-    /**
-     * @param array<string, mixed> $criteria
-     * @param array<string, mixed> $orderBy
-     */
-    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        global $user1;
-        if ($criteria['user'] === $user1) {
-            return new NotificationSubscription();
-        }
-        return null;
-    }
-}
-
-/**
- * @extends FakeOlzRepository<TelegramLink>
- */
-class FakeSendDailyNotificationsCommandTelegramLinkRepository extends FakeOlzRepository {
-    /** @param array<string, mixed> $criteria */
-    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        global $user1, $user2, $user3, $user_provoke_error;
-        if ($criteria == ['user' => $user1]) {
-            $telegram_link = new TelegramLink();
-            $telegram_link->setTelegramChatId('11111');
-            return $telegram_link;
-        }
-        if ($criteria == ['user' => $user2]) {
-            $telegram_link = new TelegramLink();
-            $telegram_link->setTelegramChatId('22222');
-            return $telegram_link;
-        }
-        if ($criteria == ['user' => $user3]) {
-            $telegram_link = new TelegramLink();
-            $telegram_link->setTelegramChatId(null);
-            return $telegram_link;
-        }
-        if ($criteria == ['user' => $user_provoke_error]) {
-            $telegram_link = new TelegramLink();
-            $telegram_link->setTelegramChatId('provoke_error');
-            return $telegram_link;
-        }
-        return null;
-    }
-
-    /** @return array<TelegramLink> */
-    public function getActivatedTelegramLinks(): array {
-        global $user1, $user2, $user3, $user_provoke_error;
-
-        $telegram_link_1 = new TelegramLink();
-        $telegram_link_1->setUser($user1);
-        $telegram_link_1->setTelegramChatId('11111');
-
-        $telegram_link_2 = new TelegramLink();
-        $telegram_link_2->setUser($user2);
-        $telegram_link_2->setTelegramChatId('22222');
-
-        $telegram_link_3 = new TelegramLink();
-        $telegram_link_3->setUser($user3);
-        $telegram_link_3->setTelegramChatId('33333');
-
-        $telegram_link_4 = new TelegramLink();
-        $telegram_link_4->setUser($user_provoke_error);
-        $telegram_link_4->setTelegramChatId('provoke_error');
-
-        return [$telegram_link_1, $telegram_link_2, $telegram_link_3, $telegram_link_4];
-    }
-}
 
 /**
  * @internal
@@ -387,6 +43,10 @@ class FakeNotificationGetter implements NotificationGetterInterface {
 
     public function __construct(string $notification_type) {
         $this->notification_type = $notification_type;
+    }
+
+    public function autogenerateSubscriptions(): void {
+        $this->log()->info("Autogenerating {$this->notification_type} subscriptions...");
     }
 
     /** @param array<string, mixed> $args */
@@ -421,11 +81,6 @@ class FakeNotificationGetter implements NotificationGetterInterface {
 final class SendDailyNotificationsCommandTest extends UnitTestCase {
     public function testSendDailyNotificationsCommand(): void {
         $mailer = $this->createMock(MailerInterface::class);
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $notification_subscription_repo = new FakeSendDailyNotificationsCommandNotificationSubscriptionRepository($entity_manager);
-        $entity_manager->repositories[NotificationSubscription::class] = $notification_subscription_repo;
-        $telegram_link_repo = new FakeSendDailyNotificationsCommandTelegramLinkRepository($entity_manager);
-        $entity_manager->repositories[TelegramLink::class] = $telegram_link_repo;
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $artifacts = [];
@@ -455,11 +110,14 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Running command Olz\\Tests\\UnitTests\\Command\\SendDailyNotificationsCommandForTest...",
-            "INFO Autogenerating notifications...",
-            "INFO Removing email configuration reminder subscription for 'default (User ID: 1)'...",
-            "INFO Generating email configuration reminder subscription for 'vorstand (User ID: 3)'...",
-            "INFO Removing telegram configuration reminder subscription for 'default (User ID: 1)'...",
-            "INFO Generating telegram configuration reminder subscription for 'vorstand (User ID: 3)'...",
+            "INFO Autogenerating notification subscriptions...",
+            "INFO Autogenerating daily_summary subscriptions...",
+            "INFO Autogenerating deadline_warning subscriptions...",
+            "INFO Autogenerating email_config_reminder subscriptions...",
+            "INFO Autogenerating monthly_preview subscriptions...",
+            "INFO Autogenerating telegram_config_reminder subscriptions...",
+            "INFO Autogenerating weekly_preview subscriptions...",
+            "INFO Autogenerating weekly_summary subscriptions...",
             "INFO Sending 'monthly_preview' notifications...",
             "INFO Getting notification for '[]'...",
             "INFO Sending notification mp title [] over email to user (1)...",
@@ -497,10 +155,10 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             "INFO Email sent to user (2): ws title {\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true}",
             "INFO Sending notification ws title {\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true} over invalid-delivery to user (2)...",
             "CRITICAL Unknown delivery type 'invalid-delivery'",
-            "INFO Sending notification ws title {\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true} over telegram to user (3)...",
-            "NOTICE Error sending telegram to user (3): [Exception] provoked telegram error",
-            "INFO Sending notification ws title {\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true} over telegram to user (4)...",
-            "NOTICE User (4) has no telegram link, but a subscription (22)",
+            "INFO Sending notification ws title {\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true} over telegram to user (666)...",
+            "NOTICE Error sending telegram to user (666): [Exception] provoked telegram error",
+            "INFO Sending notification ws title {\"aktuell\":true,\"blog\":true,\"galerie\":true,\"forum\":true} over telegram to user (404)...",
+            "NOTICE User (404) has no telegram link, but a subscription (22)",
             "INFO Getting notification for '{\"no_notification\":true}'...",
             "INFO Nothing to send.",
             "INFO Getting notification for '{\"provoke_error\":true}'...",
@@ -523,68 +181,20 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\SendDailyNotificationsCommandForTest.",
         ], $this->getLogs());
 
-        global $user1, $user2;
-        $this->assertSame([
-            [
-                'vorstand (User ID: 3)',
-                NotificationSubscription::DELIVERY_EMAIL,
-                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
-                '{"cancelled":false}',
-            ],
-            [
-                'vorstand (User ID: 3)',
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
-                '{"cancelled":false}',
-            ],
-        ], array_map(
-            function ($notification_subscription) {
-                return [
-                    $notification_subscription->getUser()->__toString(),
-                    $notification_subscription->getDeliveryType(),
-                    $notification_subscription->getNotificationType(),
-                    $notification_subscription->getNotificationTypeArgs(),
-                ];
-            },
-            $entity_manager->persisted
-        ));
-        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $this->assertSame([
-            [
-                'default (User ID: 1)',
-                NotificationSubscription::DELIVERY_EMAIL,
-                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
-                '{"cancelled":false}',
-            ],
-            [
-                'default (User ID: 1)',
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
-                '{"cancelled":false}',
-            ],
-        ], array_map(
-            function ($notification_subscription) {
-                return [
-                    $notification_subscription->getUser()->__toString(),
-                    $notification_subscription->getDeliveryType(),
-                    $notification_subscription->getNotificationType(),
-                    $notification_subscription->getNotificationTypeArgs(),
-                ];
-            },
-            $entity_manager->removed
-        ));
-        $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $this->assertSame([], $entity_manager->persisted);
+        $this->assertSame([], $entity_manager->removed);
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 From: 
                 Reply-To: 
-                To: "First User" <default-user@staging.olzimmerberg.ch>
+                To: "Default User" <default-user@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
                 Subject: [OLZ] mp title []
 
-                mp text First
+                mp text Default
 
                 ---
                 Abmelden?
@@ -595,7 +205,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
                     <img src="cid:olz_logo" alt="" style="width:150px;" />
                 </div>
                 <br /><br /><br />
-                mp text First
+                mp text Default
                 <br /><br />
                 <hr style="border: 0; border-top: 1px solid black;">
                 Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoibW9udGhseV9wcmV2aWV3In0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
@@ -605,12 +215,12 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: 
                 Reply-To: 
-                To: "First User" <default-user@staging.olzimmerberg.ch>
+                To: "Default User" <default-user@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
                 Subject: [OLZ] dw title {"days":3}
 
-                dw text First
+                dw text Default
 
                 ---
                 Abmelden?
@@ -621,7 +231,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
                     <img src="cid:olz_logo" alt="" style="width:150px;" />
                 </div>
                 <br /><br /><br />
-                dw text First
+                dw text Default
                 <br /><br />
                 <hr style="border: 0; border-top: 1px solid black;">
                 Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGVhZGxpbmVfd2FybmluZyJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
@@ -631,12 +241,12 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: 
                 Reply-To: 
-                To: "First User" <default-user@staging.olzimmerberg.ch>
+                To: "Default User" <default-user@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
                 Subject: [OLZ] ds title {"aktuell":true,"blog":true,"galerie":true,"forum":true}
 
-                ds text First
+                ds text Default
 
                 ---
                 Abmelden?
@@ -647,7 +257,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
                     <img src="cid:olz_logo" alt="" style="width:150px;" />
                 </div>
                 <br /><br /><br />
-                ds text First
+                ds text Default
                 <br /><br />
                 <hr style="border: 0; border-top: 1px solid black;">
                 Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZGFpbHlfc3VtbWFyeSJ9">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
@@ -657,12 +267,12 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: 
                 Reply-To: 
-                To: "Second User" <default-user@staging.olzimmerberg.ch>
+                To: "Admin Istrator" <admin-user@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
                 Subject: [OLZ] ws title {"aktuell":true,"blog":true,"galerie":true,"forum":true}
 
-                ws text Second
+                ws text Admin
 
                 ---
                 Abmelden?
@@ -673,7 +283,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
                     <img src="cid:olz_logo" alt="" style="width:150px;" />
                 </div>
                 <br /><br /><br />
-                ws text Second
+                ws text Admin
                 <br /><br />
                 <hr style="border: 0; border-top: 1px solid black;">
                 Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlIjoid2Vla2x5X3N1bW1hcnkifQ">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjIsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
@@ -683,12 +293,12 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: 
                 Reply-To: 
-                To: "First User" <default-user@staging.olzimmerberg.ch>
+                To: "Default User" <default-user@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
                 Subject: [OLZ] ecr title {"cancelled":false}
 
-                ecr text First
+                ecr text Default
 
                 ---
                 Abmelden?
@@ -699,7 +309,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
                     <img src="cid:olz_logo" alt="" style="width:150px;" />
                 </div>
                 <br /><br /><br />
-                ecr text First
+                ecr text Default
                 <br /><br />
                 <hr style="border: 0; border-top: 1px solid black;">
                 Abmelden? <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlIjoiZW1haWxfY29uZmlnX3JlbWluZGVyIn0">Keine solchen E-Mails mehr</a> oder <a href="http://fake-base-url/_/email_reaktion?token=eyJhY3Rpb24iOiJ1bnN1YnNjcmliZSIsInVzZXIiOjEsIm5vdGlmaWNhdGlvbl90eXBlX2FsbCI6dHJ1ZX0">Keine E-Mails von OL Zimmerberg mehr</a>
@@ -712,31 +322,32 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
 
         $this->assertSame([
             ['sendMessage', [
-                'chat_id' => '11111',
+                'chat_id' => '99999',
                 'parse_mode' => 'HTML',
-                'text' => "<b>wp title []</b>\n\nwp text First",
+                'text' => "<b>wp title []</b>\n\nwp text Default",
                 'disable_web_page_preview' => true,
             ]],
             ['sendMessage', [
-                'chat_id' => '11111',
+                'chat_id' => '99999',
                 'parse_mode' => 'HTML',
-                'text' => "<b>dw title {\"days\":7}</b>\n\ndw text First",
+                'text' => "<b>dw title {\"days\":7}</b>\n\ndw text Default",
                 'disable_web_page_preview' => true,
             ]],
             ['sendMessage', [
-                'chat_id' => '22222',
+                'chat_id' => '88888',
                 'parse_mode' => 'HTML',
-                'text' => "<b>dw title {\"days\":3}</b>\n\ndw text Second",
+                'text' => "<b>dw title {\"days\":3}</b>\n\ndw text Admin",
                 'disable_web_page_preview' => true,
             ]],
             ['sendMessage', [
-                'chat_id' => '22222',
+                'chat_id' => '88888',
                 'parse_mode' => 'HTML',
-                'text' => "<b>tcr title {\"cancelled\":false}</b>\n\ntcr text Second",
+                'text' => "<b>tcr title {\"cancelled\":false}</b>\n\ntcr text Admin",
                 'disable_web_page_preview' => true,
             ]],
         ], WithUtilsCache::get('telegramUtils')->telegramApiCalls);
         $notification_getters = $job->testOnlyGetNotificationGetters();
+
         foreach ($notification_getters as $type => $notification_getter) {
             // @phpstan-ignore-next-line
             $this->assertSame($entity_manager, $notification_getter->entityManager(), "{$type}");

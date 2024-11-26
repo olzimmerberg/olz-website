@@ -12,6 +12,9 @@ use Olz\Utils\WithUtilsTrait;
 class ConcreteNotificationGetter implements NotificationGetterInterface {
     use WithUtilsTrait;
 
+    public function autogenerateSubscriptions(): void {
+    }
+
     public function getNotification(array $args): ?Notification {
         return null;
     }
@@ -23,8 +26,9 @@ class ConcreteNotificationGetter implements NotificationGetterInterface {
  * @coversNothing
  */
 final class NotificationGetterInterfaceTest extends UnitTestCase {
-    public function testNotification(): void {
+    public function testNotificationGetterInterface(): void {
         $notification_getter = new ConcreteNotificationGetter();
+        $notification_getter->autogenerateSubscriptions();
         $this->assertNull($notification_getter->getNotification([]));
     }
 }

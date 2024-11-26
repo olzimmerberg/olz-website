@@ -9,12 +9,12 @@ use Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter;
 use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
 use Olz\Command\SendDailyNotificationsCommand\Notification;
 use Olz\Command\SendDailyNotificationsCommand\NotificationGetterInterface;
+use Olz\Command\SendDailyNotificationsCommand\RoleReminderGetter;
 use Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter;
 use Olz\Command\SendDailyNotificationsCommand\WeeklyPreviewGetter;
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
-use Olz\Entity\Users\User;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,6 +38,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
             NotificationSubscription::TYPE_DEADLINE_WARNING => new DeadlineWarningGetter(),
             NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER => new EmailConfigurationReminderGetter(),
             NotificationSubscription::TYPE_MONTHLY_PREVIEW => new MonthlyPreviewGetter(),
+            NotificationSubscription::TYPE_ROLE_REMINDER => new RoleReminderGetter(),
             NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER => new TelegramConfigurationReminderGetter(),
             NotificationSubscription::TYPE_WEEKLY_PREVIEW => new WeeklyPreviewGetter(),
             NotificationSubscription::TYPE_WEEKLY_SUMMARY => new WeeklySummaryGetter(),
@@ -45,8 +46,10 @@ class SendDailyNotificationsCommand extends OlzCommand {
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
-        $this->log()->info("Autogenerating notifications...");
-        $this->autoupdateNotificationSubscriptions();
+        $this->log()->info("Autogenerating notification subscriptions...");
+        foreach ($this->notification_getter_by_type as $type => $getter) {
+            $getter->autogenerateSubscriptions();
+        }
 
         $subscriptions_by_type_and_args = $this->getNotificationSubscriptions();
         foreach ($subscriptions_by_type_and_args as $type => $subscriptions_by_args) {
@@ -54,178 +57,6 @@ class SendDailyNotificationsCommand extends OlzCommand {
         }
 
         return Command::SUCCESS;
-    }
-
-    protected function autoupdateNotificationSubscriptions(): void {
-        $this->autoupdateEmailNotificationSubscriptions();
-        $this->autoupdateTelegramNotificationSubscriptions();
-        $this->entityManager()->flush();
-    }
-
-    protected function autoupdateEmailNotificationSubscriptions(): void {
-        $email_notifications_state = $this->getEmailConfigReminderState();
-
-        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
-        $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
-        $user_repo = $this->entityManager()->getRepository(User::class);
-        foreach ($email_notifications_state as $user_id => $state) {
-            $has_reminder = $state['has_reminder'] ?? false;
-            $needs_reminder = $state['needs_reminder'] ?? false;
-            if ($needs_reminder && !$has_reminder) {
-                $user = $user_repo->findOneBy(['id' => $user_id]);
-                $this->log()->info("Generating email configuration reminder subscription for '{$user}'...");
-                $generated_subscription = new NotificationSubscription();
-                $generated_subscription->setUser($user);
-                $generated_subscription->setDeliveryType(
-                    NotificationSubscription::DELIVERY_EMAIL
-                );
-                $generated_subscription->setNotificationType(
-                    NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER
-                );
-                $generated_subscription->setNotificationTypeArgs(
-                    json_encode(['cancelled' => false])
-                );
-                $generated_subscription->setCreatedAt($now_datetime);
-                $this->entityManager()->persist($generated_subscription);
-            }
-            if ($has_reminder && !$needs_reminder) {
-                $user = $user_repo->findOneBy(['id' => $user_id]);
-                $this->log()->info("Removing email configuration reminder subscription for '{$user}'...");
-                $subscriptions = $notification_subscription_repo->findBy([
-                    'user' => $user,
-                    'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
-                ]);
-                foreach ($subscriptions as $subscription) {
-                    $this->entityManager()->remove($subscription);
-                }
-            }
-        }
-    }
-
-    /** @return array<int, array{has_reminder?: bool, needs_reminder?: bool}> */
-    protected function getEmailConfigReminderState(): array {
-        $email_notifications_state = [];
-
-        // Find users with existing email config reminder notification subscriptions.
-        $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
-        $email_notification_subscriptions = $notification_subscription_repo->findBy([
-            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
-        ]);
-        foreach ($email_notification_subscriptions as $subscription) {
-            $user_id = $subscription->getUser()->getId();
-            $user_state = $email_notifications_state[$user_id] ?? [];
-            $user_state['has_reminder'] = true;
-            $email_notifications_state[$user_id] = $user_state;
-        }
-
-        // Find users who should have email config reminder notification subscriptions.
-        $user_repo = $this->entityManager()->getRepository(User::class);
-        $users_with_email = $user_repo->getUsersWithLogin();
-        $non_config_reminder_notification_types = $this->getNonConfigReminderNotificationTypes();
-        foreach ($users_with_email as $user_with_email) {
-            $subscription = $notification_subscription_repo->findOneBy([
-                'user' => $user_with_email,
-                'notification_type' => $non_config_reminder_notification_types,
-            ]);
-            if (!$subscription) {
-                $user_id = $user_with_email->getId();
-                $user_state = $email_notifications_state[$user_id] ?? [];
-                $user_state['needs_reminder'] = true;
-                $email_notifications_state[$user_id] = $user_state;
-            }
-        }
-
-        return $email_notifications_state;
-    }
-
-    /** @return array<string> */
-    protected function getNonConfigReminderNotificationTypes(): array {
-        return array_filter(
-            NotificationSubscription::ALL_NOTIFICATION_TYPES,
-            function ($notification_type): bool {
-                return
-                    $notification_type !== NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER
-                    && $notification_type !== NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER;
-            }
-        );
-    }
-
-    private function autoupdateTelegramNotificationSubscriptions(): void {
-        $telegram_notifications_state = $this->getTelegramConfigReminderState();
-
-        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
-        $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
-        $user_repo = $this->entityManager()->getRepository(User::class);
-        foreach ($telegram_notifications_state as $user_id => $state) {
-            $has_reminder = $state['has_reminder'] ?? false;
-            $needs_reminder = $state['needs_reminder'] ?? false;
-            if ($needs_reminder && !$has_reminder) {
-                $user = $user_repo->findOneBy(['id' => $user_id]);
-                $this->log()->info("Generating telegram configuration reminder subscription for '{$user}'...");
-                $generated_subscription = new NotificationSubscription();
-                $generated_subscription->setUser($user);
-                $generated_subscription->setDeliveryType(
-                    NotificationSubscription::DELIVERY_TELEGRAM
-                );
-                $generated_subscription->setNotificationType(
-                    NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER
-                );
-                $generated_subscription->setNotificationTypeArgs(
-                    json_encode(['cancelled' => false])
-                );
-                $generated_subscription->setCreatedAt($now_datetime);
-                $this->entityManager()->persist($generated_subscription);
-            }
-            if ($has_reminder && !$needs_reminder) {
-                $user = $user_repo->findOneBy(['id' => $user_id]);
-                $this->log()->info("Removing telegram configuration reminder subscription for '{$user}'...");
-                $subscriptions = $notification_subscription_repo->findBy([
-                    'user' => $user,
-                    'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
-                ]);
-                foreach ($subscriptions as $subscription) {
-                    $this->entityManager()->remove($subscription);
-                }
-            }
-        }
-    }
-
-    /** @return array<int, array{has_reminder?: bool, needs_reminder?: bool}> */
-    protected function getTelegramConfigReminderState(): array {
-        $telegram_notifications_state = [];
-
-        // Find users with existing telegram config reminder notification subscriptions.
-        $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
-        $telegram_notification_subscriptions = $notification_subscription_repo->findBy([
-            'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
-        ]);
-        foreach ($telegram_notification_subscriptions as $subscription) {
-            $user_id = $subscription->getUser()->getId();
-            $user_state = $telegram_notifications_state[$user_id] ?? [];
-            $user_state['has_reminder'] = true;
-            $telegram_notifications_state[$user_id] = $user_state;
-        }
-
-        // Find users who should have telegram config reminder notification subscriptions.
-        $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
-        $telegram_links = $telegram_link_repo->getActivatedTelegramLinks();
-        $non_config_reminder_notification_types = $this->getNonConfigReminderNotificationTypes();
-        foreach ($telegram_links as $telegram_link) {
-            $user = $telegram_link->getUser();
-            $subscription = $notification_subscription_repo->findOneBy([
-                'user' => $user,
-                'delivery_type' => NotificationSubscription::DELIVERY_TELEGRAM,
-                'notification_type' => $non_config_reminder_notification_types,
-            ]);
-            if (!$subscription) {
-                $user_id = $user->getId();
-                $user_state = $telegram_notifications_state[$user_id] ?? [];
-                $user_state['needs_reminder'] = true;
-                $telegram_notifications_state[$user_id] = $user_state;
-            }
-        }
-
-        return $telegram_notifications_state;
     }
 
     /** @return array<string, array<?string, array<NotificationSubscription>>> */

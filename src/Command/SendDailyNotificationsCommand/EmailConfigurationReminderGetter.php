@@ -3,12 +3,83 @@
 namespace Olz\Command\SendDailyNotificationsCommand;
 
 use Olz\Entity\NotificationSubscription;
+use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
 
 class EmailConfigurationReminderGetter implements NotificationGetterInterface {
+    use NotificationGetterTrait;
     use WithUtilsTrait;
 
     public const DAY_OF_MONTH = 22;
+
+    public function autogenerateSubscriptions(): void {
+        $email_notifications_state = $this->getEmailConfigReminderState();
+
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
+        $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        foreach ($email_notifications_state as $user_id => $state) {
+            $reminder_id = $state['reminder_id'] ?? false;
+            $needs_reminder = $state['needs_reminder'] ?? false;
+            if ($needs_reminder && !$reminder_id) {
+                $user = $user_repo->findOneBy(['id' => $user_id]);
+                $this->log()->info("Generating email configuration reminder subscription for '{$user}'...");
+                $subscription = new NotificationSubscription();
+                $subscription->setUser($user);
+                $subscription->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
+                $subscription->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
+                $subscription->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $subscription->setCreatedAt($now_datetime);
+                $this->entityManager()->persist($subscription);
+            }
+            if ($reminder_id && !$needs_reminder) {
+                $user = $user_repo->findOneBy(['id' => $user_id]);
+                $this->log()->info("Removing email configuration reminder subscription ({$reminder_id}) for '{$user}'...");
+                $subscription = $notification_subscription_repo->findOneBy(['id' => $reminder_id]);
+                $this->entityManager()->remove($subscription);
+            }
+        }
+        $this->entityManager()->flush();
+    }
+
+    /** @return array<int, array{reminder_id?: int, needs_reminder?: bool}> */
+    protected function getEmailConfigReminderState(): array {
+        $email_notifications_state = [];
+
+        // Find users with existing email config reminder notification subscriptions.
+        $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
+        $email_notification_subscriptions = $notification_subscription_repo->findBy([
+            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+        ]);
+        foreach ($email_notification_subscriptions as $subscription) {
+            $user_id = $subscription->getUser()->getId();
+            $user_state = $email_notifications_state[$user_id] ?? [];
+            $user_state['reminder_id'] = $subscription->getId();
+            $email_notifications_state[$user_id] = $user_state;
+        }
+
+        // Find users who should have email config reminder notification subscriptions.
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $users_with_email = $user_repo->getUsersWithLogin();
+        $non_config_reminder_notification_types = $this->getNonReminderNotificationTypes();
+        foreach ($users_with_email as $user_with_email) {
+            $subscription = $notification_subscription_repo->findOneBy([
+                'user' => $user_with_email,
+                'delivery_type' => NotificationSubscription::DELIVERY_EMAIL,
+                'notification_type' => $non_config_reminder_notification_types,
+            ]);
+            if (!$subscription) {
+                $user_id = $user_with_email->getId();
+                $user_state = $email_notifications_state[$user_id] ?? [];
+                $user_state['needs_reminder'] = true;
+                $email_notifications_state[$user_id] = $user_state;
+            }
+        }
+
+        return $email_notifications_state;
+    }
+
+    // ---
 
     /** @param array<string, mixed> $args */
     public function getNotification(array $args): ?Notification {

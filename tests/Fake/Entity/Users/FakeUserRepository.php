@@ -13,8 +13,6 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 class FakeUserRepository extends FakeOlzRepository {
     public string $olzEntityClass = User::class;
 
-    public ?User $userToBeFound = null;
-    public mixed $userToBeFoundForQuery = null;
     public ?User $fakeProcessEmailCommandUser = null;
 
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
@@ -29,12 +27,13 @@ class FakeUserRepository extends FakeOlzRepository {
     }
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        if ($this->userToBeFound !== null) {
-            return $this->userToBeFound;
-        }
-        if ($this->userToBeFoundForQuery !== null) {
-            $fn = $this->userToBeFoundForQuery;
-            return $fn($criteria);
+        if ($this->entityToBeFoundForQuery !== null) {
+            $fn = $this->entityToBeFoundForQuery;
+            try {
+                return $fn($criteria);
+            } catch (\Throwable $th) {
+                // ignore
+            }
         }
         if ($criteria === ['id' => FakeOlzRepository::MINIMAL_ID]) {
             return FakeUser::minimal();

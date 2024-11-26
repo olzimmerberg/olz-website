@@ -59,7 +59,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $subscription->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
         $subscription->setNotificationTypeArgs('{"cancelled":false}');
         $entity_manager = WithUtilsCache::get('entityManager');
-        $entity_manager->repositories[NotificationSubscription::class]->entitiesToBeFound = [$subscription];
+        $entity_manager->repositories[NotificationSubscription::class]->entitiesToBeFoundForQuery = fn () => [$subscription];
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',

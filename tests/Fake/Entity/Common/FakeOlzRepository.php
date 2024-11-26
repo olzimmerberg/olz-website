@@ -25,15 +25,14 @@ class FakeOlzRepository extends EntityRepository {
     public string $olzEntityClass = OlzEntity::class;
     public string $fakeOlzEntityClass = FakeEntity::class;
 
-    /** @var ?T */
-    public ?object $entityToBeFound = null;
+    /** @var callable(array<string, mixed>): ?T */
     public mixed $entityToBeFoundForQuery = null;
 
     /** @var ?array<T> */
     public ?array $entitiesToBeMatched = null;
 
-    /** @var ?array<T> */
-    public ?array $entitiesToBeFound = null;
+    /** @var callable(array<string, mixed>): array<T> */
+    public mixed $entitiesToBeFoundForQuery = null;
 
     public function __construct(EntityManagerInterface $em) {
         // @phpstan-ignore-next-line
@@ -41,12 +40,13 @@ class FakeOlzRepository extends EntityRepository {
     }
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        if ($this->entityToBeFound !== null) {
-            return $this->entityToBeFound;
-        }
         if ($this->entityToBeFoundForQuery !== null) {
             $fn = $this->entityToBeFoundForQuery;
-            return $fn($criteria);
+            try {
+                return $fn($criteria);
+            } catch (\Throwable $th) {
+                // ignore
+            }
         }
         $class = $this->fakeOlzEntityClass;
         if ($criteria === ['id' => self::MINIMAL_ID]) {
@@ -87,8 +87,13 @@ class FakeOlzRepository extends EntityRepository {
      * @return array<T>
      */
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
-        if ($this->entitiesToBeFound !== null) {
-            return $this->entitiesToBeFound;
+        if ($this->entitiesToBeFoundForQuery !== null) {
+            $fn = $this->entitiesToBeFoundForQuery;
+            try {
+                return $fn($criteria);
+            } catch (\Throwable $th) {
+                // ignore
+            }
         }
         $class = $this->fakeOlzEntityClass;
         return [

@@ -16,6 +16,19 @@ use Olz\Utils\FixedDateUtils;
  * @covers \Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter
  */
 final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationTestCase {
+    public function testEmailConfigurationReminderGetterAutogenerateSubscriptions(): void {
+        $job = new EmailConfigurationReminderGetter();
+        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->autogenerateSubscriptions();
+
+        $this->assertSame([
+            "INFO Generating email configuration reminder subscription for 'karten (User ID: 3)'...",
+            "INFO Generating email configuration reminder subscription for 'benutzer (User ID: 5)'...",
+            "INFO Generating email configuration reminder subscription for 'parent (User ID: 6)'...",
+            "INFO Generating email configuration reminder subscription for 'kaderlaeufer (User ID: 9)'...",
+        ], $this->getLogs());
+    }
+
     public function testEmailConfigurationReminderGetter(): void {
         $the_day = EmailConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);

@@ -17,10 +17,11 @@ class FakeTelegramLinkRepository extends FakeOlzRepository {
     public string $fakeOlzEntityClass = FakeTelegramLink::class;
 
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
-        $user = $criteria['user'];
+        $user = $criteria['user'] ?? null;
         if ($user instanceof User) {
             $user = $user->getId();
         }
+
         if ($user === 1) {
             $redundant_pin_link = new TelegramLink();
             $redundant_pin_link->setId(13);
@@ -38,20 +39,34 @@ class FakeTelegramLinkRepository extends FakeOlzRepository {
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         global $valid_pin, $expired_pin;
+
+        $user = $criteria['user'] ?? null;
+        if ($user instanceof User) {
+            $user = $user->getId();
+        }
+
         if ($criteria == ['pin' => $valid_pin]) {
             return FakeTelegramLink::validPin();
         }
         if ($criteria == ['pin' => $expired_pin]) {
             return FakeTelegramLink::expiredPin();
         }
-        if ($criteria == ['user' => 1]) {
+        if ($user === 1) {
             return FakeTelegramLink::validPin();
         }
-        if ($criteria == ['user' => 2]) {
+        if ($user === 2) {
             return FakeTelegramLink::expiredPin();
         }
-        if ($criteria == ['user' => 3]) {
-            return FakeTelegramLink::nullPin();
+        if ($user === 3) {
+            return FakeTelegramLink::null();
+        }
+        if ($user === 404) {
+            return null;
+        }
+        if ($user === 666) {
+            $telegram_link = new TelegramLink();
+            $telegram_link->setTelegramChatId('provoke_error');
+            return $telegram_link;
         }
         if ($criteria == ['telegram_chat_id' => 1]) {
             return FakeTelegramLink::validPin();
@@ -60,7 +75,7 @@ class FakeTelegramLinkRepository extends FakeOlzRepository {
             return FakeTelegramLink::expiredPin();
         }
         if ($criteria == ['telegram_chat_id' => 3]) {
-            return FakeTelegramLink::nullPin();
+            return FakeTelegramLink::null();
         }
         if ($criteria === ['telegram_chat_id' => 17089367]) {
             $telegram_link = new TelegramLink();
@@ -68,5 +83,14 @@ class FakeTelegramLinkRepository extends FakeOlzRepository {
             return $telegram_link;
         }
         return null;
+    }
+
+    /** @return array<TelegramLink> */
+    public function getActivatedTelegramLinks(): array {
+        return [
+            FakeTelegramLink::validPin(),
+            FakeTelegramLink::expiredPin(),
+            FakeTelegramLink::null(),
+        ];
     }
 }

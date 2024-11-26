@@ -21,11 +21,13 @@ class Notification {
         $placeholders = [
             '%%userFirstName%%',
             '%%userLastName%%',
+            '%%userUsername%%',
             '%%userEmail%%',
         ];
         $replacements = [
             $user->getFirstName(),
             $user->getLastName(),
+            $user->getUsername(),
             $user->getEmail(),
         ];
         return str_replace($placeholders, $replacements, $this->text);

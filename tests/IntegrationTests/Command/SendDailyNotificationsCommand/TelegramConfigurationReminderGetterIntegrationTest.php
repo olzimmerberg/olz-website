@@ -16,6 +16,14 @@ use Olz\Utils\FixedDateUtils;
  * @covers \Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter
  */
 final class TelegramConfigurationReminderGetterIntegrationTest extends IntegrationTestCase {
+    public function testTelegramConfigurationReminderGetterAutogenerateSubscriptions(): void {
+        $job = new TelegramConfigurationReminderGetter();
+        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->autogenerateSubscriptions();
+
+        $this->assertSame([], $this->getLogs());
+    }
+
     public function testTelegramConfigurationReminderGetter(): void {
         $the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);

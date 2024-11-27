@@ -96,7 +96,7 @@ class RoleReminderGetter implements NotificationGetterInterface {
         }
 
         $role_repo = $this->entityManager()->getRepository(Role::class);
-        $role = $role_repo->findOneBy(['username' => $args['role']]);
+        $role = $role_repo->findOneBy(['id' => $args['role_id']]);
         $role_name = "{$role->getName()} ({$role->getTitle()})";
         $num_assignees = $role->getUsers()->count();
         $num_others = $num_assignees - 1;

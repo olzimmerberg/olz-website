@@ -46,7 +46,7 @@ final class RoleReminderGetterIntegrationTest extends IntegrationTestCase {
         $job = new RoleReminderGetter();
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(EnvUtils::fromEnv());
-        $notification = $job->getNotification(['role' => 'nachwuchs-kontakt']);
+        $notification = $job->getNotification(['role_id' => 49]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,

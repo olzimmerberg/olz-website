@@ -214,7 +214,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
         $job = new RoleReminderGetter();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification(['role' => 'vorstand_role']);
+        $notification = $job->getNotification(['role_id' => 3]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,

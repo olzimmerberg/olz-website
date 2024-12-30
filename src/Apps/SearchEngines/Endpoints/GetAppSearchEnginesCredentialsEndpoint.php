@@ -2,24 +2,21 @@
 
 namespace Olz\Apps\SearchEngines\Endpoints;
 
-use Olz\Api\OlzEndpoint;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Api\OlzTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class GetAppSearchEnginesCredentialsEndpoint extends OlzEndpoint {
+/**
+ * @extends TypedEndpoint<
+ *   array{},
+ *   array{username: string, password: string}
+ * >
+ */
+class GetAppSearchEnginesCredentialsEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
     public static function getIdent(): string {
         return 'GetAppSearchEnginesCredentialsEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'username' => new FieldTypes\StringField(['allow_null' => false]),
-            'password' => new FieldTypes\StringField(['allow_null' => false]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => []]);
     }
 
     protected function handle(mixed $input): mixed {

@@ -25,7 +25,6 @@ final class GetAppSearchEnginesCredentialsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new GetAppSearchEnginesCredentialsEndpoint();
-        $endpoint->runtimeSetup();
 
         $result = $endpoint->call([]);
 
@@ -43,10 +42,9 @@ final class GetAppSearchEnginesCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppSearchEnginesCredentialsEndpointNotAuthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $endpoint = new GetAppSearchEnginesCredentialsEndpoint();
-        $endpoint->runtimeSetup();
 
         try {
-            $result = $endpoint->call([]);
+            $endpoint->call([]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());

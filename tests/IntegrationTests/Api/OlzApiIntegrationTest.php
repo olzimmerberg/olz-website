@@ -7,6 +7,7 @@ namespace Olz\Tests\IntegrationTests\Api;
 use Olz\Api\OlzApi;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use PhpTypeScriptApi\Endpoint;
+use PhpTypeScriptApi\TypedEndpoint;
 
 /**
  * @internal
@@ -20,8 +21,13 @@ final class OlzApiIntegrationTest extends IntegrationTestCase {
 
         foreach ($olz_api->getEndpointNames() as $endpoint_name) {
             $endpoint = $olz_api->getEndpointByName($endpoint_name);
-            $endpoint->setup();
-            $this->assertTrue($endpoint instanceof Endpoint);
+            if ($endpoint instanceof Endpoint) {
+                $endpoint->setup();
+            }
+            $this->assertTrue(
+                $endpoint instanceof Endpoint
+                || $endpoint instanceof TypedEndpoint
+            );
         }
     }
 }

@@ -69,7 +69,7 @@ const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, text
         return null;
     }
 
-    const logLevelMap: {[key: string]: OlzLogLevel} = {
+    const logLevelMap: {[key: string]: OlzLogLevel|null} = {
         'levels-all': null,
         'levels-info-higher': 'info',
         'levels-notice-higher': 'notice',
@@ -79,7 +79,7 @@ const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, text
         'levels-alert-higher': 'alert',
         'levels-emergency-higher': 'emergency',
     };
-    const minLogLevel: OlzLogLevel = logLevelMap[logLevelArg] ?? null;
+    const minLogLevel: OlzLogLevel|null = logLevelMap[logLevelArg] ?? null;
 
     const textSearch = textSearchArg || null;
 

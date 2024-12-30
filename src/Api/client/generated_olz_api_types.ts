@@ -343,17 +343,9 @@ export type OlzRegistrationInfo = {
 }|null,
 };
 
-export type OlzLogsQuery = {
-    'channel': string,
-    'targetDate': string|null,
-    'firstDate': string|null,
-    'lastDate': string|null,
-    'minLogLevel': OlzLogLevel,
-    'textSearch': string|null,
-    'pageToken': string|null,
-};
+export type OlzLogsQuery = {'channel': string, 'targetDate'?: (string | null), 'firstDate'?: (string | null), 'lastDate'?: (string | null), 'minLogLevel'?: (OlzLogLevel | null), 'textSearch'?: (string | null), 'pageToken'?: (string | null)};
 
-export type OlzLogLevel = 'debug'|'info'|'notice'|'warning'|'error'|'critical'|'alert'|'emergency'|null;
+export type OlzLogLevel = ('debug' | 'info' | 'notice' | 'warning' | 'error' | 'critical' | 'alert' | 'emergency');
 
 export type OlzTransportSuggestion = {
     'mainConnection': OlzTransportConnection,
@@ -811,9 +803,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getWebdavAccessToken: Record<string, never>|null,
     revokeWebdavAccessToken: Record<string, never>|null,
     importTermine: Record<string, never>,
-    getLogs: {
-            'query': OlzLogsQuery,
-        },
+    getLogs: {'query': OlzLogsQuery},
     getAppMonitoringCredentials: Record<string, never>,
     updateNotificationSubscriptions: {
             'deliveryType': 'email'|'telegram',
@@ -1236,13 +1226,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'status': 'OK'|'ERROR',
         },
     importTermine: Record<string, never>,
-    getLogs: {
-            'content': Array<string>,
-            'pagination': {
-            'previous': string|null,
-            'next': string|null,
-        },
-        },
+    getLogs: {'content': Array<string>, 'pagination': {'previous': (string | null), 'next': (string | null)}},
     getAppMonitoringCredentials: {
             'username': string,
             'password': string,
@@ -1275,17 +1259,8 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     updateResults: {
             'status': 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR',
         },
-    getAppSearchEnginesCredentials: {
-            'username': string,
-            'password': string,
-        },
-    getAppStatisticsCredentials: {
-            'username': string,
-            'password': string,
-        },
-    getAppYoutubeCredentials: {
-            'username': string,
-            'password': string,
-        },
+    getAppSearchEnginesCredentials: {'username': string, 'password': string},
+    getAppStatisticsCredentials: {'username': string, 'password': string},
+    getAppYoutubeCredentials: {'username': string, 'password': string},
 }
 

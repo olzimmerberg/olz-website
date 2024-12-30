@@ -2,24 +2,21 @@
 
 namespace Olz\Apps\Youtube\Endpoints;
 
-use Olz\Api\OlzEndpoint;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Api\OlzTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class GetAppYoutubeCredentialsEndpoint extends OlzEndpoint {
+/**
+ * @extends TypedEndpoint<
+ *   array{},
+ *   array{username: string, password: string}
+ * >
+ */
+class GetAppYoutubeCredentialsEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
     public static function getIdent(): string {
         return 'GetAppYoutubeCredentialsEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'username' => new FieldTypes\StringField(['allow_null' => false]),
-            'password' => new FieldTypes\StringField(['allow_null' => false]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => []]);
     }
 
     protected function handle(mixed $input): mixed {

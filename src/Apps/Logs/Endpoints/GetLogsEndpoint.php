@@ -2,51 +2,36 @@
 
 namespace Olz\Apps\Logs\Endpoints;
 
-use Olz\Api\OlzEndpoint;
-use Olz\Apps\Logs\Utils\BaseLogsChannel;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Logs\Utils\GzLogFile;
 use Olz\Apps\Logs\Utils\LineLocation;
 use Olz\Apps\Logs\Utils\LogsDefinitions;
 use Olz\Apps\Logs\Utils\PlainLogFile;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class GetLogsEndpoint extends OlzEndpoint {
+/**
+ * @phpstan-type OlzLogLevel 'debug'|'info'|'notice'|'warning'|'error'|'critical'|'alert'|'emergency'
+ * @phpstan-type OlzLogsQuery array{
+ *   channel: string,
+ *   targetDate?: ?string,
+ *   firstDate?: ?string,
+ *   lastDate?: ?string,
+ *   minLogLevel?: ?OlzLogLevel,
+ *   textSearch?: ?string,
+ *   pageToken?: ?string,
+ * }
+ *
+ * @extends TypedEndpoint<
+ *   array{query: OlzLogsQuery},
+ *   array{content: array<string>, pagination: array{previous: ?string, next: ?string}}
+ * >
+ */
+class GetLogsEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
     public static function getIdent(): string {
         return 'GetLogsEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'content' => new FieldTypes\ArrayField([
-                'item_field' => new FieldTypes\StringField(['allow_empty' => true]),
-            ]),
-            'pagination' => new FieldTypes\ObjectField(['field_structure' => [
-                'previous' => new FieldTypes\StringField(['allow_null' => true]),
-                'next' => new FieldTypes\StringField(['allow_null' => true]),
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'query' => new FieldTypes\ObjectField([
-                'export_as' => 'OlzLogsQuery',
-                'field_structure' => [
-                    'channel' => new FieldTypes\StringField(['allow_null' => false]),
-                    'targetDate' => new FieldTypes\DateTimeField(['allow_null' => true]),
-                    'firstDate' => new FieldTypes\DateTimeField(['allow_null' => true]),
-                    'lastDate' => new FieldTypes\DateTimeField(['allow_null' => true]),
-                    'minLogLevel' => new FieldTypes\EnumField([
-                        'export_as' => 'OlzLogLevel',
-                        'allow_null' => true,
-                        'allowed_values' => BaseLogsChannel::LOG_LEVELS,
-                    ]),
-                    'textSearch' => new FieldTypes\StringField(['allow_null' => true]),
-                    'pageToken' => new FieldTypes\StringField(['allow_null' => true]),
-                ],
-            ]),
-        ]]);
     }
 
     protected function handle(mixed $input): mixed {

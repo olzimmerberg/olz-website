@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Entity;
+namespace Olz\Tests\UnitTests\Entity\Users;
 
 use Olz\Entity\Users\User;
 use Olz\Tests\UnitTests\Common\UnitTestCase;

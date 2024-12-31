@@ -223,7 +223,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
             **Vielen Dank, dass du mithilfst, unseren Verein am Laufen zu halten!**
 
             Um das Organigramm aktuell zu halten, bitten wir dich, die folgenden Punkte durchzugehen.
-            **Falls etwas unklar ist, kontaktiere bitte den Website-Admin: sysadmin@olzimmerberg.ch!**
+            **Falls etwas unklar ist, kontaktiere bitte den Website-Admin: website@olzimmerberg.ch!**
 
             - Bitte schau dir die [Präsenz deines Ressorts auf olzimmerberg.ch](http://fake-base-url/_/verein/vorstand_role) an, und **kontrolliere, ergänze und verbessere** gegebenenfalls die Angaben. Wenn du eingeloggt bist, kannst du diese direkt bearbeiten.
             - **Falls** du im kommenden Jahr nicht mehr für dieses Ressort zuständig sein kannst oder möchtest, bzw. nicht mehr unter diesem Ressort angezeigt werden solltest, kontaktiere bitte "deinen" Vorstand: Vorstand Mitglied, vorstand-user@staging.olzimmerberg.ch (oder den Präsi).

@@ -2,39 +2,34 @@
 
 namespace Olz\Apps\Anmelden\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class GetManagedUsersEndpoint extends OlzEndpoint {
+/**
+ * @phpstan-type ManagedUser array{
+ *   id: int,
+ *   firstName: non-empty-string,
+ *   lastName: non-empty-string,
+ * }
+ *
+ * @extends TypedEndpoint<
+ *   ?array{},
+ *   array{
+ *     status: 'OK'|'ERROR',
+ *     managedUsers: ?array<ManagedUser>
+ *   },
+ * >
+ */
+class GetManagedUsersEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'GetManagedUsersEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-            'managedUsers' => new FieldTypes\ArrayField([
-                'item_field' => new FieldTypes\ObjectField([
-                    'field_structure' => [
-                        'id' => new FieldTypes\IntegerField([]),
-                        'firstName' => new FieldTypes\StringField([]),
-                        'lastName' => new FieldTypes\StringField([]),
-                    ],
-                ]),
-                'allow_null' => true,
-            ]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [],
-            'allow_null' => true,
-        ]);
     }
 
     protected function handle(mixed $input): mixed {

@@ -15,6 +15,10 @@ use PhpTypeScriptApi\TypedEndpoint;
 class GetAppSearchEnginesCredentialsEndpoint extends TypedEndpoint {
     use OlzTypedEndpoint;
 
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'GetAppSearchEnginesCredentialsEndpoint';
     }

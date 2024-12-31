@@ -42,7 +42,7 @@ export const OlzTransportConnectionSearch = (): React.ReactElement => {
         e.preventDefault();
         olzOevSearchConnection(e.target as HTMLFormElement)
             .then((response: OlzApiResponses['searchTransportConnection']) => {
-                setConnectionSuggestions(response.suggestions);
+                setConnectionSuggestions(response.suggestions ?? null);
             });
         return false;
     }, []);

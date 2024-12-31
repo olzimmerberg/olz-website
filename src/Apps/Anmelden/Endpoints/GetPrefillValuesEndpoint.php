@@ -2,42 +2,49 @@
 
 namespace Olz\Apps\Anmelden\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\ApiObjects\IsoCountry;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\PhpStan\IsoDate;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class GetPrefillValuesEndpoint extends OlzEndpoint {
+/**
+ * Note: `userId` can be of a managed user.
+ *
+ * @phpstan-type UserPrefillData array{
+ *   firstName: non-empty-string,
+ *   lastName: non-empty-string,
+ *   username: non-empty-string,
+ *   email: non-empty-string,
+ *   phone?: ?non-empty-string,
+ *   gender?: ?('M'|'F'|'O'),
+ *   birthdate?: ?IsoDate,
+ *   street?: ?string,
+ *   postalCode?: ?string,
+ *   city?: ?string,
+ *   region?: ?string,
+ *   countryCode?: ?IsoCountry,
+ *   siCardNumber?: ?int<100000, max>,
+ *   solvNumber?: ?string,
+ * }
+ *
+ * @extends TypedEndpoint<
+ *   array{
+ *     userId?: ?int<1, max>,
+ *   },
+ *   UserPrefillData,
+ * >
+ */
+class GetPrefillValuesEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [IsoDate::class, IsoCountry::class];
+    }
+
     public static function getIdent(): string {
         return 'GetPrefillValuesEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'firstName' => new FieldTypes\StringField(['allow_empty' => false]),
-            'lastName' => new FieldTypes\StringField(['allow_empty' => false]),
-            'username' => new FieldTypes\StringField(['allow_empty' => false]),
-            'email' => new FieldTypes\StringField(['allow_empty' => false]),
-            'phone' => new FieldTypes\StringField(['allow_null' => true]),
-            'gender' => new FieldTypes\EnumField(['allowed_values' => ['M', 'F', 'O'], 'allow_null' => true]),
-            'birthdate' => new FieldTypes\DateField(['allow_null' => true]),
-            'street' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
-            'postalCode' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
-            'city' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
-            'region' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
-            'countryCode' => new FieldTypes\StringField(['max_length' => 2, 'allow_empty' => true, 'allow_null' => true]),
-            'siCardNumber' => new FieldTypes\IntegerField(['min_value' => 100000, 'allow_empty' => true, 'allow_null' => true]),
-            'solvNumber' => new FieldTypes\StringField(['allow_empty' => true, 'allow_null' => true]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [
-                // Can be a managed user
-                'userId' => new FieldTypes\IntegerField(['min_value' => 1, 'allow_null' => true]),
-            ],
-        ]);
     }
 
     protected function handle(mixed $input): mixed {

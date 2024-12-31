@@ -3,6 +3,7 @@
 namespace Olz\Apps\Logs\Utils;
 
 use Olz\Utils\WithUtilsTrait;
+use Psr\Log\LogLevel;
 
 class LineLocation {
     /** @param int<-1, 1> $comparison */
@@ -28,14 +29,14 @@ abstract class BaseLogsChannel {
     use WithUtilsTrait;
 
     public const LOG_LEVELS = [
-        'debug',
-        'info',
-        'notice',
-        'warning',
-        'error',
-        'critical',
-        'alert',
-        'emergency',
+        LogLevel::DEBUG,
+        LogLevel::INFO,
+        LogLevel::NOTICE,
+        LogLevel::WARNING,
+        LogLevel::ERROR,
+        LogLevel::CRITICAL,
+        LogLevel::ALERT,
+        LogLevel::EMERGENCY,
     ];
 
     public const INDEX_FILE_VERSION = '1.1';

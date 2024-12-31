@@ -23,7 +23,6 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
 
     public function testGetAppStatisticsCredentialsEndpoint(): void {
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
-        $endpoint->runtimeSetup();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
 
@@ -42,7 +41,6 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
 
     public function testGetAppStatisticsCredentialsEndpointNotAuthorized(): void {
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
-        $endpoint->runtimeSetup();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
 
         try {
@@ -59,7 +57,6 @@ final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
 
     public function testGetAppStatisticsCredentialsEndpointNotAuthenticated(): void {
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
-        $endpoint->runtimeSetup();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
 
         try {

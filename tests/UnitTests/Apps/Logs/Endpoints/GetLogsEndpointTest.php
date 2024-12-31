@@ -49,7 +49,6 @@ final class GetLogsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new GetLogsEndpoint();
-        $endpoint->runtimeSetup();
 
         $num_fake = intval(BaseLogsChannel::$pageSize);
         mkdir(__DIR__.'/../../../tmp/private/logs/', 0o777, true);
@@ -186,10 +185,9 @@ final class GetLogsEndpointTest extends UnitTestCase {
     public function testGetLogsEndpointNotAuthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $endpoint = new GetLogsEndpoint();
-        $endpoint->runtimeSetup();
 
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 'query' => [
                     'channel' => 'olz-logs',
                     'targetDate' => null,

@@ -137,7 +137,7 @@ class DevDataUtils {
             $output
         );
         $is_match = preg_match('/^\s*([a-zA-Z0-9\\\]+)(\s|$)/', $output->fetch(), $matches);
-        return $is_match ? $matches[1] ?? null : null;
+        return $is_match ? $matches[1] : null;
     }
 
     public function generateMigration(): string {

@@ -3,30 +3,43 @@
 namespace Olz\Apps\Commands\Endpoints;
 
 use Doctrine\DBAL\Exception\DriverException;
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\TypedEndpoint;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class ExecuteCommandEndpoint extends OlzEndpoint {
+/**
+ * @extends TypedEndpoint<
+ *   array{command: non-empty-string, argv?: ?non-empty-string},
+ *   array{error: bool, output: non-empty-string}
+ * >
+ */
+class ExecuteCommandEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'ExecuteCommandEndpoint';
     }
 
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'error' => new FieldTypes\BooleanField(['allow_null' => false]),
-            'output' => new FieldTypes\StringField(['allow_null' => false]),
-        ]]);
-    }
+    // public function getResponseField(): FieldTypes\Field {
+    //     return new FieldTypes\ObjectField(['field_structure' => [
+    //         'error' => new FieldTypes\BooleanField(['allow_null' => false]),
+    //         'output' => new FieldTypes\StringField(['allow_null' => false]),
+    //     ]]);
+    // }
 
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'command' => new FieldTypes\StringField(['allow_null' => false]),
-            'argv' => new FieldTypes\StringField(['allow_null' => true]),
-        ]]);
-    }
+    // public function getRequestField(): FieldTypes\Field {
+    //     return new FieldTypes\ObjectField(['field_structure' => [
+    //         'command' => new FieldTypes\StringField(['allow_null' => false]),
+    //         'argv' => new FieldTypes\StringField(['allow_null' => true]),
+    //     ]]);
+    // }
 
     protected function handle(mixed $input): mixed {
         $command_name = $input['command'];

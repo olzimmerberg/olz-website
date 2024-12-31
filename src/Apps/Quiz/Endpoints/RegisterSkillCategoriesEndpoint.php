@@ -2,34 +2,47 @@
 
 namespace Olz\Apps\Quiz\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Quiz\SkillCategory;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class RegisterSkillCategoriesEndpoint extends OlzEndpoint {
+/**
+ * @extends TypedEndpoint<
+ *   array{skillCategories: array<array{name: non-empty-string, parentCategoryName?: ?non-empty-string}>},
+ *   array{idByName: array<non-empty-string, non-empty-string>}
+ * >
+ */
+class RegisterSkillCategoriesEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'RegisterSkillCategoriesEndpoint';
     }
 
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'idByName' => new FieldTypes\DictField([
-                'item_field' => new FieldTypes\StringField([]),
-            ]),
-        ]]);
-    }
+    // public function getResponseField(): FieldTypes\Field {
+    //     return new FieldTypes\ObjectField(['field_structure' => [
+    //         'idByName' => new FieldTypes\DictField([
+    //             'item_field' => new FieldTypes\StringField([]),
+    //         ]),
+    //     ]]);
+    // }
 
-    public function getRequestField(): FieldTypes\Field {
-        $skill_category_field = new FieldTypes\ObjectField(['field_structure' => [
-            'name' => new FieldTypes\StringField([]),
-            'parentCategoryName' => new FieldTypes\StringField(['allow_null' => true]),
-        ]]);
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'skillCategories' => new FieldTypes\ArrayField([
-                'item_field' => $skill_category_field,
-            ]),
-        ]]);
-    }
+    // public function getRequestField(): FieldTypes\Field {
+    //     $skill_category_field = new FieldTypes\ObjectField(['field_structure' => [
+    //         'name' => new FieldTypes\StringField([]),
+    //         'parentCategoryName' => new FieldTypes\StringField(['allow_null' => true]),
+    //     ]]);
+    //     return new FieldTypes\ObjectField(['field_structure' => [
+    //         'skillCategories' => new FieldTypes\ArrayField([
+    //             'item_field' => $skill_category_field,
+    //         ]),
+    //     ]]);
+    // }
 
     protected function handle(mixed $input): mixed {
         $skill_category_repo = $this->entityManager()->getRepository(SkillCategory::class);

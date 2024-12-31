@@ -30,6 +30,10 @@ use PhpTypeScriptApi\TypedEndpoint;
 class GetLogsEndpoint extends TypedEndpoint {
     use OlzTypedEndpoint;
 
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'GetLogsEndpoint';
     }

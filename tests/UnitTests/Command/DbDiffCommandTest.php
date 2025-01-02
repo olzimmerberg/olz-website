@@ -30,8 +30,8 @@ final class DbDiffCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\DbDiffCommand... [] []
-            fake outputFake.INFO: Successfully ran command Olz\Command\DbDiffCommand. [] []
+            INFO: Running command Olz\Command\DbDiffCommand...
+            fake outputINFO: Successfully ran command Olz\Command\DbDiffCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([

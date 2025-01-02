@@ -46,6 +46,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
     ];
 
     public function testEmailConfigurationReminderGetterGetEmailConfigReminderState(): void {
+        WithUtilsCache::set('dateUtils', new FixedDateUtils('2006-01-13 18:43:36'));
         $entity_manager = WithUtilsCache::get('entityManager');
         $subscription_repo = $entity_manager->getRepository(NotificationSubscription::class);
         $subscription_repo->entityToBeFoundForQuery = fn ($query) => $this->subscriptionToBeFoundForQuery($query);
@@ -63,6 +64,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
     }
 
     public function testEmailConfigurationReminderGetterAutogenerateSubscriptions(): void {
+        WithUtilsCache::set('dateUtils', new FixedDateUtils('2006-01-13 18:43:36'));
         $entity_manager = WithUtilsCache::get('entityManager');
         $subscription_repo = $entity_manager->getRepository(NotificationSubscription::class);
         $subscription_repo->entityToBeFoundForQuery = fn ($query) => $this->subscriptionToBeFoundForQuery($query);

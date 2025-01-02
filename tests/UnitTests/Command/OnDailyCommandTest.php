@@ -30,8 +30,8 @@ final class OnDailyCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\OnDailyCommand... [] []
-            Fake.INFO: Successfully ran command Olz\Command\OnDailyCommand. [] []
+            INFO: Running command Olz\Command\OnDailyCommand...
+            INFO: Successfully ran command Olz\Command\OnDailyCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([

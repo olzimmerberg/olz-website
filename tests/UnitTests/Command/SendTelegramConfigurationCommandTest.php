@@ -30,8 +30,8 @@ final class SendTelegramConfigurationCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\SendTelegramConfigurationCommand... [] []
-            Fake.INFO: Successfully ran command Olz\Command\SendTelegramConfigurationCommand. [] []
+            INFO: Running command Olz\Command\SendTelegramConfigurationCommand...
+            INFO: Successfully ran command Olz\Command\SendTelegramConfigurationCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertTrue(WithUtilsCache::get('telegramUtils')->configurationSent);

@@ -34,8 +34,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\OnContinuouslyCommand... [] []
-            Fake.INFO: Successfully ran command Olz\Command\OnContinuouslyCommand. [] []
+            INFO: Running command Olz\Command\OnContinuouslyCommand...
+            INFO: Successfully ran command Olz\Command\OnContinuouslyCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -64,8 +64,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\OnContinuouslyCommand... [] []
-            Fake.INFO: Successfully ran command Olz\Command\OnContinuouslyCommand. [] []
+            INFO: Running command Olz\Command\OnContinuouslyCommand...
+            INFO: Successfully ran command Olz\Command\OnContinuouslyCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -95,8 +95,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\OnContinuouslyCommand... [] []
-            Fake.INFO: Successfully ran command Olz\Command\OnContinuouslyCommand. [] []
+            INFO: Running command Olz\Command\OnContinuouslyCommand...
+            INFO: Successfully ran command Olz\Command\OnContinuouslyCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([

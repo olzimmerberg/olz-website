@@ -2,12 +2,56 @@
 
 namespace Olz\Utils;
 
+use Olz\Entity\Anmelden\Booking;
+use Olz\Entity\Anmelden\Registration;
+use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Faq\Question;
+use Olz\Entity\Faq\QuestionCategory;
+use Olz\Entity\Karten\Karte;
+use Olz\Entity\News\NewsEntry;
+use Olz\Entity\Panini2024\Panini2024Picture;
+use Olz\Entity\Quiz\Skill;
+use Olz\Entity\Quiz\SkillCategory;
+use Olz\Entity\Quiz\SkillLevel;
 use Olz\Entity\Roles\Role;
+use Olz\Entity\Service\Download;
+use Olz\Entity\Service\Link;
+use Olz\Entity\Snippets\Snippet;
+use Olz\Entity\Startseite\WeeklyPicture;
+use Olz\Entity\Termine\Termin;
+use Olz\Entity\Termine\TerminLabel;
+use Olz\Entity\Termine\TerminLocation;
+use Olz\Entity\Termine\TerminTemplate;
 use Olz\Entity\Users\User;
 
 class EntityUtils {
     use WithUtilsTrait;
+
+    /** @var array<class-string<OlzEntity>> */
+    protected static array $olzEntityClasses = [
+        Booking::class,
+        Registration::class,
+        RegistrationInfo::class,
+        Question::class,
+        QuestionCategory::class,
+        Karte::class,
+        NewsEntry::class,
+        Panini2024Picture::class,
+        Skill::class,
+        SkillCategory::class,
+        SkillLevel::class,
+        Role::class,
+        Download::class,
+        Link::class,
+        Snippet::class,
+        WeeklyPicture::class,
+        Termin::class,
+        TerminLabel::class,
+        TerminLocation::class,
+        TerminTemplate::class,
+        User::class,
+    ];
 
     /** @param array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int} $input */
     public function createOlzEntity(OlzEntity $entity, array $input): void {
@@ -92,6 +136,11 @@ class EntityUtils {
         // TODO: Check roles
 
         return false;
+    }
+
+    /** @return array<class-string<OlzEntity>> */
+    public function olzEntityClasses(): array {
+        return $this::$olzEntityClasses;
     }
 
     public static function fromEnv(): self {

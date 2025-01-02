@@ -35,6 +35,6 @@ class OlzCommandOutputLogHandler extends AbstractProcessingHandler {
     }
 
     protected function getDefaultFormatter(): FormatterInterface {
-        return new LineFormatter("%channel%.%level_name%: %message% %context% %extra%");
+        return new LineFormatter("%level_name%: %message%");
     }
 }

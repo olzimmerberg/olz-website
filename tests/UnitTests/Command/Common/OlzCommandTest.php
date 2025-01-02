@@ -58,7 +58,7 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.NOTICE: Command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest not allowed in app env test. [] []
+            NOTICE: Command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest not allowed in app env test.
             Command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest not allowed in app env test.
 
             ZZZZZZZZZZ, $output->fetch());
@@ -77,7 +77,7 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::FAILURE, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.ERROR: Error running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest: OLZ and symfony app env do not match (not_test vs. test). [] []
+            ERROR: Error running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest: OLZ and symfony app env do not match (not_test vs. test).
             Error running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest: OLZ and symfony app env do not match (not_test vs. test).
 
             ZZZZZZZZZZ, $output->fetch());
@@ -98,10 +98,10 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest... [] []
+            INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest...
             Test handle
-            Fake.INFO: Test handle [] []
-            Fake.INFO: Successfully ran command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest. [] []
+            INFO: Test handle
+            INFO: Successfully ran command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -121,10 +121,10 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::FAILURE, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest... [] []
+            INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest...
             Test handle
-            Fake.INFO: Test handle [] []
-            Fake.NOTICE: Failed running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest. [] []
+            INFO: Test handle
+            NOTICE: Failed running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -144,10 +144,10 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest... [] []
+            INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest...
             Test handle
-            Fake.INFO: Test handle [] []
-            Fake.NOTICE: Command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest called with invalid arguments. [] []
+            INFO: Test handle
+            NOTICE: Command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest called with invalid arguments.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -167,10 +167,10 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(90684597, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest... [] []
+            INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest...
             Test handle
-            Fake.INFO: Test handle [] []
-            Fake.WARNING: Command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest finished with unknown status 90684597. [] []
+            INFO: Test handle
+            WARNING: Command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest finished with unknown status 90684597.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -190,10 +190,10 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::FAILURE, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest... [] []
+            INFO: Running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest...
             Test handle
-            Fake.INFO: Test handle [] []
-            Fake.ERROR: Error running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest: test error. [] []
+            INFO: Test handle
+            ERROR: Error running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest: test error.
             Error running command Olz\Tests\UnitTests\Command\Common\OlzCommandForTest: test error.
 
             ZZZZZZZZZZ, $output->fetch());

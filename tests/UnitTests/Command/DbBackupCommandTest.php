@@ -30,8 +30,8 @@ final class DbBackupCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\DbBackupCommand... [] []
-            Fake.INFO: Successfully ran command Olz\Command\DbBackupCommand. [] []
+            INFO: Running command Olz\Command\DbBackupCommand...
+            INFO: Successfully ran command Olz\Command\DbBackupCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([

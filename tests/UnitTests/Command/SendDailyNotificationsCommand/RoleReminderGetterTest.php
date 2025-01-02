@@ -220,9 +220,11 @@ final class RoleReminderGetterTest extends UnitTestCase {
             Hallo Default,
 
             Du bist im [OLZ-Organigramm](http://fake-base-url/_/verein) unter dem Ressort [**Vorstand ()**](http://fake-base-url/_/verein/vorstand_role) eingetragen, bzw. für dieses Ressort zuständig.
+
             **Vielen Dank, dass du mithilfst, unseren Verein am Laufen zu halten!**
 
             Um das Organigramm aktuell zu halten, bitten wir dich, die folgenden Punkte durchzugehen.
+
             **Falls etwas unklar ist, kontaktiere bitte den Website-Admin: website@olzimmerberg.ch!**
 
             - Bitte schau dir die [Präsenz deines Ressorts auf olzimmerberg.ch](http://fake-base-url/_/verein/vorstand_role) an, und **kontrolliere, ergänze und verbessere** gegebenenfalls die Angaben. Wenn du eingeloggt bist, kannst du diese direkt bearbeiten.
@@ -230,6 +232,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
             - **Falls** du noch kein OLZ-Konto hast, erstelle doch eines ([zum Login-Dialog](http://fake-base-url/_/#login-dialog), dann "Noch kein OLZ-Konto?" wählen). Verwende den Benutzernamen "default", um automatisch Schreib-Zugriff für dein Ressort zu erhalten.
 
             Besten Dank für deine Mithilfe,
+            
             Der Vorstand der OL Zimmerberg
             ZZZZZZZZZZ;
         $this->assertSame('Ressort-Erinnerung', $notification->title);

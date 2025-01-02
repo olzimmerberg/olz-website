@@ -28,7 +28,7 @@ final class OlzCommandOutputLogHandlerTest extends UnitTestCase {
         ));
 
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            channel.INFO: message [] []
+            INFO: message
 
             ZZZZZZZZZZ, $output->fetch());
     }

@@ -14,7 +14,7 @@ class ImageUtils {
         'termin_labels' => 'img/termin_labels/',
         'termin_locations' => 'img/termin_locations/',
         'termin_templates' => 'img/termin_templates/',
-        'users' => 'img/users',
+        'users' => 'img/users/',
         'weekly_picture' => 'img/weekly_picture/',
     ];
 

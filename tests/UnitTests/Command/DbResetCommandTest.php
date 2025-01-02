@@ -32,7 +32,7 @@ final class DbResetCommandTest extends UnitTestCase {
             ], $this->getLogs());
             $this->assertSame(Command::INVALID, $return_code);
             $this->assertSame(<<<'ZZZZZZZZZZ'
-                Fake.NOTICE: Command Olz\Command\DbResetCommand not allowed in app env prod. [] []
+                NOTICE: Command Olz\Command\DbResetCommand not allowed in app env prod.
                 Command Olz\Command\DbResetCommand not allowed in app env prod.
 
                 ZZZZZZZZZZ, $output->fetch());
@@ -57,9 +57,9 @@ final class DbResetCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\DbResetCommand... [] []
+            INFO: Running command Olz\Command\DbResetCommand...
             Database content reset successful.
-            Fake.INFO: Successfully ran command Olz\Command\DbResetCommand. [] []
+            INFO: Successfully ran command Olz\Command\DbResetCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -80,9 +80,9 @@ final class DbResetCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\DbResetCommand... [] []
+            INFO: Running command Olz\Command\DbResetCommand...
             Database structure reset successful.
-            Fake.INFO: Successfully ran command Olz\Command\DbResetCommand. [] []
+            INFO: Successfully ran command Olz\Command\DbResetCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -103,9 +103,9 @@ final class DbResetCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\DbResetCommand... [] []
+            INFO: Running command Olz\Command\DbResetCommand...
             Database full reset successful.
-            Fake.INFO: Successfully ran command Olz\Command\DbResetCommand. [] []
+            INFO: Successfully ran command Olz\Command\DbResetCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -126,9 +126,9 @@ final class DbResetCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Fake.INFO: Running command Olz\Command\DbResetCommand... [] []
+            INFO: Running command Olz\Command\DbResetCommand...
             Invalid mode: invalid.
-            Fake.NOTICE: Command Olz\Command\DbResetCommand called with invalid arguments. [] []
+            NOTICE: Command Olz\Command\DbResetCommand called with invalid arguments.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([], WithUtilsCache::get('devDataUtils')->commands_called);

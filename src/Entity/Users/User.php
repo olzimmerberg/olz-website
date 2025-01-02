@@ -458,7 +458,9 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
     }
 
     public function addRole(Role $role): void {
-        $this->roles->add($role);
+        if (!$this->roles->contains($role)) {
+            $this->roles->add($role);
+        }
     }
 
     public function removeRole(Role $role): void {
@@ -467,11 +469,63 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
 
     // ---
 
-    public function __toString() {
+    public function __toString(): string {
         $username = $this->getUsername();
         $id = $this->getId();
         return "{$username} (User ID: {$id})";
     }
+
+    public function pretty(): string {
+        $is_verified = $this->isEmailVerified() ? '✅ verified' : '❌ not verified';
+        $has_permission = $this->hasPermission('verified_email') ? '✅ permission' : '❌ no permission';
+        $roles = implode(', ', array_map(
+            fn ($role): string => $role->getUsername(),
+            [...$this->roles],
+        ));
+        $has_password = $this->getPasswordHash() ? '✅ password' : '❌ no password';
+        $is_child = $this->getParentUserId() ? "🚸 child of {$this->getParentUserId()}" : '✅ parent';
+        return <<<ZZZZZZZZZZ
+            Name: {$this->getFullName()}
+            Username: {$this->getUsername()} (old: {$this->getOldUsername()})
+            E-Mail: {$this->getEmail()} ({$is_verified} / {$has_permission})
+            Password: {$has_password} / {$is_child}
+            Permissions: {$this->getPermissions()}
+            Roles ({$this->roles->count()}): {$roles}
+            ZZZZZZZZZZ;
+    }
+
+    public function softDelete(): void {
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
+        $this->setOnOff(0);
+        $this->setEmail('');
+        $this->setPasswordHash('');
+        $this->setPhone('');
+        $this->setGender(null);
+        $this->setBirthdate(null);
+        $this->setStreet(null);
+        $this->setPostalCode(null);
+        $this->setCity(null);
+        $this->setRegion(null);
+        $this->setCountryCode(null);
+        $this->setPermissions('');
+        $this->setRoot(null);
+        $this->setMemberType(null);
+        $this->setMemberLastPaid(null);
+        $this->setWantsPostalMail(false);
+        $this->setPostalTitle(null);
+        $this->setPostalName(null);
+        $this->setJoinedOn(null);
+        $this->setJoinedReason(null);
+        $this->setLeftOn(null);
+        $this->setLeftReason(null);
+        $this->setSolvNumber(null);
+        $this->setSiCardNumber(null);
+        $this->setNotes('');
+        $this->setLastModifiedAt($now_datetime);
+        $this->roles->clear();
+    }
+
+    // ---
 
     public static function getIdFieldNameForSearch(): string {
         return 'id';

@@ -52,9 +52,11 @@ final class RoleReminderGetterIntegrationTest extends IntegrationTestCase {
             Hallo Default,
 
             Du bist im [OLZ-Organigramm](http://integration-test.host/verein) unter dem Ressort [**Kontaktperson Nachwuchs ()**](http://integration-test.host/verein/nachwuchs-kontakt) eingetragen, bzw. für dieses Ressort zuständig.
+
             **Vielen Dank, dass du mithilfst, unseren Verein am Laufen zu halten!**
 
             Um das Organigramm aktuell zu halten, bitten wir dich, die folgenden Punkte durchzugehen.
+            
             **Falls etwas unklar ist, kontaktiere bitte den Website-Admin: website@olzimmerberg.ch!**
 
             - Bitte schau dir die [Präsenz deines Ressorts auf olzimmerberg.ch](http://integration-test.host/verein/nachwuchs-kontakt) an, und **kontrolliere, ergänze und verbessere** gegebenenfalls die Angaben. Wenn du eingeloggt bist, kannst du diese direkt bearbeiten.
@@ -62,6 +64,7 @@ final class RoleReminderGetterIntegrationTest extends IntegrationTestCase {
             - **Falls** du noch kein OLZ-Konto hast, erstelle doch eines ([zum Login-Dialog](http://integration-test.host/#login-dialog), dann "Noch kein OLZ-Konto?" wählen). Verwende den Benutzernamen "default", um automatisch Schreib-Zugriff für dein Ressort zu erhalten.
 
             Besten Dank für deine Mithilfe,
+            
             Der Vorstand der OL Zimmerberg
             ZZZZZZZZZZ;
         $this->assertSame([

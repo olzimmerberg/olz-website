@@ -88,33 +88,7 @@ class DeleteUserEndpoint extends OlzDeleteEntityEndpoint {
             $this->session()->clear();
         }
 
-        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
-        $entity->setOnOff(0);
-        $entity->setEmail('');
-        $entity->setPasswordHash('');
-        $entity->setPhone('');
-        $entity->setGender(null);
-        $entity->setBirthdate(null);
-        $entity->setStreet(null);
-        $entity->setPostalCode(null);
-        $entity->setCity(null);
-        $entity->setRegion(null);
-        $entity->setCountryCode(null);
-        $entity->setPermissions('');
-        $entity->setRoot(null);
-        $entity->setMemberType(null);
-        $entity->setMemberLastPaid(null);
-        $entity->setWantsPostalMail(false);
-        $entity->setPostalTitle(null);
-        $entity->setPostalName(null);
-        $entity->setJoinedOn(null);
-        $entity->setJoinedReason(null);
-        $entity->setLeftOn(null);
-        $entity->setLeftReason(null);
-        $entity->setSolvNumber(null);
-        $entity->setSiCardNumber(null);
-        $entity->setNotes('');
-        $entity->setLastModifiedAt($now_datetime);
+        $entity->softDelete();
         $this->entityManager()->flush();
 
         return ['status' => 'OK'];

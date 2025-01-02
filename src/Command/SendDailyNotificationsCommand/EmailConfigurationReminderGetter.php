@@ -44,6 +44,9 @@ class EmailConfigurationReminderGetter implements NotificationGetterInterface {
 
     /** @return array<int, array{reminder_id?: int, needs_reminder?: bool}> */
     protected function getEmailConfigReminderState(): array {
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
+        $minus_one_month = \DateInterval::createFromDateString("-1 months");
+        $one_month_ago = $now_datetime->add($minus_one_month);
         $email_notifications_state = [];
 
         // Find users with existing email config reminder notification subscriptions.
@@ -63,12 +66,13 @@ class EmailConfigurationReminderGetter implements NotificationGetterInterface {
         $users_with_email = $user_repo->getUsersWithLogin();
         $non_config_reminder_notification_types = $this->getNonReminderNotificationTypes();
         foreach ($users_with_email as $user_with_email) {
+            $joined_recently = ($user_with_email->getCreatedAt()->getTimestamp() > $one_month_ago->getTimestamp());
             $subscription = $notification_subscription_repo->findOneBy([
                 'user' => $user_with_email,
                 'delivery_type' => NotificationSubscription::DELIVERY_EMAIL,
                 'notification_type' => $non_config_reminder_notification_types,
             ]);
-            if (!$subscription) {
+            if (!$subscription && $joined_recently) {
                 $user_id = $user_with_email->getId();
                 $user_state = $email_notifications_state[$user_id] ?? [];
                 $user_state['needs_reminder'] = true;

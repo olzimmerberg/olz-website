@@ -122,9 +122,11 @@ class RoleReminderGetter implements NotificationGetterInterface {
             Hallo %%userFirstName%%,
 
             Du bist im [OLZ-Organigramm]({$base_href}{$code_href}verein){$num_assignees_note} unter dem Ressort [**{$role_name}**]({$role_url}) eingetragen, bzw. für dieses Ressort zuständig.
+            
             **Vielen Dank, dass du mithilfst, unseren Verein am Laufen zu halten!**
 
             Um das Organigramm aktuell zu halten, bitten wir dich, die folgenden Punkte durchzugehen.
+            
             **Falls etwas unklar ist, kontaktiere bitte den Website-Admin: website@olzimmerberg.ch!**
 
             - Bitte schau dir die [Präsenz deines Ressorts auf olzimmerberg.ch]({$role_url}) an, und **kontrolliere, ergänze und verbessere** gegebenenfalls die Angaben. Wenn du eingeloggt bist, kannst du diese direkt bearbeiten.
@@ -132,6 +134,7 @@ class RoleReminderGetter implements NotificationGetterInterface {
             - **Falls** du noch kein OLZ-Konto hast, erstelle doch eines ([zum Login-Dialog]({$base_href}{$code_href}#login-dialog), dann "Noch kein OLZ-Konto?" wählen). Verwende den Benutzernamen "%%userUsername%%", um automatisch Schreib-Zugriff für dein Ressort zu erhalten.
 
             Besten Dank für deine Mithilfe,
+
             Der Vorstand der OL Zimmerberg
             ZZZZZZZZZZ;
 

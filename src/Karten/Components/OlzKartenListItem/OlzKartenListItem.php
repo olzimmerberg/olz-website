@@ -22,12 +22,10 @@ class OlzKartenListItem extends OlzComponent {
         $edit_admin = '';
         if ($can_edit) {
             $json_id = json_encode(intval($karte->getId()));
-            $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
-            $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
             $edit_admin = <<<ZZZZZZZZZZ
                 <button
                     class='btn btn-secondary-outline btn-sm edit-karten-list-button'
-                    onclick='return olz.kartenListItemEditKarte({$json_id}, {$json_mode})'
+                    onclick='return olz.kartenListItemEditKarte({$json_id})'
                 >
                     <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                 </button>

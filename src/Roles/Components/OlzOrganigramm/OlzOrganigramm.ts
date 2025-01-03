@@ -1,3 +1,5 @@
+import './OlzOrganigramm.scss';
+
 export function highlightOrganigramm(id: string): void {
     highlightOrganigrammScroll(id);
 }

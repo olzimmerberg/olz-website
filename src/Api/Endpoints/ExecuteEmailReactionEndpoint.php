@@ -70,16 +70,12 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
                 'notification_type' => $notification_type,
                 'user' => $user,
             ]);
-            $num_subscriptions = count($subscriptions);
-            if ($num_subscriptions > 1) {
-                $this->log()->warning("This is odd: Multiple email notification subscriptions will be deleted for just one notification type: {$notification_type}.", [$this->reaction_data, $subscriptions]);
-            }
             foreach ($subscriptions as $subscription) {
                 $this->log()->notice("Removing email subscription: {$subscription}.");
                 $this->removeNotificationSubscription($subscription);
             }
             $this->entityManager()->flush();
-            $this->log()->notice("{$num_subscriptions} email notification subscriptions removed.", [$this->reaction_data]);
+            $this->log()->notice("Email subscriptions removed.", [$this->reaction_data]);
             return ['status' => 'OK'];
         }
         if (isset($this->reaction_data['notification_type_all'])) {
@@ -87,13 +83,12 @@ class ExecuteEmailReactionEndpoint extends OlzEndpoint {
                 'delivery_type' => NotificationSubscription::DELIVERY_EMAIL,
                 'user' => $user,
             ]);
-            $num_subscriptions = count($subscriptions);
             foreach ($subscriptions as $subscription) {
                 $this->log()->notice("Removing email subscription: {$subscription}.", [$this->reaction_data]);
                 $this->removeNotificationSubscription($subscription);
             }
             $this->entityManager()->flush();
-            $this->log()->notice("{$num_subscriptions} email notification subscriptions removed.", [$this->reaction_data]);
+            $this->log()->notice("Email subscriptions removed.", [$this->reaction_data]);
             return ['status' => 'OK'];
         }
         $this->log()->error("Invalid email notification type to unsubscribe from.", [$this->reaction_data]);

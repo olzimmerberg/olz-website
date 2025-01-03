@@ -38,7 +38,11 @@ final class TermineTest extends SystemTestCase {
         $this->screenshot('termine');
 
         $this->click('#filter-type-training');
-        $this->click('#filter-date-2020');
+        if ($this::isInModes('prod')) {
+            $this->click('#filter-date-'.date('Y')); // prod does not have fake data from 2020...
+        } else {
+            $this->click('#filter-date-2020');
+        }
         $this->screenshot('termine_past');
 
         $browser->get("{$this->getUrl()}/7");

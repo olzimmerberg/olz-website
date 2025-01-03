@@ -33,11 +33,10 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "WARNING This is odd: Multiple email notification subscriptions will be deleted for just one notification type: daily_summary.",
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=daily_summary, notification_type_args={}, ).",
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=weekly_summary, notification_type_args={}, ).",
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=monthly_preview, notification_type_args={}, ).",
-            "NOTICE 3 email notification subscriptions removed.",
+            "NOTICE Email subscriptions removed.",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
@@ -70,7 +69,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=email_config_reminder, notification_type_args={\"cancelled\":false}, ).",
-            "NOTICE 1 email notification subscriptions removed.",
+            "NOTICE Email subscriptions removed.",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
@@ -94,7 +93,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=daily_summary, notification_type_args={}, ).",
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=weekly_summary, notification_type_args={}, ).",
             "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=monthly_preview, notification_type_args={}, ).",
-            "NOTICE 3 email notification subscriptions removed.",
+            "NOTICE Email subscriptions removed.",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);

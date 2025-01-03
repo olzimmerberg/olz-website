@@ -74,8 +74,7 @@ class OlzNewsListItem extends OlzComponent {
         $edit_admin = '';
         if ($can_edit) {
             $json_id = json_encode(intval($id));
-            $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
-            $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
+            $json_mode = $args['json_mode'];
             $edit_admin = <<<ZZZZZZZZZZ
                 <button
                     class='btn btn-secondary-outline btn-sm edit-news-list-button'

@@ -1,0 +1,74 @@
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
+#organigramm-scroll {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.organigramm-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.organigramm-column {
+    flex: 0 0 111px;
+    overflow: hidden;
+}
+
+.role-box {
+    margin: 0px 0px 0px 1px;
+    padding: 0px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.organigramm-connect {
+    text-align: center;
+    height: 20px;
+    overflow: hidden;
+
+    span {
+        border-left: 1px solid #000000;
+        font-size: 20px;
+    }
+}
+
+.root-role-name {
+    color: #000;
+
+    h6 {
+        background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg);
+        background-color: colors.$olz-bg-bright;
+        font-weight: bold;
+        min-height: 36px; // two-line
+
+        &:hover {
+            background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg-bright);
+            background-color: colors.$olz-bg-ultra-bright;
+        }
+    }
+}
+
+.role-name {
+    color: #000;
+
+    h6 {
+        background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg);
+        background-color: colors.$olz-bg-bright;
+        font-weight: bold;
+        min-height: 18px; // one-line
+
+        &:hover {
+            background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg-bright);
+            background-color: colors.$olz-bg-ultra-bright;
+        }
+    }
+}
+
+.sub-role-name {
+    margin-top: 4px;
+    text-align: center;
+    font-weight: bold;
+}

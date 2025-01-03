@@ -121,7 +121,8 @@ class OlzNewsDetail extends OlzComponent {
         if ($can_edit) {
             $json_id = json_encode(intval($id));
             $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
-            $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
+            $has_roles = !empty($this->authUtils()->getAuthenticatedRoles());
+            $json_mode = htmlentities(json_encode($has_roles ? ($has_blog ? 'account_with_all' : 'account_with_aktuell') : ($has_blog ? 'account_with_blog' : 'account')));
             $edit_admin = <<<ZZZZZZZZZZ
                 <div>
                     <button

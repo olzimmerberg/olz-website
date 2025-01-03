@@ -64,7 +64,8 @@ class OlzNewsList extends OlzComponent {
 
         $is_logged_in = $this->authUtils()->hasPermission('any');
         $has_blog = $this->authUtils()->hasPermission('kaderblog');
-        $json_mode = htmlentities(json_encode($has_blog ? 'account_with_blog' : 'account'));
+        $has_roles = !empty($this->authUtils()->getAuthenticatedRoles());
+        $json_mode = htmlentities(json_encode($has_roles ? ($has_blog ? 'account_with_all' : 'account_with_aktuell') : ($has_blog ? 'account_with_blog' : 'account')));
         $class = $is_logged_in ? ' create-news-container' : ' dropdown-toggle';
         $properties = $is_logged_in
             ? <<<ZZZZZZZZZZ
@@ -207,7 +208,10 @@ class OlzNewsList extends OlzComponent {
                 $news_entry->setId(intval($row['id']));
                 $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
 
-                $page_content .= OlzNewsListItem::render(['news_entry' => $news_entry]);
+                $page_content .= OlzNewsListItem::render([
+                    'json_mode' => $json_mode,
+                    'news_entry' => $news_entry,
+                ]);
             }
             if ($page_content === '') {
                 $page_content = "<div class='no-entries'>Keine Einträge. Bitte Filter anpassen.</div>";

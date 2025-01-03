@@ -97,7 +97,7 @@ function getApiFromForm(formData: OlzEditNewsForm): OlzNewsData {
 
 // ---
 
-export type OlzEditNewsModalMode = 'anonymous'|'account'|'account_with_blog';
+export type OlzEditNewsModalMode = 'anonymous'|'account'|'account_with_blog'|'account_with_aktuell'|'account_with_all';
 
 interface OlzEditNewsModalConfig {
     name: string;
@@ -202,8 +202,10 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
 
 const FORMATS_BY_MODE: {[mode in OlzEditNewsModalMode]: OlzNewsFormat[]} = {
     anonymous: ['anonymous'],
-    account: ['forum', 'aktuell', 'galerie', 'video'],
-    account_with_blog: ['forum', 'kaderblog', 'aktuell', 'galerie', 'video'],
+    account: ['forum', 'galerie', 'video'],
+    account_with_blog: ['forum', 'kaderblog', 'galerie', 'video'],
+    account_with_aktuell: ['forum', 'aktuell', 'galerie', 'video'],
+    account_with_all: ['forum', 'kaderblog', 'aktuell', 'galerie', 'video'],
 };
 
 const PUBLISH_AT_OPTIONS: {id: PublishAtOption, title: string}[] = [

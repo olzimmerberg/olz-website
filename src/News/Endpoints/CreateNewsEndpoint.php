@@ -41,6 +41,9 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         if ($format === 'kaderblog') {
             $this->checkPermission('kaderblog');
         }
+        if ($format === 'aktuell') {
+            $this->checkIsStaff();
+        }
 
         $token = $input['custom']['recaptchaToken'] ?? null;
         $is_valid_token = $token ? $this->recaptchaUtils()->validateRecaptchaToken($token) : false;

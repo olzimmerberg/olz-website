@@ -21,4 +21,11 @@ abstract class OlzEndpoint extends Endpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
     }
+
+    protected function checkIsStaff(): void {
+        $has_access = !empty($this->authUtils()->getAuthenticatedRoles());
+        if (!$has_access) {
+            throw new HttpError(403, "Kein Zugriff!");
+        }
+    }
 }

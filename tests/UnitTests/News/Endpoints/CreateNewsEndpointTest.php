@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\News\Endpoints;
 
+use Olz\Entity\Roles\Role;
 use Olz\News\Endpoints\CreateNewsEndpoint;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
@@ -210,6 +211,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'all' => false,
             'kaderblog' => false,
         ];
+        WithUtilsCache::get('authUtils')->authenticated_roles = [new Role()];
         $endpoint = new CreateNewsEndpoint();
         $endpoint->setMailer($mailer);
         $endpoint->runtimeSetup();
@@ -322,7 +324,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
-                'format' => 'aktuell',
+                'format' => 'forum',
                 'authorUserId' => null,
                 'authorRoleId' => null,
                 'authorName' => null,

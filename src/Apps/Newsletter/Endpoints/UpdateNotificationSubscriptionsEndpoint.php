@@ -2,50 +2,81 @@
 
 namespace Olz\Apps\Newsletter\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\NotificationSubscription;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class UpdateNotificationSubscriptionsEndpoint extends OlzEndpoint {
+/**
+ * @extends TypedEndpoint<
+ *   array{
+ *     deliveryType: 'email'|'telegram',
+ *     monthlyPreview: bool,
+ *     weeklyPreview: bool,
+ *     deadlineWarning: bool,
+ *     deadlineWarningDays: '1'|'2'|'3'|'7',
+ *     dailySummary: bool,
+ *     dailySummaryAktuell: bool,
+ *     dailySummaryBlog: bool,
+ *     dailySummaryForum: bool,
+ *     dailySummaryGalerie: bool,
+ *     dailySummaryTermine: bool,
+ *     weeklySummary: bool,
+ *     weeklySummaryAktuell: bool,
+ *     weeklySummaryBlog: bool,
+ *     weeklySummaryForum: bool,
+ *     weeklySummaryGalerie: bool,
+ *     weeklySummaryTermine: bool,
+ *   },
+ *   array{status: 'OK'|'ERROR'}
+ * >
+ */
+class UpdateNotificationSubscriptionsEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'UpdateNotificationSubscriptionsEndpoint';
     }
 
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-        ]]);
-    }
+    // public function getResponseField(): FieldTypes\Field {
+    //     return new FieldTypes\ObjectField(['field_structure' => [
+    //         'status' => new FieldTypes\EnumField(['allowed_values' => [
+    //             'OK',
+    //             'ERROR',
+    //         ]]),
+    //     ]]);
+    // }
 
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'deliveryType' => new FieldTypes\EnumField(['allowed_values' => [
-                NotificationSubscription::DELIVERY_EMAIL,
-                NotificationSubscription::DELIVERY_TELEGRAM,
-            ]]),
-            'monthlyPreview' => new FieldTypes\BooleanField([]),
-            'weeklyPreview' => new FieldTypes\BooleanField([]),
-            'deadlineWarning' => new FieldTypes\BooleanField([]),
-            'deadlineWarningDays' => new FieldTypes\EnumField(['allowed_values' => [
-                '1', '2', '3', '7',
-            ]]),
-            'dailySummary' => new FieldTypes\BooleanField([]),
-            'dailySummaryAktuell' => new FieldTypes\BooleanField([]),
-            'dailySummaryBlog' => new FieldTypes\BooleanField([]),
-            'dailySummaryForum' => new FieldTypes\BooleanField([]),
-            'dailySummaryGalerie' => new FieldTypes\BooleanField([]),
-            'dailySummaryTermine' => new FieldTypes\BooleanField([]),
-            'weeklySummary' => new FieldTypes\BooleanField([]),
-            'weeklySummaryAktuell' => new FieldTypes\BooleanField([]),
-            'weeklySummaryBlog' => new FieldTypes\BooleanField([]),
-            'weeklySummaryForum' => new FieldTypes\BooleanField([]),
-            'weeklySummaryGalerie' => new FieldTypes\BooleanField([]),
-            'weeklySummaryTermine' => new FieldTypes\BooleanField([]),
-        ]]);
-    }
+    // public function getRequestField(): FieldTypes\Field {
+    //     return new FieldTypes\ObjectField(['field_structure' => [
+    //         'deliveryType' => new FieldTypes\EnumField(['allowed_values' => [
+    //             NotificationSubscription::DELIVERY_EMAIL,
+    //             NotificationSubscription::DELIVERY_TELEGRAM,
+    //         ]]),
+    //         'monthlyPreview' => new FieldTypes\BooleanField([]),
+    //         'weeklyPreview' => new FieldTypes\BooleanField([]),
+    //         'deadlineWarning' => new FieldTypes\BooleanField([]),
+    //         'deadlineWarningDays' => new FieldTypes\EnumField(['allowed_values' => [
+    //             '1', '2', '3', '7',
+    //         ]]),
+    //         'dailySummary' => new FieldTypes\BooleanField([]),
+    //         'dailySummaryAktuell' => new FieldTypes\BooleanField([]),
+    //         'dailySummaryBlog' => new FieldTypes\BooleanField([]),
+    //         'dailySummaryForum' => new FieldTypes\BooleanField([]),
+    //         'dailySummaryGalerie' => new FieldTypes\BooleanField([]),
+    //         'dailySummaryTermine' => new FieldTypes\BooleanField([]),
+    //         'weeklySummary' => new FieldTypes\BooleanField([]),
+    //         'weeklySummaryAktuell' => new FieldTypes\BooleanField([]),
+    //         'weeklySummaryBlog' => new FieldTypes\BooleanField([]),
+    //         'weeklySummaryForum' => new FieldTypes\BooleanField([]),
+    //         'weeklySummaryGalerie' => new FieldTypes\BooleanField([]),
+    //         'weeklySummaryTermine' => new FieldTypes\BooleanField([]),
+    //     ]]);
+    // }
 
     protected function handle(mixed $input): mixed {
         $user = $this->authUtils()->getCurrentUser();

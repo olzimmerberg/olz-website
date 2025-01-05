@@ -2,38 +2,53 @@
 
 namespace Olz\Apps\Quiz\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Quiz\QuizConstants;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class GetMySkillLevelsEndpoint extends OlzEndpoint {
+/**
+ * @extends TypedEndpoint<
+ *   array{skillFilter?: ?(
+ *     array{categoryIdIn: array<non-empty-string>}
+ *   )},
+ *   array<string, array{value: number}>,
+ * >
+ */
+class GetMySkillLevelsEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'GetMySkillLevelsEndpoint';
     }
 
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\DictField([
-            'item_field' => new FieldTypes\ObjectField(['field_structure' => [
-                'value' => new FieldTypes\NumberField(['min_value' => 0.0, 'max_value' => 1.0]),
-            ]]),
-        ]);
-    }
+    // public function getResponseField(): FieldTypes\Field {
+    //     return new FieldTypes\DictField([
+    //         'item_field' => new FieldTypes\ObjectField(['field_structure' => [
+    //             'value' => new FieldTypes\NumberField(['min_value' => 0.0, 'max_value' => 1.0]),
+    //         ]]),
+    //     ]);
+    // }
 
-    public function getRequestField(): FieldTypes\Field {
-        $skill_filter = new FieldTypes\ChoiceField([
-            'field_map' => [
-                'categoryIdIn' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-            ],
-            'allow_null' => true,
-        ]);
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'skillFilter' => $skill_filter,
-        ]]);
-    }
+    // public function getRequestField(): FieldTypes\Field {
+    //     $skill_filter = new FieldTypes\ChoiceField([
+    //         'field_map' => [
+    //             'categoryIdIn' => new FieldTypes\ArrayField([
+    //                 'item_field' => new FieldTypes\StringField([]),
+    //             ]),
+    //         ],
+    //         'allow_null' => true,
+    //     ]);
+    //     return new FieldTypes\ObjectField(['field_structure' => [
+    //         'skillFilter' => $skill_filter,
+    //     ]]);
+    // }
 
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');

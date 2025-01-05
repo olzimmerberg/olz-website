@@ -2,46 +2,41 @@
 
 namespace Olz\Apps\Panini2024\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Panini2024\Panini2024Constants;
 use Olz\Entity\Panini2024\Panini2024Picture;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class UpdateMyPanini2024Endpoint extends OlzEndpoint {
+/**
+ * @phpstan-type OlzPanini2024PictureData array{
+ *   id?: ?int<1, max>,
+ *   line1: non-empty-string,
+ *   line2: non-empty-string,
+ *   residence: non-empty-string,
+ *   uploadId: non-empty-string,
+ *   onOff: bool,
+ *   info1: non-empty-string,
+ *   info2: non-empty-string,
+ *   info3: non-empty-string,
+ *   info4: non-empty-string,
+ *   info5: non-empty-string,
+ * }
+ *
+ * @extends TypedEndpoint<
+ *   array{data: OlzPanini2024PictureData},
+ *   array{status: 'OK'|'ERROR'}
+ * >
+ */
+class UpdateMyPanini2024Endpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'UpdateMyPanini2024Endpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        $panini_2024_picture_field = new FieldTypes\ObjectField([
-            'field_structure' => [
-                'id' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
-                'line1' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
-                'line2' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
-                'residence' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
-                'uploadId' => new FieldTypes\StringField(['allow_null' => false]),
-                'onOff' => new FieldTypes\BooleanField(['allow_null' => false]),
-                'info1' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
-                'info2' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
-                'info3' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
-                'info4' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
-                'info5' => new FieldTypes\StringField(['allow_null' => false, 'max_length' => 50]),
-            ],
-            'export_as' => 'OlzPanini2024PictureData',
-        ]);
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'data' => $panini_2024_picture_field,
-        ]]);
     }
 
     protected function handle(mixed $input): mixed {
@@ -88,7 +83,7 @@ class UpdateMyPanini2024Endpoint extends OlzEndpoint {
             $input_data['info4'],
             $input_data['info5'],
         ]);
-        $picture->setOnOff($input_data['onOff']);
+        $picture->setOnOff($input_data['onOff'] ? 1 : 0);
         $this->entityManager()->persist($picture);
         $this->entityManager()->flush();
 

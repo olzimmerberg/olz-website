@@ -2,34 +2,29 @@
 
 namespace Olz\Apps\Quiz\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Quiz\QuizConstants;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
+/**
+ * Note: `change` must be between -1.0 and 1.0.
+ *
+ * @extends TypedEndpoint<
+ *   array{updates: array<non-empty-string, array{change: float}>},
+ *   array{status: 'OK'|'ERROR'}
+ * >
+ */
+class UpdateMySkillLevelsEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'UpdateMySkillLevelsEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'updates' => new FieldTypes\DictField([
-                'item_field' => new FieldTypes\ObjectField(['field_structure' => [
-                    'change' => new FieldTypes\NumberField(['min_value' => -1.0, 'max_value' => 1.0]),
-                ]]),
-            ]),
-        ]]);
     }
 
     protected function handle(mixed $input): mixed {
@@ -59,7 +54,7 @@ class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
                 $skill_level->setValue(QuizConstants::INITIAL_SKILL_LEVEL_VALUE);
                 $this->entityManager()->persist($skill_level);
             }
-            $value_change = $update['change'] ?? 0;
+            $value_change = $update['change'];
             $value = $skill_level->getValue();
             $value = $value + $value_change;
             $value = min(1, max(0, $value));

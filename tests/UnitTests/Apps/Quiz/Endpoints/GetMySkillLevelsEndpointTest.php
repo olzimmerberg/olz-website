@@ -57,7 +57,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         $this->assertSame([
             'Skill:1' => ['value' => 0.5],
             'Skill:2' => ['value' => 0.25],
-            'Skill:3' => ['value' => 0],
+            'Skill:3' => ['value' => 0.0],
         ], $result);
 
         $entity_manager = WithUtilsCache::get('entityManager');
@@ -83,7 +83,7 @@ final class GetMySkillLevelsEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame([
             'Skill:4' => ['value' => 0.75],
-            'Skill:5' => ['value' => 0],
+            'Skill:5' => ['value' => 0.0],
         ], $result);
 
         $entity_manager = WithUtilsCache::get('entityManager');

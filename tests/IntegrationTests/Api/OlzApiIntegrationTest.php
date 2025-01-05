@@ -21,9 +21,7 @@ final class OlzApiIntegrationTest extends IntegrationTestCase {
 
         foreach ($olz_api->getEndpointNames() as $endpoint_name) {
             $endpoint = $olz_api->getEndpointByName($endpoint_name);
-            if ($endpoint instanceof Endpoint) {
-                $endpoint->setup();
-            }
+            $endpoint->setup();
             $this->assertTrue(
                 $endpoint instanceof Endpoint
                 || $endpoint instanceof TypedEndpoint

@@ -8,15 +8,16 @@ use Olz\Apps\Logs\Utils\LineLocation;
 use Olz\Apps\Logs\Utils\LogsDefinitions;
 use Olz\Apps\Logs\Utils\PlainLogFile;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\PhpStan\IsoDateTime;
 use PhpTypeScriptApi\TypedEndpoint;
 
 /**
  * @phpstan-type OlzLogLevel 'debug'|'info'|'notice'|'warning'|'error'|'critical'|'alert'|'emergency'
  * @phpstan-type OlzLogsQuery array{
  *   channel: string,
- *   targetDate?: ?string,
- *   firstDate?: ?string,
- *   lastDate?: ?string,
+ *   targetDate?: ?IsoDateTime,
+ *   firstDate?: ?IsoDateTime,
+ *   lastDate?: ?IsoDateTime,
  *   minLogLevel?: ?OlzLogLevel,
  *   textSearch?: ?string,
  *   pageToken?: ?string,
@@ -29,6 +30,10 @@ use PhpTypeScriptApi\TypedEndpoint;
  */
 class GetLogsEndpoint extends TypedEndpoint {
     use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [IsoDateTime::class];
+    }
 
     public static function getIdent(): string {
         return 'GetLogsEndpoint';

@@ -2,29 +2,25 @@
 
 namespace Olz\Apps\Files\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\AccessToken;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\TypedEndpoint;
 
-class RevokeWebdavAccessTokenEndpoint extends OlzEndpoint {
+/**
+ * @extends TypedEndpoint<
+ *   ?array{},
+ *   array{status: 'OK'|'ERROR'}
+ * >
+ */
+class RevokeWebdavAccessTokenEndpoint extends TypedEndpoint {
+    use OlzTypedEndpoint;
+
+    public static function getApiObjectClasses(): array {
+        return [];
+    }
+
     public static function getIdent(): string {
         return 'RevokeWebdavAccessTokenEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [],
-            'allow_null' => true,
-        ]);
     }
 
     protected function handle(mixed $input): mixed {

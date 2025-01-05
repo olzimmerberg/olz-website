@@ -3,5 +3,5 @@
 namespace Olz\Apps\Quiz;
 
 class QuizConstants {
-    public const INITIAL_SKILL_LEVEL_VALUE = 0;
+    public const INITIAL_SKILL_LEVEL_VALUE = 0.0;
 }

@@ -2,53 +2,40 @@
 
 namespace Olz\Apps\Anmelden\Endpoints;
 
-use Olz\Api\OlzTypedEndpoint;
+use Olz\Api\OlzEndpoint;
 use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\FieldTypes;
-use PhpTypeScriptApi\TypedEndpoint;
 
-/**
- * @extends TypedEndpoint<
- *   ?array{},
- *   array{status: 'OK'|'ERROR', managedUsers: ?array<array{id: int, firstName: string, lastName: string}>},
- * >
- */
-class GetManagedUsersEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
+class GetManagedUsersEndpoint extends OlzEndpoint {
     public static function getIdent(): string {
         return 'GetManagedUsersEndpoint';
     }
 
-    // public function getResponseField(): FieldTypes\Field {
-    //     return new FieldTypes\ObjectField(['field_structure' => [
-    //         'status' => new FieldTypes\EnumField(['allowed_values' => [
-    //             'OK',
-    //             'ERROR',
-    //         ]]),
-    //         'managedUsers' => new FieldTypes\ArrayField([
-    //             'item_field' => new FieldTypes\ObjectField([
-    //                 'field_structure' => [
-    //                     'id' => new FieldTypes\IntegerField([]),
-    //                     'firstName' => new FieldTypes\StringField([]),
-    //                     'lastName' => new FieldTypes\StringField([]),
-    //                 ],
-    //             ]),
-    //             'allow_null' => true,
-    //         ]),
-    //     ]]);
-    // }
+    public function getResponseField(): FieldTypes\Field {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
+                'OK',
+                'ERROR',
+            ]]),
+            'managedUsers' => new FieldTypes\ArrayField([
+                'item_field' => new FieldTypes\ObjectField([
+                    'field_structure' => [
+                        'id' => new FieldTypes\IntegerField([]),
+                        'firstName' => new FieldTypes\StringField([]),
+                        'lastName' => new FieldTypes\StringField([]),
+                    ],
+                ]),
+                'allow_null' => true,
+            ]),
+        ]]);
+    }
 
-    // public function getRequestField(): FieldTypes\Field {
-    //     return new FieldTypes\ObjectField([
-    //         'field_structure' => [],
-    //         'allow_null' => true,
-    //     ]);
-    // }
+    public function getRequestField(): FieldTypes\Field {
+        return new FieldTypes\ObjectField([
+            'field_structure' => [],
+            'allow_null' => true,
+        ]);
+    }
 
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');

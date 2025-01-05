@@ -2,44 +2,31 @@
 
 namespace Olz\Apps\Files\Endpoints;
 
-use Olz\Api\OlzTypedEndpoint;
+use Olz\Api\OlzEndpoint;
 use Olz\Entity\AccessToken;
 use PhpTypeScriptApi\Fields\FieldTypes;
-use PhpTypeScriptApi\TypedEndpoint;
 
-/**
- * @extends TypedEndpoint<
- *   ?array{},
- *   array{status: 'OK'|'ERROR', token?: ?non-empty-string}
- * >
- */
-class GetWebdavAccessTokenEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
+class GetWebdavAccessTokenEndpoint extends OlzEndpoint {
     public static function getIdent(): string {
         return 'GetWebdavAccessTokenEndpoint';
     }
 
-    // public function getResponseField(): FieldTypes\Field {
-    //     return new FieldTypes\ObjectField(['field_structure' => [
-    //         'status' => new FieldTypes\EnumField(['allowed_values' => [
-    //             'OK',
-    //             'ERROR',
-    //         ]]),
-    //         'token' => new FieldTypes\StringField(['allow_null' => true]),
-    //     ]]);
-    // }
+    public function getResponseField(): FieldTypes\Field {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
+                'OK',
+                'ERROR',
+            ]]),
+            'token' => new FieldTypes\StringField(['allow_null' => true]),
+        ]]);
+    }
 
-    // public function getRequestField(): FieldTypes\Field {
-    //     return new FieldTypes\ObjectField([
-    //         'field_structure' => [],
-    //         'allow_null' => true,
-    //     ]);
-    // }
+    public function getRequestField(): FieldTypes\Field {
+        return new FieldTypes\ObjectField([
+            'field_structure' => [],
+            'allow_null' => true,
+        ]);
+    }
 
     protected function handle(mixed $input): mixed {
         $this->checkPermission('webdav');

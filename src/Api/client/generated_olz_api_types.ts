@@ -343,25 +343,56 @@ export type OlzRegistrationInfo = {
 }|null,
 };
 
-export type IsoDate = string;
-
 export type OlzLogsQuery = {'channel': string, 'targetDate'?: (string | null), 'firstDate'?: (string | null), 'lastDate'?: (string | null), 'minLogLevel'?: (OlzLogLevel | null), 'textSearch'?: (string | null), 'pageToken'?: (string | null)};
 
 export type OlzLogLevel = ('debug' | 'info' | 'notice' | 'warning' | 'error' | 'critical' | 'alert' | 'emergency');
 
-export type IsoDateTime = string;
+export type OlzTransportSuggestion = {
+    'mainConnection': OlzTransportConnection,
+    'sideConnections': Array<{
+    'connection': OlzTransportConnection,
+    'joiningStationId': string,
+}>,
+    'originInfo': Array<OlzOriginInfo>,
+    'debug': string,
+};
 
-export type OlzTransportSuggestion = {'mainConnection': OlzTransportConnection, 'sideConnections': Array<{'connection': OlzTransportConnection, 'joiningStationId': string}>, 'originInfo': Array<OlzOriginInfo>, 'debug': string};
+export type OlzTransportConnection = {
+    'sections': Array<OlzTransportSection>,
+};
 
-export type OlzTransportConnection = {'sections': Array<OlzTransportSection>};
+export type OlzTransportSection = {
+    'departure': OlzTransportHalt,
+    'arrival': OlzTransportHalt,
+    'passList': Array<OlzTransportHalt>,
+    'isWalk': boolean,
+};
 
-export type OlzOriginInfo = {'halt': OlzTransportHalt, 'isSkipped': boolean, 'rating': number};
+export type OlzTransportHalt = {
+    'stationId': string,
+    'stationName': string,
+    'time': string,
+};
 
-export type OlzTransportSection = {'departure': OlzTransportHalt, 'arrival': OlzTransportHalt, 'passList': Array<OlzTransportHalt>, 'isWalk': boolean};
+export type OlzOriginInfo = {
+    'halt': OlzTransportHalt,
+    'isSkipped': boolean,
+    'rating': number,
+};
 
-export type OlzTransportHalt = {'stationId': string, 'stationName': string, 'time': string};
-
-export type OlzPanini2024PictureData = {'id'?: (number | null), 'line1': string, 'line2': string, 'residence': string, 'uploadId': string, 'onOff': boolean, 'info1': string, 'info2': string, 'info3': string, 'info4': string, 'info5': string};
+export type OlzPanini2024PictureData = {
+    'id': number|null,
+    'line1': string,
+    'line2': string,
+    'residence': string,
+    'uploadId': string,
+    'onOff': boolean,
+    'info1': string,
+    'info2': string,
+    'info3': string,
+    'info4': string,
+    'info5': string,
+};
 
 // eslint-disable-next-line no-shadow
 export type OlzApiEndpoint =
@@ -451,6 +482,7 @@ export type OlzApiEndpoint =
     'executeCommand'|
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken'|
+    'importTermine'|
     'getLogs'|
     'getAppMonitoringCredentials'|
     'updateNotificationSubscriptions'|
@@ -757,25 +789,82 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
             'meta': OlzMetaData,
             'data': OlzRegistrationData,
         },
-    getManagedUsers: (Record<string, never> | null),
-    getPrefillValues: {'userId'?: (number | null)},
+    getManagedUsers: Record<string, never>|null,
+    getPrefillValues: {
+            'userId': number|null,
+        },
     getRegistration: {
             'id': string,
         },
-    executeCommand: {'command': string, 'argv'?: (string | null)},
-    getWebdavAccessToken: (Record<string, never> | null),
-    revokeWebdavAccessToken: (Record<string, never> | null),
+    executeCommand: {
+            'command': string,
+            'argv': string|null,
+        },
+    getWebdavAccessToken: Record<string, never>|null,
+    revokeWebdavAccessToken: Record<string, never>|null,
+    importTermine: Record<string, never>,
     getLogs: {'query': OlzLogsQuery},
-    getAppMonitoringCredentials: (Record<string, never> | null),
-    updateNotificationSubscriptions: {'deliveryType': ('email' | 'telegram'), 'monthlyPreview': boolean, 'weeklyPreview': boolean, 'deadlineWarning': boolean, 'deadlineWarningDays': ('1' | '2' | '3' | '7'), 'dailySummary': boolean, 'dailySummaryAktuell': boolean, 'dailySummaryBlog': boolean, 'dailySummaryForum': boolean, 'dailySummaryGalerie': boolean, 'dailySummaryTermine': boolean, 'weeklySummary': boolean, 'weeklySummaryAktuell': boolean, 'weeklySummaryBlog': boolean, 'weeklySummaryForum': boolean, 'weeklySummaryGalerie': boolean, 'weeklySummaryTermine': boolean},
-    searchTransportConnection: {'destination': string, 'arrival': IsoDateTime},
-    listPanini2024Pictures: {'filter'?: (({'idIs': number} | {'page': number}) | null)},
-    updateMyPanini2024: {'data': OlzPanini2024PictureData},
-    getMySkillLevels: {'skillFilter'?: ({'categoryIdIn': Array<string>} | null)},
-    updateMySkillLevels: {'updates': {[key: string]: {'change': number}}},
-    registerSkillCategories: {'skillCategories': Array<{'name': string, 'parentCategoryName'?: (string | null)}>},
-    registerSkills: {'skills': Array<{'name': string, 'categoryIds': Array<string>}>},
-    updateResults: {'file': string, 'content'?: (string | null), 'iofXmlFileId'?: (string | null)},
+    getAppMonitoringCredentials: Record<string, never>,
+    updateNotificationSubscriptions: {
+            'deliveryType': 'email'|'telegram',
+            'monthlyPreview': boolean,
+            'weeklyPreview': boolean,
+            'deadlineWarning': boolean,
+            'deadlineWarningDays': '1'|'2'|'3'|'7',
+            'dailySummary': boolean,
+            'dailySummaryAktuell': boolean,
+            'dailySummaryBlog': boolean,
+            'dailySummaryForum': boolean,
+            'dailySummaryGalerie': boolean,
+            'dailySummaryTermine': boolean,
+            'weeklySummary': boolean,
+            'weeklySummaryAktuell': boolean,
+            'weeklySummaryBlog': boolean,
+            'weeklySummaryForum': boolean,
+            'weeklySummaryGalerie': boolean,
+            'weeklySummaryTermine': boolean,
+        },
+    searchTransportConnection: {
+            'destination': string,
+            'arrival': string,
+        },
+    listPanini2024Pictures: {
+            'filter': {
+            'idIs': number,
+        }|{
+            'page': number,
+        }|null,
+        },
+    updateMyPanini2024: {
+            'data': OlzPanini2024PictureData,
+        },
+    getMySkillLevels: {
+            'skillFilter': {
+            'categoryIdIn': Array<string>,
+        }|null,
+        },
+    updateMySkillLevels: {
+            'updates': {[key: string]: {
+            'change': number,
+        }},
+        },
+    registerSkillCategories: {
+            'skillCategories': Array<{
+            'name': string,
+            'parentCategoryName': string|null,
+        }>,
+        },
+    registerSkills: {
+            'skills': Array<{
+            'name': string,
+            'categoryIds': Array<string>,
+        }>,
+        },
+    updateResults: {
+            'file': string,
+            'content': string|null,
+            'iofXmlFileId': string|null,
+        },
     getAppSearchEnginesCredentials: Record<string, never>,
     getAppStatisticsCredentials: Record<string, never>,
     getAppYoutubeCredentials: Record<string, never>,
@@ -1096,27 +1185,80 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
             'status': 'OK'|'ERROR',
             'id': string|null,
         },
-    getManagedUsers: {'status': ('OK' | 'ERROR'), 'managedUsers': (Array<{'id': number, 'firstName': string, 'lastName': string}> | null)},
-    getPrefillValues: {'firstName': string, 'lastName': string, 'username': string, 'email': string, 'phone'?: (string | null), 'gender'?: (('M' | 'F' | 'O') | null), 'birthdate'?: (IsoDate | null), 'street'?: (string | null), 'postalCode'?: (string | null), 'city'?: (string | null), 'region'?: (string | null), 'countryCode'?: (string | null), 'siCardNumber'?: (number | null), 'solvNumber'?: (string | null)},
+    getManagedUsers: {
+            'status': 'OK'|'ERROR',
+            'managedUsers': Array<{
+            'id': number,
+            'firstName': string,
+            'lastName': string,
+        }>|null,
+        },
+    getPrefillValues: {
+            'firstName': string,
+            'lastName': string,
+            'username': string,
+            'email': string,
+            'phone': string|null,
+            'gender': 'M'|'F'|'O'|null,
+            'birthdate': string|null,
+            'street': string|null,
+            'postalCode': string|null,
+            'city': string|null,
+            'region': string|null,
+            'countryCode': string|null,
+            'siCardNumber': number|null,
+            'solvNumber': string|null,
+        },
     getRegistration: {
             'id': string,
             'meta': OlzMetaData,
             'data': OlzRegistrationData,
         },
-    executeCommand: {'error': boolean, 'output': string},
-    getWebdavAccessToken: {'status': ('OK' | 'ERROR'), 'token'?: (string | null)},
-    revokeWebdavAccessToken: {'status': ('OK' | 'ERROR')},
+    executeCommand: {
+            'error': boolean,
+            'output': string,
+        },
+    getWebdavAccessToken: {
+            'status': 'OK'|'ERROR',
+            'token': string|null,
+        },
+    revokeWebdavAccessToken: {
+            'status': 'OK'|'ERROR',
+        },
+    importTermine: Record<string, never>,
     getLogs: {'content': Array<string>, 'pagination': {'previous': (string | null), 'next': (string | null)}},
-    getAppMonitoringCredentials: {'username': string, 'password': string},
-    updateNotificationSubscriptions: {'status': ('OK' | 'ERROR')},
-    searchTransportConnection: {'status': ('OK' | 'ERROR'), 'suggestions'?: (Array<OlzTransportSuggestion> | null)},
-    listPanini2024Pictures: Array<{'data': OlzPanini2024PictureData}>,
-    updateMyPanini2024: {'status': ('OK' | 'ERROR')},
-    getMySkillLevels: {[key: string]: {'value': number}},
-    updateMySkillLevels: {'status': ('OK' | 'ERROR')},
-    registerSkillCategories: {'idByName': {[key: string]: string}},
-    registerSkills: {'idByName': {[key: string]: string}},
-    updateResults: {'status': ('OK' | 'INVALID_FILENAME' | 'INVALID_BASE64_DATA' | 'ERROR')},
+    getAppMonitoringCredentials: {
+            'username': string,
+            'password': string,
+        },
+    updateNotificationSubscriptions: {
+            'status': 'OK'|'ERROR',
+        },
+    searchTransportConnection: {
+            'status': 'OK'|'ERROR',
+            'suggestions': Array<OlzTransportSuggestion>|null,
+        },
+    listPanini2024Pictures: Array<{
+            'data': OlzPanini2024PictureData,
+        }>,
+    updateMyPanini2024: {
+            'status': 'OK'|'ERROR',
+        },
+    getMySkillLevels: {[key: string]: {
+            'value': number,
+        }},
+    updateMySkillLevels: {
+            'status': 'OK'|'ERROR',
+        },
+    registerSkillCategories: {
+            'idByName': {[key: string]: string},
+        },
+    registerSkills: {
+            'idByName': {[key: string]: string},
+        },
+    updateResults: {
+            'status': 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR',
+        },
     getAppSearchEnginesCredentials: {'username': string, 'password': string},
     getAppStatisticsCredentials: {'username': string, 'password': string},
     getAppYoutubeCredentials: {'username': string, 'password': string},

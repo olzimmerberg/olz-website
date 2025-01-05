@@ -2,46 +2,33 @@
 
 namespace Olz\Apps\Results\Endpoints;
 
-use Olz\Api\OlzTypedEndpoint;
+use Olz\Api\OlzEndpoint;
 use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
-use PhpTypeScriptApi\TypedEndpoint;
 
-/**
- * @extends TypedEndpoint<
- *   array{file: non-empty-string, content?: ?non-empty-string, iofXmlFileId?: ?non-empty-string},
- *   array{status: 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR'}
- * >
- */
-class UpdateResultsEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
+class UpdateResultsEndpoint extends OlzEndpoint {
     public static function getIdent(): string {
         return 'UpdateResultsEndpoint';
     }
 
-    // public function getResponseField(): FieldTypes\Field {
-    //     return new FieldTypes\ObjectField(['field_structure' => [
-    //         'status' => new FieldTypes\EnumField(['allowed_values' => [
-    //             'OK',
-    //             'INVALID_FILENAME',
-    //             'INVALID_BASE64_DATA',
-    //             'ERROR',
-    //         ]]),
-    //     ]]);
-    // }
+    public function getResponseField(): FieldTypes\Field {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
+                'OK',
+                'INVALID_FILENAME',
+                'INVALID_BASE64_DATA',
+                'ERROR',
+            ]]),
+        ]]);
+    }
 
-    // public function getRequestField(): FieldTypes\Field {
-    //     return new FieldTypes\ObjectField(['field_structure' => [
-    //         'file' => new FieldTypes\StringField(['allow_null' => false]),
-    //         'content' => new FieldTypes\StringField(['allow_null' => true]),
-    //         'iofXmlFileId' => new FieldTypes\StringField(['allow_null' => true]),
-    //     ]]);
-    // }
+    public function getRequestField(): FieldTypes\Field {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'file' => new FieldTypes\StringField(['allow_null' => false]),
+            'content' => new FieldTypes\StringField(['allow_null' => true]),
+            'iofXmlFileId' => new FieldTypes\StringField(['allow_null' => true]),
+        ]]);
+    }
 
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');

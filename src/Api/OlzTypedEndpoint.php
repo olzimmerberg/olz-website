@@ -8,8 +8,9 @@ use PhpTypeScriptApi\HttpError;
 trait OlzTypedEndpoint {
     use WithUtilsTrait;
 
-    public function runtimeSetup(): void {
+    public function call(mixed $input): mixed {
         $this->setLogger($this->log());
+        return parent::call($input);
     }
 
     // --- Custom ---

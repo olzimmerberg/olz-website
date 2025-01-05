@@ -2,49 +2,14 @@
 
 namespace Olz\Apps\Oev\Endpoints;
 
-use Olz\Api\OlzTypedEndpoint;
+use Olz\Api\OlzEndpoint;
 use Olz\Apps\Oev\Utils\CoordinateUtils;
 use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
 use Olz\Fetchers\TransportApiFetcher;
 use PhpTypeScriptApi\Fields\FieldTypes;
-use PhpTypeScriptApi\PhpStan\IsoDateTime;
-use PhpTypeScriptApi\TypedEndpoint;
 
-/**
- * Search for a swiss public transport connection.
- *
- * for further information on the backend used, see
- * https://transport.opendata.ch/docs.html#connections
- *
- * @phpstan-type OlzTransportHalt array{
- *   stationId: non-empty-string,
- *   stationName: non-empty-string,
- *   time: non-empty-string,
- * }
- * @phpstan-type OlzTransportSection array{
- *   departure: OlzTransportHalt,
- *   arrival: OlzTransportHalt,
- *   passList: array<OlzTransportHalt>,
- *   isWalk: bool,
- * }
- * @phpstan-type OlzTransportConnection array{sections: array<OlzTransportSection>}
- * @phpstan-type OlzOriginInfo array{halt: OlzTransportHalt, isSkipped: bool, rating: number}
- * @phpstan-type OlzTransportSuggestion array{
- *   mainConnection: OlzTransportConnection,
- *   sideConnections: array<array{connection: OlzTransportConnection, joiningStationId: non-empty-string}>,
- *   originInfo: array<OlzOriginInfo>,
- *   debug: string,
- * }
- *
- * @extends TypedEndpoint<
- *   array{'destination': non-empty-string, 'arrival': IsoDateTime},
- *   array{status: 'OK'|'ERROR', suggestions?: ?array<OlzTransportSuggestion>},
- * >
- */
-class SearchTransportConnectionEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
+class SearchTransportConnectionEndpoint extends OlzEndpoint {
     public const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
     /** @var array<array{id: string, name: string, coordinate: array{type: string, x: float, y: float}, weight: float}> */
@@ -55,19 +20,14 @@ class SearchTransportConnectionEndpoint extends TypedEndpoint {
     protected array $is_origin_station_by_station_id = [];
 
     public function __construct() {
-        parent::__construct();
         $filename = __DIR__.'/../olz_transit_stations.json';
         $content = file_get_contents($filename);
         $data = json_decode($content, true);
         $this->originStations = $data;
     }
 
-    public static function getApiObjectClasses(): array {
-        return [IsoDateTime::class];
-    }
-
     public function runtimeSetup(): void {
-        $this->setLogger($this->log());
+        parent::runtimeSetup();
         $transport_api_fetcher = new TransportApiFetcher();
         $this->setTransportApiFetcher($transport_api_fetcher);
     }
@@ -80,26 +40,26 @@ class SearchTransportConnectionEndpoint extends TypedEndpoint {
         return 'SearchTransportConnectionEndpoint';
     }
 
-    // public function getResponseField(): FieldTypes\Field {
-    //     $suggestion_field = TransportSuggestion::getField();
-    //     return new FieldTypes\ObjectField(['field_structure' => [
-    //         'status' => new FieldTypes\EnumField(['allowed_values' => [
-    //             'OK',
-    //             'ERROR',
-    //         ]]),
-    //         'suggestions' => new FieldTypes\ArrayField([
-    //             'allow_null' => true,
-    //             'item_field' => $suggestion_field,
-    //         ]),
-    //     ]]);
-    // }
+    public function getResponseField(): FieldTypes\Field {
+        $suggestion_field = TransportSuggestion::getField();
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
+                'OK',
+                'ERROR',
+            ]]),
+            'suggestions' => new FieldTypes\ArrayField([
+                'allow_null' => true,
+                'item_field' => $suggestion_field,
+            ]),
+        ]]);
+    }
 
-    // public function getRequestField(): FieldTypes\Field {
-    //     return new FieldTypes\ObjectField(['field_structure' => [
-    //         'destination' => new FieldTypes\StringField(['allow_null' => false]),
-    //         'arrival' => new FieldTypes\DateTimeField(['allow_null' => false]),
-    //     ]]);
-    // }
+    public function getRequestField(): FieldTypes\Field {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'destination' => new FieldTypes\StringField(['allow_null' => false]),
+            'arrival' => new FieldTypes\DateTimeField(['allow_null' => false]),
+        ]]);
+    }
 
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');

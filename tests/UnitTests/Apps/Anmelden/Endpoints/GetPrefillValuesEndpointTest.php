@@ -46,8 +46,6 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
             'userId' => null,
         ]);
 
-        // TODO: Remove
-        // @phpstan-ignore method.impossibleType
         $this->assertSame([
             'firstName' => 'Admin',
             'lastName' => 'Istrator',
@@ -76,8 +74,6 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
             'userId' => 1,
         ]);
 
-        // TODO: Remove
-        // @phpstan-ignore method.impossibleType
         $this->assertSame([
             'firstName' => 'Default',
             'lastName' => 'User',

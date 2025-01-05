@@ -25,7 +25,6 @@ final class GetAppSearchEnginesCredentialsEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new GetAppSearchEnginesCredentialsEndpoint();
-        $endpoint->setup();
 
         $result = $endpoint->call([]);
 
@@ -43,7 +42,6 @@ final class GetAppSearchEnginesCredentialsEndpointTest extends UnitTestCase {
     public function testGetAppSearchEnginesCredentialsEndpointNotAuthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $endpoint = new GetAppSearchEnginesCredentialsEndpoint();
-        $endpoint->setup();
 
         try {
             $endpoint->call([]);

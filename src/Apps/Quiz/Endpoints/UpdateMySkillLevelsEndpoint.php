@@ -2,48 +2,35 @@
 
 namespace Olz\Apps\Quiz\Endpoints;
 
-use Olz\Api\OlzTypedEndpoint;
+use Olz\Api\OlzEndpoint;
 use Olz\Apps\Quiz\QuizConstants;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 use PhpTypeScriptApi\Fields\FieldTypes;
-use PhpTypeScriptApi\TypedEndpoint;
 
-/**
- * @extends TypedEndpoint<
- *   array{updates: array<non-empty-string, array{change: number}>},
- *   array{status: 'OK'|'ERROR'}
- * >
- */
-class UpdateMySkillLevelsEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
+class UpdateMySkillLevelsEndpoint extends OlzEndpoint {
     public static function getIdent(): string {
         return 'UpdateMySkillLevelsEndpoint';
     }
 
-    // public function getResponseField(): FieldTypes\Field {
-    //     return new FieldTypes\ObjectField(['field_structure' => [
-    //         'status' => new FieldTypes\EnumField(['allowed_values' => [
-    //             'OK',
-    //             'ERROR',
-    //         ]]),
-    //     ]]);
-    // }
+    public function getResponseField(): FieldTypes\Field {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'status' => new FieldTypes\EnumField(['allowed_values' => [
+                'OK',
+                'ERROR',
+            ]]),
+        ]]);
+    }
 
-    // public function getRequestField(): FieldTypes\Field {
-    //     return new FieldTypes\ObjectField(['field_structure' => [
-    //         'updates' => new FieldTypes\DictField([
-    //             'item_field' => new FieldTypes\ObjectField(['field_structure' => [
-    //                 'change' => new FieldTypes\NumberField(['min_value' => -1.0, 'max_value' => 1.0]),
-    //             ]]),
-    //         ]),
-    //     ]]);
-    // }
+    public function getRequestField(): FieldTypes\Field {
+        return new FieldTypes\ObjectField(['field_structure' => [
+            'updates' => new FieldTypes\DictField([
+                'item_field' => new FieldTypes\ObjectField(['field_structure' => [
+                    'change' => new FieldTypes\NumberField(['min_value' => -1.0, 'max_value' => 1.0]),
+                ]]),
+            ]),
+        ]]);
+    }
 
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
@@ -72,7 +59,7 @@ class UpdateMySkillLevelsEndpoint extends TypedEndpoint {
                 $skill_level->setValue(QuizConstants::INITIAL_SKILL_LEVEL_VALUE);
                 $this->entityManager()->persist($skill_level);
             }
-            $value_change = $update['change'];
+            $value_change = $update['change'] ?? 0;
             $value = $skill_level->getValue();
             $value = $value + $value_change;
             $value = min(1, max(0, $value));

@@ -15,10 +15,6 @@ use PhpTypeScriptApi\TypedEndpoint;
 class GetAppYoutubeCredentialsEndpoint extends TypedEndpoint {
     use OlzTypedEndpoint;
 
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
     public static function getIdent(): string {
         return 'GetAppYoutubeCredentialsEndpoint';
     }

@@ -51,10 +51,10 @@ export const OlzAuthenticatedUserRoleField = <
 
     React.useEffect(() => {
         olzApi.call('getAuthenticatedUser', {}).then(({user}) => {
-            setAuthenticatedUser(user);
+            setAuthenticatedUser(user ?? null);
         });
         olzApi.call('getAuthenticatedRoles', {}).then(({roles}) => {
-            setAuthenticatedRoles(roles);
+            setAuthenticatedRoles(roles ?? null);
         });
     }, []);
 

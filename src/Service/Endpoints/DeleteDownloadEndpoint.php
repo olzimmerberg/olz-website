@@ -2,14 +2,21 @@
 
 namespace Olz\Service\Endpoints;
 
-use Olz\Api\OlzDeleteEntityEndpoint;
+use Olz\Api\OlzDeleteEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteDownloadEndpoint extends OlzDeleteEntityEndpoint {
+/**
+ * @phpstan-import-type OlzDownloadId from DownloadEndpointTrait
+ * @phpstan-import-type OlzDownloadData from DownloadEndpointTrait
+ *
+ * @extends OlzDeleteEntityTypedEndpoint<OlzDownloadId, OlzDownloadData>
+ */
+class DeleteDownloadEndpoint extends OlzDeleteEntityTypedEndpoint {
     use DownloadEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'DeleteDownloadEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(DownloadEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -25,6 +32,6 @@ class DeleteDownloadEndpoint extends OlzDeleteEntityEndpoint {
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

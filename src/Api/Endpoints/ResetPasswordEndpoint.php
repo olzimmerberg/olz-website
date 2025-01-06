@@ -2,32 +2,21 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Api\OlzTypedEndpoint;
 use Symfony\Component\Mime\Email;
 
-class ResetPasswordEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'ResetPasswordEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'DENIED',
-                'ERROR',
-                'OK',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'usernameOrEmail' => new FieldTypes\StringField([]),
-            'recaptchaToken' => new FieldTypes\StringField([]),
-        ]]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   array{
+ *     usernameOrEmail: non-empty-string,
+ *     recaptchaToken: non-empty-string,
+ *   },
+ *   array{
+ *     status: 'OK'|'DENIED'|'ERROR',
+ *   }
+ * >
+ */
+class ResetPasswordEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $username_or_email = trim($input['usernameOrEmail']);
         $user = $this->authUtils()->resolveUsernameOrEmail($username_or_email);

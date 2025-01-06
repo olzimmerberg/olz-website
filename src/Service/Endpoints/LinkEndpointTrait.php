@@ -4,29 +4,20 @@ namespace Olz\Service\Endpoints;
 
 use Olz\Entity\Service\Link;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+/**
+ * @phpstan-type OlzLinkId int
+ * @phpstan-type OlzLinkData array{
+ *   position?: ?int,
+ *   name: non-empty-string,
+ *   url: non-empty-string,
+ * }
+ */
 trait LinkEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return false;
-    }
-
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzLinkDataOrNull' : 'OlzLinkData',
-            'field_structure' => [
-                'position' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'name' => new FieldTypes\StringField([]),
-                'url' => new FieldTypes\StringField([]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzLinkData */
     public function getEntityData(Link $entity): array {
         return [
             'name' => $entity->getName(),
@@ -35,7 +26,7 @@ trait LinkEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzLinkData $input_data */
     public function updateEntityWithData(Link $entity, array $input_data): void {
         $entity->setName($input_data['name']);
         $entity->setPosition(intval($input_data['position']));

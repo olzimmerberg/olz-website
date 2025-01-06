@@ -2,34 +2,24 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
-class ExecuteEmailReactionEndpoint extends OlzEndpoint {
+/**
+ * @extends OlzTypedEndpoint<
+ *   array{
+ *     token: non-empty-string,
+ *   },
+ *   array{
+ *     status: 'INVALID_TOKEN'|'OK',
+ *   }
+ * >
+ */
+class ExecuteEmailReactionEndpoint extends OlzTypedEndpoint {
     /** @var ?array<string, mixed> */
     protected ?array $reaction_data;
-
-    public static function getIdent(): string {
-        return 'ExecuteEmailReactionEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'INVALID_TOKEN',
-                'OK',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'token' => new FieldTypes\StringField([]),
-        ]]);
-    }
 
     protected function handle(mixed $input): mixed {
         $token = $input['token'];

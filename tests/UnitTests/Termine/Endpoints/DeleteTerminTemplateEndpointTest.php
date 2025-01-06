@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Termine\Endpoints\DeleteTerminTemplateEndpoint
  */
 final class DeleteTerminTemplateEndpointTest extends UnitTestCase {
-    public function testDeleteTerminTemplateEndpointIdent(): void {
-        $endpoint = new DeleteTerminTemplateEndpoint();
-        $this->assertSame('DeleteTerminTemplateEndpoint', $endpoint->getIdent());
-    }
-
     public function testDeleteTerminTemplateEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $endpoint = new DeleteTerminTemplateEndpoint();
@@ -55,9 +50,7 @@ final class DeleteTerminTemplateEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame([], $result);
 
         $this->assertSame([
             [FakeTerminTemplate::empty(), null, null, null, null, 'termine_admin'],

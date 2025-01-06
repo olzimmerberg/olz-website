@@ -13,6 +13,7 @@ use Symfony\Component\Mime\Email;
 
 class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
     public function __construct() {
+        parent::__construct();
         $this->setServer(['REMOTE_ADDR' => '1.2.3.4']);
     }
 
@@ -27,11 +28,6 @@ class DeterministicResetPasswordEndpoint extends ResetPasswordEndpoint {
  * @covers \Olz\Api\Endpoints\ResetPasswordEndpoint
  */
 final class ResetPasswordEndpointTest extends UnitTestCase {
-    public function testResetPasswordEndpointIdent(): void {
-        $endpoint = new DeterministicResetPasswordEndpoint();
-        $this->assertSame('ResetPasswordEndpoint', $endpoint->getIdent());
-    }
-
     public function testResetPasswordEndpointWithoutInput(): void {
         $endpoint = new DeterministicResetPasswordEndpoint();
         $endpoint->runtimeSetup();
@@ -64,8 +60,8 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
                 "WARNING Bad user request",
             ], $this->getLogs());
             $this->assertSame([
-                'usernameOrEmail' => [['.' => ['Feld darf nicht leer sein.']]],
-                'recaptchaToken' => [['.' => ['Feld darf nicht leer sein.']]],
+                'usernameOrEmail' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
+                'recaptchaToken' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }

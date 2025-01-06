@@ -8,7 +8,6 @@ use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
 use Olz\Fetchers\TransportApiFetcher;
 use PhpTypeScriptApi\PhpStan\IsoDateTime;
-use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
  * Search for a swiss public transport connection.
@@ -72,7 +71,7 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
 
     public function configure(): void {
         parent::configure();
-        PhpStanUtils::registerApiObject(IsoDateTime::class);
+        $this->phpStanUtils->registerApiObject(IsoDateTime::class);
     }
 
     public function runtimeSetup(): void {
@@ -89,7 +88,7 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
         $this->checkPermission('any');
 
         $destination = $input['destination'];
-        $arrival_datetime = new \DateTime($input['arrival']);
+        $arrival_datetime = $input['arrival'];
         try {
             $all_connections =
                 $this->getConnectionsFromOriginsToDestination(

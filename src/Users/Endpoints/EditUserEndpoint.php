@@ -2,14 +2,22 @@
 
 namespace Olz\Users\Endpoints;
 
-use Olz\Api\OlzEditEntityEndpoint;
+use Olz\Api\OlzEditEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class EditUserEndpoint extends OlzEditEntityEndpoint {
+/**
+ * @phpstan-import-type OlzUserId from UserEndpointTrait
+ * @phpstan-import-type OlzUserData from UserEndpointTrait
+ *
+ * @extends OlzEditEntityTypedEndpoint<OlzUserId, OlzUserData>
+ */
+class EditUserEndpoint extends OlzEditEntityTypedEndpoint {
     use UserEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'EditUserEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureUserEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(UserEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

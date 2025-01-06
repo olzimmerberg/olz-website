@@ -15,11 +15,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Service\Endpoints\GetDownloadEndpoint
  */
 final class GetDownloadEndpointTest extends UnitTestCase {
-    public function testGetDownloadEndpointIdent(): void {
-        $endpoint = new GetDownloadEndpoint();
-        $this->assertSame('GetDownloadEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetDownloadEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetDownloadEndpoint();
@@ -52,7 +47,7 @@ final class GetDownloadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 12,
             'meta' => [
                 'ownerUserId' => null,
@@ -80,7 +75,7 @@ final class GetDownloadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 123,
             'meta' => [
                 'ownerUserId' => null,
@@ -114,7 +109,7 @@ final class GetDownloadEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 1234,
             'meta' => [
                 'ownerUserId' => 1,

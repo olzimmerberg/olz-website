@@ -17,11 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  * @covers \Olz\Api\Endpoints\OnContinuouslyEndpoint
  */
 final class OnContinuouslyEndpointTest extends UnitTestCase {
-    public function testOnContinuouslyEndpointIdent(): void {
-        $endpoint = new OnContinuouslyEndpoint();
-        $this->assertSame('OnContinuouslyEndpoint', $endpoint->getIdent());
-    }
-
     public function testOnContinuouslyEndpointParseInput(): void {
         $get_params = ['authenticityCode' => 'some-token'];
         $request = new Request($get_params);

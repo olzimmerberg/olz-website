@@ -22,11 +22,6 @@ class FakeGetAuthenticatedUserEndpointAuthUtils {
  * @covers \Olz\Api\Endpoints\GetAuthenticatedUserEndpoint
  */
 final class GetAuthenticatedUserEndpointTest extends UnitTestCase {
-    public function testGetAuthenticatedUserEndpointIdent(): void {
-        $endpoint = new GetAuthenticatedUserEndpoint();
-        $this->assertSame('GetAuthenticatedUserEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetAuthenticatedUserEndpoint(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         $endpoint = new GetAuthenticatedUserEndpoint();

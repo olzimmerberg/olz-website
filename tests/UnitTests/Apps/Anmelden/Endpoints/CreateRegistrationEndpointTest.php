@@ -78,7 +78,6 @@ final class CreateRegistrationEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 'Registration:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');

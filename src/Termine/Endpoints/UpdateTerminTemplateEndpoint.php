@@ -2,14 +2,22 @@
 
 namespace Olz\Termine\Endpoints;
 
-use Olz\Api\OlzUpdateEntityEndpoint;
+use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateTerminTemplateEndpoint extends OlzUpdateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzTerminTemplateId from TerminTemplateEndpointTrait
+ * @phpstan-import-type OlzTerminTemplateData from TerminTemplateEndpointTrait
+ *
+ * @extends OlzUpdateEntityTypedEndpoint<OlzTerminTemplateId, OlzTerminTemplateData>
+ */
+class UpdateTerminTemplateEndpoint extends OlzUpdateEntityTypedEndpoint {
     use TerminTemplateEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'UpdateTerminTemplateEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureTerminTemplateEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(TerminTemplateEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -29,7 +37,6 @@ class UpdateTerminTemplateEndpoint extends OlzUpdateEntityEndpoint {
         $this->persistUploads($entity, $input['data']);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

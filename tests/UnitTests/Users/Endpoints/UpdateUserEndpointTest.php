@@ -75,11 +75,6 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         ],
     ];
 
-    public function testUpdateUserEndpointIdent(): void {
-        $endpoint = new UpdateUserEndpoint();
-        $this->assertSame('UpdateUserEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateUserEndpointWrongUsername(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
@@ -223,7 +218,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             "NOTICE NEW:",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(['status' => 'OK', 'id' => 2], $result);
+        $this->assertEquals(['custom' => ['status' => 'OK'], 'id' => 2], $result);
         $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('test', $admin_user->getUsername());
@@ -277,7 +272,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             "NOTICE NEW:",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(['status' => 'OK', 'id' => 2], $result);
+        $this->assertEquals(['custom' => ['status' => 'OK'], 'id' => 2], $result);
         $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('test', $admin_user->getUsername());
@@ -347,7 +342,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             "NOTICE NEW:",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(['status' => 'OK', 'id' => 2], $result);
+        $this->assertEquals(['custom' => ['status' => 'OK'], 'id' => 2], $result);
         $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('test', $admin_user->getUsername());
@@ -513,7 +508,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             "NOTICE NEW:",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame(['status' => 'OK', 'id' => 2], $result);
+        $this->assertEquals(['custom' => ['status' => 'OK'], 'id' => 2], $result);
         $admin_user = FakeUser::adminUser();
         $this->assertSame(2, $admin_user->getId());
         $this->assertSame('test', $admin_user->getUsername());

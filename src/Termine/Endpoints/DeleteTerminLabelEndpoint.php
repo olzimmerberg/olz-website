@@ -2,14 +2,21 @@
 
 namespace Olz\Termine\Endpoints;
 
-use Olz\Api\OlzDeleteEntityEndpoint;
+use Olz\Api\OlzDeleteEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteTerminLabelEndpoint extends OlzDeleteEntityEndpoint {
+/**
+ * @phpstan-import-type OlzTerminLabelId from TerminLabelEndpointTrait
+ * @phpstan-import-type OlzTerminLabelData from TerminLabelEndpointTrait
+ *
+ * @extends OlzDeleteEntityTypedEndpoint<OlzTerminLabelId, OlzTerminLabelData>
+ */
+class DeleteTerminLabelEndpoint extends OlzDeleteEntityTypedEndpoint {
     use TerminLabelEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'DeleteTerminLabelEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(TerminLabelEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -25,6 +32,6 @@ class DeleteTerminLabelEndpoint extends OlzDeleteEntityEndpoint {
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

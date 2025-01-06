@@ -2,14 +2,22 @@
 
 namespace Olz\Termine\Endpoints;
 
-use Olz\Api\OlzCreateEntityEndpoint;
+use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Termine\TerminTemplate;
 
-class CreateTerminTemplateEndpoint extends OlzCreateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzTerminTemplateId from TerminTemplateEndpointTrait
+ * @phpstan-import-type OlzTerminTemplateData from TerminTemplateEndpointTrait
+ *
+ * @extends OlzCreateEntityTypedEndpoint<OlzTerminTemplateId, OlzTerminTemplateData>
+ */
+class CreateTerminTemplateEndpoint extends OlzCreateEntityTypedEndpoint {
     use TerminTemplateEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'CreateTerminTemplateEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureTerminTemplateEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(TerminTemplateEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -24,7 +32,6 @@ class CreateTerminTemplateEndpoint extends OlzCreateEntityEndpoint {
         $this->persistUploads($entity, $input['data']);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

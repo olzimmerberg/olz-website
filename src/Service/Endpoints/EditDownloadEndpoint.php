@@ -2,14 +2,21 @@
 
 namespace Olz\Service\Endpoints;
 
-use Olz\Api\OlzEditEntityEndpoint;
+use Olz\Api\OlzEditEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class EditDownloadEndpoint extends OlzEditEntityEndpoint {
+/**
+ * @phpstan-import-type OlzDownloadId from DownloadEndpointTrait
+ * @phpstan-import-type OlzDownloadData from DownloadEndpointTrait
+ *
+ * @extends OlzEditEntityTypedEndpoint<OlzDownloadId, OlzDownloadData>
+ */
+class EditDownloadEndpoint extends OlzEditEntityTypedEndpoint {
     use DownloadEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'EditDownloadEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(DownloadEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

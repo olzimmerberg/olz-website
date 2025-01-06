@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Termine\Endpoints\ListTerminLabelsEndpoint
  */
 final class ListTerminLabelsEndpointTest extends UnitTestCase {
-    public function testListTerminLabelsEndpointIdent(): void {
-        $endpoint = new ListTerminLabelsEndpoint();
-        $this->assertSame('ListTerminLabelsEndpoint', $endpoint->getIdent());
-    }
-
     public function testListTerminLabelsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new ListTerminLabelsEndpoint();

@@ -38,7 +38,6 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         ]);
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 'Booking:'.Fake\FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');

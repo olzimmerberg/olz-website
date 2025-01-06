@@ -2,13 +2,20 @@
 
 namespace Olz\Roles\Endpoints;
 
-use Olz\Api\OlzGetEntityEndpoint;
+use Olz\Api\OlzGetEntityTypedEndpoint;
 
-class GetRoleEndpoint extends OlzGetEntityEndpoint {
+/**
+ * @phpstan-import-type OlzRoleId from RoleEndpointTrait
+ * @phpstan-import-type OlzRoleData from RoleEndpointTrait
+ *
+ * @extends OlzGetEntityTypedEndpoint<OlzRoleId, OlzRoleData>
+ */
+class GetRoleEndpoint extends OlzGetEntityTypedEndpoint {
     use RoleEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'GetRoleEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(RoleEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

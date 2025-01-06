@@ -4,33 +4,20 @@ namespace Olz\Snippets\Endpoints;
 
 use Olz\Entity\Snippets\Snippet;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+/**
+ * @phpstan-type OlzSnippetId int
+ * @phpstan-type OlzSnippetData array{
+ *   text: string,
+ *   imageIds: array<non-empty-string>,
+ *   fileIds: array<non-empty-string>,
+ * }
+ */
 trait SnippetEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return false;
-    }
-
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzSnippetDataOrNull' : 'OlzSnippetData',
-            'field_structure' => [
-                'text' => new FieldTypes\StringField(['allow_empty' => true]),
-                'imageIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-                'fileIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzSnippetData */
     public function getEntityData(Snippet $entity): array {
         return [
             'text' => $entity->getText() ?? '',
@@ -39,12 +26,12 @@ trait SnippetEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzSnippetData $input_data */
     public function updateEntityWithData(Snippet $entity, array $input_data): void {
         $entity->setText($input_data['text']);
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzSnippetData $input_data */
     public function persistUploads(Snippet $entity, array $input_data): void {
         $this->persistOlzImages($entity, $input_data['imageIds']);
         $this->persistOlzFiles($entity, $input_data['fileIds']);

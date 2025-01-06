@@ -15,11 +15,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Karten\Endpoints\GetKarteEndpoint
  */
 final class GetKarteEndpointTest extends UnitTestCase {
-    public function testGetKarteEndpointIdent(): void {
-        $endpoint = new GetKarteEndpoint();
-        $this->assertSame('GetKarteEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetKarteEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetKarteEndpoint();

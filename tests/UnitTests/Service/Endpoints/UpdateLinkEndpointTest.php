@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Service\Endpoints\UpdateLinkEndpoint
  */
 final class UpdateLinkEndpointTest extends UnitTestCase {
-    public function testUpdateLinkEndpointIdent(): void {
-        $endpoint = new UpdateLinkEndpoint();
-        $this->assertSame('UpdateLinkEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateLinkEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new UpdateLinkEndpoint();
@@ -147,7 +142,6 @@ final class UpdateLinkEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 123,
         ], $result);
 

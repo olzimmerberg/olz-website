@@ -2,14 +2,24 @@
 
 namespace Olz\Karten\Endpoints;
 
-use Olz\Api\OlzDeleteEntityEndpoint;
+use Olz\Api\OlzDeleteEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteKarteEndpoint extends OlzDeleteEntityEndpoint {
+/**
+ * @phpstan-import-type OlzKarteId from KarteEndpointTrait
+ * @phpstan-import-type OlzKarteData from KarteEndpointTrait
+ *
+ * TODO: Those should not be necessary!
+ * @phpstan-import-type OlzKarteKind from KarteEndpointTrait
+ *
+ * @extends OlzDeleteEntityTypedEndpoint<OlzKarteId, OlzKarteData>
+ */
+class DeleteKarteEndpoint extends OlzDeleteEntityTypedEndpoint {
     use KarteEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'DeleteKarteEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(KarteEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -25,6 +35,6 @@ class DeleteKarteEndpoint extends OlzDeleteEntityEndpoint {
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

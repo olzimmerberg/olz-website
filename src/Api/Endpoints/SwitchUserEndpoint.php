@@ -2,30 +2,21 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
-class SwitchUserEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'SwitchUserEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'userId' => new FieldTypes\IntegerField(['min_value' => 1]),
-        ]]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   array{
+ *     userId: int<1, max>,
+ *   },
+ *   array{
+ *     status: 'OK',
+ *   }
+ * >
+ */
+class SwitchUserEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $input['userId']]);

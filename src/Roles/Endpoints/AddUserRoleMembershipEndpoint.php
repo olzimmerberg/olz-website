@@ -2,14 +2,20 @@
 
 namespace Olz\Roles\Endpoints;
 
-use Olz\Api\OlzAddRelationEndpoint;
+use Olz\Api\OlzAddRelationTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class AddUserRoleMembershipEndpoint extends OlzAddRelationEndpoint {
+/**
+ * @phpstan-import-type OlzRoleMembershipIds from UserRoleMembershipEndpointTrait
+ *
+ * @extends OlzAddRelationTypedEndpoint<OlzRoleMembershipIds>
+ */
+class AddUserRoleMembershipEndpoint extends OlzAddRelationTypedEndpoint {
     use UserRoleMembershipEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'AddUserRoleMembershipEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(UserRoleMembershipEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -28,6 +34,6 @@ class AddUserRoleMembershipEndpoint extends OlzAddRelationEndpoint {
         $this->entityManager()->persist($user);
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

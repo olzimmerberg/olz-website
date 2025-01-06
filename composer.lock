@@ -68,16 +68,16 @@
         },
         {
             "name": "allestuetsmerweh/php-typescript-api",
-            "version": "2.6.10",
+            "version": "2.6.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/allestuetsmerweh/php-typescript-api.git",
-                "reference": "74640d638daa2d6e3aa556a673220734966fb993"
+                "reference": "6eb2a49db1e686623b0e438f37fe6adbb4ee2cc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/allestuetsmerweh/php-typescript-api/zipball/74640d638daa2d6e3aa556a673220734966fb993",
-                "reference": "74640d638daa2d6e3aa556a673220734966fb993",
+                "url": "https://api.github.com/repos/allestuetsmerweh/php-typescript-api/zipball/6eb2a49db1e686623b0e438f37fe6adbb4ee2cc4",
+                "reference": "6eb2a49db1e686623b0e438f37fe6adbb4ee2cc4",
                 "shasum": ""
             },
             "require": {
@@ -119,9 +119,9 @@
             ],
             "support": {
                 "issues": "https://github.com/allestuetsmerweh/php-typescript-api/issues",
-                "source": "https://github.com/allestuetsmerweh/php-typescript-api/tree/2.6.10"
+                "source": "https://github.com/allestuetsmerweh/php-typescript-api/tree/2.6.12"
             },
-            "time": "2025-01-06T20:23:51+00:00"
+            "time": "2025-01-10T16:08:41+00:00"
         },
         {
             "name": "artgris/filemanager-bundle",
@@ -2870,12 +2870,12 @@
             "version": "2.72.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/briannesbitt/Carbon.git",
+                "url": "https://github.com/CarbonPHP/carbon.git",
                 "reference": "1e9d50601e7035a4c61441a208cb5bed73e108c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1e9d50601e7035a4c61441a208cb5bed73e108c5",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/1e9d50601e7035a4c61441a208cb5bed73e108c5",
                 "reference": "1e9d50601e7035a4c61441a208cb5bed73e108c5",
                 "shasum": ""
             },

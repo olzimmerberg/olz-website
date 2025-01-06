@@ -42,11 +42,6 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         ];
     }
 
-    public function testUpdateRoleEndpointIdent(): void {
-        $endpoint = new UpdateRoleEndpoint();
-        $this->assertSame('UpdateRoleEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateRoleEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
@@ -141,7 +136,6 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => $id,
         ], $result);
 
@@ -211,7 +205,6 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => $id,
         ], $result);
 
@@ -290,7 +283,6 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => $id,
         ], $result);
 

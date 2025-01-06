@@ -17,11 +17,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Roles\Endpoints\DeleteRoleEndpoint
  */
 final class DeleteRoleEndpointTest extends UnitTestCase {
-    public function testDeleteRoleEndpointIdent(): void {
-        $endpoint = new DeleteRoleEndpoint();
-        $this->assertSame('DeleteRoleEndpoint', $endpoint->getIdent());
-    }
-
     public function testDeleteRoleEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
@@ -83,9 +78,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame([], $result);
 
         $this->assertSame([
             [FakeRole::minimal(), null, null, null, null, 'roles'],

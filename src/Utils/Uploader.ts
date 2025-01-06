@@ -74,7 +74,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
 
     public async add(base64Content: string, suffix: string|null): Promise<FileUploadId> {
         const response = await this.olzApi.call('startUpload', {suffix});
-        const uploadId: FileUploadId|null = response.id;
+        const uploadId: FileUploadId|null = response.id ?? null;
         if (!uploadId) {
             throw new Error('olzApi.startUpload did not return an id');
         }

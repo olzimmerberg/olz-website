@@ -19,11 +19,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Api\Endpoints\LoginEndpoint
  */
 final class LoginEndpointTest extends UnitTestCase {
-    public function testLoginEndpointIdent(): void {
-        $endpoint = new LoginEndpoint();
-        $this->assertSame('LoginEndpoint', $endpoint->getIdent());
-    }
-
     public function testLoginEndpointWithoutInput(): void {
         $endpoint = new LoginEndpoint();
         $endpoint->runtimeSetup();
@@ -55,9 +50,9 @@ final class LoginEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'usernameOrEmail' => [['.' => ['Feld darf nicht leer sein.']]],
-                'password' => [['.' => ['Feld darf nicht leer sein.']]],
-                'rememberMe' => [['.' => ['Feld darf nicht leer sein.']]],
+                'usernameOrEmail' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
+                'password' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
+                'rememberMe' => [['.' => ['Wert muss vom Typ bool sein.']]],
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([

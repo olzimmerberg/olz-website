@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Service\Endpoints\EditDownloadEndpoint
  */
 final class EditDownloadEndpointTest extends UnitTestCase {
-    public function testEditDownloadEndpointIdent(): void {
-        $endpoint = new EditDownloadEndpoint();
-        $this->assertSame('EditDownloadEndpoint', $endpoint->getIdent());
-    }
-
     public function testEditDownloadEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new EditDownloadEndpoint();
@@ -103,7 +98,7 @@ final class EditDownloadEndpointTest extends UnitTestCase {
             [FakeDownload::minimal(), null, null, null, null, 'downloads'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 12,
             'meta' => [
                 'ownerUserId' => null,
@@ -137,7 +132,7 @@ final class EditDownloadEndpointTest extends UnitTestCase {
             [FakeDownload::empty(), null, null, null, null, 'downloads'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 123,
             'meta' => [
                 'ownerUserId' => null,
@@ -177,7 +172,7 @@ final class EditDownloadEndpointTest extends UnitTestCase {
             [FakeDownload::maximal(), 'default', 'default', 'role', null, 'downloads'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 1234,
             'meta' => [
                 'ownerUserId' => 1,

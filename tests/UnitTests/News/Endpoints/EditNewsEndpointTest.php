@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\News\Endpoints\EditNewsEndpoint
  */
 final class EditNewsEndpointTest extends UnitTestCase {
-    public function testEditNewsEndpointIdent(): void {
-        $endpoint = new EditNewsEndpoint();
-        $this->assertSame('EditNewsEndpoint', $endpoint->getIdent());
-    }
-
     public function testEditNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new EditNewsEndpoint();

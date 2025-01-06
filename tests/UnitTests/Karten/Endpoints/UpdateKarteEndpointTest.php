@@ -37,11 +37,6 @@ final class UpdateKarteEndpointTest extends UnitTestCase {
         ],
     ];
 
-    public function testUpdateKarteEndpointIdent(): void {
-        $endpoint = new UpdateKarteEndpoint();
-        $this->assertSame('UpdateKarteEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateKarteEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new UpdateKarteEndpoint();
@@ -124,7 +119,6 @@ final class UpdateKarteEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 123,
         ], $result);
         $this->assertSame([

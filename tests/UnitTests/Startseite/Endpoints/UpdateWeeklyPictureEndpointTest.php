@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Startseite\Endpoints\UpdateWeeklyPictureEndpoint
  */
 final class UpdateWeeklyPictureEndpointTest extends UnitTestCase {
-    public function testUpdateWeeklyPictureEndpointIdent(): void {
-        $endpoint = new UpdateWeeklyPictureEndpoint();
-        $this->assertSame('UpdateWeeklyPictureEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateWeeklyPictureEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new UpdateWeeklyPictureEndpoint();
@@ -155,7 +150,6 @@ final class UpdateWeeklyPictureEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 123,
         ], $result);
 
@@ -219,7 +213,6 @@ final class UpdateWeeklyPictureEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 123,
         ], $result);
 

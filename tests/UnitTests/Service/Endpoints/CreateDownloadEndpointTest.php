@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Service\Endpoints\CreateDownloadEndpoint
  */
 final class CreateDownloadEndpointTest extends UnitTestCase {
-    public function testCreateDownloadEndpointIdent(): void {
-        $endpoint = new CreateDownloadEndpoint();
-        $this->assertSame('CreateDownloadEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateDownloadEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['downloads' => false];
         $endpoint = new CreateDownloadEndpoint();
@@ -81,7 +76,6 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');

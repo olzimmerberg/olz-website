@@ -15,11 +15,6 @@ use Olz\Utils\WithUtilsCache;
  * @covers \Olz\Api\Endpoints\GetAuthenticatedRolesEndpoint
  */
 final class GetAuthenticatedRolesEndpointTest extends UnitTestCase {
-    public function testGetAuthenticatedRolesEndpointIdent(): void {
-        $endpoint = new GetAuthenticatedRolesEndpoint();
-        $this->assertSame('GetAuthenticatedRolesEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetAuthenticatedRolesEndpoint(): void {
         WithUtilsCache::get('authUtils')->authenticated_roles = [
             FakeRole::adminRole(),

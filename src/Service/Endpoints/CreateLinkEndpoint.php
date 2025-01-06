@@ -2,14 +2,21 @@
 
 namespace Olz\Service\Endpoints;
 
-use Olz\Api\OlzCreateEntityEndpoint;
+use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Service\Link;
 
-class CreateLinkEndpoint extends OlzCreateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzLinkId from LinkEndpointTrait
+ * @phpstan-import-type OlzLinkData from LinkEndpointTrait
+ *
+ * @extends OlzCreateEntityTypedEndpoint<OlzLinkId, OlzLinkData>
+ */
+class CreateLinkEndpoint extends OlzCreateEntityTypedEndpoint {
     use LinkEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'CreateLinkEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(LinkEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -23,7 +30,6 @@ class CreateLinkEndpoint extends OlzCreateEntityEndpoint {
         $this->entityManager()->flush();
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

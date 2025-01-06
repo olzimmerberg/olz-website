@@ -2,33 +2,31 @@
 
 namespace Olz\News\Endpoints;
 
-use Olz\Api\OlzCreateEntityEndpoint;
+use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use Symfony\Component\Mime\Email;
 
-class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzNewsId from NewsEndpointTrait
+ * @phpstan-import-type OlzNewsData from NewsEndpointTrait
+ *
+ * TODO: Those should not be necessary!
+ * @phpstan-import-type OlzNewsFormat from NewsEndpointTrait
+ *
+ * @extends OlzCreateEntityTypedEndpoint<OlzNewsId, OlzNewsData, array{
+ *   recaptchaToken?: ?non-empty-string,
+ * }, array{
+ *   status: 'OK'|'DENIED'|'ERROR',
+ * }>
+ */
+class CreateNewsEndpoint extends OlzCreateEntityTypedEndpoint {
     use NewsEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'CreateNewsEndpoint';
-    }
-
-    protected function getCustomRequestField(): ?FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [
-                'recaptchaToken' => new FieldTypes\StringField(['allow_null' => true]),
-            ],
-        ]);
-    }
-
-    protected function getStatusField(): FieldTypes\Field {
-        return new FieldTypes\EnumField(['allowed_values' => [
-            'OK',
-            'DENIED',
-            'ERROR',
-        ]]);
+    public function configure(): void {
+        parent::configure();
+        $this->configureNewsEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(NewsEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -48,7 +46,7 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         $token = $input['custom']['recaptchaToken'] ?? null;
         $is_valid_token = $token ? $this->recaptchaUtils()->validateRecaptchaToken($token) : false;
         if ($format === 'anonymous' && !$is_valid_token) {
-            return ['status' => 'DENIED', 'id' => null];
+            return ['custom' => ['status' => 'DENIED'], 'id' => null];
         }
 
         $news_entry = new NewsEntry();
@@ -99,7 +97,7 @@ class CreateNewsEndpoint extends OlzCreateEntityEndpoint {
         }
 
         return [
-            'status' => 'OK',
+            'custom' => ['status' => 'OK'],
             'id' => $news_entry->getId(),
         ];
     }

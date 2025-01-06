@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Users\Endpoints\GetUserEndpoint
  */
 final class GetUserEndpointTest extends UnitTestCase {
-    public function testGetUserEndpointIdent(): void {
-        $endpoint = new GetUserEndpoint();
-        $this->assertSame('GetUserEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetUserEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['users' => false];
         $endpoint = new GetUserEndpoint();

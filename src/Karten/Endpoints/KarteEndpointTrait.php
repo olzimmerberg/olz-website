@@ -4,48 +4,30 @@ namespace Olz\Karten\Endpoints;
 
 use Olz\Entity\Karten\Karte;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+/**
+ * Note: `latitude` may be from -90.0 to 90.0, `longitude` from -180.0 to 180.0.
+ *
+ * @phpstan-type OlzKarteId int<1, max>
+ * @phpstan-type OlzKarteData array{
+ *   kartennr?: ?int,
+ *   name: non-empty-string,
+ *   latitude?: ?float,
+ *   longitude?: ?float,
+ *   year?: ?int,
+ *   scale?: ?non-empty-string,
+ *   place?: ?non-empty-string,
+ *   zoom?: ?int,
+ *   kind?: ?OlzKarteKind,
+ *   previewImageId?: ?non-empty-string,
+ * }
+ * @phpstan-type OlzKarteKind 'ol'|'stadt'|'scool'
+ */
 trait KarteEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return false;
-    }
-
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzKarteDataOrNull' : 'OlzKarteData',
-            'field_structure' => [
-                'kartennr' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'name' => new FieldTypes\StringField([]),
-                'latitude' => new FieldTypes\NumberField([
-                    'min_value' => -90,
-                    'max_value' => 90,
-                    'allow_null' => true,
-                ]),
-                'longitude' => new FieldTypes\NumberField([
-                    'min_value' => -180,
-                    'max_value' => 180,
-                    'allow_null' => true,
-                ]),
-                'year' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'scale' => new FieldTypes\StringField(['allow_null' => true]),
-                'place' => new FieldTypes\StringField(['allow_null' => true]),
-                'zoom' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'kind' => new FieldTypes\EnumField([
-                    'export_as' => 'OlzKarteKind',
-                    'allow_null' => true,
-                    'allowed_values' => ['ol', 'stadt', 'scool'],
-                ]),
-                'previewImageId' => new FieldTypes\StringField(['allow_null' => true]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzKarteData */
     public function getEntityData(Karte $entity): array {
         $name = $entity->getName();
         $latitude = $entity->getLatitude();
@@ -70,7 +52,7 @@ trait KarteEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzKarteData $input_data */
     public function updateEntityWithData(Karte $entity, array $input_data): void {
         $valid_preview_image_id = $this->uploadUtils()->getValidUploadId($input_data['previewImageId']);
 
@@ -78,7 +60,7 @@ trait KarteEndpointTrait {
         $entity->setName($input_data['name']);
         $entity->setLatitude($input_data['latitude']);
         $entity->setLongitude($input_data['longitude']);
-        $entity->setYear($input_data['year']);
+        $entity->setYear(strval($input_data['year']));
         $entity->setScale($input_data['scale']);
         $entity->setPlace($input_data['place']);
         $entity->setZoom($input_data['zoom']);
@@ -86,7 +68,7 @@ trait KarteEndpointTrait {
         $entity->setPreviewImageId($valid_preview_image_id);
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzKarteData $input_data */
     public function persistUploads(Karte $entity, array $input_data): void {
         $this->persistOlzImages($entity, [$entity->getPreviewImageId()]);
     }

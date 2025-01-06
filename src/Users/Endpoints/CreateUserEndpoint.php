@@ -2,42 +2,36 @@
 
 namespace Olz\Users\Endpoints;
 
-use Olz\Api\OlzCreateEntityEndpoint;
+use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
-class CreateUserEndpoint extends OlzCreateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzUserId from UserEndpointTrait
+ * @phpstan-import-type OlzUserData from UserEndpointTrait
+ *
+ * @extends OlzCreateEntityTypedEndpoint<OlzUserId, OlzUserData, array{
+ *   recaptchaToken?: ?non-empty-string,
+ * }, array{
+ *   status: 'OK'|'OK_NO_EMAIL_VERIFICATION'|'DENIED'|'ERROR',
+ * }>
+ */
+class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
     use UserEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'CreateUserEndpoint';
-    }
-
-    protected function getCustomRequestField(): ?FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [
-                'recaptchaToken' => new FieldTypes\StringField(['allow_null' => true]),
-            ],
-        ]);
-    }
-
-    protected function getStatusField(): FieldTypes\Field {
-        return new FieldTypes\EnumField(['allowed_values' => [
-            'OK',
-            'OK_NO_EMAIL_VERIFICATION',
-            'DENIED',
-            'ERROR',
-        ]]);
+    public function configure(): void {
+        parent::configure();
+        $this->configureUserEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(UserEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
         $current_user = $this->authUtils()->getCurrentUser();
         $token = $input['custom']['recaptchaToken'];
         if (!$current_user && !$this->recaptchaUtils()->validateRecaptchaToken($token)) {
-            return ['status' => 'DENIED', 'id' => null];
+            return ['custom' => ['status' => 'DENIED'], 'id' => null];
         }
 
         $parent_user_id = $input['data']['parentUserId'];
@@ -143,7 +137,7 @@ class CreateUserEndpoint extends OlzCreateEntityEndpoint {
                 $this->emailUtils()->sendEmailVerificationEmail($entity);
             } catch (\Throwable $th) {
                 return [
-                    'status' => 'OK_NO_EMAIL_VERIFICATION',
+                    'custom' => ['status' => 'OK_NO_EMAIL_VERIFICATION'],
                     'id' => $entity->getId(),
                 ];
             }
@@ -151,7 +145,7 @@ class CreateUserEndpoint extends OlzCreateEntityEndpoint {
         }
 
         return [
-            'status' => 'OK',
+            'custom' => ['status' => 'OK'],
             'id' => $entity->getId(),
         ];
     }

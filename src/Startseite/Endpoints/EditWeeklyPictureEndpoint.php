@@ -2,14 +2,22 @@
 
 namespace Olz\Startseite\Endpoints;
 
-use Olz\Api\OlzEditEntityEndpoint;
+use Olz\Api\OlzEditEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class EditWeeklyPictureEndpoint extends OlzEditEntityEndpoint {
+/**
+ * @phpstan-import-type OlzWeeklyPictureId from WeeklyPictureEndpointTrait
+ * @phpstan-import-type OlzWeeklyPictureData from WeeklyPictureEndpointTrait
+ *
+ * @extends OlzEditEntityTypedEndpoint<OlzWeeklyPictureId, OlzWeeklyPictureData>
+ */
+class EditWeeklyPictureEndpoint extends OlzEditEntityTypedEndpoint {
     use WeeklyPictureEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'EditWeeklyPictureEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureWeeklyPictureEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(WeeklyPictureEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

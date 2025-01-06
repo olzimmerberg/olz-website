@@ -47,7 +47,7 @@ export const OlzAddRoleUserModal = (props: OlzAddRoleUserModalProps): React.Reac
             roleId: props.roleId,
             userId: assert(data.newUser),
         }});
-        if (err || response.status !== 'OK') {
+        if (err) {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             setIsSubmitting(false);

@@ -18,11 +18,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Snippets\Endpoints\EditSnippetEndpoint
  */
 final class EditSnippetEndpointTest extends UnitTestCase {
-    public function testEditSnippetEndpointIdent(): void {
-        $endpoint = new EditSnippetEndpoint();
-        $this->assertSame('EditSnippetEndpoint', $endpoint->getIdent());
-    }
-
     public function testEditSnippetEndpointNoAccess(): void {
         $id = FakeOlzRepository::EMPTY_ID;
         WithUtilsCache::get('authUtils')->has_permission_by_query = ["snippet_{$id}" => false];

@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Service\Endpoints\EditLinkEndpoint
  */
 final class EditLinkEndpointTest extends UnitTestCase {
-    public function testEditLinkEndpointIdent(): void {
-        $endpoint = new EditLinkEndpoint();
-        $this->assertSame('EditLinkEndpoint', $endpoint->getIdent());
-    }
-
     public function testEditLinkEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new EditLinkEndpoint();
@@ -103,7 +98,7 @@ final class EditLinkEndpointTest extends UnitTestCase {
             [FakeLink::minimal(), null, null, null, null, 'links'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 12,
             'meta' => [
                 'ownerUserId' => null,
@@ -137,7 +132,7 @@ final class EditLinkEndpointTest extends UnitTestCase {
             [FakeLink::empty(), null, null, null, null, 'links'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 123,
             'meta' => [
                 'ownerUserId' => null,
@@ -171,7 +166,7 @@ final class EditLinkEndpointTest extends UnitTestCase {
             [FakeLink::maximal(), 'default', 'default', 'role', null, 'links'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 1234,
             'meta' => [
                 'ownerUserId' => 1,

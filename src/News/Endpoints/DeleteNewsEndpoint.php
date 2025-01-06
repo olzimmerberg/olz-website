@@ -2,14 +2,25 @@
 
 namespace Olz\News\Endpoints;
 
-use Olz\Api\OlzDeleteEntityEndpoint;
+use Olz\Api\OlzDeleteEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
+/**
+ * @phpstan-import-type OlzNewsId from NewsEndpointTrait
+ * @phpstan-import-type OlzNewsData from NewsEndpointTrait
+ *
+ * TODO: Those should not be necessary!
+ * @phpstan-import-type OlzNewsFormat from NewsEndpointTrait
+ *
+ * @extends OlzDeleteEntityTypedEndpoint<OlzNewsId, OlzNewsData>
+ */
+class DeleteNewsEndpoint extends OlzDeleteEntityTypedEndpoint {
     use NewsEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'DeleteNewsEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureNewsEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(NewsEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -25,6 +36,6 @@ class DeleteNewsEndpoint extends OlzDeleteEntityEndpoint {
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

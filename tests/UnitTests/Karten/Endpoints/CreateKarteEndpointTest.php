@@ -36,11 +36,6 @@ final class CreateKarteEndpointTest extends UnitTestCase {
         ],
     ];
 
-    public function testCreateKarteEndpointIdent(): void {
-        $endpoint = new CreateKarteEndpoint();
-        $this->assertSame('CreateKarteEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateKarteEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['karten' => false];
         $endpoint = new CreateKarteEndpoint();
@@ -76,7 +71,6 @@ final class CreateKarteEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');

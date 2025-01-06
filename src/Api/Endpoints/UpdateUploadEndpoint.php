@@ -2,31 +2,21 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Api\OlzTypedEndpoint;
 
-class UpdateUploadEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'UpdateUploadEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => new FieldTypes\StringField(['allow_null' => false]),
-            'part' => new FieldTypes\IntegerField(['allow_null' => false, 'min_value' => 0, 'max_value' => 1000]),
-            'content' => new FieldTypes\StringField(['allow_null' => false]),
-        ]]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   array{
+ *     id: non-empty-string,
+ *     part: int<0, 1000>,
+ *     content:  non-empty-string,
+ *   },
+ *   array{
+ *     status: 'OK'|'ERROR',
+ *   }
+ * >
+ */
+class UpdateUploadEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

@@ -2,14 +2,22 @@
 
 namespace Olz\Termine\Endpoints;
 
-use Olz\Api\OlzEditEntityEndpoint;
+use Olz\Api\OlzEditEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class EditTerminTemplateEndpoint extends OlzEditEntityEndpoint {
+/**
+ * @phpstan-import-type OlzTerminTemplateId from TerminTemplateEndpointTrait
+ * @phpstan-import-type OlzTerminTemplateData from TerminTemplateEndpointTrait
+ *
+ * @extends OlzEditEntityTypedEndpoint<OlzTerminTemplateId, OlzTerminTemplateData>
+ */
+class EditTerminTemplateEndpoint extends OlzEditEntityTypedEndpoint {
     use TerminTemplateEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'EditTerminTemplateEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureTerminTemplateEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(TerminTemplateEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

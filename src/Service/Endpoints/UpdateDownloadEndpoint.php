@@ -2,14 +2,21 @@
 
 namespace Olz\Service\Endpoints;
 
-use Olz\Api\OlzUpdateEntityEndpoint;
+use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateDownloadEndpoint extends OlzUpdateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzDownloadId from DownloadEndpointTrait
+ * @phpstan-import-type OlzDownloadData from DownloadEndpointTrait
+ *
+ * @extends OlzUpdateEntityTypedEndpoint<OlzDownloadId, OlzDownloadData>
+ */
+class UpdateDownloadEndpoint extends OlzUpdateEntityTypedEndpoint {
     use DownloadEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'UpdateDownloadEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(DownloadEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -29,7 +36,6 @@ class UpdateDownloadEndpoint extends OlzUpdateEntityEndpoint {
         $this->persistUploads($entity, $input['data']);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

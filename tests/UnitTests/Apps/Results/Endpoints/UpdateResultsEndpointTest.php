@@ -145,9 +145,7 @@ final class UpdateResultsEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame(['status' => 'OK'], $result);
 
         $this->assertSame(
             'fake-xml',
@@ -173,9 +171,7 @@ final class UpdateResultsEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame(['status' => 'OK'], $result);
 
         $this->assertSame(
             'fake-xml',
@@ -202,9 +198,7 @@ final class UpdateResultsEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame(['status' => 'OK'], $result);
 
         $this->assertSame(
             'fake-xml',

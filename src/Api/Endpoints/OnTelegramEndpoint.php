@@ -2,31 +2,21 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\TelegramLink;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
 
-class OnTelegramEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'OnTelegramEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [],
-            'allow_null' => true,
-        ]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'authenticityCode' => new FieldTypes\StringField([]),
-            'telegramEvent' => new FieldTypes\StringField([]),
-        ]]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   array{
+ *     authenticityCode: non-empty-string,
+ *     telegramEvent: non-empty-string,
+ *   },
+ *   ?array{}
+ * >
+ */
+class OnTelegramEndpoint extends OlzTypedEndpoint {
     public function parseInput(Request $request): mixed {
         return [
             'authenticityCode' => $request->query->get('authenticityCode'),

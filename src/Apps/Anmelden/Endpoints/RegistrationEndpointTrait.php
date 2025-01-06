@@ -6,7 +6,6 @@ use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\PhpStan\IsoDateTime;
-use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
  * @phpstan-type OlzRegistrationId non-empty-string
@@ -33,7 +32,7 @@ trait RegistrationEndpointTrait {
     use WithUtilsTrait;
 
     public function configureRegistrationEndpointTrait(): void {
-        PhpStanUtils::registerApiObject(IsoDateTime::class);
+        $this->phpStanUtils->registerApiObject(IsoDateTime::class);
     }
 
     /** @return OlzRegistrationData */
@@ -68,7 +67,7 @@ trait RegistrationEndpointTrait {
     public function updateEntityWithData(Registration $entity, array $input_data): void {
         $entity->setTitle($input_data['title']);
         $entity->setDescription($input_data['description']);
-        $entity->setOpensAt($input_data['opensAt'] ? new \DateTime($input_data['opensAt']) : null);
-        $entity->setClosesAt($input_data['closesAt'] ? new \DateTime($input_data['closesAt']) : null);
+        $entity->setOpensAt($input_data['opensAt']);
+        $entity->setClosesAt($input_data['closesAt']);
     }
 }

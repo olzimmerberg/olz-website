@@ -9,7 +9,6 @@ use Olz\Apps\Logs\Utils\LogsDefinitions;
 use Olz\Apps\Logs\Utils\PlainLogFile;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDateTime;
-use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
  * @phpstan-type OlzLogLevel 'debug'|'info'|'notice'|'warning'|'error'|'critical'|'alert'|'emergency'
@@ -31,7 +30,7 @@ use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 class GetLogsEndpoint extends OlzTypedEndpoint {
     public function configure(): void {
         parent::configure();
-        PhpStanUtils::registerApiObject(IsoDateTime::class);
+        $this->phpStanUtils->registerApiObject(IsoDateTime::class);
     }
 
     protected function handle(mixed $input): mixed {

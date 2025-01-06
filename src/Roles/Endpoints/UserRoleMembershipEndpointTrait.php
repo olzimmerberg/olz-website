@@ -5,20 +5,16 @@ namespace Olz\Roles\Endpoints;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+/**
+ * @phpstan-type OlzRoleMembershipIds array{
+ *   roleId: int<1, max>,
+ *   userId: int<1, max>,
+ * }
+ */
 trait UserRoleMembershipEndpointTrait {
     use WithUtilsTrait;
-
-    public function getIdsField(): FieldTypes\ObjectField {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [
-                'roleId' => new FieldTypes\IntegerField(['min_value' => 1]),
-                'userId' => new FieldTypes\IntegerField(['min_value' => 1]),
-            ],
-        ]);
-    }
 
     protected function getRoleEntityById(int $id): Role {
         $repo = $this->entityManager()->getRepository(Role::class);

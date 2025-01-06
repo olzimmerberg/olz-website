@@ -15,11 +15,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Service\Endpoints\GetLinkEndpoint
  */
 final class GetLinkEndpointTest extends UnitTestCase {
-    public function testGetLinkEndpointIdent(): void {
-        $endpoint = new GetLinkEndpoint();
-        $this->assertSame('GetLinkEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetLinkEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetLinkEndpoint();
@@ -52,7 +47,7 @@ final class GetLinkEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 12,
             'meta' => [
                 'ownerUserId' => null,
@@ -80,7 +75,7 @@ final class GetLinkEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 123,
             'meta' => [
                 'ownerUserId' => null,
@@ -108,7 +103,7 @@ final class GetLinkEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
+        $this->assertEquals([
             'id' => 1234,
             'meta' => [
                 'ownerUserId' => 1,

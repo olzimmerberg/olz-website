@@ -1,320 +1,76 @@
 /** ### This file is auto-generated, modifying is futile! ### */
 
-export type OlzAuthenticatedUser = {
-    'id': number,
-    'firstName': string,
-    'lastName': string,
-    'username': string,
-}|null;
+export type OlzAuthenticatedUser = {'id': number, 'firstName': string, 'lastName': string, 'username': string};
 
-export type OlzAuthenticatedRole = {
-    'id': number,
-    'name': string,
-    'username': string,
-};
+export type OlzAuthenticatedRole = {'id': number, 'name': string, 'username': string};
 
-export type OlzSearchableEntityTypes = 'SolvEvent'|'TerminLocation'|'TerminTemplate'|'Role'|'User';
+export type OlzSearchableEntityTypes = ('SolvEvent' | 'TerminLocation' | 'TerminTemplate' | 'Role' | 'User');
 
-export type OlzEntityResult = {
-    'id': number,
-    'title': string,
-};
+export type OlzEntityResult = {'id': number, 'title': string};
 
 export type OlzMetaData = {'ownerUserId': (number | null), 'ownerRoleId': (number | null), 'onOff': boolean};
 
-export type OlzDownloadData = {
-    'name': string,
-    'position': number|null,
-    'fileId': string|null,
-};
+export type OlzDownloadData = {'name': string, 'position'?: (number | null), 'fileId'?: (string | null)};
 
-export type OlzMetaDataOrNull = {
-    'ownerUserId': number|null,
-    'ownerRoleId': number|null,
-    'onOff': boolean,
-}|null;
+export type OlzDownloadId = number;
 
-export type OlzDownloadDataOrNull = {
-    'name': string,
-    'position': number|null,
-    'fileId': string|null,
-}|null;
+export type OlzKarteData = {'kartennr'?: (number | null), 'name': string, 'latitude'?: (number | null), 'longitude'?: (number | null), 'year'?: (number | null), 'scale'?: (string | null), 'place'?: (string | null), 'zoom'?: (number | null), 'kind'?: (OlzKarteKind | null), 'previewImageId'?: (string | null)};
 
-export type OlzKarteData = {
-    'kartennr': number|null,
-    'name': string,
-    'latitude': number|null,
-    'longitude': number|null,
-    'year': number|null,
-    'scale': string|null,
-    'place': string|null,
-    'zoom': number|null,
-    'kind': OlzKarteKind,
-    'previewImageId': string|null,
-};
+export type OlzKarteId = number;
 
-export type OlzKarteKind = 'ol'|'stadt'|'scool'|null;
+export type OlzKarteKind = ('ol' | 'stadt' | 'scool');
 
-export type OlzKarteDataOrNull = {
-    'kartennr': number|null,
-    'name': string,
-    'latitude': number|null,
-    'longitude': number|null,
-    'year': number|null,
-    'scale': string|null,
-    'place': string|null,
-    'zoom': number|null,
-    'kind': OlzKarteKind,
-    'previewImageId': string|null,
-}|null;
+export type OlzLinkData = {'position'?: (number | null), 'name': string, 'url': string};
 
-export type OlzLinkData = {
-    'position': number|null,
-    'name': string,
-    'url': string,
-};
+export type OlzLinkId = number;
 
-export type OlzLinkDataOrNull = {
-    'position': number|null,
-    'name': string,
-    'url': string,
-}|null;
+export type OlzNewsData = {'format': OlzNewsFormat, 'authorUserId'?: (number | null), 'authorRoleId'?: (number | null), 'authorName'?: (string | null), 'authorEmail'?: (string | null), 'publishAt'?: (IsoDateTime | null), 'title': string, 'teaser': string, 'content': string, 'externalUrl'?: (string | null), 'tags': Array<string>, 'terminId'?: (number | null), 'imageIds'?: (Array<string> | null), 'fileIds': Array<string>};
 
-export type OlzNewsData = {
-    'format': OlzNewsFormat,
-    'authorUserId': number|null,
-    'authorRoleId': number|null,
-    'authorName': string|null,
-    'authorEmail': string|null,
-    'publishAt': string|null,
-    'title': string,
-    'teaser': string,
-    'content': string,
-    'externalUrl': string|null,
-    'tags': Array<string>,
-    'terminId': number|null,
-    'imageIds': Array<string>|null,
-    'fileIds': Array<string>,
-};
+export type OlzNewsId = number;
 
-export type OlzNewsFormat = 'aktuell'|'kaderblog'|'forum'|'galerie'|'video'|'anonymous';
+export type OlzNewsFormat = ('aktuell' | 'kaderblog' | 'forum' | 'galerie' | 'video' | 'anonymous');
 
-export type OlzNewsDataOrNull = {
-    'format': OlzNewsFormat,
-    'authorUserId': number|null,
-    'authorRoleId': number|null,
-    'authorName': string|null,
-    'authorEmail': string|null,
-    'publishAt': string|null,
-    'title': string,
-    'teaser': string,
-    'content': string,
-    'externalUrl': string|null,
-    'tags': Array<string>,
-    'terminId': number|null,
-    'imageIds': Array<string>|null,
-    'fileIds': Array<string>,
-}|null;
+export type IsoDateTime = string;
 
-export type OlzRoleData = {
-    'username': string,
-    'name': string,
-    'title': string|null,
-    'description': string,
-    'guide': string,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-    'parentRole': number|null,
-    'indexWithinParent': number|null,
-    'featuredIndex': number|null,
-    'canHaveChildRoles': boolean,
-};
+export type OlzRoleData = {'username': string, 'name': string, 'title'?: (string | null), 'description': string, 'guide': string, 'imageIds': Array<string>, 'fileIds': Array<string>, 'parentRole'?: (number | null), 'indexWithinParent'?: (number | null), 'featuredIndex'?: (number | null), 'canHaveChildRoles': boolean};
 
-export type OlzRoleDataOrNull = {
-    'username': string,
-    'name': string,
-    'title': string|null,
-    'description': string,
-    'guide': string,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-    'parentRole': number|null,
-    'indexWithinParent': number|null,
-    'featuredIndex': number|null,
-    'canHaveChildRoles': boolean,
-}|null;
+export type OlzRoleId = number;
 
-export type OlzSnippetData = {
-    'text': string,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-};
+export type OlzRoleMembershipIds = {'roleId': number, 'userId': number};
 
-export type OlzSnippetDataOrNull = {
-    'text': string,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-}|null;
+export type OlzSnippetId = number;
 
-export type OlzWeeklyPictureData = {
-    'text': string,
-    'imageId': string,
-    'publishedDate': string|null,
-};
+export type OlzSnippetData = {'text': string, 'imageIds': Array<string>, 'fileIds': Array<string>};
 
-export type OlzWeeklyPictureDataOrNull = {
-    'text': string,
-    'imageId': string,
-    'publishedDate': string|null,
-}|null;
+export type OlzWeeklyPictureData = {'text': string, 'imageId': string, 'publishedDate'?: (IsoDate | null)};
 
-export type OlzTerminData = {
-    'fromTemplateId': number|null,
-    'startDate': string,
-    'startTime': string|null,
-    'endDate': string|null,
-    'endTime': string|null,
-    'title': string,
-    'text': string,
-    'deadline': string|null,
-    'shouldPromote': boolean,
-    'newsletter': boolean,
-    'solvId': number|null,
-    'go2olId': string|null,
-    'types': Array<string>,
-    'locationId': number|null,
-    'coordinateX': number|null,
-    'coordinateY': number|null,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-};
+export type OlzWeeklyPictureId = number;
 
-export type OlzTerminDataOrNull = {
-    'fromTemplateId': number|null,
-    'startDate': string,
-    'startTime': string|null,
-    'endDate': string|null,
-    'endTime': string|null,
-    'title': string,
-    'text': string,
-    'deadline': string|null,
-    'shouldPromote': boolean,
-    'newsletter': boolean,
-    'solvId': number|null,
-    'go2olId': string|null,
-    'types': Array<string>,
-    'locationId': number|null,
-    'coordinateX': number|null,
-    'coordinateY': number|null,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-}|null;
+export type IsoDate = string;
 
-export type OlzTerminLabelData = {
-    'ident': string,
-    'name': string,
-    'details': string,
-    'icon': string|null,
-    'position': number|null,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-};
+export type OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate': IsoDate, 'startTime'?: (IsoTime | null), 'endDate'?: (IsoDate | null), 'endTime'?: (IsoTime | null), 'title': string, 'text': string, 'deadline'?: (IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'go2olId'?: (string | null), 'types': Array<string>, 'locationId'?: (number | null), 'coordinateX'?: (number | null), 'coordinateY'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
-export type OlzTerminLabelDataOrNull = {
-    'ident': string,
-    'name': string,
-    'details': string,
-    'icon': string|null,
-    'position': number|null,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-}|null;
+export type OlzTerminId = number;
 
-export type OlzTerminLocationData = {
-    'name': string,
-    'details': string,
-    'latitude': number,
-    'longitude': number,
-    'imageIds': Array<string>,
-};
+export type IsoTime = string;
 
-export type OlzTerminLocationDataOrNull = {
-    'name': string,
-    'details': string,
-    'latitude': number,
-    'longitude': number,
-    'imageIds': Array<string>,
-}|null;
+export type OlzTerminLabelData = {'ident': string, 'name': string, 'details': string, 'icon'?: (string | null), 'position'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
-export type OlzTerminTemplateData = {
-    'startTime': string|null,
-    'durationSeconds': number|null,
-    'title': string,
-    'text': string,
-    'deadlineEarlierSeconds': number|null,
-    'deadlineTime': string|null,
-    'shouldPromote': boolean,
-    'newsletter': boolean,
-    'types': Array<string>,
-    'locationId': number|null,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-};
+export type OlzTerminLabelId = number;
 
-export type OlzTerminTemplateDataOrNull = {
-    'startTime': string|null,
-    'durationSeconds': number|null,
-    'title': string,
-    'text': string,
-    'deadlineEarlierSeconds': number|null,
-    'deadlineTime': string|null,
-    'shouldPromote': boolean,
-    'newsletter': boolean,
-    'types': Array<string>,
-    'locationId': number|null,
-    'imageIds': Array<string>,
-    'fileIds': Array<string>,
-}|null;
+export type OlzTerminLocationData = {'name': string, 'details': string, 'latitude': number, 'longitude': number, 'imageIds': Array<string>};
 
-export type OlzUserData = {
-    'parentUserId': number|null,
-    'firstName': string,
-    'lastName': string,
-    'username': string,
-    'password': string|null,
-    'email': string|null,
-    'phone': string|null,
-    'gender': 'M'|'F'|'O'|null,
-    'birthdate': string|null,
-    'street': string|null,
-    'postalCode': string|null,
-    'city': string|null,
-    'region': string|null,
-    'countryCode': string|null,
-    'siCardNumber': number|null,
-    'solvNumber': string|null,
-    'avatarImageId': string|null,
-};
+export type OlzTerminLocationId = number;
 
-export type OlzUserDataOrNull = {
-    'parentUserId': number|null,
-    'firstName': string,
-    'lastName': string,
-    'username': string,
-    'password': string|null,
-    'email': string|null,
-    'phone': string|null,
-    'gender': 'M'|'F'|'O'|null,
-    'birthdate': string|null,
-    'street': string|null,
-    'postalCode': string|null,
-    'city': string|null,
-    'region': string|null,
-    'countryCode': string|null,
-    'siCardNumber': number|null,
-    'solvNumber': string|null,
-    'avatarImageId': string|null,
-}|null;
+export type OlzTerminTemplateData = {'startTime'?: (IsoTime | null), 'durationSeconds'?: (number | null), 'title': string, 'text': string, 'deadlineEarlierSeconds'?: (number | null), 'deadlineTime'?: (IsoTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'types': Array<string>, 'locationId'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
+
+export type OlzTerminTemplateId = number;
+
+export type OlzUserData = {'parentUserId'?: (number | null), 'firstName': string, 'lastName': string, 'username': string, 'password'?: (string | null), 'email'?: (string | null), 'phone'?: (string | null), 'gender'?: (('M' | 'F' | 'O') | null), 'birthdate'?: (IsoDate | null), 'street'?: (string | null), 'postalCode'?: (string | null), 'city'?: (string | null), 'region'?: (string | null), 'countryCode'?: (IsoCountry | null), 'siCardNumber'?: (number | null), 'solvNumber'?: (string | null), 'avatarImageId'?: (string | null)};
+
+export type OlzUserId = number;
+
+export type IsoCountry = string;
 
 export type OlzBookingData = {'registrationId': string, 'values': {[key: string]: unknown}};
 
@@ -326,17 +82,11 @@ export type OlzRegistrationId = string;
 
 export type OlzRegistrationInfo = {'type': ValidRegistrationInfoType, 'isOptional': boolean, 'title': string, 'description': string, 'options'?: (({'text': Array<string>} | {'svg': Array<string>}) | null)};
 
-export type IsoDateTime = string;
-
 export type ValidRegistrationInfoType = ('email' | 'firstName' | 'lastName' | 'gender' | 'street' | 'postalCode' | 'city' | 'region' | 'countryCode' | 'birthdate' | 'phone' | 'siCardNumber' | 'solvNumber' | 'string' | 'enum' | 'reservation');
 
 export type ManagedUser = {'id': number, 'firstName': string, 'lastName': string};
 
 export type UserPrefillData = {'firstName': string, 'lastName': string, 'username': string, 'email': string, 'phone'?: (string | null), 'gender'?: (('M' | 'F' | 'O') | null), 'birthdate'?: (IsoDate | null), 'street'?: (string | null), 'postalCode'?: (string | null), 'city'?: (string | null), 'region'?: (string | null), 'countryCode'?: (IsoCountry | null), 'siCardNumber'?: (number | null), 'solvNumber'?: (string | null)};
-
-export type IsoDate = string;
-
-export type IsoCountry = string;
 
 export type OlzLogsQuery = {'channel': string, 'targetDate'?: (IsoDateTime | null), 'firstDate'?: (IsoDateTime | null), 'lastDate'?: (IsoDateTime | null), 'minLogLevel'?: (OlzLogLevel | null), 'textSearch'?: (string | null), 'pageToken'?: (string | null)};
 
@@ -464,286 +214,84 @@ export type OlzApiEndpoint =
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: unknown};
 
 export interface OlzApiRequests extends OlzApiEndpointMapping {
-    onDaily: {
-            'authenticityCode': string,
-        },
-    onContinuously: {
-            'authenticityCode': string,
-        },
-    login: {
-            'usernameOrEmail': string,
-            'password': string,
-            'rememberMe': boolean,
-        },
-    resetPassword: {
-            'usernameOrEmail': string,
-            'recaptchaToken': string,
-        },
-    switchUser: {
-            'userId': number,
-        },
-    logout: Record<string, never>|null,
-    getAuthenticatedUser: Record<string, never>|null,
-    getAuthenticatedRoles: Record<string, never>|null,
-    verifyUserEmail: Record<string, never>,
-    updatePassword: {
-            'id': number,
-            'oldPassword': string,
-            'newPassword': string,
-        },
-    executeEmailReaction: {
-            'token': string,
-        },
-    linkTelegram: Record<string, never>|null,
-    onTelegram: {
-            'authenticityCode': string,
-            'telegramEvent': string,
-        },
-    startUpload: {
-            'suffix': string|null,
-        },
-    updateUpload: {
-            'id': string,
-            'part': number,
-            'content': string,
-        },
-    finishUpload: {
-            'id': string,
-            'numberOfParts': number,
-        },
-    searchEntities: {
-            'entityType': OlzSearchableEntityTypes,
-            'query': string|null,
-            'id': number|null,
-        },
-    createDownload: {
-            'meta': OlzMetaData,
-            'data': OlzDownloadData,
-        },
-    getDownload: {
-            'id': number,
-        },
-    editDownload: {
-            'id': number,
-        },
-    updateDownload: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzDownloadDataOrNull,
-        },
-    deleteDownload: {
-            'id': number,
-        },
-    createKarte: {
-            'meta': OlzMetaData,
-            'data': OlzKarteData,
-        },
-    getKarte: {
-            'id': number,
-        },
-    editKarte: {
-            'id': number,
-        },
-    updateKarte: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzKarteDataOrNull,
-        },
-    deleteKarte: {
-            'id': number,
-        },
-    createLink: {
-            'meta': OlzMetaData,
-            'data': OlzLinkData,
-        },
-    getLink: {
-            'id': number,
-        },
-    editLink: {
-            'id': number,
-        },
-    updateLink: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzLinkDataOrNull,
-        },
-    deleteLink: {
-            'id': number,
-        },
-    createNews: {
-            'custom': {
-            'recaptchaToken': string|null,
-        },
-            'meta': OlzMetaData,
-            'data': OlzNewsData,
-        },
-    getNews: {
-            'id': number,
-        },
-    editNews: {
-            'id': number,
-        },
-    updateNews: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzNewsDataOrNull,
-        },
-    deleteNews: {
-            'id': number,
-        },
-    createRole: {
-            'meta': OlzMetaData,
-            'data': OlzRoleData,
-        },
-    getRole: {
-            'id': number,
-        },
-    editRole: {
-            'id': number,
-        },
-    updateRole: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzRoleDataOrNull,
-        },
-    deleteRole: {
-            'id': number,
-        },
-    addUserRoleMembership: {
-            'ids': {
-            'roleId': number,
-            'userId': number,
-        },
-        },
-    removeUserRoleMembership: {
-            'ids': {
-            'roleId': number,
-            'userId': number,
-        },
-        },
-    getSnippet: {
-            'id': number,
-        },
-    editSnippet: {
-            'id': number,
-        },
-    updateSnippet: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzSnippetDataOrNull,
-        },
-    createWeeklyPicture: {
-            'meta': OlzMetaData,
-            'data': OlzWeeklyPictureData,
-        },
-    getWeeklyPicture: {
-            'id': number,
-        },
-    editWeeklyPicture: {
-            'id': number,
-        },
-    updateWeeklyPicture: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzWeeklyPictureDataOrNull,
-        },
-    deleteWeeklyPicture: {
-            'id': number,
-        },
-    createTermin: {
-            'meta': OlzMetaData,
-            'data': OlzTerminData,
-        },
-    getTermin: {
-            'id': number,
-        },
-    editTermin: {
-            'id': number,
-        },
-    updateTermin: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzTerminDataOrNull,
-        },
-    deleteTermin: {
-            'id': number,
-        },
-    createTerminLabel: {
-            'meta': OlzMetaData,
-            'data': OlzTerminLabelData,
-        },
-    listTerminLabels: Record<string, never>,
-    getTerminLabel: {
-            'id': number,
-        },
-    editTerminLabel: {
-            'id': number,
-        },
-    updateTerminLabel: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzTerminLabelDataOrNull,
-        },
-    deleteTerminLabel: {
-            'id': number,
-        },
-    createTerminLocation: {
-            'meta': OlzMetaData,
-            'data': OlzTerminLocationData,
-        },
-    getTerminLocation: {
-            'id': number,
-        },
-    editTerminLocation: {
-            'id': number,
-        },
-    updateTerminLocation: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzTerminLocationDataOrNull,
-        },
-    deleteTerminLocation: {
-            'id': number,
-        },
-    createTerminTemplate: {
-            'meta': OlzMetaData,
-            'data': OlzTerminTemplateData,
-        },
-    getTerminTemplate: {
-            'id': number,
-        },
-    editTerminTemplate: {
-            'id': number,
-        },
-    updateTerminTemplate: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzTerminTemplateDataOrNull,
-        },
-    deleteTerminTemplate: {
-            'id': number,
-        },
-    createUser: {
-            'custom': {
-            'recaptchaToken': string|null,
-        },
-            'meta': OlzMetaData,
-            'data': OlzUserData,
-        },
-    getUser: {
-            'id': number,
-        },
-    editUser: {
-            'id': number,
-        },
-    updateUser: {
-            'id': number,
-            'meta': OlzMetaDataOrNull,
-            'data': OlzUserDataOrNull,
-        },
-    deleteUser: {
-            'id': number,
-        },
+    onDaily: {'authenticityCode': string},
+    onContinuously: {'authenticityCode': string},
+    login: {'usernameOrEmail': string, 'password': string, 'rememberMe': boolean},
+    resetPassword: {'usernameOrEmail': string, 'recaptchaToken': string},
+    switchUser: {'userId': number},
+    logout: (Record<string, never> | null),
+    getAuthenticatedUser: (Record<string, never> | null),
+    getAuthenticatedRoles: (Record<string, never> | null),
+    verifyUserEmail: (Record<string, never> | null),
+    updatePassword: {'id': number, 'oldPassword': string, 'newPassword': string},
+    executeEmailReaction: {'token': string},
+    linkTelegram: (Record<string, never> | null),
+    onTelegram: {'authenticityCode': string, 'telegramEvent': string},
+    startUpload: {'suffix'?: (string | null)},
+    updateUpload: {'id': string, 'part': number, 'content': string},
+    finishUpload: {'id': string, 'numberOfParts': number},
+    searchEntities: {'entityType': OlzSearchableEntityTypes, 'query'?: (string | null), 'id'?: (number | null)},
+    createDownload: {'meta': OlzMetaData, 'data': OlzDownloadData, 'custom'?: never},
+    getDownload: {'id': OlzDownloadId, 'custom'?: never},
+    editDownload: {'id': OlzDownloadId, 'custom'?: never},
+    updateDownload: {'id': OlzDownloadId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzDownloadData | null), 'custom'?: never},
+    deleteDownload: {'id': OlzDownloadId, 'custom'?: never},
+    createKarte: {'meta': OlzMetaData, 'data': OlzKarteData, 'custom'?: never},
+    getKarte: {'id': OlzKarteId, 'custom'?: never},
+    editKarte: {'id': OlzKarteId, 'custom'?: never},
+    updateKarte: {'id': OlzKarteId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzKarteData | null), 'custom'?: never},
+    deleteKarte: {'id': OlzKarteId, 'custom'?: never},
+    createLink: {'meta': OlzMetaData, 'data': OlzLinkData, 'custom'?: never},
+    getLink: {'id': OlzLinkId, 'custom'?: never},
+    editLink: {'id': OlzLinkId, 'custom'?: never},
+    updateLink: {'id': OlzLinkId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzLinkData | null), 'custom'?: never},
+    deleteLink: {'id': OlzLinkId, 'custom'?: never},
+    createNews: {'meta': OlzMetaData, 'data': OlzNewsData, 'custom'?: {'recaptchaToken'?: (string | null)}},
+    getNews: {'id': OlzNewsId, 'custom'?: never},
+    editNews: {'id': OlzNewsId, 'custom'?: never},
+    updateNews: {'id': OlzNewsId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzNewsData | null), 'custom'?: never},
+    deleteNews: {'id': OlzNewsId, 'custom'?: never},
+    createRole: {'meta': OlzMetaData, 'data': OlzRoleData, 'custom'?: never},
+    getRole: {'id': OlzRoleId, 'custom'?: never},
+    editRole: {'id': OlzRoleId, 'custom'?: never},
+    updateRole: {'id': OlzRoleId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzRoleData | null), 'custom'?: never},
+    deleteRole: {'id': OlzRoleId, 'custom'?: never},
+    addUserRoleMembership: {'ids': OlzRoleMembershipIds, 'custom'?: never},
+    removeUserRoleMembership: {'ids': OlzRoleMembershipIds, 'custom'?: never},
+    getSnippet: {'id': OlzSnippetId, 'custom'?: never},
+    editSnippet: {'id': OlzSnippetId, 'custom'?: never},
+    updateSnippet: {'id': OlzSnippetId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzSnippetData | null), 'custom'?: never},
+    createWeeklyPicture: {'meta': OlzMetaData, 'data': OlzWeeklyPictureData, 'custom'?: never},
+    getWeeklyPicture: {'id': OlzWeeklyPictureId, 'custom'?: never},
+    editWeeklyPicture: {'id': OlzWeeklyPictureId, 'custom'?: never},
+    updateWeeklyPicture: {'id': OlzWeeklyPictureId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzWeeklyPictureData | null), 'custom'?: never},
+    deleteWeeklyPicture: {'id': OlzWeeklyPictureId, 'custom'?: never},
+    createTermin: {'meta': OlzMetaData, 'data': OlzTerminData, 'custom'?: never},
+    getTermin: {'id': OlzTerminId, 'custom'?: never},
+    editTermin: {'id': OlzTerminId, 'custom'?: never},
+    updateTermin: {'id': OlzTerminId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzTerminData | null), 'custom'?: never},
+    deleteTermin: {'id': OlzTerminId, 'custom'?: never},
+    createTerminLabel: {'meta': OlzMetaData, 'data': OlzTerminLabelData, 'custom'?: never},
+    listTerminLabels: {'custom'?: never},
+    getTerminLabel: {'id': OlzTerminLabelId, 'custom'?: never},
+    editTerminLabel: {'id': OlzTerminLabelId, 'custom'?: never},
+    updateTerminLabel: {'id': OlzTerminLabelId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzTerminLabelData | null), 'custom'?: never},
+    deleteTerminLabel: {'id': OlzTerminLabelId, 'custom'?: never},
+    createTerminLocation: {'meta': OlzMetaData, 'data': OlzTerminLocationData, 'custom'?: never},
+    getTerminLocation: {'id': OlzTerminLocationId, 'custom'?: never},
+    editTerminLocation: {'id': OlzTerminLocationId, 'custom'?: never},
+    updateTerminLocation: {'id': OlzTerminLocationId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzTerminLocationData | null), 'custom'?: never},
+    deleteTerminLocation: {'id': OlzTerminLocationId, 'custom'?: never},
+    createTerminTemplate: {'meta': OlzMetaData, 'data': OlzTerminTemplateData, 'custom'?: never},
+    getTerminTemplate: {'id': OlzTerminTemplateId, 'custom'?: never},
+    editTerminTemplate: {'id': OlzTerminTemplateId, 'custom'?: never},
+    updateTerminTemplate: {'id': OlzTerminTemplateId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzTerminTemplateData | null), 'custom'?: never},
+    deleteTerminTemplate: {'id': OlzTerminTemplateId, 'custom'?: never},
+    createUser: {'meta': OlzMetaData, 'data': OlzUserData, 'custom'?: {'recaptchaToken'?: (string | null)}},
+    getUser: {'id': OlzUserId, 'custom'?: never},
+    editUser: {'id': OlzUserId, 'custom'?: never},
+    updateUser: {'id': OlzUserId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzUserData | null), 'custom'?: never},
+    deleteUser: {'id': OlzUserId, 'custom'?: never},
     createBooking: {'meta': OlzMetaData, 'data': OlzBookingData, 'custom'?: never},
     createRegistration: {'meta': OlzMetaData, 'data': OlzRegistrationData, 'custom'?: never},
     getManagedUsers: (Record<string, never> | null),
@@ -769,314 +317,86 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
-    onDaily: Record<string, never>|null,
-    onContinuously: Record<string, never>|null,
-    login: {
-            'status': 'INVALID_CREDENTIALS'|'BLOCKED'|'AUTHENTICATED',
-            'numRemainingAttempts': number|null,
-        },
-    resetPassword: {
-            'status': 'DENIED'|'ERROR'|'OK',
-        },
-    switchUser: {
-            'status': 'OK',
-        },
-    logout: {
-            'status': 'NO_SESSION'|'SESSION_CLOSED',
-        },
-    getAuthenticatedUser: {
-            'user': OlzAuthenticatedUser,
-        },
-    getAuthenticatedRoles: {
-            'roles': Array<OlzAuthenticatedRole>|null,
-        },
-    verifyUserEmail: {
-            'status': 'OK'|'ERROR',
-        },
-    updatePassword: {
-            'status': 'OK'|'OTHER_USER'|'INVALID_OLD',
-        },
-    executeEmailReaction: {
-            'status': 'INVALID_TOKEN'|'OK',
-        },
-    linkTelegram: {
-            'botName': string,
-            'pin': string,
-        },
-    onTelegram: Record<string, never>|null,
-    startUpload: {
-            'status': 'OK'|'ERROR',
-            'id': string|null,
-        },
-    updateUpload: {
-            'status': 'OK'|'ERROR',
-        },
-    finishUpload: {
-            'status': 'OK'|'ERROR',
-        },
-    searchEntities: {
-            'result': Array<OlzEntityResult>,
-        },
-    createDownload: {
-            'status': 'OK'|'ERROR',
-            'id': number|null,
-        },
-    getDownload: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzDownloadData,
-        },
-    editDownload: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzDownloadData,
-        },
-    updateDownload: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteDownload: {
-            'status': 'OK'|'ERROR',
-        },
-    createKarte: {
-            'status': 'OK'|'ERROR',
-            'id': number|null,
-        },
-    getKarte: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzKarteData,
-        },
-    editKarte: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzKarteData,
-        },
-    updateKarte: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteKarte: {
-            'status': 'OK'|'ERROR',
-        },
-    createLink: {
-            'status': 'OK'|'ERROR',
-            'id': number|null,
-        },
-    getLink: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzLinkData,
-        },
-    editLink: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzLinkData,
-        },
-    updateLink: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteLink: {
-            'status': 'OK'|'ERROR',
-        },
-    createNews: {
-            'status': 'OK'|'DENIED'|'ERROR',
-            'id': number|null,
-        },
-    getNews: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzNewsData,
-        },
-    editNews: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzNewsData,
-        },
-    updateNews: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteNews: {
-            'status': 'OK'|'ERROR',
-        },
-    createRole: {
-            'status': 'OK'|'ERROR',
-            'id': number|null,
-        },
-    getRole: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzRoleData,
-        },
-    editRole: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzRoleData,
-        },
-    updateRole: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteRole: {
-            'status': 'OK'|'ERROR',
-        },
-    addUserRoleMembership: {
-            'status': 'OK'|'ERROR',
-        },
-    removeUserRoleMembership: {
-            'status': 'OK'|'ERROR',
-        },
-    getSnippet: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzSnippetData,
-        },
-    editSnippet: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzSnippetData,
-        },
-    updateSnippet: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    createWeeklyPicture: {
-            'status': 'OK'|'ERROR',
-            'id': number|null,
-        },
-    getWeeklyPicture: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzWeeklyPictureData,
-        },
-    editWeeklyPicture: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzWeeklyPictureData,
-        },
-    updateWeeklyPicture: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteWeeklyPicture: {
-            'status': 'OK'|'ERROR',
-        },
-    createTermin: {
-            'status': 'OK'|'ERROR',
-            'id': number|null,
-        },
-    getTermin: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzTerminData,
-        },
-    editTermin: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzTerminData,
-        },
-    updateTermin: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteTermin: {
-            'status': 'OK'|'ERROR',
-        },
-    createTerminLabel: {
-            'status': 'OK'|'ERROR',
-            'id': number|null,
-        },
-    listTerminLabels: {
-            'items': Array<{
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzTerminLabelData,
-        }>,
-        },
-    getTerminLabel: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzTerminLabelData,
-        },
-    editTerminLabel: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzTerminLabelData,
-        },
-    updateTerminLabel: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteTerminLabel: {
-            'status': 'OK'|'ERROR',
-        },
-    createTerminLocation: {
-            'status': 'OK'|'ERROR',
-            'id': number|null,
-        },
-    getTerminLocation: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzTerminLocationData,
-        },
-    editTerminLocation: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzTerminLocationData,
-        },
-    updateTerminLocation: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteTerminLocation: {
-            'status': 'OK'|'ERROR',
-        },
-    createTerminTemplate: {
-            'status': 'OK'|'ERROR',
-            'id': number|null,
-        },
-    getTerminTemplate: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzTerminTemplateData,
-        },
-    editTerminTemplate: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzTerminTemplateData,
-        },
-    updateTerminTemplate: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteTerminTemplate: {
-            'status': 'OK'|'ERROR',
-        },
-    createUser: {
-            'status': 'OK'|'OK_NO_EMAIL_VERIFICATION'|'DENIED'|'ERROR',
-            'id': number|null,
-        },
-    getUser: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzUserData,
-        },
-    editUser: {
-            'id': number,
-            'meta': OlzMetaData,
-            'data': OlzUserData,
-        },
-    updateUser: {
-            'status': 'OK'|'ERROR',
-            'id': number,
-        },
-    deleteUser: {
-            'status': 'OK'|'ERROR',
-        },
-    createBooking: {'status': ('OK' | 'ERROR'), 'id': OlzBookingId, 'custom'?: never},
-    createRegistration: {'status': ('OK' | 'ERROR'), 'id': OlzRegistrationId, 'custom'?: never},
+    onDaily: (Record<string, never> | null),
+    onContinuously: (Record<string, never> | null),
+    login: {'status': ('AUTHENTICATED' | 'INVALID_CREDENTIALS' | 'BLOCKED'), 'numRemainingAttempts': (number | null)},
+    resetPassword: {'status': ('OK' | 'DENIED' | 'ERROR')},
+    switchUser: {'status': 'OK'},
+    logout: {'status': ('NO_SESSION' | 'SESSION_CLOSED')},
+    getAuthenticatedUser: {'user'?: (OlzAuthenticatedUser | null)},
+    getAuthenticatedRoles: {'roles'?: (Array<OlzAuthenticatedRole> | null)},
+    verifyUserEmail: {'status': ('OK' | 'ERROR')},
+    updatePassword: {'status': ('OK' | 'OTHER_USER' | 'INVALID_OLD')},
+    executeEmailReaction: {'status': ('INVALID_TOKEN' | 'OK')},
+    linkTelegram: {'botName': string, 'pin': string},
+    onTelegram: (Record<string, never> | null),
+    startUpload: {'status': ('OK' | 'ERROR'), 'id'?: (string | null)},
+    updateUpload: {'status': ('OK' | 'ERROR')},
+    finishUpload: {'status': ('OK' | 'ERROR')},
+    searchEntities: {'result': Array<OlzEntityResult>},
+    createDownload: {'id'?: (OlzDownloadId | null), 'custom'?: never},
+    getDownload: {'id': OlzDownloadId, 'meta': OlzMetaData, 'data': OlzDownloadData, 'custom'?: never},
+    editDownload: {'id': OlzDownloadId, 'meta': OlzMetaData, 'data': OlzDownloadData, 'custom'?: never},
+    updateDownload: {'id': OlzDownloadId, 'custom'?: never},
+    deleteDownload: {'custom'?: never},
+    createKarte: {'id'?: (OlzKarteId | null), 'custom'?: never},
+    getKarte: {'id': OlzKarteId, 'meta': OlzMetaData, 'data': OlzKarteData, 'custom'?: never},
+    editKarte: {'id': OlzKarteId, 'meta': OlzMetaData, 'data': OlzKarteData, 'custom'?: never},
+    updateKarte: {'id': OlzKarteId, 'custom'?: never},
+    deleteKarte: {'custom'?: never},
+    createLink: {'id'?: (OlzLinkId | null), 'custom'?: never},
+    getLink: {'id': OlzLinkId, 'meta': OlzMetaData, 'data': OlzLinkData, 'custom'?: never},
+    editLink: {'id': OlzLinkId, 'meta': OlzMetaData, 'data': OlzLinkData, 'custom'?: never},
+    updateLink: {'id': OlzLinkId, 'custom'?: never},
+    deleteLink: {'custom'?: never},
+    createNews: {'id'?: (OlzNewsId | null), 'custom'?: {'status': ('OK' | 'DENIED' | 'ERROR')}},
+    getNews: {'id': OlzNewsId, 'meta': OlzMetaData, 'data': OlzNewsData, 'custom'?: never},
+    editNews: {'id': OlzNewsId, 'meta': OlzMetaData, 'data': OlzNewsData, 'custom'?: never},
+    updateNews: {'id': OlzNewsId, 'custom'?: never},
+    deleteNews: {'custom'?: never},
+    createRole: {'id'?: (OlzRoleId | null), 'custom'?: never},
+    getRole: {'id': OlzRoleId, 'meta': OlzMetaData, 'data': OlzRoleData, 'custom'?: never},
+    editRole: {'id': OlzRoleId, 'meta': OlzMetaData, 'data': OlzRoleData, 'custom'?: never},
+    updateRole: {'id': OlzRoleId, 'custom'?: never},
+    deleteRole: {'custom'?: never},
+    addUserRoleMembership: {'custom'?: never},
+    removeUserRoleMembership: {'custom'?: never},
+    getSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
+    editSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
+    updateSnippet: {'id': OlzSnippetId, 'custom'?: never},
+    createWeeklyPicture: {'id'?: (OlzWeeklyPictureId | null), 'custom'?: never},
+    getWeeklyPicture: {'id': OlzWeeklyPictureId, 'meta': OlzMetaData, 'data': OlzWeeklyPictureData, 'custom'?: never},
+    editWeeklyPicture: {'id': OlzWeeklyPictureId, 'meta': OlzMetaData, 'data': OlzWeeklyPictureData, 'custom'?: never},
+    updateWeeklyPicture: {'id': OlzWeeklyPictureId, 'custom'?: never},
+    deleteWeeklyPicture: {'custom'?: never},
+    createTermin: {'id'?: (OlzTerminId | null), 'custom'?: never},
+    getTermin: {'id': OlzTerminId, 'meta': OlzMetaData, 'data': OlzTerminData, 'custom'?: never},
+    editTermin: {'id': OlzTerminId, 'meta': OlzMetaData, 'data': OlzTerminData, 'custom'?: never},
+    updateTermin: {'id': OlzTerminId, 'custom'?: never},
+    deleteTermin: {'custom'?: never},
+    createTerminLabel: {'id'?: (OlzTerminLabelId | null), 'custom'?: never},
+    listTerminLabels: {'items': Array<{'id': OlzTerminLabelId, 'meta': OlzMetaData, 'data': OlzTerminLabelData, 'custom'?: never}>, 'custom'?: never},
+    getTerminLabel: {'id': OlzTerminLabelId, 'meta': OlzMetaData, 'data': OlzTerminLabelData, 'custom'?: never},
+    editTerminLabel: {'id': OlzTerminLabelId, 'meta': OlzMetaData, 'data': OlzTerminLabelData, 'custom'?: never},
+    updateTerminLabel: {'id': OlzTerminLabelId, 'custom'?: never},
+    deleteTerminLabel: {'custom'?: never},
+    createTerminLocation: {'id'?: (OlzTerminLocationId | null), 'custom'?: never},
+    getTerminLocation: {'id': OlzTerminLocationId, 'meta': OlzMetaData, 'data': OlzTerminLocationData, 'custom'?: never},
+    editTerminLocation: {'id': OlzTerminLocationId, 'meta': OlzMetaData, 'data': OlzTerminLocationData, 'custom'?: never},
+    updateTerminLocation: {'id': OlzTerminLocationId, 'custom'?: never},
+    deleteTerminLocation: {'custom'?: never},
+    createTerminTemplate: {'id'?: (OlzTerminTemplateId | null), 'custom'?: never},
+    getTerminTemplate: {'id': OlzTerminTemplateId, 'meta': OlzMetaData, 'data': OlzTerminTemplateData, 'custom'?: never},
+    editTerminTemplate: {'id': OlzTerminTemplateId, 'meta': OlzMetaData, 'data': OlzTerminTemplateData, 'custom'?: never},
+    updateTerminTemplate: {'id': OlzTerminTemplateId, 'custom'?: never},
+    deleteTerminTemplate: {'custom'?: never},
+    createUser: {'id'?: (OlzUserId | null), 'custom'?: {'status': ('OK' | 'OK_NO_EMAIL_VERIFICATION' | 'DENIED' | 'ERROR')}},
+    getUser: {'id': OlzUserId, 'meta': OlzMetaData, 'data': OlzUserData, 'custom'?: never},
+    editUser: {'id': OlzUserId, 'meta': OlzMetaData, 'data': OlzUserData, 'custom'?: never},
+    updateUser: {'id': OlzUserId, 'custom'?: {'status': ('OK' | 'OK_NO_EMAIL_VERIFICATION' | 'DENIED' | 'ERROR')}},
+    deleteUser: {'custom'?: never},
+    createBooking: {'id'?: (OlzBookingId | null), 'custom'?: never},
+    createRegistration: {'id'?: (OlzRegistrationId | null), 'custom'?: never},
     getManagedUsers: {'status': ('OK' | 'ERROR'), 'managedUsers': (Array<ManagedUser> | null)},
     getPrefillValues: UserPrefillData,
     getRegistration: {'id': OlzRegistrationId, 'meta': OlzMetaData, 'data': OlzRegistrationData, 'custom'?: never},

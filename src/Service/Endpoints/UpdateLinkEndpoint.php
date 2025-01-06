@@ -2,14 +2,21 @@
 
 namespace Olz\Service\Endpoints;
 
-use Olz\Api\OlzUpdateEntityEndpoint;
+use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateLinkEndpoint extends OlzUpdateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzLinkId from LinkEndpointTrait
+ * @phpstan-import-type OlzLinkData from LinkEndpointTrait
+ *
+ * @extends OlzUpdateEntityTypedEndpoint<OlzLinkId, OlzLinkData>
+ */
+class UpdateLinkEndpoint extends OlzUpdateEntityTypedEndpoint {
     use LinkEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'UpdateLinkEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(LinkEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -28,7 +35,6 @@ class UpdateLinkEndpoint extends OlzUpdateEntityEndpoint {
         $this->entityManager()->flush();
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

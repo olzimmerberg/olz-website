@@ -14,11 +14,6 @@ use Olz\Utils\MemorySession;
  * @covers \Olz\Api\Endpoints\LinkTelegramEndpoint
  */
 final class LinkTelegramEndpointTest extends UnitTestCase {
-    public function testLinkTelegramEndpointIdent(): void {
-        $endpoint = new LinkTelegramEndpoint();
-        $this->assertSame('LinkTelegramEndpoint', $endpoint->getIdent());
-    }
-
     public function testLinkTelegramEndpoint(): void {
         $endpoint = new LinkTelegramEndpoint();
         $endpoint->runtimeSetup();

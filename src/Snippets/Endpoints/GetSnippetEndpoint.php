@@ -2,13 +2,20 @@
 
 namespace Olz\Snippets\Endpoints;
 
-use Olz\Api\OlzGetEntityEndpoint;
+use Olz\Api\OlzGetEntityTypedEndpoint;
 
-class GetSnippetEndpoint extends OlzGetEntityEndpoint {
+/**
+ * @phpstan-import-type OlzSnippetId from SnippetEndpointTrait
+ * @phpstan-import-type OlzSnippetData from SnippetEndpointTrait
+ *
+ * @extends OlzGetEntityTypedEndpoint<OlzSnippetId, OlzSnippetData>
+ */
+class GetSnippetEndpoint extends OlzGetEntityTypedEndpoint {
     use SnippetEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'GetSnippetEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(SnippetEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

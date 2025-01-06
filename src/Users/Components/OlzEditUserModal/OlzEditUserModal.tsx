@@ -179,10 +179,10 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
         const [err, response] = await (props.id
             ? olzApi.getResult('updateUser', {id: props.id, meta, data})
             : olzApi.getResult('createUser', {meta, data, custom: {recaptchaToken}}));
-        if (err || response.status !== 'OK') {
+        if (err || response.custom?.status !== 'OK') {
             setIsSubmitting(false);
             setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response.custom?.status)}`);
             return;
         }
 

@@ -2,17 +2,24 @@
 
 namespace Olz\Roles\Endpoints;
 
-use Olz\Api\OlzCreateEntityEndpoint;
+use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
-class CreateRoleEndpoint extends OlzCreateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzRoleId from RoleEndpointTrait
+ * @phpstan-import-type OlzRoleData from RoleEndpointTrait
+ *
+ * @extends OlzCreateEntityTypedEndpoint<OlzRoleId, OlzRoleData>
+ */
+class CreateRoleEndpoint extends OlzCreateEntityTypedEndpoint {
     use RoleEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'CreateRoleEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(RoleEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -52,7 +59,6 @@ class CreateRoleEndpoint extends OlzCreateEntityEndpoint {
         $this->persistUploads($entity, $input['data']);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

@@ -2,14 +2,22 @@
 
 namespace Olz\Startseite\Endpoints;
 
-use Olz\Api\OlzCreateEntityEndpoint;
+use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Startseite\WeeklyPicture;
 
-class CreateWeeklyPictureEndpoint extends OlzCreateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzWeeklyPictureId from WeeklyPictureEndpointTrait
+ * @phpstan-import-type OlzWeeklyPictureData from WeeklyPictureEndpointTrait
+ *
+ * @extends OlzCreateEntityTypedEndpoint<OlzWeeklyPictureId, OlzWeeklyPictureData>
+ */
+class CreateWeeklyPictureEndpoint extends OlzCreateEntityTypedEndpoint {
     use WeeklyPictureEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'CreateWeeklyPictureEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureWeeklyPictureEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(WeeklyPictureEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -24,7 +32,6 @@ class CreateWeeklyPictureEndpoint extends OlzCreateEntityEndpoint {
         $this->persistUploads($entity);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

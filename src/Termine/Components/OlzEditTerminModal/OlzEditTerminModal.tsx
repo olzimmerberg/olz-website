@@ -213,7 +213,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         const [err, response] = await (props.id
             ? olzApi.getResult('updateTermin', {id: props.id, meta, data})
             : olzApi.getResult('createTermin', {meta, data}));
-        if (err || response.status !== 'OK') {
+        if (err) {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             setIsSubmitting(false);

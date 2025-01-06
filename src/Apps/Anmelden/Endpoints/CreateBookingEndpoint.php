@@ -2,14 +2,22 @@
 
 namespace Olz\Apps\Anmelden\Endpoints;
 
-use Olz\Api\OlzCreateEntityEndpoint;
+use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Anmelden\Booking;
+use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
-class CreateBookingEndpoint extends OlzCreateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzBookingId from BookingEndpointTrait
+ * @phpstan-import-type OlzBookingData from BookingEndpointTrait
+ *
+ * @extends OlzCreateEntityTypedEndpoint<OlzBookingId, OlzBookingData>
+ */
+class CreateBookingEndpoint extends OlzCreateEntityTypedEndpoint {
     use BookingEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'CreateBookingEndpoint';
+    public function configure(): void {
+        parent::configure();
+        PhpStanUtils::registerTypeImport(BookingEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

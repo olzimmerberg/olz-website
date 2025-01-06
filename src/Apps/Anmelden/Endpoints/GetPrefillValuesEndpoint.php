@@ -7,7 +7,7 @@ use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDate;
-use PhpTypeScriptApi\TypedEndpoint;
+use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
  * Note: `userId` can be of a managed user.
@@ -29,22 +29,18 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   solvNumber?: ?string,
  * }
  *
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   array{
  *     userId?: ?int<1, max>,
  *   },
  *   UserPrefillData,
  * >
  */
-class GetPrefillValuesEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [IsoDate::class, IsoCountry::class];
-    }
-
-    public static function getIdent(): string {
-        return 'GetPrefillValuesEndpoint';
+class GetPrefillValuesEndpoint extends OlzTypedEndpoint {
+    public function configure(): void {
+        parent::configure();
+        PhpStanUtils::registerApiObject(IsoDate::class);
+        PhpStanUtils::registerApiObject(IsoCountry::class);
     }
 
     protected function handle(mixed $input): mixed {

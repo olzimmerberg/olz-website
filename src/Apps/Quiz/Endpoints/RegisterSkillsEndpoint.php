@@ -5,7 +5,6 @@ namespace Olz\Apps\Quiz\Endpoints;
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillCategory;
-use PhpTypeScriptApi\TypedEndpoint;
 
 /**
  * @phpstan-type OlzSkillData array{
@@ -13,22 +12,12 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   categoryIds: array<non-empty-string>,
  * }
  *
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   array{skills: array<OlzSkillData>},
  *   array{idByName: array<non-empty-string, non-empty-string>}
  * >
  */
-class RegisterSkillsEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
-    public static function getIdent(): string {
-        return 'RegisterSkillsEndpoint';
-    }
-
+class RegisterSkillsEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $skill_repo = $this->entityManager()->getRepository(Skill::class);
         $skill_category_repo = $this->entityManager()->getRepository(SkillCategory::class);

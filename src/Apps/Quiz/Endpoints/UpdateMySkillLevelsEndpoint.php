@@ -6,27 +6,16 @@ use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Quiz\QuizConstants;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
-use PhpTypeScriptApi\TypedEndpoint;
 
 /**
  * Note: `change` must be between -1.0 and 1.0.
  *
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   array{updates: array<non-empty-string, array{change: float}>},
  *   array{status: 'OK'|'ERROR'}
  * >
  */
-class UpdateMySkillLevelsEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
-    public static function getIdent(): string {
-        return 'UpdateMySkillLevelsEndpoint';
-    }
-
+class UpdateMySkillLevelsEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

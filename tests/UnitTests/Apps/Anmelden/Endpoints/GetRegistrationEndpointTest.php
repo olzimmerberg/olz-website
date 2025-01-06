@@ -15,11 +15,6 @@ use Olz\Utils\WithUtilsCache;
  * @covers \Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint
  */
 final class GetRegistrationEndpointTest extends UnitTestCase {
-    public function testGetRegistrationEndpointIdent(): void {
-        $endpoint = new GetRegistrationEndpoint();
-        $this->assertSame('GetRegistrationEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetRegistrationEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new GetRegistrationEndpoint();

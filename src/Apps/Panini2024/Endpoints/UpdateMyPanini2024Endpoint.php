@@ -6,7 +6,6 @@ use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Panini2024\Panini2024Constants;
 use Olz\Entity\Panini2024\Panini2024Picture;
 use PhpTypeScriptApi\HttpError;
-use PhpTypeScriptApi\TypedEndpoint;
 
 /**
  * @phpstan-type OlzPanini2024PictureData array{
@@ -23,22 +22,12 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   info5: non-empty-string,
  * }
  *
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   array{data: OlzPanini2024PictureData},
  *   array{status: 'OK'|'ERROR'}
  * >
  */
-class UpdateMyPanini2024Endpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
-    public static function getIdent(): string {
-        return 'UpdateMyPanini2024Endpoint';
-    }
-
+class UpdateMyPanini2024Endpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

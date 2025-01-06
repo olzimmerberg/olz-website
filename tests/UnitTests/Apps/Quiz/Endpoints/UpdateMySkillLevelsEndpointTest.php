@@ -17,11 +17,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint
  */
 final class UpdateMySkillLevelsEndpointTest extends UnitTestCase {
-    public function testUpdateMySkillLevelsEndpointIdent(): void {
-        $endpoint = new UpdateMySkillLevelsEndpoint();
-        $this->assertSame('UpdateMySkillLevelsEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateMySkillLevelsEndpointNotAnyPermission(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query['any'] = false;
         $endpoint = new UpdateMySkillLevelsEndpoint();

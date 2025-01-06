@@ -74,11 +74,6 @@ class SearchTransportConnectionEndpointForTest extends SearchTransportConnection
  * @covers \Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint
  */
 final class SearchTransportConnectionEndpointTest extends UnitTestCase {
-    public function testSearchTransportConnectionEndpointIdent(): void {
-        $endpoint = new SearchTransportConnectionEndpoint();
-        $this->assertSame('SearchTransportConnectionEndpoint', $endpoint->getIdent());
-    }
-
     public function testSearchTransportConnectionEndpointGetCenterOfOriginStations(): void {
         $endpoint = new SearchTransportConnectionEndpointForTest();
         $endpoint->runtimeSetup();

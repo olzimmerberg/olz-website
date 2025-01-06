@@ -40,11 +40,6 @@ class GetLogsEndpointForTest extends GetLogsEndpoint {
  * @covers \Olz\Apps\Logs\Endpoints\GetLogsEndpoint
  */
 final class GetLogsEndpointTest extends UnitTestCase {
-    public function testGetLogsEndpointIdent(): void {
-        $endpoint = new GetLogsEndpoint();
-        $this->assertSame('GetLogsEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetLogsEndpointTargetDate(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();

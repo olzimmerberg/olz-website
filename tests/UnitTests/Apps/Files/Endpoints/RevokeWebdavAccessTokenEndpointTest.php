@@ -17,11 +17,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint
  */
 final class RevokeWebdavAccessTokenEndpointTest extends UnitTestCase {
-    public function testRevokeWebdavAccessTokenEndpointIdent(): void {
-        $endpoint = new RevokeWebdavAccessTokenEndpoint();
-        $this->assertSame('RevokeWebdavAccessTokenEndpoint', $endpoint->getIdent());
-    }
-
     public function testRevokeWebdavAccessTokenEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => false];
         $endpoint = new RevokeWebdavAccessTokenEndpoint();

@@ -6,29 +6,18 @@ use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Quiz\QuizConstants;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
-use PhpTypeScriptApi\TypedEndpoint;
 
 /**
  * Note: `value` must be between 0.0 and 1.0.
  *
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   array{skillFilter?: ?(
  *     array{categoryIdIn: array<non-empty-string>}
  *   )},
  *   array<string, array{value: float}>,
  * >
  */
-class GetMySkillLevelsEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
-    public static function getIdent(): string {
-        return 'GetMySkillLevelsEndpoint';
-    }
-
+class GetMySkillLevelsEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

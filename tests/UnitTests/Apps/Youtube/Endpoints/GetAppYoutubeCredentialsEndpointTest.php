@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\Youtube\Endpoints\GetAppYoutubeCredentialsEndpoint
  */
 final class GetAppYoutubeCredentialsEndpointTest extends UnitTestCase {
-    public function testGetAppYoutubeCredentialsEndpointIdent(): void {
-        $endpoint = new GetAppYoutubeCredentialsEndpoint();
-        $this->assertSame('GetAppYoutubeCredentialsEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetAppYoutubeCredentialsEndpoint(): void {
         $endpoint = new GetAppYoutubeCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];

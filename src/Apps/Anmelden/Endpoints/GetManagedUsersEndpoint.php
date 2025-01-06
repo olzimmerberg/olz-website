@@ -4,7 +4,6 @@ namespace Olz\Apps\Anmelden\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\TypedEndpoint;
 
 /**
  * @phpstan-type ManagedUser array{
@@ -13,7 +12,7 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   lastName: non-empty-string,
  * }
  *
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   ?array{},
  *   array{
  *     status: 'OK'|'ERROR',
@@ -21,17 +20,7 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   },
  * >
  */
-class GetManagedUsersEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
-    public static function getIdent(): string {
-        return 'GetManagedUsersEndpoint';
-    }
-
+class GetManagedUsersEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

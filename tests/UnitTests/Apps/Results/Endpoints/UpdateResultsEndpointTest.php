@@ -15,11 +15,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\Results\Endpoints\UpdateResultsEndpoint
  */
 final class UpdateResultsEndpointTest extends UnitTestCase {
-    public function testUpdateResultsEndpointIdent(): void {
-        $endpoint = new UpdateResultsEndpoint();
-        $this->assertSame('UpdateResultsEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateResultsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new UpdateResultsEndpoint();

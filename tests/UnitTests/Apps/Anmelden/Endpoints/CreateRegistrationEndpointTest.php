@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\Anmelden\Endpoints\CreateRegistrationEndpoint
  */
 final class CreateRegistrationEndpointTest extends UnitTestCase {
-    public function testCreateRegistrationEndpointIdent(): void {
-        $endpoint = new CreateRegistrationEndpoint();
-        $this->assertSame('CreateRegistrationEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateRegistrationEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new CreateRegistrationEndpoint();

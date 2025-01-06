@@ -4,25 +4,14 @@ namespace Olz\Apps\Files\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\AccessToken;
-use PhpTypeScriptApi\TypedEndpoint;
 
 /**
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   ?array{},
  *   array{status: 'OK'|'ERROR', token?: ?non-empty-string}
  * >
  */
-class GetWebdavAccessTokenEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
-    public static function getIdent(): string {
-        return 'GetWebdavAccessTokenEndpoint';
-    }
-
+class GetWebdavAccessTokenEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $this->checkPermission('webdav');
 

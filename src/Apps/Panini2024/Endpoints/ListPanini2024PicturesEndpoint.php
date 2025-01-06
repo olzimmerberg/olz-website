@@ -3,7 +3,6 @@
 namespace Olz\Apps\Panini2024\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
-use PhpTypeScriptApi\TypedEndpoint;
 
 /**
  * @phpstan-type OlzPanini2024PictureData array{
@@ -17,7 +16,7 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   hasTop: bool,
  * }
  *
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   array{filter?: ?(
  *     array{idIs: int<1, max>}
  *     | array{page: int<1, max>}
@@ -25,17 +24,7 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   array<array{data: OlzPanini2024PictureData}>,
  * >
  */
-class ListPanini2024PicturesEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
-    public static function getIdent(): string {
-        return 'ListPanini2024PicturesEndpoint';
-    }
-
+class ListPanini2024PicturesEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $this->checkPermission('panini2024');
 

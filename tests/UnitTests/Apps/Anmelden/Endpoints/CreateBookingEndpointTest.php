@@ -16,11 +16,6 @@ use Olz\Utils\WithUtilsCache;
  * @covers \Olz\Apps\Anmelden\Endpoints\CreateBookingEndpoint
  */
 final class CreateBookingEndpointTest extends UnitTestCase {
-    public function testCreateBookingEndpointIdent(): void {
-        $endpoint = new CreateBookingEndpoint();
-        $this->assertSame('CreateBookingEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateBookingEndpoint(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];

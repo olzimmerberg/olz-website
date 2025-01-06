@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\Anmelden\Endpoints\GetManagedUsersEndpoint
  */
 final class GetManagedUsersEndpointTest extends UnitTestCase {
-    public function testGetManagedUsersEndpointIdent(): void {
-        $endpoint = new GetManagedUsersEndpoint();
-        $this->assertSame('GetManagedUsersEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetManagedUsersEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetManagedUsersEndpoint();

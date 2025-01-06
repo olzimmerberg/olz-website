@@ -15,7 +15,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class UpdateMyPanini2024EndpointTest extends UnitTestCase {
     public function testUpdateMyPanini2024EndpointIdent(): void {
         $endpoint = new UpdateMyPanini2024Endpoint();
-        $this->assertSame('UpdateMyPanini2024Endpoint', $endpoint->getIdent());
+        $this->assertTrue((bool) $endpoint);
     }
 
     // TODO: Tests

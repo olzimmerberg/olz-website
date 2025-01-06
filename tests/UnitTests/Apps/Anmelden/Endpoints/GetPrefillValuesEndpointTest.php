@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\Anmelden\Endpoints\GetPrefillValuesEndpoint
  */
 final class GetPrefillValuesEndpointTest extends UnitTestCase {
-    public function testGetPrefillValuesEndpointIdent(): void {
-        $endpoint = new GetPrefillValuesEndpoint();
-        $this->assertSame('GetPrefillValuesEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetPrefillValuesEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetPrefillValuesEndpoint();
@@ -46,8 +41,6 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
             'userId' => null,
         ]);
 
-        // TODO: Remove
-        // @phpstan-ignore method.impossibleType
         $this->assertSame([
             'firstName' => 'Admin',
             'lastName' => 'Istrator',
@@ -76,8 +69,6 @@ final class GetPrefillValuesEndpointTest extends UnitTestCase {
             'userId' => 1,
         ]);
 
-        // TODO: Remove
-        // @phpstan-ignore method.impossibleType
         $this->assertSame([
             'firstName' => 'Default',
             'lastName' => 'User',

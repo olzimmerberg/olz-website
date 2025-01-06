@@ -4,10 +4,9 @@ namespace Olz\Apps\Newsletter\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\NotificationSubscription;
-use PhpTypeScriptApi\TypedEndpoint;
 
 /**
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   array{
  *     deliveryType: 'email'|'telegram',
  *     monthlyPreview: bool,
@@ -30,17 +29,7 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   array{status: 'OK'|'ERROR'}
  * >
  */
-class UpdateNotificationSubscriptionsEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
-    public static function getIdent(): string {
-        return 'UpdateNotificationSubscriptionsEndpoint';
-    }
-
+class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $user = $this->authUtils()->getCurrentUser();
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());

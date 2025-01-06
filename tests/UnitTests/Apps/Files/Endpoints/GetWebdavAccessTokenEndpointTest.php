@@ -23,11 +23,6 @@ class DeterministicGetWebdavAccessTokenEndpoint extends GetWebdavAccessTokenEndp
  * @covers \Olz\Apps\Files\Endpoints\GetWebdavAccessTokenEndpoint
  */
 final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
-    public function testGetWebdavAccessTokenEndpointIdent(): void {
-        $endpoint = new GetWebdavAccessTokenEndpoint();
-        $this->assertSame('GetWebdavAccessTokenEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetWebdavAccessTokenEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['webdav' => false];
         $endpoint = new GetWebdavAccessTokenEndpoint();

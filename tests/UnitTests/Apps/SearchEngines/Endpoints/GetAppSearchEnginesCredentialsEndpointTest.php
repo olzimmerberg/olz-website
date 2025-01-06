@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\SearchEngines\Endpoints\GetAppSearchEnginesCredentialsEndpoint
  */
 final class GetAppSearchEnginesCredentialsEndpointTest extends UnitTestCase {
-    public function testGetAppSearchEnginesCredentialsEndpointIdent(): void {
-        $endpoint = new GetAppSearchEnginesCredentialsEndpoint();
-        $this->assertSame('GetAppSearchEnginesCredentialsEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetAppSearchEnginesCredentialsEndpoint(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();

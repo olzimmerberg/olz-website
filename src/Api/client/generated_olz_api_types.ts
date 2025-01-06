@@ -20,11 +20,7 @@ export type OlzEntityResult = {
     'title': string,
 };
 
-export type OlzMetaData = {
-    'ownerUserId': number|null,
-    'ownerRoleId': number|null,
-    'onOff': boolean,
-};
+export type OlzMetaData = {'ownerUserId': (number | null), 'ownerRoleId': (number | null), 'onOff': boolean};
 
 export type OlzDownloadData = {
     'name': string,
@@ -320,28 +316,19 @@ export type OlzUserDataOrNull = {
     'avatarImageId': string|null,
 }|null;
 
-export type OlzBookingData = {
-    'registrationId': string,
-    'values': {[key: string]: unknown},
-};
+export type OlzBookingData = {'registrationId': string, 'values': {[key: string]: unknown}};
 
-export type OlzRegistrationData = {
-    'title': string,
-    'description': string,
-    'infos': Array<OlzRegistrationInfo>,
-    'opensAt': string|null,
-    'closesAt': string|null,
-};
+export type OlzBookingId = string;
 
-export type OlzRegistrationInfo = {
-    'type': 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'siCardNumber'|'solvNumber'|'string'|'enum'|'reservation',
-    'isOptional': boolean,
-    'title': string,
-    'description': string,
-    'options': {
-    'text': Array<string>,
-}|null,
-};
+export type OlzRegistrationData = {'title': string, 'description': string, 'infos': Array<OlzRegistrationInfo>, 'opensAt'?: (IsoDateTime | null), 'closesAt'?: (IsoDateTime | null)};
+
+export type OlzRegistrationId = string;
+
+export type OlzRegistrationInfo = {'type': ValidRegistrationInfoType, 'isOptional': boolean, 'title': string, 'description': string, 'options'?: (({'text': Array<string>} | {'svg': Array<string>}) | null)};
+
+export type IsoDateTime = string;
+
+export type ValidRegistrationInfoType = ('email' | 'firstName' | 'lastName' | 'gender' | 'street' | 'postalCode' | 'city' | 'region' | 'countryCode' | 'birthdate' | 'phone' | 'siCardNumber' | 'solvNumber' | 'string' | 'enum' | 'reservation');
 
 export type ManagedUser = {'id': number, 'firstName': string, 'lastName': string};
 
@@ -352,8 +339,6 @@ export type IsoDate = string;
 export type IsoCountry = string;
 
 export type OlzLogsQuery = {'channel': string, 'targetDate'?: (IsoDateTime | null), 'firstDate'?: (IsoDateTime | null), 'lastDate'?: (IsoDateTime | null), 'minLogLevel'?: (OlzLogLevel | null), 'textSearch'?: (string | null), 'pageToken'?: (string | null)};
-
-export type IsoDateTime = string;
 
 export type OlzLogLevel = ('debug' | 'info' | 'notice' | 'warning' | 'error' | 'critical' | 'alert' | 'emergency');
 
@@ -759,19 +744,11 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     deleteUser: {
             'id': number,
         },
-    createBooking: {
-            'meta': OlzMetaData,
-            'data': OlzBookingData,
-        },
-    createRegistration: {
-            'meta': OlzMetaData,
-            'data': OlzRegistrationData,
-        },
+    createBooking: {'meta': OlzMetaData, 'data': OlzBookingData, 'custom'?: never},
+    createRegistration: {'meta': OlzMetaData, 'data': OlzRegistrationData, 'custom'?: never},
     getManagedUsers: (Record<string, never> | null),
     getPrefillValues: {'userId'?: (number | null)},
-    getRegistration: {
-            'id': string,
-        },
+    getRegistration: {'id': OlzRegistrationId, 'custom'?: never},
     executeCommand: {'command': string, 'argv'?: (string | null)},
     getWebdavAccessToken: (Record<string, never> | null),
     revokeWebdavAccessToken: (Record<string, never> | null),
@@ -1098,21 +1075,11 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     deleteUser: {
             'status': 'OK'|'ERROR',
         },
-    createBooking: {
-            'status': 'OK'|'ERROR',
-            'id': string|null,
-        },
-    createRegistration: {
-            'status': 'OK'|'ERROR',
-            'id': string|null,
-        },
+    createBooking: {'status': ('OK' | 'ERROR'), 'id': OlzBookingId, 'custom'?: never},
+    createRegistration: {'status': ('OK' | 'ERROR'), 'id': OlzRegistrationId, 'custom'?: never},
     getManagedUsers: {'status': ('OK' | 'ERROR'), 'managedUsers': (Array<ManagedUser> | null)},
     getPrefillValues: UserPrefillData,
-    getRegistration: {
-            'id': string,
-            'meta': OlzMetaData,
-            'data': OlzRegistrationData,
-        },
+    getRegistration: {'id': OlzRegistrationId, 'meta': OlzMetaData, 'data': OlzRegistrationData, 'custom'?: never},
     executeCommand: {'error': boolean, 'output': string},
     getWebdavAccessToken: {'status': ('OK' | 'ERROR'), 'token'?: (string | null)},
     revokeWebdavAccessToken: {'status': ('OK' | 'ERROR')},

@@ -15,11 +15,6 @@ use Olz\Utils\WithUtilsCache;
  * @covers \Olz\Apps\Quiz\Endpoints\RegisterSkillCategoriesEndpoint
  */
 final class RegisterSkillCategoriesEndpointTest extends UnitTestCase {
-    public function testRegisterSkillCategoriesEndpointIdent(): void {
-        $endpoint = new RegisterSkillCategoriesEndpoint();
-        $this->assertSame('RegisterSkillCategoriesEndpoint', $endpoint->getIdent());
-    }
-
     public function testRegisterSkillCategoriesEndpoint(): void {
         $endpoint = new RegisterSkillCategoriesEndpoint();
         $endpoint->runtimeSetup();

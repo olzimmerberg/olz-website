@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\Statistics\Endpoints\GetAppStatisticsCredentialsEndpoint
  */
 final class GetAppStatisticsCredentialsEndpointTest extends UnitTestCase {
-    public function testGetAppStatisticsCredentialsEndpointIdent(): void {
-        $endpoint = new GetAppStatisticsCredentialsEndpoint();
-        $this->assertSame('GetAppStatisticsCredentialsEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetAppStatisticsCredentialsEndpoint(): void {
         $endpoint = new GetAppStatisticsCredentialsEndpoint();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => true];

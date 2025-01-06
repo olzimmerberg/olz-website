@@ -2,41 +2,41 @@
 
 namespace Olz\Apps\Anmelden\Endpoints;
 
-use Olz\Apps\Anmelden\AnmeldenConstants;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use PhpTypeScriptApi\PhpStan\IsoDateTime;
+use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
+/**
+ * @phpstan-type OlzRegistrationId non-empty-string
+ * @phpstan-type OlzRegistrationData array{
+ *   title: non-empty-string,
+ *   description: string,
+ *   infos: array<OlzRegistrationInfo>,
+ *   opensAt?: ?IsoDateTime,
+ *   closesAt?: ?IsoDateTime,
+ * }
+ * @phpstan-type OlzRegistrationInfo array{
+ *   type: ValidRegistrationInfoType,
+ *   isOptional: bool,
+ *   title: non-empty-string,
+ *   description: string,
+ *   options?: ?(
+ *     array{text: array<non-empty-string>}
+ *     | array{svg: array<non-empty-string>}
+ *   ),
+ * }
+ * @phpstan-type ValidRegistrationInfoType 'email'|'firstName'|'lastName'|'gender'|'street'|'postalCode'|'city'|'region'|'countryCode'|'birthdate'|'phone'|'siCardNumber'|'solvNumber'|'string'|'enum'|'reservation'
+ */
 trait RegistrationEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return true;
+    public function configureRegistrationEndpointTrait(): void {
+        PhpStanUtils::registerApiObject(IsoDateTime::class);
     }
 
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return self::getRegistrationDataField($allow_null);
-    }
-
-    public static function getRegistrationDataField(bool $allow_null = false): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzRegistrationDataOrNull' : 'OlzRegistrationData',
-            'field_structure' => [
-                'title' => new FieldTypes\StringField(['allow_empty' => false]),
-                'description' => new FieldTypes\StringField(['allow_empty' => true]),
-                // see README for documentation.
-                'infos' => new FieldTypes\ArrayField([
-                    'item_field' => AnmeldenConstants::getRegistrationInfoField(),
-                ]),
-                'opensAt' => new FieldTypes\DateTimeField(['allow_null' => true]),
-                'closesAt' => new FieldTypes\DateTimeField(['allow_null' => true]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzRegistrationData */
     public function getEntityData(Registration $entity): array {
         $infos = [];
         $registration_info_repo = $this->entityManager()->getRepository(RegistrationInfo::class);
@@ -64,7 +64,7 @@ trait RegistrationEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzRegistrationData $input_data */
     public function updateEntityWithData(Registration $entity, array $input_data): void {
         $entity->setTitle($input_data['title']);
         $entity->setDescription($input_data['description']);

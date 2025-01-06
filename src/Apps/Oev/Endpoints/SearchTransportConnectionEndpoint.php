@@ -8,7 +8,7 @@ use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
 use Olz\Fetchers\TransportApiFetcher;
 use PhpTypeScriptApi\PhpStan\IsoDateTime;
-use PhpTypeScriptApi\TypedEndpoint;
+use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
  * Search for a swiss public transport connection.
@@ -47,14 +47,12 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   debug: string,
  * }
  *
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   array{destination: non-empty-string, arrival: IsoDateTime},
  *   array{status: 'OK'|'ERROR', suggestions?: ?array<OlzTransportSuggestion>},
  * >
  */
-class SearchTransportConnectionEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
+class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
     public const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
     /** @var array<array{id: string, name: string, coordinate: array{type: string, x: float, y: float}, weight: float}> */
@@ -72,8 +70,9 @@ class SearchTransportConnectionEndpoint extends TypedEndpoint {
         $this->originStations = $data;
     }
 
-    public static function getApiObjectClasses(): array {
-        return [IsoDateTime::class];
+    public function configure(): void {
+        parent::configure();
+        PhpStanUtils::registerApiObject(IsoDateTime::class);
     }
 
     public function runtimeSetup(): void {
@@ -84,10 +83,6 @@ class SearchTransportConnectionEndpoint extends TypedEndpoint {
 
     public function setTransportApiFetcher(TransportApiFetcher $transportApiFetcher): void {
         $this->transportApiFetcher = $transportApiFetcher;
-    }
-
-    public static function getIdent(): string {
-        return 'SearchTransportConnectionEndpoint';
     }
 
     protected function handle(mixed $input): mixed {

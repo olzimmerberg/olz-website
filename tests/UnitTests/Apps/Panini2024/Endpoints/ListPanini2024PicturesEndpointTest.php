@@ -15,7 +15,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class ListPanini2024PicturesEndpointTest extends UnitTestCase {
     public function testListPanini2024PicturesEndpointIdent(): void {
         $endpoint = new ListPanini2024PicturesEndpoint();
-        $this->assertSame('ListPanini2024PicturesEndpoint', $endpoint->getIdent());
+        $this->assertTrue((bool) $endpoint);
     }
 
     // TODO: Tests

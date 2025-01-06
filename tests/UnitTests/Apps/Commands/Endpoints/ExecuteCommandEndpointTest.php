@@ -15,11 +15,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Apps\Commands\Endpoints\ExecuteCommandEndpoint
  */
 final class ExecuteCommandEndpointTest extends UnitTestCase {
-    public function testExecuteCommandEndpointIdent(): void {
-        $endpoint = new ExecuteCommandEndpoint();
-        $this->assertSame('ExecuteCommandEndpoint', $endpoint->getIdent());
-    }
-
     public function testExecuteCommandEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'commands' => false,

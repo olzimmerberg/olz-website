@@ -16,11 +16,6 @@ use Olz\Utils\WithUtilsCache;
  * @covers \Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint
  */
 final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
-    public function testUpdateNotificationSubscriptionsEndpointIdent(): void {
-        $endpoint = new UpdateNotificationSubscriptionsEndpoint();
-        $this->assertSame('UpdateNotificationSubscriptionsEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateNotificationSubscriptionsEndpointEmail(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $entity_manager = WithUtilsCache::get('entityManager');

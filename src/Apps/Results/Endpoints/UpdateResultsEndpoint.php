@@ -4,10 +4,9 @@ namespace Olz\Apps\Results\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
-use PhpTypeScriptApi\TypedEndpoint;
 
 /**
- * @extends TypedEndpoint<
+ * @extends OlzTypedEndpoint<
  *   array{
  *     file: non-empty-string,
  *     content?: ?non-empty-string,
@@ -16,17 +15,7 @@ use PhpTypeScriptApi\TypedEndpoint;
  *   array{status: 'OK'|'INVALID_FILENAME'|'INVALID_BASE64_DATA'|'ERROR'}
  * >
  */
-class UpdateResultsEndpoint extends TypedEndpoint {
-    use OlzTypedEndpoint;
-
-    public static function getApiObjectClasses(): array {
-        return [];
-    }
-
-    public static function getIdent(): string {
-        return 'UpdateResultsEndpoint';
-    }
-
+class UpdateResultsEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

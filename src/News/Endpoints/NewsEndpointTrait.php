@@ -6,50 +6,37 @@ use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\PhpStan\IsoDateTime;
 
+/**
+ * @phpstan-type OlzNewsId int
+ * @phpstan-type OlzNewsData array{
+ *   format: OlzNewsFormat,
+ *   authorUserId?: ?int<1, max>,
+ *   authorRoleId?: ?int<1, max>,
+ *   authorName?: ?non-empty-string,
+ *   authorEmail?: ?non-empty-string,
+ *   publishAt?: ?IsoDateTime,
+ *   title: non-empty-string,
+ *   teaser: string,
+ *   content: string,
+ *   externalUrl?: ?non-empty-string,
+ *   tags: array<non-empty-string>,
+ *   terminId?: ?int<1, max>,
+ *   imageIds?: ?array<non-empty-string>,
+ *   fileIds: array<non-empty-string>,
+ * }
+ * @phpstan-type OlzNewsFormat 'aktuell'|'kaderblog'|'forum'|'galerie'|'video'|'anonymous'
+ */
 trait NewsEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return false;
+    public function configureNewsEndpointTrait(): void {
+        $this->phpStanUtils->registerApiObject(IsoDateTime::class);
     }
 
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzNewsDataOrNull' : 'OlzNewsData',
-            'field_structure' => [
-                'format' => new FieldTypes\EnumField([
-                    'export_as' => 'OlzNewsFormat',
-                    'allowed_values' => ['aktuell', 'kaderblog', 'forum', 'galerie', 'video', 'anonymous'],
-                ]),
-                'authorUserId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
-                'authorRoleId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
-                'authorName' => new FieldTypes\StringField(['allow_null' => true]),
-                'authorEmail' => new FieldTypes\StringField(['allow_null' => true]),
-                'publishAt' => new FieldTypes\DateTimeField(['allow_null' => true]),
-                'title' => new FieldTypes\StringField([]),
-                'teaser' => new FieldTypes\StringField(['allow_empty' => true]),
-                'content' => new FieldTypes\StringField(['allow_empty' => true]),
-                'externalUrl' => new FieldTypes\StringField(['allow_null' => true]),
-                'tags' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-                'terminId' => new FieldTypes\IntegerField(['allow_null' => true, 'min_value' => 1]),
-                'imageIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                    'allow_null' => true,
-                ]),
-                'fileIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzNewsData */
     public function getEntityData(NewsEntry $entity): array {
         $author_user = $entity->getAuthorUser();
         $author_role = $entity->getAuthorRole();
@@ -69,7 +56,7 @@ trait NewsEndpointTrait {
             'authorRoleId' => $author_role ? $author_role->getId() : null,
             'authorName' => $author_name ? $author_name : null,
             'authorEmail' => $author_email ? $author_email : null,
-            'publishAt' => "{$published_date} {$published_time}",
+            'publishAt' => new IsoDateTime("{$published_date} {$published_time}"),
             'title' => $entity->getTitle(),
             'teaser' => $entity->getTeaser(),
             'content' => $entity->getContent(),
@@ -81,7 +68,7 @@ trait NewsEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzNewsData $input_data */
     public function updateEntityWithData(NewsEntry $entity, array $input_data): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
@@ -105,7 +92,7 @@ trait NewsEndpointTrait {
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
         }
 
-        $publish_at = $input_data['publishAt'] ? new \DateTime($input_data['publishAt']) : $now;
+        $publish_at = $input_data['publishAt'] ?? $now;
 
         $tags_for_db = $this->getTagsForDb($input_data['tags']);
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
@@ -129,7 +116,7 @@ trait NewsEndpointTrait {
         $entity->setNewsletter(true);
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzNewsData $input_data */
     public function persistUploads(NewsEntry $entity, array $input_data): void {
         $this->persistOlzImages($entity, $entity->getImageIds());
         $this->persistOlzFiles($entity, $input_data['fileIds']);

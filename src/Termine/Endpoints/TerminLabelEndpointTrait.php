@@ -4,37 +4,24 @@ namespace Olz\Termine\Endpoints;
 
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+/**
+ * @phpstan-type OlzTerminLabelId int
+ * @phpstan-type OlzTerminLabelData array{
+ *   ident: non-empty-string,
+ *   name: non-empty-string,
+ *   details: string,
+ *   icon?: ?non-empty-string,
+ *   position?: ?int,
+ *   imageIds: array<non-empty-string>,
+ *   fileIds: array<non-empty-string>,
+ * }
+ */
 trait TerminLabelEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return false;
-    }
-
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzTerminLabelDataOrNull' : 'OlzTerminLabelData',
-            'field_structure' => [
-                'ident' => new FieldTypes\StringField(['max_length' => 31]),
-                'name' => new FieldTypes\StringField(['max_length' => 127]),
-                'details' => new FieldTypes\StringField(['allow_empty' => true]),
-                'icon' => new FieldTypes\StringField(['allow_null' => true]),
-                'position' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'imageIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-                'fileIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzTerminLabelData */
     public function getEntityData(TerminLabel $entity): array {
         return [
             'ident' => $entity->getIdent() ? $entity->getIdent() : '-',
@@ -47,7 +34,7 @@ trait TerminLabelEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzTerminLabelData $input_data */
     public function updateEntityWithData(TerminLabel $entity, array $input_data): void {
         $valid_icon_file_id = $this->uploadUtils()->getValidUploadId($input_data['icon']);
 
@@ -58,7 +45,7 @@ trait TerminLabelEndpointTrait {
         $entity->setPosition($input_data['position']);
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzTerminLabelData $input_data */
     public function persistUploads(TerminLabel $entity, array $input_data): void {
         $this->persistOlzImages($entity, $input_data['imageIds']);
         $this->persistOlzFiles($entity, $input_data['fileIds']);

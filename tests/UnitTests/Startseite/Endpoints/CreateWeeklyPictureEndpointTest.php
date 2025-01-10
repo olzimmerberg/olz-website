@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint
  */
 final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
-    public function testCreateWeeklyPictureEndpointIdent(): void {
-        $endpoint = new CreateWeeklyPictureEndpoint();
-        $this->assertSame('CreateWeeklyPictureEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateWeeklyPictureEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['weekly_picture' => false];
         $endpoint = new CreateWeeklyPictureEndpoint();
@@ -77,7 +72,6 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
-            'status' => 'OK',
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');

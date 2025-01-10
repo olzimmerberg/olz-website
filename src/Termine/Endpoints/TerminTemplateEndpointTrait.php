@@ -6,45 +6,34 @@ use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\PhpStan\IsoTime;
 
+/**
+ * @phpstan-type OlzTerminTemplateId int
+ * @phpstan-type OlzTerminTemplateData array{
+ *   startTime?: ?IsoTime,
+ *   durationSeconds?: ?int<0, max>,
+ *   title: string,
+ *   text: string,
+ *   deadlineEarlierSeconds?: ?int<0, max>,
+ *   deadlineTime?: ?IsoTime,
+ *   shouldPromote: bool,
+ *   newsletter: bool,
+ *   types: array<non-empty-string>,
+ *   locationId?: ?int,
+ *   imageIds: array<non-empty-string>,
+ *   fileIds: array<non-empty-string>,
+ * }
+ */
 trait TerminTemplateEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return false;
+    public function configureTerminTemplateEndpointTrait(): void {
+        $this->phpStanUtils->registerApiObject(IsoTime::class);
     }
 
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzTerminTemplateDataOrNull' : 'OlzTerminTemplateData',
-            'field_structure' => [
-                'startTime' => new FieldTypes\TimeField(['allow_null' => true]),
-                'durationSeconds' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'title' => new FieldTypes\StringField(['allow_empty' => true]),
-                'text' => new FieldTypes\StringField(['allow_empty' => true]),
-                'deadlineEarlierSeconds' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'deadlineTime' => new FieldTypes\TimeField(['allow_null' => true]),
-                'shouldPromote' => new FieldTypes\BooleanField([]),
-                'newsletter' => new FieldTypes\BooleanField(['allow_null' => false]),
-                // TODO: Migrate to labels
-                'types' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-                'locationId' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'imageIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-                'fileIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzTerminTemplateData */
     public function getEntityData(TerminTemplate $entity): array {
         $types_for_api = $this->getTypesForApi($entity->getLabels());
 
@@ -66,19 +55,19 @@ trait TerminTemplateEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzTerminTemplateData $input_data */
     public function updateEntityWithData(TerminTemplate $entity, array $input_data): void {
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         $termin_location = $termin_location_repo->findOneBy(['id' => $input_data['locationId']]);
 
-        $entity->setStartTime($input_data['startTime'] ? new \DateTime($input_data['startTime']) : null);
+        $entity->setStartTime($input_data['startTime']);
         $entity->setDurationSeconds($input_data['durationSeconds']);
         $entity->setTitle($input_data['title']);
         $entity->setText($input_data['text']);
         $entity->setDeadlineEarlierSeconds($input_data['deadlineEarlierSeconds']);
-        $entity->setDeadlineTime($input_data['deadlineTime'] ? new \DateTime($input_data['deadlineTime']) : null);
+        $entity->setDeadlineTime($input_data['deadlineTime']);
         if (count($valid_image_ids) > 0) {
             $entity->setShouldPromote($input_data['shouldPromote']);
         } else {
@@ -97,7 +86,7 @@ trait TerminTemplateEndpointTrait {
         $entity->setImageIds($valid_image_ids);
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzTerminTemplateData $input_data */
     public function persistUploads(TerminTemplate $entity, array $input_data): void {
         $this->persistOlzImages($entity, $entity->getImageIds());
         $this->persistOlzFiles($entity, $input_data['fileIds']);

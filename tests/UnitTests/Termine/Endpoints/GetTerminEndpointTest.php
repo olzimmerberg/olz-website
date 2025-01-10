@@ -15,11 +15,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Termine\Endpoints\GetTerminEndpoint
  */
 final class GetTerminEndpointTest extends UnitTestCase {
-    public function testGetTerminEndpointIdent(): void {
-        $endpoint = new GetTerminEndpoint();
-        $this->assertSame('GetTerminEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetTerminEndpoint();

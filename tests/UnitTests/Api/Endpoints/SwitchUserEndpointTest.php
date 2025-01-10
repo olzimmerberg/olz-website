@@ -15,16 +15,11 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Api\Endpoints\SwitchUserEndpoint
  */
 final class SwitchUserEndpointTest extends UnitTestCase {
-    public function testSwitchUserEndpointIdent(): void {
-        $endpoint = new SwitchUserEndpoint();
-        $this->assertSame('SwitchUserEndpoint', $endpoint->getIdent());
-    }
-
     public function testSwitchUserEndpointWithoutInput(): void {
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
         try {
-            $result = $endpoint->call([]);
+            $endpoint->call([]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
@@ -41,13 +36,13 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
         try {
-            $result = $endpoint->call([
+            $endpoint->call([
                 'userId' => null,
             ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'userId' => [['.' => ['Feld darf nicht leer sein.']]],
+                'userId' => [['.' => ['Wert muss vom Typ int<1, max> sein.']]],
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([

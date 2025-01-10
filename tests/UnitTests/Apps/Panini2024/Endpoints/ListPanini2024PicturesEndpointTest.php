@@ -13,7 +13,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  * @covers \Olz\Apps\Panini2024\Endpoints\ListPanini2024PicturesEndpoint
  */
 final class ListPanini2024PicturesEndpointTest extends UnitTestCase {
-    public function testListPanini2024PicturesEndpointIdent(): void {
+    public function testListPanini2024PicturesEndpointExists(): void {
         $endpoint = new ListPanini2024PicturesEndpoint();
         $this->assertTrue((bool) $endpoint);
     }

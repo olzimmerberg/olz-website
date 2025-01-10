@@ -98,7 +98,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
         const [err, response] = await (props.id
             ? olzApi.getResult('updateTerminLocation', {id: props.id, meta, data})
             : olzApi.getResult('createTerminLocation', {meta, data}));
-        if (err || response.status !== 'OK') {
+        if (err) {
             setIsSubmitting(false);
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);

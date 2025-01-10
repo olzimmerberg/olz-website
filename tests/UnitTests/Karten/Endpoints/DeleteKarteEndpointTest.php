@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Karten\Endpoints\DeleteKarteEndpoint
  */
 final class DeleteKarteEndpointTest extends UnitTestCase {
-    public function testDeleteKarteEndpointIdent(): void {
-        $endpoint = new DeleteKarteEndpoint();
-        $this->assertSame('DeleteKarteEndpoint', $endpoint->getIdent());
-    }
-
     public function testDeleteKarteEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new DeleteKarteEndpoint();
@@ -78,9 +73,7 @@ final class DeleteKarteEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame([], $result);
         $this->assertSame([
             [FakeKarte::empty(), null, null, null, null, 'karten'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);

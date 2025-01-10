@@ -2,14 +2,22 @@
 
 namespace Olz\Startseite\Endpoints;
 
-use Olz\Api\OlzDeleteEntityEndpoint;
+use Olz\Api\OlzDeleteEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteWeeklyPictureEndpoint extends OlzDeleteEntityEndpoint {
+/**
+ * @phpstan-import-type OlzWeeklyPictureId from WeeklyPictureEndpointTrait
+ * @phpstan-import-type OlzWeeklyPictureData from WeeklyPictureEndpointTrait
+ *
+ * @extends OlzDeleteEntityTypedEndpoint<OlzWeeklyPictureId, OlzWeeklyPictureData>
+ */
+class DeleteWeeklyPictureEndpoint extends OlzDeleteEntityTypedEndpoint {
     use WeeklyPictureEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'DeleteWeeklyPictureEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureWeeklyPictureEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(WeeklyPictureEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -25,6 +33,6 @@ class DeleteWeeklyPictureEndpoint extends OlzDeleteEntityEndpoint {
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

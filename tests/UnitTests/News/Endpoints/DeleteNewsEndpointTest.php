@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\News\Endpoints\DeleteNewsEndpoint
  */
 final class DeleteNewsEndpointTest extends UnitTestCase {
-    public function testDeleteNewsEndpointIdent(): void {
-        $endpoint = new DeleteNewsEndpoint();
-        $this->assertSame('DeleteNewsEndpoint', $endpoint->getIdent());
-    }
-
     public function testDeleteNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new DeleteNewsEndpoint();
@@ -78,9 +73,7 @@ final class DeleteNewsEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame([], $result);
         $this->assertSame([
             [FakeNews::empty(), null, null, null, null, 'news'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);

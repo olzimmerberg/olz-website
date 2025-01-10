@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Roles\Endpoints\GetRoleEndpoint
  */
 final class GetRoleEndpointTest extends UnitTestCase {
-    public function testGetRoleEndpointIdent(): void {
-        $endpoint = new GetRoleEndpoint();
-        $this->assertSame('GetRoleEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetRoleEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetRoleEndpoint();

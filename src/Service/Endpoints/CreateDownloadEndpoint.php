@@ -2,14 +2,21 @@
 
 namespace Olz\Service\Endpoints;
 
-use Olz\Api\OlzCreateEntityEndpoint;
+use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Service\Download;
 
-class CreateDownloadEndpoint extends OlzCreateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzDownloadId from DownloadEndpointTrait
+ * @phpstan-import-type OlzDownloadData from DownloadEndpointTrait
+ *
+ * @extends OlzCreateEntityTypedEndpoint<OlzDownloadId, OlzDownloadData>
+ */
+class CreateDownloadEndpoint extends OlzCreateEntityTypedEndpoint {
     use DownloadEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'CreateDownloadEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(DownloadEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -24,7 +31,6 @@ class CreateDownloadEndpoint extends OlzCreateEntityEndpoint {
         $this->persistUploads($entity, $input['data']);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

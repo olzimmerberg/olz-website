@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Startseite\Endpoints\DeleteWeeklyPictureEndpoint
  */
 final class DeleteWeeklyPictureEndpointTest extends UnitTestCase {
-    public function testDeleteWeeklyPictureEndpointIdent(): void {
-        $endpoint = new DeleteWeeklyPictureEndpoint();
-        $this->assertSame('DeleteWeeklyPictureEndpoint', $endpoint->getIdent());
-    }
-
     public function testDeleteWeeklyPictureEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new DeleteWeeklyPictureEndpoint();
@@ -80,9 +75,7 @@ final class DeleteWeeklyPictureEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame([], $result);
 
         $this->assertSame([
             [FakeWeeklyPicture::empty(), null, null, null, null, 'weekly_picture'],

@@ -2,30 +2,17 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Api\OlzTypedEndpoint;
 
-class LogoutEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'LogoutEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'NO_SESSION',
-                'SESSION_CLOSED',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [],
-            'allow_null' => true,
-        ]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   ?array{},
+ *   array{
+ *     status: 'NO_SESSION'|'SESSION_CLOSED',
+ *   }
+ * >
+ */
+class LogoutEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $this->session()->delete('auth');
         $this->session()->delete('root');

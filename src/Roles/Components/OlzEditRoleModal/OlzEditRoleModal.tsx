@@ -100,7 +100,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
         const [err, response] = await (props.id
             ? olzApi.getResult('updateRole', {id: props.id, meta, data})
             : olzApi.getResult('createRole', {meta, data}));
-        if (err || response.status !== 'OK') {
+        if (err) {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             setIsSubmitting(false);

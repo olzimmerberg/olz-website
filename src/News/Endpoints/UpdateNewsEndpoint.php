@@ -2,14 +2,25 @@
 
 namespace Olz\News\Endpoints;
 
-use Olz\Api\OlzUpdateEntityEndpoint;
+use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzNewsId from NewsEndpointTrait
+ * @phpstan-import-type OlzNewsData from NewsEndpointTrait
+ *
+ * TODO: Those should not be necessary!
+ * @phpstan-import-type OlzNewsFormat from NewsEndpointTrait
+ *
+ * @extends OlzUpdateEntityTypedEndpoint<OlzNewsId, OlzNewsData>
+ */
+class UpdateNewsEndpoint extends OlzUpdateEntityTypedEndpoint {
     use NewsEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'UpdateNewsEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureNewsEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(NewsEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -29,7 +40,6 @@ class UpdateNewsEndpoint extends OlzUpdateEntityEndpoint {
         $this->persistUploads($entity, $input['data']);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

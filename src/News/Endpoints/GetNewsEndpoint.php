@@ -2,13 +2,24 @@
 
 namespace Olz\News\Endpoints;
 
-use Olz\Api\OlzGetEntityEndpoint;
+use Olz\Api\OlzGetEntityTypedEndpoint;
 
-class GetNewsEndpoint extends OlzGetEntityEndpoint {
+/**
+ * @phpstan-import-type OlzNewsId from NewsEndpointTrait
+ * @phpstan-import-type OlzNewsData from NewsEndpointTrait
+ *
+ * TODO: Those should not be necessary!
+ * @phpstan-import-type OlzNewsFormat from NewsEndpointTrait
+ *
+ * @extends OlzGetEntityTypedEndpoint<OlzNewsId, OlzNewsData>
+ */
+class GetNewsEndpoint extends OlzGetEntityTypedEndpoint {
     use NewsEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'GetNewsEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureNewsEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(NewsEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

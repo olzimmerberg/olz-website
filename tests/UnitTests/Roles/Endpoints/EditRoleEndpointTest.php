@@ -17,11 +17,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Roles\Endpoints\EditRoleEndpoint
  */
 final class EditRoleEndpointTest extends UnitTestCase {
-    public function testEditRoleEndpointIdent(): void {
-        $endpoint = new EditRoleEndpoint();
-        $this->assertSame('EditRoleEndpoint', $endpoint->getIdent());
-    }
-
     public function testEditRoleEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;

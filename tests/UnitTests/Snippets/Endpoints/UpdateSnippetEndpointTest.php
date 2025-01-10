@@ -30,11 +30,6 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
         ],
     ];
 
-    public function testUpdateSnippetEndpointIdent(): void {
-        $endpoint = new UpdateSnippetEndpoint();
-        $this->assertSame('UpdateSnippetEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateSnippetEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['snippet_123' => false];
         $endpoint = new UpdateSnippetEndpoint();
@@ -80,7 +75,6 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => $id,
         ], $result);
 
@@ -142,7 +136,6 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => $id,
         ], $result);
 

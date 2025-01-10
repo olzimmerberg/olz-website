@@ -2,14 +2,22 @@
 
 namespace Olz\Startseite\Endpoints;
 
-use Olz\Api\OlzUpdateEntityEndpoint;
+use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateWeeklyPictureEndpoint extends OlzUpdateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzWeeklyPictureId from WeeklyPictureEndpointTrait
+ * @phpstan-import-type OlzWeeklyPictureData from WeeklyPictureEndpointTrait
+ *
+ * @extends OlzUpdateEntityTypedEndpoint<OlzWeeklyPictureId, OlzWeeklyPictureData>
+ */
+class UpdateWeeklyPictureEndpoint extends OlzUpdateEntityTypedEndpoint {
     use WeeklyPictureEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'UpdateWeeklyPictureEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureWeeklyPictureEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(WeeklyPictureEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -29,7 +37,6 @@ class UpdateWeeklyPictureEndpoint extends OlzUpdateEntityEndpoint {
         $this->persistUploads($entity);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

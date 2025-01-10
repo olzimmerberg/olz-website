@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Service\Endpoints\DeleteDownloadEndpoint
  */
 final class DeleteDownloadEndpointTest extends UnitTestCase {
-    public function testDeleteDownloadEndpointIdent(): void {
-        $endpoint = new DeleteDownloadEndpoint();
-        $this->assertSame('DeleteDownloadEndpoint', $endpoint->getIdent());
-    }
-
     public function testDeleteDownloadEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new DeleteDownloadEndpoint();
@@ -80,9 +75,7 @@ final class DeleteDownloadEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame([], $result);
 
         $this->assertSame([
             [FakeDownload::empty(), null, null, null, null, 'downloads'],

@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Service\Endpoints\DeleteLinkEndpoint
  */
 final class DeleteLinkEndpointTest extends UnitTestCase {
-    public function testDeleteLinkEndpointIdent(): void {
-        $endpoint = new DeleteLinkEndpoint();
-        $this->assertSame('DeleteLinkEndpoint', $endpoint->getIdent());
-    }
-
     public function testDeleteLinkEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new DeleteLinkEndpoint();
@@ -80,9 +75,7 @@ final class DeleteLinkEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame([], $result);
 
         $this->assertSame([
             [FakeLink::empty(), null, null, null, null, 'links'],

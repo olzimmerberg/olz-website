@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Termine\Endpoints\DeleteTerminLabelEndpoint
  */
 final class DeleteTerminLabelEndpointTest extends UnitTestCase {
-    public function testDeleteTerminLabelEndpointIdent(): void {
-        $endpoint = new DeleteTerminLabelEndpoint();
-        $this->assertSame('DeleteTerminLabelEndpoint', $endpoint->getIdent());
-    }
-
     public function testDeleteTerminLabelEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $endpoint = new DeleteTerminLabelEndpoint();
@@ -55,9 +50,7 @@ final class DeleteTerminLabelEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
-        ], $result);
+        $this->assertSame([], $result);
 
         $this->assertSame([
             [FakeTerminLabel::empty(), null, null, null, null, 'termine_admin'],

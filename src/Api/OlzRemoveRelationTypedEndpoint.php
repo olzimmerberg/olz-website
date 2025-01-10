@@ -3,14 +3,13 @@
 namespace Olz\Api;
 
 /**
- * @template Id
- * @template Data
+ * @template Ids
  * @template CustomRequest = never
  * @template CustomResponse = never
  *
  * @extends OlzTypedEndpoint<
  *   array{
- *     id: Id,
+ *     ids: Ids,
  *     custom?: CustomRequest,
  *   },
  *   array{
@@ -18,6 +17,6 @@ namespace Olz\Api;
  *   }
  * >
  */
-abstract class OlzDeleteEntityTypedEndpoint extends OlzTypedEndpoint {
-    use OlzEntityEndpointTrait;
+abstract class OlzRemoveRelationTypedEndpoint extends OlzTypedEndpoint {
+    use \Psr\Log\LoggerAwareTrait;
 }

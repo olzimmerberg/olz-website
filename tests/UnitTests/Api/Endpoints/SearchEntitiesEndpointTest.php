@@ -35,11 +35,6 @@ class FakeSearchEntitiesEndpointTerminLocationRepository extends FakeOlzReposito
  * @covers \Olz\Api\Endpoints\SearchEntitiesEndpoint
  */
 final class SearchEntitiesEndpointTest extends UnitTestCase {
-    public function testSearchEntitiesEndpointIdent(): void {
-        $endpoint = new SearchEntitiesEndpoint();
-        $this->assertSame('SearchEntitiesEndpoint', $endpoint->getIdent());
-    }
-
     public function testSearchEntitiesEndpointWithoutInput(): void {
         $endpoint = new SearchEntitiesEndpoint();
         $endpoint->runtimeSetup();
@@ -49,8 +44,6 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'entityType' => ["Fehlender Schlüssel: entityType."],
-                'query' => ["Fehlender Schlüssel: query."],
-                'id' => ["Fehlender Schlüssel: id."],
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
@@ -71,7 +64,13 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'entityType' => [['.' => ["Feld darf nicht leer sein."]]],
+                'entityType' => [['.' => [
+                    ['.' => ["Wert muss vom Typ 'SolvEvent' sein."]],
+                    ['.' => ["Wert muss vom Typ 'TerminLocation' sein."]],
+                    ['.' => ["Wert muss vom Typ 'TerminTemplate' sein."]],
+                    ['.' => ["Wert muss vom Typ 'Role' sein."]],
+                    ['.' => ["Wert muss vom Typ 'User' sein."]],
+                ]]],
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
@@ -92,7 +91,13 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'entityType' => [['.' => ["Wert muss unter den erlaubten Werten sein."]]],
+                'entityType' => [['.' => [
+                    ['.' => ["Wert muss vom Typ 'SolvEvent' sein."]],
+                    ['.' => ["Wert muss vom Typ 'TerminLocation' sein."]],
+                    ['.' => ["Wert muss vom Typ 'TerminTemplate' sein."]],
+                    ['.' => ["Wert muss vom Typ 'Role' sein."]],
+                    ['.' => ["Wert muss vom Typ 'User' sein."]],
+                ]]],
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([

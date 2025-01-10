@@ -2,14 +2,21 @@
 
 namespace Olz\Snippets\Endpoints;
 
-use Olz\Api\OlzEditEntityEndpoint;
+use Olz\Api\OlzEditEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class EditSnippetEndpoint extends OlzEditEntityEndpoint {
+/**
+ * @phpstan-import-type OlzSnippetId from SnippetEndpointTrait
+ * @phpstan-import-type OlzSnippetData from SnippetEndpointTrait
+ *
+ * @extends OlzEditEntityTypedEndpoint<OlzSnippetId, OlzSnippetData>
+ */
+class EditSnippetEndpoint extends OlzEditEntityTypedEndpoint {
     use SnippetEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'EditSnippetEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(SnippetEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

@@ -7,7 +7,6 @@ use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDate;
-use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
  * Note: `userId` can be of a managed user.
@@ -39,8 +38,8 @@ use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 class GetPrefillValuesEndpoint extends OlzTypedEndpoint {
     public function configure(): void {
         parent::configure();
-        PhpStanUtils::registerApiObject(IsoDate::class);
-        PhpStanUtils::registerApiObject(IsoCountry::class);
+        $this->phpStanUtils->registerApiObject(IsoDate::class);
+        $this->phpStanUtils->registerApiObject(IsoCountry::class);
     }
 
     protected function handle(mixed $input): mixed {

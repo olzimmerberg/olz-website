@@ -15,11 +15,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Startseite\Endpoints\GetWeeklyPictureEndpoint
  */
 final class GetWeeklyPictureEndpointTest extends UnitTestCase {
-    public function testGetWeeklyPictureEndpointIdent(): void {
-        $endpoint = new GetWeeklyPictureEndpoint();
-        $this->assertSame('GetWeeklyPictureEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetWeeklyPictureEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetWeeklyPictureEndpoint();

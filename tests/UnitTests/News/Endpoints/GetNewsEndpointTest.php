@@ -15,11 +15,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\News\Endpoints\GetNewsEndpoint
  */
 final class GetNewsEndpointTest extends UnitTestCase {
-    public function testGetNewsEndpointIdent(): void {
-        $endpoint = new GetNewsEndpoint();
-        $this->assertSame('GetNewsEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetNewsEndpoint();

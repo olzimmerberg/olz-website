@@ -2,14 +2,21 @@
 
 namespace Olz\Roles\Endpoints;
 
-use Olz\Api\OlzEditEntityEndpoint;
+use Olz\Api\OlzEditEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class EditRoleEndpoint extends OlzEditEntityEndpoint {
+/**
+ * @phpstan-import-type OlzRoleId from RoleEndpointTrait
+ * @phpstan-import-type OlzRoleData from RoleEndpointTrait
+ *
+ * @extends OlzEditEntityTypedEndpoint<OlzRoleId, OlzRoleData>
+ */
+class EditRoleEndpoint extends OlzEditEntityTypedEndpoint {
     use RoleEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'EditRoleEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(RoleEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

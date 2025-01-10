@@ -42,11 +42,6 @@ final class CreateRoleEndpointTest extends UnitTestCase {
         ];
     }
 
-    public function testCreateRoleEndpointIdent(): void {
-        $endpoint = new CreateRoleEndpoint();
-        $this->assertSame('CreateRoleEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateRoleEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
         $endpoint = new CreateRoleEndpoint();
@@ -88,7 +83,6 @@ final class CreateRoleEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');

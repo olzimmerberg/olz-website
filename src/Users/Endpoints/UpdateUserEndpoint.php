@@ -2,17 +2,27 @@
 
 namespace Olz\Users\Endpoints;
 
-use Olz\Api\OlzUpdateEntityEndpoint;
+use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateUserEndpoint extends OlzUpdateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzUserId from UserEndpointTrait
+ * @phpstan-import-type OlzUserData from UserEndpointTrait
+ *
+ * @extends OlzUpdateEntityTypedEndpoint<OlzUserId, OlzUserData, never, array{
+ *   status: 'OK'|'OK_NO_EMAIL_VERIFICATION'|'DENIED'|'ERROR',
+ * }>
+ */
+class UpdateUserEndpoint extends OlzUpdateEntityTypedEndpoint {
     use UserEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'UpdateUserEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureUserEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(UserEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -97,13 +107,16 @@ class UpdateUserEndpoint extends OlzUpdateEntityEndpoint {
             try {
                 $this->emailUtils()->sendEmailVerificationEmail($entity);
             } catch (\Throwable $th) {
-                return ['status' => 'OK_NO_EMAIL_VERIFICATION'];
+                return [
+                    'custom' => ['status' => 'OK_NO_EMAIL_VERIFICATION'],
+                    'id' => $entity->getId(),
+                ];
             }
             $this->entityManager()->flush();
         }
 
         return [
-            'status' => 'OK',
+            'custom' => ['status' => 'OK'],
             'id' => $entity->getId(),
         ];
     }

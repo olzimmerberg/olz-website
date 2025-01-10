@@ -2,14 +2,24 @@
 
 namespace Olz\Karten\Endpoints;
 
-use Olz\Api\OlzUpdateEntityEndpoint;
+use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateKarteEndpoint extends OlzUpdateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzKarteId from KarteEndpointTrait
+ * @phpstan-import-type OlzKarteData from KarteEndpointTrait
+ *
+ * TODO: Those should not be necessary!
+ * @phpstan-import-type OlzKarteKind from KarteEndpointTrait
+ *
+ * @extends OlzUpdateEntityTypedEndpoint<OlzKarteId, OlzKarteData>
+ */
+class UpdateKarteEndpoint extends OlzUpdateEntityTypedEndpoint {
     use KarteEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'UpdateKarteEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(KarteEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -29,7 +39,6 @@ class UpdateKarteEndpoint extends OlzUpdateEntityEndpoint {
         $this->persistUploads($entity, $input['data']);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

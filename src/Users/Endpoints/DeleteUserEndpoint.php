@@ -2,7 +2,7 @@
 
 namespace Olz\Users\Endpoints;
 
-use Olz\Api\OlzDeleteEntityEndpoint;
+use Olz\Api\OlzDeleteEntityTypedEndpoint;
 use Olz\Entity\AccessToken;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
@@ -10,11 +10,19 @@ use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteUserEndpoint extends OlzDeleteEntityEndpoint {
+/**
+ * @phpstan-import-type OlzUserId from UserEndpointTrait
+ * @phpstan-import-type OlzUserData from UserEndpointTrait
+ *
+ * @extends OlzDeleteEntityTypedEndpoint<OlzUserId, OlzUserData>
+ */
+class DeleteUserEndpoint extends OlzDeleteEntityTypedEndpoint {
     use UserEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'DeleteUserEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->configureUserEndpointTrait();
+        $this->phpStanUtils->registerTypeImport(UserEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -91,6 +99,6 @@ class DeleteUserEndpoint extends OlzDeleteEntityEndpoint {
         $entity->softDelete();
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

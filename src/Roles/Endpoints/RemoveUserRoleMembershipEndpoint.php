@@ -2,14 +2,20 @@
 
 namespace Olz\Roles\Endpoints;
 
-use Olz\Api\OlzRemoveRelationEndpoint;
+use Olz\Api\OlzRemoveRelationTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class RemoveUserRoleMembershipEndpoint extends OlzRemoveRelationEndpoint {
+/**
+ * @phpstan-import-type OlzRoleMembershipIds from UserRoleMembershipEndpointTrait
+ *
+ * @extends OlzRemoveRelationTypedEndpoint<OlzRoleMembershipIds>
+ */
+class RemoveUserRoleMembershipEndpoint extends OlzRemoveRelationTypedEndpoint {
     use UserRoleMembershipEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'RemoveUserRoleMembershipEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(UserRoleMembershipEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -28,6 +34,6 @@ class RemoveUserRoleMembershipEndpoint extends OlzRemoveRelationEndpoint {
         $this->entityManager()->persist($user);
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

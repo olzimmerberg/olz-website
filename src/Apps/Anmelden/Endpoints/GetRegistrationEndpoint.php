@@ -4,7 +4,6 @@ namespace Olz\Apps\Anmelden\Endpoints;
 
 use Olz\Api\OlzGetEntityTypedEndpoint;
 use Olz\Entity\Anmelden\Registration;
-use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
  * @phpstan-import-type OlzRegistrationId from RegistrationEndpointTrait
@@ -22,7 +21,7 @@ class GetRegistrationEndpoint extends OlzGetEntityTypedEndpoint {
     public function configure(): void {
         parent::configure();
         $this->configureRegistrationEndpointTrait();
-        PhpStanUtils::registerTypeImport(RegistrationEndpointTrait::class);
+        $this->phpStanUtils->registerTypeImport(RegistrationEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

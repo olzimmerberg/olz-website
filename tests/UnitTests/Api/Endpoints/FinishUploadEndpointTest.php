@@ -15,11 +15,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Api\Endpoints\FinishUploadEndpoint
  */
 final class FinishUploadEndpointTest extends UnitTestCase {
-    public function testFinishUploadEndpointIdent(): void {
-        $endpoint = new FinishUploadEndpoint();
-        $this->assertSame('FinishUploadEndpoint', $endpoint->getIdent());
-    }
-
     public function testFinishUploadEndpointUnauthorized(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new FinishUploadEndpoint();

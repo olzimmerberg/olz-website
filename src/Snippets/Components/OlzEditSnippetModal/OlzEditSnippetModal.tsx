@@ -67,7 +67,7 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
         const data = getApiFromForm(values);
 
         const [err, response] = await olzApi.getResult('updateSnippet', {id: props.id, meta, data});
-        if (err || response.status !== 'OK') {
+        if (err) {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             setIsSubmitting(false);

@@ -52,11 +52,6 @@ function getFakeTelegramMessage(mixed $from_key, mixed $chat_key, string $text):
  * @covers \Olz\Api\Endpoints\OnTelegramEndpoint
  */
 final class OnTelegramEndpointTest extends UnitTestCase {
-    public function testOnTelegramEndpointIdent(): void {
-        $endpoint = new OnTelegramEndpoint();
-        $this->assertSame('OnTelegramEndpoint', $endpoint->getIdent());
-    }
-
     public function testOnTelegramEndpointParseInput(): void {
         $get_params = ['authenticityCode' => 'some-token'];
         $content_json = json_encode(['json' => 'input']);

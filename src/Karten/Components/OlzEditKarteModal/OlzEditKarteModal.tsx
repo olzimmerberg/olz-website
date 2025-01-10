@@ -99,7 +99,7 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
         const [err, response] = await (props.id
             ? olzApi.getResult('updateKarte', {id: props.id, meta, data})
             : olzApi.getResult('createKarte', {meta, data}));
-        if (err || response.status !== 'OK') {
+        if (err) {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             setIsSubmitting(false);

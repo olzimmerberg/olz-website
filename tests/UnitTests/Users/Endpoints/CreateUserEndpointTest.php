@@ -79,11 +79,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
         ],
     ];
 
-    public function testCreateUserEndpointIdent(): void {
-        $endpoint = new CreateUserEndpoint();
-        $this->assertSame('CreateUserEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateUserEndpointWithoutInput(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
@@ -125,9 +120,9 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'data' => [[
-                    'firstName' => [['.' => ['Feld darf nicht leer sein.']]],
-                    'lastName' => [['.' => ['Feld darf nicht leer sein.']]],
-                    'username' => [['.' => ['Feld darf nicht leer sein.']]],
+                    'firstName' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
+                    'lastName' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
+                    'username' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
                 ]],
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
@@ -146,8 +141,8 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'custom' => ['recaptchaToken' => 'invalid-token'],
         ]);
 
-        $this->assertSame([
-            'status' => 'DENIED',
+        $this->assertEquals([
+            'custom' => ['status' => 'DENIED'],
             'id' => null,
         ], $result);
         $this->assertSame([], $session->session_storage);
@@ -317,8 +312,8 @@ final class CreateUserEndpointTest extends UnitTestCase {
             "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail> (Parent: )",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
-            'status' => 'OK',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame([
@@ -380,8 +375,8 @@ final class CreateUserEndpointTest extends UnitTestCase {
             "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail> (Parent: 1)",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
-            'status' => 'OK',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame([], $session->session_storage);
@@ -436,8 +431,8 @@ final class CreateUserEndpointTest extends UnitTestCase {
             "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <> (Parent: 2)",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
-            'status' => 'OK',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame([], $session->session_storage);
@@ -490,8 +485,8 @@ final class CreateUserEndpointTest extends UnitTestCase {
             "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail> (Parent: 2)",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
-            'status' => 'OK',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame([], $session->session_storage);
@@ -543,8 +538,8 @@ final class CreateUserEndpointTest extends UnitTestCase {
             "INFO New sign-up (using password): fakeFirstName fakeLastName (child1@) <fakeEmail> (Parent: )",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
-            'status' => 'OK',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK'],
             'id' => 5,
         ], $result);
         $this->assertSame([
@@ -625,8 +620,8 @@ final class CreateUserEndpointTest extends UnitTestCase {
             "INFO New sign-up (using password): fakeFirstName fakeLastName (inexistent@) <child1@gmail.com> (Parent: )",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
-            'status' => 'OK',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK'],
             'id' => 5,
         ], $result);
         $this->assertSame([
@@ -703,8 +698,8 @@ final class CreateUserEndpointTest extends UnitTestCase {
             "ERROR Error sending fake verification email",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([
-            'status' => 'OK_NO_EMAIL_VERIFICATION',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK_NO_EMAIL_VERIFICATION'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertSame([

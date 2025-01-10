@@ -2,28 +2,18 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Api\OlzTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class VerifyUserEmailEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'VerifyUserEmailEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'ERROR',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => []]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   ?array{},
+ *   array{
+ *     status: 'OK'|'ERROR',
+ *   }
+ * >
+ */
+class VerifyUserEmailEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $auth_utils = $this->authUtils();
         $user = $auth_utils->getCurrentUser();

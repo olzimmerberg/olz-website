@@ -2,14 +2,21 @@
 
 namespace Olz\Termine\Endpoints;
 
-use Olz\Api\OlzUpdateEntityEndpoint;
+use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateTerminLocationEndpoint extends OlzUpdateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzTerminLocationId from TerminLocationEndpointTrait
+ * @phpstan-import-type OlzTerminLocationData from TerminLocationEndpointTrait
+ *
+ * @extends OlzUpdateEntityTypedEndpoint<OlzTerminLocationId, OlzTerminLocationData>
+ */
+class UpdateTerminLocationEndpoint extends OlzUpdateEntityTypedEndpoint {
     use TerminLocationEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'UpdateTerminLocationEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(TerminLocationEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -29,7 +36,6 @@ class UpdateTerminLocationEndpoint extends OlzUpdateEntityEndpoint {
         $this->persistUploads($entity);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

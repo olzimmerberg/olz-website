@@ -2,13 +2,20 @@
 
 namespace Olz\Termine\Endpoints;
 
-use Olz\Api\OlzListEntitiesEndpoint;
+use Olz\Api\OlzListEntitiesTypedEndpoint;
 
-class ListTerminLabelsEndpoint extends OlzListEntitiesEndpoint {
+/**
+ * @phpstan-import-type OlzTerminLabelId from TerminLabelEndpointTrait
+ * @phpstan-import-type OlzTerminLabelData from TerminLabelEndpointTrait
+ *
+ * @extends OlzListEntitiesTypedEndpoint<OlzTerminLabelId, OlzTerminLabelData>
+ */
+class ListTerminLabelsEndpoint extends OlzListEntitiesTypedEndpoint {
     use TerminLabelEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'ListTerminLabelsEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(TerminLabelEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -17,7 +24,7 @@ class ListTerminLabelsEndpoint extends OlzListEntitiesEndpoint {
         $entities = $this->listEntities();
 
         return [
-            'items' => array_map(function ($entity) {
+            'items' => array_map(function ($entity): array {
                 return [
                     'id' => $entity->getId(),
                     'meta' => $entity->getMetaData(),

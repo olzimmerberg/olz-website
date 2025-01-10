@@ -112,7 +112,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
         const [err, response] = await (props.id
             ? olzApi.getResult('updateTerminTemplate', {id: props.id, meta, data})
             : olzApi.getResult('createTerminTemplate', {meta, data}));
-        if (err || response.status !== 'OK') {
+        if (err) {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             setIsSubmitting(false);

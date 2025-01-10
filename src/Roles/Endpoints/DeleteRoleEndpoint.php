@@ -2,14 +2,21 @@
 
 namespace Olz\Roles\Endpoints;
 
-use Olz\Api\OlzDeleteEntityEndpoint;
+use Olz\Api\OlzDeleteEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteRoleEndpoint extends OlzDeleteEntityEndpoint {
+/**
+ * @phpstan-import-type OlzRoleId from RoleEndpointTrait
+ * @phpstan-import-type OlzRoleData from RoleEndpointTrait
+ *
+ * @extends OlzDeleteEntityTypedEndpoint<OlzRoleId, OlzRoleData>
+ */
+class DeleteRoleEndpoint extends OlzDeleteEntityTypedEndpoint {
     use RoleEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'DeleteRoleEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(RoleEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -25,6 +32,6 @@ class DeleteRoleEndpoint extends OlzDeleteEntityEndpoint {
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

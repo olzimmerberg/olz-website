@@ -21,11 +21,6 @@ use Symfony\Component\Mime\Email;
  * @covers \Olz\News\Endpoints\CreateNewsEndpoint
  */
 final class CreateNewsEndpointTest extends UnitTestCase {
-    public function testCreateNewsEndpointIdent(): void {
-        $endpoint = new CreateNewsEndpoint();
-        $this->assertSame('CreateNewsEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new CreateNewsEndpoint();
@@ -121,8 +116,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertCount(1, $entity_manager->persisted);
@@ -257,8 +252,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertCount(1, $entity_manager->persisted);
@@ -349,8 +344,8 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            'status' => 'OK',
+        $this->assertEquals([
+            'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $this->assertCount(1, $entity_manager->persisted);

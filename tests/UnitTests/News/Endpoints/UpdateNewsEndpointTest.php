@@ -18,11 +18,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\News\Endpoints\UpdateNewsEndpoint
  */
 final class UpdateNewsEndpointTest extends UnitTestCase {
-    public function testUpdateNewsEndpointIdent(): void {
-        $endpoint = new UpdateNewsEndpoint();
-        $this->assertSame('UpdateNewsEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateNewsEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new UpdateNewsEndpoint();
@@ -197,7 +192,6 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 123,
         ], $result);
         $this->assertSame([
@@ -283,7 +277,6 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 123,
         ], $result);
         $this->assertSame([

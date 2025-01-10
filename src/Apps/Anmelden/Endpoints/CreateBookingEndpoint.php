@@ -4,7 +4,6 @@ namespace Olz\Apps\Anmelden\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Anmelden\Booking;
-use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
  * @phpstan-import-type OlzBookingId from BookingEndpointTrait
@@ -17,7 +16,7 @@ class CreateBookingEndpoint extends OlzCreateEntityTypedEndpoint {
 
     public function configure(): void {
         parent::configure();
-        PhpStanUtils::registerTypeImport(BookingEndpointTrait::class);
+        $this->phpStanUtils->registerTypeImport(BookingEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -32,7 +31,6 @@ class CreateBookingEndpoint extends OlzCreateEntityTypedEndpoint {
         $external_booking_id = $this->idUtils()->toExternalId($internal_booking_id, 'Booking');
 
         return [
-            'status' => 'OK',
             'id' => $external_booking_id,
         ];
     }

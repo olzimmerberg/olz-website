@@ -39,11 +39,6 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
         ],
     ];
 
-    public function testUpdateTerminTemplateEndpointIdent(): void {
-        $endpoint = new UpdateTerminTemplateEndpoint();
-        $this->assertSame('UpdateTerminTemplateEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateTerminTemplateEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $endpoint = new UpdateTerminTemplateEndpoint();
@@ -107,7 +102,6 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 123,
         ], $result);
 

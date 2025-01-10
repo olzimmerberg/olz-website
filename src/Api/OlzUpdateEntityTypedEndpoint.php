@@ -2,8 +2,6 @@
 
 namespace Olz\Api;
 
-use PhpTypeScriptApi\PhpStan\PhpStanUtils;
-
 /**
  * @template Id
  * @template Data
@@ -20,7 +18,6 @@ use PhpTypeScriptApi\PhpStan\PhpStanUtils;
  *     custom?: CustomRequest,
  *   },
  *   array{
- *     status: 'OK'|'ERROR',
  *     id: Id,
  *     custom?: CustomResponse,
  *   }
@@ -31,6 +28,6 @@ abstract class OlzUpdateEntityTypedEndpoint extends OlzTypedEndpoint {
 
     public function configure(): void {
         parent::configure();
-        PhpStanUtils::registerTypeImport(OlzEntityEndpointTrait::class);
+        $this->phpStanUtils->registerTypeImport(OlzEntityEndpointTrait::class);
     }
 }

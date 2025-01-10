@@ -4,42 +4,28 @@ namespace Olz\Roles\Endpoints;
 
 use Olz\Entity\Roles\Role;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+/**
+ * @phpstan-type OlzRoleId int
+ * @phpstan-type OlzRoleData array{
+ *   username: non-empty-string,
+ *   name: non-empty-string,
+ *   title?: ?non-empty-string,
+ *   description: string,
+ *   guide: string,
+ *   imageIds: array<non-empty-string>,
+ *   fileIds: array<non-empty-string>,
+ *   parentRole?: ?int<1, max>,
+ *   indexWithinParent?: ?int<0, max>,
+ *   featuredIndex?: ?int,
+ *   canHaveChildRoles: bool,
+ * }
+ */
 trait RoleEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return false;
-    }
-
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzRoleDataOrNull' : 'OlzRoleData',
-            'field_structure' => [
-                'username' => new FieldTypes\StringField([]),
-                'name' => new FieldTypes\StringField([]),
-                'title' => new FieldTypes\StringField(['allow_null' => true]),
-                'description' => new FieldTypes\StringField(['allow_empty' => true]),
-                'guide' => new FieldTypes\StringField(['allow_empty' => true]),
-                'imageIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-                'fileIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-                // TODO permissions
-                'parentRole' => new FieldTypes\NumberField(['min_value' => 1, 'allow_null' => true]),
-                'indexWithinParent' => new FieldTypes\NumberField(['min_value' => 0, 'allow_null' => true]),
-                'featuredIndex' => new FieldTypes\NumberField(['allow_null' => true]),
-                'canHaveChildRoles' => new FieldTypes\BooleanField([]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzRoleData */
     public function getEntityData(Role $entity): array {
         return [
             'username' => $entity->getUsername() ? $entity->getUsername() : '-',
@@ -56,7 +42,7 @@ trait RoleEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzRoleData $input_data */
     public function updateEntityWithData(Role $entity, array $input_data): void {
         $this->updateEntityWithNonParentData($entity, $input_data);
         $entity->setParentRoleId($input_data['parentRole'] ?? null);
@@ -65,7 +51,7 @@ trait RoleEndpointTrait {
         $entity->setCanHaveChildRoles($input_data['canHaveChildRoles']);
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzRoleData $input_data */
     public function updateEntityWithNonParentData(Role $entity, array $input_data): void {
         $entity->setUsername($input_data['username']);
         $entity->setName($input_data['name']);
@@ -74,7 +60,7 @@ trait RoleEndpointTrait {
         $entity->setGuide($input_data['guide']);
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzRoleData $input_data */
     public function persistUploads(Role $entity, array $input_data): void {
         $this->persistOlzImages($entity, $input_data['imageIds']);
         $this->persistOlzFiles($entity, $input_data['fileIds']);

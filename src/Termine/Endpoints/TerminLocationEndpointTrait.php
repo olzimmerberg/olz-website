@@ -4,33 +4,24 @@ namespace Olz\Termine\Endpoints;
 
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 
+/**
+ * Note: `latitude` may be from -90.0 to 90.0, `longitude` from -180.0 to 180.0.
+ *
+ * @phpstan-type OlzTerminLocationId int
+ * @phpstan-type OlzTerminLocationData array{
+ *   name: non-empty-string,
+ *   details: string,
+ *   latitude: float,
+ *   longitude: float,
+ *   imageIds: array<non-empty-string>,
+ * }
+ */
 trait TerminLocationEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return false;
-    }
-
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzTerminLocationDataOrNull' : 'OlzTerminLocationData',
-            'field_structure' => [
-                'name' => new FieldTypes\StringField([]),
-                'details' => new FieldTypes\StringField(['allow_empty' => true]),
-                'latitude' => new FieldTypes\NumberField(['min_value' => -90, 'max_value' => 90]),
-                'longitude' => new FieldTypes\NumberField(['min_value' => -180, 'max_value' => 180]),
-                'imageIds' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\StringField([]),
-                ]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzTerminLocationData */
     public function getEntityData(TerminLocation $entity): array {
         return [
             'name' => $entity->getName(),
@@ -41,7 +32,7 @@ trait TerminLocationEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzTerminLocationData $input_data */
     public function updateEntityWithData(TerminLocation $entity, array $input_data): void {
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
 

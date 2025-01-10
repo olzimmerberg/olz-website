@@ -2,13 +2,20 @@
 
 namespace Olz\Service\Endpoints;
 
-use Olz\Api\OlzGetEntityEndpoint;
+use Olz\Api\OlzGetEntityTypedEndpoint;
 
-class GetDownloadEndpoint extends OlzGetEntityEndpoint {
+/**
+ * @phpstan-import-type OlzDownloadId from DownloadEndpointTrait
+ * @phpstan-import-type OlzDownloadData from DownloadEndpointTrait
+ *
+ * @extends OlzGetEntityTypedEndpoint<OlzDownloadId, OlzDownloadData>
+ */
+class GetDownloadEndpoint extends OlzGetEntityTypedEndpoint {
     use DownloadEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'GetDownloadEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(DownloadEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

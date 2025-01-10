@@ -69,7 +69,7 @@ export const OlzEditWeeklyPictureModal = (props: OlzEditWeeklyPictureModalProps)
         const [err, response] = await (props.id
             ? olzApi.getResult('updateWeeklyPicture', {id: props.id, meta, data})
             : olzApi.getResult('createWeeklyPicture', {meta, data}));
-        if (err || response.status !== 'OK') {
+        if (err) {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             setIsSubmitting(false);

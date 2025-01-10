@@ -2,14 +2,21 @@
 
 namespace Olz\Service\Endpoints;
 
-use Olz\Api\OlzDeleteEntityEndpoint;
+use Olz\Api\OlzDeleteEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class DeleteLinkEndpoint extends OlzDeleteEntityEndpoint {
+/**
+ * @phpstan-import-type OlzLinkId from LinkEndpointTrait
+ * @phpstan-import-type OlzLinkData from LinkEndpointTrait
+ *
+ * @extends OlzDeleteEntityTypedEndpoint<OlzLinkId, OlzLinkData>
+ */
+class DeleteLinkEndpoint extends OlzDeleteEntityTypedEndpoint {
     use LinkEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'DeleteLinkEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(LinkEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -25,6 +32,6 @@ class DeleteLinkEndpoint extends OlzDeleteEntityEndpoint {
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
-        return ['status' => 'OK'];
+        return [];
     }
 }

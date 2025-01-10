@@ -291,7 +291,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         const [err, response] = await (props.id
             ? olzApi.getResult('updateNews', {id: props.id, meta, data})
             : olzApi.getResult('createNews', {meta, data, custom: {recaptchaToken}}));
-        if (err || response.status !== 'OK') {
+        if (err) {
             setSuccessMessage('');
             setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
             setIsSubmitting(false);

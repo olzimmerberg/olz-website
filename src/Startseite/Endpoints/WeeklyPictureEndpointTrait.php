@@ -4,29 +4,25 @@ namespace Olz\Startseite\Endpoints;
 
 use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
+use PhpTypeScriptApi\PhpStan\IsoDate;
 
+/**
+ * @phpstan-type OlzWeeklyPictureId int
+ * @phpstan-type OlzWeeklyPictureData array{
+ *   text: string,
+ *   imageId: non-empty-string,
+ *   publishedDate?: ?IsoDate,
+ * }
+ */
 trait WeeklyPictureEndpointTrait {
     use WithUtilsTrait;
 
-    public function usesExternalId(): bool {
-        return false;
+    public function configureWeeklyPictureEndpointTrait(): void {
+        $this->phpStanUtils->registerApiObject(IsoDate::class);
     }
 
-    public function getEntityDataField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzWeeklyPictureDataOrNull' : 'OlzWeeklyPictureData',
-            'field_structure' => [
-                'text' => new FieldTypes\StringField(['allow_empty' => true]),
-                'imageId' => new FieldTypes\StringField([]),
-                'publishedDate' => new FieldTypes\DateField(['allow_null' => true]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
-    }
-
-    /** @return array<string, mixed> */
+    /** @return OlzWeeklyPictureData */
     public function getEntityData(WeeklyPicture $entity): array {
         return [
             'text' => $entity->getText() ?? '',
@@ -35,10 +31,10 @@ trait WeeklyPictureEndpointTrait {
         ];
     }
 
-    /** @param array<string, mixed> $input_data */
+    /** @param OlzWeeklyPictureData $input_data */
     public function updateEntityWithData(WeeklyPicture $entity, array $input_data): void {
-        $iso_now = $this->dateUtils()->getIsoNow();
-        $published_date = new \DateTime($input_data['publishedDate'] ?? $iso_now);
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $published_date = $input_data['publishedDate'] ?? $now;
 
         $valid_image_id = $this->uploadUtils()->getValidUploadId($input_data['imageId']);
         if ($valid_image_id === null) {

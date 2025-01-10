@@ -74,11 +74,6 @@ class FakeDeleteUserEndpointAccessTokenRepository extends FakeOlzRepository {
  * @covers \Olz\Users\Endpoints\DeleteUserEndpoint
  */
 final class DeleteUserEndpointTest extends UnitTestCase {
-    public function testDeleteUserEndpointIdent(): void {
-        $endpoint = new DeleteUserEndpoint();
-        $this->assertSame('DeleteUserEndpoint', $endpoint->getIdent());
-    }
-
     public function testDeleteUserEndpointWrongUsername(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
@@ -196,7 +191,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'INFO Valid user request',
             'INFO Valid user response',
         ], $this->getLogs());
-        $this->assertSame(['status' => 'OK'], $result);
+        $this->assertSame([], $result);
         $this->assertSame(1, $default_user->getId());
         $this->assertSame('Default', $default_user->getFirstName());
         $this->assertSame('User', $default_user->getLastName());
@@ -274,7 +269,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             // 'WARNING Removing user default (User ID: 1).',
             'INFO Valid user response',
         ], $this->getLogs());
-        $this->assertSame(['status' => 'OK'], $result);
+        $this->assertSame([], $result);
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
         $this->assertCount(5, $entity_manager->removed);
         $this->assertTrue($entity_manager->removed[0] instanceof NewsEntry);

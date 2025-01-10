@@ -2,36 +2,24 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Api\OlzTypedEndpoint;
 
-class GetAuthenticatedUserEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'GetAuthenticatedUserEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'user' => new FieldTypes\ObjectField([
-                'export_as' => 'OlzAuthenticatedUser',
-                'field_structure' => [
-                    'id' => new FieldTypes\IntegerField([]),
-                    'firstName' => new FieldTypes\StringField(['allow_empty' => false]),
-                    'lastName' => new FieldTypes\StringField(['allow_empty' => false]),
-                    'username' => new FieldTypes\StringField(['allow_empty' => false]),
-                ],
-                'allow_null' => true,
-            ]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [],
-            'allow_null' => true,
-        ]);
-    }
-
+/**
+ * @phpstan-type OlzAuthenticatedUser array{
+ *   id: int,
+ *   firstName: non-empty-string,
+ *   lastName: non-empty-string,
+ *   username: non-empty-string,
+ * }
+ *
+ * @extends OlzTypedEndpoint<
+ *   ?array{},
+ *   array{
+ *     user?: ?OlzAuthenticatedUser,
+ *   }
+ * >
+ */
+class GetAuthenticatedUserEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $auth_utils = $this->authUtils();
         $user = $auth_utils->getCurrentUser();

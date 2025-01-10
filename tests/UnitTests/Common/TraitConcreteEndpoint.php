@@ -7,10 +7,6 @@ namespace Olz\Tests\UnitTests\Common;
 use PhpTypeScriptApi\Fields\FieldTypes;
 
 trait TraitConcreteEndpoint {
-    public static function getIdent(): string {
-        return 'ident';
-    }
-
     public function getResponseField(): FieldTypes\Field {
         return new FieldTypes\Field();
     }

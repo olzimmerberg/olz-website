@@ -2,32 +2,22 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Throttling;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 
-class OnDailyEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'OnDailyEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [],
-            'allow_null' => true,
-        ]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'authenticityCode' => new FieldTypes\StringField([]),
-        ]]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   array{
+ *     authenticityCode: non-empty-string,
+ *   },
+ *   ?array{}
+ * >
+ */
+class OnDailyEndpoint extends OlzTypedEndpoint {
     public function parseInput(Request $request): mixed {
         return [
             'authenticityCode' => $request->query->get('authenticityCode'),

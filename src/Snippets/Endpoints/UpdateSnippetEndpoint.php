@@ -2,14 +2,21 @@
 
 namespace Olz\Snippets\Endpoints;
 
-use Olz\Api\OlzUpdateEntityEndpoint;
+use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use PhpTypeScriptApi\HttpError;
 
-class UpdateSnippetEndpoint extends OlzUpdateEntityEndpoint {
+/**
+ * @phpstan-import-type OlzSnippetId from SnippetEndpointTrait
+ * @phpstan-import-type OlzSnippetData from SnippetEndpointTrait
+ *
+ * @extends OlzUpdateEntityTypedEndpoint<OlzSnippetId, OlzSnippetData>
+ */
+class UpdateSnippetEndpoint extends OlzUpdateEntityTypedEndpoint {
     use SnippetEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'UpdateSnippetEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(SnippetEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -30,7 +37,6 @@ class UpdateSnippetEndpoint extends OlzUpdateEntityEndpoint {
         $this->persistUploads($entity, $input['data']);
 
         return [
-            'status' => 'OK',
             'id' => $entity->getId(),
         ];
     }

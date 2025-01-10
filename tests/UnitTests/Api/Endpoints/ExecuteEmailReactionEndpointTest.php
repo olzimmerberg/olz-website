@@ -16,11 +16,6 @@ use Olz\Utils\WithUtilsCache;
  * @covers \Olz\Api\Endpoints\ExecuteEmailReactionEndpoint
  */
 final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
-    public function testExecuteEmailReactionEndpointIdent(): void {
-        $endpoint = new ExecuteEmailReactionEndpoint();
-        $this->assertSame('ExecuteEmailReactionEndpoint', $endpoint->getIdent());
-    }
-
     public function testUnsubscribeFromNotificationEmailReactionEndpoint(): void {
         $endpoint = new ExecuteEmailReactionEndpoint();
         $endpoint->runtimeSetup();

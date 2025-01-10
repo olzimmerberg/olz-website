@@ -17,11 +17,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Users\Endpoints\EditUserEndpoint
  */
 final class EditUserEndpointTest extends UnitTestCase {
-    public function testEditUserEndpointIdent(): void {
-        $endpoint = new EditUserEndpoint();
-        $this->assertSame('EditUserEndpoint', $endpoint->getIdent());
-    }
-
     public function testEditUserEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['users' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;

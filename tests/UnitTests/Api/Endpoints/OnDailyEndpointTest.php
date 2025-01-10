@@ -17,11 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  * @covers \Olz\Api\Endpoints\OnDailyEndpoint
  */
 final class OnDailyEndpointTest extends UnitTestCase {
-    public function testOnDailyEndpointIdent(): void {
-        $endpoint = new OnDailyEndpoint();
-        $this->assertSame('OnDailyEndpoint', $endpoint->getIdent());
-    }
-
     public function testOnDailyEndpointParseInput(): void {
         $get_params = ['authenticityCode' => 'some-token'];
         $request = new Request($get_params);

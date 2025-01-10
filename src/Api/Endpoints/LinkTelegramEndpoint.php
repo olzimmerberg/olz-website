@@ -2,29 +2,19 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
-class LinkTelegramEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'LinkTelegramEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'botName' => new FieldTypes\StringField([]),
-            'pin' => new FieldTypes\StringField([]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [],
-            'allow_null' => true,
-        ]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   ?array{},
+ *   array{
+ *     botName: non-empty-string,
+ *     pin: non-empty-string,
+ *   }
+ * >
+ */
+class LinkTelegramEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $auth_username = $this->session()->get('user');
 

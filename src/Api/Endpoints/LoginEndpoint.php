@@ -2,38 +2,24 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
-class LoginEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'LoginEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'INVALID_CREDENTIALS',
-                'BLOCKED',
-                'AUTHENTICATED',
-            ]]),
-            'numRemainingAttempts' => new FieldTypes\IntegerField([
-                'min_value' => 0,
-                'allow_null' => true,
-            ]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'usernameOrEmail' => new FieldTypes\StringField([]),
-            'password' => new FieldTypes\StringField([]),
-            'rememberMe' => new FieldTypes\BooleanField([]),
-        ]]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   array{
+ *     usernameOrEmail: non-empty-string,
+ *     password: non-empty-string,
+ *     rememberMe: bool,
+ *   },
+ *   array{
+ *     status: 'AUTHENTICATED'|'INVALID_CREDENTIALS'|'BLOCKED',
+ *     numRemainingAttempts: ?int<0, max>,
+ *   }
+ * >
+ */
+class LoginEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $username_or_email = trim($input['usernameOrEmail']);
         $password = $input['password'];

@@ -28,11 +28,6 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
         ];
     }
 
-    public function testRemoveUserRoleMembershipEndpointIdent(): void {
-        $endpoint = new RemoveUserRoleMembershipEndpoint();
-        $this->assertSame('RemoveUserRoleMembershipEndpoint', $endpoint->getIdent());
-    }
-
     public function testRemoveUserRoleMembershipEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['roles' => false];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
@@ -135,7 +130,7 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame(['status' => 'OK'], $result);
+        $this->assertSame([], $result);
 
         $this->assertSame([
             [FakeRole::adminRole(), null, null, null, null, 'roles'],
@@ -175,7 +170,7 @@ final class RemoveUserRoleMembershipEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame(['status' => 'OK'], $result);
+        $this->assertSame([], $result);
 
         $this->assertSame([
             [FakeRole::adminRole(), null, null, null, null, 'roles'],

@@ -14,11 +14,6 @@ use Olz\Utils\MemorySession;
  * @covers \Olz\Api\Endpoints\LogoutEndpoint
  */
 final class LogoutEndpointTest extends UnitTestCase {
-    public function testLogoutEndpointIdent(): void {
-        $endpoint = new LogoutEndpoint();
-        $this->assertSame('LogoutEndpoint', $endpoint->getIdent());
-    }
-
     public function testLogoutEndpoint(): void {
         $endpoint = new LogoutEndpoint();
         $endpoint->runtimeSetup();

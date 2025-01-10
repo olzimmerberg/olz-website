@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Api\Endpoints\VerifyUserEmailEndpoint
  */
 final class VerifyUserEmailEndpointTest extends UnitTestCase {
-    public function testVerifyUserEmailEndpointIdent(): void {
-        $endpoint = new VerifyUserEmailEndpoint();
-        $this->assertSame('VerifyUserEmailEndpoint', $endpoint->getIdent());
-    }
-
     public function testVerifyUserEmailEndpoint(): void {
         $user = FakeUser::defaultUser();
         WithUtilsCache::get('authUtils')->current_user = $user;

@@ -44,11 +44,6 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         ],
     ];
 
-    public function testCreateTerminEndpointIdent(): void {
-        $endpoint = new CreateTerminEndpoint();
-        $this->assertSame('CreateTerminEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateTerminEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $endpoint = new CreateTerminEndpoint();
@@ -87,7 +82,6 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');

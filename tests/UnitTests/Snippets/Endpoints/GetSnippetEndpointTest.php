@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Snippets\Endpoints\GetSnippetEndpoint
  */
 final class GetSnippetEndpointTest extends UnitTestCase {
-    public function testGetSnippetEndpointIdent(): void {
-        $endpoint = new GetSnippetEndpoint();
-        $this->assertSame('GetSnippetEndpoint', $endpoint->getIdent());
-    }
-
     public function testGetSnippetEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new GetSnippetEndpoint();

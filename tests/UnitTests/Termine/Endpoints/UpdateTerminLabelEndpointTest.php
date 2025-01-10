@@ -34,11 +34,6 @@ final class UpdateTerminLabelEndpointTest extends UnitTestCase {
         ],
     ];
 
-    public function testUpdateTerminLabelEndpointIdent(): void {
-        $endpoint = new UpdateTerminLabelEndpoint();
-        $this->assertSame('UpdateTerminLabelEndpoint', $endpoint->getIdent());
-    }
-
     public function testUpdateTerminLabelEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $endpoint = new UpdateTerminLabelEndpoint();
@@ -108,7 +103,6 @@ final class UpdateTerminLabelEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => 123,
         ], $result);
 

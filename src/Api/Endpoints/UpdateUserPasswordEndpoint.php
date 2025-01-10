@@ -2,34 +2,23 @@
 
 namespace Olz\Api\Endpoints;
 
-use Olz\Api\OlzEndpoint;
+use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\ValidationError;
 
-class UpdateUserPasswordEndpoint extends OlzEndpoint {
-    public static function getIdent(): string {
-        return 'UpdateUserPasswordEndpoint';
-    }
-
-    public function getResponseField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'status' => new FieldTypes\EnumField(['allowed_values' => [
-                'OK',
-                'OTHER_USER',
-                'INVALID_OLD',
-            ]]),
-        ]]);
-    }
-
-    public function getRequestField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField(['field_structure' => [
-            'id' => new FieldTypes\IntegerField([]),
-            'oldPassword' => new FieldTypes\StringField(['allow_empty' => false]),
-            'newPassword' => new FieldTypes\StringField(['allow_empty' => false]),
-        ]]);
-    }
-
+/**
+ * @extends OlzTypedEndpoint<
+ *   array{
+ *     id: int,
+ *     oldPassword: non-empty-string,
+ *     newPassword: non-empty-string,
+ *   },
+ *   array{
+ *     status: 'OK'|'OTHER_USER'|'INVALID_OLD',
+ *   }
+ * >
+ */
+class UpdateUserPasswordEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $auth_username = $this->session()->get('user');
 

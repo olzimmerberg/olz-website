@@ -16,11 +16,6 @@ use PhpTypeScriptApi\HttpError;
  * @covers \Olz\Service\Endpoints\CreateLinkEndpoint
  */
 final class CreateLinkEndpointTest extends UnitTestCase {
-    public function testCreateLinkEndpointIdent(): void {
-        $endpoint = new CreateLinkEndpoint();
-        $this->assertSame('CreateLinkEndpoint', $endpoint->getIdent());
-    }
-
     public function testCreateLinkEndpointNoAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['links' => false];
         $endpoint = new CreateLinkEndpoint();
@@ -76,7 +71,6 @@ final class CreateLinkEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $this->assertSame([
-            'status' => 'OK',
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');

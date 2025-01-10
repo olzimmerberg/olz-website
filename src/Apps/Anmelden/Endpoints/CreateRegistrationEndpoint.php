@@ -5,7 +5,6 @@ namespace Olz\Apps\Anmelden\Endpoints;
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
-use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
  * @phpstan-import-type OlzRegistrationId from RegistrationEndpointTrait
@@ -23,7 +22,7 @@ class CreateRegistrationEndpoint extends OlzCreateEntityTypedEndpoint {
     public function configure(): void {
         parent::configure();
         $this->configureRegistrationEndpointTrait();
-        PhpStanUtils::registerTypeImport(RegistrationEndpointTrait::class);
+        $this->phpStanUtils->registerTypeImport(RegistrationEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {
@@ -62,7 +61,6 @@ class CreateRegistrationEndpoint extends OlzCreateEntityTypedEndpoint {
         $external_id = $this->idUtils()->toExternalId($internal_id, 'Registration');
 
         return [
-            'status' => 'OK',
             'id' => $external_id,
         ];
     }

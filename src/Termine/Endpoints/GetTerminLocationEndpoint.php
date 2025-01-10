@@ -2,13 +2,20 @@
 
 namespace Olz\Termine\Endpoints;
 
-use Olz\Api\OlzGetEntityEndpoint;
+use Olz\Api\OlzGetEntityTypedEndpoint;
 
-class GetTerminLocationEndpoint extends OlzGetEntityEndpoint {
+/**
+ * @phpstan-import-type OlzTerminLocationId from TerminLocationEndpointTrait
+ * @phpstan-import-type OlzTerminLocationData from TerminLocationEndpointTrait
+ *
+ * @extends OlzGetEntityTypedEndpoint<OlzTerminLocationId, OlzTerminLocationData>
+ */
+class GetTerminLocationEndpoint extends OlzGetEntityTypedEndpoint {
     use TerminLocationEndpointTrait;
 
-    public static function getIdent(): string {
-        return 'GetTerminLocationEndpoint';
+    public function configure(): void {
+        parent::configure();
+        $this->phpStanUtils->registerTypeImport(TerminLocationEndpointTrait::class);
     }
 
     protected function handle(mixed $input): mixed {

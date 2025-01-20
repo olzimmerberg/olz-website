@@ -111,6 +111,10 @@ class FakeEnvUtils extends EnvUtils {
         return 'fake@staging.olzimmerberg.ch';
     }
 
+    public function getEmailForwardingHost(): string {
+        return 'staging.olzimmerberg.ch';
+    }
+
     public function getEmailReactionKey(): string {
         return 'aaaaaaaaaaaaaaaaaaaa';
     }

@@ -14,11 +14,16 @@ use Olz\Entity\Roles\Role;
 class HtmlUtils {
     use WithUtilsTrait;
 
-    public const PREFIX_REGEX = '<a ([^>]*)href=[\'"]mailto:';
-    public const SUBJECT_REGEX = '\?subject=([^\'"]*)';
-    public const SUFFIX_REGEX = '[\'"]([^>]*)>([^<@]*)([^<]*)<\/a>';
-    public const OLZ_EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@olzimmerberg\.ch';
-    public const EMAIL_REGEX = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,64})';
+    public string $prefix_regex = '<a ([^>]*)href=[\'"]mailto:';
+    public string $subject_regex = '\?subject=([^\'"]*)';
+    public string $suffix_regex = '[\'"]([^>]*)>([^<@]*)([^<]*)<\/a>';
+    public string $olz_email_regex = '';
+    public string $email_regex = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,64})';
+
+    public function __construct() {
+        $esc_host = preg_quote($this->envUtils()->getEmailForwardingHost());
+        $this->olz_email_regex = '([A-Z0-9a-z._%+-]+)@'.$esc_host;
+    }
 
     /** @param array<string, mixed> $override_config */
     public function renderMarkdown(string $markdown, array $override_config = []): string {
@@ -45,11 +50,12 @@ class HtmlUtils {
 
     public function replaceEmailAdresses(string $html): string {
         $role_repo = $this->entityManager()->getRepository(Role::class);
+        $host = $this->envUtils()->getEmailForwardingHost();
 
         $html = str_replace(['<p>', '<p ', '</p>'], ['<div>', '<div ', '</div>'], $html);
 
         preg_match_all(
-            '/'.self::PREFIX_REGEX.self::OLZ_EMAIL_REGEX.self::SUBJECT_REGEX.self::SUFFIX_REGEX.'/',
+            "/{$this->prefix_regex}{$this->olz_email_regex}{$this->subject_regex}{$this->suffix_regex}/",
             $html,
             $matches,
         );
@@ -60,7 +66,7 @@ class HtmlUtils {
             if ($role) {
                 $prefix = $this->getPrefix($matches[1][$i]);
                 $username = preg_quote($username);
-                $email = "{$username}@olzimmerberg.ch";
+                $email = "{$username}@{$host}";
                 $subject = $this->getSubject($matches[3][$i]);
                 $suffix = $this->getSuffix($matches[4][$i], $matches[5][$i], $matches[6][$i]);
                 $html = preg_replace(
@@ -75,7 +81,7 @@ class HtmlUtils {
         }
 
         preg_match_all(
-            '/'.self::PREFIX_REGEX.self::OLZ_EMAIL_REGEX.self::SUFFIX_REGEX.'/',
+            "/{$this->prefix_regex}{$this->olz_email_regex}{$this->suffix_regex}/",
             $html,
             $matches,
         );
@@ -86,7 +92,7 @@ class HtmlUtils {
             if ($role) {
                 $prefix = $this->getPrefix($matches[1][$i]);
                 $username = preg_quote($username);
-                $email = "{$username}@olzimmerberg.ch";
+                $email = "{$username}@{$host}";
                 $suffix = $this->getSuffix($matches[3][$i], $matches[4][$i], $matches[5][$i]);
                 $html = preg_replace(
                     "/{$prefix}{$email}{$suffix}/",
@@ -100,7 +106,7 @@ class HtmlUtils {
         }
 
         preg_match_all(
-            '/(\s|^)'.self::OLZ_EMAIL_REGEX.'([\s,\.!\?]|$)/',
+            "/(\\s|^){$this->olz_email_regex}([\\s,\\.!\\?]|$)/",
             $html,
             $matches,
         );
@@ -110,7 +116,7 @@ class HtmlUtils {
             $role = $role_repo->findOneBy(['username' => $username]);
             if ($role) {
                 $username = preg_quote($username);
-                $email = "{$username}@olzimmerberg.ch";
+                $email = "{$username}@{$host}";
                 $html = preg_replace(
                     "/{$email}/",
                     $this->escapeDollar(OlzPopup::render([
@@ -123,17 +129,17 @@ class HtmlUtils {
         }
 
         $html = preg_replace(
-            '/'.self::PREFIX_REGEX.self::EMAIL_REGEX.self::SUBJECT_REGEX.self::SUFFIX_REGEX.'/',
+            "/{$this->prefix_regex}{$this->email_regex}{$this->subject_regex}{$this->suffix_regex}/",
             "<script>olz.MailTo(\"\$2\", \"\$3\", \"\$6\" + \"\$7\", \"\$4\")</script>",
             $html
         );
         $html = preg_replace(
-            '/'.self::PREFIX_REGEX.self::EMAIL_REGEX.''.self::SUFFIX_REGEX.'/',
+            "/{$this->prefix_regex}{$this->email_regex}{$this->suffix_regex}/",
             "<script>olz.MailTo(\"\$2\", \"\$3\", \"\$5\" + \"\$6\")</script>",
             $html
         );
         return preg_replace(
-            '/(\s|^)'.self::EMAIL_REGEX.'([\s,\.!\?]|$)/',
+            "/(\\s|^){$this->email_regex}([\\s,\\.!\\?]|$)/",
             "\$1<script>olz.MailTo(\"\$2\", \"\$3\", \"E-Mail\")</script>\$4",
             $html
         );

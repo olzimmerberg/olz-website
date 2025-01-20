@@ -262,13 +262,33 @@ class EmailUtils {
     }
 
     public function isSpamEmailAddress(string $username): bool {
+        // Denylist
         $denylist = [
+            // Old Addresses
             'jeweils' => true,
             'fotoposten' => true,
+            // Appear in code
+            'fake-user' => true,
+            'beispiel' => true,
+            'admin' => true,
+            'admin-old' => true,
+            'admin_role' => true,
+            'vorstand' => true,
+            'vorstand_role' => true,
+            'inexistent' => true,
+            'test.adress' => true, // sic!
+            'test.address' => true,
         ];
         if (($denylist[$username] ?? false) === true) {
             return true;
         }
+
+        // Non-E-Mail Identifiers
+        if (preg_match('/^olz_termin_[0-9]+(|_end|_start)$/i', $username)) {
+            return true;
+        }
+
+        // Honeypot
         return (bool) preg_match('/^s[a-z]*\.p[a-z]*\.a[a-z]*\.m[a-z]*$/i', $username);
     }
 

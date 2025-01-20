@@ -220,14 +220,14 @@ final class CreateUserEndpointTest extends UnitTestCase {
                 ...self::MINIMAL_INPUT,
                 'data' => [
                     ...self::MINIMAL_INPUT['data'],
-                    'email' => 'bot@olzimmerberg.ch',
+                    'email' => 'fake-user@olzimmerberg.ch',
                 ],
             ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <bot@olzimmerberg.ch> (Parent: )",
+                "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fake-user@olzimmerberg.ch> (Parent: )",
                 "WARNING Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());

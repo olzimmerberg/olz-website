@@ -68,6 +68,8 @@ final class EnvUtilsTest extends UnitTestCase {
             'smtp_debug' => 0,
             'smtp_from' => 'fake-user@staging.olzimmerberg.ch',
 
+            'email_forwarding_host' => 'staging.olzimmerberg.ch',
+
             'app_search_engines_username' => 'fake-user@gmail.com',
             'app_search_engines_password' => 'zxcv',
 
@@ -116,6 +118,7 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('ssl', $env_utils->getSmtpSecure());
         $this->assertSame(0, $env_utils->getSmtpDebug());
         $this->assertSame('fake-user@staging.olzimmerberg.ch', $env_utils->getSmtpFrom());
+        $this->assertSame('staging.olzimmerberg.ch', $env_utils->getEmailForwardingHost());
         $this->assertSame('fake-user@gmail.com', $env_utils->getAppSearchEnginesUsername());
         $this->assertSame('zxcv', $env_utils->getAppSearchEnginesPassword());
         $this->assertSame('fake-user', $env_utils->getAppMonitoringUsername());

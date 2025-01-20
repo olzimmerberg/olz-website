@@ -11,6 +11,7 @@ class OlzRoleInfoCard extends OlzComponent {
         $user = $args['user'] ?? null;
 
         $code_href = $this->envUtils()->getCodeHref();
+        $host = $this->envUtils()->getEmailForwardingHost();
 
         $out = "<div class='olz-role-info-card'>";
         $out .= "<div class='role-name-container'><a href='{$code_href}verein/{$role->getUsername()}' class='linkint'>{$role->getName()}</a></div>";
@@ -26,7 +27,7 @@ class OlzRoleInfoCard extends OlzComponent {
             $has_official_email = $this->authUtils()->hasPermission('user_email', $user);
             $email_html = '';
             if ($has_official_email) {
-                $email = $user->getUsername().'@olzimmerberg.ch';
+                $email = "{$user->getUsername()}@{$host}";
                 $email_html = $this->htmlUtils()->replaceEmailAdresses($email);
             } else {
                 $email_html = (

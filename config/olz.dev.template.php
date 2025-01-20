@@ -51,6 +51,8 @@ $configure_env_utils = function ($env_utils) {
         'smtp_debug' => 0,
         'smtp_from' => 'fake-user@olzimmerberg.ch',
 
+        'email_forwarding_host' => 'staging.olzimmerberg.ch',
+
         'app_search_engines_username' => 'fake-user@gmail.com',
         'app_search_engines_password' => 'zxcv',
 

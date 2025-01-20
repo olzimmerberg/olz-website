@@ -9,6 +9,7 @@ class OlzUserInfoCard extends OlzComponent {
     public function getHtml(array $args = []): string {
         $user = $args['user'];
 
+        $host = $this->envUtils()->getEmailForwardingHost();
         $image_paths = $this->authUtils()->getUserAvatar($user);
         $image_src_html = $this->htmlUtils()->getImageSrcHtml($image_paths);
         $img_html = "<img {$image_src_html} alt='' class='image'>";
@@ -21,7 +22,7 @@ class OlzUserInfoCard extends OlzComponent {
         $has_official_email = $this->authUtils()->hasPermission('user_email', $user);
         $email_html = '';
         if ($has_official_email) {
-            $email = $user->getUsername().'@olzimmerberg.ch';
+            $email = "{$user->getUsername()}@{$host}";
             $email_html = $this->htmlUtils()->replaceEmailAdresses($email);
         } else {
             $email_html = (

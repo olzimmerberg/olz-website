@@ -40,7 +40,7 @@ class ProcessEmailCommand extends OlzCommand {
     public int $archiveAfterSeconds = 8 * 60 * 60;
     public int $deleteArchivedAfterSeconds = 30 * 24 * 60 * 60;
     public int $deleteSpamAfterSeconds = 365 * 24 * 60 * 60;
-    public string $host = 'olzimmerberg.ch';
+    public string $host = '';
     public string $processed_mailbox = 'INBOX.Processed';
     public string $archive_mailbox = 'INBOX.Archive';
     public string $failed_mailbox = 'INBOX.Failed';
@@ -70,6 +70,11 @@ class ProcessEmailCommand extends OlzCommand {
     public int $min_spam_notice_score = 3;
 
     protected Client $client;
+
+    protected function configure(): void {
+        parent::configure();
+        $this->host = $this->envUtils()->getEmailForwardingHost();
+    }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
         ini_set('memory_limit', '500M');

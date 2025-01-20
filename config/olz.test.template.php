@@ -42,6 +42,8 @@ $configure_env_utils = function ($env_utils) {
         'smtp_secure' => 'ssl',
         'smtp_debug' => 0,
         'smtp_from' => 'fake-user@olzimmerberg.ch',
+
+        'email_forwarding_host' => 'staging.olzimmerberg.ch',
     ]);
 };
 

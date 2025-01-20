@@ -388,18 +388,27 @@ final class EmailUtilsTest extends UnitTestCase {
         );
     }
 
-    public function testIsSpamEmailAddress(): void {
+    public function testIsSpamEmailAddressHoneypot(): void {
         $email_utils = new EmailUtils();
-
-        // Matching
         $this->assertTrue($email_utils->isSpamEmailAddress('s.p.a.m'));
         $this->assertTrue($email_utils->isSpamEmailAddress('simon.peter.alex.may'));
+    }
 
-        // Denylist
+    public function testIsSpamEmailAddressIdentifier(): void {
+        $email_utils = new EmailUtils();
+        $this->assertTrue($email_utils->isSpamEmailAddress('olz_termin_1234'));
+        $this->assertTrue($email_utils->isSpamEmailAddress('olz_termin_0_start'));
+        $this->assertTrue($email_utils->isSpamEmailAddress('olz_termin_1_end'));
+    }
+
+    public function testIsSpamEmailAddressDenylist(): void {
+        $email_utils = new EmailUtils();
         $this->assertTrue($email_utils->isSpamEmailAddress('jeweils'));
         $this->assertTrue($email_utils->isSpamEmailAddress('fotoposten'));
+    }
 
-        // Valid E-Mail
+    public function testIsSpamEmailAddressValid(): void {
+        $email_utils = new EmailUtils();
         $this->assertFalse($email_utils->isSpamEmailAddress('max.muster'));
     }
 

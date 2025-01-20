@@ -9,8 +9,6 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-$solv_maintainer_email = 'simon.hatt@olzimmerberg.ch';
-
 #[AsCommand(name: 'olz:sync-solv')]
 class SyncSolvCommand extends OlzCommand {
     /** @return array<string> */

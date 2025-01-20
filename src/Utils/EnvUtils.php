@@ -54,6 +54,8 @@ class EnvUtils {
     private int $smtp_debug = 0;
     private ?string $smtp_from = null;
 
+    private ?string $email_forwarding_host = null;
+
     private ?string $app_search_engines_username = null;
     private ?string $app_search_engines_password = null;
 
@@ -128,6 +130,8 @@ class EnvUtils {
         $this->smtp_secure = $config_dict['smtp_secure'] ?? $this->smtp_secure;
         $this->smtp_debug = $config_dict['smtp_debug'] ?? $this->smtp_debug;
         $this->smtp_from = $config_dict['smtp_from'] ?? $this->smtp_from;
+
+        $this->email_forwarding_host = $config_dict['email_forwarding_host'] ?? $this->email_forwarding_host;
 
         $this->app_search_engines_username = $config_dict['app_search_engines_username'] ?? $this->app_search_engines_username;
         $this->app_search_engines_password = $config_dict['app_search_engines_password'] ?? $this->app_search_engines_password;
@@ -294,6 +298,10 @@ class EnvUtils {
 
     public function getSmtpFrom(): string {
         return $this->smtp_from;
+    }
+
+    public function getEmailForwardingHost(): string {
+        return $this->email_forwarding_host;
     }
 
     public function getAppSearchEnginesUsername(): string {

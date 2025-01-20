@@ -169,7 +169,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 ...self::MINIMAL_INPUT,
                 'data' => [
                     ...self::MINIMAL_INPUT['data'],
-                    'email' => 'bot@olzimmerberg.ch',
+                    'email' => 'fake-user@olzimmerberg.ch',
                 ],
             ]);
             $this->fail('Exception expected.');

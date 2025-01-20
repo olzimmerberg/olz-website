@@ -9,13 +9,15 @@ class OlzFooter extends OlzComponent {
     public function getHtml(array $args = []): string {
         $code_href = $this->envUtils()->getCodeHref();
 
-        $honeypot_email = $this->emailUtils()->generateSpamEmailAddress();
+        $honeypot_username = $this->emailUtils()->generateSpamEmailAddress();
+        $host = $this->envUtils()->getEmailForwardingHost();
+        $honeypot_email = "{$honeypot_username}@{$host}";
         $honeypot_name = implode(' ', array_map(function ($part) {
             return ucfirst($part);
-        }, explode('.', $honeypot_email)));
+        }, explode('.', $honeypot_username)));
         $spam_honeypot = <<<ZZZZZZZZZZ
             <span class='kontakt'>
-                Kontakt: <a href='mailto:{$honeypot_email}@olzimmerberg.ch'>{$honeypot_name}</a>
+                Kontakt: <a href='mailto:{$honeypot_email}'>{$honeypot_name}</a>
             </span>
             ZZZZZZZZZZ;
 

@@ -5,6 +5,7 @@ namespace Olz\Command\SendDailyNotificationsCommand;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
+use Olz\Repository\Roles\PredefinedRole;
 use Olz\Utils\WithUtilsTrait;
 
 class RoleReminderGetter implements NotificationGetterInterface {
@@ -116,6 +117,9 @@ class RoleReminderGetter implements NotificationGetterInterface {
         $base_href = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
         $role_url = "{$base_href}{$code_href}verein/{$role->getUsername()}";
+        $sysadmin_role = $role_repo->getPredefinedRole(PredefinedRole::Sysadmin);
+        $host = $this->envUtils()->getEmailForwardingHost();
+        $sysadmin_email = "{$sysadmin_role->getUsername()}@{$host}";
 
         $title = "Ressort-Erinnerung";
         $text = <<<ZZZZZZZZZZ
@@ -127,7 +131,7 @@ class RoleReminderGetter implements NotificationGetterInterface {
 
             Um das Organigramm aktuell zu halten, bitten wir dich, die folgenden Punkte durchzugehen.
             
-            **Falls etwas unklar ist, kontaktiere bitte den Website-Admin: website@olzimmerberg.ch!**
+            **Falls etwas unklar ist, kontaktiere bitte den Website-Admin: {$sysadmin_email}!**
 
             - Bitte schau dir die [Präsenz deines Ressorts auf olzimmerberg.ch]({$role_url}) an, und **kontrolliere, ergänze und verbessere** gegebenenfalls die Angaben. Wenn du eingeloggt bist, kannst du diese direkt bearbeiten.
             - **Falls** du im kommenden Jahr nicht mehr für dieses Ressort zuständig sein kannst oder möchtest, bzw. nicht mehr unter diesem Ressort angezeigt werden solltest, kontaktiere bitte "deinen" Vorstand: {$pretty_root_assignees} (oder den Präsi).

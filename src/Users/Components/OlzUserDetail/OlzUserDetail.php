@@ -127,7 +127,8 @@ class OlzUserDetail extends OlzComponent {
         $has_official_email = $this->authUtils()->hasPermission('user_email', $user);
         $email_html = '';
         if ($has_official_email) {
-            $email = $user->getUsername().'@olzimmerberg.ch';
+            $host = $this->envUtils()->getEmailForwardingHost();
+            $email = "{$user->getUsername()}@{$host}";
             $email_html = $this->htmlUtils()->replaceEmailAdresses($email);
         } else {
             $email_html = (

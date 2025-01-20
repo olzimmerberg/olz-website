@@ -99,56 +99,56 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testPostprocess(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "E-Mail")</script>',
-            $html_utils->postprocess('e.mail+test@staging.olzimmerberg.ch')
+            '<script>olz.MailTo("e.mail+test", "other-domain.com", "E-Mail")</script>',
+            $html_utils->postprocess('e.mail+test@other-domain.com')
         );
     }
 
     public function testReplacePureEmailAdresses(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "E-Mail")</script>',
-            $html_utils->replaceEmailAdresses('e.mail+test@staging.olzimmerberg.ch')
+            '<script>olz.MailTo("e.mail+test", "other-domain.com", "E-Mail")</script>',
+            $html_utils->replaceEmailAdresses('e.mail+test@other-domain.com')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "E-Mail")</script>.',
-            $html_utils->replaceEmailAdresses('Mail: e.mail+test@staging.olzimmerberg.ch.')
+            'Mail: <script>olz.MailTo("e.mail+test", "other-domain.com", "E-Mail")</script>.',
+            $html_utils->replaceEmailAdresses('Mail: e.mail+test@other-domain.com.')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "E-Mail")</script>, <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "E-Mail")</script>.',
-            $html_utils->replaceEmailAdresses('Mails: e.mail+test@staging.olzimmerberg.ch, e.mail@staging.olzimmerberg.ch.')
+            'Mails: <script>olz.MailTo("e.mail+test", "other-domain.com", "E-Mail")</script>, <script>olz.MailTo("e.mail", "other-domain.com", "E-Mail")</script>.',
+            $html_utils->replaceEmailAdresses('Mails: e.mail+test@other-domain.com, e.mail@other-domain.com.')
         );
     }
 
     public function testReplaceMailToLinksWithoutSubject(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Test" + "")</script>',
-            $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@staging.olzimmerberg.ch">Test</a>')
+            '<script>olz.MailTo("e.mail+test", "other-domain.com", "Test" + "")</script>',
+            $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@other-domain.com">Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me" + "")</script>!',
-            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@staging.olzimmerberg.ch" class="linkmail">Contact me</a>!')
+            'Mail: <script>olz.MailTo("e.mail+test", "other-domain.com", "Contact me" + "")</script>!',
+            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@other-domain.com" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me" + "")</script> <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "Contact me" + "")</script>!',
-            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@staging.olzimmerberg.ch" class="linkmail">Contact me</a> <a name="" href="mailto:e.mail@staging.olzimmerberg.ch">Contact me</a>!')
+            'Mails: <script>olz.MailTo("e.mail+test", "other-domain.com", "Contact me" + "")</script> <script>olz.MailTo("e.mail", "other-domain.com", "Contact me" + "")</script>!',
+            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@other-domain.com" class="linkmail">Contact me</a> <a name="" href="mailto:e.mail@other-domain.com">Contact me</a>!')
         );
     }
 
     public function testReplaceMailToLinksWithSubject(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Test" + "", "test")</script>',
-            $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=test">Test</a>')
+            '<script>olz.MailTo("e.mail+test", "other-domain.com", "Test" + "", "test")</script>',
+            $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@other-domain.com?subject=test">Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>!',
-            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>!')
+            'Mail: <script>olz.MailTo("e.mail+test", "other-domain.com", "Contact me" + "", "another%20test")</script>!',
+            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@other-domain.com?subject=another%20test" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>, <script>olz.MailTo("e.mail", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>!',
-            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:e.mail@staging.olzimmerberg.ch?subject=another%20test">Contact me</a>!')
+            'Mails: <script>olz.MailTo("e.mail+test", "other-domain.com", "Contact me" + "", "another%20test")</script>, <script>olz.MailTo("e.mail", "other-domain.com", "Contact me" + "", "another%20test")</script>!',
+            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@other-domain.com?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:e.mail@other-domain.com?subject=another%20test">Contact me</a>!')
         );
     }
 
@@ -157,31 +157,56 @@ final class HtmlUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
         $this->assertMatchesRegularExpression(
             '/\/_\/verein\/vorstand_role/',
-            $html_utils->replaceEmailAdresses('vorstand_role@olzimmerberg.ch')
+            $html_utils->replaceEmailAdresses('vorstand_role@staging.olzimmerberg.ch')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("inexistent", "olzimmerberg.ch", "E-Mail")</script>.',
-            $html_utils->replaceEmailAdresses('Mail: inexistent@olzimmerberg.ch.')
+            'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.',
+            $html_utils->replaceEmailAdresses('Mail: inexistent@staging.olzimmerberg.ch.')
         );
         $this->assertMatchesRegularExpression(
             '/\/_\/verein\/admin_role/',
-            $html_utils->replaceEmailAdresses('Mails: admin_role@olzimmerberg.ch, inexistent@olzimmerberg.ch.')
+            $html_utils->replaceEmailAdresses('Mails: admin_role@staging.olzimmerberg.ch, inexistent@staging.olzimmerberg.ch.')
+        );
+        $this->assertSame(
+            '<script>olz.MailTo("vorstand", "staging.olzimmerberg.ch", "E-Mail")</script>',
+            $html_utils->replaceEmailAdresses('vorstand@staging.olzimmerberg.ch')
+        );
+    }
+
+    public function testReplacePureOlzAdressesWithoutPermission(): void {
+        $html_utils = new HtmlUtils();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => false];
+        $this->assertMatchesRegularExpression(
+            '/\/_\/verein\/vorstand_role/',
+            $html_utils->replaceEmailAdresses('vorstand_role@staging.olzimmerberg.ch')
+        );
+        $this->assertSame(
+            'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.',
+            $html_utils->replaceEmailAdresses('Mail: inexistent@staging.olzimmerberg.ch.')
+        );
+        $this->assertMatchesRegularExpression(
+            '/\/_\/verein\/admin_role/',
+            $html_utils->replaceEmailAdresses('Mails: admin_role@staging.olzimmerberg.ch, inexistent@staging.olzimmerberg.ch.')
+        );
+        $this->assertSame(
+            '<script>olz.MailTo("vorstand", "staging.olzimmerberg.ch", "E-Mail")</script>',
+            $html_utils->replaceEmailAdresses('vorstand@staging.olzimmerberg.ch')
         );
     }
 
     public function testReplaceOlzMailToLinksWithoutSubject(): void {
         $html_utils = new HtmlUtils();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
-        $html = $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@olzimmerberg.ch">Test</a>');
+        $html = $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@staging.olzimmerberg.ch">Test</a>');
         $this->assertMatchesRegularExpression('/\/_\/verein\/vorstand_role/', $html);
         $this->assertStringContainsString('img/users/3/thumb/oyLeyPTaCfmadcm5ShEJ236e.jpg$256.jpg 2x', $html);
         $this->assertSame(
-            'Mail: <script>olz.MailTo("inexistent", "olzimmerberg.ch", "Contact me" + "")</script>!',
-            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:inexistent@olzimmerberg.ch" class="linkmail">Contact me</a>!')
+            'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "")</script>!',
+            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:inexistent@staging.olzimmerberg.ch" class="linkmail">Contact me</a>!')
         );
         $this->assertMatchesRegularExpression(
             '/\/_\/verein\/admin_role/',
-            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:admin_role@olzimmerberg.ch" class="linkmail">Contact me</a> <a name="" href="mailto:inexistent@olzimmerberg.ch">Contact me</a>!')
+            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:admin_role@staging.olzimmerberg.ch" class="linkmail">Contact me</a> <a name="" href="mailto:inexistent@staging.olzimmerberg.ch">Contact me</a>!')
         );
     }
 
@@ -190,15 +215,15 @@ final class HtmlUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
         $this->assertMatchesRegularExpression(
             '/\/_\/verein\/vorstand_role/',
-            $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@olzimmerberg.ch?subject=test">Test</a>')
+            $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@staging.olzimmerberg.ch?subject=test">Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("inexistent", "olzimmerberg.ch", "Contact me" + "", "another%20test")</script>!',
-            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:inexistent@olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>!')
+            'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>!',
+            $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:inexistent@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>!')
         );
         $this->assertMatchesRegularExpression(
             '/\/_\/verein\/admin_role/',
-            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:inexistent@olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:admin_role@olzimmerberg.ch?subject=another%20test">Contact me</a>!')
+            $html_utils->replaceEmailAdresses('Mails: <a href="mailto:inexistent@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:admin_role@staging.olzimmerberg.ch?subject=another%20test">Contact me</a>!')
         );
     }
 

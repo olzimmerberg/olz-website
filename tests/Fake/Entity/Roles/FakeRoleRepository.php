@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity\Roles;
 
 use Olz\Entity\Roles\Role;
+use Olz\Repository\Roles\PredefinedRole;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 
 /**
@@ -13,6 +14,12 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 class FakeRoleRepository extends FakeOlzRepository {
     public string $olzEntityClass = Role::class;
     public string $fakeOlzEntityClass = FakeRole::class;
+
+    public function getPredefinedRole(PredefinedRole $predefined_role): ?Role {
+        $role = FakeRole::defaultRole(fresh: true);
+        $role->setUsername("{$predefined_role->value}.fake");
+        return $role;
+    }
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($criteria === ['username' => 'role'] || $criteria === ['id' => 1]) {
@@ -33,7 +40,9 @@ class FakeRoleRepository extends FakeOlzRepository {
             || $criteria === ['username' => 'test']
             || $criteria === ['old_username' => 'test']
             || $criteria === ['username' => 'admin'] // the user, not the role
+            || $criteria === ['username' => 'admin-user'] // the user, not the role
             || $criteria === ['username' => 'vorstand'] // the user, not the role
+            || $criteria === ['username' => 'vorstand-user'] // the user, not the role
         ) {
             return null;
         }

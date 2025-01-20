@@ -18,6 +18,7 @@ class OlzICal extends OlzComponent {
         $base_href = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
         $now_fmt = date('Ymd\THis\Z');
+        $host = $this->envUtils()->getEmailForwardingHost();
 
         // Termine abfragen
         $sql = "SELECT * FROM termine WHERE (start_date >= '{$jahr}-01-01') AND on_off=1";
@@ -72,7 +73,7 @@ class OlzICal extends OlzComponent {
                 "\r\nCATEGORIES:".$row['typ'].
                 $_attach.
                 "\r\nCLASS:PUBLIC".
-                "\r\nUID:olz_termin_{$id}_start@olzimmerberg.ch".
+                "\r\nUID:olz_termin_{$id}_start@{$host}".
                 "\r\nEND:VEVENT".
                 "\r\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:".$end_date_fmt.
                 "\r\nDTEND;VALUE=DATE:".$end_date_fmt.
@@ -84,7 +85,7 @@ class OlzICal extends OlzComponent {
                 "\r\nCATEGORIES:".$row['typ'].
                 $_attach.
                 "\r\nCLASS:PUBLIC".
-                "\r\nUID:olz_termin_{$id}_end@olzimmerberg.ch".
+                "\r\nUID:olz_termin_{$id}_end@{$host}".
                 "\r\nEND:VEVENT";
             } else {
                 $ical .=
@@ -98,7 +99,7 @@ class OlzICal extends OlzComponent {
                 "\r\nCATEGORIES:".$row['typ'].
                 $_attach.
                 "\r\nCLASS:PUBLIC".
-                "\r\nUID:olz_termin_{$id}@olzimmerberg.ch".
+                "\r\nUID:olz_termin_{$id}@{$host}".
                 "\r\nEND:VEVENT";
             }
         }

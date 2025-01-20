@@ -245,7 +245,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'INFO E-Mail 12 to non-olzimmerberg.ch address: someone@other-domain.com',
+            'INFO E-Mail 12 to non-staging.olzimmerberg.ch address: someone@other-domain.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
 
@@ -645,7 +645,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'INFO Redirect E-Mail sent to from@from-domain.com: someone-old@staging.olzimmerberg.ch -> someone@olzimmerberg.ch',
+            'INFO Redirect E-Mail sent to from@from-domain.com: someone-old@staging.olzimmerberg.ch -> someone@staging.olzimmerberg.ch',
             'INFO Email forwarded from someone-old@staging.olzimmerberg.ch to someone-old@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -665,7 +665,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 Hallo From Name (from@from-domain.com),
                 
                 Dies ist eine Mitteilung der E-Mail-Weiterleitung:
-                Die E-Mail-Adresse "someone-old@staging.olzimmerberg.ch" ist neu unter "someone@olzimmerberg.ch" erreichbar.
+                Die E-Mail-Adresse "someone-old@staging.olzimmerberg.ch" ist neu unter "someone@staging.olzimmerberg.ch" erreichbar.
                 
                 Dies nur zur Information. Ihre E-Mail wurde automatisch weitergeleitet!
                 
@@ -894,7 +894,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'INFO Redirect E-Mail sent to from@from-domain.com: somerole-old@staging.olzimmerberg.ch -> somerole@olzimmerberg.ch',
+            'INFO Redirect E-Mail sent to from@from-domain.com: somerole-old@staging.olzimmerberg.ch -> somerole@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
@@ -916,7 +916,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 Hallo From Name (from@from-domain.com),
                 
                 Dies ist eine Mitteilung der E-Mail-Weiterleitung:
-                Die E-Mail-Adresse "somerole-old@staging.olzimmerberg.ch" ist neu unter "somerole@olzimmerberg.ch" erreichbar.
+                Die E-Mail-Adresse "somerole-old@staging.olzimmerberg.ch" ist neu unter "somerole@staging.olzimmerberg.ch" erreichbar.
                 
                 Dies nur zur Information. Ihre E-Mail wurde automatisch weitergeleitet!
                 

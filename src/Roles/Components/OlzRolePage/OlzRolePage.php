@@ -7,11 +7,16 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzRolePageParams extends HttpParams {
+}
 
 class OlzRolePage extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzRolePageParams::class);
         $is_member = $this->authUtils()->hasPermission('member');
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();

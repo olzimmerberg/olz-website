@@ -7,15 +7,19 @@ use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLocation;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{
+ *   id?: ?numeric-string,
+ *   filter?: ?string,
+ * }> */
+class OlzTerminLocationDetailParams extends HttpParams {
+}
 
 class OlzTerminLocationDetail extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $params = $this->httpUtils()->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-            'id' => new FieldTypes\IntegerField(['allow_null' => true]),
-        ]);
+        $params = $this->httpUtils()->validateGetParams(OlzTerminLocationDetailParams::class);
 
         $code_href = $this->envUtils()->getCodeHref();
         $user = $this->authUtils()->getCurrentUser();
@@ -33,7 +37,7 @@ class OlzTerminLocationDetail extends OlzComponent {
             $enc_filter = urlencode($params['filter']);
             $back_link = "{$code_href}termine?filter={$enc_filter}";
             if ($params['id'] ?? null) {
-                $enc_id = urlencode($params['id']);
+                $enc_id = intval($params['id']);
                 $back_link = "{$code_href}termine/{$enc_id}?filter={$enc_filter}";
             }
         }

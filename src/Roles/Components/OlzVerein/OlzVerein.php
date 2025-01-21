@@ -6,6 +6,11 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzVereinParams extends HttpParams {
+}
 
 class OlzVerein extends OlzComponent {
     public static string $title = "Verein";
@@ -13,7 +18,7 @@ class OlzVerein extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzVereinParams::class);
 
         $out = OlzHeader::render([
             'title' => self::$title,

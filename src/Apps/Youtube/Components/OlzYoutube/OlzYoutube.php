@@ -6,11 +6,16 @@ use Olz\Apps\Youtube\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzYoutubeParams extends HttpParams {
+}
 
 class OlzYoutube extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzYoutubeParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 
         $out = OlzHeader::render([

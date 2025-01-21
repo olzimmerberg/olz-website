@@ -5,14 +5,16 @@ namespace Olz\Suche\Components\OlzSuche;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{anfrage?: ?string}> */
+class OlzSucheParams extends HttpParams {
+}
 
 class OlzSuche extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $params = $this->httpUtils()->validateGetParams([
-            'anfrage' => new FieldTypes\StringField(['allow_null' => true]),
-        ]);
+        $params = $this->httpUtils()->validateGetParams(OlzSucheParams::class);
         $search_key = $params['anfrage'];
         $date_utils = $this->dateUtils();
         $db = $this->dbUtils()->getDb();

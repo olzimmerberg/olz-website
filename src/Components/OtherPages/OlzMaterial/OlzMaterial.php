@@ -8,6 +8,11 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzMaterialParams extends HttpParams {
+}
 
 class OlzMaterial extends OlzComponent {
     public static string $title = "Material & Kleider";
@@ -15,7 +20,7 @@ class OlzMaterial extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzMaterialParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 
         $out = OlzHeader::render([

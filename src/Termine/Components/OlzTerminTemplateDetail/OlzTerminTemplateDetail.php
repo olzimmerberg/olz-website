@@ -8,7 +8,11 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminTemplate;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{filter?: ?string}> */
+class OlzTerminTemplateDetailParams extends HttpParams {
+}
 
 class OlzTerminTemplateDetail extends OlzComponent {
     /** @var array<string, string> */
@@ -23,9 +27,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-        ]);
+        $this->httpUtils()->validateGetParams(OlzTerminTemplateDetailParams::class);
 
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();

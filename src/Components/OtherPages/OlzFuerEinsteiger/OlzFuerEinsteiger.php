@@ -10,7 +10,11 @@ use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{von?: ?string}> */
+class OlzFuerEinsteigerParams extends HttpParams {
+}
 
 class OlzFuerEinsteiger extends OlzComponent {
     public static string $title = "Für Einsteiger";
@@ -18,9 +22,7 @@ class OlzFuerEinsteiger extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([
-            'von' => new FieldTypes\StringField(['allow_null' => true]),
-        ]);
+        $this->httpUtils()->validateGetParams(OlzFuerEinsteigerParams::class);
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
 

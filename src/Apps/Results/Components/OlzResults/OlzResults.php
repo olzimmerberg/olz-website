@@ -7,14 +7,16 @@ use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{file?: ?string}> */
+class OlzResultsParams extends HttpParams {
+}
 
 class OlzResults extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([
-            'file' => new FieldTypes\StringField(['allow_null' => true]),
-        ]);
+        $this->httpUtils()->validateGetParams(OlzResultsParams::class);
 
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();

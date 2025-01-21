@@ -5,6 +5,11 @@ namespace Olz\Components\OlzHtmlSitemap;
 use Olz\Components\OlzSitemap\OlzSitemap;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzHtmlSitemapParams extends HttpParams {
+}
 
 class OlzHtmlSitemap extends OlzSitemap {
     public static string $title = "Sitemap";
@@ -12,7 +17,7 @@ class OlzHtmlSitemap extends OlzSitemap {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzHtmlSitemapParams::class);
 
         $out = OlzHeader::render([
             'title' => self::$title,

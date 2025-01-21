@@ -7,15 +7,19 @@ use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{
+ *   nach?: ?string,
+ *   ankunft?: ?string,
+ * }> */
+class OlzOevParams extends HttpParams {
+}
 
 class OlzOev extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([
-            'nach' => new FieldTypes\StringField(['allow_null' => true]),
-            'ankunft' => new FieldTypes\StringField(['allow_null' => true]),
-        ]);
+        $this->httpUtils()->validateGetParams(OlzOevParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $metadata = new Metadata();
 

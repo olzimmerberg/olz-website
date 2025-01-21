@@ -6,14 +6,16 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\EmailUtils;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{token?: ?string}> */
+class OlzEmailReaktionParams extends HttpParams {
+}
 
 class OlzEmailReaktion extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $params = $this->httpUtils()->validateGetParams([
-            'token' => new FieldTypes\StringField(['allow_null' => true]),
-        ]);
+        $params = $this->httpUtils()->validateGetParams(OlzEmailReaktionParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $token = $params['token'] ?? '';
         $js_token = htmlentities(json_encode($token));

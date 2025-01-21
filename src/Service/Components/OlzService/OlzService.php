@@ -8,6 +8,11 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Service\Components\OlzDownloads\OlzDownloads;
 use Olz\Service\Components\OlzLinks\OlzLinks;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzServiceParams extends HttpParams {
+}
 
 class OlzService extends OlzComponent {
     public static string $title = "Service";
@@ -15,7 +20,7 @@ class OlzService extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzServiceParams::class);
 
         $out = OlzHeader::render([
             'title' => self::$title,

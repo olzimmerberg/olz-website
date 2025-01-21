@@ -7,11 +7,16 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Termine\Components\OlzTerminTemplatesListItem\OlzTerminTemplatesListItem;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzTerminTemplatesListParams extends HttpParams {
+}
 
 class OlzTerminTemplatesList extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzTerminTemplatesListParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 
         if (!$this->authUtils()->hasPermission('termine')) {

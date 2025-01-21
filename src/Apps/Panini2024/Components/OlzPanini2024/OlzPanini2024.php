@@ -9,11 +9,16 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzPanini2024Params extends HttpParams {
+}
 
 class OlzPanini2024 extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzPanini2024Params::class);
         $current_user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();
         $entity_manager = $this->dbUtils()->getEntityManager();

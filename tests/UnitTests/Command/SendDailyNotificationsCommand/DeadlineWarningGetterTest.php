@@ -49,8 +49,6 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
 
             Folgende Meldeschlüsse stehen bevor:
 
-            - 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
-            - 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
             - : Meldeschluss für '[Fake title](http://fake-base-url/_/termine/12)'
             - 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
             - 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'

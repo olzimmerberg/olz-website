@@ -36,7 +36,7 @@ jobs:
         curl -sS https://get.symfony.com/cli/installer | bash; mv /home/runner/.symfony5/bin/symfony /usr/local/bin/symfony
     - name: Get PHP (composer) cache directory
       id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
     - name: Cache PHP (composer) dependencies
       uses: actions/cache@v3
       with:
@@ -47,8 +47,7 @@ jobs:
       run: composer install --prefer-dist --optimize-autoloader
     - name: Get JavaScript (npm) cache directory
       id: npm-cache
-      run: |
-        echo "::set-output name=dir::$(npm config get cache)"
+      run: echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
     - name: Cache JavaScript (npm) dependencies
       uses: actions/cache@v3
       with:
@@ -113,7 +112,7 @@ jobs:
         curl -sS https://get.symfony.com/cli/installer | bash; mv /home/runner/.symfony5/bin/symfony /usr/local/bin/symfony
     - name: Get PHP (composer) cache directory
       id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
     - name: Cache PHP (composer) dependencies
       uses: actions/cache@v3
       with:
@@ -124,8 +123,7 @@ jobs:
       run: composer install --prefer-dist --optimize-autoloader
     - name: Get JavaScript (npm) cache directory
       id: npm-cache
-      run: |
-        echo "::set-output name=dir::$(npm config get cache)"
+      run: echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
     - name: Cache JavaScript (npm) dependencies
       uses: actions/cache@v3
       with:
@@ -182,7 +180,7 @@ jobs:
         php-version: '8.2'
     - name: Get PHP (composer) cache directory
       id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
     - name: Cache PHP (composer) dependencies
       uses: actions/cache@v3
       with:
@@ -193,8 +191,7 @@ jobs:
       run: composer install --no-dev --prefer-dist --optimize-autoloader
     - name: Get JavaScript (npm) cache directory
       id: npm-cache
-      run: |
-        echo "::set-output name=dir::$(npm config get cache)"
+      run: echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
     - name: Cache JavaScript (npm) dependencies
       uses: actions/cache@v3
       with:
@@ -231,7 +228,7 @@ jobs:
         path: ./screenshots
     - name: Get PHP (composer) cache directory
       id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
     - name: Cache PHP (composer) dependencies
       uses: actions/cache@v3
       with:

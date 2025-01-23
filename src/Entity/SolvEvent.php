@@ -293,10 +293,11 @@ class SolvEvent implements SearchableInterface {
             );
         }
         if (intval($query) > 1900) {
+            $this_year = strval(intval($query));
             $next_year = strval(intval($query) + 1);
             return Criteria::expr()->orX(
                 Criteria::expr()->andX(
-                    Criteria::expr()->gte('date', new \DateTime("{$query}-01-01 00:00:00")),
+                    Criteria::expr()->gte('date', new \DateTime("{$this_year}-01-01 00:00:00")),
                     Criteria::expr()->lt('date', new \DateTime("{$next_year}-01-01 00:00:00")),
                 ),
                 Criteria::expr()->contains('name', $query),

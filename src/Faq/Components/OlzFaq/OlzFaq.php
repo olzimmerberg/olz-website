@@ -10,6 +10,11 @@ use Olz\Entity\Faq\Question;
 use Olz\Entity\Faq\QuestionCategory;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzFaqParams extends HttpParams {
+}
 
 class OlzFaq extends OlzComponent {
     public static string $title = "Fragen & Antworten";
@@ -17,7 +22,7 @@ class OlzFaq extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzFaqParams::class);
         $entityManager = $this->dbUtils()->getEntityManager();
         $question_repo = $entityManager->getRepository(Question::class);
         $category_repo = $entityManager->getRepository(QuestionCategory::class);

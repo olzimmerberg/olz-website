@@ -6,11 +6,16 @@ use Olz\Apps\Files\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzFilesParams extends HttpParams {
+}
 
 class OlzFiles extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzFilesParams::class);
         $base_href = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
 

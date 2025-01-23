@@ -8,6 +8,11 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Karten\Karte;
 use Olz\Karten\Components\OlzKartenList\OlzKartenList;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzKartenParams extends HttpParams {
+}
 
 class OlzKarten extends OlzComponent {
     public static string $title = "Karten";
@@ -15,7 +20,7 @@ class OlzKarten extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzKartenParams::class);
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
 

@@ -15,7 +15,11 @@ use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Termine\Utils\TermineFilterUtils;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{filter?: ?string}> */
+class OlzTermineListParams extends HttpParams {
+}
 
 class OlzTermineList extends OlzComponent {
     public static string $title = "Termine";
@@ -23,9 +27,8 @@ class OlzTermineList extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $params = $this->httpUtils()->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-        ]);
+        /** @return array{filter?: ?string} */
+        $params = $this->httpUtils()->validateGetParams(OlzTermineListParams::class);
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
 

@@ -12,7 +12,14 @@ use Olz\Entity\Users\User;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 use Olz\News\Utils\NewsFilterUtils;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{
+ *   filter?: ?string,
+ *   seite?: ?numeric-string,
+ * }> */
+class OlzNewsListParams extends HttpParams {
+}
 
 class OlzNewsList extends OlzComponent {
     public static string $title = "News";
@@ -22,10 +29,7 @@ class OlzNewsList extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $params = $this->httpUtils()->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-            'seite' => new FieldTypes\IntegerField(['min_value' => 1, 'default_value' => 1]),
-        ]);
+        $params = $this->httpUtils()->validateGetParams(OlzNewsListParams::class);
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
 

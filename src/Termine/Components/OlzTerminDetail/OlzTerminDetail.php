@@ -12,7 +12,11 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Termine\Utils\TermineFilterUtils;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{filter?: ?string}> */
+class OlzTerminDetailParams extends HttpParams {
+}
 
 class OlzTerminDetail extends OlzComponent {
     /** @var array<string, string> */
@@ -27,9 +31,7 @@ class OlzTerminDetail extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $params = $this->httpUtils()->validateGetParams([
-            'filter' => new FieldTypes\StringField(['allow_null' => true]),
-        ]);
+        $params = $this->httpUtils()->validateGetParams(OlzTerminDetailParams::class);
 
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();

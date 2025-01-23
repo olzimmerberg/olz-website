@@ -6,8 +6,7 @@ use Olz\Components\Error\OlzErrorPage\OlzErrorPage;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use Olz\Entity\Counter;
-use PhpTypeScriptApi\Fields\FieldTypes;
-use PhpTypeScriptApi\Fields\ValidationError;
+use PhpTypeScriptApi\PhpStan\ValidateVisitor;
 use Symfony\Component\HttpFoundation\Request;
 
 class HttpUtils {
@@ -71,44 +70,33 @@ class HttpUtils {
     }
 
     /**
-     * @param array<string, FieldTypes\Field> $fields
-     * @param ?array<string, ?string>         $get_params
-     * @param array{just_log?: bool}          $options
+     * @template T of array
      *
-     * @return array<string, string>
+     * @param class-string<HttpParams<T>> $params_class
+     * @param ?array<string, ?string>     $get_params
+     * @param array{just_log?: bool}      $options
+     *
+     * @return T
      */
-    public function validateGetParams(
-        array $fields,
-        ?array $get_params = null,
-        array $options = [],
-    ): array {
+    public function validateGetParams(string $params_class, ?array $get_params = null, array $options = []): array {
         if ($get_params === null) {
             $get_params = $this->getParams();
         }
-        $validated_get_params = [];
-        $has_error = false;
-        foreach ($get_params as $key => $value) {
-            $field = $fields[$key] ?? null;
-            if (!$field) {
-                $this->log()->notice("Unknown GET param '{$key}'", $get_params);
-                $has_error = true;
-            } else {
-                try {
-                    $validated_get_params[$key] = $this->fieldUtils()->validate(
-                        $field,
-                        $get_params[$key],
-                        ['parse' => true]
-                    );
-                } catch (ValidationError $verr) {
-                    $this->log()->notice("Bad GET param '{$key}'", $verr->getStructuredAnswer());
-                    $has_error = true;
-                }
-            }
-        }
-        if ($has_error && ($options['just_log'] ?? false) === false) {
+        $class_info = new \ReflectionClass($params_class);
+        $params_instance = new $params_class();
+        $params_instance->configure();
+        $utils = $params_instance->phpStanUtils;
+        $php_doc_node = $utils->parseDocComment($class_info->getDocComment());
+        $type = $php_doc_node?->getExtendsTagValues()[0]->type->genericTypes[0];
+        $aliases = $utils->getAliases($php_doc_node);
+        if (!$type) {
             $this->dieWithHttpError(400);
         }
-        return $validated_get_params;
+        $result = ValidateVisitor::validateDeserialize($utils, $get_params, $type, $aliases);
+        if (!$result->isValid() && ($options['just_log'] ?? false) === false) {
+            $this->dieWithHttpError(400);
+        }
+        return $result->getValue();
     }
 
     // @codeCoverageIgnoreStart

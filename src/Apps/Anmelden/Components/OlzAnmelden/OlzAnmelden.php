@@ -6,14 +6,16 @@ use Olz\Apps\Anmelden\Metadata;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use PhpTypeScriptApi\Fields\FieldTypes;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{id?: ?numeric-string}> */
+class OlzAnmeldenParams extends HttpParams {
+}
 
 class OlzAnmelden extends OlzComponent {
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([
-            'id' => new FieldTypes\IntegerField(['allow_null' => true]),
-        ]);
+        $this->httpUtils()->validateGetParams(OlzAnmeldenParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 
         $out = OlzHeader::render([

@@ -8,6 +8,11 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzDatenschutzParams extends HttpParams {
+}
 
 class OlzDatenschutz extends OlzComponent {
     public static string $title = "Datenschutz";
@@ -15,7 +20,7 @@ class OlzDatenschutz extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzDatenschutzParams::class);
         $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
         $datenschutz_role = $role_repo->getPredefinedRole(PredefinedRole::Sysadmin);

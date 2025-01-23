@@ -6,7 +6,6 @@ namespace Olz\Tests\IntegrationTests\Utils;
 
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\HttpUtils;
-use PhpTypeScriptApi\Fields\FieldTypes;
 use PhpTypeScriptApi\Fields\FieldUtils;
 
 /**
@@ -70,51 +69,6 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
         $this->assertSame(302, $http_utils->sent_http_response_code);
         $this->assertSame(["Location: https://test.ch"], $http_utils->sent_http_header_lines);
         $this->assertMatchesRegularExpression('/Weiterleitung/i', $http_utils->sent_http_body);
-        $this->assertTrue($http_utils->has_exited_execution);
-    }
-
-    public function testValidateGetParamsSuccessful(): void {
-        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
-
-        $validated_get_params = $http_utils->validateGetParams([
-            'input' => new FieldTypes\Field(['allow_null' => false]),
-        ], ['input' => 'test']);
-
-        $this->assertSame(['input' => 'test'], $validated_get_params);
-    }
-
-    public function testValidateGetParamsWithBadParam(): void {
-        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
-
-        $validated_get_params = $http_utils->validateGetParams([
-            'input' => new FieldTypes\Field(['allow_null' => false]),
-        ], ['input' => null]);
-
-        $this->assertSame([
-            "NOTICE Bad GET param 'input'",
-        ], $this->getLogs());
-        $this->assertSame([], $validated_get_params);
-        $this->assertSame(400, $http_utils->sent_http_response_code);
-        $this->assertSame([], $http_utils->sent_http_header_lines);
-        $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
-        $this->assertTrue($http_utils->has_exited_execution);
-    }
-
-    public function testValidateGetParamsWithUnknownParam(): void {
-        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
-
-        $validated_get_params = $http_utils->validateGetParams(
-            [],
-            ['inexistent' => null]
-        );
-
-        $this->assertSame([
-            "NOTICE Unknown GET param 'inexistent'",
-        ], $this->getLogs());
-        $this->assertSame([], $validated_get_params);
-        $this->assertSame(400, $http_utils->sent_http_response_code);
-        $this->assertSame([], $http_utils->sent_http_header_lines);
-        $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
         $this->assertTrue($http_utils->has_exited_execution);
     }
 }

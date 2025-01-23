@@ -11,6 +11,11 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
+use Olz\Utils\HttpParams;
+
+/** @extends HttpParams<array{}> */
+class OlzStartseiteParams extends HttpParams {
+}
 
 class OlzStartseite extends OlzComponent {
     public static string $title = "Startseite";
@@ -18,7 +23,7 @@ class OlzStartseite extends OlzComponent {
 
     /** @param array<string, mixed> $args */
     public function getHtml(array $args = []): string {
-        $this->httpUtils()->validateGetParams([]);
+        $this->httpUtils()->validateGetParams(OlzStartseiteParams::class);
 
         $out = OlzHeader::render([
             'description' => self::$description,

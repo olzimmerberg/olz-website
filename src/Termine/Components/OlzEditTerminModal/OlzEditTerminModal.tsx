@@ -36,11 +36,15 @@ interface OlzEditTerminForm {
 
 const resolver: Resolver<OlzEditTerminForm> = async (values) => {
     const errors: FieldErrors<OlzEditTerminForm> = {};
-    [errors.startDate, values.startDate] = validateDate(values.startDate);
+    if (values.solvId === null) {
+        [errors.startDate, values.startDate] = validateDate(values.startDate);
+    }
     [errors.startTime, values.startTime] = validateTimeOrNull(values.startTime);
     [errors.endDate, values.endDate] = validateDateOrNull(values.endDate);
     [errors.endTime, values.endTime] = validateTimeOrNull(values.endTime);
-    errors.title = validateNotEmpty(values.title);
+    if (values.solvId === null) {
+        errors.title = validateNotEmpty(values.title);
+    }
     [errors.deadline, values.deadline] = validateDateTimeOrNull(getDeadlineDateTime(values.deadline));
     errors.coordinateX = validateIntegerOrNull(values.coordinateX);
     errors.coordinateY = validateIntegerOrNull(values.coordinateY);
@@ -82,7 +86,7 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number
         startTime: getApiString(formData.startTime),
         endDate: getApiString(formData.endDate),
         endTime: getApiString(formData.endTime),
-        title: getApiString(formData.title) ?? '',
+        title: getApiString(formData.title),
         text: getApiString(formData.text) ?? '',
         deadline: getApiString(formData.deadline) || null,
         shouldPromote: getApiBoolean(formData.shouldPromote),
@@ -191,16 +195,6 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         setValue('deadline', terminUpdate.deadline);
     }, [startDate, startTime]);
 
-    React.useEffect(() => {
-        if (!solvId) {
-            return;
-        }
-        setValue('deadline', '');
-        setValue('locationId', null);
-        setValue('coordinateX', '');
-        setValue('coordinateY', '');
-    }, [solvId]);
-
     const onSubmit: SubmitHandler<OlzEditTerminForm> = async (values) => {
         setIsSubmitting(true);
         const meta: OlzMetaData = props?.meta ?? {
@@ -226,6 +220,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         window.location.reload();
     };
 
+    const solvDisabledClass = solvId !== null ? ' solv-disabled' : '';
     const dialogTitle = (props.id === undefined
         ? 'Termin-Eintrag erstellen'
         : 'Termin-Eintrag bearbeiten'
@@ -269,62 +264,74 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                 </div>
             </div>
             <div className='row'>
-                <div className='col mb-3'>
+                <div className={`col mb-3${solvDisabledClass}`}>
                     <OlzTextField
                         title='Beginn Datum'
                         name='startDate'
                         errors={errors}
                         register={register}
+                        disabled={solvId !== null}
+                        placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                     />
                     {startDateInfo}
                 </div>
-                <div className='col mb-3'>
+                <div className={`col mb-3${solvDisabledClass}`}>
                     <OlzTextField
                         title='Beginn Zeit'
                         name='startTime'
                         errors={errors}
                         register={register}
+                        disabled={solvId !== null}
+                        placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                     />
                 </div>
             </div>
             <div className='row'>
-                <div className='col mb-3'>
+                <div className={`col mb-3${solvDisabledClass}`}>
                     <OlzTextField
                         title='Ende Datum'
                         name='endDate'
                         errors={errors}
                         register={register}
+                        disabled={solvId !== null}
+                        placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                     />
                     {endDateInfo}
                 </div>
-                <div className='col mb-3'>
+                <div className={`col mb-3${solvDisabledClass}`}>
                     <OlzTextField
                         title='Ende Zeit'
                         name='endTime'
                         errors={errors}
                         register={register}
+                        disabled={solvId !== null}
+                        placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                     />
                 </div>
             </div>
-            <div className='mb-3'>
+            <div className={`mb-3${solvDisabledClass}`}>
                 <OlzTextField
                     title='Titel'
                     name='title'
                     errors={errors}
                     register={register}
+                    disabled={solvId !== null}
+                    placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                 />
             </div>
-            <div className='mb-3'>
+            <div className={`mb-3${solvDisabledClass}`}>
                 <OlzTextField
                     mode='textarea'
                     title='Text'
                     name='text'
                     errors={errors}
                     register={register}
+                    disabled={solvId !== null}
+                    placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                 />
             </div>
             <div className='row'>
-                <div className='col mb-3'>
+                <div className={`col mb-3${solvDisabledClass}`}>
                     <OlzTextField
                         title='Meldeschluss'
                         name='deadline'
@@ -369,7 +376,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                 </div>
             </div>
             <div className='row'>
-                <div className='col mb-3'>
+                <div className={`col mb-3${solvDisabledClass}`}>
                     <OlzEntityField
                         title='Ort'
                         entityType='TerminLocation'
@@ -386,7 +393,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             </div>
             {locationId === null ? (
                 <div className='row'>
-                    <div className='col mb-3'>
+                    <div className={`col mb-3${solvDisabledClass}`}>
                         <OlzTextField
                             title='X-Koordinate'
                             name='coordinateX'
@@ -397,7 +404,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
 
                         />
                     </div>
-                    <div className='col mb-3'>
+                    <div className={`col mb-3${solvDisabledClass}`}>
                         <OlzTextField
                             title='Y-Koordinate'
                             name='coordinateY'
@@ -418,7 +425,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                     setIsLoading={setIsImagesLoading}
                 />
             </div>
-            <div className='mb-3' id='files-upload'>
+            <div className={`mb-3${solvDisabledClass}`} id='files-upload'>
                 <OlzMultiFileField
                     title='Dateien'
                     name='fileIds'

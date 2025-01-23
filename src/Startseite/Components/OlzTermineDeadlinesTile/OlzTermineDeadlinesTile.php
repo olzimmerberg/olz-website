@@ -34,31 +34,17 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $out = "<h2>Meldeschlüsse</h2>";
 
         $res = $db->query(<<<ZZZZZZZZZZ
-            (
-                SELECT
-                    se.deadline as deadline,
-                    t.start_date as date,
-                    t.title as title,
-                    t.id as id,
-                    t.image_ids as image_ids
-                FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
-                WHERE 
-                    se.deadline IS NOT NULL
-                    AND se.deadline >= '{$today}'
-                    AND se.deadline <= '{$this->in_four_weeks}'
-            ) UNION ALL (
-                SELECT
-                    DATE(t.deadline) as deadline,
-                    t.start_date as date,
-                    t.title as title,
-                    t.id as id,
-                    t.image_ids as image_ids
-                FROM termine t
-                WHERE
-                    t.deadline IS NOT NULL
-                    AND t.deadline >= '{$now}'
-                    AND t.deadline <= '{$this->in_four_weeks}'
-            )
+            SELECT
+                DATE(t.deadline) as deadline,
+                t.start_date as date,
+                t.title as title,
+                t.id as id,
+                t.image_ids as image_ids
+            FROM termine t
+            WHERE
+                t.deadline IS NOT NULL
+                AND t.deadline >= '{$now}'
+                AND t.deadline <= '{$this->in_four_weeks}'
             ORDER BY deadline ASC
             LIMIT 7
             ZZZZZZZZZZ);
@@ -74,35 +60,19 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
 
         // Outlook
         $res = $db->query(<<<ZZZZZZZZZZ
-            (
-                SELECT
-                    se.deadline as deadline,
-                    t.start_date as date,
-                    t.title as title,
-                    t.id as id,
-                    t.image_ids as image_ids
-                FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
-                WHERE 
-                    se.deadline IS NOT NULL
-                    AND se.deadline > '{$this->in_four_weeks}'
-                    AND t.should_promote != '0'
-                    AND t.image_ids IS NOT NULL
-                    AND t.image_ids != '[]'
-            ) UNION ALL (
-                SELECT
-                    DATE(t.deadline) as deadline,
-                    t.start_date as date,
-                    t.title as title,
-                    t.id as id,
-                    t.image_ids as image_ids
-                FROM termine t
-                WHERE
-                    t.deadline IS NOT NULL
-                    AND t.deadline > '{$this->in_four_weeks}'
-                    AND t.should_promote != '0'
-                    AND t.image_ids IS NOT NULL
-                    AND t.image_ids != '[]'
-            )
+            SELECT
+                DATE(t.deadline) as deadline,
+                t.start_date as date,
+                t.title as title,
+                t.id as id,
+                t.image_ids as image_ids
+            FROM termine t
+            WHERE
+                t.deadline IS NOT NULL
+                AND t.deadline > '{$this->in_four_weeks}'
+                AND t.should_promote != '0'
+                AND t.image_ids IS NOT NULL
+                AND t.image_ids != '[]'
             ORDER BY deadline ASC
             LIMIT 7
             ZZZZZZZZZZ);

@@ -48,7 +48,7 @@ export type OlzWeeklyPictureId = number;
 
 export type IsoDate = string;
 
-export type OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate': IsoDate, 'startTime'?: (IsoTime | null), 'endDate'?: (IsoDate | null), 'endTime'?: (IsoTime | null), 'title': string, 'text': string, 'deadline'?: (IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'go2olId'?: (string | null), 'types': Array<string>, 'locationId'?: (number | null), 'coordinateX'?: (number | null), 'coordinateY'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
+export type OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate'?: (IsoDate | null), 'startTime'?: (IsoTime | null), 'endDate'?: (IsoDate | null), 'endTime'?: (IsoTime | null), 'title'?: (string | null), 'text': string, 'deadline'?: (IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'go2olId'?: (string | null), 'types': Array<string>, 'locationId'?: (number | null), 'coordinateX'?: (number | null), 'coordinateY'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
 export type OlzTerminId = number;
 

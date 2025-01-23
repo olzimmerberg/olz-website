@@ -156,30 +156,7 @@ class OlzTermineList extends OlzComponent {
                 WHERE ({$inner_sql_where})
             ) UNION ALL (
                 SELECT
-                    'solv_deadline' as item_type,
-                    t.owner_user_id as owner_user_id,
-                    se.deadline as start_date,
-                    '00:00:00' as start_time,
-                    NULL as end_date,
-                    NULL as end_time,
-                    CONCAT('Meldeschluss für ', t.title) as title,
-                    '' as text,
-                    t.id as id,
-                    'meldeschluss' as typ,
-                    t.on_off as on_off,
-                    NULL as newsletter,
-                    NULL as xkoord,
-                    NULL as ykoord,
-                    t.go2ol as go2ol,
-                    t.solv_uid as solv_uid,
-                    t.last_modified_by_user_id as last_modified_by_user_id,
-                    t.image_ids as image_ids,
-                    NULL as location_id
-                FROM termine t JOIN solv_events se ON (t.solv_uid = se.solv_uid)
-                WHERE (se.deadline IS NOT NULL) AND ({$inner_sql_where})
-            ) UNION ALL (
-                SELECT
-                    'olz_deadline' as item_type,
+                    'deadline' as item_type,
                     t.owner_user_id as owner_user_id,
                     DATE(t.deadline) as start_date,
                     TIME(t.deadline) as start_time,
@@ -234,7 +211,6 @@ class OlzTermineList extends OlzComponent {
                 }
 
                 $out .= OlzTermineListItem::render([
-                    'item_type' => $row['item_type'],
                     'id' => $row['id'],
                     'owner_user_id' => $row['owner_user_id'],
                     'start_date' => $row['start_date'],

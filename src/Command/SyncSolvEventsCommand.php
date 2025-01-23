@@ -4,6 +4,7 @@ namespace Olz\Command;
 
 use Olz\Command\Common\OlzCommand;
 use Olz\Entity\SolvEvent;
+use Olz\Entity\Termine\Termin;
 use Olz\Parsers\SolvEventParser;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -64,6 +65,7 @@ class SyncSolvEventsCommand extends OlzCommand {
     /** @param array<SolvEvent> $solv_events */
     private function importSolvEventsForYear(array $solv_events, int $year): void {
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $existing_solv_events = $solv_event_repo->getSolvEventsForYear($year);
         $existing_solv_events_index = [];
         foreach ($existing_solv_events as $existing_solv_event) {
@@ -84,9 +86,9 @@ class SyncSolvEventsCommand extends OlzCommand {
                 try {
                     $this->entityManager()->persist($solv_event);
                     $this->entityManager()->flush();
-                    $this->logAndOutput("INSERTED {$solv_event->getSolvUid()}");
+                    $this->logAndOutput("INSERTED {$solv_uid}");
                 } catch (\Exception $e) {
-                    $this->logAndOutput("INSERT FAILED {$solv_event->getSolvUid()}: {$e}");
+                    $this->logAndOutput("INSERT FAILED {$solv_uid}: {$e}");
                 }
             } elseif ($outdated) {
                 $existing_solv_event->setDate($solv_event->getDate());
@@ -106,11 +108,17 @@ class SyncSolvEventsCommand extends OlzCommand {
                 $existing_solv_event->setDeadline($solv_event->getDeadline());
                 $existing_solv_event->setEntryportal($solv_event->getEntryportal());
                 $existing_solv_event->setLastModification($solv_event->getLastModification());
+
+                $termine = $termin_repo->findBy(['solv_uid' => $solv_uid]);
+                foreach ($termine as $termin) {
+                    $termin_repo->updateTerminFromSolvEvent($termin, $solv_event);
+                }
+
                 try {
                     $this->entityManager()->flush();
-                    $this->logAndOutput("UPDATED {$solv_event->getSolvUid()}");
+                    $this->logAndOutput("UPDATED {$solv_uid}");
                 } catch (\Exception $e) {
-                    $this->logAndOutput("UPDATE FAILED {$solv_event->getSolvUid()}: {$e}");
+                    $this->logAndOutput("UPDATE FAILED {$solv_uid}: {$e}");
                 }
             }
         }

@@ -5,7 +5,6 @@ namespace Olz\Command\SendDailyNotificationsCommand;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use Olz\Entity\NotificationSubscription;
-use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Utils\WithUtilsTrait;
 
@@ -28,7 +27,6 @@ class DeadlineWarningGetter implements NotificationGetterInterface {
         $in_given_days_end = new \DateTime($in_given_days->format('Y-m-d').' 23:59:59');
 
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
-        $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
 
         $base_href = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();
@@ -36,34 +34,6 @@ class DeadlineWarningGetter implements NotificationGetterInterface {
 
         $deadlines_text = '';
 
-        // SOLV-Meldeschlüsse
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->gte('deadline', $in_given_days_start),
-                Criteria::expr()->lte('deadline', $in_given_days_end),
-            ))
-            ->orderBy(['date' => Order::Ascending])
-            ->setFirstResult(0)
-            ->setMaxResults(1000)
-        ;
-        $deadlines = $solv_event_repo->matching($criteria);
-        foreach ($deadlines as $deadline) {
-            $solv_uid = $deadline->getSolvUid();
-            $termin = $termin_repo->findOneBy([
-                'solv_uid' => $solv_uid,
-                'on_off' => 1,
-            ]);
-            if (!$termin) {
-                continue;
-            }
-            $deadline_date = $deadline->getDeadline();
-            $date = $deadline_date->format('d.m.');
-            $id = $termin->getId();
-            $title = $termin->getTitle();
-            $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}/{$id})'\n";
-        }
-
-        // OLZ-Meldeschlüsse
         $criteria = Criteria::create()
             ->where(
                 Criteria::expr()->andX(

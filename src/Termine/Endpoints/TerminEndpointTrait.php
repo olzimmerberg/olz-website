@@ -16,11 +16,11 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
  * @phpstan-type OlzTerminId int
  * @phpstan-type OlzTerminData array{
  *   fromTemplateId?: ?int,
- *   startDate: IsoDate,
+ *   startDate?: ?IsoDate,
  *   startTime?: ?IsoTime,
  *   endDate?: ?IsoDate,
  *   endTime?: ?IsoTime,
- *   title: non-empty-string,
+ *   title?: ?non-empty-string,
  *   text: string,
  *   deadline?: ?IsoDateTime,
  *   shouldPromote: bool,
@@ -82,7 +82,7 @@ trait TerminEndpointTrait {
         $termin_location = $termin_location_repo->findOneBy(['id' => $input_data['locationId']]);
 
         $entity->setFromTemplate($termin_template);
-        $entity->setStartDate($input_data['startDate']);
+        $entity->setStartDate($input_data['startDate'] ?? new \DateTime());
         $entity->setStartTime($input_data['startTime']);
         $entity->setEndDate($input_data['endDate']);
         $entity->setEndTime($input_data['endTime']);
@@ -109,6 +109,11 @@ trait TerminEndpointTrait {
         $entity->setCoordinateX($input_data['coordinateX']);
         $entity->setCoordinateY($input_data['coordinateY']);
         $entity->setImageIds($valid_image_ids);
+
+        if ($entity->getSolvId() !== null) {
+            $repo = $this->entityManager()->getRepository(Termin::class);
+            $repo->updateTerminFromSolvEvent($entity);
+        }
     }
 
     /** @param OlzTerminData $input_data */

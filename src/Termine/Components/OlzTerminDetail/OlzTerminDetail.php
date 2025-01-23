@@ -36,7 +36,6 @@ class OlzTerminDetail extends OlzComponent {
         $data_path = $this->envUtils()->getDataPath();
         $date_utils = $this->dateUtils();
         $today = $date_utils->getIsoToday();
-        $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $this->authUtils()->getCurrentUser();
         $id = $args['id'] ?? null;
@@ -99,36 +98,17 @@ class OlzTerminDetail extends OlzComponent {
         $labels = [...$termin->getLabels()];
         $xkoord = $termin->getCoordinateX() ?? '';
         $ykoord = $termin->getCoordinateY() ?? '';
-        $go2ol = $termin->getGo2olId() ?? '';
-        $solv_uid = $termin->getSolvId() ?? '';
+        $solv_uid = $termin->getSolvId();
         $termin_location = $termin->getLocation();
-        $row_solv = false;
-        if ($solv_uid) {
-            $sane_solv_uid = intval($solv_uid);
-            $result_solv = $db->query("SELECT * FROM solv_events WHERE solv_uid='{$sane_solv_uid}'");
-            $row_solv = $result_solv->fetch_assoc();
-        }
         $has_olz_location = ($xkoord > 0 && $ykoord > 0);
         $has_termin_location = (
             $termin_location
             && $termin_location->getLatitude() > 0
             && $termin_location->getLongitude() > 0
         );
-        $has_solv_location = (
-            $row_solv
-            && $row_solv['coord_x'] > 0
-            && $row_solv['coord_y'] > 0
-        );
         $lat = null;
         $lng = null;
         $location_name = null;
-        if ($has_solv_location) {
-            $coord_x = floatval($row_solv['coord_x']);
-            $coord_y = floatval($row_solv['coord_y']);
-            $lat = $this->mapUtils()->CHtoWGSlat($coord_x, $coord_y);
-            $lng = $this->mapUtils()->CHtoWGSlng($coord_x, $coord_y);
-            $location_name = $row_solv['location'];
-        }
         if ($has_termin_location) {
             $lat = $termin_location->getLatitude();
             $lng = $termin_location->getLongitude();
@@ -139,7 +119,7 @@ class OlzTerminDetail extends OlzComponent {
             $lng = $this->mapUtils()->CHtoWGSlng($xkoord, $ykoord);
             $location_name = null;
         }
-        $has_location = $has_olz_location || $has_termin_location || $has_solv_location;
+        $has_location = $has_olz_location || $has_termin_location;
         $image_ids = $termin->getImageIds();
 
         $out .= OlzEventData::render([
@@ -232,9 +212,9 @@ class OlzTerminDetail extends OlzComponent {
             $format = 'long',
         );
         $maybe_solv_link = '';
-        if ($row_solv) {
+        if ($solv_uid) {
             // SOLV-Übersicht-Link zeigen
-            $maybe_solv_link .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=".$row_solv['solv_uid']."' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
+            $maybe_solv_link .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id={$solv_uid}' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
         }
         $label_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
             $ident = $label->getIdent();
@@ -257,9 +237,6 @@ class OlzTerminDetail extends OlzComponent {
         ]);
         $text_html = $termin->replaceImagePaths($text_html);
         $text_html = $termin->replaceFilePaths($text_html);
-        if ($row_solv && isset($row_solv['deadline']) && $row_solv['deadline'] && $row_solv['deadline'] != "0000-00-00") {
-            $text_html .= ($text_html == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $row_solv['deadline']);
-        }
         if ($termin->getDeadline() && $termin->getDeadline() != "0000-00-00") {
             $text_html .= ($text_html == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $termin->getDeadline());
         }
@@ -267,14 +244,7 @@ class OlzTerminDetail extends OlzComponent {
 
         // Link
         $link = '';
-        if ($go2ol > "" && $start_date >= $today) {
-            $link .= "<div class='linkext'><a href='https://go2ol.ch/".$go2ol."/' target='_blank'>Anmeldung</a></div>\n";
-        } elseif ($row_solv && $row_solv['entryportal'] == 1 && $start_date >= $today) {
-            $link .= "<div class='linkext'><a href='https://www.go2ol.ch/index.asp?lang=de' target='_blank'>Anmeldung</a></div>\n";
-        } elseif ($row_solv && $row_solv['entryportal'] == 2 && $start_date >= $today) {
-            $link .= "<div class='linkext'><a href='https://entry.picoevents.ch/' target='_blank'>Anmeldung</a></div>\n";
-        }
-        if ($solv_uid > 0 && $start_date <= $today && !preg_match('/(Rangliste|Resultat)/', $link)) {
+        if ($solv_uid && $start_date <= $today && !preg_match('/(Rangliste|Resultat)/', $link)) {
             // SOLV Ranglisten-Link zeigen
             $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id={$solv_uid}&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
         }
@@ -285,11 +255,6 @@ class OlzTerminDetail extends OlzComponent {
         } elseif ($can_edit) {
             // OLZ Rangliste-hochladen-Link zeigen
             $link .= "<div><a href='{$code_href}apps/resultate?file={$result_filename}' target='_blank' class='linkext'>Rangliste hochladen</a></div>\n";
-        }
-        if ($row_solv && ($row_solv['event_link'] ?? false) && !preg_match('/Ausschreibung/', $link) && $start_date <= $today) {
-            // SOLV-Ausschreibungs-Link zeigen
-            $ispdf = preg_match("/\\.pdf$/", $row_solv["event_link"]);
-            $link .= "<div><a href='".$row_solv["event_link"]."' target='_blank' class='link".($ispdf ? "pdf" : "ext")."'>Ausschreibung</a></div>\n";
         }
         if ($link == "") {
             $link = "&nbsp;";

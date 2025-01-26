@@ -45,20 +45,6 @@ final class TransportHaltTest extends UnitTestCase {
         ],
     ];
 
-    public function testGetField(): void {
-        $field = TransportHalt::getField();
-        $this->assertSame(
-            'OlzTransportHalt',
-            $field->getTypeScriptType(),
-        );
-        $this->assertSame(
-            [
-                'OlzTransportHalt' => "{\n    'stationId': string,\n    'stationName': string,\n    'time': string,\n}",
-            ],
-            $field->getExportedTypeScriptTypes(),
-        );
-    }
-
     public function testTransportHalt(): void {
         $object = TransportHalt::fromTransportApi(self::SAMPLE_API_HALT);
         $this->assertSame('14', $object->getStationId());

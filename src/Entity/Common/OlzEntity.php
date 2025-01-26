@@ -5,7 +5,6 @@ namespace Olz\Entity\Common;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
 #[ORM\MappedSuperclass]
 class OlzEntity {
@@ -99,17 +98,5 @@ class OlzEntity {
             'ownerRoleId' => $owner_role ? $owner_role->getId() : null,
             'onOff' => $this->getOnOff() ? true : false,
         ];
-    }
-
-    public static function getMetaField(bool $allow_null): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'export_as' => $allow_null ? 'OlzMetaDataOrNull' : 'OlzMetaData',
-            'field_structure' => [
-                'ownerUserId' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'ownerRoleId' => new FieldTypes\IntegerField(['allow_null' => true]),
-                'onOff' => new FieldTypes\BooleanField(['default_value' => true]),
-            ],
-            'allow_null' => $allow_null,
-        ]);
     }
 }

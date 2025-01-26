@@ -24,21 +24,6 @@ final class TransportSectionTest extends UnitTestCase {
         'arrival' => TransportHaltTest::SAMPLE_API_HALT_ARRIVAL,
     ];
 
-    public function testGetField(): void {
-        $field = TransportSection::getField();
-        $this->assertSame(
-            'OlzTransportSection',
-            $field->getTypeScriptType(),
-        );
-        $this->assertSame(
-            [
-                'OlzTransportSection' => "{\n    'departure': OlzTransportHalt,\n    'arrival': OlzTransportHalt,\n    'passList': Array<OlzTransportHalt>,\n    'isWalk': boolean,\n}",
-                'OlzTransportHalt' => "{\n    'stationId': string,\n    'stationName': string,\n    'time': string,\n}",
-            ],
-            $field->getExportedTypeScriptTypes(),
-        );
-    }
-
     public function testTransportSection(): void {
         $object = TransportSection::fromTransportApi(self::SAMPLE_API_SECTION);
 

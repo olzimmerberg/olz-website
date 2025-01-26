@@ -3,7 +3,6 @@
 namespace Olz\Apps\Oev\Utils;
 
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
 class TransportHalt {
     use WithUtilsTrait;
@@ -12,17 +11,6 @@ class TransportHalt {
     protected string $stationName;
     protected ?int $timeSeconds;
     protected string $timeString;
-
-    public static function getField(): FieldTypes\Field {
-        return new FieldTypes\ObjectField([
-            'field_structure' => [
-                'stationId' => new FieldTypes\StringField(),
-                'stationName' => new FieldTypes\StringField(),
-                'time' => new FieldTypes\DateTimeField(),
-            ],
-            'export_as' => 'OlzTransportHalt',
-        ]);
-    }
 
     /** @param array<string, mixed> $api_halt */
     public static function fromTransportApi(array $api_halt): self {

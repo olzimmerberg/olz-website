@@ -3,25 +3,12 @@
 namespace Olz\Apps\Oev\Utils;
 
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
 class TransportConnection {
     use WithUtilsTrait;
 
     /** @var array<TransportSection> */
     protected array $sections = [];
-
-    public static function getField(): FieldTypes\Field {
-        $section_field = TransportSection::getField();
-        return new FieldTypes\ObjectField([
-            'field_structure' => [
-                'sections' => new FieldTypes\ArrayField([
-                    'item_field' => $section_field,
-                ]),
-            ],
-            'export_as' => 'OlzTransportConnection',
-        ]);
-    }
 
     /** @param array<string, mixed> $api_connection */
     public static function fromTransportApi(array $api_connection): self {

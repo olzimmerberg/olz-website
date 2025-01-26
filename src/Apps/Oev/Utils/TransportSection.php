@@ -3,7 +3,6 @@
 namespace Olz\Apps\Oev\Utils;
 
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
 class TransportSection {
     use WithUtilsTrait;
@@ -13,21 +12,6 @@ class TransportSection {
     /** @var array<TransportHalt> */
     protected array $passList = [];
     protected bool $isWalk;
-
-    public static function getField(): FieldTypes\Field {
-        $halt_field = TransportHalt::getField();
-        return new FieldTypes\ObjectField([
-            'field_structure' => [
-                'departure' => $halt_field,
-                'arrival' => $halt_field,
-                'passList' => new FieldTypes\ArrayField([
-                    'item_field' => $halt_field,
-                ]),
-                'isWalk' => new FieldTypes\BooleanField(),
-            ],
-            'export_as' => 'OlzTransportSection',
-        ]);
-    }
 
     /** @param array<string, mixed> $api_section */
     public static function fromTransportApi(array $api_section): self {

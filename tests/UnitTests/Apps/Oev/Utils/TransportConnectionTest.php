@@ -19,25 +19,8 @@ final class TransportConnectionTest extends UnitTestCase {
         ],
     ];
 
-    public function testGetField(): void {
-        $field = TransportConnection::getField();
-        $this->assertSame(
-            'OlzTransportConnection',
-            $field->getTypeScriptType(),
-        );
-        $this->assertSame(
-            [
-                'OlzTransportConnection' => "{\n    'sections': Array<OlzTransportSection>,\n}",
-                'OlzTransportSection' => "{\n    'departure': OlzTransportHalt,\n    'arrival': OlzTransportHalt,\n    'passList': Array<OlzTransportHalt>,\n    'isWalk': boolean,\n}",
-                'OlzTransportHalt' => "{\n    'stationId': string,\n    'stationName': string,\n    'time': string,\n}",
-            ],
-            $field->getExportedTypeScriptTypes(),
-        );
-    }
-
     public function testFromTransportApi(): void {
         $object = TransportConnection::fromTransportApi(self::SAMPLE_API_CONNECTION);
-        $sections = $object->getSections();
         $this->assertSame([['16', '14', '15']], array_map(function ($section) {
             return array_map(function ($halt) {
                 return $halt->getStationId();

@@ -3,7 +3,6 @@
 namespace Olz\Apps\Oev\Utils;
 
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldTypes;
 
 class TransportSuggestion {
     use WithUtilsTrait;
@@ -15,35 +14,6 @@ class TransportSuggestion {
     protected array $originInfo = [];
     /** @var array<string> */
     protected array $debug = [];
-
-    public static function getField(): FieldTypes\Field {
-        $halt_field = TransportHalt::getField();
-        $connection_field = TransportConnection::getField();
-        $origin_info_field = new FieldTypes\ObjectField([
-            'field_structure' => [
-                'halt' => $halt_field,
-                'isSkipped' => new FieldTypes\BooleanField(),
-                'rating' => new FieldTypes\NumberField(['min_value' => 0.0, 'max_value' => 1.0]),
-            ],
-            'export_as' => 'OlzOriginInfo',
-        ]);
-        return new FieldTypes\ObjectField([
-            'field_structure' => [
-                'mainConnection' => $connection_field,
-                'sideConnections' => new FieldTypes\ArrayField([
-                    'item_field' => new FieldTypes\ObjectField(['field_structure' => [
-                        'connection' => $connection_field,
-                        'joiningStationId' => new FieldTypes\StringField(),
-                    ]]),
-                ]),
-                'originInfo' => new FieldTypes\ArrayField([
-                    'item_field' => $origin_info_field,
-                ]),
-                'debug' => new FieldTypes\StringField(),
-            ],
-            'export_as' => 'OlzTransportSuggestion',
-        ]);
-    }
 
     /** @return array<string, mixed> */
     public function getFieldValue(): array {

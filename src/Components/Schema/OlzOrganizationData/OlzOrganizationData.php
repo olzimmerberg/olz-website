@@ -26,8 +26,6 @@ class OlzOrganizationData extends OlzComponent {
                 'https://de.wikipedia.org/wiki/OL_Zimmerberg',
                 'https://www.youtube.com/channel/UCMhMdPRJOqdXHlmB9kEpmXQ',
                 'https://www.strava.com/clubs/ol-zimmerberg-158910',
-                'https://www.facebook.com/olzimmerberg/',
-                'https://www.instagram.com/olzimmerberg/',
                 'https://github.com/olzimmerberg',
             ],
         ];

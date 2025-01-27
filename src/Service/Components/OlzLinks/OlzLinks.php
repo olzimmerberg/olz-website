@@ -57,6 +57,7 @@ class OlzLinks extends OlzComponent {
                 $json_id = json_encode(intval($id));
                 $edit_admin = <<<ZZZZZZZZZZ
                     <button
+                        id='edit-link-{$id}-button'
                         class='btn btn-secondary-outline btn-sm edit-link-list-button'
                         onclick='return olz.olzLinksEditLink({$json_id})'
                     >

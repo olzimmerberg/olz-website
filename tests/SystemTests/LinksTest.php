@@ -14,7 +14,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  */
 final class LinksTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testLinksScreenshots(): void {
+    public function testLinksCreate(): void {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
@@ -35,6 +35,27 @@ final class LinksTest extends SystemTestCase {
 
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testLinksDelete(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getUrl());
+
+        $this->click('#edit-link-1-button');
+        $this->waitForModal('#edit-link-modal');
+        $this->click('#edit-link-modal #delete-button');
+        $this->waitForModal('#confirmation-dialog-modal');
+        $this->click('#confirmation-dialog-modal #confirm-button');
+        $this->waitUntilGone('#confirmation-dialog-modal');
+        $this->waitUntilGone('#edit-link-modal');
+
+        $browser->get($this->getUrl());
+        $this->assertNull($this->getBrowserElement('#edit-link-1-button'));
+
+        $this->resetDb();
     }
 
     protected function getUrl(): string {

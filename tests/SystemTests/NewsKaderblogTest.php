@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverSelect;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
@@ -16,16 +15,22 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class NewsKaderblogTest extends SystemTestCase {
-    #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testNewsKaderblogScreenshotReadWriteLegacy(): void {
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    public function testNewsKaderblogReadOnly(): void {
         $browser = $this->getBrowser();
-        $this->doNewsKaderblogReadWrite($browser);
 
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
+        $browser->get($this->getKaderblogDetailUrl());
+        $this->screenshot('news_detail_kaderblog');
+        $this->assertMatchesRegularExpression(
+            '/Format\:\s*Kaderblog/i',
+            $this->getBrowserElement('#format-info')->getText(),
+        );
     }
 
-    protected function doNewsKaderblogReadWrite(RemoteWebDriver $browser): void {
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testNewsKaderblogCreate(): void {
+        $browser = $this->getBrowser();
+
         $this->login('kaderlaeufer', 'kad3rla3uf3r');
         $browser->get($this->getUrl());
 
@@ -62,7 +67,18 @@ final class NewsKaderblogTest extends SystemTestCase {
         $this->waitUntilGone('#edit-news-modal');
         $this->screenshot('news_new_kaderblog_finished');
 
-        $browser->get("{$this->getUrl()}/10");
+        $this->resetDb();
+
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testNewsKaderblogUpdate(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('kaderlaeufer', 'kad3rla3uf3r');
+        $browser->get($this->getKaderblogDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -74,9 +90,35 @@ final class NewsKaderblogTest extends SystemTestCase {
         $this->screenshot('news_update_kaderblog_finished');
 
         $this->resetDb();
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testNewsKaderblogDetailDelete(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getKaderblogDetailUrl());
+
+        $this->click('#edit-news-button');
+        $this->waitForModal('#edit-news-modal');
+        $this->click('#edit-news-modal #delete-button');
+        $this->waitForModal('#confirmation-dialog-modal');
+        $this->click('#confirmation-dialog-modal #confirm-button');
+        $this->waitUntilGone('#confirmation-dialog-modal');
+        $this->waitUntilGone('#edit-news-modal');
+
+        $this->assertSame(404, $this->getHeaders($this->getKaderblogDetailUrl())['http_code']);
+
+        $this->resetDb();
     }
 
     protected function getUrl(): string {
         return "{$this->getTargetUrl()}/news";
+    }
+
+    protected function getKaderblogDetailUrl(): string {
+        return "{$this->getTargetUrl()}/news/10";
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
@@ -15,34 +14,23 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class TerminOrteTest extends SystemTestCase {
-    #[OnlyInModes(['dev', 'staging', 'prod'])]
-    public function testTerminOrteScreenshotReadOnlyLegacy(): void {
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    public function testTerminOrteReadOnly(): void {
         $browser = $this->getBrowser();
-        $this->doTerminOrteReadOnly($browser);
+
+        $browser->get($this->getUrl());
+        $this->screenshot('termin_locations');
+
+        $browser->get($this->getDetailUrl());
+        $this->screenshot('termin_locations_detail');
 
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testTerminOrteScreenshotReadWriteLegacy(): void {
+    public function testTerminOrteCreate(): void {
         $browser = $this->getBrowser();
-        $this->doTerminOrteReadWrite($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doTerminOrteReadOnly(RemoteWebDriver $browser): void {
-        $browser->get($this->getUrl());
-        $this->screenshot('termin_locations');
-
-        $browser->get("{$this->getUrl()}/3");
-        $this->screenshot('termin_locations_detail');
-    }
-
-    protected function doTerminOrteReadWrite(RemoteWebDriver $browser): void {
-        $this->doTerminOrteReadOnly($browser);
 
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
@@ -71,9 +59,35 @@ final class TerminOrteTest extends SystemTestCase {
         $this->screenshot('termin_locations_new_finished');
 
         $this->resetDb();
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testTerminOrteDetailDelete(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getDetailUrl());
+
+        $this->click('#edit-termin-location-button');
+        $this->waitForModal('#edit-termin-location-modal');
+        $this->click('#edit-termin-location-modal #delete-button');
+        $this->waitForModal('#confirmation-dialog-modal');
+        $this->click('#confirmation-dialog-modal #confirm-button');
+        $this->waitUntilGone('#confirmation-dialog-modal');
+        $this->waitUntilGone('#edit-termin-location-modal');
+
+        $this->assertSame(404, $this->getHeaders($this->getDetailUrl())['http_code']);
+
+        $this->resetDb();
     }
 
     protected function getUrl(): string {
         return "{$this->getTargetUrl()}/termine/orte";
+    }
+
+    protected function getDetailUrl(): string {
+        return "{$this->getTargetUrl()}/termine/orte/3";
     }
 }

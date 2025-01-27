@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
@@ -15,35 +14,23 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class WeeklyPictureTest extends SystemTestCase {
-    #[OnlyInModes(['dev', 'staging', 'prod'])]
-    public function testWeeklyPictureScreenshotReadOnlyLegacy(): void {
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    public function testWeeklyPictureReadOnly(): void {
         $browser = $this->getBrowser();
-        $this->doWeeklyPictureReadOnly($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testWeeklyPictureScreenshotReadWriteLegacy(): void {
-        $browser = $this->getBrowser();
-        $this->doWeeklyPictureReadWrite($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doWeeklyPictureReadOnly(RemoteWebDriver $browser): void {
         $browser->get($this->getUrl());
+
         $this->click('#weekly-picture-carousel .active a[href*="/img/weekly_picture/"]');
         $browser->wait()->until(function () {
             return $this->findBrowserElement('.lg-container.lg-show img[src*="/img/weekly_picture/"]')->getCssValue('opacity') == 1;
         });
         $this->screenshot('startseite_weekly_picture');
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
-    protected function doWeeklyPictureReadWrite(RemoteWebDriver $browser): void {
-        $this->doWeeklyPictureReadOnly($browser);
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testWeeklyPictureCreate(): void {
+        $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
@@ -68,6 +55,8 @@ final class WeeklyPictureTest extends SystemTestCase {
         $this->screenshot('weekly_picture_new_finished');
 
         $this->resetDb();
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
     protected function getUrl(): string {

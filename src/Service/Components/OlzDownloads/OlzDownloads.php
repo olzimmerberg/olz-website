@@ -56,6 +56,7 @@ class OlzDownloads extends OlzComponent {
                 $json_id = json_encode(intval($id));
                 $edit_admin = <<<ZZZZZZZZZZ
                     <button
+                        id='edit-download-{$id}-button'
                         class='btn btn-secondary-outline btn-sm edit-download-list-button'
                         onclick='return olz.olzDownloadsEditDownload({$json_id})'
                     >

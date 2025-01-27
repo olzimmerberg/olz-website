@@ -49,7 +49,7 @@ class OlzNewsDetail extends OlzComponent {
         $canonical_url = "https://{$host}{$code_href}news/{$id}";
 
         if ($is_archived && !$this->authUtils()->hasPermission('any')) {
-            $this->httpUtils()->dieWithHttpError(401);
+            $this->httpUtils()->dieWithHttpError(404);
         }
 
         $article_metadata = "";
@@ -78,6 +78,18 @@ class OlzNewsDetail extends OlzComponent {
             ],
         ]);
 
+        $format = $news_entry->getFormat();
+        // TODO: Use array_find with PHP 8.4
+        $filtered = array_filter(
+            NewsFilterUtils::ALL_FORMAT_OPTIONS,
+            fn ($entry) => $entry['ident'] === $format
+        );
+        $found_entry = $filtered[array_keys($filtered)[0]];
+        $name = $found_entry['name'];
+        $icon = $found_entry['icon'];
+        $icon_html = "<img src='{$code_href}assets/icns/{$icon}' alt='' class='format-icon'>";
+        $pretty_format = "{$icon_html}{$name}";
+
         $pretty_date = $this->dateUtils()->olzDate("tt.mm.jjjj", $news_entry->getPublishedDate());
         $author_user = $news_entry->getAuthorUser();
         $author_role = $news_entry->getAuthorRole();
@@ -97,6 +109,7 @@ class OlzNewsDetail extends OlzComponent {
         $out .= <<<ZZZZZZZZZZ
             <div class='content-right'>
                 <div style='padding:4px 3px 10px 3px;'>
+                    <div id='format-info'><b>Format: </b>{$pretty_format}</div>
                     <div><b>Datum: </b>{$pretty_date}</div>
                     <div><b>Autor: </b>{$pretty_author}</div>
                     <div><b>Anzahl Bilder: </b>{$num_images}</div>
@@ -108,7 +121,6 @@ class OlzNewsDetail extends OlzComponent {
 
         $db->query("UPDATE news SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
 
-        $format = $news_entry->getFormat();
         $title = $news_entry->getTitle();
         $teaser = $news_entry->getTeaser();
         $content = $news_entry->getContent();

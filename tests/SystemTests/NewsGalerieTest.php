@@ -15,8 +15,20 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class NewsGalerieTest extends SystemTestCase {
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    public function testNewsGalerieReadOnly(): void {
+        $browser = $this->getBrowser();
+
+        $browser->get($this->getGalerieDetailUrl());
+        $this->screenshot('news_detail_galerie');
+        $this->assertMatchesRegularExpression(
+            '/Format\:\s*Galerie/i',
+            $this->getBrowserElement('#format-info')->getText(),
+        );
+    }
+
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testNewsGalerieCreateScreenshotReadWriteLegacy(): void {
+    public function testNewsGalerieCreate(): void {
         $browser = $this->getBrowser();
 
         $this->login('benutzer', 'b3nu723r');
@@ -56,7 +68,7 @@ final class NewsGalerieTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get("{$this->getUrl()}/5");
+        $browser->get($this->getGalerieDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -73,7 +85,31 @@ final class NewsGalerieTest extends SystemTestCase {
         $this->assertDirectoryExists(__DIR__);
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testNewsGalerieDetailDelete(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getGalerieDetailUrl());
+
+        $this->click('#edit-news-button');
+        $this->waitForModal('#edit-news-modal');
+        $this->click('#edit-news-modal #delete-button');
+        $this->waitForModal('#confirmation-dialog-modal');
+        $this->click('#confirmation-dialog-modal #confirm-button');
+        $this->waitUntilGone('#confirmation-dialog-modal');
+        $this->waitUntilGone('#edit-news-modal');
+
+        $this->assertSame(404, $this->getHeaders($this->getGalerieDetailUrl())['http_code']);
+
+        $this->resetDb();
+    }
+
     protected function getUrl(): string {
         return "{$this->getTargetUrl()}/news";
+    }
+
+    protected function getGalerieDetailUrl(): string {
+        return "{$this->getTargetUrl()}/news/6";
     }
 }

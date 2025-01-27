@@ -15,8 +15,20 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class NewsForumTest extends SystemTestCase {
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    public function testNewsForumReadOnly(): void {
+        $browser = $this->getBrowser();
+
+        $browser->get($this->getForumDetailUrl());
+        $this->screenshot('news_detail_forum');
+        $this->assertMatchesRegularExpression(
+            '/Format\:\s*Forum/i',
+            $this->getBrowserElement('#format-info')->getText(),
+        );
+    }
+
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testNewsForumCreateScreenshotReadWriteLegacy(): void {
+    public function testNewsForumCreate(): void {
         $browser = $this->getBrowser();
 
         $this->login('benutzer', 'b3nu723r');
@@ -57,7 +69,7 @@ final class NewsForumTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get("{$this->getUrl()}/8");
+        $browser->get($this->getForumDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -74,7 +86,31 @@ final class NewsForumTest extends SystemTestCase {
         $this->assertDirectoryExists(__DIR__);
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testNewsForumDetailDelete(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getForumDetailUrl());
+
+        $this->click('#edit-news-button');
+        $this->waitForModal('#edit-news-modal');
+        $this->click('#edit-news-modal #delete-button');
+        $this->waitForModal('#confirmation-dialog-modal');
+        $this->click('#confirmation-dialog-modal #confirm-button');
+        $this->waitUntilGone('#confirmation-dialog-modal');
+        $this->waitUntilGone('#edit-news-modal');
+
+        $this->assertSame(404, $this->getHeaders($this->getForumDetailUrl())['http_code']);
+
+        $this->resetDb();
+    }
+
     protected function getUrl(): string {
         return "{$this->getTargetUrl()}/news";
+    }
+
+    protected function getForumDetailUrl(): string {
+        return "{$this->getTargetUrl()}/news/8";
     }
 }

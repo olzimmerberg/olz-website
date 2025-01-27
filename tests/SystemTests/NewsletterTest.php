@@ -55,6 +55,7 @@ final class NewsletterTest extends SystemTestCase {
         $this->click('#email-notifications-form input[name="weekly-summary-galerie"]');
         $this->click('#email-notifications-form input[name="weekly-summary-termine"]');
         $this->click('#email-notifications-submit');
+        $this->waitFor('#email-notifications-success-message');
         $this->screenshot('newsletter_modified');
 
         $this->resetDb();

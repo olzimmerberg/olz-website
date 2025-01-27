@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
@@ -16,25 +15,10 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class VereinTest extends SystemTestCase {
-    #[OnlyInModes(['dev', 'staging', 'prod'])]
-    public function testVereinScreenshotReadOnlyLegacy(): void {
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    public function testVereinReadOnly(): void {
         $browser = $this->getBrowser();
-        $this->doVereinReadOnly($browser);
 
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testVereinScreenshotReadWriteLegacy(): void {
-        $browser = $this->getBrowser();
-        $this->doVereinReadWrite($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doVereinReadOnly(RemoteWebDriver $browser): void {
         if (!$this->isInModes('prod')) {
             $this->login('vorstand', 'v0r57and');
         }
@@ -43,13 +27,12 @@ final class VereinTest extends SystemTestCase {
 
         $browser->get("{$this->getUrl()}/praesi");
         $this->screenshot('verein_praesi');
-    }
-
-    protected function doVereinReadWrite(RemoteWebDriver $browser): void {
-        $this->doVereinReadOnly($browser);
 
         $browser->get("{$this->getUrl()}/finanzen");
         $this->screenshot('verein_finanzen');
+
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]

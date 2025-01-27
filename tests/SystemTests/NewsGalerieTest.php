@@ -64,7 +64,7 @@ final class NewsGalerieTest extends SystemTestCase {
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testNewsGalerieUpdateScreenshotReadWriteLegacy(): void {
+    public function testNewsGalerieUpdate(): void {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');

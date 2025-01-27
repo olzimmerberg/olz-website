@@ -65,7 +65,7 @@ final class NewsForumTest extends SystemTestCase {
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testNewsForumUpdateScreenshotReadWriteLegacy(): void {
+    public function testNewsForumUpdate(): void {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');

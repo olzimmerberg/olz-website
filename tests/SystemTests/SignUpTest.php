@@ -15,7 +15,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  */
 final class SignUpTest extends SystemTestCase {
     #[OnlyInModes(['dev', 'staging', 'prod'])]
-    public function testSignUpScreenshotReadOnlyLegacy(): void {
+    public function testSignUpReadOnly(): void {
         $browser = $this->getBrowser();
         $this->doSignUpReadOnly($browser);
 
@@ -24,7 +24,7 @@ final class SignUpTest extends SystemTestCase {
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testSignUpScreenshotReadWriteLegacy(): void {
+    public function testSignUp(): void {
         $browser = $this->getBrowser();
         $this->doSignUpReadWrite($browser);
 

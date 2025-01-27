@@ -2,12 +2,13 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzUserData} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {codeHref, user} from '../../../Utils/constants';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateCountryCodeOrNull, validateDateOrNull, validateEmail, validateEmailOrNull, validateGender, validateIntegerOrNull, validateNotEmpty, validatePassword, validatePhoneOrNull} from '../../../Utils/formUtils';
 import {loadRecaptcha, loadRecaptchaToken} from '../../../Utils/recaptchaUtils';
+import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditUserModal.scss';
 
@@ -131,13 +132,10 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [recaptchaConsentGiven, setRecaptchaConsentGiven] = React.useState<boolean>(false);
-    const [isWaitingForCaptcha, setIsWaitingForCaptcha] = React.useState<boolean>(false);
     const [cookieConsentGiven, setCookieConsentGiven] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const firstName = watch('firstName');
     const lastName = watch('lastName');
@@ -147,16 +145,16 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
         if (!recaptchaConsentGiven) {
             return;
         }
-        setIsWaitingForCaptcha(true);
+        setStatus({id: 'WAITING_FOR_CAPTCHA'});
         loadRecaptcha().then(() => {
             window.setTimeout(() => {
-                setIsWaitingForCaptcha(false);
+                setStatus({id: 'IDLE'});
             }, 1100);
         });
     }, [recaptchaConsentGiven]);
 
     const onSubmit: SubmitHandler<OlzEditUserForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -166,9 +164,7 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
         let recaptchaToken: string|null = null;
         if (!user.id) {
             if (!cookieConsentGiven) {
-                setIsSubmitting(false);
-                setSuccessMessage('');
-                setErrorMessage('Die Einwilligung für Cookies beim Login ist notwendig!');
+                setStatus({id: 'SUBMIT_FAILED', message: 'Die Einwilligung für Cookies beim Login ist notwendig!'});
                 return;
             }
             if (recaptchaConsentGiven) {
@@ -180,17 +176,25 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
             ? olzApi.getResult('updateUser', {id: props.id, meta, data})
             : olzApi.getResult('createUser', {meta, data, custom: {recaptchaToken}}));
         if (err || response.custom?.status !== 'OK') {
-            setIsSubmitting(false);
-            setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response.custom?.status)}`);
+            setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response.custom?.status)}`});
             return;
         }
-
-        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED'});
         // This could probably be done more smoothly!
         window.location.reload();
     };
+
+    const onDelete = props.id ? async () => {
+        setStatus({id: 'DELETING'});
+        const [err, response] = await olzApi.getResult('deleteUser', {id: assert(props.id)});
+        if (err) {
+            setStatus({id: 'DELETE_FAILED', message: `Löschen fehlgeschlagen: ${JSON.stringify(err || response)}`});
+            return;
+        }
+        setStatus({id: 'DELETED'});
+        // This could probably be done more smoothly!
+        window.location.reload();
+    } : undefined;
 
     const dialogTitle = (props.id === undefined
         ? 'OLZ-Konto erstellen'
@@ -198,18 +202,15 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
     );
     const passwordAsterisk = options.isPasswordRequired ? <span className='required-field-asterisk'>*</span> : null;
     const emailAsterisk = options.isEmailRequired ? <span className='required-field-asterisk'>*</span> : null;
-    const isLoading = isImagesLoading;
+    const editModalStatus: OlzEditModalStatus = isImagesLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-user-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isWaitingForCaptcha={isWaitingForCaptcha}
-            isSubmitting={isSubmitting}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
+            onDelete={onDelete}
         >
             {(user.id && user.id !== props.id) ? (
                 <div className='alert alert-danger' role='alert'>

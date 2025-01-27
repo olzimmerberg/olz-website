@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../../Api/client';
 import {OlzApiRequests} from '../../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzMultiFileField} from '../../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzTextField} from '../../../../Components/Common/OlzTextField/OlzTextField';
 import {getApiString, getResolverResult, validateNotEmpty} from '../../../../Utils/formUtils';
@@ -44,40 +44,31 @@ export const OlzEditResultModal = (props: OlzEditResultModalProps): React.ReactE
         },
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditResultForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const data = getApiFromForm(values);
         const [err, response] = await olzApi.getResult('updateResults', data)
            ;
         if (err || response.status !== 'OK') {
-            setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }
-
-        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED'});
         // This could probably be done more smoothly!
         window.location.reload();
     };
 
     const dialogTitle = props.id === undefined ? 'Resultat erstellen' : 'Resultat bearbeiten';
-    const isLoading = isFilesLoading;
+    const editModalStatus: OlzEditModalStatus = isFilesLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-result-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
         >
             <div className='mb-3'>

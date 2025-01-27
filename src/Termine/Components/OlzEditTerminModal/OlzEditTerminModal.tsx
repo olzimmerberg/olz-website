@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzTerminData, OlzTerminLabelData, OlzTerminTemplateData} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzEntityChooser} from '../../../Components/Common/OlzEntityChooser/OlzEntityChooser';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
@@ -10,7 +10,7 @@ import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/Ol
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {isoNow} from '../../../Utils/constants';
 import {getApiBoolean, getApiNumber, getApiString, getDateFeedback, getDateTimeFeedback, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateIntegerOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
-import {isDefined, Entity} from '../../../Utils/generalUtils';
+import {isDefined, Entity, assert} from '../../../Utils/generalUtils';
 import {getTerminUpdateFromTemplate} from '../../Utils/termineUtils';
 
 import './OlzEditTerminModal.scss';
@@ -121,7 +121,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         defaultValues: getFormFromApi(props.labels, props.data),
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isTemplateLoading, setIsTemplateLoading] = React.useState<boolean>(false);
     const [isSolvLoading, setIsSolvLoading] = React.useState<boolean>(false);
     const [isLocationLoading, setIsLocationLoading] = React.useState<boolean>(false);
@@ -129,8 +129,6 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [templateId, setTemplateId] = React.useState<number|null>(props.templateId ?? null);
     const [templateData, setTemplateData] = React.useState<OlzTerminTemplateData|null>(null);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const startDate = watch('startDate');
     const startTime = watch('startTime');
@@ -196,7 +194,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     }, [startDate, startTime]);
 
     const onSubmit: SubmitHandler<OlzEditTerminForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -208,17 +206,25 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             ? olzApi.getResult('updateTermin', {id: props.id, meta, data})
             : olzApi.getResult('createTermin', {meta, data}));
         if (err) {
-            setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }
-
-        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED'});
         // This could probably be done more smoothly!
         window.location.reload();
     };
+
+    const onDelete = props.id ? async () => {
+        setStatus({id: 'DELETING'});
+        const [err, response] = await olzApi.getResult('deleteTermin', {id: assert(props.id)});
+        if (err) {
+            setStatus({id: 'DELETE_FAILED', message: `Löschen fehlgeschlagen: ${JSON.stringify(err || response)}`});
+            return;
+        }
+        setStatus({id: 'DELETED'});
+        // This could probably be done more smoothly!
+        window.location.reload();
+    } : undefined;
 
     const solvDisabledClass = solvId !== null ? ' solv-disabled' : '';
     const dialogTitle = (props.id === undefined
@@ -230,16 +236,15 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const deadlineInfo = getDateTimeFeedback(getDeadlineDateTime(deadline));
     const isShouldPromoteEnabled = imageIds.length > 0;
     const isLoading = isTemplateLoading || isSolvLoading || isLocationLoading || isImagesLoading || isFilesLoading;
+    const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-termin-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
+            onDelete={onDelete}
         >
             <div className='row'>
                 <div className='col mb-3'>

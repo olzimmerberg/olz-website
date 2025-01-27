@@ -16,18 +16,6 @@ export function editRole(
     return false;
 }
 
-export function deleteRole(roleId: number): boolean {
-    olzConfirm('Wirklich löschen?').then(() => {
-        olzApi.call('deleteRole', {id: roleId}).then(() => {
-            window.setTimeout(() => {
-                // This could probably be done more smoothly!
-                window.location.reload();
-            }, 1000);
-        });
-    });
-    return false;
-}
-
 export function addRoleUser(
     roleId: number,
 ): boolean {

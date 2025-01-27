@@ -1,6 +1,6 @@
 import React from 'react';
 import {olzApi} from '../../../Api/client';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {codeHref} from '../../../Utils/constants';
 
 import './OlzVerifyUserEmailModal.scss';
@@ -8,23 +8,18 @@ import './OlzVerifyUserEmailModal.scss';
 // ---
 
 export const OlzVerifyUserEmailModal = (): React.ReactElement => {
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
 
         const [err, response] = await olzApi.getResult('verifyUserEmail', {});
         if (response?.status !== 'OK') {
-            setSuccessMessage('');
-            setErrorMessage(`Fehler: ${err?.message} (Antwort: ${response?.status}).`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Fehler: ${err?.message} (Antwort: ${response?.status}).`});
             return;
         }
-        setSuccessMessage('E-Mail versendet. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED', message: 'E-Mail versendet. Bitte warten...'});
         // This removes Google's injected reCaptcha script again
         window.location.href = `${codeHref}benutzer/ich`;
     };
@@ -35,9 +30,7 @@ export const OlzVerifyUserEmailModal = (): React.ReactElement => {
         <OlzEditModal
             modalId='verify-user-email-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isSubmitting={isSubmitting}
+            status={status}
             submitLabel='E-Mail senden'
             onSubmit={handleSubmit}
         >

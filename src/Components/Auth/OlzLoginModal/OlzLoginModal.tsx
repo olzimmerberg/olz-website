@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzApiRequests} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {initOlzEditUserModal} from '../../../Users/Components/OlzEditUserModal/OlzEditUserModal';
 import {user} from '../../../Utils/constants';
@@ -49,30 +49,22 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
         },
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
 
     const onSubmit: SubmitHandler<OlzLoginForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const data = getApiFromForm(values);
 
         const [err, response] = await olzApi.getResult('login', data);
         if (response?.status === 'INVALID_CREDENTIALS') {
             const attempts = response.numRemainingAttempts;
-            setSuccessMessage('');
-            setErrorMessage(`Falsche Login-Daten. Verbleibende Versuche: ${attempts}.`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Falsche Login-Daten. Verbleibende Versuche: ${attempts}.`});
             return;
         } else if (response?.status === 'BLOCKED') {
-            setSuccessMessage('');
-            setErrorMessage('Zu viele erfolglose Login-Versuche. Du bist vorübergehend gesperrt.');
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: 'Zu viele erfolglose Login-Versuche. Du bist vorübergehend gesperrt.'});
             return;
         } else if (response?.status !== 'AUTHENTICATED') {
-            setSuccessMessage('');
-            setErrorMessage(`Fehler: ${err?.message} (Antwort: ${response?.status}).`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Fehler: ${err?.message} (Antwort: ${response?.status}).`});
             return;
         }
         if (data.rememberMe) {
@@ -80,8 +72,7 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
         } else {
             localStorage.removeItem('OLZ_AUTO_LOGIN');
         }
-        setSuccessMessage('Login erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED', message: 'Login erfolgreich. Bitte warten...'});
         // This could probably be done more smoothly!
         window.location.href = '#';
         window.location.reload();
@@ -112,16 +103,12 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
     }, [props.autoSubmitAutoFilled]);
 
     const dialogTitle = 'Login';
-    const isLoading = false;
 
     return (
         <OlzEditModal
             modalId='login-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
+            status={status}
             submitLabel='Login'
             onSubmit={handleSubmit(onSubmit)}
         >

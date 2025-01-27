@@ -82,14 +82,6 @@ class OlzKarteDetail extends OlzComponent {
                         <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
-                    <button
-                        id='delete-karte-button'
-                        class='btn btn-danger'
-                        onclick='return olz.deleteKarte({$json_id})'
-                    >
-                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                        Löschen
-                    </button>
                 </div>
                 ZZZZZZZZZZ;
         }

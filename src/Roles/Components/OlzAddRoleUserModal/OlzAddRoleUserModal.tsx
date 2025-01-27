@@ -1,7 +1,7 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {getResolverResult} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
@@ -34,13 +34,11 @@ export const OlzAddRoleUserModal = (props: OlzAddRoleUserModalProps): React.Reac
         resolver,
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isUsersLoading, setIsUsersLoading] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzAddRoleUserForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const data = getApiFromForm(values);
 
         const [err, response] = await olzApi.getResult('addUserRoleMembership', {ids: {
@@ -48,29 +46,22 @@ export const OlzAddRoleUserModal = (props: OlzAddRoleUserModalProps): React.Reac
             userId: assert(data.newUser),
         }});
         if (err) {
-            setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }
-
-        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED'});
         // This could probably be done more smoothly!
         window.location.reload();
     };
 
     const dialogTitle = 'Verantwortliche hinzufügen';
-    const isLoading = isUsersLoading;
+    const editModalStatus: OlzEditModalStatus = isUsersLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='add-role-user-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
         >
             <div className='row'>

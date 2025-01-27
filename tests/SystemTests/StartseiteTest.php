@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
@@ -61,31 +60,20 @@ final class StartseiteTest extends SystemTestCase {
         );
     }
 
-    #[OnlyInModes(['dev', 'staging', 'prod'])]
-    public function testStartseiteScreenshotReadOnlyLegacy(): void {
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    public function testStartseiteReadOnly(): void {
         $browser = $this->getBrowser();
-        $this->doStartseiteReadOnly($browser);
+
+        $browser->get($this->getUrl());
+        $this->screenshot('startseite');
 
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testStartseiteScreenshotReadWriteLegacy(): void {
+    public function testStartseiteEditSnippet(): void {
         $browser = $this->getBrowser();
-        $this->doStartseiteReadWrite($browser);
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doStartseiteReadOnly(RemoteWebDriver $browser): void {
-        $browser->get($this->getUrl());
-        $this->screenshot('startseite');
-    }
-
-    protected function doStartseiteReadWrite(RemoteWebDriver $browser): void {
-        $this->doStartseiteReadOnly($browser);
 
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
@@ -125,6 +113,8 @@ final class StartseiteTest extends SystemTestCase {
         $this->screenshot('startseite_banner_finished');
 
         $this->resetDb();
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
     protected function getUrl(): string {

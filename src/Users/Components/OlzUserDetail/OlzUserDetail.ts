@@ -1,6 +1,5 @@
 import {olzApi} from '../../../Api/client';
 import {OlzUserData} from '../../../Api/client/generated_olz_api_types';
-import {olzConfirm} from '../../../Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 import {initOlzEditUserModal} from '../OlzEditUserModal/OlzEditUserModal';
 
 import './OlzUserDetail.scss';
@@ -17,18 +16,6 @@ export function editUser(
             };
             initOlzEditUserModal(options, response.id, response.meta, response.data);
         });
-    return false;
-}
-
-export function deleteUser(userId: number): boolean {
-    olzConfirm('Wirklich löschen?').then(() => {
-        olzApi.call('deleteUser', {id: userId}).then(() => {
-            window.setTimeout(() => {
-                // This could probably be done more smoothly!
-                window.location.reload();
-            }, 1000);
-        });
-    });
     return false;
 }
 

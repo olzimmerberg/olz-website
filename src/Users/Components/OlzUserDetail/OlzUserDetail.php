@@ -43,20 +43,12 @@ class OlzUserDetail extends OlzComponent {
             $edit_admin = <<<ZZZZZZZZZZ
                 <div>
                     <button
-                        id='edit-news-button'
+                        id='edit-user-button'
                         class='btn btn-primary'
                         onclick='return olz.editUser({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
-                    </button>
-                    <button
-                        id='delete-news-button'
-                        class='btn btn-danger'
-                        onclick='return olz.deleteUser({$json_id})'
-                    >
-                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                        Löschen
                     </button>
                 </div>
                 ZZZZZZZZZZ;

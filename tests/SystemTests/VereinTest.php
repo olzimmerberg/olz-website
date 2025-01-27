@@ -137,7 +137,7 @@ final class VereinTest extends SystemTestCase {
 
         $browser->get("{$this->getUrl()}/finanzen");
         $this->assertCount(2, $this->getBrowserElements('.olz-user-info-card-list .assignee'));
-        $this->click('.olz-user-info-card-list .assignee:nth-of-type(2) #delete-role-button');
+        $this->click('.olz-user-info-card-list .assignee:nth-of-type(2) #delete-role-user-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');
@@ -181,7 +181,9 @@ final class VereinTest extends SystemTestCase {
         $this->login('vorstand', 'v0r57and');
 
         $browser->get("{$this->getUrl()}/revisoren");
-        $this->click('#delete-role-button');
+        $this->click('#edit-role-button');
+        $this->waitForModal('#edit-role-modal');
+        $this->click('#edit-role-modal #delete-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

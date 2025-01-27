@@ -93,16 +93,6 @@ class OlzRolePage extends OlzComponent {
         if ($can_edit) {
             $json_id = json_encode(intval($role_id));
             $json_can_parent_edit = json_encode(boolval($can_parent_edit));
-            $delete_role_button = $can_parent_edit ? <<<ZZZZZZZZZZ
-                <button
-                    id='delete-role-button'
-                    class='btn btn-danger'
-                    onclick='return olz.deleteRole({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                    Löschen
-                </button>
-                ZZZZZZZZZZ : '';
             $edit_admin = <<<ZZZZZZZZZZ
                 <div>
                     <button
@@ -113,7 +103,6 @@ class OlzRolePage extends OlzComponent {
                         <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
-                    {$delete_role_button}
                 </div>
                 ZZZZZZZZZZ;
             $add_membership_admin = <<<ZZZZZZZZZZ
@@ -170,7 +159,7 @@ class OlzRolePage extends OlzComponent {
                     $json_user_id = json_encode(intval($assignee->getId()));
                     $out .= <<<ZZZZZZZZZZ
                             <button
-                                id='delete-role-button'
+                                id='delete-role-user-button'
                                 class='btn btn-danger'
                                 onclick='return olz.deleteRoleUser({$json_role_id}, {$json_user_id})'
                             >

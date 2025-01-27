@@ -31,12 +31,9 @@ class OlzLinks extends OlzComponent {
         }
 
         $link_repo = $this->entityManager()->getRepository(Link::class);
-        $criteria = Criteria::create();
-        if (!$has_permission) {
-            $criteria = $criteria->where(Criteria::expr()->andX(
-                Criteria::expr()->eq('on_off', 1)
-            ));
-        }
+        $criteria = Criteria::create()->where(Criteria::expr()->andX(
+            Criteria::expr()->eq('on_off', 1)
+        ));
         $criteria = $criteria
             ->orderBy(['position' => Order::Ascending])
             ->setFirstResult(0)

@@ -2,13 +2,13 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzTerminLabelData, OlzTerminTemplateData} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateTimeOrNull} from '../../../Utils/formUtils';
-import {Entity, isDefined} from '../../../Utils/generalUtils';
+import {Entity, isDefined, assert} from '../../../Utils/generalUtils';
 
 import './OlzEditTerminTemplateModal.scss';
 
@@ -91,17 +91,15 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
         defaultValues: getFormFromApi(props.labels, props.data),
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isLocationLoading, setIsLocationLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const imageIds = watch('imageIds');
 
     const onSubmit: SubmitHandler<OlzEditTerminTemplateForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -113,17 +111,25 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
             ? olzApi.getResult('updateTerminTemplate', {id: props.id, meta, data})
             : olzApi.getResult('createTerminTemplate', {meta, data}));
         if (err) {
-            setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }
-
-        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED'});
         // This could probably be done more smoothly!
         window.location.reload();
     };
+
+    const onDelete = props.id ? async () => {
+        setStatus({id: 'DELETING'});
+        const [err, response] = await olzApi.getResult('deleteTerminTemplate', {id: assert(props.id)});
+        if (err) {
+            setStatus({id: 'DELETE_FAILED', message: `Löschen fehlgeschlagen: ${JSON.stringify(err || response)}`});
+            return;
+        }
+        setStatus({id: 'DELETED'});
+        // This could probably be done more smoothly!
+        window.location.reload();
+    } : undefined;
 
     const dialogTitle = (props.id === undefined
         ? 'Termin-Vorlage erstellen'
@@ -131,16 +137,15 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
     );
     const isShouldPromoteEnabled = imageIds.length > 0;
     const isLoading = isLocationLoading || isImagesLoading || isFilesLoading;
+    const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-termin-template-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
+            onDelete={onDelete}
         >
             <div className='row'>
                 <div className='col mb-3'>

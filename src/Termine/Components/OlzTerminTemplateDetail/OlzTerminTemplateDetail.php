@@ -103,14 +103,6 @@ class OlzTerminTemplateDetail extends OlzComponent {
                         <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
-                    <button
-                        id='delete-termin-template-button'
-                        class='btn btn-danger'
-                        onclick='return olz.deleteTerminTemplate({$json_id})'
-                    >
-                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                        Löschen
-                    </button>
                 </div>
                 ZZZZZZZZZZ;
         }

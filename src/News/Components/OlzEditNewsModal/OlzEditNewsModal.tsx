@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzAuthenticatedUserRoleField} from '../../../Components/Common/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
@@ -246,23 +246,20 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         },
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isRolesLoading, setIsRolesLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [recaptchaConsentGiven, setRecaptchaConsentGiven] = React.useState<boolean>(false);
-    const [isWaitingForCaptcha, setIsWaitingForCaptcha] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     React.useEffect(() => {
         if (!recaptchaConsentGiven) {
             return;
         }
-        setIsWaitingForCaptcha(true);
+        setStatus({id: 'WAITING_FOR_CAPTCHA'});
         loadRecaptcha().then(() => {
             window.setTimeout(() => {
-                setIsWaitingForCaptcha(false);
+                setStatus({id: 'IDLE'});
             }, 1100);
         });
     }, [recaptchaConsentGiven]);
@@ -275,7 +272,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         : PUBLISH_AT_OPTIONS.filter((option) => option.id !== 'unchanged');
 
     const onSubmit: SubmitHandler<OlzEditNewsForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -292,17 +289,25 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
             ? olzApi.getResult('updateNews', {id: props.id, meta, data})
             : olzApi.getResult('createNews', {meta, data, custom: {recaptchaToken}}));
         if (err) {
-            setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }
-
-        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED'});
         // This removes Google's injected reCaptcha script again
         window.location.reload();
     };
+
+    const onDelete = props.id ? async () => {
+        setStatus({id: 'DELETING'});
+        const [err, response] = await olzApi.getResult('deleteNews', {id: assert(props.id)});
+        if (err) {
+            setStatus({id: 'DELETE_FAILED', message: `Löschen fehlgeschlagen: ${JSON.stringify(err || response)}`});
+            return;
+        }
+        setStatus({id: 'DELETED'});
+        // This could probably be done more smoothly!
+        window.location.reload();
+    } : undefined;
 
     const dialogTitle = props.mode === 'anonymous'
         ? 'Forumseintrag erstellen'
@@ -311,17 +316,15 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
             : 'News-Eintrag bearbeiten'
         );
     const isLoading = isRolesLoading || isImagesLoading || isFilesLoading;
+    const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-news-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isWaitingForCaptcha={isWaitingForCaptcha}
-            isSubmitting={isSubmitting}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
+            onDelete={onDelete}
         >
             {config.hasFreeFormAuthor ? (<>
                 <div className='row'>

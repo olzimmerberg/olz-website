@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzApiRequests} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {user} from '../../../Utils/constants';
 import {getApiString, getResolverResult, validateNotEmpty, validatePassword} from '../../../Utils/formUtils';
@@ -47,49 +47,36 @@ export const OlzChangePasswordModal = (): React.ReactElement => {
         },
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
 
     const onSubmit: SubmitHandler<OlzChangePasswordForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const data = getApiFromForm(values);
 
         const [err, response] = await olzApi.getResult('updatePassword', data);
         if (response?.status === 'INVALID_OLD') {
-            setSuccessMessage('');
-            setErrorMessage('Das bisherige Passwort wurde nicht korrekt eingegeben.');
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: 'Das bisherige Passwort wurde nicht korrekt eingegeben.'});
             return;
         } else if (response?.status === 'OTHER_USER') {
-            setSuccessMessage('');
-            setErrorMessage('Jeder Benutzer kann nur sein eigenes Passwort ändern.');
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: 'Jeder Benutzer kann nur sein eigenes Passwort ändern.'});
             return;
         } else if (response?.status !== 'OK') {
-            setSuccessMessage('');
-            setErrorMessage(`Fehler: ${err?.message} (Antwort: ${response?.status}).`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Fehler: ${err?.message} (Antwort: ${response?.status}).`});
             return;
         }
-        setSuccessMessage('Passwort erfolgreich aktualisiert. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED', message: 'Passwort erfolgreich aktualisiert. Bitte warten...'});
         // This could probably be done more smoothly!
         window.location.href = '#';
         window.location.reload();
     };
 
     const dialogTitle = 'Passwort ändern';
-    const isLoading = false;
 
     return (
         <OlzEditModal
             modalId='change-password-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
+            status={status}
             submitLabel='Passwort ändern'
             onSubmit={handleSubmit(onSubmit)}
         >

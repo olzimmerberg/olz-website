@@ -2,10 +2,11 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzKarteData, OlzKarteKind} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty, validateNumber} from '../../../Utils/formUtils';
+import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditKarteModal.scss';
 
@@ -82,13 +83,11 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isImageLoading, setIsImageLoading] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditKarteForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -100,32 +99,38 @@ export const OlzEditKarteModal = (props: OlzEditKarteModalProps): React.ReactEle
             ? olzApi.getResult('updateKarte', {id: props.id, meta, data})
             : olzApi.getResult('createKarte', {meta, data}));
         if (err) {
-            setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }
-
-        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED'});
         // This could probably be done more smoothly!
         window.location.reload();
     };
 
+    const onDelete = props.id ? async () => {
+        setStatus({id: 'DELETING'});
+        const [err, response] = await olzApi.getResult('deleteKarte', {id: assert(props.id)});
+        if (err) {
+            setStatus({id: 'DELETE_FAILED', message: `Löschen fehlgeschlagen: ${JSON.stringify(err || response)}`});
+            return;
+        }
+        setStatus({id: 'DELETED'});
+        // This could probably be done more smoothly!
+        window.location.reload();
+    } : undefined;
+
     const dialogTitle = props.id === undefined
         ? 'Karte erstellen'
         : 'Karte bearbeiten';
-    const isLoading = isImageLoading;
+    const editModalStatus: OlzEditModalStatus = isImageLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-karte-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
+            onDelete={onDelete}
         >
             <div className='mb-3'>
                 <OlzTextField

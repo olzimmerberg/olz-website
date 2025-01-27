@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzSnippetData} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
@@ -51,14 +51,12 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const onSubmit: SubmitHandler<OlzEditSnippetForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -68,14 +66,10 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
 
         const [err, response] = await olzApi.getResult('updateSnippet', {id: props.id, meta, data});
         if (err) {
-            setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
-            setIsSubmitting(false);
+            setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }
-
-        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED'});
         // This could probably be done more smoothly!
         window.location.reload();
     };
@@ -85,15 +79,13 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
         : 'Textausschnitt bearbeiten'
     );
     const isLoading = isImagesLoading || isFilesLoading;
+    const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-snippet-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
         >
             <div className='mb-3'>

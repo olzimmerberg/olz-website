@@ -104,14 +104,6 @@ class OlzTerminLocationDetail extends OlzComponent {
                         <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
-                    <button
-                        id='delete-termin-location-button'
-                        class='btn btn-danger'
-                        onclick='return olz.deleteTerminLocation({$json_id})'
-                    >
-                        <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                        Löschen
-                    </button>
                 </div>
                 ZZZZZZZZZZ;
         }

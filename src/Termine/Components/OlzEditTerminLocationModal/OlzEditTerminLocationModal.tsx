@@ -2,10 +2,11 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzTerminLocationData} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNotEmpty, validateNumber} from '../../../Utils/formUtils';
+import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditTerminLocationModal.scss';
 
@@ -62,10 +63,8 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
         defaultValues: getFormFromApi(props.data),
     });
 
-    const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+    const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = React.useState<string>('');
-    const [errorMessage, setErrorMessage] = React.useState<string>('');
 
     const latitude = watch('latitude');
     const longitude = watch('longitude');
@@ -87,7 +86,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
     }, [longitude]);
 
     const onSubmit: SubmitHandler<OlzEditTerminLocationForm> = async (values) => {
-        setIsSubmitting(true);
+        setStatus({id: 'SUBMITTING'});
         const meta: OlzMetaData = props?.meta ?? {
             ownerUserId: null,
             ownerRoleId: null,
@@ -99,33 +98,39 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
             ? olzApi.getResult('updateTerminLocation', {id: props.id, meta, data})
             : olzApi.getResult('createTerminLocation', {meta, data}));
         if (err) {
-            setIsSubmitting(false);
-            setSuccessMessage('');
-            setErrorMessage(`Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`);
+            setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }
-
-        setSuccessMessage('Änderung erfolgreich. Bitte warten...');
-        setErrorMessage('');
+        setStatus({id: 'SUBMITTED'});
         // This could probably be done more smoothly!
         window.location.reload();
     };
+
+    const onDelete = props.id ? async () => {
+        setStatus({id: 'DELETING'});
+        const [err, response] = await olzApi.getResult('deleteTerminLocation', {id: assert(props.id)});
+        if (err) {
+            setStatus({id: 'DELETE_FAILED', message: `Löschen fehlgeschlagen: ${JSON.stringify(err || response)}`});
+            return;
+        }
+        setStatus({id: 'DELETED'});
+        // This could probably be done more smoothly!
+        window.location.reload();
+    } : undefined;
 
     const dialogTitle = (props.id === undefined
         ? 'Ort-Eintrag erstellen'
         : 'Ort-Eintrag bearbeiten'
     );
-    const isLoading = isImagesLoading;
+    const editModalStatus: OlzEditModalStatus = isImagesLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-termin-location-modal'
             dialogTitle={dialogTitle}
-            successMessage={successMessage}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isSubmitting={isSubmitting}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
+            onDelete={onDelete}
         >
             <div className='mb-3'>
                 <OlzTextField

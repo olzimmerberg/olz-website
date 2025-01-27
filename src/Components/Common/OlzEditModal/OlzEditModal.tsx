@@ -1,26 +1,70 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {initReact} from '../../../Utils/reactUtils';
+import {codeHref} from '../../../Utils/constants';
+import {olzConfirm} from '../OlzConfirmationDialog/OlzConfirmationDialog';
+
+import './OlzEditModal.scss';
+
+export type OlzEditModalStatus = {id: 'IDLE'}
+    |{id: 'LOADING'}
+    |{id: 'WAITING_FOR_CAPTCHA'}
+    |{id: 'SUBMITTING'}
+    |{id: 'SUBMITTED', message?: string}
+    |{id: 'SUBMIT_FAILED', message: string}
+    |{id: 'DELETING'}
+    |{id: 'DELETED', message?: string}
+    |{id: 'DELETE_FAILED', message: string};
 
 interface OlzEditModalProps {
     modalId: string;
     dialogTitle: React.ReactNode;
     children: React.ReactNode;
-    successMessage: React.ReactNode;
-    errorMessage: React.ReactNode;
-    isLoading?: boolean;
-    isWaitingForCaptcha?: boolean;
-    isSubmitting: boolean;
+    status: OlzEditModalStatus;
     submitLabel?: string;
     onSubmit: React.FormEventHandler<HTMLFormElement>;
+    onDelete?: () => unknown;
 }
+
+const IS_PLEASE_WAIT_STATUS: {[status in OlzEditModalStatus['id']]?: true} = {
+    'LOADING': true,
+    'WAITING_FOR_CAPTCHA': true,
+    'SUBMITTING': true,
+    'DELETING': true,
+};
+
+const IS_SUBMIT_DISABLED_BY_STATUS: {[status in OlzEditModalStatus['id']]?: true} = {
+    'LOADING': true,
+    'SUBMITTING': true,
+    'SUBMITTED': true,
+    'DELETING': true,
+    'DELETED': true,
+};
 
 export const OlzEditModal = (props: OlzEditModalProps): React.ReactElement => {
     const submitLabel = props.submitLabel ?? 'Speichern';
-    const isPleaseWait = props.isLoading || props.isWaitingForCaptcha || props.isSubmitting;
+    const isPleaseWait = IS_PLEASE_WAIT_STATUS[props.status.id] ?? false;
+    const successMessage = props.status.id === 'SUBMITTED'
+        ? props.status.message ?? 'Änderung erfolgreich. Bitte warten...'
+        : (props.status.id === 'DELETED'
+            ? props.status.message ?? 'Löschen erfolgreich. Bitte warten...'
+            : '');
+    const errorMessage = props.status.id === 'SUBMIT_FAILED' || props.status.id === 'DELETE_FAILED'
+        ? props.status.message : '';
+    const deleteButton = props.onDelete ? (
+        <button
+            type='button'
+            id='delete-button'
+            className='btn btn-danger btn-sm'
+            onClick={() => olzConfirm('Wirklich löschen?').then(props.onDelete)}
+        >
+            <img src={`${codeHref}assets/icns/delete_white_16.svg`} className='noborder' />
+            Löschen
+        </button>
+    ) : null;
     return (
         <div
-            className='modal fade'
+            className='modal fade olz-edit-modal'
             id={props.modalId}
             tabIndex={-1}
             aria-labelledby={`${props.modalId}-label`}
@@ -33,6 +77,7 @@ export const OlzEditModal = (props: OlzEditModalProps): React.ReactElement => {
                             <h5 className='modal-title' id={`${props.modalId}-label`}>
                                 {props.dialogTitle}
                             </h5>
+                            {deleteButton}
                             <button
                                 type='button'
                                 className='btn-close'
@@ -44,10 +89,10 @@ export const OlzEditModal = (props: OlzEditModalProps): React.ReactElement => {
                         <div className='modal-body'>
                             {props.children}
                             <div className='success-message alert alert-success' role='alert'>
-                                {props.successMessage}
+                                {successMessage}
                             </div>
                             <div className='error-message alert alert-danger' role='alert'>
-                                {props.errorMessage}
+                                {errorMessage}
                             </div>
                         </div>
                         <div className='modal-footer'>
@@ -62,7 +107,7 @@ export const OlzEditModal = (props: OlzEditModalProps): React.ReactElement => {
                                 type='submit'
                                 className={isPleaseWait ? 'btn btn-secondary' : 'btn btn-primary'}
                                 id='submit-button'
-                                disabled={props.isLoading || props.isSubmitting}
+                                disabled={IS_SUBMIT_DISABLED_BY_STATUS[props.status.id] ?? false}
                             >
                                 {isPleaseWait ? 'Bitte warten...' : submitLabel}
                             </button>

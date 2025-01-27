@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -15,15 +14,9 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  */
 final class NewsAnonymousTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testNewsAnonymousScreenshotReadWriteLegacy(): void {
+    public function testNewsAnonymousCreate(): void {
         $browser = $this->getBrowser();
-        $this->doNewsAnonymousReadWrite($browser);
 
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
-    }
-
-    protected function doNewsAnonymousReadWrite(RemoteWebDriver $browser): void {
         $browser->get($this->getUrl());
 
         $this->click('#create-news-button');
@@ -40,7 +33,10 @@ final class NewsAnonymousTest extends SystemTestCase {
         $this->click('#edit-news-modal #submit-button');
         $this->waitUntilGone('#edit-news-modal');
         $this->screenshot('news_new_anonymous_finished');
+
         $this->resetDb();
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
     }
 
     protected function getUrl(): string {

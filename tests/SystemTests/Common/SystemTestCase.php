@@ -22,7 +22,7 @@ class SystemTestCase extends TestCase {
 
     private static string $browser_name = 'firefox';
     private static ?RemoteWebDriver $browser = null;
-    private static int $max_timeout_seconds = 3;
+    private static int $max_timeout_seconds = 1;
 
     /** @var array<string, ?string> */
     private static array $targetUrlByMode = [
@@ -162,6 +162,15 @@ class SystemTestCase extends TestCase {
                 WebDriverBy::cssSelector($css_selector)
             );
             return count($elements) == 0;
+        });
+    }
+
+    protected function waitFor(string $css_selector): void {
+        $this::$browser->wait()->until(function () use ($css_selector) {
+            $elements = $this::$browser->findElements(
+                WebDriverBy::cssSelector($css_selector)
+            );
+            return count($elements) > 0;
         });
     }
 
@@ -340,6 +349,7 @@ class SystemTestCase extends TestCase {
     // Screenshot
 
     public function screenshot(string $name): void {
+        $this->waitFor('body');
         $this->tick('screenshot');
         $this->adjustCssForScreenshot();
         $browser_name = $this::$browser->getCapabilities()->getBrowserName();
@@ -455,7 +465,17 @@ class SystemTestCase extends TestCase {
         $keys = array_keys($report);
         sort($keys);
         foreach ($keys as $key) {
-            $sorted_report[$key] = $report[$key];
+            if (preg_match('/^(Olz\\\Tests.*)::(.*)$/', $key, $matches)) {
+                try {
+                    new \ReflectionMethod($matches[1], $matches[2]);
+                    $sorted_report[$key] = $report[$key];
+                } catch (\ReflectionException $exc) {
+                    // Don't keep the record for an inexistent method
+                }
+            } else {
+                // Keep the custom record
+                $sorted_report[$key] = $report[$key];
+            }
         }
         file_put_contents(
             self::$timing_report_filename,

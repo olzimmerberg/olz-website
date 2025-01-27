@@ -14,8 +14,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class TerminVorlagenTest extends SystemTestCase {
-    #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testTerminVorlagenScreenshots(): void {
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    public function testTerminVorlagenReadOnly(): void {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
@@ -23,8 +23,16 @@ final class TerminVorlagenTest extends SystemTestCase {
         $browser->get($this->getUrl());
         $this->screenshot('termin_templates');
 
-        $browser->get("{$this->getUrl()}/2");
+        $browser->get($this->getDetailUrl());
         $this->screenshot('termin_templates_detail');
+
+        // TODO: Dummy assert
+        $this->assertDirectoryExists(__DIR__);
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testTerminVorlagenCreate(): void {
+        $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
@@ -71,12 +79,35 @@ final class TerminVorlagenTest extends SystemTestCase {
         $this->screenshot('termin_templates_new_finished');
 
         $this->resetDb();
-
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testTerminVorlagenDetailDelete(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getDetailUrl());
+
+        $this->click('#edit-termin-template-button');
+        $this->waitForModal('#edit-termin-template-modal');
+        $this->click('#edit-termin-template-modal #delete-button');
+        $this->waitForModal('#confirmation-dialog-modal');
+        $this->click('#confirmation-dialog-modal #confirm-button');
+        $this->waitUntilGone('#confirmation-dialog-modal');
+        $this->waitUntilGone('#edit-termin-template-modal');
+
+        $this->assertSame(404, $this->getHeaders($this->getDetailUrl())['http_code']);
+
+        $this->resetDb();
+    }
+
     protected function getUrl(): string {
         return "{$this->getTargetUrl()}/termine/vorlagen";
+    }
+
+    protected function getDetailUrl(): string {
+        return "{$this->getTargetUrl()}/termine/vorlagen/2";
     }
 }

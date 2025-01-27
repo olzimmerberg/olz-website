@@ -15,8 +15,20 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class NewsAktuellTest extends SystemTestCase {
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    public function testNewsAktuellReadOnly(): void {
+        $browser = $this->getBrowser();
+
+        $browser->get($this->getAktuellDetailUrl());
+        $this->screenshot('news_detail_aktuell');
+        $this->assertMatchesRegularExpression(
+            '/Format\:\s*Aktuell/i',
+            $this->getBrowserElement('#format-info')->getText(),
+        );
+    }
+
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testNewsAktuellCreateScreenshotReadWriteLegacy(): void {
+    public function testNewsAktuellCreate(): void {
         $browser = $this->getBrowser();
 
         $this->login('vorstand', 'v0r57and');
@@ -63,11 +75,11 @@ final class NewsAktuellTest extends SystemTestCase {
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testNewsAktuellUpdateScreenshotReadWriteLegacy(): void {
+    public function testNewsAktuellUpdate(): void {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get("{$this->getUrl()}/5");
+        $browser->get($this->getAktuellDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -84,7 +96,31 @@ final class NewsAktuellTest extends SystemTestCase {
         $this->assertDirectoryExists(__DIR__);
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testNewsAktuellDetailDelete(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getAktuellDetailUrl());
+
+        $this->click('#edit-news-button');
+        $this->waitForModal('#edit-news-modal');
+        $this->click('#edit-news-modal #delete-button');
+        $this->waitForModal('#confirmation-dialog-modal');
+        $this->click('#confirmation-dialog-modal #confirm-button');
+        $this->waitUntilGone('#confirmation-dialog-modal');
+        $this->waitUntilGone('#edit-news-modal');
+
+        $this->assertSame(404, $this->getHeaders($this->getAktuellDetailUrl())['http_code']);
+
+        $this->resetDb();
+    }
+
     protected function getUrl(): string {
         return "{$this->getTargetUrl()}/news";
+    }
+
+    protected function getAktuellDetailUrl(): string {
+        return "{$this->getTargetUrl()}/news/5";
     }
 }

@@ -16,7 +16,7 @@ final class WebmailTest extends SystemTestCase {
     public static string $webmailUrl = "https://webmail.olzimmerberg.ch/";
 
     #[OnlyInModes(['meta'])]
-    public function testWebmalIsWorking(): void {
+    public function testWebmailIsWorking(): void {
         $url = "{$this::$webmailUrl}";
         $body = file_get_contents($url);
 

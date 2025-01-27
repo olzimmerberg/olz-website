@@ -187,6 +187,7 @@ final class VereinTest extends SystemTestCase {
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');
+        $this->waitUntilGone('#edit-role-modal');
 
         $browser->get("{$this->getUrl()}/revisoren");
         $this->assertSame(404, $this->getHeaders("{$this->getUrl()}/revisoren")['http_code']);

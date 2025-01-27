@@ -15,7 +15,7 @@ class OlzUserDetail extends OlzComponent {
         $user = $user_repo->findOneBy(['id' => $args['id']]);
 
         if (!$user) {
-            $this->httpUtils()->dieWithHttpError(401);
+            $this->httpUtils()->dieWithHttpError(404);
         }
 
         $out = OlzHeader::render([
@@ -108,12 +108,12 @@ class OlzUserDetail extends OlzComponent {
         $out .= "<div class='edit-user-container'>{$edit_admin}</div>";
         $out .= "<div class='image-container'>{$img_html}</div>";
         $out .= "<h1 class='name-container'>{$user->getFullName()}</h1>";
-        $out .= "<div class='info-container'>Benutzername: {$user->getUsername()}</div>";
+        $out .= "<div class='info-container username'>Benutzername: {$user->getUsername()}</div>";
         if ($can_edit) {
-            $out .= "<div class='info-container'>{$street}</div>";
-            $out .= "<div class='info-container'>{$postal_code} {$city} ({$region}, {$country_code})</div>";
-            $out .= "<div class='info-container'>Geburtsdatum: {$birthdate}</div>";
-            $out .= "<div class='info-container'>Telephon: {$phone}</div>";
+            $out .= "<div class='info-container address1'>{$street}</div>";
+            $out .= "<div class='info-container address2'>{$postal_code} {$city} ({$region}, {$country_code})</div>";
+            $out .= "<div class='info-container birthdate'>Geburtsdatum: {$birthdate}</div>";
+            $out .= "<div class='info-container phone'>Telephon: {$phone}</div>";
         }
 
         $has_official_email = $this->authUtils()->hasPermission('user_email', $user);
@@ -130,7 +130,7 @@ class OlzUserDetail extends OlzComponent {
             );
         }
         if ($email_html) {
-            $out .= "<div class='info-container'>{$email_html}</div>";
+            $out .= "<div class='info-container email'>{$email_html}</div>";
         }
         $out .= $edit_password;
 

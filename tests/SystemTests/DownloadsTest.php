@@ -15,7 +15,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  */
 final class DownloadsTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
-    public function testDownloadsScreenshots(): void {
+    public function testDownloadsCreate(): void {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
@@ -44,6 +44,27 @@ final class DownloadsTest extends SystemTestCase {
 
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testDownloadsDelete(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getUrl());
+
+        $this->click('#edit-download-1-button');
+        $this->waitForModal('#edit-download-modal');
+        $this->click('#edit-download-modal #delete-button');
+        $this->waitForModal('#confirmation-dialog-modal');
+        $this->click('#confirmation-dialog-modal #confirm-button');
+        $this->waitUntilGone('#confirmation-dialog-modal');
+        $this->waitUntilGone('#edit-download-modal');
+
+        $browser->get($this->getUrl());
+        $this->assertNull($this->getBrowserElement('#edit-download-1-button'));
+
+        $this->resetDb();
     }
 
     protected function getUrl(): string {

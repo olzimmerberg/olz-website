@@ -61,7 +61,7 @@ class OlzTerminDetail extends OlzComponent {
         $canonical_url = "https://{$host}{$code_href}termine/{$id}";
 
         if ($is_archived && !$this->authUtils()->hasPermission('any')) {
-            $this->httpUtils()->dieWithHttpError(401);
+            $this->httpUtils()->dieWithHttpError(404);
         }
 
         $termin = $this->getTerminById($id);

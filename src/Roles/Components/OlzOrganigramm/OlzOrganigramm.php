@@ -3,8 +3,8 @@
 namespace Olz\Roles\Components\OlzOrganigramm;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Users\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 use Olz\Entity\Roles\Role;
+use Olz\Users\Components\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 
 class OlzOrganigramm extends OlzComponent {
     /** @param array<string, mixed> $args */

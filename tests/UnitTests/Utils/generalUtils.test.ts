@@ -1,6 +1,6 @@
 /* eslint-env jasmine */
 
-import {assert, assertUnreachable, getErrorOrThrow, isDefined, timeout} from '../../../src/Utils/generalUtils';
+import {assert, assertUnreachable, getErrorOrThrow, isDefined, isLocal, timeout} from '../../../src/Utils/generalUtils';
 
 describe('assert', () => {
     it('works for value', () => {
@@ -86,6 +86,12 @@ describe('isDefined', () => {
     it('filters array', () => {
         const array: Array<number|undefined|null> = [undefined, 1, null, 4];
         expect(array.filter(isDefined)).toEqual([1, 4]);
+    });
+});
+
+describe('isLocal', () => {
+    it('returns true for test', () => {
+        expect(isLocal()).toEqual(true);
     });
 });
 

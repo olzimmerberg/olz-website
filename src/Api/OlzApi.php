@@ -88,6 +88,7 @@ class OlzApi extends Api {
         \Olz\Users\Endpoints\EditUserEndpoint $editUserEndpoint,
         \Olz\Users\Endpoints\UpdateUserEndpoint $updateUserEndpoint,
         \Olz\Users\Endpoints\DeleteUserEndpoint $deleteUserEndpoint,
+        \Olz\Users\Endpoints\GetUserInfoEndpoint $getUserInfoEndpoint,
     ) {
         $this->registerEndpoint('onDaily', $onDailyEndpoint);
         $this->registerEndpoint('onContinuously', $onContinuouslyEndpoint);
@@ -204,6 +205,7 @@ class OlzApi extends Api {
         $this->registerEndpoint('editUser', $editUserEndpoint);
         $this->registerEndpoint('updateUser', $updateUserEndpoint);
         $this->registerEndpoint('deleteUser', $deleteUserEndpoint);
+        $this->registerEndpoint('getUserInfo', $getUserInfoEndpoint);
 
         OlzApps::registerAllEndpoints($this);
     }
@@ -299,6 +301,7 @@ class OlzApi extends Api {
             new \Olz\Users\Endpoints\EditUserEndpoint(),
             new \Olz\Users\Endpoints\UpdateUserEndpoint(),
             new \Olz\Users\Endpoints\DeleteUserEndpoint(),
+            new \Olz\Users\Endpoints\GetUserInfoEndpoint(),
         );
     }
 }

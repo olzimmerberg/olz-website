@@ -1,0 +1,27 @@
+#user-info-modal {
+    .close-button {
+        float: right;
+    }
+
+    .container {
+        margin: 15px 10px;
+    }
+
+    .user-data {
+        text-align: center;
+
+        img {
+            border: 3px solid rgb(255, 255, 255);
+            border-radius: 84px;
+            box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.8);
+            height: 84px;
+            margin: 5px;
+            object-fit: cover;
+            width: 84px;
+        }
+    }
+
+    #recaptcha-consent-given-input {
+        margin-right: 10px;
+    }
+}

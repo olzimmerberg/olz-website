@@ -25,7 +25,7 @@ class FakeUser extends FakeEntity {
                 $entity->setLastName('Non-empty');
                 $entity->setUsername('minimal-user');
                 $entity->setOldUsername(null);
-                $entity->setEmail('minimal-user@staging.olzimmerberg.ch');
+                $entity->setEmail(null);
                 $entity->setEmailIsVerified(false);
                 $entity->setEmailVerificationToken(null);
                 $entity->setPasswordHash(null);
@@ -59,7 +59,7 @@ class FakeUser extends FakeEntity {
                 $entity->setLastName('Non-empty');
                 $entity->setUsername('empty-user');
                 $entity->setOldUsername(null);
-                $entity->setEmail('empty-user@staging.olzimmerberg.ch');
+                $entity->setEmail('');
                 $entity->setEmailIsVerified(false);
                 $entity->setEmailVerificationToken('');
                 $entity->setPasswordHash('');

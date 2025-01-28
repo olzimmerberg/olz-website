@@ -72,6 +72,8 @@ export type OlzUserId = number;
 
 export type IsoCountry = string;
 
+export type OlzUserInfoData = {'firstName': string, 'lastName': string, 'email'?: (string | null), 'avatarImageId'?: {[key: string]: string}};
+
 export type OlzBookingData = {'registrationId': string, 'values': {[key: string]: unknown}};
 
 export type OlzBookingId = string;
@@ -188,6 +190,7 @@ export type OlzApiEndpoint =
     'editUser'|
     'updateUser'|
     'deleteUser'|
+    'getUserInfo'|
     'createBooking'|
     'createRegistration'|
     'getManagedUsers'|
@@ -292,6 +295,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     editUser: {'id': OlzUserId, 'custom'?: never},
     updateUser: {'id': OlzUserId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzUserData | null), 'custom'?: never},
     deleteUser: {'id': OlzUserId, 'custom'?: never},
+    getUserInfo: {'id': OlzUserId, 'custom'?: {'recaptchaToken'?: (string | null)}},
     createBooking: {'meta': OlzMetaData, 'data': OlzBookingData, 'custom'?: never},
     createRegistration: {'meta': OlzMetaData, 'data': OlzRegistrationData, 'custom'?: never},
     getManagedUsers: (Record<string, never> | null),
@@ -395,6 +399,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     editUser: {'id': OlzUserId, 'meta': OlzMetaData, 'data': OlzUserData, 'custom'?: never},
     updateUser: {'id': OlzUserId, 'custom'?: {'status': ('OK' | 'OK_NO_EMAIL_VERIFICATION' | 'DENIED' | 'ERROR')}},
     deleteUser: {'custom'?: never},
+    getUserInfo: {'id': OlzUserId, 'meta': OlzMetaData, 'data': OlzUserInfoData, 'custom'?: never},
     createBooking: {'id'?: (OlzBookingId | null), 'custom'?: never},
     createRegistration: {'id'?: (OlzRegistrationId | null), 'custom'?: never},
     getManagedUsers: {'status': ('OK' | 'ERROR'), 'managedUsers': (Array<ManagedUser> | null)},

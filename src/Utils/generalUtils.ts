@@ -22,6 +22,15 @@ export function isDefined<T>(value: T|undefined|null): value is T {
     return value !== null && value !== undefined;
 }
 
+export function isLocal(): boolean {
+    const localHostnames: {[hostname: string]: true} = {
+        'localhost': true,
+        '127.0.0.1': true,
+    };
+    /* istanbul ignore next */
+    return localHostnames[location.hostname] ?? false;
+}
+
 export function timeout(milliseconds: number): Promise<void> {
     return new Promise((resolve) => {
         setTimeout(resolve, milliseconds);

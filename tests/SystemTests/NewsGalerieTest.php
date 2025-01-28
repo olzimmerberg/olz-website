@@ -15,7 +15,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class NewsGalerieTest extends SystemTestCase {
-    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testNewsGalerieReadOnly(): void {
         $browser = $this->getBrowser();
 

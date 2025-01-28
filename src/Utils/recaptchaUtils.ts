@@ -1,4 +1,4 @@
-import {loadScript} from './generalUtils';
+import {loadScript, isLocal} from './generalUtils';
 
 let grecaptcha: {
     ready: (onReady: () => void) => void,
@@ -16,8 +16,7 @@ export async function loadRecaptchaToken(): Promise<string> {
 
 /* istanbul ignore next */
 export async function loadRecaptcha(): Promise<void> {
-    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    if (isLocal) {
+    if (isLocal()) {
         grecaptcha = {
             ready: (fn) => fn(),
             execute: () => Promise.resolve('fake'),

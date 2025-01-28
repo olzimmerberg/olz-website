@@ -8,8 +8,8 @@ use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Components\Users\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 use Olz\Entity\Panini2024\Panini2024Picture;
+use Olz\Users\Components\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */

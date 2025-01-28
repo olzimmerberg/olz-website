@@ -1,9 +1,14 @@
 import {loadScript, isLocal} from './generalUtils';
 
-let grecaptcha: {
+declare const grecaptcha: {
     ready: (onReady: () => void) => void,
     execute: (siteKey: string, config: {action: string}) => Promise<string>,
 }|undefined;
+
+const fakeGrecaptcha: typeof grecaptcha = {
+    ready: (fn) => fn(),
+    execute: () => Promise.resolve('fake'),
+};
 
 const siteKey = '6LetfAodAAAAALyY2vt84FQ-EI5Sj6HkTbGKWR3U';
 
@@ -17,10 +22,6 @@ export async function loadRecaptchaToken(): Promise<string> {
 /* istanbul ignore next */
 export async function loadRecaptcha(): Promise<void> {
     if (isLocal()) {
-        grecaptcha = {
-            ready: (fn) => fn(),
-            execute: () => Promise.resolve('fake'),
-        };
         return;
     }
     const scriptUrl = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
@@ -30,12 +31,18 @@ export async function loadRecaptcha(): Promise<void> {
 /* istanbul ignore next */
 function getRecaptchaToken(): Promise<string> {
     return new Promise((resolve, reject) => {
-        if (!grecaptcha) {
+        let gc = (isLocal() ? fakeGrecaptcha : null);
+        try {
+            gc = grecaptcha;
+        } catch (exc: unknown) {
+            // ignore
+        }
+        if (!gc) {
             reject(new Error('grecaptcha is undefined'));
             return;
         }
-        grecaptcha.ready(() => {
-            grecaptcha?.execute(siteKey, {action: 'submit'})
+        gc.ready(() => {
+            gc.execute(siteKey, {action: 'submit'})
                 .then(resolve, reject);
         });
     });

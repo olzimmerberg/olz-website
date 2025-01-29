@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Order;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Service\Download;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzDownloads extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $has_permission = $this->authUtils()->hasPermission('downloads');
 

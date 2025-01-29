@@ -6,6 +6,7 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzTerminTemplatesListItem extends OlzComponent {
     /** @var array<string, string> */
     protected static $iconBasenameByType = [
@@ -17,8 +18,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         'meldeschluss' => 'termine_type_meldeschluss_20.svg',
     ];
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();

@@ -5,23 +5,23 @@ namespace Olz\Faq\Components\OlzFaq;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Faq\Question;
 use Olz\Entity\Faq\QuestionCategory;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzFaqParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzFaq extends OlzComponent {
     public static string $title = "Fragen & Antworten";
     public static string $description = "Antworten auf die wichtigsten Fragen rund um den OL, die OL Zimmerberg und diese Website.";
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzFaqParams::class);
         $entityManager = $this->dbUtils()->getEntityManager();
         $question_repo = $entityManager->getRepository(Question::class);
@@ -38,13 +38,16 @@ class OlzFaq extends OlzComponent {
         $nachwuchs_out = '';
         $nachwuchs_assignees = $nachwuchs_role->getUsers();
         foreach ($nachwuchs_assignees as $nachwuchs_assignee) {
-            $nachwuchs_out .= OlzUserInfoCard::render(['user' => $nachwuchs_assignee]);
+            $nachwuchs_out .= OlzUserInfoModal::render([
+                'user' => $nachwuchs_assignee,
+                'mode' => 'name_picture',
+            ]);
         }
 
         $out .= <<<ZZZZZZZZZZ
             <div class='content-right'>
                 <h3>Ansprechperson</h3>
-                <div style='padding:0px 10px 0px 10px;'>
+                <div style='padding:0px 10px 0px 10px; text-align:center;'>
                     {$nachwuchs_out}
                 </div>
             </div>

@@ -5,9 +5,9 @@ namespace Olz\Components\Common\OlzEditableText;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Snippets\Snippet;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzEditableText extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
 
         $snippet_id = intval($args['snippet_id'] ?? 0);

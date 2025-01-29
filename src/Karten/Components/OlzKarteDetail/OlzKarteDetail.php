@@ -9,9 +9,9 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Karten\Karte;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzKarteDetail extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $karten_repo = $this->entityManager()->getRepository(Karte::class);

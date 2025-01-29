@@ -13,9 +13,9 @@ use Olz\Utils\HttpParams;
 class OlzPanini2024MasksParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzPanini2024Masks extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzPanini2024MasksParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $metadata = new Metadata();

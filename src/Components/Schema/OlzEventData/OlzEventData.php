@@ -8,9 +8,9 @@ namespace Olz\Components\Schema\OlzEventData;
 
 use Olz\Components\Common\OlzComponent;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzEventData extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $name = $args['name'] ?? '';
         $start_date = $args['start_date'] ?? null;
         $end_date = $args['end_date'] ?? null;

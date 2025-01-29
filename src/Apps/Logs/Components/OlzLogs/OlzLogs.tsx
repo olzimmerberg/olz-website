@@ -7,7 +7,7 @@ import {OlzInfiniteScroll} from '../OlzInfiniteScroll/OlzInfiniteScroll';
 import {dataHref, isoNow} from '../../../../Utils/constants';
 import {validateDate, validateDateTime} from '../../../../Utils/formUtils';
 import {toISO} from '../../../../Utils/dateUtils';
-import {assert} from '../../../../Utils';
+import {assert} from '../../../../Utils/generalUtils';
 
 import './OlzLogs.scss';
 

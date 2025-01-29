@@ -7,9 +7,8 @@ use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
-use Olz\Components\Users\OlzPopup\OlzPopup;
-use Olz\Components\Users\OlzRoleInfoCard\OlzRoleInfoCard;
 use Olz\Entity\Roles\Role;
+use Olz\Roles\Components\OlzRoleInfoModal\OlzRoleInfoModal;
 
 class HtmlUtils {
     use WithUtilsTrait;
@@ -71,9 +70,9 @@ class HtmlUtils {
                 $suffix = $this->getSuffix($matches[4][$i], $matches[5][$i], $matches[6][$i]);
                 $html = preg_replace(
                     "/{$prefix}{$email}{$subject}{$suffix}/",
-                    $this->escapeDollar(OlzPopup::render([
-                        'trigger' => "<a href='#' class='linkrole'>{$matches[5][$i]}</a>",
-                        'popup' => OlzRoleInfoCard::render(['role' => $role]),
+                    $this->escapeDollar(OlzRoleInfoModal::render([
+                        'role' => $role,
+                        'text' => $matches[5][$i],
                     ])),
                     $html
                 );
@@ -96,9 +95,9 @@ class HtmlUtils {
                 $suffix = $this->getSuffix($matches[3][$i], $matches[4][$i], $matches[5][$i]);
                 $html = preg_replace(
                     "/{$prefix}{$email}{$suffix}/",
-                    $this->escapeDollar(OlzPopup::render([
-                        'trigger' => "<a href='#' class='linkrole'>{$matches[4][$i]}</a>",
-                        'popup' => OlzRoleInfoCard::render(['role' => $role]),
+                    $this->escapeDollar(OlzRoleInfoModal::render([
+                        'role' => $role,
+                        'text' => $matches[4][$i],
                     ])),
                     $html
                 );
@@ -119,10 +118,7 @@ class HtmlUtils {
                 $email = "{$username}@{$host}";
                 $html = preg_replace(
                     "/{$email}/",
-                    $this->escapeDollar(OlzPopup::render([
-                        'trigger' => "<a href='#' class='linkrole'>{$email}</a>",
-                        'popup' => OlzRoleInfoCard::render(['role' => $role]),
-                    ])),
+                    $this->escapeDollar(OlzRoleInfoModal::render(['role' => $role])),
                     $html
                 );
             }

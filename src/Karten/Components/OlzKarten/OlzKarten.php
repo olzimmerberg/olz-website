@@ -14,12 +14,12 @@ use Olz\Utils\HttpParams;
 class OlzKartenParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzKarten extends OlzComponent {
     public static string $title = "Karten";
     public static string $description = "Die OL-Karten, die die OL Zimmerberg aufnimmt, unterhält und verkauft.";
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzKartenParams::class);
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();

@@ -15,9 +15,9 @@ use Olz\Utils\HttpParams;
 class OlzNewsletterParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsletter extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzNewsletterParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 

@@ -17,12 +17,12 @@ use Olz\Utils\HttpParams;
 class OlzStartseiteParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzStartseite extends OlzComponent {
     public static string $title = "Startseite";
     public static string $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzStartseiteParams::class);
 
         $out = OlzHeader::render([

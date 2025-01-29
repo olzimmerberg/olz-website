@@ -10,9 +10,9 @@ use Olz\Components\Error\Olz404NotFound\Olz404NotFound;
 use Olz\Components\Error\Olz500ServerInternalError\Olz500ServerInternalError;
 use Olz\Components\Error\OlzOtherError\OlzOtherError;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzErrorPage extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $http_status_code = $args['http_status_code'] ?? 500;
         if ($http_status_code === 400) {
             return Olz400BadRequest::render([], $this);

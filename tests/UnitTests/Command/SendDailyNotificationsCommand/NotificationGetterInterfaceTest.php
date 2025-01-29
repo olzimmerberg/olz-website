@@ -15,6 +15,7 @@ class ConcreteNotificationGetter implements NotificationGetterInterface {
     public function autogenerateSubscriptions(): void {
     }
 
+    /** @param array<string, mixed> $args */
     public function getNotification(array $args): ?Notification {
         return null;
     }

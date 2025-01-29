@@ -12,9 +12,9 @@ use Olz\Utils\HttpParams;
 class OlzMonitoringParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzMonitoring extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzMonitoringParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 

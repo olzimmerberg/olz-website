@@ -1,0 +1,36 @@
+#role-info-modal {
+    .role-data {
+        .user-data {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+
+        img.avatar {
+            border: 3px solid rgb(255, 255, 255);
+            border-radius: 84px;
+            box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.8);
+            height: 84px;
+            margin: 5px;
+            object-fit: cover;
+            width: 84px;
+        }
+
+        .chunk {
+            margin-right: -2.5px;
+            white-space: nowrap;
+        }
+
+        #copy-button {
+            border: 0;
+            border-radius: 12px;
+            margin-left: 8px;
+
+            img {
+                border: 0;
+                padding: 4px;
+            }
+        }
+    }
+}

@@ -24,8 +24,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         return 0.7;
     }
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
         $today = $this->dateUtils()->getIsoToday();

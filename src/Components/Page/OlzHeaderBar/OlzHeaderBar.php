@@ -10,9 +10,9 @@ use Olz\Components\Auth\OlzAccountMenu\OlzAccountMenu;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzMenu\OlzMenu;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzHeaderBar extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $back_link = $args['back_link'] ?? null;

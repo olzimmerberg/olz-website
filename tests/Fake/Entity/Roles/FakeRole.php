@@ -75,6 +75,11 @@ class FakeRole extends FakeEntity {
                 $entity->setFeaturedIndex(6);
                 $entity->setCanHaveChildRoles(true);
                 return $entity;
+            },
+            function ($entity) {
+                $entity->addUser(FakeUser::maximal());
+                $entity->addUser(FakeUser::empty());
+                $entity->addUser(FakeUser::minimal());
             }
         );
     }

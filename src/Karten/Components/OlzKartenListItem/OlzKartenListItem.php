@@ -5,9 +5,9 @@ namespace Olz\Karten\Components\OlzKartenListItem;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Schema\OlzMapData\OlzMapData;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzKartenListItem extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $out = '';
         $karte = $args['karte'];
 

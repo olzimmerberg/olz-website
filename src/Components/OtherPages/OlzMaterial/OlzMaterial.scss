@@ -1,0 +1,10 @@
+.sportident-assignees {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    li {
+        flex: 0 0 150px;
+        text-align: center;
+    }
+}

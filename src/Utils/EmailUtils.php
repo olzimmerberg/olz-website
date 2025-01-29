@@ -210,6 +210,20 @@ class EmailUtils {
         }, $arr));
     }
 
+    public function send(Email $email, ?Envelope $envelope = null): void {
+        $app_env = $this->envUtils()->getAppEnv();
+        if ($app_env === 'dev' || $app_env === 'test') {
+            $data_path = $this->envUtils()->getDataPath();
+            file_put_contents(
+                "{$data_path}last_email.txt",
+                "{$this->getComparableEnvelope($envelope)}\n\n{$this->getComparableEmail($email)}"
+            );
+        }
+        $this->mailer->send($email, $envelope);
+    }
+
+    // ---
+
     public function encryptEmailReactionToken(mixed $data): string {
         $key = $this->envUtils()->getEmailReactionKey();
         return $this->generalUtils()->encrypt($key, $data);
@@ -292,16 +306,20 @@ class EmailUtils {
         return (bool) preg_match('/^s[a-z]*\.p[a-z]*\.a[a-z]*\.m[a-z]*$/i', $username);
     }
 
-    public function send(Email $email, ?Envelope $envelope = null): void {
-        $app_env = $this->envUtils()->getAppEnv();
-        if ($app_env === 'dev' || $app_env === 'test') {
-            $data_path = $this->envUtils()->getDataPath();
-            file_put_contents(
-                "{$data_path}last_email.txt",
-                "{$this->getComparableEnvelope($envelope)}\n\n{$this->getComparableEmail($email)}"
-            );
+    /** @return ?array<non-empty-string> */
+    public function obfuscateEmail(?string $email): ?array {
+        if (!$email) {
+            return null;
         }
-        $this->mailer->send($email, $envelope);
+        $chunks = [];
+        while (strlen($email) > 0) {
+            $chunks[] = substr($email, 0, 4);
+            $email = substr($email, 4);
+        }
+        return array_map(
+            fn ($chunk) => $this->generalUtils()->base64EncodeUrl($chunk),
+            $chunks,
+        );
     }
 
     protected function getPageAndTimeBasedRandomInt(int $min, int $max): int {

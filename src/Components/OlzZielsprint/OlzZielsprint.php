@@ -5,9 +5,9 @@ namespace Olz\Components\OlzZielsprint;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzZielsprint extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $out = '';
 
         $db = $this->dbUtils()->getDb();

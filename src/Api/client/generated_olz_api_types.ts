@@ -32,11 +32,15 @@ export type OlzNewsFormat = ('aktuell' | 'kaderblog' | 'forum' | 'galerie' | 'vi
 
 export type IsoDateTime = string;
 
+export type OlzAuthorInfoData = {'roleName'?: (string | null), 'roleUsername'?: (string | null), 'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: ({[key: string]: string} | null)};
+
 export type OlzRoleData = {'username': string, 'name': string, 'title'?: (string | null), 'description': string, 'guide': string, 'imageIds': Array<string>, 'fileIds': Array<string>, 'parentRole'?: (number | null), 'indexWithinParent'?: (number | null), 'featuredIndex'?: (number | null), 'canHaveChildRoles': boolean};
 
 export type OlzRoleId = number;
 
 export type OlzRoleMembershipIds = {'roleId': number, 'userId': number};
+
+export type OlzRoleInfoData = {'name'?: (string | null), 'username'?: (string | null), 'assignees': Array<{'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: {[key: string]: string}}>};
 
 export type OlzSnippetId = number;
 
@@ -72,7 +76,7 @@ export type OlzUserId = number;
 
 export type IsoCountry = string;
 
-export type OlzUserInfoData = {'firstName': string, 'lastName': string, 'email'?: (string | null), 'avatarImageId'?: {[key: string]: string}};
+export type OlzUserInfoData = {'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: {[key: string]: string}};
 
 export type OlzBookingData = {'registrationId': string, 'values': {[key: string]: unknown}};
 
@@ -149,6 +153,7 @@ export type OlzApiEndpoint =
     'editNews'|
     'updateNews'|
     'deleteNews'|
+    'getAuthorInfo'|
     'createRole'|
     'getRole'|
     'editRole'|
@@ -156,6 +161,7 @@ export type OlzApiEndpoint =
     'deleteRole'|
     'addUserRoleMembership'|
     'removeUserRoleMembership'|
+    'getRoleInfo'|
     'getSnippet'|
     'editSnippet'|
     'updateSnippet'|
@@ -254,6 +260,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     editNews: {'id': OlzNewsId, 'custom'?: never},
     updateNews: {'id': OlzNewsId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzNewsData | null), 'custom'?: never},
     deleteNews: {'id': OlzNewsId, 'custom'?: never},
+    getAuthorInfo: {'id': OlzNewsId, 'recaptchaToken'?: (string | null)},
     createRole: {'meta': OlzMetaData, 'data': OlzRoleData, 'custom'?: never},
     getRole: {'id': OlzRoleId, 'custom'?: never},
     editRole: {'id': OlzRoleId, 'custom'?: never},
@@ -261,6 +268,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     deleteRole: {'id': OlzRoleId, 'custom'?: never},
     addUserRoleMembership: {'ids': OlzRoleMembershipIds, 'custom'?: never},
     removeUserRoleMembership: {'ids': OlzRoleMembershipIds, 'custom'?: never},
+    getRoleInfo: {'id': OlzRoleId, 'recaptchaToken'?: (string | null)},
     getSnippet: {'id': OlzSnippetId, 'custom'?: never},
     editSnippet: {'id': OlzSnippetId, 'custom'?: never},
     updateSnippet: {'id': OlzSnippetId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzSnippetData | null), 'custom'?: never},
@@ -295,7 +303,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     editUser: {'id': OlzUserId, 'custom'?: never},
     updateUser: {'id': OlzUserId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzUserData | null), 'custom'?: never},
     deleteUser: {'id': OlzUserId, 'custom'?: never},
-    getUserInfo: {'id': OlzUserId, 'custom'?: {'recaptchaToken'?: (string | null)}},
+    getUserInfo: {'id': OlzUserId, 'recaptchaToken'?: (string | null)},
     createBooking: {'meta': OlzMetaData, 'data': OlzBookingData, 'custom'?: never},
     createRegistration: {'meta': OlzMetaData, 'data': OlzRegistrationData, 'custom'?: never},
     getManagedUsers: (Record<string, never> | null),
@@ -358,6 +366,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     editNews: {'id': OlzNewsId, 'meta': OlzMetaData, 'data': OlzNewsData, 'custom'?: never},
     updateNews: {'id': OlzNewsId, 'custom'?: never},
     deleteNews: {'custom'?: never},
+    getAuthorInfo: OlzAuthorInfoData,
     createRole: {'id'?: (OlzRoleId | null), 'custom'?: never},
     getRole: {'id': OlzRoleId, 'meta': OlzMetaData, 'data': OlzRoleData, 'custom'?: never},
     editRole: {'id': OlzRoleId, 'meta': OlzMetaData, 'data': OlzRoleData, 'custom'?: never},
@@ -365,6 +374,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     deleteRole: {'custom'?: never},
     addUserRoleMembership: {'custom'?: never},
     removeUserRoleMembership: {'custom'?: never},
+    getRoleInfo: OlzRoleInfoData,
     getSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
     editSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
     updateSnippet: {'id': OlzSnippetId, 'custom'?: never},
@@ -399,7 +409,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     editUser: {'id': OlzUserId, 'meta': OlzMetaData, 'data': OlzUserData, 'custom'?: never},
     updateUser: {'id': OlzUserId, 'custom'?: {'status': ('OK' | 'OK_NO_EMAIL_VERIFICATION' | 'DENIED' | 'ERROR')}},
     deleteUser: {'custom'?: never},
-    getUserInfo: {'id': OlzUserId, 'meta': OlzMetaData, 'data': OlzUserInfoData, 'custom'?: never},
+    getUserInfo: OlzUserInfoData,
     createBooking: {'id'?: (OlzBookingId | null), 'custom'?: never},
     createRegistration: {'id'?: (OlzRegistrationId | null), 'custom'?: never},
     getManagedUsers: {'status': ('OK' | 'ERROR'), 'managedUsers': (Array<ManagedUser> | null)},

@@ -5,9 +5,9 @@ namespace Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzNotificationSubscriptionsForm extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $subscriptions = $args['subscriptions'];
         $out = '';
 

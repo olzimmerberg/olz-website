@@ -7,12 +7,12 @@
 namespace Olz\News\Components\OlzNewsDetail;
 
 use Doctrine\Common\Collections\Criteria;
-use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
+use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\HttpParams;
 
@@ -20,9 +20,9 @@ use Olz\Utils\HttpParams;
 class OlzNewsDetailParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsDetail extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzNewsDetailParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
@@ -96,6 +96,7 @@ class OlzNewsDetail extends OlzComponent {
         $author_name = $news_entry->getAuthorName();
         $author_email = $news_entry->getAuthorEmail();
         $pretty_author = OlzAuthorBadge::render([
+            'news_id' => $news_entry->getId(),
             'user' => $author_user,
             'role' => $author_role,
             'name' => $author_name,

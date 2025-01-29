@@ -37,6 +37,7 @@ class OlzApi extends Api {
         \Olz\News\Endpoints\EditNewsEndpoint $editNewsEndpoint,
         \Olz\News\Endpoints\UpdateNewsEndpoint $updateNewsEndpoint,
         \Olz\News\Endpoints\DeleteNewsEndpoint $deleteNewsEndpoint,
+        \Olz\News\Endpoints\GetAuthorInfoEndpoint $getAuthorInfoEndpoint,
         \Olz\Roles\Endpoints\CreateRoleEndpoint $createRoleEndpoint,
         \Olz\Roles\Endpoints\GetRoleEndpoint $getRoleEndpoint,
         \Olz\Roles\Endpoints\EditRoleEndpoint $editRoleEndpoint,
@@ -44,6 +45,7 @@ class OlzApi extends Api {
         \Olz\Roles\Endpoints\DeleteRoleEndpoint $deleteRoleEndpoint,
         \Olz\Roles\Endpoints\AddUserRoleMembershipEndpoint $addUserRoleMembershipEndpoint,
         \Olz\Roles\Endpoints\RemoveUserRoleMembershipEndpoint $removeUserRoleMembershipEndpoint,
+        \Olz\Roles\Endpoints\GetRoleInfoEndpoint $getRoleInfoEndpoint,
         \Olz\Snippets\Endpoints\GetSnippetEndpoint $getSnippetEndpoint,
         \Olz\Snippets\Endpoints\EditSnippetEndpoint $editSnippetEndpoint,
         \Olz\Snippets\Endpoints\UpdateSnippetEndpoint $updateSnippetEndpoint,
@@ -139,6 +141,7 @@ class OlzApi extends Api {
         $this->registerEndpoint('editNews', $editNewsEndpoint);
         $this->registerEndpoint('updateNews', $updateNewsEndpoint);
         $this->registerEndpoint('deleteNews', $deleteNewsEndpoint);
+        $this->registerEndpoint('getAuthorInfo', $getAuthorInfoEndpoint);
 
         // Roles
 
@@ -150,6 +153,7 @@ class OlzApi extends Api {
 
         $this->registerEndpoint('addUserRoleMembership', $addUserRoleMembershipEndpoint);
         $this->registerEndpoint('removeUserRoleMembership', $removeUserRoleMembershipEndpoint);
+        $this->registerEndpoint('getRoleInfo', $getRoleInfoEndpoint);
 
         // Snippets
 
@@ -250,6 +254,7 @@ class OlzApi extends Api {
             new \Olz\News\Endpoints\EditNewsEndpoint(),
             new \Olz\News\Endpoints\UpdateNewsEndpoint(),
             new \Olz\News\Endpoints\DeleteNewsEndpoint(),
+            new \Olz\News\Endpoints\GetAuthorInfoEndpoint(),
             new \Olz\Roles\Endpoints\CreateRoleEndpoint(),
             new \Olz\Roles\Endpoints\GetRoleEndpoint(),
             new \Olz\Roles\Endpoints\EditRoleEndpoint(),
@@ -257,6 +262,7 @@ class OlzApi extends Api {
             new \Olz\Roles\Endpoints\DeleteRoleEndpoint(),
             new \Olz\Roles\Endpoints\AddUserRoleMembershipEndpoint(),
             new \Olz\Roles\Endpoints\RemoveUserRoleMembershipEndpoint(),
+            new \Olz\Roles\Endpoints\GetRoleInfoEndpoint(),
             new \Olz\Snippets\Endpoints\GetSnippetEndpoint(),
             new \Olz\Snippets\Endpoints\EditSnippetEndpoint(),
             new \Olz\Snippets\Endpoints\UpdateSnippetEndpoint(),

@@ -12,9 +12,9 @@ use Olz\Utils\HttpParams;
 class OlzAnmeldenParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzAnmelden extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzAnmeldenParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 

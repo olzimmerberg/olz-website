@@ -8,9 +8,9 @@ namespace Olz\Components\Page\OlzMenu;
 
 use Olz\Components\Common\OlzComponent;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzMenu extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $out = '';
 
         $code_href = $this->envUtils()->getCodeHref();

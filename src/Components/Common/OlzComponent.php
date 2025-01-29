@@ -4,11 +4,14 @@ namespace Olz\Components\Common;
 
 use Olz\Utils\WithUtilsTrait;
 
+/**
+ * @template T
+ */
 abstract class OlzComponent {
     use WithUtilsTrait;
 
-    /** @param array<string, mixed> $args */
-    public static function render(array $args = [], mixed $caller = null): string {
+    /** @param T $args */
+    public static function render(mixed $args = [], mixed $caller = null): string {
         $class_name = get_called_class();
         $instance = new $class_name();
         if ($caller) {
@@ -17,6 +20,6 @@ abstract class OlzComponent {
         return $instance->getHtml($args);
     }
 
-    /** @param array<string, mixed> $args */
-    abstract public function getHtml(array $args = []): string;
+    /** @param T $args */
+    abstract public function getHtml(mixed $args): string;
 }

@@ -7,9 +7,9 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Users\User;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzEmailCard extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user_repo = $entityManager->getRepository(User::class);

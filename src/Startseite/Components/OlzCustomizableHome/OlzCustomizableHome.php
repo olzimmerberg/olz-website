@@ -21,9 +21,9 @@ use Olz\Startseite\Components\OlzTermineUpcomingTile\OlzTermineUpcomingTile;
 // use Olz\Startseite\Components\OlzTermineUpdatesTile\OlzTermineUpdatesTile;
 use Olz\Startseite\Components\OlzWeeklyPictureTile\OlzWeeklyPictureTile;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzCustomizableHome extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $user = $this->authUtils()->getCurrentUser();
 
         $tile_classes = [
@@ -56,7 +56,7 @@ class OlzCustomizableHome extends OlzComponent {
             }
             $tiles[] = [
                 'id' => self::getIdFromClass($tile_class),
-                'html' => $tile->getHtml(),
+                'html' => $tile->getHtml([]),
                 'relevance' => $relevance,
             ];
         }

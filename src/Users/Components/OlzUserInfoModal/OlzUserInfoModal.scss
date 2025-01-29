@@ -1,16 +1,30 @@
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
+.olz-user-info-modal-trigger {
+    color: colors.$olz-bg-dark;
+    text-align: center;
+
+    .image {
+        border: 3px solid rgb(255, 255, 255);
+        border-radius: 84px;
+        box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.8);
+        height: 84px;
+        margin: 5px;
+        object-fit: cover;
+        transition: width 0.5s, height 0.5s, margin 0.5s;
+        width: 84px;
+    }
+}
+
+.olz-user-info-modal-trigger:hover {
+    color: rgb(0, 0, 0);
+}
+
 #user-info-modal {
-    .close-button {
-        float: right;
-    }
-
-    .container {
-        margin: 15px 10px;
-    }
-
     .user-data {
         text-align: center;
 
-        img {
+        img.avatar {
             border: 3px solid rgb(255, 255, 255);
             border-radius: 84px;
             box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.8);
@@ -19,9 +33,21 @@
             object-fit: cover;
             width: 84px;
         }
-    }
 
-    #recaptcha-consent-given-input {
-        margin-right: 10px;
+        .chunk {
+            margin-right: -2.5px;
+            white-space: nowrap;
+        }
+
+        #copy-button {
+            border: 0;
+            border-radius: 12px;
+            margin-left: 8px;
+
+            img {
+                border: 0;
+                padding: 4px;
+            }
+        }
     }
 }

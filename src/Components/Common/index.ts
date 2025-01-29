@@ -1,4 +1,3 @@
-import './OlzAuthorBadge/OlzAuthorBadge.scss';
 import './OlzEditableText/OlzEditableText.scss';
 import './OlzPostingListItem/OlzPostingListItem.scss';
 

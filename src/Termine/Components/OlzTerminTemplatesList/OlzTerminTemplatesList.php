@@ -13,9 +13,9 @@ use Olz\Utils\HttpParams;
 class OlzTerminTemplatesListParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzTerminTemplatesList extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzTerminTemplatesListParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 

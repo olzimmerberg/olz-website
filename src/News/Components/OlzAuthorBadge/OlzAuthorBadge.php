@@ -1,54 +1,56 @@
 <?php
 
-namespace Olz\Components\Common\OlzAuthorBadge;
+namespace Olz\News\Components\OlzAuthorBadge;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Users\OlzPopup\OlzPopup;
-use Olz\Components\Users\OlzRoleInfoCard\OlzRoleInfoCard;
-use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 
+/**
+ * @extends OlzComponent<array{
+ *   news_id: int,
+ *   user?: ?User,
+ *   role?: ?Role,
+ *   name?: ?string,
+ *   email?: ?string,
+ *   mode?: ?('full'|'badge'|'text'),
+ * }>
+ */
 class OlzAuthorBadge extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
+        $news_id = $args['news_id'];
         $user = $args['user'] ?? null;
         $role = $args['role'] ?? null;
         $name = $args['name'] ?? null;
         $email = $args['email'] ?? null;
-        $mode = $args['mode'] ?? 'full'; // 'full' (with popup), 'badge', 'text'
+        $mode = $args['mode'] ?? 'full';
 
         $code_href = $this->envUtils()->getCodeHref();
 
         $icon = null;
         $level = null;
         $label = '?';
-        $popup = null;
+        $has_popup = false;
         if ($user && $role) {
             $icon = 'author_role_20.svg';
             $level = 'role';
             $label = "{$user->getFirstName()} {$user->getLastName()}, {$role->getName()}";
-            $popup = OlzRoleInfoCard::render(['role' => $role, 'user' => $user]);
+            $has_popup = true;
         } elseif ($role) {
             $icon = 'author_role_20.svg';
             $level = 'role';
             $label = "{$role->getName()}";
-            $popup = OlzRoleInfoCard::render(['role' => $role]);
+            $has_popup = true;
         } elseif ($user) {
             $level = 'user';
             $label = "{$user->getFirstName()} {$user->getLastName()}";
-            $popup = OlzUserInfoCard::render(['user' => $user]);
+            $has_popup = true;
         }
         if ($name) {
             $level = 'name';
             $label = $name;
             if ($email) {
-                $user = new User();
-                $user->setFirstName($name);
-                $user->setLastName(' ');
-                $user->setEmail($email);
-                $user->setPermissions('');
-                $user->setAvatarImageId(null);
-                $popup = OlzUserInfoCard::render(['user' => $user]);
+                $has_popup = true;
             }
         }
 
@@ -60,7 +62,7 @@ class OlzAuthorBadge extends OlzComponent {
             return $label;
         }
 
-        $popup_class = $popup ? 'has-popup' : 'no-popup';
+        $popup_class = $has_popup ? 'has-popup' : 'no-popup';
 
         $icon_html = $icon ? "<img src='{$code_href}assets/icns/{$icon}' alt='' class='author-icon'>" : '';
         $trigger = <<<ZZZZZZZZZZ
@@ -71,8 +73,12 @@ class OlzAuthorBadge extends OlzComponent {
         if ($mode === 'badge') {
             return $trigger;
         }
-        if ($popup) {
-            return OlzPopup::render(['trigger' => $trigger, 'popup' => $popup]);
+        if ($has_popup) {
+            return <<<ZZZZZZZZZZ
+                <a href='#' onclick='return olz.initOlzAuthorBadge({$news_id})'>
+                    {$trigger}
+                </a>
+                ZZZZZZZZZZ;
         }
         return $trigger;
     }

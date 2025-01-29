@@ -15,9 +15,9 @@ use Olz\Utils\HttpParams;
 class OlzPanini2024Params extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzPanini2024 extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzPanini2024Params::class);
         $current_user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();

@@ -8,9 +8,9 @@ namespace Olz\Termine\Components\OlzTermineTicker;
 
 use Olz\Components\Common\OlzComponent;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzTermineTicker extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
         $out = '';

@@ -4,9 +4,9 @@ namespace Olz\Components\Common\OlzPostingListItem;
 
 use Olz\Components\Common\OlzComponent;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzPostingListItem extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $icon = $args['icon'] ?? "";
         $date = $args['date'] ?? "";
         $author = $args['author'] ?? "";

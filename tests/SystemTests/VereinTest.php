@@ -96,7 +96,7 @@ final class VereinTest extends SystemTestCase {
         $this->login('vorstand', 'v0r57and');
 
         $browser->get("{$this->getUrl()}/finanzen");
-        $this->assertCount(2, $this->getBrowserElements('.olz-user-info-card-list .assignee'));
+        $this->assertCount(2, $this->getBrowserElements('.role-assignees .assignee'));
         $this->click('#add-role-user-button');
         $this->waitForModal('#add-role-user-modal');
         $this->click('#add-role-user-modal #newUser-field #dropdownMenuButton');
@@ -108,7 +108,7 @@ final class VereinTest extends SystemTestCase {
         $this->waitUntilGone('#add-role-user-modal');
 
         $browser->get("{$this->getUrl()}/finanzen");
-        $this->assertCount(3, $this->getBrowserElements('.olz-user-info-card-list .assignee'));
+        $this->assertCount(3, $this->getBrowserElements('.role-assignees .assignee'));
 
         $this->resetDb();
     }
@@ -119,14 +119,14 @@ final class VereinTest extends SystemTestCase {
         $this->login('vorstand', 'v0r57and');
 
         $browser->get("{$this->getUrl()}/finanzen");
-        $this->assertCount(2, $this->getBrowserElements('.olz-user-info-card-list .assignee'));
-        $this->click('.olz-user-info-card-list .assignee:nth-of-type(2) #delete-role-user-button');
+        $this->assertCount(2, $this->getBrowserElements('.role-assignees .assignee'));
+        $this->click('.role-assignees .assignee:nth-of-type(2) #delete-role-user-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');
 
         $browser->get("{$this->getUrl()}/finanzen");
-        $this->assertCount(1, $this->getBrowserElements('.olz-user-info-card-list .assignee'));
+        $this->assertCount(1, $this->getBrowserElements('.role-assignees .assignee'));
 
         $this->resetDb();
     }

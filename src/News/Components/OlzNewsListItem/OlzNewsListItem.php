@@ -2,11 +2,12 @@
 
 namespace Olz\News\Components\OlzNewsListItem;
 
-use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
+use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Utils\NewsFilterUtils;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsListItem extends OlzComponent {
     /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
@@ -17,8 +18,7 @@ class OlzNewsListItem extends OlzComponent {
         'video' => 'entry_type_movie_20.svg',
     ];
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $news_utils = NewsFilterUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
 
@@ -60,6 +60,7 @@ class OlzNewsListItem extends OlzComponent {
         }
 
         $author_badge = OlzAuthorBadge::render([
+            'news_id' => $news_entry->getId(),
             'user' => $author_user,
             'role' => $author_role,
             'name' => $author_name,

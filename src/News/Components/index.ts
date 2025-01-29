@@ -1,3 +1,4 @@
+export * from './OlzAuthorBadge/OlzAuthorBadge';
 export * from './OlzEditNewsModal/OlzEditNewsModal';
 export * from './OlzNewsDetail/OlzNewsDetail';
 export * from './OlzNewsFilter/OlzNewsFilter';

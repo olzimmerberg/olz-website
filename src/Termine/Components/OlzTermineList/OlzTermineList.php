@@ -21,12 +21,12 @@ use Olz\Utils\HttpParams;
 class OlzTermineListParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzTermineList extends OlzComponent {
     public static string $title = "Termine";
     public static string $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         /** @return array{filter?: ?string} */
         $params = $this->httpUtils()->validateGetParams(OlzTermineListParams::class);
         $db = $this->dbUtils()->getDb();

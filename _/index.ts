@@ -18,7 +18,6 @@ export * from '../src/Snippets/index';
 export * from '../src/Startseite/index';
 export * from '../src/Termine/index';
 export * from '../src/Users/index';
-export * from '../src/Utils/index';
 
 /* @ts-ignore: Ignore file is not a module. */
 import * as bootstrap from 'bootstrap';

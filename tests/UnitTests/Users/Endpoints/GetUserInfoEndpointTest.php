@@ -7,7 +7,6 @@ namespace Olz\Tests\UnitTests\Users\Endpoints;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\GetUserInfoEndpoint;
-use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
@@ -46,11 +45,10 @@ final class GetUserInfoEndpointTest extends UnitTestCase {
         ];
         $endpoint = new GetUserInfoEndpoint();
         $endpoint->runtimeSetup();
-        $general_utils = new GeneralUtils();
 
         $result = $endpoint->call([
             'id' => $id,
-            'custom' => ['recaptchaToken' => 'valid'],
+            'recaptchaToken' => 'valid',
         ]);
 
         $this->assertSame([
@@ -58,20 +56,12 @@ final class GetUserInfoEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
-            'id' => $id,
-            'meta' => [
-                'ownerUserId' => 1,
-                'ownerRoleId' => 1,
-                'onOff' => true,
-            ],
-            'data' => [
-                'firstName' => 'Maximal',
-                'lastName' => 'User',
-                'email' => $general_utils->base64EncodeUrl('maximal-user@staging.olzimmerberg.ch'),
-                'avatarImageId' => [
-                    '2x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$256.jpg',
-                    '1x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$128.jpg',
-                ],
+            'firstName' => 'Maximal',
+            'lastName' => 'User',
+            'email' => $this->emailUtils()->obfuscateEmail('maximal-user@staging.olzimmerberg.ch'),
+            'avatarImageId' => [
+                '2x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$256.jpg',
+                '1x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$128.jpg',
             ],
         ], $result);
     }
@@ -84,7 +74,6 @@ final class GetUserInfoEndpointTest extends UnitTestCase {
         ];
         $endpoint = new GetUserInfoEndpoint();
         $endpoint->runtimeSetup();
-        $general_utils = new GeneralUtils();
 
         $result = $endpoint->call([
             'id' => $id,
@@ -95,20 +84,12 @@ final class GetUserInfoEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
-            'id' => $id,
-            'meta' => [
-                'ownerUserId' => null,
-                'ownerRoleId' => null,
-                'onOff' => true,
-            ],
-            'data' => [
-                'firstName' => 'Required',
-                'lastName' => 'Non-empty',
-                // Official email (from username)
-                'email' => $general_utils->base64EncodeUrl('minimal-user@staging.olzimmerberg.ch'),
-                'avatarImageId' => [
-                    '1x' => '/_/assets/user_initials_RN.svg',
-                ],
+            'firstName' => 'Required',
+            'lastName' => 'Non-empty',
+            // Official email (from username)
+            'email' => $this->emailUtils()->obfuscateEmail('minimal-user@staging.olzimmerberg.ch'),
+            'avatarImageId' => [
+                '1x' => '/_/assets/user_initials_RN.svg',
             ],
         ], $result);
     }
@@ -131,19 +112,11 @@ final class GetUserInfoEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
-            'id' => $id,
-            'meta' => [
-                'ownerUserId' => null,
-                'ownerRoleId' => null,
-                'onOff' => false,
-            ],
-            'data' => [
-                'firstName' => 'Required',
-                'lastName' => 'Non-empty',
-                'email' => null,
-                'avatarImageId' => [
-                    '1x' => '/_/assets/user_initials_RN.svg',
-                ],
+            'firstName' => 'Required',
+            'lastName' => 'Non-empty',
+            'email' => null,
+            'avatarImageId' => [
+                '1x' => '/_/assets/user_initials_RN.svg',
             ],
         ], $result);
     }
@@ -156,7 +129,6 @@ final class GetUserInfoEndpointTest extends UnitTestCase {
         ];
         $endpoint = new GetUserInfoEndpoint();
         $endpoint->runtimeSetup();
-        $general_utils = new GeneralUtils();
 
         mkdir(__DIR__.'/../../tmp/temp/');
         mkdir(__DIR__.'/../../tmp/img/');
@@ -174,20 +146,12 @@ final class GetUserInfoEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([
-            'id' => $id,
-            'meta' => [
-                'ownerUserId' => 1,
-                'ownerRoleId' => 1,
-                'onOff' => true,
-            ],
-            'data' => [
-                'firstName' => 'Maximal',
-                'lastName' => 'User',
-                'email' => $general_utils->base64EncodeUrl('maximal-user@staging.olzimmerberg.ch'),
-                'avatarImageId' => [
-                    '2x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$256.jpg',
-                    '1x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$128.jpg',
-                ],
+            'firstName' => 'Maximal',
+            'lastName' => 'User',
+            'email' => $this->emailUtils()->obfuscateEmail('maximal-user@staging.olzimmerberg.ch'),
+            'avatarImageId' => [
+                '2x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$256.jpg',
+                '1x' => '/data-href/img/users/1234/thumb/image__________________1.jpg$128.jpg',
             ],
         ], $result);
     }

@@ -5,9 +5,9 @@ namespace Olz\Components\Apps\OlzNoAppAccess;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Users\User;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzNoAppAccess extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $no_access_out = <<<'ZZZZZZZZZZ'
             <div class='alert alert-danger' role='alert'>
                 Kein Zugriff!

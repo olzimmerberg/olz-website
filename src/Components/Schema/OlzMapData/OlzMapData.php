@@ -8,9 +8,9 @@ namespace Olz\Components\Schema\OlzMapData;
 
 use Olz\Components\Common\OlzComponent;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzMapData extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $name = $args['name'] ?? '';
         $year = $args['year'] ?? '';
         $scale = $args['scale'] ?? '';

@@ -1,3 +1,15 @@
 #edit-role-button {
     margin-right: 8px;
 }
+
+.role-assignees {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .assignee {
+        flex: 0 0 150px;
+        text-align: center;
+    }
+}

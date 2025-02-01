@@ -9,9 +9,9 @@ namespace Olz\Startseite\Components\AbstractOlzTile;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Users\User;
 
+/** @extends OlzComponent<array<string, mixed>> */
 abstract class AbstractOlzTile extends OlzComponent {
     abstract public function getRelevance(?User $user): float;
 
-    /** @param array<string, mixed> $args */
-    abstract public function getHtml(array $args = []): string;
+    abstract public function getHtml(mixed $args): string;
 }

@@ -8,9 +8,9 @@ namespace Olz\Components\Schema\OlzOrganizationData;
 
 use Olz\Components\Common\OlzComponent;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzOrganizationData extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $sports_organization_data = [
             '@context' => 'https://schema.org',
             '@type' => 'SportsOrganization',

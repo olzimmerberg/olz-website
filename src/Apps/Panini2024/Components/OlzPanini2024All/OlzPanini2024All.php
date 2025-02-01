@@ -9,16 +9,16 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
-use Olz\Users\Components\OlzUserInfoWithPopup\OlzUserInfoWithPopup;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzPanini2024AllParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzPanini2024All extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzPanini2024AllParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $entity_manager = $this->dbUtils()->getEntityManager();
@@ -61,7 +61,7 @@ class OlzPanini2024All extends OlzComponent {
                 $line1 = $picture->getLine1();
                 $line2 = $picture->getLine2();
                 $owner_user = $picture->getOwnerUser();
-                $user_html = $owner_user ? OlzUserInfoWithPopup::render([
+                $user_html = $owner_user ? OlzUserInfoModal::render([
                     'user' => $owner_user,
                     'mode' => 'name',
                 ]) : '-';

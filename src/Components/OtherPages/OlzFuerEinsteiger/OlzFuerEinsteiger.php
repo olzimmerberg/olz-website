@@ -6,22 +6,22 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
 use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
 class OlzFuerEinsteigerParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzFuerEinsteiger extends OlzComponent {
     public static string $title = "Für Einsteiger";
     public static string $description = "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.";
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzFuerEinsteigerParams::class);
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
@@ -39,10 +39,13 @@ class OlzFuerEinsteiger extends OlzComponent {
         $role_repo = $entityManager->getRepository(Role::class);
         $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
 
-        $contact_information = "<div style='padding:0px 10px 0px 10px;'>";
+        $contact_information = "<div style='padding:8px 16px;'>";
         $nachwuchs_assignees = $nachwuchs_role->getUsers();
         foreach ($nachwuchs_assignees as $nachwuchs_assignee) {
-            $contact_information .= OlzUserInfoCard::render(['user' => $nachwuchs_assignee]);
+            $contact_information .= OlzUserInfoModal::render([
+                'user' => $nachwuchs_assignee,
+                'mode' => 'name_picture',
+            ]);
         }
         $contact_information .= "</div>";
 

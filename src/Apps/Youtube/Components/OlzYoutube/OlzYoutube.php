@@ -12,9 +12,9 @@ use Olz\Utils\HttpParams;
 class OlzYoutubeParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzYoutube extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzYoutubeParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 

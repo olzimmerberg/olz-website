@@ -6,9 +6,9 @@ use Olz\Apps\Files\Service\CallbackAuthBackend;
 use Olz\Components\Common\OlzComponent;
 use Sabre\DAV;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzWebDav extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $data_path = $this->envUtils()->getDataPath();
         error_reporting(0);
 

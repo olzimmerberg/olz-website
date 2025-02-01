@@ -14,12 +14,12 @@ use Olz\Utils\HttpParams;
 class OlzServiceParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzService extends OlzComponent {
     public static string $title = "Service";
     public static string $description = "Diverse Online-Tools rund um OL und die OL Zimmerberg.";
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzServiceParams::class);
 
         $out = OlzHeader::render([

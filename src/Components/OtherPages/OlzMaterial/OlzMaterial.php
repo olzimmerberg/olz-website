@@ -5,21 +5,21 @@ namespace Olz\Components\OtherPages\OlzMaterial;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzMaterialParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzMaterial extends OlzComponent {
     public static string $title = "Material & Kleider";
     public static string $description = "Material und OLZ-Kleider, die die OL Zimmerberg vermietet bzw. verkauft.";
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzMaterialParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 
@@ -111,9 +111,16 @@ class OlzMaterial extends OlzComponent {
         $sportident_role = $role_repo->getPredefinedRole(PredefinedRole::SportIdent);
 
         $sportident_assignees = $sportident_role->getUsers();
+        $out .= "<ul class='sportident-assignees'>";
         foreach ($sportident_assignees as $sportident_assignee) {
-            $out .= OlzUserInfoCard::render(['user' => $sportident_assignee]);
+            $out .= "<li>";
+            $out .= OlzUserInfoModal::render([
+                'user' => $sportident_assignee,
+                'mode' => 'name_picture',
+            ]);
+            $out .= "</li>";
         }
+        $out .= "</ul>";
 
         $out .= <<<ZZZZZZZZZZ
             <div><b>Bezahlung: </b>Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben. Die Zahlungsinformationen sind auch auf der <a href='{$code_href}service' class='linkint'>Service-Seite</a> zu finden.</div>

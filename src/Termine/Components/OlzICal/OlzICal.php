@@ -12,9 +12,9 @@ use Doctrine\Common\Collections\Criteria;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Termine\Termin;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzICal extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $jahr = $this->dateUtils()->getCurrentDateInFormat('Y');
         $base_href = $this->envUtils()->getBaseHref();
         $code_href = $this->envUtils()->getCodeHref();

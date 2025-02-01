@@ -155,16 +155,36 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testReplacePureOlzAdresses(): void {
         $html_utils = new HtmlUtils();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
-        $this->assertMatchesRegularExpression(
-            '/\/_\/verein\/vorstand_role/',
+        $this->assertSame(
+            <<<'ZZZZZZZZZZ'
+                <div>
+                    <a
+                        href='#'
+                        onclick='return olz.initOlzRoleInfoModal(3)'
+                        class='linkrole'
+                    >
+                        Vorstand
+                    </a>
+                </div>
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('vorstand_role@staging.olzimmerberg.ch')
         );
         $this->assertSame(
             'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.',
             $html_utils->replaceEmailAdresses('Mail: inexistent@staging.olzimmerberg.ch.')
         );
-        $this->assertMatchesRegularExpression(
-            '/\/_\/verein\/admin_role/',
+        $this->assertSame(
+            <<<'ZZZZZZZZZZ'
+                Mails: <div>
+                    <a
+                        href='#'
+                        onclick='return olz.initOlzRoleInfoModal(2)'
+                        class='linkrole'
+                    >
+                        Administrator
+                    </a>
+                </div>, <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: admin_role@staging.olzimmerberg.ch, inexistent@staging.olzimmerberg.ch.')
         );
         $this->assertSame(
@@ -176,16 +196,36 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testReplacePureOlzAdressesWithoutPermission(): void {
         $html_utils = new HtmlUtils();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => false];
-        $this->assertMatchesRegularExpression(
-            '/\/_\/verein\/vorstand_role/',
+        $this->assertSame(
+            <<<'ZZZZZZZZZZ'
+                <div>
+                    <a
+                        href='#'
+                        onclick='return olz.initOlzRoleInfoModal(3)'
+                        class='linkrole'
+                    >
+                        Vorstand
+                    </a>
+                </div>
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('vorstand_role@staging.olzimmerberg.ch')
         );
         $this->assertSame(
             'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.',
             $html_utils->replaceEmailAdresses('Mail: inexistent@staging.olzimmerberg.ch.')
         );
-        $this->assertMatchesRegularExpression(
-            '/\/_\/verein\/admin_role/',
+        $this->assertSame(
+            <<<'ZZZZZZZZZZ'
+                Mails: <div>
+                    <a
+                        href='#'
+                        onclick='return olz.initOlzRoleInfoModal(2)'
+                        class='linkrole'
+                    >
+                        Administrator
+                    </a>
+                </div>, <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: admin_role@staging.olzimmerberg.ch, inexistent@staging.olzimmerberg.ch.')
         );
         $this->assertSame(
@@ -198,14 +238,33 @@ final class HtmlUtilsTest extends UnitTestCase {
         $html_utils = new HtmlUtils();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
         $html = $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@staging.olzimmerberg.ch">Test</a>');
-        $this->assertMatchesRegularExpression('/\/_\/verein\/vorstand_role/', $html);
-        $this->assertStringContainsString('img/users/3/thumb/oyLeyPTaCfmadcm5ShEJ236e.jpg$256.jpg 2x', $html);
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            <div>
+                <a
+                    href='#'
+                    onclick='return olz.initOlzRoleInfoModal(3)'
+                    class='linkrole'
+                >
+                    Test
+                </a>
+            </div>
+            ZZZZZZZZZZ, $html);
         $this->assertSame(
             'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "")</script>!',
             $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:inexistent@staging.olzimmerberg.ch" class="linkmail">Contact me</a>!')
         );
-        $this->assertMatchesRegularExpression(
-            '/\/_\/verein\/admin_role/',
+        $this->assertSame(
+            <<<'ZZZZZZZZZZ'
+                Mails: <div>
+                    <a
+                        href='#'
+                        onclick='return olz.initOlzRoleInfoModal(2)'
+                        class='linkrole'
+                    >
+                        Contact me
+                    </a>
+                </div> <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "")</script>!
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:admin_role@staging.olzimmerberg.ch" class="linkmail">Contact me</a> <a name="" href="mailto:inexistent@staging.olzimmerberg.ch">Contact me</a>!')
         );
     }
@@ -213,16 +272,36 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testReplaceOlzMailToLinksWithSubject(): void {
         $html_utils = new HtmlUtils();
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
-        $this->assertMatchesRegularExpression(
-            '/\/_\/verein\/vorstand_role/',
+        $this->assertSame(
+            <<<'ZZZZZZZZZZ'
+                <div>
+                    <a
+                        href='#'
+                        onclick='return olz.initOlzRoleInfoModal(3)'
+                        class='linkrole'
+                    >
+                        Test
+                    </a>
+                </div>
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@staging.olzimmerberg.ch?subject=test">Test</a>')
         );
         $this->assertSame(
             'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>!',
             $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:inexistent@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>!')
         );
-        $this->assertMatchesRegularExpression(
-            '/\/_\/verein\/admin_role/',
+        $this->assertSame(
+            <<<'ZZZZZZZZZZ'
+                Mails: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>, <div>
+                    <a
+                        href='#'
+                        onclick='return olz.initOlzRoleInfoModal(2)'
+                        class='linkrole'
+                    >
+                        Contact me
+                    </a>
+                </div>!
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:inexistent@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:admin_role@staging.olzimmerberg.ch?subject=another%20test">Contact me</a>!')
         );
     }

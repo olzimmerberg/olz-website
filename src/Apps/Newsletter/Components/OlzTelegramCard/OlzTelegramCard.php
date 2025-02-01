@@ -7,9 +7,9 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzTelegramCard extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $this->authUtils()->getCurrentUser();
         $code_href = $this->envUtils()->getCodeHref();

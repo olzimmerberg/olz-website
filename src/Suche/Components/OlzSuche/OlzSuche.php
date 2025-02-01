@@ -11,9 +11,9 @@ use Olz\Utils\HttpParams;
 class OlzSucheParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzSuche extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzSucheParams::class);
         $search_key = $params['anfrage'];
         $date_utils = $this->dateUtils();

@@ -18,8 +18,7 @@ class OlzCustomTile extends AbstractOlzTile {
         return ($is_empty) ? 0.0 : 0.9;
     }
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $content = $this->getContent();
         return "<h2>Wichtig</h2><div>{$content}</div>";
     }

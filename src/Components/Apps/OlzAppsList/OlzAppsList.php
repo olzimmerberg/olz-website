@@ -6,9 +6,9 @@ use Olz\Apps\OlzApps;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Users\User;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzAppsList extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $user = $this->authUtils()->getCurrentUser();
         $available_apps = OlzApps::getAppsForUser($user);

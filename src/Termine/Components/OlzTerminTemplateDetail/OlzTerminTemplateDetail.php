@@ -14,6 +14,7 @@ use Olz\Utils\HttpParams;
 class OlzTerminTemplateDetailParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzTerminTemplateDetail extends OlzComponent {
     /** @var array<string, string> */
     protected static $iconBasenameByType = [
@@ -25,8 +26,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
         'meldeschluss' => 'termine_type_meldeschluss_20.svg',
     ];
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzTerminTemplateDetailParams::class);
 
         $code_href = $this->envUtils()->getCodeHref();

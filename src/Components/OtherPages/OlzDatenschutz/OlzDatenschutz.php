@@ -5,21 +5,21 @@ namespace Olz\Components\OtherPages\OlzDatenschutz;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzDatenschutzParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzDatenschutz extends OlzComponent {
     public static string $title = "Datenschutz";
     public static string $description = "Die Datenschutzerklärung der OL Zimmerberg.";
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzDatenschutzParams::class);
         $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
@@ -32,12 +32,15 @@ class OlzDatenschutz extends OlzComponent {
         $out .= <<<'ZZZZZZZZZZ'
             <div class='content-right'>
                 <h2>Datenschutz-Verantwortliche</h2>
-                <ul>
+                <ul class='datenschutz-assignees'>
             ZZZZZZZZZZ;
         $datenschutz_assignees = $datenschutz_role->getUsers();
         foreach ($datenschutz_assignees as $datenschutz_assignee) {
             $out .= "<li>";
-            $out .= OlzUserInfoCard::render(['user' => $datenschutz_assignee]);
+            $out .= OlzUserInfoModal::render([
+                'user' => $datenschutz_assignee,
+                'mode' => 'name_picture',
+            ]);
             $out .= "</li>";
         }
         $out .= <<<'ZZZZZZZZZZ'

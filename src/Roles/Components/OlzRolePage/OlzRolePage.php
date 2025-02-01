@@ -5,17 +5,17 @@ namespace Olz\Roles\Components\OlzRolePage;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Components\Users\OlzUserInfoCard\OlzUserInfoCard;
 use Olz\Entity\Roles\Role;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzRolePageParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzRolePage extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzRolePageParams::class);
         $is_member = $this->authUtils()->hasPermission('member');
         $entityManager = $this->dbUtils()->getEntityManager();
@@ -151,7 +151,7 @@ class OlzRolePage extends OlzComponent {
             $out .= "<p><i>Keine Ressort-Verantwortlichen</i></p>";
             $out .= $add_membership_admin;
         } else {
-            $out .= "<div class='olz-user-info-card-list'>";
+            $out .= "<div class='role-assignees'>";
             foreach ($assignees as $assignee) {
                 $out .= "<div class='assignee'>";
                 if ($is_superior || $is_owner) {
@@ -168,7 +168,10 @@ class OlzRolePage extends OlzComponent {
                             </button>
                         ZZZZZZZZZZ;
                 }
-                $out .= OlzUserInfoCard::render(['user' => $assignee]);
+                $out .= OlzUserInfoModal::render([
+                    'user' => $assignee,
+                    'mode' => 'name_picture',
+                ]);
                 $out .= "</div>";
             }
             $out .= $add_membership_admin;

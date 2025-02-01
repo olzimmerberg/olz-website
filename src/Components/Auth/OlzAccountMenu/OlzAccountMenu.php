@@ -5,9 +5,9 @@ namespace Olz\Components\Auth\OlzAccountMenu;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Users\User;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzAccountMenu extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $out = '';
 
         $auth_user = $this->authUtils()->getCurrentAuthUser();

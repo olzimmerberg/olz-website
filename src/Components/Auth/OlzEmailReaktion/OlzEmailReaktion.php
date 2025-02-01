@@ -12,9 +12,9 @@ use Olz\Utils\HttpParams;
 class OlzEmailReaktionParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzEmailReaktion extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzEmailReaktionParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $token = $params['token'] ?? '';

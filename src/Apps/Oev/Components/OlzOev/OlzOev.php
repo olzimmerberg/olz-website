@@ -16,9 +16,9 @@ use Olz\Utils\HttpParams;
 class OlzOevParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzOev extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzOevParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $metadata = new Metadata();

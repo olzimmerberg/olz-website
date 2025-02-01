@@ -4,9 +4,9 @@ namespace Olz\News\Components\OlzArticleMetadata;
 
 use Olz\Components\Common\OlzComponent;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzArticleMetadata extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $db = $this->dbUtils()->getDb();
         $data_href = $this->envUtils()->getDataHref();
         $base_href = $this->envUtils()->getBaseHref();

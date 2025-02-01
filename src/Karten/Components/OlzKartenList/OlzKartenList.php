@@ -6,9 +6,9 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Karten\Karte;
 use Olz\Karten\Components\OlzKartenListItem\OlzKartenListItem;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzKartenList extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $out = '';
 
         $db = $this->dbUtils()->getDb();

@@ -6,9 +6,9 @@ use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzOtherError extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $http_status_code = $args['http_status_code'] ?? 500;
         $code_href = $this->envUtils()->getCodeHref();
 

@@ -4,9 +4,9 @@ namespace Olz\Components\Page\OlzFooter;
 
 use Olz\Components\Common\OlzComponent;
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzFooter extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
 
         $honeypot_username = $this->emailUtils()->generateSpamEmailAddress();

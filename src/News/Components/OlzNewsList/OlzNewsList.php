@@ -21,14 +21,14 @@ use Olz\Utils\HttpParams;
 class OlzNewsListParams extends HttpParams {
 }
 
+/** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsList extends OlzComponent {
     public static string $title = "News";
     public static string $description = "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.";
 
     public static int $page_size = 25;
 
-    /** @param array<string, mixed> $args */
-    public function getHtml(array $args = []): string {
+    public function getHtml(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzNewsListParams::class);
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();

@@ -2,7 +2,6 @@
 
 namespace Olz\Components\OlzSitemap;
 
-use Olz\Components\Common\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
@@ -14,6 +13,7 @@ use Olz\Entity\Roles\Role;
 use Olz\Entity\Termine\Termin;
 use Olz\Faq\Components\OlzFaq\OlzFaq;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
+use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Components\OlzNewsList\OlzNewsList;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Roles\Components\OlzVerein\OlzVerein;
@@ -22,9 +22,9 @@ use Olz\Startseite\Components\OlzStartseite\OlzStartseite;
 use Olz\Termine\Components\OlzTermineList\OlzTermineList;
 use Olz\Termine\Utils\TermineFilterUtils;
 
+/** @extends OlzComponent<array<string, mixed>> */
 abstract class OlzSitemap extends OlzComponent {
-    /** @param array<string, mixed> $args */
-    abstract public function getHtml(array $args = []): string;
+    abstract public function getHtml(mixed $args): string;
 
     /** @return array<array{title: string, description: string, url: string, updates: string, importance: float, level: int}> */
     protected function getEntries(): array {
@@ -114,6 +114,7 @@ abstract class OlzSitemap extends OlzComponent {
             ];
             $pretty_format = $pretty_formats[$news_entry->getFormat()] ?? 'News-Eintrag';
             $pretty_author = OlzAuthorBadge::render([
+                'news_id' => $news_entry->getId(),
                 'user' => $news_entry->getAuthorUser(),
                 'role' => $news_entry->getAuthorRole(),
                 'name' => $news_entry->getAuthorName(),

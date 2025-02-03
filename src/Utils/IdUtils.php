@@ -37,7 +37,7 @@ class IdUtils {
         if ($ciphertext === false) {
             throw new \Exception(openssl_error_string());
         }
-        return $this->trimmedBase64Encode($ciphertext);
+        return $this->generalUtils()->base64EncodeUrl($ciphertext);
     }
 
     public function toInternalId(string $external_id, string $type = ''): int {
@@ -46,7 +46,7 @@ class IdUtils {
     }
 
     protected function decryptId(string $encrypted_id): string {
-        $ciphertext = base64_decode($encrypted_id);
+        $ciphertext = $this->generalUtils()->base64DecodeUrl($encrypted_id);
         $key = $this->envUtils()->getIdEncryptionKey();
         $iv = base64_decode($this->base64Iv);
         return openssl_decrypt($ciphertext, $this->algo, $key, OPENSSL_RAW_DATA, $iv);
@@ -69,10 +69,6 @@ class IdUtils {
             $crc = (($crc << 8) ^ ($x << 12) ^ ($x << 5) ^ $x) & 0xFFFF;
         }
         return $crc;
-    }
-
-    protected function trimmedBase64Encode(string $data): string {
-        return trim(base64_encode($data), '=');
     }
 
     public static function fromEnv(): self {

@@ -111,7 +111,7 @@ class SyncSolvEventsCommand extends OlzCommand {
 
                 $termine = $termin_repo->findBy(['solv_uid' => $solv_uid]);
                 foreach ($termine as $termin) {
-                    $termin_repo->updateTerminFromSolvEvent($termin, $solv_event);
+                    $this->termineUtils()->updateTerminFromSolvEvent($termin, $solv_event);
                 }
 
                 try {

@@ -90,6 +90,91 @@ final class TermineTest extends SystemTestCase {
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testTermineCreateFromTemplate(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getUrl());
+
+        $this->click('#create-termin-button');
+        $this->waitForModal('#edit-termin-modal');
+        $this->waitABit(); // Wait for TerminLabels
+        $this->click('#edit-termin-modal .template-chooser #dropdownMenuButton');
+        $this->click('#edit-termin-modal .template-chooser #entity-index-1');
+
+        // Wait for data to be populated
+        $browser->wait()->until(function () use ($browser) {
+            $image_uploaded = $browser->findElements(
+                WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
+            );
+            return count($image_uploaded) == 1;
+        });
+
+        $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
+        $browser->wait()->until(function () use ($browser) {
+            $image_uploaded = $browser->findElements(
+                WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
+            );
+            return count($image_uploaded) == 2;
+        });
+
+        $this->click('#edit-termin-modal #shouldPromote-input');
+
+        $this->screenshot('termine_from_template_new_edit');
+
+        $this->click('#edit-termin-modal #submit-button');
+        $this->waitUntilGone('#edit-termin-modal');
+
+        $browser->get("{$this->getUrl()}/1002");
+        $this->assertSame('Kartentraining: <<< TODO >>>', $this->getBrowserElement('.olz-termin-detail h1')->getText());
+
+        $this->resetDb();
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testTermineCreateSolv(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getUrl());
+        $this->click('#filter-archive-mit');
+        $this->click('#filter-date-2015');
+        $this->assertNotNull($this->getBrowserElement('.olz-termine-list-middle .no-entries'));
+
+        $this->click('#create-termin-button');
+        $this->waitForModal('#edit-termin-modal');
+        $this->waitABit(); // Wait for TerminLabels
+        $this->click('#edit-termin-modal #solvId-field #dropdownMenuButton');
+        $this->click('#edit-termin-modal #solvId-field #entity-index-1');
+        $this->click('#edit-termin-modal #types-programm-input');
+        $this->click('#edit-termin-modal #types-ol-input');
+
+        $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
+        $browser->wait()->until(function () use ($browser) {
+            $image_uploaded = $browser->findElements(
+                WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
+            );
+            return count($image_uploaded) == 1;
+        });
+
+        $this->click('#edit-termin-modal #shouldPromote-input');
+
+        $this->screenshot('termine_solv_new_edit');
+
+        $this->click('#edit-termin-modal #submit-button');
+        $this->waitUntilGone('#edit-termin-modal');
+
+        $browser->get($this->getUrl());
+        $this->click('#filter-archive-mit');
+        $this->click('#filter-date-2015');
+        $this->assertCount(2, $this->getBrowserElements('.olz-termine-list-middle .olz-termine-list-item'));
+
+        $this->resetDb();
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTermineDetailDelete(): void {
         $browser = $this->getBrowser();
 

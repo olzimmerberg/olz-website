@@ -86,7 +86,7 @@ class OlzTermineList extends OlzComponent {
                     {$newsletter_out}
                 </div>
             </div>
-            <div class='content-middle'>
+            <div class='content-middle olz-termine-list-middle'>
             ZZZZZZZZZZ;
 
         $has_access = $this->authUtils()->hasPermission('termine');
@@ -229,6 +229,9 @@ class OlzTermineList extends OlzComponent {
                 ]);
 
                 $last_date = $this_date;
+            }
+            if ($last_date === null) {
+                $out .= "<div class='no-entries'>Keine Einträge. Bitte Filter anpassen.</div>";
             }
             $out .= "</div>";
         } else {

@@ -22,4 +22,17 @@ class AnmeldenController extends AbstractController {
         $html_out = OlzAnmelden::render();
         return new Response($html_out);
     }
+
+    #[Route('/apps/anmelden/{id}', requirements: [
+        'id' => '[a-zA-Z0-9_-]+',
+    ])]
+    public function detail(
+        Request $request,
+        LoggerInterface $logger,
+        string $id,
+    ): Response {
+        $this->httpUtils()->countRequest($request);
+        $html_out = OlzAnmelden::render(['id' => $id]);
+        return new Response($html_out);
+    }
 }

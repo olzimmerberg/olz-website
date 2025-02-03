@@ -32,10 +32,6 @@ class IdUtilsIdUtilsForTest extends IdUtils {
     public function testOnlyCrc16(string $data): int {
         return $this->crc16($data);
     }
-
-    public function testOnlyTrimmedBase64Encode(string $data): string {
-        return $this->trimmedBase64Encode($data);
-    }
 }
 
 /**
@@ -49,8 +45,11 @@ final class IdUtilsTest extends UnitTestCase {
         $max_id = intval(pow(2, 40) - 1);
         $this->assertSame('9AUh0IsXMgc', $id_utils->toExternalId(123));
         $this->assertSame('KvwHIC1COIo', $id_utils->toExternalId(123, 'Test'));
-        $this->assertSame('YI/noV3FCIs', $id_utils->toExternalId($max_id));
+        // Contains an underscore
+        $this->assertSame('YI_noV3FCIs', $id_utils->toExternalId($max_id));
         $this->assertSame('9eNNm3rHqQQ', $id_utils->toExternalId($max_id, 'Test'));
+        // Contains a dash
+        $this->assertSame('QOcb-mBqO90', $id_utils->toExternalId(1, 'Test'));
     }
 
     public function testToExternalIdNonInteger(): void {
@@ -141,7 +140,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testEncryptId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $this->assertSame('w0/JgCePlCI', $id_utils->testOnlyEncryptId(''));
+        $this->assertSame('w0_JgCePlCI', $id_utils->testOnlyEncryptId(''));
         $this->assertSame('KNYgqjTkR5o', $id_utils->testOnlyEncryptId('test'));
 
         // Those should not show any similarity!
@@ -155,8 +154,14 @@ final class IdUtilsTest extends UnitTestCase {
         $max_id = pow(2, 40) - 1;
         $this->assertSame(123, $id_utils->toInternalId('9AUh0IsXMgc'));
         $this->assertSame(123, $id_utils->toInternalId('KvwHIC1COIo', 'Test'));
-        $this->assertSame($max_id, $id_utils->toInternalId('YI/noV3FCIs'));
+        // Contains an underscore
+        $this->assertSame($max_id, $id_utils->toInternalId('YI_noV3FCIs'));
         $this->assertSame($max_id, $id_utils->toInternalId('9eNNm3rHqQQ', 'Test'));
+        // Contains a dash
+        $this->assertSame(1, $id_utils->toInternalId('QOcb-mBqO90', 'Test'));
+
+        // Legacy; pure base64
+        $this->assertSame($max_id, $id_utils->toInternalId('YI/noV3FCIs'));
     }
 
     public function testToInternalIdTypeMismatch(): void {
@@ -271,11 +276,5 @@ final class IdUtilsTest extends UnitTestCase {
         $id_utils = new IdUtilsIdUtilsForTest();
         $this->assertSame('1fc6', dechex($id_utils->testOnlyCrc16('test')));
         $this->assertSame('ffff', dechex($id_utils->testOnlyCrc16('')));
-    }
-
-    public function testTrimmedBase64Encode(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
-        $this->assertSame('dGVzdA', $id_utils->testOnlyTrimmedBase64Encode('test'));
-        $this->assertSame('', $id_utils->testOnlyTrimmedBase64Encode(''));
     }
 }

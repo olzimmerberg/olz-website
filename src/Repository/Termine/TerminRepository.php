@@ -48,7 +48,8 @@ class TerminRepository extends OlzRepository {
         $duration_days = $solv_event->getDuration() - 1;
         $duration = new \DateInterval("P{$duration_days}D");
         $end_date = (clone $solv_event->getDate())->add($duration);
-        $deadline = (clone $solv_event->getDeadline())?->setTime(23, 59, 59);
+        $deadline = $solv_event->getDeadline()
+            ? (clone $solv_event->getDeadline())->setTime(23, 59, 59) : null;
         $link = $solv_event->getLink() ?: '-';
         $club = $solv_event->getClub() ?: '-';
         $map = $solv_event->getMap() ?: '-';

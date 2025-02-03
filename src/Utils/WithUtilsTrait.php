@@ -5,6 +5,7 @@ namespace Olz\Utils;
 use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Logger;
 use Olz\Fetchers\SolvFetcher;
+use Olz\Termine\Utils\TermineUtils;
 use PhpTypeScriptApi\Fields\FieldUtils;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -374,8 +375,20 @@ trait WithUtilsTrait {
         return TelegramUtils::fromEnv();
     }
 
-    public function setTelegramUtils(TelegramUtils $telegram_utils): void {
-        WithUtilsCache::set('telegramUtils', $telegram_utils);
+    public function setTelegramUtils(TelegramUtils $telegramUtils): void {
+        WithUtilsCache::set('telegramUtils', $telegramUtils);
+    }
+
+    public function termineUtils(): TermineUtils {
+        return $this->getOrCreate('termineUtils');
+    }
+
+    public function createTermineUtils(): TermineUtils {
+        return TermineUtils::fromEnv();
+    }
+
+    public function setTermineUtils(TermineUtils $termineUtils): void {
+        WithUtilsCache::set('termineUtils', $termineUtils);
     }
 
     public function uploadUtils(): UploadUtils {

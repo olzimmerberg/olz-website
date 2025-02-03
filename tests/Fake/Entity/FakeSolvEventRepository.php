@@ -19,6 +19,13 @@ class FakeSolvEventRepository extends FakeOlzRepository {
     /** @var array<int> */
     public array $deletedBySolvUid = [];
 
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
+        if ($criteria === ['solv_uid' => 11012]) {
+            return FakeSolvEvent::maximal();
+        }
+        return parent::findOneBy($criteria, $orderBy);
+    }
+
     /** @return array<SolvEvent> */
     public function getSolvEventsForYear(int|string $year): array {
         switch ($year) {

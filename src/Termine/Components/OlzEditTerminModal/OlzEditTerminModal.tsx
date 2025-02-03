@@ -247,7 +247,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             onDelete={onDelete}
         >
             <div className='row'>
-                <div className='col mb-3'>
+                <div className='col mb-3 template-chooser'>
                     <label>Vorlage</label>
                     <OlzEntityChooser
                         entityType={'TerminTemplate'}

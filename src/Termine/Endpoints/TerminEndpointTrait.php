@@ -111,8 +111,7 @@ trait TerminEndpointTrait {
         $entity->setImageIds($valid_image_ids);
 
         if ($entity->getSolvId() !== null) {
-            $repo = $this->entityManager()->getRepository(Termin::class);
-            $repo->updateTerminFromSolvEvent($entity);
+            $this->termineUtils()->updateTerminFromSolvEvent($entity);
         }
     }
 

@@ -1,5 +1,6 @@
 export * from './OlzCustomizableHome/OlzCustomizableHome';
 export * from './OlzEditWeeklyPictureModal/OlzEditWeeklyPictureModal';
+export * from './OlzForBeginnersTile/OlzForBeginnersTile';
 export * from './OlzJomCounterTile/OlzJomCounterTile';
 export * from './OlzNewsForumTile/OlzNewsForumTile';
 export * from './OlzNewsGalerieTile/OlzNewsGalerieTile';

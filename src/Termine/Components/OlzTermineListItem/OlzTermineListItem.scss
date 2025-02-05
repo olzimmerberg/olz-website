@@ -1,3 +1,5 @@
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
 .olz-termine-list-item {
     border-radius: 3px;
     clear: left;
@@ -9,7 +11,7 @@
     position: relative;
 
     &:hover {
-        background-color: #d4e7ce;
+        background-color: colors.$banner-bg;
         text-decoration: none;
     }
 

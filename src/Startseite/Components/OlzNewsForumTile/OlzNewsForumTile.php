@@ -29,12 +29,12 @@ class OlzNewsForumTile extends AbstractOlzTile {
         $forum_url = $news_filter_utils->getUrl(['format' => 'forum']);
 
         $out = <<<ZZZZZZZZZZ
-            <h2>
+            <h3>
                 <a href='{$forum_url}'>
                     <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
                     Forum
                 </a>
-            </h2>
+            </h3>
             ZZZZZZZZZZ;
 
         $out .= "<ul class='links'>";

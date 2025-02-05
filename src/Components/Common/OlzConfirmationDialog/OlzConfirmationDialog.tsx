@@ -26,9 +26,9 @@ export const OlzConfirmationDialog = (props: OlzConfirmationDialogProps): React.
             <div className='modal-dialog'>
                 <div className='modal-content'>
                     <div className='modal-header'>
-                        <h5 className='modal-title' id='confirmation-dialog-modal-label'>
+                        <h3 className='modal-title' id='confirmation-dialog-modal-label'>
                             {props.title}
-                        </h5>
+                        </h3>
                     </div>
                     {confirmDialogBody}
                     <div className='modal-footer'>

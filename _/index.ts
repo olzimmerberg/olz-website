@@ -22,7 +22,6 @@ export * from '../src/Users/index';
 /* @ts-ignore: Ignore file is not a module. */
 import * as bootstrap from 'bootstrap';
 import $ from 'jquery';
-import 'jquery-ui/ui/widgets/datepicker';
 
 window.bootstrap = bootstrap;
 
@@ -44,10 +43,6 @@ export function loaded(): void {
                 selector: 'a[data-src]',
             });
         }
-        $.datepicker.setDefaults({
-            dateFormat: 'yy-mm-dd',
-        });
-        $('.datepicker').datepicker();
     });
     console.log('OLZ loaded!');
 }

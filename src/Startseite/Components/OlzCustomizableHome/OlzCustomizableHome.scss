@@ -13,8 +13,7 @@
     }
 }
 
-.tile h2 {
-    margin-top: 5px;
+.tile h3 {
     text-align: center;
 }
 
@@ -30,6 +29,8 @@
 .tile ul.links {
     text-align: left;
     margin: 0;
+    list-style-type: none;
+    padding-left: 0;
 
     li a.one-line {
         display: inline-block;

@@ -1,7 +1,9 @@
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
 .tile ul.links {
     .bubble {
-        background-color: #d4e7ce;
-        border: 1px solid #007521;
+        background-color: colors.$banner-bg;
+        border: 1px solid colors.$olz-bg-dark;
         border-radius: 8px;
         overflow: hidden;
         min-height: 36px;
@@ -15,7 +17,7 @@
 
         .date {
             align-self: flex-end;
-            color: #007521;
+            color: colors.$olz-bg-dark;
             font-size: 9px;
             margin-left: 6px;
             margin-right: -4px;

@@ -24,7 +24,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $this->db = $this->dbUtils()->getDb();
         $this->this_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
 
-        $out = "<h2>Termine</h2>";
+        $out = "<h3>Termine</h3>";
 
         $out .= "<ul class='links'>";
         $out .= $this->renderAllUpcomingList();

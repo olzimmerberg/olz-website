@@ -13,9 +13,8 @@ class OlzOrganigramm extends OlzComponent {
         $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
 
-        $out = '';
-
-        $out .= '<h2>Organigramm OL Zimmerberg</h2>';
+        $out = "<div class='olz-organigramm'>";
+        $out .= "<h2>Organigramm OL Zimmerberg</h2>";
 
         $root_roles = $role_repo->getRolesWithParent(null);
         $out .= "<div id='organigramm-scroll'><div class='organigramm-wrapper'>";
@@ -64,7 +63,7 @@ class OlzOrganigramm extends OlzComponent {
             }
             $out .= "</div>";
         }
-        $out .= "</div></div>";
+        $out .= "</div></div></div>";
 
         return $out;
     }

@@ -187,7 +187,7 @@ class OlzRolePage extends OlzComponent {
         if ($num_child_roles === 0) {
             $out .= "<p id='sub-roles'><i>Keine Unter-Ressorts</i></p>";
         } else {
-            $out .= "<ul id='sub-roles'>";
+            $out .= "<ul id='sub-roles' class='no-style'>";
             foreach ($child_roles as $child_role) {
                 $child_role_name = $child_role->getName();
                 $child_role_username = $child_role->getUsername();

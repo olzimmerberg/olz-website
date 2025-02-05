@@ -39,6 +39,7 @@ class OlzKartenList extends OlzComponent {
 
         $last_kind = null;
 
+        $out .= "<table class='boxy'>";
         while ($row = $result->fetch_assoc()) {
             $karte = new Karte();
             $karte->setOwnerUser(null);
@@ -67,9 +68,14 @@ class OlzKartenList extends OlzComponent {
             }
             if ($kind != $last_kind) {
                 $kind_name = $kind_name_by_ident[$kind];
-                $is_first = $last_kind === null;
-                $tag = $is_first ? '' : '</table>';
-                $out .= "{$tag}<h2><img src='{$code_href}assets/icns/{$icon}' class='noborder' style='margin-right:10px;vertical-align:bottom;'>{$kind_name}</h2><table class='liste'>";
+                $out .= <<<ZZZZZZZZZZ
+                    <tr><td colspan='3'>
+                        <h2 class='section-title'>
+                            <img src='{$code_href}assets/icns/{$icon}' class='noborder' style='margin-right:10px;vertical-align:bottom;'>
+                            {$kind_name}
+                        </h2>
+                    </td></tr>
+                    ZZZZZZZZZZ;
                 $last_kind = $kind;
             }
 

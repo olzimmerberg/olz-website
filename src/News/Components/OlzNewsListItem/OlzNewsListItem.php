@@ -55,7 +55,6 @@ class OlzNewsListItem extends OlzComponent {
                 $image_ids[0] ?? null,
                 110,
                 'image',
-                " class='box'",
             );
         }
 
@@ -137,13 +136,13 @@ class OlzNewsListItem extends OlzComponent {
                 'date' => $published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
-                'text' => "<table><tr class='thumbs'>{$thumbs}</tr></table>",
+                'text' => "<table><tr class='galerie-thumbs'>{$thumbs}</tr></table>",
                 'link' => $link,
             ]);
         } elseif ($format === 'video') {
             $thumbnail = $this->imageUtils()->olzImage("news", $id, $image_ids[0] ?? null, 110, 'image');
             $content = <<<ZZZZZZZZZZ
-                <div href='{$link}' style='background-color:#000;padding-top:0;' class='thumb paragraf'>\n
+                <div href='{$link}' style='background-color:#000;padding-top:0;' class='video-thumb'>\n
                 <span style='display:block;background-image:url({$code_href}assets/icns/movie_dot.svg);background-repeat:repeat-x;height:24px;'></span>\n
                 <span style='display:block;text-align:center;'>{$thumbnail}</span>\n
                 <span style='display:block;background-image:url({$code_href}assets/icns/movie_dot.svg);background-repeat:repeat-x;height:24px;'></span>\n

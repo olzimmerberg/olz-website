@@ -1,4 +1,4 @@
-.tile h2.weekly-picture-h2 {
+.tile h3.weekly-picture-h3 {
     background-color: rgba(0,0,0,0.5);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -8,8 +8,8 @@
     left: 0;
     right: 0;
     width: 100%;
-    margin-top: 0;
-    padding-top: 10px;
+    margin: 0;
+    padding: 10px 0 5px;
     text-shadow: 1px 1px 3px #000;
     z-index: 1;
 }

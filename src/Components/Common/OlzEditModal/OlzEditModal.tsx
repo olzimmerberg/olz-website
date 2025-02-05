@@ -74,9 +74,9 @@ export const OlzEditModal = (props: OlzEditModalProps): React.ReactElement => {
                 <div className='modal-content'>
                     <form className='default-form' onSubmit={props.onSubmit}>
                         <div className='modal-header'>
-                            <h5 className='modal-title' id={`${props.modalId}-label`}>
+                            <h3 className='modal-title' id={`${props.modalId}-label`}>
                                 {props.dialogTitle}
-                            </h5>
+                            </h3>
                             {deleteButton}
                             <button
                                 type='button'

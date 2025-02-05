@@ -47,7 +47,7 @@ export const OlzAuthorBadge = (props: OlzAuthorBadgeProps): React.ReactElement =
                         />
                     </div>) : null)}
                     <div>
-                        <h5>{authorInfo.firstName} {authorInfo.lastName}</h5>
+                        <h3>{authorInfo.firstName} {authorInfo.lastName}</h3>
                         {email ? (
                             <div>
                                 <a

@@ -18,7 +18,7 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
 
-        $out = "<h2>Aktualisierte Termine</h2>";
+        $out = "<h3>Aktualisierte Termine</h3>";
 
         $out .= "<ul class='links'>";
         $res = $db->query(<<<'ZZZZZZZZZZ'

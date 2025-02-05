@@ -179,7 +179,7 @@ export const OlzLogs = (): React.ReactElement => {
     };
 
     return (<>
-        <div className='logs-header'>
+        <div className='logs-header bar'>
             <select
                 id='log-channel-select'
                 className='form-control form-select form-select-sm'

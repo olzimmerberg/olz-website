@@ -300,7 +300,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
         <h2>Panini-Bildli für die ganze Familie erstellen</h2>
         <p>Falls die anderen Familienmitglieder ein eigenes OLZ-Konto haben, können diese sich selber einloggen und ihr Panini-Bildli erstellen.</p>
         <p>Für Familienmitglieder, die noch <b>kein</b> OLZ-Konto haben und auch kein eigenes brauchen, kannst du ein Kind-Konto erstellen und dort das Panini-Bildli erstellen:</p>
-        <ul className='bullet-list'>
+        <ul>
             <li>Gehe auf dein Profil (OLZ-Konto-Menu rechts oben &gt; Profil)</li>
             <li>Wähle "Neues Familienmitglied erstellen"</li>
             <li>Formular ausfüllen und abschicken (Hinweis: Im Gegensatz zum Hauptkonto dürfen E-Mail und Passwort leer bleiben)</li>

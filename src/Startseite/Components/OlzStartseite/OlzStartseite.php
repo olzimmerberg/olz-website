@@ -29,14 +29,18 @@ class OlzStartseite extends OlzComponent {
             'description' => self::$description,
         ], $this);
 
+        $out .= "<div class='content-full'>";
+
         $banner_text = OlzEditableText::render(['snippet_id' => 22], $this);
         if (trim(strip_tags($banner_text)) !== '' || $this->authUtils()->hasPermission('olz_text_22')) {
-            $out .= "<div class='content-full'><div id='important-banner' class='banner'>";
+            $out .= "<div id='important-banner' class='banner'>";
             $out .= $banner_text;
-            $out .= "</div></div>";
+            $out .= "</div>";
         }
 
         $out .= OlzCustomizableHome::render([], $this);
+
+        $out .= "</div>";
 
         $out .= OlzFooter::render([], $this);
 

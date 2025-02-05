@@ -4,16 +4,6 @@
 // Alle CSS Definitionen der Website.
 // =============================================================================
 
-
-CLASS
-box: Boxen [z.B. für Bilder]
-nobox: kein Rahmen [z.B. rechte Seite (Schema <h2>TITEL</h2><div class='nobox'>INHALT</div>)]
-tablebar: Zwischentitel in Tabelle [z.B. Forum, Monatstitel]
-button: Knopf ohne Rahmen [z.B. Forum "Neuer Eintrag"]
-thumbs (für tr oder table): Thumbnails vierspaltig [z.B. Galerie Vorschau Startseite]
-foto (für tr oder table): Bild (einspaltig) [z.B. Flash-Video Anzeige]
-liste (für tr oder table): Zellen abgetrennt [z.B. Forum Liste]
-image (für table): Linksbündiges Bild [z.B. Aktuell]
 */
 
 @use '../../../Components/Common/OlzStyles/colors' as colors;
@@ -28,10 +18,6 @@ body {
 }
 
 input {
-    font-size: 12px;
-}
-
-h6 {
     font-size: 12px;
 }
 
@@ -51,29 +37,6 @@ table {
     width: 100%;
 }
 
-table.image {
-    float: left;
-    padding: 0 10px 5px 0;
-}
-
-thead td {
-    background-color: #e6e6e6;
-    border: 1px solid #808080;
-    font-weight: bold;
-}
-
-.kartenstatistik td,
-.kartenstatistik span {
-    font-size: 16px;
-    font-weight: bold;
-    padding: 3px;
-}
-
-h2,
-h3 {
-    clear: left;
-}
-
 .mainbg {
     background-color: #f2f2f2;
     background-image: url('../../../../assets/icns/mainbg.svg');
@@ -81,181 +44,73 @@ h3 {
 }
 
 ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.rendered-markdown ul,
-ul.bullet-list {
     list-style-type: disc;
     padding-left: 16px;
+
+    &.no-style {
+        list-style-type: none;
+        padding-left: 0;
+    }
 }
 
-.thumbs td {
-    height: 120px;
-    padding: 5px;
-    width: 25%;
-}
-
-.foto td {
-    height: 625px;
-    padding: 10px;
-}
-
-.paragraf {
-    display: block;
-    padding-top: 10px;
-}
-
-#countdown {
-    border-collapse: separate collapse;
-    border-spacing: 10px 1px;
-}
-
-#countdown td {
-    background-color: #ddd;
-    border: 1px solid #fff;
-    text-align: center;
-}
-
-.kartenstatistik td {
-    background-color: #ddd;
-    border: solid 1px #808080;
-}
-
-.zeit,
-.rang {
-    padding-right: 10px !important;
-    text-align: right;
-}
-
-.box-ganz > div {
-    background-color: #f2f2f2;
-    background-image: url('../../../../assets/icns/mainbg.svg');
-    background-repeat: repeat;
-    border-left: 5px solid;
-    border-radius: 3px;
-    height: 133px;
-    width: 222px;
-}
-
-.heute {
-    background-color: #d4e7ce;
-    margin: 0;
-}
-
-p.heute > a {
-    color: #000;
-}
-
-p.heute {
-    padding: 5px 8px 8px;
-}
-
-tr.off * {
-    color: #808080 !important;
-}
-/*-----------AUSSCHREIBUNG-------------*/
-.hide {
-    display: none;
-}
-
-.menu-aus {
-    background-color: #d4e7ce;
-    border: solid 1px colors.$olz-bg-dark;
-    font-weight: bold;
-    padding: 3px;
-    text-align: center;
-}
-
-.trenner {
-    background-color: #d4e7ce;
-    height: 10px;
-}
-
-/*-----------ABSTAENDE-------------*/
 .banner {
-    background-color: #d4e7ce;
+    background-color: colors.$banner-bg;
     border-bottom: 1px solid colors.$olz-bg-dark;
     border-top: 1px solid colors.$olz-bg-dark;
     font-size: 14px;
     font-weight: bold;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    margin: 5px 0;
+    padding: 10px 0;
     text-align: center;
 }
 
-h2,
-h3,
-.buttonbar {
-    margin: 8px 0 4px;
-    padding-left: 5px;
-    padding-top: 5px;
+.bar {
+    position: sticky;
+    top: 75px;
+    transition: top 0.5s;
+    z-index: 11;
+    height: 22px;
+    line-height: 22px;
+    margin: 0 -10px;
+    border: 0;
+    padding: 0 14px;
+    font-size: 14px;
+    font-weight: bold;
+
+    &.green {
+        background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg);
+        background-color: colors.$olz-bg-bright;
+    }    
 }
 
-.box-content h3 {
-    margin: 0 -5px 4px;
-    padding-top: 0;
+.header-minified {
+    .bar {
+        top: 42px;
+    }
 }
 
-h6,
+
+@media screen and (min-width: 832px) {
+    .bar {
+        margin: 0;
+        padding: 0 4px;
+    }
+}
+
+/*-----------ABSTAENDE-------------*/
+
 .section,
-li,
-.nobox,
-.tablebar {
+li {
     margin: 0 0 4px;
     padding: 0;
 }
 
 p,
-ul,
-div.thumb,
-.paragraf {
+ul {
     margin: 4px 0 8px 0;
 }
 
-.titel {
-    padding-bottom: 0;
-}
-
-/*-----------RAHMEN-------------*/
-.nobox,
-.noborder,
-input.button {
-    border: 0;
-}
-
-.titel,
-h2,
-h3,
-.buttonbar {
-    border-bottom: 1px solid colors.$olz-bg-dark;
-}
-
-img,
-input,
-textarea,
-.box,
-.thumbs img {
-    border-bottom: 1px solid #aaa;
-    border-left: 1px solid #444;
-    border-right: 1px solid #aaa;
-    border-top: 1px solid #444;
-}
-
-.dropdown {
-    border-bottom: 1px solid #999;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #999;
-    border-top: 1px solid #ddd;
-}
-
 /*-----------HINTERGRUND-------------*/
-
-.dropdown {
-    background-color: #ded;
-}
 
 a,
 span,
@@ -264,28 +119,36 @@ li {
     background: no-repeat left top;
 }
 
-input.button {
-    background-color: transparent;
-}
-
-.olz-text-insert {
-    background-color: #f5b8b7;
-    border: solid 1px;
-}
-
-.selected {
-    background-color: #f5b8b7;
-}
-
-.karten {
-    background-color: #ded;
-}
-
 
 /*-------SCHRIFTEIGENSCHAFTEN--------*/
-.titel {
-    font-size: 115%;
-    vertical-align: bottom;
+h1 {
+    font-size: 28px;
+    margin: 14px 0 7px;
+}
+
+h2 {
+    font-size: 22px;
+    margin: 12px 0 6px;
+}
+
+h3 {
+    font-size: 20px;
+    margin: 10px 0 5px;
+}
+
+h4 {
+    font-size: 18px;
+    margin: 8px 0 4px;
+}
+
+h5 {
+    font-size: 16px;
+    margin: 6px 0 3px;
+}
+
+h6 {
+    font-size: 14px;
+    margin: 4px 0 2px;
 }
 
 .bg-bright a,
@@ -298,62 +161,10 @@ a {
     }
 }
 
-a.text {
-    color: #000;
-}
-
-.passe * {
-    color: #999;
-}
-
 .error,
 .is-invalid {
     color: var(--bs-form-invalid-border-color) !important;
     border-color: var(--bs-form-invalid-border-color) !important;
-}
-
-.dropdown,
-input.button {
-    color: colors.$olz-bg-dark;
-}
-
-h2,
-h3,
-.buttonbar,
-.dropdown,
-.button,
-.tablebar,
-.titel {
-    font-weight: bold;
-}
-
-h1 {
-    font-size: 32px;
-}
-
-h2,
-h3,
-h4.tablebar {
-    font-size: 115%;
-}
-
-h6,
-.section,
-.dropdown,
-input.button,
-.thumbs td,
-.foto td {
-    text-align: center;
-    vertical-align: middle;
-}
-
-.blog td {
-    font-size: 110%;
-    font-weight: bold;
-}
-
-.bahndaten td:first-child {
-    font-weight: bold;
 }
 
 /*-----------------LINKS------------------*/
@@ -513,22 +324,20 @@ input.button,
     background: none;
 }
 
-.rendered-markdown table thead,
-.tablebar {
+.rendered-markdown table thead {
     background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg);
     background-color: colors.$olz-bg-bright;
 }
 
 .rendered-markdown table th,
 .rendered-markdown table td,
-.liste td,
-.tablebar {
+.boxy td {
     padding: 1px 8px 2px;
 }
 
 .rendered-markdown table th,
 .rendered-markdown table td,
-.liste td {
+.boxy td {
     border-bottom: 1px solid #999;
     border-right: 1px solid #999;
 }
@@ -552,10 +361,6 @@ input.button,
 
 .olz-override-root .lg-backdrop {
     background-color: rgba(0, 0, 0, 0.75);
-}
-
-.olz-override-root .ui-datepicker {
-    background-color: rgb(255, 255, 255);
 }
 
 @media screen and (min-width: 832px) {

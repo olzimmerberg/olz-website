@@ -83,8 +83,8 @@
     color: rgb(136, 136, 136);
     padding: 3px;
     background-color: rgb(238, 238, 238);
-    border-width: 1px 0;
-    border-color: rgb(170, 170, 170);
+    border-top: 1px solid rgb(170, 170, 170);
+    border-bottom: 1px solid rgb(170, 170, 170);
     margin-top: 24px;
 
     &:focus {

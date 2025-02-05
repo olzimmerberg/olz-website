@@ -24,7 +24,7 @@ class OlzTermineTicker extends OlzComponent {
         $db_table = "termine";
         $heute = $this->dateUtils()->getCurrentDateInFormat("Y-m-d");
         $out .= "<div class='layout'>";
-        $out .= "<h4 class='tablebar'>".$title."</h4>";
+        $out .= "<h4 class='bar green'>".$title."</h4>";
         // Tabelle auslesen
         $sql = <<<ZZZZZZZZZZ
             SELECT *
@@ -100,7 +100,7 @@ class OlzTermineTicker extends OlzComponent {
             if ($case_tmp < 4) {
                 $flag = 0;
             }
-            // if ($case!=$case_tmp and 0<strlen($sections[$case_tmp-1])) $out .= "<div class='tablebar'>".str_replace("[x]",$diff_start,$sections[$case_tmp-1])."</div>";
+            // if ($case!=$case_tmp and 0<strlen($sections[$case_tmp-1])) $out .= "<div class='bar green'>".str_replace("[x]",$diff_start,$sections[$case_tmp-1])."</div>";
             if ($case != $case_tmp) {
                 $out .= "<h2{$class_heute} style='margin-top:15px;'>".str_replace("[x]", strval($diff_start), $sections[$case_tmp - 1])."</h2>";
             }

@@ -238,7 +238,7 @@ class OlzNewsList extends OlzComponent {
                         </li>
                         ZZZZZZZZZZ;
                 }
-                $out .= "<nav><ul class='pagination justify-content-center'>{$pages}</ul></nav>";
+                $out .= "<nav><ul class='no-style pagination justify-content-center'>{$pages}</ul></nav>";
             }
         } else {
             $out .= <<<'ZZZZZZZZZZ'

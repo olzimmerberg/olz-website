@@ -32,7 +32,7 @@ class OlzDatenschutz extends OlzComponent {
         $out .= <<<'ZZZZZZZZZZ'
             <div class='content-right'>
                 <h2>Datenschutz-Verantwortliche</h2>
-                <ul class='datenschutz-assignees'>
+                <ul class='no-style datenschutz-assignees'>
             ZZZZZZZZZZ;
         $datenschutz_assignees = $datenschutz_role->getUsers();
         foreach ($datenschutz_assignees as $datenschutz_assignee) {
@@ -54,14 +54,14 @@ class OlzDatenschutz extends OlzComponent {
                 <p>Von <b>Vereinsmitgliedern</b> sammeln wir nur die personenbezogenen Daten, die für den Orientierungslauf-Vereinsbetrieb <b>notwendig</b> sind.</p>
                 <h3>Zweck</h3>
                 <p>Von <b>eingeloggten</b> Nutzern bearbeiten wir folgende Personendaten:</p>
-                <ul class='bullet-list'>
+                <ul>
                     <li>Name und E-Mail-Adresse für den <b>Versand des Newsletters</b></li>
                     <li>Benutzername und Passwort für das <b>OLZ-Login</b></li>
                     <li>Name, Geschlecht, volle Adresse, Telefonnummer, E-Mail-Adresse und Geburtsdatum für die <b>Mitgliederliste</b></li>
                     <li>Name, Geschlecht, Wohnort, Geburtsdatum, SI-Card-Nummer, Telefonnummer und E-Mail-Adresse für die <b>Anmeldung für Anlässe</b></li>
                 </ul>
                 <p>Von <b>Vereinsmitgliedern</b> bearbeiten wir folgende Personendaten:</p>
-                <ul class='bullet-list'>
+                <ul>
                     <li>Name, Geschlecht, volle Adresse, Telefonnummer, E-Mail-Adresse und Geburtsdatum für die <b>Mitgliederliste</b></li>
                     <li>Name, Geschlecht, Wohnort, Geburtsdatum, SI-Card-Nummer, Telefonnummer und E-Mail-Adresse für die <b>Anmeldung für Anlässe</b></li>
                 </ul>
@@ -69,7 +69,7 @@ class OlzDatenschutz extends OlzComponent {
                 <p>Wir speichern deine Daten, bis du sie löschst, dein Konto löschst oder eine bestimmte Art Daten nicht mehr für mindestens einen der angegebenen Zwecke benötigt wird (z.B. wird bei einem Vereinsaustritt die Person von der Mitgliederliste gelöscht).</p>
                 <h3>Weitergabe von Daten</h3>
                 <p>Wir geben deine Daten nicht weiter, mit Ausnahme der folgenden Fälle:</p>
-                <ul class='bullet-list'>
+                <ul>
                     <li>Wenn du Mitglied der OL Zimmerberg bist, werden wir deine Kontaktdaten (Mitgliederliste) zur <b>Ermöglichung der klubinternen Kommunikation</b> anderen Klubmitgliedern zur Verfügung stellen.</li>
                     <li>Wenn du Mitglied der OL Zimmerberg bist, werden wir deine Postadresse der Redaktion des HOLZ und gegebenenfalls der Druckerei zur Verfügung stellen, damit sie dir das <b>Klubheftli HOLZ zustellen</b> kann.</li>
                     <li>Wenn du dich für einen <b>Anlass anmeldest</b>, werden wir die benötigten Daten dem Veranstalter übermitteln</li>

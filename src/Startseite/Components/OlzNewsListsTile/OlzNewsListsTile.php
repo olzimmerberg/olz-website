@@ -19,7 +19,7 @@ class OlzNewsListsTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $news_filter_utils = NewsFilterUtils::fromEnv();
 
-        $out = "<h2>News</h2>";
+        $out = "<h3>News</h3>";
         $out .= "<ul class='links'>";
         $aktuell_url = $news_filter_utils->getUrl(['format' => 'aktuell']);
         $out .= <<<ZZZZZZZZZZ

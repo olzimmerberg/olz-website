@@ -74,7 +74,7 @@ class OlzSuche extends OlzComponent {
         $result = $db->query($sql);
         $num = mysqli_num_rows($result);
         if ($num > 0) {
-            $result_termine .= "<tr><td colspan='2'><h3 class='tablebar'>Termine...</h3></td></tr>";
+            $result_termine .= "<tr><td colspan='2'><h3 class='bar green'>Termine...</h3></td></tr>";
         }
 
         for ($i = 0; $i < $num; $i++) {
@@ -106,7 +106,7 @@ class OlzSuche extends OlzComponent {
         $result = $db->query("SELECT * FROM news WHERE {$sql_news}(on_off = 1) ORDER BY published_date DESC");
         $num = mysqli_num_rows($result);
         if ($num > 0) {
-            $result_news = "<tr><td colspan='2'><h3 class='tablebar'>News...</h3></td></tr>";
+            $result_news = "<tr><td colspan='2'><h3 class='bar green'>News...</h3></td></tr>";
         }
 
         for ($i = 0; $i < $num; $i++) {

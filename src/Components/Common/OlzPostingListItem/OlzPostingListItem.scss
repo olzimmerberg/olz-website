@@ -1,6 +1,7 @@
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
 .olz-posting-list-item {
     border-radius: 3px;
-    clear: left;
     color: rgb(0, 0, 0);
     cursor: pointer;
     display: block;
@@ -9,7 +10,7 @@
     position: relative;
 
     &:hover {
-        background-color: #d4e7ce;
+        background-color: colors.$banner-bg;
         text-decoration: none;
     }
 

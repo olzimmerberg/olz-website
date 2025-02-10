@@ -28,7 +28,7 @@ class OlzNewsRecentlyTile extends AbstractOlzTile {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
 
-        $out = "<h2>Letzte News</h2>";
+        $out = "<h3>Letzte News</h3>";
 
         $out .= "<ul class='links'>";
         $news_entry_class = NewsEntry::class;

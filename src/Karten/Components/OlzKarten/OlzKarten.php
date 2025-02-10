@@ -29,10 +29,10 @@ class OlzKarten extends OlzComponent {
             'description' => self::$description,
         ]);
 
-        $out .= "<div class='content-right'>";
+        $out .= "<div class='content-right olz-karten'>";
         $out .= OlzKartenList::render([]);
         $out .= "</div>
-        <div class='content-middle'>";
+        <div class='content-middle olz-karten'>";
 
         $karten_repo = $this->entityManager()->getRepository(Karte::class);
         $karten = $karten_repo->findAll();

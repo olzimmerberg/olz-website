@@ -29,7 +29,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $today = $this->dateUtils()->getIsoToday();
 
-        $out = "<h2>Bevorstehende Termine</h2>";
+        $out = "<h3>Bevorstehende Termine</h3>";
 
         $out .= "<ul class='links'>";
         $res = $db->query(<<<ZZZZZZZZZZ

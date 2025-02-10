@@ -30,7 +30,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $this->in_ten_days = (new \DateTime($today))->add($plus_ten_days)->format('Y-m-d');
         $this->in_four_weeks = (new \DateTime($today))->add($plus_four_weeks)->format('Y-m-d');
 
-        $out = "<h2>Meldeschlüsse</h2>";
+        $out = "<h3>Meldeschlüsse</h3>";
 
         $res = $db->query(<<<ZZZZZZZZZZ
             SELECT

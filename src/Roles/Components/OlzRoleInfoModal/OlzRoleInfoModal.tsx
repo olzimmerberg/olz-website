@@ -41,7 +41,7 @@ export const OlzRoleInfoModal = (props: OlzRoleInfoModalProps): React.ReactEleme
                         />
                     </div>) : null)}
                     <div>
-                        <h5>{assignee.firstName} {assignee.lastName}</h5>
+                        <h3>{assignee.firstName} {assignee.lastName}</h3>
                         {email ? (
                             <div className='user-data'>
                                 <a

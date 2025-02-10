@@ -30,7 +30,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         $aktuell_url = $news_filter_utils->getUrl(['format' => 'aktuell']);
         $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
         $out = <<<ZZZZZZZZZZ
-            <h2>
+            <h3>
                 <a href='{$aktuell_url}'>
                     <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
                     Aktuell
@@ -40,7 +40,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
                     <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
                     Kaderblog
                 </a>
-            </h2>
+            </h3>
             ZZZZZZZZZZ;
 
         $out .= "<ul class='links'>";

@@ -44,7 +44,6 @@ class OlzCustomizableHome extends OlzComponent {
 
         $out = '';
 
-        $out .= "<div class='content-full'>";
         $out .= "<div class='olz-customizable-home'>";
 
         $tiles = [];
@@ -72,7 +71,6 @@ class OlzCustomizableHome extends OlzComponent {
             $out .= "</div></div>";
         }
 
-        $out .= "</div>";
         $out .= "</div>";
 
         return $out;

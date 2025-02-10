@@ -36,7 +36,7 @@ class OlzJomCounterTile extends AbstractOlzTile {
 
         $db = $this->dbUtils()->getDb();
 
-        $out = "<h2>JOM-Counter</h2>";
+        $out = "<h3>JOM-Counter</h3>";
 
         $jom_solv_uids = [
             2019 => [9610, 9543, 9781, 9636, 9542, 9541, 9380, 9390, 9950, 9815, 9821],
@@ -145,13 +145,13 @@ class OlzJomCounterTile extends AbstractOlzTile {
         $color_j_und_s = $are_kids_winners ? 'rgb(180,0,0)' : 'rgb(0,100,0)';
 
         $out .= "<div style='position:relative;'>";
-        $out .= "<h2 style='font-size:12px; border: 0; padding-left: 0; text-align:center; margin-top: 0;'>JOM-Jugend</h2>";
+        $out .= "<h3 style='font-size:12px; border: 0; padding-left: 0; text-align:center; margin-top: 0;'>JOM-Jugend</h3>";
         $out .= "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_kids.";' title='Wie viele Jugndliche im Vergleich zu {$previous_year}'>".round($percent_kids, 2)."%</div>";
         $out .= "<div style='margin-top:-2px; font-size:12px; text-align:center;' title='Anzahl Starts von Jugndlichen {$current_year} / {$previous_year}'>";
         $out .= "<a href='javascript:' onclick='olz.olzJomCounterToggle(&quot;ranking-kids-current&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_current}</a> / ";
         $out .= "<a href='javascript:' onclick='olz.olzJomCounterToggle(&quot;ranking-kids-previous&quot;); return false;' style='color:".$color_kids.";'>{$starts_kids_previous}</a>";
         $out .= "</div>";
-        $out .= "<h2 style='margin-top:2px; font-size:12px; border:0px; padding-left: 0; text-align:center;'>J&amp;S-Leiter</h2>";
+        $out .= "<h3 style='margin-top:2px; font-size:12px; border:0px; padding-left: 0; text-align:center;'>J&amp;S-Leiter</h3>";
         $out .= "<div style='margin-top:-4px; font-size:18px; text-align:center; color:".$color_j_und_s.";' title='Wie viele J&S-Leiter im Vergleich zu {$previous_year}'>".round($percent_j_und_s, 2)."%</div>";
         $out .= "<div style='margin-top:-2px; font-size:12px; text-align:center;' title='Anzahl Starts von OLZ-J&S-Leitern {$current_year} / {$previous_year}'>";
         $out .= "<a href='javascript:' onclick='olz.olzJomCounterToggle(&quot;ranking-junds-current&quot;); return false;' style='color:".$color_j_und_s.";'>{$starts_j_und_s_current}</a> / ";

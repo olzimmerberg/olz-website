@@ -20,7 +20,7 @@ class OlzCustomTile extends AbstractOlzTile {
 
     public function getHtml(mixed $args): string {
         $content = $this->getContent();
-        return "<h2>Wichtig</h2><div>{$content}</div>";
+        return "<h3>Wichtig</h3><div>{$content}</div>";
     }
 
     protected function getContent(): ?string {

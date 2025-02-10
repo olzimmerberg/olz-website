@@ -40,7 +40,7 @@ class OlzDownloads extends OlzComponent {
         ;
         $downloads = $download_repo->matching($criteria);
 
-        $out .= "<ul class='olz-downloads nobox'>";
+        $out .= "<ul class='no-style olz-downloads'>";
         foreach ($downloads as $download) {
             $id = $download->getId();
             $name = $download->getName();

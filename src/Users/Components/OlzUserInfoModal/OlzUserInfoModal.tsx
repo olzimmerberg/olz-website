@@ -51,7 +51,7 @@ export const OlzUserInfoModal = (props: OlzUserInfoModalProps): React.ReactEleme
                         className='avatar'
                     />
                 </div>) : null)}
-                <h5>{user.firstName} {user.lastName}</h5>
+                <h3>{user.firstName} {user.lastName}</h3>
                 {email ? (
                     <div>
                         <a

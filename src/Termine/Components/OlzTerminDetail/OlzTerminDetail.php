@@ -219,7 +219,7 @@ class OlzTerminDetail extends OlzComponent {
             $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
             return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
         }, $labels));
-        $out .= "<h2>{$pretty_date}{$maybe_solv_link}</h2>";
+        $out .= "<h5>{$pretty_date}{$maybe_solv_link}</h5>";
         $out .= "<h1>{$title} {$label_imgs}</h1>";
 
         // Text

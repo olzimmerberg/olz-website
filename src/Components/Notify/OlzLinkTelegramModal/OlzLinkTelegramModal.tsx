@@ -97,9 +97,9 @@ export const OlzLinkTelegramModal = (): React.ReactElement => {
             <div className='modal-dialog'>
                 <div className='modal-content'>
                     <div className='modal-header'>
-                        <h5 className='modal-title' id='link-telegram-modal-label'>
+                        <h3 className='modal-title' id='link-telegram-modal-label'>
                             OLZ-Telegram-Bot aktivieren
-                        </h5>
+                        </h3>
                         <button
                             type='button'
                             className='btn-close'

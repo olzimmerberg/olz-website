@@ -80,7 +80,7 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         }
 
         $out .= <<<ZZZZZZZZZZ
-            <h2 class='weekly-picture-h2'>Bild der Woche {$add_new_html}</h2>
+            <h3 class='weekly-picture-h3'>Bild der Woche {$add_new_html}</h3>
             <div
                 id='weekly-picture-carousel'
                 class='carousel slide'

@@ -41,7 +41,7 @@ class OlzLinks extends OlzComponent {
         ;
         $links = $link_repo->matching($criteria);
 
-        $out .= "<ul class='olz-links nobox'>";
+        $out .= "<ul class='no-style olz-links'>";
         foreach ($links as $link) {
             $id = $link->getId();
             $name = $link->getName();

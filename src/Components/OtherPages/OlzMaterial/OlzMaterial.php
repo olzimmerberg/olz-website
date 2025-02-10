@@ -111,7 +111,7 @@ class OlzMaterial extends OlzComponent {
         $sportident_role = $role_repo->getPredefinedRole(PredefinedRole::SportIdent);
 
         $sportident_assignees = $sportident_role->getUsers();
-        $out .= "<ul class='sportident-assignees'>";
+        $out .= "<ul class='no-style sportident-assignees'>";
         foreach ($sportident_assignees as $sportident_assignee) {
             $out .= "<li>";
             $out .= OlzUserInfoModal::render([

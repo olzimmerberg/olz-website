@@ -11,41 +11,18 @@
         }
     }
 
-    .monthbar {
-        position: sticky;
-        top: 75px;
-        transition: top 0.5s;
-        z-index: 11;
-        background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg);
-        background-color: colors.$olz-bg-bright;
-        height: 22px;
-        margin: 0 -10px;
-        border: 0;
-        padding: 1px 14px;
-    }
-
-    .header-minified .monthbar {
-        top: 42px;
-    }
-
-    .todaybar {
-        position: sticky;
+    .bar.today {
         top: 97px;
-        transition: top 0.5s;
         bottom: 0;
         z-index: 12;
         background: linear-gradient(rgb(250, 0, 0), rgb(180, 0, 0));
         background-color: rgb(175, 0, 0);
         text-align: center;
         height: 18px;
-        margin: 0 -10px;
-        border: 0;
-        padding: 0 14px;
+        line-height: 18px;
+        font-size: 12px;
+        font-weight: normal;
     } 
-
-    .header-minified .todaybar {
-        top: 64px;
-    }
 
     .no-entries {
         font-weight: bold;
@@ -67,16 +44,8 @@
     }
 }
 
-@media screen and (min-width: 832px) {
-    .olz-termine-list-middle {
-        .monthbar {
-            margin: 0;
-            padding: 1px 4px;
-        }
-
-        .todaybar {
-            margin: 0;
-            padding: 0 4px;
-        }
+.header-minified .olz-termine-list-middle {
+    .bar.today {
+        top: 64px;
     }
 }

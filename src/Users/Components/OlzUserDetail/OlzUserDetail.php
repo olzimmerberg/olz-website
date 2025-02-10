@@ -138,7 +138,7 @@ class OlzUserDetail extends OlzComponent {
             $out .= "<h2>Familie</h2>";
             $child_users = $user_repo->findBy(['parent_user' => $user->getId()]);
             if ($child_users) {
-                $out .= "<ul class='bullet-list info-container'>";
+                $out .= "<ul class='info-container'>";
                 foreach ($child_users as $child_user) {
                     $out .= "<li>Familienmitglied <a href='{$code_href}benutzer/{$child_user->getId()}'>{$child_user->getFullName()}</a></li>";
                 }

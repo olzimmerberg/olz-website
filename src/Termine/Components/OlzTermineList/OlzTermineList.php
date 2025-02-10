@@ -198,14 +198,14 @@ class OlzTermineList extends OlzComponent {
                 $this_month_start = $this->getMonth($this_date).'-01';
 
                 if ($today < $this_month_start && $today > $last_date) {
-                    $out .= "<div class='todaybar'>Heute</div>";
+                    $out .= "<div class='bar today'>Heute</div>";
                 }
                 if ($this->getMonth($this_date) !== $this->getMonth($last_date)) {
                     $pretty_month = $this->dateUtils()->olzDate("MM jjjj", $this_date);
-                    $out .= "<h3 class='monthbar'>{$pretty_month}</h3>";
+                    $out .= "<h3 class='bar green'>{$pretty_month}</h3>";
                 }
                 if ($today <= $this_date && $today > $last_date && $today >= $this_month_start) {
-                    $out .= "<div class='todaybar'>Heute</div>";
+                    $out .= "<div class='bar today'>Heute</div>";
                 }
                 $labels = [$meldeschluss_label];
                 if ($row['item_type'] === 'termin') {

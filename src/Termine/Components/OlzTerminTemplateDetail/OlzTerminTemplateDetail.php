@@ -124,7 +124,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
             return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
         }, $labels));
 
-        $out .= "<h2>{$pretty_date}</h2>";
+        $out .= "<h5>{$pretty_date}</h5>";
         $out .= "<h1>{$title} {$label_imgs}</h1>";
 
         if ($termin_location) {

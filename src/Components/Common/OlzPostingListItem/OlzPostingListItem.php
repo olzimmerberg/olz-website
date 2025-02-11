@@ -8,14 +8,14 @@ use Olz\Components\Common\OlzComponent;
 class OlzPostingListItem extends OlzComponent {
     public function getHtml(mixed $args): string {
         $icon = $args['icon'] ?? "";
-        $date = $args['date'] ?? "";
+        $date = $args['date'] ?? '';
         $author = $args['author'] ?? "";
         $title = $args['title'] ?? "";
         $text = $args['text'] ?? "";
         $link = $args['link'] ?? "";
         $class = $args['class'] ?? "";
 
-        $pretty_date = $this->dateUtils()->olzDate("tt.mm.jj", $date);
+        $pretty_date = $date ? $this->dateUtils()->olzDate("tt.mm.jj", $date) : '';
 
         return <<<ZZZZZZZZZZ
             <div class='olz-posting-list-item {$class}'>

@@ -89,7 +89,7 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
                     title={<>
                         Benutzername oder E-Mail
                         <a
-                            href={`${codeHref}fragen_und_antworten#benutzername-email-herausfinden`}
+                            href={`${codeHref}fragen_und_antworten/benutzername_email_herausfinden`}
                             className='help-link'
                         >
                             Vergessen?

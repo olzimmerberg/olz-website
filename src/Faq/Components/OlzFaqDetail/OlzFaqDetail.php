@@ -8,6 +8,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Faq\Question;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
+use Olz\Roles\Components\OlzRoleInfoModal\OlzRoleInfoModal;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
@@ -42,26 +43,53 @@ class OlzFaqDetail extends OlzComponent {
 
         $answer = $answered_question->getAnswer();
         $answer_html = $this->htmlUtils()->renderMarkdown($answer);
+        $answer_html = $answered_question->replaceImagePaths($answer_html);
+        $answer_html = $answered_question->replaceFilePaths($answer_html);
 
+        $edit_admin = '';
+        $can_edit = $this->authUtils()->hasPermission('faq');
+        if ($can_edit) {
+            $id = $answered_question->getId();
+            $json_id = json_encode(intval($id));
+            $edit_admin = <<<ZZZZZZZZZZ
+                <div>
+                    <button
+                        id='edit-question-button'
+                        class='btn btn-primary'
+                        onclick='return olz.editQuestion({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        Bearbeiten
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
+        }
+
+        $owner_role = $answered_question->getOwnerRole();
         $role_repo = $entityManager->getRepository(Role::class);
-        $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
-        $nachwuchs_out = '';
-        $nachwuchs_assignees = $nachwuchs_role->getUsers();
-        foreach ($nachwuchs_assignees as $nachwuchs_assignee) {
-            $nachwuchs_out .= OlzUserInfoModal::render([
-                'user' => $nachwuchs_assignee,
+        $responsible_role = $owner_role ?? $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
+        $responsible_title = 'Ansprechperson';
+        if ($owner_role) {
+            $responsible_title = OlzRoleInfoModal::render(['role' => $owner_role]);
+        }
+        $responsible_assignees = $responsible_role->getUsers();
+        $responsible_out = '';
+        foreach ($responsible_assignees as $responsible_assignee) {
+            $responsible_out .= OlzUserInfoModal::render([
+                'user' => $responsible_assignee,
                 'mode' => 'name_picture',
             ]);
         }
 
         $out .= <<<ZZZZZZZZZZ
             <div class='content-right optional'>
-                <h3>Ansprechperson</h3>
+                <h3>{$responsible_title}</h3>
                 <div style='padding:0px 10px 0px 10px; text-align:center;'>
-                    {$nachwuchs_out}
+                    {$responsible_out}
                 </div>
             </div>
             <div class='content-middle'>
+                {$edit_admin}
                 <h1>{$question}</h1>
                 <div>{$answer_html}</div>
             </div>

@@ -59,6 +59,16 @@ class OlzApi extends Api {
         \Olz\Service\Endpoints\EditLinkEndpoint $editLinkEndpoint,
         \Olz\Service\Endpoints\UpdateLinkEndpoint $updateLinkEndpoint,
         \Olz\Service\Endpoints\DeleteLinkEndpoint $deleteLinkEndpoint,
+        \Olz\Faq\Endpoints\CreateQuestionEndpoint $createQuestionEndpoint,
+        \Olz\Faq\Endpoints\GetQuestionEndpoint $getQuestionEndpoint,
+        \Olz\Faq\Endpoints\EditQuestionEndpoint $editQuestionEndpoint,
+        \Olz\Faq\Endpoints\UpdateQuestionEndpoint $updateQuestionEndpoint,
+        \Olz\Faq\Endpoints\DeleteQuestionEndpoint $deleteQuestionEndpoint,
+        \Olz\Faq\Endpoints\CreateQuestionCategoryEndpoint $createQuestionCategoryEndpoint,
+        \Olz\Faq\Endpoints\GetQuestionCategoryEndpoint $getQuestionCategoryEndpoint,
+        \Olz\Faq\Endpoints\EditQuestionCategoryEndpoint $editQuestionCategoryEndpoint,
+        \Olz\Faq\Endpoints\UpdateQuestionCategoryEndpoint $updateQuestionCategoryEndpoint,
+        \Olz\Faq\Endpoints\DeleteQuestionCategoryEndpoint $deleteQuestionCategoryEndpoint,
         \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint $createWeeklyPictureEndpoint,
         \Olz\Startseite\Endpoints\GetWeeklyPictureEndpoint $getWeeklyPictureEndpoint,
         \Olz\Startseite\Endpoints\EditWeeklyPictureEndpoint $editWeeklyPictureEndpoint,
@@ -160,6 +170,20 @@ class OlzApi extends Api {
         $this->registerEndpoint('getSnippet', $getSnippetEndpoint);
         $this->registerEndpoint('editSnippet', $editSnippetEndpoint);
         $this->registerEndpoint('updateSnippet', $updateSnippetEndpoint);
+
+        // Fragen & Antworten (FAQ)
+
+        $this->registerEndpoint('createQuestion', $createQuestionEndpoint);
+        $this->registerEndpoint('getQuestion', $getQuestionEndpoint);
+        $this->registerEndpoint('editQuestion', $editQuestionEndpoint);
+        $this->registerEndpoint('updateQuestion', $updateQuestionEndpoint);
+        $this->registerEndpoint('deleteQuestion', $deleteQuestionEndpoint);
+
+        $this->registerEndpoint('createQuestionCategory', $createQuestionCategoryEndpoint);
+        $this->registerEndpoint('getQuestionCategory', $getQuestionCategoryEndpoint);
+        $this->registerEndpoint('editQuestionCategory', $editQuestionCategoryEndpoint);
+        $this->registerEndpoint('updateQuestionCategory', $updateQuestionCategoryEndpoint);
+        $this->registerEndpoint('deleteQuestionCategory', $deleteQuestionCategoryEndpoint);
 
         // Startseite
 
@@ -276,6 +300,16 @@ class OlzApi extends Api {
             new \Olz\Service\Endpoints\EditLinkEndpoint(),
             new \Olz\Service\Endpoints\UpdateLinkEndpoint(),
             new \Olz\Service\Endpoints\DeleteLinkEndpoint(),
+            new \Olz\Faq\Endpoints\CreateQuestionEndpoint(),
+            new \Olz\Faq\Endpoints\GetQuestionEndpoint(),
+            new \Olz\Faq\Endpoints\EditQuestionEndpoint(),
+            new \Olz\Faq\Endpoints\UpdateQuestionEndpoint(),
+            new \Olz\Faq\Endpoints\DeleteQuestionEndpoint(),
+            new \Olz\Faq\Endpoints\CreateQuestionCategoryEndpoint(),
+            new \Olz\Faq\Endpoints\GetQuestionCategoryEndpoint(),
+            new \Olz\Faq\Endpoints\EditQuestionCategoryEndpoint(),
+            new \Olz\Faq\Endpoints\UpdateQuestionCategoryEndpoint(),
+            new \Olz\Faq\Endpoints\DeleteQuestionCategoryEndpoint(),
             new \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint(),
             new \Olz\Startseite\Endpoints\GetWeeklyPictureEndpoint(),
             new \Olz\Startseite\Endpoints\EditWeeklyPictureEndpoint(),

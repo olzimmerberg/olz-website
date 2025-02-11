@@ -27,6 +27,8 @@ use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\Counter;
+use Olz\Entity\Faq\Question;
+use Olz\Entity\Faq\QuestionCategory;
 use Olz\Entity\Karten\Karte;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
@@ -58,6 +60,8 @@ use Olz\Tests\Fake\Entity\FakeSolvEventRepository;
 use Olz\Tests\Fake\Entity\FakeStravaLinkRepository;
 use Olz\Tests\Fake\Entity\FakeTelegramLinkRepository;
 use Olz\Tests\Fake\Entity\FakeThrottlingRepository;
+use Olz\Tests\Fake\Entity\Faq\FakeQuestionCategoryRepository;
+use Olz\Tests\Fake\Entity\Faq\FakeQuestionRepository;
 use Olz\Tests\Fake\Entity\Karten\FakeKarteRepository;
 use Olz\Tests\Fake\Entity\News\FakeNewsRepository;
 use Olz\Tests\Fake\Entity\Quiz\FakeSkillCategoryRepository;
@@ -100,6 +104,8 @@ class FakeEntityManager implements EntityManagerInterface {
             Link::class => new FakeLinkRepository($this),
             NewsEntry::class => new FakeNewsRepository($this),
             NotificationSubscription::class => new FakeNotificationSubscriptionRepository($this),
+            Question::class => new FakeQuestionRepository($this),
+            QuestionCategory::class => new FakeQuestionCategoryRepository($this),
             Registration::class => new FakeRegistrationRepository($this),
             RegistrationInfo::class => new FakeRegistrationInfoRepository($this),
             Role::class => new FakeRoleRepository($this),

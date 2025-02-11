@@ -360,6 +360,10 @@ class DevDataUtils {
         $this->mkdir("{$data_path}files/news/6403");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/news/6403/MIGRATED0000000064030001.pdf");
 
+        $this->mkdir("{$data_path}files/questions");
+        $this->mkdir("{$data_path}files/questions/1");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/questions/1/4a7J72vVQFrqkboyD358S4cf.pdf");
+
         $this->mkdir("{$data_path}files/roles");
         $this->mkdir("{$data_path}files/roles/5");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/roles/5/c44s3s8QjwZd2WYTEVg3iW9k.pdf");
@@ -523,6 +527,11 @@ class DevDataUtils {
         $this->mkdir("{$data_path}img/news/6403");
         $this->mkdir("{$data_path}img/news/6403/img");
         $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/news/6403/img/MIGRATED0000000064030001.jpg", 800, 600);
+
+        $this->mkdir("{$data_path}img/questions");
+        $this->mkdir("{$data_path}img/questions/1");
+        $this->mkdir("{$data_path}img/questions/1/img");
+        $this->mkimg("{$sample_path}sample-picture.jpg", $data_path, "img/questions/1/img/bKfDuE4hocQhbw9FGMD7WCW3.jpg", 800, 600);
 
         $this->mkdir("{$data_path}img/roles");
         $this->mkdir("{$data_path}img/roles/5");

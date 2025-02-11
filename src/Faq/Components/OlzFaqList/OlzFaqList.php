@@ -52,13 +52,52 @@ class OlzFaqList extends OlzComponent {
                     {$nachwuchs_out}
                 </div>
             </div>
-            <div class='content-middle'>
+            <div class='content-middle olz-faq-list'>
                 <h1>Fragen & Antworten (FAQ)</h1>
             ZZZZZZZZZZ;
 
+        $has_access = $this->authUtils()->hasPermission('faq');
+        if ($has_access) {
+            $out .= <<<ZZZZZZZZZZ
+                <button
+                    id='create-question-category-button'
+                    class='btn btn-secondary'
+                    onclick='return olz.initOlzEditQuestionCategoryModal()'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Neue Frage-Kategorie
+                </button>
+                ZZZZZZZZZZ;
+        }
+
         $categories = $category_repo->findBy(['on_off' => 1], ['position' => 'ASC']);
         foreach ($categories as $category) {
-            $out .= "<h2>{$category->getName()}</h2>";
+            $create_admin = '';
+            $edit_admin = '';
+            if ($has_access) {
+                $json_id = json_encode(intval($category->getId()));
+                $create_admin = <<<ZZZZZZZZZZ
+                    <button
+                        id='create-question-button'
+                        class='btn btn-secondary'
+                        onclick='return olz.initOlzEditQuestionModal(undefined, undefined, {categoryId: {$json_id}})'
+                    >
+                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        Neue Frage
+                    </button>
+                    ZZZZZZZZZZ;
+                $edit_admin = <<<ZZZZZZZZZZ
+                    <button
+                        class='btn btn-secondary-outline btn-sm edit-question-category-list-button'
+                        onclick='return olz.faqListEditQuestionCategory({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                    </button>
+                    ZZZZZZZZZZ;
+            }
+
+            $out .= "<h2 class='category'>{$category->getName()}{$edit_admin}</h2>";
+            $out .= $create_admin;
             $questions = $question_repo->findBy(
                 ['category' => $category, 'on_off' => 1],
                 ['position_within_category' => 'ASC'],
@@ -66,9 +105,22 @@ class OlzFaqList extends OlzComponent {
             foreach ($questions as $question) {
                 $icon = "{$code_href}assets/icns/question_mark_20.svg";
                 $link = "fragen_und_antworten/{$question->getIdent()}";
+                $edit_admin = '';
+                if ($has_access) {
+                    $json_id = json_encode(intval($question->getId()));
+                    $edit_admin = <<<ZZZZZZZZZZ
+                        <button
+                            class='btn btn-secondary-outline btn-sm edit-question-list-button'
+                            onclick='return olz.faqListEditQuestion({$json_id})'
+                        >
+                            <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                        </button>
+                        ZZZZZZZZZZ;
+                }
+
                 $out .= OlzPostingListItem::render([
                     'icon' => $icon,
-                    'title' => $question->getQuestion(),
+                    'title' => $question->getQuestion().$edit_admin,
                     'link' => $link,
                 ]);
             }

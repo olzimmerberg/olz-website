@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Criteria;
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
+use Olz\Entity\Faq\QuestionCategory;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\TerminLocation;
@@ -20,7 +21,7 @@ use PhpTypeScriptApi\HttpError;
  *   id: int<1, max>,
  *   title: non-empty-string,
  * }
- * @phpstan-type OlzSearchableEntityTypes 'SolvEvent'|'TerminLocation'|'TerminTemplate'|'Role'|'User'
+ * @phpstan-type OlzSearchableEntityTypes 'QuestionCategory'|'SolvEvent'|'TerminLocation'|'TerminTemplate'|'Role'|'User'
  *
  * @extends OlzTypedEndpoint<
  *   array{
@@ -35,6 +36,7 @@ use PhpTypeScriptApi\HttpError;
  */
 class SearchEntitiesEndpoint extends OlzTypedEndpoint {
     public const SUPPORTED_ENTITY_TYPES = [
+        'QuestionCategory' => QuestionCategory::class,
         'SolvEvent' => SolvEvent::class,
         'TerminLocation' => TerminLocation::class,
         'TerminTemplate' => TerminTemplate::class,

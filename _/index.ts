@@ -10,6 +10,7 @@ import './index.scss';
 
 export * from '../src/Apps/index';
 export * from '../src/Components/index';
+export * from '../src/Faq/index';
 export * from '../src/Karten/index';
 export * from '../src/News/index';
 export * from '../src/Roles/index';

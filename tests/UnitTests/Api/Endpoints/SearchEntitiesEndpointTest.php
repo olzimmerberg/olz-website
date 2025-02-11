@@ -65,6 +65,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'entityType' => [['.' => [
+                    ['.' => ["Wert muss vom Typ 'QuestionCategory' sein."]],
                     ['.' => ["Wert muss vom Typ 'SolvEvent' sein."]],
                     ['.' => ["Wert muss vom Typ 'TerminLocation' sein."]],
                     ['.' => ["Wert muss vom Typ 'TerminTemplate' sein."]],
@@ -92,6 +93,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'entityType' => [['.' => [
+                    ['.' => ["Wert muss vom Typ 'QuestionCategory' sein."]],
                     ['.' => ["Wert muss vom Typ 'SolvEvent' sein."]],
                     ['.' => ["Wert muss vom Typ 'TerminLocation' sein."]],
                     ['.' => ["Wert muss vom Typ 'TerminTemplate' sein."]],

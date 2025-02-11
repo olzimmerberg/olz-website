@@ -497,7 +497,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                     href={`${codeHref}fragen_und_antworten/forumsregeln`}
                     target='_blank'
                 >
-                                    Forumsregeln
+                    Forumsregeln
                 </a>
                 {' einverstanden'}
             </p>

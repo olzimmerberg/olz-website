@@ -1,0 +1,15 @@
+#edit-question-modal {
+    .modal-dialog {
+        max-width: 1280px;
+        width: 95%;
+    }
+
+    #answer-input {
+        height: 200px;
+    }
+
+    #images-upload,
+    #files-upload {
+        margin-bottom: 12px;
+    }
+}

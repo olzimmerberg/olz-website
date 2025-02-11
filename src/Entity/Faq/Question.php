@@ -3,13 +3,18 @@
 namespace Olz\Entity\Faq;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\DataStorageInterface;
+use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Repository\Faq\QuestionRepository;
 
 #[ORM\Table(name: 'questions')]
 #[ORM\Index(name: 'ident_index', columns: ['on_off', 'ident'])]
 #[ORM\Index(name: 'category_position_index', columns: ['on_off', 'category_id', 'position_within_category'])]
-#[ORM\Entity]
-class Question extends OlzEntity {
+#[ORM\Entity(repositoryClass: QuestionRepository::class)]
+class Question extends OlzEntity implements DataStorageInterface {
+    use DataStorageTrait;
+
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -77,5 +82,15 @@ class Question extends OlzEntity {
 
     public function setAnswer(?string $new_value): void {
         $this->answer = $new_value;
+    }
+
+    // ---
+
+    public static function getEntityNameForStorage(): string {
+        return 'questions';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
     }
 }

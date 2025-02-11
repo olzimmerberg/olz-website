@@ -8,6 +8,7 @@ class ImageUtils {
     public const TABLES_IMG_DIRS = [
         'karten' => 'img/karten/',
         'news' => 'img/news/',
+        'questions' => 'img/questions/',
         'roles' => 'img/roles/',
         'snippets' => 'img/snippets/',
         'termine' => 'img/termine/',

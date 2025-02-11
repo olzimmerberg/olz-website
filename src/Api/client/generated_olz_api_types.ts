@@ -4,7 +4,7 @@ export type OlzAuthenticatedUser = {'id': number, 'firstName': string, 'lastName
 
 export type OlzAuthenticatedRole = {'id': number, 'name': string, 'username': string};
 
-export type OlzSearchableEntityTypes = ('SolvEvent' | 'TerminLocation' | 'TerminTemplate' | 'Role' | 'User');
+export type OlzSearchableEntityTypes = ('QuestionCategory' | 'SolvEvent' | 'TerminLocation' | 'TerminTemplate' | 'Role' | 'User');
 
 export type OlzEntityResult = {'id': number, 'title': string};
 
@@ -45,6 +45,14 @@ export type OlzRoleInfoData = {'name'?: (string | null), 'username'?: (string | 
 export type OlzSnippetId = number;
 
 export type OlzSnippetData = {'text': string, 'imageIds': Array<string>, 'fileIds': Array<string>};
+
+export type OlzQuestionData = {'ident': string, 'question': string, 'categoryId'?: (number | null), 'positionWithinCategory'?: (number | null), 'answer': string, 'imageIds': Array<string>, 'fileIds': Array<string>};
+
+export type OlzQuestionId = number;
+
+export type OlzQuestionCategoryData = {'position': number, 'name': string};
+
+export type OlzQuestionCategoryId = number;
 
 export type OlzWeeklyPictureData = {'text': string, 'imageId': string, 'publishedDate'?: (IsoDate | null)};
 
@@ -165,6 +173,16 @@ export type OlzApiEndpoint =
     'getSnippet'|
     'editSnippet'|
     'updateSnippet'|
+    'createQuestion'|
+    'getQuestion'|
+    'editQuestion'|
+    'updateQuestion'|
+    'deleteQuestion'|
+    'createQuestionCategory'|
+    'getQuestionCategory'|
+    'editQuestionCategory'|
+    'updateQuestionCategory'|
+    'deleteQuestionCategory'|
     'createWeeklyPicture'|
     'getWeeklyPicture'|
     'editWeeklyPicture'|
@@ -272,6 +290,16 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getSnippet: {'id': OlzSnippetId, 'custom'?: never},
     editSnippet: {'id': OlzSnippetId, 'custom'?: never},
     updateSnippet: {'id': OlzSnippetId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzSnippetData | null), 'custom'?: never},
+    createQuestion: {'meta': OlzMetaData, 'data': OlzQuestionData, 'custom'?: never},
+    getQuestion: {'id': OlzQuestionId, 'custom'?: never},
+    editQuestion: {'id': OlzQuestionId, 'custom'?: never},
+    updateQuestion: {'id': OlzQuestionId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzQuestionData | null), 'custom'?: never},
+    deleteQuestion: {'id': OlzQuestionId, 'custom'?: never},
+    createQuestionCategory: {'meta': OlzMetaData, 'data': OlzQuestionCategoryData, 'custom'?: never},
+    getQuestionCategory: {'id': OlzQuestionCategoryId, 'custom'?: never},
+    editQuestionCategory: {'id': OlzQuestionCategoryId, 'custom'?: never},
+    updateQuestionCategory: {'id': OlzQuestionCategoryId, 'meta'?: (OlzMetaData | null), 'data'?: (OlzQuestionCategoryData | null), 'custom'?: never},
+    deleteQuestionCategory: {'id': OlzQuestionCategoryId, 'custom'?: never},
     createWeeklyPicture: {'meta': OlzMetaData, 'data': OlzWeeklyPictureData, 'custom'?: never},
     getWeeklyPicture: {'id': OlzWeeklyPictureId, 'custom'?: never},
     editWeeklyPicture: {'id': OlzWeeklyPictureId, 'custom'?: never},
@@ -378,6 +406,16 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     getSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
     editSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
     updateSnippet: {'id': OlzSnippetId, 'custom'?: never},
+    createQuestion: {'id'?: (OlzQuestionId | null), 'custom'?: never},
+    getQuestion: {'id': OlzQuestionId, 'meta': OlzMetaData, 'data': OlzQuestionData, 'custom'?: never},
+    editQuestion: {'id': OlzQuestionId, 'meta': OlzMetaData, 'data': OlzQuestionData, 'custom'?: never},
+    updateQuestion: {'id': OlzQuestionId, 'custom'?: never},
+    deleteQuestion: {'custom'?: never},
+    createQuestionCategory: {'id'?: (OlzQuestionCategoryId | null), 'custom'?: never},
+    getQuestionCategory: {'id': OlzQuestionCategoryId, 'meta': OlzMetaData, 'data': OlzQuestionCategoryData, 'custom'?: never},
+    editQuestionCategory: {'id': OlzQuestionCategoryId, 'meta': OlzMetaData, 'data': OlzQuestionCategoryData, 'custom'?: never},
+    updateQuestionCategory: {'id': OlzQuestionCategoryId, 'custom'?: never},
+    deleteQuestionCategory: {'custom'?: never},
     createWeeklyPicture: {'id'?: (OlzWeeklyPictureId | null), 'custom'?: never},
     getWeeklyPicture: {'id': OlzWeeklyPictureId, 'meta': OlzMetaData, 'data': OlzWeeklyPictureData, 'custom'?: never},
     editWeeklyPicture: {'id': OlzWeeklyPictureId, 'meta': OlzMetaData, 'data': OlzWeeklyPictureData, 'custom'?: never},

@@ -6,6 +6,7 @@ use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificat
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
+use Olz\Repository\Faq\PredefinedQuestion;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzTelegramCard extends OlzComponent {
@@ -22,6 +23,7 @@ class OlzTelegramCard extends OlzComponent {
             $notification_subscription_repo = $entityManager->getRepository(NotificationSubscription::class);
             $subscriptions = $notification_subscription_repo->findBy(['user' => $user, 'delivery_type' => 'telegram']);
             $form = OlzNotificationSubscriptionsForm::render(['subscriptions' => $subscriptions]);
+            $telegram_question_ident = PredefinedQuestion::Telegram->value;
 
             if (!$has_telegram_link) {
                 $content = <<<ZZZZZZZZZZ
@@ -36,7 +38,7 @@ class OlzTelegramCard extends OlzComponent {
                                 Aktivieren
                             </a>
                         </p>
-                        <p class="card-text"><a href='{$code_href}fragen_und_antworten/weshalb_telegram_push' class='linkwhite'>Weshalb Telegram?</a></p>
+                        <p class="card-text"><a href='{$code_href}fragen_und_antworten/{$telegram_question_ident}' class='linkwhite'>Weshalb Telegram?</a></p>
                     ZZZZZZZZZZ;
             } else {
                 $content = <<<ZZZZZZZZZZ
@@ -54,7 +56,7 @@ class OlzTelegramCard extends OlzComponent {
                             </p>
                             <div id='telegram-notifications-success-message' class='alert alert-success' role='alert'></div>
                             <div id='telegram-notifications-error-message' class='alert alert-danger' role='alert'></div>
-                            <p class="card-text"><a href='{$code_href}fragen_und_antworten/weshalb_telegram_push' class='linkwhite'>Weshalb Telegram?</a></p>
+                            <p class="card-text"><a href='{$code_href}fragen_und_antworten/{$telegram_question_ident}' class='linkwhite'>Weshalb Telegram?</a></p>
                         </form>
                     ZZZZZZZZZZ;
             }

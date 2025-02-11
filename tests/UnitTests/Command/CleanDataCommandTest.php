@@ -61,6 +61,7 @@ final class CleanDataCommandTest extends UnitTestCase {
         file_put_contents("{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuvwx.jpg_128x96.jpg", "test");
         file_put_contents("{$data_path}img/news/121/thumb/abcdefghijklmnopqrstuv-_.jpg$128.jpg", "test");
         mkdir("{$data_path}img/news/invalid/", 0o777, true);
+        mkdir("{$data_path}img/questions/", 0o777, true);
         mkdir("{$data_path}img/roles/", 0o777, true);
         mkdir("{$data_path}img/snippets/", 0o777, true);
         mkdir("{$data_path}img/termine/", 0o777, true);

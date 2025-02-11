@@ -494,7 +494,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                 <span className='required-field-asterisk'>*</span>
                 {' Mit dem Speichern erklärst du dich mit den '}
                 <a
-                    href={`${codeHref}fragen_und_antworten#forumsregeln`}
+                    href={`${codeHref}fragen_und_antworten/forumsregeln`}
                     target='_blank'
                 >
                                     Forumsregeln

@@ -7,11 +7,12 @@ use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
+use Olz\Entity\Faq\Question;
 use Olz\Entity\Karten\Karte;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Termine\Termin;
-use Olz\Faq\Components\OlzFaq\OlzFaq;
+use Olz\Faq\Components\OlzFaqList\OlzFaqList;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Components\OlzNewsList\OlzNewsList;
@@ -52,13 +53,27 @@ abstract class OlzSitemap extends OlzComponent {
             'level' => 0,
         ];
         $entries[] = [
-            'title' => OlzFaq::$title,
-            'description' => OlzFaq::$description,
+            'title' => OlzFaqList::$title,
+            'description' => OlzFaqList::$description,
             'url' => "{$base_href}/fragen_und_antworten",
             'updates' => 'daily',
             'importance' => 0.8,
             'level' => 0,
         ];
+
+        $questions = $entityManager->getRepository(Question::class)->findBy(['on_off' => 1]);
+        foreach ($questions as $question) {
+            $title = $question->getQuestion();
+            $entries[] = [
+                'title' => $title,
+                'description' => '',
+                'url' => "{$base_href}/fragen_und_antworten/{$question->getIdent()}",
+                'updates' => 'monthly',
+                'importance' => 0.8,
+                'level' => 1,
+            ];
+        }
+
         $entries[] = [
             'title' => OlzNewsList::$title,
             'description' => OlzNewsList::$description,

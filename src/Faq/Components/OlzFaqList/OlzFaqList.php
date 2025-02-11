@@ -1,8 +1,9 @@
 <?php
 
-namespace Olz\Faq\Components\OlzFaq;
+namespace Olz\Faq\Components\OlzFaqList;
 
 use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Faq\Question;
@@ -13,28 +14,28 @@ use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
-class OlzFaqParams extends HttpParams {
+class OlzFaqListParams extends HttpParams {
 }
 
 /** @extends OlzComponent<array<string, mixed>> */
-class OlzFaq extends OlzComponent {
+class OlzFaqList extends OlzComponent {
     public static string $title = "Fragen & Antworten";
     public static string $description = "Antworten auf die wichtigsten Fragen rund um den OL, die OL Zimmerberg und diese Website.";
 
     public function getHtml(mixed $args): string {
-        $this->httpUtils()->validateGetParams(OlzFaqParams::class);
+        $this->httpUtils()->validateGetParams(OlzFaqListParams::class);
+        $code_href = $this->envUtils()->getCodeHref();
         $entityManager = $this->dbUtils()->getEntityManager();
         $question_repo = $entityManager->getRepository(Question::class);
         $category_repo = $entityManager->getRepository(QuestionCategory::class);
-
-        $role_repo = $entityManager->getRepository(Role::class);
-        $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
 
         $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
         ]);
 
+        $role_repo = $entityManager->getRepository(Role::class);
+        $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
         $nachwuchs_out = '';
         $nachwuchs_assignees = $nachwuchs_role->getUsers();
         foreach ($nachwuchs_assignees as $nachwuchs_assignee) {
@@ -63,8 +64,13 @@ class OlzFaq extends OlzComponent {
                 ['position_within_category' => 'ASC'],
             );
             foreach ($questions as $question) {
-                $answer_html = $this->htmlUtils()->renderMarkdown($question->getAnswer());
-                $out .= "<h3 id='{$question->getIdent()}'>{$question->getQuestion()}</h3><div>{$answer_html}</div><br />";
+                $icon = "{$code_href}assets/icns/question_mark_20.svg";
+                $link = "fragen_und_antworten/{$question->getIdent()}";
+                $out .= OlzPostingListItem::render([
+                    'icon' => $icon,
+                    'title' => $question->getQuestion(),
+                    'link' => $link,
+                ]);
             }
         }
 

@@ -12,7 +12,7 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
  * @extends FakeEntity<WeeklyPicture>
  */
 class FakeWeeklyPicture extends FakeEntity {
-    public static function minimal(bool $fresh = false): object {
+    public static function minimal(bool $fresh = false): WeeklyPicture {
         return self::getFake(
             $fresh,
             function () {
@@ -27,7 +27,7 @@ class FakeWeeklyPicture extends FakeEntity {
         );
     }
 
-    public static function empty(bool $fresh = false): object {
+    public static function empty(bool $fresh = false): WeeklyPicture {
         return self::getFake(
             $fresh,
             function () {
@@ -43,7 +43,7 @@ class FakeWeeklyPicture extends FakeEntity {
         );
     }
 
-    public static function maximal(bool $fresh = false): object {
+    public static function maximal(bool $fresh = false): WeeklyPicture {
         return self::getFake(
             $fresh,
             function () {

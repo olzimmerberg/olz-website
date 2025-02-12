@@ -109,7 +109,7 @@ final class TermineUtilsTest extends UnitTestCase {
 
         $termine_utils->updateTerminFromSolvEvent($termin);
 
-        $this->assertSame('2020-03-13', $termin->getStartDate()?->format('Y-m-d'));
+        $this->assertSame('2020-03-13', $termin->getStartDate()->format('Y-m-d'));
         $this->assertNull($termin->getStartTime());
         $this->assertSame('2020-03-15', $termin->getEndDate()?->format('Y-m-d'));
         $this->assertNull($termin->getEndTime());

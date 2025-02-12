@@ -5,14 +5,12 @@ namespace Olz\Api\Endpoints;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Common\OlzEntity;
-use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Faq\QuestionCategory;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\HttpError;
 
 /**
  * TODO: Support key-of<self::SUPPORTED_ENTITY_TYPES>.
@@ -49,10 +47,6 @@ class SearchEntitiesEndpoint extends OlzTypedEndpoint {
 
         $entity_type = $input['entityType'];
         $entity_class = self::SUPPORTED_ENTITY_TYPES[$entity_type];
-        $entity_instance = new $entity_class();
-        if (!($entity_instance instanceof SearchableInterface)) {
-            throw new HttpError(400, "{$entity_class} does not implement SearchableInterface");
-        }
 
         $search_terms = preg_split('/\s+/', $input['query'] ?? '');
         $matching_criterium = Criteria::expr()->andX(

@@ -11,7 +11,7 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
  * @extends FakeEntity<SolvResult>
  */
 class FakeSolvResult extends FakeEntity {
-    public static function defaultSolvResult(bool $fresh = false): object {
+    public static function defaultSolvResult(bool $fresh = false): SolvResult {
         return self::getFake(
             $fresh,
             function () {

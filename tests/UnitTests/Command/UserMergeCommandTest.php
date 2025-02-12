@@ -15,6 +15,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class UserMergeCommandTest extends UnitTestCase {
     public function testUserMergeCommand(): void {
         $command = new UserMergeCommand();
-        $this->assertTrue((bool) $command);
+        $this->assertSame(UserMergeCommand::class, get_class($command));
     }
 }

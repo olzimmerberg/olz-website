@@ -8,7 +8,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AbstractDateUtils;
 
 class FakeDateUtils extends AbstractDateUtils {
-    private ?int $fixed_date;
+    private int $fixed_date;
 
     public function __construct(string $fixed_date) {
         $this->fixed_date = strtotime($fixed_date);

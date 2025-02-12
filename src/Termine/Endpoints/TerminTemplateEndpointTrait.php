@@ -40,12 +40,12 @@ trait TerminTemplateEndpointTrait {
         $file_ids = $entity->getStoredFileUploadIds();
 
         return [
-            'startTime' => $entity->getStartTime()?->format('H:i:s'),
+            'startTime' => IsoTime::fromDateTime($entity->getStartTime()),
             'durationSeconds' => $entity->getDurationSeconds(),
             'title' => $entity->getTitle() ?? '',
             'text' => $entity->getText() ?? '',
             'deadlineEarlierSeconds' => $entity->getDeadlineEarlierSeconds(),
-            'deadlineTime' => $entity->getDeadlineTime()?->format('H:i:s'),
+            'deadlineTime' => IsoTime::fromDateTime($entity->getDeadlineTime()),
             'shouldPromote' => $entity->getShouldPromote(),
             'newsletter' => $entity->getNewsletter(),
             'types' => $types_for_api,

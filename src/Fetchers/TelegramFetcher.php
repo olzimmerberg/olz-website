@@ -13,7 +13,7 @@ class TelegramFetcher {
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $telegram_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($args, '', '&'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $telegram_result = curl_exec($ch);

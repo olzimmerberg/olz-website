@@ -6,21 +6,22 @@ namespace Olz\Tests\Fake;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\Cache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\NativeQuery;
 use Doctrine\ORM\Proxy\ProxyFactory;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\FilterCollection;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
-use Doctrine\Persistence\Mapping\ClassMetadata;
-use Doctrine\Persistence\Mapping\ClassMetadataFactory;
-use Doctrine\Persistence\ObjectRepository;
 use Olz\Entity\AccessToken;
 use Olz\Entity\Anmelden\Booking;
 use Olz\Entity\Anmelden\Registration;
@@ -126,10 +127,17 @@ class FakeEntityManager implements EntityManagerInterface {
         ];
     }
 
-    public function getRepository($class): ObjectRepository|EntityRepository {
-        $repo = $this->repositories[$class] ?? null;
+    /**
+     * @template T of object
+     *
+     * @param class-string<T> $className
+     *
+     * @return EntityRepository<T>
+     */
+    public function getRepository($className): EntityRepository {
+        $repo = $this->repositories[$className] ?? null;
         if (!$repo) {
-            throw new \Exception("Repository was not mocked: {$class}");
+            throw new \Exception("Repository was not mocked: {$className}");
         }
         return $repo;
     }
@@ -166,22 +174,11 @@ class FakeEntityManager implements EntityManagerInterface {
         throw new \Exception('not implemented');
     }
 
-    public function copy($entity, $deep = false): object {
+    public function createNativeQuery(string $sql, ResultSetMapping $rsm): NativeQuery {
         throw new \Exception('not implemented');
     }
 
-    public function createNamedNativeQuery($name): NativeQuery {
-        throw new \Exception('not implemented');
-    }
-
-    public function createNamedQuery($name): Query {
-        throw new \Exception('not implemented');
-    }
-
-    public function createNativeQuery($sql, Query\ResultSetMapping $rsm): NativeQuery {
-        throw new \Exception('not implemented');
-    }
-
+    // @phpstan-ignore-next-line
     public function createQuery($dql = ''): Query {
         throw new \Exception('not implemented');
     }
@@ -218,14 +215,6 @@ class FakeEntityManager implements EntityManagerInterface {
         throw new \Exception('not implemented');
     }
 
-    public function getHydrator($hydrationMode): AbstractHydrator {
-        throw new \Exception('not implemented');
-    }
-
-    public function getPartialReference($entityName, $identifier): object {
-        throw new \Exception('not implemented');
-    }
-
     public function getProxyFactory(): ProxyFactory {
         throw new \Exception('not implemented');
     }
@@ -250,7 +239,11 @@ class FakeEntityManager implements EntityManagerInterface {
         throw new \Exception('not implemented');
     }
 
-    public function lock($entity, $lockMode, $lockVersion = null): void {
+    public function lock(
+        object $entity,
+        LockMode|int $lockMode,
+        \DateTimeInterface|int|null $lockVersion = null,
+    ): void {
         throw new \Exception('not implemented');
     }
 
@@ -259,10 +252,6 @@ class FakeEntityManager implements EntityManagerInterface {
     }
 
     public function rollback(): void {
-        throw new \Exception('not implemented');
-    }
-
-    public function transactional($func): mixed {
         throw new \Exception('not implemented');
     }
 
@@ -278,7 +267,12 @@ class FakeEntityManager implements EntityManagerInterface {
         throw new \Exception('not implemented');
     }
 
-    public function find(string $className, $id): ?object {
+    public function find(
+        string $className,
+        mixed $id,
+        LockMode|int|null $lockMode = null,
+        ?int $lockVersion = null,
+    ): ?object {
         throw new \Exception('not implemented');
     }
 
@@ -286,11 +280,12 @@ class FakeEntityManager implements EntityManagerInterface {
         throw new \Exception('not implemented');
     }
 
+    // @phpstan-ignore-next-line
     public function getMetadataFactory(): ClassMetadataFactory {
         throw new \Exception('not implemented');
     }
 
-    public function refresh($entity, ?int $lockMode = null): void {
+    public function refresh($entity, LockMode|int|null $lockMode = null): void {
         throw new \Exception('not implemented');
     }
 

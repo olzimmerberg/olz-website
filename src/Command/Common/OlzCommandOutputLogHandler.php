@@ -29,9 +29,7 @@ class OlzCommandOutputLogHandler extends AbstractProcessingHandler {
     }
 
     protected function write(LogRecord $record): void {
-        if ($this->output !== null) {
-            $this->output->writeln($record->formatted);
-        }
+        $this->output->writeln($record->formatted);
     }
 
     protected function getDefaultFormatter(): FormatterInterface {

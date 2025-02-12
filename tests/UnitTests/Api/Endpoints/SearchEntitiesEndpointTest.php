@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Olz\Api\Endpoints\SearchEntitiesEndpoint;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Tests\Fake\Entity\Common\FakeLazyCollection;
@@ -18,8 +19,8 @@ use PhpTypeScriptApi\HttpError;
  * @extends FakeOlzRepository<TerminLocation>
  */
 class FakeSearchEntitiesEndpointTerminLocationRepository extends FakeOlzRepository {
-    /** @return AbstractLazyCollection<int, TerminLocation> */
-    public function matching(Criteria $criteria): AbstractLazyCollection {
+    /** @return AbstractLazyCollection<int, TerminLocation>&Selectable<int, TerminLocation> */
+    public function matching(Criteria $criteria): AbstractLazyCollection&Selectable {
         $termin_location_1 = new TerminLocation();
         $termin_location_1->setId(1);
         $termin_location_1->setName('Query-Hütte');

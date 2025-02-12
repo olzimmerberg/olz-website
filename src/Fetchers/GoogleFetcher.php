@@ -13,7 +13,7 @@ class GoogleFetcher {
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $google_siteverify_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($siteverify_request_data, '', '&'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $siteverify_result = curl_exec($ch);

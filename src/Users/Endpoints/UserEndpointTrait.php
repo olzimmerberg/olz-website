@@ -49,12 +49,12 @@ trait UserEndpointTrait {
             'email' => $entity->getEmail() ? $entity->getEmail() : null,
             'phone' => $entity->getPhone() ? $entity->getPhone() : null,
             'gender' => $entity->getGender() ? $entity->getGender() : null,
-            'birthdate' => $entity->getBirthdate()?->format('Y-m-d'),
+            'birthdate' => IsoDate::fromDateTime($entity->getBirthdate()),
             'street' => $entity->getStreet() ? $entity->getStreet() : null,
             'postalCode' => $entity->getPostalCode() ? $entity->getPostalCode() : null,
             'city' => $entity->getCity() ? $entity->getCity() : null,
             'region' => $entity->getRegion() ? $entity->getRegion() : null,
-            'countryCode' => $entity->getCountryCode() ? $entity->getCountryCode() : null,
+            'countryCode' => $entity->getCountryCode() ? IsoCountry::fromData($entity->getCountryCode()) : null,
             'siCardNumber' => $entity->getSiCardNumber()
                 ? intval($entity->getSiCardNumber())
                 : null,

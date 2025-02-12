@@ -14,7 +14,7 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
  * @extends FakeEntity<TerminTemplate>
  */
 class FakeTerminTemplate extends FakeEntity {
-    public static function minimal(bool $fresh = false): object {
+    public static function minimal(bool $fresh = false): TerminTemplate {
         return self::getFake(
             $fresh,
             function () {
@@ -36,7 +36,7 @@ class FakeTerminTemplate extends FakeEntity {
         );
     }
 
-    public static function empty(bool $fresh = false): object {
+    public static function empty(bool $fresh = false): TerminTemplate {
         return self::getFake(
             $fresh,
             function () {
@@ -59,7 +59,7 @@ class FakeTerminTemplate extends FakeEntity {
         );
     }
 
-    public static function maximal(bool $fresh = false): object {
+    public static function maximal(bool $fresh = false): TerminTemplate {
         return self::getFake(
             $fresh,
             function () {

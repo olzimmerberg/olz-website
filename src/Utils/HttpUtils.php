@@ -72,9 +72,9 @@ class HttpUtils {
     /**
      * @template T of array
      *
-     * @param class-string<HttpParams<T>> $params_class
-     * @param ?array<string, ?string>     $get_params
-     * @param array{just_log?: bool}      $options
+     * @param class-string<HttpParams<T>>             $params_class
+     * @param ?array<string, ?(string|array<string>)> $get_params
+     * @param array{just_log?: bool}                  $options
      *
      * @return T
      */

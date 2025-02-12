@@ -15,7 +15,6 @@ use Olz\Utils\AuthUtils;
 final class AuthUtilsIntegrationTest extends IntegrationTestCase {
     public function testAuthUtilsFromEnv(): void {
         $auth_utils = AuthUtils::fromEnv();
-
-        $this->assertTrue($auth_utils instanceof AuthUtils);
+        $this->assertSame(AuthUtils::class, get_class($auth_utils));
     }
 }

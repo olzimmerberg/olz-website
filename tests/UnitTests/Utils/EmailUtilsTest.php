@@ -18,7 +18,6 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
-use Webklex\PHPIMAP\Client;
 
 class DeterministicEmailUtils extends EmailUtils {
     public function __construct() {
@@ -132,7 +131,6 @@ final class EmailUtilsTest extends UnitTestCase {
 
         $client = $email_utils->getImapClient();
 
-        $this->assertTrue($client instanceof Client);
         $this->assertSame('127.0.0.1', $client->host);
         $this->assertSame(143, $client->port);
         $this->assertSame('imap@staging.olzimmerberg.ch', $client->username);

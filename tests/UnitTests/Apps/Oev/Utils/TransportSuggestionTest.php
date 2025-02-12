@@ -14,6 +14,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  */
 final class TransportSuggestionTest extends UnitTestCase {
     public function testTransportSection(): void {
-        $this->assertTrue((bool) TransportSuggestion::class);
+        $transport_suggestion = new TransportSuggestion();
+        $this->assertSame(TransportSuggestion::class, get_class($transport_suggestion));
     }
 }

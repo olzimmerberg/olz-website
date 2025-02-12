@@ -143,7 +143,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
     }
 
     /** @param array<string, mixed> $criteria */
-    protected function subscriptionToBeFoundForQuery(array $criteria): ?NotificationSubscription {
+    protected function subscriptionToBeFoundForQuery(array $criteria): NotificationSubscription {
         if ($criteria === ['id' => FakeNotificationSubscription::roleReminderDefault()->getId()]) {
             return FakeNotificationSubscription::roleReminderDefault();
         }
@@ -176,7 +176,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
     /**
      * @param array<string, mixed> $criteria
      *
-     * @return array<NotificationSubscription>
+     * @return array<Role>
      */
     protected function rolesToBeFoundForQuery(array $criteria): array {
         if ($criteria === ['on_off' => 1]) {
@@ -195,6 +195,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
     public function testRoleReminderGetterOnWrongDay(): void {
         $the_day = substr(RoleReminderGetter::EXECUTION_DATE, 4, 6);
         $not_the_day = '-01-01';
+        // @phpstan-ignore-next-line
         assert($the_day !== $not_the_day);
         $date_utils = new FixedDateUtils("2020{$not_the_day} 19:00:00");
 

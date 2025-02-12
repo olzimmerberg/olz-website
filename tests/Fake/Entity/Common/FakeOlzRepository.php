@@ -6,6 +6,7 @@ namespace Olz\Tests\Fake\Entity\Common;
 
 use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -25,13 +26,13 @@ class FakeOlzRepository extends EntityRepository {
     public string $olzEntityClass = OlzEntity::class;
     public string $fakeOlzEntityClass = FakeEntity::class;
 
-    /** @var callable(array<string, mixed>): ?T */
+    /** @var ?callable(array<string, mixed>): ?T */
     public mixed $entityToBeFoundForQuery = null;
 
     /** @var ?array<T> */
     public ?array $entitiesToBeMatched = null;
 
-    /** @var callable(array<string, mixed>): array<T> */
+    /** @var ?callable(array<string, mixed>): array<T> */
     public mixed $entitiesToBeFoundForQuery = null;
 
     public function __construct(EntityManagerInterface $em) {
@@ -65,8 +66,8 @@ class FakeOlzRepository extends EntityRepository {
         throw new \Exception("Query not mocked in {$class} repo findOneBy: {$criteria_json}", 1);
     }
 
-    /** @return FakeLazyCollection<T> */
-    public function matching(Criteria $criteria): AbstractLazyCollection {
+    /** @return AbstractLazyCollection<int, T>&Selectable<int, T> */
+    public function matching(Criteria $criteria): AbstractLazyCollection&Selectable {
         if ($this->entitiesToBeMatched !== null) {
             return new FakeLazyCollection($this->entitiesToBeMatched);
         }

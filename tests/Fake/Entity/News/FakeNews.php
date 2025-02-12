@@ -14,7 +14,7 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
  * @extends FakeEntity<NewsEntry>
  */
 class FakeNews extends FakeEntity {
-    public static function minimal(bool $fresh = false): object {
+    public static function minimal(bool $fresh = false): NewsEntry {
         return self::getFake(
             $fresh,
             function () {
@@ -41,7 +41,7 @@ class FakeNews extends FakeEntity {
         );
     }
 
-    public static function empty(bool $fresh = false): object {
+    public static function empty(bool $fresh = false): NewsEntry {
         return self::getFake(
             $fresh,
             function () {
@@ -68,7 +68,7 @@ class FakeNews extends FakeEntity {
         );
     }
 
-    public static function maximal(bool $fresh = false): object {
+    public static function maximal(bool $fresh = false): NewsEntry {
         return self::getFake(
             $fresh,
             function () {

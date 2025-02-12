@@ -12,7 +12,7 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
  * @extends FakeEntity<StravaLink>
  */
 class FakeStravaLink extends FakeEntity {
-    public static function defaultStravaLink(bool $fresh = false): object {
+    public static function defaultStravaLink(bool $fresh = false): StravaLink {
         return self::getFake(
             $fresh,
             function () {

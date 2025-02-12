@@ -12,7 +12,7 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
  * @extends FakeEntity<TelegramLink>
  */
 class FakeTelegramLink extends FakeEntity {
-    public static function validPin(bool $fresh = false): object {
+    public static function validPin(bool $fresh = false): TelegramLink {
         return self::getFake(
             $fresh,
             function () {
@@ -31,7 +31,7 @@ class FakeTelegramLink extends FakeEntity {
         );
     }
 
-    public static function expiredPin(bool $fresh = false): object {
+    public static function expiredPin(bool $fresh = false): TelegramLink {
         return self::getFake(
             $fresh,
             function () {
@@ -50,7 +50,7 @@ class FakeTelegramLink extends FakeEntity {
         );
     }
 
-    public static function null(bool $fresh = false): object {
+    public static function null(bool $fresh = false): TelegramLink {
         return self::getFake(
             $fresh,
             function () {

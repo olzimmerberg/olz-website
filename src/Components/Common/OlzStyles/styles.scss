@@ -170,6 +170,7 @@ a {
 /*-----------------LINKS------------------*/
 /* für a, span, div, li */
 .linkblack,
+.linkduplicate,
 .linkedit,
 .linkext,
 .linkimg,
@@ -179,7 +180,9 @@ a {
 .linkmovie,
 .linkneu,
 .linkoev,
-.linkduplicate {
+.linkol,
+.linkpdf,
+.linkrole {
     background-position: left center;
 }
 
@@ -196,8 +199,10 @@ a {
     padding: 0 6px 0 16px;
 }
 
-.linkedit2 {
-    padding: 0 0 0 16px;
+.linkol,
+.linkpdf,
+.linkrole {
+    padding: 0 6px 0 19px;
 }
 
 .linkblack {
@@ -246,14 +251,14 @@ a {
 
 .linkol {
     background-image: url('../../../../assets/icns/orienteering_forest_16.svg');
-    background-position: left center;
-    padding: 0 6px 0 19px;
 }
 
 .linkpdf {
     background-image: url('../../../../assets/icns/link_pdf_16.svg') !important;
-    background-position: left center;
-    padding: 0 6px 0 19px;
+}
+
+.linkrole {
+    background-image: url('../../../../assets/icns/link_role_16.svg');
 }
 
 .pretty a,
@@ -316,6 +321,10 @@ a {
     &[href^='mailto:'] {
         background-image: url('../../../../assets/icns/link_mail_16.svg');
     }
+
+    &.linkrole {
+        background-image: url('../../../../assets/icns/link_role_16.svg');
+    }
 }
 
 .rendered-markdown .lightgallery a[href],
@@ -346,8 +355,12 @@ a {
     table-layout: fixed;
 }
 
-.rendered-markdown .linkrole {
-    background-image: url('../../../../assets/icns/link_role_16.svg');
+.rendered-markdown .float-right {
+    float: right;
+}
+
+.rendered-markdown .clear-both {
+    clear: both;
 }
 
 .responsive-flex {

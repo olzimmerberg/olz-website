@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzTerminLocationData} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNotEmpty, validateNumber} from '../../../Utils/formUtils';
@@ -143,7 +143,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
             <div className='mb-3'>
                 <OlzTextField
                     mode='textarea'
-                    title='Details'
+                    title={<>Details {MARKDOWN_NOTICE}</>}
                     name='details'
                     errors={errors}
                     register={register}

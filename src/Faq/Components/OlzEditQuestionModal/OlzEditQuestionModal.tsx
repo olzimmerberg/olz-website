@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzQuestionData} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
@@ -163,7 +163,7 @@ export const OlzEditQuestionModal = (props: OlzEditQuestionModalProps): React.Re
             <div className='mb-3 test-flaky'>
                 <OlzTextField
                     mode='textarea'
-                    title='Antwort'
+                    title={<>Antwort {MARKDOWN_NOTICE}</>}
                     name='answer'
                     errors={errors}
                     register={register}

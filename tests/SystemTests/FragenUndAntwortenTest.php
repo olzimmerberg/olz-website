@@ -85,7 +85,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->login('vorstand', 'v0r57and');
 
         $browser->get($this->getUrl());
-        $this->assertCount(15, $this->getBrowserElements('.olz-posting-list-item'));
+        $this->assertCount(16, $this->getBrowserElements('.olz-posting-list-item'));
         $this->click('.olz-posting-list-item:nth-of-type(2) .edit-question-list-button');
         $this->waitForModal('#edit-question-modal');
         $this->click('#edit-question-modal #delete-button');
@@ -94,7 +94,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
 
         $browser->get($this->getUrl());
-        $this->assertCount(14, $this->getBrowserElements('.olz-posting-list-item'));
+        $this->assertCount(15, $this->getBrowserElements('.olz-posting-list-item'));
 
         $this->resetDb();
     }

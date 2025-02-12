@@ -7,4 +7,5 @@ enum PredefinedQuestion: string {
     case Telegram = 'weshalb_telegram_push';
     case RecoverUsernameEmail = 'benutzername_email_herausfinden';
     case ForumRules = 'forumsregeln';
+    case Markdown = 'markdown';
 }

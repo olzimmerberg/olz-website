@@ -157,11 +157,12 @@ class OlzNewsDetail extends OlzComponent {
         $content = str_replace("\n\n\n\n", "\n\n", $content);
 
         // Markdown
+        $html_input = $format === 'forum' ? 'escape' : 'allow'; // TODO: Do NOT allow!
         $teaser = $this->htmlUtils()->renderMarkdown($teaser, [
-            'html_input' => 'allow', // TODO: Do NOT allow!
+            'html_input' => $html_input,
         ]);
         $content = $this->htmlUtils()->renderMarkdown($content, [
-            'html_input' => 'allow', // TODO: Do NOT allow!
+            'html_input' => $html_input,
         ]);
 
         // Datei- & Bildpfade

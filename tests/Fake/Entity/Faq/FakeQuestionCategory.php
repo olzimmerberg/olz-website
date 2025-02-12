@@ -12,7 +12,7 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
  * @extends FakeEntity<QuestionCategory>
  */
 class FakeQuestionCategory extends FakeEntity {
-    public static function minimal(bool $fresh = false): object {
+    public static function minimal(bool $fresh = false): QuestionCategory {
         return self::getFake(
             $fresh,
             function () {
@@ -26,7 +26,7 @@ class FakeQuestionCategory extends FakeEntity {
         );
     }
 
-    public static function empty(bool $fresh = false): object {
+    public static function empty(bool $fresh = false): QuestionCategory {
         return self::getFake(
             $fresh,
             function () {
@@ -40,7 +40,7 @@ class FakeQuestionCategory extends FakeEntity {
         );
     }
 
-    public static function maximal(bool $fresh = false): object {
+    public static function maximal(bool $fresh = false): QuestionCategory {
         return self::getFake(
             $fresh,
             function () {

@@ -10,9 +10,9 @@ use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzTermineDeadlinesTile extends AbstractOlzTile {
-    private ?string $in_three_days;
-    private ?string $in_ten_days;
-    private ?string $in_four_weeks;
+    private string $in_three_days;
+    private string $in_ten_days;
+    private string $in_four_weeks;
 
     public function getRelevance(?User $user): float {
         return 0.75;

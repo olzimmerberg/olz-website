@@ -17,6 +17,6 @@ final class TestCommandTest extends UnitTestCase {
     public function testDummy(): void {
         $message_bus = $this->createMock(MessageBusInterface::class);
         $command = new TestCommand($message_bus);
-        $this->assertTrue((bool) $command);
+        $this->assertSame(TestCommand::class, get_class($command));
     }
 }

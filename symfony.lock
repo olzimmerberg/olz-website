@@ -8,15 +8,6 @@
     "artgris/filemanager-bundle": {
         "version": "2.4.2"
     },
-    "composer/pcre": {
-        "version": "3.0.0"
-    },
-    "composer/semver": {
-        "version": "3.3.2"
-    },
-    "composer/xdebug-handler": {
-        "version": "3.0.3"
-    },
     "dflydev/dot-access-data": {
         "version": "v3.0.1"
     },
@@ -34,9 +25,6 @@
     },
     "doctrine/collections": {
         "version": "1.6.8"
-    },
-    "doctrine/common": {
-        "version": "3.3.0"
     },
     "doctrine/dbal": {
         "version": "3.3.6"
@@ -96,7 +84,7 @@
         "version": "1.1.2"
     },
     "friendsofphp/php-cs-fixer": {
-        "version": "3.8",
+        "version": "3.68",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -275,6 +263,18 @@
         },
         "files": [
             ".env"
+        ]
+    },
+    "symfony/form": {
+        "version": "7.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.2",
+            "ref": "7d86a6723f4a623f59e2bf966b6aad2fc461d36b"
+        },
+        "files": [
+            "config/packages/csrf.yaml"
         ]
     },
     "symfony/framework-bundle": {

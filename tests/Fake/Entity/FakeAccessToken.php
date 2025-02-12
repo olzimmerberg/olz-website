@@ -12,7 +12,7 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
  * @extends FakeEntity<AccessToken>
  */
 class FakeAccessToken extends FakeEntity {
-    public static function default(bool $fresh = false): object {
+    public static function default(bool $fresh = false): AccessToken {
         return self::getFake(
             $fresh,
             function () {
@@ -28,7 +28,7 @@ class FakeAccessToken extends FakeEntity {
         );
     }
 
-    public static function valid(bool $fresh = false): object {
+    public static function valid(bool $fresh = false): AccessToken {
         return self::getFake(
             $fresh,
             function () {
@@ -43,7 +43,7 @@ class FakeAccessToken extends FakeEntity {
         );
     }
 
-    public static function expired(bool $fresh = false): object {
+    public static function expired(bool $fresh = false): AccessToken {
         return self::getFake(
             $fresh,
             function () {

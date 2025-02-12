@@ -12,7 +12,7 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
  * @extends FakeEntity<Link>
  */
 class FakeLink extends FakeEntity {
-    public static function minimal(bool $fresh = false): object {
+    public static function minimal(bool $fresh = false): Link {
         return self::getFake(
             $fresh,
             function () {
@@ -27,7 +27,7 @@ class FakeLink extends FakeEntity {
         );
     }
 
-    public static function empty(bool $fresh = false): object {
+    public static function empty(bool $fresh = false): Link {
         return self::getFake(
             $fresh,
             function () {
@@ -42,7 +42,7 @@ class FakeLink extends FakeEntity {
         );
     }
 
-    public static function maximal(bool $fresh = false): object {
+    public static function maximal(bool $fresh = false): Link {
         return self::getFake(
             $fresh,
             function () {

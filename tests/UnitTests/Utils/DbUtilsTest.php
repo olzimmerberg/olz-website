@@ -17,6 +17,6 @@ final class DbUtilsTest extends UnitTestCase {
         $db_utils = new DbUtils();
 
         // There's not much to test in unit tests without an actual DB...
-        $this->assertTrue($db_utils instanceof DbUtils);
+        $this->assertEquals($db_utils, DbUtils::fromEnv());
     }
 }

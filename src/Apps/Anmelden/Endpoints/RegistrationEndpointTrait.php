@@ -58,8 +58,8 @@ trait RegistrationEndpointTrait {
             'title' => $entity->getTitle(),
             'description' => $entity->getDescription(),
             'infos' => $infos,
-            'opensAt' => $entity->getOpensAt()?->format('Y-m-d H:i:s'),
-            'closesAt' => $entity->getClosesAt()?->format('Y-m-d H:i:s'),
+            'opensAt' => IsoDateTime::fromDateTime($entity->getOpensAt()),
+            'closesAt' => IsoDateTime::fromDateTime($entity->getClosesAt()),
         ];
     }
 

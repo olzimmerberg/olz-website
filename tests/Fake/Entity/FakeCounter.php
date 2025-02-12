@@ -11,7 +11,7 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
  * @extends FakeEntity<Counter>
  */
 class FakeCounter extends FakeEntity {
-    public static function minimal(bool $fresh = false): object {
+    public static function minimal(bool $fresh = false): Counter {
         return self::getFake(
             $fresh,
             function () {
@@ -23,7 +23,7 @@ class FakeCounter extends FakeEntity {
         );
     }
 
-    public static function empty(bool $fresh = false): object {
+    public static function empty(bool $fresh = false): Counter {
         return self::getFake(
             $fresh,
             function () {
@@ -35,7 +35,7 @@ class FakeCounter extends FakeEntity {
         );
     }
 
-    public static function maximal(bool $fresh = false): object {
+    public static function maximal(bool $fresh = false): Counter {
         return self::getFake(
             $fresh,
             function () {
@@ -47,7 +47,7 @@ class FakeCounter extends FakeEntity {
         );
     }
 
-    public static function defaultCounter(bool $fresh = false): object {
+    public static function defaultCounter(bool $fresh = false): Counter {
         return self::getFake(
             $fresh,
             function () {

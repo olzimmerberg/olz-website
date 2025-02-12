@@ -13,7 +13,7 @@ class StravaFetcher {
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $strava_token_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($token_request_data, '', '&'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $token_result = curl_exec($ch);

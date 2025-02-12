@@ -13,7 +13,7 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
  * @extends FakeEntity<NotificationSubscription>
  */
 class FakeNotificationSubscription extends FakeEntity {
-    public static function minimal(bool $fresh = false): object {
+    public static function minimal(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -29,7 +29,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function empty(bool $fresh = false): object {
+    public static function empty(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -45,7 +45,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function maximal(bool $fresh = false): object {
+    public static function maximal(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -61,7 +61,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function defaultNotificationSubscription(bool $fresh = false): object {
+    public static function defaultNotificationSubscription(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -77,7 +77,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription1(bool $fresh = false): object {
+    public static function subscription1(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -92,7 +92,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription2(bool $fresh = false): object {
+    public static function subscription2(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -107,7 +107,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription3(bool $fresh = false): object {
+    public static function subscription3(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -122,7 +122,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription4(bool $fresh = false): object {
+    public static function subscription4(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -137,7 +137,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription5(bool $fresh = false): object {
+    public static function subscription5(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -152,7 +152,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription6(bool $fresh = false): object {
+    public static function subscription6(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -167,7 +167,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription7(bool $fresh = false): object {
+    public static function subscription7(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -182,7 +182,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription8(bool $fresh = false): object {
+    public static function subscription8(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -197,7 +197,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription9(bool $fresh = false): object {
+    public static function subscription9(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -212,7 +212,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription10(bool $fresh = false): object {
+    public static function subscription10(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -227,7 +227,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription11(bool $fresh = false): object {
+    public static function subscription11(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -242,7 +242,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription12(bool $fresh = false): object {
+    public static function subscription12(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -257,7 +257,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription13(bool $fresh = false): object {
+    public static function subscription13(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -272,7 +272,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription14(bool $fresh = false): object {
+    public static function subscription14(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -287,7 +287,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription15(bool $fresh = false): object {
+    public static function subscription15(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -302,7 +302,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription16(bool $fresh = false): object {
+    public static function subscription16(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -317,7 +317,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription17(bool $fresh = false): object {
+    public static function subscription17(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -332,7 +332,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription18(bool $fresh = false): object {
+    public static function subscription18(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -347,7 +347,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription19(bool $fresh = false): object {
+    public static function subscription19(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -362,7 +362,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription20(bool $fresh = false): object {
+    public static function subscription20(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -377,7 +377,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription21(bool $fresh = false): object {
+    public static function subscription21(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -392,7 +392,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function subscription22(bool $fresh = false): object {
+    public static function subscription22(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -407,7 +407,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function emailReminderDefault(bool $fresh = false): object {
+    public static function emailReminderDefault(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -422,7 +422,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function emailReminderAdmin(bool $fresh = false): object {
+    public static function emailReminderAdmin(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -437,7 +437,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function telegramReminderDefault(bool $fresh = false): object {
+    public static function telegramReminderDefault(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -452,7 +452,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function telegramReminderAdmin(bool $fresh = false): object {
+    public static function telegramReminderAdmin(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -467,7 +467,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function roleReminderDefault(bool $fresh = false): object {
+    public static function roleReminderDefault(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -485,7 +485,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function roleReminderVorstand(bool $fresh = false): object {
+    public static function roleReminderVorstand(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {
@@ -503,7 +503,7 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
-    public static function roleReminderBroken(bool $fresh = false): object {
+    public static function roleReminderBroken(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,
             function () {

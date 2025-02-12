@@ -131,10 +131,8 @@ class UserMergeCommand extends OlzCommand {
             $this->log()->notice("ParentUserId {$target_user->getParentUserId()} vs. {$source_user->getParentUserId()}");
         }
         foreach ($source_user->getPermissionMap() as $key => $value) {
-            if ($value === true) {
-                $this->log()->info("addPermission {$key}");
-                $target_user->addPermission($key);
-            }
+            $this->log()->info("addPermission {$key}");
+            $target_user->addPermission($key);
         }
         if ($target_user->getRoot() !== $source_user->getRoot()) {
             $this->log()->notice("root {$target_user->getRoot()} vs. {$source_user->getRoot()}");

@@ -13,7 +13,7 @@ use Olz\Tests\Fake\Entity\Roles\FakeRole;
  * @extends FakeEntity<User>
  */
 class FakeUser extends FakeEntity {
-    public static function minimal(bool $fresh = false): object {
+    public static function minimal(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () {
@@ -47,7 +47,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function empty(bool $fresh = false): object {
+    public static function empty(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () {
@@ -81,7 +81,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function maximal(bool $fresh = false): object {
+    public static function maximal(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () {
@@ -115,7 +115,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function adminUser(bool $fresh = false): object {
+    public static function adminUser(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () use ($fresh) {
@@ -152,7 +152,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function vorstandUser(bool $fresh = false): object {
+    public static function vorstandUser(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () use ($fresh) {
@@ -176,7 +176,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function parentUser(bool $fresh = false): object {
+    public static function parentUser(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () use ($fresh) {
@@ -196,7 +196,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function child1User(bool $fresh = false): object {
+    public static function child1User(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () {
@@ -216,7 +216,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function child2User(bool $fresh = false): object {
+    public static function child2User(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () use ($fresh) {
@@ -236,7 +236,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function defaultUser(bool $fresh = false): object {
+    public static function defaultUser(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () use ($fresh) {
@@ -268,7 +268,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function noAccessUser(bool $fresh = false): object {
+    public static function noAccessUser(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () {
@@ -279,7 +279,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function specificAccessUser(bool $fresh = false): object {
+    public static function specificAccessUser(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () {
@@ -290,7 +290,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function provokeErrorUser(bool $fresh = false): object {
+    public static function provokeErrorUser(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () {
@@ -301,7 +301,7 @@ class FakeUser extends FakeEntity {
         );
     }
 
-    public static function noTelegramLinkUser(bool $fresh = false): object {
+    public static function noTelegramLinkUser(bool $fresh = false): User {
         return self::getFake(
             $fresh,
             function () {

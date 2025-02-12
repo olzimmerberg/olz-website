@@ -106,17 +106,17 @@ class FakeWhereQuery extends WhereQuery {
     ) {
     }
 
-    public function leaveUnread(): WhereQuery {
+    public function leaveUnread(): static {
         $this->should_leave_unread = true;
         return $this;
     }
 
-    public function setFetchBody(bool $value): WhereQuery {
+    public function setFetchBody(bool $value): static {
         $this->should_fetch_body = $value;
         return $this;
     }
 
-    public function where(mixed $criteria, mixed $value = null): WhereQuery {
+    public function where(mixed $criteria, mixed $value = null): static {
         return $this;
     }
 
@@ -124,7 +124,7 @@ class FakeWhereQuery extends WhereQuery {
         return $this;
     }
 
-    public function softFail(bool $state = true): WhereQuery {
+    public function softFail(bool $state = true): static {
         return $this;
     }
 

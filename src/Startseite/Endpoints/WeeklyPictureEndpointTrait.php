@@ -27,7 +27,7 @@ trait WeeklyPictureEndpointTrait {
         return [
             'text' => $entity->getText() ?? '',
             'imageId' => $entity->getImageId() ? $entity->getImageId() : '-',
-            'publishedDate' => $entity->getPublishedDate()?->format('Y-m-d'),
+            'publishedDate' => IsoDate::fromDateTime($entity->getPublishedDate()),
         ];
     }
 

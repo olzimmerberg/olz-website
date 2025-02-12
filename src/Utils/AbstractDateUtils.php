@@ -61,9 +61,7 @@ abstract class AbstractDateUtils {
         if ($date instanceof \DateTime) {
             $date = $date->format(\DateTime::ATOM);
         }
-        if (is_string($date)) {
-            $date = strtotime($date);
-        }
+        $date = strtotime($date);
 
         return str_replace(
             [

@@ -56,19 +56,15 @@ final class OlzAppsTest extends UnitTestCase {
 
         foreach ($apps as $app) {
             $display_name = $app->getDisplayName();
-            $this->assertTrue(is_string($display_name));
             $this->assertTrue(strlen($display_name) > 0);
 
             $href = $app->getHref();
-            $this->assertTrue(is_string($href));
             $this->assertTrue(strlen($href) > 0);
 
             $icon_path = $app->getIconPath();
-            $this->assertTrue(is_string($icon_path));
             $this->assertTrue(strlen($icon_path) > 0);
 
             $icon = $app->getIcon();
-            $this->assertTrue(is_string($icon));
             $this->assertTrue(strlen($icon) > 0);
         }
     }

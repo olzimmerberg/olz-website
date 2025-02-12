@@ -15,7 +15,6 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 final class CoordinateUtilsIntegrationTest extends IntegrationTestCase {
     public function testCoordinateUtilsFromEnv(): void {
         $coordinate_utils = CoordinateUtils::fromEnv();
-
-        $this->assertTrue($coordinate_utils instanceof CoordinateUtils);
+        $this->assertSame(CoordinateUtils::class, get_class($coordinate_utils));
     }
 }

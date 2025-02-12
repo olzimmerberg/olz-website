@@ -48,13 +48,13 @@ final class StatusTest extends SystemTestCase {
         $login_button = $this->findBrowserElement('button[type="submit"]');
         $login_button->click();
         $browser->get("{$this::$statusUrl}?&mod=server");
-        $prod_check = $this->findBrowserElement('a[href="https://olzimmerberg.ch"]');
+        $prod_check = $this->getBrowserElement('a[href="https://olzimmerberg.ch"]');
         $this->assertNotNull($prod_check);
-        $prod_backup = $this->findBrowserElement('a[href*="monitor-backup"]');
+        $prod_backup = $this->getBrowserElement('a[href*="monitor-backup"]');
         $this->assertNotNull($prod_backup);
-        $prod_logs = $this->findBrowserElement('a[href*="monitor-logs"]');
+        $prod_logs = $this->getBrowserElement('a[href*="monitor-logs"]');
         $this->assertNotNull($prod_logs);
-        $some_view_link = $this->findBrowserElement('a[href*="action=view&id="]');
+        $some_view_link = $this->getBrowserElement('a[href*="action=view&id="]');
         $this->assertNotNull($some_view_link);
         $some_view_href = $some_view_link->getAttribute('href');
         $escaped_status_url = preg_quote($this::$statusUrl, '/');

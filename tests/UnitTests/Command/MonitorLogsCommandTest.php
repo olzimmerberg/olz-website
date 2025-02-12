@@ -15,6 +15,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class MonitorLogsCommandTest extends UnitTestCase {
     public function testMonitorLogsCommandSuccess(): void {
         $command = new MonitorLogsCommand();
-        $this->assertTrue((bool) $command);
+        $this->assertSame(MonitorLogsCommand::class, get_class($command));
     }
 }

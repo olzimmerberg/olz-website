@@ -22,10 +22,10 @@ class ThrottlingRepository extends OlzRepository {
         if (!$throttling) {
             $throttling = new Throttling();
             $throttling->setEventName($event_name);
-            $this->_em->persist($throttling);
+            $this->entityManager()->persist($throttling);
         }
         $sane_datetime = is_string($datetime) ? new \DateTime($datetime) : $datetime;
         $throttling->setLastOccurrence($sane_datetime);
-        $this->_em->flush();
+        $this->entityManager()->flush();
     }
 }

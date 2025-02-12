@@ -32,7 +32,7 @@ class OlzEmailReaktion extends OlzComponent {
         if ($reaction_data) {
             $question = null;
             if ($reaction_data['action'] == 'unsubscribe') {
-                if ($reaction_data['notification_type'] ?? null != null) {
+                if (($reaction_data['notification_type'] ?? null) !== null) {
                     $question = "<p>Willst du wirklich <b>alle E-Mail dieser Art abbestellen?</b></p>";
                 } elseif (isset($reaction_data['notification_type_all'])) {
                     $question = "<p>Willst du wirklich <b>jegliche E-Mails von OL Zimmerberg abbestellen?</b></p>";

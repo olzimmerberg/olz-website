@@ -47,7 +47,6 @@ final class AuthUtilsTest extends UnitTestCase {
         // Also test that it's resolving admin-old to admin
         $result = $auth_utils->authenticate('admin-old', 'adm1n');
 
-        $this->assertNotSame(null, FakeUser::adminUser());
         $this->assertSame(FakeUser::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session

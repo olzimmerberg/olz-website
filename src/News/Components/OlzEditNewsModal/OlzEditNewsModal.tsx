@@ -2,13 +2,13 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {MARKDOWN_NOTICE, initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzAuthenticatedUserRoleField} from '../../../Components/Common/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
-import {codeHref, dataHref} from '../../../Utils/constants';
+import {codeHref} from '../../../Utils/constants';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditNewsModal.scss';
@@ -156,7 +156,7 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         hasTeaser: false,
         hasContent: true,
         contentLabel: 'Dein Beitrag',
-        hasFormattingNotes: false,
+        hasFormattingNotes: true,
         hasExternalLink: false,
         hasImages: true,
         hasFiles: false,
@@ -192,7 +192,7 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         hasTeaser: false,
         hasContent: true,
         contentLabel: 'Dein Beitrag',
-        hasFormattingNotes: false,
+        hasFormattingNotes: true,
         hasExternalLink: false,
         hasImages: false,
         hasFiles: false,
@@ -213,18 +213,6 @@ const PUBLISH_AT_OPTIONS: {id: PublishAtOption, title: string}[] = [
     {id: 'now', title: 'Jetzt'},
     {id: 'custom', title: 'Um:'},
 ];
-
-const FORMATTING_NOTES_FOR_USERS = (<>
-    <div><b>Hinweise:</b></div>
-    <div><b>1. Internet-Link in Text einbauen:</b> Internet-Adresse mit 'http://' beginnen,
-    Bsp.: 'http://www.olzimmerberg.ch' wird zu  <a href='http://www.olzimmerberg.ch' className='linkext' target='blank'><b>www.olzimmerberg.ch</b></a></div>
-    <div><b>2. Text mit Fettschrift hervorheben:</b> Fetten Text mit '**' umgeben,
-    Bsp: '**dies ist fetter Text**' wird zu '<b>dies ist fetter Text</b>'</div>
-    <div><b>3. Bilder:</b></div>
-    Bild hochladen, dann auf <img src={`${dataHref}assets/icns/copy_16.svg`} alt='Cp' /> (Kopieren) klicken, und im Text einfügen.
-    <div><b>4. Dateien:</b></div>
-    Datei hochladen, dann auf <img src={`${dataHref}assets/icns/copy_16.svg`} alt='Cp' /> (Kopieren) klicken, und im Text einfügen. LABEL durch gewünschten Link-Text ersetzen.
-</>);
 
 interface OlzEditNewsModalProps {
     mode: OlzEditNewsModalMode;
@@ -315,6 +303,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
             ? 'News-Eintrag erstellen'
             : 'News-Eintrag bearbeiten'
         );
+    const markdownNotice = config.hasFormattingNotes ? MARKDOWN_NOTICE : '';
     const isLoading = isRolesLoading || isImagesLoading || isFilesLoading;
     const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
@@ -424,7 +413,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                 <div className='mb-3'>
                     <OlzTextField
                         mode='textarea'
-                        title='Teaser'
+                        title={<>Teaser {markdownNotice}</>}
                         name='teaser'
                         errors={errors}
                         register={register}
@@ -435,12 +424,11 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                 <div className='mb-3'>
                     <OlzTextField
                         mode='textarea'
-                        title={config.contentLabel}
+                        title={<>{config.contentLabel} {markdownNotice}</>}
                         name='content'
                         errors={errors}
                         register={register}
                     />
-                    {config.hasFormattingNotes ? FORMATTING_NOTES_FOR_USERS : ''}
                 </div>
             ) : null}
             {config.hasExternalLink ? (

@@ -6,6 +6,19 @@ import {olzConfirm} from '../OlzConfirmationDialog/OlzConfirmationDialog';
 
 import './OlzEditModal.scss';
 
+export const MARKDOWN_NOTICE = (<>
+    <span className='markdown-notice'>
+        mit
+        <a
+            href={`${codeHref}fragen_und_antworten/markdown`}
+            target='_blank'
+            className='linkint'
+        >
+            Text-Formatierung
+        </a>
+    </span>
+</>);
+
 export type OlzEditModalStatus = {id: 'IDLE'}
     |{id: 'LOADING'}
     |{id: 'WAITING_FOR_CAPTCHA'}

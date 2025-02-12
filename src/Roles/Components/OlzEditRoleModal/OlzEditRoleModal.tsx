@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzRoleData} from '../../../Api/client/generated_olz_api_types';
-import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
@@ -161,7 +161,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
             <div className='mb-3 test-flaky'>
                 <OlzTextField
                     mode='textarea'
-                    title='Beschreibung'
+                    title={<>Beschreibung {MARKDOWN_NOTICE}</>}
                     name='description'
                     errors={errors}
                     register={register}
@@ -170,7 +170,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
             <div className='mb-3 test-flaky'>
                 <OlzTextField
                     mode='textarea'
-                    title='Aufgaben (nur für OLZ-Mitglieder sichtbar)'
+                    title={<>Aufgaben (nur für OLZ-Mitglieder sichtbar) {MARKDOWN_NOTICE}</>}
                     name='guide'
                     errors={errors}
                     register={register}

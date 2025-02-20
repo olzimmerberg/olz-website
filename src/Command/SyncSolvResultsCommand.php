@@ -71,8 +71,8 @@ class SyncSolvResultsCommand extends OlzCommand {
     }
 
     /**
-     * @param array<int|string, array{result_list_id: int|string}> $result_id_by_uid
-     * @param array<int, bool>                                     $known_result_index
+     * @param array<int, array{result_list_id: string}> $result_id_by_uid
+     * @param array<int, bool>                          $known_result_index
      */
     private function importSolvResultsForYear(
         array $result_id_by_uid,

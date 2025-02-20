@@ -11,7 +11,7 @@ class FakeDateUtils extends AbstractDateUtils {
     private int $fixed_date;
 
     public function __construct(string $fixed_date) {
-        $this->fixed_date = strtotime($fixed_date);
+        $this->fixed_date = strtotime($fixed_date) ?: 0;
     }
 
     public function getCurrentDateInFormat(string $format): string {

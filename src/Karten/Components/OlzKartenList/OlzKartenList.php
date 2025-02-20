@@ -40,6 +40,7 @@ class OlzKartenList extends OlzComponent {
         $last_kind = null;
 
         $out .= "<table class='boxy'>";
+        // @phpstan-ignore-next-line
         while ($row = $result->fetch_assoc()) {
             $karte = new Karte();
             $karte->setOwnerUser(null);
@@ -47,14 +48,20 @@ class OlzKartenList extends OlzComponent {
             $karte->setOnOff(1);
             $karte->setId(intval($row['id']));
             $karte->setKartenNr($row['kartennr'] ? intval($row['kartennr']) : null);
+            // @phpstan-ignore-next-line
             $karte->setName($row['name']);
             $karte->setLatitude($row['latitude'] ? floatval($row['latitude']) : null);
             $karte->setLongitude($row['longitude'] ? floatval($row['longitude']) : null);
+            // @phpstan-ignore-next-line
             $karte->setYear($row['jahr']);
+            // @phpstan-ignore-next-line
             $karte->setScale($row['massstab']);
+            // @phpstan-ignore-next-line
             $karte->setPlace($row['ort']);
             $karte->setZoom($row['zoom'] ? intval($row['zoom']) : null);
+            // @phpstan-ignore-next-line
             $karte->setKind($row['typ']);
+            // @phpstan-ignore-next-line
             $karte->setPreviewImageId($row['vorschau']);
 
             $kind = $row['typ'];

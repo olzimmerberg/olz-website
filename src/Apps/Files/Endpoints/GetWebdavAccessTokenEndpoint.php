@@ -40,7 +40,7 @@ class GetWebdavAccessTokenEndpoint extends OlzTypedEndpoint {
 
         return [
             'status' => 'OK',
-            'token' => $access_token->getToken(),
+            'token' => $access_token->getToken() ?: null,
         ];
     }
 

@@ -28,7 +28,7 @@ class EmailConfigurationReminderGetter implements NotificationGetterInterface {
                 $subscription->setUser($user);
                 $subscription->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $subscription->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-                $subscription->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $subscription->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '{}');
                 $subscription->setCreatedAt($now_datetime);
                 $this->entityManager()->persist($subscription);
             }
@@ -55,7 +55,7 @@ class EmailConfigurationReminderGetter implements NotificationGetterInterface {
             'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
         ]);
         foreach ($email_notification_subscriptions as $subscription) {
-            $user_id = $subscription->getUser()->getId();
+            $user_id = $subscription->getUser()->getId() ?: 0;
             $user_state = $email_notifications_state[$user_id] ?? [];
             $user_state['reminder_id'] = $subscription->getId();
             $email_notifications_state[$user_id] = $user_state;
@@ -73,7 +73,7 @@ class EmailConfigurationReminderGetter implements NotificationGetterInterface {
                 'notification_type' => $non_config_reminder_notification_types,
             ]);
             if (!$subscription && $joined_recently) {
-                $user_id = $user_with_email->getId();
+                $user_id = $user_with_email->getId() ?: 0;
                 $user_state = $email_notifications_state[$user_id] ?? [];
                 $user_state['needs_reminder'] = true;
                 $email_notifications_state[$user_id] = $user_state;

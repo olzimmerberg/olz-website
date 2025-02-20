@@ -38,12 +38,13 @@ trait QuestionEndpointTrait {
     /** @param OlzQuestionData $input_data */
     public function updateEntityWithData(Question $entity, array $input_data): void {
         $category_repo = $this->entityManager()->getRepository(QuestionCategory::class);
-        $category = $category_repo->findOneBy(['id' => $input_data['categoryId']]);
+        $category_id = $input_data['categoryId'] ?? null;
+        $category = $category_repo->findOneBy(['id' => $category_id]);
 
         $entity->setIdent($input_data['ident']);
         $entity->setQuestion($input_data['question']);
         $entity->setCategory($category);
-        $entity->setPositionWithinCategory(intval($input_data['positionWithinCategory']));
+        $entity->setPositionWithinCategory($input_data['positionWithinCategory'] ?? 0);
         $entity->setAnswer($input_data['answer']);
     }
 

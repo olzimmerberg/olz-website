@@ -16,7 +16,7 @@ class GetIdAlgosCommand extends OlzCommand {
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
-        $json_algos = json_encode(openssl_get_cipher_methods());
+        $json_algos = json_encode(openssl_get_cipher_methods()) ?: '[]';
         $output->writeln($json_algos);
         return Command::SUCCESS;
     }

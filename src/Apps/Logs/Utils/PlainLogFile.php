@@ -2,7 +2,11 @@
 
 namespace Olz\Apps\Logs\Utils;
 
+use Olz\Utils\WithUtilsTrait;
+
 class PlainLogFile implements LogFileInterface {
+    use WithUtilsTrait;
+
     public function __construct(
         protected string $path,
     ) {
@@ -17,30 +21,42 @@ class PlainLogFile implements LogFileInterface {
     }
 
     public function modified(): int {
-        return filemtime($this->path);
+        $result = filemtime($this->path);
+        $this->generalUtils()->checkNotBool($result, 'PlainLogFile::modified failed');
+        return $result;
     }
 
-    /** @return bool|resource */
+    /** @return resource */
     public function open(string $mode): mixed {
-        return fopen($this->path, $mode);
+        $result = fopen($this->path, $mode);
+        $this->generalUtils()->checkNotBool($result, 'PlainLogFile::open failed');
+        return $result;
     }
 
+    /** @param resource $fp */
     public function seek(mixed $fp, int $offset, int $whence = SEEK_SET): int {
         return fseek($fp, $offset, $whence);
     }
 
+    /** @param resource $fp */
     public function tell(mixed $fp): int {
-        return ftell($fp);
+        $result = ftell($fp);
+        $this->generalUtils()->checkNotBool($result, 'PlainLogFile::tell failed');
+        return $result;
     }
 
+    /** @param resource $fp */
     public function eof(mixed $fp): bool {
         return feof($fp);
     }
 
-    public function gets(mixed $fp): bool|string {
-        return fgets($fp);
+    /** @param resource $fp */
+    public function gets(mixed $fp): ?string {
+        $result = fgets($fp);
+        return $result === false ? null : $result;
     }
 
+    /** @param resource $fp */
     public function close(mixed $fp): bool {
         return fclose($fp);
     }
@@ -49,7 +65,7 @@ class PlainLogFile implements LogFileInterface {
         return json_encode([
             'class' => self::class,
             'path' => $this->path,
-        ]);
+        ]) ?: '{}';
     }
 
     public static function deserialize(string $serialized): ?LogFileInterface {

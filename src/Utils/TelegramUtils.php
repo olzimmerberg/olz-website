@@ -190,6 +190,7 @@ class TelegramUtils {
         return $pin;
     }
 
+    /** @return non-empty-string */
     public function getTelegramPinChars(): string {
         return '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     }
@@ -267,7 +268,8 @@ class TelegramUtils {
         $response = $this->telegramFetcher->callTelegramApi($command, $args, $this->getBotToken());
         if (!$response) {
             $this->log()->warning("Telegram API response was empty");
-            throw new \Exception(json_encode(['ok' => false]));
+            $json = json_encode(['ok' => false]);
+            throw new \Exception("{$json}");
         }
         if (isset($response['ok']) && !$response['ok']) {
             $error_code = $response['error_code'] ?? null;
@@ -289,10 +291,10 @@ class TelegramUtils {
                 ]);
                 $this->entityManager()->remove($telegram_link);
                 $this->entityManager()->flush();
-                throw new \Exception($response_json);
+                throw new \Exception("{$response_json}");
             }
             $this->log()->error("Telegram API response was not OK: {$response_json}");
-            throw new \Exception($response_json);
+            throw new \Exception("{$response_json}");
         }
         $this->log()->info("Telegram API {$command} call successful", [$args, $response]);
         return $response;

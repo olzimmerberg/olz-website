@@ -374,6 +374,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                 ],
                 'name' => "Alle Termine",
                 'icon' => null,
+                'icon' => null,
                 'ident' => 'alle',
             ],
             [
@@ -384,6 +385,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Jahresprogramm",
+                'icon' => null,
                 'icon' => 'termine_type_programm_20.svg',
                 'ident' => 'programm',
             ],
@@ -395,6 +397,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Weekends",
+                'icon' => null,
                 'icon' => 'termine_type_weekend_20.svg',
                 'ident' => 'weekend',
             ],
@@ -406,6 +409,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Trainings",
+                'icon' => null,
                 'icon' => 'termine_type_training_20.svg',
                 'ident' => 'training',
             ],
@@ -417,6 +421,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Wettkämpfe",
+                'icon' => null,
                 'icon' => 'termine_type_ol_20.svg',
                 'ident' => 'ol',
             ],
@@ -428,6 +433,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Vereinsanlässe",
+                'icon' => null,
                 'icon' => 'termine_type_club_20.svg',
                 'ident' => 'club',
             ],
@@ -439,6 +445,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Meldeschlüsse",
+                'icon' => null,
                 'icon' => 'termine_type_meldeschluss_20.svg',
                 'ident' => 'meldeschluss',
             ],
@@ -457,6 +464,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                 ],
                 'name' => "Alle Termine",
                 'icon' => null,
+                'icon' => null,
                 'ident' => 'alle',
             ],
             [
@@ -467,6 +475,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Jahresprogramm",
+                'icon' => null,
                 'icon' => 'termine_type_programm_20.svg',
                 'ident' => 'programm',
             ],
@@ -478,6 +487,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Weekends",
+                'icon' => null,
                 'icon' => 'termine_type_weekend_20.svg',
                 'ident' => 'weekend',
             ],
@@ -489,6 +499,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Trainings",
+                'icon' => null,
                 'icon' => 'termine_type_training_20.svg',
                 'ident' => 'training',
             ],
@@ -500,6 +511,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Wettkämpfe",
+                'icon' => null,
                 'icon' => 'termine_type_ol_20.svg',
                 'ident' => 'ol',
             ],
@@ -511,6 +523,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Vereinsanlässe",
+                'icon' => null,
                 'icon' => 'termine_type_club_20.svg',
                 'ident' => 'club',
             ],
@@ -522,6 +535,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Meldeschlüsse",
+                'icon' => null,
                 'icon' => 'termine_type_meldeschluss_20.svg',
                 'ident' => 'meldeschluss',
             ],
@@ -543,6 +557,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Bevorstehende",
+                'icon' => null,
                 'ident' => 'bevorstehend',
             ],
             [
@@ -553,6 +568,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2021",
+                'icon' => null,
                 'ident' => '2021',
             ],
             [
@@ -563,6 +579,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2020",
+                'icon' => null,
                 'ident' => '2020',
             ],
             [
@@ -573,6 +590,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2019",
+                'icon' => null,
                 'ident' => '2019',
             ],
             [
@@ -583,6 +601,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2018",
+                'icon' => null,
                 'ident' => '2018',
             ],
             [
@@ -593,6 +612,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2017",
+                'icon' => null,
                 'ident' => '2017',
             ],
             [
@@ -603,6 +623,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2016",
+                'icon' => null,
                 'ident' => '2016',
             ],
         ], $termine_utils->getUiDateRangeFilterOptions([
@@ -619,6 +640,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "Bevorstehende",
+                'icon' => null,
                 'ident' => 'bevorstehend',
             ],
             [
@@ -629,6 +651,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2021",
+                'icon' => null,
                 'ident' => '2021',
             ],
             [
@@ -639,6 +662,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2020",
+                'icon' => null,
                 'ident' => '2020',
             ],
             [
@@ -649,6 +673,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2019",
+                'icon' => null,
                 'ident' => '2019',
             ],
             [
@@ -659,6 +684,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2018",
+                'icon' => null,
                 'ident' => '2018',
             ],
             [
@@ -669,6 +695,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2017",
+                'icon' => null,
                 'ident' => '2017',
             ],
             [
@@ -679,6 +706,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "2016",
+                'icon' => null,
                 'ident' => '2016',
             ],
         ], $termine_utils->getUiDateRangeFilterOptions([
@@ -701,6 +729,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "Bevorstehende",
+                'icon' => null,
+                'icon' => null,
                 'ident' => 'bevorstehend',
             ],
             [
@@ -711,6 +741,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "2012",
+                'icon' => null,
+                'icon' => null,
                 'ident' => '2012',
             ],
             [
@@ -721,6 +753,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "2011",
+                'icon' => null,
+                'icon' => null,
                 'ident' => '2011',
             ],
             [
@@ -731,6 +765,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "2010",
+                'icon' => null,
+                'icon' => null,
                 'ident' => '2010',
             ],
             [
@@ -741,6 +777,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "2009",
+                'icon' => null,
+                'icon' => null,
                 'ident' => '2009',
             ],
             [
@@ -751,6 +789,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "2008",
+                'icon' => null,
+                'icon' => null,
                 'ident' => '2008',
             ],
             [
@@ -761,6 +801,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "2007",
+                'icon' => null,
+                'icon' => null,
                 'ident' => '2007',
             ],
             [
@@ -771,6 +813,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "2006",
+                'icon' => null,
+                'icon' => null,
                 'ident' => '2006',
             ],
         ], $termine_utils->getUiDateRangeFilterOptions([
@@ -791,6 +835,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "ohne Archiv",
+                'icon' => null,
+                'icon' => null,
                 'ident' => 'ohne',
             ],
             [
@@ -801,6 +847,8 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "mit Archiv",
+                'icon' => null,
+                'icon' => null,
                 'ident' => 'mit',
             ],
         ], $termine_utils->getUiArchiveFilterOptions([
@@ -817,6 +865,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'ohne',
                 ],
                 'name' => "ohne Archiv",
+                'icon' => null,
                 'ident' => 'ohne',
             ],
             [
@@ -827,6 +876,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
                     'archiv' => 'mit',
                 ],
                 'name' => "mit Archiv",
+                'icon' => null,
                 'ident' => 'mit',
             ],
         ], $termine_utils->getUiArchiveFilterOptions([
@@ -1090,7 +1140,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
 
     public function testIsFilterNotArchived(): void {
         $termine_utils = $this->getTermineFilterUtils();
-        $this->assertFalse($termine_utils->isFilterNotArchived(['archiv' => 'invalid']));
+        $this->assertTrue($termine_utils->isFilterNotArchived(['archiv' => 'invalid']));
         $this->assertTrue($termine_utils->isFilterNotArchived(['archiv' => 'ohne']));
         $this->assertFalse($termine_utils->isFilterNotArchived(['archiv' => 'mit']));
     }

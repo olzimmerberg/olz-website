@@ -36,11 +36,11 @@ abstract class BaseAppMetadata {
     public function getIcon(): ?string {
         $icon_path = $this->getIconPath();
         if (!$icon_path) {
-            $base64 = base64_encode(file_get_contents(__DIR__.'/default_icon.svg'));
+            $base64 = base64_encode(file_get_contents(__DIR__.'/default_icon.svg') ?: '');
             $mime_type = 'image/svg+xml';
             return "data:{$mime_type};base64,{$base64}";
         }
-        $base64 = base64_encode(file_get_contents($icon_path));
+        $base64 = base64_encode(file_get_contents($icon_path) ?: '');
         if (substr($icon_path, strlen($icon_path) - 4) == '.svg') {
             $mime_type = 'image/svg+xml';
             return "data:{$mime_type};base64,{$base64}";

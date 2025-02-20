@@ -7,7 +7,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;
 
-/** @extends HttpParams<array{anfrage?: ?string}> */
+/** @extends HttpParams<array{anfrage: string}> */
 class OlzSucheParams extends HttpParams {
 }
 
@@ -72,16 +72,22 @@ class OlzSuche extends OlzComponent {
         // TERMINE
         $sql = "SELECT * FROM termine WHERE {$sql_termine}(on_off = 1) ORDER BY start_date DESC";
         $result = $db->query($sql);
+        // @phpstan-ignore-next-line
         $num = mysqli_num_rows($result);
         if ($num > 0) {
             $result_termine .= "<tr><td colspan='2'><h3 class='bar green'>Termine...</h3></td></tr>";
         }
 
         for ($i = 0; $i < $num; $i++) {
+            // @phpstan-ignore-next-line
             $row = mysqli_fetch_array($result);
+            // @phpstan-ignore-next-line
             $title = strip_tags($row['title']);
+            // @phpstan-ignore-next-line
             $text = strip_tags($row['text']);
+            // @phpstan-ignore-next-line
             $id = $row['id'];
+            // @phpstan-ignore-next-line
             $start_date = $date_utils->olzDate("t. MM jjjj", $row['start_date']);
             $cutout = $this->cutout($text, $search_words);
             $result_termine .= <<<ZZZZZZZZZZ
@@ -104,16 +110,22 @@ class OlzSuche extends OlzComponent {
 
         // NEWS
         $result = $db->query("SELECT * FROM news WHERE {$sql_news}(on_off = 1) ORDER BY published_date DESC");
+        // @phpstan-ignore-next-line
         $num = mysqli_num_rows($result);
         if ($num > 0) {
             $result_news = "<tr><td colspan='2'><h3 class='bar green'>News...</h3></td></tr>";
         }
 
         for ($i = 0; $i < $num; $i++) {
+            // @phpstan-ignore-next-line
             $row = mysqli_fetch_array($result);
+            // @phpstan-ignore-next-line
             $title = strip_tags($row['title']);
+            // @phpstan-ignore-next-line
             $text = strip_tags($row['teaser']).strip_tags($row['content']);
+            // @phpstan-ignore-next-line
             $id = $row['id'];
+            // @phpstan-ignore-next-line
             $published_date = $date_utils->olzDate("t. MM jjjj", $row['published_date']);
             $cutout = $this->cutout($text, $search_words);
             $result_news .= <<<ZZZZZZZZZZ

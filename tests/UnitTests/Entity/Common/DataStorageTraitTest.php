@@ -107,12 +107,12 @@ final class DataStorageTraitTest extends UnitTestCase {
             "{$base_path}abcdefghijklmnopqrstuvw1.jpg",
             '',
         );
-        touch("{$base_path}abcdefghijklmnopqrstuvw1.jpg", strtotime('2020-03-13 19:30:00'));
+        touch("{$base_path}abcdefghijklmnopqrstuvw1.jpg", strtotime('2020-03-13 19:30:00') ?: 0);
         file_put_contents(
             "{$base_path}abcdefghijklmnopqrstuvw2.jpg",
             '',
         );
-        touch("{$base_path}abcdefghijklmnopqrstuvw2.jpg", strtotime('2020-03-13 19:30:00'));
+        touch("{$base_path}abcdefghijklmnopqrstuvw2.jpg", strtotime('2020-03-13 19:30:00') ?: 0);
         file_put_contents(
             "{$base_path}invalid-upload-id.jpg",
             '',
@@ -126,12 +126,12 @@ final class DataStorageTraitTest extends UnitTestCase {
             "{$base_path}abcdefghijklmnopqrstuvw1.pdf",
             '',
         );
-        touch("{$base_path}abcdefghijklmnopqrstuvw1.pdf", strtotime('2020-03-13 19:30:00'));
+        touch("{$base_path}abcdefghijklmnopqrstuvw1.pdf", strtotime('2020-03-13 19:30:00') ?: 0);
         file_put_contents(
             "{$base_path}abcdefghijklmnopqrstuvw2.pdf",
             '',
         );
-        touch("{$base_path}abcdefghijklmnopqrstuvw2.pdf", strtotime('2020-03-13 19:30:00'));
+        touch("{$base_path}abcdefghijklmnopqrstuvw2.pdf", strtotime('2020-03-13 19:30:00') ?: 0);
         file_put_contents(
             "{$base_path}invalid-upload-id.pdf",
             '',

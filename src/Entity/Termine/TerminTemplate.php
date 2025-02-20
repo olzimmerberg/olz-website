@@ -230,6 +230,10 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
 
     // ---
 
+    public function __toString(): string {
+        return "TerminTemplate (ID: {$this->getId()})";
+    }
+
     public static function getIdFieldNameForSearch(): string {
         return 'id';
     }

@@ -29,7 +29,7 @@ class TelegramConfigurationReminderGetter implements NotificationGetterInterface
                 $subscription->setUser($user);
                 $subscription->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $subscription->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-                $subscription->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $subscription->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '{}');
                 $subscription->setCreatedAt($now_datetime);
                 $this->entityManager()->persist($subscription);
             }
@@ -53,7 +53,7 @@ class TelegramConfigurationReminderGetter implements NotificationGetterInterface
             'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
         ]);
         foreach ($telegram_notification_subscriptions as $subscription) {
-            $user_id = $subscription->getUser()->getId();
+            $user_id = $subscription->getUser()->getId() ?: 0;
             $user_state = $telegram_notifications_state[$user_id] ?? [];
             $user_state['reminder_id'] = $subscription->getId();
             $telegram_notifications_state[$user_id] = $user_state;
@@ -74,7 +74,7 @@ class TelegramConfigurationReminderGetter implements NotificationGetterInterface
                 'notification_type' => $non_config_reminder_notification_types,
             ]);
             if (!$subscription) {
-                $user_id = $user->getId();
+                $user_id = $user->getId() ?: 0;
                 $user_state = $telegram_notifications_state[$user_id] ?? [];
                 $user_state['needs_reminder'] = true;
                 $telegram_notifications_state[$user_id] = $user_state;

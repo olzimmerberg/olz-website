@@ -33,7 +33,7 @@ class RoleReminderGetter implements NotificationGetterInterface {
                 $subscription->setNotificationTypeArgs(json_encode([
                     'role_id' => $role_id,
                     'cancelled' => false,
-                ]));
+                ]) ?: '{}');
                 $subscription->setCreatedAt($now_datetime);
                 $this->entityManager()->persist($subscription);
             }

@@ -29,9 +29,9 @@ class GetAuthenticatedUserEndpoint extends OlzTypedEndpoint {
         return [
             'user' => [
                 'id' => $user->getId(),
-                'firstName' => $user->getFirstName(),
-                'lastName' => $user->getLastName(),
-                'username' => $user->getUsername(),
+                'firstName' => $user->getFirstName() ?: '-',
+                'lastName' => $user->getLastName() ?: '-',
+                'username' => $user->getUsername() ?: '-',
             ],
         ];
     }

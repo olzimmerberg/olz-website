@@ -21,7 +21,7 @@ trait BookingEndpointTrait {
     /** @return OlzBookingData */
     public function getEntityData(Booking $entity): array {
         $registration = $entity->getRegistration();
-        $external_registration_id = $this->idUtils()->toExternalId($registration->getId(), 'Registration');
+        $external_registration_id = $this->idUtils()->toExternalId($registration->getId(), 'Registration') ?: '-';
 
         $values_json = json_decode($entity->getFormData(), true);
         $valid_values = [];
@@ -69,7 +69,7 @@ trait BookingEndpointTrait {
             // TODO: Validate reservation is not duplicate
             $valid_values[$ident] = $value;
         }
-        $values_json = json_encode($valid_values);
+        $values_json = json_encode($valid_values) ?: '{}';
 
         $entity->setRegistration($registration);
         $entity->setUser($current_user);

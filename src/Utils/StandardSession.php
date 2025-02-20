@@ -54,7 +54,8 @@ class StandardSession extends AbstractSession {
     public function clear(): void {
         @session_unset();
         @session_destroy();
-        @setcookie(session_name(), '', time() - 3600, '/');
+        $name = session_name() ?: '';
+        @setcookie($name, '', time() - 3600, '/');
     }
 
     public static function session_start_if_cookie_set(): void {

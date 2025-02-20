@@ -43,7 +43,7 @@ class UpdateMyPanini2024Endpoint extends OlzTypedEndpoint {
         }
 
         $input_data = $input['data'];
-        $id = $input_data['id'];
+        $id = $input_data['id'] ?? null;
         if ($id) {
             $picture = $panini_repo->findOneBy(['id' => $id]);
             if (!$picture) {

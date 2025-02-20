@@ -38,8 +38,6 @@ trait NewsEndpointTrait {
 
     /** @return OlzNewsData */
     public function getEntityData(NewsEntry $entity): array {
-        $author_user = $entity->getAuthorUser();
-        $author_role = $entity->getAuthorRole();
         $author_name = $entity->getAuthorName();
         $author_email = $entity->getAuthorEmail();
         $published_date = $entity->getPublishedDate()->format('Y-m-d');
@@ -48,22 +46,23 @@ trait NewsEndpointTrait {
         $external_url = $entity->getExternalUrl();
         $termin_id = $entity->getTermin();
 
+        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($entity->getImageIds());
         $file_ids = $entity->getStoredFileUploadIds();
 
         return [
-            'format' => $entity->getFormat(),
-            'authorUserId' => $author_user ? $author_user->getId() : null,
-            'authorRoleId' => $author_role ? $author_role->getId() : null,
+            'format' => $this->getFormatForApi($entity),
+            'authorUserId' => $this->getAuthorUserId($entity),
+            'authorRoleId' => $this->getAuthorRoleId($entity),
             'authorName' => $author_name ? $author_name : null,
             'authorEmail' => $author_email ? $author_email : null,
             'publishAt' => new IsoDateTime("{$published_date} {$published_time}"),
-            'title' => $entity->getTitle(),
+            'title' => $entity->getTitle() ?: '-',
             'teaser' => $entity->getTeaser(),
             'content' => $entity->getContent(),
             'externalUrl' => $external_url ? $external_url : null,
             'tags' => $tags_for_api,
-            'terminId' => $termin_id ? $termin_id : null,
-            'imageIds' => $entity->getImageIds(),
+            'terminId' => $this->getTerminId($entity),
+            'imageIds' => $valid_image_ids,
             'fileIds' => $file_ids,
         ];
     }
@@ -95,18 +94,18 @@ trait NewsEndpointTrait {
         $publish_at = $input_data['publishAt'] ?? $now;
 
         $tags_for_db = $this->getTagsForDb($input_data['tags']);
-        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
+        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds'] ?? null);
 
         $entity->setAuthorUser($author_user);
         $entity->setAuthorRole($author_role);
-        $entity->setAuthorName($input_data['authorName']);
-        $entity->setAuthorEmail($input_data['authorEmail']);
+        $entity->setAuthorName($input_data['authorName'] ?? null);
+        $entity->setAuthorEmail($input_data['authorEmail'] ?? null);
         $entity->setPublishedDate($publish_at);
         $entity->setPublishedTime($publish_at);
         $entity->setTitle($input_data['title']);
         $entity->setTeaser($input_data['teaser']);
         $entity->setContent($input_data['content']);
-        $entity->setExternalUrl($input_data['externalUrl']);
+        $entity->setExternalUrl($input_data['externalUrl'] ?? null);
         $entity->setTags($tags_for_db);
         $entity->setImageIds($valid_image_ids);
         // TODO: Do not ignore
@@ -145,18 +144,69 @@ trait NewsEndpointTrait {
         return $format;
     }
 
+    /** @return ?OlzNewsFormat */
+    protected function getFormatForApi(NewsEntry $entity): ?string {
+        switch ($entity->getFormat()) {
+            case 'aktuell': return 'aktuell';
+            case 'anonymous': return 'anonymous';
+            case 'forum': return 'forum';
+            case 'galerie': return 'galerie';
+            case 'kaderblog': return 'kaderblog';
+            case 'video': return 'video';
+            case null: return null;
+            default: throw new \Exception("Unknown news format: {$entity->getFormat()} ({$entity})");
+        }
+    }
+
+    /** @return ?int<1, max> */
+    protected function getAuthorUserId(NewsEntry $entity): ?int {
+        $number = $entity->getAuthorUser()?->getId();
+        if ($number === null) {
+            return null;
+        }
+        if ($number < 1) {
+            throw new \Exception("Invalid author user ID: {$number} ({$entity})");
+        }
+        return $number;
+    }
+
+    /** @return ?int<1, max> */
+    protected function getAuthorRoleId(NewsEntry $entity): ?int {
+        $number = $entity->getAuthorRole()?->getId();
+        if ($number === null) {
+            return null;
+        }
+        if ($number < 1) {
+            throw new \Exception("Invalid author role ID: {$number} ({$entity})");
+        }
+        return $number;
+    }
+
+    /** @return ?int<1, max> */
+    protected function getTerminId(NewsEntry $entity): ?int {
+        $number = $entity->getTermin();
+        if (!$number) {
+            return null;
+        }
+        if ($number < 1) {
+            throw new \Exception("Invalid termin ID: {$number} ({$entity})");
+        }
+        return $number;
+    }
+
     /** @param array<string> $tags */
     protected function getTagsForDb(?array $tags): string {
         return ' '.implode(' ', $tags ?? []).' ';
     }
 
-    /** @return array<string> */
+    /** @return array<non-empty-string> */
     protected function getTagsForApi(?string $tags): array {
         $tags_string = $tags ?? '';
         $tags_for_api = [];
         foreach (explode(' ', $tags_string) as $tag) {
-            if (trim($tag) != '') {
-                $tags_for_api[] = trim($tag);
+            $trimmed = trim($tag);
+            if ($trimmed) {
+                $tags_for_api[] = $trimmed;
             }
         }
         return $tags_for_api;

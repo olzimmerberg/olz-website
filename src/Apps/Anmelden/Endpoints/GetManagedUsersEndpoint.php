@@ -32,8 +32,8 @@ class GetManagedUsersEndpoint extends OlzTypedEndpoint {
         foreach ($users as $user) {
             $managed_users[] = [
                 'id' => $user->getId(),
-                'firstName' => $user->getFirstName(),
-                'lastName' => $user->getLastName(),
+                'firstName' => $user->getFirstName() ?: '-',
+                'lastName' => $user->getLastName() ?: '-',
             ];
         }
 

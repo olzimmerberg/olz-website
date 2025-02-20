@@ -46,16 +46,16 @@ trait RegistrationEndpointTrait {
         foreach ($registration_infos as $registration_info) {
             $options = json_decode($registration_info->getOptions(), true);
             $infos[] = [
-                'type' => $registration_info->getType(),
+                'type' => $this->getTypeForApi($registration_info),
                 'isOptional' => $registration_info->getIsOptional(),
-                'title' => $registration_info->getTitle(),
+                'title' => $registration_info->getTitle() ?: '-',
                 'description' => $registration_info->getDescription(),
                 'options' => $options,
             ];
         }
 
         return [
-            'title' => $entity->getTitle(),
+            'title' => $entity->getTitle() ?: '-',
             'description' => $entity->getDescription(),
             'infos' => $infos,
             'opensAt' => IsoDateTime::fromDateTime($entity->getOpensAt()),
@@ -67,7 +67,33 @@ trait RegistrationEndpointTrait {
     public function updateEntityWithData(Registration $entity, array $input_data): void {
         $entity->setTitle($input_data['title']);
         $entity->setDescription($input_data['description']);
-        $entity->setOpensAt($input_data['opensAt']);
-        $entity->setClosesAt($input_data['closesAt']);
+        $entity->setOpensAt($input_data['opensAt'] ?? null);
+        $entity->setClosesAt($input_data['closesAt'] ?? null);
+    }
+
+    // ---
+
+    /** @return ?ValidRegistrationInfoType */
+    protected function getTypeForApi(RegistrationInfo $entity): ?string {
+        switch ($entity->getType()) {
+            case 'email': return 'email';
+            case 'firstName': return 'firstName';
+            case 'lastName': return 'lastName';
+            case 'gender': return 'gender';
+            case 'street': return 'street';
+            case 'postalCode': return 'postalCode';
+            case 'city': return 'city';
+            case 'region': return 'region';
+            case 'countryCode': return 'countryCode';
+            case 'birthdate': return 'birthdate';
+            case 'phone': return 'phone';
+            case 'siCardNumber': return 'siCardNumber';
+            case 'solvNumber': return 'solvNumber';
+            case 'string': return 'string';
+            case 'enum': return 'enum';
+            case 'reservation': return 'reservation';
+            case null: return null;
+            default: throw new \Exception("Unknown registration info type: {$entity->getType()} ({$entity})");
+        }
     }
 }

@@ -88,7 +88,7 @@ class NewsController extends AbstractController {
         }
         $zip->close();
 
-        $response = new Response(file_get_contents($zip_path));
+        $response = new Response(file_get_contents($zip_path) ?: null);
         $response->headers->set('Content-Type', 'application/zip');
         $response->headers->set('Content-Disposition', "attachment;filename=Fotos {$news_entry->getTitle()}.zip");
         return $response;

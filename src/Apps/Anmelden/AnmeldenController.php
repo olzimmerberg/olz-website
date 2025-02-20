@@ -32,7 +32,7 @@ class AnmeldenController extends AbstractController {
         string $id,
     ): Response {
         $this->httpUtils()->countRequest($request);
-        $html_out = OlzAnmelden::render(['id' => $id]);
+        $html_out = OlzAnmelden::render(['id' => $id ?: null]);
         return new Response($html_out);
     }
 }

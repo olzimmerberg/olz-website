@@ -36,21 +36,22 @@ trait TerminLabelEndpointTrait {
 
     /** @param OlzTerminLabelData $input_data */
     public function updateEntityWithData(TerminLabel $entity, array $input_data): void {
-        $valid_icon_file_id = $this->uploadUtils()->getValidUploadId($input_data['icon']);
+        $valid_icon_file_id = $this->uploadUtils()->getValidUploadId($input_data['icon'] ?? null);
 
         $entity->setIdent($input_data['ident']);
         $entity->setName($input_data['name']);
         $entity->setDetails($input_data['details']);
         $entity->setIcon($valid_icon_file_id);
-        $entity->setPosition($input_data['position']);
+        $entity->setPosition($input_data['position'] ?? 0);
     }
 
     /** @param OlzTerminLabelData $input_data */
     public function persistUploads(TerminLabel $entity, array $input_data): void {
         $this->persistOlzImages($entity, $input_data['imageIds']);
         $this->persistOlzFiles($entity, $input_data['fileIds']);
-        if ($input_data['icon']) {
-            $this->persistOlzFiles($entity, [$input_data['icon']]);
+        $icon = $input_data['icon'] ?? null;
+        if ($icon) {
+            $this->persistOlzFiles($entity, [$icon]);
         }
     }
 

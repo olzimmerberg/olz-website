@@ -23,12 +23,14 @@ trait TerminLocationEndpointTrait {
 
     /** @return OlzTerminLocationData */
     public function getEntityData(TerminLocation $entity): array {
+        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($entity->getImageIds());
+
         return [
-            'name' => $entity->getName(),
+            'name' => $entity->getName() ?: '-',
             'details' => $entity->getDetails() ?? '',
             'latitude' => $entity->getLatitude(),
             'longitude' => $entity->getLongitude(),
-            'imageIds' => $entity->getImageIds(),
+            'imageIds' => $valid_image_ids,
         ];
     }
 

@@ -20,7 +20,7 @@ class IsoCountry implements ApiObjectInterface {
         if (!is_string($data)) {
             throw new \InvalidArgumentException("IsoCountry must be string");
         }
-        if (!preg_match('/^[a-zA-Z]{2}$/', $data)) {
+        if (!$data || !preg_match('/^[a-zA-Z]{2}$/', $data)) {
             throw new \InvalidArgumentException("IsoCountry must be a 2-letter code");
         }
         return new IsoCountry($data);

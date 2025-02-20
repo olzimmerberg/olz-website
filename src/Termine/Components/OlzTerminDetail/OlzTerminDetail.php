@@ -98,8 +98,8 @@ class OlzTerminDetail extends OlzComponent {
         $end_time = $termin->getEndTime() ?? null;
         $text = $termin->getText() ?? '';
         $labels = [...$termin->getLabels()];
-        $xkoord = $termin->getCoordinateX() ?? '';
-        $ykoord = $termin->getCoordinateY() ?? '';
+        $xkoord = $termin->getCoordinateX() ?? 0;
+        $ykoord = $termin->getCoordinateY() ?? 0;
         $solv_uid = $termin->getSolvId();
         $termin_location = $termin->getLocation();
         $has_olz_location = ($xkoord > 0 && $ykoord > 0);

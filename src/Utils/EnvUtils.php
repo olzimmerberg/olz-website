@@ -377,7 +377,7 @@ class EnvUtils {
         $injected_path = __DIR__.'/data/DATA_PATH';
         if (is_file($injected_path)) {
             $injected_data_path = file_get_contents($injected_path);
-            if (is_dir($injected_data_path)) {
+            if ($injected_data_path && is_dir($injected_data_path)) {
                 return "{$injected_data_path}/";
             }
         }
@@ -402,12 +402,12 @@ class EnvUtils {
         if ($env) {
             $injected_env_path = __DIR__."/../../config/olz.{$env}.php";
             if (is_file($injected_env_path)) {
-                return realpath($injected_env_path);
+                return realpath($injected_env_path) ?: null;
             }
         }
         $injected_path = __DIR__.'/../../config/olz.php';
         if (is_file($injected_path)) {
-            return realpath($injected_path);
+            return realpath($injected_path) ?: null;
         }
         return null;
     }

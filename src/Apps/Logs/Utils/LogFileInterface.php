@@ -9,7 +9,7 @@ interface LogFileInterface {
 
     public function modified(): int;
 
-    /** @return bool|resource */
+    /** @return resource */
     public function open(string $mode): mixed;
 
     /** @param resource $fp */
@@ -22,7 +22,7 @@ interface LogFileInterface {
     public function eof(mixed $fp): bool;
 
     /** @param resource $fp */
-    public function gets(mixed $fp): bool|string;
+    public function gets(mixed $fp): ?string;
 
     /** @param resource $fp */
     public function close(mixed $fp): bool;

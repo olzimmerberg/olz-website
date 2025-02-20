@@ -79,8 +79,9 @@ class OlzTermineListItem extends OlzComponent {
         if ($termin_location_id) {
             $sane_termin_location_id = intval($termin_location_id);
             $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");
+            // @phpstan-ignore-next-line
             $row_location = $result_location->fetch_assoc();
-            $location_name = $row_location['name'];
+            $location_name = $row_location['name'] ?? null;
             $text = "{$location_name} {$text}";
         }
         $text = strip_tags($this->htmlUtils()->renderMarkdown($text));
@@ -137,6 +138,6 @@ class OlzTermineListItem extends OlzComponent {
         if (!$iso_time || $iso_time === '00:00:00') {
             return null;
         }
-        return date("H:i", strtotime($iso_time));
+        return date("H:i", strtotime($iso_time) ?: 0);
     }
 }

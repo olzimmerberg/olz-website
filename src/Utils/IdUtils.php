@@ -8,25 +8,26 @@ class IdUtils {
     protected string $base64Iv = '9V0IXtcQo5o=';
     protected string $algo = 'des-ede-cbc'; // Find one using `composer get_id_algos`
 
-    public function toExternalId(int|string $internal_id, string $type = ''): string {
+    public function toExternalId(int $internal_id, string $type = ''): string {
         $serialized_id = $this->serializeId($internal_id, $type);
         return $this->encryptId($serialized_id);
     }
 
-    protected function serializeId(int|string $internal_id, string $type): string {
-        $int_internal_id = intval($internal_id);
-        if (strval($int_internal_id) !== strval($internal_id)) {
-            throw new \Exception("Internal ID must be int");
-        }
-        if ($int_internal_id < 0) {
+    protected function serializeId(int $internal_id, string $type): string {
+        if ($internal_id < 0) {
             throw new \Exception("Internal ID must be positive");
         }
         $type_hash_hex = str_pad(dechex($this->crc16($type)), 4, '0', STR_PAD_LEFT);
-        $id_hex = str_pad(dechex($int_internal_id), 10, '0', STR_PAD_LEFT);
+        $id_hex = str_pad(dechex($internal_id), 10, '0', STR_PAD_LEFT);
         if (strlen($id_hex) > 10) {
             throw new \Exception("Internal ID must be at most 40 bits");
         }
-        return hex2bin($type_hash_hex.$id_hex);
+        $type_id_hex = "{$type_hash_hex}{$id_hex}";
+        $type_id_bin = hex2bin($type_id_hex);
+        if (!$type_id_bin) {
+            throw new \Exception("hex2bin({$type_id_hex}) failed");
+        }
+        return $type_id_bin;
     }
 
     protected function encryptId(string $serialized_id): string {
@@ -35,7 +36,8 @@ class IdUtils {
         $iv = base64_decode($this->base64Iv);
         $ciphertext = @openssl_encrypt($plaintext, $this->algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
         if ($ciphertext === false) {
-            throw new \Exception(openssl_error_string());
+            $error_string = openssl_error_string();
+            throw new \Exception("{$error_string}");
         }
         return $this->generalUtils()->base64EncodeUrl($ciphertext);
     }
@@ -45,20 +47,25 @@ class IdUtils {
         return $this->deserializeId($serialized_id, $type);
     }
 
-    protected function decryptId(string $encrypted_id): string {
+    protected function decryptId(string $encrypted_id): ?string {
         $ciphertext = $this->generalUtils()->base64DecodeUrl($encrypted_id);
         $key = $this->envUtils()->getIdEncryptionKey();
         $iv = base64_decode($this->base64Iv);
-        return openssl_decrypt($ciphertext, $this->algo, $key, OPENSSL_RAW_DATA, $iv);
+        $plaintext = openssl_decrypt($ciphertext, $this->algo, $key, OPENSSL_RAW_DATA, $iv);
+        if (!$plaintext) {
+            throw new \Exception("Could not decrypt ID: {$encrypted_id}");
+        }
+        return $plaintext;
     }
 
     protected function deserializeId(string $serialized_id, string $type): int {
-        $type_hash_hex = str_pad(dechex($this->crc16($type)), 4, '0', STR_PAD_LEFT);
+        $expected_type_hash_hex = str_pad(dechex($this->crc16($type)), 4, '0', STR_PAD_LEFT);
         $serialized_id_hex = bin2hex($serialized_id);
-        if (substr($serialized_id_hex, 0, 4) !== $type_hash_hex) {
-            throw new \Exception("Invalid serialized ID: Type mismatch");
+        $actual_type_hash_hex = substr($serialized_id_hex, 0, 4);
+        if ($actual_type_hash_hex !== $expected_type_hash_hex) {
+            throw new \Exception("Invalid serialized ID: Type mismatch {$actual_type_hash_hex} vs. {$expected_type_hash_hex}");
         }
-        return hexdec(substr($serialized_id_hex, 4));
+        return intval(hexdec(substr($serialized_id_hex, 4)));
     }
 
     protected function crc16(string $data): int {

@@ -7,6 +7,12 @@ use Doctrine\Common\Collections\Expr\Comparison;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Utils\WithUtilsTrait;
 
+/**
+ * @phpstan-type Option array{ident: string, name: string, icon?: string}
+ * @phpstan-type UiOption array{selected: bool, new_filter: FullFilter, name: string, icon: ?string, ident: string}
+ * @phpstan-type FullFilter array{typ: string, datum: string, archiv: string}
+ * @phpstan-type PartialFilter array{typ?: string, datum?: string, archiv?: string}
+ */
 class TermineFilterUtils {
     use WithUtilsTrait;
 
@@ -17,7 +23,7 @@ class TermineFilterUtils {
         ['ident' => 'mit', 'name' => "mit Archiv"],
     ];
 
-    /** @var array<array{ident: string, name: string, icon?: string}> */
+    /** @var array<Option> */
     public array $allTypeOptions = [];
 
     public function loadTypeOptions(): self {
@@ -51,7 +57,7 @@ class TermineFilterUtils {
         return $this;
     }
 
-    /** @return array{typ: string, datum: string, archiv: string} */
+    /** @return FullFilter */
     public function getDefaultFilter(): array {
         return [
             'typ' => 'alle',
@@ -60,7 +66,7 @@ class TermineFilterUtils {
         ];
     }
 
-    /** @param ?array{typ?: string, datum?: string, archiv?: string} $filter */
+    /** @param ?PartialFilter $filter */
     public function isValidFilter(?array $filter): bool {
         $has_correct_type = (
             isset($filter['typ'])
@@ -74,7 +80,7 @@ class TermineFilterUtils {
         $has_correct_date_range = (
             isset($filter['datum'])
             && array_filter(
-                $this->getDateRangeOptions($filter),
+                $this->getDateRangeOptions([...$this->getDefaultFilter(), ...$filter]),
                 function ($type_option) use ($filter) {
                     return $type_option['ident'] === $filter['datum'];
                 }
@@ -93,27 +99,28 @@ class TermineFilterUtils {
     }
 
     /**
-     * @param ?array{typ?: string, datum?: string, archiv?: string} $filter
+     * @param ?PartialFilter $filter
      *
-     * @return array{typ: string, datum: string, archiv: string}
+     * @return FullFilter
      */
     public function getValidFilter(?array $filter): array {
         $default_filter = $this->getDefaultFilter();
         if (!$filter) {
             return $default_filter;
         }
-        $merged_filter = [];
-        foreach ($default_filter as $key => $default_value) {
-            $merged_filter[$key] = $filter[$key] ?? $default_value;
-        }
+        $merged_filter = [
+            'typ' => $filter['typ'] ?? $default_filter['typ'],
+            'datum' => $filter['datum'] ?? $default_filter['datum'],
+            'archiv' => $filter['archiv'] ?? $default_filter['archiv'],
+        ];
         return $this->isValidFilter($merged_filter) ? $merged_filter : $default_filter;
     }
 
-    /** @return array<array{typ: string, datum: string, archiv: string}> */
+    /** @return array<FullFilter> */
     public function getAllValidFiltersForSitemap(): array {
         $all_valid_filters = [];
         foreach ($this->allTypeOptions as $type_option) {
-            $date_range_options = $this->getDateRangeOptions(['archiv' => 'ohne']);
+            $date_range_options = $this->getDateRangeOptions($this->getValidFilter(['archiv' => 'ohne']));
             foreach ($date_range_options as $date_range_option) {
                 $all_valid_filters[] = [
                     'typ' => $type_option['ident'],
@@ -126,9 +133,9 @@ class TermineFilterUtils {
     }
 
     /**
-     * @param array{typ: string, datum: string, archiv: string} $filter
+     * @param FullFilter $filter
      *
-     * @return array<array{selected: bool, new_filter: array{typ: string, datum: string, archiv: string}, name: string, icon: ?string, ident: string}>
+     * @return array<UiOption>
      */
     public function getUiTypeFilterOptions(array $filter): array {
         return array_map(function ($type_option) use ($filter) {
@@ -145,9 +152,9 @@ class TermineFilterUtils {
     }
 
     /**
-     * @param array{typ: string, datum: string, archiv: string} $filter
+     * @param FullFilter $filter
      *
-     * @return array<array{selected: bool, new_filter: array{typ: string, datum: string, archiv: string}, name: string, ident: string}>
+     * @return array<UiOption>
      */
     public function getUiDateRangeFilterOptions(array $filter): array {
         return array_map(function ($date_range_option) use ($filter) {
@@ -157,15 +164,16 @@ class TermineFilterUtils {
                 'selected' => $date_range_option['ident'] === $filter['datum'],
                 'new_filter' => $new_filter,
                 'name' => $date_range_option['name'],
+                'icon' => null,
                 'ident' => $date_range_option['ident'],
             ];
         }, $this->getDateRangeOptions($filter));
     }
 
     /**
-     * @param array{typ: string, datum: string, archiv: string} $filter
+     * @param FullFilter $filter
      *
-     * @return array<array{selected: bool, new_filter: array{typ: string, datum: string, archiv: string}, name: string, ident: string}>
+     * @return array<UiOption>
      */
     public function getUiArchiveFilterOptions(array $filter): array {
         return array_map(function ($archive_option) use ($filter) {
@@ -175,15 +183,16 @@ class TermineFilterUtils {
                 'selected' => $archive_option['ident'] === $filter['archiv'],
                 'new_filter' => $new_filter,
                 'name' => $archive_option['name'],
+                'icon' => null,
                 'ident' => $archive_option['ident'],
             ];
         }, TermineFilterUtils::ALL_ARCHIVE_OPTIONS);
     }
 
     /**
-     * @param array{typ?: string, datum?: string, archiv: string} $filter
+     * @param FullFilter $filter
      *
-     * @return array<array{ident: string, name: string}>
+     * @return array<Option>
      */
     public function getDateRangeOptions(array $filter): array {
         $include_archive = $filter['archiv'] === 'mit';
@@ -199,11 +208,12 @@ class TermineFilterUtils {
         return $options;
     }
 
-    /** @param array{typ: string, datum: string, archiv: string} $filter */
-    public function getSqlDateRangeFilter(array $filter, string $tbl = 't'): string {
-        if (!$this->isValidFilter($filter)) {
+    /** @param PartialFilter $filter_arg */
+    public function getSqlDateRangeFilter(array $filter_arg, string $tbl = 't'): string {
+        if (!$this->isValidFilter($filter_arg)) {
             return "'1'='0'";
         }
+        $filter = $this->getValidFilter($filter_arg);
         $today = $this->dateUtils()->getIsoToday();
         if ($filter['datum'] === 'bevorstehend') {
             return "({$tbl}.start_date >= '{$today}') OR ({$tbl}.end_date >= '{$today}')";
@@ -218,11 +228,12 @@ class TermineFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    /** @param array{typ: string, datum: string, archiv: string} $filter */
-    public function getSqlTypeFilter(array $filter, string $tbl = 't'): string {
-        if (!$this->isValidFilter($filter)) {
+    /** @param PartialFilter $filter_arg */
+    public function getSqlTypeFilter(array $filter_arg, string $tbl = 't'): string {
+        if (!$this->isValidFilter($filter_arg)) {
             return "'1'='0'";
         }
+        $filter = $this->getValidFilter($filter_arg);
         if ($filter['typ'] === 'alle') {
             return "'1' = '1'";
         }
@@ -241,7 +252,7 @@ class TermineFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    /** @param array{typ: string, datum: string, archiv: string} $filter */
+    /** @param FullFilter $filter */
     public function getTitleFromFilter(array $filter): string {
         if (!$this->isValidFilter($filter)) {
             return "Termine";
@@ -276,7 +287,7 @@ class TermineFilterUtils {
         // @codeCoverageIgnoreEnd
     }
 
-    /** @param array{typ: string, datum: string, archiv: string} $filter */
+    /** @param FullFilter $filter */
     private function getDateFilterTitleYearSuffix(array $filter): string {
         if ($filter['datum'] == 'bevorstehend') {
             return "";
@@ -292,7 +303,7 @@ class TermineFilterUtils {
         return " {$year}";
     }
 
-    /** @param array{typ: string, datum: string, archiv: string} $filter */
+    /** @param FullFilter $filter */
     private function getArchiveFilterTitleSuffix(array $filter): string {
         if ($filter['archiv'] === 'mit') {
             return " (Archiv)";
@@ -300,9 +311,10 @@ class TermineFilterUtils {
         return "";
     }
 
-    /** @param array{typ?: string, datum?: string, archiv: string} $filter */
+    /** @param PartialFilter $filter */
     public function isFilterNotArchived(array $filter): bool {
-        return $filter['archiv'] === 'ohne';
+        $valid_filter = $this->getValidFilter($filter);
+        return $valid_filter['archiv'] === 'ohne';
     }
 
     public function getIsNotArchivedCriteria(): Comparison {

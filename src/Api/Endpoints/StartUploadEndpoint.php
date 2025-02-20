@@ -43,7 +43,7 @@ class StartUploadEndpoint extends OlzTypedEndpoint {
         }
         return [
             'status' => 'OK',
-            'id' => $upload_id,
+            'id' => $upload_id ?: '-',
         ];
     }
 }

@@ -18,7 +18,7 @@ class OlzEmailReaktion extends OlzComponent {
         $params = $this->httpUtils()->validateGetParams(OlzEmailReaktionParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $token = $params['token'] ?? '';
-        $js_token = htmlentities(json_encode($token));
+        $js_token = htmlentities(json_encode($token) ?: '');
         $reaction_data = EmailUtils::fromEnv()->decryptEmailReactionToken($token);
 
         $out = OlzHeader::render([

@@ -35,7 +35,7 @@ trait RoleEndpointTrait {
             'guide' => $entity->getGuide(),
             'imageIds' => $entity->getStoredImageUploadIds(),
             'fileIds' => $entity->getStoredFileUploadIds(),
-            'parentRole' => $entity->getParentRoleId() ?? null,
+            'parentRole' => $this->getParentRoleId($entity),
             'indexWithinParent' => ($entity->getIndexWithinParent() ?? -1) < 0 ? null : $entity->getIndexWithinParent(),
             'featuredIndex' => $entity->getFeaturedIndex() ?? null,
             'canHaveChildRoles' => $entity->getCanHaveChildRoles(),
@@ -47,7 +47,7 @@ trait RoleEndpointTrait {
         $this->updateEntityWithNonParentData($entity, $input_data);
         $entity->setParentRoleId($input_data['parentRole'] ?? null);
         $entity->setIndexWithinParent($input_data['indexWithinParent'] ?? null);
-        $entity->setFeaturedIndex($input_data['featuredIndex']);
+        $entity->setFeaturedIndex($input_data['featuredIndex'] ?? null);
         $entity->setCanHaveChildRoles($input_data['canHaveChildRoles']);
     }
 
@@ -55,7 +55,7 @@ trait RoleEndpointTrait {
     public function updateEntityWithNonParentData(Role $entity, array $input_data): void {
         $entity->setUsername($input_data['username']);
         $entity->setName($input_data['name']);
-        $entity->setTitle($input_data['title']);
+        $entity->setTitle($input_data['title'] ?? null);
         $entity->setDescription($input_data['description']);
         $entity->setGuide($input_data['guide']);
     }
@@ -79,5 +79,19 @@ trait RoleEndpointTrait {
             throw new HttpError(404, "Nicht gefunden.");
         }
         return $entity;
+    }
+
+    // ---
+
+    /** @return ?int<1, max> */
+    protected function getParentRoleId(Role $entity): ?int {
+        $number = $entity->getParentRoleId();
+        if ($number === null) {
+            return null;
+        }
+        if ($number < 1) {
+            throw new \Exception("Invalid parent role ID: {$number} ({$entity})");
+        }
+        return $number;
     }
 }

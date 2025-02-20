@@ -79,7 +79,7 @@ class OlzResults extends OlzComponent {
             }
         } else {
             $out .= "<ul>";
-            $contents = scandir("{$data_path}results");
+            $contents = scandir("{$data_path}results") ?: [];
             foreach ($contents as $entry) {
                 if (preg_match('/\.xml$/', $entry) && !preg_match('/\.bak\./', $entry)) {
                     $out .= "<li><a href='?file={$entry}'>{$entry}</a></li>\n";

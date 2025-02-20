@@ -62,7 +62,7 @@ class OtherPagesController extends AbstractController {
             'typ' => 'trophy',
             'datum' => strval($this_year),
         ];
-        $enc_filter = urlencode(json_encode($filter));
+        $enc_filter = urlencode(json_encode($filter) ?: '');
         $url = "{$code_href}termine?filter={$enc_filter}";
         return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'trophy']);
     }

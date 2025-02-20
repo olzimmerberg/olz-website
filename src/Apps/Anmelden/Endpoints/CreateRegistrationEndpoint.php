@@ -40,7 +40,7 @@ class CreateRegistrationEndpoint extends OlzCreateEntityTypedEndpoint {
             $title_ident = preg_replace('/[^a-zA-Z0-9]+/', '_', $info_spec['title']);
             $ident = "{$index}-{$title_ident}";
 
-            $options_json = json_encode($info_spec['options']);
+            $options_json = json_encode($info_spec['options'] ?? []) ?: '{}';
 
             $registration_info = new RegistrationInfo();
             $this->entityUtils()->createOlzEntity($registration_info, $input['meta']);
@@ -58,7 +58,7 @@ class CreateRegistrationEndpoint extends OlzCreateEntityTypedEndpoint {
         $this->entityManager()->flush();
 
         $internal_id = $registration->getId();
-        $external_id = $this->idUtils()->toExternalId($internal_id, 'Registration');
+        $external_id = $this->idUtils()->toExternalId($internal_id, 'Registration') ?: '-';
 
         return [
             'id' => $external_id,

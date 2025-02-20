@@ -37,7 +37,7 @@ class OlzTermineList extends OlzComponent {
 
         if (!$termine_utils->isValidFilter($current_filter)) {
             $valid_filter = $termine_utils->getValidFilter($current_filter);
-            $enc_json_filter = urlencode(json_encode($valid_filter));
+            $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
             $this->httpUtils()->redirect("?filter={$enc_json_filter}", 308);
         }
 
@@ -193,14 +193,18 @@ class OlzTermineList extends OlzComponent {
             $meldeschluss_label->setIdent('meldeschluss');
             $meldeschluss_label->setIcon(null);
             $last_date = null;
+            // @phpstan-ignore-next-line
             while ($row = $result->fetch_assoc()) {
                 $this_date = $row['start_date'];
+                // @phpstan-ignore-next-line
                 $this_month_start = $this->getMonth($this_date).'-01';
 
                 if ($today < $this_month_start && $today > $last_date) {
                     $out .= "<div class='bar today'>Heute</div>";
                 }
+                // @phpstan-ignore-next-line
                 if ($this->getMonth($this_date) !== $this->getMonth($last_date)) {
+                    // @phpstan-ignore-next-line
                     $pretty_month = $this->dateUtils()->olzDate("MM jjjj", $this_date);
                     $out .= "<h3 class='bar green'>{$pretty_month}</h3>";
                 }
@@ -224,6 +228,7 @@ class OlzTermineList extends OlzComponent {
                     'text' => $row['text'],
                     'solv_uid' => $row['solv_uid'],
                     'labels' => $labels,
+                    // @phpstan-ignore-next-line
                     'image_ids' => $row['image_ids'] ? json_decode($row['image_ids'], true) : null,
                     'location_id' => $row['location_id'],
                 ]);

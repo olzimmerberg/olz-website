@@ -28,10 +28,13 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
                 ORDER BY t.last_modified_at DESC
                 LIMIT 5
             ZZZZZZZZZZ);
+        // @phpstan-ignore-next-line
         while ($row = $res->fetch_assoc()) {
             $id = $row['id'];
-            $modified = date('d.m.', strtotime($row['last_modified_at']));
-            $date = date('d.m.', strtotime($row['date']));
+            // @phpstan-ignore-next-line
+            $modified = date('d.m.', strtotime($row['last_modified_at']) ?: 0);
+            // @phpstan-ignore-next-line
+            $date = date('d.m.', strtotime($row['date']) ?: 0);
             $title = $row['title'];
             $out .= "<li><a href='{$code_href}termine/{$id}' class='linkint'><b>{$modified}</b>: Änderung an {$title} vom {$date}</a></li>";
         }

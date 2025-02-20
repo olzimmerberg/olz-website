@@ -42,8 +42,8 @@ class ImageUtils {
             return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";
         }
         $info = getimagesize("{$data_path}{$imgfile}");
-        $swid = $info[0];
-        $shei = $info[1];
+        $swid = $info[0] ?? 0;
+        $shei = $info[1] ?? 0;
         if ($shei < $swid) {
             $wid = $dim;
             $hei = intval($wid * $shei / $swid);
@@ -99,8 +99,8 @@ class ImageUtils {
         }
         $imgfile = "{$entity_img_path}img/{$image_id}";
         $info = getimagesize($imgfile);
-        $swid = $info[0];
-        $shei = $info[1];
+        $swid = $info[0] ?? 0;
+        $shei = $info[1] ?? 0;
         if ($shei < $swid) {
             $wid = $size;
             $hei = intval($wid * $shei / $swid);

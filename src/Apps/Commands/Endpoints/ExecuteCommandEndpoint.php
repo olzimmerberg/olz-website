@@ -39,7 +39,8 @@ class ExecuteCommandEndpoint extends OlzTypedEndpoint {
         set_time_limit(4000);
         ignore_user_abort(true);
 
-        $argv = $input['argv'] ? preg_split('/\s+/', $input['argv']) : [];
+        $argv_arg = $input['argv'] ?? null;
+        $argv = ($argv_arg ? preg_split('/\s+/', $argv_arg) : []) ?: [];
         $command_input = new ArgvInput(['bin/console', $command_name, ...$argv]);
         $command_input->setInteractive(false);
         $command_output = new BufferedOutput();

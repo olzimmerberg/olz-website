@@ -111,4 +111,10 @@ class RegistrationInfo extends OlzEntity {
     public function setOptions(string $new_options): void {
         $this->options = $new_options;
     }
+
+    // ---
+
+    public function __toString(): string {
+        return "RegistrationInfo (ID: {$this->getId()})";
+    }
 }

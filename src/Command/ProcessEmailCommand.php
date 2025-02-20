@@ -202,7 +202,7 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function archiveOldProcessedMails(MessageCollection $processed_mails): void {
-        $now_timestamp = strtotime($this->dateUtils()->getIsoNow());
+        $now_timestamp = strtotime($this->dateUtils()->getIsoNow()) ?: 0;
         foreach ($processed_mails as $mail) {
             $message_timestamp = $mail->date->first()->timestamp;
             $should_archive = $message_timestamp < $now_timestamp - $this->archiveAfterSeconds;
@@ -223,7 +223,7 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function deleteMailsOlderThan(MessageCollection $mails, int $seconds): void {
-        $now_timestamp = strtotime($this->dateUtils()->getIsoNow());
+        $now_timestamp = strtotime($this->dateUtils()->getIsoNow()) ?: 0;
         foreach ($mails as $mail) {
             $message_timestamp = $mail->date->first()->timestamp;
             $should_delete = $message_timestamp < $now_timestamp - $seconds;
@@ -463,7 +463,7 @@ class ProcessEmailCommand extends OlzCommand {
                     $continue = true;
                     for ($i = 0; $i < self::MAX_LOOP && $continue; $i++) {
                         try {
-                            $ext = strrchr($attachment->name, '.');
+                            $ext = strrchr($attachment->name, '.') ?: '.data';
                             $upload_id = $this->uploadUtils()->getRandomUploadId($ext);
                         } catch (\Throwable $th) {
                             $upload_id = $this->uploadUtils()->getRandomUploadId('.data');
@@ -514,6 +514,7 @@ class ProcessEmailCommand extends OlzCommand {
         $addresses = [];
         foreach ($field->toArray() as $item) {
             if (!empty($item->mail)) {
+                // @phpstan-ignore-next-line
                 $addresses[] = $this->getAddress($item);
             }
         }

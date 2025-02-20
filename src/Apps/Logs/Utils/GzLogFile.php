@@ -2,7 +2,11 @@
 
 namespace Olz\Apps\Logs\Utils;
 
+use Olz\Utils\WithUtilsTrait;
+
 class GzLogFile implements LogFileInterface {
+    use WithUtilsTrait;
+
     public function __construct(
         public string $path,
         public string $filePath,
@@ -18,9 +22,12 @@ class GzLogFile implements LogFileInterface {
     }
 
     public function modified(): int {
-        return filemtime($this->filePath);
+        $result = filemtime($this->filePath);
+        $this->generalUtils()->checkNotBool($result, 'GzLogFile::modified failed');
+        return $result;
     }
 
+    /** @return resource */
     public function open(string $mode): mixed {
         $compatibility_map = [
             'r' => 'rb',
@@ -28,9 +35,12 @@ class GzLogFile implements LogFileInterface {
             'rb' => 'rb',
             'wb' => 'wb',
         ];
-        return gzopen($this->filePath, $compatibility_map[$mode]);
+        $result = gzopen($this->filePath, $compatibility_map[$mode]);
+        $this->generalUtils()->checkNotBool($result, 'GzLogFile::open failed');
+        return $result;
     }
 
+    /** @param resource $fp */
     public function seek(mixed $fp, int $offset, int $whence = SEEK_SET): int {
         if ($whence === SEEK_END) {
             ob_start();
@@ -42,18 +52,25 @@ class GzLogFile implements LogFileInterface {
         return gzseek($fp, $offset, $whence);
     }
 
+    /** @param resource $fp */
     public function tell(mixed $fp): int {
-        return gztell($fp);
+        $result = gztell($fp);
+        $this->generalUtils()->checkNotBool($result, 'GzLogFile::tell failed');
+        return $result;
     }
 
+    /** @param resource $fp */
     public function eof(mixed $fp): bool {
         return gzeof($fp);
     }
 
-    public function gets(mixed $fp): bool|string {
-        return gzgets($fp);
+    /** @param resource $fp */
+    public function gets(mixed $fp): ?string {
+        $result = gzgets($fp);
+        return $result === false ? null : $result;
     }
 
+    /** @param resource $fp */
     public function close(mixed $fp): bool {
         return gzclose($fp);
     }
@@ -63,7 +80,7 @@ class GzLogFile implements LogFileInterface {
             'class' => self::class,
             'path' => $this->path,
             'filePath' => $this->filePath,
-        ]);
+        ]) ?: '{}';
     }
 
     public static function deserialize(string $serialized): ?LogFileInterface {

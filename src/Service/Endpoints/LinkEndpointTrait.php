@@ -20,16 +20,16 @@ trait LinkEndpointTrait {
     /** @return OlzLinkData */
     public function getEntityData(Link $entity): array {
         return [
-            'name' => $entity->getName(),
+            'name' => $entity->getName() ?: '-',
             'position' => $entity->getPosition(),
-            'url' => $entity->getUrl(),
+            'url' => $entity->getUrl() ?: '-',
         ];
     }
 
     /** @param OlzLinkData $input_data */
     public function updateEntityWithData(Link $entity, array $input_data): void {
         $entity->setName($input_data['name']);
-        $entity->setPosition(intval($input_data['position']));
+        $entity->setPosition($input_data['position'] ?? 0);
         $entity->setUrl($input_data['url']);
     }
 

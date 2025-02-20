@@ -63,9 +63,9 @@ class UpdateUserEndpoint extends OlzUpdateEntityTypedEndpoint {
         }
 
         // Email validation
-        $new_email = $input['data']['email'];
+        $new_email = $input['data']['email'] ?? null;
         $is_email_updated = $new_email !== $entity->getEmail();
-        if (preg_match('/@olzimmerberg\.ch$/i', $new_email)) {
+        if (preg_match('/@olzimmerberg\.ch$/i', $new_email ?? '')) {
             throw new ValidationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
         }
         if ($is_email_updated) {
@@ -79,7 +79,7 @@ class UpdateUserEndpoint extends OlzUpdateEntityTypedEndpoint {
         $old_data = $this->getEntityData($entity);
         $this->log()->notice('OLD:', [$old_data]);
 
-        $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? []);
+        $this->entityUtils()->updateOlzEntity($entity, $input['meta']);
         if ($is_username_updated) {
             $entity->setOldUsername($entity->getUsername());
         }

@@ -21,8 +21,8 @@ class CleanTempDirectoryCommand extends OlzCommand {
     protected function handle(InputInterface $input, OutputInterface $output): int {
         $data_path = $this->envUtils()->getDataPath();
         $temp_path = "{$data_path}temp";
-        $this->temp_realpath = realpath($temp_path);
-        $now = strtotime($this->dateUtils()->getCurrentDateInFormat('Y-m-d H:i:s'));
+        $this->temp_realpath = realpath($temp_path) ?: '';
+        $now = strtotime($this->dateUtils()->getCurrentDateInFormat('Y-m-d H:i:s')) ?: 0;
         $cleaning_delay = 86400 * 2;
         $this->clean_older_than = $now - $cleaning_delay;
 
@@ -45,7 +45,7 @@ class CleanTempDirectoryCommand extends OlzCommand {
             if (!$this->shouldEntryBeRemoved($entry_path)) {
                 continue;
             }
-            $entry_realpath = realpath($entry_path);
+            $entry_realpath = realpath($entry_path) ?: '';
             if (is_dir($entry_path)) {
                 $this->recursiveCleanDirectory($entry_path);
                 $this->rmdir($entry_realpath); // Remove directory if it's empty
@@ -64,7 +64,7 @@ class CleanTempDirectoryCommand extends OlzCommand {
         if ($last_modification_date >= $this->clean_older_than) {
             return false;
         }
-        $entry_realpath = realpath($entry_path);
+        $entry_realpath = realpath($entry_path) ?: '';
         // Double check we're not doing something stupid!
         if (substr($entry_realpath, 0, strlen($this->temp_realpath)) !== $this->temp_realpath) {
             // @codeCoverageIgnoreStart
@@ -75,7 +75,7 @@ class CleanTempDirectoryCommand extends OlzCommand {
         return true;
     }
 
-    /** @return bool|resource */
+    /** @return false|resource */
     protected function opendir(string $path): mixed {
         return opendir($path);
     }

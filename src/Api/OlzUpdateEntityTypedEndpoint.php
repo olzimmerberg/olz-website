@@ -13,8 +13,8 @@ namespace Olz\Api;
  * @extends OlzTypedEndpoint<
  *   array{
  *     id: Id,
- *     meta?: ?OlzMetaData,
- *     data?: ?Data,
+ *     meta: OlzMetaData,
+ *     data: Data,
  *     custom?: CustomRequest,
  *   },
  *   array{

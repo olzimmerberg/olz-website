@@ -21,8 +21,8 @@ class GetAppMonitoringCredentialsEndpoint extends OlzTypedEndpoint {
         $this->log()->info("Monitoring credentials access by {$user->getUsername()}.");
 
         return [
-            'username' => $this->envUtils()->getAppMonitoringUsername(),
-            'password' => $this->envUtils()->getAppMonitoringPassword(),
+            'username' => $this->envUtils()->getAppMonitoringUsername() ?: '-',
+            'password' => $this->envUtils()->getAppMonitoringPassword() ?: '-',
         ];
     }
 }

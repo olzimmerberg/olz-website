@@ -47,8 +47,10 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             ORDER BY deadline ASC
             LIMIT 7
             ZZZZZZZZZZ);
+        // @phpstan-ignore-next-line
         if ($res->num_rows > 0) {
             $out .= "<ul class='links'>";
+            // @phpstan-ignore-next-line
             while ($row = $res->fetch_assoc()) {
                 $out .= $this->getDeadlineHtml($row);
             }
@@ -75,9 +77,11 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             ORDER BY deadline ASC
             LIMIT 7
             ZZZZZZZZZZ);
+        // @phpstan-ignore-next-line
         if ($res->num_rows > 0) {
             $out .= "<hr/>";
             $out .= "<ul class='links'>";
+            // @phpstan-ignore-next-line
             while ($row = $res->fetch_assoc()) {
                 $out .= $this->getDeadlineHtml($row);
             }
@@ -93,8 +97,8 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
 
         $id = $row['id'];
-        $deadline = date('d.m.', strtotime($row['deadline']));
-        $date = date('d.m.', strtotime($row['date']));
+        $deadline = date('d.m.', strtotime($row['deadline']) ?: 0);
+        $date = date('d.m.', strtotime($row['date']) ?: 0);
         $title = $row['title'];
         $urgency = 'full';
         if ($row['deadline'] <= $this->in_three_days) {

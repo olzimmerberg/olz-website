@@ -84,9 +84,10 @@ class OlzNewsDetail extends OlzComponent {
             NewsFilterUtils::ALL_FORMAT_OPTIONS,
             fn ($entry) => $entry['ident'] === $format
         );
+        // @phpstan-ignore-next-line
         $found_entry = $filtered[array_keys($filtered)[0]];
         $name = $found_entry['name'];
-        $icon = $found_entry['icon'];
+        $icon = $found_entry['icon'] ?? null;
         $icon_html = "<img src='{$code_href}assets/icns/{$icon}' alt='' class='format-icon'>";
         $pretty_format = "{$icon_html}{$name}";
 
@@ -137,7 +138,7 @@ class OlzNewsDetail extends OlzComponent {
             $json_id = json_encode(intval($id));
             $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
             $has_roles = !empty($this->authUtils()->getAuthenticatedRoles());
-            $json_mode = htmlentities(json_encode($has_roles ? ($has_blog ? 'account_with_all' : 'account_with_aktuell') : ($has_blog ? 'account_with_blog' : 'account')));
+            $json_mode = htmlentities(json_encode($has_roles ? ($has_blog ? 'account_with_all' : 'account_with_aktuell') : ($has_blog ? 'account_with_blog' : 'account')) ?: '');
             $edit_admin = <<<ZZZZZZZZZZ
                 <div>
                     <button

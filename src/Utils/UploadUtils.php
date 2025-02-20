@@ -30,7 +30,7 @@ class UploadUtils {
      * Policy haben sollte (hat er).
      */
     public function deobfuscateUpload(string $obfuscated): string {
-        $semipos = strpos($obfuscated, ';');
+        $semipos = strpos($obfuscated, ';') ?: 0;
         $iv = intval(substr($obfuscated, 0, $semipos));
         $obfusbase64 = substr($obfuscated, $semipos + 1);
         $obfuscontent = base64_decode($obfusbase64);
@@ -74,19 +74,20 @@ class UploadUtils {
     /**
      * @param ?array<string> $upload_ids
      *
-     * @return array<string>
+     * @return array<non-empty-string>
      */
     public function getValidUploadIds(?array $upload_ids): array {
         $valid_upload_ids = [];
         foreach ($upload_ids ?? [] as $upload_id) {
             $upload_id_or_null = $this->getValidUploadId($upload_id);
             if ($upload_id_or_null !== null) {
-                $valid_upload_ids[] = $upload_id;
+                $valid_upload_ids[] = $upload_id ?: '-';
             }
         }
         return $valid_upload_ids;
     }
 
+    /** @return ?non-empty-string */
     public function getValidUploadId(string $upload_id): ?string {
         if (!$this->isUploadId($upload_id)) {
             $this->log()->warning("Upload ID \"{$upload_id}\" is invalid.");
@@ -98,19 +99,19 @@ class UploadUtils {
             $this->log()->warning("Upload file \"{$upload_path}\" does not exist.");
             return null;
         }
-        return $upload_id;
+        return $upload_id ?: '-';
     }
 
-    /** @return array<string> */
+    /** @return array<non-empty-string> */
     public function getStoredUploadIds(string $base_path): array {
         $stored_upload_ids = [];
         if (!is_dir($base_path)) {
             return [];
         }
-        $entries = scandir($base_path);
+        $entries = scandir($base_path) ?: [];
         foreach ($entries as $upload_id) {
             if ($this->isUploadId($upload_id)) {
-                $stored_upload_ids[] = $upload_id;
+                $stored_upload_ids[] = $upload_id ?: '-';
             }
         }
         return $stored_upload_ids;
@@ -121,7 +122,7 @@ class UploadUtils {
         if (!is_dir($new_base_path)) {
             mkdir($new_base_path, 0o777, true);
         }
-        $existing_file_names = scandir($new_base_path);
+        $existing_file_names = scandir($new_base_path) ?: [];
         foreach ($existing_file_names as $file_name) {
             if (substr($file_name, 0, 1) !== '.') {
                 $file_path = "{$new_base_path}{$file_name}";

@@ -33,7 +33,7 @@ class FinishUploadEndpoint extends OlzTypedEndpoint {
             $this->log()->error("Upload with ID {$upload_id} is missing the first part.");
             return ['status' => 'ERROR'];
         }
-        $first_content = file_get_contents($first_part_path);
+        $first_content = file_get_contents($first_part_path) ?: '';
         @unlink($first_part_path);
         $res = preg_match("/^data\\:([^\\;]*)\\;base64\\,(.+)$/", $first_content, $matches);
         if (!$res) {

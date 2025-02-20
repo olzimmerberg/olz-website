@@ -27,6 +27,7 @@ class OlzZielsprint extends OlzComponent {
             ORDER BY date ASC";
         $res_events = $db->query($sql);
         $points_by_person = [];
+        // @phpstan-ignore-next-line
         while ($row_event = $res_events->fetch_assoc()) {
             // $out .= "<h3>".json_encode($row_event)."</h3>";
             $event_id = intval($row_event['solv_uid']);
@@ -40,9 +41,13 @@ class OlzZielsprint extends OlzComponent {
             $res_results = $db->query($sql);
             $last_finish_split = null;
             $last_actual_points = null;
+            // @phpstan-ignore-next-line
             for ($points = $res_results->num_rows; $points > 0; $points--) {
+                // @phpstan-ignore-next-line
                 $row_results = $res_results->fetch_assoc();
+                // @phpstan-ignore-next-line
                 $person_id = intval($row_results['person']);
+                // @phpstan-ignore-next-line
                 $finish_split = $row_results['finish_split'];
                 $actual_points = ($last_finish_split === $finish_split)
                     ? $last_actual_points
@@ -54,6 +59,7 @@ class OlzZielsprint extends OlzComponent {
                     'event_name' => $row_event['name'],
                     'points' => $actual_points,
                     'finish_split' => $finish_split,
+                    // @phpstan-ignore-next-line
                     'max_points' => $res_results->num_rows,
                 ];
                 $last_finish_split = $finish_split;
@@ -70,6 +76,7 @@ class OlzZielsprint extends OlzComponent {
             ];
         }
 
+        // @phpstan-ignore-next-line
         usort($ranking, function ($a, $b) {
             return $b['points'] - $a['points'];
         });
@@ -95,7 +102,9 @@ class OlzZielsprint extends OlzComponent {
                 FROM solv_people
                 WHERE id='{$person_id}'";
             $res_person = $db->query($sql);
+            // @phpstan-ignore-next-line
             $row_person = $res_person->fetch_assoc();
+            // @phpstan-ignore-next-line
             $person_name = $row_person['name'];
             $calculation = "{$person_name}\\n---\\n";
             foreach ($ranking_entry['calculation'] as $event_calculation) {

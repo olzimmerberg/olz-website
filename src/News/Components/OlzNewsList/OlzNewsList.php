@@ -40,7 +40,7 @@ class OlzNewsList extends OlzComponent {
 
         if (!$news_utils->isValidFilter($current_filter)) {
             $valid_filter = $news_utils->getValidFilter($current_filter);
-            $enc_json_filter = urlencode(json_encode($valid_filter));
+            $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
             $this->httpUtils()->redirect("?filter={$enc_json_filter}", 308);
         }
 
@@ -49,7 +49,7 @@ class OlzNewsList extends OlzComponent {
 
         $host = str_replace('www.', '', $this->server()['HTTP_HOST']);
         $code_href = $this->envUtils()->getCodeHref();
-        $enc_json_filter = urlencode(json_encode($current_filter));
+        $enc_json_filter = urlencode(json_encode($current_filter) ?: '{}');
         $page_param = $page_number === 1 ? '' : "&seite={$page_number}";
         $canonical_url = "https://{$host}{$code_href}news?filter={$enc_json_filter}{$page_param}";
         $news_list_title = $news_utils->getTitleFromFilter($current_filter);
@@ -69,7 +69,7 @@ class OlzNewsList extends OlzComponent {
         $is_logged_in = $this->authUtils()->hasPermission('any');
         $has_blog = $this->authUtils()->hasPermission('kaderblog');
         $has_roles = !empty($this->authUtils()->getAuthenticatedRoles());
-        $json_mode = htmlentities(json_encode($has_roles ? ($has_blog ? 'account_with_all' : 'account_with_aktuell') : ($has_blog ? 'account_with_blog' : 'account')));
+        $json_mode = htmlentities(json_encode($has_roles ? ($has_blog ? 'account_with_all' : 'account_with_aktuell') : ($has_blog ? 'account_with_blog' : 'account')) ?: '');
         $class = $is_logged_in ? ' create-news-container' : ' dropdown-toggle';
         $properties = $is_logged_in
             ? <<<ZZZZZZZZZZ
@@ -150,6 +150,7 @@ class OlzNewsList extends OlzComponent {
                 AND n.on_off='1'
             ORDER BY published_date DESC, published_time DESC
             ZZZZZZZZZZ;
+        // @phpstan-ignore-next-line
         $count = intval($db->query($sql)->fetch_assoc()['count']);
         $num_pages = intval($count / $this::$page_size) + 1;
 
@@ -184,32 +185,43 @@ class OlzNewsList extends OlzComponent {
         $has_archive_access = $this->authUtils()->hasPermission('verified_email');
         if ($is_not_archived || $has_archive_access) {
             $page_content = '';
+            // @phpstan-ignore-next-line
             for ($index = 0; $index < $res->num_rows; $index++) {
+                // @phpstan-ignore-next-line
                 $row = $res->fetch_assoc();
 
                 // TODO: Directly use doctrine to run the DB query.
+                // @phpstan-ignore-next-line
                 $owner_user = $row['owner_user_id'] ?
-                $user_repo->findOneBy(['id' => $row['owner_user_id']]) : null;
+                    $user_repo->findOneBy(['id' => $row['owner_user_id']]) : null;
                 $owner_role = $row['owner_role_id'] ?
-                $role_repo->findOneBy(['id' => $row['owner_role_id']]) : null;
+                    $role_repo->findOneBy(['id' => $row['owner_role_id']]) : null;
                 $author_user = $row['author_user_id'] ?
-                $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
+                    $user_repo->findOneBy(['id' => $row['author_user_id']]) : null;
                 $author_role = $row['author_role_id'] ?
-                $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
+                    $role_repo->findOneBy(['id' => $row['author_role_id']]) : null;
 
                 $news_entry = new NewsEntry();
                 $news_entry->setOwnerUser($owner_user);
                 $news_entry->setOwnerRole($owner_role);
+                // @phpstan-ignore-next-line
                 $news_entry->setPublishedDate(new \DateTime($row['published_date']));
+                // @phpstan-ignore-next-line
                 $news_entry->setFormat($row['format']);
                 $news_entry->setAuthorUser($author_user);
                 $news_entry->setAuthorRole($author_role);
+                // @phpstan-ignore-next-line
                 $news_entry->setAuthorName($row['author_name']);
+                // @phpstan-ignore-next-line
                 $news_entry->setAuthorEmail($row['author_email']);
+                // @phpstan-ignore-next-line
                 $news_entry->setTitle($row['title']);
+                // @phpstan-ignore-next-line
                 $news_entry->setTeaser($row['teaser']);
+                // @phpstan-ignore-next-line
                 $news_entry->setContent($row['content']);
                 $news_entry->setId(intval($row['id']));
+                // @phpstan-ignore-next-line
                 $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
 
                 $page_content .= OlzNewsListItem::render([

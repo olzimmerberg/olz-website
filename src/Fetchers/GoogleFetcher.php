@@ -17,7 +17,7 @@ class GoogleFetcher {
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($siteverify_request_data, '', '&'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $siteverify_result = curl_exec($ch);
-        $siteverify_response = json_decode($siteverify_result, true);
+        $siteverify_response = json_decode(!is_bool($siteverify_result) ? $siteverify_result : '', true);
         curl_close($ch);
 
         return $siteverify_response;

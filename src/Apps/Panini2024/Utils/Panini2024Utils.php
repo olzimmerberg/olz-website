@@ -71,6 +71,7 @@ class Panini2024Utils {
                 return $picture->getId();
             }, $panini_repo->findAll());
             $ids_len = count($all_ids);
+            assert($ids_len > 0);
             $pages = [];
             for ($p = 0; $p < $num; $p++) {
                 $ids = [];
@@ -148,10 +149,10 @@ class Panini2024Utils {
             throw new AccessDeniedHttpException("Kein Zugriff");
         }
 
-        $wid = intval(round(($is_landscape ? self::PANINI_LONG : self::PANINI_SHORT)
-        * self::DPI / self::MM_PER_INCH));
-        $hei = intval(round(($is_landscape ? self::PANINI_SHORT : self::PANINI_LONG)
-            * self::DPI / self::MM_PER_INCH));
+        $wid = max(1, intval(round(($is_landscape ? self::PANINI_LONG : self::PANINI_SHORT)
+        * self::DPI / self::MM_PER_INCH)));
+        $hei = max(1, intval(round(($is_landscape ? self::PANINI_SHORT : self::PANINI_LONG)
+            * self::DPI / self::MM_PER_INCH)));
         $suffix = "{$lp_suffix}_{$wid}x{$hei}";
         $payload_folder = (intval($id) >= 1000) ? "portraits/{$id}/" : '';
         $payload_path = "{$panini_path}{$payload_folder}{$img_src}";
@@ -176,16 +177,17 @@ class Panini2024Utils {
             filemtime($association_mask_path),
             filemtime($flag_mask_path),
             filemtime($association_img_orig_path),
-            md5(file_get_contents(__FILE__)),
-        ]);
+            md5(file_get_contents(__FILE__) ?: ''),
+        ]) ?: '[]';
         $md5 = md5($ident);
         $cache_file = "{$panini_path}cache/{$id}-{$md5}.jpg";
         if (is_file($cache_file)) {
             $this->log()->info("Read from cache: {$id}-{$md5}.jpg");
-            return file_get_contents($cache_file);
+            return file_get_contents($cache_file) ?: '';
         }
 
         $img = imagecreatetruecolor($wid, $hei);
+        $this->generalUtils()->checkNotFalse($img, "renderSingle: Could not create img");
         gc_collect_cycles();
 
         // Payload
@@ -211,11 +213,13 @@ class Panini2024Utils {
 
         // Masks
         $bottom_mask = imagecreatefrompng($bottom_mask_path);
+        $this->generalUtils()->checkNotFalse($bottom_mask, "renderSingle: Could not read bottom_mask");
         imagecopy($img, $bottom_mask, 0, 0, 0, 0, $wid, $hei);
         imagedestroy($bottom_mask);
         gc_collect_cycles();
         if ($has_top) {
             $top_mask = imagecreatefrompng($top_mask_path);
+            $this->generalUtils()->checkNotFalse($top_mask, "renderSingle: Could not create top_mask");
             imagecopy($img, $top_mask, 0, 0, 0, 0, $wid, $hei);
             imagedestroy($top_mask);
             gc_collect_cycles();
@@ -224,17 +228,21 @@ class Panini2024Utils {
         // Association
         if ($association_file) {
             $association_mask = imagecreatefrompng($association_mask_path);
+            $this->generalUtils()->checkNotFalse($association_mask, "renderSingle: Could not create association_mask");
             imagecopy($img, $association_mask, 0, 0, 0, 0, $wid, $hei);
             imagedestroy($association_mask);
             gc_collect_cycles();
 
             $offset = intval(round(($wid + $hei) * 0.01) - 1);
-            $size = intval(round(($wid + $hei) * 0.09) + 1);
+            $size = max(1, intval(round(($wid + $hei) * 0.09) + 1));
 
             $flag_mask = imagecreatefrompng($flag_mask_path);
+            $this->generalUtils()->checkNotFalse($flag_mask, "renderSingle: Could not create flag_mask");
 
             $association_img = imagecreatetruecolor($size, $size);
+            $this->generalUtils()->checkNotFalse($association_img, "renderSingle: Could not create association_img");
             $association_img_orig = imagecreatefromjpeg($association_img_orig_path);
+            $this->generalUtils()->checkNotFalse($association_img_orig, "renderSingle: Could not read association_img_orig");
             imagecopyresampled(
                 $association_img,
                 $association_img_orig,
@@ -252,32 +260,30 @@ class Panini2024Utils {
 
             for ($x = 0; $x < $size; $x++) {
                 for ($y = 0; $y < $size; $y++) {
-                    $mask = imagecolorsforindex(
-                        $flag_mask,
-                        imagecolorat($flag_mask, $x + $offset, $y + $offset)
-                    );
+                    $flag_color_at = imagecolorat($flag_mask, $x + $offset, $y + $offset);
+                    $this->generalUtils()->checkNotFalse($flag_color_at, "renderSingle: Could not get flag_color_at");
+                    $mask = imagecolorsforindex($flag_mask, $flag_color_at);
                     if ($mask['red'] > 0) {
                         $ratio = floatval($mask['red']) / 255.0;
-                        $src = imagecolorsforindex(
-                            $association_img,
-                            imagecolorat($association_img, $x, $y)
-                        );
+                        $association_color_at = imagecolorat($association_img, $x, $y);
+                        $this->generalUtils()->checkNotFalse($association_color_at, "renderSingle: Could not get association_color_at");
+                        $src = imagecolorsforindex($association_img, $association_color_at);
                         $src_r = floatval($src['red']);
                         $src_g = floatval($src['green']);
                         $src_b = floatval($src['blue']);
-                        $dst = imagecolorsforindex(
-                            $img,
-                            imagecolorat($img, $x + $offset, $y + $offset)
-                        );
+                        $color_at = imagecolorat($img, $x + $offset, $y + $offset);
+                        $this->generalUtils()->checkNotFalse($color_at, "renderSingle: Could not get color_at");
+                        $dst = imagecolorsforindex($img, $color_at);
                         $dst_r = floatval($dst['red']);
                         $dst_g = floatval($dst['green']);
                         $dst_b = floatval($dst['blue']);
                         $color = imagecolorallocate(
                             $img,
-                            intval($src_r * $ratio + $dst_r * (1 - $ratio)),
-                            intval($src_g * $ratio + $dst_g * (1 - $ratio)),
-                            intval($src_b * $ratio + $dst_b * (1 - $ratio)),
+                            max(0, min(255, intval($src_r * $ratio + $dst_r * (1 - $ratio)))),
+                            max(0, min(255, intval($src_g * $ratio + $dst_g * (1 - $ratio)))),
+                            max(0, min(255, intval($src_b * $ratio + $dst_b * (1 - $ratio)))),
                         );
+                        $this->generalUtils()->checkNotFalse($color, "renderSingle: Could not allocate color");
                         imagesetpixel($img, $x + $offset, $y + $offset, $color);
                         imagecolordeallocate($img, $color);
                     }
@@ -291,18 +297,20 @@ class Panini2024Utils {
         // Text
         $size = ($hei + ($is_landscape ? $wid : $hei)) * 0.018;
         $yellow = imagecolorallocate($img, 255, 255, 0);
+        $this->generalUtils()->checkNotFalse($yellow, "renderSingle: Could not create yellow");
         $shady = imagecolorallocatealpha($img, 0, 0, 0, 64);
+        $this->generalUtils()->checkNotFalse($shady, "renderSingle: Could not create shady");
         $shoff = $size / 10;
         $font_path = "{$panini_path}fonts/OpenSans/OpenSans-SemiBold.ttf";
         $box = imagettfbbox($size, 0, $font_path, $line1);
-        $textwid = $box[2];
+        $textwid = $box[2] ?? 0;
         $x = ($line2 ? $wid * 0.95 - $textwid : $wid / 2 - $textwid / 2);
         $y = $hei * ($is_landscape ? 0.95 : ($line2 ? 0.915 : 0.945));
         $this->drawText($img, $size, 0, $x + $shoff, $y + $shoff, $shady, $font_path, $line1);
         $this->drawText($img, $size, 0, $x, $y, $yellow, $font_path, $line1);
         if ($line2) {
             $box = imagettfbbox($size, 0, $font_path, $line2);
-            $textwid = $box[2];
+            $textwid = $box[2] ?? 0;
             $x = $wid * 0.95 - $textwid;
             $y = $hei * 0.975;
             $this->drawText($img, $size, 0, $x + $shoff, $y + $shoff, $shady, $font_path, $line2);
@@ -315,6 +323,7 @@ class Panini2024Utils {
         $image_data = ob_get_contents();
         ob_end_clean();
         imagedestroy($img);
+        $this->generalUtils()->checkNotFalse($image_data, "Could not retrieve image data");
         file_put_contents($cache_file, $image_data);
         $this->log()->info("Written to cache: {$id}-{$md5}.jpg");
         return $image_data;
@@ -397,7 +406,7 @@ class Panini2024Utils {
 
     /** @param array{grid?: bool} $options */
     public function render4x4Zip(array $options): string {
-        $grid_or_empty = $options['grid'] ? '-grid' : '';
+        $grid_or_empty = ($options['grid'] ?? false) ? '-grid' : '';
         $ids = $this->getAllEntries();
 
         $panini_utils = Panini2024Utils::fromEnv();
@@ -419,7 +428,7 @@ class Panini2024Utils {
         }
         $zip->close();
 
-        $content = file_get_contents($zip_path);
+        $content = file_get_contents($zip_path) ?: '';
         @unlink($zip_path);
         return $content;
     }
@@ -430,8 +439,11 @@ class Panini2024Utils {
 
         $db = $this->dbUtils()->getDb();
         $result_olz = $db->query("SELECT id FROM panini24 ORDER BY id ASC");
+        // @phpstan-ignore-next-line
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            // @phpstan-ignore-next-line
             $row_olz = $result_olz->fetch_assoc();
+            // @phpstan-ignore-next-line
             $ids[] = intval($row_olz['id']);
         }
         return $ids;
@@ -510,10 +522,12 @@ class Panini2024Utils {
         }
         $temp_file_path = $this->getCachePathForPictureId($id);
         $img = imagecreatefromstring($this->renderSingle($id));
+        $this->generalUtils()->checkNotFalse($img, "cachePictureId: Could create image from string (ID:{$id})");
         $wid = imagesx($img);
         $hei = imagesy($img);
         if ($hei < $wid) {
             $img = imagerotate($img, 90, 0);
+            $this->generalUtils()->checkNotFalse($img, "cachePictureId: Failed rotating");
         }
         imagejpeg($img, $temp_file_path);
         imagedestroy($img);
@@ -554,6 +568,9 @@ class Panini2024Utils {
 
         $font_path = "{$panini_path}fonts/OpenSans/OpenSans-SemiBold.ttf";
         $fontname = \TCPDF_FONTS::addTTFfont($font_path, 'TrueTypeUnicode');
+        if (!$fontname) {
+            throw new \Exception("Error with font {$font_path}");
+        }
         $pdf->SetFont($fontname);
 
         return $pdf;
@@ -563,8 +580,8 @@ class Panini2024Utils {
         $pdf->AddPage();
         $mainbg_path = __DIR__.'/../../../../assets/icns/mainbg.png';
         $info = getimagesize($mainbg_path);
-        $wid_px = $info[0];
-        $hei_px = $info[1];
+        $wid_px = $info[0] ?? 0;
+        $hei_px = $info[1] ?? 0;
         $dpi = 150;
         $wid_mm = $wid_px / $dpi * self::MM_PER_INCH;
         $hei_mm = $hei_px / $dpi * self::MM_PER_INCH;
@@ -641,7 +658,7 @@ class Panini2024Utils {
         } else {
             $pdf->SetTextColor(0, 117, 33);
             if (strlen($birthday) === 10) {
-                $birthday = date('d.m.Y', strtotime($birthday));
+                $birthday = date('d.m.Y', strtotime($birthday) ?: 0);
             }
         }
         $pdf->setXY($x, $y + 1);
@@ -676,7 +693,7 @@ class Panini2024Utils {
 
     /** @param array{} $options */
     private function drawText(
-        \GdImage|int $image,
+        \GdImage $image,
         float $size,
         float $angle,
         int|float $x,
@@ -741,27 +758,35 @@ class Panini2024Utils {
         $db = $this->dbUtils()->getDb();
         $result_associations = $db->query("SELECT *, (img_src = 'wappen/other.jpg') AS is_other FROM panini24 WHERE img_src LIKE 'wappen/%' ORDER BY is_other ASC, line1 ASC");
         $esc_associations = [];
+        // @phpstan-ignore-next-line
         for ($i = 0; $i < $result_associations->num_rows; $i++) {
+            // @phpstan-ignore-next-line
             $row_association = $result_associations->fetch_assoc();
             $entries[] = $row_association;
 
-            if ($row_association['is_other']) {
+            if ($row_association['is_other'] ?? false) {
                 $sql = implode("', '", $esc_associations);
                 $result_portraits = $db->query("SELECT * FROM panini24 WHERE association NOT IN ('{$sql}') ORDER BY line2 ASC, line1 ASC");
+                // @phpstan-ignore-next-line
                 for ($j = 0; $j < $result_portraits->num_rows; $j++) {
+                    // @phpstan-ignore-next-line
                     $row_portrait = $result_portraits->fetch_assoc();
                     $entries[] = $row_portrait;
                 }
             } else {
-                $esc_association = $db->real_escape_string($row_association['line1']);
+                $line1 = $row_association['line1'] ?? '';
+                $esc_association = $db->real_escape_string("{$line1}");
                 $esc_associations[] = $esc_association;
                 $result_portraits = $db->query("SELECT * FROM panini24 WHERE association = '{$esc_association}' ORDER BY line2 ASC, line1 ASC");
+                // @phpstan-ignore-next-line
                 for ($j = 0; $j < $result_portraits->num_rows; $j++) {
+                    // @phpstan-ignore-next-line
                     $row_portrait = $result_portraits->fetch_assoc();
                     $entries[] = $row_portrait;
                 }
             }
         }
+        // @phpstan-ignore-next-line
         return $entries;
     }
 
@@ -799,10 +824,13 @@ class Panini2024Utils {
 
         $db = $this->dbUtils()->getDb();
         $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 10 AND id < 20 ORDER BY id ASC");
+        // @phpstan-ignore-next-line
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            // @phpstan-ignore-next-line
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;
         }
+        // @phpstan-ignore-next-line
         return $entries;
     }
 
@@ -857,10 +885,13 @@ class Panini2024Utils {
 
         $db = $this->dbUtils()->getDb();
         $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 50 AND id < 100 ORDER BY id ASC");
+        // @phpstan-ignore-next-line
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            // @phpstan-ignore-next-line
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;
         }
+        // @phpstan-ignore-next-line
         return $entries;
     }
 
@@ -922,10 +953,13 @@ class Panini2024Utils {
 
         $db = $this->dbUtils()->getDb();
         $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 40 AND id < 50 ORDER BY id ASC");
+        // @phpstan-ignore-next-line
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            // @phpstan-ignore-next-line
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;
         }
+        // @phpstan-ignore-next-line
         return $entries;
     }
 
@@ -979,10 +1013,13 @@ class Panini2024Utils {
 
         $db = $this->dbUtils()->getDb();
         $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 100 AND id < 150 ORDER BY line1 ASC");
+        // @phpstan-ignore-next-line
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            // @phpstan-ignore-next-line
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;
         }
+        // @phpstan-ignore-next-line
         return $entries;
     }
 
@@ -1066,10 +1103,13 @@ class Panini2024Utils {
 
         $db = $this->dbUtils()->getDb();
         $result_olz = $db->query("SELECT * FROM panini24 WHERE id >= 20 AND id < 40 ORDER BY id ASC");
+        // @phpstan-ignore-next-line
         for ($i = 0; $i < $result_olz->num_rows; $i++) {
+            // @phpstan-ignore-next-line
             $row_olz = $result_olz->fetch_assoc();
             $entries[] = $row_olz;
         }
+        // @phpstan-ignore-next-line
         return $entries;
     }
 

@@ -72,7 +72,7 @@ class HtmlUtils {
                     "/{$prefix}{$email}{$subject}{$suffix}/",
                     $this->escapeDollar(OlzRoleInfoModal::render([
                         'role' => $role,
-                        'text' => $matches[5][$i],
+                        'text' => $matches[5][$i] ?: null,
                     ])),
                     $html
                 );
@@ -97,7 +97,7 @@ class HtmlUtils {
                     "/{$prefix}{$email}{$suffix}/",
                     $this->escapeDollar(OlzRoleInfoModal::render([
                         'role' => $role,
-                        'text' => $matches[4][$i],
+                        'text' => $matches[4][$i] ?: null,
                     ])),
                     $html
                 );

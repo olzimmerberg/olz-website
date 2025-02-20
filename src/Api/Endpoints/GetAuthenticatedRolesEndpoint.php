@@ -29,8 +29,8 @@ class GetAuthenticatedRolesEndpoint extends OlzTypedEndpoint {
             'roles' => array_map(function ($role) {
                 return [
                     'id' => $role->getId(),
-                    'name' => $role->getName(),
-                    'username' => $role->getUsername(),
+                    'name' => $role->getName() ?: '-',
+                    'username' => $role->getUsername() ?: '-',
                 ];
             }, $roles),
         ];

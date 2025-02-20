@@ -20,7 +20,7 @@ class AssetsController extends AbstractController {
         LoggerInterface $logger,
     ): Response {
         $assets_path = __DIR__.'/../../assets';
-        $icns_entries = scandir("{$assets_path}/icns");
+        $icns_entries = scandir("{$assets_path}/icns") ?: [];
         $svg_icons = [];
         foreach ($icns_entries as $entry) {
             $is_svg_icon = preg_match('/^([a-zA-Z0-9_]+)_([0-9]+)\.svg$/i', $entry, $matches);
@@ -87,7 +87,7 @@ class AssetsController extends AbstractController {
         string $initials,
     ): Response {
         $assets_path = __DIR__.'/../../assets';
-        $svg_content = file_get_contents("{$assets_path}/icns/user_initials.svg");
+        $svg_content = file_get_contents("{$assets_path}/icns/user_initials.svg") ?: '';
         $out = str_replace('%INITIALS%', $initials, $svg_content);
         $response = new Response($out);
         $response->headers->set('Content-Type', 'image/svg+xml');

@@ -14,9 +14,9 @@ class AuthUtils {
 
     public const MAX_LOOP = 5;
 
-    /** @var array<string, array<string, bool>> */
+    /** @var array<int, array<string, bool>> */
     protected array $cached_permission_map_by_user = [];
-    /** @var array<string, array<string, bool>> */
+    /** @var array<int, array<string, bool>> */
     protected array $cached_permission_map_by_role = [];
     /** @var array<string, User> */
     protected array $cached_users = [];
@@ -143,12 +143,12 @@ class AuthUtils {
         if (!$user) {
             return ['any' => false];
         }
-        $user_id = $user->getId();
+        $user_id = $user->getId() ?: 0;
         $permission_map = $this->cached_permission_map_by_user[$user_id] ?? null;
         if ($permission_map != null) {
             return $permission_map;
         }
-        $permission_list = preg_split('/[ ]+/', $user->getPermissions());
+        $permission_list = preg_split('/[ ]+/', $user->getPermissions()) ?: [];
         $permission_map = ['any' => true];
         foreach ($permission_list as $permission) {
             $permission_map[$permission] = true;
@@ -167,12 +167,12 @@ class AuthUtils {
         if (!$role) {
             return ['any' => false];
         }
-        $role_id = $role->getId();
+        $role_id = $role->getId() ?: 0;
         $permission_map = $this->cached_permission_map_by_role[$role_id] ?? null;
         if ($permission_map != null) {
             return $permission_map;
         }
-        $permission_list = preg_split('/[ ]+/', $role->getPermissions());
+        $permission_list = preg_split('/[ ]+/', $role->getPermissions()) ?: [];
         $permission_map = ['any' => true];
         foreach ($permission_list as $permission) {
             $permission_map[$permission] = true;

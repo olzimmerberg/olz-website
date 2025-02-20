@@ -50,8 +50,8 @@ class OlzMenu extends OlzComponent {
             $content = file_get_contents($live_json_path);
             if ($content) {
                 $live = json_decode($content, true);
-                $last_updated_at = strtotime($live['last_updated_at']);
-                $now = strtotime($this->dateUtils()->getIsoNow());
+                $last_updated_at = strtotime($live['last_updated_at']) ?: 0;
+                $now = strtotime($this->dateUtils()->getIsoNow()) ?: 0;
                 if ($live && $last_updated_at > $now - 3600) {
                     $live_file = $live['file'];
                     $style = preg_match('/test/', $live_file) ? " style='display:none;'" : "";

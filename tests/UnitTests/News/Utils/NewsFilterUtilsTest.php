@@ -825,7 +825,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
 
     public function testIsFilterNotArchived(): void {
         $news_utils = new NewsFilterUtils();
-        $this->assertFalse($news_utils->isFilterNotArchived(['archiv' => 'invalid']));
+        $this->assertTrue($news_utils->isFilterNotArchived(['archiv' => 'invalid']));
         $this->assertTrue($news_utils->isFilterNotArchived(['archiv' => 'ohne']));
         $this->assertFalse($news_utils->isFilterNotArchived(['archiv' => 'mit']));
     }

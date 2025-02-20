@@ -23,7 +23,8 @@ class CreateRoleEndpoint extends OlzCreateEntityTypedEndpoint {
     }
 
     protected function handle(mixed $input): mixed {
-        if (!$this->authUtils()->hasRoleEditPermission($input['data']['parentRole'])) {
+        $parent_role = $input['data']['parentRole'] ?? null;
+        if (!$this->authUtils()->hasRoleEditPermission($parent_role)) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

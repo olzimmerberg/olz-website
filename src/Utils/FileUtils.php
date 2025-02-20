@@ -87,13 +87,13 @@ class FileUtils {
         if ($is_migrated) {
             if (is_file("{$file_dir}/{$index}")) {
                 $filemtime = filemtime("{$file_dir}/{$index}");
-                $extension = $this->uploadUtils()->getExtension($index);
+                $extension = $this->uploadUtils()->getExtension("{$index}");
                 $url = "{$data_href}{$db_filepath}/{$id}/{$index}?modified={$filemtime}";
                 return "<span class='rendered-markdown'><a href='{$url}' download='{$download_name}{$extension}'>{$text}</a></span>";
             }
         }
         $this->log()->notice("Unmigrated file: {$index} ({$db_table}/{$id})");
-        $files = scandir($file_dir);
+        $files = scandir($file_dir) ?: [];
         for ($i = 0; $i < count($files); $i++) {
             if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
                 if (intval($matches[1]) == $index && is_file("{$file_dir}/{$files[$i]}")) {

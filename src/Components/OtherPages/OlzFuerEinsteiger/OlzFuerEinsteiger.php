@@ -7,8 +7,8 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Roles\Role;
+use Olz\Entity\Termine\Termin;
 use Olz\Repository\Roles\PredefinedRole;
-use Olz\Termine\Components\OlzTermineTicker\OlzTermineTicker;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
@@ -20,6 +20,8 @@ class OlzFuerEinsteigerParams extends HttpParams {
 class OlzFuerEinsteiger extends OlzComponent {
     public static string $title = "Für Einsteiger";
     public static string $description = "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.";
+
+    protected string $termin_class = Termin::class;
 
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzFuerEinsteigerParams::class);
@@ -51,20 +53,34 @@ class OlzFuerEinsteiger extends OlzComponent {
 
         $trainings_information = OlzEditableText::render(['snippet_id' => 1]);
 
-        $next_three_trainings = OlzTermineTicker::render([
-            "eintrag_laenge" => 80,
-            "eintrag_anzahl" => 3,
-            "titel" => "",
-            "sql_where" => " AND (
-                SELECT GROUP_CONCAT(l.ident ORDER BY l.position ASC SEPARATOR ' ')
-                FROM 
-                    termin_label_map tl
-                    JOIN termin_labels l ON (l.id = tl.label_id)
-                WHERE tl.termin_id = t.id
-                GROUP BY t.id
-            ) LIKE '%training%'",
-            "heute_highlight" => false,
-        ]);
+        $today_iso = $this->dateUtils()->getIsoToday();
+        // TODO: PredefinedTerminLabels?
+        $dql = <<<ZZZZZZZZZZ
+                SELECT t 
+                FROM {$this->termin_class} t
+                    JOIN t.labels l
+                WHERE
+                    t.start_date >= ?1
+                    AND l.ident = 'training'
+                ORDER BY t.start_date ASC, t.start_time ASC
+            ZZZZZZZZZZ;
+        $query = $this->entityManager()
+            ->createQuery($dql)
+            ->setParameter(1, $today_iso)
+            ->setMaxResults(3)
+        ;
+        $next_three_trainings = $query->getResult();
+        $next_three_trainings_out = implode('', array_map(
+            function ($training) use ($code_href) {
+                $id = $training->getId();
+                $date = $training->getStartDate()->format('d.m.');
+                $title = $training->getTitle();
+                return "<li><a href='{$code_href}termine/{$id}'>
+                    <b>{$date}</b> {$title}
+                </a></li>";
+            },
+            [...$next_three_trainings],
+        ));
 
         $orientierungslauf_001 = $this->getTile('orientierungslauf_001');
         $orientierungslauf_002 = $this->getTile('orientierungslauf_002');
@@ -257,7 +273,7 @@ class OlzFuerEinsteiger extends OlzComponent {
             <div class='text'>
                 <h1>Pack die Chance!</h1>
                 <p class='slogan'>Komm doch einfach an eines unserer nächsten Trainings:</p>
-                {$next_three_trainings}
+                <ul>{$next_three_trainings_out}</ul>
             </div>
 
             <div class='clear-both'></div>

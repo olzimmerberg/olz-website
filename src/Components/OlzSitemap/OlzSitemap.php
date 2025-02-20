@@ -86,7 +86,7 @@ abstract class OlzSitemap extends OlzComponent {
         $news_utils = NewsFilterUtils::fromEnv();
         $news_filters = $news_utils->getAllValidFiltersForSitemap();
         foreach ($news_filters as $news_filter) {
-            $enc_json_filter = urlencode(json_encode($news_filter));
+            $enc_json_filter = urlencode(json_encode($news_filter) ?: '{}');
             $title = $news_utils->getTitleFromFilter($news_filter);
 
             $filter_where = $news_utils->getSqlFromFilter($news_filter);
@@ -99,6 +99,7 @@ abstract class OlzSitemap extends OlzComponent {
                     AND n.on_off='1'
                 ORDER BY published_date DESC, published_time DESC
                 ZZZZZZZZZZ;
+            // @phpstan-ignore-next-line
             $count = intval($db->query($sql)->fetch_assoc()['count']);
             $num_pages = intval($count / OlzNewsList::$page_size) + 1;
 
@@ -166,7 +167,7 @@ abstract class OlzSitemap extends OlzComponent {
         $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
         $termine_filters = $termine_utils->getAllValidFiltersForSitemap();
         foreach ($termine_filters as $termine_filter) {
-            $enc_json_filter = urlencode(json_encode($termine_filter));
+            $enc_json_filter = urlencode(json_encode($termine_filter) ?: '{}');
             $title = $termine_utils->getTitleFromFilter($termine_filter);
             $description = "Termine-Liste \"{$title}\"";
             $entries[] = [

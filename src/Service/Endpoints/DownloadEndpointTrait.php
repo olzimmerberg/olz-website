@@ -21,7 +21,7 @@ trait DownloadEndpointTrait {
     public function getEntityData(Download $entity): array {
         $file_ids = $entity->getStoredFileUploadIds();
         return [
-            'name' => $entity->getName(),
+            'name' => $entity->getName() ?: '-',
             'position' => $entity->getPosition(),
             'fileId' => $file_ids[0] ?? null,
         ];
@@ -30,13 +30,16 @@ trait DownloadEndpointTrait {
     /** @param OlzDownloadData $input_data */
     public function updateEntityWithData(Download $entity, array $input_data): void {
         $entity->setName($input_data['name']);
-        $entity->setPosition(intval($input_data['position']));
-        $entity->setFileId($input_data['fileId']);
+        $entity->setPosition($input_data['position'] ?? 0);
+        $entity->setFileId($input_data['fileId'] ?? null);
     }
 
     /** @param OlzDownloadData $input_data */
     public function persistUploads(Download $entity, array $input_data): void {
-        $this->persistOlzFiles($entity, [$input_data['fileId']]);
+        $file_id = $input_data['fileId'] ?? null;
+        if ($file_id) {
+            $this->persistOlzFiles($entity, [$input_data['fileId']]);
+        }
     }
 
     public function editUploads(Download $entity): void {

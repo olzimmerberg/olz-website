@@ -25,8 +25,8 @@ class LinkTelegramEndpoint extends OlzTypedEndpoint {
         $pin = $this->telegramUtils()->getFreshPinForUser($user);
 
         return [
-            'botName' => $bot_name,
-            'pin' => $pin,
+            'botName' => $bot_name ?: '-',
+            'pin' => $pin ?: '-',
         ];
     }
 }

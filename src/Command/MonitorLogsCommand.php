@@ -24,7 +24,8 @@ class MonitorLogsCommand extends OlzCommand {
 
         $last_two_merged_log_file_contents = "";
         $merged_log_index = 0;
-        foreach (scandir($logs_path, SCANDIR_SORT_DESCENDING) as $filename) {
+        $filenames = scandir($logs_path, SCANDIR_SORT_DESCENDING) ?: [];
+        foreach ($filenames as $filename) {
             if ($merged_log_index > 1) {
                 break;
             }
@@ -43,7 +44,7 @@ class MonitorLogsCommand extends OlzCommand {
         foreach (explode("\n", $last_two_merged_log_file_contents) as $line) {
             $res = preg_match('/^\[([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2})/', $line, $matches);
             if ($res) {
-                $line_timestamp = strtotime($matches[1]);
+                $line_timestamp = strtotime($matches[1]) ?: 0;
                 if ($line_timestamp > $one_hour_ago->getTimestamp()) {
                     $logs_in_last_hour[] = $line;
                 }

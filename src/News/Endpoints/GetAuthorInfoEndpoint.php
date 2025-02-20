@@ -58,9 +58,9 @@ class GetAuthorInfoEndpoint extends OlzTypedEndpoint {
         }
 
         return [
-            'roleName' => $author_role?->getName(),
-            'roleUsername' => $author_role?->getUsername(),
-            'firstName' => $first_name,
+            'roleName' => $author_role?->getName() ?: null,
+            'roleUsername' => $author_role?->getUsername() ?: null,
+            'firstName' => $first_name ?: '-',
             'lastName' => $last_name,
             'email' => $this->emailUtils()->obfuscateEmail($email),
             'avatarImageId' => $avatar,

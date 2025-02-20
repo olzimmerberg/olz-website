@@ -48,15 +48,16 @@ class SearchEntitiesEndpoint extends OlzTypedEndpoint {
         $entity_type = $input['entityType'];
         $entity_class = self::SUPPORTED_ENTITY_TYPES[$entity_type];
 
-        $search_terms = preg_split('/\s+/', $input['query'] ?? '');
+        $search_terms = preg_split('/\s+/', $input['query'] ?? '') ?: [];
         $matching_criterium = Criteria::expr()->andX(
             ...array_map(function ($search_term) use ($entity_class) {
                 return $entity_class::getCriteriaForQuery($search_term);
             }, $search_terms),
         );
 
+        $id = $input['id'] ?? null;
         $id_field_name = $entity_class::getIdFieldNameForSearch();
-        $id_criteria = $input['id'] ? [Criteria::expr()->eq($id_field_name, $input['id'])] : [];
+        $id_criteria = $id ? [Criteria::expr()->eq($id_field_name, $id)] : [];
 
         $repo = $this->entityManager()->getRepository($entity_class);
         $on_off_criteria = is_subclass_of($entity_class, OlzEntity::class) ? [

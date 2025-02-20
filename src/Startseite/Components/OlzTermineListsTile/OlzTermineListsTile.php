@@ -44,7 +44,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $filter = $this->termine_utils->getDefaultFilter();
         $filter['typ'] = 'alle';
         $filter['datum'] = 'bevorstehend';
-        $enc_json_filter = urlencode(json_encode($filter));
+        $enc_json_filter = urlencode(json_encode($filter) ?: '{}');
         return <<<ZZZZZZZZZZ
             <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
                 {$icon_img} <b>Nächste Termine</b>
@@ -78,7 +78,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $out = '';
         if ($num_imminent > 0) {
             $num_this_year = $this->getNumberOfEntries($this_year_filter);
-            $enc_json_filter = urlencode(json_encode($this_year_filter));
+            $enc_json_filter = urlencode(json_encode($this_year_filter) ?: '{}');
             $out .= <<<ZZZZZZZZZZ
                 <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
                     {$icon_img} <b>Jahresprogramm {$this_year}</b><span class='secondary'>({$num_this_year})</span>
@@ -86,7 +86,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
                 ZZZZZZZZZZ;
         }
         if ($num_next_year > 0) {
-            $enc_json_filter = urlencode(json_encode($next_year_filter));
+            $enc_json_filter = urlencode(json_encode($next_year_filter) ?: '{}');
             $out .= <<<ZZZZZZZZZZ
                 <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
                     {$icon_img} <b>Jahresprogramm {$next_year}</b><span class='secondary'>({$num_next_year})</span>
@@ -106,7 +106,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
             'datum' => 'bevorstehend',
         ];
         $num_imminent = $this->getNumberOfEntries($imminent_filter);
-        $enc_json_filter = urlencode(json_encode($imminent_filter));
+        $enc_json_filter = urlencode(json_encode($imminent_filter) ?: '{}');
         return <<<ZZZZZZZZZZ
             <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
                 {$icon_img} <b>Bevorstehende Weekends</b><span class='secondary'>({$num_imminent})</span>
@@ -125,7 +125,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
             'datum' => strval($this_year),
         ];
         $num_this_year = $this->getNumberOfEntries($this_year_filter);
-        $enc_json_filter = urlencode(json_encode($this_year_filter));
+        $enc_json_filter = urlencode(json_encode($this_year_filter) ?: '{}');
         return <<<ZZZZZZZZZZ
             <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
                 {$icon_img} <b>OLZ Trophy {$this_year}</b><span class='secondary'>({$num_this_year})</span>
@@ -142,7 +142,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
             'typ' => 'training',
             'datum' => 'bevorstehend',
         ];
-        $enc_json_filter = urlencode(json_encode($imminent_filter));
+        $enc_json_filter = urlencode(json_encode($imminent_filter) ?: '{}');
         return <<<ZZZZZZZZZZ
             <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
                 {$icon_img} <b>Nächste Trainings</b>
@@ -175,6 +175,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
             WHERE {$filter_sql}
             ZZZZZZZZZZ;
         $res = $this->db->query($sql);
+        // @phpstan-ignore-next-line
         return $res->num_rows;
     }
 }

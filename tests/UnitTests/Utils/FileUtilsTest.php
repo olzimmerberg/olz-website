@@ -21,7 +21,7 @@ final class FileUtilsTest extends UnitTestCase {
         $file_path = "{$data_path}files/downloads/123/001.pdf";
         mkdir(dirname($file_path), 0o777, true);
         copy($sample_file_path, $file_path);
-        touch($file_path, strtotime('2020-03-13 19:30:00'));
+        touch($file_path, strtotime('2020-03-13 19:30:00') ?: 0);
         $this->assertSame(
             "<a href='/data-href/files/downloads//123/001.pdf?modified=1584127800' style='padding-left:19px; background-image:url(/_/file_tools/thumb/downloads\$123\$1\$16.svg); background-repeat:no-repeat;'>Test</a>",
             $file_utils->olzFile('downloads', 123, 1, "Test", 'test_file')
@@ -35,7 +35,7 @@ final class FileUtilsTest extends UnitTestCase {
         $file_path = "{$data_path}files/news/123/abcdefghijklmnopqrstuvwx.pdf";
         mkdir(dirname($file_path), 0o777, true);
         copy($sample_file_path, $file_path);
-        touch($file_path, strtotime('2020-03-13 19:30:00'));
+        touch($file_path, strtotime('2020-03-13 19:30:00') ?: 0);
         $this->assertSame(
             "<span class='rendered-markdown'><a href='/data-href/files/news//123/abcdefghijklmnopqrstuvwx.pdf?modified=1584127800' download='test_file.pdf'>Test</a></span>",
             $file_utils->olzFile('news', 123, 'abcdefghijklmnopqrstuvwx.pdf', "Test", 'test_file')

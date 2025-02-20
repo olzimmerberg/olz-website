@@ -107,13 +107,14 @@ class OlzTerminTemplateDetail extends OlzComponent {
                 ZZZZZZZZZZ;
         }
 
+        $pretty_date = '(irgendwann)';
         $duration_interval = \DateInterval::createFromDateString("+{$duration_seconds} seconds");
-        $end_time = (clone $start_time)->add($duration_interval);
-        $pretty_date = $start_time ? (
-            $duration_seconds
-            ? $start_time->format('H:i')." – ".$end_time->format('H:i')
-            : $start_time->format('H:i')
-        ) : '(irgendwann)';
+        if ($start_time && $duration_interval) {
+            $end_time = (clone $start_time)->add($duration_interval);
+            $pretty_date = $duration_seconds
+                ? $start_time->format('H:i')." – ".$end_time->format('H:i')
+                : $start_time->format('H:i');
+        }
         $label_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
             $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?

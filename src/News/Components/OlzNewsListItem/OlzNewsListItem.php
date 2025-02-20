@@ -178,8 +178,8 @@ class OlzNewsListItem extends OlzComponent {
             return $text;
         }
         $text = mb_substr($text, 0, $max_length - 6);
-        $last_space = mb_strrpos($text, " ");
-        $last_break = mb_strrpos($text, "<br>");
+        $last_space = mb_strrpos($text, " ") ?: 0;
+        $last_break = mb_strrpos($text, "<br>") ?: 0;
         $last_whitespace = ($last_break > $last_space) ? $last_break : $last_space;
         return mb_substr($text, 0, $last_whitespace).' [...]';
     }

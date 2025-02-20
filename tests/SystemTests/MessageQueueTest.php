@@ -60,7 +60,7 @@ final class MessageQueueTest extends SystemTestCase {
         if (!$has_match) {
             return null;
         }
-        $time = strtotime($matches[1]);
+        $time = strtotime($matches[1]) ?: 0;
         return is_int($time) ? new \DateTime(date('Y-m-d H:i:s', $time)) : null;
     }
 }

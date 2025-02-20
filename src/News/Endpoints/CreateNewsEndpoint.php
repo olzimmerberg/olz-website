@@ -59,8 +59,8 @@ class CreateNewsEndpoint extends OlzCreateEntityTypedEndpoint {
 
         if ($format === 'anonymous') {
             $anonymous_user = new User();
-            $anonymous_user->setEmail($input_data['authorEmail']);
-            $anonymous_user->setFirstName($input_data['authorName']);
+            $anonymous_user->setEmail($input_data['authorEmail'] ?? null);
+            $anonymous_user->setFirstName($input_data['authorName'] ?? '-');
             $anonymous_user->setLastName('');
 
             $delete_news_token = urlencode($this->emailUtils()->encryptEmailReactionToken([

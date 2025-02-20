@@ -53,9 +53,11 @@ class FilesController extends AbstractController {
         $response = new Response($html_out);
         foreach (headers_list() as $header) {
             $colon_position = strpos($header, ':');
-            $key = substr($header, 0, $colon_position);
-            $value = substr($header, $colon_position + 1);
-            $response->headers->set($key, $value);
+            if ($colon_position !== false) {
+                $key = substr($header, 0, $colon_position);
+                $value = substr($header, $colon_position + 1);
+                $response->headers->set($key, $value);
+            }
         }
         return $response;
     }

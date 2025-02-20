@@ -52,27 +52,9 @@ final class IdUtilsTest extends UnitTestCase {
         $this->assertSame('QOcb-mBqO90', $id_utils->toExternalId(1, 'Test'));
     }
 
-    public function testToExternalIdNonInteger(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
-        try {
-            $id_utils->toExternalId('1.25');
-            $this->fail('Error expected');
-        } catch (\Exception $exc) {
-            $this->assertSame('Internal ID must be int', $exc->getMessage());
-        }
-        try {
-            $id_utils->toExternalId('test');
-            $this->fail('Error expected');
-        } catch (\Exception $exc) {
-            $this->assertSame('Internal ID must be int', $exc->getMessage());
-        }
-        // This works, too, though!
-        $this->assertSame('9AUh0IsXMgc', $id_utils->toExternalId('123'));
-    }
-
     public function testSerializeId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $max_id = pow(2, 40) - 1;
+        $max_id = intval(pow(2, 40) - 1);
         $this->assertSame('0c5e000000007b', bin2hex(
             $id_utils->testOnlySerializeId(123, 'h')
         ));
@@ -99,24 +81,6 @@ final class IdUtilsTest extends UnitTestCase {
         ));
     }
 
-    public function testSerializeIdNonInteger(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
-        try {
-            $id_utils->testOnlySerializeId('1.25', '');
-            $this->fail('Error expected');
-        } catch (\Exception $exc) {
-            $this->assertSame('Internal ID must be int', $exc->getMessage());
-        }
-        try {
-            $id_utils->testOnlySerializeId('test', '');
-            $this->fail('Error expected');
-        } catch (\Exception $exc) {
-            $this->assertSame('Internal ID must be int', $exc->getMessage());
-        }
-        // This works, too, though!
-        $this->assertSame('ffff000000007b', bin2hex($id_utils->testOnlySerializeId('123', '')));
-    }
-
     public function testSerializeIdNegative(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
         try {
@@ -129,7 +93,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testSerializeIdTooLarge(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $max_id = pow(2, 40) - 1;
+        $max_id = intval(pow(2, 40) - 1);
         try {
             $id_utils->testOnlySerializeId($max_id + 1, '');
             $this->fail('Error expected');
@@ -151,7 +115,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testToInternalId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $max_id = pow(2, 40) - 1;
+        $max_id = intval(pow(2, 40) - 1);
         $this->assertSame(123, $id_utils->toInternalId('9AUh0IsXMgc'));
         $this->assertSame(123, $id_utils->toInternalId('KvwHIC1COIo', 'Test'));
         // Contains an underscore
@@ -170,31 +134,45 @@ final class IdUtilsTest extends UnitTestCase {
             $id_utils->toInternalId($id_utils->toExternalId(123, 'Test'));
             $this->fail('Error expected');
         } catch (\Exception $exc) {
-            $this->assertSame('Invalid serialized ID: Type mismatch', $exc->getMessage());
+            $this->assertSame(
+                'Invalid serialized ID: Type mismatch 2888 vs. ffff',
+                $exc->getMessage(),
+            );
         }
         try {
             $id_utils->toInternalId($id_utils->toExternalId(123), 'Test');
             $this->fail('Error expected');
         } catch (\Exception $exc) {
-            $this->assertSame('Invalid serialized ID: Type mismatch', $exc->getMessage());
+            $this->assertSame(
+                'Invalid serialized ID: Type mismatch ffff vs. 2888',
+                $exc->getMessage(),
+            );
         }
         try {
             $id_utils->toInternalId($id_utils->toExternalId(123, 'One'), 'Other');
             $this->fail('Error expected');
         } catch (\Exception $exc) {
-            $this->assertSame('Invalid serialized ID: Type mismatch', $exc->getMessage());
+            $this->assertSame(
+                'Invalid serialized ID: Type mismatch e926 vs. 75d9',
+                $exc->getMessage(),
+            );
         }
     }
 
     public function testDecryptId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $this->assertSame('', $id_utils->testOnlyDecryptId('w0/JgCePlCI'));
+        try {
+            $id_utils->testOnlyDecryptId('w0/JgCePlCI');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame('Could not decrypt ID: w0/JgCePlCI', $exc->getMessage());
+        }
         $this->assertSame('test', $id_utils->testOnlyDecryptId('KNYgqjTkR5o'));
     }
 
     public function testDeserializeId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $max_id = pow(2, 40) - 1;
+        $max_id = intval(pow(2, 40) - 1);
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
             hex2bin('0c5e000000007b'),
             'h'
@@ -237,7 +215,7 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testSerializeIdDeserializeId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
-        $max_id = pow(2, 40) - 1;
+        $max_id = intval(pow(2, 40) - 1);
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
             $id_utils->testOnlySerializeId(123, 'h'),
             'h'

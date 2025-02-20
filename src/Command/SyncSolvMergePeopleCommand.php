@@ -38,7 +38,7 @@ class SyncSolvMergePeopleCommand extends OlzCommand {
             } else {
                 $merge_result = $solv_result_repo->mergePerson($id, $same_as);
                 if (!$merge_result) {
-                    $this->logAndOutput("Merge failed! {$merge_result}", level: 'error');
+                    $this->logAndOutput("Merge failed!", level: 'error');
                 }
             }
             if (!$solv_result_repo->solvPersonHasResults($id)) {

@@ -43,8 +43,8 @@ class GetUserInfoEndpoint extends OlzTypedEndpoint {
             : ($entity->getEmail() ? $entity->getEmail() : null);
 
         return [
-            'firstName' => $entity->getFirstName(),
-            'lastName' => $entity->getLastName(),
+            'firstName' => $entity->getFirstName() ?: '-',
+            'lastName' => $entity->getLastName() ?: '-',
             'email' => $this->emailUtils()->obfuscateEmail($email),
             'avatarImageId' => $this->authUtils()->getUserAvatar($entity),
         ];

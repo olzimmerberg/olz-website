@@ -51,16 +51,17 @@ class FileToolsController extends AbstractController {
         if ($is_migrated) {
             $this->log()->notice("Remaining migrated file icon fetching: {$db_table}\${$id}\${$index}\${$dimension}.svg");
             preg_match("/^[0-9A-Za-z_\\-]{24}\\.(\\S{1,10})$/", $index, $matches);
-            $thumbfile = __DIR__."/../../assets/icns/link_".FileUtils::EXTENSION_ICONS[$matches[1]]."_16.svg";
+            $extension_icon = FileUtils::EXTENSION_ICONS[$matches[1] ?? ''] ?? '';
+            $thumbfile = __DIR__."/../../assets/icns/link_{$extension_icon}_16.svg";
             if (!is_file($thumbfile)) {
                 $thumbfile = __DIR__."/../assets/icns/link_any_16.svg";
             }
-            $response = new Response(file_get_contents($thumbfile));
+            $response = new Response(file_get_contents($thumbfile) ?: null);
             $response->headers->set('Cache-Control', 'max-age=86400');
             $response->headers->set('Content-Type', 'image/svg+xml');
             return $response;
         }
-        $files = scandir($data_path.$db_filepath."/".$id);
+        $files = scandir($data_path.$db_filepath."/".$id) ?: [];
         for ($i = 0; $i < count($files); $i++) {
             if (preg_match("/^([0-9]{3})\\.([a-zA-Z0-9]+)$/", $files[$i], $matches)) {
                 if (intval($matches[1]) == $index) {
@@ -68,7 +69,7 @@ class FileToolsController extends AbstractController {
                     if (!is_file($thumbfile)) {
                         $thumbfile = __DIR__."/../assets/icns/link_any_16.svg";
                     }
-                    $response = new Response(file_get_contents($thumbfile));
+                    $response = new Response(file_get_contents($thumbfile) ?: null);
                     $response->headers->set('Cache-Control', 'max-age=86400');
                     $response->headers->set('Content-Type', 'image/svg+xml');
                     return $response;

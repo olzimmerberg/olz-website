@@ -18,9 +18,9 @@ class OlzNewsFilter extends OlzComponent {
         $type_options = $news_utils->getUiFormatFilterOptions($current_filter);
         $type_options_out = implode($separator, array_map(function ($option) use ($code_href) {
             $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
-            $enc_json_filter = urlencode(json_encode($option['new_filter']));
+            $enc_json_filter = urlencode(json_encode($option['new_filter']) ?: '{}');
             $name = $option['name'];
-            $icon = $option['icon'];
+            $icon = $option['icon'] ?? null;
             $icon_html = $icon ? "<img src='{$code_href}assets/icns/{$icon}' alt='' class='format-filter-icon'>" : '';
             $ident = $option['ident'];
             return "<span class='format-filter'{$selected}><a href='?filter={$enc_json_filter}' id='filter-format-{$ident}'>
@@ -32,7 +32,7 @@ class OlzNewsFilter extends OlzComponent {
         $date_range_options = $news_utils->getUiDateRangeFilterOptions($current_filter);
         $date_range_options_out = implode(" | ", array_map(function ($option) {
             $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
-            $enc_json_filter = urlencode(json_encode($option['new_filter']));
+            $enc_json_filter = urlencode(json_encode($option['new_filter']) ?: '{}');
             $name = $option['name'];
             $ident = $option['ident'];
             return "<a href='?filter={$enc_json_filter}' id='filter-date-{$ident}'{$selected}>{$name}</a>";
@@ -42,7 +42,7 @@ class OlzNewsFilter extends OlzComponent {
         $archive_options = $news_utils->getUiArchiveFilterOptions($current_filter);
         $archive_options_out = implode(" | ", array_map(function ($option) {
             $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
-            $enc_json_filter = urlencode(json_encode($option['new_filter']));
+            $enc_json_filter = urlencode(json_encode($option['new_filter']) ?: '{}');
             $name = $option['name'];
             $ident = $option['ident'];
             return "<a href='?filter={$enc_json_filter}' id='filter-archive-{$ident}'{$selected}>{$name}</a>";

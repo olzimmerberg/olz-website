@@ -139,6 +139,10 @@ class Karte extends OlzEntity implements DataStorageInterface {
 
     // ---
 
+    public function __toString(): string {
+        return "Karte (ID: {$this->getId()})";
+    }
+
     public static function getEntityNameForStorage(): string {
         return 'karten';
     }

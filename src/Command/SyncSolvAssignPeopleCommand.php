@@ -75,7 +75,7 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         $this->forceFlush();
         $insert_id = $solv_person->getId();
 
-        $person_str = json_encode($solv_person, JSON_PRETTY_PRINT);
+        $person_str = json_encode($solv_person, JSON_PRETTY_PRINT) ?: '';
         $this->logAndOutput("Created new person (id {$insert_id}):");
         $this->logAndOutput($person_str);
         return $insert_id;
@@ -129,7 +129,7 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
     }
 
     /**
-     * @param array<array{person?: int, name: string, birth_year: string, domicile: string}> $person_infos
+     * @param array<array{person: int, name: string, birth_year: string, domicile: string}> $person_infos
      *
      * @return array{difference: int, matches: array<array{person: int, name: string, birth_year: string, domicile: string}>}
      */

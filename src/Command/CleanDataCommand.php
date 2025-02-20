@@ -94,7 +94,7 @@ class CleanDataCommand extends OlzCommand {
         $this->closedir($handle);
     }
 
-    /** @return bool|resource */
+    /** @return false|resource */
     protected function opendir(string $path): mixed {
         return @opendir($path);
     }

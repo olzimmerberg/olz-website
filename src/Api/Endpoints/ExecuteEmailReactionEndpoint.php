@@ -93,7 +93,7 @@ class ExecuteEmailReactionEndpoint extends OlzTypedEndpoint {
         ) {
             $args = json_decode($subscription->getNotificationTypeArgs(), true) ?? [];
             $args['cancelled'] = true;
-            $subscription->setNotificationTypeArgs(json_encode($args));
+            $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
         } else {
             $this->entityManager()->remove($subscription);
         }

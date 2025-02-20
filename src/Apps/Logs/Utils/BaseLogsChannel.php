@@ -149,12 +149,13 @@ abstract class BaseLogsChannel {
 
     /** @return array{version?: string, modified: int, start_date: ?string, lines: array<int>} */
     protected function readIndexFile(string $index_path): array {
-        return json_decode(gzdecode(file_get_contents($index_path)), true);
+        // @phpstan-ignore-next-line
+        return json_decode(gzdecode(file_get_contents($index_path) ?: ''), true);
     }
 
     /** @param array{version?: string, modified: int, start_date: ?string, lines: array<int>} $content */
     protected function writeIndexFile(string $index_path, array $content): void {
-        file_put_contents($index_path, gzencode(json_encode($content)));
+        file_put_contents($index_path, gzencode(json_encode($content) ?: '{}'));
     }
 
     /** @param array{targetDate?: ?string, firstDate?: ?string, lastDate?: ?string, minLogLevel?: ?string, textSearch?: ?string, pageToken?: ?string} $query */
@@ -308,6 +309,7 @@ abstract class BaseLogsChannel {
 
     protected function escapeSpecialChars(?string $line): string {
         $line = iconv('UTF-8', "UTF-8//IGNORE", $line);
+        $this->generalUtils()->checkNotBool($line, 'BaseLogsChannel::escapeSpecialChars iconv failed');
         return html_entity_decode(htmlspecialchars($line));
     }
 

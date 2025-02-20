@@ -55,8 +55,8 @@ class GetRoleInfoEndpoint extends OlzTypedEndpoint {
                 : ($assignee->getEmail() ? $assignee->getEmail() : null);
 
             $assignee_infos[] = [
-                'firstName' => $assignee->getFirstName(),
-                'lastName' => $assignee->getLastName(),
+                'firstName' => $assignee->getFirstName() ?: '-',
+                'lastName' => $assignee->getLastName() ?: '-',
                 'email' => $this->emailUtils()->obfuscateEmail($email),
                 'avatarImageId' => $this->authUtils()->getUserAvatar($assignee),
             ];

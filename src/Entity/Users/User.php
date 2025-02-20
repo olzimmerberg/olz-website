@@ -137,72 +137,72 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
         return $this->id ?? null;
     }
 
-    public function setId(int $new_id): void {
-        $this->id = $new_id;
+    public function setId(int $new_value): void {
+        $this->id = $new_value;
     }
 
     public function getUsername(): string {
         return $this->username;
     }
 
-    public function setUsername(string $new_username): void {
-        $this->username = $new_username;
+    public function setUsername(string $new_value): void {
+        $this->username = $new_value;
     }
 
     public function getOldUsername(): ?string {
         return $this->old_username;
     }
 
-    public function setOldUsername(?string $new_old_username): void {
-        $this->old_username = $new_old_username;
+    public function setOldUsername(?string $new_value): void {
+        $this->old_username = $new_value;
     }
 
     public function getPasswordHash(): ?string {
         return $this->password;
     }
 
-    public function setPasswordHash(?string $new_password_hash): void {
-        $this->password = $new_password_hash;
+    public function setPasswordHash(?string $new_value): void {
+        $this->password = $new_value;
     }
 
     public function getEmail(): ?string {
         return $this->email;
     }
 
-    public function setEmail(?string $new_email): void {
-        $this->email = $new_email;
+    public function setEmail(?string $new_value): void {
+        $this->email = $new_value;
     }
 
     public function isEmailVerified(): bool {
         return $this->email_is_verified;
     }
 
-    public function setEmailIsVerified(bool $new_email_is_verified): void {
-        $this->email_is_verified = $new_email_is_verified;
+    public function setEmailIsVerified(bool $new_value): void {
+        $this->email_is_verified = $new_value;
     }
 
     public function getEmailVerificationToken(): ?string {
         return $this->email_verification_token;
     }
 
-    public function setEmailVerificationToken(?string $new_email_verification_token): void {
-        $this->email_verification_token = $new_email_verification_token;
+    public function setEmailVerificationToken(?string $new_value): void {
+        $this->email_verification_token = $new_value;
     }
 
     public function getFirstName(): string {
         return $this->first_name;
     }
 
-    public function setFirstName(string $new_first_name): void {
-        $this->first_name = $new_first_name;
+    public function setFirstName(string $new_value): void {
+        $this->first_name = $new_value;
     }
 
     public function getLastName(): string {
         return $this->last_name;
     }
 
-    public function setLastName(string $new_last_name): void {
-        $this->last_name = $new_last_name;
+    public function setLastName(string $new_value): void {
+        $this->last_name = $new_value;
     }
 
     public function getFullName(): string {
@@ -213,72 +213,72 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
         return $this->gender;
     }
 
-    public function setGender(?string $new_gender): void {
-        $this->gender = $new_gender;
+    public function setGender(?string $new_value): void {
+        $this->gender = $new_value;
     }
 
     public function getStreet(): ?string {
         return $this->street;
     }
 
-    public function setStreet(?string $new_street): void {
-        $this->street = $new_street;
+    public function setStreet(?string $new_value): void {
+        $this->street = $new_value;
     }
 
     public function getPostalCode(): ?string {
         return $this->postal_code;
     }
 
-    public function setPostalCode(?string $new_postal_code): void {
-        $this->postal_code = $new_postal_code;
+    public function setPostalCode(?string $new_value): void {
+        $this->postal_code = $new_value;
     }
 
     public function getCity(): ?string {
         return $this->city;
     }
 
-    public function setCity(?string $new_city): void {
-        $this->city = $new_city;
+    public function setCity(?string $new_value): void {
+        $this->city = $new_value;
     }
 
     public function getRegion(): ?string {
         return $this->region;
     }
 
-    public function setRegion(?string $new_region): void {
-        $this->region = $new_region;
+    public function setRegion(?string $new_value): void {
+        $this->region = $new_value;
     }
 
     public function getCountryCode(): ?string {
         return $this->country_code;
     }
 
-    public function setCountryCode(?string $new_country_code): void {
-        $this->country_code = $new_country_code;
+    public function setCountryCode(?string $new_value): void {
+        $this->country_code = $new_value;
     }
 
     public function getBirthdate(): ?\DateTime {
         return $this->birthdate;
     }
 
-    public function setBirthdate(?\DateTime $new_birthdate): void {
-        $this->birthdate = $new_birthdate;
+    public function setBirthdate(?\DateTime $new_value): void {
+        $this->birthdate = $new_value;
     }
 
     public function getPhone(): ?string {
         return $this->phone;
     }
 
-    public function setPhone(?string $new_phone): void {
-        $this->phone = $new_phone;
+    public function setPhone(?string $new_value): void {
+        $this->phone = $new_value;
     }
 
     public function getPermissions(): string {
         return $this->permissions;
     }
 
-    public function setPermissions(string $new_permissions): void {
-        $this->permissions = $new_permissions;
+    public function setPermissions(string $new_value): void {
+        $this->permissions = $new_value;
     }
 
     /** @return array<string, true> */
@@ -328,104 +328,104 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
         return $this->root;
     }
 
-    public function setRoot(?string $new_root): void {
-        $this->root = $new_root;
+    public function setRoot(?string $new_value): void {
+        $this->root = $new_value;
     }
 
     public function getParentUserId(): ?int {
         return $this->parent_user;
     }
 
-    public function setParentUserId(?int $new_parent_user_id): void {
-        $this->parent_user = $new_parent_user_id;
+    public function setParentUserId(?int $new_value): void {
+        $this->parent_user = $new_value;
     }
 
     public function getMemberType(): ?string {
         return $this->member_type;
     }
 
-    public function setMemberType(?string $new_member_type): void {
-        $this->member_type = $new_member_type;
+    public function setMemberType(?string $new_value): void {
+        $this->member_type = $new_value;
     }
 
     public function getMemberLastPaid(): ?\DateTime {
         return $this->member_last_paid;
     }
 
-    public function setMemberLastPaid(?\DateTime $new_member_last_paid): void {
-        $this->member_last_paid = $new_member_last_paid;
+    public function setMemberLastPaid(?\DateTime $new_value): void {
+        $this->member_last_paid = $new_value;
     }
 
     public function getWantsPostalMail(): bool {
         return $this->wants_postal_mail;
     }
 
-    public function setWantsPostalMail(bool $new_wants_postal_mail): void {
-        $this->wants_postal_mail = $new_wants_postal_mail;
+    public function setWantsPostalMail(bool $new_value): void {
+        $this->wants_postal_mail = $new_value;
     }
 
     public function getPostalTitle(): ?string {
         return $this->postal_title;
     }
 
-    public function setPostalTitle(?string $new_postal_title): void {
-        $this->postal_title = $new_postal_title;
+    public function setPostalTitle(?string $new_value): void {
+        $this->postal_title = $new_value;
     }
 
     public function getPostalName(): ?string {
         return $this->postal_name;
     }
 
-    public function setPostalName(?string $new_postal_name): void {
-        $this->postal_name = $new_postal_name;
+    public function setPostalName(?string $new_value): void {
+        $this->postal_name = $new_value;
     }
 
     public function getJoinedOn(): ?\DateTime {
         return $this->joined_on;
     }
 
-    public function setJoinedOn(?\DateTime $new_joined_on): void {
-        $this->joined_on = $new_joined_on;
+    public function setJoinedOn(?\DateTime $new_value): void {
+        $this->joined_on = $new_value;
     }
 
     public function getJoinedReason(): ?string {
         return $this->joined_reason;
     }
 
-    public function setJoinedReason(?string $new_joined_reason): void {
-        $this->joined_reason = $new_joined_reason;
+    public function setJoinedReason(?string $new_value): void {
+        $this->joined_reason = $new_value;
     }
 
     public function getLeftOn(): ?\DateTime {
         return $this->left_on;
     }
 
-    public function setLeftOn(?\DateTime $new_left_on): void {
-        $this->left_on = $new_left_on;
+    public function setLeftOn(?\DateTime $new_value): void {
+        $this->left_on = $new_value;
     }
 
     public function getLeftReason(): ?string {
         return $this->left_reason;
     }
 
-    public function setLeftReason(?string $new_left_reason): void {
-        $this->left_reason = $new_left_reason;
+    public function setLeftReason(?string $new_value): void {
+        $this->left_reason = $new_value;
     }
 
     public function getSolvNumber(): ?string {
         return $this->solv_number;
     }
 
-    public function setSolvNumber(?string $new_solv_number): void {
-        $this->solv_number = $new_solv_number;
+    public function setSolvNumber(?string $new_value): void {
+        $this->solv_number = $new_value;
     }
 
     public function getSiCardNumber(): ?string {
         return $this->si_card_number;
     }
 
-    public function setSiCardNumber(?string $new_si_card_number): void {
-        $this->si_card_number = $new_si_card_number;
+    public function setSiCardNumber(?string $new_value): void {
+        $this->si_card_number = $new_value;
     }
 
     public function getAvatarImageId(): ?string {
@@ -440,16 +440,16 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
         return $this->notes;
     }
 
-    public function setNotes(string $new_notes): void {
-        $this->notes = $new_notes;
+    public function setNotes(string $new_value): void {
+        $this->notes = $new_value;
     }
 
     public function getLastLoginAt(): ?\DateTime {
         return $this->last_login_at;
     }
 
-    public function setLastLoginAt(?\DateTime $new_last_login_at): void {
-        $this->last_login_at = $new_last_login_at;
+    public function setLastLoginAt(?\DateTime $new_value): void {
+        $this->last_login_at = $new_value;
     }
 
     /** @return Collection<int|string, Role>&iterable<Role> */

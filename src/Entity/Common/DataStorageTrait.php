@@ -7,13 +7,13 @@ use Olz\Utils\WithUtilsTrait;
 trait DataStorageTrait {
     use WithUtilsTrait;
 
-    /** @return array<string> */
+    /** @return array<non-empty-string> */
     public function getStoredImageUploadIds(): array {
         $img_path = $this->getImagesPathForStorage();
         return $this->uploadUtils()->getStoredUploadIds("{$img_path}img/");
     }
 
-    /** @return array<string> */
+    /** @return array<non-empty-string> */
     public function getStoredFileUploadIds(): array {
         return $this->uploadUtils()->getStoredUploadIds($this->getFilesPathForStorage());
     }
@@ -58,18 +58,21 @@ trait DataStorageTrait {
         return "{$file_href}?modified={$modified}";
     }
 
+    /** @return non-empty-string */
     public function getImagesPathForStorage(): string {
         $data_path = $this->envUtils()->getDataPath();
         $entity_path = $this->getEntityPathForStorage();
         return "{$data_path}img/{$entity_path}";
     }
 
+    /** @return non-empty-string */
     public function getFilesPathForStorage(): string {
         $data_path = $this->envUtils()->getDataPath();
         $entity_path = $this->getEntityPathForStorage();
         return "{$data_path}files/{$entity_path}";
     }
 
+    /** @return non-empty-string */
     public function getEntityPathForStorage(): string {
         $entity_name = $this::getEntityNameForStorage();
         $entity_id = $this->getEntityIdForStorage();

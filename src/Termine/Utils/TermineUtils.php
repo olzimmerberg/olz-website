@@ -28,6 +28,10 @@ class TermineUtils {
 
         $duration_days = $solv_event->getDuration() - 1;
         $duration = \DateInterval::createFromDateString("{$duration_days} days");
+        if (!$duration) {
+            $this->log()->warning("Invalid date interval: {$duration_days} days");
+            return;
+        }
         $end_date = (clone $solv_event->getDate())->add($duration);
         $deadline = $solv_event->getDeadline()
             ? (clone $solv_event->getDeadline())->setTime(23, 59, 59) : null;

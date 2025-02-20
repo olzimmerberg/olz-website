@@ -48,7 +48,12 @@ final class GeneralUtilsTest extends UnitTestCase {
         $general_utils = new GeneralUtils();
         $key = 'asdf';
 
-        $this->assertNull($general_utils->decrypt($key, ''));
+        try {
+            $general_utils->decrypt($key, '');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame('decrypt: json_decode failed', $exc->getMessage());
+        }
     }
 
     public function testBinarySearchBeforeAllOdd(): void {

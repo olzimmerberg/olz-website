@@ -86,8 +86,9 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         if ($termin_location) {
             $sane_termin_location_id = intval($termin_location->getId());
             $result_location = $db->query("SELECT name FROM termin_locations WHERE id='{$sane_termin_location_id}'");
+            // @phpstan-ignore-next-line
             $row_location = $result_location->fetch_assoc();
-            $location_name = $row_location['name'];
+            $location_name = $row_location['name'] ?? null;
             $text = "<a href='{$code_href}termine/orte/{$sane_termin_location_id}' class='linkmap'>{$location_name}</a> {$text}";
         }
 

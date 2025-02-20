@@ -9,14 +9,17 @@ class OlzApps {
     public static function getApp(string $basename): ?BaseAppMetadata {
         $metadata_class_name = "\\Olz\\Apps\\{$basename}\\Metadata";
         if (class_exists($metadata_class_name)) {
-            return new $metadata_class_name();
+            $instance = new $metadata_class_name();
+            if ($instance instanceof BaseAppMetadata) {
+                return $instance;
+            }
         }
         return null;
     }
 
     /** @return array<string> */
     public static function getAppPaths(): array {
-        $entries = scandir(__DIR__);
+        $entries = scandir(__DIR__) ?: [];
         $app_paths = [];
         foreach ($entries as $entry) {
             $path = __DIR__."/{$entry}";
@@ -60,7 +63,9 @@ class OlzApps {
             $endpoints_class_name = "\\Olz\\Apps\\{$app_basename}\\{$app_basename}Endpoints";
             if (class_exists($endpoints_class_name)) {
                 $endpoints = new $endpoints_class_name();
-                $endpoints->register($api);
+                if ($endpoints instanceof BaseAppEndpoints) {
+                    $endpoints->register($api);
+                }
             }
         }
     }

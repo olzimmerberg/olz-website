@@ -11,7 +11,7 @@ class SolvResultParser {
         $this->timeParser = new TimeParser();
     }
 
-    /** @return array<int|string, array{result_list_id: int|string}> */
+    /** @return array<int, array{result_list_id: string}> */
     public function parse_solv_yearly_results_json(string $json_content): array {
         $hacky_sanitized_json = str_replace(["\n", "\t"], ['', '  '], $json_content);
         if (!json_validate($hacky_sanitized_json, 512, JSON_INVALID_UTF8_IGNORE)) {

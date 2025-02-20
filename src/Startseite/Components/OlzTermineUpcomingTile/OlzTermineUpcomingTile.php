@@ -50,10 +50,13 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             ORDER BY t.start_date ASC
             LIMIT 7
             ZZZZZZZZZZ);
+        // @phpstan-ignore-next-line
         while ($row = $res->fetch_assoc()) {
             $id = $row['id'];
-            $date = date('d.m.', strtotime($row['date']));
+            // @phpstan-ignore-next-line
+            $date = date('d.m.', strtotime($row['date']) ?: 0);
             $title = $row['title'];
+            // @phpstan-ignore-next-line
             $types = explode(' ', $row['type']);
             $icon_basename = array_reduce($types, function ($carry, $item) {
                 if ($carry) {

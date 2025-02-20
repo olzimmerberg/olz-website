@@ -92,7 +92,7 @@ class GetLogsEndpoint extends OlzTypedEndpoint {
             'lineNumber' => $line_location->lineNumber,
             'comparison' => $line_location->comparison,
             'mode' => $mode,
-        ]);
+        ]) ?: null;
     }
 
     /** @return array{lineLocation: LineLocation, mode: ?string} */

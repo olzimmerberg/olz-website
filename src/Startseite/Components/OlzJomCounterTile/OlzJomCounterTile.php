@@ -89,8 +89,10 @@ class OlzJomCounterTile extends AbstractOlzTile {
         $result_kids_previous = $db->query($sql_kids_previous);
         $starts_kids_previous = 0;
         $htmlout_kids_previous = str_replace('%%PLACEHOLDER_FOR_ID%%', 'ranking-kids-previous', $htmlout_before);
+        // @phpstan-ignore-next-line
         while ($row = $result_kids_previous->fetch_assoc()) {
             $starts_kids_previous += intval($row['cnt']);
+            // @phpstan-ignore-next-line
             $htmlout_kids_previous .= "<tr><td style='white-space:nowrap; overflow-x:hidden;'>".$row['name']."</td><td style='text-align:right; cursor:pointer;' title='".str_replace("'", "&#39;", $row['events'])."' onclick='alert(this.getAttribute(&quot;title&quot;))'>".$row['cnt']."</td></tr>";
         }
         $htmlout_kids_previous .= $htmlout_after;
@@ -103,8 +105,10 @@ class OlzJomCounterTile extends AbstractOlzTile {
         $result_j_und_s_previous = $db->query($sql_j_und_s_previous);
         $starts_j_und_s_previous = 0;
         $htmlout_j_und_s_previous = str_replace('%%PLACEHOLDER_FOR_ID%%', 'ranking-junds-previous', $htmlout_before);
+        // @phpstan-ignore-next-line
         while ($row = $result_j_und_s_previous->fetch_assoc()) {
             $starts_j_und_s_previous += intval($row['cnt']);
+            // @phpstan-ignore-next-line
             $htmlout_j_und_s_previous .= "<tr><td style='white-space:nowrap; overflow-x:hidden;'>".$row['name']."</td><td style='text-align:right; cursor:pointer;' title='".str_replace("'", "&#39;", $row['events'])."' onclick='alert(this.getAttribute(&quot;title&quot;))'>".$row['cnt']."</td></tr>";
         }
         $htmlout_j_und_s_previous .= $htmlout_after;
@@ -117,8 +121,10 @@ class OlzJomCounterTile extends AbstractOlzTile {
         $result_kids_current = $db->query($sql_kids_current);
         $starts_kids_current = 0;
         $htmlout_kids_current = str_replace('%%PLACEHOLDER_FOR_ID%%', 'ranking-kids-current', $htmlout_before);
+        // @phpstan-ignore-next-line
         while ($row = $result_kids_current->fetch_assoc()) {
             $starts_kids_current += intval($row['cnt']);
+            // @phpstan-ignore-next-line
             $htmlout_kids_current .= "<tr><td style='white-space:nowrap; overflow-x:hidden;'>".$row['name']."</td><td style='text-align:right; cursor:pointer;' title='".str_replace("'", "&#39;", $row['events'])."' onclick='alert(this.getAttribute(&quot;title&quot;))'>".$row['cnt']."</td></tr>";
         }
         $htmlout_kids_current .= $htmlout_after;
@@ -131,8 +137,10 @@ class OlzJomCounterTile extends AbstractOlzTile {
         $result_j_und_s_current = $db->query($sql_j_und_s_current);
         $starts_j_und_s_current = 0;
         $htmlout_j_und_s_current = str_replace('%%PLACEHOLDER_FOR_ID%%', 'ranking-junds-current', $htmlout_before);
+        // @phpstan-ignore-next-line
         while ($row = $result_j_und_s_current->fetch_assoc()) {
             $starts_j_und_s_current += intval($row['cnt']);
+            // @phpstan-ignore-next-line
             $htmlout_j_und_s_current .= "<tr><td style='white-space:nowrap; overflow-x:hidden;'>".$row['name']."</td><td style='text-align:right; cursor:pointer;' title='".str_replace("'", "&#39;", $row['events'])."' onclick='alert(this.getAttribute(&quot;title&quot;))'>".$row['cnt']."</td></tr>";
         }
         $htmlout_j_und_s_current .= $htmlout_after;

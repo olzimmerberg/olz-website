@@ -11,7 +11,7 @@ class OlzEditableText extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         $snippet_id = intval($args['snippet_id'] ?? 0);
-        $esc_id = htmlentities(json_encode($snippet_id));
+        $esc_id = htmlentities(json_encode($snippet_id) ?: '0');
         $entityManager = $this->dbUtils()->getEntityManager();
         $snippet_repo = $entityManager->getRepository(Snippet::class);
         $snippet = $snippet_repo->findOneBy(['id' => $snippet_id]);

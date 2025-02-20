@@ -61,7 +61,7 @@ abstract class AbstractDateUtils {
         if ($date instanceof \DateTime) {
             $date = $date->format(\DateTime::ATOM);
         }
-        $date = strtotime($date);
+        $date = strtotime($date) ?: null;
 
         return str_replace(
             [
@@ -126,9 +126,9 @@ abstract class AbstractDateUtils {
         }
         // Time
         if ($start_time) {
-            $out .= ' '.date('H:i', strtotime($start_time));
+            $out .= ' '.date('H:i', strtotime($start_time) ?: null);
             if ($end_time) {
-                $out .= ' – '.date('H:i', strtotime($end_time));
+                $out .= ' – '.date('H:i', strtotime($end_time) ?: null);
             }
         }
         return $out;

@@ -29,12 +29,12 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
 
     protected function handle(mixed $input): mixed {
         $current_user = $this->authUtils()->getCurrentUser();
-        $token = $input['custom']['recaptchaToken'];
+        $token = $input['custom']['recaptchaToken'] ?? null;
         if (!$current_user && !$this->recaptchaUtils()->validateRecaptchaToken($token)) {
             return ['custom' => ['status' => 'DENIED'], 'id' => null];
         }
 
-        $parent_user_id = $input['data']['parentUserId'];
+        $parent_user_id = $input['data']['parentUserId'] ?? null;
         if ($parent_user_id !== null) {
             if (!$current_user) {
                 throw new HttpError(403, "Kein Zugriff!");
@@ -50,18 +50,19 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
         $first_name = $input['data']['firstName'];
         $last_name = $input['data']['lastName'];
         $username = $input['data']['username'];
-        $email = $input['data']['email'];
+        $email = $input['data']['email'] ?? null;
+        $password = $input['data']['password'] ?? null;
         $this->log()->info("New sign-up (using password): {$first_name} {$last_name} ({$username}@) <{$email}> (Parent: {$parent_user_id})");
         if (!$parent_user_id && !$email) {
             throw new ValidationError(['email' => ["Feld darf nicht leer sein."]]);
         }
-        if (!$parent_user_id && !$input['data']['password']) {
+        if (!$parent_user_id && !$password) {
             throw new ValidationError(['password' => ["Feld darf nicht leer sein."]]);
         }
         if (!$this->authUtils()->isUsernameAllowed($username)) {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
-        if (!$parent_user_id && !$this->authUtils()->isPasswordAllowed($input['data']['password'])) {
+        if (!$parent_user_id && !$this->authUtils()->isPasswordAllowed($password)) {
             throw new ValidationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
         }
         if ($email && preg_match('/@olzimmerberg\.ch$/i', $email)) {
@@ -98,7 +99,7 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
         $entity->setEmailIsVerified(false);
         $entity->setEmailVerificationToken(null);
 
-        $password_hash = $input['data']['password'] ? $this->authUtils()->hashPassword($input['data']['password']) : null;
+        $password_hash = $password ? $this->authUtils()->hashPassword($password) : null;
 
         $entity->setPasswordHash($password_hash);
         $entity->setParentUserId($parent_user_id);

@@ -84,7 +84,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
             $subscription->setNotificationType(NotificationSubscription::TYPE_DAILY_SUMMARY);
-            $subscription->setNotificationTypeArgs(json_encode($args));
+            $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
         }
@@ -98,7 +98,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
             $subscription->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-            $subscription->setNotificationTypeArgs(json_encode($args));
+            $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
         }
@@ -110,7 +110,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
             $subscription->setNotificationType(NotificationSubscription::TYPE_MONTHLY_PREVIEW);
-            $subscription->setNotificationTypeArgs(json_encode($args));
+            $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
         }
@@ -122,7 +122,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
             $subscription->setNotificationType(NotificationSubscription::TYPE_WEEKLY_PREVIEW);
-            $subscription->setNotificationTypeArgs(json_encode($args));
+            $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
         }
@@ -149,7 +149,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
             $subscription->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-            $subscription->setNotificationTypeArgs(json_encode($args));
+            $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
         }
@@ -164,7 +164,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
         $subscription->setDeliveryType($delivery_type);
         $subscription->setUser($user);
         $subscription->setNotificationType($notification_type);
-        $subscription->setNotificationTypeArgs(json_encode(['cancelled' => true]));
+        $subscription->setNotificationTypeArgs(json_encode(['cancelled' => true]) ?: '{}');
         $subscription->setCreatedAt($now_datetime);
         $this->entityManager()->persist($subscription);
 

@@ -45,7 +45,7 @@ class Deploy extends AbstractDefaultDeploy {
     public function initFromEnv(): void {
         parent::initFromEnv();
 
-        $access_token = $this->getEnvironmentVariable('BOT_ACCESS_TOKEN');
+        $access_token = $this->getEnvironmentVariable('BOT_ACCESS_TOKEN') ?: null;
 
         $this->bot_access_token = $access_token;
     }
@@ -169,7 +169,7 @@ class Deploy extends AbstractDefaultDeploy {
         $install_path = $public_path;
         $deploy_path_from_public_index = 'dirname(__DIR__)';
         if ($this->environment === 'staging') {
-            $entries = scandir($public_path);
+            $entries = scandir($public_path) ?: [];
             foreach ($entries as $entry) {
                 $path = "{$public_path}/{$entry}";
                 if ($entry[0] !== '.' && is_dir($path) && $fs->exists("{$path}/_TOKEN_DIR_WILL_BE_REMOVED.txt")) {
@@ -196,7 +196,7 @@ class Deploy extends AbstractDefaultDeploy {
         $fs->copy(__DIR__.'/public/.htaccess', "{$install_path}/.htaccess", true);
         $fs->mirror(__DIR__.'/public/bundles', "{$install_path}/bundles");
         $index_path = "{$install_path}/index.php";
-        $index_contents = file_get_contents(__DIR__.'/public/index.php');
+        $index_contents = file_get_contents(__DIR__.'/public/index.php') ?: '';
         $updated_index_contents = str_replace(
             "deploy_path = dirname(__DIR__);",
             "deploy_path = {$deploy_path_from_public_index}.'/{$this->getRemotePrivatePath()}/deploy/live';",
@@ -250,15 +250,15 @@ class Deploy extends AbstractDefaultDeploy {
         $execute_command_url = "{$prefix}/api/executeCommand?access_token={$this->bot_access_token}";
 
         $this->logger->info("Executing \"{$command}\"...");
-        $request = urlencode(json_encode(['command' => $command, 'argv' => $argv]));
-        $output = file_get_contents("{$execute_command_url}&request={$request}");
+        $request = urlencode(json_encode(['command' => $command, 'argv' => $argv]) ?: '{}');
+        $output = file_get_contents("{$execute_command_url}&request={$request}") ?: '';
         $data = json_decode($output, true) ?? [];
-        $is_error = $output === false
+        $is_error = $output === ''
             || !is_array($data)
             || ($data['error'] ?? true)
             || !($data['output'] ?? false);
         if ($is_error) {
-            $this->logger->error($output);
+            $this->logger->error("{$output}");
             $this->logger->error("Error executing \"{$command}\".");
             throw new Exception("Error executing \"{$command}\".");
         }

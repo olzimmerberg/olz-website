@@ -70,7 +70,10 @@ abstract class OlzCommand extends Command {
         return get_called_class();
     }
 
-    /** @param array<mixed> $context */
+    /**
+     * @param array<mixed>                                                             $context
+     * @param 'alert'|'critical'|'debug'|'emergency'|'error'|'info'|'notice'|'warning' $level
+     */
     protected function logAndOutput(string $message, array $context = [], string $level = 'info'): void {
         $this->log()->log($level, $message, $context);
         if ($this->output !== null) {

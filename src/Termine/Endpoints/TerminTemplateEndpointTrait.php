@@ -37,20 +37,21 @@ trait TerminTemplateEndpointTrait {
     public function getEntityData(TerminTemplate $entity): array {
         $types_for_api = $this->getTypesForApi($entity->getLabels());
 
+        $valid_image_ids = $this->uploadUtils()->getValidUploadIds($entity->getImageIds());
         $file_ids = $entity->getStoredFileUploadIds();
 
         return [
             'startTime' => IsoTime::fromDateTime($entity->getStartTime()),
-            'durationSeconds' => $entity->getDurationSeconds(),
+            'durationSeconds' => $this->getDurationSeconds($entity),
             'title' => $entity->getTitle() ?? '',
             'text' => $entity->getText() ?? '',
-            'deadlineEarlierSeconds' => $entity->getDeadlineEarlierSeconds(),
+            'deadlineEarlierSeconds' => $this->getDeadlineEarlierSeconds($entity),
             'deadlineTime' => IsoTime::fromDateTime($entity->getDeadlineTime()),
             'shouldPromote' => $entity->getShouldPromote(),
             'newsletter' => $entity->getNewsletter(),
             'types' => $types_for_api,
             'locationId' => $entity->getLocation()?->getId(),
-            'imageIds' => $entity->getImageIds(),
+            'imageIds' => $valid_image_ids,
             'fileIds' => $file_ids,
         ];
     }
@@ -60,14 +61,15 @@ trait TerminTemplateEndpointTrait {
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
-        $termin_location = $termin_location_repo->findOneBy(['id' => $input_data['locationId']]);
+        $location_id = $input_data['locationId'] ?? null;
+        $termin_location = $termin_location_repo->findOneBy(['id' => $location_id]);
 
-        $entity->setStartTime($input_data['startTime']);
-        $entity->setDurationSeconds($input_data['durationSeconds']);
+        $entity->setStartTime($input_data['startTime'] ?? null);
+        $entity->setDurationSeconds($input_data['durationSeconds'] ?? null);
         $entity->setTitle($input_data['title']);
         $entity->setText($input_data['text']);
-        $entity->setDeadlineEarlierSeconds($input_data['deadlineEarlierSeconds']);
-        $entity->setDeadlineTime($input_data['deadlineTime']);
+        $entity->setDeadlineEarlierSeconds($input_data['deadlineEarlierSeconds'] ?? null);
+        $entity->setDeadlineTime($input_data['deadlineTime'] ?? null);
         if (count($valid_image_ids) > 0) {
             $entity->setShouldPromote($input_data['shouldPromote']);
         } else {
@@ -108,15 +110,36 @@ trait TerminTemplateEndpointTrait {
 
     // ---
 
+    /** @return ?int<0, max> */
+    protected function getDurationSeconds(TerminTemplate $entity): ?int {
+        $number = $entity->getDurationSeconds() ?? null;
+        if ($number < 0) {
+            throw new \Exception("Invalid duration seconds: {$number} ({$entity})");
+        }
+        return $number;
+    }
+
+    /** @return ?int<0, max> */
+    protected function getDeadlineEarlierSeconds(TerminTemplate $entity): ?int {
+        $number = $entity->getDeadlineEarlierSeconds() ?? null;
+        if ($number < 0) {
+            throw new \Exception("Invalid deadline earlier seconds: {$number} ({$entity})");
+        }
+        return $number;
+    }
+
     /**
      * @param iterable<TerminLabel> $labels
      *
-     * @return array<string>
+     * @return array<non-empty-string>
      */
     protected function getTypesForApi(?iterable $labels): array {
         $types_for_api = [];
         foreach ($labels as $label) {
-            $types_for_api[] = $label->getIdent();
+            $ident = $label->getIdent();
+            if ($ident) {
+                $types_for_api[] = $ident;
+            }
         }
         return $types_for_api;
     }

@@ -231,7 +231,11 @@ class EmailUtils {
 
     public function decryptEmailReactionToken(string $token): mixed {
         $key = $this->envUtils()->getEmailReactionKey();
-        return $this->generalUtils()->decrypt($key, $token);
+        try {
+            return $this->generalUtils()->decrypt($key, $token);
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
 
     public function renderMarkdown(string $markdown): string {
@@ -317,7 +321,7 @@ class EmailUtils {
             $email = substr($email, 4);
         }
         return array_map(
-            fn ($chunk) => $this->generalUtils()->base64EncodeUrl($chunk),
+            fn ($chunk) => $this->generalUtils()->base64EncodeUrl($chunk) ?: '=',
             $chunks,
         );
     }

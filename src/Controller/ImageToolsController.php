@@ -56,7 +56,7 @@ class ImageToolsController extends AbstractController {
         if ($filemtime > $one_second_ago) {
             $this->log()->notice("Remaining thumb: {$thumbfile}");
         }
-        $response = new Response(file_get_contents($thumbfile));
+        $response = new Response(file_get_contents($thumbfile) ?: null);
         $response->headers->set('Cache-Control', 'max-age=2592000');
         $response->headers->set('Content-Type', 'image/jpeg');
         return $response;

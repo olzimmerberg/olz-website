@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:monitor-backup')]
 class MonitorBackupCommand extends OlzCommand {
+    /** @var non-empty-string */
     protected static string $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/main/_/tools/monitoring/backup_monitoring.php)";
 
     /** @return array<string> */
@@ -23,9 +24,9 @@ class MonitorBackupCommand extends OlzCommand {
         curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/olzimmerberg/olz-website/actions/workflows/ci-scheduled.yml/runs?page=1&per_page=3&status=completed");
         curl_setopt($ch, CURLOPT_USERAGENT, self::$user_agent_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $completed_runs_raw = curl_exec($ch);
+        $completed_runs_raw = curl_exec($ch) ?: '';
 
-        $completed_runs = json_decode($completed_runs_raw, true);
+        $completed_runs = json_decode(!is_bool($completed_runs_raw) ? $completed_runs_raw : '', true);
         if (!$completed_runs) {
             throw new \Exception("No completed runs JSON");
         }
@@ -68,7 +69,7 @@ class MonitorBackupCommand extends OlzCommand {
         $now = new \DateTime();
         $minus_two_days = \DateInterval::createFromDateString("-2 days");
         $two_days_ago = $now->add($minus_two_days);
-        if (strtotime($workflow_run['created_at'] ?? '') < $two_days_ago->getTimestamp()) {
+        if (strtotime($workflow_run['created_at'] ?? '') ?: $two_days_ago->getTimestamp() > 0) {
             throw new \Exception("Expected workflow_run created_at to be in the last 2 days");
         }
         if ($workflow_run['conclusion'] !== 'success') {
@@ -87,7 +88,7 @@ class MonitorBackupCommand extends OlzCommand {
 
         curl_close($ch);
 
-        $artifacts_dict = json_decode($artifacts_raw, true);
+        $artifacts_dict = json_decode(!is_bool($artifacts_raw) ? $artifacts_raw : '', true);
         if (!$artifacts_dict) {
             throw new \Exception("No artifacts JSON");
         }

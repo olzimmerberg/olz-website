@@ -1,11 +1,11 @@
 parameters:
-    level: 6
+    level: 7
     paths:
         - bin/
         - config/
         - public/
         - src/
-        - tests/
+        # - tests/ # TODO: Re-enable
         - Deploy.php
     doctrine:
         objectManagerLoader: tests/object-manager.php

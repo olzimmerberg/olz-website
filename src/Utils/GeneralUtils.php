@@ -5,6 +5,40 @@ namespace Olz\Utils;
 class GeneralUtils {
     use WithUtilsTrait;
 
+    // Error handling
+
+    /** @phpstan-assert !null $value */
+    public function checkNotNull(mixed $value, string $error_message): void {
+        if ($value === null) {
+            $this->log()->error($error_message);
+            throw new \Exception($error_message);
+        }
+    }
+
+    /** @phpstan-assert !false $value */
+    public function checkNotFalse(mixed $value, string $error_message): void {
+        if ($value === false) {
+            $this->log()->error($error_message);
+            throw new \Exception($error_message);
+        }
+    }
+
+    /** @phpstan-assert !bool $value */
+    public function checkNotBool(mixed $value, string $error_message): void {
+        if (is_bool($value)) {
+            $this->log()->error($error_message);
+            throw new \Exception($error_message);
+        }
+    }
+
+    /** @phpstan-assert !'' $value */
+    public function checkNotEmpty(mixed $value, string $error_message): void {
+        if ($value === '') {
+            $this->log()->error($error_message);
+            throw new \Exception($error_message);
+        }
+    }
+
     // Base64
 
     public function base64EncodeUrl(string $string): string {
@@ -19,31 +53,48 @@ class GeneralUtils {
 
     public function encrypt(string $key, mixed $data): string {
         $plaintext = json_encode($data);
+        if (!$plaintext) {
+            throw new \Exception("encrypt: json_encode failed");
+        }
         $algo = 'aes-256-gcm';
         $iv = $this->getRandomIvForAlgo($algo);
         $ciphertext = openssl_encrypt($plaintext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
-        return $this->base64EncodeUrl(json_encode([
+        if (!$ciphertext) {
+            throw new \Exception("encrypt: openssl_encrypt failed");
+        }
+        $result = json_encode([
             'algo' => $algo,
             'iv' => $this->base64EncodeUrl($iv),
-            'tag' => $this->base64EncodeUrl($tag),
+            'tag' => $tag ? $this->base64EncodeUrl($tag) : null,
             'ciphertext' => $this->base64EncodeUrl($ciphertext),
-        ]));
+        ]);
+        if (!$result) {
+            throw new \Exception("encrypt: this should never happen");
+        }
+        return $this->base64EncodeUrl($result);
     }
 
     protected function getRandomIvForAlgo(string $algo): string {
-        return openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
+        $length = openssl_cipher_iv_length($algo);
+        if (!$length) {
+            throw new \Exception("Unknown openssl_cipher_iv_length({$algo})");
+        }
+        return openssl_random_pseudo_bytes($length);
     }
 
     public function decrypt(string $key, string $token): mixed {
         $decrypt_data = json_decode($this->base64DecodeUrl($token), true);
         if (!$decrypt_data) {
-            return null;
+            throw new \Exception("decrypt: json_decode failed");
         }
         $ciphertext = $this->base64DecodeUrl($decrypt_data['ciphertext']);
         $algo = $decrypt_data['algo'] ?? 'aes-256-gcm';
         $iv = $this->base64DecodeUrl($decrypt_data['iv']);
         $tag = $this->base64DecodeUrl($decrypt_data['tag']);
         $plaintext = openssl_decrypt($ciphertext, $algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
+        if (!$plaintext) {
+            throw new \Exception("decrypt: openssl_decrypt failed");
+        }
         return json_decode($plaintext, true);
     }
 
@@ -149,12 +200,16 @@ class GeneralUtils {
 
     public function removeRecursive(string $path): void {
         if (is_dir($path)) {
-            $entries = scandir($path);
+            $entries = scandir($path) ?: [];
             foreach ($entries as $entry) {
-                if ($entry !== '.' && $entry !== '..') {
-                    $entry_path = realpath("{$path}/{$entry}");
-                    $this->removeRecursive($entry_path);
+                if ($entry === '.' || $entry === '..') {
+                    continue;
                 }
+                $entry_path = realpath("{$path}/{$entry}");
+                if (!$entry_path) {
+                    continue;
+                }
+                $this->removeRecursive($entry_path);
             }
             rmdir($path);
         } elseif (is_file($path)) {

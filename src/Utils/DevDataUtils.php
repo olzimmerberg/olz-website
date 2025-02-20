@@ -50,6 +50,7 @@ class DevDataUtils {
         // Remove all database tables.
         $beg = microtime(true);
         $result = $db->query("SHOW TABLES");
+        assert(!is_bool($result));
         $table_names = [];
         while ($row = $result->fetch_array()) {
             $table_name = $row[0];
@@ -72,6 +73,7 @@ class DevDataUtils {
         // Remove all database tables.
         $beg = microtime(true);
         $result = $db->query("SHOW TABLES");
+        assert(!is_bool($result));
         $table_names = [];
         while ($row = $result->fetch_array()) {
             $table_name = $row[0];
@@ -93,7 +95,7 @@ class DevDataUtils {
 
         // Overwrite database structure with dev content.
         $beg = microtime(true);
-        $sql_content = file_get_contents("{$dev_data_dir}db_structure.sql");
+        $sql_content = file_get_contents("{$dev_data_dir}db_structure.sql") ?: '';
         if ($db->multi_query($sql_content)) {
             while ($db->next_result()) {
                 $result = $db->store_result();
@@ -113,7 +115,7 @@ class DevDataUtils {
         // Insert dev content into database.
         $beg = microtime(true);
         $db->query('SET foreign_key_checks = 0');
-        $sql_content = file_get_contents("{$dev_data_dir}db_content.sql");
+        $sql_content = file_get_contents("{$dev_data_dir}db_content.sql") ?: '';
         if ($db->multi_query($sql_content)) {
             while ($db->next_result()) {
                 $result = $db->store_result();
@@ -170,8 +172,6 @@ class DevDataUtils {
     }
 
     public function getDbBackup(string $key): void {
-        $db = $this->dbUtils()->getDb();
-
         if (!$key || strlen($key) < 10) {
             throw new \Exception("No valid key");
         }
@@ -183,7 +183,7 @@ class DevDataUtils {
 
         $plain_path = "{$tmp_dir}backup.plain.sql";
         $plain_fp = fopen($plain_path, 'w+');
-        $sql = '';
+        assert((bool) $plain_fp);
         fwrite($plain_fp, $this->getDbStructureSql());
         fwrite($plain_fp, "\n\n----------\n\n\n");
         fwrite($plain_fp, $this->getDbContentSql());
@@ -191,9 +191,10 @@ class DevDataUtils {
 
         $cipher_path = "{$tmp_dir}backup.cipher.sql";
         $cipher_fp = fopen($cipher_path, 'w+');
+        assert((bool) $cipher_fp);
         $algo = 'aes-256-gcm';
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo));
-        fwrite($cipher_fp, openssl_encrypt(file_get_contents($plain_path), $algo, $key, OPENSSL_RAW_DATA, $iv, $tag));
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo) ?: 0);
+        fwrite($cipher_fp, openssl_encrypt(file_get_contents($plain_path) ?: '', $algo, $key, OPENSSL_RAW_DATA, $iv, $tag) ?: '');
         fclose($cipher_fp);
 
         unlink($plain_path);
@@ -202,7 +203,7 @@ class DevDataUtils {
             'algo' => $algo,
             'iv' => base64_encode($iv),
             'tag' => base64_encode($tag),
-            'ciphertext' => base64_encode(file_get_contents($cipher_path)),
+            'ciphertext' => base64_encode(file_get_contents($cipher_path) ?: ''),
         ]);
         echo "\n";
 
@@ -264,11 +265,13 @@ class DevDataUtils {
         );
 
         $res_tables = $db->query('SHOW TABLES');
+        assert(!is_bool($res_tables));
         while ($row_tables = $res_tables->fetch_row()) {
             $table_name = $row_tables[0];
             $sql_content .= "\n";
             $sql_content .= "-- Table {$table_name}\n";
             $res_contents = $db->query("SELECT * FROM `{$table_name}`");
+            assert(!is_bool($res_contents));
             if ($table_name === 'counter') {
                 $sql_content .= "-- (counter omitted)\n";
             } elseif ($table_name === 'auth_requests') {
@@ -460,7 +463,9 @@ class DevDataUtils {
             $pwd = getcwd();
             chdir("{$data_path}img/fuer_einsteiger");
             shell_exec("sh ./thumbize.sh");
-            chdir($pwd);
+            if ($pwd) {
+                chdir($pwd);
+            }
         }
 
         $this->mkdir("{$data_path}img/karten");
@@ -678,6 +683,10 @@ class DevDataUtils {
         $this->enqueueForTouch($dest);
     }
 
+    /**
+     * @param int<1, max> $width
+     * @param int<1, max> $height
+     */
     protected function mkimg(
         string $source_path,
         string $data_path,
@@ -694,22 +703,23 @@ class DevDataUtils {
             mkdir($tmp_dir);
         }
         $flat_destination_relative_path = str_replace('/', '___', $destination_relative_path);
-        $extension_pos = strrpos($flat_destination_relative_path, '.');
+        $extension_pos = strrpos($flat_destination_relative_path, '.') ?: 0;
         $ident = substr($flat_destination_relative_path, 0, $extension_pos);
         $extension = substr($flat_destination_relative_path, $extension_pos);
         $tmp_basename = "{$ident}___{$width}x{$height}{$extension}";
         $tmp_path = "{$tmp_dir}{$tmp_basename}";
         if (!is_file($tmp_path)) {
             $info = getimagesize($source_path);
-            $source_width = $info[0];
-            $source_height = $info[1];
-            $image_type = $info[2];
+            $source_width = $info[0] ?? 0;
+            $source_height = $info[1] ?? 0;
+            $image_type = $info[2] ?? 0;
             $source = null;
             if ($image_type === 2) {
                 $source = imagecreatefromjpeg($source_path);
             } elseif ($image_type === 3) {
                 $source = imagecreatefrompng($source_path);
-            } else {
+            }
+            if (!$source) {
                 throw new \Exception("mkimg: Image must be JPEG or PNG, was: {$image_type}");
             }
             $destination = imagecreatetruecolor($width, $height);
@@ -728,6 +738,7 @@ class DevDataUtils {
                 $source_height,
             );
             $red = imagecolorallocate($destination, 255, 0, 0);
+            assert($red !== false);
             $hash = intval(substr(md5($destination_relative_path), 0, 1), 16);
             $x = floor($hash / 4) * $width / 4;
             $y = floor($hash % 4) * $height / 4;
@@ -762,6 +773,7 @@ class DevDataUtils {
         ];
         $num_log_levels = count($log_levels);
         $fp = fopen($file_path, 'w+');
+        assert($fp !== false);
         $long_line = 'Wow,';
         for ($i = 0; $i < 1000; $i++) {
             $long_line .= ' so much content';

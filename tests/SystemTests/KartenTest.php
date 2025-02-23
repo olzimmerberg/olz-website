@@ -46,6 +46,7 @@ final class KartenTest extends SystemTestCase {
         $this->sendKeys('#edit-karte-modal #place-input', 'Wuut');
         $this->sendKeys('#edit-karte-modal #zoom-input', '2');
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        assert($image_path);
         $this->sendKeys('#edit-karte-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(

@@ -29,10 +29,11 @@ final class DbUtilsIntegrationTest extends IntegrationTestCase {
         $db = $db_utils->getDb();
 
         $result = $db->query('SELECT username FROM users WHERE id=1');
+        assert(!is_bool($result));
         $row = $result->fetch_assoc();
         $this->assertNull($db->connect_error);
         $this->assertSame(0, $db->connect_errno);
-        $this->assertSame('admin', $row['username']);
+        $this->assertSame('admin', $row['username'] ?? null);
     }
 
     public function testDbUtilsGetEntityManager(): void {

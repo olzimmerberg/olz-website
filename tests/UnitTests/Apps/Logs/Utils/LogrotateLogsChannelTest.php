@@ -103,7 +103,7 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
         );
         $fake_content = [];
         for ($i = 0; $i < $num_fake; $i++) {
-            $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') ?: 0 + $i * 600);
+            $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') + $i * 600);
             $fake_content[] = "[{$iso_date}] tick 2020-03-12\n";
         }
         file_put_contents(

@@ -28,7 +28,7 @@ final class StagingTest extends SystemTestCase {
     #[OnlyInModes(['staging', 'staging_rw'])]
     public function testStagingIsWorking(): void {
         $url = "{$this::$stagingUrl}";
-        $body = file_get_contents($url);
+        $body = file_get_contents($url) ?: '';
 
         $this->assertMatchesRegularExpression('/token/i', $body);
     }

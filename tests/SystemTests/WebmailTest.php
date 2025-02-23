@@ -18,7 +18,7 @@ final class WebmailTest extends SystemTestCase {
     #[OnlyInModes(['meta'])]
     public function testWebmailIsWorking(): void {
         $url = "{$this::$webmailUrl}";
-        $body = file_get_contents($url);
+        $body = file_get_contents($url) ?: '';
 
         $this->assertMatchesRegularExpression('/Roundcube Webmail/i', $body);
         $this->assertMatchesRegularExpression('/Login/i', $body);

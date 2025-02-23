@@ -18,9 +18,9 @@ class FakeEntity {
         ?callable $populate_new = null,
     ): object {
         $trace = debug_backtrace(0, 2);
-        $class = $trace[1]['class'];
+        $class = $trace[1]['class'] ?? '(no class)';
         $function = $trace[1]['function'];
-        $args = json_encode($trace[1]['args']);
+        $args = json_encode($trace[1]['args'] ?? null);
         $ident = "{$class}::{$function}({$args})";
         if ($should_generate_new) {
             return $generate_new();

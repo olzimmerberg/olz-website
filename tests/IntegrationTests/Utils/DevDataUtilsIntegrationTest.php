@@ -21,9 +21,6 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
         $this->withLockedDb(function () {
             $dev_data_utils = DevDataUtils::fromEnv();
 
-            $old_dev_db_structure = file_get_contents($this->dev_db_structure_path);
-            $old_dev_db_content = file_get_contents($this->dev_db_content_path);
-
             $init_start_time = time();
             $dev_data_utils->fullResetDb();
             $init_end_time = time();
@@ -45,8 +42,8 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
         $this->withLockedDb(function () {
             $dev_data_utils = DevDataUtils::fromEnv();
 
-            $old_dev_db_structure = file_get_contents($this->dev_db_structure_path);
-            $old_dev_db_content = file_get_contents($this->dev_db_content_path);
+            $old_dev_db_structure = file_get_contents($this->dev_db_structure_path) ?: '';
+            $old_dev_db_content = file_get_contents($this->dev_db_content_path) ?: '';
             $current_migration = $dev_data_utils->getCurrentMigration();
 
             $structure_has_migration = preg_match(

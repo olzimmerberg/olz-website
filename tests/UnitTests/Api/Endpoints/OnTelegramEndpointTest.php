@@ -43,7 +43,9 @@ function getFakeTelegramMessage(mixed $from_key, mixed $chat_key, string $text):
             'text' => $text,
         ],
     ];
-    return json_encode($message);
+    $json = json_encode($message);
+    assert($json);
+    return $json;
 }
 
 /**
@@ -54,7 +56,7 @@ function getFakeTelegramMessage(mixed $from_key, mixed $chat_key, string $text):
 final class OnTelegramEndpointTest extends UnitTestCase {
     public function testOnTelegramEndpointParseInput(): void {
         $get_params = ['authenticityCode' => 'some-token'];
-        $content_json = json_encode(['json' => 'input']);
+        $content_json = json_encode(['json' => 'input']) ?: null;
         $request = new Request($get_params, [], [], [], [], [], $content_json);
         $endpoint = new OnTelegramEndpoint();
         $endpoint->runtimeSetup();

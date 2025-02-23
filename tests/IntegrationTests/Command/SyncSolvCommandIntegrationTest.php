@@ -26,7 +26,7 @@ class FakeSyncSolvCommandIntegrationTestSolvFetcher extends FakeSolvFetcher {
                 $real_fetcher = new SolvFetcher();
                 return $real_fetcher->fetchEventsCsvForYear($year);
             }
-        );
+        ) ?: null;
     }
 
     public function fetchYearlyResultsJson(int|string $year): ?string {
@@ -37,7 +37,7 @@ class FakeSyncSolvCommandIntegrationTestSolvFetcher extends FakeSolvFetcher {
                 $real_fetcher = new SolvFetcher();
                 return $real_fetcher->fetchYearlyResultsJson($year);
             }
-        );
+        ) ?: null;
     }
 
     public function fetchEventResultsHtml(int|string $rank_id): ?string {
@@ -48,7 +48,7 @@ class FakeSyncSolvCommandIntegrationTestSolvFetcher extends FakeSolvFetcher {
                 $real_fetcher = new SolvFetcher();
                 return $real_fetcher->fetchEventResultsHtml($rank_id);
             }
-        );
+        ) ?: null;
     }
 }
 

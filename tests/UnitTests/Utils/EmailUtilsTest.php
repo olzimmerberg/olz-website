@@ -51,10 +51,10 @@ final class EmailUtilsTest extends UnitTestCase {
         $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
         $email_utils = new DeterministicEmailUtils();
         $email_utils->setMailer($mailer);
-        $artifacts = [];
+        $emails = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
             null,
@@ -98,7 +98,7 @@ final class EmailUtilsTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
     }
 
     public function testSendEmailVerificationEmailFailsSending(): void {
@@ -416,14 +416,15 @@ final class EmailUtilsTest extends UnitTestCase {
         $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
         $email_utils = new DeterministicEmailUtils();
         $email_utils->setMailer($mailer);
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -485,13 +486,13 @@ final class EmailUtilsTest extends UnitTestCase {
             ZZZZZZZZZZ, file_get_contents($last_email_file));
         $this->assertSame([
             $expected_email,
-        ], array_map(function ($email) {
+        ], array_map(function (Email $email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             $expected_envelope,
-        ], array_map(function ($envelope) {
+        ], array_map(function (Envelope $envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 }

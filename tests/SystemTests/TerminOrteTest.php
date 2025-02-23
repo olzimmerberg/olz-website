@@ -43,6 +43,7 @@ final class TerminOrteTest extends SystemTestCase {
         $this->sendKeys('#edit-termin-location-modal #longitude-input', '9.21555');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        assert($image_path);
         $this->sendKeys('#edit-termin-location-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(

@@ -43,7 +43,7 @@ class FakeSyncSolvResultsCommandSolvFetcher extends SolvFetcher {
                         'ResultType' => 0,
                         'ResultModTime' => '20200313T105538',
                     ],
-                ]]);
+                ]]) ?: '';
             default:
                 return "{}";
         }

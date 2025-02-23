@@ -47,6 +47,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->sendKeys('#edit-question-modal #question-input', 'Wie kann ich OL testen?');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        assert($image_path);
         $this->sendKeys('#edit-question-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
@@ -58,6 +59,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->sendKeys('#edit-question-modal #answer-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        assert($document_path);
         $this->sendKeys('#edit-question-modal #files-upload input[type=file]', $document_path);
         $browser->wait()->until(function () use ($browser) {
             $file_uploaded = $browser->findElements(

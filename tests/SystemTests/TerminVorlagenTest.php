@@ -51,6 +51,7 @@ final class TerminVorlagenTest extends SystemTestCase {
         $this->click('#edit-termin-template-modal #locationId-field #entity-index-1');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        assert($image_path);
         $this->sendKeys('#edit-termin-template-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
@@ -60,6 +61,7 @@ final class TerminVorlagenTest extends SystemTestCase {
         });
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        assert($document_path);
         $this->sendKeys('#edit-termin-template-modal #files-upload input[type=file]', $document_path);
         $browser->wait()->until(function () use ($browser) {
             $file_uploaded = $browser->findElements(

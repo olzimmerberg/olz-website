@@ -44,6 +44,7 @@ final class NewsForumTest extends SystemTestCase {
         $this->sendKeys('#edit-news-modal #content-input', "Der Inhalt des Eintrags");
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        assert($image_path);
         $this->sendKeys('#edit-news-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(

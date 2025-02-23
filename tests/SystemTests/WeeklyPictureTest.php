@@ -40,6 +40,7 @@ final class WeeklyPictureTest extends SystemTestCase {
         $this->sendKeys('#edit-weekly-picture-modal #text-input', 'Neues Bild der Woche');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        assert($image_path);
         $this->sendKeys('#edit-weekly-picture-modal #image-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(

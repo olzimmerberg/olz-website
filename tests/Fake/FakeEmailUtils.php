@@ -16,7 +16,7 @@ use Webklex\PHPIMAP\Support\MessageCollection;
 class FakeEmailUtils extends EmailUtils {
     use \Psr\Log\LoggerAwareTrait;
 
-    /** @var array<array{user: User, token: string}> */
+    /** @var array<array{user: User}> */
     public array $email_verification_emails_sent = [];
     public ?\Exception $send_email_verification_email_error = null;
 
@@ -42,7 +42,7 @@ class FakeEmailUtils extends EmailUtils {
 
     public function encryptEmailReactionToken(mixed $data): string {
         $general_utils = new GeneralUtils();
-        return $general_utils->base64EncodeUrl(json_encode($data));
+        return $general_utils->base64EncodeUrl(json_encode($data) ?: '');
     }
 
     public function decryptEmailReactionToken(string $token): mixed {

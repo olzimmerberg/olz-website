@@ -31,7 +31,7 @@ final class StatusTest extends SystemTestCase {
     #[OnlyInModes(['meta'])]
     public function testStatusIsWorking(): void {
         $url = "{$this::$statusUrl}";
-        $body = file_get_contents($url);
+        $body = file_get_contents($url) ?: '';
 
         $this->assertMatchesRegularExpression('/Login/i', $body);
         $this->assertMatchesRegularExpression('/Server Monitor/i', $body);
@@ -56,7 +56,7 @@ final class StatusTest extends SystemTestCase {
         $this->assertNotNull($prod_logs);
         $some_view_link = $this->getBrowserElement('a[href*="action=view&id="]');
         $this->assertNotNull($some_view_link);
-        $some_view_href = $some_view_link->getAttribute('href');
+        $some_view_href = strval($some_view_link->getAttribute('href'));
         $escaped_status_url = preg_quote($this::$statusUrl, '/');
         $this->assertMatchesRegularExpression("/^{$escaped_status_url}/", $some_view_href);
         $browser->get($some_view_href);
@@ -81,8 +81,8 @@ final class StatusTest extends SystemTestCase {
         if ($matches[1] === 'about a ady ago') {
             return 86400;
         }
-        $number = intval($matches[2]);
-        $unit = $matches[3];
+        $number = intval($matches[2] ?? 0);
+        $unit = $matches[3] ?? null;
         if ($unit === 'minutes') {
             return $number * 60;
         }

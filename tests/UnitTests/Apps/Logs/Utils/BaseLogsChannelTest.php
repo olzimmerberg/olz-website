@@ -28,7 +28,9 @@ class BaseLogsChannelForTest extends BaseLogsChannel {
     protected function getLineLocationForDateTime(
         \DateTime $date_time,
     ): LineLocation {
-        $log_file = new PlainLogFile(realpath(__DIR__.'/../../../tmp/private/logs/fake.log'));
+        $realpath = realpath(__DIR__.'/../../../tmp/private/logs/fake.log');
+        assert($realpath);
+        $log_file = new PlainLogFile($realpath);
         return new LineLocation($log_file, 1, 0);
     }
 
@@ -36,14 +38,18 @@ class BaseLogsChannelForTest extends BaseLogsChannel {
         if (preg_match('/fake-before\.log$/', $log_file->getPath())) {
             throw new \Exception("No such file: {$log_file->getPath()}");
         }
-        return new PlainLogFile(realpath(__DIR__.'/../../../tmp/private/logs/fake-before.log'));
+        $realpath = realpath(__DIR__.'/../../../tmp/private/logs/fake-before.log');
+        assert($realpath);
+        return new PlainLogFile($realpath);
     }
 
     protected function getLogFileAfter(LogFileInterface $log_file): LogFileInterface {
         if (preg_match('/fake-after\.log$/', $log_file->getPath())) {
             throw new \Exception("No such file: {$log_file->getPath()}");
         }
-        return new PlainLogFile(realpath(__DIR__.'/../../../tmp/private/logs/fake-after.log'));
+        $realpath = realpath(__DIR__.'/../../../tmp/private/logs/fake-after.log');
+        assert($realpath);
+        return new PlainLogFile($realpath);
     }
 }
 

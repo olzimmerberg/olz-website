@@ -176,6 +176,7 @@ class SystemTestCase extends TestCase {
 
     /** @return array<string, mixed> */
     protected function getHeaders(string $url): array {
+        assert($url);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, true);
@@ -304,7 +305,7 @@ class SystemTestCase extends TestCase {
     protected function runCommand(string $command, ?string $argv): string {
         $token = urlencode($this->getBotAccessToken());
         $request = ['command' => $command, 'argv' => $argv];
-        $enc_request = urlencode(json_encode($request));
+        $enc_request = urlencode(json_encode($request) ?: '');
         $result = file_get_contents("{$this->getTargetUrl()}/api/executeCommand?access_token={$token}&request={$enc_request}");
         if (!$result) {
             $actual_mode = getenv('SYSTEM_TEST_MODE');
@@ -334,7 +335,7 @@ class SystemTestCase extends TestCase {
         }
         $this->tick('reset');
         for ($i = 0; $i < 100; $i++) {
-            $result = file_get_contents("{$this->getTargetUrl()}/api/executeCommand?access_token=public_dev_data_access_token&request={\"command\":\"olz:db-reset\",\"argv\":\"content\"}");
+            $result = file_get_contents("{$this->getTargetUrl()}/api/executeCommand?access_token=public_dev_data_access_token&request={\"command\":\"olz:db-reset\",\"argv\":\"content\"}") ?: '';
             $output = json_decode($result, true)['output'] ?? null;
             if (str_contains($output, "Database content reset successful.\n")) {
                 $this->tock('reset', 'db_reset');
@@ -357,11 +358,11 @@ class SystemTestCase extends TestCase {
         $screenshot_filename = "{$name}-{$browser_name}.png";
         $window_width = $this->getWindowWidth();
         $window_height = $this->getWindowHeight();
-        $body_width = max($this->getBodyWidth(), $window_width, 1);
-        $body_height = max($this->getBodyHeight(), $window_height, 1);
+        $body_width = max($this->getBodyWidth(), $window_width);
+        $body_height = max($this->getBodyHeight(), $window_height);
         $num_x = ceil($body_width / $window_width);
         $num_y = ceil($body_height / $window_height);
-        $dest = imagecreatetruecolor($body_width, $body_height);
+        $dest = imagecreatetruecolor(max(1, $body_width), max(1, $body_height));
         for ($x = 0; $x < $num_x; $x++) {
             for ($y = 0; $y < $num_y; $y++) {
                 $scroll_x = $x * $window_width;
@@ -373,6 +374,7 @@ class SystemTestCase extends TestCase {
                 $scroll_x_diff = $scroll_x - $this->getScrollX();
                 $scroll_y_diff = $scroll_y - $this->getScrollY();
                 $src = imagecreatefrompng($path);
+                assert((bool) $src);
                 imagecopy($dest, $src, $scroll_x, $scroll_y, $scroll_x_diff, $scroll_y_diff, $window_width, $window_height);
                 imagedestroy($src);
                 unlink($path);
@@ -391,7 +393,7 @@ class SystemTestCase extends TestCase {
     }
 
     protected function hideFlakyElements(): void {
-        $hide_flaky_code = file_get_contents(__DIR__.'/hideFlaky.js');
+        $hide_flaky_code = file_get_contents(__DIR__.'/hideFlaky.js') ?: '';
         $this::$browser->executeScript($hide_flaky_code);
     }
 
@@ -487,7 +489,7 @@ class SystemTestCase extends TestCase {
         if (SystemTestCase::$slice_by_test !== null) {
             return;
         }
-        $actual_slice_config = getenv('SYSTEM_TEST_SLICE');
+        $actual_slice_config = getenv('SYSTEM_TEST_SLICE') ?: '';
         $res = preg_match('/^([0-9]+)\/([0-9]+)$/', $actual_slice_config, $matches);
         if (!$res) {
             throw new \Exception("Invalid slice: {$actual_slice_config}");
@@ -511,12 +513,14 @@ class SystemTestCase extends TestCase {
             if (preg_match('/^(Olz\\\Tests.*)::(.*)$/', $name, $matches)) {
                 try {
                     $method = new \ReflectionMethod($matches[1], $matches[2]);
+                    /** @var ?OnlyInModes */
                     $only_in_modes = null;
                     foreach ($method->getAttributes() as $attribute) {
                         if ($attribute->getName() === OnlyInModes::class) {
                             $only_in_modes = $attribute->newInstance();
                         }
                     }
+                    // @phpstan-ignore-next-line
                     $mode_ok = $only_in_modes === null || self::isInModes($only_in_modes->modes);
                     $relevant_reports[] = [
                         'name' => $name,

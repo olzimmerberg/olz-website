@@ -26,6 +26,7 @@ final class DownloadsTest extends SystemTestCase {
         $this->sendKeys('#edit-download-modal #name-input', 'Neues Jahresprogramm');
         $this->sendKeys('#edit-download-modal #position-input', '0');
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        assert($document_path);
         $this->sendKeys('#edit-download-modal #file-upload input[type=file]', $document_path);
         $browser->wait()->until(function () use ($browser) {
             $file_uploaded = $browser->findElements(

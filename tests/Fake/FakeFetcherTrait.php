@@ -9,7 +9,7 @@ trait FakeFetcherTrait {
         string $request_ident,
         string $directory,
         ?callable $get_suggestion_fn = null
-    ): bool|string {
+    ): false|string {
         $called_class = get_called_class();
         $file_path = $directory."/data/{$called_class}/{$request_ident}.txt";
         if (is_file($file_path)) {

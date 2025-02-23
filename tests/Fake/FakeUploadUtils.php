@@ -18,7 +18,7 @@ class FakeUploadUtils extends UploadUtils {
         if (substr($upload_id, 0, 7) === 'invalid') {
             return null;
         }
-        return $upload_id;
+        return $upload_id ?: '-';
     }
 
     public function overwriteUploads(?array $upload_ids, string $new_base_path): void {

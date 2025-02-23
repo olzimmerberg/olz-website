@@ -33,7 +33,7 @@ final class ResetPasswordTest extends SystemTestCase {
         $data_path = $this->envUtils()->getDataPath();
         $last_email_file = "{$data_path}last_email.txt";
         $this->assertFileExists($last_email_file);
-        $email_text = file_get_contents($last_email_file);
+        $email_text = file_get_contents($last_email_file) ?: '';
         $this->assertMatchesRegularExpression(
             "/To\\: \"Be Nutzer\" \\<nutzer\\@staging\\.olzimmerberg\\.ch\\>/",
             $email_text,

@@ -114,7 +114,7 @@ final class CleanTempDirectoryCommandTest extends UnitTestCase {
         $output = new BufferedOutput();
 
         $job = new FakeCleanTempDirectoryCommand();
-        $job->filemtime_response = strtotime('2020-03-13 19:30:00') ?: 0;
+        $job->filemtime_response = strtotime('2020-03-13 19:30:00');
         $job->run($input, $output);
 
         $this->assertEqualsCanonicalizing([], $job->rmdir_calls);

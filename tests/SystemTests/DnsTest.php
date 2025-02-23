@@ -17,13 +17,14 @@ final class DnsTest extends SystemTestCase {
 
     #[OnlyInModes(['meta'])]
     public function testHasGoogleSiteVerificationRecord(): void {
-        $records = dns_get_record("{$this::$dnsHostname}", DNS_TXT);
+        $records = dns_get_record("{$this::$dnsHostname}", DNS_TXT) ?: [];
         $has_google_site_verification = false;
         foreach ($records as $record) {
             if (preg_match('/^google\-site\-verification\=/i', $record['txt'])) {
                 $has_google_site_verification = true;
             }
         }
-        $this->assertTrue($has_google_site_verification, json_encode($records));
+        $message = json_encode($records) ?: '-';
+        $this->assertTrue($has_google_site_verification, $message);
     }
 }

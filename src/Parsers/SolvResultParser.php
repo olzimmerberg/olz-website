@@ -36,7 +36,7 @@ class SolvResultParser {
                 continue;
             }
             $result_by_uid[$uid] = [
-                'result_list_id' => $res['ResultListID'],
+                'result_list_id' => strval($res['ResultListID']),
             ];
         }
         return $result_by_uid;

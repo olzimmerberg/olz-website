@@ -114,14 +114,18 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         return $unambiguous_person;
     }
 
-    /** @param array<array{person: int, name?: string, birth_year?: string, domicile?: string}> $person_infos */
+    /** @param array<array{person?: int, name?: string, birth_year?: string, domicile?: string}> $person_infos */
     public function getUnambiguousPerson(array $person_infos): ?int {
         if (count($person_infos) == 0) {
             return null;
         }
-        $suggested_person_id = intval($person_infos[0]['person']);
+        $person_id = $person_infos[0]['person'] ?? null;
+        if ($person_id === null) {
+            return null;
+        }
+        $suggested_person_id = intval($person_id);
         foreach ($person_infos as $person_info) {
-            if (intval($person_info['person']) != $suggested_person_id) {
+            if (intval($person_info['person'] ?? null) != $suggested_person_id) {
                 return null; // there is no unambiguous person
             }
         }
@@ -129,9 +133,9 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
     }
 
     /**
-     * @param array<array{person: int, name: string, birth_year: string, domicile: string}> $person_infos
+     * @param array<array{person?: int, name: string, birth_year: string, domicile: string}> $person_infos
      *
-     * @return array{difference: int, matches: array<array{person: int, name: string, birth_year: string, domicile: string}>}
+     * @return array{difference: int, matches: array<array{person?: int, name: string, birth_year: string, domicile: string}>}
      */
     public function getClosestMatchesOfPersonInfo(
         string $name,

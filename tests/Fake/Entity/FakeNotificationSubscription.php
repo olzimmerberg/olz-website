@@ -70,7 +70,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $notification_subscription->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $notification_subscription->setUser(FakeUser::defaultUser());
                 $notification_subscription->setNotificationType(NotificationSubscription::TYPE_MONTHLY_PREVIEW);
-                $notification_subscription->setNotificationTypeArgs(json_encode([]));
+                $notification_subscription->setNotificationTypeArgs(json_encode([]) ?: '');
                 $notification_subscription->setCreatedAt(new \DateTime('2020-03-13 19:30:00'));
                 return $notification_subscription;
             }
@@ -86,7 +86,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_MONTHLY_PREVIEW);
-                $entity->setNotificationTypeArgs(json_encode([]));
+                $entity->setNotificationTypeArgs(json_encode([]) ?: '');
                 return $entity;
             }
         );
@@ -101,7 +101,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_MONTHLY_PREVIEW);
-                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]) ?: '');
                 return $entity;
             }
         );
@@ -116,7 +116,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_WEEKLY_PREVIEW);
-                $entity->setNotificationTypeArgs(json_encode([]));
+                $entity->setNotificationTypeArgs(json_encode([]) ?: '');
                 return $entity;
             }
         );
@@ -131,7 +131,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_WEEKLY_PREVIEW);
-                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]) ?: '');
                 return $entity;
             }
         );
@@ -146,7 +146,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-                $entity->setNotificationTypeArgs(json_encode(['days' => 7]));
+                $entity->setNotificationTypeArgs(json_encode(['days' => 7]) ?: '');
                 return $entity;
             }
         );
@@ -161,7 +161,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-                $entity->setNotificationTypeArgs(json_encode(['days' => 3]));
+                $entity->setNotificationTypeArgs(json_encode(['days' => 3]) ?: '');
                 return $entity;
             }
         );
@@ -176,7 +176,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::vorstandUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-                $entity->setNotificationTypeArgs(json_encode(['days' => 3]));
+                $entity->setNotificationTypeArgs(json_encode(['days' => 3]) ?: '');
                 return $entity;
             }
         );
@@ -191,7 +191,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-                $entity->setNotificationTypeArgs(json_encode(['days' => 3]));
+                $entity->setNotificationTypeArgs(json_encode(['days' => 3]) ?: '');
                 return $entity;
             }
         );
@@ -206,7 +206,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
-                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]) ?: '');
                 return $entity;
             }
         );
@@ -221,7 +221,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_DAILY_SUMMARY);
-                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]) ?: '');
                 return $entity;
             }
         );
@@ -236,7 +236,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_DAILY_SUMMARY);
-                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]) ?: '');
                 return $entity;
             }
         );
@@ -251,7 +251,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]) ?: '');
                 return $entity;
             }
         );
@@ -266,7 +266,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['no_notification' => true]) ?: '');
                 return $entity;
             }
         );
@@ -281,7 +281,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType('invalid-delivery');
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]) ?: '');
                 return $entity;
             }
         );
@@ -296,7 +296,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType('invalid-type');
-                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]) ?: '');
                 return $entity;
             }
         );
@@ -311,7 +311,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-                $entity->setNotificationTypeArgs(json_encode(['provoke_error' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['provoke_error' => true]) ?: '');
                 return $entity;
             }
         );
@@ -326,7 +326,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::provokeErrorUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]) ?: '');
                 return $entity;
             }
         );
@@ -341,7 +341,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '');
                 return $entity;
             }
         );
@@ -356,7 +356,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-                $entity->setNotificationTypeArgs(json_encode(['cancelled' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['cancelled' => true]) ?: '');
                 return $entity;
             }
         );
@@ -371,7 +371,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '');
                 return $entity;
             }
         );
@@ -386,7 +386,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-                $entity->setNotificationTypeArgs(json_encode(['cancelled' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['cancelled' => true]) ?: '');
                 return $entity;
             }
         );
@@ -401,7 +401,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::noTelegramLinkUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
-                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]));
+                $entity->setNotificationTypeArgs(json_encode(['aktuell' => true, 'blog' => true, 'galerie' => true, 'forum' => true]) ?: '');
                 return $entity;
             }
         );
@@ -416,7 +416,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '');
                 return $entity;
             }
         );
@@ -431,7 +431,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
-                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '');
                 return $entity;
             }
         );
@@ -446,7 +446,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '');
                 return $entity;
             }
         );
@@ -461,7 +461,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
-                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '');
                 return $entity;
             }
         );
@@ -479,7 +479,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setNotificationTypeArgs(json_encode([
                     'role_id' => FakeRole::defaultRole()->getId(),
                     'cancelled' => false,
-                ]));
+                ]) ?: '');
                 return $entity;
             }
         );
@@ -497,7 +497,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setNotificationTypeArgs(json_encode([
                     'role_id' => FakeRole::vorstandRole()->getId(),
                     'cancelled' => false,
-                ]));
+                ]) ?: '');
                 return $entity;
             }
         );
@@ -512,7 +512,7 @@ class FakeNotificationSubscription extends FakeEntity {
                 $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setNotificationType(NotificationSubscription::TYPE_ROLE_REMINDER);
-                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]));
+                $entity->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '');
                 return $entity;
             }
         );

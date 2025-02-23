@@ -30,7 +30,7 @@ class FakeSearchTransportConnectionEndpointTransportApiFetcher extends FakeTrans
                 $real_data = $real_fetcher->fetchConnection($request_data);
                 return json_encode($real_data, JSON_PRETTY_PRINT);
             }
-        );
+        ) ?: '';
         return json_decode($response, true);
     }
 }
@@ -52,8 +52,8 @@ class SearchTransportConnectionEndpointForTest extends SearchTransportConnection
     }
 
     /**
-     * @param array<int|string, int> $latest_joining_time_by_station_id
-     * @param array<int|string, int> $latest_departure_by_station_id
+     * @param array<string, int> $latest_joining_time_by_station_id
+     * @param array<string, int> $latest_departure_by_station_id
      */
     public function testOnlyGetJoiningStationFromConnection(
         TransportConnection $connection,
@@ -118,11 +118,12 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
                 'isWalk' => false,
             ],
         ]]);
+        /** @var array<string, int> */
         $latest_joining_time_by_station_id = [
             // Cannot join at A (1)
-            '1' => 0 + SearchTransportConnectionEndpoint::MIN_CHANGING_TIME,
+            strval(1) => 0 + SearchTransportConnectionEndpoint::MIN_CHANGING_TIME,
             // Can join at B (2)
-            '2' => 2 + SearchTransportConnectionEndpoint::MIN_CHANGING_TIME,
+            strval(2) => 2 + SearchTransportConnectionEndpoint::MIN_CHANGING_TIME,
         ];
         $latest_departure_by_station_id = [];
         $endpoint = new SearchTransportConnectionEndpointForTest();

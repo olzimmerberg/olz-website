@@ -40,6 +40,7 @@ class IntegrationTestCase extends KernelTestCase {
         WithUtilsCache::reset();
 
         $kernel = self::bootKernel();
+        // @phpstan-ignore-next-line
         $entityManager = $kernel->getContainer()->get('doctrine')->getManager();
 
         $logger = new \Monolog\Logger('Fake');

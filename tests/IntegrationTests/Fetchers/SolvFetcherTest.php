@@ -19,7 +19,7 @@ final class SolvFetcherTest extends IntegrationTestCase {
     public function setUp(): void {
         parent::setUp();
         $this->solv_fetcher = new SolvFetcher();
-        $this->year_to_fetch = date('m') < 4 ? date('Y') - 1 : date('Y');
+        $this->year_to_fetch = intval(date('m') < 4 ? date('Y') - 1 : date('Y'));
     }
 
     public function testFetchEventsCsvForYear(): void {

@@ -45,6 +45,7 @@ final class NewsAktuellTest extends SystemTestCase {
         $this->sendKeys('#edit-news-modal #content-input', "<BILD1>Detailierte Schilderung des Geschehnisses.\n<DATEI1 text='Artikel als PDF'>");
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        assert($image_path);
         $this->sendKeys('#edit-news-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
@@ -54,6 +55,7 @@ final class NewsAktuellTest extends SystemTestCase {
         });
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        assert($document_path);
         $this->sendKeys('#edit-news-modal #files-upload input[type=file]', $document_path);
         $browser->wait()->until(function () use ($browser) {
             $file_uploaded = $browser->findElements(

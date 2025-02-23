@@ -18,7 +18,7 @@ final class SolvEventParserTest extends UnitTestCase {
     private string $invalid_fixtures_path = __DIR__.'/data/fixtures-invalid.csv';
 
     public function testParseFixtures2006(): void {
-        $fixtures_2006 = file_get_contents($this->fixtures_2006_path);
+        $fixtures_2006 = file_get_contents($this->fixtures_2006_path) ?: '';
         $parser = new SolvEventParser();
 
         $solv_events_2006 = $parser->parse_solv_events_csv($fixtures_2006);
@@ -50,7 +50,7 @@ final class SolvEventParserTest extends UnitTestCase {
     }
 
     public function testParseFixtures2018(): void {
-        $fixtures_2018 = file_get_contents($this->fixtures_2018_path);
+        $fixtures_2018 = file_get_contents($this->fixtures_2018_path) ?: '';
         $parser = new SolvEventParser();
 
         $solv_events_2018 = $parser->parse_solv_events_csv($fixtures_2018);
@@ -82,7 +82,7 @@ final class SolvEventParserTest extends UnitTestCase {
     }
 
     public function testParseInvalidFixtures(): void {
-        $invalid_fixtures = file_get_contents($this->invalid_fixtures_path);
+        $invalid_fixtures = file_get_contents($this->invalid_fixtures_path) ?: '';
         $parser = new SolvEventParser();
 
         $invalid_solv_events = $parser->parse_solv_events_csv($invalid_fixtures);

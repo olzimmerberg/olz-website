@@ -613,7 +613,11 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ['ident' => '2004', 'name' => "2004"],
             ['ident' => '2003', 'name' => "2003"],
             ['ident' => '2002', 'name' => "2002"],
-        ], $news_utils->getDateRangeOptions(['archiv' => 'ohne']));
+        ], $news_utils->getDateRangeOptions([
+            'format' => 'aktuell',
+            'datum' => '2018',
+            'archiv' => 'ohne',
+        ]));
     }
 
     public function testGetDateRangeOptionsInclArchive(): void {
@@ -636,7 +640,11 @@ final class NewsFilterUtilsTest extends UnitTestCase {
             ['ident' => '2008', 'name' => "2008"],
             ['ident' => '2007', 'name' => "2007"],
             ['ident' => '2006', 'name' => "2006"],
-        ], $news_utils->getDateRangeOptions(['archiv' => 'mit']));
+        ], $news_utils->getDateRangeOptions([
+            'format' => 'aktuell',
+            'datum' => '2018',
+            'archiv' => 'mit',
+        ]));
     }
 
     public function testGetSqlFromFilter(): void {

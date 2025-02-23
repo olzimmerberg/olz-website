@@ -33,7 +33,7 @@ final class StartseiteTest extends SystemTestCase {
     #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
     public function testStartseiteBody(): void {
         $url = "{$this->getTargetUrl()}";
-        $body = file_get_contents($url);
+        $body = file_get_contents($url) ?: '';
 
         $this->assertMatchesRegularExpression(
             '/<title>OL Zimmerberg<\/title>/i',
@@ -48,7 +48,7 @@ final class StartseiteTest extends SystemTestCase {
     #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
     public function testStartseiteBodyLegacy(): void {
         $url = "{$this->getTargetUrl()}/startseite.php";
-        $body = file_get_contents($url);
+        $body = file_get_contents($url) ?: '';
 
         $this->assertMatchesRegularExpression(
             '/<title>OL Zimmerberg<\/title>/i',
@@ -84,6 +84,7 @@ final class StartseiteTest extends SystemTestCase {
         $this->sendKeys('#edit-snippet-modal #text-input', 'Neue Information!');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        assert($image_path);
         $this->sendKeys('#edit-snippet-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
@@ -93,6 +94,7 @@ final class StartseiteTest extends SystemTestCase {
         });
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        assert($document_path);
         $this->sendKeys('#edit-snippet-modal #files-upload input[type=file]', $document_path);
         $browser->wait()->until(function () use ($browser) {
             $file_uploaded = $browser->findElements(

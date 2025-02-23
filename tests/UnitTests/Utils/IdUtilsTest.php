@@ -13,7 +13,7 @@ use Olz\Utils\IdUtils;
  * @coversNothing
  */
 class IdUtilsIdUtilsForTest extends IdUtils {
-    public function testOnlySerializeId(int|string $internal_id, string $type): string {
+    public function testOnlySerializeId(int $internal_id, string $type): string {
         return $this->serializeId($internal_id, $type);
     }
 
@@ -108,9 +108,18 @@ final class IdUtilsTest extends UnitTestCase {
         $this->assertSame('KNYgqjTkR5o', $id_utils->testOnlyEncryptId('test'));
 
         // Those should not show any similarity!
-        $this->assertSame('q8JuUMqRC60', $id_utils->testOnlyEncryptId(hex2bin('0123456789abcd')));
-        $this->assertSame('0oqhJ3PIdS8', $id_utils->testOnlyEncryptId(hex2bin('0123456789abce')));
-        $this->assertSame('L6sX3DLEtcY', $id_utils->testOnlyEncryptId(hex2bin('8123456789abcd')));
+        $this->assertSame(
+            'q8JuUMqRC60',
+            $id_utils->testOnlyEncryptId(hex2bin('0123456789abcd') ?: ''),
+        );
+        $this->assertSame(
+            '0oqhJ3PIdS8',
+            $id_utils->testOnlyEncryptId(hex2bin('0123456789abce') ?: ''),
+        );
+        $this->assertSame(
+            'L6sX3DLEtcY',
+            $id_utils->testOnlyEncryptId(hex2bin('8123456789abcd') ?: ''),
+        );
     }
 
     public function testToInternalId(): void {
@@ -174,35 +183,35 @@ final class IdUtilsTest extends UnitTestCase {
         $id_utils = new IdUtilsIdUtilsForTest();
         $max_id = intval(pow(2, 40) - 1);
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('0c5e000000007b'),
+            hex2bin('0c5e000000007b') ?: '',
             'h'
         ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('006f000000007b'),
+            hex2bin('006f000000007b') ?: '',
             '2p'
         ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('0003000000007b'),
+            hex2bin('0003000000007b') ?: '',
             'HM'
         ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('0000000000007b'),
+            hex2bin('0000000000007b') ?: '',
             'JMfa'
         ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('ffff000000007b'),
+            hex2bin('ffff000000007b') ?: '',
             ''
         ));
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
-            hex2bin('2888000000007b'),
+            hex2bin('2888000000007b') ?: '',
             'Test'
         ));
         $this->assertSame($max_id, $id_utils->testOnlyDeserializeId(
-            hex2bin('ffffffffffffff'),
+            hex2bin('ffffffffffffff') ?: '',
             ''
         ));
         $this->assertSame($max_id, $id_utils->testOnlyDeserializeId(
-            hex2bin('2888ffffffffff'),
+            hex2bin('2888ffffffffff') ?: '',
             'Test'
         ));
     }

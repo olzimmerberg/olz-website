@@ -30,7 +30,7 @@ final class LogsUtilsTest extends UnitTestCase {
         $this->assertTrue(is_dir($logs_path));
         $this->assertMatchesRegularExpression(
             '/^merged\-[0-9]{4}\-[0-9]{2}\-[0-9]{2}\.log$/',
-            scandir($logs_path)[2]
+            (scandir($logs_path) ?: [])[2]
         );
     }
 

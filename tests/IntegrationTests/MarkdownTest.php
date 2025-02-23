@@ -27,7 +27,7 @@ final class MarkdownTest extends IntegrationTestCase {
             shell_exec('git diff --name-only main'), // only tracked files
             shell_exec('git ls-files --others --exclude-standard'), // added files
         ]);
-        $git_paths = preg_split('/\s+/', $output);
+        $git_paths = preg_split('/\s+/', $output) ?: [];
         $markdown_paths = [];
         foreach ($git_paths as $git_path) {
             $repo_root = __DIR__.'/../../';
@@ -50,7 +50,7 @@ final class MarkdownTest extends IntegrationTestCase {
 
     protected function checkMarkdownFile(string $path): void {
         $repo_root = __DIR__.'/../../';
-        $content = file_get_contents("{$repo_root}{$path}");
+        $content = file_get_contents("{$repo_root}{$path}") ?: '';
         $markdown_dir = dirname($path);
 
         $config = [

@@ -135,15 +135,21 @@ class FakeProcessEmailCommandMail extends Message {
         return new FlagCollection($is_set_by_flag);
     }
 
-    /** @param array<string>|string $flag */
-    public function setFlag(array|string $flag): bool {
-        $this->flag_actions[] = "+{$flag}";
+    /** @param array<string>|string $flag_arg */
+    public function setFlag(array|string $flag_arg): bool {
+        $flags = is_array($flag_arg) ? $flag_arg : [$flag_arg];
+        foreach ($flags as $flag) {
+            $this->flag_actions[] = "+{$flag}";
+        }
         return true;
     }
 
-    /** @param array<string>|string $flag */
-    public function unsetFlag(array|string $flag): bool {
-        $this->flag_actions[] = "-{$flag}";
+    /** @param array<string>|string $flag_arg */
+    public function unsetFlag(array|string $flag_arg): bool {
+        $flags = is_array($flag_arg) ? $flag_arg : [$flag_arg];
+        foreach ($flags as $flag) {
+            $this->flag_actions[] = "-{$flag}";
+        }
         return true;
     }
 
@@ -271,10 +277,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
             null,
@@ -312,7 +319,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
     }
 
     public function testProcessEmailCommandNoUserEmailPermission(): void {
@@ -331,10 +338,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
             null,
@@ -372,7 +380,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
     }
 
     public function testProcessEmailCommandEmptyToException(): void {
@@ -397,14 +405,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -440,7 +449,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 Sender: "From Name" <from@from-domain.com>
@@ -448,7 +457,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 
     public function testProcessEmailCommandRfcComplianceException(): void {
@@ -512,14 +521,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -555,7 +565,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 Sender: "From Name" <from@from-domain.com>
@@ -563,7 +573,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 
     public function testProcessEmailCommandToUserEmptyEmail(): void {
@@ -625,14 +635,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $mailer->expects($this->exactly(2))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (?Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (?Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -687,7 +698,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             null,
             <<<'ZZZZZZZZZZ'
@@ -696,7 +707,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 
     public function testProcessEmailCommandNoRoleEmailPermission(): void {
@@ -715,10 +726,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
             null,
@@ -756,7 +768,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
     }
 
     public function testProcessEmailCommandToRole(): void {
@@ -779,15 +791,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly($num_role_users))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -838,7 +851,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 Sender: "From Name" <from@from-domain.com>
@@ -850,7 +863,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 
     public function testProcessEmailCommandToOldRole(): void {
@@ -873,15 +886,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly($num_role_users + 1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (?Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (?Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -951,7 +965,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             null,
             <<<'ZZZZZZZZZZ'
@@ -964,7 +978,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 
     public function testProcessEmailCommandSendingError(): void {
@@ -1034,15 +1048,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly(1 + $num_role_users))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -1110,7 +1125,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 Sender: "From Name" <from@from-domain.com>
@@ -1126,7 +1141,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 
     public function testProcessEmailCommandToCcBcc(): void {
@@ -1150,15 +1165,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly(1 + $num_role_users))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -1226,7 +1242,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 Sender: "From Name" <from@from-domain.com>
@@ -1242,7 +1258,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 
     public function testProcessEmailCommandMultipleEmails(): void {
@@ -1277,15 +1293,16 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail1, $mail2];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $num_role_users = count(FakeRole::someRole()->getUsers()->toArray());
         $mailer->expects($this->exactly(1 + $num_role_users))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -1353,7 +1370,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 Sender: "From Name" <from@from-domain.com>
@@ -1369,7 +1386,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 
     public function testProcessEmailCommandWithAttachments(): void {
@@ -1398,14 +1415,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $artifacts = [];
+        $emails = [];
+        $envelopes = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$artifacts) {
-                $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
                 return true;
             }),
-            $this->callback(function (Envelope $envelope) use (&$artifacts) {
-                $artifacts['envelope'] = [...($artifacts['envelope'] ?? []), $envelope];
+            $this->callback(function (Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
                 return true;
             }),
         );
@@ -1445,7 +1463,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($email) {
             return $this->emailUtils()->getComparableEmail($email);
-        }, $artifacts['email']));
+        }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 Sender: "From Name" <from@from-domain.com>
@@ -1453,7 +1471,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
-        }, $artifacts['envelope']));
+        }, $envelopes));
     }
 
     public function testProcessEmailCommandWithFailingAttachment(): void {

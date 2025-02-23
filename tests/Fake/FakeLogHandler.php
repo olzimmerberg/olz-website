@@ -36,6 +36,7 @@ class FakeLogHandler implements HandlerInterface {
         $private_path = $env_utils->getPrivatePath();
         $data_path = $env_utils->getDataPath();
         $data_realpath = realpath($data_path);
+        assert($data_realpath);
         if (!$map_fn) {
             $map_fn = function ($record, $level_name, $message) {
                 return "{$level_name} {$message}";

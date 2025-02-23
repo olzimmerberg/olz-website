@@ -52,6 +52,7 @@ final class VereinTest extends SystemTestCase {
         $this->sendKeys('#edit-role-modal #guide-input', 'Buchhaltung halt.');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
+        assert($image_path);
         $this->sendKeys('#edit-role-modal #images-upload input[type=file]', $image_path);
         $browser->wait()->until(function () use ($browser) {
             $image_uploaded = $browser->findElements(
@@ -64,6 +65,7 @@ final class VereinTest extends SystemTestCase {
         $this->sendKeys('#edit-role-modal #guide-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        assert($document_path);
         $this->sendKeys('#edit-role-modal #files-upload input[type=file]', $document_path);
         $browser->wait()->until(function () use ($browser) {
             $file_uploaded = $browser->findElements(

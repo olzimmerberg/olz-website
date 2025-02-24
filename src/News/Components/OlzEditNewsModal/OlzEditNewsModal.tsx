@@ -69,7 +69,7 @@ function getFormFromApi(apiData?: OlzNewsData): OlzEditNewsForm {
     };
 }
 
-function getApiFromForm(formData: OlzEditNewsForm): OlzNewsData {
+function getApiFromForm(config: OlzEditNewsModalConfig, formData: OlzEditNewsForm): OlzNewsData {
     if (formData?.format === 'UNDEFINED') {
         throw new Error('Format cannot be UNDEFINED');
     }
@@ -85,9 +85,9 @@ function getApiFromForm(formData: OlzEditNewsForm): OlzNewsData {
                 ? null
                 : formData?.publishAtDateTime,
         title: formData?.title,
-        teaser: formData?.format === 'aktuell' ? formData?.teaser : '',
-        content: formData?.format !== 'galerie' ? formData?.content : '',
-        externalUrl: formData?.format === 'aktuell' ? (formData?.externalUrl || null) : null,
+        teaser: config.hasTeaser ? formData?.teaser : '',
+        content: formData?.content,
+        externalUrl: config.hasExternalUrl ? (formData?.externalUrl || null) : null,
         tags: [],
         terminId: null,
         imageIds: formData?.imageIds,
@@ -103,10 +103,9 @@ interface OlzEditNewsModalConfig {
     name: string;
     hasFreeFormAuthor: boolean;
     hasTeaser: boolean;
-    hasContent: boolean;
     contentLabel: string;
     hasFormattingNotes: boolean;
-    hasExternalLink: boolean;
+    hasExternalUrl: boolean;
     hasImages: boolean;
     hasFiles: boolean;
     hasCaptcha: boolean;
@@ -116,10 +115,9 @@ const DEFAULT_CONFIG: OlzEditNewsModalConfig = {
     name: '?',
     hasFreeFormAuthor: false,
     hasTeaser: true,
-    hasContent: true,
     contentLabel: 'Inhalt',
     hasFormattingNotes: true,
-    hasExternalLink: true,
+    hasExternalUrl: true,
     hasImages: true,
     hasFiles: true,
     hasCaptcha: false,
@@ -130,10 +128,9 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         name: 'Aktuell',
         hasFreeFormAuthor: false,
         hasTeaser: true,
-        hasContent: true,
         contentLabel: 'Inhalt',
         hasFormattingNotes: true,
-        hasExternalLink: true,
+        hasExternalUrl: false,
         hasImages: true,
         hasFiles: true,
         hasCaptcha: false,
@@ -142,10 +139,9 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         name: 'Kaderblog',
         hasFreeFormAuthor: false,
         hasTeaser: false,
-        hasContent: true,
         contentLabel: 'Blogeintrag',
         hasFormattingNotes: true,
-        hasExternalLink: true,
+        hasExternalUrl: true,
         hasImages: true,
         hasFiles: true,
         hasCaptcha: false,
@@ -154,10 +150,9 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         name: 'Forum',
         hasFreeFormAuthor: false,
         hasTeaser: false,
-        hasContent: true,
         contentLabel: 'Dein Beitrag',
         hasFormattingNotes: true,
-        hasExternalLink: false,
+        hasExternalUrl: false,
         hasImages: true,
         hasFiles: false,
         hasCaptcha: false,
@@ -166,10 +161,9 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         name: 'Galerie',
         hasFreeFormAuthor: false,
         hasTeaser: false,
-        hasContent: false,
-        contentLabel: 'Inhalt',
-        hasFormattingNotes: false,
-        hasExternalLink: false,
+        contentLabel: 'Kommentar',
+        hasFormattingNotes: true,
+        hasExternalUrl: false,
         hasImages: true,
         hasFiles: false,
         hasCaptcha: false,
@@ -178,10 +172,9 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         name: 'Video',
         hasFreeFormAuthor: false,
         hasTeaser: false,
-        hasContent: true,
         contentLabel: 'YouTube URL',
         hasFormattingNotes: false,
-        hasExternalLink: false,
+        hasExternalUrl: false,
         hasImages: true,
         hasFiles: false,
         hasCaptcha: false,
@@ -190,10 +183,9 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         name: 'Forum',
         hasFreeFormAuthor: true,
         hasTeaser: false,
-        hasContent: true,
         contentLabel: 'Dein Beitrag',
         hasFormattingNotes: true,
-        hasExternalLink: false,
+        hasExternalUrl: false,
         hasImages: false,
         hasFiles: false,
         hasCaptcha: true,
@@ -266,7 +258,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
             ownerRoleId: null,
             onOff: true,
         };
-        const data = getApiFromForm(values);
+        const data = getApiFromForm(config, values);
 
         let recaptchaToken: string|null = null;
         if (config.hasCaptcha && recaptchaConsentGiven) {
@@ -420,18 +412,16 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                     />
                 </div>
             ) : null}
-            {config.hasContent ? (
-                <div className='mb-3'>
-                    <OlzTextField
-                        mode='textarea'
-                        title={<>{config.contentLabel} {markdownNotice}</>}
-                        name='content'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
-            ) : null}
-            {config.hasExternalLink ? (
+            <div className='mb-3'>
+                <OlzTextField
+                    mode='textarea'
+                    title={<>{config.contentLabel} {markdownNotice}</>}
+                    name='content'
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            {config.hasExternalUrl ? (
                 <div className='mb-3'>
                     <OlzTextField
                         title='Externer Link'

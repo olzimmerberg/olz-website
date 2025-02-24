@@ -10,7 +10,7 @@ interface OlzEntityFieldProps<
     Values extends FieldValues,
     Name extends Path<Values>,
 > {
-    title?: string;
+    title?: React.ReactNode;
     entityType: OlzSearchableEntityTypes;
     name: Name;
     rules?: UseControllerProps<Values, Name>['rules'];

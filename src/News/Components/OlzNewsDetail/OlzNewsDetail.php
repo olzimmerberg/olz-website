@@ -215,16 +215,18 @@ class OlzNewsDetail extends OlzComponent {
             }
             $out .= "<p><b>{$teaser}</b><p>{$content}</p>{$gallery}\n";
         } elseif ($format === 'galerie') {
-            $out .= "<div class='lightgallery gallery-container'>";
+            $gallery = '';
+            $gallery .= "<div class='lightgallery gallery-container'>";
             $size = count($image_ids);
             for ($index = 0; $index < $size; $index++) {
-                $out .= "<div class='gallery-image'>";
-                $out .= $this->imageUtils()->olzImage("news", $id, $image_ids[$index], 110, 'gallery[myset]');
-                $out .= "</div>";
+                $gallery .= "<div class='gallery-image'>";
+                $gallery .= $this->imageUtils()->olzImage("news", $id, $image_ids[$index], 110, 'gallery[myset]');
+                $gallery .= "</div>";
             }
-            $out .= "</div>\n";
+            $gallery .= "</div>\n";
+            $out .= "<p>{$content}</p>{$gallery}\n";
         } elseif ($format === 'video') {
-            $youtube_url = $news_entry->getContent();
+            $youtube_url = $news_entry->getContent() ?: $news_entry->getExternalUrl();
             $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9]{6,})/", $youtube_url, $matches0);
             $res1 = preg_match("/^https\\:\\/\\/(www\\.)?youtube\\.com\\/watch\\?v\\=([a-zA-Z0-9]{6,})/", $youtube_url, $matches1);
             $youtube_match = null;
@@ -235,7 +237,6 @@ class OlzNewsDetail extends OlzComponent {
                 $youtube_match = $matches1[2];
             }
 
-            $content_to_show = $youtube_match ? "<a href='{$content}'>Link zu YouTube, falls das Video nicht abgespielt werden kann</a>" : $content;
             $out .= "<div class='video-container'>";
             $out .= "<div style='background-image:url({$code_href}assets/icns/movie_dot.svg);background-repeat:repeat-x;margin:0px;padding:0px;height:24px;'></div>\n";
             if ($youtube_match != null) {

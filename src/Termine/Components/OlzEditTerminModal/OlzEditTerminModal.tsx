@@ -8,12 +8,24 @@ import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntit
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {isoNow} from '../../../Utils/constants';
+import {isoNow, codeHref} from '../../../Utils/constants';
 import {getApiBoolean, getApiNumber, getApiString, getDateFeedback, getDateTimeFeedback, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateIntegerOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
 import {isDefined, Entity, assert} from '../../../Utils/generalUtils';
 import {getTerminUpdateFromTemplate} from '../../Utils/termineUtils';
 
 import './OlzEditTerminModal.scss';
+
+export const TERMIN_LOCATION_NOTICE = (<>
+    <span className='termin-location-notice'>
+        <a
+            href={`${codeHref}termine/orte`}
+            target='_blank'
+            className='linkint'
+        >
+            Termin-Orte bearbeiten
+        </a>
+    </span>
+</>);
 
 interface OlzEditTerminForm {
     solvId: number|null;
@@ -383,7 +395,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             <div className='row'>
                 <div className={`col mb-3${solvDisabledClass}`}>
                     <OlzEntityField
-                        title='Ort'
+                        title={<>Ort {TERMIN_LOCATION_NOTICE}</>}
                         entityType='TerminLocation'
                         name='locationId'
                         errors={errors}
@@ -400,7 +412,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                 <div className='row'>
                     <div className={`col mb-3${solvDisabledClass}`}>
                         <OlzTextField
-                            title='X-Koordinate'
+                            title='X-Koordinate (LV1903)'
                             name='coordinateX'
                             errors={errors}
                             register={register}
@@ -411,7 +423,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                     </div>
                     <div className={`col mb-3${solvDisabledClass}`}>
                         <OlzTextField
-                            title='Y-Koordinate'
+                            title='Y-Koordinate (LV1903)'
                             name='coordinateY'
                             errors={errors}
                             register={register}

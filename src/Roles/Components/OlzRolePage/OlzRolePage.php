@@ -27,6 +27,7 @@ class OlzRolePage extends OlzComponent {
 
         if (!$role) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
 
         // TODO: Remove again, after all ressort descriptions have been updated.
@@ -73,8 +74,8 @@ class OlzRolePage extends OlzComponent {
         $out .= "<ol class='breadcrumb'>";
         $out .= "<li class='breadcrumb-item'><a href='{$code_href}verein'>OL Zimmerberg</a></li>";
         foreach ($parent_chain as $breadcrumb) {
-            $username = $breadcrumb->getUsername();
-            $name = $breadcrumb->getName();
+            $username = $breadcrumb?->getUsername();
+            $name = $breadcrumb?->getName();
             $out .= "<li class='breadcrumb-item'><a href='{$code_href}verein/{$username}'>{$name}</a></li>";
         }
         $out .= "<li class='breadcrumb-item active' aria-current='page'>{$role_name}</li>";
@@ -91,7 +92,7 @@ class OlzRolePage extends OlzComponent {
         $is_owner = $this->entityUtils()->canUpdateOlzEntity($role, null, 'roles');
         $can_edit = $is_superior || $is_owner;
         if ($can_edit) {
-            $json_id = json_encode(intval($role_id));
+            $json_id = json_encode($role_id);
             $json_can_parent_edit = json_encode(boolval($can_parent_edit));
             $edit_admin = <<<ZZZZZZZZZZ
                 <div>

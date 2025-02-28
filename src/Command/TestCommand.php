@@ -35,7 +35,7 @@ class TestCommand extends OlzCommand {
         $pretty_throttlings = '';
         foreach ($throttling_repo->findAll() as $throttling) {
             $name = $throttling->getEventName();
-            $pretty_date = $throttling->getLastOccurrence()->format('Y-m-d H:i:s');
+            $pretty_date = $throttling->getLastOccurrence()?->format('Y-m-d H:i:s');
             $pretty_throttlings .= "    {$name}: {$pretty_date}\n";
         }
 

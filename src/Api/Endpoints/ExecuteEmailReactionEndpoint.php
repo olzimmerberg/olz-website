@@ -91,7 +91,7 @@ class ExecuteEmailReactionEndpoint extends OlzTypedEndpoint {
             $subscription->getNotificationType() === NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER
             || $subscription->getNotificationType() === NotificationSubscription::TYPE_ROLE_REMINDER
         ) {
-            $args = json_decode($subscription->getNotificationTypeArgs(), true) ?? [];
+            $args = json_decode($subscription->getNotificationTypeArgs() ?? '{}', true) ?? [];
             $args['cancelled'] = true;
             $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
         } else {
@@ -107,7 +107,7 @@ class ExecuteEmailReactionEndpoint extends OlzTypedEndpoint {
             $this->log()->error("Invalid user {$user_id} to reset password.", [$this->reaction_data]);
             return ['status' => 'INVALID_TOKEN'];
         }
-        $new_password = $this->reaction_data['new_password'];
+        $new_password = $this->reaction_data['new_password'] ?? '';
         if (strlen($new_password) < 8) {
             $this->log()->error("New password is too short.", [$this->reaction_data]);
             return ['status' => 'INVALID_TOKEN'];
@@ -131,9 +131,9 @@ class ExecuteEmailReactionEndpoint extends OlzTypedEndpoint {
             $this->log()->error("Trying to verify email ({$verify_email}) for user {$user_id} (email: {$user_email}).", [$this->reaction_data]);
             return ['status' => 'INVALID_TOKEN'];
         }
-        $verify_token = $this->reaction_data['token'];
+        $verify_token = $this->reaction_data['token'] ?? null;
         $user_token = $user->getEmailVerificationToken();
-        if ($verify_token !== $user_token) {
+        if (!$verify_token || !$user_token || $verify_token !== $user_token) {
             $this->log()->error("Invalid email verification token {$verify_token} for user {$user_id} (token: {$user_token}).", [$this->reaction_data]);
             return ['status' => 'INVALID_TOKEN'];
         }

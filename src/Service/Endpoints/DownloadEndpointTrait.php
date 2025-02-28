@@ -38,7 +38,7 @@ trait DownloadEndpointTrait {
     public function persistUploads(Download $entity, array $input_data): void {
         $file_id = $input_data['fileId'] ?? null;
         if ($file_id) {
-            $this->persistOlzFiles($entity, [$input_data['fileId']]);
+            $this->persistOlzFiles($entity, [$file_id]);
         }
     }
 

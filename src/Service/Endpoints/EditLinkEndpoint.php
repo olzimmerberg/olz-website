@@ -29,7 +29,7 @@ class EditLinkEndpoint extends OlzEditEntityTypedEndpoint {
         }
 
         return [
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
             'meta' => $entity->getMetaData(),
             'data' => $this->getEntityData($entity),
         ];

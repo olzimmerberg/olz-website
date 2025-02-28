@@ -102,7 +102,7 @@ class OlzTermineListItem extends OlzComponent {
         $can_edit = $is_owner || $has_all_permissions;
         $edit_admin = '';
         if ($can_edit) {
-            $json_id = json_encode(intval($id));
+            $json_id = json_encode($id);
             $edit_admin = <<<ZZZZZZZZZZ
                 <button
                     class='btn btn-secondary-outline btn-sm edit-termin-list-button'

@@ -27,7 +27,7 @@ class GetKarteEndpoint extends OlzGetEntityTypedEndpoint {
         $entity = $this->getEntityById($input['id']);
 
         return [
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
             'meta' => $entity->getMetaData(),
             'data' => $this->getEntityData($entity),
         ];

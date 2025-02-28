@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Common;
 
+use Monolog\LogRecord;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\Fake\FakeDbUtils;
@@ -122,7 +123,11 @@ class UnitTestCase extends TestCase {
         }
     }
 
-    /** @return array<string> */
+    /**
+     * @param ?callable(LogRecord, string, string): string $formatter
+     *
+     * @return array<string>
+     */
     protected function getLogs(?callable $formatter = null): array {
         return $this->fakeLogHandler->getPrettyRecords($formatter);
     }

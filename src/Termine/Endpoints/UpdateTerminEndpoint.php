@@ -37,7 +37,7 @@ class UpdateTerminEndpoint extends OlzUpdateEntityTypedEndpoint {
         $this->persistUploads($entity, $input['data']);
 
         return [
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace Olz\Apps\Anmelden\Endpoints;
 
 use Olz\Api\OlzGetEntityTypedEndpoint;
-use Olz\Entity\Anmelden\Registration;
 
 /**
  * @phpstan-import-type OlzRegistrationId from RegistrationEndpointTrait
@@ -27,13 +26,13 @@ class GetRegistrationEndpoint extends OlzGetEntityTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $external_id = $input['id'];
         $internal_id = $this->idUtils()->toInternalId($external_id, 'Registration');
-        $registration_repo = $this->entityManager()->getRepository(Registration::class);
-        $registration = $registration_repo->findOneBy(['id' => $internal_id]);
+
+        $entity = $this->getEntityById($internal_id);
 
         return [
             'id' => $external_id,
-            'meta' => $registration->getMetaData(),
-            'data' => $this->getEntityData($registration),
+            'meta' => $entity->getMetaData(),
+            'data' => $this->getEntityData($entity),
         ];
     }
 }

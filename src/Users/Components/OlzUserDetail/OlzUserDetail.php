@@ -16,6 +16,7 @@ class OlzUserDetail extends OlzComponent {
 
         if (!$user) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
 
         $out = OlzHeader::render([
@@ -39,7 +40,7 @@ class OlzUserDetail extends OlzComponent {
         $edit_admin = '';
         $edit_password = '';
         if ($can_edit) {
-            $json_id = json_encode(intval($user->getId()));
+            $json_id = json_encode($user->getId());
             $edit_admin = <<<ZZZZZZZZZZ
                 <div>
                     <button
@@ -146,12 +147,12 @@ class OlzUserDetail extends OlzComponent {
             }
             if ($user->getParentUserId()) {
                 $parent_user = $user_repo->findOneBy(['id' => $user->getParentUserId()]);
-                $out .= "<div class='info-container'>Familienmitglied von <a href='{$code_href}benutzer/{$parent_user->getId()}'>{$parent_user->getFullName()}</a></div>";
+                $out .= "<div class='info-container'>Familienmitglied von <a href='{$code_href}benutzer/{$parent_user?->getId()}'>{$parent_user?->getFullName()}</a></div>";
                 if ($child_users) {
                     $this->log()->warning("User {$user->getId()} has parent and children.");
                 }
             } else {
-                $json_id = json_encode(intval($user->getId()));
+                $json_id = json_encode($user->getId());
                 $out .= <<<ZZZZZZZZZZ
                     <div>
                         <button

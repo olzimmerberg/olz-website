@@ -148,38 +148,47 @@ class EnvUtils {
     }
 
     public function getDataPath(): string {
+        $this->checkNotNull($this->data_path, "data_path not set");
         return $this->data_path;
     }
 
     public function getDataHref(): string {
+        $this->checkNotNull($this->data_href, "data_href not set");
         return $this->data_href;
     }
 
     public function getCodePath(): string {
+        $this->checkNotNull($this->code_path, "code_path not set");
         return $this->code_path;
     }
 
     public function getCodeHref(): string {
+        $this->checkNotNull($this->code_href, "code_href not set");
         return $this->code_href;
     }
 
     public function getSyslogPath(): string {
+        $this->checkNotNull($this->syslog_path, "syslog_path not set");
         return $this->syslog_path;
     }
 
     public function getBaseHref(): string {
+        $this->checkNotNull($this->base_href, "base_href not set");
         return $this->base_href;
     }
 
     public function getAppEnv(): string {
+        $this->checkNotNull($this->app_env, "app_env not set");
         return $this->app_env;
     }
 
     public function getMysqlHost(): string {
+        $this->checkNotNull($this->mysql_host, "mysql_host not set");
         return $this->mysql_host;
     }
 
     public function getMysqlPort(): string {
+        $this->checkNotNull($this->mysql_port, "mysql_port not set");
         return $this->mysql_port;
     }
 
@@ -188,14 +197,17 @@ class EnvUtils {
     }
 
     public function getMysqlUsername(): string {
+        $this->checkNotNull($this->mysql_username, "mysql_username not set");
         return $this->mysql_username;
     }
 
     public function getMysqlPassword(): string {
+        $this->checkNotNull($this->mysql_password, "mysql_password not set");
         return $this->mysql_password;
     }
 
     public function getMysqlSchema(): string {
+        $this->checkNotNull($this->mysql_schema, "mysql_schema not set");
         return $this->mysql_schema;
     }
 
@@ -213,82 +225,102 @@ class EnvUtils {
     }
 
     public function getDatabaseBackupKey(): string {
+        $this->checkNotNull($this->database_backup_key, "database_backup_key not set");
         return $this->database_backup_key;
     }
 
     public function getEmailReactionKey(): string {
+        $this->checkNotNull($this->email_reaction_key, "email_reaction_key not set");
         return $this->email_reaction_key;
     }
 
     public function getIdEncryptionKey(): string {
+        $this->checkNotNull($this->id_encryption_key, "id_encryption_key not set");
         return $this->id_encryption_key;
     }
 
     public function getCronAuthenticityCode(): string {
+        $this->checkNotNull($this->cron_authenticity_code, "cron_authenticity_code not set");
         return $this->cron_authenticity_code;
     }
 
     public function getRecaptchaSecretKey(): string {
+        $this->checkNotNull($this->recaptcha_secret_key, "recaptcha_secret_key not set");
         return $this->recaptcha_secret_key;
     }
 
     public function getStravaClientId(): string {
+        $this->checkNotNull($this->strava_client_id, "strava_client_id not set");
         return $this->strava_client_id;
     }
 
     public function getStravaClientSecret(): string {
+        $this->checkNotNull($this->strava_client_secret, "strava_client_secret not set");
         return $this->strava_client_secret;
     }
 
     public function getTelegramBotName(): string {
+        $this->checkNotNull($this->telegram_bot_name, "telegram_bot_name not set");
         return $this->telegram_bot_name;
     }
 
     public function getTelegramBotToken(): string {
+        $this->checkNotNull($this->telegram_bot_token, "telegram_bot_token not set");
         return $this->telegram_bot_token;
     }
 
     public function getTelegramAuthenticityCode(): string {
+        $this->checkNotNull($this->telegram_authenticity_code, "telegram_authenticity_code not set");
         return $this->telegram_authenticity_code;
     }
 
     public function getImapHost(): string {
+        $this->checkNotNull($this->imap_host, "imap_host not set");
         return $this->imap_host;
     }
 
     public function getImapPort(): string {
+        $this->checkNotNull($this->imap_port, "imap_port not set");
         return $this->imap_port;
     }
 
     public function getImapFlags(): string {
+        $this->checkNotNull($this->imap_flags, "imap_flags not set");
         return $this->imap_flags;
     }
 
     public function getImapUsername(): string {
+        $this->checkNotNull($this->imap_username, "imap_username not set");
         return $this->imap_username;
     }
 
     public function getImapPassword(): string {
+        $this->checkNotNull($this->imap_password, "imap_password not set");
         return $this->imap_password;
     }
 
     public function getSmtpHost(): string {
+        $this->checkNotNull($this->smtp_host, "smtp_host not set");
         return $this->smtp_host;
     }
 
     public function getSmtpPort(): string {
+        $this->checkNotNull($this->smtp_port, "smtp_port not set");
         return $this->smtp_port;
     }
 
     public function getSmtpUsername(): string {
+        $this->checkNotNull($this->smtp_username, "smtp_username not set");
         return $this->smtp_username;
     }
 
     public function getSmtpPassword(): string {
+        $this->checkNotNull($this->smtp_password, "smtp_password not set");
         return $this->smtp_password;
     }
 
     public function getSmtpSecure(): string {
+        $this->checkNotNull($this->smtp_secure, "smtp_secure not set");
         return $this->smtp_secure;
     }
 
@@ -297,35 +329,50 @@ class EnvUtils {
     }
 
     public function getSmtpFrom(): string {
+        $this->checkNotNull($this->smtp_from, "smtp_from not set");
         return $this->smtp_from;
     }
 
     public function getEmailForwardingHost(): string {
+        $this->checkNotNull($this->email_forwarding_host, "email_forwarding_host not set");
         return $this->email_forwarding_host;
     }
 
     public function getAppSearchEnginesUsername(): string {
+        $this->checkNotNull($this->app_search_engines_username, "app_search_engines_username not set");
         return $this->app_search_engines_username;
     }
 
     public function getAppSearchEnginesPassword(): string {
+        $this->checkNotNull($this->app_search_engines_password, "app_search_engines_password not set");
         return $this->app_search_engines_password;
     }
 
     public function getAppMonitoringUsername(): string {
+        $this->checkNotNull($this->app_monitoring_username, "app_monitoring_username not set");
         return $this->app_monitoring_username;
     }
 
     public function getAppMonitoringPassword(): string {
+        $this->checkNotNull($this->app_monitoring_password, "app_monitoring_password not set");
         return $this->app_monitoring_password;
     }
 
     public function getAppStatisticsUsername(): string {
+        $this->checkNotNull($this->app_statistics_username, "app_statistics_username not set");
         return $this->app_statistics_username;
     }
 
     public function getAppStatisticsPassword(): string {
+        $this->checkNotNull($this->app_statistics_password, "app_statistics_password not set");
         return $this->app_statistics_password;
+    }
+
+    /** @phpstan-assert !null $value */
+    protected function checkNotNull(mixed $value, string $error_message): void {
+        if ($value === null) {
+            throw new \Exception($error_message);
+        }
     }
 
     protected static ?EnvUtils $from_env_instance = null;

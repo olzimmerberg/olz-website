@@ -3,7 +3,7 @@
 namespace Olz\Utils;
 
 class MemorySession extends AbstractSession {
-    /** @var array<string, string> */
+    /** @var array<string, ?string> */
     public array $session_storage = [];
     public bool $cleared = false;
 

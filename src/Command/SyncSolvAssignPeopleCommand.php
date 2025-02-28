@@ -74,6 +74,7 @@ class SyncSolvAssignPeopleCommand extends OlzCommand {
         // This is necessary, s.t. getExactPersonId works correctly for the next iteration.
         $this->forceFlush();
         $insert_id = $solv_person->getId();
+        $this->generalUtils()->checkNotNull($insert_id, "No SolvPerson ID");
 
         $person_str = json_encode($solv_person, JSON_PRETTY_PRINT) ?: '';
         $this->logAndOutput("Created new person (id {$insert_id}):");

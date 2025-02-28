@@ -54,7 +54,7 @@ class OnTelegramEndpoint extends OlzTypedEndpoint {
                 $pin = $matches[1];
                 $telegram_link = $this->telegramUtils()->linkChatUsingPin($pin, $message_chat_id, $message_user_id);
                 $user = $telegram_link->getUser();
-                $user_first_name = $user->getFirstName();
+                $user_first_name = $user?->getFirstName();
                 $this->telegramUtils()->callTelegramApi('sendMessage', [
                     'chat_id' => $message_chat_id,
                     'text' => "Hallo, {$user_first_name}!",
@@ -94,14 +94,14 @@ class OnTelegramEndpoint extends OlzTypedEndpoint {
         $telegram_link = $telegram_link_repo->findOneBy([
             'telegram_chat_id' => $message_chat_id,
         ]);
-        $user = $telegram_link->getUser();
+        $user = $telegram_link?->getUser();
 
         if (preg_match("/^\\/ich\\s*$/", $message_text, $matches)) {
             $response_message = <<<ZZZZZZZZZZ
                 <b>Du bist angemeldet als:</b>
-                <b>Name:</b> {$user->getFullName()}
-                <b>Benutzername:</b> {$user->getUsername()}
-                <b>E-Mail:</b> {$user->getEmail()}
+                <b>Name:</b> {$user?->getFullName()}
+                <b>Benutzername:</b> {$user?->getUsername()}
+                <b>E-Mail:</b> {$user?->getEmail()}
                 ZZZZZZZZZZ;
             $this->telegramUtils()->callTelegramApi('sendMessage', [
                 'chat_id' => $message_chat_id,

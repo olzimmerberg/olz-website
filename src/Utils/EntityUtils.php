@@ -53,7 +53,7 @@ class EntityUtils {
         User::class,
     ];
 
-    /** @param array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int} $input */
+    /** @param array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
     public function createOlzEntity(OlzEntity $entity, array $input): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
@@ -83,7 +83,7 @@ class EntityUtils {
         $entity->setLastModifiedByUser($current_user);
     }
 
-    /** @param array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int} $input */
+    /** @param array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
     public function updateOlzEntity(OlzEntity $entity, array $input): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
@@ -109,7 +109,7 @@ class EntityUtils {
         $entity->setLastModifiedByUser($current_user);
     }
 
-    /** @param ?array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int} $meta_arg */
+    /** @param ?array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $meta_arg */
     public function canUpdateOlzEntity(
         ?OlzEntity $entity,
         ?array $meta_arg,

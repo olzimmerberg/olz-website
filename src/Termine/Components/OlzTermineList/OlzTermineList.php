@@ -214,7 +214,7 @@ class OlzTermineList extends OlzComponent {
                 $labels = [$meldeschluss_label];
                 if ($row['item_type'] === 'termin') {
                     $termin = $termin_repo->findOneBy(['id' => $row['id']]);
-                    $labels = [...$termin->getLabels()];
+                    $labels = [...($termin?->getLabels() ?? [])];
                 }
 
                 $out .= OlzTermineListItem::render([

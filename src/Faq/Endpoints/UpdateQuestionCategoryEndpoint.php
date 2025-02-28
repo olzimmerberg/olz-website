@@ -35,7 +35,7 @@ class UpdateQuestionCategoryEndpoint extends OlzUpdateEntityTypedEndpoint {
         $this->entityManager()->flush();
 
         return [
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
         ];
     }
 }

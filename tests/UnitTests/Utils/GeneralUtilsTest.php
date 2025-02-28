@@ -19,6 +19,87 @@ class TestOnlyGeneralUtils extends GeneralUtils {
  * @covers \Olz\Utils\GeneralUtils
  */
 final class GeneralUtilsTest extends UnitTestCase {
+    public function testCheckNotNull(): void {
+        $general_utils = new GeneralUtils();
+
+        $general_utils->checkNotNull(false, 'should never be null');
+        $general_utils->checkNotNull(0, 'should never be null');
+        $general_utils->checkNotNull('', 'should never be null');
+        $general_utils->checkNotNull(true, 'should never be null');
+        try {
+            $general_utils->checkNotNull(null, 'should never be null');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame([
+                "ERROR GeneralUtilsTest.php:*** should never be null",
+            ], $this->getLogs());
+            $this->assertSame('GeneralUtilsTest.php:*** should never be null', $exc->getMessage());
+        }
+    }
+
+    public function testCheckNotFalse(): void {
+        $general_utils = new GeneralUtils();
+
+        $general_utils->checkNotFalse(null, 'should never be false');
+        $general_utils->checkNotFalse(0, 'should never be false');
+        $general_utils->checkNotFalse('', 'should never be false');
+        $general_utils->checkNotFalse(true, 'should never be false');
+        try {
+            $general_utils->checkNotFalse(false, 'should never be false');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame([
+                "ERROR GeneralUtilsTest.php:*** should never be false",
+            ], $this->getLogs());
+            $this->assertSame('GeneralUtilsTest.php:*** should never be false', $exc->getMessage());
+        }
+    }
+
+    public function testCheckNotBool(): void {
+        $general_utils = new GeneralUtils();
+
+        $general_utils->checkNotBool(null, 'should never be bool');
+        $general_utils->checkNotBool(0, 'should never be bool');
+        $general_utils->checkNotBool('', 'should never be bool');
+        try {
+            $general_utils->checkNotBool(false, 'should never be bool');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame([
+                "ERROR GeneralUtilsTest.php:*** should never be bool",
+            ], $this->getLogs());
+            $this->assertSame('GeneralUtilsTest.php:*** should never be bool', $exc->getMessage());
+        }
+        $this->resetLogs();
+        try {
+            $general_utils->checkNotBool(true, 'should never be bool');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame([
+                "ERROR GeneralUtilsTest.php:*** should never be bool",
+            ], $this->getLogs());
+            $this->assertSame('GeneralUtilsTest.php:*** should never be bool', $exc->getMessage());
+        }
+    }
+
+    public function testCheckNotEmpty(): void {
+        $general_utils = new GeneralUtils();
+
+        $general_utils->checkNotEmpty(null, 'should never be empty');
+        $general_utils->checkNotEmpty(false, 'should never be empty');
+        $general_utils->checkNotEmpty(0, 'should never be empty');
+        $general_utils->checkNotEmpty(true, 'should never be empty');
+        try {
+            $general_utils->checkNotEmpty('', 'should never be empty');
+            $this->fail('Error expected');
+        } catch (\Exception $exc) {
+            $this->assertSame([
+                "ERROR GeneralUtilsTest.php:*** should never be empty",
+            ], $this->getLogs());
+            $this->assertSame('GeneralUtilsTest.php:*** should never be empty', $exc->getMessage());
+        }
+    }
+
     public function testBase64EncodeUrl(): void {
         $general_utils = new GeneralUtils();
         $binary_string = base64_decode("+/A="); // contains all special chars

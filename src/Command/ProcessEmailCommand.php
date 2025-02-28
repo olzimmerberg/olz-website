@@ -175,7 +175,8 @@ class ProcessEmailCommand extends OlzCommand {
     protected function getMails(string $folder_path, mixed $where = null): MessageCollection {
         try {
             $folder = $this->client->getFolderByPath($folder_path);
-            $query = $folder->messages();
+            $query = $folder?->messages();
+            $this->generalUtils()->checkNotNull($query, "Error listing messages in {$folder_path}");
             $query->softFail();
             $query->leaveUnread();
             $query->setFetchBody(false);
@@ -431,7 +432,7 @@ class ProcessEmailCommand extends OlzCommand {
             $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
             $text = $mail->hasTextBody() ? $mail->getTextBody() : null;
             if (!$html) {
-                $html = nl2br($text);
+                $html = nl2br($text ?? '');
             }
             $this->emailUtils()->setLogger($this->log());
 
@@ -488,7 +489,7 @@ class ProcessEmailCommand extends OlzCommand {
             $sender = $default_envelope->getSender();
             $envelope = new Envelope($sender, [$this->emailUtils()->getUserAddress($user)]);
 
-            $this->mailer->send($email, $envelope);
+            $this->emailUtils()->send($email, $envelope);
 
             $this->log()->info("Email forwarded from {$address} to {$forward_address}");
 
@@ -552,7 +553,8 @@ class ProcessEmailCommand extends OlzCommand {
                     Dies nur zur Information. Ihre E-Mail wurde automatisch weitergeleitet!
                     ZZZZZZZZZZ)
             ;
-            $this->mailer->send($email);
+            $this->emailUtils()->send($email);
+
             $this->log()->info("Redirect E-Mail sent to {$from_address}: {$old_address} -> {$new_address}", []);
         } catch (RfcComplianceException $exc) {
             $message = $exc->getMessage();
@@ -580,7 +582,7 @@ class ProcessEmailCommand extends OlzCommand {
                 ->subject("Undelivered Mail Returned to Sender")
                 ->text($this->getReportMessage($smtp_code, $mail, $address))
             ;
-            $this->mailer->send($email);
+            $this->emailUtils()->send($email);
             $this->log()->info("Report E-Mail sent to {$from_address}", []);
         } catch (RfcComplianceException $exc) {
             $message = $exc->getMessage();

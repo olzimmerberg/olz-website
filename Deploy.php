@@ -54,16 +54,16 @@ class Deploy extends AbstractDefaultDeploy {
         $fs = new Symfony\Component\Filesystem\Filesystem();
         $build_folder_path = $this->getLocalBuildFolderPath();
 
-        $this->logger->info("Remove jsbuild...");
+        $this->logger?->info("Remove jsbuild...");
         $fs->remove(__DIR__.'/public/jsbuild');
-        $this->logger->info("Webpack build...");
+        $this->logger?->info("Webpack build...");
         $commands = [
             'export NODE_OPTIONS="--max-old-space-size=4096"',
             'npm run webpack-build',
         ];
         shell_exec(implode(';', $commands));
 
-        $this->logger->info("Copy to build...");
+        $this->logger?->info("Copy to build...");
         $iterator = new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS);
         $iterator = new MirroringFilter($iterator, [
             '.git',
@@ -80,7 +80,7 @@ class Deploy extends AbstractDefaultDeploy {
         $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
         $fs->mirror(__DIR__, $build_folder_path, $iterator);
 
-        $this->logger->info("Done populating build folder: {$build_folder_path}");
+        $this->logger?->info("Done populating build folder: {$build_folder_path}");
     }
 
     protected function getFlysystemFilesystem(): League\Flysystem\Filesystem {
@@ -149,12 +149,12 @@ class Deploy extends AbstractDefaultDeploy {
     /**
      * @param string $public_path
      *
-     * @return array{staging_token: string}
+     * @return array{staging_token: ?string}
      */
     public function install($public_path): array {
         $fs = new Symfony\Component\Filesystem\Filesystem();
 
-        $this->logger->info("Prepare for installation (env={$this->environment})...");
+        $this->logger?->info("Prepare for installation (env={$this->environment})...");
         ini_set('memory_limit', '500M');
         gc_collect_cycles();
         $fs->copy(__DIR__.'/../../.env.local', __DIR__.'/.env.local', true);
@@ -177,15 +177,15 @@ class Deploy extends AbstractDefaultDeploy {
                 }
             }
             $staging_token = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(openssl_random_pseudo_bytes(18)));
-            $this->logger->info("--------------------------------------------");
-            $this->logger->info("   {$public_url}/{$staging_token}/   ");
-            $this->logger->info("   {$public_url}/{$staging_token}/screenshots/   ");
-            $this->logger->info("--------------------------------------------");
+            $this->logger?->info("--------------------------------------------");
+            $this->logger?->info("   {$public_url}/{$staging_token}/   ");
+            $this->logger?->info("   {$public_url}/{$staging_token}/screenshots/   ");
+            $this->logger?->info("--------------------------------------------");
             $install_path = "{$public_path}/{$staging_token}";
             $deploy_path_from_public_index = 'dirname(dirname(__DIR__))';
         }
 
-        $this->logger->info("Install...");
+        $this->logger?->info("Install...");
         if (!$fs->exists($install_path)) {
             $fs->mkdir($install_path);
         }
@@ -213,7 +213,7 @@ class Deploy extends AbstractDefaultDeploy {
         if ($fs->exists("{$public_path}/old_jsbuild")) {
             $fs->remove("{$public_path}/old_jsbuild");
         }
-        $this->logger->info("Install done.");
+        $this->logger?->info("Install done.");
         return [
             'staging_token' => $staging_token,
         ];
@@ -249,7 +249,7 @@ class Deploy extends AbstractDefaultDeploy {
             : "{$public_url}";
         $execute_command_url = "{$prefix}/api/executeCommand?access_token={$this->bot_access_token}";
 
-        $this->logger->info("Executing \"{$command}\"...");
+        $this->logger?->info("Executing \"{$command}\"...");
         $request = urlencode(json_encode(['command' => $command, 'argv' => $argv]) ?: '{}');
         $output = file_get_contents("{$execute_command_url}&request={$request}") ?: '';
         $data = json_decode($output, true) ?? [];
@@ -258,12 +258,12 @@ class Deploy extends AbstractDefaultDeploy {
             || ($data['error'] ?? true)
             || !($data['output'] ?? false);
         if ($is_error) {
-            $this->logger->error("{$output}");
-            $this->logger->error("Error executing \"{$command}\".");
+            $this->logger?->error("{$output}");
+            $this->logger?->error("Error executing \"{$command}\".");
             throw new Exception("Error executing \"{$command}\".");
         }
-        $this->logger->info($data['output'] ?? '(output empty)');
-        $this->logger->info("Executing \"{$command}\" done.");
+        $this->logger?->info($data['output'] ?? '(output empty)');
+        $this->logger?->info("Executing \"{$command}\" done.");
     }
 }
 

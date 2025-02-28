@@ -50,6 +50,7 @@ class OlzNewsDetail extends OlzComponent {
 
         if ($is_archived && !$this->authUtils()->hasPermission('any')) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
 
         $article_metadata = "";
@@ -57,12 +58,14 @@ class OlzNewsDetail extends OlzComponent {
             $article_metadata = OlzArticleMetadata::render(['id' => $id]);
         } catch (\Exception $exc) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
 
         $news_entry = $this->getNewsEntryById($id);
 
         if (!$news_entry) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
 
         $title = $news_entry->getTitle();
@@ -97,7 +100,7 @@ class OlzNewsDetail extends OlzComponent {
         $author_name = $news_entry->getAuthorName();
         $author_email = $news_entry->getAuthorEmail();
         $pretty_author = OlzAuthorBadge::render([
-            'news_id' => $news_entry->getId(),
+            'news_id' => $news_entry->getId() ?: 0,
             'user' => $author_user,
             'role' => $author_role,
             'name' => $author_name,
@@ -124,8 +127,8 @@ class OlzNewsDetail extends OlzComponent {
         $db->query("UPDATE news SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
 
         $title = $news_entry->getTitle();
-        $teaser = $news_entry->getTeaser();
-        $content = $news_entry->getContent();
+        $teaser = $news_entry->getTeaser() ?? '';
+        $content = $news_entry->getContent() ?? '';
         $published_date = $news_entry->getPublishedDate();
 
         $published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
@@ -135,7 +138,7 @@ class OlzNewsDetail extends OlzComponent {
         $can_edit = $is_owner || $has_all_permissions;
         $edit_admin = '';
         if ($can_edit) {
-            $json_id = json_encode(intval($id));
+            $json_id = json_encode($id);
             $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
             $has_roles = !empty($this->authUtils()->getAuthenticatedRoles());
             $json_mode = htmlentities(json_encode($has_roles ? ($has_blog ? 'account_with_all' : 'account_with_aktuell') : ($has_blog ? 'account_with_blog' : 'account')) ?: '');
@@ -226,7 +229,7 @@ class OlzNewsDetail extends OlzComponent {
             $gallery .= "</div>\n";
             $out .= "<p>{$content}</p>{$gallery}\n";
         } elseif ($format === 'video') {
-            $youtube_url = $news_entry->getContent() ?: $news_entry->getExternalUrl();
+            $youtube_url = $news_entry->getExternalUrl() ?? '';
             $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9]{6,})/", $youtube_url, $matches0);
             $res1 = preg_match("/^https\\:\\/\\/(www\\.)?youtube\\.com\\/watch\\?v\\=([a-zA-Z0-9]{6,})/", $youtube_url, $matches1);
             $youtube_match = null;

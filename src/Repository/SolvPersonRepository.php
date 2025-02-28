@@ -11,7 +11,7 @@ use Olz\Repository\Common\OlzRepository;
 class SolvPersonRepository extends OlzRepository {
     protected string $solv_person_class = SolvPerson::class;
 
-    /** @return array<array{id: int, same_as: ?int}> */
+    /** @return array<array{id: int, same_as: int}> */
     public function getSolvPersonsMarkedForMerge() {
         $dql = "
             SELECT sp.id, sp.same_as

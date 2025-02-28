@@ -57,7 +57,7 @@ class CreateRegistrationEndpoint extends OlzCreateEntityTypedEndpoint {
         }
         $this->entityManager()->flush();
 
-        $internal_id = $registration->getId();
+        $internal_id = $registration->getId() ?? 0;
         $external_id = $this->idUtils()->toExternalId($internal_id, 'Registration') ?: '-';
 
         return [

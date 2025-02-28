@@ -38,6 +38,7 @@ class RecaptchaUtils {
             $this->log()->info("Using cached recaptcha response...");
             return $cached;
         }
+        $this->generalUtils()->checkNotNull($this->googleFetcher, "No google fetcher");
         $verification = $this->googleFetcher->fetchRecaptchaVerification([
             'secret' => $this->envUtils()->getRecaptchaSecretKey(),
             'response' => $token,

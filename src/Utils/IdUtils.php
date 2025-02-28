@@ -24,9 +24,7 @@ class IdUtils {
         }
         $type_id_hex = "{$type_hash_hex}{$id_hex}";
         $type_id_bin = hex2bin($type_id_hex);
-        if (!$type_id_bin) {
-            throw new \Exception("hex2bin({$type_id_hex}) failed");
-        }
+        $this->generalUtils()->checkNotFalse($type_id_bin, "hex2bin({$type_id_hex}) failed");
         return $type_id_bin;
     }
 
@@ -35,15 +33,13 @@ class IdUtils {
         $key = $this->envUtils()->getIdEncryptionKey();
         $iv = base64_decode($this->base64Iv);
         $ciphertext = @openssl_encrypt($plaintext, $this->algo, $key, OPENSSL_RAW_DATA, $iv, $tag);
-        if ($ciphertext === false) {
-            $error_string = openssl_error_string();
-            throw new \Exception("{$error_string}");
-        }
+        $this->generalUtils()->checkNotFalse($ciphertext, fn () => "Could not encrypt ID: ".openssl_error_string());
         return $this->generalUtils()->base64EncodeUrl($ciphertext);
     }
 
     public function toInternalId(string $external_id, string $type = ''): int {
         $serialized_id = $this->decryptId($external_id);
+        $this->generalUtils()->checkNotNull($serialized_id, "ID decryption failed: {$external_id}");
         return $this->deserializeId($serialized_id, $type);
     }
 
@@ -52,9 +48,7 @@ class IdUtils {
         $key = $this->envUtils()->getIdEncryptionKey();
         $iv = base64_decode($this->base64Iv);
         $plaintext = openssl_decrypt($ciphertext, $this->algo, $key, OPENSSL_RAW_DATA, $iv);
-        if (!$plaintext) {
-            throw new \Exception("Could not decrypt ID: {$encrypted_id}");
-        }
+        $this->generalUtils()->checkNotFalse($plaintext, "Could not decrypt ID: {$encrypted_id}");
         return $plaintext;
     }
 

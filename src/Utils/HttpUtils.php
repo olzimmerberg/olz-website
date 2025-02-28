@@ -91,10 +91,12 @@ class HttpUtils {
         $aliases = $utils->getAliases($php_doc_node);
         if (!$type) {
             $this->dieWithHttpError(400);
+            throw new \Exception('should already have failed');
         }
         $result = ValidateVisitor::validateDeserialize($utils, $get_params, $type, $aliases);
         if (!$result->isValid() && ($options['just_log'] ?? false) === false) {
             $this->dieWithHttpError(400);
+            throw new \Exception('should already have failed');
         }
         return $result->getValue();
     }

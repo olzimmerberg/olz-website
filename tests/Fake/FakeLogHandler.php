@@ -30,17 +30,19 @@ class FakeLogHandler implements HandlerInterface {
     public function close(): void {
     }
 
-    /** @return array<string> */
-    public function getPrettyRecords(?callable $map_fn = null) {
+    /**
+     * @param ?callable(LogRecord, string, string): string $map_fn
+     *
+     * @return array<string>
+     */
+    public function getPrettyRecords(?callable $map_fn = null): array {
         $env_utils = new FakeEnvUtils();
         $private_path = $env_utils->getPrivatePath();
         $data_path = $env_utils->getDataPath();
         $data_realpath = realpath($data_path);
         assert($data_realpath);
         if (!$map_fn) {
-            $map_fn = function ($record, $level_name, $message) {
-                return "{$level_name} {$message}";
-            };
+            $map_fn = fn ($record, $level_name, $message) => "{$level_name} {$message}";
         }
         return array_map(
             function ($record) use ($private_path, $data_path, $data_realpath, $map_fn) {

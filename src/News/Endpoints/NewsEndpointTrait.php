@@ -57,8 +57,8 @@ trait NewsEndpointTrait {
             'authorEmail' => $author_email ? $author_email : null,
             'publishAt' => new IsoDateTime("{$published_date} {$published_time}"),
             'title' => $entity->getTitle() ?: '-',
-            'teaser' => $entity->getTeaser(),
-            'content' => $entity->getContent(),
+            'teaser' => $entity->getTeaser() ?? '',
+            'content' => $entity->getContent() ?? '',
             'externalUrl' => $external_url ? $external_url : null,
             'tags' => $tags_for_api,
             'terminId' => $this->getTerminId($entity),
@@ -144,8 +144,8 @@ trait NewsEndpointTrait {
         return $format;
     }
 
-    /** @return ?OlzNewsFormat */
-    protected function getFormatForApi(NewsEntry $entity): ?string {
+    /** @return OlzNewsFormat */
+    protected function getFormatForApi(NewsEntry $entity): string {
         switch ($entity->getFormat()) {
             case 'aktuell': return 'aktuell';
             case 'anonymous': return 'anonymous';
@@ -153,7 +153,6 @@ trait NewsEndpointTrait {
             case 'galerie': return 'galerie';
             case 'kaderblog': return 'kaderblog';
             case 'video': return 'video';
-            case null: return null;
             default: throw new \Exception("Unknown news format: {$entity->getFormat()} ({$entity})");
         }
     }

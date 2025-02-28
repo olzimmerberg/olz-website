@@ -76,7 +76,9 @@ class Panini2024Utils {
             for ($p = 0; $p < $num; $p++) {
                 $ids = [];
                 for ($i = 0; $i < 16; $i++) {
-                    $ids[] = $all_ids[random_int(0, $ids_len - 1)];
+                    $id = $all_ids[random_int(0, $ids_len - 1)];
+                    $this->generalUtils()->checkNotNull($id, "ID was null");
+                    $ids[] = $id;
                 }
                 $pages[] = ['ids' => $ids];
             }

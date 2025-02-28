@@ -54,7 +54,7 @@ class OlzLinks extends OlzComponent {
             $can_edit = $is_owner || $has_permission;
             $edit_admin = '';
             if ($can_edit) {
-                $json_id = json_encode(intval($id));
+                $json_id = json_encode($id);
                 $edit_admin = <<<ZZZZZZZZZZ
                     <button
                         id='edit-link-{$id}-button'

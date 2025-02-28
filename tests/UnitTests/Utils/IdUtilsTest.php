@@ -170,11 +170,12 @@ final class IdUtilsTest extends UnitTestCase {
 
     public function testDecryptId(): void {
         $id_utils = new IdUtilsIdUtilsForTest();
+        $this->assertSame('', $id_utils->testOnlyDecryptId('w0/JgCePlCI'));
         try {
-            $id_utils->testOnlyDecryptId('w0/JgCePlCI');
+            $id_utils->testOnlyDecryptId('invalid');
             $this->fail('Error expected');
         } catch (\Exception $exc) {
-            $this->assertSame('Could not decrypt ID: w0/JgCePlCI', $exc->getMessage());
+            $this->assertSame('IdUtils.php:*** Could not decrypt ID: invalid', $exc->getMessage());
         }
         $this->assertSame('test', $id_utils->testOnlyDecryptId('KNYgqjTkR5o'));
     }

@@ -100,7 +100,7 @@ trait UserEndpointTrait {
     }
 
     public function editUploads(User $entity): void {
-        if ($entity->getAvatarImageId()) {
+        if ($entity->getAvatarImageId() !== null) {
             $this->editOlzImages($entity, [$entity->getAvatarImageId()]);
         }
     }

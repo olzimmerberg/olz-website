@@ -20,7 +20,7 @@ abstract class DailyFileLogsChannel extends BaseLogsChannel {
                 $index = $file_index['lines'][$line_number];
                 $log_file->seek($fp, $index);
                 $line = $log_file->gets($fp);
-                $date_time_at_index = $this->parseDateTimeOfLine($line);
+                $date_time_at_index = $this->parseDateTimeOfLine($line ?? '');
                 return $date_time <=> $date_time_at_index;
             },
             0,

@@ -47,6 +47,7 @@ class SyncSolvResultsCommand extends OlzCommand {
         $this->logAndOutput("Syncing SOLV results for {$year}...");
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
         $json = $this->solvFetcher()->fetchYearlyResultsJson($year);
+        $this->generalUtils()->checkNotNull($json, "No yearly results JSON");
 
         $json_excerpt = mb_substr($json, 0, 255);
         $json_length = mb_strlen($json);
@@ -83,6 +84,7 @@ class SyncSolvResultsCommand extends OlzCommand {
             if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {
                 $this->logAndOutput("Event with SOLV ID {$solv_uid} has new results.");
                 $html = $this->solvFetcher()->fetchEventResultsHtml($event_result['result_list_id']);
+                $this->generalUtils()->checkNotNull($html, "No event result HTML");
                 $results = $this->solvResultParser->parse_solv_event_result_html($html, $solv_uid);
                 $results_count = count($results);
                 $this->logAndOutput("Number of results fetched & parsed: {$results_count}");

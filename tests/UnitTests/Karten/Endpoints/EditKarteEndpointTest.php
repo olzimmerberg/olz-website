@@ -89,7 +89,6 @@ final class EditKarteEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "WARNING Upload ID \"\" is invalid.",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame([

@@ -32,7 +32,7 @@ class CreateWeeklyPictureEndpoint extends OlzCreateEntityTypedEndpoint {
         $this->persistUploads($entity);
 
         return [
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
         ];
     }
 }

@@ -37,7 +37,7 @@ class OlzFaqList extends OlzComponent {
         $role_repo = $entityManager->getRepository(Role::class);
         $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
         $nachwuchs_out = '';
-        $nachwuchs_assignees = $nachwuchs_role->getUsers();
+        $nachwuchs_assignees = $nachwuchs_role?->getUsers() ?? [];
         foreach ($nachwuchs_assignees as $nachwuchs_assignee) {
             $nachwuchs_out .= OlzUserInfoModal::render([
                 'user' => $nachwuchs_assignee,
@@ -75,7 +75,7 @@ class OlzFaqList extends OlzComponent {
             $create_admin = '';
             $edit_admin = '';
             if ($has_access) {
-                $json_id = json_encode(intval($category->getId()));
+                $json_id = json_encode($category->getId());
                 $create_admin = <<<ZZZZZZZZZZ
                     <button
                         id='create-question-button'
@@ -107,7 +107,7 @@ class OlzFaqList extends OlzComponent {
                 $link = "fragen_und_antworten/{$question->getIdent()}";
                 $edit_admin = '';
                 if ($has_access) {
-                    $json_id = json_encode(intval($question->getId()));
+                    $json_id = json_encode($question->getId());
                     $edit_admin = <<<ZZZZZZZZZZ
                         <button
                             class='btn btn-secondary-outline btn-sm edit-question-list-button'

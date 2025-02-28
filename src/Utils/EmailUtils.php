@@ -219,6 +219,7 @@ class EmailUtils {
                 "{$this->getComparableEnvelope($envelope)}\n\n{$this->getComparableEmail($email)}"
             );
         }
+        $this->generalUtils()->checkNotNull($this->mailer, "Mailer is not available");
         $this->mailer->send($email, $envelope);
     }
 

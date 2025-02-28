@@ -28,7 +28,7 @@ trait OlzEntityEndpointTrait {
             mkdir("{$entity_img_path}thumb/", 0o777, true);
         }
         $this->uploadUtils()->overwriteUploads($image_ids, "{$entity_img_path}img/");
-        $this->imageUtils()->generateThumbnails($image_ids, $entity_img_path);
+        $this->imageUtils()->generateThumbnails($image_ids ?? [], $entity_img_path);
     }
 
     /** @param ?array<string> $image_ids */

@@ -72,7 +72,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
             'kaderblog' => false,
         ];
         $endpoint = new CreateNewsEndpoint();
-        $endpoint->setMailer($mailer);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         $endpoint->runtimeSetup();
         $artifacts = [];
         $mailer->expects($this->exactly(1))->method('send')->with(

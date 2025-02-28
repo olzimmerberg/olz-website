@@ -291,7 +291,7 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
             $halts = $section->getHalts();
             foreach ($halts as $halt) {
                 $station_id = $halt->getStationId();
-                $time = $halt->getTimeSeconds();
+                $time = $halt->getTimeSeconds() ?? 0;
                 if (($latest_joining_time_by_station_id[$station_id] ?? 0) < $time) {
                     $latest_joining_time_by_station_id[$station_id] = $time;
                 }
@@ -389,13 +389,11 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
                 $side_connection['connection'],
                 $latest_departure_by_station_id
             );
-            if ($normalized_connection !== null) {
-                $normalized_side_connection = [
-                    'connection' => $normalized_connection,
-                    'joiningStationId' => $side_connection['joiningStationId'],
-                ];
-                $normalized_suggestion->addSideConnection($normalized_side_connection);
-            }
+            $normalized_side_connection = [
+                'connection' => $normalized_connection,
+                'joiningStationId' => $side_connection['joiningStationId'],
+            ];
+            $normalized_suggestion->addSideConnection($normalized_side_connection);
         }
 
         $origin_info = $normalized_suggestion->getOriginInfo();
@@ -412,7 +410,7 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
     protected function getNormalizedConnection(
         TransportConnection $connection,
         array $latest_departure_by_station_id,
-    ): ?TransportConnection {
+    ): TransportConnection {
         $crop_from_halt = null;
         foreach ($connection->getFlatHalts() as $halt) {
             $station_id = $halt->getStationId();
@@ -424,9 +422,6 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
             if ($crop_from_halt === null && $halt_is_latest_departure) {
                 $crop_from_halt = $halt;
             }
-        }
-        if ($crop_from_halt === null) {
-            return null;
         }
         return $connection->getCropped($crop_from_halt, null);
     }

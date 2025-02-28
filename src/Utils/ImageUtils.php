@@ -21,8 +21,8 @@ class ImageUtils {
 
     public function olzImage(
         string $db_table,
-        int|string $id,
-        string $index,
+        int|string|null $id,
+        ?string $index,
         int $dim,
         ?string $lightview = 'image',
         string $attrs = '',
@@ -36,7 +36,7 @@ class ImageUtils {
         }
         $db_imgpath = $this::TABLES_IMG_DIRS[$db_table];
         $imgfile = "{$db_imgpath}{$id}/img/{$index}";
-        if (!is_file("{$data_path}{$imgfile}")) {
+        if (!$id || !$index || !is_file("{$data_path}{$imgfile}")) {
             $message = "Bild nicht vorhanden (in olzImage): {$imgfile}";
             $this->log()->error($message);
             return "<span style='color:#ff0000; font-style:italic;'>{$message}</span>";

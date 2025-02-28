@@ -52,7 +52,7 @@ class RegisterSkillsEndpoint extends OlzTypedEndpoint {
 
         $id_by_name = [];
         foreach ($skill_by_name as $skill_name => $skill) {
-            $id_by_name[$skill_name] = $this->idUtils()->toExternalId($skill->getId(), 'Skill') ?: '-';
+            $id_by_name[$skill_name] = $this->idUtils()->toExternalId($skill->getId() ?? 0, 'Skill') ?: '-';
         }
         return ['idByName' => $id_by_name];
     }

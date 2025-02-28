@@ -29,6 +29,7 @@ class OlzTerminLocationDetail extends OlzComponent {
 
         if (!$termin_location) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
 
         $title = $termin_location->getName();
@@ -93,7 +94,7 @@ class OlzTerminLocationDetail extends OlzComponent {
         $has_termine_permissions = $this->authUtils()->hasPermission('termine');
         $can_edit = $is_owner || $has_termine_permissions;
         if ($can_edit) {
-            $json_id = json_encode(intval($id));
+            $json_id = json_encode($id);
             $out .= <<<ZZZZZZZZZZ
                 <div>
                     <button

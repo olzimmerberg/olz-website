@@ -35,7 +35,7 @@ class UpdateLinkEndpoint extends OlzUpdateEntityTypedEndpoint {
         $this->entityManager()->flush();
 
         return [
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
         ];
     }
 }

@@ -20,15 +20,14 @@ use Olz\Api\OlzTypedEndpoint;
  */
 class GetAuthenticatedRolesEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
-        $auth_utils = $this->authUtils();
-        $roles = $auth_utils->getAuthenticatedRoles();
+        $roles = $this->authUtils()->getAuthenticatedRoles();
         if ($roles === null) {
             return ['roles' => null];
         }
         return [
             'roles' => array_map(function ($role) {
                 return [
-                    'id' => $role->getId(),
+                    'id' => $role->getId() ?? 0,
                     'name' => $role->getName() ?: '-',
                     'username' => $role->getUsername() ?: '-',
                 ];

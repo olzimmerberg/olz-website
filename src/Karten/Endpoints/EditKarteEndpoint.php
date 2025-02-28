@@ -34,7 +34,7 @@ class EditKarteEndpoint extends OlzEditEntityTypedEndpoint {
         $this->editUploads($entity);
 
         return [
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
             'meta' => $entity->getMetaData(),
             'data' => $this->getEntityData($entity),
         ];

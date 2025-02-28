@@ -118,7 +118,6 @@ abstract class BaseLogsChannel {
 
     /** @return array{version?: string, modified: int, start_date: ?string, lines: array<int>} */
     protected function indexFile(LogFileInterface $log_file): array {
-        $file_path = $log_file->getPath();
         $index = [];
         $index['version'] = self::INDEX_FILE_VERSION;
         $index['modified'] = $log_file->modified();
@@ -131,7 +130,7 @@ abstract class BaseLogsChannel {
         while (!$log_file->eof($fp)) {
             $line = $log_file->gets($fp);
             if ($index['start_date'] === null) {
-                $truncated_line = substr($line, 0, $this->getDateMaxPosition());
+                $truncated_line = substr($line ?? '', 0, $this->getDateMaxPosition());
                 $date_time = $this->parseDateTimeOfLine($truncated_line);
                 if ($date_time) {
                     $index['start_date'] = $date_time->format('Y-m-d H:i:s');
@@ -308,7 +307,7 @@ abstract class BaseLogsChannel {
     }
 
     protected function escapeSpecialChars(?string $line): string {
-        $line = iconv('UTF-8', "UTF-8//IGNORE", $line);
+        $line = iconv('UTF-8', "UTF-8//IGNORE", $line ?? '');
         $this->generalUtils()->checkNotBool($line, 'BaseLogsChannel::escapeSpecialChars iconv failed');
         return html_entity_decode(htmlspecialchars($line));
     }

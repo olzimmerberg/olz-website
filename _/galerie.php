@@ -28,6 +28,7 @@ $http_utils->validateGetParams(GalerieParams::class, $_GET);
 
 if (isset($_GET['datum']) || isset($_GET['foto'])) {
     $http_utils->dieWithHttpError(404);
+    throw new Exception('should already have failed');
 }
 
 $env_utils = EnvUtils::fromEnv();

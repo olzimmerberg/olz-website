@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'olz:monitor-backup')]
 class MonitorBackupCommand extends OlzCommand {
     /** @var non-empty-string */
-    protected static string $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/main/_/tools/monitoring/backup_monitoring.php)";
+    protected static string $user_agent_string = "Mozilla/5.0 (compatible; backup_monitoring/2.1; +https://github.com/olzimmerberg/olz-website/blob/main/src/Command/MonitorBackupCommand.php)";
 
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
@@ -48,10 +48,10 @@ class MonitorBackupCommand extends OlzCommand {
             }
         }
         if ($has_successful) {
-            $output->writeln("OK:");
+            $this->logAndOutput("OK:");
             return Command::SUCCESS;
         }
-        $output->writeln("All 3 backup runs have problems:\n {$errors}");
+        $this->logAndOutput("All 3 backup runs have problems:\n {$errors}");
         return Command::FAILURE;
     }
 
@@ -69,8 +69,9 @@ class MonitorBackupCommand extends OlzCommand {
         $now = new \DateTime();
         $minus_two_days = \DateInterval::createFromDateString("-2 days");
         $two_days_ago = $now->add($minus_two_days);
-        if (strtotime($workflow_run['created_at'] ?? '') ?: $two_days_ago->getTimestamp() > 0) {
-            throw new \Exception("Expected workflow_run created_at to be in the last 2 days");
+        $created_at = new \DateTime($workflow_run['created_at']);
+        if ($created_at->getTimestamp() < $two_days_ago->getTimestamp()) {
+            throw new \Exception("Expected workflow_run created_at ({$created_at->format('Y-m-d H:i:s')}) to be in the last 2 days ({$two_days_ago->format('Y-m-d H:i:s')})");
         }
         if ($workflow_run['conclusion'] !== 'success') {
             throw new \Exception("Expected workflow_run conclusion to be success");

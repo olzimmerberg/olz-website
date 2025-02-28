@@ -120,6 +120,6 @@ class OlzICal extends OlzComponent {
     }
 
     protected function escapeText(string $text): string {
-        return preg_replace("/(\r\n|\n|\r)/", "\\n", $text);
+        return preg_replace("/(\r\n|\n|\r)/", "\\n", $text) ?: '';
     }
 }

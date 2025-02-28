@@ -21,9 +21,12 @@ class FakeAuthUtils extends AuthUtils {
     /** @var array<string, bool> */
     public array $has_role_permission_by_query = [];
 
-    public function authenticate(string $username_or_email, string $password): ?User {
+    public function authenticate(string $username_or_email, string $password): User {
         if ($this->authenticate_with_error) {
             throw $this->authenticate_with_error;
+        }
+        if (!$this->authenticate_user) {
+            throw new \Exception("Fake login failed");
         }
         return $this->authenticate_user;
     }

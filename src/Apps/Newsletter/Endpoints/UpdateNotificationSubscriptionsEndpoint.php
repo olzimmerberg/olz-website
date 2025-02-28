@@ -32,6 +32,7 @@ use Olz\Entity\NotificationSubscription;
 class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $user = $this->authUtils()->getCurrentUser();
+        $this->generalUtils()->checkNotNull($user, "Not logged in");
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
         $delivery_type = $input['deliveryType'];

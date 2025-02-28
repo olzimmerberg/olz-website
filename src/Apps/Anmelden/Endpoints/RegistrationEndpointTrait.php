@@ -5,6 +5,7 @@ namespace Olz\Apps\Anmelden\Endpoints;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
 use Olz\Utils\WithUtilsTrait;
+use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDateTime;
 
 /**
@@ -71,10 +72,19 @@ trait RegistrationEndpointTrait {
         $entity->setClosesAt($input_data['closesAt'] ?? null);
     }
 
+    protected function getEntityById(int $id): Registration {
+        $repo = $this->entityManager()->getRepository(Registration::class);
+        $entity = $repo->findOneBy(['id' => $id]);
+        if (!$entity) {
+            throw new HttpError(404, "Nicht gefunden.");
+        }
+        return $entity;
+    }
+
     // ---
 
-    /** @return ?ValidRegistrationInfoType */
-    protected function getTypeForApi(RegistrationInfo $entity): ?string {
+    /** @return ValidRegistrationInfoType */
+    protected function getTypeForApi(RegistrationInfo $entity): string {
         switch ($entity->getType()) {
             case 'email': return 'email';
             case 'firstName': return 'firstName';
@@ -92,7 +102,6 @@ trait RegistrationEndpointTrait {
             case 'string': return 'string';
             case 'enum': return 'enum';
             case 'reservation': return 'reservation';
-            case null: return null;
             default: throw new \Exception("Unknown registration info type: {$entity->getType()} ({$entity})");
         }
     }

@@ -7,36 +7,71 @@ class GeneralUtils {
 
     // Error handling
 
-    /** @phpstan-assert !null $value */
-    public function checkNotNull(mixed $value, string $error_message): void {
+    /**
+     * @phpstan-assert !null $value
+     *
+     * @param string|callable(): string $error_message
+     */
+    public function checkNotNull(mixed $value, string|callable $error_message): void {
         if ($value === null) {
-            $this->log()->error($error_message);
-            throw new \Exception($error_message);
+            $message = $this->getCheckErrorMessage($error_message);
+            $this->log()->error($message);
+            throw new \Exception($message);
         }
     }
 
-    /** @phpstan-assert !false $value */
-    public function checkNotFalse(mixed $value, string $error_message): void {
+    /**
+     * @phpstan-assert !false $value
+     *
+     * @param string|callable(): string $error_message
+     */
+    public function checkNotFalse(mixed $value, string|callable $error_message): void {
         if ($value === false) {
-            $this->log()->error($error_message);
-            throw new \Exception($error_message);
+            $message = $this->getCheckErrorMessage($error_message);
+            $this->log()->error($message);
+            throw new \Exception($message);
         }
     }
 
-    /** @phpstan-assert !bool $value */
-    public function checkNotBool(mixed $value, string $error_message): void {
+    /**
+     * @phpstan-assert !bool $value
+     *
+     * @param string|callable(): string $error_message
+     */
+    public function checkNotBool(mixed $value, string|callable $error_message): void {
         if (is_bool($value)) {
-            $this->log()->error($error_message);
-            throw new \Exception($error_message);
+            $message = $this->getCheckErrorMessage($error_message);
+            $this->log()->error($message);
+            throw new \Exception($message);
         }
     }
 
-    /** @phpstan-assert !'' $value */
-    public function checkNotEmpty(mixed $value, string $error_message): void {
+    /**
+     * @phpstan-assert !'' $value
+     *
+     * @param string|callable(): string $error_message
+     */
+    public function checkNotEmpty(mixed $value, string|callable $error_message): void {
         if ($value === '') {
-            $this->log()->error($error_message);
-            throw new \Exception($error_message);
+            $message = $this->getCheckErrorMessage($error_message);
+            $this->log()->error($message);
+            throw new \Exception($message);
         }
+    }
+
+    /** @param string|callable(): string $error_message */
+    protected function getCheckErrorMessage(string|callable $error_message): string {
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+        $app_env = $this->envUtils()->getAppEnv();
+        $is_test = $app_env === 'test';
+        $file = basename($trace[1]['file'] ?? '');
+        $line = $is_test ? "***" : $trace[1]['line'] ?? '';
+        $callsite = "{$file}:{$line}";
+        if (is_string($error_message)) {
+            return "{$callsite} {$error_message}";
+        }
+        $computed_error_message = $error_message();
+        return "{$callsite} {$computed_error_message}";
     }
 
     // Base64

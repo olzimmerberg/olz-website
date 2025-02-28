@@ -44,6 +44,8 @@ class UserMergeCommand extends OlzCommand {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $target_user = $user_repo->findOneBy(['id' => $target_id]);
         $source_user = $user_repo->findOneBy(['id' => $source_id]);
+        $this->generalUtils()->checkNotNull($target_user, "Target user not found");
+        $this->generalUtils()->checkNotNull($source_user, "Source user not found");
         array_map(
             fn ($line) => $this->log()->info($line),
             explode("\n", <<<ZZZZZZZZZZ

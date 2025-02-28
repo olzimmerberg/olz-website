@@ -42,7 +42,7 @@ class OlzFuerEinsteiger extends OlzComponent {
         $nachwuchs_role = $role_repo->getPredefinedRole(PredefinedRole::Nachwuchs);
 
         $contact_information = "<div style='padding:8px 16px;'>";
-        $nachwuchs_assignees = $nachwuchs_role->getUsers();
+        $nachwuchs_assignees = $nachwuchs_role?->getUsers() ?? [];
         foreach ($nachwuchs_assignees as $nachwuchs_assignee) {
             $contact_information .= OlzUserInfoModal::render([
                 'user' => $nachwuchs_assignee,

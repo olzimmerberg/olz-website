@@ -21,7 +21,7 @@ class OlzKartenListItem extends OlzComponent {
         $can_edit = $is_owner || $has_all_permissions;
         $edit_admin = '';
         if ($can_edit) {
-            $json_id = json_encode(intval($karte->getId()));
+            $json_id = json_encode($karte->getId());
             $edit_admin = <<<ZZZZZZZZZZ
                 <button
                     class='btn btn-secondary-outline btn-sm edit-karten-list-button'

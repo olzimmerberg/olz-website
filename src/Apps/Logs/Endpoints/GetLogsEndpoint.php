@@ -39,13 +39,16 @@ class GetLogsEndpoint extends OlzTypedEndpoint {
         }
 
         $user = $this->authUtils()->getCurrentUser();
-        $this->log()->info("Logs access by {$user->getUsername()}.");
+        $this->log()->info("Logs access by {$user?->getUsername()}.");
 
         $channel = null;
         foreach (LogsDefinitions::getLogsChannels() as $current_channel) {
             if ($current_channel::getId() === $input['query']['channel']) {
                 $channel = new $current_channel();
             }
+        }
+        if (!$channel) {
+            throw new HttpError(404, "Channel not found");
         }
         $channel->setEnvUtils($this->envUtils());
         $channel->setLog($this->log());
@@ -95,7 +98,7 @@ class GetLogsEndpoint extends OlzTypedEndpoint {
         ]) ?: null;
     }
 
-    /** @return array{lineLocation: LineLocation, mode: ?string} */
+    /** @return array{lineLocation: LineLocation, mode: string} */
     protected function deserializePageToken(
         string $serialized,
     ): array {
@@ -104,6 +107,7 @@ class GetLogsEndpoint extends OlzTypedEndpoint {
         if (!$log_file) {
             $log_file = GzLogFile::deserialize($data['logFile']);
         }
+        $this->generalUtils()->checkNotNull($log_file, "No log file: {$data['logFile']}");
         $line_location = new LineLocation($log_file, $data['lineNumber'], $data['comparison']);
         $mode = $data['mode'];
         return [

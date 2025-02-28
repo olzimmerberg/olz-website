@@ -17,7 +17,7 @@ use Olz\Utils\OlzProcessor;
  */
 final class OlzProcessorTest extends UnitTestCase {
     public function testOlzProcessorMaximal(): void {
-        $auth_processor = new OlzProcessor();
+        $processor = new OlzProcessor();
         $session = new MemorySession();
         $session->session_storage = [
             'user' => 'child',
@@ -31,7 +31,7 @@ final class OlzProcessorTest extends UnitTestCase {
         ]);
         $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'channel', Level::Info, "Message", ['con' => 'text']);
 
-        $result = $auth_processor($fake_log_record);
+        $result = $processor($fake_log_record);
 
         $this->assertSame([
             'url' => '/path?access_token=ABC***123',
@@ -44,13 +44,13 @@ final class OlzProcessorTest extends UnitTestCase {
     }
 
     public function testOlzProcessorMinimal(): void {
-        $auth_processor = new OlzProcessor();
+        $processor = new OlzProcessor();
         $session = new MemorySession();
         $session->session_storage = [];
         $this->setSession($session);
         $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'channel', Level::Info, "Message", ['con' => 'text']);
 
-        $result = $auth_processor($fake_log_record);
+        $result = $processor($fake_log_record);
 
         $this->assertSame([
             'url' => null,

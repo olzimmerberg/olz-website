@@ -109,7 +109,7 @@ class UpdateUserEndpoint extends OlzUpdateEntityTypedEndpoint {
             } catch (\Throwable $th) {
                 return [
                     'custom' => ['status' => 'OK_NO_EMAIL_VERIFICATION'],
-                    'id' => $entity->getId(),
+                    'id' => $entity->getId() ?? 0,
                 ];
             }
             $this->entityManager()->flush();
@@ -117,7 +117,7 @@ class UpdateUserEndpoint extends OlzUpdateEntityTypedEndpoint {
 
         return [
             'custom' => ['status' => 'OK'],
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
         ];
     }
 }

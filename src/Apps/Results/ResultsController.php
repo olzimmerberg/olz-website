@@ -16,7 +16,7 @@ class ResultsController extends AbstractController {
     #[Route('/apps/resultate')]
     public function index(
         Request $request,
-        LoggerInterface $logger
+        LoggerInterface $logger,
     ): Response {
         $this->httpUtils()->countRequest($request);
         $html_out = OlzResults::render();

@@ -73,11 +73,15 @@ trait KarteEndpointTrait {
 
     /** @param OlzKarteData $input_data */
     public function persistUploads(Karte $entity, array $input_data): void {
-        $this->persistOlzImages($entity, [$entity->getPreviewImageId()]);
+        if ($entity->getPreviewImageId()) {
+            $this->persistOlzImages($entity, [$entity->getPreviewImageId()]);
+        }
     }
 
     public function editUploads(Karte $entity): void {
-        $this->editOlzImages($entity, [$entity->getPreviewImageId()]);
+        if ($entity->getPreviewImageId() !== null) {
+            $this->editOlzImages($entity, [$entity->getPreviewImageId()]);
+        }
     }
 
     protected function getEntityById(int $id): Karte {

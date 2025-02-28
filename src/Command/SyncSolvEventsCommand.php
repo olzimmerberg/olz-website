@@ -49,6 +49,7 @@ class SyncSolvEventsCommand extends OlzCommand {
         $this->logAndOutput("Syncing SOLV events for {$year}...");
 
         $csv = $this->solvFetcher()->fetchEventsCsvForYear($year);
+        $this->generalUtils()->checkNotNull($csv, "No events CSV for year {$year}");
 
         $csv_excerpt = mb_substr($csv, 0, 255);
         $csv_length = mb_strlen($csv);
@@ -79,10 +80,9 @@ class SyncSolvEventsCommand extends OlzCommand {
         foreach ($solv_events as $solv_event) {
             $solv_uid = $solv_event->getSolvUid();
             $solv_uid_still_exists[$solv_uid] = true;
-            $existed = isset($existing_solv_events_index[$solv_uid]);
-            $existing_solv_event = $existed ? $existing_solv_events_index[$solv_uid] : null;
-            $outdated = $existed ? $solv_event->getLastModification() > $existing_solv_event->getLastModification() : false;
-            if (!$existed) {
+            $existing_solv_event = $existing_solv_events_index[$solv_uid] ?? null;
+            $outdated = $existing_solv_event ? $solv_event->getLastModification() > $existing_solv_event->getLastModification() : false;
+            if (!$existing_solv_event) {
                 try {
                     $this->entityManager()->persist($solv_event);
                     $this->entityManager()->flush();

@@ -23,8 +23,11 @@ class RoleReminderGetter implements NotificationGetterInterface {
             [$user_id, $role_id] = array_map(fn ($part): int => intval($part), explode('-', $ident));
             $reminder_id = $state['reminder_id'] ?? false;
             $needs_reminder = $state['needs_reminder'] ?? false;
-            if ($needs_reminder && !$reminder_id) {
-                $user = $user_repo->findOneBy(['id' => $user_id]);
+            $user = $user_repo->findOneBy(['id' => $user_id]);
+            if (!$user) {
+                $this->log()->warning("No user (ID:{$user_id}) for telegram notification");
+            }
+            if ($needs_reminder && !$reminder_id && $user) {
                 $this->log()->info("Generating role ({$role_id}) reminder subscription for '{$user}'...");
                 $subscription = new NotificationSubscription();
                 $subscription->setUser($user);
@@ -38,10 +41,11 @@ class RoleReminderGetter implements NotificationGetterInterface {
                 $this->entityManager()->persist($subscription);
             }
             if ($reminder_id && !$needs_reminder) {
-                $user = $user_repo->findOneBy(['id' => $user_id]);
                 $this->log()->info("Removing role ({$role_id}) reminder subscription ({$reminder_id}) for '{$user}'...");
                 $subscription = $notification_subscription_repo->findOneBy(['id' => $reminder_id]);
-                $this->entityManager()->remove($subscription);
+                if ($subscription) {
+                    $this->entityManager()->remove($subscription);
+                }
             }
         }
         $this->entityManager()->flush();
@@ -58,14 +62,16 @@ class RoleReminderGetter implements NotificationGetterInterface {
         ]);
         foreach ($telegram_notification_subscriptions as $subscription) {
             $user_id = $subscription->getUser()->getId();
-            $args = json_decode($subscription->getNotificationTypeArgs(), true);
+            $args = json_decode($subscription->getNotificationTypeArgs() ?? '{}', true);
             $role_id = $args['role_id'] ?? null;
             if ($role_id === null) {
                 $this->log()->warning("Role reminder notification subscription ({$subscription->getId()}) without role ID");
             }
             $ident = "{$user_id}-{$role_id}";
             $state = $role_reminder_state[$ident] ?? [];
-            $state['reminder_id'] = $subscription->getId();
+            $subscription_id = $subscription->getId();
+            $this->generalUtils()->checkNotNull($subscription_id, "No subscription ID");
+            $state['reminder_id'] = $subscription_id;
             $role_reminder_state[$ident] = $state;
         }
 
@@ -98,6 +104,9 @@ class RoleReminderGetter implements NotificationGetterInterface {
 
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $role = $role_repo->findOneBy(['id' => $args['role_id']]);
+        if (!$role) {
+            return null;
+        }
         $role_name = "{$role->getName()} ({$role->getTitle()})";
         $num_assignees = $role->getUsers()->count();
         $num_others = $num_assignees - 1;
@@ -106,8 +115,11 @@ class RoleReminderGetter implements NotificationGetterInterface {
         $parent_role = $role;
         $parent_role_id = $parent_role->getParentRoleId();
         while ($parent_role_id) {
-            $parent_role = $role_repo->findOneBy(['id' => $parent_role_id]);
-            $parent_role_id = $parent_role?->getParentRoleId();
+            $new_parent_role = $role_repo->findOneBy(['id' => $parent_role_id]);
+            $parent_role_id = $new_parent_role?->getParentRoleId();
+            if ($new_parent_role) {
+                $parent_role = $new_parent_role;
+            }
         }
         $root_role = $parent_role;
         $pretty_root_assignees = implode(' / ', array_map(function (User $user): string {
@@ -119,7 +131,7 @@ class RoleReminderGetter implements NotificationGetterInterface {
         $role_url = "{$base_href}{$code_href}verein/{$role->getUsername()}";
         $sysadmin_role = $role_repo->getPredefinedRole(PredefinedRole::Sysadmin);
         $host = $this->envUtils()->getEmailForwardingHost();
-        $sysadmin_email = "{$sysadmin_role->getUsername()}@{$host}";
+        $sysadmin_email = "{$sysadmin_role?->getUsername()}@{$host}";
 
         $title = "Ressort-Erinnerung";
         $text = <<<ZZZZZZZZZZ

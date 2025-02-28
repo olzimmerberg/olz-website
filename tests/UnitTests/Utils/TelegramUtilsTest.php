@@ -421,7 +421,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
         try {
             $telegram_fetcher->fetchBlocked = true;
-            $result = $telegram_utils->callTelegramApi('fakeCommand', ['chat_id' => 13]);
+            $telegram_utils->callTelegramApi('fakeCommand', ['chat_id' => 1]);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame(
@@ -431,6 +431,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             $this->assertSame([
                 "NOTICE Telegram API response was not OK: {\"ok\":false,\"error_code\":403,\"description\":\"Forbidden: bot was blocked by the user\"}",
                 "NOTICE Permanently forbidden. Remove telegram link!",
+                "NOTICE Telegram link removed!",
             ], $this->getLogs());
         }
         $entity_manager = WithUtilsCache::get('entityManager');

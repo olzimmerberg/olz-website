@@ -76,6 +76,7 @@ class HtmlUtils {
                     ])),
                     $html
                 );
+                $this->generalUtils()->checkNotNull($html, "String replacement failed");
             }
         }
 
@@ -101,6 +102,7 @@ class HtmlUtils {
                     ])),
                     $html
                 );
+                $this->generalUtils()->checkNotNull($html, "String replacement failed");
             }
         }
 
@@ -121,6 +123,7 @@ class HtmlUtils {
                     $this->escapeDollar(OlzRoleInfoModal::render(['role' => $role])),
                     $html
                 );
+                $this->generalUtils()->checkNotNull($html, "String replacement failed");
             }
         }
 
@@ -129,16 +132,20 @@ class HtmlUtils {
             "<script>olz.MailTo(\"\$2\", \"\$3\", \"\$6\" + \"\$7\", \"\$4\")</script>",
             $html
         );
+        $this->generalUtils()->checkNotNull($html, "String replacement failed");
         $html = preg_replace(
             "/{$this->prefix_regex}{$this->email_regex}{$this->suffix_regex}/",
             "<script>olz.MailTo(\"\$2\", \"\$3\", \"\$5\" + \"\$6\")</script>",
             $html
         );
-        return preg_replace(
+        $this->generalUtils()->checkNotNull($html, "String replacement failed");
+        $html = preg_replace(
             "/(\\s|^){$this->email_regex}([\\s,\\.!\\?]|$)/",
             "\$1<script>olz.MailTo(\"\$2\", \"\$3\", \"E-Mail\")</script>\$4",
             $html
         );
+        $this->generalUtils()->checkNotNull($html, "String replacement failed");
+        return $html;
     }
 
     /** @param array<string, string> $image_hrefs */

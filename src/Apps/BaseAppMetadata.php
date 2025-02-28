@@ -14,7 +14,7 @@ abstract class BaseAppMetadata {
 
     abstract public function getHref(): string;
 
-    abstract public function isAccessibleToUser(User $user): bool;
+    abstract public function isAccessibleToUser(?User $user): bool;
 
     public function getBasename(): string {
         return basename($this->getPath());

@@ -64,6 +64,10 @@ class WeeklyPicture extends OlzEntity implements DataStorageInterface {
 
     // ---
 
+    public function __toString(): string {
+        return "WeeklyPicture (ID: {$this->getId()})";
+    }
+
     public static function getEntityNameForStorage(): string {
         return 'weekly_picture';
     }

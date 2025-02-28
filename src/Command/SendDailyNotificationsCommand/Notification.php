@@ -28,7 +28,7 @@ class Notification {
             $user->getFirstName(),
             $user->getLastName(),
             $user->getUsername(),
-            $user->getEmail(),
+            $user->getEmail() ?? '',
         ];
         return str_replace($placeholders, $replacements, $this->text);
     }

@@ -47,11 +47,15 @@ trait WeeklyPictureEndpointTrait {
     }
 
     public function persistUploads(WeeklyPicture $entity): void {
-        $this->persistOlzImages($entity, [$entity->getImageId()]);
+        if ($entity->getImageId()) {
+            $this->persistOlzImages($entity, [$entity->getImageId()]);
+        }
     }
 
     public function editUploads(WeeklyPicture $entity): void {
-        $this->editOlzImages($entity, [$entity->getImageId()]);
+        if ($entity->getImageId() !== null) {
+            $this->editOlzImages($entity, [$entity->getImageId()]);
+        }
     }
 
     protected function getEntityById(int $id): WeeklyPicture {

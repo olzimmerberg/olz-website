@@ -25,6 +25,7 @@ class TermineUtils {
                 return;
             }
         }
+        $this->generalUtils()->checkNotNull($solv_event, "No SolvEvent for termin update");
 
         $duration_days = $solv_event->getDuration() - 1;
         $duration = \DateInterval::createFromDateString("{$duration_days} days");

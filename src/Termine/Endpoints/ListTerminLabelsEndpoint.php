@@ -26,7 +26,7 @@ class ListTerminLabelsEndpoint extends OlzListEntitiesTypedEndpoint {
         return [
             'items' => array_map(function ($entity): array {
                 return [
-                    'id' => $entity->getId(),
+                    'id' => $entity->getId() ?? 0,
                     'meta' => $entity->getMetaData(),
                     'data' => $this->getEntityData($entity),
                 ];

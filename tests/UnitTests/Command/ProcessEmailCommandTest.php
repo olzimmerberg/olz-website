@@ -215,13 +215,13 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('emailUtils')->client->exception = true;
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $mailer->expects($this->exactly(0))->method('send');
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -237,6 +237,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         $mail = new FakeProcessEmailCommandMail(12, 'someone@other-domain.com');
         WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
         $input = new ArrayInput([]);
@@ -244,7 +245,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mailer->expects($this->exactly(0))->method('send');
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -266,6 +266,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         $mail = new FakeProcessEmailCommandMail(
             12,
             'no-such-username@staging.olzimmerberg.ch',
@@ -278,7 +279,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $emails = [];
-        $envelopes = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
             $this->callback(function (Email $email) use (&$emails) {
                 $emails = [...$emails, $email];
@@ -288,7 +288,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -327,6 +326,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         $mail = new FakeProcessEmailCommandMail(
             12,
             'no-permission@staging.olzimmerberg.ch',
@@ -339,7 +339,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $emails = [];
-        $envelopes = [];
         $mailer->expects($this->exactly(1))->method('send')->with(
             $this->callback(function (Email $email) use (&$emails) {
                 $emails = [...$emails, $email];
@@ -349,7 +348,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -388,6 +386,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -419,7 +418,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -465,6 +463,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -485,7 +484,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mailer->expects($this->exactly(0))->method('send');
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -506,6 +504,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -535,7 +534,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -581,6 +579,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -599,7 +598,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mailer->expects($this->exactly(0))->method('send');
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -620,6 +618,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -649,7 +648,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -715,6 +713,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         $mail = new FakeProcessEmailCommandMail(
             12,
             'no-role-permission@staging.olzimmerberg.ch',
@@ -737,7 +736,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -776,6 +774,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -806,7 +805,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -871,6 +869,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -901,7 +900,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -986,6 +984,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -1008,7 +1007,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         ;
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -1029,6 +1027,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -1063,7 +1062,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -1149,6 +1147,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
@@ -1180,7 +1179,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -1266,6 +1264,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail1 = new FakeProcessEmailCommandMail(
@@ -1308,7 +1307,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([
@@ -1394,6 +1392,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $throttling_repo->expected_event_name = 'email_cleanup';
         $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
         $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
@@ -1429,7 +1428,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         );
 
         $job = new ProcessEmailCommand();
-        $job->setMailer($mailer);
         $job->run($input, $output);
 
         $this->assertSame([

@@ -28,10 +28,12 @@ class OlzFaqDetail extends OlzComponent {
         $answered_question = $question_repo->findOneBy(['ident' => $ident]);
         if (!$answered_question) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
         $is_active = $answered_question->getOnOff();
         if (!$is_active && !$this->authUtils()->hasPermission('faq')) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
 
         $question = $answered_question->getQuestion();
@@ -41,7 +43,7 @@ class OlzFaqDetail extends OlzComponent {
             'description' => "Antworten auf die wichtigsten Fragen rund um den OL, die OL Zimmerberg und diese Website.",
         ]);
 
-        $answer = $answered_question->getAnswer();
+        $answer = $answered_question->getAnswer() ?? '';
         $answer_html = $this->htmlUtils()->renderMarkdown($answer);
         $answer_html = $answered_question->replaceImagePaths($answer_html);
         $answer_html = $answered_question->replaceFilePaths($answer_html);
@@ -50,7 +52,7 @@ class OlzFaqDetail extends OlzComponent {
         $can_edit = $this->authUtils()->hasPermission('faq');
         if ($can_edit) {
             $id = $answered_question->getId();
-            $json_id = json_encode(intval($id));
+            $json_id = json_encode($id);
             $edit_admin = <<<ZZZZZZZZZZ
                 <div>
                     <button
@@ -72,7 +74,7 @@ class OlzFaqDetail extends OlzComponent {
         if ($owner_role) {
             $responsible_title = OlzRoleInfoModal::render(['role' => $owner_role]);
         }
-        $responsible_assignees = $responsible_role->getUsers();
+        $responsible_assignees = $responsible_role?->getUsers() ?? [];
         $responsible_out = '';
         foreach ($responsible_assignees as $responsible_assignee) {
             $responsible_out .= OlzUserInfoModal::render([

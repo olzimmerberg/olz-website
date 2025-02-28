@@ -36,7 +36,7 @@ class UpdateTerminLocationEndpoint extends OlzUpdateEntityTypedEndpoint {
         $this->persistUploads($entity);
 
         return [
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
         ];
     }
 }

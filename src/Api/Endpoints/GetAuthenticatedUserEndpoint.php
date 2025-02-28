@@ -21,14 +21,13 @@ use Olz\Api\OlzTypedEndpoint;
  */
 class GetAuthenticatedUserEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
-        $auth_utils = $this->authUtils();
-        $user = $auth_utils->getCurrentUser();
+        $user = $this->authUtils()->getCurrentUser();
         if (!$user) {
             return ['user' => null];
         }
         return [
             'user' => [
-                'id' => $user->getId(),
+                'id' => $user->getId() ?? 0,
                 'firstName' => $user->getFirstName() ?: '-',
                 'lastName' => $user->getLastName() ?: '-',
                 'username' => $user->getUsername() ?: '-',

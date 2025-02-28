@@ -25,6 +25,7 @@ class OlzKarteDetail extends OlzComponent {
 
         if (!$karte) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
 
         $name = $karte->getName();
@@ -71,7 +72,7 @@ class OlzKarteDetail extends OlzComponent {
         $has_karten_permissions = $this->authUtils()->hasPermission('karten');
         $can_edit = $is_owner || $has_karten_permissions;
         if ($can_edit) {
-            $json_id = json_encode(intval($id));
+            $json_id = json_encode($id);
             $out .= <<<ZZZZZZZZZZ
                 <div>
                     <button

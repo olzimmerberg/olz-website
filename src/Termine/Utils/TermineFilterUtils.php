@@ -27,7 +27,6 @@ class TermineFilterUtils {
     public array $allTypeOptions = [];
 
     public function loadTypeOptions(): self {
-        $code_path = $this->envUtils()->getCodePath();
         $code_href = $this->envUtils()->getCodeHref();
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $termine_labels = $termin_label_repo->findBy(['on_off' => 1], ['position' => 'ASC']);
@@ -36,12 +35,9 @@ class TermineFilterUtils {
                 'ident' => 'alle',
                 'name' => "Alle Termine",
             ],
-            ...array_map(function ($label) use ($code_path, $code_href) {
+            ...array_map(function ($label) use ($code_href) {
                 $ident = "{$label->getIdent()}";
-                // TODO: Remove fallback mechanism?
-                $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
-                $fallback_href = is_file($fallback_path)
-                    ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
+                $fallback_href = "{$code_href}assets/icns/termine_type_{$ident}_20.svg";
                 return [
                     'ident' => $ident,
                     'name' => "{$label->getName()}",

@@ -38,6 +38,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
 
         if (!$termin_template) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
         }
 
         $title = $termin_template->getTitle() ?? '';
@@ -92,7 +93,7 @@ class OlzTerminTemplateDetail extends OlzComponent {
         $has_termine_permissions = $this->authUtils()->hasPermission('termine');
         $can_edit = $is_owner || $has_termine_permissions;
         if ($can_edit) {
-            $json_id = json_encode(intval($id));
+            $json_id = json_encode($id);
             $out .= <<<ZZZZZZZZZZ
                 <div>
                     <button

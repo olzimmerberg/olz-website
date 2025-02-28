@@ -21,7 +21,8 @@ trait BookingEndpointTrait {
     /** @return OlzBookingData */
     public function getEntityData(Booking $entity): array {
         $registration = $entity->getRegistration();
-        $external_registration_id = $this->idUtils()->toExternalId($registration->getId(), 'Registration') ?: '-';
+        $registration_id = $registration->getId() ?? 0;
+        $external_registration_id = $this->idUtils()->toExternalId($registration_id, 'Registration') ?: '-';
 
         $values_json = json_decode($entity->getFormData(), true);
         $valid_values = [];

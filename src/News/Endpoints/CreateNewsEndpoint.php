@@ -88,7 +88,7 @@ class CreateNewsEndpoint extends OlzCreateEntityTypedEndpoint {
             try {
                 $email = (new Email())->subject("[OLZ] Dein Forumseintrag");
                 $email = $this->emailUtils()->buildOlzEmail($email, $anonymous_user, $text, $config);
-                $this->mailer->send($email);
+                $this->emailUtils()->send($email);
                 $this->log()->info("Forumseintrag email sent to {$anonymous_user->getEmail()}.");
             } catch (\Exception $exc) {
                 $message = $exc->getMessage();

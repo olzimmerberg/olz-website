@@ -34,7 +34,7 @@ class OlzDatenschutz extends OlzComponent {
                 <h2>Datenschutz-Verantwortliche</h2>
                 <ul class='no-style datenschutz-assignees'>
             ZZZZZZZZZZ;
-        $datenschutz_assignees = $datenschutz_role->getUsers();
+        $datenschutz_assignees = $datenschutz_role?->getUsers() ?? [];
         foreach ($datenschutz_assignees as $datenschutz_assignee) {
             $out .= "<li>";
             $out .= OlzUserInfoModal::render([

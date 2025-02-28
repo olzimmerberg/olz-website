@@ -141,13 +141,13 @@ trait TerminEndpointTrait {
     // ---
 
     /**
-     * @param iterable<TerminLabel> $labels
+     * @param ?iterable<TerminLabel> $labels
      *
      * @return array<non-empty-string>
      */
     protected function getTypesForApi(?iterable $labels): array {
         $types_for_api = [];
-        foreach ($labels as $label) {
+        foreach ($labels ?? [] as $label) {
             $ident = $label->getIdent();
             if ($ident) {
                 $types_for_api[] = $ident;

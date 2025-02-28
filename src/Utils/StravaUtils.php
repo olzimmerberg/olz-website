@@ -63,6 +63,7 @@ class StravaUtils {
             'code' => $code,
             'grant_type' => 'authorization_code',
         ];
+        $this->generalUtils()->checkNotNull($this->strava_fetcher, "No strava fetcher");
         $token_response = $this->strava_fetcher->fetchTokenDataForCode($token_request_data);
 
         if (!isset($token_response['token_type'])) {

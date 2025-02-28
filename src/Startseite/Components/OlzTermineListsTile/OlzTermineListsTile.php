@@ -11,16 +11,20 @@ use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 use Olz\Termine\Utils\TermineFilterUtils;
 
 class OlzTermineListsTile extends AbstractOlzTile {
-    private ?TermineFilterUtils $termine_utils = null;
+    private TermineFilterUtils $termine_utils;
     private ?\mysqli $db = null;
     private ?int $this_year = null;
+
+    public function __construct() {
+        $this->termine_utils = TermineFilterUtils::fromEnv();
+    }
 
     public function getRelevance(?User $user): float {
         return 0.8;
     }
 
     public function getHtml(mixed $args): string {
-        $this->termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+        $this->termine_utils->loadTypeOptions();
         $this->db = $this->dbUtils()->getDb();
         $this->this_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
 
@@ -174,7 +178,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
             ) AS c
             WHERE {$filter_sql}
             ZZZZZZZZZZ;
-        $res = $this->db->query($sql);
+        $res = $this->db?->query($sql);
         // @phpstan-ignore-next-line
         return $res->num_rows;
     }

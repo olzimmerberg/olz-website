@@ -22,10 +22,12 @@ class OlzFiles extends OlzComponent {
         $user = $this->authUtils()->getCurrentUser();
         if (!$user) {
             $this->httpUtils()->dieWithHttpError(401);
+            throw new \Exception('should already have failed');
         }
-        $user_root = $user ? $user->getRoot() : '';
+        $user_root = $user->getRoot();
         if (!$user_root) {
             $this->httpUtils()->dieWithHttpError(403);
+            throw new \Exception('should already have failed');
         }
 
         $out = OlzHeader::render([

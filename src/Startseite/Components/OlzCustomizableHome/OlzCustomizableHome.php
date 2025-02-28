@@ -81,6 +81,6 @@ class OlzCustomizableHome extends OlzComponent {
         $base_class_name = substr($class_name, strrpos($class_name, '\\') + 1);
         return preg_replace_callback('/[A-Z]/', function ($matches) {
             return '-'.strtolower($matches[0]);
-        }, lcfirst($base_class_name));
+        }, lcfirst($base_class_name)) ?? '';
     }
 }

@@ -38,6 +38,7 @@ class SyncSolvCommand extends OlzCommand {
 
     private function syncSolvEventForYear(int $year): void {
         try {
+            $this->generalUtils()->checkNotNull($this->output, "No output");
             $this->symfonyUtils()->callCommand(
                 'olz:sync-solv-events',
                 new ArrayInput(['year' => strval($year)]),
@@ -51,6 +52,7 @@ class SyncSolvCommand extends OlzCommand {
     private function syncSolvResults(): void {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         try {
+            $this->generalUtils()->checkNotNull($this->output, "No output");
             $this->symfonyUtils()->callCommand(
                 'olz:sync-solv-results',
                 new ArrayInput(['year' => strval($current_year)]),
@@ -63,6 +65,7 @@ class SyncSolvCommand extends OlzCommand {
 
     private function assignSolvPeople(): void {
         try {
+            $this->generalUtils()->checkNotNull($this->output, "No output");
             $this->symfonyUtils()->callCommand(
                 'olz:sync-solv-assign-people',
                 new ArrayInput([]),
@@ -75,6 +78,7 @@ class SyncSolvCommand extends OlzCommand {
 
     private function mergeSolvPeople(): void {
         try {
+            $this->generalUtils()->checkNotNull($this->output, "No output");
             $this->symfonyUtils()->callCommand(
                 'olz:sync-solv-merge-people',
                 new ArrayInput([]),

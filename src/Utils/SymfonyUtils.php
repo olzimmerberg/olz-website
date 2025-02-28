@@ -18,6 +18,7 @@ class SymfonyUtils {
         OutputInterface $output,
     ): void {
         $application = $this->getApplication();
+        $this->generalUtils()->checkNotNull($application, "No application present");
         $application->setAutoExit(false);
         $command = $application->find($command_name);
         $return_code = $command->run($input, $output);

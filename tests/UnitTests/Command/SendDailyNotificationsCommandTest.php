@@ -81,6 +81,7 @@ class FakeNotificationGetter implements NotificationGetterInterface {
 final class SendDailyNotificationsCommandTest extends UnitTestCase {
     public function testSendDailyNotificationsCommand(): void {
         $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $artifacts = [];
@@ -96,7 +97,6 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         );
 
         $job = new SendDailyNotificationsCommandForTest();
-        $job->setMailer($mailer);
         $job->testOnlySetNotificationGetters([
             NotificationSubscription::TYPE_DAILY_SUMMARY => new FakeNotificationGetter(NotificationSubscription::TYPE_DAILY_SUMMARY),
             NotificationSubscription::TYPE_DEADLINE_WARNING => new FakeNotificationGetter(NotificationSubscription::TYPE_DEADLINE_WARNING),

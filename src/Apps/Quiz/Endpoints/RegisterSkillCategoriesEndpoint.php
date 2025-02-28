@@ -54,7 +54,7 @@ class RegisterSkillCategoriesEndpoint extends OlzTypedEndpoint {
 
         $id_by_name = [];
         foreach ($category_by_name as $category_name => $category) {
-            $id_by_name[$category_name] = $this->idUtils()->toExternalId($category->getId(), 'SkillCategory') ?: '-';
+            $id_by_name[$category_name] = $this->idUtils()->toExternalId($category->getId() ?? 0, 'SkillCategory') ?: '-';
         }
         return ['idByName' => $id_by_name];
     }

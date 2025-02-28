@@ -88,7 +88,7 @@ class UploadUtils {
     }
 
     /** @return ?non-empty-string */
-    public function getValidUploadId(string $upload_id): ?string {
+    public function getValidUploadId(?string $upload_id): ?string {
         if (!$this->isUploadId($upload_id)) {
             $this->log()->warning("Upload ID \"{$upload_id}\" is invalid.");
             return null;

@@ -31,12 +31,14 @@ class UpdateUserPasswordEndpoint extends OlzTypedEndpoint {
 
         $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $input['id']]);
+        $this->generalUtils()->checkNotNull($user, "No such user: {$input['id']}");
 
         if ($user->getUsername() !== $auth_username) {
             return ['status' => 'OTHER_USER'];
         }
 
-        if (!$this->authUtils()->verifyPassword($old_password, $user->getPasswordHash())) {
+        $hash = $user->getPasswordHash();
+        if (!$hash || !$this->authUtils()->verifyPassword($old_password, $hash)) {
             return ['status' => 'INVALID_OLD'];
         }
 

@@ -73,7 +73,7 @@ class OlzNewsListItem extends OlzComponent {
         $can_edit = $is_owner || $has_all_permissions;
         $edit_admin = '';
         if ($can_edit) {
-            $json_id = json_encode(intval($id));
+            $json_id = json_encode($id);
             $json_mode = $args['json_mode'];
             $edit_admin = <<<ZZZZZZZZZZ
                 <button
@@ -171,7 +171,7 @@ class OlzNewsListItem extends OlzComponent {
     protected static function truncateText(string $text): string {
         $max_length = 300;
 
-        $text = preg_replace("/\\s*\\n\\s*/", "\n", $text);
+        $text = preg_replace("/\\s*\\n\\s*/", "\n", $text) ?? $text;
         $text_length = mb_strlen($text);
 
         if ($text_length <= $max_length) {

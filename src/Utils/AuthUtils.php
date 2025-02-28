@@ -21,7 +21,7 @@ class AuthUtils {
     /** @var array<string, User> */
     protected array $cached_users = [];
 
-    public function authenticate(string $username_or_email, string $password): ?User {
+    public function authenticate(string $username_or_email, string $password): User {
         $ip_address = $this->server()['REMOTE_ADDR'];
         $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
 
@@ -37,7 +37,8 @@ class AuthUtils {
         $user = $this->resolveUsernameOrEmail($username_or_email);
 
         // If the password is wrong, authentication fails.
-        if (!$user || !$password || !$this->verifyPassword($password, $user->getPasswordHash())) {
+        $hash = $user?->getPasswordHash();
+        if (!$user || !$password || !$hash || !$this->verifyPassword($password, $hash)) {
             $message = "Login attempt with invalid credentials from IP: {$ip_address} (user: {$username_or_email}).";
             $this->log()->notice($message);
             $auth_request_repo->addAuthRequest($ip_address, 'INVALID_CREDENTIALS', $username_or_email);
@@ -275,7 +276,7 @@ class AuthUtils {
                 return true;
             }
             $role = $role_repo->findOneBy(['id' => $role_id]);
-            $role_id = $role->getParentRoleId() ?? null;
+            $role_id = $role?->getParentRoleId() ?? null;
         }
         return false;
     }

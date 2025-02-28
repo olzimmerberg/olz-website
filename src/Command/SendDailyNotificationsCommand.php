@@ -116,7 +116,7 @@ class SendDailyNotificationsCommand extends OlzCommand {
                 try {
                     $email = (new Email())->subject("[OLZ] {$title}");
                     $email = $this->emailUtils()->buildOlzEmail($email, $user, $text, $config);
-                    $this->mailer->send($email);
+                    $this->emailUtils()->send($email);
                     $this->log()->info("Email sent to user ({$user_id}): {$title}");
                 } catch (\Throwable $th) {
                     $th_class = get_class($th);

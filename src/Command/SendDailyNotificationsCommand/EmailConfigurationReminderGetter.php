@@ -21,8 +21,11 @@ class EmailConfigurationReminderGetter implements NotificationGetterInterface {
         foreach ($email_notifications_state as $user_id => $state) {
             $reminder_id = $state['reminder_id'] ?? false;
             $needs_reminder = $state['needs_reminder'] ?? false;
-            if ($needs_reminder && !$reminder_id) {
-                $user = $user_repo->findOneBy(['id' => $user_id]);
+            $user = $user_repo->findOneBy(['id' => $user_id]);
+            if (!$user) {
+                $this->log()->warning("No user (ID:{$user_id}) for telegram notification");
+            }
+            if ($needs_reminder && !$reminder_id && $user) {
                 $this->log()->info("Generating email configuration reminder subscription for '{$user}'...");
                 $subscription = new NotificationSubscription();
                 $subscription->setUser($user);
@@ -33,10 +36,11 @@ class EmailConfigurationReminderGetter implements NotificationGetterInterface {
                 $this->entityManager()->persist($subscription);
             }
             if ($reminder_id && !$needs_reminder) {
-                $user = $user_repo->findOneBy(['id' => $user_id]);
                 $this->log()->info("Removing email configuration reminder subscription ({$reminder_id}) for '{$user}'...");
                 $subscription = $notification_subscription_repo->findOneBy(['id' => $reminder_id]);
-                $this->entityManager()->remove($subscription);
+                if ($subscription) {
+                    $this->entityManager()->remove($subscription);
+                }
             }
         }
         $this->entityManager()->flush();
@@ -57,7 +61,9 @@ class EmailConfigurationReminderGetter implements NotificationGetterInterface {
         foreach ($email_notification_subscriptions as $subscription) {
             $user_id = $subscription->getUser()->getId() ?: 0;
             $user_state = $email_notifications_state[$user_id] ?? [];
-            $user_state['reminder_id'] = $subscription->getId();
+            $subscription_id = $subscription->getId();
+            $this->generalUtils()->checkNotNull($subscription_id, "No subscription ID");
+            $user_state['reminder_id'] = $subscription_id;
             $email_notifications_state[$user_id] = $user_state;
         }
 

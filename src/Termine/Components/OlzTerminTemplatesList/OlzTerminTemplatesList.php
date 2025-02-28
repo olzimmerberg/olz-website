@@ -21,6 +21,7 @@ class OlzTerminTemplatesList extends OlzComponent {
 
         if (!$this->authUtils()->hasPermission('termine')) {
             $this->httpUtils()->dieWithHttpError(401);
+            throw new \Exception('should already have failed');
         }
 
         $out = OlzHeader::render([

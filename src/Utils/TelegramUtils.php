@@ -40,7 +40,9 @@ class TelegramUtils {
 
     public function getFreshPinForUser(User $user): string {
         $telegram_link = $this->startChatForUser($user);
-        return $telegram_link->getPin();
+        $pin = $telegram_link->getPin();
+        $this->generalUtils()->checkNotNull($pin, "Telegram link pin was null");
+        return $pin;
     }
 
     public function startAnonymousChat(string $chat_id, string $user_id): TelegramLink {
@@ -147,7 +149,9 @@ class TelegramUtils {
             throw new \Exception('Unbekannter Chat.');
         }
         $telegram_link = $this->setNewPinForLink($existing);
-        return $telegram_link->getPin();
+        $pin = $telegram_link->getPin();
+        $this->generalUtils()->checkNotNull($pin, "Telegram link pin was null");
+        return $pin;
     }
 
     public function setNewPinForLink(TelegramLink $telegram_link): TelegramLink {
@@ -289,8 +293,11 @@ class TelegramUtils {
                 $telegram_link = $telegram_link_repo->findOneBy([
                     'telegram_chat_id' => $args['chat_id'],
                 ]);
-                $this->entityManager()->remove($telegram_link);
-                $this->entityManager()->flush();
+                if ($telegram_link) {
+                    $this->entityManager()->remove($telegram_link);
+                    $this->entityManager()->flush();
+                    $this->log()->notice("Telegram link removed!");
+                }
                 throw new \Exception("{$response_json}");
             }
             $this->log()->error("Telegram API response was not OK: {$response_json}");

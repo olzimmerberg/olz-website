@@ -130,7 +130,7 @@ abstract class OlzSitemap extends OlzComponent {
             ];
             $pretty_format = $pretty_formats[$news_entry->getFormat()] ?? 'News-Eintrag';
             $pretty_author = OlzAuthorBadge::render([
-                'news_id' => $news_entry->getId(),
+                'news_id' => $news_entry->getId() ?: 0,
                 'user' => $news_entry->getAuthorUser(),
                 'role' => $news_entry->getAuthorRole(),
                 'name' => $news_entry->getAuthorName(),

@@ -27,7 +27,7 @@ class CreateBookingEndpoint extends OlzCreateEntityTypedEndpoint {
         $this->entityManager()->persist($booking);
         $this->entityManager()->flush();
 
-        $internal_booking_id = $booking->getId();
+        $internal_booking_id = $booking->getId() ?? 0;
         $external_booking_id = $this->idUtils()->toExternalId($internal_booking_id, 'Booking') ?: '-';
 
         return [

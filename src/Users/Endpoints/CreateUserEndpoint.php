@@ -139,7 +139,7 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
             } catch (\Throwable $th) {
                 return [
                     'custom' => ['status' => 'OK_NO_EMAIL_VERIFICATION'],
-                    'id' => $entity->getId(),
+                    'id' => $entity->getId() ?? 0,
                 ];
             }
             $this->entityManager()->flush();
@@ -147,7 +147,7 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
 
         return [
             'custom' => ['status' => 'OK'],
-            'id' => $entity->getId(),
+            'id' => $entity->getId() ?? 0,
         ];
     }
 }

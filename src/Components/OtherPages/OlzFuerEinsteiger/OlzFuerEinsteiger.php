@@ -3,11 +3,11 @@
 namespace Olz\Components\OtherPages\OlzFuerEinsteiger;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Termine\Termin;
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Repository\Roles\PredefinedRole;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
@@ -51,7 +51,9 @@ class OlzFuerEinsteiger extends OlzComponent {
         }
         $contact_information .= "</div>";
 
-        $trainings_information = OlzEditableText::render(['snippet_id' => 1]);
+        $termin_label_repo = $entityManager->getRepository(TerminLabel::class);
+        $trainings_label = $termin_label_repo->findOneBy(['ident' => 'training']);
+        $trainings_information = $this->htmlUtils()->renderMarkdown($trainings_label?->getDetails() ?? '');
 
         $today_iso = $this->dateUtils()->getIsoToday();
         // TODO: PredefinedTerminLabels?
@@ -67,10 +69,10 @@ class OlzFuerEinsteiger extends OlzComponent {
         $query = $this->entityManager()
             ->createQuery($dql)
             ->setParameter(1, $today_iso)
-            ->setMaxResults(3)
+            ->setMaxResults(5)
         ;
-        $next_three_trainings = $query->getResult();
-        $next_three_trainings_out = implode('', array_map(
+        $next_five_trainings = $query->getResult();
+        $next_five_trainings_out = implode('', array_map(
             function ($training) use ($code_href) {
                 $id = $training->getId();
                 $date = $training->getStartDate()->format('d.m.');
@@ -79,7 +81,7 @@ class OlzFuerEinsteiger extends OlzComponent {
                     <b>{$date}</b> {$title}
                 </a></li>";
             },
-            [...$next_three_trainings],
+            [...$next_five_trainings],
         ));
 
         $orientierungslauf_001 = $this->getTile('orientierungslauf_001');
@@ -273,7 +275,7 @@ class OlzFuerEinsteiger extends OlzComponent {
             <div class='text'>
                 <h1>Pack die Chance!</h1>
                 <p class='slogan'>Komm doch einfach an eines unserer nächsten Trainings:</p>
-                <ul>{$next_three_trainings_out}</ul>
+                <ul>{$next_five_trainings_out}</ul>
             </div>
 
             <div class='clear-both'></div>

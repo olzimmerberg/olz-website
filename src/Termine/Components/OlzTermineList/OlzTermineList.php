@@ -103,12 +103,28 @@ class OlzTermineList extends OlzComponent {
                 ZZZZZZZZZZ;
         }
 
-        $out .= "<h1>{$termine_list_title}</h1>";
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
         $termin_label = $termin_label_repo->findOneBy(['ident' => $current_filter['typ']]);
+        $edit_admin = '';
+        if ($termin_label) {
+            $has_termine_permissions = $this->authUtils()->hasPermission('termine');
+            if ($has_termine_permissions) {
+                $json_id = json_encode($termin_label->getId());
+                $edit_admin = <<<ZZZZZZZZZZ
+                    <button
+                        id='edit-termin-label-button'
+                        class='btn btn-secondary-outline btn-sm'
+                        onclick='return olz.termineListEditTerminLabel({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                    </button>
+                    ZZZZZZZZZZ;
+            }
+        }
+        $out .= "<h1>{$termine_list_title}{$edit_admin}</h1>";
         $details = $termin_label?->getDetails();
-        if ($termin_label && $details) {
+        if ($details) {
             $details_html = $this->htmlUtils()->renderMarkdown($details);
             $details_html = $termin_label->replaceImagePaths($details_html);
             $details_html = $termin_label->replaceFilePaths($details_html);

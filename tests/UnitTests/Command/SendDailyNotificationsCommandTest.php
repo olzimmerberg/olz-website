@@ -16,12 +16,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class SendDailyNotificationsCommandForTest extends SendDailyNotificationsCommand {
+class TestOnlySendDailyNotificationsCommand extends SendDailyNotificationsCommand {
     /** @param array<string, NotificationGetterInterface> $new_notification_getters */
     public function testOnlySetNotificationGetters(array $new_notification_getters): void {
         $this->notification_getter_by_type = $new_notification_getters;
@@ -87,7 +82,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $artifacts = [];
         $mailer->expects($this->exactly(6))->method('send')->with(
             $this->callback(function (Email $email) use (&$artifacts) {
-                if (str_contains($email->getSubject(), 'provoke')) {
+                if (str_contains($email->getSubject() ?? '', 'provoke')) {
                     throw new \Exception("provoked");
                 }
                 $artifacts['email'] = [...($artifacts['email'] ?? []), $email];
@@ -96,7 +91,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             null,
         );
 
-        $job = new SendDailyNotificationsCommandForTest();
+        $job = new TestOnlySendDailyNotificationsCommand();
         $job->testOnlySetNotificationGetters([
             NotificationSubscription::TYPE_DAILY_SUMMARY => new FakeNotificationGetter(NotificationSubscription::TYPE_DAILY_SUMMARY),
             NotificationSubscription::TYPE_DEADLINE_WARNING => new FakeNotificationGetter(NotificationSubscription::TYPE_DEADLINE_WARNING),
@@ -109,7 +104,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
         $job->run($input, $output);
 
         $this->assertSame([
-            "INFO Running command Olz\\Tests\\UnitTests\\Command\\SendDailyNotificationsCommandForTest...",
+            "INFO Running command Olz\\Tests\\UnitTests\\Command\\TestOnlySendDailyNotificationsCommand...",
             "INFO Autogenerating notification subscriptions...",
             "INFO Autogenerating daily_summary subscriptions...",
             "INFO Autogenerating deadline_warning subscriptions...",
@@ -178,7 +173,7 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
             "INFO Email sent to user (1): ecr title {\"cancelled\":false}",
             "INFO Getting notification for '{\"cancelled\":true}'...",
             "INFO Nothing to send.",
-            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\SendDailyNotificationsCommandForTest.",
+            "INFO Successfully ran command Olz\\Tests\\UnitTests\\Command\\TestOnlySendDailyNotificationsCommand.",
         ], $this->getLogs());
 
         $entity_manager = WithUtilsCache::get('entityManager');

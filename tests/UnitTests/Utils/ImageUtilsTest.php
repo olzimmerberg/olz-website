@@ -8,12 +8,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\ImageUtils;
 use Olz\Utils\WithUtilsCache;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class ImageUtilsForTest extends ImageUtils {
+class TestOnlyImageUtils extends ImageUtils {
     /** @var array<array{0: string, 1: string, 2: int}> */
     public array $getThumbFileCalls = [];
 
@@ -55,7 +50,7 @@ final class ImageUtilsTest extends UnitTestCase {
     }
 
     public function testGenerateThumbnails(): void {
-        $image_utils = new ImageUtilsForTest();
+        $image_utils = new TestOnlyImageUtils();
 
         $image_utils->generateThumbnails(['abcd.jpg', 'efgh.jpg'], 'fake-path');
 

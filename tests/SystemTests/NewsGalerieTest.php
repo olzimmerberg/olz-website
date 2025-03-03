@@ -23,7 +23,7 @@ final class NewsGalerieTest extends SystemTestCase {
         $this->screenshot('news_detail_galerie');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Galerie/i',
-            $this->getBrowserElement('#format-info')->getText(),
+            $this->getBrowserElement('#format-info')?->getText() ?? '',
         );
     }
 

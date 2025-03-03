@@ -24,7 +24,7 @@ final class SolvFetcherTest extends IntegrationTestCase {
 
     public function testFetchEventsCsvForYear(): void {
         $content = $this->solv_fetcher->fetchEventsCsvForYear(date('Y'));
-        $lines = explode("\n", $content);
+        $lines = explode("\n", $content ?? '');
         $expected_first_line = 'unique_id;date;duration;kind;day_night;national;region;type;event_name;event_link;club;map;location;coord_x;coord_y;deadline;entryportal;last_modification';
         $this->assertSame($expected_first_line, $lines[0]);
         $this->assertGreaterThan(1, count($lines));
@@ -32,7 +32,7 @@ final class SolvFetcherTest extends IntegrationTestCase {
 
     public function testFetchYearlyResultsJson(): void {
         $content = $this->solv_fetcher->fetchYearlyResultsJson($this->year_to_fetch);
-        $data = json_decode($content, true);
+        $data = json_decode($content ?? '', true);
         $result_lists = $data['ResultLists'];
         $this->assertGreaterThan(0, count($result_lists));
         $this->assertArrayHasKey('UniqueID', $result_lists[0]);
@@ -49,14 +49,14 @@ final class SolvFetcherTest extends IntegrationTestCase {
     }
 
     public function testFetchEventResultsHtml(): void {
-        $rank_id = $this->getLatestRankId();
-        $content = $this->solv_fetcher->fetchEventResultsHtml($rank_id);
+        $rank_id = $this->getLatestRankId() ?? 0;
+        $content = $this->solv_fetcher->fetchEventResultsHtml($rank_id) ?? '';
         $this->assertMatchesRegularExpression('/<p>Total: [0-9]+ Teilnehmer des Clubs\./', $content);
     }
 
     private function getLatestRankId(): int|string|null {
         $content = $this->solv_fetcher->fetchYearlyResultsJson($this->year_to_fetch);
-        $data = json_decode($content, true);
+        $data = json_decode($content ?? '', true);
         $result_lists = $data['ResultLists'] ?? null;
         return $result_lists[count($result_lists) - 1]['ResultListID'] ?? null;
     }

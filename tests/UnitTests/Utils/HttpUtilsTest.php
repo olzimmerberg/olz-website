@@ -35,12 +35,7 @@ class TestParams extends HttpParams {
 class ExitException extends \Exception {
 }
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class HttpUtilsForTest extends HttpUtils {
+class TestOnlyHttpUtils extends HttpUtils {
     public ?int $http_response_code = null;
     /** @var array<string> */
     public array $http_header_lines = [];
@@ -70,7 +65,7 @@ class HttpUtilsForTest extends HttpUtils {
  */
 final class HttpUtilsTest extends UnitTestCase {
     public function testValidateGetParamsMinimal(): void {
-        $utils = new HttpUtilsForTest();
+        $utils = new TestOnlyHttpUtils();
 
         $this->assertEquals([
             'argInt' => '3',
@@ -86,7 +81,7 @@ final class HttpUtilsTest extends UnitTestCase {
     }
 
     public function testValidateGetParamsMaximal(): void {
-        $utils = new HttpUtilsForTest();
+        $utils = new TestOnlyHttpUtils();
 
         $this->assertEquals([
             'argInt' => '3',
@@ -104,7 +99,7 @@ final class HttpUtilsTest extends UnitTestCase {
     }
 
     public function testValidateGetParamsNonNullableError(): void {
-        $utils = new HttpUtilsForTest();
+        $utils = new TestOnlyHttpUtils();
         try {
             $utils->validateGetParams(TestParams::class, [
                 'argInt' => null,
@@ -117,12 +112,12 @@ final class HttpUtilsTest extends UnitTestCase {
         } catch (ExitException $exc) {
             $this->assertSame(400, $utils->http_response_code);
             $this->assertSame([], $utils->http_header_lines);
-            $this->assertStringContainsString('400', $utils->http_body);
+            $this->assertStringContainsString('400', $utils->http_body ?? '');
         }
     }
 
     public function testValidateGetParamsMissingParamError(): void {
-        $utils = new HttpUtilsForTest();
+        $utils = new TestOnlyHttpUtils();
         try {
             $utils->validateGetParams(TestParams::class, [
                 'argInt' => '3',
@@ -134,12 +129,12 @@ final class HttpUtilsTest extends UnitTestCase {
         } catch (ExitException $exc) {
             $this->assertSame(400, $utils->http_response_code);
             $this->assertSame([], $utils->http_header_lines);
-            $this->assertStringContainsString('400', $utils->http_body);
+            $this->assertStringContainsString('400', $utils->http_body ?? '');
         }
     }
 
     public function testValidateGetParamsRedundantParamError(): void {
-        $utils = new HttpUtilsForTest();
+        $utils = new TestOnlyHttpUtils();
         try {
             $utils->validateGetParams(TestParams::class, [
                 'argInt' => null,
@@ -153,19 +148,19 @@ final class HttpUtilsTest extends UnitTestCase {
         } catch (ExitException $exc) {
             $this->assertSame(400, $utils->http_response_code);
             $this->assertSame([], $utils->http_header_lines);
-            $this->assertStringContainsString('400', $utils->http_body);
+            $this->assertStringContainsString('400', $utils->http_body ?? '');
         }
     }
 
     public function testValidateGetParamsEmptyError(): void {
-        $utils = new HttpUtilsForTest();
+        $utils = new TestOnlyHttpUtils();
         try {
             $utils->validateGetParams(TestParams::class, []);
             $this->fail('Error expected');
         } catch (ExitException $exc) {
             $this->assertSame(400, $utils->http_response_code);
             $this->assertSame([], $utils->http_header_lines);
-            $this->assertStringContainsString('400', $utils->http_body);
+            $this->assertStringContainsString('400', $utils->http_body ?? '');
         }
     }
 }

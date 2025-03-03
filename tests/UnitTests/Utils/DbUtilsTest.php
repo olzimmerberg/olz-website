@@ -4,8 +4,19 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
+use Doctrine\ORM\EntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\DbUtils;
+
+class TestOnlyDbUtils extends DbUtils {
+    public static function testOnlySetDb(\mysqli $new_db): void {
+        self::$db = $new_db;
+    }
+
+    public static function testOnlySetEntityManager(EntityManager $new_em): void {
+        self::$entityManager = $new_em;
+    }
+}
 
 /**
  * @internal
@@ -14,9 +25,28 @@ use Olz\Utils\DbUtils;
  */
 final class DbUtilsTest extends UnitTestCase {
     public function testDbUtilsGetDb(): void {
-        $db_utils = new DbUtils();
-
         // There's not much to test in unit tests without an actual DB...
-        $this->assertEquals($db_utils, DbUtils::fromEnv());
+        $this->assertEquals(new DbUtils(), DbUtils::fromEnv());
+
+        $db_utils = new TestOnlyDbUtils();
+        try {
+            $db_utils->getDb();
+            $this->fail('Error expected');
+        } catch (\Throwable $th) {
+            $this->assertSame('mysql_username not set', $th->getMessage());
+        }
+        $fake_db = $this->createMock(\mysqli::class);
+        TestOnlyDbUtils::testOnlySetDb($fake_db);
+        $this->assertSame($fake_db, $db_utils->getDb());
+
+        try {
+            $db_utils->getEntityManager();
+            $this->fail('Error expected');
+        } catch (\Throwable $th) {
+            $this->assertSame('DbUtils.php:*** No entityManager', $th->getMessage());
+        }
+        $fake_em = $this->createMock(EntityManager::class);
+        TestOnlyDbUtils::testOnlySetEntityManager($fake_em);
+        $this->assertSame($fake_em, $db_utils->getEntityManager());
     }
 }

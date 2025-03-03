@@ -10,12 +10,7 @@ use Olz\Apps\Logs\Utils\PlainLogFile;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class DailyFileLogsChannelForTest extends DailyFileLogsChannel {
+class TestOnlyDailyFileLogsChannel extends DailyFileLogsChannel {
     public static function getId(): string {
         return 'daily-file-logs-channel-id';
     }
@@ -56,7 +51,7 @@ class DailyFileLogsChannelForTest extends DailyFileLogsChannel {
  */
 final class DailyFileLogsChannelTest extends UnitTestCase {
     public function testDailyFileLogsChannelTargetDate(): void {
-        $channel = new DailyFileLogsChannelForTest();
+        $channel = new TestOnlyDailyFileLogsChannel();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'all',
@@ -116,9 +111,9 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
         ], $result->lines);
         $this->assertMatchesRegularExpression(
             '/\/tmp\/private\/logs\/2020-03-12.log$/',
-            $result->previous->logFile->getPath(),
+            $result->previous?->logFile->getPath() ?? '',
         );
-        $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous->lineNumber);
+        $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous?->lineNumber);
         $this->assertNull($result->next);
     }
 }

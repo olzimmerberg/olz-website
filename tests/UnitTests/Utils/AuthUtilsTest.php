@@ -13,12 +13,7 @@ use Olz\Utils\AuthUtils;
 use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class AuthUtilsForTest extends AuthUtils {
+class TestOnlyAuthUtils extends AuthUtils {
     public function hashPassword(string $password): string {
         return md5($password); // just for test
     }
@@ -40,7 +35,7 @@ final class AuthUtilsTest extends UnitTestCase {
             'user' => 'inexistent',
         ];
 
-        $auth_utils = new AuthUtilsForTest();
+        $auth_utils = new TestOnlyAuthUtils();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
         $auth_utils->setSession($session);
 
@@ -580,7 +575,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils->setSession($session);
         $this->assertSame(['admin_role'], array_map(function ($role) {
             return $role->getUsername();
-        }, $auth_utils->getAuthenticatedRoles()));
+        }, $auth_utils->getAuthenticatedRoles() ?? []));
     }
 
     public function testGetAuthenticatedRolesUnauthenticated(): void {
@@ -596,14 +591,14 @@ final class AuthUtilsTest extends UnitTestCase {
         $auth_utils = new AuthUtils();
         $this->assertSame(['admin_role'], array_map(function ($role) {
             return $role->getUsername();
-        }, $auth_utils->getAuthenticatedRoles(FakeUser::adminUser())));
+        }, $auth_utils->getAuthenticatedRoles(FakeUser::adminUser()) ?? []));
     }
 
     public function testGetAuthenticatedRolesVorstand(): void {
         $auth_utils = new AuthUtils();
         $this->assertSame(['vorstand_role'], array_map(function ($role) {
             return $role->getUsername();
-        }, $auth_utils->getAuthenticatedRoles(FakeUser::vorstandUser())));
+        }, $auth_utils->getAuthenticatedRoles(FakeUser::vorstandUser()) ?? []));
     }
 
     public function testIsRoleIdAuthenticated(): void {

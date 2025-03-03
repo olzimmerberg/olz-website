@@ -23,7 +23,7 @@ final class NewsAktuellTest extends SystemTestCase {
         $this->screenshot('news_detail_aktuell');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Aktuell/i',
-            $this->getBrowserElement('#format-info')->getText(),
+            $this->getBrowserElement('#format-info')?->getText() ?? '',
         );
     }
 

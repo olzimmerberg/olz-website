@@ -89,7 +89,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Monatsvorschau April', $notification->title);
+        $this->assertSame('Monatsvorschau April', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 

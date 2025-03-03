@@ -65,23 +65,23 @@ class FakeProcessEmailCommandMail extends Message {
         return $this->uid;
     }
 
-    public function getTo(): Attribute {
+    public function getTo(): ?Attribute {
         return $this->to;
     }
 
-    public function getCc(): Attribute {
+    public function getCc(): ?Attribute {
         return $this->cc;
     }
 
-    public function getBcc(): Attribute {
+    public function getBcc(): ?Attribute {
         return $this->bcc;
     }
 
-    public function getFrom(): Attribute {
+    public function getFrom(): ?Attribute {
         return $this->from;
     }
 
-    public function getSubject(): Attribute {
+    public function getSubject(): ?Attribute {
         return $this->subject;
     }
 
@@ -104,7 +104,7 @@ class FakeProcessEmailCommandMail extends Message {
     }
 
     public function getTextBody(): string {
-        return $this->textPlain;
+        return $this->textPlain ?? '';
     }
 
     public function hasHTMLBody(): bool {
@@ -112,7 +112,7 @@ class FakeProcessEmailCommandMail extends Message {
     }
 
     public function getHTMLBody(): string {
-        return $this->textHtml;
+        return $this->textHtml ?? '';
     }
 
     /** @return array<Attribute> */
@@ -193,12 +193,7 @@ class FakeProcessEmailCommandAttachment {
     }
 }
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class ProcessEmailCommandForTest extends ProcessEmailCommand {
+class TestOnlyProcessEmailCommand extends ProcessEmailCommand {
     public function testOnlyGetSpamNoticeScore(string $body): int {
         return $this->getSpamNoticeScore($body);
     }
@@ -1778,7 +1773,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             "\r\n\r\n<anonymous@domain.com>: host mx02.domain.com[199.200.201.202] said: 550 High\r\n probability of spam (in reply to end of DATA command)" => 4,
             "\r\n\r\n<anonymous@domain.com>: host\r\n mx.mail.protection.domain.com[51.52.53.54] said: 550\r\n 5.4.1 Recipient address rejected: Access denied.\r\n [ASkDUMyjW63vx9p.eur06.prod.domain.com 2024-11-22T15:27:37.730Z\r\n HEZKiZPX5xebDqsq] (in reply to RCPT TO command)" => 1,
         ];
-        $job = new ProcessEmailCommandForTest();
+        $job = new TestOnlyProcessEmailCommand();
         $actual_spam_notice_scores = [];
         foreach ($expected_spam_notice_scores as $body => $score) {
             $actual_spam_notice_scores[$body] = $job->testOnlyGetSpamNoticeScore($body);

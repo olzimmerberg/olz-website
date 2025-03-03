@@ -284,7 +284,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         $this->assertSame('Last', $admin_user->getLastName());
         $this->assertSame('+41441234567', $admin_user->getPhone());
         $this->assertSame('F', $admin_user->getGender());
-        $this->assertSame('1992-08-05 12:00:00', $admin_user->getBirthdate()->format('Y-m-d H:i:s'));
+        $this->assertSame('1992-08-05 12:00:00', $admin_user->getBirthdate()?->format('Y-m-d H:i:s'));
         $this->assertSame('Teststrasse 123', $admin_user->getStreet());
         $this->assertSame('1234', $admin_user->getPostalCode());
         $this->assertSame('Muster', $admin_user->getCity());

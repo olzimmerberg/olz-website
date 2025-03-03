@@ -1,5 +1,8 @@
 <?php
 
+// @codeCoverageIgnoreStart
+// Reason: It's a font...
+
 $type = 'TrueType';
 $name = 'OpenSans-SemiBold';
 $desc = ['Ascent' => 1069, 'Descent' => -293, 'CapHeight' => 714, 'Flags' => 32, 'FontBBox' => '[-584 -282 1260 1051]', 'ItalicAngle' => 0, 'StemV' => 70, 'MissingWidth' => 600];
@@ -23,3 +26,5 @@ $uv = [0 => [0, 128], 128 => 8364, 130 => 8218, 131 => 402, 132 => 8222, 133 => 
 $file = 'OpenSans-SemiBold.z';
 $originalsize = 28664;
 $subsetted = true;
+
+// @codeCoverageIgnoreEnd

@@ -11,12 +11,7 @@ use Olz\Apps\Logs\Utils\PlainLogFile;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class BaseLogsChannelForTest extends BaseLogsChannel {
+class TestOnlyBaseLogsChannel extends BaseLogsChannel {
     public static function getId(): string {
         return 'base-logs-channel-id';
     }
@@ -60,7 +55,7 @@ class BaseLogsChannelForTest extends BaseLogsChannel {
  */
 final class BaseLogsChannelTest extends UnitTestCase {
     public function testBaseLogsChannelTargetDate(): void {
-        $channel = new BaseLogsChannelForTest();
+        $channel = new TestOnlyBaseLogsChannel();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'all',

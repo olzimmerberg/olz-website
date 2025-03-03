@@ -61,7 +61,7 @@ final class EmailConfigurationReminderGetterIntegrationTest extends IntegrationT
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Kein Newsletter abonniert', $notification->title);
+        $this->assertSame('Kein Newsletter abonniert', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

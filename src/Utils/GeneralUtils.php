@@ -111,8 +111,11 @@ class GeneralUtils {
 
     protected function getRandomIvForAlgo(string $algo): string {
         $length = openssl_cipher_iv_length($algo);
-        if (!$length) {
+        if ($length === false) {
             throw new \Exception("Unknown openssl_cipher_iv_length({$algo})");
+        }
+        if ($length === 0) {
+            return '';
         }
         return openssl_random_pseudo_bytes($length);
     }
@@ -173,7 +176,7 @@ class GeneralUtils {
         $output = 'Stack trace:'.PHP_EOL;
 
         $trace_len = count($trace);
-        for ($i = 1; $i < $trace_len; $i++) {
+        for ($i = 0; $i < $trace_len; $i++) {
             $entry = $trace[$i];
 
             $func = $entry['function'].'(';
@@ -186,7 +189,7 @@ class GeneralUtils {
             }
             $func .= ')';
 
-            $output .= '#'.($i - 1).' '.$entry['file'].':'.$entry['line'].' - '.$func.PHP_EOL;
+            $output .= "#{$i} {$entry['file']}:{$entry['line']} - {$func}\n";
         }
         return $output;
     }

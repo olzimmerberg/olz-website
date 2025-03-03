@@ -130,7 +130,7 @@ final class TermineTest extends SystemTestCase {
         $this->waitUntilGone('#edit-termin-modal');
 
         $browser->get("{$this->getUrl()}/1002");
-        $this->assertSame('Kartentraining: <<< TODO >>>', $this->getBrowserElement('.olz-termin-detail h1')->getText());
+        $this->assertSame('Kartentraining: <<< TODO >>>', $this->getBrowserElement('.olz-termin-detail h1')?->getText());
 
         $this->resetDb();
     }

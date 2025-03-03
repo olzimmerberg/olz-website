@@ -89,7 +89,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_utils->setNewPinForLink($telegram_link);
 
         $this->assertSame($generated_pin_1, $telegram_link->getPin());
-        $this->assertSame('2020-03-13 19:40:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2020-03-13 19:40:00', $telegram_link->getPinExpiresAt()?->format('Y-m-d H:i:s'));
         $this->assertSame([], $this->getLogs());
     }
 
@@ -102,7 +102,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_link = $telegram_utils->startChatForUser($user);
 
         $this->assertSame($generated_pin_1, $telegram_link->getPin());
-        $this->assertSame('2020-03-13 19:40:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2020-03-13 19:40:00', $telegram_link->getPinExpiresAt()?->format('Y-m-d H:i:s'));
         $this->assertSame([], $this->getLogs());
 
         $user = new User();
@@ -110,7 +110,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_link = $telegram_utils->startChatForUser($user);
 
         $this->assertSame($generated_pin_2, $telegram_link->getPin());
-        $this->assertSame('2020-03-13 19:40:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2020-03-13 19:40:00', $telegram_link->getPinExpiresAt()?->format('Y-m-d H:i:s'));
         $this->assertSame([], $this->getLogs());
     }
 
@@ -121,7 +121,7 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_link = $telegram_utils->startAnonymousChat('2', '2');
 
         $this->assertSame($expired_pin, $telegram_link->getPin());
-        $this->assertSame('2020-03-13 19:25:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2020-03-13 19:25:00', $telegram_link->getPinExpiresAt()?->format('Y-m-d H:i:s'));
         $this->assertSame(FakeUser::vorstandUser(), $telegram_link->getUser());
         $this->assertSame('88888', $telegram_link->getTelegramChatId()); // not modified for existing
         $this->assertSame('88', $telegram_link->getTelegramUserId()); // not modified for existing
@@ -152,13 +152,13 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_link = $telegram_utils->linkChatUsingPin($valid_pin, $telegram_chat_id, $telegram_user_id);
 
         $this->assertSame($valid_pin, $telegram_link->getPin());
-        $this->assertSame('2020-03-13 19:35:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2020-03-13 19:35:00', $telegram_link->getPinExpiresAt()?->format('Y-m-d H:i:s'));
         $this->assertSame(FakeUser::defaultUser(), $telegram_link->getUser());
         $this->assertSame($telegram_chat_id, $telegram_link->getTelegramChatId());
         $this->assertSame($telegram_user_id, $telegram_link->getTelegramUserId());
         $this->assertSame(['state' => 'valid'], $telegram_link->getTelegramChatState());
         $this->assertSame('2020-03-13 19:25:00', $telegram_link->getCreatedAt()->format('Y-m-d H:i:s'));
-        $this->assertSame($iso_now, $telegram_link->getLinkedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame($iso_now, $telegram_link->getLinkedAt()?->format('Y-m-d H:i:s'));
         $this->assertSame([], $this->getLogs());
 
         try {
@@ -187,13 +187,13 @@ final class TelegramUtilsTest extends UnitTestCase {
         $telegram_link = $telegram_utils->linkUserUsingPin($valid_pin, $user);
 
         $this->assertSame($valid_pin, $telegram_link->getPin());
-        $this->assertSame('2020-03-13 19:35:00', $telegram_link->getPinExpiresAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2020-03-13 19:35:00', $telegram_link->getPinExpiresAt()?->format('Y-m-d H:i:s'));
         $this->assertSame($user, $telegram_link->getUser());
         $this->assertSame('99999', $telegram_link->getTelegramChatId());
         $this->assertSame('99', $telegram_link->getTelegramUserId());
         $this->assertSame(['state' => 'valid'], $telegram_link->getTelegramChatState());
         $this->assertSame('2020-03-13 19:25:00', $telegram_link->getCreatedAt()->format('Y-m-d H:i:s'));
-        $this->assertSame($iso_now, $telegram_link->getLinkedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame($iso_now, $telegram_link->getLinkedAt()?->format('Y-m-d H:i:s'));
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([13], array_map(
             function ($telegram_link) {

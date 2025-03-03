@@ -12,12 +12,7 @@ use Olz\Apps\Logs\Utils\PlainLogFile;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class LogrotateLogsChannelForTest extends LogrotateLogsChannel {
+class TestOnlyLogrotateLogsChannel extends LogrotateLogsChannel {
     public static function getId(): string {
         return 'logrotate-logs-channel-id';
     }
@@ -72,7 +67,7 @@ class LogrotateLogsChannelForTest extends LogrotateLogsChannel {
  */
 final class LogrotateLogsChannelTest extends UnitTestCase {
     public function testLogrotateLogsChannelTargetDate(): void {
-        $channel = new LogrotateLogsChannelForTest();
+        $channel = new TestOnlyLogrotateLogsChannel();
         $session = new MemorySession();
         $session->session_storage = [
             'auth' => 'all',
@@ -139,9 +134,9 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
         ], $result->lines);
         $this->assertMatchesRegularExpression(
             '/\/tmp\/syslog\/syslog.processed.2$/',
-            $result->previous->logFile->getPath(),
+            $result->previous?->logFile->getPath() ?? '',
         );
-        $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous->lineNumber);
+        $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous?->lineNumber);
         $this->assertNull($result->next);
     }
 }

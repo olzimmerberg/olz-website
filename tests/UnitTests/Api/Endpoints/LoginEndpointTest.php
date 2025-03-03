@@ -94,7 +94,7 @@ final class LoginEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(
             '2020-03-13 19:30:00',
-            $user->getLastLoginAt()->format('Y-m-d H:i:s')
+            $user->getLastLoginAt()?->format('Y-m-d H:i:s')
         );
         $this->assertTrue($entity_manager->flushed);
     }

@@ -15,7 +15,7 @@ class FakeUploadUtils extends UploadUtils {
     }
 
     public function getValidUploadId(?string $upload_id): ?string {
-        if (substr($upload_id, 0, 7) === 'invalid') {
+        if (substr($upload_id ?? '', 0, 7) === 'invalid') {
             return null;
         }
         return $upload_id ?: '-';

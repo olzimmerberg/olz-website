@@ -72,7 +72,7 @@ final class RoleReminderGetterIntegrationTest extends IntegrationTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Ressort-Erinnerung', $notification->title);
+        $this->assertSame('Ressort-Erinnerung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

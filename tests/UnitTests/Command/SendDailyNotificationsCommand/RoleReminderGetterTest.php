@@ -14,12 +14,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\WithUtilsCache;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class RoleReminderGetterForTest extends RoleReminderGetter {
+class TestOnlyRoleReminderGetter extends RoleReminderGetter {
     /** @return array<string, array{reminder_id?: int, needs_reminder?: bool}> */
     public function testOnlyGetRoleReminderState(): array {
         return $this->getRoleReminderState();
@@ -48,7 +43,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
         $subscription_repo->entitiesToBeFoundForQuery = fn ($query) => $this->subscriptionsToBeFoundForQuery($query);
         $role_repo = $entity_manager->getRepository(Role::class);
         $role_repo->entitiesToBeFoundForQuery = fn ($query) => $this->rolesToBeFoundForQuery($query);
-        $job = new RoleReminderGetterForTest();
+        $job = new TestOnlyRoleReminderGetter();
 
         $result = $job->testOnlyGetRoleReminderState();
 
@@ -236,7 +231,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
             
             Der Vorstand der OL Zimmerberg
             ZZZZZZZZZZ;
-        $this->assertSame('Ressort-Erinnerung', $notification->title);
+        $this->assertSame('Ressort-Erinnerung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

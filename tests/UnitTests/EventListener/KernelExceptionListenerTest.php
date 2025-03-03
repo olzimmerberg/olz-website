@@ -11,12 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class KernelExceptionListenerForTest extends KernelExceptionListener {
+class TestOnlyKernelExceptionListener extends KernelExceptionListener {
     public function testOnlySetIsHandlingException(\Throwable $exception): void {
         $this->is_handling_exception = $exception;
     }
@@ -34,7 +29,7 @@ final class KernelExceptionListenerTest extends UnitTestCase {
         $throwable = new HttpException(500, 'fake-internal-error');
         $exception_event = new ExceptionEvent($kernel, $request, 0, $throwable);
 
-        $listener = new KernelExceptionListenerForTest();
+        $listener = new TestOnlyKernelExceptionListener();
 
         $listener->onKernelException($exception_event);
 
@@ -49,7 +44,7 @@ final class KernelExceptionListenerTest extends UnitTestCase {
         $throwable = new \Exception('fake-exception');
         $exception_event = new ExceptionEvent($kernel, $request, 0, $throwable);
 
-        $listener = new KernelExceptionListenerForTest();
+        $listener = new TestOnlyKernelExceptionListener();
 
         $listener->onKernelException($exception_event);
 
@@ -67,7 +62,7 @@ final class KernelExceptionListenerTest extends UnitTestCase {
         $throwable_2 = new \Exception('fake-exception-2');
         $exception_event_2 = new ExceptionEvent($kernel, $request, 0, $throwable_2);
 
-        $listener = new KernelExceptionListenerForTest();
+        $listener = new TestOnlyKernelExceptionListener();
         $listener->testOnlySetIsHandlingException($throwable_1);
 
         $listener->onKernelException($exception_event_2);

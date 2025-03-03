@@ -54,7 +54,7 @@ final class TelegramConfigurationReminderGetterIntegrationTest extends Integrati
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Keine Push-Nachrichten abonniert', $notification->title);
+        $this->assertSame('Keine Push-Nachrichten abonniert', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

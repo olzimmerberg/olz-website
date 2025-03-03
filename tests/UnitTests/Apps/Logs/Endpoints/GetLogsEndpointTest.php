@@ -13,12 +13,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class GetLogsEndpointForTest extends GetLogsEndpoint {
+class TestOnlyGetLogsEndpoint extends GetLogsEndpoint {
     public function testOnlySerializePageToken(
         ?LineLocation $line_location,
         ?string $mode,
@@ -206,7 +201,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
     }
 
     public function testGetLogsEndpointSerializePageToken(): void {
-        $endpoint = new GetLogsEndpointForTest();
+        $endpoint = new TestOnlyGetLogsEndpoint();
         $log_file = new PlainLogFile('fake-path');
         $line_location = new LineLocation($log_file, 123, 1);
 
@@ -216,7 +211,7 @@ final class GetLogsEndpointTest extends UnitTestCase {
     }
 
     public function testGetLogsEndpointDeserializePageToken(): void {
-        $endpoint = new GetLogsEndpointForTest();
+        $endpoint = new TestOnlyGetLogsEndpoint();
         $serialized = '{"logFile":"{\"class\":\"Olz\\\\\\\Apps\\\\\\\Logs\\\\\\\Utils\\\\\\\GzLogFile\",\"path\":\"fake-path\",\"filePath\":\"fake-file-path\"}","lineNumber":321,"comparison":-1,"mode":"next"}';
 
         $result = $endpoint->testOnlyDeserializePageToken($serialized);

@@ -23,7 +23,7 @@ final class NewsKaderblogTest extends SystemTestCase {
         $this->screenshot('news_detail_kaderblog');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Kaderblog/i',
-            $this->getBrowserElement('#format-info')->getText(),
+            $this->getBrowserElement('#format-info')?->getText() ?? '',
         );
     }
 

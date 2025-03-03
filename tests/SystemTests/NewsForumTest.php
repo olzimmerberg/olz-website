@@ -23,7 +23,7 @@ final class NewsForumTest extends SystemTestCase {
         $this->screenshot('news_detail_forum');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Forum/i',
-            $this->getBrowserElement('#format-info')->getText(),
+            $this->getBrowserElement('#format-info')?->getText() ?? '',
         );
     }
 

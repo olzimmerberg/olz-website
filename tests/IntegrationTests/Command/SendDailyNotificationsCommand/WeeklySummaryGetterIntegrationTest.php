@@ -72,7 +72,7 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Wochenzusammenfassung', $notification->title);
+        $this->assertSame('Wochenzusammenfassung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

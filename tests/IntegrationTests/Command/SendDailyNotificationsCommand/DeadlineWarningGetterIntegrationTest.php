@@ -38,7 +38,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Meldeschlusswarnung', $notification->title);
+        $this->assertSame('Meldeschlusswarnung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 

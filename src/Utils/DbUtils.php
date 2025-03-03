@@ -45,6 +45,7 @@ class DbUtils {
             $entityManager = $kernel->getContainer()->get('doctrine.orm.default_entity_manager');
         }
 
+        $this->generalUtils()->checkNotNull($entityManager, "No entityManager");
         self::$entityManager = $entityManager;
         return $entityManager;
     }

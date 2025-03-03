@@ -40,12 +40,7 @@ class FakeRecaptchaUtilsGoogleFetcher extends GoogleFetcher {
     }
 }
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class RecaptchaUtilsForTest extends RecaptchaUtils {
+class TestOnlyRecaptchaUtils extends RecaptchaUtils {
     public static function testOnlyResetCache(): void {
         parent::$cache = [];
     }
@@ -129,8 +124,8 @@ final class RecaptchaUtilsTest extends UnitTestCase {
     }
 
     public function testValidateRecaptchaTokenCached(): void {
-        RecaptchaUtilsForTest::testOnlyResetCache();
-        $recaptcha_utils = new RecaptchaUtilsForTest();
+        TestOnlyRecaptchaUtils::testOnlyResetCache();
+        $recaptcha_utils = new TestOnlyRecaptchaUtils();
         $google_fetcher = new FakeRecaptchaUtilsGoogleFetcher();
         $recaptcha_utils->setGoogleFetcher($google_fetcher);
         $recaptcha_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);

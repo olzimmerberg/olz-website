@@ -52,7 +52,7 @@ final class ResultateTest extends SystemTestCase {
         $this->logout();
 
         $browser->get("{$this->getUrl()}/?file=system-test.xml");
-        $this->assertSame('OL-Training', $this->getBrowserElement('#title-box #title')->getText());
+        $this->assertSame('OL-Training', $this->getBrowserElement('#title-box #title')?->getText());
 
         $this->resetDb();
         // TODO: Dummy assert

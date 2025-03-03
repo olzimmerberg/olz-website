@@ -53,10 +53,12 @@ class SystemTestCase extends TestCase {
         }
         $this::$browser = RemoteWebDriver::create($host, $capabilities);
         $this->setWindowInnerSize(1280, 1024);
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         return $this::$browser;
     }
 
     private function setWindowInnerSize(int $width, int $height): void {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         $size = $this::$browser->manage()->window()->getSize();
         $inner_width = intval($this::$browser->executeScript("return window.innerWidth", []));
         $inner_height = intval($this::$browser->executeScript("return window.innerHeight", []));
@@ -71,6 +73,7 @@ class SystemTestCase extends TestCase {
      * @return array<RemoteWebElement>
      */
     protected function getBrowserElements(string $css_selector): array {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         return $this::$browser->findElements(
             WebDriverBy::cssSelector($css_selector)
         );
@@ -85,15 +88,17 @@ class SystemTestCase extends TestCase {
     }
 
     protected function findBrowserElement(string $css_selector): RemoteWebElement {
-        $this::$browser
+        $browser = $this::$browser;
+        $this->generalUtils()->checkNotNull($browser, "Browser expected");
+        $browser
             ->wait($this::$max_timeout_seconds)
-            ->until(function () use ($css_selector) {
-                return $this::$browser->findElement(
+            ->until(function () use ($css_selector, $browser) {
+                return $browser->findElement(
                     WebDriverBy::cssSelector($css_selector)
                 );
             })
         ;
-        return $this::$browser->findElement(
+        return $browser->findElement(
             WebDriverBy::cssSelector($css_selector)
         );
     }
@@ -151,14 +156,17 @@ class SystemTestCase extends TestCase {
     }
 
     protected function waitForModal(string $css_selector): void {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         $this::$browser->wait()->until(function () use ($css_selector) {
             return $this->findBrowserElement($css_selector)->getCssValue('opacity') == 1;
         });
     }
 
     protected function waitUntilGone(string $css_selector): void {
-        $this::$browser->wait()->until(function () use ($css_selector) {
-            $elements = $this::$browser->findElements(
+        $browser = $this::$browser;
+        $this->generalUtils()->checkNotNull($browser, "Browser expected");
+        $browser->wait()->until(function () use ($css_selector, $browser) {
+            $elements = $browser->findElements(
                 WebDriverBy::cssSelector($css_selector)
             );
             return count($elements) == 0;
@@ -166,8 +174,10 @@ class SystemTestCase extends TestCase {
     }
 
     protected function waitFor(string $css_selector): void {
-        $this::$browser->wait()->until(function () use ($css_selector) {
-            $elements = $this::$browser->findElements(
+        $browser = $this::$browser;
+        $this->generalUtils()->checkNotNull($browser, "Browser expected");
+        $browser->wait()->until(function () use ($css_selector, $browser) {
+            $elements = $browser->findElements(
                 WebDriverBy::cssSelector($css_selector)
             );
             return count($elements) > 0;
@@ -290,12 +300,14 @@ class SystemTestCase extends TestCase {
             'rememberMe' => false,
         ]);
         $get_params = "?request={$esc_request}";
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         $this::$browser->get("{$this->getTargetUrl()}{$this::$login_api_url}{$get_params}");
         $this->tock('login', 'login');
     }
 
     public function logout(): void {
         $this->tick('logout');
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         $this::$browser->get("{$this->getTargetUrl()}{$this::$logout_api_url}");
         $this->tock('logout', 'logout');
     }
@@ -350,10 +362,12 @@ class SystemTestCase extends TestCase {
     // Screenshot
 
     public function screenshot(string $name): void {
+        $browser = $this::$browser;
+        $this->generalUtils()->checkNotNull($browser, "Browser expected");
         $this->waitFor('body');
         $this->tick('screenshot');
         $this->adjustCssForScreenshot();
-        $browser_name = $this::$browser->getCapabilities()->getBrowserName();
+        $browser_name = $browser->getCapabilities()?->getBrowserName();
         $screenshots_path = __DIR__.'/../../../screenshots/';
         $screenshot_filename = "{$name}-{$browser_name}.png";
         $window_width = $this->getWindowWidth();
@@ -370,7 +384,7 @@ class SystemTestCase extends TestCase {
                 $this->scrollTo($scroll_x, $scroll_y);
                 $path = "{$screenshots_path}{$x}-{$y}-{$screenshot_filename}";
                 $this->hideFlakyElements();
-                $this::$browser->takeScreenshot($path);
+                $browser->takeScreenshot($path);
                 $scroll_x_diff = $scroll_x - $this->getScrollX();
                 $scroll_y_diff = $scroll_y - $this->getScrollY();
                 $src = imagecreatefrompng($path);
@@ -386,6 +400,7 @@ class SystemTestCase extends TestCase {
     }
 
     protected function adjustCssForScreenshot(): void {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         $adjust_for_pageshot = file_get_contents(__DIR__.'/adjust_for_pageshot.css');
         $css_string = json_encode($adjust_for_pageshot);
         $js_code = "document.head.innerHTML += '<style>'+{$css_string}+'</style>';";
@@ -393,6 +408,7 @@ class SystemTestCase extends TestCase {
     }
 
     protected function hideFlakyElements(): void {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         $hide_flaky_code = file_get_contents(__DIR__.'/hideFlaky.js') ?: '';
         $this::$browser->executeScript($hide_flaky_code);
     }
@@ -550,30 +566,37 @@ class SystemTestCase extends TestCase {
     protected static string $modal = "[...document.querySelectorAll('.modal')].filter(i => i.style.display === 'block')[0]";
 
     protected function getWindowWidth(): int {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         return intval($this::$browser->executeScript("return window.innerWidth", []));
     }
 
     protected function getWindowHeight(): int {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         return intval($this::$browser->executeScript("return window.innerHeight", []));
     }
 
     protected function getBodyWidth(): int {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         return intval($this::$browser->executeScript("return ({$this::$modal}?.children[0]?.offsetWidth ?? document.body.offsetWidth)", []));
     }
 
     protected function getBodyHeight(): int {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         return intval($this::$browser->executeScript("return ({$this::$modal}?.children[0]?.offsetHeight ?? document.body.offsetHeight)", []));
     }
 
     public function getScrollX(): int {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         return intval($this::$browser->executeScript("return ({$this::$modal}?.scrollLeft ?? window.scrollX)", []));
     }
 
     public function getScrollY(): int {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         return intval($this::$browser->executeScript("return ({$this::$modal}?.scrollTop ?? window.scrollY)", []));
     }
 
     protected function scrollTo(int $x, int $y): void {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         $this::$browser->executeScript("({$this::$modal} ?? window).scrollTo({top:{$y},left:{$x},behavior:'instant'})", []);
     }
 }

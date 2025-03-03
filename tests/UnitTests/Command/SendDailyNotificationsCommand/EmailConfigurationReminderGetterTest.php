@@ -13,12 +13,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\WithUtilsCache;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class EmailConfigurationReminderGetterForTest extends EmailConfigurationReminderGetter {
+class TestOnlyEmailConfigurationReminderGetter extends EmailConfigurationReminderGetter {
     /** @return array<int, array{reminder_id?: int, needs_reminder?: bool}> */
     public function testOnlyGetEmailConfigReminderState(): array {
         return $this->getEmailConfigReminderState();
@@ -51,7 +46,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
         $subscription_repo = $entity_manager->getRepository(NotificationSubscription::class);
         $subscription_repo->entityToBeFoundForQuery = fn ($query) => $this->subscriptionToBeFoundForQuery($query);
         $subscription_repo->entitiesToBeFoundForQuery = fn ($query) => $this->subscriptionsToBeFoundForQuery($query);
-        $job = new EmailConfigurationReminderGetterForTest();
+        $job = new TestOnlyEmailConfigurationReminderGetter();
 
         $result = $job->testOnlyGetEmailConfigReminderState();
 
@@ -237,7 +232,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
 
 
             ZZZZZZZZZZ;
-        $this->assertSame('Kein Newsletter abonniert', $notification->title);
+        $this->assertSame('Kein Newsletter abonniert', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

@@ -61,7 +61,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Vorschau auf die Woche vom 23. März', $notification->title);
+        $this->assertSame('Vorschau auf die Woche vom 23. März', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 

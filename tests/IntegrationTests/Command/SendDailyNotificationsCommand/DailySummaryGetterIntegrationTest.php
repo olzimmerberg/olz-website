@@ -58,7 +58,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Tageszusammenfassung', $notification->title);
+        $this->assertSame('Tageszusammenfassung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 
@@ -98,7 +98,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Tageszusammenfassung', $notification->title);
+        $this->assertSame('Tageszusammenfassung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 

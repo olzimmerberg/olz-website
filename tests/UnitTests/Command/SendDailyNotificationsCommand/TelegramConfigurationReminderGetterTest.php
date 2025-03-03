@@ -13,12 +13,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\WithUtilsCache;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class TelegramConfigurationReminderGetterForTest extends TelegramConfigurationReminderGetter {
+class TestOnlyTelegramConfigurationReminderGetter extends TelegramConfigurationReminderGetter {
     /** @return array<int, array{reminder_id?: int, needs_reminder?: bool}> */
     public function testOnlyGetTelegramConfigReminderState(): array {
         return $this->getTelegramConfigReminderState();
@@ -50,7 +45,7 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
         $subscription_repo = $entity_manager->getRepository(NotificationSubscription::class);
         $subscription_repo->entityToBeFoundForQuery = fn ($query) => $this->subscriptionToBeFoundForQuery($query);
         $subscription_repo->entitiesToBeFoundForQuery = fn ($query) => $this->subscriptionsToBeFoundForQuery($query);
-        $job = new TelegramConfigurationReminderGetterForTest();
+        $job = new TestOnlyTelegramConfigurationReminderGetter();
 
         $result = $job->testOnlyGetTelegramConfigReminderState();
 
@@ -228,7 +223,7 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
 
 
             ZZZZZZZZZZ;
-        $this->assertSame('Keine Push-Nachrichten abonniert', $notification->title);
+        $this->assertSame('Keine Push-Nachrichten abonniert', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

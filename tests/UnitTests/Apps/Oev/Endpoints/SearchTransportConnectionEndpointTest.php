@@ -35,12 +35,7 @@ class FakeSearchTransportConnectionEndpointTransportApiFetcher extends FakeTrans
     }
 }
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class SearchTransportConnectionEndpointForTest extends SearchTransportConnectionEndpoint {
+class TestOnlySearchTransportConnectionEndpoint extends SearchTransportConnectionEndpoint {
     /** @return array{x: int|float, y: int|float} */
     public function testOnlyGetCenterOfOriginStations(): array {
         return $this->getCenterOfOriginStations();
@@ -75,7 +70,7 @@ class SearchTransportConnectionEndpointForTest extends SearchTransportConnection
  */
 final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     public function testSearchTransportConnectionEndpointGetCenterOfOriginStations(): void {
-        $endpoint = new SearchTransportConnectionEndpointForTest();
+        $endpoint = new TestOnlySearchTransportConnectionEndpoint();
         $endpoint->runtimeSetup();
         // sic!
         $this->assertSame([
@@ -85,7 +80,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
     }
 
     public function testSearchTransportConnectionEndpointGetMostPeripheralOriginStations(): void {
-        $endpoint = new SearchTransportConnectionEndpointForTest();
+        $endpoint = new TestOnlySearchTransportConnectionEndpoint();
         $endpoint->runtimeSetup();
         $this->assertSame([
             'Richterswil',
@@ -126,7 +121,7 @@ final class SearchTransportConnectionEndpointTest extends UnitTestCase {
             strval(2) => 2 + SearchTransportConnectionEndpoint::MIN_CHANGING_TIME,
         ];
         $latest_departure_by_station_id = [];
-        $endpoint = new SearchTransportConnectionEndpointForTest();
+        $endpoint = new TestOnlySearchTransportConnectionEndpoint();
         $endpoint->runtimeSetup();
         $this->assertSame(
             '2',

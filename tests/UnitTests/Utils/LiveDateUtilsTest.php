@@ -14,6 +14,7 @@ use Olz\Utils\LiveDateUtils;
  */
 final class LiveDateUtilsTest extends UnitTestCase {
     public function testExists(): void {
-        $this->assertTrue(class_exists(LiveDateUtils::class));
+        $utils = new LiveDateUtils();
+        $this->assertSame(date('Y-m-d'), $utils->getCurrentDateInFormat('Y-m-d'));
     }
 }

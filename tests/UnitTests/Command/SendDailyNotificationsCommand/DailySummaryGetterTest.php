@@ -72,7 +72,7 @@ final class DailySummaryGetterTest extends UnitTestCase {
 
 
             ZZZZZZZZZZ;
-        $this->assertSame('Tageszusammenfassung', $notification->title);
+        $this->assertSame('Tageszusammenfassung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 

@@ -62,10 +62,10 @@ final class OlzAppsTest extends UnitTestCase {
             $this->assertTrue(strlen($href) > 0);
 
             $icon_path = $app->getIconPath();
-            $this->assertTrue(strlen($icon_path) > 0);
+            $this->assertTrue(strlen($icon_path ?? '') > 0);
 
             $icon = $app->getIcon();
-            $this->assertTrue(strlen($icon) > 0);
+            $this->assertTrue(strlen($icon ?? '') > 0);
         }
     }
 }

@@ -77,10 +77,10 @@ final class VereinTest extends SystemTestCase {
         $this->sendKeys('#edit-role-modal #description-input', "\n\n".WebDriverKeys::CONTROL.'v');
         $this->sendKeys('#edit-role-modal #guide-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #parentRole-field #dropdownMenuButton')->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #canHaveChildRoles-input')->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #indexWithinParent-input')->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #featuredIndex-input')->isEnabled());
+        $this->assertFalse($this->getBrowserElement('#edit-role-modal #parentRole-field #dropdownMenuButton')?->isEnabled());
+        $this->assertFalse($this->getBrowserElement('#edit-role-modal #canHaveChildRoles-input')?->isEnabled());
+        $this->assertFalse($this->getBrowserElement('#edit-role-modal #indexWithinParent-input')?->isEnabled());
+        $this->assertFalse($this->getBrowserElement('#edit-role-modal #featuredIndex-input')?->isEnabled());
         $this->screenshot('verein_ressort_edit');
 
         $this->click('#edit-role-modal #submit-button');
@@ -155,7 +155,7 @@ final class VereinTest extends SystemTestCase {
 
         $browser->get("{$this->getUrl()}/finanzen");
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/rechnungspruefer")['http_code']);
-        $this->assertStringContainsString('Rechnungsprüfer', $this->getBrowserElement('#sub-roles')->getText());
+        $this->assertStringContainsString('Rechnungsprüfer', $this->getBrowserElement('#sub-roles')?->getText() ?? '');
 
         $this->resetDb();
     }

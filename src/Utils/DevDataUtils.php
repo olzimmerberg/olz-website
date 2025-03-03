@@ -14,6 +14,9 @@ class DevDataUtils {
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
     public function fullResetDb(): void {
+        if ($this->envUtils()->getAppEnv() === 'prod') {
+            throw new \Exception("Are you fucking insane? You're on prod!");
+        }
         // Overwrite database with dev content.
         $this->dropDbTables();
         $this->addDbStructure();
@@ -27,6 +30,9 @@ class DevDataUtils {
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
     public function resetDbStructure(): void {
+        if ($this->envUtils()->getAppEnv() === 'prod') {
+            throw new \Exception("Are you fucking insane? You're on prod!");
+        }
         // Overwrite database with dev content.
         $this->dropDbTables();
         $this->addDbStructure();
@@ -39,12 +45,18 @@ class DevDataUtils {
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
     public function resetDbContent(): void {
+        if ($this->envUtils()->getAppEnv() === 'prod') {
+            throw new \Exception("Are you fucking insane? You're on prod!");
+        }
         $this->truncateDbTables();
         $this->addDbContent();
     }
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
     public function dropDbTables(): void {
+        if ($this->envUtils()->getAppEnv() === 'prod') {
+            throw new \Exception("Are you fucking insane? You're on prod!");
+        }
         $db = $this->dbUtils()->getDb();
 
         // Remove all database tables.
@@ -68,6 +80,9 @@ class DevDataUtils {
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
     public function truncateDbTables(): void {
+        if ($this->envUtils()->getAppEnv() === 'prod') {
+            throw new \Exception("Are you fucking insane? You're on prod!");
+        }
         $db = $this->dbUtils()->getDb();
 
         // Remove all database tables.
@@ -89,7 +104,11 @@ class DevDataUtils {
         $this->log()->debug("Truncating took {$duration}s");
     }
 
+    /** DO NOT CALL THIS FUNCTION ON PROD! */
     public function addDbStructure(): void {
+        if ($this->envUtils()->getAppEnv() === 'prod') {
+            throw new \Exception("Are you fucking insane? You're on prod!");
+        }
         $db = $this->dbUtils()->getDb();
         $dev_data_dir = __DIR__.'/data/';
 
@@ -108,7 +127,11 @@ class DevDataUtils {
         $this->log()->debug("Adding structure took {$duration}s");
     }
 
+    /** DO NOT CALL THIS FUNCTION ON PROD! */
     public function addDbContent(): void {
+        if ($this->envUtils()->getAppEnv() === 'prod') {
+            throw new \Exception("Are you fucking insane? You're on prod!");
+        }
         $db = $this->dbUtils()->getDb();
         $dev_data_dir = __DIR__.'/data/';
 
@@ -314,9 +337,12 @@ class DevDataUtils {
         return $sql_content;
     }
 
+    /** DO NOT CALL THIS FUNCTION ON PROD! */
     public function clearFiles(): void {
-        $env_utils = $this->envUtils();
-        $data_path = $env_utils->getDataPath();
+        if ($this->envUtils()->getAppEnv() === 'prod') {
+            throw new \Exception("Are you fucking insane? You're on prod!");
+        }
+        $data_path = $this->envUtils()->getDataPath();
         $general_utils = $this->generalUtils();
 
         // Remove existing data.
@@ -332,10 +358,13 @@ class DevDataUtils {
         $general_utils->removeRecursive("{$data_path}temp");
     }
 
+    /** DO NOT CALL THIS FUNCTION ON PROD! */
     public function addFiles(): void {
-        $env_utils = $this->envUtils();
-        $private_path = $env_utils->getPrivatePath();
-        $data_path = $env_utils->getDataPath();
+        if ($this->envUtils()->getAppEnv() === 'prod') {
+            throw new \Exception("Are you fucking insane? You're on prod!");
+        }
+        $private_path = $this->envUtils()->getPrivatePath();
+        $data_path = $this->envUtils()->getDataPath();
 
         $sample_path = __DIR__.'/data/sample-data/';
 

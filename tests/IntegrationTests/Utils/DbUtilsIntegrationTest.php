@@ -43,6 +43,6 @@ final class DbUtilsIntegrationTest extends IntegrationTestCase {
 
         $user_repo = $entityManager->getRepository(User::class);
         $user1 = $user_repo->findOneBy(['id' => 1]);
-        $this->assertSame('admin', $user1->getUsername());
+        $this->assertSame('admin', $user1?->getUsername());
     }
 }

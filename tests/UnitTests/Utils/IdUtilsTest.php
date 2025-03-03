@@ -7,12 +7,7 @@ namespace Olz\Tests\UnitTests\Utils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\IdUtils;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class IdUtilsIdUtilsForTest extends IdUtils {
+class TestOnlyIdUtils extends IdUtils {
     public function testOnlySerializeId(int $internal_id, string $type): string {
         return $this->serializeId($internal_id, $type);
     }
@@ -21,7 +16,7 @@ class IdUtilsIdUtilsForTest extends IdUtils {
         return $this->encryptId($serialized_id);
     }
 
-    public function testOnlyDecryptId(string $encrypted_id): string {
+    public function testOnlyDecryptId(string $encrypted_id): ?string {
         return $this->decryptId($encrypted_id);
     }
 
@@ -41,7 +36,7 @@ class IdUtilsIdUtilsForTest extends IdUtils {
  */
 final class IdUtilsTest extends UnitTestCase {
     public function testToExternalId(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $max_id = intval(pow(2, 40) - 1);
         $this->assertSame('9AUh0IsXMgc', $id_utils->toExternalId(123));
         $this->assertSame('KvwHIC1COIo', $id_utils->toExternalId(123, 'Test'));
@@ -53,7 +48,7 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testSerializeId(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $max_id = intval(pow(2, 40) - 1);
         $this->assertSame('0c5e000000007b', bin2hex(
             $id_utils->testOnlySerializeId(123, 'h')
@@ -82,7 +77,7 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testSerializeIdNegative(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         try {
             $id_utils->testOnlySerializeId(-1, '');
             $this->fail('Error expected');
@@ -92,7 +87,7 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testSerializeIdTooLarge(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $max_id = intval(pow(2, 40) - 1);
         try {
             $id_utils->testOnlySerializeId($max_id + 1, '');
@@ -103,7 +98,7 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testEncryptId(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $this->assertSame('w0_JgCePlCI', $id_utils->testOnlyEncryptId(''));
         $this->assertSame('KNYgqjTkR5o', $id_utils->testOnlyEncryptId('test'));
 
@@ -123,7 +118,7 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testToInternalId(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $max_id = intval(pow(2, 40) - 1);
         $this->assertSame(123, $id_utils->toInternalId('9AUh0IsXMgc'));
         $this->assertSame(123, $id_utils->toInternalId('KvwHIC1COIo', 'Test'));
@@ -138,7 +133,7 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testToInternalIdTypeMismatch(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         try {
             $id_utils->toInternalId($id_utils->toExternalId(123, 'Test'));
             $this->fail('Error expected');
@@ -169,7 +164,7 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testDecryptId(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $this->assertSame('', $id_utils->testOnlyDecryptId('w0/JgCePlCI'));
         try {
             $id_utils->testOnlyDecryptId('invalid');
@@ -181,7 +176,7 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testDeserializeId(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $max_id = intval(pow(2, 40) - 1);
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
             hex2bin('0c5e000000007b') ?: '',
@@ -218,13 +213,13 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testToExternalIdToInternalId(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $this->assertSame(1, $id_utils->toInternalId($id_utils->toExternalId(1)));
         $this->assertSame(1, $id_utils->toInternalId($id_utils->toExternalId(1, 'a'), 'a'));
     }
 
     public function testSerializeIdDeserializeId(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $max_id = intval(pow(2, 40) - 1);
         $this->assertSame(123, $id_utils->testOnlyDeserializeId(
             $id_utils->testOnlySerializeId(123, 'h'),
@@ -261,7 +256,7 @@ final class IdUtilsTest extends UnitTestCase {
     }
 
     public function testCrc16(): void {
-        $id_utils = new IdUtilsIdUtilsForTest();
+        $id_utils = new TestOnlyIdUtils();
         $this->assertSame('1fc6', dechex($id_utils->testOnlyCrc16('test')));
         $this->assertSame('ffff', dechex($id_utils->testOnlyCrc16('')));
     }

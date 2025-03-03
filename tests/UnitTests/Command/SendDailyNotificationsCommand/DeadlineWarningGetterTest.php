@@ -54,7 +54,7 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
             - 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
 
             ZZZZZZZZZZ;
-        $this->assertSame('Meldeschlusswarnung', $notification->title);
+        $this->assertSame('Meldeschlusswarnung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

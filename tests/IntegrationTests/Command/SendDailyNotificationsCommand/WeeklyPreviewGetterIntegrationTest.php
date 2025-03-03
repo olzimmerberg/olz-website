@@ -49,7 +49,7 @@ final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Vorschau auf die Woche vom 17. August', $notification->title);
+        $this->assertSame('Vorschau auf die Woche vom 17. August', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 }

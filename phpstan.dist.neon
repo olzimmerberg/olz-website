@@ -5,7 +5,7 @@ parameters:
         - config/
         - public/
         - src/
-        # - tests/  # TODO: Re-enable
+        - tests
         - Deploy.php
     doctrine:
         objectManagerLoader: tests/object-manager.php

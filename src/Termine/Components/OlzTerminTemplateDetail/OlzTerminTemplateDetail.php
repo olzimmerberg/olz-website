@@ -16,16 +16,6 @@ class OlzTerminTemplateDetailParams extends HttpParams {
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzTerminTemplateDetail extends OlzComponent {
-    /** @var array<string, string> */
-    protected static $iconBasenameByType = [
-        'programm' => 'termine_type_programm_20.svg',
-        'weekend' => 'termine_type_weekend_20.svg',
-        'ol' => 'termine_type_ol_20.svg',
-        'training' => 'termine_type_training_20.svg',
-        'club' => 'termine_type_club_20.svg',
-        'meldeschluss' => 'termine_type_meldeschluss_20.svg',
-    ];
-
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzTerminTemplateDetailParams::class);
 

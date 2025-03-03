@@ -72,13 +72,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
             'typ' => 'programm',
             'datum' => strval($this_year),
         ];
-        $next_year_filter = [
-            ...$this->termine_utils->getDefaultFilter(),
-            'typ' => 'programm',
-            'datum' => strval($next_year),
-        ];
         $num_imminent = $this->getNumberOfEntries($imminent_filter);
-        $num_next_year = $this->getNumberOfEntries($next_year_filter);
         $out = '';
         if ($num_imminent > 0) {
             $num_this_year = $this->getNumberOfEntries($this_year_filter);
@@ -89,13 +83,23 @@ class OlzTermineListsTile extends AbstractOlzTile {
                 </a></li>
                 ZZZZZZZZZZ;
         }
-        if ($num_next_year > 0) {
-            $enc_json_filter = urlencode(json_encode($next_year_filter) ?: '{}');
-            $out .= <<<ZZZZZZZZZZ
-                <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
-                    {$icon_img} <b>Jahresprogramm {$next_year}</b><span class='secondary'>({$num_next_year})</span>
-                </a></li>
-                ZZZZZZZZZZ;
+        $current_month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
+        if ($current_month > 8) {
+            $next_year_filter = [
+                ...$this->termine_utils->getDefaultFilter(),
+                'typ' => 'programm',
+                'datum' => strval($next_year),
+            ];
+            $num_next_year = $this->getNumberOfEntries($next_year_filter);
+
+            if ($num_next_year > 0) {
+                $enc_json_filter = urlencode(json_encode($next_year_filter) ?: '{}');
+                $out .= <<<ZZZZZZZZZZ
+                    <li><a href='{$code_href}termine?filter={$enc_json_filter}'>
+                        {$icon_img} <b>Jahresprogramm {$next_year}</b><span class='secondary'>({$num_next_year})</span>
+                    </a></li>
+                    ZZZZZZZZZZ;
+            }
         }
         return $out;
     }

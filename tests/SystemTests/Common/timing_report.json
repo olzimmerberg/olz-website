@@ -78,6 +78,8 @@
     "Olz\\Tests\\SystemTests\\StatusTest::testStatusIsUp": 0.4,
     "Olz\\Tests\\SystemTests\\StatusTest::testStatusIsWorking": 0.4,
     "Olz\\Tests\\SystemTests\\SucheTest::testSucheReadOnly": 1.7,
+    "Olz\\Tests\\SystemTests\\TerminLabelTest::testTerminLabelDelete": 10,
+    "Olz\\Tests\\SystemTests\\TerminLabelTest::testTerminLabelUpdate": 14.5,
     "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteCreate": 10.5,
     "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteDetailDelete": 7.5,
     "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteReadOnly": 3.5,
@@ -100,9 +102,9 @@
     "Olz\\Tests\\SystemTests\\WebmailTest::testWebmailIsWorking": 0.4,
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureCreate": 9.9,
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureReadOnly": 2.4,
-    "db_reset": 47.7,
-    "login": 19.3,
+    "db_reset": 2.6,
+    "login": 0.5,
     "logout": 24,
-    "screenshot": 29.1,
-    "total": 292.9
+    "screenshot": 0.5,
+    "total": 12.6
 }

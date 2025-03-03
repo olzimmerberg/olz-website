@@ -6,20 +6,11 @@
 
 namespace Olz\Startseite\Components\OlzTermineUpcomingTile;
 
+use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzTermineUpcomingTile extends AbstractOlzTile {
-    /** @var array<string, string> */
-    protected static $iconBasenameByType = [
-        'programm' => 'termine_type_programm_20.svg',
-        'weekend' => 'termine_type_weekend_20.svg',
-        'ol' => 'termine_type_ol_20.svg',
-        'training' => 'termine_type_training_20.svg',
-        'club' => 'termine_type_club_20.svg',
-        'meldeschluss' => 'termine_type_meldeschluss_20.svg',
-    ];
-
     public function getRelevance(?User $user): float {
         return 0.7;
     }
@@ -27,7 +18,9 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
     public function getHtml(mixed $args): string {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
+        $code_path = $this->envUtils()->getCodePath();
         $today = $this->dateUtils()->getIsoToday();
+        $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
 
         $out = "<h3>Bevorstehende Termine</h3>";
 
@@ -38,13 +31,14 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
                 t.start_date as date,
                 t.title as title,
                 (
-                    SELECT GROUP_CONCAT(l.ident ORDER BY l.position ASC SEPARATOR ' ')
+                    SELECT l.id
                     FROM 
                         termin_label_map tl
                         JOIN termin_labels l ON (l.id = tl.label_id)
                     WHERE tl.termin_id = t.id
-                    GROUP BY t.id
-                ) as type
+                    ORDER BY l.position ASC
+                    LIMIT 1
+                ) as label_id
             FROM termine t
             WHERE t.on_off = '1' AND t.start_date >= '{$today}'
             ORDER BY t.start_date ASC
@@ -56,17 +50,14 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             // @phpstan-ignore-next-line
             $date = date('d.m.', strtotime($row['date']) ?: 0);
             $title = $row['title'];
-            // @phpstan-ignore-next-line
-            $types = explode(' ', $row['type']);
-            $icon_basename = array_reduce($types, function ($carry, $item) {
-                if ($carry) {
-                    return $carry;
-                }
-                return self::$iconBasenameByType[$item] ?? '';
-            }, '');
-            $icon_basename = $icon_basename ? $icon_basename : 'termine_type_null_20.svg';
-            $icon = "{$code_href}assets/icns/{$icon_basename}";
-            $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
+            $label_id = $row['label_id'];
+            $label = $termin_label_repo->findOneBy(['id' => $label_id]);
+            $label_ident = $label?->getIdent();
+            $fallback_path = "{$code_path}assets/icns/termine_type_{$label_ident}_20.svg";
+            $fallback_href = is_file($fallback_path)
+                ? "{$code_href}assets/icns/termine_type_{$label_ident}_20.svg" : null;
+            $icon_href = $label?->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
+            $icon_img = $icon_href ? "<img src='{$icon_href}' alt='' class='link-icon'>" : '';
             $out .= "<li><a href='{$code_href}termine/{$id}'>
                 {$icon_img} <b>{$date}</b>: {$title}
             </a></li>";

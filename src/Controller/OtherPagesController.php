@@ -32,7 +32,6 @@ class OtherPagesController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
-        $this->httpUtils()->countRequest($request);
         $this->httpUtils()->countRequest($request, ['von']);
         $out = OlzFuerEinsteiger::render();
         return new Response($out);

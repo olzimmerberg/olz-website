@@ -75,7 +75,7 @@ class OlzFuerEinsteiger extends OlzComponent {
         $next_five_trainings_out = implode('', array_map(
             function ($training) use ($code_href) {
                 $id = $training->getId();
-                $date = $training->getStartDate()->format('d.m.');
+                $date = $this->dateUtils()->compactDate($training->getStartDate());
                 $title = $training->getTitle();
                 return "<li><a href='{$code_href}termine/{$id}'>
                     <b>{$date}</b> {$title}

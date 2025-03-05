@@ -76,8 +76,8 @@ class WeeklyPreviewGetter implements NotificationGetterInterface {
             $starts_on = $termin->getStartDate();
             $ends_on = $termin->getEndDate();
             $date = ($ends_on && $ends_on > $starts_on)
-                ? $starts_on->format('d.m.').' - '.$ends_on->format('d.m.')
-                : $starts_on->format('d.m.');
+                ? $this->dateUtils()->compactDate($starts_on).' - '.$this->dateUtils()->compactDate($ends_on)
+                : $this->dateUtils()->compactDate($starts_on);
             $title = $termin->getTitle();
             $termine_text .= "- {$date}: [{$title}]({$termine_url}/{$id})\n";
         }
@@ -108,7 +108,7 @@ class WeeklyPreviewGetter implements NotificationGetterInterface {
         $deadlines = $termin_repo->matching($criteria);
         foreach ($deadlines as $termin) {
             $deadline_date = $termin->getDeadline();
-            $date = $deadline_date?->format('d.m.');
+            $date = $deadline_date ? $this->dateUtils()->compactDate($deadline_date) : '';
             $id = $termin->getId();
             $title = $termin->getTitle();
             $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}/{$id})'\n";

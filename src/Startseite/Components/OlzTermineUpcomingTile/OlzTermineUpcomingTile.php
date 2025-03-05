@@ -48,7 +48,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         while ($row = $res->fetch_assoc()) {
             $id = $row['id'];
             // @phpstan-ignore-next-line
-            $date = date('d.m.', strtotime($row['date']) ?: 0);
+            $date = $this->dateUtils()->compactDate($row['date']);
             $title = $row['title'];
             $label_id = $row['label_id'];
             $label = $termin_label_repo->findOneBy(['id' => $label_id]);

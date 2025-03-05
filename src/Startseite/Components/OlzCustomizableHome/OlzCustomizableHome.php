@@ -11,7 +11,6 @@ use Olz\Startseite\Components\OlzCustomTile\OlzCustomTile;
 use Olz\Startseite\Components\OlzForBeginnersTile\OlzForBeginnersTile;
 // use Olz\Startseite\Components\OlzJomCounterTile\OlzJomCounterTile;
 // use Olz\Startseite\Components\OlzNewsListsTile\OlzNewsListsTile;
-// use Olz\Startseite\Components\OlzNewsRecentlyTile\OlzNewsRecentlyTile;
 use Olz\Startseite\Components\OlzNewsAktuellKaderblogTile\OlzNewsAktuellKaderblogTile;
 use Olz\Startseite\Components\OlzNewsForumTile\OlzNewsForumTile;
 use Olz\Startseite\Components\OlzNewsGalerieTile\OlzNewsGalerieTile;

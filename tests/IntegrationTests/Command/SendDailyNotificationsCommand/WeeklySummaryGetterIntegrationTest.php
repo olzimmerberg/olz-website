@@ -42,24 +42,24 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
 
             **Aktuell**
 
-            - 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/news/3)
+            - Sa, 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/news/3)
 
 
             **Kaderblog**
 
-            - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/news/6403)
+            - Sa, 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/news/6403)
 
 
             **Forum**
 
-            - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/news/2901)
+            - Sa, 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/news/2901)
             - 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/news/2902)
             - 06.01. 06:07: [Hallo](http://integration-test.host/news/2903)
 
 
             **Galerien**
 
-            - 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/news/1202)
+            - Sa, 01.01.: [Neujahrsgalerie 📷 2020](http://integration-test.host/news/1202)
             - 02.01.: [Berchtoldstagsgalerie 2020](http://integration-test.host/news/6)
 
 

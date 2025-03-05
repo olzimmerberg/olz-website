@@ -49,7 +49,7 @@ class DeadlineWarningGetter implements NotificationGetterInterface {
         $deadlines = $termin_repo->matching($criteria);
         foreach ($deadlines as $termin) {
             $deadline_date = $termin->getDeadline();
-            $date = $deadline_date?->format('d.m.');
+            $date = $deadline_date ? $this->dateUtils()->compactDate($deadline_date) : '';
             $id = $termin->getId();
             $title = $termin->getTitle();
             $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}/{$id})'\n";

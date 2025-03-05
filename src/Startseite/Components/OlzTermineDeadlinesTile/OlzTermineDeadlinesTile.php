@@ -11,8 +11,8 @@ use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzTermineDeadlinesTile extends AbstractOlzTile {
     private string $in_three_days;
-    private string $in_ten_days;
-    private string $in_four_weeks;
+    private string $in_one_week;
+    private string $in_two_weeks;
 
     public function getRelevance(?User $user): float {
         return 0.75;
@@ -24,11 +24,11 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $today = $date_utils->getIsoToday();
         $now = $date_utils->getIsoNow();
         $plus_three_days = \DateInterval::createFromDateString("+3 days");
-        $plus_ten_days = \DateInterval::createFromDateString("+10 days");
-        $plus_four_weeks = \DateInterval::createFromDateString("+4 weeks");
+        $plus_one_week = \DateInterval::createFromDateString("+7 days");
+        $plus_two_weeks = \DateInterval::createFromDateString("+14 days");
         $this->in_three_days = (new \DateTime($today))->add($plus_three_days)->format('Y-m-d');
-        $this->in_ten_days = (new \DateTime($today))->add($plus_ten_days)->format('Y-m-d');
-        $this->in_four_weeks = (new \DateTime($today))->add($plus_four_weeks)->format('Y-m-d');
+        $this->in_one_week = (new \DateTime($today))->add($plus_one_week)->format('Y-m-d');
+        $this->in_two_weeks = (new \DateTime($today))->add($plus_two_weeks)->format('Y-m-d');
 
         $out = "<h3>Meldeschlüsse</h3>";
 
@@ -43,9 +43,8 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             WHERE
                 t.deadline IS NOT NULL
                 AND t.deadline >= '{$now}'
-                AND t.deadline <= '{$this->in_four_weeks}'
+                AND t.deadline <= '{$this->in_two_weeks}'
             ORDER BY deadline ASC
-            LIMIT 7
             ZZZZZZZZZZ);
         // @phpstan-ignore-next-line
         if ($res->num_rows > 0) {
@@ -56,7 +55,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             }
             $out .= "</ul>";
         } else {
-            $out .= "<br /><center><i>Keine Meldeschlüsse in den nächsten vier Wochen</i></center>";
+            $out .= "<br /><center><i>Keine Meldeschlüsse in den nächsten drei Wochen</i></center>";
         }
 
         // Outlook
@@ -70,7 +69,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             FROM termine t
             WHERE
                 t.deadline IS NOT NULL
-                AND t.deadline > '{$this->in_four_weeks}'
+                AND t.deadline > '{$this->in_two_weeks}'
                 AND t.should_promote != '0'
                 AND t.image_ids IS NOT NULL
                 AND t.image_ids != '[]'
@@ -97,13 +96,13 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
 
         $id = $row['id'];
-        $deadline = date('d.m.', strtotime($row['deadline']) ?: 0);
-        $date = date('d.m.', strtotime($row['date']) ?: 0);
+        $deadline = $this->dateUtils()->compactDate($row['deadline']);
+        $date = $this->dateUtils()->compactDate($row['date']);
         $title = $row['title'];
         $urgency = 'full';
         if ($row['deadline'] <= $this->in_three_days) {
             $urgency = 'empty';
-        } elseif ($row['deadline'] <= $this->in_ten_days) {
+        } elseif ($row['deadline'] <= $this->in_one_week) {
             $urgency = 'mid';
         }
         $image_ids = json_decode($row['image_ids'], true);

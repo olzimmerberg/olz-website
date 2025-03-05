@@ -3,6 +3,8 @@
 namespace Olz\Utils;
 
 abstract class AbstractDateUtils {
+    use WithUtilsTrait;
+
     public const WEEKDAYS_SHORT_DE = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
     public const WEEKDAYS_LONG_DE = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
     public const MONTHS_SHORT_DE = ["Jan.", "Feb.", "März", "April", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
@@ -54,14 +56,27 @@ abstract class AbstractDateUtils {
         return $this->getCurrentDateInFormat('Y-m-d H:i:s');
     }
 
+    public function isoDateTime(string|\DateTime|null $date = null): string {
+        $timestamp = $this->getTimestamp($date);
+        return date("Y-m-d H:i:s", $timestamp);
+    }
+
+    public function isoDate(string|\DateTime|null $date = null): string {
+        $timestamp = $this->getTimestamp($date);
+        return date("Y-m-d", $timestamp);
+    }
+
+    public function compactDate(string|\DateTime|null $date = null): string {
+        return $this->olzDate("W,\xc2\xa0tt.mm.", $date);
+    }
+
+    public function compactTime(string|\DateTime|null $date = null): string {
+        $timestamp = $this->getTimestamp($date);
+        return date("H:i", $timestamp);
+    }
+
     public function olzDate(string $format, string|\DateTime|null $date = null): string {
-        if ($date == null || $date == '') {
-            $date = $this->getIsoNow();
-        }
-        if ($date instanceof \DateTime) {
-            $date = $date->format(\DateTime::ATOM);
-        }
-        $date = strtotime($date) ?: null;
+        $date = $this->getTimestamp($date);
 
         return str_replace(
             [
@@ -94,6 +109,18 @@ abstract class AbstractDateUtils {
             ],
             $format
         );
+    }
+
+    protected function getTimestamp(string|\DateTime|null $date = null): int {
+        if ($date == null || $date == '') {
+            $date = $this->getIsoNow();
+        }
+        if ($date instanceof \DateTime) {
+            $date = $date->format(\DateTime::ATOM);
+        }
+        $timestamp = strtotime($date);
+        $this->generalUtils()->checkNotFalse($timestamp, "No timestamp for {$date}");
+        return $timestamp;
     }
 
     public function formatDateTimeRange(

@@ -42,17 +42,17 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
 
             **Aktuell**
 
-            - 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/news/3)
+            - Mi, 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/news/3)
 
 
             **Kaderblog**
 
-            - 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/news/6403)
+            - Mi, 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/news/6403)
 
 
             **Aktualisierte Termine**
 
-            - 06.06.: [Brunch OL](http://integration-test.host/termine/2)
+            - Sa, 06.06.: [Brunch OL](http://integration-test.host/termine/2)
 
 
             ZZZZZZZZZZ;
@@ -87,12 +87,12 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
 
             **Forum**
 
-            - 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/news/2901)
+            - Mi, 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/news/2901)
 
 
             **Aktualisierte Termine**
 
-            - 02.01.: [Berchtoldstag 🥈](http://integration-test.host/termine/1)
+            - Do, 02.01.: [Berchtoldstag 🥈](http://integration-test.host/termine/1)
 
 
             ZZZZZZZZZZ;

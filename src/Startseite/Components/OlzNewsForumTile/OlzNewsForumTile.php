@@ -49,7 +49,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
         $index = 0;
         foreach ($query->getResult() as $news_entry) {
             $id = $news_entry->getId();
-            $date = $news_entry->getPublishedDate()->format('d.m.');
+            $date = $this->dateUtils()->compactDate($news_entry->getPublishedDate());
             $title = $news_entry->getTitle();
             $format = $news_entry->getFormat();
             $image_ids = $news_entry->getImageIds();

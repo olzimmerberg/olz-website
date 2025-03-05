@@ -36,14 +36,14 @@ final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
 
             **Termine**
 
-            - 16.08. - 17.08.: [24h-OL](http://integration-test.host/termine/12)
-            - 18.08.: [Training 1](http://integration-test.host/termine/3)
-            - 22.08.: [Grossanlass](http://integration-test.host/termine/10)
+            - So, 16.08. - Mo, 17.08.: [24h-OL](http://integration-test.host/termine/12)
+            - Di, 18.08.: [Training 1](http://integration-test.host/termine/3)
+            - Sa, 22.08.: [Grossanlass](http://integration-test.host/termine/10)
 
 
             **Meldeschlüsse**
 
-            - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
+            - Mo, 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
 
 
             ZZZZZZZZZZ;

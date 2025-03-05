@@ -33,7 +33,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
 
             Folgende Meldeschlüsse stehen bevor:
 
-            - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
+            - Mo, 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
 
             ZZZZZZZZZZ;
         $this->assertSame([

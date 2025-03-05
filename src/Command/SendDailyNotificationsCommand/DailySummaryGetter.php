@@ -137,8 +137,8 @@ class DailySummaryGetter implements NotificationGetterInterface {
                 $starts_on = $termin->getStartDate();
                 $ends_on = $termin->getEndDate();
                 $pretty_date = ($ends_on && $ends_on > $starts_on)
-                    ? $starts_on->format('d.m.').' - '.$ends_on->format('d.m.')
-                    : $starts_on->format('d.m.');
+                    ? $this->dateUtils()->compactDate($starts_on).' - '.$this->dateUtils()->compactDate($ends_on)
+                    : $this->dateUtils()->compactDate($starts_on);
                 $title = $termin->getTitle();
                 if (strlen(trim($title)) > 0) {
                     $termine_text .= "- {$pretty_date}: [{$title}]({$termine_url}/{$id})\n";
@@ -165,7 +165,7 @@ class DailySummaryGetter implements NotificationGetterInterface {
         if (!$date) {
             return "??";
         }
-        $pretty_date = $date->format('d.m.');
+        $pretty_date = $this->dateUtils()->compactDate($date);
         if (!$time) {
             return $pretty_date;
         }

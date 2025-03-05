@@ -36,20 +36,20 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
 
             **Termine**
 
-            - 04.08.: [Training -1](http://integration-test.host/termine/9)
-            - 11.08.: [Training 0](http://integration-test.host/termine/8)
-            - 16.08. - 17.08.: [24h-OL](http://integration-test.host/termine/12)
-            - 18.08.: [Training 1](http://integration-test.host/termine/3)
-            - 22.08.: [Grossanlass](http://integration-test.host/termine/10)
-            - 25.08.: [Training 2](http://integration-test.host/termine/4)
-            - 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/termine/5)
+            - Di, 04.08.: [Training -1](http://integration-test.host/termine/9)
+            - Di, 11.08.: [Training 0](http://integration-test.host/termine/8)
+            - So, 16.08. - Mo, 17.08.: [24h-OL](http://integration-test.host/termine/12)
+            - Di, 18.08.: [Training 1](http://integration-test.host/termine/3)
+            - Sa, 22.08.: [Grossanlass](http://integration-test.host/termine/10)
+            - Di, 25.08.: [Training 2](http://integration-test.host/termine/4)
+            - Mi, 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/termine/5)
 
 
             **Meldeschlüsse**
 
-            - 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
-            - 24.08.: Meldeschluss für '[Training 2](http://integration-test.host/termine/4)'
-            - 31.08.: Meldeschluss für '[Training 3](http://integration-test.host/termine/6)'
+            - Mo, 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
+            - Mo, 24.08.: Meldeschluss für '[Training 2](http://integration-test.host/termine/4)'
+            - Mo, 31.08.: Meldeschluss für '[Training 3](http://integration-test.host/termine/6)'
 
 
             ZZZZZZZZZZ;

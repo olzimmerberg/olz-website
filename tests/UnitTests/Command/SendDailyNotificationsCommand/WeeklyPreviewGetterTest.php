@@ -46,16 +46,16 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
 
             **Termine**
 
-            - 13.03.: [Fake title](http://fake-base-url/_/termine/12)
-            - 01.01.: [Cannot be empty](http://fake-base-url/_/termine/123)
-            - 13.03. - 16.03.: [Fake title](http://fake-base-url/_/termine/1234)
+            - Fr, 13.03.: [Fake title](http://fake-base-url/_/termine/12)
+            - Sa, 01.01.: [Cannot be empty](http://fake-base-url/_/termine/123)
+            - Fr, 13.03. - Mo, 16.03.: [Fake title](http://fake-base-url/_/termine/1234)
 
 
             **Meldeschlüsse**
 
             - : Meldeschluss für '[Fake title](http://fake-base-url/_/termine/12)'
-            - 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
-            - 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
+            - Sa, 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
+            - Fr, 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
 
 
             ZZZZZZZZZZ;

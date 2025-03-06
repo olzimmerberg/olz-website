@@ -16,7 +16,7 @@ use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\HttpParams;
 
-/** @extends HttpParams<array{filter?: ?string}> */
+/** @extends HttpParams<array{filter?: ?string, von?: ?string}> */
 class OlzNewsDetailParams extends HttpParams {
 }
 

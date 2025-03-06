@@ -31,12 +31,12 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
         $video_url = $news_filter_utils->getUrl(['format' => 'video']);
         $out = <<<ZZZZZZZZZZ
             <h3>
-                <a href='{$galerie_url}'>
+                <a href='{$galerie_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
                     Galerie
                 </a>
                 &nbsp;&amp;&nbsp;
-                <a href='{$video_url}'>
+                <a href='{$video_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_movie_20.svg' alt='Video' class='link-icon'>
                     Video
                 </a>
@@ -77,7 +77,7 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
 
             $out .= <<<ZZZZZZZZZZ
                 <li class='flex gallery min-two-lines'>
-                    <a href='{$code_href}news/{$id}'>
+                    <a href='{$code_href}news/{$id}?von=startseite'>
                         <div class='overlay'>
                             <img src='{$icon}' alt='{$format}' class='link-icon'>
                             <span class='date'>{$date}</span>

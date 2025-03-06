@@ -8,7 +8,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;
 use Olz\Utils\HttpParams;
 
-/** @extends HttpParams<array{}> */
+/** @extends HttpParams<array{von?: ?string}> */
 class OlzVereinParams extends HttpParams {
 }
 

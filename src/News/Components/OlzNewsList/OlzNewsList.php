@@ -17,6 +17,7 @@ use Olz\Utils\HttpParams;
 /** @extends HttpParams<array{
  *   filter?: ?string,
  *   seite?: ?numeric-string,
+ *   von?: ?string,
  * }> */
 class OlzNewsListParams extends HttpParams {
 }

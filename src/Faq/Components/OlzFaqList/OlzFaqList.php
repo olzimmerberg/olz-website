@@ -13,7 +13,7 @@ use Olz\Repository\Roles\PredefinedRole;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
-/** @extends HttpParams<array{}> */
+/** @extends HttpParams<array{von?: ?string}> */
 class OlzFaqListParams extends HttpParams {
 }
 

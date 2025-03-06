@@ -30,7 +30,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
 
         $out = <<<ZZZZZZZZZZ
             <h3>
-                <a href='{$forum_url}'>
+                <a href='{$forum_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
                     Forum
                 </a>
@@ -83,7 +83,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
                     <div class='flex bubble'>
                         {$image_left}
                         <img src='{$icon}' alt='{$format}' class='link-icon'>
-                        <a href='{$code_href}news/{$id}' class='title-link'>
+                        <a href='{$code_href}news/{$id}?von=startseite' class='title-link'>
                             <span class='title'>{$title}</span>
                         </a>
                         <span class='date'>{$date}</span>

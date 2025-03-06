@@ -20,7 +20,7 @@ class OlzForBeginnersTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $fan_role = $role_repo->getPredefinedRole(PredefinedRole::FanOlzElite);
-        $fan_olz_elite = $fan_role ? "<li><a href='{$code_href}verein/{$fan_role->getUsername()}' class='linkint'>Fan OLZ Elite</a></li>" : '';
+        $fan_olz_elite = $fan_role ? "<li><a href='{$code_href}verein/{$fan_role->getUsername()}?von=startseite' class='linkint'>Fan OLZ Elite</a></li>" : '';
 
         return <<<ZZZZZZZZZZ
             <h3>Neu hier?</h3>
@@ -28,8 +28,8 @@ class OlzForBeginnersTile extends AbstractOlzTile {
             <div>Wir sind euer <b>Orientierungslauf (OL) Sportverein</b> in Thalwil, Horgen, Wädenswil, Richterswil, Adliswil, Langnau am Albis, Kilchberg, Rüschlikon,  Oberrieden und Zürich-Süd.</div>
             <ul class='links'>
                 <li><a href='{$code_href}fuer_einsteiger?von=startseite' class='linkint'>Für Einsteiger</a></li>
-                <li><a href='{$code_href}fragen_und_antworten' class='linkint'>Häufige Fragen (FAQ)</a></li>
-                <li><a href='{$code_href}verein' class='linkint'>Unser Verein</a></li>
+                <li><a href='{$code_href}fragen_und_antworten?von=startseite' class='linkint'>Häufige Fragen (FAQ)</a></li>
+                <li><a href='{$code_href}verein?von=startseite' class='linkint'>Unser Verein</a></li>
                 {$fan_olz_elite}
             </ul>
             ZZZZZZZZZZ;

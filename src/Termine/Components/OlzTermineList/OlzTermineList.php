@@ -17,7 +17,7 @@ use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\HttpParams;
 
-/** @extends HttpParams<array{filter?: ?string}> */
+/** @extends HttpParams<array{filter?: ?string, von?: ?string}> */
 class OlzTermineListParams extends HttpParams {
 }
 

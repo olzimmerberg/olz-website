@@ -6,7 +6,9 @@ namespace Olz\Tests\UnitTests\Apps\Logs\Utils;
 
 use Olz\Apps\Logs\Utils\BaseLogsChannel;
 use Olz\Apps\Logs\Utils\DailyFileLogsChannel;
-use Olz\Apps\Logs\Utils\PlainLogFile;
+use Olz\Apps\Logs\Utils\HybridLogFile;
+use Olz\Apps\Logs\Utils\HybridState;
+use Olz\Apps\Logs\Utils\LogFileInterface;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 
@@ -19,22 +21,28 @@ class TestOnlyDailyFileLogsChannel extends DailyFileLogsChannel {
         return 'DailyFileLogsChannel name';
     }
 
-    protected function getLogFileForDateTime(\DateTime $datetime): PlainLogFile {
+    public function getRetentionDays(): ?int {
+        return 2;
+    }
+
+    protected function getLogFileForDateTime(\DateTime $datetime): LogFileInterface {
         $private_path = $this->envUtils()->getPrivatePath();
         $logs_path = "{$private_path}logs/";
         $formatted = $datetime->format('Y-m-d');
-        $file_path = "{$logs_path}{$formatted}.log";
-        if (!is_file($file_path)) {
-            throw new \Exception("No such file: {$file_path}");
+        $plain_path = "{$logs_path}{$formatted}.log";
+        $gz_path = "{$plain_path}.gz";
+        if (!is_file($plain_path) && !is_file($gz_path)) {
+            throw new \Exception("No such file: {$plain_path} / {$gz_path}");
         }
-        return new PlainLogFile($file_path);
+        $index_path = "{$logs_path}{$formatted}";
+        return new HybridLogFile($plain_path, $gz_path, $index_path, HybridState::KEEP);
     }
 
     protected function getDateTimeForFilePath(string $file_path): \DateTime {
         $private_path = $this->envUtils()->getPrivatePath();
         $logs_path = "{$private_path}logs/";
         $esc_logs_path = preg_quote($logs_path, '/');
-        $pattern = "/^{$esc_logs_path}(\\d{4}\\-\\d{2}\\-\\d{2})\\.log$/";
+        $pattern = "/^{$esc_logs_path}(\\d{4}\\-\\d{2}\\-\\d{2})\\.log(\\.gz)?$/";
         $res = preg_match($pattern, $file_path, $matches);
         if (!$res) {
             throw new \Exception("Not an OLZ Log file path: {$file_path}");
@@ -68,10 +76,10 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             $iso_date = date('Y-m-d H:i:s', strtotime('2020-03-12') + $i * 600);
             $fake_content[] = "[{$iso_date}] tick 2020-03-12\n";
         }
-        file_put_contents(
-            __DIR__.'/../../../tmp/private/logs/2020-03-12.log',
-            implode('', $fake_content),
-        );
+        $gzp = gzopen(__DIR__.'/../../../tmp/private/logs/2020-03-12.log.gz', 'wb');
+        assert(!is_bool($gzp));
+        gzwrite($gzp, implode('', $fake_content), $num_fake * 1024);
+        gzclose($gzp);
         file_put_contents(
             __DIR__.'/../../../tmp/private/logs/2020-03-13.log',
             implode('', [
@@ -97,7 +105,7 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
         ]);
 
         $this->assertSame([
-            'DEBUG log_file_before private-path/logs/2020-03-12.log',
+            'DEBUG log_file_before private-path/logs/2020-03-12.log.gz',
             'DEBUG log_file_after private-path/logs/2020-03-14.log',
         ], $this->getLogs());
         $this->assertSame([
@@ -110,8 +118,12 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             "[2020-03-14 12:00:00] tick 2020-03-14\n",
         ], $result->lines);
         $this->assertMatchesRegularExpression(
-            '/\/tmp\/private\/logs\/2020-03-12.log$/',
+            '/\/tmp\/private\/logs\/2020-03-12\.log\.gz$/',
             $result->previous?->logFile->getPath() ?? '',
+        );
+        $this->assertMatchesRegularExpression(
+            '/\/tmp\/private\/logs\/2020-03-12$/',
+            $result->previous?->logFile->getIndexPath() ?? '',
         );
         $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous?->lineNumber);
         $this->assertNull($result->next);

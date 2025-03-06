@@ -23,15 +23,19 @@ class HttpUtils {
             || preg_match('/yandexbot/i', $user_agent)
             || preg_match('/bot\//i', $user_agent)
             || preg_match('/crawler\//i', $user_agent)
+            || preg_match('/ecosia\//i', $user_agent)
         ) {
             $this->log()->debug("Counter: user agent is bot: {$user_agent}");
             return;
         }
         $path = "{$request->getBasePath()}{$request->getPathInfo()}";
-        $query = array_map(function ($key) use ($request) {
+        $query = [];
+        foreach ($get_params as $key) {
             $value = $request->query->get($key);
-            return "{$key}={$value}";
-        }, $get_params);
+            if ($value !== null) {
+                $query[] = "{$key}={$value}";
+            }
+        }
         $pretty_query = empty($query) ? '' : '?'.implode('&', $query);
         $counter_repo = $this->entityManager()->getRepository(Counter::class);
         $counter_repo->record("{$path}{$pretty_query}");

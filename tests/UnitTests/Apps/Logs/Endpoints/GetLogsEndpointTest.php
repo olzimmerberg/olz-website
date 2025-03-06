@@ -160,14 +160,17 @@ final class GetLogsEndpointTest extends UnitTestCase {
             'INFO Logs access by admin.',
             'DEBUG log_file_before private-path/logs/merged-2020-03-12.log',
             'DEBUG log_file_after private-path/logs/merged-2020-03-14.log',
+            'ERROR HybridLogFile.php:*** Inexistent hybrid log file HybridLogFile(private-path/logs/merged-2020-03-15.log, private-path/logs/merged-2020-03-15.log.gz, private-path/logs/merged-2020-03-15.log, plain)',
             'INFO Valid user response',
             'INFO Valid user request',
             'INFO Logs access by admin.',
             'DEBUG log_file_before private-path/logs/merged-2020-03-12.log',
             'DEBUG log_file_after private-path/logs/merged-2020-03-14.log',
+            'ERROR HybridLogFile.php:*** Inexistent hybrid log file HybridLogFile(private-path/logs/merged-2020-03-15.log, private-path/logs/merged-2020-03-15.log.gz, private-path/logs/merged-2020-03-15.log, plain)',
             'INFO Valid user response',
             'INFO Valid user request',
             'INFO Logs access by admin.',
+            'ERROR HybridLogFile.php:*** Inexistent hybrid log file HybridLogFile(private-path/logs/merged-2020-03-11.log, private-path/logs/merged-2020-03-11.log.gz, private-path/logs/merged-2020-03-11.log, gz)',
             'DEBUG log_file_after private-path/logs/merged-2020-03-13.log',
             'INFO Valid user response',
         ], $this->getLogs());
@@ -202,21 +205,21 @@ final class GetLogsEndpointTest extends UnitTestCase {
 
     public function testGetLogsEndpointSerializePageToken(): void {
         $endpoint = new TestOnlyGetLogsEndpoint();
-        $log_file = new PlainLogFile('fake-path');
+        $log_file = new PlainLogFile('fake-path', 'fake-index-path');
         $line_location = new LineLocation($log_file, 123, 1);
 
         $serialized = $endpoint->testOnlySerializePageToken($line_location, 'previous');
 
-        $this->assertSame('{"logFile":"{\"class\":\"Olz\\\\\\\Apps\\\\\\\Logs\\\\\\\Utils\\\\\\\PlainLogFile\",\"path\":\"fake-path\"}","lineNumber":123,"comparison":1,"mode":"previous"}', $serialized);
+        $this->assertSame('{"logFile":"{\"class\":\"Olz\\\\\\\Apps\\\\\\\Logs\\\\\\\Utils\\\\\\\PlainLogFile\",\"path\":\"fake-path\",\"indexPath\":\"fake-index-path\"}","lineNumber":123,"comparison":1,"mode":"previous"}', $serialized);
     }
 
     public function testGetLogsEndpointDeserializePageToken(): void {
         $endpoint = new TestOnlyGetLogsEndpoint();
-        $serialized = '{"logFile":"{\"class\":\"Olz\\\\\\\Apps\\\\\\\Logs\\\\\\\Utils\\\\\\\GzLogFile\",\"path\":\"fake-path\",\"filePath\":\"fake-file-path\"}","lineNumber":321,"comparison":-1,"mode":"next"}';
+        $serialized = '{"logFile":"{\"class\":\"Olz\\\\\\\Apps\\\\\\\Logs\\\\\\\Utils\\\\\\\GzLogFile\",\"path\":\"fake-path\",\"indexPath\":\"fake-index-path\"}","lineNumber":321,"comparison":-1,"mode":"next"}';
 
         $result = $endpoint->testOnlyDeserializePageToken($serialized);
 
-        $this->assertSame('{"class":"Olz\\\Apps\\\Logs\\\Utils\\\GzLogFile","path":"fake-path","filePath":"fake-file-path"}', $result['lineLocation']->logFile->serialize());
+        $this->assertSame('{"class":"Olz\\\Apps\\\Logs\\\Utils\\\GzLogFile","path":"fake-path","indexPath":"fake-index-path"}', $result['lineLocation']->logFile->serialize());
         $this->assertSame(321, $result['lineLocation']->lineNumber);
         $this->assertSame(-1, $result['lineLocation']->comparison);
         $this->assertSame('next', $result['mode']);

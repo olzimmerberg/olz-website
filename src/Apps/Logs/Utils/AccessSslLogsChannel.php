@@ -26,13 +26,7 @@ class AccessSslLogsChannel extends LogrotateLogsChannel {
         if ($index === 0) {
             $file_path = "{$syslog_path}{$log_name}.processed";
         }
-        if (is_file($file_path)) {
-            return new PlainLogFile($file_path);
-        }
-        if (is_file("{$file_path}.gz")) {
-            return new GzLogFile($file_path, "{$file_path}.gz");
-        }
-        throw new \Exception("No such file: {$file_path}");
+        return new HybridLogFile($file_path, "{$file_path}.gz", $file_path, HybridState::KEEP);
     }
 
     protected function getIndexForFilePath(string $file_path): int {

@@ -2,6 +2,7 @@
 
 namespace Olz\Apps\Logs\Utils;
 
+use Olz\Utils\LogsUtils;
 use Olz\Utils\WithUtilsTrait;
 
 class OlzLogsChannel extends DailyFileLogsChannel {
@@ -15,15 +16,18 @@ class OlzLogsChannel extends DailyFileLogsChannel {
         return "OLZ Logs";
     }
 
-    protected function getLogFileForDateTime(\DateTime $datetime): PlainLogFile {
+    protected function getRetentionDays(): ?int {
+        return LogsUtils::RETENTION_DAYS;
+    }
+
+    protected function getLogFileForDateTime(\DateTime $datetime): LogFileInterface {
         $private_path = $this->envUtils()->getPrivatePath();
         $logs_path = "{$private_path}logs/";
-        $formatted = $datetime->format('Y-m-d');
-        $file_path = "{$logs_path}merged-{$formatted}.log";
-        if (!is_file($file_path)) {
-            throw new \Exception("No such file: {$file_path}");
-        }
-        return new PlainLogFile($file_path);
+        $iso_date = $datetime->format('Y-m-d');
+        $file_path = "{$logs_path}merged-{$iso_date}.log";
+        $iso_today = $this->dateUtils()->getIsoToday();
+        $hybrid_state = $iso_date < $iso_today ? HybridState::PREFER_GZ : HybridState::PREFER_PLAIN;
+        return new HybridLogFile($file_path, "{$file_path}.gz", $file_path, $hybrid_state);
     }
 
     protected function getDateTimeForFilePath(string $file_path): \DateTime {

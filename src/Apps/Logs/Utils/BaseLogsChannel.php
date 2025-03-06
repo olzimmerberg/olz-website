@@ -94,8 +94,7 @@ abstract class BaseLogsChannel {
 
     /** @return array{version?: string, modified: int, start_date: ?string, lines: array<int>} */
     protected function getOrCreateIndex(LogFileInterface $log_file): array {
-        $file_path = $log_file->getPath();
-        $index_path = "{$file_path}.index.json.gz";
+        $index_path = $this->getIndexFilePath($log_file);
         if (is_file($index_path)) {
             $index = $this->readIndexFile($index_path);
             $version_matches = self::INDEX_FILE_VERSION === ($index['version'] ?? '1.0');
@@ -114,6 +113,11 @@ abstract class BaseLogsChannel {
             // ignore; best effort!
         }
         return $index;
+    }
+
+    protected function getIndexFilePath(LogFileInterface $log_file): string {
+        $index_path = $log_file->getIndexPath();
+        return "{$index_path}.index.json.gz";
     }
 
     /** @return array{version?: string, modified: int, start_date: ?string, lines: array<int>} */

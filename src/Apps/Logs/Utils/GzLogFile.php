@@ -8,8 +8,8 @@ class GzLogFile implements LogFileInterface {
     use WithUtilsTrait;
 
     public function __construct(
-        public string $path,
-        public string $filePath,
+        protected string $path,
+        protected string $indexPath,
     ) {
     }
 
@@ -17,12 +17,16 @@ class GzLogFile implements LogFileInterface {
         return $this->path;
     }
 
+    public function getIndexPath(): string {
+        return $this->indexPath;
+    }
+
     public function exists(): bool {
-        return is_file($this->filePath);
+        return is_file($this->path);
     }
 
     public function modified(): int {
-        $result = filemtime($this->filePath);
+        $result = filemtime($this->path);
         $this->generalUtils()->checkNotBool($result, 'GzLogFile::modified failed');
         return $result;
     }
@@ -35,7 +39,7 @@ class GzLogFile implements LogFileInterface {
             'rb' => 'rb',
             'wb' => 'wb',
         ];
-        $result = gzopen($this->filePath, $compatibility_map[$mode]);
+        $result = gzopen($this->path, $compatibility_map[$mode]);
         $this->generalUtils()->checkNotBool($result, 'GzLogFile::open failed');
         return $result;
     }
@@ -79,7 +83,7 @@ class GzLogFile implements LogFileInterface {
         return json_encode([
             'class' => self::class,
             'path' => $this->path,
-            'filePath' => $this->filePath,
+            'indexPath' => $this->indexPath,
         ]) ?: '{}';
     }
 
@@ -88,6 +92,6 @@ class GzLogFile implements LogFileInterface {
         if ($deserialized['class'] !== self::class) {
             return null;
         }
-        return new self($deserialized['path'], $deserialized['filePath']);
+        return new self($deserialized['path'], $deserialized['indexPath']);
     }
 }

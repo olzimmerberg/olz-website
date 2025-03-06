@@ -33,10 +33,10 @@ class TestOnlyLogrotateLogsChannel extends LogrotateLogsChannel {
             $file_path = "{$syslog_path}{$log_name}.processed";
         }
         if (is_file($file_path)) {
-            return new PlainLogFile($file_path);
+            return new PlainLogFile($file_path, $file_path);
         }
         if (is_file("{$file_path}.gz")) {
-            return new GzLogFile($file_path, "{$file_path}.gz");
+            return new GzLogFile("{$file_path}.gz", $file_path);
         }
         throw new \Exception("No such file: {$file_path}");
     }
@@ -118,7 +118,7 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
         // sleep(100);
 
         $this->assertSame([
-            'DEBUG log_file_before data-path/syslog/syslog.processed.2',
+            'DEBUG log_file_before data-path/syslog/syslog.processed.2.gz',
             'DEBUG log_file_after data-path/syslog/syslog.processed',
             'DEBUG log_file_after data-path/syslog/syslog',
         ], $this->getLogs());
@@ -133,8 +133,12 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
             "[2020-03-15 12:00:00] tick 2020-03-15\n",
         ], $result->lines);
         $this->assertMatchesRegularExpression(
-            '/\/tmp\/syslog\/syslog.processed.2$/',
+            '/\/tmp\/syslog\/syslog\.processed\.2\.gz$/',
             $result->previous?->logFile->getPath() ?? '',
+        );
+        $this->assertMatchesRegularExpression(
+            '/\/tmp\/syslog\/syslog\.processed\.2$/',
+            $result->previous?->logFile->getIndexPath() ?? '',
         );
         $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous?->lineNumber);
         $this->assertNull($result->next);

@@ -17,18 +17,18 @@ class SolvEventParser {
 
     /** @return array<SolvEvent> */
     public function parse_solv_events_csv(string $csv_content): array {
-        $data = str_getcsv($csv_content, "\n");
-        $header = str_getcsv($data[0] ?? '', ";");
+        $data = str_getcsv($csv_content, "\n", "\"", "\\");
+        $header = str_getcsv($data[0] ?? '', ";", "\"", "\\");
         $solv_events = [];
         for ($row_index = 1; $row_index < count($data); $row_index++) {
             $line = html_entity_decode($data[$row_index] ?? '', ENT_QUOTES);
-            $row = str_getcsv($line, ";");
+            $row = str_getcsv($line, ";", "\"", "\\");
             $solv_event = new SolvEvent();
             $solv_event->setStartLink(null);
             $solv_event->setRankLink(null);
             for ($col_index = 0; $col_index < count($header); $col_index++) {
-                $csv_column_name = $header[$col_index];
-                $field_value = $row[$col_index];
+                $csv_column_name = $header[$col_index] ?? '';
+                $field_value = $row[$col_index] ?? '';
                 switch ($csv_column_name) {
                     case 'unique_id':
                         $solv_event->setSolvUid(intval($field_value));

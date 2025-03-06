@@ -3,7 +3,9 @@
 namespace Olz\Apps\Logs\Utils;
 
 abstract class DailyFileLogsChannel extends BaseLogsChannel {
-    abstract protected function getLogFileForDateTime(\DateTime $date_time): PlainLogFile;
+    abstract protected function getRetentionDays(): ?int;
+
+    abstract protected function getLogFileForDateTime(\DateTime $date_time): LogFileInterface;
 
     abstract protected function getDateTimeForFilePath(string $file_path): \DateTime;
 
@@ -55,5 +57,47 @@ abstract class DailyFileLogsChannel extends BaseLogsChannel {
             throw new \Exception("No such file: {$new_log_file->getPath()}");
         }
         return $new_log_file;
+    }
+
+    public function cleanUpOldFiles(?int $num_days = 30): void {
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $interval = "-{$this->getRetentionDays()} days";
+        $minus_retention = \DateInterval::createFromDateString($interval);
+        $this->generalUtils()->checkNotFalse($minus_retention, "Invalid date interval {$interval}");
+        $before_retention = $now->add($minus_retention);
+
+        $day = $before_retention;
+        $minus_one_day = \DateInterval::createFromDateString("-1 days");
+        for ($i = 0; $i < $num_days; $i++) {
+            $day = $day->add($minus_one_day);
+            $log_file = $this->getLogFileForDateTime($day);
+            if ($log_file->exists()) {
+                $file_path = $log_file->getPath();
+                if (is_file($file_path)) {
+                    unlink($file_path);
+                    $this->log()->info("Removed old log file {$file_path}");
+                }
+            }
+            $index_file_path = $this->getIndexFilePath($log_file);
+            if (is_file($index_file_path)) {
+                unlink($index_file_path);
+                $this->log()->info("Removed old log index {$index_file_path}");
+            }
+        }
+    }
+
+    public function optimizeHybridFiles(): void {
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $retention_days = $this->getRetentionDays();
+
+        $day = $now;
+        $minus_one_day = \DateInterval::createFromDateString("-1 days");
+        for ($i = 0; $i <= $retention_days; $i++) {
+            $log_file = $this->getLogFileForDateTime($day);
+            if ($log_file instanceof HybridLogFile && $log_file->exists()) {
+                $log_file->optimize();
+            }
+            $day = $day->add($minus_one_day);
+        }
     }
 }

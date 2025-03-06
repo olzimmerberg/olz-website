@@ -5,6 +5,8 @@ namespace Olz\Apps\Logs\Utils;
 interface LogFileInterface {
     public function getPath(): string;
 
+    public function getIndexPath(): string;
+
     public function exists(): bool;
 
     public function modified(): int;

@@ -9,11 +9,16 @@ class PlainLogFile implements LogFileInterface {
 
     public function __construct(
         protected string $path,
+        protected string $indexPath,
     ) {
     }
 
     public function getPath(): string {
         return $this->path;
+    }
+
+    public function getIndexPath(): string {
+        return $this->indexPath;
     }
 
     public function exists(): bool {
@@ -65,6 +70,7 @@ class PlainLogFile implements LogFileInterface {
         return json_encode([
             'class' => self::class,
             'path' => $this->path,
+            'indexPath' => $this->indexPath,
         ]) ?: '{}';
     }
 
@@ -73,6 +79,6 @@ class PlainLogFile implements LogFileInterface {
         if ($deserialized['class'] !== self::class) {
             return null;
         }
-        return new self($deserialized['path']);
+        return new self($deserialized['path'], $deserialized['indexPath']);
     }
 }

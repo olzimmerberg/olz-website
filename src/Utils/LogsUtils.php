@@ -10,6 +10,8 @@ use Psr\Log\LoggerInterface;
 class LogsUtils {
     use WithUtilsTrait;
 
+    public const RETENTION_DAYS = 366;
+
     /** @var array<LoggerInterface|Logger> */
     private static array $activated_loggers_stack = [];
 
@@ -20,7 +22,10 @@ class LogsUtils {
             mkdir($log_path, 0o777, true);
         }
         $logger = new Logger($ident);
-        $logger->pushHandler(new RotatingFileHandler("{$log_path}merged.log", 366));
+        $logger->pushHandler(new RotatingFileHandler(
+            "{$log_path}merged.log",
+            $this::RETENTION_DAYS,
+        ));
         $logger->pushProcessor(new OlzProcessor());
         return $logger;
     }

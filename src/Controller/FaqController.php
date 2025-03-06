@@ -19,7 +19,7 @@ class FaqController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
-        $this->httpUtils()->countRequest($request);
+        $this->httpUtils()->countRequest($request, ['von']);
         $out = OlzFaqList::render();
         return new Response($out);
     }
@@ -30,7 +30,7 @@ class FaqController extends AbstractController {
         LoggerInterface $logger,
         string $ident,
     ): Response {
-        $this->httpUtils()->countRequest($request);
+        $this->httpUtils()->countRequest($request, ['von']);
         $out = OlzFaqDetail::render(['ident' => $ident]);
         return new Response($out);
     }

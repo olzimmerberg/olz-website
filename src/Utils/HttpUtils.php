@@ -24,6 +24,7 @@ class HttpUtils {
             || preg_match('/bot\//i', $user_agent)
             || preg_match('/crawler\//i', $user_agent)
         ) {
+            $this->log()->debug("Counter: user agent is bot: {$user_agent}");
             return;
         }
         $path = "{$request->getBasePath()}{$request->getPathInfo()}";
@@ -34,6 +35,7 @@ class HttpUtils {
         $pretty_query = empty($query) ? '' : '?'.implode('&', $query);
         $counter_repo = $this->entityManager()->getRepository(Counter::class);
         $counter_repo->record("{$path}{$pretty_query}");
+        $this->log()->debug("Counter: Counted {$path}{$pretty_query} (user agent: {$user_agent})");
     }
 
     public function dieWithHttpError(int $http_status_code): void {

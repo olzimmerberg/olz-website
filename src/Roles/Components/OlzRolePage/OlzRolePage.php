@@ -9,7 +9,7 @@ use Olz\Entity\Roles\Role;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
-/** @extends HttpParams<array{}> */
+/** @extends HttpParams<array{von?: ?string}> */
 class OlzRolePageParams extends HttpParams {
 }
 

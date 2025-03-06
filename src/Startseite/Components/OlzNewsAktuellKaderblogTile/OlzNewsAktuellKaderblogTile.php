@@ -31,12 +31,12 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
         $out = <<<ZZZZZZZZZZ
             <h3>
-                <a href='{$aktuell_url}'>
+                <a href='{$aktuell_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
                     Aktuell
                 </a>
                 &nbsp;&amp;&nbsp;
-                <a href='{$kaderblog_url}'>
+                <a href='{$kaderblog_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
                     Kaderblog
                 </a>
@@ -88,7 +88,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
                 <li class='flex min-two-lines aktuell-kaderblog-tile'>
                     {$image_left}
                     <img src='{$icon}' alt='{$format}' class='link-icon'>
-                    <a href='{$code_href}news/{$id}' style='flex-grow:1;'>
+                    <a href='{$code_href}news/{$id}?von=startseite' style='flex-grow:1;'>
                         <span class='title'>{$title}</span>
                         <span class='secondary'>({$date})</span>
                     </a>

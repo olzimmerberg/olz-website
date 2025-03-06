@@ -58,9 +58,14 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
                 ? "{$code_href}assets/icns/termine_type_{$label_ident}_20.svg" : null;
             $icon_href = $label?->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
             $icon_img = $icon_href ? "<img src='{$icon_href}' alt='' class='link-icon'>" : '';
-            $out .= "<li><a href='{$code_href}termine/{$id}'>
-                {$icon_img} <b>{$date}</b>: {$title}
-            </a></li>";
+            $out .= <<<ZZZZZZZZZZ
+                    <li class='flex'>
+                        {$icon_img}
+                        <a href='{$code_href}termine/{$id}?von=startseite'>
+                            <b>{$date}</b>: {$title}
+                        </a>
+                    </li>
+                ZZZZZZZZZZ;
         }
         $out .= "</ul>";
 

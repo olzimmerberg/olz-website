@@ -24,7 +24,7 @@ class TermineController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
-        $this->httpUtils()->countRequest($request, ['filter']);
+        $this->httpUtils()->countRequest($request, ['filter', 'von']);
         $out = OlzTermineList::render([]);
         return new Response($out);
     }
@@ -35,7 +35,7 @@ class TermineController extends AbstractController {
         LoggerInterface $logger,
         int $id,
     ): Response {
-        $this->httpUtils()->countRequest($request);
+        $this->httpUtils()->countRequest($request, ['von']);
         $out = OlzTerminDetail::render(['id' => $id]);
         return new Response($out);
     }

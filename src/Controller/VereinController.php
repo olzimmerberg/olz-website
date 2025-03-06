@@ -19,7 +19,7 @@ class VereinController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
-        $this->httpUtils()->countRequest($request);
+        $this->httpUtils()->countRequest($request, ['von']);
         $out = OlzVerein::render();
         return new Response($out);
     }
@@ -30,7 +30,7 @@ class VereinController extends AbstractController {
         LoggerInterface $logger,
         string $ressort,
     ): Response {
-        $this->httpUtils()->countRequest($request);
+        $this->httpUtils()->countRequest($request, ['von']);
         $out = OlzRolePage::render(['ressort' => $ressort]);
         return new Response($out);
     }

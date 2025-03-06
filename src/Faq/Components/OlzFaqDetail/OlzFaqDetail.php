@@ -12,7 +12,7 @@ use Olz\Roles\Components\OlzRoleInfoModal\OlzRoleInfoModal;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
-/** @extends HttpParams<array{}> */
+/** @extends HttpParams<array{von?: ?string}> */
 class OlzFaqDetailParams extends HttpParams {
 }
 

@@ -21,7 +21,7 @@ class NewsController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
-        $this->httpUtils()->countRequest($request, ['filter']);
+        $this->httpUtils()->countRequest($request, ['filter', 'von']);
         $out = OlzNewsList::render([]);
         return new Response($out);
     }
@@ -32,7 +32,7 @@ class NewsController extends AbstractController {
         LoggerInterface $logger,
         int $id,
     ): Response {
-        $this->httpUtils()->countRequest($request);
+        $this->httpUtils()->countRequest($request, ['von']);
         $out = OlzNewsDetail::render(['id' => $id]);
         return new Response($out);
     }

@@ -71,18 +71,7 @@ abstract class DailyFileLogsChannel extends BaseLogsChannel {
         for ($i = 0; $i < $num_days; $i++) {
             $day = $day->add($minus_one_day);
             $log_file = $this->getLogFileForDateTime($day);
-            if ($log_file->exists()) {
-                $file_path = $log_file->getPath();
-                if (is_file($file_path)) {
-                    unlink($file_path);
-                    $this->log()->info("Removed old log file {$file_path}");
-                }
-            }
-            $index_file_path = $this->getIndexFilePath($log_file);
-            if (is_file($index_file_path)) {
-                unlink($index_file_path);
-                $this->log()->info("Removed old log index {$index_file_path}");
-            }
+            $log_file->purge();
         }
     }
 
@@ -94,9 +83,7 @@ abstract class DailyFileLogsChannel extends BaseLogsChannel {
         $minus_one_day = \DateInterval::createFromDateString("-1 days");
         for ($i = 0; $i <= $retention_days; $i++) {
             $log_file = $this->getLogFileForDateTime($day);
-            if ($log_file instanceof HybridLogFile && $log_file->exists()) {
-                $log_file->optimize();
-            }
+            $log_file->optimize();
             $day = $day->add($minus_one_day);
         }
     }

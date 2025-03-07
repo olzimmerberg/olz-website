@@ -7,27 +7,17 @@ use Olz\Utils\WithUtilsTrait;
 class HybridLogFile implements LogFileInterface {
     use WithUtilsTrait;
 
-    protected ?LogFileInterface $logFile;
+    protected ?LogFileInterface $plainLogFile;
 
     public function __construct(
-        public string $plainPath,
         public string $gzPath,
+        public string $plainPath,
         public string $indexPath,
-        public HybridState $state = HybridState::KEEP,
     ) {
-        $log_file = null;
-        if (is_file($gzPath)) {
-            $log_file = new GzLogFile($gzPath, $indexPath);
-        }
-        if (is_file($plainPath)) {
-            $log_file = new PlainLogFile($plainPath, $indexPath);
-        }
-        $this->logFile = $log_file;
     }
 
     public function getPath(): string {
-        $this->generalUtils()->checkNotNull($this->logFile, "Inexistent hybrid log file {$this}");
-        return $this->logFile->getPath();
+        return $this->gzPath;
     }
 
     public function getIndexPath(): string {
@@ -35,102 +25,123 @@ class HybridLogFile implements LogFileInterface {
     }
 
     public function exists(): bool {
-        return $this->logFile?->exists() ?? false;
+        return is_file($this->gzPath) || is_file($this->plainPath);
     }
 
     public function modified(): int {
-        $this->generalUtils()->checkNotNull($this->logFile, "Inexistent hybrid log file {$this}");
-        return $this->logFile->modified();
+        $result = match (true) {
+            is_file($this->gzPath) => filemtime($this->gzPath),
+            is_file($this->plainPath) => filemtime($this->plainPath),
+            default => false,
+        };
+        $this->generalUtils()->checkNotBool($result, "filemtime({$this->gzPath}) failed");
+        return $result;
     }
 
     /** @return resource */
     public function open(string $mode): mixed {
-        $this->generalUtils()->checkNotNull($this->logFile, "Inexistent hybrid log file {$this}");
-        return $this->logFile->open($mode);
+        if (!is_file($this->plainPath)) {
+            $this->copyToPlain();
+        }
+        $this->plainLogFile = new PlainLogFile($this->plainPath, $this->indexPath);
+        $this->generalUtils()->checkNotNull($this->plainLogFile, "No plain log file");
+        return $this->plainLogFile->open($mode);
     }
 
     /** @param resource $fp */
     public function seek(mixed $fp, int $offset, int $whence = SEEK_SET): int {
-        $this->generalUtils()->checkNotNull($this->logFile, "Inexistent hybrid log file {$this}");
-        return $this->logFile->seek($fp, $offset, $whence);
+        $this->generalUtils()->checkNotNull($this->plainLogFile, "No plain log file");
+        return $this->plainLogFile->seek($fp, $offset, $whence);
     }
 
     /** @param resource $fp */
     public function tell(mixed $fp): int {
-        $this->generalUtils()->checkNotNull($this->logFile, "Inexistent hybrid log file {$this}");
-        return $this->logFile->tell($fp);
+        $this->generalUtils()->checkNotNull($this->plainLogFile, "No plain log file");
+        return $this->plainLogFile->tell($fp);
     }
 
     /** @param resource $fp */
     public function eof(mixed $fp): bool {
-        $this->generalUtils()->checkNotNull($this->logFile, "Inexistent hybrid log file {$this}");
-        return $this->logFile->eof($fp);
+        $this->generalUtils()->checkNotNull($this->plainLogFile, "No plain log file");
+        return $this->plainLogFile->eof($fp);
     }
 
     /** @param resource $fp */
     public function gets(mixed $fp): ?string {
-        $this->generalUtils()->checkNotNull($this->logFile, "Inexistent hybrid log file {$this}");
-        return $this->logFile->gets($fp);
+        $this->generalUtils()->checkNotNull($this->plainLogFile, "No plain log file");
+        return $this->plainLogFile->gets($fp);
     }
 
     /** @param resource $fp */
     public function close(mixed $fp): bool {
-        $this->generalUtils()->checkNotNull($this->logFile, "Inexistent hybrid log file {$this}");
-        return $this->logFile->close($fp);
+        $this->generalUtils()->checkNotNull($this->plainLogFile, "No plain log file");
+        $result = $this->plainLogFile->close($fp);
+        $this->plainLogFile = null;
+        if (is_file($this->gzPath)) {
+            $this->deletePlain();
+        }
+        return $result;
     }
 
     public function optimize(): void {
-        if ($this->state === HybridState::KEEP) {
-            return;
-        }
         $has_gz = is_file($this->gzPath);
         $has_plain = is_file($this->plainPath);
-        $want_gz = match ($this->state) {
-            HybridState::PREFER_GZ => true,
-            HybridState::PREFER_BOTH => true,
-            default => false,
-        };
-        $want_plain = match ($this->state) {
-            HybridState::PREFER_PLAIN => true,
-            HybridState::PREFER_BOTH => true,
-            default => false,
-        };
-        if (!$has_gz && $want_gz) {
-            $this->log()->info("Copy hybrid log file {$this->plainPath} -> {$this->gzPath}");
-            $fp = fopen($this->plainPath, 'r');
-            $gzp = gzopen($this->gzPath, 'wb');
-            $this->generalUtils()->checkNotBool($fp, 'fopen failed');
-            $this->generalUtils()->checkNotBool($gzp, 'gzopen failed');
-            while ($buf = fread($fp, 1024)) {
-                gzwrite($gzp, $buf, 1024);
-            }
-            fclose($fp);
-            gzclose($gzp);
+        if (!$has_gz && $has_plain) {
+            $this->copyToGz();
         }
-        if (!$has_plain && $want_plain) {
-            $this->log()->info("Copy hybrid log file {$this->gzPath} -> {$this->plainPath}");
-            $gzp = gzopen($this->gzPath, 'rb');
-            $fp = fopen($this->plainPath, 'w');
-            $this->generalUtils()->checkNotBool($gzp, 'gzopen failed');
-            $this->generalUtils()->checkNotBool($fp, 'fopen failed');
-            while ($buf = gzread($gzp, 1024)) {
-                fwrite($fp, $buf, 1024);
-            }
-            gzclose($gzp);
-            fclose($fp);
+        if ($has_plain) {
+            $this->deletePlain();
         }
-        if ($has_gz && !$want_gz) {
-            $this->log()->info("Remove redundant hybrid log file {$this->gzPath}");
+    }
+
+    protected function copyToGz(): void {
+        $this->log()->debug("Optimize hybrid log file {$this->plainPath} -> {$this->gzPath}");
+        $fp = fopen($this->plainPath, 'r');
+        $gzp = gzopen($this->gzPath, 'wb');
+        $this->generalUtils()->checkNotBool($fp, 'fopen failed');
+        $this->generalUtils()->checkNotBool($gzp, 'gzopen failed');
+        while ($buf = fread($fp, 1024)) {
+            gzwrite($gzp, $buf, 1024);
+        }
+        fclose($fp);
+        gzclose($gzp);
+    }
+
+    protected function copyToPlain(): void {
+        $this->log()->debug("Cache hybrid log file {$this->gzPath} -> {$this->plainPath}");
+        $gzp = gzopen($this->gzPath, 'rb');
+        $fp = fopen($this->plainPath, 'w');
+        $this->generalUtils()->checkNotBool($gzp, 'gzopen failed');
+        $this->generalUtils()->checkNotBool($fp, 'fopen failed');
+        while ($buf = gzread($gzp, 1024)) {
+            fwrite($fp, $buf, 1024);
+        }
+        gzclose($gzp);
+        fclose($fp);
+    }
+
+    protected function deletePlain(): void {
+        $this->log()->debug("Remove redundant hybrid log file {$this->plainPath}");
+        unlink($this->plainPath);
+    }
+
+    public function purge(): void {
+        if (is_file($this->gzPath)) {
             unlink($this->gzPath);
+            $this->log()->info("Removed old gz log file {$this->gzPath}");
         }
-        if ($has_plain && !$want_plain) {
-            $this->log()->info("Remove redundant hybrid log file {$this->plainPath}");
+        if (is_file($this->plainPath)) {
             unlink($this->plainPath);
+            $this->log()->info("Removed old plain log file {$this->plainPath}");
+        }
+        if (is_file($this->indexPath)) {
+            unlink($this->indexPath);
+            $this->log()->info("Removed old log index file {$this->indexPath}");
         }
     }
 
     public function __toString(): string {
-        return "HybridLogFile({$this->plainPath}, {$this->gzPath}, {$this->indexPath}, {$this->state->value})";
+        return "HybridLogFile({$this->gzPath}, {$this->plainPath}, {$this->indexPath})";
     }
 
     public function serialize(): string {
@@ -138,7 +149,7 @@ class HybridLogFile implements LogFileInterface {
             'class' => self::class,
             'plainPath' => $this->plainPath,
             'gzPath' => $this->gzPath,
-            'state' => $this->state,
+            'indexPath' => $this->indexPath,
         ]) ?: '{}';
     }
 
@@ -150,7 +161,7 @@ class HybridLogFile implements LogFileInterface {
         return new self(
             $deserialized['plainPath'],
             $deserialized['gzPath'],
-            $deserialized['state'],
+            $deserialized['indexPath'],
         );
     }
 }

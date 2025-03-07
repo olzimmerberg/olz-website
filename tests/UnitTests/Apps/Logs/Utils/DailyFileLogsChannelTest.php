@@ -7,8 +7,8 @@ namespace Olz\Tests\UnitTests\Apps\Logs\Utils;
 use Olz\Apps\Logs\Utils\BaseLogsChannel;
 use Olz\Apps\Logs\Utils\DailyFileLogsChannel;
 use Olz\Apps\Logs\Utils\HybridLogFile;
-use Olz\Apps\Logs\Utils\HybridState;
 use Olz\Apps\Logs\Utils\LogFileInterface;
+use Olz\Apps\Logs\Utils\PlainLogFile;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\MemorySession;
 
@@ -31,11 +31,14 @@ class TestOnlyDailyFileLogsChannel extends DailyFileLogsChannel {
         $formatted = $datetime->format('Y-m-d');
         $plain_path = "{$logs_path}{$formatted}.log";
         $gz_path = "{$plain_path}.gz";
-        if (!is_file($plain_path) && !is_file($gz_path)) {
-            throw new \Exception("No such file: {$plain_path} / {$gz_path}");
-        }
         $index_path = "{$logs_path}{$formatted}";
-        return new HybridLogFile($plain_path, $gz_path, $index_path, HybridState::KEEP);
+        if (is_file($plain_path)) {
+            return new PlainLogFile($plain_path, $index_path);
+        }
+        if (is_file($gz_path)) {
+            return new HybridLogFile($gz_path, $plain_path, $index_path);
+        }
+        throw new \Exception("No such file: {$plain_path} / {$gz_path}");
     }
 
     protected function getDateTimeForFilePath(string $file_path): \DateTime {
@@ -105,8 +108,13 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
         ]);
 
         $this->assertSame([
+            'DEBUG Create new index private-path/logs/2020-03-13.index.json.gz',
             'DEBUG log_file_before private-path/logs/2020-03-12.log.gz',
+            'DEBUG Create new index private-path/logs/2020-03-12.index.json.gz',
+            'DEBUG Cache hybrid log file private-path/logs/2020-03-12.log.gz -> private-path/logs/2020-03-12.log',
+            'DEBUG Remove redundant hybrid log file private-path/logs/2020-03-12.log',
             'DEBUG log_file_after private-path/logs/2020-03-14.log',
+            'DEBUG Create new index private-path/logs/2020-03-14.index.json.gz',
         ], $this->getLogs());
         $this->assertSame([
             ...array_slice($fake_content, $num_fake - $num_fake_on_page, $num_fake_on_page),

@@ -4,6 +4,7 @@ namespace Olz\Apps\Logs\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Logs\Utils\GzLogFile;
+use Olz\Apps\Logs\Utils\HybridLogFile;
 use Olz\Apps\Logs\Utils\LineLocation;
 use Olz\Apps\Logs\Utils\LogsDefinitions;
 use Olz\Apps\Logs\Utils\PlainLogFile;
@@ -103,9 +104,16 @@ class GetLogsEndpoint extends OlzTypedEndpoint {
         string $serialized,
     ): array {
         $data = json_decode($serialized, true);
-        $log_file = PlainLogFile::deserialize($data['logFile']);
-        if (!$log_file) {
-            $log_file = GzLogFile::deserialize($data['logFile']);
+        $log_file_classes = [
+            HybridLogFile::class,
+            GzLogFile::class,
+            PlainLogFile::class,
+        ];
+        $log_file = null;
+        foreach ($log_file_classes as $log_file_class) {
+            if (!$log_file) {
+                $log_file = $log_file_class::deserialize($data['logFile']);
+            }
         }
         $this->generalUtils()->checkNotNull($log_file, "No log file: {$data['logFile']}");
         $line_location = new LineLocation($log_file, $data['lineNumber'], $data['comparison']);

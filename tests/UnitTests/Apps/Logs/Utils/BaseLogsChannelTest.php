@@ -89,8 +89,11 @@ final class BaseLogsChannelTest extends UnitTestCase {
         ]);
 
         $this->assertSame([
+            'DEBUG Create new index data-realpath//private/logs/fake.log.index.json.gz',
             'DEBUG log_file_before data-realpath//private/logs/fake-before.log',
+            'DEBUG Create new index data-realpath//private/logs/fake-before.log.index.json.gz',
             'DEBUG log_file_after data-realpath//private/logs/fake-after.log',
+            'DEBUG Create new index data-realpath//private/logs/fake-after.log.index.json.gz',
         ], $this->getLogs());
         $this->assertSame([
             "[2020-03-12 12:00:00] tick 2020-03-12 \xc3\xb1 ~*%&*)(öä\n",

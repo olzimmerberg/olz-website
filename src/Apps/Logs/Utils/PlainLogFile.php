@@ -66,6 +66,20 @@ class PlainLogFile implements LogFileInterface {
         return fclose($fp);
     }
 
+    public function optimize(): void {
+    }
+
+    public function purge(): void {
+        if (is_file($this->path)) {
+            unlink($this->path);
+            $this->log()->info("Removed old log file {$this->path}");
+        }
+        if (is_file($this->indexPath)) {
+            unlink($this->indexPath);
+            $this->log()->info("Removed old log index file {$this->indexPath}");
+        }
+    }
+
     public function serialize(): string {
         return json_encode([
             'class' => self::class,

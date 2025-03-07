@@ -3,6 +3,7 @@
 /deploy
 /deploy.zip
 /docs/coverage
+/private
 /public/*
 !/public/.htaccess
 !/public/assets

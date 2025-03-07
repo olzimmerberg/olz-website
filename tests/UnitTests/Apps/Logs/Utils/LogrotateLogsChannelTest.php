@@ -118,7 +118,11 @@ final class LogrotateLogsChannelTest extends UnitTestCase {
         // sleep(100);
 
         $this->assertSame([
+            'DEBUG Create new index data-path/syslog/syslog.index.json.gz',
+            'DEBUG Create new index data-path/syslog/syslog.processed.index.json.gz',
+            'DEBUG Create new index data-path/syslog/syslog.processed.1.index.json.gz',
             'DEBUG log_file_before data-path/syslog/syslog.processed.2.gz',
+            'DEBUG Create new index data-path/syslog/syslog.processed.2.index.json.gz',
             'DEBUG log_file_after data-path/syslog/syslog.processed',
             'DEBUG log_file_after data-path/syslog/syslog',
         ], $this->getLogs());

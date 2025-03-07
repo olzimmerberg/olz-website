@@ -18,12 +18,14 @@ class HttpUtils {
         if (
             preg_match('/bingbot/i', $user_agent)
             || preg_match('/googlebot/i', $user_agent)
+            || preg_match('/google/i', $user_agent)
             || preg_match('/facebookexternalhit/i', $user_agent)
             || preg_match('/applebot/i', $user_agent)
             || preg_match('/yandexbot/i', $user_agent)
+            || preg_match('/ecosia\//i', $user_agent)
+            || preg_match('/phpservermon\//i', $user_agent)
             || preg_match('/bot\//i', $user_agent)
             || preg_match('/crawler\//i', $user_agent)
-            || preg_match('/ecosia\//i', $user_agent)
         ) {
             $this->log()->debug("Counter: user agent is bot: {$user_agent}");
             return;

@@ -136,7 +136,7 @@ final class EnvUtilsTest extends UnitTestCase {
     public function testComputePrivatePathLocal(): void {
         global $_SERVER;
         $_SERVER['SERVER_NAME'] = '127.0.0.1';
-        $this->assertNull(EnvUtils::computePrivatePath());
+        $this->assertSame(realpath(__DIR__.'/../../../private/').'/', EnvUtils::computePrivatePath());
     }
 
     public function testComputeDataPathFromDocumentRoot(): void {

@@ -29,6 +29,10 @@ interface LogFileInterface {
     /** @param resource $fp */
     public function close(mixed $fp): bool;
 
+    public function optimize(): void;
+
+    public function purge(): void;
+
     public function serialize(): string;
 
     public static function deserialize(string $serialized): ?LogFileInterface;

@@ -103,14 +103,16 @@ abstract class BaseLogsChannel {
             if ($is_cache_hit) {
                 return $index;
             }
+            $this->log()->debug("Obsolete existing index {$index_path}");
             unlink($index_path);
         }
         // cache miss
+        $this->log()->debug("Create new index {$index_path}");
         $index = $this->indexFile($log_file);
         try {
             $this->writeIndexFile($index_path, $index);
         } catch (\Throwable $th) {
-            // ignore; best effort!
+            $this->log()->warning("Failed to write index file {$index_path}");
         }
         return $index;
     }

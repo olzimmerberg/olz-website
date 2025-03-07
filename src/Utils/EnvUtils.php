@@ -435,9 +435,13 @@ class EnvUtils {
     public static function computePrivatePath(): ?string {
         global $_SERVER;
 
-        $server_name = $_SERVER['SERVER_NAME'] ?? '';
+        $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
         if ($server_name === '127.0.0.1' || $server_name === 'localhost') {
-            return null;
+            $local_private = __DIR__.'/../../private';
+            if (!is_dir($local_private)) {
+                mkdir($local_private, 0o777, true);
+            }
+            return realpath($local_private).'/';
         }
         return realpath(__DIR__.'/../../../../').'/';
     }

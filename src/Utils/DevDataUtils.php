@@ -695,6 +695,10 @@ class DevDataUtils {
         $this->mklog("{$private_path}logs/server/access_ssl_log.processed", "2020-08-14");
         $this->mklog("{$private_path}logs/server/access_ssl_log.processed.1", "2020-08-13");
         $this->mklog("{$private_path}logs/server/access_ssl_log.processed.2", "2020-08-12");
+
+        // Build sessions
+        $this->mkdir("{$private_path}sessions");
+
         $this->touchEnqueued(1584118800);
     }
 

@@ -2,7 +2,6 @@
 
 namespace Olz\Controller;
 
-use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -11,8 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RedirectController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/_/{file}.php')]
     public function php(Request $request, string $file): Response {
         $query_string = $request->getQueryString();

@@ -9,7 +9,7 @@ use Olz\Termine\Components\OlzTerminLocationDetail\OlzTerminLocationDetail;
 use Olz\Termine\Components\OlzTerminLocationsList\OlzTerminLocationsList;
 use Olz\Termine\Components\OlzTerminTemplateDetail\OlzTerminTemplateDetail;
 use Olz\Termine\Components\OlzTerminTemplatesList\OlzTerminTemplatesList;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,15 +17,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TermineController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/termine')]
     public function termineList(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzTermineList $olzTermineList,
     ): Response {
-        $this->httpUtils()->countRequest($request, ['filter', 'von']);
-        $out = OlzTermineList::render([]);
+        $httpUtils->countRequest($request, ['filter', 'von']);
+        $out = $olzTermineList->getHtml([]);
         return new Response($out);
     }
 
@@ -33,10 +33,12 @@ class TermineController extends AbstractController {
     public function termineDetail(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzTerminDetail $olzTerminDetail,
         int $id,
     ): Response {
-        $this->httpUtils()->countRequest($request, ['von']);
-        $out = OlzTerminDetail::render(['id' => $id]);
+        $httpUtils->countRequest($request, ['von']);
+        $out = $olzTerminDetail->getHtml(['id' => $id]);
         return new Response($out);
     }
 
@@ -44,9 +46,11 @@ class TermineController extends AbstractController {
     public function terminLocationsList(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzTerminLocationsList $olzTerminLocationsList,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzTerminLocationsList::render([]);
+        $httpUtils->countRequest($request);
+        $out = $olzTerminLocationsList->getHtml([]);
         return new Response($out);
     }
 
@@ -54,10 +58,12 @@ class TermineController extends AbstractController {
     public function terminLocationDetail(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzTerminLocationDetail $olzTerminLocationDetail,
         int $id,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzTerminLocationDetail::render(['id' => $id]);
+        $httpUtils->countRequest($request);
+        $out = $olzTerminLocationDetail->getHtml(['id' => $id]);
         return new Response($out);
     }
 
@@ -65,9 +71,11 @@ class TermineController extends AbstractController {
     public function terminTemplatesList(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzTerminTemplatesList $olzTerminTemplatesList,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzTerminTemplatesList::render([]);
+        $httpUtils->countRequest($request);
+        $out = $olzTerminTemplatesList->getHtml([]);
         return new Response($out);
     }
 
@@ -75,10 +83,12 @@ class TermineController extends AbstractController {
     public function terminTemplateDetail(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzTerminTemplateDetail $olzTerminTemplateDetail,
         int $id,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzTerminTemplateDetail::render(['id' => $id]);
+        $httpUtils->countRequest($request);
+        $out = $olzTerminTemplateDetail->getHtml(['id' => $id]);
         return new Response($out);
     }
 
@@ -86,8 +96,9 @@ class TermineController extends AbstractController {
     public function termineICal(
         Request $request,
         LoggerInterface $logger,
+        OlzICal $olzICal,
     ): Response {
-        $out = OlzICal::render();
+        $out = $olzICal->getHtml([]);
         $response = new Response($out);
         $response->headers->set('Content-Type', 'text/calendar');
         return $response;

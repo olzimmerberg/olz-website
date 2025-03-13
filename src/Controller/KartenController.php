@@ -4,7 +4,7 @@ namespace Olz\Controller;
 
 use Olz\Karten\Components\OlzKarteDetail\OlzKarteDetail;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,15 +12,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class KartenController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/karten')]
     public function karten(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzKarten $olzKarten,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzKarten::render([]);
+        $httpUtils->countRequest($request);
+        $out = $olzKarten->getHtml([]);
         return new Response($out);
     }
 
@@ -28,10 +28,12 @@ class KartenController extends AbstractController {
     public function karteDetail(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzKarteDetail $olzKarteDetail,
         int $id,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzKarteDetail::render(['id' => $id]);
+        $httpUtils->countRequest($request);
+        $out = $olzKarteDetail->getHtml(['id' => $id]);
         return new Response($out);
     }
 }

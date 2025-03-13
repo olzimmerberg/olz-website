@@ -13,7 +13,6 @@ use Olz\Utils\DevDataUtils;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\EntityUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FileUtils;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\HtmlUtils;
@@ -27,7 +26,6 @@ use Olz\Utils\SymfonyUtils;
 use Olz\Utils\TelegramUtils;
 use Olz\Utils\UploadUtils;
 use Olz\Utils\WithUtilsTrait;
-use PhpTypeScriptApi\Fields\FieldUtils;
 use Symfony\Component\Mailer\MailerInterface;
 
 class WithUtilsTraitIntegrationClassWithUtilsTrait {
@@ -71,12 +69,6 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
             },
             'envUtils' => function ($value) {
                 return $value instanceof EnvUtils;
-            },
-            'fieldUtils' => function ($value) {
-                return $value instanceof FieldUtils;
-            },
-            'fileUtils' => function ($value) {
-                return $value instanceof FileUtils;
             },
             'generalUtils' => function ($value) {
                 return $value instanceof GeneralUtils;

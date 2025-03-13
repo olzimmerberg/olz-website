@@ -2,8 +2,8 @@
 
 namespace Olz\Controller;
 
+use Olz\Utils\EnvUtils;
 use Olz\Utils\ImageUtils;
-use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +13,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImageToolsController extends AbstractController {
-    use WithUtilsTrait;
-
     // This is a backup mechanism for the case where the thumbnail does not exist yet
     #[Route('/img/{db_table}/{id}/thumb/{index}${dimension}.jpg', requirements: [
         'db_table' => '[a-z_]+',
@@ -23,13 +21,15 @@ class ImageToolsController extends AbstractController {
     ])]
     public function thumb(
         Request $request,
-        LoggerInterface $logger,
+        LoggerInterface $log,
+        ImageUtils $imageUtils,
         string $db_table,
         int $id,
         string $index,
         int $dimension,
     ): Response {
-        $data_path = $this->envUtils()->getDataPath();
+        $envUtils = EnvUtils::fromEnv();
+        $data_path = $envUtils->getDataPath();
 
         session_write_close();
         if (!isset(ImageUtils::TABLES_IMG_DIRS[$db_table])) {
@@ -41,20 +41,20 @@ class ImageToolsController extends AbstractController {
         if (!is_file($imgfile)) {
             throw new NotFoundHttpException("No such image: {$imgfile}");
         }
-        $dim = $this->imageUtils()->getThumbSize($dimension);
+        $dim = $imageUtils->getThumbSize($dimension);
         if ($dim < 32) {
             $dim = 32;
         }
         $thumbfile = '';
         try {
-            $thumbfile = $this->imageUtils()->getThumbFile($index, $entity_img_path, $dim);
+            $thumbfile = $imageUtils->getThumbFile($index, $entity_img_path, $dim);
         } catch (\Throwable $th) {
             throw new BadRequestHttpException($th->getMessage());
         }
         $filemtime = @filemtime($thumbfile);
         $one_second_ago = time() - 1;
         if ($filemtime > $one_second_ago) {
-            $this->log()->notice("Remaining thumb: {$thumbfile}");
+            $log->notice("Remaining thumb: {$thumbfile}");
         }
         $response = new Response(file_get_contents($thumbfile) ?: null);
         $response->headers->set('Cache-Control', 'max-age=2592000');

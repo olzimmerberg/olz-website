@@ -4,7 +4,7 @@ namespace Olz\Controller;
 
 use Olz\Faq\Components\OlzFaqDetail\OlzFaqDetail;
 use Olz\Faq\Components\OlzFaqList\OlzFaqList;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,15 +12,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FaqController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/fragen_und_antworten')]
     public function list(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzFaqList $olzFaqList,
     ): Response {
-        $this->httpUtils()->countRequest($request, ['von']);
-        $out = OlzFaqList::render();
+        $httpUtils->countRequest($request, ['von']);
+        $out = $olzFaqList->getHtml([]);
         return new Response($out);
     }
 
@@ -28,10 +28,12 @@ class FaqController extends AbstractController {
     public function detail(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzFaqDetail $olzFaqDetail,
         string $ident,
     ): Response {
-        $this->httpUtils()->countRequest($request, ['von']);
-        $out = OlzFaqDetail::render(['ident' => $ident]);
+        $httpUtils->countRequest($request, ['von']);
+        $out = $olzFaqDetail->getHtml(['ident' => $ident]);
         return new Response($out);
     }
 }

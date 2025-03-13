@@ -6,7 +6,6 @@ namespace Olz\Tests\IntegrationTests\Utils;
 
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\HttpUtils;
-use PhpTypeScriptApi\Fields\FieldUtils;
 
 /**
  * @internal
@@ -37,10 +36,7 @@ class HttpUtilsForIntegrationTest extends HttpUtils {
     }
 
     public static function fromEnv(): self {
-        $http_utils = new self();
-        $field_utils = FieldUtils::create();
-        $http_utils->setFieldUtils($field_utils);
-        return $http_utils;
+        return new self();
     }
 }
 

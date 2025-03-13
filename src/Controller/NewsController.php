@@ -5,6 +5,7 @@ namespace Olz\Controller;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzNewsDetail\OlzNewsDetail;
 use Olz\News\Components\OlzNewsList\OlzNewsList;
+use Olz\Utils\HttpUtils;
 use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,9 +21,11 @@ class NewsController extends AbstractController {
     public function newsList(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzNewsList $olzNewsList,
     ): Response {
-        $this->httpUtils()->countRequest($request, ['filter', 'von']);
-        $out = OlzNewsList::render([]);
+        $httpUtils->countRequest($request, ['filter', 'von']);
+        $out = $olzNewsList->getHtml([]);
         return new Response($out);
     }
 
@@ -30,10 +33,12 @@ class NewsController extends AbstractController {
     public function newsDetail(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzNewsDetail $olzNewsDetail,
         int $id,
     ): Response {
-        $this->httpUtils()->countRequest($request, ['von']);
-        $out = OlzNewsDetail::render(['id' => $id]);
+        $httpUtils->countRequest($request, ['von']);
+        $out = $olzNewsDetail->getHtml(['id' => $id]);
         return new Response($out);
     }
 
@@ -41,9 +46,10 @@ class NewsController extends AbstractController {
     public function all(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
         int $id,
     ): Response {
-        $this->httpUtils()->countRequest($request);
+        $httpUtils->countRequest($request);
         if (!$this->authUtils()->hasPermission('any')) {
             throw new NotFoundHttpException();
         }

@@ -16,7 +16,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EmailUtils;
-use Olz\Utils\FileUtils;
 use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\HtmlUtils;
@@ -58,7 +57,6 @@ final class WithUtilsTraitTest extends UnitTestCase {
             'entityUtils' => function () { return new FakeEntityUtils(); },
             'envUtils' => function () { return new FakeEnvUtils(); },
             'fieldUtils' => function () { return new FieldUtils(); },
-            'fileUtils' => function () { return new FileUtils(); },
             'generalUtils' => function () { return new GeneralUtils(); },
             'getParams' => function () { return []; },
             'htmlUtils' => function () { return new HtmlUtils(); },

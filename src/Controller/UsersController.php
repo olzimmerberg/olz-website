@@ -3,7 +3,8 @@
 namespace Olz\Controller;
 
 use Olz\Users\Components\OlzUserDetail\OlzUserDetail;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Utils\AuthUtils;
+use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,14 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UsersController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/benutzer')]
     public function users(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
     ): Response {
-        $this->httpUtils()->countRequest($request);
+        $httpUtils->countRequest($request);
         $out = 'TODO';
         return new Response($out);
     }
@@ -27,10 +27,13 @@ class UsersController extends AbstractController {
     public function me(
         Request $request,
         LoggerInterface $logger,
+        AuthUtils $authUtils,
+        HttpUtils $httpUtils,
+        OlzUserDetail $olzUserDetail,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzUserDetail::render([
-            'id' => $this->authUtils()->getCurrentUser()?->getId(),
+        $httpUtils->countRequest($request);
+        $out = $olzUserDetail->getHtml([
+            'id' => $authUtils->getCurrentUser()?->getId(),
         ]);
         return new Response($out);
     }
@@ -39,10 +42,12 @@ class UsersController extends AbstractController {
     public function user(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzUserDetail $olzUserDetail,
         int $id,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzUserDetail::render(['id' => $id]);
+        $httpUtils->countRequest($request);
+        $out = $olzUserDetail->getHtml(['id' => $id]);
         return new Response($out);
     }
 }

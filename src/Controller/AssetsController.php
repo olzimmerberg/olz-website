@@ -2,7 +2,6 @@
 
 namespace Olz\Controller;
 
-use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -12,8 +11,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AssetsController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/assets/icns/')]
     public function assetsIcnsIndex(
         Request $request,

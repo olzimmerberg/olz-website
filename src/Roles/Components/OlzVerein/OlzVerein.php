@@ -19,10 +19,12 @@ class OlzVerein extends OlzComponent {
 
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzVereinParams::class);
+        $code_href = $this->envUtils()->getCodeHref();
 
         $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
+            'canonical_url' => "{$code_href}verein",
         ]);
 
         $db = $this->dbUtils()->getDb();

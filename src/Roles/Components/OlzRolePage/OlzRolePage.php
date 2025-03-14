@@ -67,6 +67,7 @@ class OlzRolePage extends OlzComponent {
             'title' => $role_title,
             'description' => "{$role_short_description} - Ressort {$role_name} der OL Zimmerberg.",
             'norobots' => $no_robots,
+            'canonical_url' => "{$code_href}verein/{$role_username}",
         ]);
 
         $out .= "<div class='content-full olz-role-page'>";

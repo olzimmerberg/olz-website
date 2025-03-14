@@ -41,6 +41,7 @@ class OlzFaqDetail extends OlzComponent {
             'back_link' => "{$code_href}fragen_und_antworten",
             'title' => "{$question} - Fragen & Antworten",
             'description' => "Antworten auf die wichtigsten Fragen rund um den OL, die OL Zimmerberg und diese Website.",
+            'canonical_url' => "{$code_href}fragen_und_antworten/{$ident}",
         ]);
 
         $answer = $answered_question->getAnswer() ?? '';

@@ -45,8 +45,6 @@ class OlzNewsDetail extends OlzComponent {
         $news_entries = $news_repo->matching($criteria);
         $num_news_entries = $news_entries->count();
         $is_archived = $num_news_entries !== 1;
-        $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $canonical_url = "https://{$host}{$code_href}news/{$id}";
 
         if ($is_archived && !$this->authUtils()->hasPermission('any')) {
             $this->httpUtils()->dieWithHttpError(404);
@@ -75,7 +73,7 @@ class OlzNewsDetail extends OlzComponent {
             'title' => "{$title} - News",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => $is_archived,
-            'canonical_url' => $canonical_url,
+            'canonical_url' => "{$code_href}news/{$id}",
             'additional_headers' => [
                 $article_metadata,
             ],

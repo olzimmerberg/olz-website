@@ -28,13 +28,10 @@ class OlzFuerEinsteiger extends OlzComponent {
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
 
-        $host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $canonical_url = "https://{$host}{$code_href}fuer_einsteiger";
-
         $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
-            'canonical_url' => $canonical_url,
+            'canonical_url' => "{$code_href}fuer_einsteiger",
         ]);
 
         $entityManager = $this->dbUtils()->getEntityManager();

@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Service\Download;
-use Olz\Utils\FileUtils;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzDownloads extends OlzComponent {
@@ -77,11 +76,11 @@ class OlzDownloads extends OlzComponent {
             if ($name === '---') {
                 $out .= "{$edit_admin}<br />";
             } else {
-                $fileUtils = FileUtils::fromEnv();
+                $file_href = $download->getFileHref($file_id);
                 $out .= <<<ZZZZZZZZZZ
-                    <li class='{$class}'>
+                    <li class='{$class} pretty'>
                         {$edit_admin}
-                        {$fileUtils->olzFile('downloads', $id, $file_id, $name, $name)}
+                        <a href='{$file_href}'>{$name}</a>
                     </li>
                     ZZZZZZZZZZ;
             }

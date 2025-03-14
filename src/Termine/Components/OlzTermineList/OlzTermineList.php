@@ -38,17 +38,19 @@ class OlzTermineList extends OlzComponent {
         if (!$termine_utils->isValidFilter($current_filter)) {
             $valid_filter = $termine_utils->getValidFilter($current_filter);
             $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
-            $this->httpUtils()->redirect("?filter={$enc_json_filter}", 308);
+            $this->httpUtils()->redirect("{$code_href}termine?filter={$enc_json_filter}", 308);
         }
 
         $termine_list_title = $termine_utils->getTitleFromFilter($current_filter);
         $is_not_archived = $termine_utils->isFilterNotArchived($current_filter);
         $allow_robots = $is_not_archived;
+        $enc_json_filter = urlencode(json_encode($current_filter) ?: '{}');
 
         $out = OlzHeader::render([
             'title' => $termine_list_title,
             'description' => self::$description, // TODO: Filter-specific description?
             'norobots' => !$allow_robots,
+            'canonical_url' => "{$code_href}termine?filter={$enc_json_filter}",
         ]);
 
         $admin_menu_out = '';

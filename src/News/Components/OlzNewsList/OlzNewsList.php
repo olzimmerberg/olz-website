@@ -33,6 +33,7 @@ class OlzNewsList extends OlzComponent {
         $params = $this->httpUtils()->validateGetParams(OlzNewsListParams::class);
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
+        $code_href = $this->envUtils()->getCodeHref();
 
         $news_utils = NewsFilterUtils::fromEnv();
         $current_filter = json_decode($params['filter'] ?? '{}', true);
@@ -42,23 +43,20 @@ class OlzNewsList extends OlzComponent {
         if (!$news_utils->isValidFilter($current_filter)) {
             $valid_filter = $news_utils->getValidFilter($current_filter);
             $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
-            $this->httpUtils()->redirect("?filter={$enc_json_filter}", 308);
+            $this->httpUtils()->redirect("{$code_href}news?filter={$enc_json_filter}", 308);
         }
 
         $is_not_archived = $news_utils->isFilterNotArchived($current_filter);
         $allow_robots = $is_not_archived;
 
-        $host = str_replace('www.', '', $this->server()['HTTP_HOST']);
-        $code_href = $this->envUtils()->getCodeHref();
         $enc_json_filter = urlencode(json_encode($current_filter) ?: '{}');
         $page_param = $page_number === 1 ? '' : "&seite={$page_number}";
-        $canonical_url = "https://{$host}{$code_href}news?filter={$enc_json_filter}{$page_param}";
         $news_list_title = $news_utils->getTitleFromFilter($current_filter);
         $out = OlzHeader::render([
             'title' => $news_list_title,
             'description' => self::$description, // TODO: Filter-specific description?
             'norobots' => !$allow_robots,
-            'canonical_url' => $canonical_url,
+            'canonical_url' => "{$code_href}news?filter={$enc_json_filter}{$page_param}",
         ]);
 
         $out .= "<div class='content-right'>";

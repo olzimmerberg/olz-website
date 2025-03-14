@@ -45,8 +45,10 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         }
         $html_canonical = "";
         if (isset($args['canonical_url'])) {
-            $canonical_url = htmlspecialchars($args['canonical_url']);
-            $html_canonical = "<link rel='canonical' href='{$canonical_url}'/>";
+            $host = str_replace(['www.', '/'], ['', ''], $_SERVER['HTTP_HOST']);
+            $canonical_url = "https://{$host}{$args['canonical_url']}";
+            $esc_canonical_url = htmlspecialchars($canonical_url);
+            $html_canonical = "<link rel='canonical' href='{$esc_canonical_url}'/>";
         }
         $no_robots = isset($_GET['archiv']) || ($args['norobots'] ?? false);
         $robots_html = $no_robots ? "<meta name='robots' content='noindex, nofollow'>" : "";

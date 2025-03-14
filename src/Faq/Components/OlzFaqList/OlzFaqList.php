@@ -32,6 +32,7 @@ class OlzFaqList extends OlzComponent {
         $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
+            'canonical_url' => "{$code_href}fragen_und_antworten",
         ]);
 
         $role_repo = $entityManager->getRepository(Role::class);

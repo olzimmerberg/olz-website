@@ -6,7 +6,9 @@ use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Utils\AbstractDateUtils;
+use Olz\Utils\EnvUtils;
+use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,15 +17,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OtherPagesController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/datenschutz')]
     public function datenschutz(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzDatenschutz $olzDatenschutz,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzDatenschutz::render();
+        $httpUtils->countRequest($request);
+        $out = $olzDatenschutz->getHtml([]);
         return new Response($out);
     }
 
@@ -31,9 +33,11 @@ class OtherPagesController extends AbstractController {
     public function fuerEinsteiger(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzFuerEinsteiger $olzFuerEinsteiger,
     ): Response {
-        $this->httpUtils()->countRequest($request, ['von']);
-        $out = OlzFuerEinsteiger::render();
+        $httpUtils->countRequest($request, ['von']);
+        $out = $olzFuerEinsteiger->getHtml([]);
         return new Response($out);
     }
 
@@ -41,9 +45,11 @@ class OtherPagesController extends AbstractController {
     public function material(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzMaterial $olzMaterial,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzMaterial::render();
+        $httpUtils->countRequest($request);
+        $out = $olzMaterial->getHtml([]);
         return new Response($out);
     }
 
@@ -51,10 +57,13 @@ class OtherPagesController extends AbstractController {
     public function trophy(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $code_href = $this->envUtils()->getCodeHref();
-        $this_year = $this->dateUtils()->getCurrentDateInFormat('Y');
+        $httpUtils->countRequest($request);
+        $envUtils = EnvUtils::fromEnv();
+        $dateUtils = AbstractDateUtils::fromEnv();
+        $code_href = $envUtils->getCodeHref();
+        $this_year = $dateUtils->getCurrentDateInFormat('Y');
         $termine_utils = TermineFilterUtils::fromEnv();
         $filter = [
             ...$termine_utils->getDefaultFilter(),

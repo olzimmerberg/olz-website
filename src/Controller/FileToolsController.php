@@ -2,8 +2,8 @@
 
 namespace Olz\Controller;
 
+use Olz\Utils\EnvUtils;
 use Olz\Utils\FileUtils;
-use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,8 +12,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FileToolsController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/file_tools/thumb/{db_table}${id}${index}${dimension}.svg', requirements: [
         'db_table' => '[a-z_]+',
         'id' => '\d+',
@@ -21,13 +19,14 @@ class FileToolsController extends AbstractController {
     ])]
     public function thumb(
         Request $request,
-        LoggerInterface $logger,
+        LoggerInterface $log,
         string $db_table,
         int $id,
         string $index,
         int $dimension,
     ): Response {
-        $data_path = $this->envUtils()->getDataPath();
+        $envUtils = EnvUtils::fromEnv();
+        $data_path = $envUtils->getDataPath();
 
         session_write_close();
         if (!isset(FileUtils::TABLES_FILE_DIRS[$db_table])) {
@@ -49,7 +48,7 @@ class FileToolsController extends AbstractController {
             }
         }
         if ($is_migrated) {
-            $this->log()->notice("Remaining migrated file icon fetching: {$db_table}\${$id}\${$index}\${$dimension}.svg");
+            $log->notice("Remaining migrated file icon fetching: {$db_table}\${$id}\${$index}\${$dimension}.svg");
             preg_match("/^[0-9A-Za-z_\\-]{24}\\.(\\S{1,10})$/", $index, $matches);
             $extension_icon = FileUtils::EXTENSION_ICONS[$matches[1] ?? ''] ?? '';
             $thumbfile = __DIR__."/../../assets/icns/link_{$extension_icon}_16.svg";

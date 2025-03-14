@@ -3,7 +3,7 @@
 namespace Olz\Controller;
 
 use Olz\Startseite\Components\OlzStartseite\OlzStartseite;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,15 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StartseiteController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/')]
     public function startseite(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzStartseite $olzStartseite,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $out = OlzStartseite::render([]);
+        $httpUtils->countRequest($request);
+        $out = $olzStartseite->getHtml([]);
         return new Response($out);
     }
 }

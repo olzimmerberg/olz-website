@@ -3,7 +3,7 @@
 namespace Olz\Apps\Anmelden;
 
 use Olz\Apps\Anmelden\Components\OlzAnmelden\OlzAnmelden;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,15 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AnmeldenController extends AbstractController {
-    use WithUtilsTrait;
-
     #[Route('/apps/anmelden')]
     public function index(
         Request $request,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzAnmelden $olzAnmelden,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $html_out = OlzAnmelden::render();
+        $httpUtils->countRequest($request);
+        $html_out = $olzAnmelden->getHtml([]);
         return new Response($html_out);
     }
 
@@ -29,10 +29,12 @@ class AnmeldenController extends AbstractController {
     public function detail(
         Request $request,
         LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzAnmelden $olzAnmelden,
         string $id,
     ): Response {
-        $this->httpUtils()->countRequest($request);
-        $html_out = OlzAnmelden::render(['id' => $id ?: null]);
+        $httpUtils->countRequest($request);
+        $html_out = $olzAnmelden->getHtml(['id' => $id ?: null]);
         return new Response($html_out);
     }
 }

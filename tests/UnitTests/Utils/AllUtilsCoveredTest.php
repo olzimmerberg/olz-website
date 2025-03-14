@@ -34,6 +34,9 @@ final class AllUtilsCoveredTest extends UnitTestCase {
         foreach ($utils as $util) {
             $res = preg_match('/^([a-zA-Z0-9\/]+)\.php$/', $util, $matches);
             $fileident = $matches[1] ?? '';
+            if (preg_match('/Trait$/', $fileident)) {
+                continue;
+            }
             $expected_test_path = __DIR__."/{$fileident}Test.php";
             $this->assertSame(1, $res);
             $this->assertTrue(is_file($expected_test_path), "Expected test for {$util}");

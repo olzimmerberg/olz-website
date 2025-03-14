@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Logger;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Termine\Utils\TermineUtils;
-use PhpTypeScriptApi\Fields\FieldUtils;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
@@ -36,8 +35,6 @@ trait WithUtilsTrait {
         'entityManager',
         'entityUtils',
         'envUtils',
-        'fieldUtils',
-        'fileUtils',
         'generalUtils',
         'getParams',
         'htmlUtils',
@@ -151,30 +148,6 @@ trait WithUtilsTrait {
 
     public function setEnvUtils(EnvUtils $envUtils): void {
         WithUtilsCache::set('envUtils', $envUtils);
-    }
-
-    public function fieldUtils(): FieldUtils {
-        return $this->getOrCreate('fieldUtils');
-    }
-
-    public function createFieldUtils(): FieldUtils {
-        return FieldUtils::create();
-    }
-
-    public function setFieldUtils(FieldUtils $fieldUtils): void {
-        WithUtilsCache::set('fieldUtils', $fieldUtils);
-    }
-
-    public function fileUtils(): FileUtils {
-        return $this->getOrCreate('fileUtils');
-    }
-
-    public function createFileUtils(): FileUtils {
-        return FileUtils::fromEnv();
-    }
-
-    public function setFileUtils(FileUtils $fileUtils): void {
-        WithUtilsCache::set('fileUtils', $fileUtils);
     }
 
     public function generalUtils(): GeneralUtils {

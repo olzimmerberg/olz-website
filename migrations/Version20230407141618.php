@@ -7,10 +7,16 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FileUtils;
 use Olz\Utils\ImageUtils;
 
 final class Version20230407141618 extends AbstractMigration {
+    public const TABLES_FILE_DIRS = [
+        'downloads' => 'files/downloads/',
+        'news' => 'files/news/',
+        'termine' => 'files/termine/',
+        'termin_templates' => 'files/termin_templates/',
+    ];
+
     public function getDescription(): string {
         return 'Migrate news';
     }
@@ -57,9 +63,9 @@ final class Version20230407141618 extends AbstractMigration {
             $new_db_imgpath = ImageUtils::TABLES_IMG_DIRS['news'];
             $new_img_path = "{$data_path}{$new_db_imgpath}{$id}/";
 
-            $old_db_filepath = FileUtils::TABLES_FILE_DIRS[$format];
+            $old_db_filepath = self::TABLES_FILE_DIRS[$format];
             $old_file_path = "{$data_path}{$old_db_filepath}{$old_id}/";
-            $new_db_filepath = FileUtils::TABLES_FILE_DIRS['news'];
+            $new_db_filepath = self::TABLES_FILE_DIRS['news'];
             $new_file_path = "{$data_path}{$new_db_filepath}{$id}/";
 
             $image_ids = [];

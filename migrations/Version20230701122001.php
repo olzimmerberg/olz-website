@@ -7,12 +7,18 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FileUtils;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
 final class Version20230701122001 extends AbstractMigration {
+    public const TABLES_FILE_DIRS = [
+        'downloads' => 'files/downloads/',
+        'news' => 'files/news/',
+        'termine' => 'files/termine/',
+        'termin_templates' => 'files/termin_templates/',
+    ];
+
     public function getDescription(): string {
         return 'Migrate termine';
     }
@@ -25,7 +31,7 @@ final class Version20230701122001 extends AbstractMigration {
             $id = $row['id'];
             $link = $row['link'];
 
-            $db_filepath = FileUtils::TABLES_FILE_DIRS['termine'];
+            $db_filepath = self::TABLES_FILE_DIRS['termine'];
             $file_path = "{$data_path}{$db_filepath}{$id}/";
 
             if (is_dir($file_path)) {

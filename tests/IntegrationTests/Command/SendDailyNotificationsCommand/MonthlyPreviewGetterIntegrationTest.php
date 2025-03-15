@@ -7,9 +7,9 @@ namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
@@ -19,13 +19,13 @@ use Olz\Utils\FixedDateUtils;
 final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testMonthlyPreviewGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $date_utils = new FixedDateUtils('2020-07-18 16:00:00'); // the second last Saturday of the month
+        $date_utils = new DateUtils('2020-07-18 16:00:00'); // the second last Saturday of the month
         $user = FakeUser::defaultUser();
 
         $job = new MonthlyPreviewGetter();
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'

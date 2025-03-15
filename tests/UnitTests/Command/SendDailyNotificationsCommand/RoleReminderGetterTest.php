@@ -11,7 +11,7 @@ use Olz\Tests\Fake\Entity\FakeNotificationSubscription;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsCache;
 
 class TestOnlyRoleReminderGetter extends RoleReminderGetter {
@@ -192,7 +192,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
         $not_the_day = '-01-01';
         // @phpstan-ignore-next-line
         assert($the_day !== $not_the_day);
-        $date_utils = new FixedDateUtils("2020{$not_the_day} 19:00:00");
+        $date_utils = new DateUtils("2020{$not_the_day} 19:00:00");
 
         $job = new RoleReminderGetter();
         $job->setDateUtils($date_utils);
@@ -204,7 +204,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
 
     public function testRoleReminderGetter(): void {
         $the_day = substr(RoleReminderGetter::EXECUTION_DATE, 4, 6);
-        $date_utils = new FixedDateUtils("2020{$the_day} 19:00:00");
+        $date_utils = new DateUtils("2020{$the_day} 19:00:00");
         $user = FakeUser::defaultUser();
 
         $job = new RoleReminderGetter();

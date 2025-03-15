@@ -9,7 +9,7 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsCache;
 
 /**
@@ -19,7 +19,7 @@ use Olz\Utils\WithUtilsCache;
  */
 final class MonthlyPreviewGetterTest extends UnitTestCase {
     public function testMonthlyPreviewGetterOnWrongWeekday(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
+        $date_utils = new DateUtils('2020-03-13 19:30:00'); // a Friday
 
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
@@ -32,7 +32,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooEarlyInMonth(): void {
-        $date_utils = new FixedDateUtils('2020-03-14 16:00:00'); // a Saturday, but not yet the second last
+        $date_utils = new DateUtils('2020-03-14 16:00:00'); // a Saturday, but not yet the second last
 
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
@@ -45,7 +45,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooLateInMonth(): void {
-        $date_utils = new FixedDateUtils('2020-03-28 16:00:00'); // a Saturday, but already the last
+        $date_utils = new DateUtils('2020-03-28 16:00:00'); // a Saturday, but already the last
 
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
@@ -58,7 +58,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetter(): void {
-        $date_utils = new FixedDateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
+        $date_utils = new DateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
         $user = FakeUser::defaultUser();
 
         $job = new MonthlyPreviewGetter();
@@ -97,7 +97,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $entity_manager->repositories[SolvEvent::class]->entitiesToBeMatched = [];
         $entity_manager->repositories[Termin::class]->entitiesToBeMatched = [];
-        $date_utils = new FixedDateUtils('2021-03-20 16:00:00'); // the second last Saturday of the month
+        $date_utils = new DateUtils('2021-03-20 16:00:00'); // the second last Saturday of the month
 
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);

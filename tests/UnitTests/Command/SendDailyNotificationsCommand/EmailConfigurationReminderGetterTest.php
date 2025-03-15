@@ -10,7 +10,7 @@ use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\FakeNotificationSubscription;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsCache;
 
 class TestOnlyEmailConfigurationReminderGetter extends EmailConfigurationReminderGetter {
@@ -41,7 +41,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
     ];
 
     public function testEmailConfigurationReminderGetterGetEmailConfigReminderState(): void {
-        WithUtilsCache::set('dateUtils', new FixedDateUtils('2006-01-13 18:43:36'));
+        WithUtilsCache::set('dateUtils', new DateUtils('2006-01-13 18:43:36'));
         $entity_manager = WithUtilsCache::get('entityManager');
         $subscription_repo = $entity_manager->getRepository(NotificationSubscription::class);
         $subscription_repo->entityToBeFoundForQuery = fn ($query) => $this->subscriptionToBeFoundForQuery($query);
@@ -59,7 +59,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
     }
 
     public function testEmailConfigurationReminderGetterAutogenerateSubscriptions(): void {
-        WithUtilsCache::set('dateUtils', new FixedDateUtils('2006-01-13 18:43:36'));
+        WithUtilsCache::set('dateUtils', new DateUtils('2006-01-13 18:43:36'));
         $entity_manager = WithUtilsCache::get('entityManager');
         $subscription_repo = $entity_manager->getRepository(NotificationSubscription::class);
         $subscription_repo->entityToBeFoundForQuery = fn ($query) => $this->subscriptionToBeFoundForQuery($query);
@@ -179,7 +179,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
     public function testEmailConfigurationReminderGetterOnWrongDay(): void {
         $not_the_day = EmailConfigurationReminderGetter::DAY_OF_MONTH + 1;
         $not_the_day_str = str_pad("{$not_the_day}", 2, '0', STR_PAD_LEFT);
-        $date_utils = new FixedDateUtils("2020-03-{$not_the_day_str} 19:00:00");
+        $date_utils = new DateUtils("2020-03-{$not_the_day_str} 19:00:00");
 
         $job = new EmailConfigurationReminderGetter();
         $job->setDateUtils($date_utils);
@@ -192,7 +192,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
     public function testEmailConfigurationReminderGetterCancelled(): void {
         $the_day = EmailConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
-        $date_utils = new FixedDateUtils("2020-03-{$the_day_str} 19:00:00");
+        $date_utils = new DateUtils("2020-03-{$the_day_str} 19:00:00");
 
         $job = new EmailConfigurationReminderGetter();
         $job->setDateUtils($date_utils);
@@ -205,7 +205,7 @@ final class EmailConfigurationReminderGetterTest extends UnitTestCase {
     public function testEmailConfigurationReminderGetter(): void {
         $the_day = EmailConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
-        $date_utils = new FixedDateUtils("2020-03-{$the_day_str} 19:00:00");
+        $date_utils = new DateUtils("2020-03-{$the_day_str} 19:00:00");
         $user = FakeUser::defaultUser();
 
         $job = new EmailConfigurationReminderGetter();

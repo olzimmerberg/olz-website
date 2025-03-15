@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Utils;
 
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\LiveDateUtils;
+use Olz\Utils\DateUtils;
 
 /**
  * @internal
  *
- * @covers \Olz\Utils\LiveDateUtils
+ * @covers \Olz\Utils\DateUtils
  */
-final class LiveDateUtilsIntegrationTest extends IntegrationTestCase {
+final class DateUtilsIntegrationTest extends IntegrationTestCase {
     public function testCurrentDateInFormat(): void {
-        $live_date_utils = new LiveDateUtils();
+        $live_date_utils = new DateUtils();
         $this->assertMatchesRegularExpression('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $live_date_utils->getCurrentDateInFormat('Y-m-d H:i:s'));
         $this->assertGreaterThanOrEqual('2020', $live_date_utils->getCurrentDateInFormat('Y'));
         $this->assertGreaterThanOrEqual('01', $live_date_utils->getCurrentDateInFormat('m'));

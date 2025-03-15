@@ -36,7 +36,7 @@ final class EnvUtilsTest extends UnitTestCase {
 
             'has_unlimited_cron' => true,
 
-            'date_utils_class_name' => 'FixedDateUtils',
+            'date_utils_class_name' => 'DateUtils',
             'date_utils_class_args' => ['2020-08-15 12:34:56'],
 
             'database_backup_key' => 'aaaaaaaaaaaaaaaaaaaa',
@@ -94,7 +94,7 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('db-password', $env_utils->getMysqlPassword());
         $this->assertSame('db-schema', $env_utils->getMysqlSchema());
         $this->assertTrue($env_utils->hasUnlimitedCron());
-        $this->assertSame('FixedDateUtils', $env_utils->getDateUtilsClassName());
+        $this->assertSame('DateUtils', $env_utils->getDateUtilsClassName());
         $this->assertSame(['2020-08-15 12:34:56'], $env_utils->getDateUtilsClassArgs());
         $this->assertSame('aaaaaaaaaaaaaaaaaaaa', $env_utils->getDatabaseBackupKey());
         $this->assertSame('aaaaaaaaaaaaaaaaaaab', $env_utils->getEmailReactionKey());

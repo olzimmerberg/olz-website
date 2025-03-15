@@ -65,6 +65,41 @@ class EnvUtils {
     private ?string $app_statistics_username = null;
     private ?string $app_statistics_password = null;
 
+    public function __construct() {
+        global $_SERVER;
+
+        if ($this->isUnitTest()) {
+            return;
+        }
+
+        // TODO: Also use the configuration file?
+        $private_path = self::computePrivatePath();
+        $this->setPrivatePath($private_path);
+
+        // TODO: Also use the configuration file?
+        $data_path = self::computeDataPath();
+        $this->setDataPath($data_path);
+        $this->setDataHref('/');
+
+        $code_href = '/';
+        if (isset($_SERVER['OLZ_SYMFONY_HREF']) && preg_match('/^\/.+\/$/', $_SERVER['OLZ_SYMFONY_HREF'])) {
+            $code_href = $_SERVER['OLZ_SYMFONY_HREF'];
+        }
+        $code_path = realpath(__DIR__.'/../../').'/';
+        $this->setCodePath($code_path);
+        $this->setCodeHref($code_href);
+
+        $config_path = self::getConfigPath();
+        if (!$config_path || !is_file($config_path)) {
+            return; // TODO: Remove?!?
+            // throw new \Exception("Konfigurationsdatei nicht gefunden!");
+        }
+
+        $configuration = require $config_path;
+        $configure_env_utils_function = $configuration['configure_env_utils'];
+        $configure_env_utils_function($this);
+    }
+
     public function setPrivatePath(?string $private_path): void {
         $this->private_path = $private_path;
     }
@@ -375,47 +410,6 @@ class EnvUtils {
         }
     }
 
-    protected static ?EnvUtils $from_env_instance = null;
-
-    public static function fromEnv(): self {
-        if (self::$from_env_instance == null) {
-            global $_SERVER;
-
-            self::assertValidFromEnvContext();
-
-            $env_utils = new self();
-
-            // TODO: Also use the configuration file?
-            $private_path = self::computePrivatePath();
-            $env_utils->setPrivatePath($private_path);
-
-            // TODO: Also use the configuration file?
-            $data_path = self::computeDataPath();
-            $env_utils->setDataPath($data_path);
-            $env_utils->setDataHref('/');
-
-            $code_href = '/';
-            if (isset($_SERVER['OLZ_SYMFONY_HREF']) && preg_match('/^\/.+\/$/', $_SERVER['OLZ_SYMFONY_HREF'])) {
-                $code_href = $_SERVER['OLZ_SYMFONY_HREF'];
-            }
-            $code_path = realpath(__DIR__.'/../../').'/';
-            $env_utils->setCodePath($code_path);
-            $env_utils->setCodeHref($code_href);
-
-            $config_path = self::getConfigPath();
-            if (!$config_path || !is_file($config_path)) {
-                throw new \Exception("Konfigurationsdatei nicht gefunden!");
-            }
-
-            $configuration = require $config_path;
-            $configure_env_utils_function = $configuration['configure_env_utils'];
-            $configure_env_utils_function($env_utils);
-
-            self::$from_env_instance = $env_utils;
-        }
-        return self::$from_env_instance;
-    }
-
     public static function computeDataPath(): string {
         $document_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
         if ($document_root) {
@@ -463,7 +457,7 @@ class EnvUtils {
         return null;
     }
 
-    public static function assertValidFromEnvContext(): void {
+    public function isUnitTest(): bool {
         global $_SERVER;
 
         $argv = $_SERVER['argv'] ?? [];
@@ -471,12 +465,6 @@ class EnvUtils {
         $is_phpunit = preg_match('/phpunit$/', $first_arg);
         $last_arg = $argv[count($argv) - 1] ?? '';
         $executing_unit_tests = preg_match('/UnitTests$/', $last_arg);
-        if ($is_phpunit && $executing_unit_tests) {
-            $trace = debug_backtrace();
-            $general_utils = GeneralUtils::fromEnv();
-            $pretty_trace = $general_utils->getPrettyTrace($trace);
-
-            throw new \Exception("Unit tests should never use EnvUtils::fromEnv!\n\n{$pretty_trace}");
-        }
+        return $is_phpunit && $executing_unit_tests;
     }
 }

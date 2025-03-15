@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Utils;
 
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\LogsUtils;
 
@@ -15,7 +16,7 @@ use Olz\Utils\LogsUtils;
  */
 final class LogsUtilsIntegrationTest extends IntegrationTestCase {
     public function testLogsUtilsFromEnv(): void {
-        $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
+        $env_utils = new EnvUtils();
         $logs_utils = LogsUtils::fromEnv();
         $logs_utils->setEnvUtils($env_utils);
         $private_path = $env_utils->getPrivatePath();

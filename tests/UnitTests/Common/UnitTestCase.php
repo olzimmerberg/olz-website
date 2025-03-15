@@ -21,7 +21,7 @@ use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\Fake\FakeSymfonyUtils;
 use Olz\Tests\Fake\FakeTelegramUtils;
 use Olz\Tests\Fake\FakeUploadUtils;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsCache;
 use Olz\Utils\WithUtilsTrait;
@@ -74,7 +74,7 @@ class UnitTestCase extends TestCase {
         $logger->pushHandler($handler);
         WithUtilsCache::setAll([
             'authUtils' => new FakeAuthUtils(),
-            'dateUtils' => new FixedDateUtils('2020-03-13 19:30:00'),
+            'dateUtils' => new DateUtils('2020-03-13 19:30:00'),
             'devDataUtils' => new FakeDevDataUtils(),
             'dbUtils' => new FakeDbUtils(),
             'emailUtils' => new FakeEmailUtils(),

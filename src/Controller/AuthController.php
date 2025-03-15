@@ -28,10 +28,10 @@ class AuthController extends AbstractController {
     public function profil(
         Request $request,
         HttpUtils $httpUtils,
+        EnvUtils $envUtils,
         LoggerInterface $logger,
     ): Response {
         $httpUtils->countRequest($request);
-        $envUtils = EnvUtils::fromEnv();
         $code_href = $envUtils->getCodeHref();
         return new RedirectResponse("{$code_href}benutzer/ich");
     }

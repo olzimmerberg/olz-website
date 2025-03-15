@@ -10,7 +10,7 @@ use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\FakeNotificationSubscription;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsCache;
 
 class TestOnlyTelegramConfigurationReminderGetter extends TelegramConfigurationReminderGetter {
@@ -172,7 +172,7 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
     public function testTelegramConfigurationReminderGetterOnWrongDay(): void {
         $not_the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH + 1;
         $not_the_day_str = str_pad("{$not_the_day}", 2, '0', STR_PAD_LEFT);
-        $date_utils = new FixedDateUtils("2020-03-{$not_the_day_str} 19:30:00");
+        $date_utils = new DateUtils("2020-03-{$not_the_day_str} 19:30:00");
 
         $job = new TelegramConfigurationReminderGetter();
         $job->setDateUtils($date_utils);
@@ -185,7 +185,7 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
     public function testTelegramConfigurationReminderGetterCancelled(): void {
         $the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
-        $date_utils = new FixedDateUtils("2020-03-{$the_day_str} 19:00:00");
+        $date_utils = new DateUtils("2020-03-{$the_day_str} 19:00:00");
 
         $job = new TelegramConfigurationReminderGetter();
         $job->setDateUtils($date_utils);
@@ -198,7 +198,7 @@ final class TelegramConfigurationReminderGetterTest extends UnitTestCase {
     public function testTelegramConfigurationReminderGetter(): void {
         $the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
-        $date_utils = new FixedDateUtils("2020-03-{$the_day_str} 19:00:00");
+        $date_utils = new DateUtils("2020-03-{$the_day_str} 19:00:00");
         $user = FakeUser::defaultUser();
 
         $job = new TelegramConfigurationReminderGetter();

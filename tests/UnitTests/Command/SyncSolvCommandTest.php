@@ -6,7 +6,7 @@ namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\SyncSolvCommand;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -38,7 +38,7 @@ final class SyncSolvCommandTest extends UnitTestCase {
     }
 
     public function testSyncSolvCommandFirstOfMonth(): void {
-        $date_utils = new FixedDateUtils('2020-04-01 19:30:00');
+        $date_utils = new DateUtils('2020-04-01 19:30:00');
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 

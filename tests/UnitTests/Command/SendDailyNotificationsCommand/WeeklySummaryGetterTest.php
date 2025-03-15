@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 
 /**
  * @internal
@@ -16,7 +16,7 @@ use Olz\Utils\FixedDateUtils;
  */
 final class WeeklySummaryGetterTest extends UnitTestCase {
     public function testWeeklySummaryGetterWrongWeekday(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 16:00:00'); // a Friday
+        $date_utils = new DateUtils('2020-03-13 16:00:00'); // a Friday
 
         $job = new WeeklySummaryGetter();
         $job->setDateUtils($date_utils);
@@ -33,7 +33,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     }
 
     public function testWeeklySummaryGetterWithAllContent(): void {
-        $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
+        $date_utils = new DateUtils('2020-03-16 16:00:00'); // a Monday
         $user = FakeUser::defaultUser();
 
         $job = new WeeklySummaryGetter();
@@ -94,7 +94,7 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
     }
 
     public function testWeeklySummaryGetterWithNoContent(): void {
-        $date_utils = new FixedDateUtils('2020-03-16 16:00:00'); // a Monday
+        $date_utils = new DateUtils('2020-03-16 16:00:00'); // a Monday
 
         $job = new WeeklySummaryGetter();
         $job->setDateUtils($date_utils);

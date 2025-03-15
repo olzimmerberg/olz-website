@@ -13,7 +13,7 @@ class StravaUtils {
     protected ?StravaFetcher $strava_fetcher = null;
 
     public static function fromEnv(): self {
-        $env_utils = EnvUtils::fromEnv();
+        $env_utils = new EnvUtils();
         $base_href = $env_utils->getBaseHref();
         $code_href = $env_utils->getCodeHref();
         $redirect_url = "{$base_href}{$code_href}konto_strava";

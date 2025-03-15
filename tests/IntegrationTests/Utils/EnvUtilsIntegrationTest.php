@@ -7,14 +7,6 @@ namespace Olz\Tests\IntegrationTests\Utils;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\EnvUtils;
 
-class FakeIntegrationTestEnvUtils extends EnvUtils {
-    public static function fromEnv(): EnvUtils {
-        // For this test, clear the "cache" always
-        parent::$from_env_instance = null;
-        return parent::fromEnv();
-    }
-}
-
 /**
  * @internal
  *
@@ -22,7 +14,7 @@ class FakeIntegrationTestEnvUtils extends EnvUtils {
  */
 final class EnvUtilsIntegrationTest extends IntegrationTestCase {
     public function testEnvUtilsFromEnv(): void {
-        $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
+        $env_utils = new EnvUtils();
         $this->assertSame(
             realpath(__DIR__.'/../../../private/').'/',
             $env_utils->getPrivatePath()
@@ -47,7 +39,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         ];
 
         try {
-            FakeIntegrationTestEnvUtils::fromEnv();
+            new EnvUtils();
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertMatchesRegularExpression(

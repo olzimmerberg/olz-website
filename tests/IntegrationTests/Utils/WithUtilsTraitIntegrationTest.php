@@ -8,12 +8,12 @@ use Olz\Entity\Users\User;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\AuthUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\DevDataUtils;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\EntityUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\HttpUtils;
@@ -45,7 +45,7 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
                 return $value instanceof AuthUtils;
             },
             'dateUtils' => function ($value) {
-                return $value instanceof FixedDateUtils;
+                return $value instanceof DateUtils;
             },
             'dbUtils' => function ($value) {
                 return $value instanceof DbUtils;

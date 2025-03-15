@@ -7,8 +7,8 @@ namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DateUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
@@ -18,7 +18,7 @@ use Olz\Utils\FixedDateUtils;
 final class TelegramConfigurationReminderGetterIntegrationTest extends IntegrationTestCase {
     public function testTelegramConfigurationReminderGetterAutogenerateSubscriptions(): void {
         $job = new TelegramConfigurationReminderGetter();
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $job->autogenerateSubscriptions();
 
         $this->assertSame([], $this->getLogs());
@@ -27,12 +27,12 @@ final class TelegramConfigurationReminderGetterIntegrationTest extends Integrati
     public function testTelegramConfigurationReminderGetter(): void {
         $the_day = TelegramConfigurationReminderGetter::DAY_OF_MONTH;
         $the_day_str = str_pad("{$the_day}", 2, '0', STR_PAD_LEFT);
-        $date_utils = new FixedDateUtils("2020-07-{$the_day_str} 16:00:00");
+        $date_utils = new DateUtils("2020-07-{$the_day_str} 16:00:00");
         $user = FakeUser::defaultUser();
 
         $job = new TelegramConfigurationReminderGetter();
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'

@@ -7,8 +7,8 @@ namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\RoleReminderGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DateUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
@@ -18,7 +18,7 @@ use Olz\Utils\FixedDateUtils;
 final class RoleReminderGetterIntegrationTest extends IntegrationTestCase {
     public function testRoleReminderGetterAutogenerateSubscriptions(): void {
         $job = new RoleReminderGetter();
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $job->autogenerateSubscriptions();
 
         $this->assertSame([
@@ -43,12 +43,12 @@ final class RoleReminderGetterIntegrationTest extends IntegrationTestCase {
 
     public function testRoleReminderGetter(): void {
         $the_day = substr(RoleReminderGetter::EXECUTION_DATE, 4, 6);
-        $date_utils = new FixedDateUtils("2020{$the_day} 16:00:00");
+        $date_utils = new DateUtils("2020{$the_day} 16:00:00");
         $user = FakeUser::defaultUser();
 
         $job = new RoleReminderGetter();
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification(['role_id' => 49]);
 
         $expected_text = <<<'ZZZZZZZZZZ'

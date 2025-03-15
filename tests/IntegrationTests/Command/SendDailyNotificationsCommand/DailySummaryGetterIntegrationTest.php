@@ -7,9 +7,9 @@ namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\DailySummaryGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
@@ -19,13 +19,13 @@ use Olz\Utils\FixedDateUtils;
 final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay1(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $date_utils = new FixedDateUtils('2020-01-01 12:51:00');
+        $date_utils = new DateUtils('2020-01-01 12:51:00');
         $user = FakeUser::defaultUser();
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,
@@ -64,13 +64,13 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
 
     public function testDailySummaryGetterDay2(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $date_utils = new FixedDateUtils('2020-01-02 12:51:00');
+        $date_utils = new DateUtils('2020-01-02 12:51:00');
         $user = FakeUser::defaultUser();
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,
@@ -104,12 +104,12 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
 
     public function testDailySummaryGetterDay3(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $date_utils = new FixedDateUtils('2020-01-03 12:51:00');
+        $date_utils = new DateUtils('2020-01-03 12:51:00');
 
         $job = new DailySummaryGetter();
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,

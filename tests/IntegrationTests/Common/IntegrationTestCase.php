@@ -6,6 +6,7 @@ namespace Olz\Tests\IntegrationTests\Common;
 
 use Olz\Tests\Fake\FakeLogHandler;
 use Olz\Utils\DevDataUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -51,6 +52,7 @@ class IntegrationTestCase extends KernelTestCase {
 
         if ($this::$is_first_call) {
             $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils->setEnvUtils(new EnvUtils());
             $dev_data_utils->fullResetDb();
             $this::$is_first_call = false;
         }

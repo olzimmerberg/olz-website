@@ -6,7 +6,7 @@ use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
 use Olz\Termine\Utils\TermineFilterUtils;
-use Olz\Utils\AbstractDateUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
@@ -58,10 +58,10 @@ class OtherPagesController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
         HttpUtils $httpUtils,
+        EnvUtils $envUtils,
     ): Response {
         $httpUtils->countRequest($request);
-        $envUtils = EnvUtils::fromEnv();
-        $dateUtils = AbstractDateUtils::fromEnv();
+        $dateUtils = new DateUtils();
         $code_href = $envUtils->getCodeHref();
         $this_year = $dateUtils->getCurrentDateInFormat('Y');
         $termine_utils = TermineFilterUtils::fromEnv();

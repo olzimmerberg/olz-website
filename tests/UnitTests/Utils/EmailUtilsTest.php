@@ -9,8 +9,8 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\Fake\FakeGeneralUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\DateUtils;
 use Olz\Utils\EmailUtils;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\MailerInterface;
@@ -364,7 +364,7 @@ final class EmailUtilsTest extends UnitTestCase {
             $email_utils->generateSpamEmailAddress()
         );
 
-        WithUtilsCache::set('dateUtils', new FixedDateUtils('2006-01-13 18:00:00'));
+        WithUtilsCache::set('dateUtils', new DateUtils('2006-01-13 18:00:00'));
 
         $this->assertSame(
             'salome.philippa.alena.matheisen',

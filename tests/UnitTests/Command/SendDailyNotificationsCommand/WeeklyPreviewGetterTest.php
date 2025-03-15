@@ -9,7 +9,7 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsCache;
 
 /**
@@ -19,7 +19,7 @@ use Olz\Utils\WithUtilsCache;
  */
 final class WeeklyPreviewGetterTest extends UnitTestCase {
     public function testWeeklyPreviewGetterOnWrongWeekday(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:30:00'); // a Friday
+        $date_utils = new DateUtils('2020-03-13 19:30:00'); // a Friday
 
         $job = new WeeklyPreviewGetter();
         $job->setDateUtils($date_utils);
@@ -30,7 +30,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testWeeklyPreviewGetter(): void {
-        $date_utils = new FixedDateUtils('2020-03-19 16:00:00'); // a Thursday
+        $date_utils = new DateUtils('2020-03-19 16:00:00'); // a Thursday
         $user = FakeUser::defaultUser();
 
         $job = new WeeklyPreviewGetter();
@@ -69,7 +69,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $entity_manager->repositories[Termin::class]->entitiesToBeMatched = [];
         $entity_manager->repositories[SolvEvent::class]->entitiesToBeMatched = [];
-        $date_utils = new FixedDateUtils('2021-03-18 16:00:00'); // a Thursday
+        $date_utils = new DateUtils('2021-03-18 16:00:00'); // a Thursday
 
         $job = new WeeklyPreviewGetter();
         $job->setDateUtils($date_utils);

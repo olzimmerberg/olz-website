@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\News\Utils;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Olz\News\Utils\NewsFilterUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 
 /**
  * @internal
@@ -476,7 +476,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetUiDateRangeFilterOptionsInclArchive(): void {
-        $date_utils = new FixedDateUtils('2011-03-13 19:30:00');
+        $date_utils = new DateUtils('2011-03-13 19:30:00');
         $news_utils = new NewsFilterUtils();
         $news_utils->setDateUtils($date_utils);
         $this->assertSame([
@@ -604,7 +604,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetDateRangeOptionsExclArchive(): void {
-        $date_utils = new FixedDateUtils('2006-01-13 19:30:00');
+        $date_utils = new DateUtils('2006-01-13 19:30:00');
         $news_utils = new NewsFilterUtils();
         $news_utils->setDateUtils($date_utils);
         $this->assertSame([
@@ -621,7 +621,7 @@ final class NewsFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetDateRangeOptionsInclArchive(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:00:00');
+        $date_utils = new DateUtils('2020-03-13 19:00:00');
         $news_utils = new NewsFilterUtils();
         $news_utils->setDateUtils($date_utils);
         $this->assertSame([

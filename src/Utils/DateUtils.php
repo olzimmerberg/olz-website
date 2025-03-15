@@ -2,7 +2,7 @@
 
 namespace Olz\Utils;
 
-abstract class AbstractDateUtils {
+class DateUtils {
     use WithUtilsTrait;
 
     public const WEEKDAYS_SHORT_DE = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
@@ -10,7 +10,31 @@ abstract class AbstractDateUtils {
     public const MONTHS_SHORT_DE = ["Jan.", "Feb.", "März", "April", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
     public const MONTHS_LONG_DE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
-    abstract public function getCurrentDateInFormat(string $format): string;
+    public function __construct(protected ?string $date = null) {
+    }
+
+    public function getCurrentDateInFormat(string $format): string {
+        if ($this->date !== null) {
+            if ($this->date === 'live') {
+                return date($format);
+            }
+            return date($format, @strtotime($this->date) ?: null);
+        }
+        $class_name = $this->envUtils()->getDateUtilsClassName();
+        $class_args = $this->envUtils()->getDateUtilsClassArgs();
+
+        if ($class_name == 'FixedDateUtils') {
+            $fixed_date = $class_args[0];
+            $fixed_date = is_int($fixed_date)
+                ? $fixed_date
+                : (@strtotime($fixed_date) ?: null);
+            return date($format, $fixed_date);
+        }
+        if ($class_name == 'LiveDateUtils') {
+            return date($format);
+        }
+        throw new \Exception("Date class must be FixedDateUtils or LiveDateUtils, was: {$class_name}");
+    }
 
     public function getIsoToday(): string {
         return $this->getCurrentDateInFormat('Y-m-d');
@@ -159,19 +183,5 @@ abstract class AbstractDateUtils {
             }
         }
         return $out;
-    }
-
-    public static function fromEnv(): self {
-        $env_utils = EnvUtils::fromEnv();
-        $class_name = $env_utils->getDateUtilsClassName();
-        $class_args = $env_utils->getDateUtilsClassArgs();
-
-        if ($class_name == 'FixedDateUtils') {
-            return new FixedDateUtils($class_args[0]);
-        }
-        if ($class_name == 'LiveDateUtils') {
-            return new LiveDateUtils();
-        }
-        throw new \Exception("Invalid DateUtils class name: {$class_name}");
     }
 }

@@ -19,10 +19,10 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
 
     public function testInitAndDump(): void {
         $this->withLockedDb(function () {
-            $dev_data_utils = DevDataUtils::fromEnv();
+            $utils = $this->getSut();
 
             $init_start_time = time();
-            $dev_data_utils->fullResetDb();
+            $utils->fullResetDb();
             $init_end_time = time();
 
             $this->assertTrue(is_file("{$this->dev_data_path}olz_mitglieder/max_muster.jpg"));
@@ -30,8 +30,8 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
             $this->assertGreaterThanOrEqual($init_start_time, $creation_time);
             $this->assertLessThanOrEqual($init_end_time, $creation_time);
 
-            $new_dev_db_structure = $dev_data_utils->getDbStructureSql();
-            $new_dev_db_content = $dev_data_utils->getDbContentSql();
+            $new_dev_db_structure = $utils->getDbStructureSql();
+            $new_dev_db_content = $utils->getDbContentSql();
 
             $this->assertGreaterThanOrEqual(100, strlen($new_dev_db_structure));
             $this->assertGreaterThanOrEqual(100, strlen($new_dev_db_content));
@@ -40,11 +40,11 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
 
     public function testDumpIsFromCurrentMigration(): void {
         $this->withLockedDb(function () {
-            $dev_data_utils = DevDataUtils::fromEnv();
+            $utils = $this->getSut();
 
             $old_dev_db_structure = file_get_contents($this->dev_db_structure_path) ?: '';
             $old_dev_db_content = file_get_contents($this->dev_db_content_path) ?: '';
-            $current_migration = $dev_data_utils->getCurrentMigration();
+            $current_migration = $utils->getCurrentMigration();
 
             $structure_has_migration = preg_match(
                 '/-- MIGRATION: ([a-zA-Z0-9\\\]+)\s+/',
@@ -64,5 +64,11 @@ final class DevDataUtilsIntegrationTest extends IntegrationTestCase {
             $content_version = $content_matches[1];
             $this->assertSame($content_version, $current_migration);
         });
+    }
+
+    protected function getSut(): DevDataUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(DevDataUtils::class);
     }
 }

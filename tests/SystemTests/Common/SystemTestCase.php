@@ -10,14 +10,14 @@ use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
 use Olz\Utils\WithUtilsTrait;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * @internal
  *
  * @coversNothing
  */
-class SystemTestCase extends TestCase {
+class SystemTestCase extends KernelTestCase {
     use WithUtilsTrait;
 
     private static string $browser_name = 'firefox';

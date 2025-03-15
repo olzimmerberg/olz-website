@@ -14,8 +14,9 @@ use Olz\Utils\HtmlUtils;
  */
 final class HtmlUtilsIntegrationTest extends IntegrationTestCase {
     public function testHtmlUtilsFromEnv(): void {
-        $html_utils = HtmlUtils::fromEnv();
+        self::bootKernel();
+        $utils = self::getContainer()->get(HtmlUtils::class);
 
-        $this->assertSame(HtmlUtils::class, get_class($html_utils));
+        $this->assertSame(HtmlUtils::class, get_class($utils));
     }
 }

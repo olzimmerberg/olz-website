@@ -60,7 +60,7 @@ class FakeSyncSolvCommandIntegrationTestSolvFetcher extends FakeSolvFetcher {
 final class SyncSolvCommandIntegrationTest extends IntegrationTestCase {
     public function testRun(): void {
         $this->withLockedDb(function () {
-            $job = new SyncSolvCommand();
+            $job = $this->getSut();
             WithUtilsCache::set('solvFetcher', new FakeSyncSolvCommandIntegrationTestSolvFetcher());
             $input = new ArrayInput([]);
             $output = new BufferedOutput();
@@ -341,5 +341,11 @@ final class SyncSolvCommandIntegrationTest extends IntegrationTestCase {
                 return "{$person} {$event} {$class} {$time} {$finish_split}";
             }, $all_results));
         });
+    }
+
+    protected function getSut(): SyncSolvCommand {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(SyncSolvCommand::class);
     }
 }

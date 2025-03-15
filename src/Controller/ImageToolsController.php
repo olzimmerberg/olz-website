@@ -23,12 +23,12 @@ class ImageToolsController extends AbstractController {
         Request $request,
         LoggerInterface $log,
         ImageUtils $imageUtils,
+        EnvUtils $envUtils,
         string $db_table,
         int $id,
         string $index,
         int $dimension,
     ): Response {
-        $envUtils = EnvUtils::fromEnv();
         $data_path = $envUtils->getDataPath();
 
         session_write_close();

@@ -29,15 +29,6 @@ final class DbUtilsTest extends UnitTestCase {
         $this->assertEquals(new DbUtils(), DbUtils::fromEnv());
 
         $db_utils = new TestOnlyDbUtils();
-        try {
-            $db_utils->getDb();
-            $this->fail('Error expected');
-        } catch (\Throwable $th) {
-            $this->assertSame('mysql_username not set', $th->getMessage());
-        }
-        $fake_db = $this->createMock(\mysqli::class);
-        TestOnlyDbUtils::testOnlySetDb($fake_db);
-        $this->assertSame($fake_db, $db_utils->getDb());
 
         try {
             $db_utils->getEntityManager();

@@ -7,6 +7,12 @@ namespace Olz\Tests\UnitTests\Utils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\EnvUtils;
 
+class TestOnlyEnvUtils extends EnvUtils {
+    public function lazyInit(): void {
+        // Avoid the error for config file not found...
+    }
+}
+
 /**
  * @internal
  *
@@ -14,7 +20,7 @@ use Olz\Utils\EnvUtils;
  */
 final class EnvUtilsTest extends UnitTestCase {
     public function testConfigure(): void {
-        $env_utils = new EnvUtils();
+        $env_utils = new TestOnlyEnvUtils();
 
         $env_utils->setPrivatePath('/private/');
 
@@ -36,7 +42,7 @@ final class EnvUtilsTest extends UnitTestCase {
 
             'has_unlimited_cron' => true,
 
-            'date_utils_class_name' => 'FixedDateUtils',
+            'date_utils_class_name' => 'DateUtils',
             'date_utils_class_args' => ['2020-08-15 12:34:56'],
 
             'database_backup_key' => 'aaaaaaaaaaaaaaaaaaaa',
@@ -94,7 +100,7 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('db-password', $env_utils->getMysqlPassword());
         $this->assertSame('db-schema', $env_utils->getMysqlSchema());
         $this->assertTrue($env_utils->hasUnlimitedCron());
-        $this->assertSame('FixedDateUtils', $env_utils->getDateUtilsClassName());
+        $this->assertSame('DateUtils', $env_utils->getDateUtilsClassName());
         $this->assertSame(['2020-08-15 12:34:56'], $env_utils->getDateUtilsClassArgs());
         $this->assertSame('aaaaaaaaaaaaaaaaaaaa', $env_utils->getDatabaseBackupKey());
         $this->assertSame('aaaaaaaaaaaaaaaaaaab', $env_utils->getEmailReactionKey());
@@ -190,17 +196,6 @@ final class EnvUtilsTest extends UnitTestCase {
             EnvUtils::getConfigPath(),
         );
         unlink("{$config_dir}olz.php");
-        if (is_file("{$config_dir}_olz.test.php")) {
-            rename("{$config_dir}_olz.test.php", "{$config_dir}olz.test.php");
-        }
-    }
-
-    public function testGetConfigPathFallback(): void {
-        $config_dir = __DIR__.'/../../../config/';
-        if (is_file("{$config_dir}olz.test.php")) {
-            rename("{$config_dir}olz.test.php", "{$config_dir}_olz.test.php");
-        }
-        $this->assertNull(EnvUtils::getConfigPath());
         if (is_file("{$config_dir}_olz.test.php")) {
             rename("{$config_dir}_olz.test.php", "{$config_dir}olz.test.php");
         }

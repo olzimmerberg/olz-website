@@ -1,0 +1,30 @@
+services:
+    _defaults:
+        public: true
+
+    Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter:
+        public: true
+
+    Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter:
+        public: true
+
+    Olz\Command\SendDailyNotificationsCommand\RoleReminderGetter:
+        public: true
+
+    Olz\News\Utils\NewsFilterUtils:
+        public: true
+
+    Olz\Termine\Utils\TermineFilterUtils:
+        public: true
+
+    Olz\Tests\IntegrationTests\Utils\HttpUtilsForIntegrationTest:
+        public: true
+
+    Olz\Tests\IntegrationTests\Utils\FakeIntegrationTestDbUtils:
+        public: true
+
+    Olz\Utils\LogsUtils:
+        public: true
+
+    Olz\Tests\IntegrationTests\Utils\WithUtilsTraitIntegrationClassWithUtilsTrait:
+        public: true

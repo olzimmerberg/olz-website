@@ -47,24 +47,30 @@ class HttpUtilsForIntegrationTest extends HttpUtils {
  */
 final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     public function testHttpUtilsError(): void {
-        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
+        $utils = $this->getSut();
 
-        $http_utils->dieWithHttpError(404);
+        $utils->dieWithHttpError(404);
 
-        $this->assertSame(404, $http_utils->sent_http_response_code);
-        $this->assertSame([], $http_utils->sent_http_header_lines);
-        $this->assertMatchesRegularExpression('/Fehler/i', $http_utils->sent_http_body);
-        $this->assertTrue($http_utils->has_exited_execution);
+        $this->assertSame(404, $utils->sent_http_response_code);
+        $this->assertSame([], $utils->sent_http_header_lines);
+        $this->assertMatchesRegularExpression('/Fehler/i', $utils->sent_http_body);
+        $this->assertTrue($utils->has_exited_execution);
     }
 
     public function testHttpUtilsRedirect(): void {
-        $http_utils = HttpUtilsForIntegrationTest::fromEnv();
+        $utils = $this->getSut();
 
-        $http_utils->redirect('https://test.ch', 302);
+        $utils->redirect('https://test.ch', 302);
 
-        $this->assertSame(302, $http_utils->sent_http_response_code);
-        $this->assertSame(["Location: https://test.ch"], $http_utils->sent_http_header_lines);
-        $this->assertMatchesRegularExpression('/Weiterleitung/i', $http_utils->sent_http_body);
-        $this->assertTrue($http_utils->has_exited_execution);
+        $this->assertSame(302, $utils->sent_http_response_code);
+        $this->assertSame(["Location: https://test.ch"], $utils->sent_http_header_lines);
+        $this->assertMatchesRegularExpression('/Weiterleitung/i', $utils->sent_http_body);
+        $this->assertTrue($utils->has_exited_execution);
+    }
+
+    protected function getSut(): HttpUtilsForIntegrationTest {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(HttpUtilsForIntegrationTest::class);
     }
 }

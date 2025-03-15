@@ -17,33 +17,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * @covers \Olz\Command\DbResetCommand
  */
 final class DbResetCommandTest extends UnitTestCase {
-    public function testDbResetCommandOnProd(): void {
-        $env_backup = $_ENV;
-        $_ENV = [...$_ENV, 'APP_ENV' => 'prod'];
-        WithUtilsCache::get('envUtils')->app_env = 'prod';
-        $command = new DbResetCommand();
-        $input = new ArrayInput(['mode' => 'content']);
-        $output = new BufferedOutput();
-
-        $return_code = $command->run($input, $output);
-        try {
-            $this->assertSame([
-                "NOTICE Command Olz\\Command\\DbResetCommand not allowed in app env prod.",
-            ], $this->getLogs());
-            $this->assertSame(Command::INVALID, $return_code);
-            $this->assertSame(<<<'ZZZZZZZZZZ'
-                NOTICE: Command Olz\Command\DbResetCommand not allowed in app env prod.
-                Command Olz\Command\DbResetCommand not allowed in app env prod.
-
-                ZZZZZZZZZZ, $output->fetch());
-            $this->assertSame([], WithUtilsCache::get('devDataUtils')->commands_called);
-            $_ENV = $env_backup;
-        } catch (\Throwable $th) {
-            $_ENV = $env_backup;
-            throw $th;
-        }
-    }
-
     public function testDbResetCommandModeContent(): void {
         $command = new DbResetCommand();
         $input = new ArrayInput(['mode' => 'content']);

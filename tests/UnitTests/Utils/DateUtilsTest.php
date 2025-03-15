@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\AbstractDateUtils;
+use Olz\Utils\DateUtils;
 
-class FakeDateUtils extends AbstractDateUtils {
+class FakeDateUtils extends DateUtils {
     private int $fixed_date;
 
     public function __construct(string $fixed_date) {
@@ -22,9 +22,9 @@ class FakeDateUtils extends AbstractDateUtils {
 /**
  * @internal
  *
- * @covers \Olz\Utils\AbstractDateUtils
+ * @covers \Olz\Utils\DateUtils
  */
-final class AbstractDateUtilsTest extends UnitTestCase {
+final class DateUtilsTest extends UnitTestCase {
     public function testGetIsoNow(): void {
         $date_utils = new FakeDateUtils('2020-03-13 19:30:00');
         $this->assertSame('2020-03-13 19:30:00', $date_utils->getIsoNow());

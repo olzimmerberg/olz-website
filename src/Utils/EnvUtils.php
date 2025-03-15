@@ -65,6 +65,43 @@ class EnvUtils {
     private ?string $app_statistics_username = null;
     private ?string $app_statistics_password = null;
 
+    private bool $lazyInitCompleted = false;
+
+    public function lazyInit(): void {
+        if ($this->lazyInitCompleted) {
+            return;
+        }
+        global $_SERVER;
+
+        // TODO: Also use the configuration file?
+        $private_path = self::computePrivatePath();
+        $this->setPrivatePath($private_path);
+
+        // TODO: Also use the configuration file?
+        $data_path = self::computeDataPath();
+        $this->setDataPath($data_path);
+        $this->setDataHref('/');
+
+        $code_href = '/';
+        if (isset($_SERVER['OLZ_SYMFONY_HREF']) && preg_match('/^\/.+\/$/', $_SERVER['OLZ_SYMFONY_HREF'])) {
+            $code_href = $_SERVER['OLZ_SYMFONY_HREF'];
+        }
+        $code_path = realpath(__DIR__.'/../../').'/';
+        $this->setCodePath($code_path);
+        $this->setCodeHref($code_href);
+
+        $config_path = self::getConfigPath();
+        if (!is_file($config_path)) {
+            throw new \Exception("Konfigurationsdatei ({$config_path}) nicht gefunden!");
+        }
+
+        $configuration = require $config_path;
+        $configure_env_utils_function = $configuration['configure_env_utils'];
+        $configure_env_utils_function($this);
+
+        $this->lazyInitCompleted = true;
+    }
+
     public function setPrivatePath(?string $private_path): void {
         $this->private_path = $private_path;
     }
@@ -144,226 +181,272 @@ class EnvUtils {
     }
 
     public function getPrivatePath(): ?string {
+        $this->lazyInit();
         return $this->private_path;
     }
 
     public function getDataPath(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->data_path, "data_path not set");
         return $this->data_path;
     }
 
     public function getDataHref(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->data_href, "data_href not set");
         return $this->data_href;
     }
 
     public function getCodePath(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->code_path, "code_path not set");
         return $this->code_path;
     }
 
     public function getCodeHref(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->code_href, "code_href not set");
         return $this->code_href;
     }
 
     public function getSyslogPath(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->syslog_path, "syslog_path not set");
         return $this->syslog_path;
     }
 
     public function getBaseHref(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->base_href, "base_href not set");
         return $this->base_href;
     }
 
     public function getAppEnv(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->app_env, "app_env not set");
         return $this->app_env;
     }
 
     public function getMysqlHost(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->mysql_host, "mysql_host not set");
         return $this->mysql_host;
     }
 
     public function getMysqlPort(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->mysql_port, "mysql_port not set");
         return $this->mysql_port;
     }
 
     public function getMysqlServer(): string {
+        $this->lazyInit();
         return "{$this->mysql_host}:{$this->mysql_port}";
     }
 
     public function getMysqlUsername(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->mysql_username, "mysql_username not set");
         return $this->mysql_username;
     }
 
     public function getMysqlPassword(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->mysql_password, "mysql_password not set");
         return $this->mysql_password;
     }
 
     public function getMysqlSchema(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->mysql_schema, "mysql_schema not set");
         return $this->mysql_schema;
     }
 
     public function hasUnlimitedCron(): bool {
+        $this->lazyInit();
         return $this->has_unlimited_cron;
     }
 
     public function getDateUtilsClassName(): string {
+        $this->lazyInit();
         return $this->date_utils_class_name;
     }
 
     /** @return array<mixed> */
     public function getDateUtilsClassArgs(): array {
+        $this->lazyInit();
         return $this->date_utils_class_args;
     }
 
     public function getDatabaseBackupKey(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->database_backup_key, "database_backup_key not set");
         return $this->database_backup_key;
     }
 
     public function getEmailReactionKey(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->email_reaction_key, "email_reaction_key not set");
         return $this->email_reaction_key;
     }
 
     public function getIdEncryptionKey(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->id_encryption_key, "id_encryption_key not set");
         return $this->id_encryption_key;
     }
 
     public function getCronAuthenticityCode(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->cron_authenticity_code, "cron_authenticity_code not set");
         return $this->cron_authenticity_code;
     }
 
     public function getRecaptchaSecretKey(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->recaptcha_secret_key, "recaptcha_secret_key not set");
         return $this->recaptcha_secret_key;
     }
 
     public function getStravaClientId(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->strava_client_id, "strava_client_id not set");
         return $this->strava_client_id;
     }
 
     public function getStravaClientSecret(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->strava_client_secret, "strava_client_secret not set");
         return $this->strava_client_secret;
     }
 
     public function getTelegramBotName(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->telegram_bot_name, "telegram_bot_name not set");
         return $this->telegram_bot_name;
     }
 
     public function getTelegramBotToken(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->telegram_bot_token, "telegram_bot_token not set");
         return $this->telegram_bot_token;
     }
 
     public function getTelegramAuthenticityCode(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->telegram_authenticity_code, "telegram_authenticity_code not set");
         return $this->telegram_authenticity_code;
     }
 
     public function getImapHost(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->imap_host, "imap_host not set");
         return $this->imap_host;
     }
 
     public function getImapPort(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->imap_port, "imap_port not set");
         return $this->imap_port;
     }
 
     public function getImapFlags(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->imap_flags, "imap_flags not set");
         return $this->imap_flags;
     }
 
     public function getImapUsername(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->imap_username, "imap_username not set");
         return $this->imap_username;
     }
 
     public function getImapPassword(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->imap_password, "imap_password not set");
         return $this->imap_password;
     }
 
     public function getSmtpHost(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->smtp_host, "smtp_host not set");
         return $this->smtp_host;
     }
 
     public function getSmtpPort(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->smtp_port, "smtp_port not set");
         return $this->smtp_port;
     }
 
     public function getSmtpUsername(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->smtp_username, "smtp_username not set");
         return $this->smtp_username;
     }
 
     public function getSmtpPassword(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->smtp_password, "smtp_password not set");
         return $this->smtp_password;
     }
 
     public function getSmtpSecure(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->smtp_secure, "smtp_secure not set");
         return $this->smtp_secure;
     }
 
     public function getSmtpDebug(): int {
+        $this->lazyInit();
         return $this->smtp_debug;
     }
 
     public function getSmtpFrom(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->smtp_from, "smtp_from not set");
         return $this->smtp_from;
     }
 
     public function getEmailForwardingHost(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->email_forwarding_host, "email_forwarding_host not set");
         return $this->email_forwarding_host;
     }
 
     public function getAppSearchEnginesUsername(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->app_search_engines_username, "app_search_engines_username not set");
         return $this->app_search_engines_username;
     }
 
     public function getAppSearchEnginesPassword(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->app_search_engines_password, "app_search_engines_password not set");
         return $this->app_search_engines_password;
     }
 
     public function getAppMonitoringUsername(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->app_monitoring_username, "app_monitoring_username not set");
         return $this->app_monitoring_username;
     }
 
     public function getAppMonitoringPassword(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->app_monitoring_password, "app_monitoring_password not set");
         return $this->app_monitoring_password;
     }
 
     public function getAppStatisticsUsername(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->app_statistics_username, "app_statistics_username not set");
         return $this->app_statistics_username;
     }
 
     public function getAppStatisticsPassword(): string {
+        $this->lazyInit();
         $this->checkNotNull($this->app_statistics_password, "app_statistics_password not set");
         return $this->app_statistics_password;
     }
@@ -373,47 +456,6 @@ class EnvUtils {
         if ($value === null) {
             throw new \Exception($error_message);
         }
-    }
-
-    protected static ?EnvUtils $from_env_instance = null;
-
-    public static function fromEnv(): self {
-        if (self::$from_env_instance == null) {
-            global $_SERVER;
-
-            self::assertValidFromEnvContext();
-
-            $env_utils = new self();
-
-            // TODO: Also use the configuration file?
-            $private_path = self::computePrivatePath();
-            $env_utils->setPrivatePath($private_path);
-
-            // TODO: Also use the configuration file?
-            $data_path = self::computeDataPath();
-            $env_utils->setDataPath($data_path);
-            $env_utils->setDataHref('/');
-
-            $code_href = '/';
-            if (isset($_SERVER['OLZ_SYMFONY_HREF']) && preg_match('/^\/.+\/$/', $_SERVER['OLZ_SYMFONY_HREF'])) {
-                $code_href = $_SERVER['OLZ_SYMFONY_HREF'];
-            }
-            $code_path = realpath(__DIR__.'/../../').'/';
-            $env_utils->setCodePath($code_path);
-            $env_utils->setCodeHref($code_href);
-
-            $config_path = self::getConfigPath();
-            if (!$config_path || !is_file($config_path)) {
-                throw new \Exception("Konfigurationsdatei nicht gefunden!");
-            }
-
-            $configuration = require $config_path;
-            $configure_env_utils_function = $configuration['configure_env_utils'];
-            $configure_env_utils_function($env_utils);
-
-            self::$from_env_instance = $env_utils;
-        }
-        return self::$from_env_instance;
     }
 
     public static function computeDataPath(): string {
@@ -446,37 +488,16 @@ class EnvUtils {
         return realpath(__DIR__.'/../../../../').'/';
     }
 
-    public static function getConfigPath(): ?string {
+    public static function getConfigPath(): string {
         global $_ENV;
-
         $env = $_ENV['APP_ENV'] ?? getenv('APP_ENV');
         if ($env) {
-            $injected_env_path = __DIR__."/../../config/olz.{$env}.php";
+            $injected_env_path = dirname(__DIR__, 2)."/config/olz.{$env}.php";
             if (is_file($injected_env_path)) {
-                return realpath($injected_env_path) ?: null;
+                return $injected_env_path;
             }
         }
-        $injected_path = __DIR__.'/../../config/olz.php';
-        if (is_file($injected_path)) {
-            return realpath($injected_path) ?: null;
-        }
-        return null;
-    }
-
-    public static function assertValidFromEnvContext(): void {
-        global $_SERVER;
-
-        $argv = $_SERVER['argv'] ?? [];
-        $first_arg = $argv[0] ?? '';
-        $is_phpunit = preg_match('/phpunit$/', $first_arg);
-        $last_arg = $argv[count($argv) - 1] ?? '';
-        $executing_unit_tests = preg_match('/UnitTests$/', $last_arg);
-        if ($is_phpunit && $executing_unit_tests) {
-            $trace = debug_backtrace();
-            $general_utils = GeneralUtils::fromEnv();
-            $pretty_trace = $general_utils->getPrettyTrace($trace);
-
-            throw new \Exception("Unit tests should never use EnvUtils::fromEnv!\n\n{$pretty_trace}");
-        }
+        $injected_path = dirname(__DIR__, 2).'/config/olz.php';
+        return $injected_path;
     }
 }

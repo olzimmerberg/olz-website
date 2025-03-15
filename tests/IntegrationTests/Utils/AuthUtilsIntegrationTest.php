@@ -14,7 +14,14 @@ use Olz\Utils\AuthUtils;
  */
 final class AuthUtilsIntegrationTest extends IntegrationTestCase {
     public function testAuthUtilsFromEnv(): void {
-        $auth_utils = AuthUtils::fromEnv();
-        $this->assertSame(AuthUtils::class, get_class($auth_utils));
+        $utils = $this->getSut();
+
+        $this->assertSame(AuthUtils::class, get_class($utils));
+    }
+
+    protected function getSut(): AuthUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(AuthUtils::class);
     }
 }

@@ -7,14 +7,6 @@ namespace Olz\Tests\IntegrationTests\Utils;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\EnvUtils;
 
-class FakeIntegrationTestEnvUtils extends EnvUtils {
-    public static function fromEnv(): EnvUtils {
-        // For this test, clear the "cache" always
-        parent::$from_env_instance = null;
-        return parent::fromEnv();
-    }
-}
-
 /**
  * @internal
  *
@@ -22,38 +14,27 @@ class FakeIntegrationTestEnvUtils extends EnvUtils {
  */
 final class EnvUtilsIntegrationTest extends IntegrationTestCase {
     public function testEnvUtilsFromEnv(): void {
-        $env_utils = FakeIntegrationTestEnvUtils::fromEnv();
+        $utils = $this->getSut();
         $this->assertSame(
             realpath(__DIR__.'/../../../private/').'/',
-            $env_utils->getPrivatePath()
+            $utils->getPrivatePath()
         );
         $this->assertMatchesRegularExpression(
             '/\/tests\/IntegrationTests\/document\-root\/$/',
-            $env_utils->getDataPath()
+            $utils->getDataPath()
         );
-        $this->assertSame('/', $env_utils->getDataHref());
+        $this->assertSame('/', $utils->getDataHref());
         $this->assertSame(
             realpath(__DIR__.'/../../..').'/',
-            $env_utils->getCodePath()
+            $utils->getCodePath()
         );
-        $this->assertSame('/', $env_utils->getCodeHref());
-        $this->assertSame('http://integration-test.host', $env_utils->getBaseHref());
+        $this->assertSame('/', $utils->getCodeHref());
+        $this->assertSame('http://integration-test.host', $utils->getBaseHref());
     }
 
-    public function testEnvUtilsFromEnvWithinUnitTest(): void {
-        $_SERVER = [
-            'DOCUMENT_ROOT' => $this->previous_server['DOCUMENT_ROOT'] ?? 'test-no-root',
-            'argv' => ['phpunit', 'tests/UnitTests'],
-        ];
-
-        try {
-            FakeIntegrationTestEnvUtils::fromEnv();
-            $this->fail('Error expected');
-        } catch (\Exception $exc) {
-            $this->assertMatchesRegularExpression(
-                '/^Unit tests should never use EnvUtils::fromEnv!/',
-                $exc->getMessage()
-            );
-        }
+    protected function getSut(): EnvUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(EnvUtils::class);
     }
 }

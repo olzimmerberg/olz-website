@@ -7,9 +7,9 @@ namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
@@ -19,13 +19,13 @@ use Olz\Utils\FixedDateUtils;
 final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
     public function testDeadlineWarningGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $date_utils = new FixedDateUtils('2020-08-15 19:30:00');
+        $date_utils = new DateUtils('2020-08-15 19:30:00');
         $user = FakeUser::defaultUser();
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification(['days' => 2]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -44,12 +44,12 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
 
     public function testDeadlineWarningGetterNone(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $date_utils = new FixedDateUtils('2020-08-15 19:30:00');
+        $date_utils = new DateUtils('2020-08-15 19:30:00');
 
         $job = new DeadlineWarningGetter();
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification(['days' => 3]);
 
         $this->assertSame([

@@ -20,7 +20,7 @@ final class EmailReaktionTest extends SystemTestCase {
 
         $browser->get($this->getUrl());
         $this->screenshot('email_reaktion_no_token');
-        $email_utils = EmailUtils::fromEnv();
+        $email_utils = $this->getEmailUtils();
         $token = $email_utils->encryptEmailReactionToken([
             'action' => 'unsubscribe',
             'user' => 1,
@@ -37,5 +37,11 @@ final class EmailReaktionTest extends SystemTestCase {
 
     protected function getUrl(): string {
         return "{$this->getTargetUrl()}/email_reaktion";
+    }
+
+    protected function getEmailUtils(): EmailUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(EmailUtils::class);
     }
 }

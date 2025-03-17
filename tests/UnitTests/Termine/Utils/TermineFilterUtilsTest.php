@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Termine\Utils;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\FixedDateUtils;
+use Olz\Utils\DateUtils;
 
 /**
  * @internal
@@ -703,7 +703,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetUiDateRangeFilterOptionsInclArchive(): void {
-        $date_utils = new FixedDateUtils('2011-03-13 19:30:00');
+        $date_utils = new DateUtils('2011-03-13 19:30:00');
         $termine_utils = $this->getTermineFilterUtils();
         $termine_utils->setDateUtils($date_utils);
         $this->assertSame([
@@ -863,7 +863,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetDateRangeOptionsExclArchive(): void {
-        $date_utils = new FixedDateUtils('2006-01-13 19:30:00');
+        $date_utils = new DateUtils('2006-01-13 19:30:00');
         $termine_utils = $this->getTermineFilterUtils();
         $termine_utils->setDateUtils($date_utils);
         $this->assertSame([
@@ -882,7 +882,7 @@ final class TermineFilterUtilsTest extends UnitTestCase {
     }
 
     public function testGetDateRangeOptionsInclArchive(): void {
-        $date_utils = new FixedDateUtils('2020-03-13 19:00:00');
+        $date_utils = new DateUtils('2020-03-13 19:00:00');
         $termine_utils = $this->getTermineFilterUtils();
         $termine_utils->setDateUtils($date_utils);
         $this->assertSame([

@@ -17,24 +17,30 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 final class SymfonyUtilsIntegrationTest extends IntegrationTestCase {
     public function testSymfonyUtilsFromEnv(): void {
-        $symfony_utils = SymfonyUtils::fromEnv();
+        $utils = $this->getSut();
 
-        $this->assertSame(SymfonyUtils::class, get_class($symfony_utils));
+        $this->assertSame(SymfonyUtils::class, get_class($utils));
     }
 
     public function testSymfonyUtilsCallCommand(): void {
         global $kernel, $_SERVER;
         $kernel = new Kernel('dev', true);
 
-        $symfony_utils = new SymfonyUtils();
+        $utils = $this->getSut();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
-        $symfony_utils->callCommand('olz:test', $input, $output);
+        $utils->callCommand('olz:test', $input, $output);
 
         $this->assertMatchesRegularExpression(
             '/Data path\: .*\/IntegrationTests\/document-root\//',
             $output->fetch()
         );
+    }
+
+    protected function getSut(): SymfonyUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(SymfonyUtils::class);
     }
 }

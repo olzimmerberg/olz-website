@@ -8,12 +8,12 @@ use Olz\Entity\Users\User;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\AuthUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\DevDataUtils;
 use Olz\Utils\EmailUtils;
 use Olz\Utils\EntityUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\HttpUtils;
@@ -45,7 +45,7 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
                 return $value instanceof AuthUtils;
             },
             'dateUtils' => function ($value) {
-                return $value instanceof FixedDateUtils;
+                return $value instanceof DateUtils;
             },
             'dbUtils' => function ($value) {
                 return $value instanceof DbUtils;
@@ -118,7 +118,7 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
                 return $value instanceof UploadUtils;
             },
         ];
-        $instance = new WithUtilsTraitIntegrationClassWithUtilsTrait();
+        $instance = $this->getSut();
         $mailer = $this->createMock(MailerInterface::class);
         $instance->setMailer($mailer);
         $this->assertGreaterThan(0, count($all_utils));
@@ -130,5 +130,11 @@ final class WithUtilsTraitIntegrationTest extends IntegrationTestCase {
                 "Check for {$util_name} did not pass",
             );
         }
+    }
+
+    protected function getSut(): WithUtilsTraitIntegrationClassWithUtilsTrait {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(WithUtilsTraitIntegrationClassWithUtilsTrait::class);
     }
 }

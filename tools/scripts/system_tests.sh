@@ -71,6 +71,15 @@ else
 fi
 BROWSER_DRIVER_PID=$!
 
+# Configure env
+if [ ! -z DB_PORT ] && [ ! -f ./config/olz.test.php ]; then
+    cp ./config/olz.test.template.php ./config/olz.test.php
+    sed -i "s/3306/$DB_PORT/g" ./config/olz.test.php
+    echo "System test env configured."
+else
+    echo "System test env configuration preserved."
+fi
+
 if [ "$MODE" = "dev" ] || [ "$MODE" = "dev_rw" ]; then
     # Configure env
     if [ ! -z DB_PORT ] && [ ! -f ./config/olz.dev.php ]; then
@@ -108,7 +117,7 @@ sleep 3
 # Run test, allow aborting
 set +e
 EXIT_CODE=0
-APP_ENV=dev SYSTEM_TEST_MODE="$MODE" SYSTEM_TEST_SLICE="$SLICE" SYMFONY_DEPRECATIONS_HELPER='max[direct]=0' php ./bin/phpunit -c ./phpunit.xml.dist $REST ./tests/SystemTests
+APP_ENV=test SYSTEM_TEST_MODE="$MODE" SYSTEM_TEST_SLICE="$SLICE" SYMFONY_DEPRECATIONS_HELPER='max[direct]=0' php ./bin/phpunit -c ./phpunit.xml.dist $REST ./tests/SystemTests
 EXIT_CODE=$?
 
 # Display logs

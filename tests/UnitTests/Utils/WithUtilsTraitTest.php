@@ -14,9 +14,9 @@ use Olz\Tests\Fake\FakeSymfonyUtils;
 use Olz\Tests\Fake\FakeTelegramUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
+use Olz\Utils\DateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EmailUtils;
-use Olz\Utils\FixedDateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\HtmlUtils;
 use Olz\Utils\HttpUtils;
@@ -49,7 +49,7 @@ final class WithUtilsTraitTest extends UnitTestCase {
     public function testCanSetAndGetAllUtils(): void {
         $get_instance_by_util_name = [
             'authUtils' => function () { return new AuthUtils(); },
-            'dateUtils' => function () { return new FixedDateUtils('2020-03-13'); },
+            'dateUtils' => function () { return new DateUtils('2020-03-13'); },
             'dbUtils' => function () { return new DbUtils(); },
             'devDataUtils' => function () { return new FakeDevDataUtils(); },
             'emailUtils' => function () { return new EmailUtils(); },

@@ -6,8 +6,10 @@ namespace Olz\Tests\IntegrationTests\Common;
 
 use Olz\Tests\Fake\FakeLogHandler;
 use Olz\Utils\DevDataUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * @internal
@@ -28,6 +30,8 @@ class IntegrationTestCase extends KernelTestCase {
     protected float $setUpAt;
     protected FakeLogHandler $fakeLogHandler;
 
+    protected Container $container;
+
     protected function setUp(): void {
         global $kernel, $_SERVER, $entityManager;
         $this->previous_server = $_SERVER;
@@ -40,8 +44,9 @@ class IntegrationTestCase extends KernelTestCase {
         WithUtilsCache::reset();
 
         $kernel = self::bootKernel();
+        $this->container = static::getContainer();
         // @phpstan-ignore-next-line
-        $entityManager = $kernel->getContainer()->get('doctrine')->getManager();
+        $entityManager = $this->container->get('doctrine')->getManager();
 
         $logger = new \Monolog\Logger('Fake');
         $handler = new FakeLogHandler();
@@ -51,6 +56,7 @@ class IntegrationTestCase extends KernelTestCase {
 
         if ($this::$is_first_call) {
             $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils->setEnvUtils(new EnvUtils());
             $dev_data_utils->fullResetDb();
             $this::$is_first_call = false;
         }

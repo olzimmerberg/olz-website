@@ -24,9 +24,8 @@ class FakeIntegrationTestDbUtils extends DbUtils {
  */
 final class DbUtilsIntegrationTest extends IntegrationTestCase {
     public function testDbUtilsGetDb(): void {
-        $db_utils = FakeIntegrationTestDbUtils::fromEnv();
-
-        $db = $db_utils->getDb();
+        $utils = $this->getSut();
+        $db = $utils->getDb();
 
         $result = $db->query('SELECT username FROM users WHERE id=1');
         assert(!is_bool($result));
@@ -37,12 +36,17 @@ final class DbUtilsIntegrationTest extends IntegrationTestCase {
     }
 
     public function testDbUtilsGetEntityManager(): void {
-        $db_utils = FakeIntegrationTestDbUtils::fromEnv();
-
-        $entityManager = $db_utils->getEntityManager();
+        $utils = $this->getSut();
+        $entityManager = $utils->getEntityManager();
 
         $user_repo = $entityManager->getRepository(User::class);
         $user1 = $user_repo->findOneBy(['id' => 1]);
         $this->assertSame('admin', $user1?->getUsername());
+    }
+
+    protected function getSut(): FakeIntegrationTestDbUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(FakeIntegrationTestDbUtils::class);
     }
 }

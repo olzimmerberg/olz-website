@@ -6,6 +6,7 @@ namespace Olz\Tests\SystemTests;
 
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
+use Olz\Utils\EnvUtils;
 
 /**
  * @internal
@@ -26,7 +27,7 @@ final class VerifyEmailTest extends SystemTestCase {
         $this->click('#verify-user-email-modal #submit-button');
         $this->waitUntilGone('#verify-user-email-modal');
 
-        $data_path = $this->envUtils()->getDataPath();
+        $data_path = $this->getEnvUtils()->getDataPath();
         $last_email_file = "{$data_path}last_email.txt";
         $this->assertFileExists($last_email_file);
         $email_text = file_get_contents($last_email_file) ?: '';
@@ -55,5 +56,11 @@ final class VerifyEmailTest extends SystemTestCase {
 
     protected function getUrl(): string {
         return "{$this->getTargetUrl()}/benutzer/ich";
+    }
+
+    protected function getEnvUtils(): EnvUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(EnvUtils::class);
     }
 }

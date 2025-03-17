@@ -14,7 +14,13 @@ use Olz\Utils\TelegramUtils;
  */
 final class TelegramUtilsIntegrationTest extends IntegrationTestCase {
     public function testTelegramUtilsFromEnv(): void {
-        $telegram_utils = TelegramUtils::fromEnv();
-        $this->assertSame('olz_bot', $telegram_utils->getBotName());
+        $utils = $this->getSut();
+        $this->assertSame('olz_bot', $utils->getBotName());
+    }
+
+    protected function getSut(): TelegramUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(TelegramUtils::class);
     }
 }

@@ -7,9 +7,9 @@ namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
+use Olz\Utils\DateUtils;
 use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\FixedDateUtils;
 
 /**
  * @internal
@@ -19,13 +19,13 @@ use Olz\Utils\FixedDateUtils;
 final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testWeeklySummaryGetter(): void {
         $entityManager = DbUtils::fromEnv()->getEntityManager();
-        $date_utils = new FixedDateUtils('2020-01-06 16:00:00'); // a Monday
+        $date_utils = new DateUtils('2020-01-06 16:00:00'); // a Monday
         $user = FakeUser::defaultUser();
 
         $job = new WeeklySummaryGetter();
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
-        $job->setEnvUtils(EnvUtils::fromEnv());
+        $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification([
             'aktuell' => true,
             'blog' => true,

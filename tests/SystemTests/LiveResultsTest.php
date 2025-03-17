@@ -6,7 +6,7 @@ namespace Olz\Tests\SystemTests;
 
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
-use Olz\Utils\AbstractDateUtils;
+use Olz\Utils\DateUtils;
 
 /**
  * @internal
@@ -18,7 +18,7 @@ final class LiveResultsTest extends SystemTestCase {
     public function testLiveResultsScreenshots(): void {
         $browser = $this->getBrowser();
 
-        $date_utils = AbstractDateUtils::fromEnv();
+        $date_utils = $this->getDateUtils();
         $live_file_content = json_encode([
             'last_updated_at' => $date_utils->getIsoNow(),
             'file' => 'results.xml',
@@ -40,5 +40,11 @@ final class LiveResultsTest extends SystemTestCase {
 
     protected function getLiveFilePath(): string {
         return __DIR__.'/../../public/results/_live.json';
+    }
+
+    protected function getDateUtils(): DateUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(DateUtils::class);
     }
 }

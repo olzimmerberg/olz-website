@@ -14,62 +14,68 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  */
 final class NewsFilterUtilsIntegrationTest extends IntegrationTestCase {
     public function testFromEnv(): void {
-        $news_utils = NewsFilterUtils::fromEnv();
-        $this->assertFalse($news_utils->isValidFilter([
+        $utils = $this->getSut();
+        $this->assertFalse($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2015',
             'archiv' => 'ohne',
         ]));
-        $this->assertTrue($news_utils->isValidFilter([
+        $this->assertTrue($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2016',
             'archiv' => 'ohne',
         ]));
-        $this->assertTrue($news_utils->isValidFilter([
+        $this->assertTrue($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2017',
             'archiv' => 'ohne',
         ]));
-        $this->assertTrue($news_utils->isValidFilter([
+        $this->assertTrue($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2018',
             'archiv' => 'ohne',
         ]));
-        $this->assertTrue($news_utils->isValidFilter([
+        $this->assertTrue($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2019',
             'archiv' => 'ohne',
         ]));
-        $this->assertTrue($news_utils->isValidFilter([
+        $this->assertTrue($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2020',
             'archiv' => 'ohne',
         ]));
-        $this->assertFalse($news_utils->isValidFilter([
+        $this->assertFalse($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2021',
             'archiv' => 'ohne',
         ]));
 
-        $this->assertFalse($news_utils->isValidFilter([
+        $this->assertFalse($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2005',
             'archiv' => 'mit',
         ]));
-        $this->assertTrue($news_utils->isValidFilter([
+        $this->assertTrue($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2006',
             'archiv' => 'mit',
         ]));
-        $this->assertTrue($news_utils->isValidFilter([
+        $this->assertTrue($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2020',
             'archiv' => 'mit',
         ]));
-        $this->assertFalse($news_utils->isValidFilter([
+        $this->assertFalse($utils->isValidFilter([
             'format' => 'alle',
             'datum' => '2021',
             'archiv' => 'mit',
         ]));
+    }
+
+    protected function getSut(): NewsFilterUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(NewsFilterUtils::class);
     }
 }

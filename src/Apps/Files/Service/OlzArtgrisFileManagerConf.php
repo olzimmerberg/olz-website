@@ -4,7 +4,9 @@ namespace Olz\Apps\Files\Service;
 
 use Artgris\Bundle\FileManagerBundle\Service\CustomConfServiceInterface;
 use Olz\Utils\WithUtilsTrait;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
+#[Autoconfigure(public: true)]
 class OlzArtgrisFileManagerConf implements CustomConfServiceInterface {
     use WithUtilsTrait;
 

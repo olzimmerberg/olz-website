@@ -53,26 +53,24 @@ trait WithUtilsTrait {
     ];
 
     public function authUtils(): AuthUtils {
-        return $this->getOrCreate('authUtils');
+        $util = WithUtilsCache::get('authUtils');
+        assert($util);
+        return $util;
     }
 
-    public function createAuthUtils(): AuthUtils {
-        return AuthUtils::fromEnv();
-    }
-
+    #[Required]
     public function setAuthUtils(AuthUtils $authUtils): void {
         WithUtilsCache::set('authUtils', $authUtils);
     }
 
-    public function dateUtils(): AbstractDateUtils {
-        return $this->getOrCreate('dateUtils');
+    public function dateUtils(): DateUtils {
+        $util = WithUtilsCache::get('dateUtils');
+        assert($util);
+        return $util;
     }
 
-    public function createDateUtils(): AbstractDateUtils {
-        return AbstractDateUtils::fromEnv();
-    }
-
-    public function setDateUtils(AbstractDateUtils $dateUtils): void {
+    #[Required]
+    public function setDateUtils(DateUtils $dateUtils): void {
         WithUtilsCache::set('dateUtils', $dateUtils);
     }
 
@@ -139,13 +137,12 @@ trait WithUtilsTrait {
     }
 
     public function envUtils(): EnvUtils {
-        return $this->getOrCreate('envUtils');
+        $util = WithUtilsCache::get('envUtils');
+        assert($util);
+        return $util;
     }
 
-    public function createEnvUtils(): EnvUtils {
-        return EnvUtils::fromEnv();
-    }
-
+    #[Required]
     public function setEnvUtils(EnvUtils $envUtils): void {
         WithUtilsCache::set('envUtils', $envUtils);
     }

@@ -215,7 +215,7 @@ final class RoleReminderGetterTest extends UnitTestCase {
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
 
-            Du bist im [OLZ-Organigramm](http://fake-base-url/_/verein) unter dem Ressort [**Vorstand ()**](http://fake-base-url/_/verein/vorstand_role) eingetragen, bzw. für dieses Ressort zuständig.
+            Du bist im [OLZ-Organigramm](http://fake-base-url/_/verein) unter dem Ressort [**Vorstand**](http://fake-base-url/_/verein/vorstand_role) eingetragen, bzw. für dieses Ressort zuständig.
 
             **Vielen Dank, dass du mithilfst, unseren Verein am Laufen zu halten!**
 

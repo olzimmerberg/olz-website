@@ -44,7 +44,6 @@ class OlzRolePage extends OlzComponent {
 
         $role_id = $role->getId();
         $role_name = $role->getName();
-        $role_title = $role->getTitle() ?? $role->getName();
         $role_description = $role->getDescription();
         $parent_role_id = $role->getParentRoleId();
         $parent_role = $role_repo->findOneBy(['id' => $parent_role_id]);
@@ -64,7 +63,7 @@ class OlzRolePage extends OlzComponent {
 
         $out = OlzHeader::render([
             'back_link' => "{$code_href}verein",
-            'title' => $role_title,
+            'title' => $role_name,
             'description' => "{$role_short_description} - Ressort {$role_name} der OL Zimmerberg.",
             'norobots' => $no_robots,
             'canonical_url' => "{$code_href}verein/{$role_username}",
@@ -135,16 +134,11 @@ class OlzRolePage extends OlzComponent {
             }
         }
 
-        $page = $role->getPage();
-        if (strlen(trim($page)) > 0) {
-            $out .= $page;
-        } else {
-            $out .= "<h1>{$edit_admin}{$role_title}</h1>";
-            $description_html = $this->htmlUtils()->renderMarkdown($role->getDescription());
-            $description_html = $role->replaceImagePaths($description_html);
-            $description_html = $role->replaceFilePaths($description_html);
-            $out .= $description_html;
-        }
+        $out .= "<div>{$edit_admin}</div>";
+        $description_html = $this->htmlUtils()->renderMarkdown($role->getDescription());
+        $description_html = $role->replaceImagePaths($description_html);
+        $description_html = $role->replaceFilePaths($description_html);
+        $out .= $description_html;
 
         $assignees = $role->getUsers();
         $num_assignees = count($assignees);

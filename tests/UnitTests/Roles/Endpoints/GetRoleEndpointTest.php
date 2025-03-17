@@ -67,7 +67,6 @@ final class GetRoleEndpointTest extends UnitTestCase {
             'data' => [
                 'username' => '-',
                 'name' => '-',
-                'title' => null,
                 'description' => '',
                 'guide' => '',
                 'imageIds' => [],
@@ -112,7 +111,6 @@ final class GetRoleEndpointTest extends UnitTestCase {
             'data' => [
                 'username' => '-',
                 'name' => '-',
-                'title' => null,
                 'description' => '',
                 'guide' => '',
                 'imageIds' => [],
@@ -162,7 +160,6 @@ final class GetRoleEndpointTest extends UnitTestCase {
             'data' => [
                 'username' => 'test-role',
                 'name' => 'Test Role',
-                'title' => 'Title Test Role',
                 'description' => 'Description Test Role',
                 'guide' => 'Just do it!',
                 'imageIds' => ['picture________________A.jpg', 'picture________________B.jpg'],

@@ -29,7 +29,6 @@ final class CreateRoleEndpointTest extends UnitTestCase {
             'data' => [
                 'username' => 'test',
                 'name' => 'Test Role',
-                'title' => 'Title Test Role',
                 'description' => 'Description Test Role',
                 'guide' => 'Just do it!',
                 'imageIds' => ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
@@ -94,10 +93,8 @@ final class CreateRoleEndpointTest extends UnitTestCase {
         $this->assertSame('test', $entity->getUsername());
         $this->assertNull($entity->getOldUsername());
         $this->assertSame('Test Role', $entity->getName());
-        $this->assertSame('Title Test Role', $entity->getTitle());
         $this->assertSame('Description Test Role', $entity->getDescription());
         $this->assertSame('Just do it!', $entity->getGuide());
-        $this->assertSame('', $entity->getPage());
         $this->assertSame('', $entity->getPermissions());
         $this->assertSame(FakeRole::vorstandRole()->getId(), $entity->getParentRoleId());
         $this->assertSame(2, $entity->getIndexWithinParent());

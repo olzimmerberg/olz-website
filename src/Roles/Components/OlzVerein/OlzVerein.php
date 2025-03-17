@@ -28,12 +28,12 @@ class OlzVerein extends OlzComponent {
         ]);
 
         $db = $this->dbUtils()->getDb();
-        $result = $db->query("SELECT id, name, title FROM roles WHERE featured_index IS NOT NULL ORDER BY featured_index ASC");
+        $result = $db->query("SELECT id, name FROM roles WHERE featured_index IS NOT NULL ORDER BY featured_index ASC");
         $featured_out = '';
         // @phpstan-ignore-next-line
         while ($row = $result->fetch_assoc()) {
             $id = $row['id'];
-            $title = $row['title'] ?? $row['name'];
+            $title = $row['name'];
             $featured_out .= "<div><b><a href='javascript:olz.highlightOrganigramm(&quot;role-{$id}&quot;)' class='linkint'>{$title}</a></b></div>";
         }
         $out .= "<div class='content-full'><div id='organigramm'>";

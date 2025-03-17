@@ -500,4 +500,10 @@ class EnvUtils {
         $injected_path = dirname(__DIR__, 2).'/config/olz.php';
         return $injected_path;
     }
+
+    public static function fromEnv(): self {
+        $instance = new self();
+        $instance->lazyInit();
+        return $instance;
+    }
 }

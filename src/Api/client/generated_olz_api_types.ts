@@ -34,7 +34,7 @@ export type IsoDateTime = string;
 
 export type OlzAuthorInfoData = {'roleName'?: (string | null), 'roleUsername'?: (string | null), 'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: ({[key: string]: string} | null)};
 
-export type OlzRoleData = {'username': string, 'name': string, 'title'?: (string | null), 'description': string, 'guide': string, 'imageIds': Array<string>, 'fileIds': Array<string>, 'parentRole'?: (number | null), 'indexWithinParent'?: (number | null), 'featuredIndex'?: (number | null), 'canHaveChildRoles': boolean};
+export type OlzRoleData = {'username': string, 'name': string, 'description': string, 'guide': string, 'imageIds': Array<string>, 'fileIds': Array<string>, 'parentRole'?: (number | null), 'indexWithinParent'?: (number | null), 'featuredIndex'?: (number | null), 'canHaveChildRoles': boolean};
 
 export type OlzRoleId = number;
 

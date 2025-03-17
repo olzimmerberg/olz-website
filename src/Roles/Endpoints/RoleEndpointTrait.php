@@ -11,7 +11,6 @@ use PhpTypeScriptApi\HttpError;
  * @phpstan-type OlzRoleData array{
  *   username: non-empty-string,
  *   name: non-empty-string,
- *   title?: ?non-empty-string,
  *   description: string,
  *   guide: string,
  *   imageIds: array<non-empty-string>,
@@ -30,7 +29,6 @@ trait RoleEndpointTrait {
         return [
             'username' => $entity->getUsername() ? $entity->getUsername() : '-',
             'name' => $entity->getName() ? $entity->getName() : '-',
-            'title' => $entity->getTitle() ? $entity->getTitle() : null,
             'description' => $entity->getDescription(),
             'guide' => $entity->getGuide(),
             'imageIds' => $entity->getStoredImageUploadIds(),
@@ -55,7 +53,6 @@ trait RoleEndpointTrait {
     public function updateEntityWithNonParentData(Role $entity, array $input_data): void {
         $entity->setUsername($input_data['username']);
         $entity->setName($input_data['name']);
-        $entity->setTitle($input_data['title'] ?? null);
         $entity->setDescription($input_data['description']);
         $entity->setGuide($input_data['guide']);
     }

@@ -47,7 +47,6 @@ final class VereinTest extends SystemTestCase {
         $this->sendKeys('#edit-role-modal #username-input', 'kassier');
         $this->clear('#edit-role-modal #name-input');
         $this->sendKeys('#edit-role-modal #name-input', 'Kassier');
-        $this->sendKeys('#edit-role-modal #title-input', 'Kassier (Finanzen)');
         $this->sendKeys('#edit-role-modal #description-input', 'Für die Abrechnung zuständig.');
         $this->sendKeys('#edit-role-modal #guide-input', 'Buchhaltung halt.');
 

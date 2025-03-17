@@ -15,7 +15,6 @@ import './OlzEditRoleModal.scss';
 interface OlzEditRoleForm {
     username: string,
     name: string,
-    title: string,
     description: string,
     guide: string,
     imageIds: string[],
@@ -39,7 +38,6 @@ function getFormFromApi(apiData?: Partial<OlzRoleData>): OlzEditRoleForm {
     return {
         username: getFormString(apiData?.username),
         name: getFormString(apiData?.name),
-        title: getFormString(apiData?.title),
         description: getFormString(apiData?.description),
         guide: getFormString(apiData?.guide),
         imageIds: apiData?.imageIds ?? [],
@@ -55,7 +53,6 @@ function getApiFromForm(formData: OlzEditRoleForm): OlzRoleData {
     return {
         username: getApiString(formData.username) ?? '',
         name: getApiString(formData.name) ?? '',
-        title: getApiString(formData.title),
         description: getApiString(formData.description) ?? '',
         guide: getApiString(formData.guide) ?? '',
         imageIds: formData.imageIds,
@@ -146,14 +143,6 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                 <OlzTextField
                     title='Name (kurz; fürs Organigramm)'
                     name='name'
-                    errors={errors}
-                    register={register}
-                />
-            </div>
-            <div className='mb-3'>
-                <OlzTextField
-                    title='Titel (voller Name)'
-                    name='title'
                     errors={errors}
                     register={register}
                 />

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20241117162027
+-- MIGRATION: DoctrineMigrations\Version20250317225100
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -520,14 +520,12 @@ CREATE TABLE `roles` (
   `old_username` longtext DEFAULT NULL,
   `name` longtext NOT NULL,
   `description` longtext NOT NULL COMMENT 'public',
-  `page` longtext NOT NULL,
   `parent_role` int(11) DEFAULT NULL,
   `index_within_parent` int(11) DEFAULT NULL COMMENT 'negative value: hide role',
   `featured_index` int(11) DEFAULT NULL,
   `can_have_child_roles` tinyint(1) NOT NULL DEFAULT 0,
   `guide` longtext NOT NULL COMMENT 'restricted access',
   `permissions` longtext NOT NULL,
-  `title` longtext DEFAULT NULL COMMENT 'page title for SEO',
   `owner_user_id` int(11) DEFAULT NULL,
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,

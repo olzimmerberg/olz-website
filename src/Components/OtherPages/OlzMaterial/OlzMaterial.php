@@ -108,6 +108,7 @@ class OlzMaterial extends OlzComponent {
 
         $entityManager = $this->dbUtils()->getEntityManager();
         $role_repo = $entityManager->getRepository(Role::class);
+        $kleider_username = PredefinedRole::Kleider->value;
         $sportident_role = $role_repo->getPredefinedRole(PredefinedRole::SportIdent);
 
         $sportident_assignees = $sportident_role?->getUsers() ?? [];
@@ -152,7 +153,7 @@ class OlzMaterial extends OlzComponent {
             <div>(Grössere Gruppen, Preis auf Anfrage)</div>
 
             <h2>Kleider</h2>
-            <a href='/pdf/2022_olz_kleider.pdf' class='linkpdf'>Kleiderangebot</a>
+            <a href='{$code_href}verein/{$kleider_username}' class='linkint'>Ressort Kleider</a>
             ZZZZZZZZZZ;
 
         $out .= "</div>

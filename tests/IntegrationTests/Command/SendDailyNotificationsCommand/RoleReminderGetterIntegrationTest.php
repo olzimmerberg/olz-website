@@ -51,7 +51,7 @@ final class RoleReminderGetterIntegrationTest extends IntegrationTestCase {
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
 
-            Du bist im [OLZ-Organigramm](http://integration-test.host/verein) unter dem Ressort [**Kontaktperson Nachwuchs ()**](http://integration-test.host/verein/nachwuchs-kontakt) eingetragen, bzw. für dieses Ressort zuständig.
+            Du bist im [OLZ-Organigramm](http://integration-test.host/verein) unter dem Ressort [**Kontaktperson Nachwuchs**](http://integration-test.host/verein/nachwuchs-kontakt) eingetragen, bzw. für dieses Ressort zuständig.
 
             **Vielen Dank, dass du mithilfst, unseren Verein am Laufen zu halten!**
 

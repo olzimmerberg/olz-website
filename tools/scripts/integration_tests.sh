@@ -6,18 +6,18 @@ set -e
 if [ ! -z DB_PORT ] && [ ! -f ./config/olz.test.php ]; then
     cp ./config/olz.test.template.php ./config/olz.test.php
     sed -i "s/'3306'/'$DB_PORT'/g" ./config/olz.test.php
-    echo "Integration test server env configured."
+    echo "Integration test env configured."
 else
-    echo "Integration test server env configuration preserved."
+    echo "Integration test env configuration preserved."
 fi
 
 # Configure symfony
 if [ ! -z DB_PORT ] && [ ! -f .env.test.local ]; then
     cp .env.test.local.template .env.test.local
     sed -i "s/:3306/:$DB_PORT/g" .env.test.local
-    echo "Integration test server symfony configured."
+    echo "Integration test symfony configured."
 else
-    echo "Integration test server symfony configuration preserved."
+    echo "Integration test symfony configuration preserved."
 fi
 
 # Configure dev server symfony

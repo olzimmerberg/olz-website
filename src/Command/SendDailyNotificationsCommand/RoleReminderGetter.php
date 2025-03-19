@@ -107,7 +107,7 @@ class RoleReminderGetter implements NotificationGetterInterface {
         if (!$role) {
             return null;
         }
-        $role_name = "{$role->getName()} ({$role->getTitle()})";
+        $role_name = "{$role->getName()}";
         $num_assignees = $role->getUsers()->count();
         $num_others = $num_assignees - 1;
         $num_assignees_note = $num_assignees > 1 ? " (zusammen mit {$num_others} Anderen)" : '';

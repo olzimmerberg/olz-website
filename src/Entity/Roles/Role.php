@@ -33,9 +33,6 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
     #[ORM\Column(type: 'text', nullable: false)]
     public string $name;
 
-    #[ORM\Column(type: 'text', nullable: true, options: ['comment' => 'page title for SEO'])]
-    public ?string $title;
-
     #[ORM\Column(type: 'text', nullable: false, options: ['comment' => 'public'])]
     public string $description;
 
@@ -44,9 +41,6 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
 
     #[ORM\Column(type: 'text', nullable: false, options: ['comment' => 'restricted access'])]
     public string $guide;
-
-    #[ORM\Column(type: 'text', nullable: false)]
-    public string $page;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     public ?int $parent_role;
@@ -101,14 +95,6 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
         $this->name = $new_name;
     }
 
-    public function getTitle(): ?string {
-        return $this->title;
-    }
-
-    public function setTitle(?string $new_value): void {
-        $this->title = $new_value;
-    }
-
     public function getDescription(): string {
         return $this->description;
     }
@@ -123,14 +109,6 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
 
     public function setGuide(string $new_value): void {
         $this->guide = $new_value;
-    }
-
-    public function getPage(): string {
-        return $this->page;
-    }
-
-    public function setPage(string $new_value): void {
-        $this->page = $new_value;
     }
 
     public function getPermissions(): string {

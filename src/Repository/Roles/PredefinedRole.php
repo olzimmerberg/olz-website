@@ -10,4 +10,5 @@ enum PredefinedRole: string {
     case Nachwuchs = 'nachwuchs-kontakt';
     case Sysadmin = 'website';
     case SportIdent = 'sportident';
+    case Kleider = 'kleider';
 }

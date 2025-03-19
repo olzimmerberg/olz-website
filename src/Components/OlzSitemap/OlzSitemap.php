@@ -259,7 +259,7 @@ abstract class OlzSitemap extends OlzComponent {
         $role_repo = $entityManager->getRepository(Role::class);
         $verein_ressorts = $role_repo->getAllActive();
         foreach ($verein_ressorts as $verein_ressort) {
-            $title = $verein_ressort->getTitle() ?? $verein_ressort->getName();
+            $title = $verein_ressort->getName();
             $description = "{$verein_ressort->getDescription()}"; // TODO: SEO description
             $entries[] = [
                 'title' => $title,

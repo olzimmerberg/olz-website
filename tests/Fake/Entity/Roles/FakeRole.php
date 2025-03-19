@@ -23,7 +23,6 @@ class FakeRole extends FakeEntity {
                 $entity->setUsername('');
                 $entity->setOldUsername(null);
                 $entity->setName('');
-                $entity->setTitle(null);
                 $entity->setDescription('');
                 $entity->setGuide('');
                 $entity->setParentRoleId(null);
@@ -45,7 +44,6 @@ class FakeRole extends FakeEntity {
                 $entity->setUsername('');
                 $entity->setOldUsername('');
                 $entity->setName('');
-                $entity->setTitle('');
                 $entity->setDescription('');
                 $entity->setGuide('');
                 $entity->setParentRoleId(null);
@@ -67,7 +65,6 @@ class FakeRole extends FakeEntity {
                 $entity->setUsername('test-role');
                 $entity->setOldUsername('old-test-role');
                 $entity->setName('Test Role');
-                $entity->setTitle('Title Test Role');
                 $entity->setDescription('Description Test Role');
                 $entity->setGuide('Just do it!');
                 $entity->setParentRoleId(3);
@@ -93,7 +90,6 @@ class FakeRole extends FakeEntity {
                 $entity->setId(2);
                 $entity->setUsername('admin_role');
                 $entity->setName('Administrator');
-                $entity->setTitle(null);
                 $entity->setPermissions('all');
                 $entity->setParentRoleId(null);
                 return $entity;
@@ -113,7 +109,6 @@ class FakeRole extends FakeEntity {
                 $entity->setId(3);
                 $entity->setUsername('vorstand_role');
                 $entity->setName('Vorstand');
-                $entity->setTitle(null);
                 $entity->setDescription("Description {$entity->getName()}");
                 $entity->setGuide("Guide {$entity->getName()}");
                 $entity->setPermissions('aktuell ftp vorstand_role');
@@ -138,7 +133,6 @@ class FakeRole extends FakeEntity {
                 $entity->setId(intval(str_repeat('3', $degree + 1)));
                 $entity->setUsername(str_repeat('sub_', $degree).'vorstand_role');
                 $entity->setName(str_repeat('Sub-', $degree).'Vorstand');
-                $entity->setTitle(null);
                 $entity->setDescription("Description {$entity->getName()}");
                 $entity->setGuide("Guide {$entity->getName()}");
                 $entity->setPermissions(str_repeat('sub_', $degree).'vorstand_role ftp');
@@ -160,7 +154,6 @@ class FakeRole extends FakeEntity {
                 $entity->setId(1);
                 $entity->setUsername('role');
                 $entity->setName('Default');
-                $entity->setTitle(null);
                 $entity->setPermissions('');
                 $entity->setParentRoleId(null);
                 return $entity;

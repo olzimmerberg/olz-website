@@ -4,7 +4,6 @@ namespace Olz\Repository;
 
 use Olz\Entity\SolvEvent;
 use Olz\Repository\Common\OlzRepository;
-use Olz\Utils\DbUtils;
 
 /**
  * @extends OlzRepository<SolvEvent>
@@ -28,7 +27,7 @@ class SolvEventRepository extends OlzRepository {
     }
 
     public function setResultForSolvEvent(int $solv_uid, string $rank_link): mixed {
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
 
         $sane_solv_uid = intval($solv_uid);
         $sane_rank_link = $db->escape_string($rank_link);

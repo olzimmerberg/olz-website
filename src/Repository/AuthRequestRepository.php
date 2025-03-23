@@ -4,7 +4,6 @@ namespace Olz\Repository;
 
 use Olz\Entity\AuthRequest;
 use Olz\Repository\Common\OlzRepository;
-use Olz\Utils\DbUtils;
 
 /**
  * @extends OlzRepository<AuthRequest>
@@ -34,7 +33,7 @@ class AuthRequestRepository extends OlzRepository {
     }
 
     public function numRemainingAttempts(string $ip_address, ?\DateTime $timestamp = null): int {
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
 
         $tries_reset_interval = \DateInterval::createFromDateString(self::TRIES_RESET_INTERVAL);
         if ($timestamp === null) {
@@ -66,7 +65,7 @@ class AuthRequestRepository extends OlzRepository {
     }
 
     public function canValidateAccessToken(string $ip_address, ?\DateTime $timestamp = null): bool {
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
 
         $tries_reset_interval = \DateInterval::createFromDateString(self::TRIES_RESET_INTERVAL);
         if ($timestamp === null) {

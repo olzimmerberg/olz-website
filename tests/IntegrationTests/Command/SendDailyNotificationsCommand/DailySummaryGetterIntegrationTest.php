@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SendDailyNotificationsCommand\DailySummaryGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
-use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
 /**
@@ -18,7 +18,7 @@ use Olz\Utils\EnvUtils;
  */
 final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testDailySummaryGetterDay1(): void {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->getEntityManager();
         $date_utils = new DateUtils('2020-01-01 12:51:00');
         $user = FakeUser::defaultUser();
 
@@ -63,7 +63,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     }
 
     public function testDailySummaryGetterDay2(): void {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->getEntityManager();
         $date_utils = new DateUtils('2020-01-02 12:51:00');
         $user = FakeUser::defaultUser();
 
@@ -103,7 +103,7 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
     }
 
     public function testDailySummaryGetterDay3(): void {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->getEntityManager();
         $date_utils = new DateUtils('2020-01-03 12:51:00');
 
         $job = new DailySummaryGetter();
@@ -121,5 +121,11 @@ final class DailySummaryGetterIntegrationTest extends IntegrationTestCase {
         $this->assertSame([
         ], $this->getLogs());
         $this->assertNull($notification);
+    }
+
+    protected function getEntityManager(): EntityManagerInterface {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(EntityManagerInterface::class);
     }
 }

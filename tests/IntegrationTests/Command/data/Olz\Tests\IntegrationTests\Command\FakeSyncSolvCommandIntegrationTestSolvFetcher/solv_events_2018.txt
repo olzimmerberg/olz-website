@@ -1,4 +1,0 @@
-unique_id;date;duration;kind;day_night;national;region;type;event_name;event_link;club;map;location;coord_x;coord_y;deadline;entryportal;last_modification
-9661;2018-05-23;1;foot;day;0;ZH/SH;;Zürcher sCOOL-Cup;http://www.scool.ch/files/cups2018/sCOOL_Cup_ZH_2018_Ausschreibung.pdf;KZS / OL Zimmerberg / OLVZ;Halbinsel Au;Wädenswil;;;;0;2018-02-28 19:30:42
-8895;2018-05-27;1;foot;day;0;ZH/SH;*25;11. Zimmerberg-OL und Sprint-Staffel;http://olzimmerberg.ch/index.php?page=11;OL Zimmerberg;Stadt Wädenswil;Wädenswil;693400;231525;;2;2018-05-23 23:22:25
-9519;2018-08-29;1;foot;day;0;ZH/SH;144;5. Milchsuppe-Abend-OL;http://www.olzimmerberg.ch;OL Zimmerberg;Horgen Waldegg;;688375;233750;;0;2018-07-03 00:16:18

@@ -4,42 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Command\Common;
 
-use Olz\Command\Common\OlzCommand;
-use Olz\Kernel;
+use Olz\Command\TestCommand;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\OutputInterface;
-
-/**
- * @internal
- *
- * @coversNothing
- */
-class OlzCommandForIntegrationTest extends OlzCommand {
-    /** @return array<string> */
-    protected function getAllowedAppEnvs(): array {
-        return ['test'];
-    }
-
-    protected function handle(InputInterface $input, OutputInterface $output): int {
-        throw new \Exception('not implemented');
-    }
-
-    public function testOnlyCallCommand(
-        string $command_name,
-        InputInterface $input,
-        OutputInterface $output,
-    ): void {
-        $this->symfonyUtils()->callCommand($command_name, $input, $output);
-    }
-
-    public function getApplication(): Application {
-        return new Application(new Kernel('dev', true));
-    }
-}
 
 /**
  * @internal
@@ -48,11 +16,11 @@ class OlzCommandForIntegrationTest extends OlzCommand {
  */
 final class OlzCommandIntegrationTest extends IntegrationTestCase {
     public function testOlzCommandCallCommand(): void {
-        $command = new OlzCommandForIntegrationTest();
+        $command = $this->getSut();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
-        $command->testOnlyCallCommand('olz:test', $input, $output);
+        $command->run($input, $output);
 
         $this->assertSame(
             'INFO Running command Olz\Command\TestCommand...',
@@ -71,5 +39,11 @@ final class OlzCommandIntegrationTest extends IntegrationTestCase {
             '/Data path\: .*\/IntegrationTests\/document-root\//',
             $output_string
         );
+    }
+
+    protected function getSut(): TestCommand {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(TestCommand::class);
     }
 }

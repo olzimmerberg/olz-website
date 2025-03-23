@@ -83,9 +83,9 @@ class IntegrationTestCase extends KernelTestCase {
                     return $a['duration'] < $b['duration'] ? 1 : -1;
                 });
                 for ($i = 0; $i < self::$numSlowestTests; $i++) {
-                    $test = self::$slowestTests[$i];
-                    $name = $test['name'];
-                    $duration = number_format($test['duration'], 2);
+                    $test = self::$slowestTests[$i] ?? [];
+                    $name = $test['name'] ?? '-';
+                    $duration = number_format($test['duration'] ?? 0, 2);
                     echo "{$name}: {$duration}s\n";
                 }
             });

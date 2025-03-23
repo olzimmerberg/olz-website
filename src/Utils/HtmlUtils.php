@@ -19,11 +19,6 @@ class HtmlUtils {
     public string $olz_email_regex = '';
     public string $email_regex = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,64})';
 
-    public function __construct() {
-        $esc_host = preg_quote($this->envUtils()->getEmailForwardingHost());
-        $this->olz_email_regex = '([A-Z0-9a-z._%+-]+)@'.$esc_host;
-    }
-
     /** @param array<string, mixed> $override_config */
     public function renderMarkdown(string $markdown, array $override_config = []): string {
         $default_config = [
@@ -50,6 +45,8 @@ class HtmlUtils {
     public function replaceEmailAdresses(string $html): string {
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $host = $this->envUtils()->getEmailForwardingHost();
+        $esc_host = preg_quote($host);
+        $this->olz_email_regex = '([A-Z0-9a-z._%+-]+)@'.$esc_host;
 
         $html = str_replace(['<p>', '<p ', '</p>'], ['<div>', '<div ', '</div>'], $html);
 

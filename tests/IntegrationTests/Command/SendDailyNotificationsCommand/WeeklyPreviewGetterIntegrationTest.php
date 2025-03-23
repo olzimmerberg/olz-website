@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SendDailyNotificationsCommand\WeeklyPreviewGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
-use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
 /**
@@ -18,7 +18,7 @@ use Olz\Utils\EnvUtils;
  */
 final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testWeeklyPreviewGetter(): void {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->getEntityManager();
         $date_utils = new DateUtils('2020-08-13 16:00:00'); // a Thursday
         $user = FakeUser::defaultUser();
 
@@ -51,5 +51,11 @@ final class WeeklyPreviewGetterIntegrationTest extends IntegrationTestCase {
         ], $this->getLogs());
         $this->assertSame('Vorschau auf die Woche vom 17. August', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
+    }
+
+    protected function getEntityManager(): EntityManagerInterface {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(EntityManagerInterface::class);
     }
 }

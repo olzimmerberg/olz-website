@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SendDailyNotificationsCommand\WeeklySummaryGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
-use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
 /**
@@ -18,7 +18,7 @@ use Olz\Utils\EnvUtils;
  */
 final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
     public function testWeeklySummaryGetter(): void {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->getEntityManager();
         $date_utils = new DateUtils('2020-01-06 16:00:00'); // a Monday
         $user = FakeUser::defaultUser();
 
@@ -74,5 +74,11 @@ final class WeeklySummaryGetterIntegrationTest extends IntegrationTestCase {
         ], $this->getLogs());
         $this->assertSame('Wochenzusammenfassung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
+    }
+
+    protected function getEntityManager(): EntityManagerInterface {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(EntityManagerInterface::class);
     }
 }

@@ -4,7 +4,6 @@ namespace Olz\Repository;
 
 use Olz\Entity\SolvResult;
 use Olz\Repository\Common\OlzRepository;
-use Olz\Utils\DbUtils;
 
 /**
  * @extends OlzRepository<SolvResult>
@@ -35,7 +34,7 @@ class SolvResultRepository extends OlzRepository {
     }
 
     public function getExactPersonId(SolvResult $solv_result): int {
-        $db = DbUtils::fromEnv()->getDb();
+        $db = $this->dbUtils()->getDb();
 
         $sane_name = $db->real_escape_string($solv_result->getName());
         $sane_birth_year = $db->real_escape_string($solv_result->getBirthYear());

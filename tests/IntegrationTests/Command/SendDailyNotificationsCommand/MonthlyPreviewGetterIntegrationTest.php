@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SendDailyNotificationsCommand\MonthlyPreviewGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
-use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
 /**
@@ -18,7 +18,7 @@ use Olz\Utils\EnvUtils;
  */
 final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
     public function testMonthlyPreviewGetter(): void {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->getEntityManager();
         $date_utils = new DateUtils('2020-07-18 16:00:00'); // the second last Saturday of the month
         $user = FakeUser::defaultUser();
 
@@ -57,5 +57,11 @@ final class MonthlyPreviewGetterIntegrationTest extends IntegrationTestCase {
         ], $this->getLogs());
         $this->assertSame('Monatsvorschau August', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
+    }
+
+    protected function getEntityManager(): EntityManagerInterface {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(EntityManagerInterface::class);
     }
 }

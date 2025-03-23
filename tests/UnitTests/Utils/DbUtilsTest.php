@@ -26,7 +26,6 @@ class TestOnlyDbUtils extends DbUtils {
 final class DbUtilsTest extends UnitTestCase {
     public function testDbUtilsGetDb(): void {
         // There's not much to test in unit tests without an actual DB...
-        $this->assertEquals(new DbUtils(), DbUtils::fromEnv());
 
         $db_utils = new TestOnlyDbUtils();
 

@@ -55,7 +55,7 @@ class IntegrationTestCase extends KernelTestCase {
         WithUtilsCache::set('log', $logger);
 
         if ($this::$is_first_call) {
-            $dev_data_utils = DevDataUtils::fromEnv();
+            $dev_data_utils = $this->getDevDataUtils();
             $dev_data_utils->setEnvUtils(new EnvUtils());
             $dev_data_utils->fullResetDb();
             $this::$is_first_call = false;
@@ -115,7 +115,7 @@ class IntegrationTestCase extends KernelTestCase {
     }
 
     protected function resetDbContent(): void {
-        $dev_data_utils = DevDataUtils::fromEnv();
+        $dev_data_utils = $this->getDevDataUtils();
         $dev_data_utils->resetDbContent();
     }
 
@@ -126,5 +126,11 @@ class IntegrationTestCase extends KernelTestCase {
 
     protected function resetLogs(): void {
         $this->fakeLogHandler->resetRecords();
+    }
+
+    protected function getDevDataUtils(): DevDataUtils {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(DevDataUtils::class);
     }
 }

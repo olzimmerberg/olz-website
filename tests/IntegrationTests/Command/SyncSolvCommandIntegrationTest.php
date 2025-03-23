@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SyncSolvCommand;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\SolvPerson;
@@ -11,7 +12,6 @@ use Olz\Entity\SolvResult;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Tests\Fake\FakeSolvFetcher;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\DbUtils;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -72,8 +72,7 @@ final class SyncSolvCommandIntegrationTest extends IntegrationTestCase {
 
             $this->assertSame(Command::SUCCESS, $result);
 
-            $db_utils = DbUtils::fromEnv();
-            $entity_manager = $db_utils->getEntityManager();
+            $entity_manager = $this->getEntityManager();
             $solv_event_repo = $entity_manager->getRepository(SolvEvent::class);
             $all_events = $solv_event_repo->findAll();
             $solv_person_repo = $entity_manager->getRepository(SolvPerson::class);
@@ -347,5 +346,11 @@ final class SyncSolvCommandIntegrationTest extends IntegrationTestCase {
         self::bootKernel();
         // @phpstan-ignore-next-line
         return self::getContainer()->get(SyncSolvCommand::class);
+    }
+
+    protected function getEntityManager(): EntityManagerInterface {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(EntityManagerInterface::class);
     }
 }

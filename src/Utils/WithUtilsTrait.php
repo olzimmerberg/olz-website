@@ -75,25 +75,23 @@ trait WithUtilsTrait {
     }
 
     public function dbUtils(): DbUtils {
-        return $this->getOrCreate('dbUtils');
+        $util = WithUtilsCache::get('dbUtils');
+        assert($util);
+        return $util;
     }
 
-    public function createDbUtils(): DbUtils {
-        return DbUtils::fromEnv();
-    }
-
+    #[Required]
     public function setDbUtils(DbUtils $dbUtils): void {
         WithUtilsCache::set('dbUtils', $dbUtils);
     }
 
     public function devDataUtils(): DevDataUtils {
-        return $this->getOrCreate('devDataUtils');
+        $util = WithUtilsCache::get('devDataUtils');
+        assert($util);
+        return $util;
     }
 
-    public function createDevDataUtils(): DevDataUtils {
-        return DevDataUtils::fromEnv();
-    }
-
+    #[Required]
     public function setDevDataUtils(DevDataUtils $devDataUtils): void {
         WithUtilsCache::set('devDataUtils', $devDataUtils);
     }
@@ -117,7 +115,7 @@ trait WithUtilsTrait {
     }
 
     public function createEntityManager(): EntityManagerInterface {
-        return DbUtils::fromEnv()->getEntityManager();
+        return $this->dbUtils()->getEntityManager();
     }
 
     public function setEntityManager(EntityManagerInterface $entityManager): void {

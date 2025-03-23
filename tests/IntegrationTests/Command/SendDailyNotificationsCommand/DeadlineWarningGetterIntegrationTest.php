@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Command\SendDailyNotificationsCommand;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SendDailyNotificationsCommand\DeadlineWarningGetter;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
-use Olz\Utils\DbUtils;
 use Olz\Utils\EnvUtils;
 
 /**
@@ -18,7 +18,7 @@ use Olz\Utils\EnvUtils;
  */
 final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
     public function testDeadlineWarningGetter(): void {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->getEntityManager();
         $date_utils = new DateUtils('2020-08-15 19:30:00');
         $user = FakeUser::defaultUser();
 
@@ -43,7 +43,7 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
     }
 
     public function testDeadlineWarningGetterNone(): void {
-        $entityManager = DbUtils::fromEnv()->getEntityManager();
+        $entityManager = $this->getEntityManager();
         $date_utils = new DateUtils('2020-08-15 19:30:00');
 
         $job = new DeadlineWarningGetter();
@@ -55,5 +55,11 @@ final class DeadlineWarningGetterIntegrationTest extends IntegrationTestCase {
         $this->assertSame([
         ], $this->getLogs());
         $this->assertNull($notification);
+    }
+
+    protected function getEntityManager(): EntityManagerInterface {
+        self::bootKernel();
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(EntityManagerInterface::class);
     }
 }

@@ -97,39 +97,34 @@ trait WithUtilsTrait {
     }
 
     public function emailUtils(): EmailUtils {
-        return $this->getOrCreate('emailUtils');
+        $util = WithUtilsCache::get('emailUtils');
+        assert($util);
+        return $util;
     }
 
-    public function createEmailUtils(): EmailUtils {
-        $emailUtils = EmailUtils::fromEnv();
-        $emailUtils->setMailer($this->mailer);
-        return $emailUtils;
-    }
-
+    #[Required]
     public function setEmailUtils(EmailUtils $emailUtils): void {
         WithUtilsCache::set('emailUtils', $emailUtils);
     }
 
     public function entityManager(): EntityManagerInterface {
-        return $this->getOrCreate('entityManager');
+        $util = WithUtilsCache::get('entityManager');
+        assert($util);
+        return $util;
     }
 
-    public function createEntityManager(): EntityManagerInterface {
-        return $this->dbUtils()->getEntityManager();
-    }
-
+    #[Required]
     public function setEntityManager(EntityManagerInterface $entityManager): void {
         WithUtilsCache::set('entityManager', $entityManager);
     }
 
     public function entityUtils(): EntityUtils {
-        return $this->getOrCreate('entityUtils');
+        $util = WithUtilsCache::get('entityUtils');
+        assert($util);
+        return $util;
     }
 
-    public function createEntityUtils(): EntityUtils {
-        return EntityUtils::fromEnv();
-    }
-
+    #[Required]
     public function setEntityUtils(EntityUtils $entityUtils): void {
         WithUtilsCache::set('entityUtils', $entityUtils);
     }
@@ -146,16 +141,162 @@ trait WithUtilsTrait {
     }
 
     public function generalUtils(): GeneralUtils {
-        return $this->getOrCreate('generalUtils');
+        $util = WithUtilsCache::get('generalUtils');
+        assert($util);
+        return $util;
     }
 
-    public function createGeneralUtils(): GeneralUtils {
-        return GeneralUtils::fromEnv();
-    }
-
+    #[Required]
     public function setGeneralUtils(GeneralUtils $generalUtils): void {
         WithUtilsCache::set('generalUtils', $generalUtils);
     }
+
+    public function htmlUtils(): HtmlUtils {
+        $util = WithUtilsCache::get('htmlUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setHtmlUtils(HtmlUtils $htmlUtils): void {
+        WithUtilsCache::set('htmlUtils', $htmlUtils);
+    }
+
+    public function httpUtils(): HttpUtils {
+        $util = WithUtilsCache::get('httpUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setHttpUtils(HttpUtils $httpUtils): void {
+        WithUtilsCache::set('httpUtils', $httpUtils);
+    }
+
+    public function idUtils(): IdUtils {
+        $util = WithUtilsCache::get('idUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setIdUtils(IdUtils $idUtils): void {
+        WithUtilsCache::set('idUtils', $idUtils);
+    }
+
+    public function imageUtils(): ImageUtils {
+        $util = WithUtilsCache::get('imageUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setImageUtils(ImageUtils $imageUtils): void {
+        WithUtilsCache::set('imageUtils', $imageUtils);
+    }
+
+    public function mapUtils(): MapUtils {
+        $util = WithUtilsCache::get('mapUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setMapUtils(MapUtils $mapUtils): void {
+        WithUtilsCache::set('mapUtils', $mapUtils);
+    }
+
+    public function recaptchaUtils(): RecaptchaUtils {
+        $util = WithUtilsCache::get('recaptchaUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setRecaptchaUtils(RecaptchaUtils $recaptchaUtils): void {
+        WithUtilsCache::set('recaptchaUtils', $recaptchaUtils);
+    }
+
+    public function session(): AbstractSession {
+        return $this->getOrCreate('session');
+    }
+
+    public function createSession(): AbstractSession {
+        return new StandardSession();
+    }
+
+    public function setSession(AbstractSession $session): void {
+        WithUtilsCache::set('session', $session);
+    }
+
+    public function solvFetcher(): SolvFetcher {
+        $util = WithUtilsCache::get('solvFetcher');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setSolvFetcher(SolvFetcher $solvFetcher): void {
+        WithUtilsCache::set('solvFetcher', $solvFetcher);
+    }
+
+    public function stravaUtils(): StravaUtils {
+        $util = WithUtilsCache::get('stravaUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setStravaUtils(StravaUtils $stravaUtils): void {
+        WithUtilsCache::set('stravaUtils', $stravaUtils);
+    }
+
+    public function symfonyUtils(): SymfonyUtils {
+        $util = WithUtilsCache::get('symfonyUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setSymfonyUtils(SymfonyUtils $symfonyUtils): void {
+        WithUtilsCache::set('symfonyUtils', $symfonyUtils);
+    }
+
+    public function telegramUtils(): TelegramUtils {
+        $util = WithUtilsCache::get('telegramUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setTelegramUtils(TelegramUtils $telegramUtils): void {
+        WithUtilsCache::set('telegramUtils', $telegramUtils);
+    }
+
+    public function termineUtils(): TermineUtils {
+        $util = WithUtilsCache::get('termineUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setTermineUtils(TermineUtils $termineUtils): void {
+        WithUtilsCache::set('termineUtils', $termineUtils);
+    }
+
+    public function uploadUtils(): UploadUtils {
+        $util = WithUtilsCache::get('uploadUtils');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setUploadUtils(UploadUtils $uploadUtils): void {
+        WithUtilsCache::set('uploadUtils', $uploadUtils);
+    }
+
+    // Legacy implementation
+    // TODO: Migrate away!
 
     /**
      * @return array<string, string>
@@ -179,54 +320,6 @@ trait WithUtilsTrait {
         WithUtilsCache::set('getParams', $getParams);
     }
 
-    public function htmlUtils(): HtmlUtils {
-        return $this->getOrCreate('htmlUtils');
-    }
-
-    public function createHtmlUtils(): HtmlUtils {
-        return HtmlUtils::fromEnv();
-    }
-
-    public function setHtmlUtils(HtmlUtils $htmlUtils): void {
-        WithUtilsCache::set('htmlUtils', $htmlUtils);
-    }
-
-    public function httpUtils(): HttpUtils {
-        return $this->getOrCreate('httpUtils');
-    }
-
-    public function createHttpUtils(): HttpUtils {
-        return HttpUtils::fromEnv();
-    }
-
-    public function setHttpUtils(HttpUtils $httpUtils): void {
-        WithUtilsCache::set('httpUtils', $httpUtils);
-    }
-
-    public function idUtils(): IdUtils {
-        return $this->getOrCreate('idUtils');
-    }
-
-    public function createIdUtils(): IdUtils {
-        return IdUtils::fromEnv();
-    }
-
-    public function setIdUtils(IdUtils $idUtils): void {
-        WithUtilsCache::set('idUtils', $idUtils);
-    }
-
-    public function imageUtils(): ImageUtils {
-        return $this->getOrCreate('imageUtils');
-    }
-
-    public function createImageUtils(): ImageUtils {
-        return ImageUtils::fromEnv();
-    }
-
-    public function setImageUtils(ImageUtils $imageUtils): void {
-        WithUtilsCache::set('imageUtils', $imageUtils);
-    }
-
     public function log(): Logger {
         return $this->getOrCreate('log');
     }
@@ -239,30 +332,6 @@ trait WithUtilsTrait {
     public function setLog(Logger $log): void {
         $this->setLogger($log);
         WithUtilsCache::set('log', $log);
-    }
-
-    public function mapUtils(): MapUtils {
-        return $this->getOrCreate('mapUtils');
-    }
-
-    public function createMapUtils(): MapUtils {
-        return MapUtils::fromEnv();
-    }
-
-    public function setMapUtils(MapUtils $mapUtils): void {
-        WithUtilsCache::set('mapUtils', $mapUtils);
-    }
-
-    public function recaptchaUtils(): RecaptchaUtils {
-        return $this->getOrCreate('recaptchaUtils');
-    }
-
-    public function createRecaptchaUtils(): RecaptchaUtils {
-        return RecaptchaUtils::fromEnv();
-    }
-
-    public function setRecaptchaUtils(RecaptchaUtils $recaptchaUtils): void {
-        WithUtilsCache::set('recaptchaUtils', $recaptchaUtils);
     }
 
     /**
@@ -287,89 +356,7 @@ trait WithUtilsTrait {
         WithUtilsCache::set('server', $server);
     }
 
-    public function session(): AbstractSession {
-        return $this->getOrCreate('session');
-    }
-
-    public function createSession(): AbstractSession {
-        return new StandardSession();
-    }
-
-    public function setSession(AbstractSession $session): void {
-        WithUtilsCache::set('session', $session);
-    }
-
-    public function solvFetcher(): SolvFetcher {
-        return $this->getOrCreate('solvFetcher');
-    }
-
-    public function createSolvFetcher(): SolvFetcher {
-        return new SolvFetcher();
-    }
-
-    public function setSolvFetcher(SolvFetcher $solvFetcher): void {
-        WithUtilsCache::set('solvFetcher', $solvFetcher);
-    }
-
-    public function stravaUtils(): StravaUtils {
-        return $this->getOrCreate('stravaUtils');
-    }
-
-    public function createStravaUtils(): StravaUtils {
-        return StravaUtils::fromEnv();
-    }
-
-    public function setStravaUtils(StravaUtils $stravaUtils): void {
-        WithUtilsCache::set('stravaUtils', $stravaUtils);
-    }
-
-    public function symfonyUtils(): SymfonyUtils {
-        return $this->getOrCreate('symfonyUtils');
-    }
-
-    public function createSymfonyUtils(): SymfonyUtils {
-        return SymfonyUtils::fromEnv();
-    }
-
-    public function setSymfonyUtils(SymfonyUtils $symfonyUtils): void {
-        WithUtilsCache::set('symfonyUtils', $symfonyUtils);
-    }
-
-    public function telegramUtils(): TelegramUtils {
-        return $this->getOrCreate('telegramUtils');
-    }
-
-    public function createTelegramUtils(): TelegramUtils {
-        return TelegramUtils::fromEnv();
-    }
-
-    public function setTelegramUtils(TelegramUtils $telegramUtils): void {
-        WithUtilsCache::set('telegramUtils', $telegramUtils);
-    }
-
-    public function termineUtils(): TermineUtils {
-        return $this->getOrCreate('termineUtils');
-    }
-
-    public function createTermineUtils(): TermineUtils {
-        return TermineUtils::fromEnv();
-    }
-
-    public function setTermineUtils(TermineUtils $termineUtils): void {
-        WithUtilsCache::set('termineUtils', $termineUtils);
-    }
-
-    public function uploadUtils(): UploadUtils {
-        return $this->getOrCreate('uploadUtils');
-    }
-
-    public function createUploadUtils(): UploadUtils {
-        return UploadUtils::fromEnv();
-    }
-
-    public function setUploadUtils(UploadUtils $uploadUtils): void {
-        WithUtilsCache::set('uploadUtils', $uploadUtils);
-    }
+    // ---
 
     /**
      * @return array<string, mixed>

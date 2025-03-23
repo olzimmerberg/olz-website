@@ -81,7 +81,7 @@ class SyncSolvResultsCommand extends OlzCommand {
     ): void {
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
         foreach ($result_id_by_uid as $solv_uid => $event_result) {
-            if (!$known_result_index[$solv_uid] && $event_result['result_list_id']) {
+            if (!($known_result_index[$solv_uid] ?? null) && $event_result['result_list_id']) {
                 $this->logAndOutput("Event with SOLV ID {$solv_uid} has new results.");
                 $html = $this->solvFetcher()->fetchEventResultsHtml($event_result['result_list_id']);
                 $this->generalUtils()->checkNotNull($html, "No event result HTML");

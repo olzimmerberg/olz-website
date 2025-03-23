@@ -20,6 +20,7 @@ use Olz\Tests\Fake\FakeLogHandler;
 use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\Fake\FakeSymfonyUtils;
 use Olz\Tests\Fake\FakeTelegramUtils;
+use Olz\Tests\Fake\FakeTermineUtils;
 use Olz\Tests\Fake\FakeUploadUtils;
 use Olz\Utils\DateUtils;
 use Olz\Utils\GeneralUtils;
@@ -89,6 +90,7 @@ class UnitTestCase extends TestCase {
             'recaptchaUtils' => new FakeRecaptchaUtils(),
             'symfonyUtils' => new FakeSymfonyUtils(),
             'telegramUtils' => new FakeTelegramUtils(),
+            'termineUtils' => new FakeTermineUtils(),
             'uploadUtils' => new FakeUploadUtils(),
         ]);
 

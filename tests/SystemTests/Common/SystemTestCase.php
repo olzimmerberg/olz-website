@@ -9,6 +9,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
+use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -37,6 +38,11 @@ class SystemTestCase extends KernelTestCase {
     protected static bool $shutdownFunctionRegistered = false;
 
     protected bool $isSkipped = false;
+
+    protected function generalUtils(): GeneralUtils {
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(GeneralUtils::class);
+    }
 
     protected function getBrowser(): RemoteWebDriver {
         if ($this::$browser !== null) {
@@ -222,6 +228,7 @@ class SystemTestCase extends KernelTestCase {
 
     protected function setUp(): void {
         parent::setUp();
+        self::bootKernel();
         $test_class_name = get_called_class();
         $test_name = "{$test_class_name}::{$this->getName()}";
         $slice_index = SystemTestCase::$slice_by_test[$test_name] ?? null;

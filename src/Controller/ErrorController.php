@@ -17,6 +17,7 @@ class ErrorController extends AbstractController {
         OlzErrorPage $olzErrorPage,
         string $code,
     ): Response {
+        $logger->info('Intentional error', ['code' => $code]);
         $out = $olzErrorPage->getHtml(['http_status_code' => intval($code)]);
         return new Response($out);
     }

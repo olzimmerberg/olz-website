@@ -14,8 +14,6 @@ use Webklex\PHPIMAP\Query\WhereQuery;
 use Webklex\PHPIMAP\Support\MessageCollection;
 
 class FakeEmailUtils extends EmailUtils {
-    use \Psr\Log\LoggerAwareTrait;
-
     /** @var array<array{user: User}> */
     public array $email_verification_emails_sent = [];
     public ?\Exception $send_email_verification_email_error = null;

@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\SendTestEmailCommand;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * @internal
@@ -15,8 +14,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 final class SendTestEmailCommandTest extends UnitTestCase {
     public function testDummy(): void {
-        $message_bus = $this->createMock(MessageBusInterface::class);
-        $command = new SendTestEmailCommand($message_bus);
+        $command = new SendTestEmailCommand();
         $this->assertSame(SendTestEmailCommand::class, get_class($command));
     }
 }

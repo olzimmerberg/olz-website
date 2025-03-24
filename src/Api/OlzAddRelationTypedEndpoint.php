@@ -18,5 +18,4 @@ namespace Olz\Api;
  * >
  */
 abstract class OlzAddRelationTypedEndpoint extends OlzTypedEndpoint {
-    use \Psr\Log\LoggerAwareTrait;
 }

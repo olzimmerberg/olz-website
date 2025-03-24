@@ -5,20 +5,15 @@ namespace Olz\Command;
 use Olz\Command\Common\OlzCommand;
 use Olz\Entity\Throttling;
 use Olz\Message\TestMessage;
+use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsCommand(name: 'olz:test')]
 class TestCommand extends OlzCommand {
-    protected MessageBusInterface $messageBus;
-
-    public function __construct(MessageBusInterface $bus) {
-        parent::__construct();
-        $this->messageBus = $bus;
-    }
+    use WithUtilsTrait;
 
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
@@ -49,6 +44,7 @@ class TestCommand extends OlzCommand {
             {$pretty_throttlings}
             ZZZZZZZZZZ;
         $output->writeln($info);
+        $this->logger?->info($info);
         $this->log()->info($info);
 
         $this->messageBus->dispatch(new TestMessage());

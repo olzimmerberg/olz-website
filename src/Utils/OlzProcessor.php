@@ -2,9 +2,11 @@
 
 namespace Olz\Utils;
 
+use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
 
+#[AsMonologProcessor]
 class OlzProcessor implements ProcessorInterface {
     use WithUtilsTrait;
 

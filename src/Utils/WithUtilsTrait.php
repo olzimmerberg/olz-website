@@ -6,22 +6,37 @@ use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Logger;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Termine\Utils\TermineUtils;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
 trait WithUtilsTrait {
-    // --- OLZ dependency injection ---
-
-    use \Psr\Log\LoggerAwareTrait;
+    use LoggerAwareTrait;
 
     // --- Symfony dependency injection ---
 
-    protected ?MailerInterface $mailer = null;
+    #[Required]
+    public function setLogger(LoggerInterface $logger): void {
+        $this->logger = $logger;
+    }
+
+    protected MailerInterface $mailer;
 
     #[Required]
-    public function setMailer(?MailerInterface $mailer): void {
+    public function setMailer(MailerInterface $mailer): void {
         $this->mailer = $mailer;
     }
+
+    protected MessageBusInterface $messageBus;
+
+    #[Required]
+    public function setMessageBus(MessageBusInterface $messageBus): void {
+        $this->messageBus = $messageBus;
+    }
+
+    // --- OLZ dependency injection ---
 
     /**
      * @var array<string>

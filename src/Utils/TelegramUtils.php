@@ -13,7 +13,6 @@ use Olz\Fetchers\TelegramFetcher;
 
 class TelegramUtils {
     use WithUtilsTrait;
-    use \Psr\Log\LoggerAwareTrait;
 
     protected TelegramFetcher $telegramFetcher;
 

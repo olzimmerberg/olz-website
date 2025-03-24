@@ -18,5 +18,4 @@ namespace Olz\Api;
  * >
  */
 abstract class OlzRemoveRelationTypedEndpoint extends OlzTypedEndpoint {
-    use \Psr\Log\LoggerAwareTrait;
 }

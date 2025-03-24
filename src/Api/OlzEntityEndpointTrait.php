@@ -12,8 +12,6 @@ use Olz\Entity\Common\DataStorageInterface;
  * }
  */
 trait OlzEntityEndpointTrait {
-    use \Psr\Log\LoggerAwareTrait;
-
     /** @param ?array<string> $image_ids */
     protected function persistOlzImages(DataStorageInterface $entity, ?array $image_ids): void {
         $data_path = $this->envUtils()->getDataPath();

@@ -183,7 +183,6 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
     public static function getCriteriaForQuery(string $query): Expression {
         return Criteria::expr()->orX(
             Criteria::expr()->contains('name', $query),
-            Criteria::expr()->contains('title', $query),
             Criteria::expr()->contains('username', $query),
         );
     }

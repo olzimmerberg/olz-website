@@ -5,9 +5,14 @@ monolog:
 when@dev:
     monolog:
         handlers:
-            main:
-                type: stream
-                path: "%kernel.logs_dir%/%kernel.environment%.log"
+            # main:
+            #     type: stream
+            #     path: "%kernel.logs_dir%/%kernel.environment%.log"
+            #     level: debug
+            #     channels: ["!event"]
+            olz:
+                type: rotating_file
+                path: '%kernel.logs_dir%/merged.log'
                 level: debug
                 channels: ["!event"]
             # uncomment to get logging in your browser
@@ -52,9 +57,10 @@ when@prod:
                 level: debug
                 formatter: monolog.formatter.json
             olz:
-                type:  rotating_file
-                path:  '%kernel.logs_dir%/%kernel.environment%.log'
+                type: rotating_file
+                path: '%kernel.logs_dir%/merged.log'
                 level: debug
+                channels: ["!event"]
             console:
                 type: console
                 process_psr_3_messages: false

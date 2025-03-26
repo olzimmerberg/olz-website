@@ -19,7 +19,7 @@ final class MessageQueueTest extends SystemTestCase {
         $this->assertStringNotContainsString('    test_message: 2020-08-15 16:51:00', $result);
         try {
             // This will fail with HTTP 500, but still consume the test message
-            $result = $this->runCommand('messenger:consume', '--time-limit=1');
+            $result = $this->runCommand('messenger:consume', 'async --time-limit=1');
         } catch (\Throwable $th) {
             // ignore
         }

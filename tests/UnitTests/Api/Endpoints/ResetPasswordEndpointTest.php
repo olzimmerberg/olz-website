@@ -102,6 +102,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
             "INFO Valid user request",
+            'DEBUG Sending email to "Admin Istrator" <admin-user@staging.olzimmerberg.ch> ()',
             "INFO Password reset email sent to user (2).",
             "INFO Valid user response",
         ], $this->getLogs());
@@ -172,6 +173,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             ZZZZZZZZZZ;
         $this->assertSame([
             "INFO Valid user request",
+            'DEBUG Sending email to "Vorstand Mitglied" <vorstand-user@staging.olzimmerberg.ch> ()',
             "CRITICAL Error sending password reset email to user (3): mocked-error",
             "INFO Valid user response",
         ], $this->getLogs());

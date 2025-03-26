@@ -42,6 +42,19 @@ when@test:
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
 
+when@staging:
+    monolog:
+        handlers:
+            olz:
+                type: rotating_file
+                path: '%kernel.logs_dir%/merged.log'
+                level: debug
+                channels: ["!event"]
+            console:
+                type: console
+                process_psr_3_messages: false
+                channels: ["!event", "!doctrine", "!console"]
+
 when@prod:
     monolog:
         handlers:

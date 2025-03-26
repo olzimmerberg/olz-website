@@ -10,6 +10,7 @@ use League\CommonMark\MarkdownConverter;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\Users\User;
 use Olz\Fetchers\TelegramFetcher;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class TelegramUtils {
     use WithUtilsTrait;
@@ -25,6 +26,7 @@ class TelegramUtils {
         return $instance;
     }
 
+    #[Required]
     public function setTelegramFetcher(TelegramFetcher $telegramFetcher): void {
         $this->telegramFetcher = $telegramFetcher;
     }

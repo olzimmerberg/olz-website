@@ -3,6 +3,7 @@
 namespace Olz\Utils;
 
 use Olz\Fetchers\GoogleFetcher;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class RecaptchaUtils {
     use WithUtilsTrait;
@@ -19,6 +20,7 @@ class RecaptchaUtils {
         return $instance;
     }
 
+    #[Required]
     public function setGoogleFetcher(GoogleFetcher $google_fetcher): void {
         $this->googleFetcher = $google_fetcher;
     }

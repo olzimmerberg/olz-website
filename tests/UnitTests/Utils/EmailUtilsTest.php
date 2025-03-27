@@ -63,6 +63,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $email_utils->sendEmailVerificationEmail($user);
 
         $this->assertSame([
+            'DEBUG Sending email to "Default User" <default-user@staging.olzimmerberg.ch> ()',
             "INFO Email verification email sent to user (1).",
         ], $this->getLogs());
         $expected_email = <<<'ZZZZZZZZZZ'
@@ -117,6 +118,7 @@ final class EmailUtilsTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame([
+                'DEBUG Sending email to "Default User" <default-user@staging.olzimmerberg.ch> ()',
                 "CRITICAL Error sending email verification email to user (1): mocked-error",
             ], $this->getLogs());
             $this->assertSame(

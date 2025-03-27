@@ -112,6 +112,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
+            'DEBUG Sending email to "Anonymous" <anonymous@staging.olzimmerberg.ch> ()',
             "INFO Forumseintrag email sent to anonymous@staging.olzimmerberg.ch.",
             "INFO Valid user response",
         ], $this->getLogs());

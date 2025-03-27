@@ -219,6 +219,9 @@ class EmailUtils {
                 "{$this->getComparableEnvelope($envelope)}\n\n{$this->getComparableEmail($email)}"
             );
         }
+        $to = $this->arr2str($email->getTo());
+        $recipients = $this->arr2str($envelope?->getRecipients() ?? []);
+        $this->log()->debug("Sending email to {$to} ({$recipients})");
         $this->mailer->send($email, $envelope);
     }
 

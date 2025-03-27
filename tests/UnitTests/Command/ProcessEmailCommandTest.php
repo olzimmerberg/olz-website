@@ -290,6 +290,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
             'INFO E-Mail 12 to inexistent user/role username: no-such-username',
+            'DEBUG Sending email to "From Name" <from@from-domain.com> ()',
             'INFO Report E-Mail sent to from@from-domain.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -350,6 +351,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
             'NOTICE E-Mail 12 to user with no user_email permission: no-permission',
+            'DEBUG Sending email to "From Name" <from@from-domain.com> ()',
             'INFO Report E-Mail sent to from@from-domain.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -419,6 +421,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'DEBUG Sending email to  (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -535,6 +538,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'DEBUG Sending email to  (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -649,7 +653,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'DEBUG Sending email to "From Name" <from@from-domain.com> ()',
             'INFO Redirect E-Mail sent to from@from-domain.com: someone-old@staging.olzimmerberg.ch -> someone@staging.olzimmerberg.ch',
+            'DEBUG Sending email to  (someone-old@gmail.com)',
             'INFO Email forwarded from someone-old@staging.olzimmerberg.ch to someone-old@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -738,6 +744,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
             'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
+            'DEBUG Sending email to "From Name" <from@from-domain.com> ()',
             'INFO Report E-Mail sent to from@from-domain.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -806,7 +813,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'DEBUG Sending email to  (admin-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
+            'DEBUG Sending email to  (vorstand-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -901,8 +910,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'DEBUG Sending email to "From Name" <from@from-domain.com> ()',
             'INFO Redirect E-Mail sent to from@from-domain.com: somerole-old@staging.olzimmerberg.ch -> somerole@staging.olzimmerberg.ch',
+            'DEBUG Sending email to  (admin-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
+            'DEBUG Sending email to  (vorstand-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -1008,6 +1020,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'DEBUG Sending email to  (someone@gmail.com)',
             'CRITICAL Error forwarding email from someone@staging.olzimmerberg.ch to someone@gmail.com: mocked-error',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -1063,8 +1076,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'DEBUG Sending email to someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
+            'DEBUG Sending email to someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch (admin-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
+            'DEBUG Sending email to someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch (vorstand-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -1180,8 +1196,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'DEBUG Sending email to  (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
+            'DEBUG Sending email to  (admin-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
+            'DEBUG Sending email to  (vorstand-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -1308,8 +1327,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'DEBUG Sending email to  (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
+            'DEBUG Sending email to  (admin-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
+            'DEBUG Sending email to  (vorstand-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -1431,6 +1453,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'INFO Saving attachment Attachment1.pdf to AAAAAAAAAAAAAAAAAAAAAAAA.pdf...',
             'INFO Saving attachment Attachment2.docx to AAAAAAAAAAAAAAAAAAAAAAAA.docx...',
+            'DEBUG Sending email to  (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());

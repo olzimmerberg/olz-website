@@ -211,18 +211,22 @@ class ProcessEmailCommand extends OlzCommand {
 
     protected function deleteOldArchivedMails(): void {
         $this->log()->info("Removing old archived E-Mails...");
-        $archived_mails_query = $this->getMailsQuery($this->archive_mailbox);
-        $archived_mails_query->chunked(function (MessageCollection $archived_mails, int $chunk) {
-            $this->deleteMailsOlderThan($archived_mails, $this->deleteArchivedAfterSeconds);
-        }, $chunk_size = 100);
+        $this->getMailsQuery($this->archive_mailbox)->all()->chunked(
+            function (MessageCollection $archived_mails, int $chunk) {
+                $this->deleteMailsOlderThan($archived_mails, $this->deleteArchivedAfterSeconds);
+            },
+            $chunk_size = 100
+        );
     }
 
     protected function deleteOldSpamMails(): void {
         $this->log()->info("Removing old spam E-Mails...");
-        $spam_mails_query = $this->getMailsQuery($this->spam_mailbox);
-        $spam_mails_query->chunked(function (MessageCollection $spam_mails, int $chunk) {
-            $this->deleteMailsOlderThan($spam_mails, $this->deleteSpamAfterSeconds);
-        }, $chunk_size = 100);
+        $this->getMailsQuery($this->spam_mailbox)->all()->chunked(
+            function (MessageCollection $spam_mails, int $chunk) {
+                $this->deleteMailsOlderThan($spam_mails, $this->deleteSpamAfterSeconds);
+            },
+            $chunk_size = 100,
+        );
     }
 
     protected function deleteMailsOlderThan(MessageCollection $mails, int $seconds): void {

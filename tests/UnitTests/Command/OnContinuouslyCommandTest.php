@@ -30,12 +30,22 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
+            'DEBUG Running continuously...',
+            'DEBUG Continuously processing email...',
+            'DEBUG Stopping workers...',
+            'DEBUG Consume messages...',
+            'DEBUG Ran continuously.',
             "INFO Successfully ran command Olz\\Command\\OnContinuouslyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\OnContinuouslyCommand...
-            INFO: Successfully ran command Olz\Command\OnContinuouslyCommand.
+            Running command Olz\Command\OnContinuouslyCommand...
+            Running continuously...
+            Continuously processing email...
+            Stopping workers...
+            Consume messages...
+            Ran continuously.
+            Successfully ran command Olz\Command\OnContinuouslyCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -60,12 +70,24 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
+            'DEBUG Running continuously...',
+            'DEBUG Continuously processing email...',
+            'DEBUG Sending daily mail at 2020-03-13 19:30:00...',
+            'DEBUG Stopping workers...',
+            'DEBUG Consume messages...',
+            'DEBUG Ran continuously.',
             "INFO Successfully ran command Olz\\Command\\OnContinuouslyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\OnContinuouslyCommand...
-            INFO: Successfully ran command Olz\Command\OnContinuouslyCommand.
+            Running command Olz\Command\OnContinuouslyCommand...
+            Running continuously...
+            Continuously processing email...
+            Sending daily mail at 2020-03-13 19:30:00...
+            Stopping workers...
+            Consume messages...
+            Ran continuously.
+            Successfully ran command Olz\Command\OnContinuouslyCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -91,12 +113,24 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
+            'DEBUG Running continuously...',
+            'DEBUG Continuously processing email...',
+            'DEBUG Sending daily mail at 2020-03-13 19:30:00...',
+            'DEBUG Stopping workers...',
+            'DEBUG Consume messages...',
+            'DEBUG Ran continuously.',
             "INFO Successfully ran command Olz\\Command\\OnContinuouslyCommand.",
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\OnContinuouslyCommand...
-            INFO: Successfully ran command Olz\Command\OnContinuouslyCommand.
+            Running command Olz\Command\OnContinuouslyCommand...
+            Running continuously...
+            Continuously processing email...
+            Sending daily mail at 2020-03-13 19:30:00...
+            Stopping workers...
+            Consume messages...
+            Ran continuously.
+            Successfully ran command Olz\Command\OnContinuouslyCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([

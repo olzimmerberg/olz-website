@@ -3,7 +3,6 @@
 namespace Olz\Utils;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Monolog\Logger;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Termine\Utils\TermineUtils;
 use Psr\Log\LoggerAwareTrait;
@@ -16,11 +15,6 @@ trait WithUtilsTrait {
     use LoggerAwareTrait;
 
     // --- Symfony dependency injection ---
-
-    #[Required]
-    public function setLogger(LoggerInterface $logger): void {
-        $this->logger = $logger;
-    }
 
     protected MailerInterface $mailer;
 
@@ -210,6 +204,18 @@ trait WithUtilsTrait {
         WithUtilsCache::set('imageUtils', $imageUtils);
     }
 
+    public function log(): LoggerInterface {
+        $util = WithUtilsCache::get('log');
+        assert($util);
+        return $util;
+    }
+
+    #[Required]
+    public function setLog(LoggerInterface $log): void {
+        $this->logger = $log;
+        WithUtilsCache::set('log', $log);
+    }
+
     public function mapUtils(): MapUtils {
         $util = WithUtilsCache::get('mapUtils');
         assert($util);
@@ -333,20 +339,6 @@ trait WithUtilsTrait {
      */
     public function setGetParams(array $getParams): void {
         WithUtilsCache::set('getParams', $getParams);
-    }
-
-    public function log(): Logger {
-        return $this->getOrCreate('log');
-    }
-
-    public function createLog(): Logger {
-        $logs_utils = LogsUtils::fromEnv();
-        return $logs_utils->getLogger('');
-    }
-
-    public function setLog(Logger $log): void {
-        $this->setLogger($log);
-        WithUtilsCache::set('log', $log);
     }
 
     /**

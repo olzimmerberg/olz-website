@@ -12,7 +12,7 @@ $termine_filter_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
 $filter = json_decode($_GET['filter'] ?? '{}', true);
 $filter_param = '';
 if ($termine_filter_utils->isValidFilter($filter)) {
-    $enc_json_filter = urlencode(json_encode($filter));
+    $enc_json_filter = urlencode(json_encode($filter) ?: '{}');
     $filter_param = "?filter={$enc_json_filter}";
 }
 

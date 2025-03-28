@@ -42,7 +42,6 @@ final class OlzCommandIntegrationTest extends IntegrationTestCase {
     }
 
     protected function getSut(): TestCommand {
-        self::bootKernel();
         // @phpstan-ignore-next-line
         return self::getContainer()->get(TestCommand::class);
     }

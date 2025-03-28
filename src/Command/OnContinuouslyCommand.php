@@ -21,9 +21,11 @@ class OnContinuouslyCommand extends OlzCommand {
         set_time_limit(4000);
         ignore_user_abort(true);
 
+        $this->logAndOutput("Running continuously...", level: 'debug');
         $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
         $throttling_repo->recordOccurrenceOf('on_continuously', $this->dateUtils()->getIsoNow());
 
+        $this->logAndOutput("Continuously processing email...", level: 'debug');
         $this->symfonyUtils()->callCommand(
             'olz:process-email',
             new ArrayInput([]),
@@ -31,6 +33,7 @@ class OnContinuouslyCommand extends OlzCommand {
         );
 
         if ($this->shouldSendDailyMailNow()) {
+            $this->logAndOutput("Sending daily mail at {$this->dateUtils()->getIsoNow()}...", level: 'debug');
             $throttling_repo->recordOccurrenceOf('daily_notifications', $this->dateUtils()->getIsoNow());
 
             $this->symfonyUtils()->callCommand(
@@ -40,11 +43,13 @@ class OnContinuouslyCommand extends OlzCommand {
             );
         }
 
+        $this->logAndOutput("Stopping workers...", level: 'debug');
         $this->symfonyUtils()->callCommand(
             'messenger:stop-workers',
             new ArrayInput([]),
             $output,
         );
+        $this->logAndOutput("Consume messages...", level: 'debug');
         $this->symfonyUtils()->callCommand(
             'messenger:consume',
             new ArrayInput([
@@ -54,6 +59,7 @@ class OnContinuouslyCommand extends OlzCommand {
             $output,
         );
 
+        $this->logAndOutput("Ran continuously.", level: 'debug');
         return Command::SUCCESS;
     }
 

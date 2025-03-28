@@ -30,9 +30,9 @@ final class DbResetCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\DbResetCommand...
+            Running command Olz\Command\DbResetCommand...
             Database content reset successful.
-            INFO: Successfully ran command Olz\Command\DbResetCommand.
+            Successfully ran command Olz\Command\DbResetCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -53,9 +53,9 @@ final class DbResetCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\DbResetCommand...
+            Running command Olz\Command\DbResetCommand...
             Database structure reset successful.
-            INFO: Successfully ran command Olz\Command\DbResetCommand.
+            Successfully ran command Olz\Command\DbResetCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -76,9 +76,9 @@ final class DbResetCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\DbResetCommand...
+            Running command Olz\Command\DbResetCommand...
             Database full reset successful.
-            INFO: Successfully ran command Olz\Command\DbResetCommand.
+            Successfully ran command Olz\Command\DbResetCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
@@ -99,9 +99,9 @@ final class DbResetCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\DbResetCommand...
+            Running command Olz\Command\DbResetCommand...
             Invalid mode: invalid.
-            NOTICE: Command Olz\Command\DbResetCommand called with invalid arguments.
+            Command Olz\Command\DbResetCommand called with invalid arguments.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([], WithUtilsCache::get('devDataUtils')->commands_called);

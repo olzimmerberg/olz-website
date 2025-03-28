@@ -8,6 +8,7 @@ use Olz\Api\OlzApi;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use PhpTypeScriptApi\Endpoint;
 use PhpTypeScriptApi\TypedEndpoint;
+use Psr\Log\NullLogger;
 
 /**
  * @internal
@@ -17,15 +18,21 @@ use PhpTypeScriptApi\TypedEndpoint;
  */
 final class OlzApiIntegrationTest extends IntegrationTestCase {
     public function testCanSetupEachEndpoint(): void {
-        $olz_api = OlzApi::getShallowInstance();
+        $olz_api = $this->getSut();
 
         foreach ($olz_api->getEndpointNames() as $endpoint_name) {
             $endpoint = $olz_api->getEndpointByName($endpoint_name);
+            $endpoint?->setLogger(new NullLogger());
             $endpoint?->setup();
             $this->assertTrue(
                 $endpoint instanceof Endpoint
                 || $endpoint instanceof TypedEndpoint
             );
         }
+    }
+
+    protected function getSut(): OlzApi {
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(OlzApi::class);
     }
 }

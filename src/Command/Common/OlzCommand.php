@@ -2,7 +2,6 @@
 
 namespace Olz\Command\Common;
 
-use Olz\Utils\LogsUtils;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,9 +20,6 @@ abstract class OlzCommand extends Command {
     protected function execute(InputInterface $input, OutputInterface $output): int {
         $this->output = $output;
 
-        $this->log()->pushHandler(new OlzCommandOutputLogHandler($output));
-
-        LogsUtils::activateLogger($this->log());
         try {
             $app_env = $this->getAppEnv();
             $allowed_app_envs = $this->getAllowedAppEnvs();
@@ -35,25 +31,23 @@ abstract class OlzCommand extends Command {
             }
             if (!$allowed) {
                 $this->logAndOutput("Command {$this->getIdent()} not allowed in app env {$app_env}.", level: 'notice');
-                LogsUtils::deactivateLogger($this->log());
                 return Command::INVALID;
             }
-            $this->log()->info("Running command {$this->getIdent()}...");
+            $this->logAndOutput("Running command {$this->getIdent()}...");
             $status = $this->handle($input, $output);
             if ($status === Command::SUCCESS) {
-                $this->log()->info("Successfully ran command {$this->getIdent()}.");
+                $this->logAndOutput("Successfully ran command {$this->getIdent()}.");
             } elseif ($status === Command::FAILURE) {
-                $this->log()->notice("Failed running command {$this->getIdent()}.");
+                $this->logAndOutput("Failed running command {$this->getIdent()}.", level: 'notice');
             } elseif ($status === Command::INVALID) {
-                $this->log()->notice("Command {$this->getIdent()} called with invalid arguments.");
+                $this->logAndOutput("Command {$this->getIdent()} called with invalid arguments.", level: 'notice');
             } else {
-                $this->log()->warning("Command {$this->getIdent()} finished with unknown status {$status}.");
+                $this->logAndOutput("Command {$this->getIdent()} finished with unknown status {$status}.", level: 'warning');
             }
         } catch (\Exception $exc) {
             $this->logAndOutput("Error running command {$this->getIdent()}: {$exc->getMessage()}.", level: 'error');
             $status = Command::FAILURE;
         }
-        LogsUtils::deactivateLogger($this->log());
         return $status;
     }
 

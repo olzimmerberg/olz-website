@@ -2,7 +2,6 @@
 
 namespace Olz\Apps\Logs\Utils;
 
-use Olz\Utils\LogsUtils;
 use Olz\Utils\WithUtilsTrait;
 
 class OlzLogsChannel extends DailyFileLogsChannel {
@@ -17,7 +16,7 @@ class OlzLogsChannel extends DailyFileLogsChannel {
     }
 
     protected function getRetentionDays(): ?int {
-        return LogsUtils::RETENTION_DAYS;
+        return 366;
     }
 
     protected function getLogFileForDateTime(\DateTime $datetime): LogFileInterface {

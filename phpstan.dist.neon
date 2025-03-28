@@ -1,6 +1,7 @@
 parameters:
     level: 8
     paths:
+        - _/
         - bin/
         - config/
         - public/

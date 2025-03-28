@@ -102,7 +102,7 @@ final class VereinTest extends SystemTestCase {
         $this->waitForModal('#add-role-user-modal');
         $this->click('#add-role-user-modal #newUser-field #dropdownMenuButton');
         $this->sendKeys('#add-role-user-modal #newUser-field #entity-search-input', 'Nutzer');
-        $this->waitABit(); // wait for users
+        $this->waitFor('#add-role-user-modal #newUser-field #entity-index-0');
         $this->screenshot('verein_add_assignee');
         $this->click('#add-role-user-modal #newUser-field #entity-index-0');
         $this->click('#add-role-user-modal #submit-button');

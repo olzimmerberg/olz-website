@@ -1,5 +1,18 @@
 /* eslint-disable wrap-iife, func-names */
 (function () {
+    let styleElem = document.getElementById('style-overrides');
+    if (!styleElem) {
+        styleElem = document.createElement('style');
+        styleElem.setAttribute('type', 'text/css');
+        styleElem.setAttribute('id', 'style-overrides');
+        styleElem.innerHTML = `
+        * {
+            transition: none !important;
+        }
+        `;
+        document.head.appendChild(styleElem);
+    }
+
     const flakyElements = document.querySelectorAll('.test-flaky');
     for (let i = 0; i < flakyElements.length; i++) {
         const rect = flakyElements[i].getBoundingClientRect();
@@ -24,5 +37,9 @@
     const textareaElements = document.querySelectorAll('textarea');
     for (let i = 0; i < textareaElements.length; i++) {
         textareaElements[i].setAttribute('spellcheck', 'false');
+    }
+
+    if (document.activeElement) {
+        document.activeElement.blur();
     }
 })();

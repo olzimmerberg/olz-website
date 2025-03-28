@@ -23,6 +23,7 @@ use Webklex\PHPIMAP\Exceptions\ConnectionFailedException;
 use Webklex\PHPIMAP\Exceptions\ImapServerErrorException;
 use Webklex\PHPIMAP\Exceptions\ResponseException;
 use Webklex\PHPIMAP\Message;
+use Webklex\PHPIMAP\Query\WhereQuery;
 use Webklex\PHPIMAP\Support\MessageCollection;
 
 // 2 = processed
@@ -106,10 +107,8 @@ class ProcessEmailCommand extends OlzCommand {
 
         if ($this->shouldDoCleanup()) {
             $this->log()->notice("Doing E-Mail cleanup now...");
-            $archived_mails = $this->getArchivedMails();
-            $this->deleteOldArchivedMails($archived_mails);
-            $spam_mails = $this->getSpamMails();
-            $this->deleteOldSpamMails($spam_mails);
+            $this->deleteOldArchivedMails();
+            $this->deleteOldSpamMails();
             $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
             $throttling_repo->recordOccurrenceOf('email_cleanup', $this->dateUtils()->getIsoNow());
         }
@@ -160,26 +159,13 @@ class ProcessEmailCommand extends OlzCommand {
         return $this->getMails($this->processed_mailbox);
     }
 
-    protected function getArchivedMails(): MessageCollection {
-        return $this->getMails($this->archive_mailbox);
-    }
-
-    protected function getSpamMails(): MessageCollection {
-        return $this->getMails($this->spam_mailbox);
-    }
-
     protected function getInboxMails(): MessageCollection {
         return $this->getMails('INBOX');
     }
 
     protected function getMails(string $folder_path, mixed $where = null): MessageCollection {
         try {
-            $folder = $this->client->getFolderByPath($folder_path);
-            $query = $folder?->messages();
-            $this->generalUtils()->checkNotNull($query, "Error listing messages in {$folder_path}");
-            $query->softFail();
-            $query->leaveUnread();
-            $query->setFetchBody(false);
+            $query = $this->getMailsQuery($folder_path);
             if ($where !== null) {
                 $query->where($where);
             } else {
@@ -202,6 +188,16 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
+    protected function getMailsQuery(string $folder_path): WhereQuery {
+        $folder = $this->client->getFolderByPath($folder_path);
+        $query = $folder?->messages();
+        $this->generalUtils()->checkNotNull($query, "Error listing messages in {$folder_path}");
+        $query->softFail();
+        $query->leaveUnread();
+        $query->setFetchBody(false);
+        return $query;
+    }
+
     protected function archiveOldProcessedMails(MessageCollection $processed_mails): void {
         $now_timestamp = strtotime($this->dateUtils()->getIsoNow()) ?: 0;
         foreach ($processed_mails as $mail) {
@@ -213,14 +209,20 @@ class ProcessEmailCommand extends OlzCommand {
         }
     }
 
-    protected function deleteOldArchivedMails(MessageCollection $archived_mails): void {
+    protected function deleteOldArchivedMails(): void {
         $this->log()->info("Removing old archived E-Mails...");
-        $this->deleteMailsOlderThan($archived_mails, $this->deleteArchivedAfterSeconds);
+        $archived_mails_query = $this->getMailsQuery($this->archive_mailbox);
+        $archived_mails_query->chunked(function (MessageCollection $archived_mails, int $chunk) {
+            $this->deleteMailsOlderThan($archived_mails, $this->deleteArchivedAfterSeconds);
+        }, $chunk_size = 100);
     }
 
-    protected function deleteOldSpamMails(MessageCollection $spam_mails): void {
+    protected function deleteOldSpamMails(): void {
         $this->log()->info("Removing old spam E-Mails...");
-        $this->deleteMailsOlderThan($spam_mails, $this->deleteSpamAfterSeconds);
+        $spam_mails_query = $this->getMailsQuery($this->spam_mailbox);
+        $spam_mails_query->chunked(function (MessageCollection $spam_mails, int $chunk) {
+            $this->deleteMailsOlderThan($spam_mails, $this->deleteSpamAfterSeconds);
+        }, $chunk_size = 100);
     }
 
     protected function deleteMailsOlderThan(MessageCollection $mails, int $seconds): void {

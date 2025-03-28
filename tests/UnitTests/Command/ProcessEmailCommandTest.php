@@ -1656,9 +1656,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'NOTICE Doing E-Mail cleanup now...',
-            'WARNING getMails soft error:',
             'INFO Removing old archived E-Mails...',
-            'WARNING getMails soft error:',
             'INFO Removing old spam E-Mails...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',

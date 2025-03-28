@@ -130,6 +130,11 @@ class FakeWhereQuery extends WhereQuery {
         return new MessageCollection($this->mails ?? []);
     }
 
+    /** @param callable(MessageCollection, int): void $callback */
+    public function chunked(callable $callback, int $chunk_size = 10, int $start_chunk = 1): void {
+        $callback(new MessageCollection($this->mails ?? []), 0);
+    }
+
     /** @return array<\Exception> */
     public function errors(): array {
         return [new \Exception('test soft error: Message-ID: <fake-message-id>')];

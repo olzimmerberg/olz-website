@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Monolog\Logger;
 use Olz\Utils\EnvUtils;
 
 class FakeEnvUtils extends EnvUtils {
@@ -153,11 +152,5 @@ class FakeEnvUtils extends EnvUtils {
 
     public function getAppStatisticsPassword(): string {
         return 'qwer';
-    }
-}
-
-class FakeLogsUtils {
-    public function getLogger(string $ident): Logger {
-        return new Logger('');
     }
 }

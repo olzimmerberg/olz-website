@@ -4,7 +4,6 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpParams;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\LogsUtils;
 use Olz\Utils\StandardSession;
 
 /** @extends HttpParams<array{
@@ -16,9 +15,7 @@ class AktuellParams extends HttpParams {
 
 StandardSession::session_start_if_cookie_set();
 
-$logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
 $http_utils = HttpUtils::fromEnv();
-$http_utils->setLog($logger);
 $http_utils->validateGetParams(AktuellParams::class, $_GET);
 
 $env_utils = EnvUtils::fromEnv();
@@ -28,7 +25,7 @@ $filter = json_decode($_GET['filter'] ?? '{}', true);
 if (!$news_filter_utils->isValidFilter($filter)) {
     $filter = $news_filter_utils->getDefaultFilter();
 }
-$enc_json_filter = urlencode(json_encode($filter));
+$enc_json_filter = urlencode(json_encode($filter) ?: '{}');
 
 $id = $_GET['id'] ?? null;
 

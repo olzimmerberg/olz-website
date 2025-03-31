@@ -1,9 +1,8 @@
 <?php
 
-use Olz\Utils\DbUtils;
+use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpParams;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\LogsUtils;
 use Olz\Utils\StandardSession;
 
 /** @extends HttpParams<array{ressort?: ?string}> */
@@ -12,10 +11,9 @@ class VereinParams extends HttpParams {
 
 StandardSession::session_start_if_cookie_set();
 
-$entityManager = DbUtils::fromEnv()->getEntityManager();
-$logger = LogsUtils::fromEnv()->getLogger(basename(__FILE__));
+$env_utils = EnvUtils::fromEnv();
+$code_href = $env_utils->getCodeHref();
 $http_utils = HttpUtils::fromEnv();
-$http_utils->setLog($logger);
 $http_utils->validateGetParams(VereinParams::class, $_GET);
 
 if (isset($_GET['ressort'])) {

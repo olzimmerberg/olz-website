@@ -30,8 +30,8 @@ final class DbMigrateCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\DbMigrateCommand...
-            fake outputINFO: Successfully ran command Olz\Command\DbMigrateCommand.
+            Running command Olz\Command\DbMigrateCommand...
+            fake outputSuccessfully ran command Olz\Command\DbMigrateCommand.
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([

@@ -23,8 +23,5 @@ services:
     Olz\Tests\IntegrationTests\Utils\FakeIntegrationTestDbUtils:
         public: true
 
-    Olz\Utils\LogsUtils:
-        public: true
-
     Olz\Tests\IntegrationTests\Utils\WithUtilsTraitIntegrationClassWithUtilsTrait:
         public: true

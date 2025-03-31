@@ -38,7 +38,7 @@ foreach ($generated_contents as $screenshot_path) {
 }
 
 $main_index = json_decode(
-    @file_get_contents("{$main_href}screenshots/index.json.php") ?? '',
+    @file_get_contents("{$main_href}screenshots/index.json.php") ?: '',
     true
 );
 if ($main_index === null) {

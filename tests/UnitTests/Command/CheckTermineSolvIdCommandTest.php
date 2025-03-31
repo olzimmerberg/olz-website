@@ -31,11 +31,9 @@ final class CheckTermineSolvIdCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\CheckTermineSolvIdCommand...
-            INFO: Running with YEAR(start_date) = '2020'
+            Running command Olz\Command\CheckTermineSolvIdCommand...
             Running with YEAR(start_date) = '2020'
-            INFO: DB: SELECT * FROM termine WHERE YEAR(start_date) = '2020' AND solv_uid IS NULL
-            INFO: Successfully ran command Olz\Command\CheckTermineSolvIdCommand.
+            Successfully ran command Olz\Command\CheckTermineSolvIdCommand.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -55,11 +53,9 @@ final class CheckTermineSolvIdCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\CheckTermineSolvIdCommand...
-            INFO: Running with start_date > '2020-03-13'
+            Running command Olz\Command\CheckTermineSolvIdCommand...
             Running with start_date > '2020-03-13'
-            INFO: DB: SELECT * FROM termine WHERE start_date > '2020-03-13' AND solv_uid IS NULL
-            INFO: Successfully ran command Olz\Command\CheckTermineSolvIdCommand.
+            Successfully ran command Olz\Command\CheckTermineSolvIdCommand.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -79,11 +75,9 @@ final class CheckTermineSolvIdCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Command\CheckTermineSolvIdCommand...
-            INFO: Running with last_modified_at > '2020-03-11 23:00:00'
+            Running command Olz\Command\CheckTermineSolvIdCommand...
             Running with last_modified_at > '2020-03-11 23:00:00'
-            INFO: DB: SELECT * FROM termine WHERE last_modified_at > '2020-03-11 23:00:00' AND solv_uid IS NULL
-            INFO: Successfully ran command Olz\Command\CheckTermineSolvIdCommand.
+            Successfully ran command Olz\Command\CheckTermineSolvIdCommand.
 
             ZZZZZZZZZZ, $output->fetch());
     }

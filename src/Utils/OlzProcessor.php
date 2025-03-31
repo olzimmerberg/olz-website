@@ -18,6 +18,9 @@ class OlzProcessor implements ProcessorInterface {
         }
         $record->extra['user'] = $this->session()->get('user');
         $record->extra['auth_user'] = $this->session()->get('auth_user');
+        if ($record->channel && $record->channel !== 'app') {
+            return $record;
+        }
         $trace = debug_backtrace();
         $general_utils = new GeneralUtils();
         $trace_overview = $general_utils->getTraceOverview($trace);

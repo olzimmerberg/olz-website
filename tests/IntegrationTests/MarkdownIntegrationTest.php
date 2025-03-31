@@ -17,7 +17,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  *
  * @coversNothing
  */
-final class MarkdownTest extends IntegrationTestCase {
+final class MarkdownIntegrationTest extends IntegrationTestCase {
     public function testMarkdown(): void {
         // Just in order to test that this *would* work.
         file_put_contents(__DIR__.'/dummy.md', '# Dummy file');

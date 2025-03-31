@@ -44,7 +44,6 @@ class TestCommand extends OlzCommand {
             {$pretty_throttlings}
             ZZZZZZZZZZ;
         $output->writeln($info);
-        $this->logger?->info($info);
         $this->log()->info($info);
 
         $this->messageBus->dispatch(new TestMessage());

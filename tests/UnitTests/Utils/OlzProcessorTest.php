@@ -29,7 +29,7 @@ final class OlzProcessorTest extends UnitTestCase {
             'HTTP_USER_AGENT' => 'user-agent',
             'HTTP_REFERER' => 'https://olzimmerberg.ch/page',
         ]);
-        $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'channel', Level::Info, "Message", ['con' => 'text']);
+        $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'not-app', Level::Info, "Message", ['con' => 'text']);
 
         $result = $processor($fake_log_record);
 
@@ -40,7 +40,7 @@ final class OlzProcessorTest extends UnitTestCase {
             'user' => 'child',
             'auth_user' => 'parent',
         ], $result->extra);
-        $this->assertSame('OlzProcessorTest', $result->channel);
+        $this->assertSame('not-app', $result->channel);
     }
 
     public function testOlzProcessorMinimal(): void {
@@ -48,7 +48,7 @@ final class OlzProcessorTest extends UnitTestCase {
         $session = new MemorySession();
         $session->session_storage = [];
         $this->setSession($session);
-        $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'channel', Level::Info, "Message", ['con' => 'text']);
+        $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'app', Level::Info, "Message", ['con' => 'text']);
 
         $result = $processor($fake_log_record);
 

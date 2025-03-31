@@ -53,7 +53,6 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            NOTICE: Command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand not allowed in app env test.
             Command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand not allowed in app env test.
 
             ZZZZZZZZZZ, $output->fetch());
@@ -72,7 +71,6 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::FAILURE, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            ERROR: Error running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand: OLZ and symfony app env do not match (not_test vs. test).
             Error running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand: OLZ and symfony app env do not match (not_test vs. test).
 
             ZZZZZZZZZZ, $output->fetch());
@@ -93,10 +91,9 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::SUCCESS, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
+            Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
             Test handle
-            INFO: Test handle
-            INFO: Successfully ran command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand.
+            Successfully ran command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -116,10 +113,9 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::FAILURE, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
+            Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
             Test handle
-            INFO: Test handle
-            NOTICE: Failed running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand.
+            Failed running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -139,10 +135,9 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::INVALID, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
+            Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
             Test handle
-            INFO: Test handle
-            NOTICE: Command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand called with invalid arguments.
+            Command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand called with invalid arguments.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -162,10 +157,9 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(90684597, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
+            Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
             Test handle
-            INFO: Test handle
-            WARNING: Command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand finished with unknown status 90684597.
+            Command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand finished with unknown status 90684597.
 
             ZZZZZZZZZZ, $output->fetch());
     }
@@ -185,10 +179,8 @@ final class OlzCommandTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame(Command::FAILURE, $return_code);
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            INFO: Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
+            Running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand...
             Test handle
-            INFO: Test handle
-            ERROR: Error running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand: test error.
             Error running command Olz\Tests\UnitTests\Command\Common\TestOnlyOlzCommand: test error.
 
             ZZZZZZZZZZ, $output->fetch());

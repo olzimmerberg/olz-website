@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Common;
 
-use Olz\Tests\Fake\FakeLogHandler;
 use Olz\Utils\DevDataUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\WithUtilsCache;
@@ -28,7 +27,6 @@ class IntegrationTestCase extends KernelTestCase {
     /** @var array<string, mixed> */
     protected array $previous_server;
     protected float $setUpAt;
-    protected FakeLogHandler $fakeLogHandler;
 
     protected Container $container;
 
@@ -48,18 +46,13 @@ class IntegrationTestCase extends KernelTestCase {
         // @phpstan-ignore-next-line
         $entityManager = $this->container->get('doctrine')->getManager();
 
-        $logger = new \Monolog\Logger('Fake');
-        $handler = new FakeLogHandler();
-        $this->fakeLogHandler = $handler;
-        $logger->pushHandler($handler);
-        WithUtilsCache::set('log', $logger);
-
         if ($this::$is_first_call) {
             $dev_data_utils = $this->getDevDataUtils();
             $dev_data_utils->setEnvUtils(new EnvUtils());
             $dev_data_utils->fullResetDb();
             $this::$is_first_call = false;
         }
+        $this->resetLogs();
 
         $this->setUpAt = microtime(true);
     }
@@ -121,11 +114,30 @@ class IntegrationTestCase extends KernelTestCase {
 
     /** @return array<string> */
     protected function getLogs(?callable $formatter = null): array {
-        return $this->fakeLogHandler->getPrettyRecords($formatter);
+        $log_dir = self::$kernel?->getLogDir() ?? '';
+        $log_file = "{$log_dir}test.log";
+        $lines = explode("\n", @file_get_contents($log_file) ?: '');
+        $format = $formatter ?? fn ($record, $level_name, $message) => "{$level_name} {$message}";
+        $out = [];
+        $channel_denylist = [
+            'doctrine' => true,
+            'messenger' => true,
+        ];
+        foreach ($lines as $line) {
+            $record = json_decode($line, true);
+            if (is_array($record) && !($channel_denylist[$record['channel']] ?? false)) {
+                $out[] = $format($record, $record['level_name'], $record['message']);
+            }
+        }
+        return $out;
     }
 
     protected function resetLogs(): void {
-        $this->fakeLogHandler->resetRecords();
+        $log_dir = self::$kernel?->getLogDir() ?? '';
+        $log_file = "{$log_dir}test.log";
+        if (is_file($log_file)) {
+            unlink($log_file);
+        }
     }
 
     protected function getDevDataUtils(): DevDataUtils {

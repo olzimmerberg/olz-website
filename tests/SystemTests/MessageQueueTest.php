@@ -55,7 +55,7 @@ final class MessageQueueTest extends SystemTestCase {
         string $throttling_ident,
     ): ?\DateTime {
         $esc_ident = preg_quote($throttling_ident);
-        $pattern = "/\\s+{$esc_ident}\\: (\\d{4}-\\d{2}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2})\\s+/m";
+        $pattern = "/\\s+{$esc_ident}\\: (\\d{4}-\\d{2}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2})/m";
         $has_match = preg_match($pattern, $test_command_output, $matches);
         if (!$has_match) {
             return null;

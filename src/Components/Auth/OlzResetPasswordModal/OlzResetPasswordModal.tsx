@@ -4,9 +4,9 @@ import {olzApi} from '../../../Api/client';
 import {OlzApiRequests} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
 import {codeHref} from '../../../Utils/constants';
 import {getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
-import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
 
 import './OlzResetPasswordModal.scss';
 
@@ -23,7 +23,7 @@ const resolver: Resolver<OlzResetPasswordForm> = async (values) => {
 function getApiFromForm(formData: OlzResetPasswordForm): OlzApiRequests['resetPassword'] {
     return {
         usernameOrEmail: getApiString(formData.usernameOrEmail) ?? '',
-        recaptchaToken: '',
+        captchaToken: '',
     };
 }
 
@@ -38,35 +38,25 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
     });
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
-    const [recaptchaConsentGiven, setRecaptchaConsentGiven] = React.useState<boolean>(false);
-
-    React.useEffect(() => {
-        if (!recaptchaConsentGiven) {
-            return;
-        }
-        setStatus({id: 'WAITING_FOR_CAPTCHA'});
-        loadRecaptcha().then(() => {
-            window.setTimeout(() => {
-                setStatus({id: 'IDLE'});
-            }, 1100);
-        });
-    }, [recaptchaConsentGiven]);
+    const [captchaToken, setCaptchaToken] = React.useState<string|null>(null);
 
     const onSubmit: SubmitHandler<OlzResetPasswordForm> = async (values) => {
         setStatus({id: 'SUBMITTING'});
         const data = getApiFromForm(values);
-        const recaptchaToken = await loadRecaptchaToken();
+        if (!captchaToken) {
+            setStatus({id: 'SUBMIT_FAILED', message: 'Die Captcha-Aufgabe wurde nicht erledigt.'});
+            return;
+        }
 
-        const [err, response] = await olzApi.getResult('resetPassword', {...data, recaptchaToken});
+        const [err, response] = await olzApi.getResult('resetPassword', {...data, captchaToken});
         if (response?.status === 'DENIED') {
-            setStatus({id: 'SUBMIT_FAILED', message: 'Der reCaptcha-Token wurde abgelehnt.'});
+            setStatus({id: 'SUBMIT_FAILED', message: 'Die Captcha-Aufgabe wurde nicht korrekt erledigt.'});
             return;
         } else if (response?.status !== 'OK') {
             setStatus({id: 'SUBMIT_FAILED', message: `Fehler: ${err?.message} (Antwort: ${response?.status}).`});
             return;
         }
         setStatus({id: 'SUBMITTED', message: 'E-Mail versendet. Bitte warten...'});
-        // This removes Google's injected reCaptcha script again
         window.location.reload();
     };
 
@@ -100,24 +90,7 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
                     register={register}
                 />
             </div>
-            <div className='mb-3'>
-                <input
-                    type='checkbox'
-                    name='recaptcha-consent-given'
-                    value='yes'
-                    checked={recaptchaConsentGiven}
-                    onChange={(e) => setRecaptchaConsentGiven(e.target.checked)}
-                    id='recaptcha-consent-given-input'
-                />
-                Ich akzeptiere, dass beim Zurücksetzen des Passworts einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.
-                &nbsp;
-                <a
-                    href={`${codeHref}datenschutz`}
-                    target='_blank'
-                >
-                    Weitere Informationen zum Datenschutz
-                </a>
-            </div>
+            <OlzCaptcha onToken={setCaptchaToken}/>
         </OlzEditModal>
     );
 };

@@ -73,7 +73,6 @@ class OlzDatenschutz extends OlzComponent {
                     <li>Wenn du Mitglied der OL Zimmerberg bist, werden wir deine Kontaktdaten (Mitgliederliste) zur <b>Ermöglichung der klubinternen Kommunikation</b> anderen Klubmitgliedern zur Verfügung stellen.</li>
                     <li>Wenn du Mitglied der OL Zimmerberg bist, werden wir deine Postadresse der Redaktion des HOLZ und gegebenenfalls der Druckerei zur Verfügung stellen, damit sie dir das <b>Klubheftli HOLZ zustellen</b> kann.</li>
                     <li>Wenn du dich für einen <b>Anlass anmeldest</b>, werden wir die benötigten Daten dem Veranstalter übermitteln</li>
-                    <li>Wenn du ein neues Konto erstellst und wenn du dein Passwort zurücksetzen musst, verwenden wir Google reCaptcha v3 (<a href='https://policies.google.com/privacy?hl=de-CH' target='_blank'>Datenschutzerklärung</a>, <a href='https://policies.google.com/terms?hl=de-CH' target='_blank'>Nutzungsbedingungen</a>), um Spam zu vermeiden.</li>
                 </ul>
                 <p>Unser Hoster, <a href='https://www.hosttech.ch/webhosting/'>Hosttech</a> ist Mitglied bei swiss hosting, speichert also alle Daten in der Schweiz.</p>
                 <h3>Cookies</h3>

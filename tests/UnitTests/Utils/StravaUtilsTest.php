@@ -37,7 +37,7 @@ $empty_people_api_response = [
     ],
 ];
 
-class FakeStravaUtilsStravaFetcher extends StravaFetcher {
+class TestOnlyStravaFetcher extends StravaFetcher {
     /** @var array<string, mixed> */
     private ?array $strava_fetcher_response;
 
@@ -63,12 +63,12 @@ class FakeStravaUtilsStravaFetcher extends StravaFetcher {
  */
 final class StravaUtilsTest extends UnitTestCase {
     private StravaUtils $stravaUtils;
-    protected FakeStravaUtilsStravaFetcher $fake_strava_fetcher;
+    protected TestOnlyStravaFetcher $fake_strava_fetcher;
 
     protected function setUp(): void {
         global $sample_strava_fetcher_response;
         parent::setUp();
-        $this->fake_strava_fetcher = new FakeStravaUtilsStravaFetcher($sample_strava_fetcher_response);
+        $this->fake_strava_fetcher = new TestOnlyStravaFetcher($sample_strava_fetcher_response);
         $stravaUtils = new StravaUtils();
         $stravaUtils->setClientId('fake-client-id');
         $stravaUtils->setClientSecret('fake-client-secret');
@@ -79,7 +79,7 @@ final class StravaUtilsTest extends UnitTestCase {
 
     public function testModifyStravaUtils(): void {
         global $sample_strava_fetcher_response;
-        $fake_strava_fetcher = new FakeStravaUtilsStravaFetcher($sample_strava_fetcher_response);
+        $fake_strava_fetcher = new TestOnlyStravaFetcher($sample_strava_fetcher_response);
         $stravaUtils = new StravaUtils();
         $stravaUtils->setClientId('fake-client-id');
         $stravaUtils->setClientSecret('fake-client-secret');
@@ -131,7 +131,7 @@ final class StravaUtilsTest extends UnitTestCase {
 
     public function testGetTokenDataForInvalidCode(): void {
         global $empty_people_api_response;
-        $fake_strava_fetcher = new FakeStravaUtilsStravaFetcher($empty_people_api_response);
+        $fake_strava_fetcher = new TestOnlyStravaFetcher($empty_people_api_response);
         $stravaUtils = new StravaUtils();
         $stravaUtils->setClientId('fake-client-id');
         $stravaUtils->setClientSecret('fake-client-secret');

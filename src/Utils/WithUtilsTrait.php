@@ -3,6 +3,7 @@
 namespace Olz\Utils;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Olz\Captcha\Utils\CaptchaUtils;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Termine\Utils\TermineUtils;
 use Psr\Log\LoggerAwareTrait;
@@ -227,15 +228,15 @@ trait WithUtilsTrait {
         WithUtilsCache::set('mapUtils', $mapUtils);
     }
 
-    public function recaptchaUtils(): RecaptchaUtils {
-        $util = WithUtilsCache::get('recaptchaUtils');
+    public function captchaUtils(): CaptchaUtils {
+        $util = WithUtilsCache::get('captchaUtils');
         assert($util);
         return $util;
     }
 
     #[Required]
-    public function setRecaptchaUtils(RecaptchaUtils $recaptchaUtils): void {
-        WithUtilsCache::set('recaptchaUtils', $recaptchaUtils);
+    public function setCaptchaUtils(CaptchaUtils $captchaUtils): void {
+        WithUtilsCache::set('captchaUtils', $captchaUtils);
     }
 
     public function session(): AbstractSession {

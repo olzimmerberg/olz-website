@@ -23,10 +23,6 @@ class FakeEnvUtils extends EnvUtils {
         return 'some-secret-key';
     }
 
-    public function getRecaptchaSecretKey(): string {
-        return 'some-secret-key';
-    }
-
     public function getTelegramAuthenticityCode(): string {
         return 'some-token';
     }

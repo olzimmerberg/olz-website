@@ -7,7 +7,7 @@ import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField
 import {OlzAuthenticatedUserRoleField} from '../../../Components/Common/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {loadRecaptchaToken, loadRecaptcha} from '../../../Utils/recaptchaUtils';
+import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
 import {codeHref} from '../../../Utils/constants';
 import {assert} from '../../../Utils/generalUtils';
 
@@ -230,19 +230,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
     const [isRolesLoading, setIsRolesLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
-    const [recaptchaConsentGiven, setRecaptchaConsentGiven] = React.useState<boolean>(false);
-
-    React.useEffect(() => {
-        if (!recaptchaConsentGiven) {
-            return;
-        }
-        setStatus({id: 'WAITING_FOR_CAPTCHA'});
-        loadRecaptcha().then(() => {
-            window.setTimeout(() => {
-                setStatus({id: 'IDLE'});
-            }, 1100);
-        });
-    }, [recaptchaConsentGiven]);
+    const [captchaToken, setCaptchaToken] = React.useState<string|null>(null);
 
     const format = watch('format');
     const config = (format && format !== 'UNDEFINED') ? CONFIG_BY_FORMAT[format] : DEFAULT_CONFIG;
@@ -260,20 +248,14 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         };
         const data = getApiFromForm(config, values);
 
-        let recaptchaToken: string|null = null;
-        if (config.hasCaptcha && recaptchaConsentGiven) {
-            recaptchaToken = await loadRecaptchaToken();
-        }
-
         const [err, response] = await (props.id
             ? olzApi.getResult('updateNews', {id: props.id, meta, data})
-            : olzApi.getResult('createNews', {meta, data, custom: {recaptchaToken}}));
+            : olzApi.getResult('createNews', {meta, data, custom: {captchaToken}}));
         if (err) {
             setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }
         setStatus({id: 'SUBMITTED'});
-        // This removes Google's injected reCaptcha script again
         window.location.reload();
     };
 
@@ -454,19 +436,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                 </div>
             ) : null}
             {config.hasCaptcha ? (
-                <p>
-                    <input
-                        type='checkbox'
-                        name='recaptcha-consent-given'
-                        value='yes'
-                        checked={recaptchaConsentGiven}
-                        onChange={(e) => setRecaptchaConsentGiven(e.target.checked)}
-                        id='recaptcha-consent-given-input'
-                    />
-                        &nbsp;
-                    <span className='required-field-asterisk'>*</span>
-                        Ich akzeptiere, dass beim Erstellen des Kontos einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.
-                </p>
+                <OlzCaptcha onToken={setCaptchaToken}/>
             ) : null}
             <p>
                 <span className='required-field-asterisk'>*</span>

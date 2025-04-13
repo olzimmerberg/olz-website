@@ -205,6 +205,15 @@ final class GeneralUtilsTest extends UnitTestCase {
         }
     }
 
+    public function testHash(): void {
+        $general_utils = new GeneralUtils();
+        $key = 'asdf';
+
+        $result = $general_utils->hash($key, 'test');
+
+        $this->assertSame('gzil1tQpxPZhji4C4pbig1cPRjeLx-Ko27s5lZnPYJY', $result);
+    }
+
     public function testBinarySearchBeforeAllOdd(): void {
         $general_utils = new GeneralUtils();
         $list = [2, 3, 5];

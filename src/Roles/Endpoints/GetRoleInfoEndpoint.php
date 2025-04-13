@@ -21,7 +21,7 @@ use PhpTypeScriptApi\HttpError;
  * }
  *
  * @extends OlzTypedEndpoint<
- *   array{id: OlzRoleId, recaptchaToken?: ?non-empty-string},
+ *   array{id: OlzRoleId, captchaToken?: ?non-empty-string},
  *   OlzRoleInfoData
  * >
  */
@@ -32,10 +32,10 @@ class GetRoleInfoEndpoint extends OlzTypedEndpoint {
 
     protected function handle(mixed $input): mixed {
         $has_access = $this->authUtils()->hasPermission('any');
-        $token = $input['recaptchaToken'] ?? null;
-        $is_valid_token = $token ? $this->recaptchaUtils()->validateRecaptchaToken($token) : false;
+        $token = $input['captchaToken'] ?? null;
+        $is_valid_token = $token ? $this->captchaUtils()->validateToken($token) : false;
         if (!$has_access && !$is_valid_token) {
-            throw new HttpError(403, 'Recaptcha token invalid');
+            throw new HttpError(403, 'Captcha token invalid');
         }
 
         $id = $input['id'];

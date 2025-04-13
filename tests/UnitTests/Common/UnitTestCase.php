@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Common;
 use Monolog\LogRecord;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\FakeAuthUtils;
+use Olz\Tests\Fake\FakeCaptchaUtils;
 use Olz\Tests\Fake\FakeDbUtils;
 use Olz\Tests\Fake\FakeDevDataUtils;
 use Olz\Tests\Fake\FakeEmailUtils;
@@ -17,7 +18,6 @@ use Olz\Tests\Fake\FakeGeneralUtils;
 use Olz\Tests\Fake\FakeIdUtils;
 use Olz\Tests\Fake\FakeImageUtils;
 use Olz\Tests\Fake\FakeLogHandler;
-use Olz\Tests\Fake\FakeRecaptchaUtils;
 use Olz\Tests\Fake\FakeSymfonyUtils;
 use Olz\Tests\Fake\FakeTelegramUtils;
 use Olz\Tests\Fake\FakeTermineUtils;
@@ -87,7 +87,7 @@ class UnitTestCase extends TestCase {
             'imageUtils' => new FakeImageUtils(),
             'log' => $logger,
             'logger' => $logger,
-            'recaptchaUtils' => new FakeRecaptchaUtils(),
+            'captchaUtils' => new FakeCaptchaUtils(),
             'symfonyUtils' => new FakeSymfonyUtils(),
             'telegramUtils' => new FakeTelegramUtils(),
             'termineUtils' => new FakeTermineUtils(),

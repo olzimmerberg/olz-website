@@ -136,6 +136,11 @@ class GeneralUtils {
         return json_decode($plaintext, true);
     }
 
+    public function hash(string $key, string $data): string {
+        $result = hash_hmac('sha256', $data, $key, true);
+        return $this->base64EncodeUrl($result);
+    }
+
     // Algorithms
 
     /** @return array{0: int, 1: int<-1, 1>} */

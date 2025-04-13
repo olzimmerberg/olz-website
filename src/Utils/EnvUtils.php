@@ -31,8 +31,6 @@ class EnvUtils {
 
     private ?string $cron_authenticity_code = null;
 
-    private ?string $recaptcha_secret_key = null;
-
     private ?string $strava_client_id = null;
     private ?string $strava_client_secret = null;
 
@@ -144,8 +142,6 @@ class EnvUtils {
         $this->id_encryption_key = $config_dict['id_encryption_key'] ?? $this->id_encryption_key;
 
         $this->cron_authenticity_code = $config_dict['cron_authenticity_code'] ?? $this->cron_authenticity_code;
-
-        $this->recaptcha_secret_key = $config_dict['recaptcha_secret_key'] ?? $this->recaptcha_secret_key;
 
         $this->strava_client_id = $config_dict['strava_client_id'] ?? $this->strava_client_id;
         $this->strava_client_secret = $config_dict['strava_client_secret'] ?? $this->strava_client_secret;
@@ -300,12 +296,6 @@ class EnvUtils {
         $this->lazyInit();
         $this->checkNotNull($this->cron_authenticity_code, "cron_authenticity_code not set");
         return $this->cron_authenticity_code;
-    }
-
-    public function getRecaptchaSecretKey(): string {
-        $this->lazyInit();
-        $this->checkNotNull($this->recaptcha_secret_key, "recaptcha_secret_key not set");
-        return $this->recaptcha_secret_key;
     }
 
     public function getStravaClientId(): string {

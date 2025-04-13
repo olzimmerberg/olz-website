@@ -5,12 +5,12 @@ import {OlzMetaData, OlzUserData} from '../../../Api/client/generated_olz_api_ty
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {codeHref, user} from '../../../Utils/constants';
+import {user} from '../../../Utils/constants';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateCountryCodeOrNull, validateDateOrNull, validateEmail, validateEmailOrNull, validateGender, validateIntegerOrNull, validateNotEmpty, validatePassword, validatePhoneOrNull} from '../../../Utils/formUtils';
-import {loadRecaptcha, loadRecaptchaToken} from '../../../Utils/recaptchaUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditUserModal.scss';
+import { OlzCaptcha } from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
 
 interface OlzEditUserForm {
     parentUserId: number|null;
@@ -133,25 +133,12 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
     });
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
-    const [recaptchaConsentGiven, setRecaptchaConsentGiven] = React.useState<boolean>(false);
-    const [cookieConsentGiven, setCookieConsentGiven] = React.useState<boolean>(false);
+    const [captchaToken, setCaptchaToken] = React.useState<string|null>(null);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
 
     const firstName = watch('firstName');
     const lastName = watch('lastName');
     const username = watch('username');
-
-    React.useEffect(() => {
-        if (!recaptchaConsentGiven) {
-            return;
-        }
-        setStatus({id: 'WAITING_FOR_CAPTCHA'});
-        loadRecaptcha().then(() => {
-            window.setTimeout(() => {
-                setStatus({id: 'IDLE'});
-            }, 1100);
-        });
-    }, [recaptchaConsentGiven]);
 
     const onSubmit: SubmitHandler<OlzEditUserForm> = async (values) => {
         setStatus({id: 'SUBMITTING'});
@@ -161,20 +148,14 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
             onOff: true,
         };
         const data = getApiFromForm(values);
-        let recaptchaToken: string|null = null;
-        if (!user.id) {
-            if (!cookieConsentGiven) {
-                setStatus({id: 'SUBMIT_FAILED', message: 'Die Einwilligung für Cookies beim Login ist notwendig!'});
-                return;
-            }
-            if (recaptchaConsentGiven) {
-                recaptchaToken = await loadRecaptchaToken();
-            }
+        if (!user.id && !captchaToken) {
+            setStatus({id: 'SUBMIT_FAILED', message: 'Die Einwilligung für Cookies beim Login ist notwendig!'});
+            return;
         }
 
         const [err, response] = await (props.id
             ? olzApi.getResult('updateUser', {id: props.id, meta, data})
-            : olzApi.getResult('createUser', {meta, data, custom: {recaptchaToken}}));
+            : olzApi.getResult('createUser', {meta, data, custom: {captchaToken}}));
         if (err || response.custom?.status !== 'OK') {
             setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response.custom?.status)}`});
             return;
@@ -401,40 +382,7 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
                 />
             </div>
             {user.id ? null : (<>
-                <p>
-                    <input
-                        type='checkbox'
-                        name='recaptcha-consent-given'
-                        value='yes'
-                        checked={recaptchaConsentGiven}
-                        onChange={(e) => setRecaptchaConsentGiven(e.target.checked)}
-                        id='recaptcha-consent-given-input'
-                    />
-                    &nbsp;
-                    <span className='required-field-asterisk'>*</span>&nbsp;
-                    Ich akzeptiere, dass beim Erstellen des Kontos einmalig Google reCaptcha verwendet wird, um Bot-Spam zu verhinden.
-                </p>
-                <p>
-                    <input
-                        type='checkbox'
-                        name='cookie-consent-given'
-                        value='yes'
-                        checked={cookieConsentGiven}
-                        onChange={(e) => setCookieConsentGiven(e.target.checked)}
-                        id='cookie-consent-given-input'
-                    />
-                    &nbsp;
-                    <span className='required-field-asterisk'>*</span>&nbsp;
-                    Ich nehme zur Kenntnis, dass bei jedem Login notgedrungen ein Cookie in meinem Browser gesetzt wird.
-                    &nbsp;
-                    <a
-                        href={`${codeHref}datenschutz`}
-                        target='_blank'
-                        className='linkint'
-                    >
-                        Weitere Informationen zum Datenschutz
-                    </a>
-                </p>
+                <OlzCaptcha onToken={setCaptchaToken}/>
             </>)}
         </OlzEditModal>
     );

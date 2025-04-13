@@ -24,7 +24,7 @@ $generated_pin_2 = '00000002';
 // The $generated_pin_2 expiration has been updated, now the first available PIN is this.
 $generated_pin_3 = '00000003';
 
-class FakeTelegramUtilsTelegramFetcher extends TelegramFetcher {
+class TestOnlyTelegramFetcher extends TelegramFetcher {
     public bool $fetchEmpty = false;
     public bool $fetchNotOk = false;
     public bool $fetchBlocked = false;
@@ -316,7 +316,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testSendConfiguration(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $telegram_fetcher = new TestOnlyTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
@@ -339,7 +339,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testSendConfigurationError(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $telegram_fetcher = new TestOnlyTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
@@ -365,7 +365,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testCallTelegramApi(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $telegram_fetcher = new TestOnlyTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
@@ -379,7 +379,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testCallTelegramApiEmpty(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $telegram_fetcher = new TestOnlyTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
@@ -397,7 +397,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testCallTelegramApiNotOk(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $telegram_fetcher = new TestOnlyTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
@@ -415,7 +415,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testCallTelegramApiBlocked(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $telegram_fetcher = new TestOnlyTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 
@@ -444,7 +444,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testCallTelegramApiWithError(): void {
         global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new FakeTelegramUtilsTelegramFetcher();
+        $telegram_fetcher = new TestOnlyTelegramFetcher();
         $telegram_utils = new DeterministicTelegramUtils();
         $telegram_utils->setTelegramFetcher($telegram_fetcher);
 

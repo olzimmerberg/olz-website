@@ -45,7 +45,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'avatarImageId' => null,
         ],
         'custom' => [
-            'recaptchaToken' => 'valid-token',
+            'captchaToken' => 'valid-token',
         ],
     ];
 
@@ -75,7 +75,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'avatarImageId' => 'fake-avatar-id.jpg',
         ],
         'custom' => [
-            'recaptchaToken' => 'valid-token',
+            'captchaToken' => 'valid-token',
         ],
     ];
 
@@ -109,7 +109,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
                     'avatarImageId' => null,
                 ],
                 'custom' => [
-                    'recaptchaToken' => null,
+                    'captchaToken' => null,
                 ],
             ]);
             $this->fail('Exception expected.');
@@ -129,7 +129,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
         }
     }
 
-    public function testCreateUserEndpointWithInvalidRecaptchaToken(): void {
+    public function testCreateUserEndpointWithInvalidcaptchaToken(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
         $session = new MemorySession();
@@ -138,7 +138,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call([
             ...self::MINIMAL_INPUT,
-            'custom' => ['recaptchaToken' => 'invalid-token'],
+            'custom' => ['captchaToken' => 'invalid-token'],
         ]);
 
         $this->assertEquals([

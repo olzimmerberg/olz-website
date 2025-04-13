@@ -30,10 +30,10 @@ export const OlzUserInfoModal = (props: OlzUserInfoModalProps): React.ReactEleme
     const [user, setUser] = React.useState<OlzUserInfoData|null>(null);
     const [error, setError] = React.useState<Error|null>(null);
 
-    const onReady = async (recaptchaToken: string|null) => {
+    const onReady = async (captchaToken: string|null) => {
         const request: OlzApiRequests['getUserInfo'] = {id: props.id};
-        if (recaptchaToken) {
-            request.recaptchaToken = recaptchaToken;
+        if (captchaToken) {
+            request.captchaToken = captchaToken;
         }
         const [err, result] = await olzApi.getResult('getUserInfo', request);
         setError(err);

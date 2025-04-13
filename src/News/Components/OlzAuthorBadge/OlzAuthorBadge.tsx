@@ -16,10 +16,10 @@ export const OlzAuthorBadge = (props: OlzAuthorBadgeProps): React.ReactElement =
     const [authorInfo, setAuthorInfo] = React.useState<OlzAuthorInfoData|null>(null);
     const [error, setError] = React.useState<Error|null>(null);
 
-    const onReady = async (recaptchaToken: string|null) => {
+    const onReady = async (captchaToken: string|null) => {
         const request: OlzApiRequests['getAuthorInfo'] = {id: props.id};
-        if (recaptchaToken) {
-            request.recaptchaToken = recaptchaToken;
+        if (captchaToken) {
+            request.captchaToken = captchaToken;
         }
         const [err, result] = await olzApi.getResult('getAuthorInfo', request);
         setError(err);

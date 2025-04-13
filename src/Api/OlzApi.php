@@ -101,6 +101,7 @@ class OlzApi extends Api {
         \Olz\Users\Endpoints\UpdateUserEndpoint $updateUserEndpoint,
         \Olz\Users\Endpoints\DeleteUserEndpoint $deleteUserEndpoint,
         \Olz\Users\Endpoints\GetUserInfoEndpoint $getUserInfoEndpoint,
+        \Olz\Captcha\Endpoints\StartCaptchaEndpoint $startCaptchaEndpoint,
     ) {
         $this->registerEndpoint('onDaily', $onDailyEndpoint);
         $this->registerEndpoint('onContinuously', $onContinuouslyEndpoint);
@@ -235,6 +236,10 @@ class OlzApi extends Api {
         $this->registerEndpoint('deleteUser', $deleteUserEndpoint);
         $this->registerEndpoint('getUserInfo', $getUserInfoEndpoint);
 
+        // Utils
+
+        $this->registerEndpoint('startCaptcha', $startCaptchaEndpoint);
+
         OlzApps::registerAllEndpoints($this);
     }
 
@@ -342,6 +347,7 @@ class OlzApi extends Api {
             new \Olz\Users\Endpoints\UpdateUserEndpoint(),
             new \Olz\Users\Endpoints\DeleteUserEndpoint(),
             new \Olz\Users\Endpoints\GetUserInfoEndpoint(),
+            new \Olz\Captcha\Endpoints\StartCaptchaEndpoint(),
         );
     }
 }

@@ -26,7 +26,7 @@ final class NewsAnonymousTest extends SystemTestCase {
         $this->sendKeys('#edit-news-modal #authorEmail-input', 'anonymous@staging.olzimmerberg.ch');
         $this->sendKeys('#edit-news-modal #title-input', 'Der Eintrag');
         $this->sendKeys('#edit-news-modal #content-input', "Der Inhalt des Eintrags");
-        $this->click('#edit-news-modal #recaptcha-consent-given-input');
+        $this->click('#edit-news-modal #captcha-canvas');
 
         $this->screenshot('news_new_anonymous_edit');
 

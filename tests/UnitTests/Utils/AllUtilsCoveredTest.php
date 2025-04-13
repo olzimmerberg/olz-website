@@ -48,7 +48,7 @@ final class AllUtilsCoveredTest extends UnitTestCase {
         $this->assertTrue(is_dir($src_path));
         $src_realpath = realpath($src_path);
         assert($src_realpath);
-        $utils_folders = glob("{$src_realpath}/*/utils/") ?: [];
+        $utils_folders = glob("{$src_realpath}/*/Utils/") ?: [];
         foreach ($utils_folders as $utils_folder) {
             $utils_files = scandir($utils_folder) ?: [];
             $utils = array_filter(

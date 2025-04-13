@@ -37,7 +37,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'usernameOrEmail' => ["Fehlender Schlüssel: usernameOrEmail."],
-                'recaptchaToken' => ["Fehlender Schlüssel: recaptchaToken."],
+                'captchaToken' => ["Fehlender Schlüssel: captchaToken."],
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
@@ -52,7 +52,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         try {
             $endpoint->call([
                 'usernameOrEmail' => null,
-                'recaptchaToken' => null,
+                'captchaToken' => null,
             ]);
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
@@ -61,7 +61,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             ], $this->getLogs());
             $this->assertSame([
                 'usernameOrEmail' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
-                'recaptchaToken' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
+                'captchaToken' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
         }
@@ -84,7 +84,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
-            'recaptchaToken' => 'fake-recaptcha-token',
+            'captchaToken' => 'fake-captcha-token',
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -155,7 +155,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'vorstand@staging.olzimmerberg.ch',
-            'recaptchaToken' => 'fake-recaptcha-token',
+            'captchaToken' => 'fake-captcha-token',
         ]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
@@ -214,7 +214,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'invalid',
-            'recaptchaToken' => 'fake-recaptcha-token',
+            'captchaToken' => 'fake-captcha-token',
         ]);
 
         $this->assertSame([
@@ -225,7 +225,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'DENIED'], $result);
     }
 
-    public function testResetPasswordEndpointInvalidRecaptchaToken(): void {
+    public function testResetPasswordEndpointInvalidcaptchaToken(): void {
         $mailer = $this->createMock(MailerInterface::class);
         $endpoint = new DeterministicResetPasswordEndpoint();
         $email_utils = WithUtilsCache::get('emailUtils');
@@ -235,7 +235,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
-            'recaptchaToken' => 'invalid-recaptcha-token',
+            'captchaToken' => 'invalid-captcha-token',
         ]);
 
         $this->assertSame([

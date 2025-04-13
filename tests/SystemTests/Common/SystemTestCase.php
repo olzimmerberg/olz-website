@@ -403,6 +403,7 @@ class SystemTestCase extends KernelTestCase {
         }
         imagepng($dest, "{$screenshots_path}{$screenshot_filename}");
         imagedestroy($dest);
+        $this->unhideFlakyElements();
         $this->tock('screenshot', 'screenshot');
     }
 
@@ -418,6 +419,17 @@ class SystemTestCase extends KernelTestCase {
         $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
         $hide_flaky_code = file_get_contents(__DIR__.'/hideFlaky.js') ?: '';
         $this::$browser->executeScript($hide_flaky_code);
+    }
+
+    protected function unhideFlakyElements(): void {
+        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
+        $unhide_flaky_code = <<<'ZZZZZZZZZZ'
+            const flakyCovers = document.querySelectorAll('.flaky-cover');
+            for (let i = 0; i < flakyCovers.length; i++) {
+                document.documentElement.removeChild(flakyCovers[i]);
+            }
+            ZZZZZZZZZZ;
+        $this::$browser->executeScript($unhide_flaky_code);
     }
 
     // Timing

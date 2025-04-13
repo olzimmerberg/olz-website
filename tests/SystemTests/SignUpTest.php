@@ -76,7 +76,7 @@ final class SignUpTest extends SystemTestCase {
         $this->sendKeys('#edit-user-modal #email-input', '@staging.olzimmerberg.ch');
         $this->clear('#edit-user-modal #birthdate-input');
         $this->sendKeys('#edit-user-modal #birthdate-input', '13.1.2006');
-        $this->click('#edit-user-modal #captcha-canvas');
+        $this->click('#edit-user-modal #captcha-dev');
         $this->click('#edit-user-modal #submit-button');
         $this->waitUntilGone('#edit-user-modal');
         $this->screenshot('sign_up_submitted');

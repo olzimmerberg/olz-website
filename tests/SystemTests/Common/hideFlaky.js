@@ -19,6 +19,7 @@
         const cover = document.createElement('div');
         document.documentElement.appendChild(cover);
         cover.id = `flaky-${i}`;
+        cover.className = 'flaky-cover';
         cover.style.position = 'absolute';
         cover.style.backgroundColor = 'black';
         cover.style.pointerEvents = 'none';

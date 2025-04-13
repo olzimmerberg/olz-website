@@ -29,6 +29,10 @@ class CaptchaUtils {
     }
 
     public function getRandomString(int $length): string {
+        $app_env = $this->envUtils()->getAppEnv();
+        if ($app_env === 'dev') {
+            return base64_encode(str_repeat('a', $length));
+        }
         return base64_encode(openssl_random_pseudo_bytes($length));
     }
 

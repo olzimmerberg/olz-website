@@ -18,10 +18,10 @@ export const OlzRoleInfoModal = (props: OlzRoleInfoModalProps): React.ReactEleme
     const [role, setRole] = React.useState<OlzRoleInfoData|null>(null);
     const [error, setError] = React.useState<Error|null>(null);
 
-    const onReady = async (recaptchaToken: string|null) => {
+    const onReady = async (captchaToken: string|null) => {
         const request: OlzApiRequests['getRoleInfo'] = {id: props.id};
-        if (recaptchaToken) {
-            request.recaptchaToken = recaptchaToken;
+        if (captchaToken) {
+            request.captchaToken = captchaToken;
         }
         const [err, result] = await olzApi.getResult('getRoleInfo', request);
         setError(err);

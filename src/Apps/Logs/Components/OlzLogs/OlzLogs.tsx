@@ -125,7 +125,7 @@ const renderItem = (line: string) => {
         );
     }
 
-    const formattingRegex = /^(.*\s+)(\S+)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)(.*)/;
+    const formattingRegex = /^(.*\s+)(\S*)\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)(.*)/;
     const match = formattingRegex.exec(croppedLine);
     if (!match) {
         return (<div className='log-line level-unknown'>{croppedLine}</div>);

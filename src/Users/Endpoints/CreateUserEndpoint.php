@@ -13,7 +13,7 @@ use PhpTypeScriptApi\HttpError;
  * @phpstan-import-type OlzUserData from UserEndpointTrait
  *
  * @extends OlzCreateEntityTypedEndpoint<OlzUserId, OlzUserData, array{
- *   recaptchaToken?: ?non-empty-string,
+ *   captchaToken?: ?non-empty-string,
  * }, array{
  *   status: 'OK'|'OK_NO_EMAIL_VERIFICATION'|'DENIED'|'ERROR',
  * }>
@@ -29,8 +29,8 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
 
     protected function handle(mixed $input): mixed {
         $current_user = $this->authUtils()->getCurrentUser();
-        $token = $input['custom']['recaptchaToken'] ?? null;
-        if (!$current_user && !$this->recaptchaUtils()->validateRecaptchaToken($token)) {
+        $token = $input['custom']['captchaToken'] ?? null;
+        if (!$current_user && !$this->captchaUtils()->validateToken($token)) {
             return ['custom' => ['status' => 'DENIED'], 'id' => null];
         }
 

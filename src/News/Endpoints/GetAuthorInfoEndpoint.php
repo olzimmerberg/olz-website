@@ -18,17 +18,17 @@ use PhpTypeScriptApi\HttpError;
  * }
  *
  * @extends OlzTypedEndpoint<
- *   array{id: OlzNewsId, recaptchaToken?: ?non-empty-string},
+ *   array{id: OlzNewsId, captchaToken?: ?non-empty-string},
  *   OlzAuthorInfoData
  * >
  */
 class GetAuthorInfoEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $has_access = $this->authUtils()->hasPermission('any');
-        $token = $input['recaptchaToken'] ?? null;
-        $is_valid_token = $token ? $this->recaptchaUtils()->validateRecaptchaToken($token) : false;
+        $token = $input['captchaToken'] ?? null;
+        $is_valid_token = $token ? $this->captchaUtils()->validateToken($token) : false;
         if (!$has_access && !$is_valid_token) {
-            throw new HttpError(403, 'Recaptcha token invalid');
+            throw new HttpError(403, 'Captcha token invalid');
         }
 
         $id = $input['id'];

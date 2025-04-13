@@ -24,6 +24,13 @@ final class VereinTest extends SystemTestCase {
         }
         $browser->get($this->getUrl());
         $this->screenshot('verein');
+        // if ($this->isInModes('prod')) {
+        //     $this->click('#role-1 .olz-user-info-modal-trigger');
+        //     $this->click('#user-info-modal .container .btn-secondary');
+        //     sleep(3);
+        //     $this->click('#user-info-modal .container .btn-secondary');
+        //     sleep(5);
+        // }
 
         $browser->get("{$this->getUrl()}/praesi");
         $this->screenshot('verein_praesi');

@@ -26,7 +26,7 @@ final class ResetPasswordTest extends SystemTestCase {
         $this->click('#login-modal #reset-password-link');
         $this->waitForModal('#reset-password-modal');
         $this->sendKeys('#reset-password-modal #usernameOrEmail-input', 'benutzer');
-        $this->click('#reset-password-modal #recaptcha-consent-given-input');
+        $this->click('#reset-password-modal #captcha-canvas');
         $this->screenshot('profil_password_reset');
         $this->click('#reset-password-modal #submit-button');
         $this->waitUntilGone('#reset-password-modal');

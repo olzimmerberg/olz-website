@@ -50,7 +50,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                     'fileIds' => [],
                 ],
                 'custom' => [
-                    'recaptchaToken' => null,
+                    'captchaToken' => null,
                 ],
             ]);
             $this->fail('Error expected');
@@ -106,7 +106,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 'fileIds' => [],
             ],
             'custom' => [
-                'recaptchaToken' => 'valid-token',
+                'captchaToken' => 'valid-token',
             ],
         ]);
 
@@ -244,7 +244,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
             ],
             'custom' => [
-                'recaptchaToken' => null,
+                'captchaToken' => null,
             ],
         ]);
 
@@ -336,7 +336,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
                 'fileIds' => [],
             ],
             'custom' => [
-                'recaptchaToken' => null,
+                'captchaToken' => null,
             ],
         ]);
 

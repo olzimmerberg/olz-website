@@ -20,7 +20,6 @@ export const OlzVerifyUserEmailModal = (): React.ReactElement => {
             return;
         }
         setStatus({id: 'SUBMITTED', message: 'E-Mail versendet. Bitte warten...'});
-        // This removes Google's injected reCaptcha script again
         window.location.href = `${codeHref}benutzer/ich`;
     };
 

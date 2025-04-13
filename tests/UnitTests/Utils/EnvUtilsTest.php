@@ -51,8 +51,6 @@ final class EnvUtilsTest extends UnitTestCase {
 
             'cron_authenticity_code' => 'this_is_just_local',
 
-            'recaptcha_secret_key' => 'abcdefghijklmnopqrstuvw-abcdefghijklmnop',
-
             'strava_client_id' => '123456',
             'strava_client_secret' => '0123456789abcdef0123456789abcdef01234567',
 
@@ -106,7 +104,6 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('aaaaaaaaaaaaaaaaaaab', $env_utils->getEmailReactionKey());
         $this->assertSame('aaaaaaaaaaaaaaaaaaac', $env_utils->getIdEncryptionKey());
         $this->assertSame('this_is_just_local', $env_utils->getCronAuthenticityCode());
-        $this->assertSame('abcdefghijklmnopqrstuvw-abcdefghijklmnop', $env_utils->getRecaptchaSecretKey());
         $this->assertSame('123456', $env_utils->getStravaClientId());
         $this->assertSame('0123456789abcdef0123456789abcdef01234567', $env_utils->getStravaClientSecret());
         $this->assertSame('olz_bot', $env_utils->getTelegramBotName());

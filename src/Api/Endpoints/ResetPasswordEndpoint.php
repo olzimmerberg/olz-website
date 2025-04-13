@@ -9,7 +9,7 @@ use Symfony\Component\Mime\Email;
  * @extends OlzTypedEndpoint<
  *   array{
  *     usernameOrEmail: non-empty-string,
- *     recaptchaToken: non-empty-string,
+ *     captchaToken: non-empty-string,
  *   },
  *   array{
  *     status: 'OK'|'DENIED'|'ERROR',
@@ -25,8 +25,8 @@ class ResetPasswordEndpoint extends OlzTypedEndpoint {
             return ['status' => 'DENIED'];
         }
 
-        $token = $input['recaptchaToken'];
-        if (!$this->recaptchaUtils()->validateRecaptchaToken($token)) {
+        $token = $input['captchaToken'];
+        if (!$this->captchaUtils()->validateToken($token)) {
             return ['status' => 'DENIED'];
         }
 

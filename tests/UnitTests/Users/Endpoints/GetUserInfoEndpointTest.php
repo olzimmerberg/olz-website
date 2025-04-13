@@ -48,7 +48,7 @@ final class GetUserInfoEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call([
             'id' => $id,
-            'recaptchaToken' => 'valid',
+            'captchaToken' => 'valid',
         ]);
 
         $this->assertSame([

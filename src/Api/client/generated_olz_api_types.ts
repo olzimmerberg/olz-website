@@ -86,6 +86,8 @@ export type IsoCountry = string;
 
 export type OlzUserInfoData = {'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: {[key: string]: string}};
 
+export type OlzCaptchaConfig = {'rand': string, 'date': string, 'mac': string};
+
 export type OlzBookingData = {'registrationId': string, 'values': {[key: string]: unknown}};
 
 export type OlzBookingId = string;
@@ -215,6 +217,7 @@ export type OlzApiEndpoint =
     'updateUser'|
     'deleteUser'|
     'getUserInfo'|
+    'startCaptcha'|
     'createBooking'|
     'createRegistration'|
     'getManagedUsers'|
@@ -244,7 +247,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     onDaily: {'authenticityCode': string},
     onContinuously: {'authenticityCode': string},
     login: {'usernameOrEmail': string, 'password': string, 'rememberMe': boolean},
-    resetPassword: {'usernameOrEmail': string, 'recaptchaToken': string},
+    resetPassword: {'usernameOrEmail': string, 'captchaToken': string},
     switchUser: {'userId': number},
     logout: (Record<string, never> | null),
     getAuthenticatedUser: (Record<string, never> | null),
@@ -273,12 +276,12 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     editLink: {'id': OlzLinkId, 'custom'?: never},
     updateLink: {'id': OlzLinkId, 'meta': OlzMetaData, 'data': OlzLinkData, 'custom'?: never},
     deleteLink: {'id': OlzLinkId, 'custom'?: never},
-    createNews: {'meta': OlzMetaData, 'data': OlzNewsData, 'custom'?: {'recaptchaToken'?: (string | null)}},
+    createNews: {'meta': OlzMetaData, 'data': OlzNewsData, 'custom'?: {'captchaToken'?: (string | null)}},
     getNews: {'id': OlzNewsId, 'custom'?: never},
     editNews: {'id': OlzNewsId, 'custom'?: never},
     updateNews: {'id': OlzNewsId, 'meta': OlzMetaData, 'data': OlzNewsData, 'custom'?: never},
     deleteNews: {'id': OlzNewsId, 'custom'?: never},
-    getAuthorInfo: {'id': OlzNewsId, 'recaptchaToken'?: (string | null)},
+    getAuthorInfo: {'id': OlzNewsId, 'captchaToken'?: (string | null)},
     createRole: {'meta': OlzMetaData, 'data': OlzRoleData, 'custom'?: never},
     getRole: {'id': OlzRoleId, 'custom'?: never},
     editRole: {'id': OlzRoleId, 'custom'?: never},
@@ -286,7 +289,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     deleteRole: {'id': OlzRoleId, 'custom'?: never},
     addUserRoleMembership: {'ids': OlzRoleMembershipIds, 'custom'?: never},
     removeUserRoleMembership: {'ids': OlzRoleMembershipIds, 'custom'?: never},
-    getRoleInfo: {'id': OlzRoleId, 'recaptchaToken'?: (string | null)},
+    getRoleInfo: {'id': OlzRoleId, 'captchaToken'?: (string | null)},
     getSnippet: {'id': OlzSnippetId, 'custom'?: never},
     editSnippet: {'id': OlzSnippetId, 'custom'?: never},
     updateSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
@@ -326,12 +329,13 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     editTerminTemplate: {'id': OlzTerminTemplateId, 'custom'?: never},
     updateTerminTemplate: {'id': OlzTerminTemplateId, 'meta': OlzMetaData, 'data': OlzTerminTemplateData, 'custom'?: never},
     deleteTerminTemplate: {'id': OlzTerminTemplateId, 'custom'?: never},
-    createUser: {'meta': OlzMetaData, 'data': OlzUserData, 'custom'?: {'recaptchaToken'?: (string | null)}},
+    createUser: {'meta': OlzMetaData, 'data': OlzUserData, 'custom'?: {'captchaToken'?: (string | null)}},
     getUser: {'id': OlzUserId, 'custom'?: never},
     editUser: {'id': OlzUserId, 'custom'?: never},
     updateUser: {'id': OlzUserId, 'meta': OlzMetaData, 'data': OlzUserData, 'custom'?: never},
     deleteUser: {'id': OlzUserId, 'custom'?: never},
-    getUserInfo: {'id': OlzUserId, 'recaptchaToken'?: (string | null)},
+    getUserInfo: {'id': OlzUserId, 'captchaToken'?: (string | null)},
+    startCaptcha: Record<string, never>,
     createBooking: {'meta': OlzMetaData, 'data': OlzBookingData, 'custom'?: never},
     createRegistration: {'meta': OlzMetaData, 'data': OlzRegistrationData, 'custom'?: never},
     getManagedUsers: (Record<string, never> | null),
@@ -448,6 +452,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     updateUser: {'id': OlzUserId, 'custom'?: {'status': ('OK' | 'OK_NO_EMAIL_VERIFICATION' | 'DENIED' | 'ERROR')}},
     deleteUser: {'custom'?: never},
     getUserInfo: OlzUserInfoData,
+    startCaptcha: {'config': OlzCaptchaConfig},
     createBooking: {'id'?: (OlzBookingId | null), 'custom'?: never},
     createRegistration: {'id'?: (OlzRegistrationId | null), 'custom'?: never},
     getManagedUsers: {'status': ('OK' | 'ERROR'), 'managedUsers': (Array<ManagedUser> | null)},

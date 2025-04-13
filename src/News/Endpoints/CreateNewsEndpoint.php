@@ -15,7 +15,7 @@ use Symfony\Component\Mime\Email;
  * @phpstan-import-type OlzNewsFormat from NewsEndpointTrait
  *
  * @extends OlzCreateEntityTypedEndpoint<OlzNewsId, OlzNewsData, array{
- *   recaptchaToken?: ?non-empty-string,
+ *   captchaToken?: ?non-empty-string,
  * }, array{
  *   status: 'OK'|'DENIED'|'ERROR',
  * }>
@@ -43,8 +43,8 @@ class CreateNewsEndpoint extends OlzCreateEntityTypedEndpoint {
             $this->checkIsStaff();
         }
 
-        $token = $input['custom']['recaptchaToken'] ?? null;
-        $is_valid_token = $token ? $this->recaptchaUtils()->validateRecaptchaToken($token) : false;
+        $token = $input['custom']['captchaToken'] ?? null;
+        $is_valid_token = $token ? $this->captchaUtils()->validateToken($token) : false;
         if ($format === 'anonymous' && !$is_valid_token) {
             return ['custom' => ['status' => 'DENIED'], 'id' => null];
         }

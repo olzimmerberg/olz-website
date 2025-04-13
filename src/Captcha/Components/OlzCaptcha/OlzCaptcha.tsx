@@ -122,20 +122,27 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
     };
 
     return (
-        <div className='olz-captcha test-flaky'>
-            <div><b>Bot-Prüfung:</b> Bitte den Regler auf {targetValue} stellen</div>
+        <div className='olz-captcha'>
+            <div>
+                <b>Bot-Prüfung:</b> Bitte den Regler auf {targetValue} stellen
+                <button
+                    type='button'
+                    id='captcha-dev'
+                    onClick={() => {
+                        // works only on dev
+                        props.onToken('dev');
+                    }}
+                >
+                    &nbsp;
+                </button>
+            </div>
             <canvas
-                id='captcha-canvas'
                 width={WID}
                 height={HEI}
                 ref={canvas}
                 onMouseDown={onDown}
                 onMouseMove={onMove}
                 onMouseUp={onUp}
-                onClick={() => {
-                    // works only on dev
-                    props.onToken('dev');
-                }}
             >
             </canvas>
         </div>

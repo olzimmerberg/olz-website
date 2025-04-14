@@ -4,8 +4,9 @@ import {OlzCaptchaConfig} from '../../../Api/client/generated_olz_api_types';
 
 import './OlzCaptcha.scss';
 
-const WID = 800;
-const HEI = 400;
+const WID = 400;
+const HEI = 200;
+const RES = 2;
 
 interface OlzCaptchaProps {
     onToken: (captchaToken: string|null) => void;
@@ -28,17 +29,20 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
     const [config, setConfig] = React.useState<OlzCaptchaConfig|null>(null);
     const [currentRatio, setCurrentRatio] = React.useState<number>(0.0);
     const [isDragging, setIsDragging] = React.useState<boolean>(false);
+    const [isFinished, setIsFinished] = React.useState<boolean>(false);
     const [log, setLog] = React.useState<string[]>([]);
 
     const canvas = React.useRef<HTMLCanvasElement>(null);
 
-    const inpWid = 600;
-    const inpHei = 48;
+    const wid = WID * RES;
+    const hei = HEI * RES;
+    const inpWid = 300 * RES;
+    const inpHei = 24 * RES;
     const rand = window.atob(config?.rand ?? '');
     const targetValue = Math.round(2 + rand.charCodeAt(2) / 20);
-    const inpX = rand.charCodeAt(0) * (WID - inpWid - 30) / 255;
-    const inpY = rand.charCodeAt(1) * (HEI - inpHei) / 255;
-    const knobX = inpX + currentRatio * (inpWid - 40) + 20;
+    const inpX = rand.charCodeAt(0) * (wid - inpWid - 25 * RES) / 255;
+    const inpY = rand.charCodeAt(1) * (hei - inpHei) / 255;
+    const knobX = inpX + currentRatio * (inpWid - 20 * RES) + 10 * RES;
     const knobY = inpY + inpHei / 2;
 
     React.useEffect(() => {
@@ -54,14 +58,20 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
         if (!ctx || rand.length !== 3) {
             return;
         }
-        ctx.clearRect(0, 0, WID, HEI);
+        ctx.clearRect(0, 0, wid, hei);
 
         ctx.beginPath();
-        ctx.moveTo(inpX + 24, knobY - 4);
-        ctx.lineTo(inpX + inpWid - 24, knobY - 4);
-        ctx.quadraticCurveTo(inpX + inpWid - 20, knobY, inpX + inpWid - 24, knobY + 4);
-        ctx.lineTo(inpX + 24, knobY + 4);
-        ctx.quadraticCurveTo(inpX + 20, knobY, inpX + 24, knobY - 4);
+        ctx.moveTo(inpX + 12 * RES, knobY - 2 * RES);
+        ctx.lineTo(inpX + inpWid - 12 * RES, knobY - 2 * RES);
+        ctx.quadraticCurveTo(
+            inpX + inpWid - 10 * RES, knobY,
+            inpX + inpWid - 12 * RES, knobY + 2 * RES,
+        );
+        ctx.lineTo(inpX + 12 * RES, knobY + 2 * RES);
+        ctx.quadraticCurveTo(
+            inpX + 10 * RES, knobY,
+            inpX + 12 * RES, knobY - 2 * RES,
+        );
         ctx.fillStyle = 'rgb(200,200,200)';
         ctx.strokeStyle = 'rgb(175,175,175)';
         ctx.lineWidth = 2;
@@ -69,7 +79,7 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.arc(knobX, knobY, 20, 0, Math.PI * 2);
+        ctx.arc(knobX, knobY, 10 * RES, 0, Math.PI * 2);
         ctx.fillStyle = isDragging ? 'rgb(0,119,0)' : 'rgb(0,136,0)';
         ctx.strokeStyle = isDragging ? 'rgb(0,136,0)' : 'rgb(0,119,0)';
         ctx.fill();
@@ -78,20 +88,28 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
         ctx.fillStyle = 'rgb(0,0,0)';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.font = `${Math.ceil(HEI / 14)}px 'Open Sans', arial, sans-serif`;
-        ctx.fillText(`${Math.round(currentRatio * 15)}`, inpX + inpWid + 30, inpY + (inpHei / 2));
+        ctx.font = `${Math.ceil(HEI * RES / 14)}px 'Open Sans', arial, sans-serif`;
+        ctx.fillText(`${Math.round(currentRatio * 15)}`, inpX + inpWid + 5 * RES, inpY + (inpHei / 2));
     }, [config, canvas, currentRatio, isDragging]);
+
+    React.useEffect(() => {
+        if (!isFinished || !config) {
+            return;
+        }
+        const tokenContent: TokenContent = {log, config};
+        props.onToken(window.btoa(JSON.stringify(tokenContent)));
+    }, [isFinished]);
 
     const getMouseXY = (e: React.MouseEvent): Coord => {
         const rect = canvas.current?.getBoundingClientRect();
         return [
-            (e.pageX - (rect?.left ?? 0)) * 2,
-            (e.pageY - (rect?.top ?? 0)) * 2,
+            Math.round(e.pageX - (rect?.left ?? 0)),
+            Math.round(e.pageY - (rect?.top ?? 0)),
         ];
     };
 
     const onDrag = (x: number) => {
-        const rawRatio = (x - inpX - 20) / (inpWid - 40);
+        const rawRatio = (x - inpX / RES - 10) / (inpWid / RES - 20);
         setCurrentRatio(Math.max(0, Math.min(1, rawRatio)));
     };
 
@@ -101,9 +119,8 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
     };
 
     const onDown = ([x, y]: Coord) => {
-        const distSquare = (x - knobX) * (x - knobX) + (y - knobY) * (y - knobY);
-        console.log('DOWN', x, knobX, y, knobY, distSquare);
-        if (distSquare < 24 * 24) {
+        const distSquare = Math.pow(x - knobX / RES, 2) + Math.pow(y - knobY / RES, 2);
+        if (distSquare < 12 * 12) {
             setIsDragging(true);
             onDrag(x);
         }
@@ -124,8 +141,7 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
         setIsDragging(false);
         appendLog({event: 'U', x, y});
         if (config && Math.round(currentRatio * 15) === targetValue) {
-            const tokenContent: TokenContent = {log, config};
-            props.onToken(window.btoa(JSON.stringify(tokenContent)));
+            setIsFinished(true);
         }
     };
 
@@ -134,8 +150,8 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
         for (let i = 0; i < e.nativeEvent.changedTouches.length; i++) {
             const t = e.nativeEvent.changedTouches[i];
             fn([
-                (t.pageX - (rect?.left ?? 0)) * 2,
-                (t.pageY - (rect?.top ?? 0)) * 2,
+                Math.round(t.pageX - (rect?.left ?? 0)),
+                Math.round(t.pageY - (rect?.top ?? 0)),
             ]);
         }
     };
@@ -156,9 +172,9 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
                 </button>
             </div>
             <canvas
-                width={WID}
-                height={HEI}
-                style={{width: `${WID / 2}px`, height: `${HEI / 2}px`}}
+                width={wid}
+                height={hei}
+                style={{width: `${WID}px`, height: `${HEI}px`}}
                 ref={canvas}
                 onMouseDown={(e) => onDown(getMouseXY(e))}
                 onMouseMove={(e) => onMove(getMouseXY(e))}

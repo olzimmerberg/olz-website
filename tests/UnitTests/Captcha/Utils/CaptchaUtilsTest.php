@@ -8,8 +8,8 @@ use Olz\Captcha\Utils\CaptchaUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
 class TestOnlyCaptchaUtils extends CaptchaUtils {
-    public function getRandomString(int $length): string {
-        return base64_encode(str_repeat('a', $length));
+    public function getAppEnv(): string {
+        return 'dev';
     }
 }
 
@@ -39,15 +39,30 @@ final class CaptchaUtilsTest extends UnitTestCase {
     public function testValidateValidToken(): void {
         $utils = new CaptchaUtils();
         $token_content = [
-            'log' => ['D1,2', 'M1,2', 'U1,2'],
+            'log' => ['D32,170', 'M66,170', 'U100,170'],
             'config' => [
-                'rand' => 'YWE=',
+                'rand' => 'TOQj',
                 'date' => '2020-03-13 19:30:00',
-                'mac' => 'uVL8vw53PKjj0OqjiBk6yf-4VAtACOdgRrwEC-tSsMQ',
+                'mac' => '7VkwKEKhbXMzike6tOZE928V-9_mBKjQRNAW6smiJDw',
             ],
         ];
         $token = base64_encode(json_encode($token_content) ?: '');
         $this->assertTrue($utils->validateToken($token));
+    }
+
+    public function testValidateDevToken(): void {
+        $utils = new TestOnlyCaptchaUtils();
+        $this->assertTrue($utils->validateToken('dev'));
+    }
+
+    public function testValidateNullToken(): void {
+        $utils = new CaptchaUtils();
+        $this->assertFalse($utils->validateToken(null));
+    }
+
+    public function testValidateEmptyToken(): void {
+        $utils = new CaptchaUtils();
+        $this->assertFalse($utils->validateToken(''));
     }
 
     public function testValidateTokenInvalidMac(): void {
@@ -55,7 +70,7 @@ final class CaptchaUtilsTest extends UnitTestCase {
         $token_content = [
             'log' => ['D1,2', 'M1,2', 'U1,2'],
             'config' => [
-                'rand' => 'YWE=',
+                'rand' => 'TOQj',
                 'date' => '2020-03-13 19:30:00',
                 'mac' => 'invalid',
             ],
@@ -72,6 +87,48 @@ final class CaptchaUtilsTest extends UnitTestCase {
                 'rand' => 'YWE=',
                 'date' => '2020-03-13 19:25:00',
                 'mac' => 'PG4SW6RfC-DoXkU-fzGMmPpUihJkBCduGbsxL-5izg8',
+            ],
+        ];
+        $token = base64_encode(json_encode($token_content) ?: '');
+        $this->assertFalse($utils->validateToken($token));
+    }
+
+    public function testValidateTokenTooShort(): void {
+        $utils = new CaptchaUtils();
+        $token_content = [
+            'log' => ['D1,2', 'M1,2', 'U1,2'],
+            'config' => [
+                'rand' => 'YWE=',
+                'date' => '2020-03-13 19:30:00',
+                'mac' => 'uVL8vw53PKjj0OqjiBk6yf-4VAtACOdgRrwEC-tSsMQ',
+            ],
+        ];
+        $token = base64_encode(json_encode($token_content) ?: '');
+        $this->assertFalse($utils->validateToken($token));
+    }
+
+    public function testValidateTokenMalformedEntry(): void {
+        $utils = new CaptchaUtils();
+        $token_content = [
+            'log' => ['invalid'],
+            'config' => [
+                'rand' => 'TOQj',
+                'date' => '2020-03-13 19:30:00',
+                'mac' => '7VkwKEKhbXMzike6tOZE928V-9_mBKjQRNAW6smiJDw',
+            ],
+        ];
+        $token = base64_encode(json_encode($token_content) ?: '');
+        $this->assertFalse($utils->validateToken($token));
+    }
+
+    public function testValidateTokenConstraintViolated(): void {
+        $utils = new CaptchaUtils();
+        $token_content = [
+            'log' => ['D1,2', 'M1,2', 'U1,2'], // not a plausible way to solve the captcha
+            'config' => [
+                'rand' => 'TOQj',
+                'date' => '2020-03-13 19:30:00',
+                'mac' => '7VkwKEKhbXMzike6tOZE928V-9_mBKjQRNAW6smiJDw',
             ],
         ];
         $token = base64_encode(json_encode($token_content) ?: '');

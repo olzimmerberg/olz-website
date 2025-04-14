@@ -19,6 +19,6 @@ class Metadata extends BaseAppMetadata {
     }
 
     public function isAccessibleToUser(?User $user): bool {
-        return $this->authUtils()->hasPermission('any', $user);
+        return $this->authUtils()->hasPermission('panini2024', $user);
     }
 }

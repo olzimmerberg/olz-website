@@ -18,19 +18,64 @@ final class VereinTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testVereinReadOnly(): void {
         $browser = $this->getBrowser();
+        $browser->get($this->getUrl());
+
+        // View data using dev captcha
+        if ($this->isInModes(['dev_rw', 'dev'])) {
+            $this->click('#role-5 .olz-user-info-modal-trigger');
+            $this->waitForModal('#user-info-modal');
+            $this->click('#user-info-modal #captcha-dev');
+            $this->assertSame(
+                '/img/users/1/thumb/8sVwnV3aAEtQUUxmQYFmojMs.jpg$128.jpg',
+                $this->getBrowserElement('#user-info-modal img.avatar')?->getAttribute('src') ?? ''
+            );
+            $this->assertSame(
+                'Armin 😂 Admin 🤣',
+                $this->getBrowserElement('#user-info-modal h3')?->getText() ?? ''
+            );
+            $this->assertSame(
+                'admi n@st agin g.ol zimm erbe rg.c h ',
+                $this->getBrowserElement('#user-info-modal a.linkmail')?->getText() ?? ''
+            );
+        }
+
+        // Captcha actually blocks on prod
+        if ($this->isInModes('prod')) {
+            $this->click('#role-1 .olz-user-info-modal-trigger');
+            $this->waitForModal('#user-info-modal');
+            $this->click('#user-info-modal #captcha-dev');
+            $this->assertNull($this->getBrowserElement('#user-info-modal img.avatar'));
+            $this->assertNull($this->getBrowserElement('#user-info-modal h3'));
+            $this->assertNull($this->getBrowserElement('#user-info-modal a.linkmail'));
+            $this->assertMatchesRegularExpression(
+                '/ Fehler /i',
+                $this->getBrowserElement('#user-info-modal .container')?->getText() ?? ''
+            );
+        }
 
         if (!$this->isInModes('prod')) {
             $this->login('vorstand', 'v0r57and');
         }
         $browser->get($this->getUrl());
         $this->screenshot('verein');
-        // if ($this->isInModes('prod')) {
-        //     $this->click('#role-1 .olz-user-info-modal-trigger');
-        //     $this->click('#user-info-modal .container .btn-secondary');
-        //     sleep(3);
-        //     $this->click('#user-info-modal .container .btn-secondary');
-        //     sleep(5);
-        // }
+
+        // View data using login
+        if (!$this->isInModes('prod')) {
+            $this->click('#role-5 .olz-user-info-modal-trigger');
+            $this->waitForModal('#user-info-modal');
+            $this->assertSame(
+                '/img/users/1/thumb/8sVwnV3aAEtQUUxmQYFmojMs.jpg$128.jpg',
+                $this->getBrowserElement('#user-info-modal img.avatar')?->getAttribute('src') ?? ''
+            );
+            $this->assertSame(
+                'Armin 😂 Admin 🤣',
+                $this->getBrowserElement('#user-info-modal h3')?->getText() ?? ''
+            );
+            $this->assertSame(
+                'admi n@st agin g.ol zimm erbe rg.c h ',
+                $this->getBrowserElement('#user-info-modal a.linkmail')?->getText() ?? ''
+            );
+        }
 
         $browser->get("{$this->getUrl()}/praesi");
         $this->screenshot('verein_praesi');

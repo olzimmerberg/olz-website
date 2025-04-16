@@ -58,7 +58,7 @@ class CaptchaUtils {
         $mac = $config['mac'] ?? '';
         $expected_mac = $this->generalUtils()->hash($key, "{$date}{$rand}");
         if ($mac !== $expected_mac) {
-            $this->log()->info("Captcha denied: Invalid MAC of '{$date}{$rand}': {$config['mac']}", []);
+            $this->log()->info("Captcha denied: Invalid MAC of '{$date}{$rand}': {$mac}", []);
             return false;
         }
         $validity_interval = \DateInterval::createFromDateString("+60 seconds");

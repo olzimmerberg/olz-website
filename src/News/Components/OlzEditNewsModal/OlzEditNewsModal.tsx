@@ -103,7 +103,7 @@ interface OlzEditNewsModalConfig {
     name: string;
     hasFreeFormAuthor: boolean;
     hasTeaser: boolean;
-    contentLabel: string;
+    contentLabel: string|null;
     hasFormattingNotes: boolean;
     hasExternalUrl: boolean;
     hasImages: boolean;
@@ -172,9 +172,9 @@ const CONFIG_BY_FORMAT: {[format in OlzNewsFormat]: OlzEditNewsModalConfig} = {
         name: 'Video',
         hasFreeFormAuthor: false,
         hasTeaser: false,
-        contentLabel: 'YouTube URL',
+        contentLabel: null,
         hasFormattingNotes: false,
-        hasExternalUrl: false,
+        hasExternalUrl: true,
         hasImages: true,
         hasFiles: false,
         hasCaptcha: false,
@@ -394,15 +394,17 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                     />
                 </div>
             ) : null}
-            <div className='mb-3'>
-                <OlzTextField
-                    mode='textarea'
-                    title={<>{config.contentLabel} {markdownNotice}</>}
-                    name='content'
-                    errors={errors}
-                    register={register}
-                />
-            </div>
+            {config.contentLabel ? (
+                <div className='mb-3'>
+                    <OlzTextField
+                        mode='textarea'
+                        title={<>{config.contentLabel} {markdownNotice}</>}
+                        name='content'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+            ) : null}
             {config.hasExternalUrl ? (
                 <div className='mb-3'>
                     <OlzTextField

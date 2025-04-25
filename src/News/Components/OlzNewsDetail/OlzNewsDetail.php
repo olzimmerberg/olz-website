@@ -228,8 +228,8 @@ class OlzNewsDetail extends OlzComponent {
             $out .= "<p>{$content}</p>{$gallery}\n";
         } elseif ($format === 'video') {
             $youtube_url = $news_entry->getExternalUrl() ?? '';
-            $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9\-\_]{6,})/", $youtube_url, $matches0);
-            $res1 = preg_match("/^https\\:\\/\\/(www\\.)?youtube\\.com\\/watch\\?v\\=([a-zA-Z0-9\-\_]{6,})/", $youtube_url, $matches1);
+            $res0 = preg_match("/^https\\:\\/\\/(www\\.)?youtu\\.be\\/([a-zA-Z0-9\\-\\_]{6,})/", $youtube_url, $matches0);
+            $res1 = preg_match("/^https\\:\\/\\/(www\\.)?youtube\\.com\\/watch\\?v\\=([a-zA-Z0-9\\-\\_]{6,})/", $youtube_url, $matches1);
             $youtube_match = null;
             if ($res0) {
                 $youtube_match = $matches0[2];

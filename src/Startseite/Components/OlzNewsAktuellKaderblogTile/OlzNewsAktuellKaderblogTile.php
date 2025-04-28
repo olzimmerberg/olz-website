@@ -71,7 +71,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
                     $id,
                     $image_ids[0] ?? null,
                     80,
-                    'image',
+                    null,
                     ' class="noborder"'
                 );
                 $image = "<div class='link-image-{$class}'>{$olz_image}</div>";
@@ -85,14 +85,16 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
             }
 
             $out .= <<<ZZZZZZZZZZ
-                <li class='flex min-two-lines aktuell-kaderblog-tile'>
-                    {$image_left}
-                    <img src='{$icon}' alt='{$format}' class='link-icon'>
-                    <a href='{$code_href}news/{$id}?von=startseite' style='flex-grow:1;'>
-                        <span class='title'>{$title}</span>
-                        <span class='secondary'>({$date})</span>
+                <li>
+                    <a href='{$code_href}news/{$id}?von=startseite' class='flex min-two-lines aktuell-kaderblog-tile'>
+                        {$image_left}
+                        <img src='{$icon}' alt='{$format}' class='link-icon'>
+                        <div style='flex-grow:1;'>
+                            <span class='title'>{$title}</span>
+                            <span class='secondary'>({$date})</span>
+                        </div>
+                        {$image_right}
                     </a>
-                    {$image_right}
                 </li>
                 ZZZZZZZZZZ;
 

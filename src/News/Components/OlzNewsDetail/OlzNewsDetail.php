@@ -194,7 +194,7 @@ class OlzNewsDetail extends OlzComponent {
         }
 
         if ($format === 'aktuell') {
-            $out .= "<p><b>{$teaser}</b><p>{$content}</p>\n";
+            $out .= "<p><b>{$teaser}</b><p>{$content}</p><br/><br/>{$gallery}\n";
         } elseif ($format === 'kaderblog') {
             $out .= "<p>{$content}</p><br/><br/>{$gallery}\n";
         } elseif ($format === 'forum') {

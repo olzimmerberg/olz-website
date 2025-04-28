@@ -45,7 +45,7 @@ class OlzDownloads extends OlzComponent {
             $id = $download->getId();
             $name = $download->getName();
             $on_off = $download->getOnOff();
-            $file_id = $download->getFileId();
+            $file_id = $download->getStoredFileUploadIds()[0] ?? null;
 
             $user = $this->authUtils()->getCurrentUser();
             $owner_user = $download->getOwnerUser();
@@ -76,13 +76,18 @@ class OlzDownloads extends OlzComponent {
             if ($name === '---') {
                 $out .= "{$edit_admin}<br />";
             } else {
-                $file_href = $download->getFileHref($file_id);
-                $out .= <<<ZZZZZZZZZZ
-                    <li class='{$class} pretty'>
-                        {$edit_admin}
-                        <a href='{$file_href}'>{$name}</a>
-                    </li>
-                    ZZZZZZZZZZ;
+                if ($file_id) {
+                    $file_href = $download->getFileHref($file_id);
+                    $out .= <<<ZZZZZZZZZZ
+                        <li class='{$class} pretty'>
+                            {$edit_admin}
+                            <a href='{$file_href}'>{$name}</a>
+                        </li>
+                        ZZZZZZZZZZ;
+                } else {
+                    $this->log()->error("No file ID for download (ID:{$id})");
+                    $out .= "<li class='{$class} pretty'>{$edit_admin}{$name}</li>";
+                }
             }
         }
         $out .= "</ul>";

@@ -86,7 +86,6 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
         $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $download->getId());
         $this->assertSame('Test Download', $download->getName());
         $this->assertSame(3, $download->getPosition());
-        $this->assertSame('uploaded_file.pdf', $download->getFileId());
 
         $this->assertSame([
             [$download, 1, 1, 1],

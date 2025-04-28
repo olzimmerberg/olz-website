@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20250317225100
+-- MIGRATION: DoctrineMigrations\Version20250428113621
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -164,7 +164,6 @@ CREATE TABLE `downloads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` longtext DEFAULT NULL,
   `position` int(11) NOT NULL,
-  `file_id` longtext DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `owner_user_id` int(11) DEFAULT NULL,
   `owner_role_id` int(11) DEFAULT NULL,

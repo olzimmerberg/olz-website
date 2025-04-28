@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20250317225100
+-- MIGRATION: DoctrineMigrations\Version20250428113621
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -94,15 +94,16 @@ VALUES
     ('DoctrineMigrations\\Version20241007152642', '2024-10-07 17:28:16', '58'),
     ('DoctrineMigrations\\Version20241111170011', '2024-11-11 18:00:58', '241'),
     ('DoctrineMigrations\\Version20241117162027', '2024-11-17 17:20:58', '112'),
-    ('DoctrineMigrations\\Version20250317225100', '2025-03-17 23:55:39', '67');
+    ('DoctrineMigrations\\Version20250317225100', '2025-03-17 23:55:39', '67'),
+    ('DoctrineMigrations\\Version20250428113621', '2025-04-28 13:59:29', '56');
 
 -- Table downloads
 INSERT INTO downloads
-    (`id`, `name`, `position`, `file_id`, `on_off`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`)
+    (`id`, `name`, `position`, `on_off`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`)
 VALUES
-    ('1', 'Statuten', '0', 'MIGRATED0000000000010001.pdf', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('2', '---', '1', NULL, '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('3', 'Spesenreglement', '2', 'XV4x94BJaf2JCPWvB8DDqTyt.pdf', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+    ('1', 'Statuten', '0', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('2', '---', '1', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('3', 'Spesenreglement', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
 
 -- Table karten
 INSERT INTO karten

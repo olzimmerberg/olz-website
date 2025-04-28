@@ -24,9 +24,6 @@ class Download extends OlzEntity implements DataStorageInterface {
     #[ORM\Column(type: 'integer', nullable: false)]
     private int $position;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $file_id;
-
     public function getId(): ?int {
         return $this->id ?? null;
     }
@@ -49,14 +46,6 @@ class Download extends OlzEntity implements DataStorageInterface {
 
     public function setPosition(int $new_value): void {
         $this->position = $new_value;
-    }
-
-    public function getFileId(): ?string {
-        return $this->file_id;
-    }
-
-    public function setFileId(?string $new_value): void {
-        $this->file_id = $new_value;
     }
 
     public static function getEntityNameForStorage(): string {

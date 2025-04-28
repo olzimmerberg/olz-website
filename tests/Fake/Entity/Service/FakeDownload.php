@@ -21,7 +21,6 @@ class FakeDownload extends FakeEntity {
                 $entity->setId(12);
                 $entity->setName('Fake Download');
                 $entity->setPosition(12);
-                $entity->setFileId('uploaded_file.pdf');
                 return $entity;
             }
         );
@@ -36,7 +35,6 @@ class FakeDownload extends FakeEntity {
                 $entity->setId(123);
                 $entity->setName('Fake Download');
                 $entity->setPosition(123);
-                $entity->setFileId('uploaded_file.pdf');
                 return $entity;
             }
         );
@@ -51,7 +49,6 @@ class FakeDownload extends FakeEntity {
                 $entity->setId(1234);
                 $entity->setName('Fake Download');
                 $entity->setPosition(1234);
-                $entity->setFileId('uploaded_file.pdf');
                 return $entity;
             }
         );

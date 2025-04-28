@@ -31,7 +31,6 @@ trait DownloadEndpointTrait {
     public function updateEntityWithData(Download $entity, array $input_data): void {
         $entity->setName($input_data['name']);
         $entity->setPosition($input_data['position'] ?? 0);
-        $entity->setFileId($input_data['fileId'] ?? null);
     }
 
     /** @param OlzDownloadData $input_data */

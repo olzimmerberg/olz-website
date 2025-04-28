@@ -64,7 +64,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
                     $id,
                     $image_ids[0] ?? null,
                     80,
-                    'image',
+                    null,
                     ' class="noborder"'
                 );
                 $image = "{$olz_image}";
@@ -80,15 +80,15 @@ class OlzNewsForumTile extends AbstractOlzTile {
             $class = $is_image_right ? 'right' : 'left';
             $out .= <<<ZZZZZZZZZZ
                 <li class='{$class}'>
-                    <div class='flex bubble'>
-                        {$image_left}
-                        <img src='{$icon}' alt='{$format}' class='link-icon'>
-                        <a href='{$code_href}news/{$id}?von=startseite' class='title-link'>
+                    <a href='{$code_href}news/{$id}?von=startseite'>
+                        <div class='flex bubble'>
+                            {$image_left}
+                            <img src='{$icon}' alt='{$format}' class='link-icon'>
                             <span class='title'>{$title}</span>
-                        </a>
-                        <span class='date'>{$date}</span>
-                        {$image_right}
-                    </div>
+                            <span class='date'>{$date}</span>
+                            {$image_right}
+                        </div>
+                    </a>
                 </li>
                 ZZZZZZZZZZ;
 

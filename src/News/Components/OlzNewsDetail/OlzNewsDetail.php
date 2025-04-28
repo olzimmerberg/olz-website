@@ -175,56 +175,31 @@ class OlzNewsDetail extends OlzComponent {
 
         $out .= "<h1>{$edit_admin}{$title}</h1>";
 
+        $gallery = '';
+        $num_images = count($image_ids);
+        if ($num_images > 0) {
+            $gallery .= "<div class='lightgallery gallery-container'>";
+            foreach ($image_ids as $image_id) {
+                $gallery .= "<div class='gallery-image'>";
+                $gallery .= $this->imageUtils()->olzImage(
+                    'news',
+                    $id,
+                    $image_id,
+                    110,
+                    'gallery[myset]'
+                );
+                $gallery .= "</div>";
+            }
+            $gallery .= "</div>";
+        }
+
         if ($format === 'aktuell') {
             $out .= "<p><b>{$teaser}</b><p>{$content}</p>\n";
         } elseif ($format === 'kaderblog') {
-            $gallery = '';
-            $num_images = count($image_ids);
-            if ($num_images > 0) {
-                $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
-                foreach ($image_ids as $image_id) {
-                    $gallery .= "<div class='gallery-image'>";
-                    $gallery .= $this->imageUtils()->olzImage(
-                        'news',
-                        $id,
-                        $image_id,
-                        110,
-                        'gallery[myset]'
-                    );
-                    $gallery .= "</div>";
-                }
-                $gallery .= "</div>";
-            }
-            $out .= "<p>{$content}</p>{$gallery}\n";
+            $out .= "<p>{$content}</p><br/><br/>{$gallery}\n";
         } elseif ($format === 'forum') {
-            $gallery = '';
-            $num_images = count($image_ids);
-            if ($num_images > 0) {
-                $gallery .= "<br/><br/><div class='lightgallery gallery-container'>";
-                foreach ($image_ids as $image_id) {
-                    $gallery .= "<div class='gallery-image'>";
-                    $gallery .= $this->imageUtils()->olzImage(
-                        'news',
-                        $id,
-                        $image_id,
-                        110,
-                        'gallery[myset]'
-                    );
-                    $gallery .= "</div>";
-                }
-                $gallery .= "</div>";
-            }
-            $out .= "<p><b>{$teaser}</b><p>{$content}</p>{$gallery}\n";
+            $out .= "<p><b>{$teaser}</b><p>{$content}</p><br/><br/>{$gallery}\n";
         } elseif ($format === 'galerie') {
-            $gallery = '';
-            $gallery .= "<div class='lightgallery gallery-container'>";
-            $size = count($image_ids);
-            for ($index = 0; $index < $size; $index++) {
-                $gallery .= "<div class='gallery-image'>";
-                $gallery .= $this->imageUtils()->olzImage("news", $id, $image_ids[$index], 110, 'gallery[myset]');
-                $gallery .= "</div>";
-            }
-            $gallery .= "</div>\n";
             $out .= "<p>{$content}</p>{$gallery}\n";
         } elseif ($format === 'video') {
             $youtube_url = $news_entry->getExternalUrl() ?? '';

@@ -50,7 +50,7 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 403",
+                "NOTICE HTTP error 403",
             ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
@@ -71,7 +71,7 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 404",
+                "NOTICE HTTP error 404",
             ], $this->getLogs());
 
             $this->assertSame(

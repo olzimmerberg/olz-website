@@ -48,7 +48,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
         }
     }
@@ -76,7 +76,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
         }
     }
@@ -104,7 +104,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
         }
     }
@@ -125,7 +125,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             $this->assertSame(403, $httperr->getCode());
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 403",
+                "NOTICE HTTP error 403",
             ], $this->getLogs());
         }
     }

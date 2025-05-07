@@ -40,7 +40,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame([
-                'ERROR Throttled user request',
+                'NOTICE Throttled user request',
             ], $this->getLogs());
             $this->assertSame(429, $err->getCode());
             $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -59,7 +59,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame([
-                'WARNING Bad user request',
+                'NOTICE Bad user request',
             ], $this->getLogs());
             $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
             $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -79,7 +79,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (HttpError $err) {
             $this->assertSame([
-                'WARNING Bad user request',
+                'NOTICE Bad user request',
             ], $this->getLogs());
             $this->assertSame(400, $err->getCode()); // in other words: it wasn't throttled
             $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -100,7 +100,7 @@ final class OnDailyEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 'INFO Valid user request',
-                'WARNING HTTP error 403',
+                'NOTICE HTTP error 403',
             ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
             $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);

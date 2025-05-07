@@ -37,7 +37,7 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'INFO Valid user request',
-                'WARNING Bad user request',
+                'NOTICE Bad user request',
             ], $this->getLogs());
             $this->assertSame([
                 'newPassword' => ['Das neue Passwort muss mindestens 8 Zeichen lang sein.'],

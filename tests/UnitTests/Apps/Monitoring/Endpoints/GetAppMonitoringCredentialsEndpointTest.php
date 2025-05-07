@@ -47,7 +47,7 @@ final class GetAppMonitoringCredentialsEndpointTest extends UnitTestCase {
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 403",
+                "NOTICE HTTP error 403",
             ], $this->getLogs());
         }
     }

@@ -495,8 +495,7 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
     }
 
     public function softDelete(): void {
-        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
-        $this->setOnOff(0);
+        $this->entityUtils()->updateOlzEntity($this, ['onOff' => false]);
         $this->setEmail('');
         $this->setPasswordHash('');
         $this->setPhone('');
@@ -521,7 +520,6 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
         $this->setSolvNumber(null);
         $this->setSiCardNumber(null);
         $this->setNotes('');
-        $this->setLastModifiedAt($now_datetime);
         $this->roles->clear();
     }
 

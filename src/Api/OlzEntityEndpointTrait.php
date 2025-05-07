@@ -39,6 +39,15 @@ trait OlzEntityEndpointTrait {
         $this->uploadUtils()->editUploads($image_ids, "{$entity_img_path}img/");
     }
 
+    protected function deleteOlzImages(DataStorageInterface $entity): void {
+        $data_path = $this->envUtils()->getDataPath();
+        $entity_name = $entity::getEntityNameForStorage();
+        $entity_id = $entity->getEntityIdForStorage();
+
+        $entity_img_path = "{$data_path}img/{$entity_name}/{$entity_id}/";
+        $this->generalUtils()->removeRecursive($entity_img_path);
+    }
+
     /** @param ?array<string> $file_ids */
     protected function persistOlzFiles(DataStorageInterface $entity, ?array $file_ids): void {
         $data_path = $this->envUtils()->getDataPath();
@@ -67,5 +76,14 @@ trait OlzEntityEndpointTrait {
             $temp_path = "{$data_path}temp/{$file_id}";
             copy($file_path, $temp_path);
         }
+    }
+
+    protected function deleteOlzFiles(DataStorageInterface $entity): void {
+        $data_path = $this->envUtils()->getDataPath();
+        $entity_name = $entity::getEntityNameForStorage();
+        $entity_id = $entity->getEntityIdForStorage();
+
+        $entity_files_path = "{$data_path}files/{$entity_name}/{$entity_id}/";
+        $this->generalUtils()->removeRecursive($entity_files_path);
     }
 }

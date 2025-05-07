@@ -152,7 +152,7 @@ class ExecuteEmailReactionEndpoint extends OlzTypedEndpoint {
             $this->log()->error("Trying to delete inexistent news entry: {$news_id}.", [$this->reaction_data]);
             return ['status' => 'INVALID_TOKEN'];
         }
-        $news_entry->setOnOff(0);
+        $this->entityUtils()->updateOlzEntity($news_entry, ['onOff' => false]);
         $this->entityManager()->flush();
         return ['status' => 'OK'];
     }

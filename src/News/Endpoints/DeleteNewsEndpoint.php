@@ -32,7 +32,7 @@ class DeleteNewsEndpoint extends OlzDeleteEntityTypedEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $entity->setOnOff(0);
+        $this->entityUtils()->updateOlzEntity($entity, ['onOff' => false]);
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 

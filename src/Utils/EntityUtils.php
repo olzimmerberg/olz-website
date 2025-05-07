@@ -90,7 +90,10 @@ class EntityUtils {
         $current_user = $this->authUtils()->getCurrentUser();
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
-        $on_off = ($input['onOff'] ?? null) ? 1 : 0;
+        $on_off = $input['onOff'] ?? null;
+        if ($on_off !== null) {
+            $entity->setOnOff($on_off ? 1 : 0);
+        }
 
         $owner_user_id = $input['ownerUserId'] ?? null;
         if ($owner_user_id) {
@@ -104,7 +107,6 @@ class EntityUtils {
             $entity->setOwnerRole($owner_role);
         }
 
-        $entity->setOnOff($on_off);
         $entity->setLastModifiedAt($now_datetime);
         $entity->setLastModifiedByUser($current_user);
     }

@@ -41,7 +41,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
         }
     }
@@ -57,7 +57,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame([
                 'usernameOrEmail' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],

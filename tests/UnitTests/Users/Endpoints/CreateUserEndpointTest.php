@@ -115,7 +115,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -168,7 +168,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (inv@lid@) <fakeEmail> (Parent: )",
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -198,7 +198,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail> (Parent: )",
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -228,7 +228,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fake-user@olzimmerberg.ch> (Parent: )",
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -258,7 +258,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <> (Parent: )",
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -288,7 +288,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail> (Parent: )",
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -581,7 +581,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (admin@) <fakeEmail> (Parent: )",
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame(
@@ -664,7 +664,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (inexistent@) <admin@gmail.com> (Parent: )",
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame(

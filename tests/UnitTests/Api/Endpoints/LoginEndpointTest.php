@@ -33,7 +33,7 @@ final class LoginEndpointTest extends UnitTestCase {
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
         }
     }
@@ -56,7 +56,7 @@ final class LoginEndpointTest extends UnitTestCase {
                 // @phpstan-ignore-next-line
             ], $httperr->getPrevious()->getValidationErrors());
             $this->assertSame([
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
         }
     }

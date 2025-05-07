@@ -161,7 +161,7 @@ class FakeProcessEmailCommandMail extends Message {
         return $this->attachments;
     }
 
-    public function move(string $folder_path, bool $expunge = false): ?FakeProcessEmailCommandMail {
+    public function move(string $folder_path, bool $expunge = false, bool $utf7 = false): ?FakeProcessEmailCommandMail {
         $this->moved_to = $folder_path;
         return $this;
     }

@@ -31,7 +31,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 403",
+                "NOTICE HTTP error 403",
             ], $this->getLogs());
             $this->assertSame([
                 [FakeRole::minimal(), null, null, null, null, 'roles'],
@@ -54,7 +54,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 403",
+                "NOTICE HTTP error 403",
             ], $this->getLogs());
             $this->assertSame([
                 [FakeRole::minimal(), null, null, null, null, 'roles'],
@@ -107,7 +107,7 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 404",
+                "NOTICE HTTP error 404",
             ], $this->getLogs());
             $this->assertSame(
                 [],

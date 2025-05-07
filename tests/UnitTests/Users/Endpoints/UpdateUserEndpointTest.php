@@ -93,7 +93,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 403",
+                "NOTICE HTTP error 403",
             ], $this->getLogs());
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
             $this->assertSame([
@@ -132,7 +132,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -175,7 +175,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING Bad user request",
+                "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -405,7 +405,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'INFO Valid user request',
-                'WARNING Bad user request',
+                'NOTICE Bad user request',
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -457,7 +457,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'INFO Valid user request',
-                'WARNING Bad user request',
+                'NOTICE Bad user request',
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
@@ -546,7 +546,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 403",
+                "NOTICE HTTP error 403",
             ], $this->getLogs());
 
             $this->assertSame([
@@ -575,7 +575,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "WARNING HTTP error 404",
+                "NOTICE HTTP error 404",
             ], $this->getLogs());
 
             $this->assertSame(

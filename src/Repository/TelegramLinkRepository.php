@@ -9,13 +9,13 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<TelegramLink>
  */
 class TelegramLinkRepository extends OlzRepository {
-    protected string $telegram_link_class = TelegramLink::class;
+    protected string $entityClass = TelegramLink::class;
 
     /** @return array<TelegramLink> */
     public function getActivatedTelegramLinks(): array {
         $dql = "
             SELECT tl
-            FROM {$this->telegram_link_class} tl
+            FROM {$this->entityClass} tl
             WHERE (
                 tl.user IS NOT NULL
                 AND tl.telegram_chat_id IS NOT NULL

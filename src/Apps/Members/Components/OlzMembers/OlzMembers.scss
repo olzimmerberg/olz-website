@@ -1,0 +1,42 @@
+.olz-members {
+    .form-control {
+        margin: 0 10px;
+        width: auto;
+    }
+
+    .export-bar {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 12px;
+    }
+
+    table {
+        table-layout: fixed;
+    }
+
+    th {
+        &.id {
+            width: 10%;
+        }
+        &.username {
+            width: 20%;
+        }
+        &.user-id {
+            width: 20%;
+        }
+        &.status {
+            width: 10%;
+        }
+        &.updates {
+            width: 40%;
+        }
+    }
+
+    td {
+        padding: 0 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

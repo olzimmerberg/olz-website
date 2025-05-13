@@ -9,7 +9,7 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<Question>
  */
 class QuestionRepository extends OlzRepository {
-    protected string $question_class = Question::class;
+    protected string $entityClass = Question::class;
 
     public function getPredefinedQuestion(PredefinedQuestion $predefined_question): ?Question {
         $question = $this->findOneBy(['ident' => $predefined_question->value]);

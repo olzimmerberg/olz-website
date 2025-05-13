@@ -9,11 +9,11 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<SolvResult>
  */
 class SolvResultRepository extends OlzRepository {
-    protected string $solv_result_class = SolvResult::class;
+    protected string $entityClass = SolvResult::class;
 
     /** @return array<SolvResult> */
     public function getUnassignedSolvResults(): array {
-        $dql = "SELECT sr FROM {$this->solv_result_class} sr WHERE sr.person = '0'";
+        $dql = "SELECT sr FROM {$this->entityClass} sr WHERE sr.person = '0'";
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();
     }
@@ -26,7 +26,7 @@ class SolvResultRepository extends OlzRepository {
                 sr.name,
                 sr.birth_year,
                 sr.domicile
-            FROM {$this->solv_result_class} sr
+            FROM {$this->entityClass} sr
             WHERE sr.person != '0'
         ";
         $query = $this->getEntityManager()->createQuery($dql);
@@ -41,7 +41,7 @@ class SolvResultRepository extends OlzRepository {
         $sane_domicile = $db->real_escape_string($solv_result->getDomicile());
         $dql = "
             SELECT sr.person
-            FROM {$this->solv_result_class} sr
+            FROM {$this->entityClass} sr
             WHERE
                 sr.name = '{$sane_name}'
                 AND sr.birth_year = '{$sane_birth_year}'
@@ -62,7 +62,7 @@ class SolvResultRepository extends OlzRepository {
         $sane_old_id = intval($old_person_id);
         $sane_new_id = intval($new_person_id);
         $dql = "
-            UPDATE {$this->solv_result_class} sr
+            UPDATE {$this->entityClass} sr
             SET sr.person = '{$sane_new_id}'
             WHERE sr.person = '{$sane_old_id}'
         ";
@@ -74,7 +74,7 @@ class SolvResultRepository extends OlzRepository {
         $sane_id = intval($id);
         $dql = "
             SELECT COUNT(sr.id)
-            FROM {$this->solv_result_class} sr
+            FROM {$this->entityClass} sr
             WHERE sr.person = '{$sane_id}'";
         $query = $this->getEntityManager()->createQuery($dql);
         try {

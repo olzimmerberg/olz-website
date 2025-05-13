@@ -3,12 +3,15 @@
 namespace Olz\Repository\Quiz;
 
 use Olz\Entity\Quiz\Skill;
+use Olz\Entity\Quiz\SkillCategory;
 use Olz\Repository\Common\OlzRepository;
 
 /**
  * @extends OlzRepository<Skill>
  */
 class SkillRepository extends OlzRepository {
+    protected string $entityClass = Skill::class;
+
     public const ITERATION_LIMIT = 1000;
 
     /**
@@ -17,6 +20,7 @@ class SkillRepository extends OlzRepository {
      * @return array<Skill>
      */
     public function getSkillsInCategories(array $category_ids): array {
+        $skill_category_class = SkillCategory::class;
         $transitive_category_ids = array_map(
             function ($id) {
                 return intval($id);
@@ -32,7 +36,7 @@ class SkillRepository extends OlzRepository {
             $category = $this->findOneBy(['id' => $sane_category_id]);
             $dql = "
                 SELECT sc
-                FROM SkillCategory sc
+                FROM {$skill_category_class} sc
                 WHERE sc.id = '{$sane_category_id}'";
             $query = $this->getEntityManager()->createQuery($dql);
             foreach ($query->getResult() as $category) {
@@ -42,7 +46,7 @@ class SkillRepository extends OlzRepository {
             }
             $dql = "
                 SELECT sc
-                FROM SkillCategory sc
+                FROM {$skill_category_class} sc
                 WHERE sc.parent_category = '{$sane_category_id}'";
             $query = $this->getEntityManager()->createQuery($dql);
             $categories = $query->getResult();

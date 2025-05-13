@@ -18,6 +18,7 @@ final class OlzAppsTest extends UnitTestCase {
         'Commands',
         'Files',
         'Logs',
+        'Members',
         'Monitoring',
         'Newsletter',
         'Oev',

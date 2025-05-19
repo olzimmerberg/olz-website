@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20250428113621
+-- MIGRATION: DoctrineMigrations\Version20250513214853
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -95,7 +95,8 @@ VALUES
     ('DoctrineMigrations\\Version20241111170011', '2024-11-11 18:00:58', '241'),
     ('DoctrineMigrations\\Version20241117162027', '2024-11-17 17:20:58', '112'),
     ('DoctrineMigrations\\Version20250317225100', '2025-03-17 23:55:39', '67'),
-    ('DoctrineMigrations\\Version20250428113621', '2025-04-28 13:59:29', '56');
+    ('DoctrineMigrations\\Version20250428113621', '2025-04-28 13:59:29', '56'),
+    ('DoctrineMigrations\\Version20250513214853', '2025-05-13 23:50:47', '598');
 
 -- Table downloads
 INSERT INTO downloads
@@ -120,6 +121,8 @@ VALUES
     ('1', 'SOLV', 'https://swiss-orienteering.ch', '0', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('2', '---', '---', '1', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('3', 'GO2OL', 'https://go2ol.ch', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+
+-- Table members
 
 -- Table messenger_messages
 

@@ -11,7 +11,7 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<Role>
  */
 class RoleRepository extends OlzRepository {
-    protected string $role_class = Role::class;
+    protected string $entityClass = Role::class;
 
     public function getPredefinedRole(PredefinedRole $predefined_role): ?Role {
         $role = $this->findOneBy(['username' => $predefined_role->value]);
@@ -22,13 +22,13 @@ class RoleRepository extends OlzRepository {
     }
 
     public function findRoleFuzzilyByUsername(string $username): ?Role {
-        $dql = "SELECT r FROM {$this->role_class} r WHERE r.username LIKE ?1";
+        $dql = "SELECT r FROM {$this->entityClass} r WHERE r.username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $username);
         return $query->getOneOrNullResult();
     }
 
     public function findRoleFuzzilyByOldUsername(string $old_username): ?Role {
-        $dql = "SELECT r FROM {$this->role_class} r WHERE r.old_username LIKE ?1";
+        $dql = "SELECT r FROM {$this->entityClass} r WHERE r.old_username LIKE ?1";
         $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $old_username);
         return $query->getOneOrNullResult();
     }
@@ -38,7 +38,7 @@ class RoleRepository extends OlzRepository {
         if ($roleId === null) {
             $dql = "
                 SELECT r
-                FROM {$this->role_class} r
+                FROM {$this->entityClass} r
                 WHERE
                     r.parent_role IS NULL
                     AND r.index_within_parent IS NOT NULL
@@ -49,7 +49,7 @@ class RoleRepository extends OlzRepository {
         } else {
             $dql = "
                 SELECT r
-                FROM {$this->role_class} r
+                FROM {$this->entityClass} r
                 WHERE
                     r.parent_role = ?1
                     AND r.index_within_parent IS NOT NULL

@@ -63,11 +63,13 @@ class UploadUtils {
         return "([a-zA-Z0-9_-]{24})(\\.{$this->suffixPattern})";
     }
 
+    /** @return non-empty-string */
     public function getRandomUploadId(string $suffix): string {
         if (!preg_match("/^\\.{$this->suffixPattern}$/", $suffix)) {
             throw new \Exception("Invalid upload ID suffix: {$suffix}");
         }
         $random_id = $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(18));
+        $this->generalUtils()->checkNotEmpty($random_id, 'Random upload ID must not be empty');
         return "{$random_id}{$suffix}";
     }
 

@@ -11,7 +11,12 @@ class FakeEntity {
     /** @var array<string, T> */
     public static array $cache = [];
 
-    /** @return T */
+    /**
+     * @param callable(): T             $generate_new
+     * @param callable(T $entity): void $populate_new
+     *
+     * @return T
+     */
     protected static function getFake(
         bool $should_generate_new,
         callable $generate_new,

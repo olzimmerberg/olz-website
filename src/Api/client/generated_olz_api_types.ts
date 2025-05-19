@@ -108,6 +108,8 @@ export type OlzLogsQuery = {'channel': string, 'targetDate'?: (IsoDateTime | nul
 
 export type OlzLogLevel = ('debug' | 'info' | 'notice' | 'warning' | 'error' | 'critical' | 'alert' | 'emergency');
 
+export type OlzMemberInfo = {'ident': string, 'action': ('CREATE' | 'UPDATE' | 'DELETE' | 'KEEP'), 'username'?: (string | null), 'matchingUsername'?: (string | null), 'userId'?: (number | null), 'updates': {[key: string]: {'old': string, 'new': string}}};
+
 export type OlzTransportSuggestion = {'mainConnection': OlzTransportConnection, 'sideConnections': Array<{'connection': OlzTransportConnection, 'joiningStationId': string}>, 'originInfo': Array<OlzOriginInfo>, 'debug': string};
 
 export type OlzTransportConnection = {'sections': Array<OlzTransportSection>};
@@ -227,6 +229,8 @@ export type OlzApiEndpoint =
     'getWebdavAccessToken'|
     'revokeWebdavAccessToken'|
     'getLogs'|
+    'importMembers'|
+    'exportMembers'|
     'getAppMonitoringCredentials'|
     'updateNotificationSubscriptions'|
     'searchTransportConnection'|
@@ -345,6 +349,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getWebdavAccessToken: (Record<string, never> | null),
     revokeWebdavAccessToken: (Record<string, never> | null),
     getLogs: {'query': OlzLogsQuery},
+    importMembers: {'csvFileId': string},
+    exportMembers: Record<string, never>,
     getAppMonitoringCredentials: (Record<string, never> | null),
     updateNotificationSubscriptions: {'deliveryType': ('email' | 'telegram'), 'monthlyPreview': boolean, 'weeklyPreview': boolean, 'deadlineWarning': boolean, 'deadlineWarningDays': ('1' | '2' | '3' | '7'), 'dailySummary': boolean, 'dailySummaryAktuell': boolean, 'dailySummaryBlog': boolean, 'dailySummaryForum': boolean, 'dailySummaryGalerie': boolean, 'dailySummaryTermine': boolean, 'weeklySummary': boolean, 'weeklySummaryAktuell': boolean, 'weeklySummaryBlog': boolean, 'weeklySummaryForum': boolean, 'weeklySummaryGalerie': boolean, 'weeklySummaryTermine': boolean},
     searchTransportConnection: {'destination': string, 'arrival': IsoDateTime},
@@ -462,6 +468,8 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     getWebdavAccessToken: {'status': ('OK' | 'ERROR'), 'token'?: (string | null)},
     revokeWebdavAccessToken: {'status': ('OK' | 'ERROR')},
     getLogs: {'content': Array<string>, 'pagination': {'previous': (string | null), 'next': (string | null)}},
+    importMembers: {'status': ('OK' | 'ERROR'), 'members': Array<OlzMemberInfo>},
+    exportMembers: {'status': ('OK' | 'ERROR'), 'csvFileId'?: (string | null)},
     getAppMonitoringCredentials: {'username': string, 'password': string},
     updateNotificationSubscriptions: {'status': ('OK' | 'ERROR')},
     searchTransportConnection: {'status': ('OK' | 'ERROR'), 'suggestions'?: (Array<OlzTransportSuggestion> | null)},

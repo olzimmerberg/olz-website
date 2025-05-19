@@ -9,11 +9,13 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<WeeklyPicture>
  */
 class WeeklyPictureRepository extends OlzRepository {
+    protected string $entityClass = WeeklyPicture::class;
+
     /** @return array<WeeklyPicture> */
     public function getLatestThree(): array {
         $dql = "
             SELECT wp
-            FROM Olz\\Entity\\Startseite\\WeeklyPicture wp
+            FROM {$this->entityClass} wp
             WHERE wp.on_off = 1
             ORDER BY wp.datum DESC
         ";

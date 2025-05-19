@@ -41,7 +41,10 @@ class FakeUserRepository extends FakeOlzRepository {
         if ($criteria === ['id' => FakeOlzRepository::EMPTY_ID]) {
             return FakeUser::empty();
         }
-        if ($criteria === ['id' => FakeOlzRepository::MAXIMAL_ID]) {
+        if (
+            $criteria === ['id' => FakeOlzRepository::MAXIMAL_ID]
+            || $criteria === ['username' => 'maximal-user']
+        ) {
             return FakeUser::maximal();
         }
         if ($criteria === ['username' => 'user'] || $criteria === ['id' => 1]) {
@@ -125,6 +128,16 @@ class FakeUserRepository extends FakeOlzRepository {
             return $fake_process_email_command_user;
         }
         return null;
+    }
+
+    public function findUserFuzzilyByName(string $first_name, string $last_name): ?User {
+        if ($first_name === 'Empty' && $last_name === 'User') {
+            return FakeUser::empty();
+        }
+        if ($first_name === 'Max' && $last_name === 'User') {
+            return null;
+        }
+        throw new \Exception("findUserFuzzilyByName not mocked: {$first_name}, {$last_name}");
     }
 
     /** @return array<User> */

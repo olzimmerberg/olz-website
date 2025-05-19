@@ -10,12 +10,14 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<SkillLevel>
  */
 class SkillLevelRepository extends OlzRepository {
+    protected string $entityClass = SkillLevel::class;
+
     /** @return array<SkillLevel> */
     public function getSkillLevelsForUserId(int $user_id): array {
         $sane_user_id = intval($user_id);
         $dql = "
             SELECT sl
-            FROM SkillLevel sl
+            FROM {$this->entityClass} sl
             WHERE sl.user = '{$sane_user_id}'";
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();
@@ -39,7 +41,7 @@ class SkillLevelRepository extends OlzRepository {
         $skill_ids_sql = implode("','", $skill_ids);
         $dql = "
             SELECT sl
-            FROM SkillLevel sl
+            FROM {$this->entityClass} sl
             WHERE sl.user = '{$sane_user_id}' AND sl.skill IN ('{$skill_ids_sql}')";
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();

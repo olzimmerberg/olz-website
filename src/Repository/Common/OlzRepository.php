@@ -12,4 +12,7 @@ use Olz\Utils\WithUtilsTrait;
  */
 class OlzRepository extends EntityRepository {
     use WithUtilsTrait;
+
+    /** @var class-string<T> */
+    protected string $entityClass;
 }

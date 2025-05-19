@@ -31,6 +31,7 @@ use Olz\Entity\Counter;
 use Olz\Entity\Faq\Question;
 use Olz\Entity\Faq\QuestionCategory;
 use Olz\Entity\Karten\Karte;
+use Olz\Entity\Members\Member;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Quiz\Skill;
@@ -64,6 +65,7 @@ use Olz\Tests\Fake\Entity\FakeThrottlingRepository;
 use Olz\Tests\Fake\Entity\Faq\FakeQuestionCategoryRepository;
 use Olz\Tests\Fake\Entity\Faq\FakeQuestionRepository;
 use Olz\Tests\Fake\Entity\Karten\FakeKarteRepository;
+use Olz\Tests\Fake\Entity\Members\FakeMemberRepository;
 use Olz\Tests\Fake\Entity\News\FakeNewsRepository;
 use Olz\Tests\Fake\Entity\Quiz\FakeSkillCategoryRepository;
 use Olz\Tests\Fake\Entity\Quiz\FakeSkillLevelRepository;
@@ -103,6 +105,7 @@ class FakeEntityManager implements EntityManagerInterface {
             Download::class => new FakeDownloadRepository($this),
             Karte::class => new FakeKarteRepository($this),
             Link::class => new FakeLinkRepository($this),
+            Member::class => new FakeMemberRepository($this),
             NewsEntry::class => new FakeNewsRepository($this),
             NotificationSubscription::class => new FakeNotificationSubscriptionRepository($this),
             Question::class => new FakeQuestionRepository($this),

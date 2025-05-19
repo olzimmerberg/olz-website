@@ -50,7 +50,7 @@ final class KernelExceptionListenerTest extends UnitTestCase {
 
         $this->assertCount(1, $this->getLogs());
         $this->assertMatchesRegularExpression(
-            '/^WARNING Non\-HttpExceptionInterface exception\: fake\-exception\n\#0 \//',
+            '/^WARNING Non\-HttpExceptionInterface exception\: fake\-exception at \S+\/tests\/UnitTests\/EventListener\/KernelExceptionListenerTest.php\:\d+\n\#0 \//',
             $this->getLogs()[0],
         );
     }

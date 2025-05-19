@@ -9,7 +9,7 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<AuthRequest>
  */
 class AuthRequestRepository extends OlzRepository {
-    protected string $auth_request_class = AuthRequest::class;
+    protected string $entityClass = AuthRequest::class;
 
     public const NUM_TRIES = 8;
     public const TRIES_RESET_INTERVAL = '+8 hour'; // Reset after 8h
@@ -44,7 +44,7 @@ class AuthRequestRepository extends OlzRepository {
         $sanitized_min_timestamp = $min_timestamp->format('Y-m-d H:i:s');
         $dql = "
             SELECT ar 
-            FROM {$this->auth_request_class} ar 
+            FROM {$this->entityClass} ar 
             WHERE 
                 ar.ip_address='{$sanitized_ip_address}' 
                 AND ar.timestamp>'{$sanitized_min_timestamp}'
@@ -76,7 +76,7 @@ class AuthRequestRepository extends OlzRepository {
         $sanitized_min_timestamp = $min_timestamp->format('Y-m-d H:i:s');
         $dql = "
             SELECT ar 
-            FROM {$this->auth_request_class} ar 
+            FROM {$this->entityClass} ar 
             WHERE 
                 ar.ip_address='{$sanitized_ip_address}' 
                 AND ar.timestamp>'{$sanitized_min_timestamp}'

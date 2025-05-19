@@ -9,7 +9,7 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<SolvEvent>
  */
 class SolvEventRepository extends OlzRepository {
-    protected string $solv_event_class = SolvEvent::class;
+    protected string $entityClass = SolvEvent::class;
 
     /** @return array<SolvEvent> */
     public function getSolvEventsForYear(int $year): array {
@@ -17,7 +17,7 @@ class SolvEventRepository extends OlzRepository {
         $sane_next_year = $sane_year + 1;
         $dql = "
             SELECT se
-            FROM {$this->solv_event_class} se
+            FROM {$this->entityClass} se
             WHERE
                 se.date >= '{$sane_year}-01-01'
                 AND se.date < '{$sane_next_year}-01-01'
@@ -32,7 +32,7 @@ class SolvEventRepository extends OlzRepository {
         $sane_solv_uid = intval($solv_uid);
         $sane_rank_link = $db->escape_string($rank_link);
         $dql = "
-            UPDATE {$this->solv_event_class} se
+            UPDATE {$this->entityClass} se
             SET se.rank_link = '{$sane_rank_link}'
             WHERE se.solv_uid = '{$sane_solv_uid}'
         ";
@@ -43,7 +43,7 @@ class SolvEventRepository extends OlzRepository {
     public function deleteBySolvUid(int $solv_uid): mixed {
         $sane_solv_uid = intval($solv_uid);
         $dql = "
-            DELETE {$this->solv_event_class} se
+            DELETE {$this->entityClass} se
             WHERE se.solv_uid = '{$sane_solv_uid}'
         ";
         $query = $this->getEntityManager()->createQuery($dql);

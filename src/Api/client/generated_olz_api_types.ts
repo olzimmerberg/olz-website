@@ -108,7 +108,7 @@ export type OlzLogsQuery = {'channel': string, 'targetDate'?: (IsoDateTime | nul
 
 export type OlzLogLevel = ('debug' | 'info' | 'notice' | 'warning' | 'error' | 'critical' | 'alert' | 'emergency');
 
-export type OlzMemberInfo = {'ident': string, 'action': ('CREATE' | 'UPDATE' | 'DELETE' | 'KEEP'), 'username'?: (string | null), 'matchingUsername'?: (string | null), 'userId'?: (number | null), 'updates': {[key: string]: {'old': string, 'new': string}}};
+export type OlzMemberInfo = {'ident': string, 'action': ('CREATE' | 'UPDATE' | 'DELETE' | 'KEEP'), 'username'?: (string | null), 'matchingUsername'?: (string | null), 'user'?: ({'id': number, 'firstName': string, 'lastName': string} | null), 'updates': {[key: string]: {'old': string, 'new': string}}};
 
 export type OlzTransportSuggestion = {'mainConnection': OlzTransportConnection, 'sideConnections': Array<{'connection': OlzTransportConnection, 'joiningStationId': string}>, 'originInfo': Array<OlzOriginInfo>, 'debug': string};
 

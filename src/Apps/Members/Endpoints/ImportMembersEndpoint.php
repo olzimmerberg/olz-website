@@ -14,7 +14,11 @@ use PhpTypeScriptApi\HttpError;
  *   action: 'CREATE'|'UPDATE'|'DELETE'|'KEEP',
  *   username?: ?non-empty-string,
  *   matchingUsername?: ?non-empty-string,
- *   userId?: ?int,
+ *   user?: ?array{
+ *     id: int,
+ *     firstName: non-empty-string,
+ *     lastName: non-empty-string,
+ *   },
  *   updates: array<non-empty-string, array{old: string, new: string}>,
  * }
  *
@@ -47,10 +51,10 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
         foreach ($members as $member) {
             $member_ident = $member_utils->getMemberIdent($member);
             $member_username = $member_utils->getMemberUsername($member);
-            $member_data = json_encode($member);
-            $this->generalUtils()->checkNotFalse($member_data, "JSON encode failed");
+            $enc_member = json_encode($member);
+            $this->generalUtils()->checkNotFalse($enc_member, "JSON encode failed");
             if (!$member_ident) {
-                $this->log()->warning("Member has no ident: {$member_data}");
+                $this->log()->warning("Member has no ident: {$enc_member}");
                 continue;
             }
             $existing_member_is_deleted[$member_ident] = false;
@@ -65,7 +69,7 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
             $base_info = [
                 'username' => $member_username,
                 'matchingUsername' => $matching_user?->getUsername(),
-                'userId' => $user?->getId(),
+                'user' => $this->getUserData($user),
             ];
             $entity = $member_repo->findOneBy(['ident' => $member_ident]);
             if (!$entity) {
@@ -74,26 +78,26 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                 $this->entityUtils()->createOlzEntity($entity, ['onOff' => true]);
                 $entity->setIdent($member_ident);
                 $entity->setUser($user);
+                $entity->setData($enc_member);
                 $entity->setUpdates(null);
                 $member_utils->update($entity, $user);
-                $entity->setData($member_data);
                 $this->entityManager()->persist($entity);
             } else {
-                if ($entity->getData() === $member_data && $entity->getUser() === $user) {
+                if ($entity->getData() === $enc_member && $entity->getUser() === $user) {
                     $member_info_by_ident[$member_ident] = [...$base_info, 'action' => 'KEEP'];
                     $member_utils->update($entity, $user);
                 } else {
                     $member_info_by_ident[$member_ident] = [...$base_info, 'action' => 'UPDATE'];
                     $this->entityUtils()->updateOlzEntity($entity, []);
                     $entity->setUser($user);
-                    $entity->setData($member_data);
+                    $entity->setData($enc_member);
                     $member_utils->update($entity, $user);
                 }
             }
             $new_value_by_key = json_decode($entity->getUpdates() ?? '[]', true) ?: [];
             $updates = [];
             foreach ($new_value_by_key as $key => $new_value) {
-                $updates[$key] = ['old' => $member_data[$key] ?? '', 'new' => $new_value];
+                $updates[$key] = ['old' => $member[$key] ?? '', 'new' => $new_value];
             }
             $member_info_by_ident[$member_ident]['updates'] = $updates;
         }
@@ -103,9 +107,9 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                 $member = $member_repo->findOneBy(['ident' => $member_ident]);
                 $member_info_by_ident[$member_ident] = [
                     'action' => 'DELETE',
-                    'username' => $member?->getUser()?->getUsername(),
+                    'username' => null,
                     'matchingUsername' => null,
-                    'userId' => $member?->getUser()?->getId(),
+                    'user' => $this->getUserData($member?->getUser()),
                     'updates' => [],
                 ];
                 if ($member) {
@@ -128,7 +132,7 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                 'action' => $member['action'],
                 'username' => $member['username'] ?? null,
                 'matchingUsername' => $member['matchingUsername'] ?? null,
-                'userId' => $member['userId'] ?? null,
+                'user' => $member['user'] ?? null,
                 'updates' => $member['updates'],
             ];
         }
@@ -145,5 +149,23 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
         unlink($upload_path);
         $this->generalUtils()->checkNotFalse($csv_content, "Could not read uploaded Members CSV");
         return $csv_content;
+    }
+
+    /** @return ?array{
+     *     id: int,
+     *     firstName: non-empty-string,
+     *     lastName: non-empty-string,
+     *   }
+     */
+    protected function getUserData(?User $user): ?array {
+        $user_id = $user?->getId();
+        if (!$user_id) {
+            return null;
+        }
+        return [
+            'id' => $user_id,
+            'firstName' => $user->getFirstName() ?: '-',
+            'lastName' => $user->getLastName() ?: '-',
+        ];
     }
 }

@@ -5,10 +5,25 @@ import {OlzApiRequests, OlzMemberInfo} from '../../../../Api/client/generated_ol
 import {OlzMultiFileField} from '../../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {dataHref} from '../../../../Utils/constants';
 import {getResolverResult} from '../../../../Utils/formUtils';
+import {initOlzUserInfoModal} from '../../../../Users';
 
 import './OlzMembers.scss';
 
 type ImportState = 'IDLE'|'UPLOADING'|'IMPORTING'|'IMPORTED';
+
+const PANIC_NOTICE = '⚠️ Falls du einen Fehler gemacht hast, mache einfach einen neuen, korrekten Import!';
+const LABEL_BY_ACTION = {
+    CREATE: '✨ Eintritt',
+    KEEP: '🟰 Unverändert',
+    UPDATE: '♻️ Aktualisiert',
+    DELETE: '🚫 Austritt',
+};
+const EXPLANATION_BY_ACTION = {
+    CREATE: `Dieses Mitglied war im letzten Import noch nicht vorhanden. Der Eintrag wurde in der externen Benutzerverwaltung seit dem letzten Import neu erstellt.\n${PANIC_NOTICE}`,
+    KEEP: 'Dieses Mitglied war bereits im letzten Import vorhanden. Der Eintrag blieb in der externen Benutzerverwaltung seither unverändert.',
+    UPDATE: `Dieses Mitglied war bereits im letzten Import vorhanden. Der Eintrag wurde aber seither in der externen Benutzerverwaltung bearbeitet.\n${PANIC_NOTICE}`,
+    DELETE: `Dieses Mitglied war im letzten Import vorhanden, fehlt aber in diesem Import. Der Eintrag wurde also in der externen Benutzerverwaltung seit dem letzten Import gelöscht.\n${PANIC_NOTICE}`,
+};
 
 interface OlzMembersImportForm {
     csvFileIds: string[];
@@ -80,8 +95,8 @@ export const OlzMembers = (): React.ReactElement => {
                         <li>Gehe zu <a href='https://app.clubdesk.com/clubdesk/start' target='_blank'>Clubdesk</a></li>
                         <li>Gehe zu "Kontakte und Gruppen" -&gt; "Alle Kontakte"</li>
                         <li>Wähle "Export"</li>
-                        <li>Unter "Zeilen:", wähle "Alle Zeilen"</li>
-                        <li>Unter "Spalten:", wähle "Alle Spalten"</li>
+                        <li>Unter "Zeilen:", <b>wähle "Alle Zeilen" ⚠️</b></li>
+                        <li>Unter "Spalten:", <b>wähle "Alle Spalten" ⚠️</b></li>
                         <li>Unter "Format:", wähle "CSV (Excel)"</li>
                     </ul>
                     <hr/>
@@ -100,40 +115,79 @@ export const OlzMembers = (): React.ReactElement => {
             break;
         case 'IMPORTED':
             content = (<>
-                <div className='export-bar'>
-                    <button
-                        className='btn btn-primary'
-                        onClick={onExport}
-                    >
-                        Export
-                    </button>
-                    {exportCsv ? (
-                        <a
-                            href={`${dataHref}temp/${exportCsv}`}
-                            download={'olz_mitglieder_update.csv'}>
-                            CSV Download
-                        </a>
-                    ) : null}
-                </div>
-                <table>
+                <table id='member-table'>
                     <tr>
-                        <th className='id'>Externe ID</th>
-                        <th className='username'>Benuztername</th>
-                        <th className='user-id'>OLZ-Benutzer-ID</th>
-                        <th className='status'>Status</th>
-                        <th className='updates'>Updates</th>
+                        <th className='ident'>Externe ID</th>
+                        <th className='username'>Benutzer-Id</th>
+                        <th className='user-info'>OLZ-Website-Konto</th>
+                        <th className='status' title={`Dies sind Änderungen, die in der externen Benutzerverwaltung vorgenommen wurden. Diese wurden bereits angewendet.\n${PANIC_NOTICE}`}>Import-Status</th>
+                        <th className='updates' title='Dies sind Änderungen, die auf der Website vorgenommen wurden. Falls du diese in die externe Benutzerverwaltung übernehmen willst, klicke unten "Export", dann "CSV Download" und Importiere diese Datei dann in die externe Benutzerverwaltung.'>
+                            Updates für Export
+                        </th>
                     </tr>
-                    {members?.map((member) => {
+                    {members?.map((member, index) => {
                         const updates = Object.keys(member.updates).map((key) =>
                             `${key}: "${member.updates[key].old}" => "${member.updates[key].new}"`);
-                        return (<tr>
-                            <td>{member.ident}</td>
-                            <td>{member.username ?? '-'}</td>
-                            <td>{member.userId ?? (member.matchingUsername ? <>➡️ <input type='text' readOnly value={member.matchingUsername} /> ?</> : null) ?? '-'}</td>
-                            <td>{member.action}</td>
-                            <td className='updates' title={updates.join('\n')}>{updates.join(', ')}</td>
+                        return (<tr id={`row-${index}`}>
+                            <td
+                                className='ident'
+                                title='ID, die von der externen Benutzerverwaltung intern verwendet wird.'
+                            >
+                                {member.ident}
+                            </td>
+                            <td
+                                className='username'
+                                title='Benutzer-Id, die in der externen Benutzerverwaltung eingegeben wurde.'
+                            >
+                                {member.username ?? '-'}
+                            </td>
+                            <td className='user-info'>{(member.user
+                                ? <a href='#' onClick={() => initOlzUserInfoModal(member.user?.id ?? 0)} className='olz-user-info-modal-trigger'>
+                                    {member.user.firstName} {member.user.lastName}
+                                </a>
+                                : (member.matchingUsername
+                                    ? <span title='Vorname und Name passen, aber die Benutzer-Id nicht! Aktualisiere die Benutzer-Id in der externen Benutzerverwaltung, um dieses OLZ-Konto zu verlinken.'>➡️ <input type='text' readOnly value={member.matchingUsername} /> ?</span>
+                                    : null)
+                            ) ?? '-'}</td>
+                            <td
+                                className='status'
+                                title={`${LABEL_BY_ACTION[member.action]}: ${EXPLANATION_BY_ACTION[member.action]}`}
+                            >
+                                {LABEL_BY_ACTION[member.action]}
+                            </td>
+                            <td
+                                className='updates'
+                                title={updates.join('\n')}
+                            >
+                                {updates.join(', ')}
+                            </td>
                         </tr>);
                     })}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <div className='export-bar'>
+                                <button
+                                    id='export-button'
+                                    className='btn btn-primary'
+                                    onClick={onExport}
+                                >
+                                    Export
+                                </button>
+                                {exportCsv ? (
+                                    <a
+                                        id='csv-download'
+                                        href={`${dataHref}temp/${exportCsv}`}
+                                        download={'olz_mitglieder_update.csv'}>
+                                        CSV Download
+                                    </a>
+                                ) : null}
+                            </div>
+                        </td>
+                    </tr>
                 </table>
             </>);
             break;

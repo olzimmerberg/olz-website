@@ -8,35 +8,41 @@
         display: flex;
         align-items: center;
         gap: 24px;
-        margin-bottom: 12px;
+        margin-top: 12px;
     }
 
-    table {
+    #member-table {
         table-layout: fixed;
-    }
 
-    th {
-        &.id {
-            width: 10%;
-        }
-        &.username {
-            width: 20%;
-        }
-        &.user-id {
-            width: 20%;
-        }
-        &.status {
-            width: 10%;
-        }
-        &.updates {
-            width: 40%;
-        }
-    }
+        th {
+            height: 32px;
+            line-height: 32px;
+            padding: 0 5px;
 
-    td {
-        padding: 0 5px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+            &.ident {
+                width: 10%;
+            }
+            &.username {
+                width: 20%;
+            }
+            &.user-info {
+                width: 20%;
+            }
+            &.status {
+                width: 10%;
+            }
+            &.updates {
+                width: 40%;
+            }
+        }
+
+        td {
+            height: 22px;
+            line-height: 22px;
+            padding: 0 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }

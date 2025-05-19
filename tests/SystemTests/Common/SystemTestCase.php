@@ -157,6 +157,14 @@ class SystemTestCase extends KernelTestCase {
         $element->sendKeys($string);
     }
 
+    protected function getText(string $css_selector): ?string {
+        $element = $this->getBrowserElement($css_selector);
+        if (!$element) {
+            return null;
+        }
+        return $element->getText();
+    }
+
     protected function waitABit(): void {
         usleep(100 * 1000);
     }

@@ -1,5 +1,6 @@
 {
     "Olz\\Tests\\SystemTests\\AppFilesTest::testAppFilesScreenshots": 17.4,
+    "Olz\\Tests\\SystemTests\\AppMembersTest::testMembersImportExport": 8.5,
     "Olz\\Tests\\SystemTests\\AppsTest::testAppsScreenshots": 26.6,
     "Olz\\Tests\\SystemTests\\DatenschutzTest::testDatenschutzReadOnly": 1.8,
     "Olz\\Tests\\SystemTests\\DnsTest::testHasGoogleSiteVerificationRecord": 0.3,
@@ -103,8 +104,8 @@
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureCreate": 8.9,
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureReadOnly": 2.2,
     "db_reset": 87.2,
-    "login": 34.3,
-    "logout": 40.8,
-    "screenshot": 52.3,
-    "total": 550.2
+    "login": 0.8,
+    "logout": 1.2,
+    "screenshot": 0.4,
+    "total": 8.9
 }

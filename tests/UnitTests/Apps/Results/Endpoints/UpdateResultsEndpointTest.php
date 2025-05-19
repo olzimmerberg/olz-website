@@ -179,6 +179,32 @@ final class UpdateResultsEndpointTest extends UnitTestCase {
         );
     }
 
+    public function testUpdateResultsEndpointWithDataUrl(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
+        $endpoint = new UpdateResultsEndpoint();
+        $endpoint->runtimeSetup();
+
+        mkdir(__DIR__.'/../../../tmp/results/');
+
+        $result = $endpoint->call([
+            'file' => '2020-milchsuppe.xml',
+            'content' => 'data:text/plain;base64,'.base64_encode('fake-xml'),
+            'iofXmlFileId' => null,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+
+        $this->assertSame(['status' => 'OK'], $result);
+
+        $this->assertSame(
+            'fake-xml',
+            file_get_contents(__DIR__.'/../../../tmp/results/2020-milchsuppe.xml')
+        );
+    }
+
     public function testUpdateResultsEndpointWithExistingFile(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new UpdateResultsEndpoint();

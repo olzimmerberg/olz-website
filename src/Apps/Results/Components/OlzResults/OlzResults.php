@@ -34,16 +34,24 @@ class OlzResults extends OlzComponent {
             if (is_file("{$data_path}results/{$filename}")) {
                 $edit_admin = '';
                 if ($this->authUtils()->hasPermission('any')) {
-                    $enc_filename = json_encode(['file' => $filename]);
+                    $enc_data = json_encode(['file' => $filename]);
                     $edit_admin = <<<ZZZZZZZZZZ
-                            <button
-                                id='edit-result-button'
-                                class='btn btn-secondary'
-                                onclick='return olzResults.initOlzEditResultModal(null, {$enc_filename})'
-                            >
-                                <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
-                                Resultate bearbeiten
-                            </button>
+                        <button
+                            id='live-results-button'
+                            class='btn btn-secondary'
+                            onclick='return olzResults.initOlzLiveResultsModal({$enc_data})'
+                        >
+                            <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                            Live Resultate überschreiben
+                        </button>
+                        <button
+                            id='edit-result-button'
+                            class='btn btn-secondary'
+                            onclick='return olzResults.initOlzEditResultModal({$enc_data})'
+                        >
+                            <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                            Resultate bearbeiten
+                        </button>
                         ZZZZZZZZZZ;
                 }
                 $out .= <<<ZZZZZZZZZZ
@@ -59,13 +67,21 @@ class OlzResults extends OlzComponent {
                     </div>
                     ZZZZZZZZZZ;
             } elseif ($this->authUtils()->hasPermission('any')) {
-                $enc_filename = json_encode(['file' => $filename]);
+                $enc_data = json_encode(['file' => $filename]);
                 $out .= <<<ZZZZZZZZZZ
                     <div>
                         <button
+                            id='live-results-button'
+                            class='btn btn-secondary'
+                            onclick='return olzResults.initOlzLiveResultsModal({$enc_data})'
+                        >
+                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            Live Resultate hochladen
+                        </button>
+                        <button
                             id='create-result-button'
                             class='btn btn-secondary'
-                            onclick='return olzResults.initOlzEditResultModal(null, {$enc_filename})'
+                            onclick='return olzResults.initOlzEditResultModal({$enc_data})'
                         >
                             <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
                             Resultate hochladen
@@ -89,6 +105,14 @@ class OlzResults extends OlzComponent {
             if ($this->authUtils()->hasPermission('any')) {
                 $out .= <<<ZZZZZZZZZZ
                     <div>
+                        <button
+                            id='live-results-button'
+                            class='btn btn-secondary'
+                            onclick='return olzResults.initOlzLiveResultsModal()'
+                        >
+                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            Live Resultate hochladen
+                        </button>
                         <button
                             id='create-result-button'
                             class='btn btn-secondary'

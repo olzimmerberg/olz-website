@@ -31,7 +31,6 @@ function getApiFromForm(formData: OlzEditResultForm): OlzApiRequests['updateResu
 // ---
 
 interface OlzEditResultModalProps {
-    id?: number;
     data?: OlzApiRequests['updateResults'];
 }
 
@@ -50,8 +49,7 @@ export const OlzEditResultModal = (props: OlzEditResultModalProps): React.ReactE
     const onSubmit: SubmitHandler<OlzEditResultForm> = async (values) => {
         setStatus({id: 'SUBMITTING'});
         const data = getApiFromForm(values);
-        const [err, response] = await olzApi.getResult('updateResults', data)
-           ;
+        const [err, response] = await olzApi.getResult('updateResults', data);
         if (err || response.status !== 'OK') {
             setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
@@ -61,7 +59,7 @@ export const OlzEditResultModal = (props: OlzEditResultModalProps): React.ReactE
         window.location.reload();
     };
 
-    const dialogTitle = props.id === undefined ? 'Resultat erstellen' : 'Resultat bearbeiten';
+    const dialogTitle = props.data?.file === undefined ? 'Resultat erstellen' : 'Resultat bearbeiten';
     const editModalStatus: OlzEditModalStatus = isFilesLoading ? {id: 'LOADING'} : status;
 
     return (
@@ -94,12 +92,10 @@ export const OlzEditResultModal = (props: OlzEditResultModalProps): React.ReactE
 };
 
 export function initOlzEditResultModal(
-    id?: number,
     data?: OlzApiRequests['updateResults'],
 ): boolean {
     return initOlzEditModal('edit-result-modal', () => (
         <OlzEditResultModal
-            id={id}
             data={data}
         />
     ));

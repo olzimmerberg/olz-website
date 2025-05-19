@@ -15,6 +15,14 @@ if (window.location.search) {
     }
 }
 
+window.addEventListener('load', () => {
+    const elem = document.getElementById('live-results-button');
+    if (!elem) {
+        return;
+    }
+    elem.style.display = ('showOpenFilePicker' in window) ? 'block' : 'none';
+});
+
 interface AnalysisResult {
     distance: number;
     sampleMapping: number[];

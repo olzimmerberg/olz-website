@@ -13,8 +13,11 @@ body {
     position: relative;
 }
 
-#edit-result-button {
+#live-results-button,
+#edit-result-button,
+#create-result-button {
     float: right;
+    margin-left: 8px;
 }
 
 #title-box {
@@ -31,6 +34,7 @@ body {
 
 #results-content {
     display: flex;
+    clear: both;
 }
 
 #classes-box {

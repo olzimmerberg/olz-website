@@ -46,7 +46,7 @@ class TestCommand extends OlzCommand {
         $output->writeln($info);
         $this->log()->info($info);
 
-        $this->messageBus->dispatch(new TestMessage());
+        $this->messageBus()->dispatch(new TestMessage());
 
         return Command::SUCCESS;
     }

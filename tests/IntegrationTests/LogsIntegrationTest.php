@@ -26,7 +26,13 @@ final class LogsIntegrationTest extends IntegrationTestCase {
         }
         $this->assertFalse(is_dir($logs_path));
 
-        $general_utils->log()->debug('just for test');
+        try {
+            /* @phpstan-ignore method.impossibleType */
+            $general_utils->checkNotNull(null, 'provoked message');
+            $this->fail('error expected');
+        } catch (\Throwable $th) {
+            $this->assertSame('LogsIntegrationTest.php:*** provoked message', $th->getMessage());
+        }
 
         $this->assertTrue(is_dir($private_path ?? ''));
         $this->assertTrue(is_dir($logs_path));

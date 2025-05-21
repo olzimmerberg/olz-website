@@ -22,7 +22,7 @@ class SendTestEmailCommand extends OlzCommand {
         $subject = 'Test mail';
         $content = "A test mail has been sent from {$base_href}!";
         $message = new SendEmailMessage($to, $subject, $content);
-        $this->messageBus->dispatch($message);
+        $this->messageBus()->dispatch($message);
         $this->log()->info("Test SendEmailMessage dispatched.");
         return Command::SUCCESS;
     }

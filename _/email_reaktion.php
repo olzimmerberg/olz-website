@@ -3,13 +3,13 @@
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpParams;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\StandardSession;
+use Olz\Utils\Session;
 
 /** @extends HttpParams<array{token?: ?string}> */
 class EmailReaktionParams extends HttpParams {
 }
 
-StandardSession::session_start_if_cookie_set();
+Session::session_start_if_cookie_set();
 
 $code_href = EnvUtils::fromEnv()->getCodeHref();
 $http_utils = HttpUtils::fromEnv();

@@ -13,7 +13,6 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\DeleteUserEndpoint;
-use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
@@ -80,13 +79,11 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new DeleteUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'wrong_user',
         ];
-        $endpoint->setSession($session);
 
         try {
             $endpoint->call(['id' => 1]);
@@ -101,7 +98,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
                 'auth' => 'ftp',
                 'root' => 'karten',
                 'user' => 'wrong_user',
-            ], $session->session_storage);
+            ], WithUtilsCache::get('session')->session_storage);
         }
     }
 
@@ -168,13 +165,11 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository($entity_manager);
         $endpoint = new DeleteUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
         $default_user = FakeUser::defaultUser();
 
         mkdir(__DIR__.'/../../tmp/img/');
@@ -225,7 +220,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/img/image__________________1.jpg");
         $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$256.jpg");
         $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$128.jpg");
@@ -246,13 +241,11 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $entity_manager->repositories[AccessToken::class] = new FakeDeleteUserEndpointAccessTokenRepository($entity_manager);
         $endpoint = new DeleteUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'default',
         ];
-        $endpoint->setSession($session);
 
         mkdir(__DIR__.'/../../tmp/img/');
         mkdir(__DIR__.'/../../tmp/img/users/');
@@ -279,7 +272,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $this->assertTrue($entity_manager->removed[3] instanceof StravaLink);
         $this->assertTrue($entity_manager->removed[4] instanceof AccessToken);
         $this->assertSame(0, $default_user->getOnOff());
-        $this->assertSame([], $session->session_storage);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
         $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/img/image__________________1.jpg");
         $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$256.jpg");
         $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$128.jpg");

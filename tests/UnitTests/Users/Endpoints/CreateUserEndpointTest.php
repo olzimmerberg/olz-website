@@ -9,7 +9,6 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\CreateUserEndpoint;
-use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
@@ -132,8 +131,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithInvalidcaptchaToken(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         $result = $endpoint->call([
@@ -145,14 +142,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'custom' => ['status' => 'DENIED'],
             'id' => null,
         ], $result);
-        $this->assertSame([], $session->session_storage);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
     }
 
     public function testCreateUserEndpointWithInvalidUsername(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
@@ -181,8 +176,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithShortPassword(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
@@ -211,8 +204,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithOlzimmerbergEmail(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
@@ -241,8 +232,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithoutEmail(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
@@ -271,8 +260,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithoutPassword(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
@@ -301,8 +288,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithMinimalDataForNewUser(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         $result = $endpoint->call(self::MINIMAL_INPUT);
@@ -323,7 +308,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'user_id' => strval(FakeEntityManager::AUTO_INCREMENT_ID),
             'auth_user' => 'fakeUsername',
             'auth_user_id' => strval(FakeEntityManager::AUTO_INCREMENT_ID),
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
@@ -364,8 +349,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         $result = $endpoint->call(self::MAXIMAL_INPUT);
@@ -379,7 +362,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
-        $this->assertSame([], $session->session_storage);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertCount(1, $entity_manager->persisted);
@@ -412,8 +395,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         $result = $endpoint->call([
@@ -435,7 +416,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
-        $this->assertSame([], $session->session_storage);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertCount(1, $entity_manager->persisted);
@@ -468,8 +449,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         $result = $endpoint->call([
@@ -489,7 +468,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'custom' => ['status' => 'OK'],
             'id' => FakeEntityManager::AUTO_INCREMENT_ID,
         ], $result);
-        $this->assertSame([], $session->session_storage);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertCount(1, $entity_manager->persisted);
@@ -521,8 +500,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithValidDataForExistingUsernameWithoutPassword(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         $result = $endpoint->call([
@@ -549,7 +526,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'user_id' => '5',
             'auth_user' => 'child1',
             'auth_user_id' => '5',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
@@ -564,8 +541,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithValidDataForExistingUsernameWithPassword(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
@@ -602,8 +577,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithValidDataForExistingEmailWithoutPassword(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         $result = $endpoint->call([
@@ -631,7 +604,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'user_id' => '5',
             'auth_user' => 'inexistent',
             'auth_user_id' => '5',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
@@ -646,8 +619,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
     public function testCreateUserEndpointWithValidDataForExistingEmailWithPassword(): void {
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         try {
@@ -686,8 +657,6 @@ final class CreateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
         $endpoint = new CreateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
         $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
 
         $result = $endpoint->call(self::MINIMAL_INPUT);
@@ -709,7 +678,7 @@ final class CreateUserEndpointTest extends UnitTestCase {
             'user_id' => strval(FakeEntityManager::AUTO_INCREMENT_ID),
             'auth_user' => 'fakeUsername',
             'auth_user_id' => strval(FakeEntityManager::AUTO_INCREMENT_ID),
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [

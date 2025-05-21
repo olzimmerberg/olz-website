@@ -25,7 +25,8 @@ final class AllUtilsCoveredTest extends UnitTestCase {
             $utils_files = scandir($utils_folder) ?: [];
             $utils = array_filter(
                 $utils_files,
-                fn ($filename) => (bool) preg_match('/\.php$/', $filename),
+                fn ($filename) => preg_match('/\.php$/', $filename)
+                    && !preg_match('/Trait\.php$/', $filename),
             );
             $utils_relative_path = substr($utils_folder, strlen($src_realpath));
             $this->assertGreaterThan(0, count($utils));

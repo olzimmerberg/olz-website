@@ -9,7 +9,6 @@ use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
@@ -67,8 +66,6 @@ final class LoginEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new LoginEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -87,7 +84,7 @@ final class LoginEndpointTest extends UnitTestCase {
             'user_id' => '2',
             'auth_user' => 'admin',
             'auth_user_id' => '2',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
@@ -103,8 +100,6 @@ final class LoginEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->authenticate_with_error = new InvalidCredentialsException('test', 3);
         $endpoint = new LoginEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'wrooong',
@@ -116,7 +111,7 @@ final class LoginEndpointTest extends UnitTestCase {
             'status' => 'INVALID_CREDENTIALS',
             'numRemainingAttempts' => 3,
         ], $result);
-        $this->assertSame([], $session->session_storage);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
@@ -127,8 +122,6 @@ final class LoginEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->authenticate_with_error = new AuthBlockedException('test');
         $endpoint = new LoginEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -140,7 +133,7 @@ final class LoginEndpointTest extends UnitTestCase {
             'status' => 'BLOCKED',
             'numRemainingAttempts' => 0,
         ], $result);
-        $this->assertSame([], $session->session_storage);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",

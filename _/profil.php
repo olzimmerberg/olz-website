@@ -3,13 +3,13 @@
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpParams;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\StandardSession;
+use Olz\Utils\Session;
 
 /** @extends HttpParams<array{}> */
 class ProfilParams extends HttpParams {
 }
 
-StandardSession::session_start_if_cookie_set();
+Session::session_start_if_cookie_set();
 
 $http_utils = HttpUtils::fromEnv();
 $http_utils->validateGetParams(ProfilParams::class, $_GET);

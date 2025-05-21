@@ -1,8 +1,10 @@
 <?php
 
-namespace Olz\Utils;
+namespace Olz\Tests\Fake;
 
-class MemorySession extends AbstractSession {
+use Olz\Utils\Session;
+
+class FakeSession extends Session {
     /** @var array<string, ?string> */
     public array $session_storage = [];
     public bool $cleared = false;

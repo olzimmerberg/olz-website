@@ -6,7 +6,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 
 use Olz\Api\Endpoints\SwitchUserEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -54,8 +54,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     public function testSwitchUserEndpointCanSwitchToChild(): void {
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'parent',
             'root' => 'parent',
             'user' => 'child1',
@@ -63,7 +62,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             'userId' => 5, // child1
@@ -79,7 +77,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'user_id' => '5',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
@@ -89,8 +87,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     public function testSwitchUserEndpointCanSwitchBetweenChildren(): void {
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'child1',
             'root' => 'child1',
             'user' => 'child1',
@@ -98,7 +95,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             'userId' => 6, // child2
@@ -114,7 +110,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'user_id' => '6',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
@@ -124,8 +120,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     public function testSwitchUserEndpointCanSwitchToParent(): void {
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'child1',
             'root' => 'child1',
             'user' => 'child1',
@@ -133,7 +128,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             'userId' => 4, // child2
@@ -149,7 +143,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'user_id' => '4',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $this->assertSame([
             "INFO Valid user request",
             "INFO Valid user response",
@@ -159,8 +153,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
     public function testSwitchUserEndpointCannotSwitchToInexistentUser(): void {
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'parent',
             'root' => 'parent',
             'user' => 'child1',
@@ -168,7 +161,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
-        $endpoint->setSession($session);
 
         try {
             $endpoint->call([
@@ -189,15 +181,14 @@ final class SwitchUserEndpointTest extends UnitTestCase {
                 'user_id' => '5',
                 'auth_user' => 'parent',
                 'auth_user_id' => '4',
-            ], $session->session_storage);
+            ], WithUtilsCache::get('session')->session_storage);
         }
     }
 
     public function testSwitchUserEndpointCannotSwitchToNonChildUser(): void {
         $endpoint = new SwitchUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'parent',
             'root' => 'parent',
             'user' => 'child1',
@@ -205,7 +196,6 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
-        $endpoint->setSession($session);
 
         try {
             $endpoint->call([
@@ -226,7 +216,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
                 'user_id' => '5',
                 'auth_user' => 'parent',
                 'auth_user_id' => '4',
-            ], $session->session_storage);
+            ], WithUtilsCache::get('session')->session_storage);
         }
     }
 }

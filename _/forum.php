@@ -4,7 +4,7 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpParams;
 use Olz\Utils\HttpUtils;
-use Olz\Utils\StandardSession;
+use Olz\Utils\Session;
 
 /** @extends HttpParams<array{
  *   id?: ?numeric-string,
@@ -14,7 +14,7 @@ use Olz\Utils\StandardSession;
 class ForumParams extends HttpParams {
 }
 
-StandardSession::session_start_if_cookie_set();
+Session::session_start_if_cookie_set();
 
 $http_utils = HttpUtils::fromEnv();
 $http_utils->validateGetParams(ForumParams::class, $_GET);

@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\StandardSession;
+use Olz\Utils\Session;
 
 /**
  * @internal
  *
- * @covers \Olz\Utils\StandardSession
+ * @covers \Olz\Utils\Session
  */
-final class StandardSessionTest extends UnitTestCase {
+final class SessionTest extends UnitTestCase {
     public function testExists(): void {
-        $this->assertTrue(class_exists(StandardSession::class));
+        $this->assertTrue(class_exists(Session::class));
     }
 
     public function testHas(): void {
         global $_SESSION;
         $_SESSION = [];
-        $session = new StandardSession();
+        $session = new Session();
         $this->assertFalse($session->has('test'));
         $_SESSION['test'] = 'asdf';
         $this->assertTrue($session->has('test'));
@@ -29,7 +29,7 @@ final class StandardSessionTest extends UnitTestCase {
     public function testGet(): void {
         global $_SESSION;
         $_SESSION = [];
-        $session = new StandardSession();
+        $session = new Session();
         $this->assertNull($session->get('test'));
         $_SESSION['test'] = 'asdf';
         $this->assertSame('asdf', $session->get('test'));
@@ -38,7 +38,7 @@ final class StandardSessionTest extends UnitTestCase {
     public function testSet(): void {
         global $_SESSION;
         $_SESSION = [];
-        $session = new StandardSession();
+        $session = new Session();
         $this->assertFalse($session->has('test'));
         $session->set('test', 'asdf');
         $this->assertSame('asdf', $session->get('test'));
@@ -47,7 +47,7 @@ final class StandardSessionTest extends UnitTestCase {
     public function testDelete(): void {
         global $_SESSION;
         $_SESSION = ['test' => 'asdf'];
-        $session = new StandardSession();
+        $session = new Session();
         $this->assertSame('asdf', $session->get('test'));
         $session->delete('test');
         $this->assertFalse($session->has('test'));

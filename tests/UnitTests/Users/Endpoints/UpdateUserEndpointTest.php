@@ -9,7 +9,6 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\UpdateUserEndpoint;
-use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
@@ -79,13 +78,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'wrong_user',
         ];
-        $endpoint->setSession($session);
 
         try {
             $endpoint->call(self::MINIMAL_INPUT);
@@ -100,7 +97,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'auth' => 'ftp',
                 'root' => 'karten',
                 'user' => 'wrong_user',
-            ], $session->session_storage);
+            ], WithUtilsCache::get('session')->session_storage);
 
             $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
             $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
@@ -112,13 +109,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         try {
             $endpoint->call([
@@ -143,7 +138,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'auth' => 'ftp',
                 'root' => 'karten',
                 'user' => 'admin',
-            ], $session->session_storage);
+            ], WithUtilsCache::get('session')->session_storage);
 
             $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
             $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
@@ -155,13 +150,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         try {
             $endpoint->call([
@@ -186,7 +179,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'auth' => 'ftp',
                 'root' => 'karten',
                 'user' => 'admin',
-            ], $session->session_storage);
+            ], WithUtilsCache::get('session')->session_storage);
 
             $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
             $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
@@ -198,13 +191,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             ...self::MINIMAL_INPUT,
@@ -242,7 +233,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'test',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
 
         $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
         $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
@@ -253,13 +244,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call(self::MAXIMAL_INPUT);
 
@@ -295,7 +284,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'test',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
 
         $id = 2;
         $this->assertSame([
@@ -317,13 +306,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             ...self::MINIMAL_INPUT,
@@ -365,7 +352,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'test',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
 
         $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
         $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
@@ -389,13 +376,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             };
         $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         try {
             $endpoint->call([
@@ -416,7 +401,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'auth' => 'ftp',
                 'root' => 'karten',
                 'user' => 'admin',
-            ], $session->session_storage);
+            ], WithUtilsCache::get('session')->session_storage);
 
             $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
             $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
@@ -441,13 +426,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             };
         $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         try {
             $endpoint->call([
@@ -468,7 +451,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
                 'auth' => 'ftp',
                 'root' => 'karten',
                 'user' => 'admin',
-            ], $session->session_storage);
+            ], WithUtilsCache::get('session')->session_storage);
 
             $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
             $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
@@ -480,13 +463,11 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new UpdateUserEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             ...self::MINIMAL_INPUT,
@@ -528,7 +509,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'test',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
 
         $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
         $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);

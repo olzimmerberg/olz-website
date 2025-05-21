@@ -10,7 +10,7 @@ use Olz\Apps\Logs\Utils\HybridLogFile;
 use Olz\Apps\Logs\Utils\LogFileInterface;
 use Olz\Apps\Logs\Utils\PlainLogFile;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 
 class TestOnlyDailyFileLogsChannel extends DailyFileLogsChannel {
     public static function getId(): string {
@@ -63,13 +63,11 @@ class TestOnlyDailyFileLogsChannel extends DailyFileLogsChannel {
 final class DailyFileLogsChannelTest extends UnitTestCase {
     public function testDailyFileLogsChannelTargetDate(): void {
         $channel = new TestOnlyDailyFileLogsChannel();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'all',
             'root' => '',
             'user' => 'admin',
         ];
-        $channel->setSession($session);
 
         $num_fake_on_page = intval(BaseLogsChannel::$pageSize / 2 - 3);
         $num_fake = intval(BaseLogsChannel::$pageSize * 2 / 3);

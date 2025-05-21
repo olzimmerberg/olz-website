@@ -11,7 +11,6 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
-use Olz\Utils\AuthUtilsTrait;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
@@ -20,8 +19,6 @@ class OlzStartseiteParams extends HttpParams {
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzStartseite extends OlzComponent {
-    use AuthUtilsTrait;
-
     public static string $title = "Startseite";
     public static string $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
 
@@ -35,7 +32,7 @@ class OlzStartseite extends OlzComponent {
         $out .= "<div class='content-full'>";
 
         $banner_text = OlzEditableText::render(['snippet_id' => 22], $this);
-        if (trim(strip_tags($banner_text)) !== '' || $this->authUtils->hasPermission('olz_text_22')) {
+        if (trim(strip_tags($banner_text)) !== '' || $this->authUtils()->hasPermission('olz_text_22')) {
             $out .= "<div id='important-banner' class='banner'>";
             $out .= $banner_text;
             $out .= "</div>";

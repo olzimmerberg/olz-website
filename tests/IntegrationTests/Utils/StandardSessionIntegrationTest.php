@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Utils;
 
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\StandardSession;
+use Olz\Utils\Session;
 
 /**
  * @internal
  *
- * @covers \Olz\Utils\StandardSession
+ * @covers \Olz\Utils\Session
  */
 final class StandardSessionIntegrationTest extends IntegrationTestCase {
     public function testStandardSession(): void {
-        $standard_session = new StandardSession();
+        $standard_session = new Session();
 
         $this->assertFalse($standard_session->has('a'));
         $this->assertNull($standard_session->get('a'));

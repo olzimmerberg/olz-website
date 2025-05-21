@@ -7,7 +7,7 @@ namespace Olz\Tests\UnitTests\Api\Endpoints;
 use Olz\Api\Endpoints\UpdateUserPasswordEndpoint;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -19,13 +19,11 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointShortPassword(): void {
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         try {
             $endpoint->call([
@@ -49,13 +47,11 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
     public function testUpdateUserPasswordEndpointWrongUser(): void {
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'not_admin',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             'id' => 2,
@@ -75,19 +71,17 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'not_admin',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
     }
 
     public function testUpdateUserPasswordEndpointWrongOldPassword(): void {
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             'id' => 2,
@@ -107,19 +101,17 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
     }
 
     public function testUpdateUserPasswordEndpoint(): void {
         $endpoint = new UpdateUserPasswordEndpoint();
         $endpoint->runtimeSetup();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
         ];
-        $endpoint->setSession($session);
 
         $result = $endpoint->call([
             'id' => 2,
@@ -144,6 +136,6 @@ final class UpdateUserPasswordEndpointTest extends UnitTestCase {
             'auth' => 'ftp',
             'root' => 'karten',
             'user' => 'admin',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
     }
 }

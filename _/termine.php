@@ -2,9 +2,9 @@
 
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\EnvUtils;
-use Olz\Utils\StandardSession;
+use Olz\Utils\Session;
 
-StandardSession::session_start_if_cookie_set();
+Session::session_start_if_cookie_set();
 
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();

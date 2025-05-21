@@ -18,6 +18,7 @@ use Olz\Tests\Fake\FakeGeneralUtils;
 use Olz\Tests\Fake\FakeIdUtils;
 use Olz\Tests\Fake\FakeImageUtils;
 use Olz\Tests\Fake\FakeLogHandler;
+use Olz\Tests\Fake\FakeSession;
 use Olz\Tests\Fake\FakeSymfonyUtils;
 use Olz\Tests\Fake\FakeTelegramUtils;
 use Olz\Tests\Fake\FakeTermineUtils;
@@ -75,6 +76,7 @@ class UnitTestCase extends TestCase {
         $logger->pushHandler($handler);
         WithUtilsCache::setAll([
             'authUtils' => new FakeAuthUtils(),
+            'captchaUtils' => new FakeCaptchaUtils(),
             'dateUtils' => new DateUtils('2020-03-13 19:30:00'),
             'devDataUtils' => new FakeDevDataUtils(),
             'dbUtils' => new FakeDbUtils(),
@@ -87,7 +89,7 @@ class UnitTestCase extends TestCase {
             'imageUtils' => new FakeImageUtils(),
             'log' => $logger,
             'logger' => $logger,
-            'captchaUtils' => new FakeCaptchaUtils(),
+            'session' => new FakeSession(),
             'symfonyUtils' => new FakeSymfonyUtils(),
             'telegramUtils' => new FakeTelegramUtils(),
             'termineUtils' => new FakeTermineUtils(),

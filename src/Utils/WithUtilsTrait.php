@@ -13,6 +13,23 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
 trait WithUtilsTrait {
+    use AuthUtilsTrait;
+    use DateUtilsTrait;
+    use DbUtilsTrait;
+    use DevDataUtilsTrait;
+    use EmailUtilsTrait;
+    use EntityUtilsTrait;
+    use EnvUtilsTrait;
+    use GeneralUtilsTrait;
+    use HtmlUtilsTrait;
+    use HttpUtilsTrait;
+    use IdUtilsTrait;
+    use ImageUtilsTrait;
+    use MapUtilsTrait;
+    use SessionTrait;
+    use SymfonyUtilsTrait;
+    use TelegramUtilsTrait;
+    use UploadUtilsTrait;
     use LoggerAwareTrait;
 
     // --- Symfony dependency injection ---
@@ -33,90 +50,6 @@ trait WithUtilsTrait {
 
     // --- OLZ dependency injection ---
 
-    /**
-     * @var array<string>
-     */
-    public static $ALL_UTILS = [
-        'authUtils',
-        'dateUtils',
-        'dbUtils',
-        'devDataUtils',
-        'emailUtils',
-        'entityManager',
-        'entityUtils',
-        'envUtils',
-        'generalUtils',
-        'getParams',
-        'htmlUtils',
-        'httpUtils',
-        'idUtils',
-        'imageUtils',
-        'log',
-        'mapUtils',
-        'server',
-        'session',
-        'solvFetcher',
-        'stravaUtils',
-        'symfonyUtils',
-        'telegramUtils',
-        'uploadUtils',
-    ];
-
-    public function authUtils(): AuthUtils {
-        $util = WithUtilsCache::get('authUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setAuthUtils(AuthUtils $authUtils): void {
-        WithUtilsCache::set('authUtils', $authUtils);
-    }
-
-    public function dateUtils(): DateUtils {
-        $util = WithUtilsCache::get('dateUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setDateUtils(DateUtils $dateUtils): void {
-        WithUtilsCache::set('dateUtils', $dateUtils);
-    }
-
-    public function dbUtils(): DbUtils {
-        $util = WithUtilsCache::get('dbUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setDbUtils(DbUtils $dbUtils): void {
-        WithUtilsCache::set('dbUtils', $dbUtils);
-    }
-
-    public function devDataUtils(): DevDataUtils {
-        $util = WithUtilsCache::get('devDataUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setDevDataUtils(DevDataUtils $devDataUtils): void {
-        WithUtilsCache::set('devDataUtils', $devDataUtils);
-    }
-
-    public function emailUtils(): EmailUtils {
-        $util = WithUtilsCache::get('emailUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setEmailUtils(EmailUtils $emailUtils): void {
-        WithUtilsCache::set('emailUtils', $emailUtils);
-    }
-
     public function entityManager(): EntityManagerInterface {
         $util = WithUtilsCache::get('entityManager');
         assert($util);
@@ -126,83 +59,6 @@ trait WithUtilsTrait {
     #[Required]
     public function setEntityManager(EntityManagerInterface $entityManager): void {
         WithUtilsCache::set('entityManager', $entityManager);
-    }
-
-    public function entityUtils(): EntityUtils {
-        $util = WithUtilsCache::get('entityUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setEntityUtils(EntityUtils $entityUtils): void {
-        WithUtilsCache::set('entityUtils', $entityUtils);
-    }
-
-    public function envUtils(): EnvUtils {
-        $util = WithUtilsCache::get('envUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setEnvUtils(EnvUtils $envUtils): void {
-        WithUtilsCache::set('envUtils', $envUtils);
-    }
-
-    public function generalUtils(): GeneralUtils {
-        $util = WithUtilsCache::get('generalUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setGeneralUtils(GeneralUtils $generalUtils): void {
-        WithUtilsCache::set('generalUtils', $generalUtils);
-    }
-
-    public function htmlUtils(): HtmlUtils {
-        $util = WithUtilsCache::get('htmlUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setHtmlUtils(HtmlUtils $htmlUtils): void {
-        WithUtilsCache::set('htmlUtils', $htmlUtils);
-    }
-
-    public function httpUtils(): HttpUtils {
-        $util = WithUtilsCache::get('httpUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setHttpUtils(HttpUtils $httpUtils): void {
-        WithUtilsCache::set('httpUtils', $httpUtils);
-    }
-
-    public function idUtils(): IdUtils {
-        $util = WithUtilsCache::get('idUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setIdUtils(IdUtils $idUtils): void {
-        WithUtilsCache::set('idUtils', $idUtils);
-    }
-
-    public function imageUtils(): ImageUtils {
-        $util = WithUtilsCache::get('imageUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setImageUtils(ImageUtils $imageUtils): void {
-        WithUtilsCache::set('imageUtils', $imageUtils);
     }
 
     public function log(): LoggerInterface {
@@ -217,17 +73,6 @@ trait WithUtilsTrait {
         WithUtilsCache::set('log', $log);
     }
 
-    public function mapUtils(): MapUtils {
-        $util = WithUtilsCache::get('mapUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setMapUtils(MapUtils $mapUtils): void {
-        WithUtilsCache::set('mapUtils', $mapUtils);
-    }
-
     public function captchaUtils(): CaptchaUtils {
         $util = WithUtilsCache::get('captchaUtils');
         assert($util);
@@ -237,18 +82,6 @@ trait WithUtilsTrait {
     #[Required]
     public function setCaptchaUtils(CaptchaUtils $captchaUtils): void {
         WithUtilsCache::set('captchaUtils', $captchaUtils);
-    }
-
-    public function session(): AbstractSession {
-        return $this->getOrCreate('session');
-    }
-
-    public function createSession(): AbstractSession {
-        return new StandardSession();
-    }
-
-    public function setSession(AbstractSession $session): void {
-        WithUtilsCache::set('session', $session);
     }
 
     public function solvFetcher(): SolvFetcher {
@@ -262,39 +95,6 @@ trait WithUtilsTrait {
         WithUtilsCache::set('solvFetcher', $solvFetcher);
     }
 
-    public function stravaUtils(): StravaUtils {
-        $util = WithUtilsCache::get('stravaUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setStravaUtils(StravaUtils $stravaUtils): void {
-        WithUtilsCache::set('stravaUtils', $stravaUtils);
-    }
-
-    public function symfonyUtils(): SymfonyUtils {
-        $util = WithUtilsCache::get('symfonyUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setSymfonyUtils(SymfonyUtils $symfonyUtils): void {
-        WithUtilsCache::set('symfonyUtils', $symfonyUtils);
-    }
-
-    public function telegramUtils(): TelegramUtils {
-        $util = WithUtilsCache::get('telegramUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setTelegramUtils(TelegramUtils $telegramUtils): void {
-        WithUtilsCache::set('telegramUtils', $telegramUtils);
-    }
-
     public function termineUtils(): TermineUtils {
         $util = WithUtilsCache::get('termineUtils');
         assert($util);
@@ -304,17 +104,6 @@ trait WithUtilsTrait {
     #[Required]
     public function setTermineUtils(TermineUtils $termineUtils): void {
         WithUtilsCache::set('termineUtils', $termineUtils);
-    }
-
-    public function uploadUtils(): UploadUtils {
-        $util = WithUtilsCache::get('uploadUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setUploadUtils(UploadUtils $uploadUtils): void {
-        WithUtilsCache::set('uploadUtils', $uploadUtils);
     }
 
     // Legacy implementation

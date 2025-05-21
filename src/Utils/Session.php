@@ -2,7 +2,7 @@
 
 namespace Olz\Utils;
 
-class StandardSession extends AbstractSession {
+class Session extends AbstractSession {
     use WithUtilsTrait;
 
     public function __construct() {

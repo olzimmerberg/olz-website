@@ -9,7 +9,7 @@ use Olz\Apps\Logs\Utils\LineLocation;
 use Olz\Apps\Logs\Utils\LogFileInterface;
 use Olz\Apps\Logs\Utils\PlainLogFile;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\MemorySession;
+use Olz\Utils\WithUtilsCache;
 
 class TestOnlyBaseLogsChannel extends BaseLogsChannel {
     public static function getId(): string {
@@ -56,13 +56,11 @@ class TestOnlyBaseLogsChannel extends BaseLogsChannel {
 final class BaseLogsChannelTest extends UnitTestCase {
     public function testBaseLogsChannelTargetDate(): void {
         $channel = new TestOnlyBaseLogsChannel();
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth' => 'all',
             'root' => '',
             'user' => 'admin',
         ];
-        $channel->setSession($session);
 
         mkdir(__DIR__.'/../../../tmp/private/logs/');
         file_put_contents(

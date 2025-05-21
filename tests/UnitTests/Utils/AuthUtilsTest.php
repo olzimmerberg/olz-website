@@ -10,7 +10,6 @@ use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
-use Olz\Utils\MemorySession;
 use Olz\Utils\WithUtilsCache;
 
 class TestOnlyAuthUtils extends AuthUtils {
@@ -30,14 +29,12 @@ class TestOnlyAuthUtils extends AuthUtils {
  */
 final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateWithCorrectCredentials(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'inexistent',
         ];
 
         $auth_utils = new TestOnlyAuthUtils();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
 
         // Also test that it's resolving admin-old to admin
         $result = $auth_utils->authenticate('admin-old', 'adm1n');
@@ -45,7 +42,7 @@ final class AuthUtilsTest extends UnitTestCase {
         $this->assertSame(FakeUser::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
@@ -63,14 +60,12 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testAuthenticateWithWrongUsername(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'inexistent',
         ];
 
         $auth_utils = new AuthUtils();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
 
         try {
             $auth_utils->authenticate('wrooong', 'adm1n');
@@ -84,7 +79,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $this->assertSame([
             'user' => 'inexistent',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
@@ -100,14 +95,12 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testAuthenticateWithWrongPassword(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'inexistent',
         ];
 
         $auth_utils = new AuthUtils();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
 
         try {
             $auth_utils->authenticate('admin', 'wrooong');
@@ -121,7 +114,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $this->assertSame([
             'user' => 'inexistent',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
@@ -139,14 +132,12 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testAuthenticateCanNotAuthenticate(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $entity_manager->repositories[AuthRequest::class]->num_remaining_attempts = 0;
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'inexistent',
         ];
 
         $auth_utils = new AuthUtils();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
 
         try {
             $auth_utils->authenticate('admin', 'adm1n');
@@ -160,7 +151,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $this->assertSame([
             'user' => 'inexistent',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',
@@ -175,21 +166,19 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testValidateValidAccessToken(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'inexistent',
         ];
 
         $auth_utils = new AuthUtils();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
 
         $result = $auth_utils->validateAccessToken('valid-token');
 
         $this->assertSame(FakeUser::adminUser(), $result);
         $this->assertSame([
             'user' => 'inexistent', // for now, we don't modify the session
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
@@ -205,14 +194,12 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testValidateInvalidAccessToken(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'inexistent',
         ];
 
         $auth_utils = new AuthUtils();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
 
         try {
             $auth_utils->validateAccessToken('invalid-token');
@@ -226,7 +213,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $this->assertSame([
             'user' => 'inexistent',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
@@ -242,14 +229,12 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testValidateExpiredAccessToken(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'inexistent',
         ];
 
         $auth_utils = new AuthUtils();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
 
         try {
             $auth_utils->validateAccessToken('expired-token');
@@ -263,7 +248,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $this->assertSame([
             'user' => 'inexistent',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([
             [
@@ -281,14 +266,12 @@ final class AuthUtilsTest extends UnitTestCase {
     public function testValidateAccessTokenCanNotValidate(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $entity_manager->repositories[AuthRequest::class]->can_validate_access_token = false;
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'inexistent',
         ];
 
         $auth_utils = new AuthUtils();
         $auth_utils->setServer(['REMOTE_ADDR' => '1.2.3.4']);
-        $auth_utils->setSession($session);
 
         try {
             $auth_utils->validateAccessToken('valid-token');
@@ -302,7 +285,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
         $this->assertSame([
             'user' => 'inexistent',
-        ], $session->session_storage);
+        ], WithUtilsCache::get('session')->session_storage);
         $this->assertSame([
             [
                 'ip_address' => '1.2.3.4',
@@ -352,12 +335,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionNoUser(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'inexistent',
         ];
         $auth_utils = new AuthUtils();
-        $auth_utils->setSession($session);
         $this->assertFalse($auth_utils->hasPermission('test'));
         $this->assertFalse($auth_utils->hasPermission('other'));
         $this->assertFalse($auth_utils->hasPermission('all'));
@@ -365,12 +346,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithNoPermission(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'no',
         ];
         $auth_utils = new AuthUtils();
-        $auth_utils->setSession($session);
         $this->assertFalse($auth_utils->hasPermission('test'));
         $this->assertFalse($auth_utils->hasPermission('other'));
         $this->assertFalse($auth_utils->hasPermission('all'));
@@ -378,12 +357,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithSpecificPermission(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'specific',
         ];
         $auth_utils = new AuthUtils();
-        $auth_utils->setSession($session);
         $this->assertTrue($auth_utils->hasPermission('test'));
         $this->assertFalse($auth_utils->hasPermission('other'));
         $this->assertFalse($auth_utils->hasPermission('all'));
@@ -391,12 +368,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithAllPermissions(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'admin',
         ];
         $auth_utils = new AuthUtils();
-        $auth_utils->setSession($session);
         $this->assertTrue($auth_utils->hasPermission('test'));
         $this->assertTrue($auth_utils->hasPermission('other'));
         $this->assertTrue($auth_utils->hasPermission('all'));
@@ -404,12 +379,10 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testHasPermissionWithRolePermissions(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'vorstand',
         ];
         $auth_utils = new AuthUtils();
-        $auth_utils->setSession($session);
         $this->assertTrue($auth_utils->hasPermission('vorstand_user'));
         $this->assertTrue($auth_utils->hasPermission('vorstand_role'));
         $this->assertFalse($auth_utils->hasPermission('all'));
@@ -510,13 +483,11 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetCurrentUserFromSession(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'admin',
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
-        $auth_utils->setSession($session);
         $this->assertSame(FakeUser::adminUser(), $auth_utils->getCurrentUser());
     }
 
@@ -535,55 +506,45 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testGetSessionUser(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'vorstand',
         ];
         $auth_utils = new AuthUtils();
-        $auth_utils->setSession($session);
         $this->assertSame(FakeUser::vorstandUser(), $auth_utils->getSessionUser());
     }
 
     public function testGetCurrentAuthUserFromSession(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth_user' => 'admin',
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
-        $auth_utils->setSession($session);
         $this->assertSame(FakeUser::adminUser(), $auth_utils->getCurrentAuthUser());
     }
 
     public function testGetSessionAuthUser(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'auth_user' => 'vorstand',
         ];
         $auth_utils = new AuthUtils();
-        $auth_utils->setSession($session);
         $this->assertSame(FakeUser::vorstandUser(), $auth_utils->getSessionAuthUser());
     }
 
     public function testGetAuthenticatedRoles(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'admin',
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
-        $auth_utils->setSession($session);
         $this->assertSame(['admin_role'], array_map(function ($role) {
             return $role->getUsername();
         }, $auth_utils->getAuthenticatedRoles() ?? []));
     }
 
     public function testGetAuthenticatedRolesUnauthenticated(): void {
-        $session = new MemorySession();
-        $session->session_storage = [];
+        WithUtilsCache::get('session')->session_storage = [];
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
-        $auth_utils->setSession($session);
         $this->assertNull($auth_utils->getAuthenticatedRoles());
     }
 
@@ -602,50 +563,42 @@ final class AuthUtilsTest extends UnitTestCase {
     }
 
     public function testIsRoleIdAuthenticated(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'admin',
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
-        $auth_utils->setSession($session);
         $this->assertFalse($auth_utils->isRoleIdAuthenticated(1));
         $this->assertTrue($auth_utils->isRoleIdAuthenticated(2));
         $this->assertFalse($auth_utils->isRoleIdAuthenticated(3));
     }
 
     public function testIsRoleIdAuthenticatedUnauthenticated(): void {
-        $session = new MemorySession();
-        $session->session_storage = [];
+        WithUtilsCache::get('session')->session_storage = [];
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
-        $auth_utils->setSession($session);
         $this->assertFalse($auth_utils->isRoleIdAuthenticated(1));
         $this->assertFalse($auth_utils->isRoleIdAuthenticated(2));
         $this->assertFalse($auth_utils->isRoleIdAuthenticated(3));
     }
 
     public function testHasRoleEditPermissionAdmin(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'admin',
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
-        $auth_utils->setSession($session);
         $this->assertTrue($auth_utils->hasRoleEditPermission(1));
         $this->assertTrue($auth_utils->hasRoleEditPermission(2));
         $this->assertTrue($auth_utils->hasRoleEditPermission(3));
     }
 
     public function testHasRoleEditPermissionVorstand(): void {
-        $session = new MemorySession();
-        $session->session_storage = [
+        WithUtilsCache::get('session')->session_storage = [
             'user' => 'vorstand',
         ];
         $auth_utils = new AuthUtils();
         $auth_utils->setGetParams([]);
-        $auth_utils->setSession($session);
         $this->assertFalse($auth_utils->hasRoleEditPermission(1));
         $this->assertFalse($auth_utils->hasRoleEditPermission(2));
         $this->assertTrue($auth_utils->hasRoleEditPermission(3));

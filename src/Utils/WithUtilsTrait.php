@@ -2,22 +2,18 @@
 
 namespace Olz\Utils;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Olz\Captcha\Utils\CaptchaUtils;
-use Olz\Fetchers\SolvFetcher;
-use Olz\Termine\Utils\TermineUtils;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Contracts\Service\Attribute\Required;
+use Olz\Captcha\Utils\CaptchaUtilsTrait;
+use Olz\Fetchers\SolvFetcherTrait;
+use Olz\Termine\Utils\TermineUtilsTrait;
 
 trait WithUtilsTrait {
     use AuthUtilsTrait;
+    use CaptchaUtilsTrait;
     use DateUtilsTrait;
     use DbUtilsTrait;
     use DevDataUtilsTrait;
     use EmailUtilsTrait;
+    use EntityManagerTrait;
     use EntityUtilsTrait;
     use EnvUtilsTrait;
     use GeneralUtilsTrait;
@@ -25,86 +21,16 @@ trait WithUtilsTrait {
     use HttpUtilsTrait;
     use IdUtilsTrait;
     use ImageUtilsTrait;
+    use LogTrait;
     use MapUtilsTrait;
+    use MailerTrait;
+    use MessageBusTrait;
     use SessionTrait;
+    use SolvFetcherTrait;
     use SymfonyUtilsTrait;
     use TelegramUtilsTrait;
+    use TermineUtilsTrait;
     use UploadUtilsTrait;
-    use LoggerAwareTrait;
-
-    // --- Symfony dependency injection ---
-
-    protected MailerInterface $mailer;
-
-    #[Required]
-    public function setMailer(MailerInterface $mailer): void {
-        $this->mailer = $mailer;
-    }
-
-    protected MessageBusInterface $messageBus;
-
-    #[Required]
-    public function setMessageBus(MessageBusInterface $messageBus): void {
-        $this->messageBus = $messageBus;
-    }
-
-    // --- OLZ dependency injection ---
-
-    public function entityManager(): EntityManagerInterface {
-        $util = WithUtilsCache::get('entityManager');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setEntityManager(EntityManagerInterface $entityManager): void {
-        WithUtilsCache::set('entityManager', $entityManager);
-    }
-
-    public function log(): LoggerInterface {
-        $util = WithUtilsCache::get('log');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setLog(LoggerInterface $log): void {
-        $this->logger = $log;
-        WithUtilsCache::set('log', $log);
-    }
-
-    public function captchaUtils(): CaptchaUtils {
-        $util = WithUtilsCache::get('captchaUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setCaptchaUtils(CaptchaUtils $captchaUtils): void {
-        WithUtilsCache::set('captchaUtils', $captchaUtils);
-    }
-
-    public function solvFetcher(): SolvFetcher {
-        $util = WithUtilsCache::get('solvFetcher');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setSolvFetcher(SolvFetcher $solvFetcher): void {
-        WithUtilsCache::set('solvFetcher', $solvFetcher);
-    }
-
-    public function termineUtils(): TermineUtils {
-        $util = WithUtilsCache::get('termineUtils');
-        assert($util);
-        return $util;
-    }
-
-    #[Required]
-    public function setTermineUtils(TermineUtils $termineUtils): void {
-        WithUtilsCache::set('termineUtils', $termineUtils);
-    }
 
     // Legacy implementation
     // TODO: Migrate away!

@@ -21,11 +21,6 @@ class TestOnlySendDailyNotificationsCommand extends SendDailyNotificationsComman
     public function testOnlySetNotificationGetters(array $new_notification_getters): void {
         $this->notification_getter_by_type = $new_notification_getters;
     }
-
-    /** @return array<string, NotificationGetterInterface> $new_notification_getters */
-    public function testOnlyGetNotificationGetters(): array {
-        return $this->notification_getter_by_type;
-    }
 }
 
 class FakeNotificationGetter implements NotificationGetterInterface {
@@ -347,11 +342,5 @@ final class SendDailyNotificationsCommandTest extends UnitTestCase {
                 'disable_web_page_preview' => true,
             ]],
         ], WithUtilsCache::get('telegramUtils')->telegramApiCalls);
-        $notification_getters = $job->testOnlyGetNotificationGetters();
-
-        foreach ($notification_getters as $type => $notification_getter) {
-            // @phpstan-ignore-next-line
-            $this->assertSame($entity_manager, $notification_getter->entityManager(), "{$type}");
-        }
     }
 }

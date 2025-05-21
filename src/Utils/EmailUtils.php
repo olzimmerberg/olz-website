@@ -222,7 +222,7 @@ class EmailUtils {
         $to = $this->arr2str($email->getTo());
         $recipients = $this->arr2str($envelope?->getRecipients() ?? []);
         $this->log()->debug("Sending email to {$to} ({$recipients})");
-        $this->mailer->send($email, $envelope);
+        $this->mailer()->send($email, $envelope);
     }
 
     // ---

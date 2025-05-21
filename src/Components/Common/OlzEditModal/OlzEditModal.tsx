@@ -112,6 +112,7 @@ export const OlzEditModal = (props: OlzEditModalProps): React.ReactElement => {
                             <button
                                 type='button'
                                 className='btn btn-secondary'
+                                id='cancel-button'
                                 data-bs-dismiss='modal'
                             >
                                 Abbrechen

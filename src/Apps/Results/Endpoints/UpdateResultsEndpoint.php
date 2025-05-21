@@ -36,7 +36,9 @@ class UpdateResultsEndpoint extends OlzTypedEndpoint {
             );
         }
         if ($input['content'] ?? false) {
-            $new_content = base64_decode($input['content']);
+            $res = preg_match("/^data\\:([^\\;]*)\\;base64\\,(.+)$/", $input['content'], $matches);
+            $base64 = $res ? $matches[2] : $input['content'];
+            $new_content = base64_decode($base64);
             if (!$new_content) {
                 $this->log()->warning("Invalid base64 data");
                 return ['status' => 'INVALID_BASE64_DATA'];

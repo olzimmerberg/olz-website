@@ -3,6 +3,7 @@
 namespace Olz\Roles\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Captcha\Utils\CaptchaUtilsTrait;
 use Olz\Entity\Roles\Role;
 use Olz\Users\Endpoints\GetUserInfoEndpoint;
 use PhpTypeScriptApi\HttpError;
@@ -26,6 +27,8 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class GetRoleInfoEndpoint extends OlzTypedEndpoint {
+    use CaptchaUtilsTrait;
+
     public function configure(): void {
         $this->phpStanUtils->registerTypeImport(GetUserInfoEndpoint::class);
     }

@@ -5,15 +5,17 @@ namespace Olz\Termine\Components\OlzTermineListItem;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
-use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Termine\Utils\TermineFilterUtilsTrait;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzTermineListItem extends OlzComponent {
+    use TermineFilterUtilsTrait;
+
     public function getHtml(mixed $args): string {
         $db = $this->dbUtils()->getDb();
         $code_path = $this->envUtils()->getCodePath();
         $code_href = $this->envUtils()->getCodeHref();
-        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+        $termine_utils = $this->termineFilterUtils()->loadTypeOptions();
 
         $out = '';
         $current_filter = json_decode($_GET['filter'] ?? '{}', true);

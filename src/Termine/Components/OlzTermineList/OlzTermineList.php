@@ -14,7 +14,7 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
-use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Termine\Utils\TermineFilterUtilsTrait;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{filter?: ?string, von?: ?string}> */
@@ -23,6 +23,8 @@ class OlzTermineListParams extends HttpParams {
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzTermineList extends OlzComponent {
+    use TermineFilterUtilsTrait;
+
     public static string $title = "Termine";
     public static string $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
 
@@ -33,7 +35,7 @@ class OlzTermineList extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         $current_filter = json_decode($params['filter'] ?? '{}', true);
-        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+        $termine_utils = $this->termineFilterUtils()->loadTypeOptions();
 
         if (!$termine_utils->isValidFilter($current_filter)) {
             $valid_filter = $termine_utils->getValidFilter($current_filter);

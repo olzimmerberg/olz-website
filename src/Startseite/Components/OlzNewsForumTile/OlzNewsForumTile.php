@@ -8,10 +8,12 @@ namespace Olz\Startseite\Components\OlzNewsForumTile;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsFilterUtilsTrait;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsForumTile extends AbstractOlzTile {
+    use NewsFilterUtilsTrait;
+
     /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
         'forum' => 'entry_type_forum_20.svg',
@@ -24,7 +26,7 @@ class OlzNewsForumTile extends AbstractOlzTile {
     public function getHtml(mixed $args): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
-        $news_filter_utils = NewsFilterUtils::fromEnv();
+        $news_filter_utils = $this->newsFilterUtils();
 
         $forum_url = $news_filter_utils->getUrl(['format' => 'forum']);
 

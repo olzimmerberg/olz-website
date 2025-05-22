@@ -3,6 +3,7 @@
 namespace Olz\Users\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Captcha\Utils\CaptchaUtilsTrait;
 use Olz\Entity\Users\User;
 use PhpTypeScriptApi\HttpError;
 
@@ -21,6 +22,8 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class GetUserInfoEndpoint extends OlzTypedEndpoint {
+    use CaptchaUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $has_access = $this->authUtils()->hasPermission('any');
         $token = $input['captchaToken'] ?? null;

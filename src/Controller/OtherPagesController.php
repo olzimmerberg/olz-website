@@ -5,7 +5,7 @@ namespace Olz\Controller;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
-use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Termine\Utils\TermineFilterUtilsTrait;
 use Olz\Utils\DateUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OtherPagesController extends AbstractController {
+    use TermineFilterUtilsTrait;
+
     #[Route('/datenschutz')]
     public function datenschutz(
         Request $request,
@@ -64,9 +66,8 @@ class OtherPagesController extends AbstractController {
         $dateUtils = new DateUtils();
         $code_href = $envUtils->getCodeHref();
         $this_year = $dateUtils->getCurrentDateInFormat('Y');
-        $termine_utils = TermineFilterUtils::fromEnv();
         $filter = [
-            ...$termine_utils->getDefaultFilter(),
+            ...$this->termineFilterUtils()->getDefaultFilter(),
             'typ' => 'trophy',
             'datum' => strval($this_year),
         ];

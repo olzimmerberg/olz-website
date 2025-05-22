@@ -3,7 +3,7 @@
 namespace Olz\Apps\Members\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
-use Olz\Apps\Members\Utils\MembersUtils;
+use Olz\Apps\Members\Utils\MembersUtilsTrait;
 use Olz\Entity\Members\Member;
 use Olz\Entity\Users\User;
 use PhpTypeScriptApi\HttpError;
@@ -28,6 +28,8 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class ImportMembersEndpoint extends OlzTypedEndpoint {
+    use MembersUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         if (!$this->authUtils()->hasPermission('vorstand')) {
             throw new HttpError(403, "Kein Zugriff!");
@@ -37,9 +39,8 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
         $this->log()->info("Members import by {$user?->getUsername()}.");
 
         $member_info_by_ident = [];
-        $member_utils = new MembersUtils();
         $csv_content = $this->getCsvContent($input['csvFileId']);
-        $members = $member_utils->parseCsv($csv_content);
+        $members = $this->membersUtils()->parseCsv($csv_content);
         $member_repo = $this->entityManager()->getRepository(Member::class);
         $user_repo = $this->entityManager()->getRepository(User::class);
 
@@ -49,8 +50,8 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
             $existing_member_is_deleted[$existing_member_ident] = true;
         }
         foreach ($members as $member) {
-            $member_ident = $member_utils->getMemberIdent($member);
-            $member_username = $member_utils->getMemberUsername($member);
+            $member_ident = $this->membersUtils()->getMemberIdent($member);
+            $member_username = $this->membersUtils()->getMemberUsername($member);
             $enc_member = json_encode($member);
             $this->generalUtils()->checkNotFalse($enc_member, "JSON encode failed");
             if (!$member_ident) {
@@ -63,8 +64,8 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                 ?? $user_repo->findOneBy(['old_username' => $member_username])
             ) : null;
             $matching_user = $user_repo->findUserFuzzilyByName(
-                trim($member_utils->getMemberFirstName($member) ?? ''),
-                trim($member_utils->getMemberLastName($member) ?? ''),
+                trim($this->membersUtils()->getMemberFirstName($member) ?? ''),
+                trim($this->membersUtils()->getMemberLastName($member) ?? ''),
             );
             $base_info = [
                 'username' => $member_username,
@@ -80,18 +81,18 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                 $entity->setUser($user);
                 $entity->setData($enc_member);
                 $entity->setUpdates(null);
-                $member_utils->update($entity, $user);
+                $this->membersUtils()->update($entity, $user);
                 $this->entityManager()->persist($entity);
             } else {
                 if ($entity->getData() === $enc_member && $entity->getUser() === $user) {
                     $member_info_by_ident[$member_ident] = [...$base_info, 'action' => 'KEEP'];
-                    $member_utils->update($entity, $user);
+                    $this->membersUtils()->update($entity, $user);
                 } else {
                     $member_info_by_ident[$member_ident] = [...$base_info, 'action' => 'UPDATE'];
                     $this->entityUtils()->updateOlzEntity($entity, []);
                     $entity->setUser($user);
                     $entity->setData($enc_member);
-                    $member_utils->update($entity, $user);
+                    $this->membersUtils()->update($entity, $user);
                 }
             }
             $new_value_by_key = json_decode($entity->getUpdates() ?? '[]', true) ?: [];

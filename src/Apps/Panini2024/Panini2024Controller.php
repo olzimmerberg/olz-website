@@ -5,7 +5,7 @@ namespace Olz\Apps\Panini2024;
 use Olz\Apps\Panini2024\Components\OlzPanini2024\OlzPanini2024;
 use Olz\Apps\Panini2024\Components\OlzPanini2024All\OlzPanini2024All;
 use Olz\Apps\Panini2024\Components\OlzPanini2024Masks\OlzPanini2024Masks;
-use Olz\Apps\Panini2024\Utils\Panini2024Utils;
+use Olz\Apps\Panini2024\Utils\Panini2024UtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class Panini2024Controller extends AbstractController {
+    use Panini2024UtilsTrait;
+
     #[Route('/apps/panini24')]
     public function index(
         Request $request,
@@ -169,10 +171,6 @@ class Panini2024Controller extends AbstractController {
     private function setLimits(): void {
         ini_set('memory_limit', '500M');
         set_time_limit(4000);
-    }
-
-    private function paniniUtils(): Panini2024Utils {
-        return Panini2024Utils::fromEnv();
     }
 
     private function pdfResponse(string $pdf_out): Response {

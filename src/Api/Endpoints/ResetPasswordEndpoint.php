@@ -3,6 +3,7 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Captcha\Utils\CaptchaUtilsTrait;
 use Symfony\Component\Mime\Email;
 
 /**
@@ -17,6 +18,8 @@ use Symfony\Component\Mime\Email;
  * >
  */
 class ResetPasswordEndpoint extends OlzTypedEndpoint {
+    use CaptchaUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $username_or_email = trim($input['usernameOrEmail']);
         $user = $this->authUtils()->resolveUsernameOrEmail($username_or_email);

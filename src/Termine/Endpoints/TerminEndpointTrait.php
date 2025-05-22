@@ -6,6 +6,7 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
+use Olz\Termine\Utils\TermineUtilsTrait;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDate;
@@ -36,6 +37,7 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
  * }
  */
 trait TerminEndpointTrait {
+    use TermineUtilsTrait;
     use WithUtilsTrait;
 
     public function configureTerminEndpointTrait(): void {

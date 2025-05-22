@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Common;
 
 use Monolog\LogRecord;
+use Olz\Apps\Members\Utils\MembersUtils;
+use Olz\Apps\Oev\Utils\CoordinateUtils;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\Fake\FakeCaptchaUtils;
@@ -77,6 +79,7 @@ class UnitTestCase extends TestCase {
         WithUtilsCache::setAll([
             'authUtils' => new FakeAuthUtils(),
             'captchaUtils' => new FakeCaptchaUtils(),
+            'coordinateUtils' => new CoordinateUtils(),
             'dateUtils' => new DateUtils('2020-03-13 19:30:00'),
             'devDataUtils' => new FakeDevDataUtils(),
             'dbUtils' => new FakeDbUtils(),
@@ -89,6 +92,7 @@ class UnitTestCase extends TestCase {
             'imageUtils' => new FakeImageUtils(),
             'log' => $logger,
             'logger' => $logger,
+            'membersUtils' => new MembersUtils(),
             'session' => new FakeSession(),
             'symfonyUtils' => new FakeSymfonyUtils(),
             'telegramUtils' => new FakeTelegramUtils(),

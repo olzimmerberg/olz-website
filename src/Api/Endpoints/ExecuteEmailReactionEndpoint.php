@@ -6,6 +6,11 @@ use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Users\User;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EmailUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\LogTrait;
 
 /**
  * @extends OlzTypedEndpoint<
@@ -18,6 +23,12 @@ use Olz\Entity\Users\User;
  * >
  */
 class ExecuteEmailReactionEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EmailUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use LogTrait;
+
     /** @var ?array<string, mixed> */
     protected ?array $reaction_data;
 

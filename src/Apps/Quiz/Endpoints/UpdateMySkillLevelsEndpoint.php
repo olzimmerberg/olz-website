@@ -6,6 +6,11 @@ use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Quiz\QuizConstants;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\DateUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\IdUtilsTrait;
 
 /**
  * Note: `change` must be between -1.0 and 1.0.
@@ -16,6 +21,12 @@ use Olz\Entity\Quiz\SkillLevel;
  * >
  */
 class UpdateMySkillLevelsEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use DateUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use IdUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

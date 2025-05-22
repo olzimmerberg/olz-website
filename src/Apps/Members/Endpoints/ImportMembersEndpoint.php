@@ -6,6 +6,12 @@ use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Members\Utils\MembersUtils;
 use Olz\Entity\Members\Member;
 use Olz\Entity\Users\User;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\GeneralUtilsTrait;
+use Olz\Utils\LogTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -28,6 +34,13 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class ImportMembersEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use EnvUtilsTrait;
+    use GeneralUtilsTrait;
+    use LogTrait;
+
     protected function handle(mixed $input): mixed {
         if (!$this->authUtils()->hasPermission('vorstand')) {
             throw new HttpError(403, "Kein Zugriff!");

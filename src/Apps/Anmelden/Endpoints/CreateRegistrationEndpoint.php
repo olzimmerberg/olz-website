@@ -5,6 +5,9 @@ namespace Olz\Apps\Anmelden\Endpoints;
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\IdUtilsTrait;
 
 /**
  * @phpstan-import-type OlzRegistrationId from RegistrationEndpointTrait
@@ -17,6 +20,9 @@ use Olz\Entity\Anmelden\RegistrationInfo;
  * @extends OlzCreateEntityTypedEndpoint<OlzRegistrationId, OlzRegistrationData>
  */
 class CreateRegistrationEndpoint extends OlzCreateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use IdUtilsTrait;
     use RegistrationEndpointTrait;
 
     public function configure(): void {

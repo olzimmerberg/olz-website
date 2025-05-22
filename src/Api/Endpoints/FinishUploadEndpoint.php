@@ -3,6 +3,8 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\LogTrait;
 
 /**
  * @extends OlzTypedEndpoint<
@@ -16,6 +18,9 @@ use Olz\Api\OlzTypedEndpoint;
  * >
  */
 class FinishUploadEndpoint extends OlzTypedEndpoint {
+    use EnvUtilsTrait;
+    use LogTrait;
+
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

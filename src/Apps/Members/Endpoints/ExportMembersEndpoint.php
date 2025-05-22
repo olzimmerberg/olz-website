@@ -4,6 +4,12 @@ namespace Olz\Apps\Members\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Members\Member;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\GeneralUtilsTrait;
+use Olz\Utils\LogTrait;
+use Olz\Utils\UploadUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -13,6 +19,13 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class ExportMembersEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+    use EnvUtilsTrait;
+    use GeneralUtilsTrait;
+    use LogTrait;
+    use UploadUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         if (!$this->authUtils()->hasPermission('vorstand')) {
             throw new HttpError(403, "Kein Zugriff!");

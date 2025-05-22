@@ -4,6 +4,9 @@ namespace Olz\Apps\Anmelden\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Anmelden\Booking;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\IdUtilsTrait;
 
 /**
  * @phpstan-import-type OlzBookingId from BookingEndpointTrait
@@ -12,6 +15,9 @@ use Olz\Entity\Anmelden\Booking;
  * @extends OlzCreateEntityTypedEndpoint<OlzBookingId, OlzBookingData>
  */
 class CreateBookingEndpoint extends OlzCreateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use IdUtilsTrait;
     use BookingEndpointTrait;
 
     public function configure(): void {

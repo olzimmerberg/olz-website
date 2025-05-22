@@ -3,6 +3,7 @@
 namespace Olz\Snippets\Endpoints;
 
 use Olz\Api\OlzEditEntityTypedEndpoint;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +13,7 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzEditEntityTypedEndpoint<OlzSnippetId, OlzSnippetData>
  */
 class EditSnippetEndpoint extends OlzEditEntityTypedEndpoint {
+    use EntityUtilsTrait;
     use SnippetEndpointTrait;
 
     public function configure(): void {

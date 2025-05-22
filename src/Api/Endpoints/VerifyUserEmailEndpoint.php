@@ -3,6 +3,10 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EmailUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\LogTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -14,6 +18,11 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class VerifyUserEmailEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EmailUtilsTrait;
+    use EntityManagerTrait;
+    use LogTrait;
+
     protected function handle(mixed $input): mixed {
         $auth_utils = $this->authUtils();
         $user = $auth_utils->getCurrentUser();

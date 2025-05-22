@@ -3,6 +3,7 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Utils\SessionTrait;
 
 /**
  * @extends OlzTypedEndpoint<
@@ -13,6 +14,8 @@ use Olz\Api\OlzTypedEndpoint;
  * >
  */
 class LogoutEndpoint extends OlzTypedEndpoint {
+    use SessionTrait;
+
     protected function handle(mixed $input): mixed {
         $this->session()->delete('auth');
         $this->session()->delete('root');

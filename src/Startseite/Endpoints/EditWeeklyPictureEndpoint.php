@@ -3,6 +3,7 @@
 namespace Olz\Startseite\Endpoints;
 
 use Olz\Api\OlzEditEntityTypedEndpoint;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +13,7 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzEditEntityTypedEndpoint<OlzWeeklyPictureId, OlzWeeklyPictureData>
  */
 class EditWeeklyPictureEndpoint extends OlzEditEntityTypedEndpoint {
+    use EntityUtilsTrait;
     use WeeklyPictureEndpointTrait;
 
     public function configure(): void {

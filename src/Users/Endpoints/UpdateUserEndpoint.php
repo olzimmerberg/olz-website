@@ -5,6 +5,12 @@ namespace Olz\Users\Endpoints;
 use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EmailUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\LogTrait;
+use Olz\Utils\SessionTrait;
 use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
@@ -17,6 +23,12 @@ use PhpTypeScriptApi\HttpError;
  * }>
  */
 class UpdateUserEndpoint extends OlzUpdateEntityTypedEndpoint {
+    use AuthUtilsTrait;
+    use EmailUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use LogTrait;
+    use SessionTrait;
     use UserEndpointTrait;
 
     public function configure(): void {

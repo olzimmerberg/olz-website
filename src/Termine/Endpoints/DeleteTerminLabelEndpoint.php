@@ -3,6 +3,8 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzDeleteEntityTypedEndpoint;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +14,8 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzDeleteEntityTypedEndpoint<OlzTerminLabelId, OlzTerminLabelData>
  */
 class DeleteTerminLabelEndpoint extends OlzDeleteEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use TerminLabelEndpointTrait;
 
     public function configure(): void {

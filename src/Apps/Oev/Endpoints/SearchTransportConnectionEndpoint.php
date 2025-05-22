@@ -7,6 +7,7 @@ use Olz\Apps\Oev\Utils\CoordinateUtils;
 use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
 use Olz\Fetchers\TransportApiFetcher;
+use Olz\Utils\LogTrait;
 use PhpTypeScriptApi\PhpStan\IsoDateTime;
 
 /**
@@ -52,6 +53,8 @@ use PhpTypeScriptApi\PhpStan\IsoDateTime;
  * >
  */
 class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
+    use LogTrait;
+
     public const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
     /** @var array<array{id: string, name: string, coordinate: array{type: string, x: float, y: float}, weight: float}> */

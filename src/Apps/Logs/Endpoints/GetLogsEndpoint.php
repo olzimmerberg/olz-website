@@ -8,6 +8,10 @@ use Olz\Apps\Logs\Utils\HybridLogFile;
 use Olz\Apps\Logs\Utils\LineLocation;
 use Olz\Apps\Logs\Utils\LogsDefinitions;
 use Olz\Apps\Logs\Utils\PlainLogFile;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\GeneralUtilsTrait;
+use Olz\Utils\LogTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDateTime;
 
@@ -29,6 +33,11 @@ use PhpTypeScriptApi\PhpStan\IsoDateTime;
  * >
  */
 class GetLogsEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EnvUtilsTrait;
+    use GeneralUtilsTrait;
+    use LogTrait;
+
     public function configure(): void {
         parent::configure();
         $this->phpStanUtils->registerApiObject(IsoDateTime::class);

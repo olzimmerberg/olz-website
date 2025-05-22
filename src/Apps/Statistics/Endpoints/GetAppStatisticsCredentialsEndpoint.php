@@ -3,6 +3,9 @@
 namespace Olz\Apps\Statistics\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\LogTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +15,10 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class GetAppStatisticsCredentialsEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EnvUtilsTrait;
+    use LogTrait;
+
     protected function handle(mixed $input): mixed {
         if (!$this->authUtils()->hasPermission('all')) {
             throw new HttpError(403, "Kein Zugriff!");

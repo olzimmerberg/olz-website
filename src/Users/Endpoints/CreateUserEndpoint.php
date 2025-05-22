@@ -3,8 +3,15 @@
 namespace Olz\Users\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
+use Olz\Captcha\Utils\CaptchaUtilsTrait;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\Users\User;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EmailUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\LogTrait;
+use Olz\Utils\SessionTrait;
 use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
@@ -19,6 +26,13 @@ use PhpTypeScriptApi\HttpError;
  * }>
  */
 class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
+    use AuthUtilsTrait;
+    use CaptchaUtilsTrait;
+    use EmailUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use LogTrait;
+    use SessionTrait;
     use UserEndpointTrait;
 
     public function configure(): void {

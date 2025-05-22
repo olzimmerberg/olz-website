@@ -3,6 +3,7 @@
 namespace Olz\News\Endpoints;
 
 use Olz\Api\OlzEditEntityTypedEndpoint;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -15,6 +16,7 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzEditEntityTypedEndpoint<OlzNewsId, OlzNewsData>
  */
 class EditNewsEndpoint extends OlzEditEntityTypedEndpoint {
+    use EntityUtilsTrait;
     use NewsEndpointTrait;
 
     public function configure(): void {

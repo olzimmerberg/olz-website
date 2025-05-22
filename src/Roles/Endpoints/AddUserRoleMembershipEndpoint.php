@@ -3,6 +3,9 @@
 namespace Olz\Roles\Endpoints;
 
 use Olz\Api\OlzAddRelationTypedEndpoint;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -11,6 +14,9 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzAddRelationTypedEndpoint<OlzRoleMembershipIds>
  */
 class AddUserRoleMembershipEndpoint extends OlzAddRelationTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use UserRoleMembershipEndpointTrait;
 
     public function configure(): void {

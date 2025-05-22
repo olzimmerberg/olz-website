@@ -3,6 +3,8 @@
 namespace Olz\Startseite\Endpoints;
 
 use Olz\Api\OlzUpdateEntityTypedEndpoint;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +14,8 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzUpdateEntityTypedEndpoint<OlzWeeklyPictureId, OlzWeeklyPictureData>
  */
 class UpdateWeeklyPictureEndpoint extends OlzUpdateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use WeeklyPictureEndpointTrait;
 
     public function configure(): void {

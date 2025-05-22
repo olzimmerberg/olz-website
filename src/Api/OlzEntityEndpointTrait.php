@@ -3,6 +3,10 @@
 namespace Olz\Api;
 
 use Olz\Entity\Common\DataStorageInterface;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\GeneralUtilsTrait;
+use Olz\Utils\ImageUtilsTrait;
+use Olz\Utils\UploadUtilsTrait;
 
 /**
  * @phpstan-type OlzMetaData array{
@@ -12,6 +16,11 @@ use Olz\Entity\Common\DataStorageInterface;
  * }
  */
 trait OlzEntityEndpointTrait {
+    use EnvUtilsTrait;
+    use GeneralUtilsTrait;
+    use ImageUtilsTrait;
+    use UploadUtilsTrait;
+
     /** @param ?array<string> $image_ids */
     protected function persistOlzImages(DataStorageInterface $entity, ?array $image_ids): void {
         $data_path = $this->envUtils()->getDataPath();

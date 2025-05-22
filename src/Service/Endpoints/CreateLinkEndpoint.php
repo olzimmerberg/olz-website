@@ -4,6 +4,8 @@ namespace Olz\Service\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Service\Link;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 
 /**
  * @phpstan-import-type OlzLinkId from LinkEndpointTrait
@@ -12,6 +14,8 @@ use Olz\Entity\Service\Link;
  * @extends OlzCreateEntityTypedEndpoint<OlzLinkId, OlzLinkData>
  */
 class CreateLinkEndpoint extends OlzCreateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use LinkEndpointTrait;
 
     public function configure(): void {

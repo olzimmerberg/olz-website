@@ -3,6 +3,9 @@
 namespace Olz\Roles\Endpoints;
 
 use Olz\Api\OlzDeleteEntityTypedEndpoint;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +15,9 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzDeleteEntityTypedEndpoint<OlzRoleId, OlzRoleData>
  */
 class DeleteRoleEndpoint extends OlzDeleteEntityTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use RoleEndpointTrait;
 
     public function configure(): void {

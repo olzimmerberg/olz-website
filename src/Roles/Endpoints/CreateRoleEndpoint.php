@@ -5,6 +5,9 @@ namespace Olz\Roles\Endpoints;
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
@@ -15,6 +18,9 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzCreateEntityTypedEndpoint<OlzRoleId, OlzRoleData>
  */
 class CreateRoleEndpoint extends OlzCreateEntityTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use RoleEndpointTrait;
 
     public function configure(): void {

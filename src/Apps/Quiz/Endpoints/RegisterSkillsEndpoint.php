@@ -5,6 +5,9 @@ namespace Olz\Apps\Quiz\Endpoints;
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillCategory;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\IdUtilsTrait;
 
 /**
  * @phpstan-type OlzSkillData array{
@@ -18,6 +21,10 @@ use Olz\Entity\Quiz\SkillCategory;
  * >
  */
 class RegisterSkillsEndpoint extends OlzTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use IdUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $skill_repo = $this->entityManager()->getRepository(Skill::class);
         $skill_category_repo = $this->entityManager()->getRepository(SkillCategory::class);

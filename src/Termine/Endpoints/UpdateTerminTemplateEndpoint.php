@@ -3,6 +3,8 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzUpdateEntityTypedEndpoint;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +14,8 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzUpdateEntityTypedEndpoint<OlzTerminTemplateId, OlzTerminTemplateData>
  */
 class UpdateTerminTemplateEndpoint extends OlzUpdateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use TerminTemplateEndpointTrait;
 
     public function configure(): void {

@@ -4,6 +4,8 @@ namespace Olz\Apps\Anmelden\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
 
 /**
  * @phpstan-type ManagedUser array{
@@ -21,6 +23,9 @@ use Olz\Entity\Users\User;
  * >
  */
 class GetManagedUsersEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

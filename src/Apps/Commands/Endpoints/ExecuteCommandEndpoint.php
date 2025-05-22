@@ -4,6 +4,9 @@ namespace Olz\Apps\Commands\Endpoints;
 
 use Doctrine\DBAL\Exception\DriverException;
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\LogTrait;
+use Olz\Utils\SymfonyUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -15,6 +18,10 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * >
  */
 class ExecuteCommandEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use LogTrait;
+    use SymfonyUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $command_name = $input['command'];
         try {

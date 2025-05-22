@@ -3,6 +3,7 @@
 namespace Olz\Apps\Anmelden\Endpoints;
 
 use Olz\Api\OlzGetEntityTypedEndpoint;
+use Olz\Utils\IdUtilsTrait;
 
 /**
  * @phpstan-import-type OlzRegistrationId from RegistrationEndpointTrait
@@ -15,6 +16,7 @@ use Olz\Api\OlzGetEntityTypedEndpoint;
  * @extends OlzGetEntityTypedEndpoint<OlzRegistrationId, OlzRegistrationData>
  */
 class GetRegistrationEndpoint extends OlzGetEntityTypedEndpoint {
+    use IdUtilsTrait;
     use RegistrationEndpointTrait;
 
     public function configure(): void {

@@ -8,6 +8,12 @@ use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\GeneralUtilsTrait;
+use Olz\Utils\SessionTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -17,6 +23,12 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzDeleteEntityTypedEndpoint<OlzUserId, OlzUserData>
  */
 class DeleteUserEndpoint extends OlzDeleteEntityTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use EnvUtilsTrait;
+    use GeneralUtilsTrait;
+    use SessionTrait;
     use UserEndpointTrait;
 
     public function configure(): void {

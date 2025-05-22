@@ -3,6 +3,7 @@
 namespace Olz\Karten\Endpoints;
 
 use Olz\Api\OlzEditEntityTypedEndpoint;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -15,6 +16,7 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzEditEntityTypedEndpoint<OlzKarteId, OlzKarteData>
  */
 class EditKarteEndpoint extends OlzEditEntityTypedEndpoint {
+    use EntityUtilsTrait;
     use KarteEndpointTrait;
 
     public function configure(): void {

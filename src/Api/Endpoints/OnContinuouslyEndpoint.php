@@ -3,6 +3,8 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\SymfonyUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -17,6 +19,9 @@ use Symfony\Component\HttpFoundation\Request;
  * >
  */
 class OnContinuouslyEndpoint extends OlzTypedEndpoint {
+    use EnvUtilsTrait;
+    use SymfonyUtilsTrait;
+
     public function parseInput(Request $request): mixed {
         return [
             'authenticityCode' => $request->query->get('authenticityCode'),

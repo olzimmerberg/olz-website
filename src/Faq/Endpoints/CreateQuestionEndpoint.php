@@ -4,6 +4,8 @@ namespace Olz\Faq\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Faq\Question;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 
 /**
  * @phpstan-import-type OlzQuestionId from QuestionEndpointTrait
@@ -12,6 +14,8 @@ use Olz\Entity\Faq\Question;
  * @extends OlzCreateEntityTypedEndpoint<OlzQuestionId, OlzQuestionData>
  */
 class CreateQuestionEndpoint extends OlzCreateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use QuestionEndpointTrait;
 
     public function configure(): void {

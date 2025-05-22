@@ -2,7 +2,8 @@
 
 namespace Olz\Api;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\LogTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\TypedEndpoint;
 
@@ -13,7 +14,8 @@ use PhpTypeScriptApi\TypedEndpoint;
  * @extends TypedEndpoint<Request, Response>
  */
 abstract class OlzTypedEndpoint extends TypedEndpoint {
-    use WithUtilsTrait;
+    use AuthUtilsTrait;
+    use LogTrait;
 
     public function runtimeSetup(): void {
         $this->setLogger($this->log());

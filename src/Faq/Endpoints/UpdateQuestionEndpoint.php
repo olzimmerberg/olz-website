@@ -3,6 +3,8 @@
 namespace Olz\Faq\Endpoints;
 
 use Olz\Api\OlzUpdateEntityTypedEndpoint;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +14,8 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzUpdateEntityTypedEndpoint<OlzQuestionId, OlzQuestionData>
  */
 class UpdateQuestionEndpoint extends OlzUpdateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use QuestionEndpointTrait;
 
     public function configure(): void {

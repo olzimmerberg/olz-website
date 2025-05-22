@@ -3,6 +3,7 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzEditEntityTypedEndpoint;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +13,7 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzEditEntityTypedEndpoint<OlzTerminLabelId, OlzTerminLabelData>
  */
 class EditTerminLabelEndpoint extends OlzEditEntityTypedEndpoint {
+    use EntityUtilsTrait;
     use TerminLabelEndpointTrait;
 
     public function configure(): void {

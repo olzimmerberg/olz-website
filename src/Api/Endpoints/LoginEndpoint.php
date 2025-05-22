@@ -5,6 +5,10 @@ namespace Olz\Api\Endpoints;
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\DateUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\SessionTrait;
 
 /**
  * @extends OlzTypedEndpoint<
@@ -20,6 +24,11 @@ use Olz\Exceptions\InvalidCredentialsException;
  * >
  */
 class LoginEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use DateUtilsTrait;
+    use EntityManagerTrait;
+    use SessionTrait;
+
     protected function handle(mixed $input): mixed {
         $username_or_email = trim($input['usernameOrEmail']);
         $password = $input['password'];

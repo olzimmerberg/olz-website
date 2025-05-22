@@ -5,6 +5,9 @@ namespace Olz\Apps\Anmelden\Endpoints;
 use Olz\Api\ApiObjects\IsoCountry;
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\GeneralUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDate;
 
@@ -36,6 +39,10 @@ use PhpTypeScriptApi\PhpStan\IsoDate;
  * >
  */
 class GetPrefillValuesEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+    use GeneralUtilsTrait;
+
     public function configure(): void {
         parent::configure();
         $this->phpStanUtils->registerApiObject(IsoDate::class);

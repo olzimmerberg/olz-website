@@ -4,6 +4,10 @@ namespace Olz\Apps\Newsletter\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\NotificationSubscription;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\DateUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\GeneralUtilsTrait;
 
 /**
  * @extends OlzTypedEndpoint<
@@ -30,6 +34,11 @@ use Olz\Entity\NotificationSubscription;
  * >
  */
 class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use DateUtilsTrait;
+    use EntityManagerTrait;
+    use GeneralUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $user = $this->authUtils()->getCurrentUser();
         $this->generalUtils()->checkNotNull($user, "Not logged in");

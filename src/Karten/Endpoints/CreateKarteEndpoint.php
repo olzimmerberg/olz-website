@@ -4,6 +4,8 @@ namespace Olz\Karten\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Karten\Karte;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 
 /**
  * @phpstan-import-type OlzKarteId from KarteEndpointTrait
@@ -15,6 +17,8 @@ use Olz\Entity\Karten\Karte;
  * @extends OlzCreateEntityTypedEndpoint<OlzKarteId, OlzKarteData>
  */
 class CreateKarteEndpoint extends OlzCreateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use KarteEndpointTrait;
 
     public function configure(): void {

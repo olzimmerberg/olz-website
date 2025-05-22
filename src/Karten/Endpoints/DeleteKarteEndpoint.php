@@ -3,6 +3,8 @@
 namespace Olz\Karten\Endpoints;
 
 use Olz\Api\OlzDeleteEntityTypedEndpoint;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -15,6 +17,8 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzDeleteEntityTypedEndpoint<OlzKarteId, OlzKarteData>
  */
 class DeleteKarteEndpoint extends OlzDeleteEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use KarteEndpointTrait;
 
     public function configure(): void {

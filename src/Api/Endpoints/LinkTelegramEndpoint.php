@@ -3,6 +3,8 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\TelegramUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -15,6 +17,9 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class LinkTelegramEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use TelegramUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $user = $this->authUtils()->getCurrentUser();
         if (!$user) {

@@ -4,6 +4,8 @@ namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 
 /**
  * @phpstan-import-type OlzTerminLabelId from TerminLabelEndpointTrait
@@ -12,6 +14,8 @@ use Olz\Entity\Termine\TerminLabel;
  * @extends OlzCreateEntityTypedEndpoint<OlzTerminLabelId, OlzTerminLabelData>
  */
 class CreateTerminLabelEndpoint extends OlzCreateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use TerminLabelEndpointTrait;
 
     public function configure(): void {

@@ -3,6 +3,8 @@
 namespace Olz\News\Endpoints;
 
 use Olz\Api\OlzDeleteEntityTypedEndpoint;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -15,6 +17,8 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzDeleteEntityTypedEndpoint<OlzNewsId, OlzNewsData>
  */
 class DeleteNewsEndpoint extends OlzDeleteEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use NewsEndpointTrait;
 
     public function configure(): void {

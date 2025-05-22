@@ -5,6 +5,11 @@ namespace Olz\Apps\Panini2024\Endpoints;
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Panini2024\Panini2024Constants;
 use Olz\Entity\Panini2024\Panini2024Picture;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\DateUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\UploadUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -28,6 +33,12 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class UpdateMyPanini2024Endpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use DateUtilsTrait;
+    use EntityManagerTrait;
+    use EnvUtilsTrait;
+    use UploadUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

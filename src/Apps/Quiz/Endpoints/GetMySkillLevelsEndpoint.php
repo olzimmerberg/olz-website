@@ -6,6 +6,10 @@ use Olz\Api\OlzTypedEndpoint;
 use Olz\Apps\Quiz\QuizConstants;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\GeneralUtilsTrait;
+use Olz\Utils\IdUtilsTrait;
 
 /**
  * Note: `value` must be between 0.0 and 1.0.
@@ -18,6 +22,11 @@ use Olz\Entity\Quiz\SkillLevel;
  * >
  */
 class GetMySkillLevelsEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+    use GeneralUtilsTrait;
+    use IdUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

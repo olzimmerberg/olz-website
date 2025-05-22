@@ -11,6 +11,7 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Entity\Users\User;
+use Olz\Utils\EntityManagerTrait;
 
 /**
  * TODO: Support key-of<self::SUPPORTED_ENTITY_TYPES>.
@@ -33,6 +34,8 @@ use Olz\Entity\Users\User;
  * >
  */
 class SearchEntitiesEndpoint extends OlzTypedEndpoint {
+    use EntityManagerTrait;
+
     public const SUPPORTED_ENTITY_TYPES = [
         'QuestionCategory' => QuestionCategory::class,
         'SolvEvent' => SolvEvent::class,

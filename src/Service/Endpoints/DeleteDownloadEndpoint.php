@@ -3,6 +3,8 @@
 namespace Olz\Service\Endpoints;
 
 use Olz\Api\OlzDeleteEntityTypedEndpoint;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +14,8 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzDeleteEntityTypedEndpoint<OlzDownloadId, OlzDownloadData>
  */
 class DeleteDownloadEndpoint extends OlzDeleteEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use DownloadEndpointTrait;
 
     public function configure(): void {

@@ -4,6 +4,8 @@ namespace Olz\Startseite\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Startseite\WeeklyPicture;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 
 /**
  * @phpstan-import-type OlzWeeklyPictureId from WeeklyPictureEndpointTrait
@@ -12,6 +14,8 @@ use Olz\Entity\Startseite\WeeklyPicture;
  * @extends OlzCreateEntityTypedEndpoint<OlzWeeklyPictureId, OlzWeeklyPictureData>
  */
 class CreateWeeklyPictureEndpoint extends OlzCreateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use WeeklyPictureEndpointTrait;
 
     public function configure(): void {

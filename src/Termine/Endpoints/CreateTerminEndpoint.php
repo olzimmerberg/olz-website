@@ -4,6 +4,8 @@ namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Termine\Termin;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 
 /**
  * @phpstan-import-type OlzTerminId from TerminEndpointTrait
@@ -12,6 +14,8 @@ use Olz\Entity\Termine\Termin;
  * @extends OlzCreateEntityTypedEndpoint<OlzTerminId, OlzTerminData>
  */
 class CreateTerminEndpoint extends OlzCreateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use TerminEndpointTrait;
 
     public function configure(): void {

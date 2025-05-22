@@ -4,6 +4,7 @@ namespace Olz\Captcha\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Captcha\Utils\CaptchaUtils;
+use Olz\Captcha\Utils\CaptchaUtilsTrait;
 
 /**
  * @phpstan-import-type OlzCaptchaConfig from CaptchaUtils
@@ -16,6 +17,8 @@ use Olz\Captcha\Utils\CaptchaUtils;
  * >
  */
 class StartCaptchaEndpoint extends OlzTypedEndpoint {
+    use CaptchaUtilsTrait;
+
     public function configure(): void {
         parent::configure();
         $this->phpStanUtils->registerTypeImport(CaptchaUtils::class);

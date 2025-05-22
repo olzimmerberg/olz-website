@@ -3,6 +3,7 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Utils\AuthUtilsTrait;
 
 /**
  * @phpstan-type OlzAuthenticatedUser array{
@@ -20,6 +21,8 @@ use Olz\Api\OlzTypedEndpoint;
  * >
  */
 class GetAuthenticatedUserEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $user = $this->authUtils()->getCurrentUser();
         if (!$user) {

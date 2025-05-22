@@ -3,6 +3,13 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Captcha\Utils\CaptchaUtilsTrait;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EmailUtilsTrait;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\GeneralUtilsTrait;
+use Olz\Utils\LogTrait;
+use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Mime\Email;
 
 /**
@@ -17,6 +24,15 @@ use Symfony\Component\Mime\Email;
  * >
  */
 class ResetPasswordEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use CaptchaUtilsTrait;
+    use EmailUtilsTrait;
+    use EnvUtilsTrait;
+    use GeneralUtilsTrait;
+    use LogTrait;
+    // TODO: Remove WithUtilsTrait
+    use WithUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $username_or_email = trim($input['usernameOrEmail']);
         $user = $this->authUtils()->resolveUsernameOrEmail($username_or_email);

@@ -4,6 +4,11 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\DateUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\GeneralUtilsTrait;
+use Olz\Utils\SessionTrait;
 use PhpTypeScriptApi\Fields\ValidationError;
 
 /**
@@ -19,6 +24,12 @@ use PhpTypeScriptApi\Fields\ValidationError;
  * >
  */
 class UpdateUserPasswordEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use DateUtilsTrait;
+    use EntityManagerTrait;
+    use GeneralUtilsTrait;
+    use SessionTrait;
+
     protected function handle(mixed $input): mixed {
         $auth_username = $this->session()->get('user');
 

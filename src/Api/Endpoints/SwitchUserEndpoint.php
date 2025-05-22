@@ -4,6 +4,8 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\SessionTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -17,6 +19,9 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class SwitchUserEndpoint extends OlzTypedEndpoint {
+    use EntityManagerTrait;
+    use SessionTrait;
+
     protected function handle(mixed $input): mixed {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $input['userId']]);

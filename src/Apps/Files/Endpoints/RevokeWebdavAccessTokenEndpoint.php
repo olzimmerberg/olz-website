@@ -4,6 +4,8 @@ namespace Olz\Apps\Files\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\AccessToken;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
 
 /**
  * @extends OlzTypedEndpoint<
@@ -12,6 +14,9 @@ use Olz\Entity\AccessToken;
  * >
  */
 class RevokeWebdavAccessTokenEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityManagerTrait;
+
     protected function handle(mixed $input): mixed {
         $this->checkPermission('webdav');
 

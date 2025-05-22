@@ -3,8 +3,14 @@
 namespace Olz\News\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
+use Olz\Captcha\Utils\CaptchaUtilsTrait;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
+use Olz\Utils\EmailUtilsTrait;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\LogTrait;
 use Symfony\Component\Mime\Email;
 
 /**
@@ -21,6 +27,12 @@ use Symfony\Component\Mime\Email;
  * }>
  */
 class CreateNewsEndpoint extends OlzCreateEntityTypedEndpoint {
+    use CaptchaUtilsTrait;
+    use EmailUtilsTrait;
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
+    use EnvUtilsTrait;
+    use LogTrait;
     use NewsEndpointTrait;
 
     public function configure(): void {

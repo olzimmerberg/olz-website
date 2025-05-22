@@ -4,6 +4,8 @@ namespace Olz\Service\Endpoints;
 
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Service\Download;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EntityUtilsTrait;
 
 /**
  * @phpstan-import-type OlzDownloadId from DownloadEndpointTrait
@@ -12,6 +14,8 @@ use Olz\Entity\Service\Download;
  * @extends OlzCreateEntityTypedEndpoint<OlzDownloadId, OlzDownloadData>
  */
 class CreateDownloadEndpoint extends OlzCreateEntityTypedEndpoint {
+    use EntityManagerTrait;
+    use EntityUtilsTrait;
     use DownloadEndpointTrait;
 
     public function configure(): void {

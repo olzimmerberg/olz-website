@@ -3,6 +3,7 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Utils\AuthUtilsTrait;
 
 /**
  * @phpstan-type OlzAuthenticatedRole array{
@@ -19,6 +20,8 @@ use Olz\Api\OlzTypedEndpoint;
  * >
  */
 class GetAuthenticatedRolesEndpoint extends OlzTypedEndpoint {
+    use AuthUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $roles = $this->authUtils()->getAuthenticatedRoles();
         if ($roles === null) {

@@ -4,6 +4,10 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\TelegramLink;
+use Olz\Utils\EntityManagerTrait;
+use Olz\Utils\EnvUtilsTrait;
+use Olz\Utils\LogTrait;
+use Olz\Utils\TelegramUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,6 +21,11 @@ use Symfony\Component\HttpFoundation\Request;
  * >
  */
 class OnTelegramEndpoint extends OlzTypedEndpoint {
+    use EntityManagerTrait;
+    use EnvUtilsTrait;
+    use LogTrait;
+    use TelegramUtilsTrait;
+
     public function parseInput(Request $request): mixed {
         return [
             'authenticityCode' => $request->query->get('authenticityCode'),

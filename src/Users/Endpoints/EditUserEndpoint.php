@@ -3,6 +3,8 @@
 namespace Olz\Users\Endpoints;
 
 use Olz\Api\OlzEditEntityTypedEndpoint;
+use Olz\Utils\AuthUtilsTrait;
+use Olz\Utils\EntityUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -12,6 +14,8 @@ use PhpTypeScriptApi\HttpError;
  * @extends OlzEditEntityTypedEndpoint<OlzUserId, OlzUserData>
  */
 class EditUserEndpoint extends OlzEditEntityTypedEndpoint {
+    use AuthUtilsTrait;
+    use EntityUtilsTrait;
     use UserEndpointTrait;
 
     public function configure(): void {

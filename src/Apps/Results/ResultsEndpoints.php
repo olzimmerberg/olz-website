@@ -7,9 +7,12 @@ use Olz\Apps\Results\Endpoints\UpdateResultsEndpoint;
 use PhpTypeScriptApi\Api;
 
 class ResultsEndpoints extends BaseAppEndpoints {
+    public function __construct(
+        protected UpdateResultsEndpoint $updateResultsEndpoint,
+    ) {
+    }
+
     public function register(Api $api): void {
-        $api->registerEndpoint('updateResults', function () {
-            return new UpdateResultsEndpoint();
-        });
+        $api->registerEndpoint('updateResults', $this->updateResultsEndpoint);
     }
 }

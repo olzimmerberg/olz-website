@@ -7,9 +7,12 @@ use Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint;
 use PhpTypeScriptApi\Api;
 
 class OevEndpoints extends BaseAppEndpoints {
+    public function __construct(
+        protected SearchTransportConnectionEndpoint $searchTransportConnectionEndpoint,
+    ) {
+    }
+
     public function register(Api $api): void {
-        $api->registerEndpoint('searchTransportConnection', function () {
-            return new SearchTransportConnectionEndpoint();
-        });
+        $api->registerEndpoint('searchTransportConnection', $this->searchTransportConnectionEndpoint);
     }
 }

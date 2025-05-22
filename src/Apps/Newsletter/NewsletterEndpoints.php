@@ -7,9 +7,12 @@ use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;
 use PhpTypeScriptApi\Api;
 
 class NewsletterEndpoints extends BaseAppEndpoints {
+    public function __construct(
+        protected UpdateNotificationSubscriptionsEndpoint $updateNotificationSubscriptionsEndpoint,
+    ) {
+    }
+
     public function register(Api $api): void {
-        $api->registerEndpoint('updateNotificationSubscriptions', function () {
-            return new UpdateNotificationSubscriptionsEndpoint();
-        });
+        $api->registerEndpoint('updateNotificationSubscriptions', $this->updateNotificationSubscriptionsEndpoint);
     }
 }

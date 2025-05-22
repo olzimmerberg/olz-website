@@ -5,11 +5,9 @@ namespace Olz\Api;
 use Olz\Apps\OlzApps;
 use PhpTypeScriptApi\Api;
 
-// Needed because this file can be called directly.
-require_once __DIR__.'/../../vendor/autoload.php';
-
 class OlzApi extends Api {
     public function __construct(
+        OlzApps $olz_apps,
         Endpoints\OnContinuouslyEndpoint $onContinuouslyEndpoint,
         Endpoints\LoginEndpoint $loginEndpoint,
         Endpoints\ResetPasswordEndpoint $resetPasswordEndpoint,
@@ -240,121 +238,15 @@ class OlzApi extends Api {
 
         $this->registerEndpoint('startCaptcha', $startCaptchaEndpoint);
 
-        OlzApps::registerAllEndpoints($this);
+        $olz_apps->registerAllEndpoints($this);
     }
 
-    public static function generate(): void {
-        $olz_api = self::getShallowInstance();
-
+    public function generate(): void {
         file_put_contents(
             __DIR__.'/client/generated_olz_api_types.ts',
-            $olz_api->getTypeScriptDefinition('OlzApi')
+            $this->getTypeScriptDefinition('OlzApi')
         );
 
         echo "\nOLZ API client generated.\n";
     }
-
-    public static function getShallowInstance(): self {
-        return new self(
-            new Endpoints\OnContinuouslyEndpoint(),
-            new Endpoints\LoginEndpoint(),
-            new Endpoints\ResetPasswordEndpoint(),
-            new Endpoints\SwitchUserEndpoint(),
-            new Endpoints\LogoutEndpoint(),
-            new Endpoints\GetAuthenticatedUserEndpoint(),
-            new Endpoints\GetAuthenticatedRolesEndpoint(),
-            new Endpoints\GetEntitiesAroundPositionEndpoint(),
-            new Endpoints\VerifyUserEmailEndpoint(),
-            new Endpoints\UpdateUserPasswordEndpoint(),
-            new Endpoints\ExecuteEmailReactionEndpoint(),
-            new Endpoints\LinkTelegramEndpoint(),
-            new Endpoints\OnTelegramEndpoint(),
-            new Endpoints\StartUploadEndpoint(),
-            new Endpoints\UpdateUploadEndpoint(),
-            new Endpoints\FinishUploadEndpoint(),
-            new Endpoints\SearchEntitiesEndpoint(),
-            new \Olz\Karten\Endpoints\CreateKarteEndpoint(),
-            new \Olz\Karten\Endpoints\GetKarteEndpoint(),
-            new \Olz\Karten\Endpoints\EditKarteEndpoint(),
-            new \Olz\Karten\Endpoints\UpdateKarteEndpoint(),
-            new \Olz\Karten\Endpoints\DeleteKarteEndpoint(),
-            new \Olz\News\Endpoints\CreateNewsEndpoint(),
-            new \Olz\News\Endpoints\GetNewsEndpoint(),
-            new \Olz\News\Endpoints\EditNewsEndpoint(),
-            new \Olz\News\Endpoints\UpdateNewsEndpoint(),
-            new \Olz\News\Endpoints\DeleteNewsEndpoint(),
-            new \Olz\News\Endpoints\GetAuthorInfoEndpoint(),
-            new \Olz\Roles\Endpoints\CreateRoleEndpoint(),
-            new \Olz\Roles\Endpoints\GetRoleEndpoint(),
-            new \Olz\Roles\Endpoints\EditRoleEndpoint(),
-            new \Olz\Roles\Endpoints\UpdateRoleEndpoint(),
-            new \Olz\Roles\Endpoints\DeleteRoleEndpoint(),
-            new \Olz\Roles\Endpoints\AddUserRoleMembershipEndpoint(),
-            new \Olz\Roles\Endpoints\RemoveUserRoleMembershipEndpoint(),
-            new \Olz\Roles\Endpoints\GetRoleInfoEndpoint(),
-            new \Olz\Snippets\Endpoints\GetSnippetEndpoint(),
-            new \Olz\Snippets\Endpoints\EditSnippetEndpoint(),
-            new \Olz\Snippets\Endpoints\UpdateSnippetEndpoint(),
-            new \Olz\Service\Endpoints\CreateDownloadEndpoint(),
-            new \Olz\Service\Endpoints\GetDownloadEndpoint(),
-            new \Olz\Service\Endpoints\EditDownloadEndpoint(),
-            new \Olz\Service\Endpoints\UpdateDownloadEndpoint(),
-            new \Olz\Service\Endpoints\DeleteDownloadEndpoint(),
-            new \Olz\Service\Endpoints\CreateLinkEndpoint(),
-            new \Olz\Service\Endpoints\GetLinkEndpoint(),
-            new \Olz\Service\Endpoints\EditLinkEndpoint(),
-            new \Olz\Service\Endpoints\UpdateLinkEndpoint(),
-            new \Olz\Service\Endpoints\DeleteLinkEndpoint(),
-            new \Olz\Faq\Endpoints\CreateQuestionEndpoint(),
-            new \Olz\Faq\Endpoints\GetQuestionEndpoint(),
-            new \Olz\Faq\Endpoints\EditQuestionEndpoint(),
-            new \Olz\Faq\Endpoints\UpdateQuestionEndpoint(),
-            new \Olz\Faq\Endpoints\DeleteQuestionEndpoint(),
-            new \Olz\Faq\Endpoints\CreateQuestionCategoryEndpoint(),
-            new \Olz\Faq\Endpoints\GetQuestionCategoryEndpoint(),
-            new \Olz\Faq\Endpoints\EditQuestionCategoryEndpoint(),
-            new \Olz\Faq\Endpoints\UpdateQuestionCategoryEndpoint(),
-            new \Olz\Faq\Endpoints\DeleteQuestionCategoryEndpoint(),
-            new \Olz\Startseite\Endpoints\CreateWeeklyPictureEndpoint(),
-            new \Olz\Startseite\Endpoints\GetWeeklyPictureEndpoint(),
-            new \Olz\Startseite\Endpoints\EditWeeklyPictureEndpoint(),
-            new \Olz\Startseite\Endpoints\UpdateWeeklyPictureEndpoint(),
-            new \Olz\Startseite\Endpoints\DeleteWeeklyPictureEndpoint(),
-            new \Olz\Termine\Endpoints\CreateTerminEndpoint(),
-            new \Olz\Termine\Endpoints\GetTerminEndpoint(),
-            new \Olz\Termine\Endpoints\EditTerminEndpoint(),
-            new \Olz\Termine\Endpoints\UpdateTerminEndpoint(),
-            new \Olz\Termine\Endpoints\DeleteTerminEndpoint(),
-            new \Olz\Termine\Endpoints\CreateTerminLabelEndpoint(),
-            new \Olz\Termine\Endpoints\ListTerminLabelsEndpoint(),
-            new \Olz\Termine\Endpoints\GetTerminLabelEndpoint(),
-            new \Olz\Termine\Endpoints\EditTerminLabelEndpoint(),
-            new \Olz\Termine\Endpoints\UpdateTerminLabelEndpoint(),
-            new \Olz\Termine\Endpoints\DeleteTerminLabelEndpoint(),
-            new \Olz\Termine\Endpoints\CreateTerminLocationEndpoint(),
-            new \Olz\Termine\Endpoints\GetTerminLocationEndpoint(),
-            new \Olz\Termine\Endpoints\EditTerminLocationEndpoint(),
-            new \Olz\Termine\Endpoints\UpdateTerminLocationEndpoint(),
-            new \Olz\Termine\Endpoints\DeleteTerminLocationEndpoint(),
-            new \Olz\Termine\Endpoints\CreateTerminTemplateEndpoint(),
-            new \Olz\Termine\Endpoints\GetTerminTemplateEndpoint(),
-            new \Olz\Termine\Endpoints\EditTerminTemplateEndpoint(),
-            new \Olz\Termine\Endpoints\UpdateTerminTemplateEndpoint(),
-            new \Olz\Termine\Endpoints\DeleteTerminTemplateEndpoint(),
-            new \Olz\Users\Endpoints\CreateUserEndpoint(),
-            new \Olz\Users\Endpoints\GetUserEndpoint(),
-            new \Olz\Users\Endpoints\EditUserEndpoint(),
-            new \Olz\Users\Endpoints\UpdateUserEndpoint(),
-            new \Olz\Users\Endpoints\DeleteUserEndpoint(),
-            new \Olz\Users\Endpoints\GetUserInfoEndpoint(),
-            new \Olz\Captcha\Endpoints\StartCaptchaEndpoint(),
-        );
-    }
 }
-
-// @codeCoverageIgnoreStart
-// Reason: Hard to test.
-if (isset($_SERVER['argv']) && basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'] ?? '')) {
-    OlzApi::generate();
-}
-// @codeCoverageIgnoreEnd

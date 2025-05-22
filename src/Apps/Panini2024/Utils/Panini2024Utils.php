@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Panini2024Utils {
+    use Panini2024UtilsTrait;
     use WithUtilsTrait;
 
     public const DPI = 900;
@@ -411,7 +412,7 @@ class Panini2024Utils {
         $grid_or_empty = ($options['grid'] ?? false) ? '-grid' : '';
         $ids = $this->getAllEntries();
 
-        $panini_utils = Panini2024Utils::fromEnv();
+        $panini_utils = $this->paniniUtils();
         $zip = new \ZipArchive();
         $zip_path = $panini_utils->getCachePathForZip("duplicates{$grid_or_empty}");
         if ($zip->open($zip_path, \ZipArchive::CREATE) !== true) {

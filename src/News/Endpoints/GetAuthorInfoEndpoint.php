@@ -3,6 +3,7 @@
 namespace Olz\News\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Captcha\Utils\CaptchaUtilsTrait;
 use Olz\Entity\News\NewsEntry;
 use PhpTypeScriptApi\HttpError;
 
@@ -23,6 +24,8 @@ use PhpTypeScriptApi\HttpError;
  * >
  */
 class GetAuthorInfoEndpoint extends OlzTypedEndpoint {
+    use CaptchaUtilsTrait;
+
     protected function handle(mixed $input): mixed {
         $has_access = $this->authUtils()->hasPermission('any');
         $token = $input['captchaToken'] ?? null;

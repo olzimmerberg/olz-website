@@ -5,7 +5,9 @@ namespace Olz\Command;
 use Olz\Command\Common\OlzCommand;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
+use Olz\Fetchers\SolvFetcherTrait;
 use Olz\Parsers\SolvEventParser;
+use Olz\Termine\Utils\TermineUtilsTrait;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,6 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:sync-solv-events')]
 class SyncSolvEventsCommand extends OlzCommand {
+    use SolvFetcherTrait;
+    use TermineUtilsTrait;
+
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];

@@ -2,13 +2,8 @@
 
 namespace Olz\Utils;
 
-use Olz\Captcha\Utils\CaptchaUtilsTrait;
-use Olz\Fetchers\SolvFetcherTrait;
-use Olz\Termine\Utils\TermineUtilsTrait;
-
 trait WithUtilsTrait {
     use AuthUtilsTrait;
-    use CaptchaUtilsTrait;
     use DateUtilsTrait;
     use DbUtilsTrait;
     use DevDataUtilsTrait;
@@ -26,10 +21,8 @@ trait WithUtilsTrait {
     use MailerTrait;
     use MessageBusTrait;
     use SessionTrait;
-    use SolvFetcherTrait;
     use SymfonyUtilsTrait;
     use TelegramUtilsTrait;
-    use TermineUtilsTrait;
     use UploadUtilsTrait;
 
     // Legacy implementation

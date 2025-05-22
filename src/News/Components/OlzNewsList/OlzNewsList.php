@@ -11,7 +11,7 @@ use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsFilterUtilsTrait;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{
@@ -24,6 +24,8 @@ class OlzNewsListParams extends HttpParams {
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsList extends OlzComponent {
+    use NewsFilterUtilsTrait;
+
     public static string $title = "News";
     public static string $description = "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.";
 
@@ -35,7 +37,7 @@ class OlzNewsList extends OlzComponent {
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
 
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsFilterUtils();
         $current_filter = json_decode($params['filter'] ?? '{}', true);
         $page_number = $params['seite'] ?? 1;
         $page_index = $page_number - 1;

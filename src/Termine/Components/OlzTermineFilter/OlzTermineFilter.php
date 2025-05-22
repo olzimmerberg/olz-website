@@ -3,12 +3,14 @@
 namespace Olz\Termine\Components\OlzTermineFilter;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Termine\Utils\TermineFilterUtilsTrait;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzTermineFilter extends OlzComponent {
+    use TermineFilterUtilsTrait;
+
     public function getHtml(mixed $args): string {
-        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+        $termine_utils = $this->termineFilterUtils()->loadTypeOptions();
         $code_href = $this->envUtils()->getCodeHref();
         $current_filter = json_decode($this->getParams()['filter'] ?? '{}', true);
         $out = "";

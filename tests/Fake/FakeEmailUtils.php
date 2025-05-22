@@ -6,7 +6,6 @@ namespace Olz\Tests\Fake;
 
 use Olz\Entity\Users\User;
 use Olz\Utils\EmailUtils;
-use Olz\Utils\GeneralUtils;
 use Webklex\PHPIMAP\Client;
 use Webklex\PHPIMAP\Folder;
 use Webklex\PHPIMAP\Message;
@@ -39,8 +38,7 @@ class FakeEmailUtils extends EmailUtils {
     }
 
     public function encryptEmailReactionToken(mixed $data): string {
-        $general_utils = new GeneralUtils();
-        return $general_utils->base64EncodeUrl(json_encode($data) ?: '');
+        return $this->generalUtils()->base64EncodeUrl(json_encode($data) ?: '');
     }
 
     public function decryptEmailReactionToken(string $token): mixed {

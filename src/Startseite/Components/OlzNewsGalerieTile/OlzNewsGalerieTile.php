@@ -8,10 +8,12 @@ namespace Olz\Startseite\Components\OlzNewsGalerieTile;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsFilterUtilsTrait;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsGalerieTile extends AbstractOlzTile {
+    use NewsFilterUtilsTrait;
+
     /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
         'galerie' => 'entry_type_gallery_white_20.svg',
@@ -25,7 +27,7 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
     public function getHtml(mixed $args): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
-        $news_filter_utils = NewsFilterUtils::fromEnv();
+        $news_filter_utils = $this->newsFilterUtils();
 
         $galerie_url = $news_filter_utils->getUrl(['format' => 'galerie']);
         $video_url = $news_filter_utils->getUrl(['format' => 'video']);

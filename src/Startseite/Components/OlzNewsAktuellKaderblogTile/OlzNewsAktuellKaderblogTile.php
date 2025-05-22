@@ -8,10 +8,12 @@ namespace Olz\Startseite\Components\OlzNewsAktuellKaderblogTile;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsFilterUtilsTrait;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
+    use NewsFilterUtilsTrait;
+
     /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
         'aktuell' => 'entry_type_aktuell_20.svg',
@@ -25,7 +27,7 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
     public function getHtml(mixed $args): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
-        $news_filter_utils = NewsFilterUtils::fromEnv();
+        $news_filter_utils = $this->newsFilterUtils();
 
         $aktuell_url = $news_filter_utils->getUrl(['format' => 'aktuell']);
         $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);

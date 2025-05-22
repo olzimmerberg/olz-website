@@ -14,6 +14,7 @@ use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsFilterUtilsTrait;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{filter?: ?string, von?: ?string}> */
@@ -22,6 +23,8 @@ class OlzNewsDetailParams extends HttpParams {
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsDetail extends OlzComponent {
+    use NewsFilterUtilsTrait;
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzNewsDetailParams::class);
         $code_href = $this->envUtils()->getCodeHref();
@@ -30,7 +33,7 @@ class OlzNewsDetail extends OlzComponent {
         $user = $this->authUtils()->getCurrentUser();
         $id = $args['id'] ?? null;
 
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsFilterUtils();
         $news_repo = $entityManager->getRepository(NewsEntry::class);
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()

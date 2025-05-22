@@ -7,17 +7,19 @@
 namespace Olz\Startseite\Components\OlzNewsListsTile;
 
 use Olz\Entity\Users\User;
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsFilterUtilsTrait;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsListsTile extends AbstractOlzTile {
+    use NewsFilterUtilsTrait;
+
     public function getRelevance(?User $user): float {
         return 0.8;
     }
 
     public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
-        $news_filter_utils = NewsFilterUtils::fromEnv();
+        $news_filter_utils = $this->newsFilterUtils();
 
         $out = "<h3>News</h3>";
         $out .= "<ul class='links'>";

@@ -5,10 +5,12 @@ namespace Olz\News\Components\OlzNewsListItem;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsFilterUtilsTrait;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsListItem extends OlzComponent {
+    use NewsFilterUtilsTrait;
+
     /** @var array<string, string> */
     protected static $iconBasenameByFormat = [
         'aktuell' => 'entry_type_aktuell_20.svg',
@@ -19,7 +21,7 @@ class OlzNewsListItem extends OlzComponent {
     ];
 
     public function getHtml(mixed $args): string {
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsFilterUtils();
         $code_href = $this->envUtils()->getCodeHref();
 
         $news_entry = $args['news_entry'];

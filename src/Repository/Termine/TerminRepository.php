@@ -6,15 +6,17 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Entity\Termine\Termin;
 use Olz\Repository\Common\OlzRepository;
-use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Termine\Utils\TermineFilterUtilsTrait;
 
 /**
  * @extends OlzRepository<Termin>
  */
 class TerminRepository extends OlzRepository {
+    use TermineFilterUtilsTrait;
+
     /** @return Collection<int, Termin>&iterable<Termin> */
     public function getAllActive(): Collection {
-        $termine_utils = TermineFilterUtils::fromEnv();
+        $termine_utils = $this->termineFilterUtils();
         $is_not_archived = $termine_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(

@@ -3,12 +3,14 @@
 namespace Olz\News\Components\OlzNewsFilter;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsFilterUtilsTrait;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsFilter extends OlzComponent {
+    use NewsFilterUtilsTrait;
+
     public function getHtml(mixed $args): string {
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsFilterUtils();
         $code_href = $this->envUtils()->getCodeHref();
         $current_filter = json_decode($this->getParams()['filter'] ?? '{}', true);
         $out = "";

@@ -11,7 +11,7 @@ use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
-use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Termine\Utils\TermineFilterUtilsTrait;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{filter?: ?string, von?: ?string}> */
@@ -20,6 +20,8 @@ class OlzTerminDetailParams extends HttpParams {
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzTerminDetail extends OlzComponent {
+    use TermineFilterUtilsTrait;
+
     public function getHtml(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzTerminDetailParams::class);
 
@@ -32,7 +34,7 @@ class OlzTerminDetail extends OlzComponent {
         $user = $this->authUtils()->getCurrentUser();
         $id = $args['id'] ?? null;
 
-        $termine_utils = TermineFilterUtils::fromEnv();
+        $termine_utils = $this->termineFilterUtils();
         $termin_repo = $entityManager->getRepository(Termin::class);
         $is_not_archived = $termine_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()

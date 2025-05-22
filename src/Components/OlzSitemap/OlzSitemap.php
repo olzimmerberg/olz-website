@@ -16,15 +16,18 @@ use Olz\Faq\Components\OlzFaqList\OlzFaqList;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Components\OlzNewsList\OlzNewsList;
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsFilterUtilsTrait;
 use Olz\Roles\Components\OlzVerein\OlzVerein;
 use Olz\Service\Components\OlzService\OlzService;
 use Olz\Startseite\Components\OlzStartseite\OlzStartseite;
 use Olz\Termine\Components\OlzTermineList\OlzTermineList;
-use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Termine\Utils\TermineFilterUtilsTrait;
 
 /** @extends OlzComponent<array<string, mixed>> */
 abstract class OlzSitemap extends OlzComponent {
+    use NewsFilterUtilsTrait;
+    use TermineFilterUtilsTrait;
+
     abstract public function getHtml(mixed $args): string;
 
     /** @return array<array{title: string, description: string, url: string, updates: string, importance: float, level: int}> */
@@ -83,7 +86,7 @@ abstract class OlzSitemap extends OlzComponent {
             'level' => 0,
         ];
 
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsFilterUtils();
         $news_filters = $news_utils->getAllValidFiltersForSitemap();
         foreach ($news_filters as $news_filter) {
             $enc_json_filter = urlencode(json_encode($news_filter) ?: '{}');
@@ -164,7 +167,7 @@ abstract class OlzSitemap extends OlzComponent {
             'level' => 0,
         ];
 
-        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+        $termine_utils = $this->termineFilterUtils()->loadTypeOptions();
         $termine_filters = $termine_utils->getAllValidFiltersForSitemap();
         foreach ($termine_filters as $termine_filter) {
             $enc_json_filter = urlencode(json_encode($termine_filter) ?: '{}');

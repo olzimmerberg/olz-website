@@ -9,6 +9,8 @@ interface OlzEntityChooserProps {
     entityType: OlzSearchableEntityTypes;
     entityId: number|null;
     onEntityIdChange: (e: CustomEvent<number|null>) => void;
+    setIsLoading?: (isLoading: boolean) => void;
+    disabled?: boolean;
     nullLabel?: string;
 }
 
@@ -19,6 +21,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
 
     const nullLabel = props.nullLabel ?? 'Bitte wählen';
     const buttonLabel = currentEntityTitle ?? nullLabel;
+    const setIsLoading = props.setIsLoading ?? (() => {});
 
     const searchInput = React.useRef<HTMLInputElement>(null);
 
@@ -29,6 +32,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
     React.useEffect(() => {
         if (props.entityId && !currentEntityTitle) {
             setCurrentEntityTitle('Lädt...');
+            setIsLoading(true);
             olzApi.call('searchEntities', {
                 entityType: props.entityType,
                 query: null,
@@ -38,6 +42,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
                     const entityResult = response.result?.[0];
                     if (entityResult?.id === props.entityId) {
                         setCurrentEntityTitle(entityResult.title);
+                        setIsLoading(false);
                     }
                 });
         }
@@ -45,6 +50,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
 
     React.useEffect(() => {
         setEntityResults(null);
+        setIsLoading(true);
         olzApi.call('searchEntities', {
             entityType: props.entityType,
             query: searchString,
@@ -52,6 +58,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
         })
             .then((response) => {
                 setEntityResults(response.result);
+                setIsLoading(false);
             });
     }, [props.entityType, searchString]);
 
@@ -87,6 +94,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
                 data-bs-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
+                disabled={props?.disabled}
                 onClick={() => {
                     if (searchInput.current) {
                         searchInput.current.focus();

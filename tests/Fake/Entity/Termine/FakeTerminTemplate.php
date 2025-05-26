@@ -9,6 +9,7 @@ use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
+use Olz\Tests\Fake\Entity\Common\Time;
 
 /**
  * @extends FakeEntity<TerminTemplate>
@@ -74,12 +75,12 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity = new TerminTemplate();
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
-                $entity->setStartTime(new \DateTime('09:00:00'));
+                $entity->setStartTime(new Time('09:00:00'));
                 $entity->setDurationSeconds(7200);
                 $entity->setTitle("Fake title");
                 $entity->setText("Fake text");
                 $entity->setDeadlineEarlierSeconds(86400 * 2);
-                $entity->setDeadlineTime(new \DateTime('18:00:00'));
+                $entity->setDeadlineTime(new Time('18:00:00'));
                 $entity->setShouldPromote(true);
                 $entity->setNewsletter(true);
                 $entity->clearLabels();

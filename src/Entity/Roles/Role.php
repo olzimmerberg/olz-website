@@ -10,13 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\PositionableInterface;
 use Olz\Entity\Common\SearchableInterface;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\Roles\RoleRepository;
 
 #[ORM\Table(name: 'roles')]
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
-class Role extends OlzEntity implements DataStorageInterface, SearchableInterface {
+class Role extends OlzEntity implements DataStorageInterface, PositionableInterface, SearchableInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -45,11 +47,11 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
     #[ORM\Column(type: 'integer', nullable: true)]
     public ?int $parent_role;
 
-    #[ORM\Column(type: 'integer', nullable: true, options: ['comment' => 'negative value: hide role'])]
-    public ?int $index_within_parent;
+    #[ORM\Column(type: 'smallfloat', nullable: true, options: ['comment' => 'null: hide role'])]
+    public ?float $position_within_parent;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    public ?int $featured_index;
+    #[ORM\Column(type: 'smallfloat', nullable: true, options: ['comment' => 'null: not featured'])]
+    public ?float $featured_position;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     public bool $can_have_child_roles;
@@ -140,20 +142,20 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
         $this->users->removeElement($user);
     }
 
-    public function getIndexWithinParent(): ?int {
-        return $this->index_within_parent;
+    public function getPositionWithinParent(): ?float {
+        return $this->position_within_parent;
     }
 
-    public function setIndexWithinParent(?int $new_value): void {
-        $this->index_within_parent = $new_value;
+    public function setPositionWithinParent(?float $new_value): void {
+        $this->position_within_parent = $new_value;
     }
 
-    public function getFeaturedIndex(): ?int {
-        return $this->featured_index;
+    public function getFeaturedPosition(): ?float {
+        return $this->featured_position;
     }
 
-    public function setFeaturedIndex(?int $new_value): void {
-        $this->featured_index = $new_value;
+    public function setFeaturedPosition(?float $new_value): void {
+        $this->featured_position = $new_value;
     }
 
     public function getCanHaveChildRoles(): bool {
@@ -172,23 +174,8 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
         return "{$username} (Role ID: {$id})";
     }
 
-    public static function getIdFieldNameForSearch(): string {
-        return 'id';
-    }
-
-    public function getIdForSearch(): int {
-        return $this->getId() ?? 0;
-    }
-
-    public static function getCriteriaForQuery(string $query): Expression {
-        return Criteria::expr()->orX(
-            Criteria::expr()->contains('name', $query),
-            Criteria::expr()->contains('username', $query),
-        );
-    }
-
-    public function getTitleForSearch(): string {
-        return $this->getName();
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 
     public static function getEntityNameForStorage(): string {
@@ -197,5 +184,54 @@ class Role extends OlzEntity implements DataStorageInterface, SearchableInterfac
 
     public function getEntityIdForStorage(): string {
         return "{$this->getId()}";
+    }
+
+    public static function getPositionFieldName(string $field): string {
+        switch ($field) {
+            case 'positionWithinParent':
+                return 'position_within_parent';
+            case 'featuredPosition':
+                return 'featured_position';
+            default: throw new \Exception("No such position field: {$field}");
+        }
+    }
+
+    public function getPositionForEntityField(string $field): ?float {
+        switch ($field) {
+            case 'positionWithinParent':
+                return $this->getPositionWithinParent();
+            case 'featuredPosition':
+                return $this->getFeaturedPosition();
+            default: throw new \Exception("No such position field: {$field}");
+        }
+    }
+
+    public static function getIdFieldNameForSearch(): string {
+        return 'id';
+    }
+
+    public function getIdForSearch(): int {
+        return $this->getId() ?? 0;
+    }
+
+    public function getTitleForSearch(): string {
+        return $this->getName();
+    }
+
+    public static function getCriteriaForFilter(string $key, string $value): Expression {
+        switch ($key) {
+            case 'parentRoleId':
+                return Criteria::expr()->eq('parent_role', intval($value) ?: null);
+            case 'featuredPositionNotNull':
+                return Criteria::expr()->isNotNull('featured_position');
+            default: throw new \Exception("No such Role filter: {$key}");
+        }
+    }
+
+    public static function getCriteriaForQuery(string $query): Expression {
+        return Criteria::expr()->orX(
+            Criteria::expr()->contains('name', $query),
+            Criteria::expr()->contains('username', $query),
+        );
     }
 }

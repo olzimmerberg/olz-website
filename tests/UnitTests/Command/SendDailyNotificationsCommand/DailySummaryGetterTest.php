@@ -16,7 +16,7 @@ use Olz\Utils\DateUtils;
  */
 final class DailySummaryGetterTest extends UnitTestCase {
     public function testDailySummaryGetterWithAllContent(): void {
-        $date_utils = new DateUtils('2020-03-13 16:00:00'); // a Saturday
+        $date_utils = new DateUtils('2020-03-14 18:00:00');
         $user = FakeUser::defaultUser();
 
         $job = new DailySummaryGetter();
@@ -39,35 +39,11 @@ final class DailySummaryGetterTest extends UnitTestCase {
             **Aktuell**
 
             - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-            - Sa, 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-
-
-            **Kaderblog**
-
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-            - Sa, 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-
-
-            **Forum**
-
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-            - Sa, 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-
-
-            **Galerien**
-
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-            - Sa, 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
             - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
 
 
             **Aktualisierte Termine**
 
-            - Fr, 13.03.: [Fake title](http://fake-base-url/_/termine/12)
-            - Sa, 01.01.: [Cannot be empty](http://fake-base-url/_/termine/123)
             - Fr, 13.03. - Mo, 16.03.: [Fake title](http://fake-base-url/_/termine/1234)
 
 

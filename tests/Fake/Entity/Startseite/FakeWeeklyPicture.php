@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity\Startseite;
 
 use Olz\Entity\Startseite\WeeklyPicture;
+use Olz\Tests\Fake\Entity\Common\Date;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 
@@ -31,7 +32,7 @@ class FakeWeeklyPicture extends FakeEntity {
         return self::getFake(
             $fresh,
             function () {
-                $published_at = new \DateTime('0000-01-01 00:00:00');
+                $published_at = new Date('0000-01-01');
                 $entity = new WeeklyPicture();
                 FakeOlzEntity::empty($entity);
                 $entity->setId(123);
@@ -47,7 +48,7 @@ class FakeWeeklyPicture extends FakeEntity {
         return self::getFake(
             $fresh,
             function () {
-                $published_at = new \DateTime('2020-03-13');
+                $published_at = new Date('2020-03-13');
                 $entity = new WeeklyPicture();
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);

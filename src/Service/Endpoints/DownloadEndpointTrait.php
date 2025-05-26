@@ -10,7 +10,7 @@ use PhpTypeScriptApi\HttpError;
  * @phpstan-type OlzDownloadId int
  * @phpstan-type OlzDownloadData array{
  *   name: non-empty-string,
- *   position?: ?int,
+ *   position?: ?float,
  *   fileId?: ?non-empty-string,
  * }
  */

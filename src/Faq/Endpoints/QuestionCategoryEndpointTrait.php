@@ -9,7 +9,7 @@ use PhpTypeScriptApi\HttpError;
 /**
  * @phpstan-type OlzQuestionCategoryId int
  * @phpstan-type OlzQuestionCategoryData array{
- *   position: int,
+ *   position: float,
  *   name: non-empty-string,
  * }
  */

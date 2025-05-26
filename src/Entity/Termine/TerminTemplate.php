@@ -15,7 +15,7 @@ use Olz\Repository\Termine\TerminTemplateRepository;
 
 #[ORM\Table(name: 'termin_templates')]
 #[ORM\Entity(repositoryClass: TerminTemplateRepository::class)]
-class TerminTemplate extends OlzEntity implements SearchableInterface, DataStorageInterface {
+class TerminTemplate extends OlzEntity implements DataStorageInterface, SearchableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -234,6 +234,14 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
         return "TerminTemplate (ID: {$this->getId()})";
     }
 
+    public static function getEntityNameForStorage(): string {
+        return 'termin_templates';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
+    }
+
     public static function getIdFieldNameForSearch(): string {
         return 'id';
     }
@@ -242,21 +250,17 @@ class TerminTemplate extends OlzEntity implements SearchableInterface, DataStora
         return $this->getId() ?? 0;
     }
 
-    public static function getCriteriaForQuery(string $query): Expression {
-        return Criteria::expr()->orX(
-            Criteria::expr()->contains('title', $query),
-        );
-    }
-
     public function getTitleForSearch(): string {
         return $this->getTitle() ?? '';
     }
 
-    public static function getEntityNameForStorage(): string {
-        return 'termin_templates';
+    public static function getCriteriaForFilter(string $key, string $value): Expression {
+        throw new \Exception("No such TerminTemplate filter: {$key}");
     }
 
-    public function getEntityIdForStorage(): string {
-        return "{$this->getId()}";
+    public static function getCriteriaForQuery(string $query): Expression {
+        return Criteria::expr()->orX(
+            Criteria::expr()->contains('title', $query),
+        );
     }
 }

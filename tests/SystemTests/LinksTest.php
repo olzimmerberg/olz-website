@@ -19,22 +19,35 @@ final class LinksTest extends SystemTestCase {
 
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
+        $this->assertSame([
+            'SOLV',
+            'GO2OL',
+        ], array_map(
+            fn ($elem) => $elem->getText(),
+            $this->getBrowserElements('.olz-links li')
+        ));
 
         $this->click('#create-link-button');
         $this->waitForModal('#edit-link-modal');
         $this->sendKeys('#edit-link-modal #name-input', 'OLZ');
-        $this->sendKeys('#edit-link-modal #position-input', '0');
+        $this->selectOption('#edit-link-modal #position-field #before-after-input', 'vor');
+        $this->selectOption('#edit-link-modal #position-field .olz-entity-chooser', 'SOLV');
         $this->sendKeys('#edit-link-modal #url-input', 'https://olzimmerberg.ch');
         $this->screenshot('links_new_edit');
 
         $this->click('#edit-link-modal #submit-button');
         $this->waitUntilGone('#edit-link-modal');
-        $this->screenshot('links_new_finished');
+        $browser->get($this->getUrl());
+        $this->assertSame([
+            'OLZ',
+            'SOLV',
+            'GO2OL',
+        ], array_map(
+            fn ($elem) => $elem->getText(),
+            $this->getBrowserElements('.olz-links li')
+        ));
 
         $this->resetDb();
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]

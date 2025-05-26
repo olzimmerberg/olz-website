@@ -181,7 +181,7 @@ final class EditDownloadEndpointTest extends UnitTestCase {
             ],
             'data' => [
                 'name' => 'Fake Download',
-                'position' => 1234,
+                'position' => 1234.0,
                 'fileId' => 'file___________________1.pdf',
             ],
         ], $result);

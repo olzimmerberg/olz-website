@@ -86,7 +86,7 @@ final class CreateTerminLabelEndpointTest extends UnitTestCase {
         $this->assertSame('Label Title', $termin_label->getName());
         $this->assertSame('Some label info', $termin_label->getDetails());
         $this->assertSame('uploaded_icon.svg', $termin_label->getIcon());
-        $this->assertSame(123, $termin_label->getPosition());
+        $this->assertSame(123.0, $termin_label->getPosition());
 
         $this->assertSame([
             [$termin_label, 1, 1, 1],

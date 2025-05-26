@@ -3,12 +3,13 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\CounterRepository;
 
 #[ORM\Table(name: 'counter')]
 #[ORM\Index(name: 'date_range_page_index', columns: ['date_range', 'page'])]
 #[ORM\Entity(repositoryClass: CounterRepository::class)]
-class Counter {
+class Counter implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -69,5 +70,11 @@ class Counter {
 
     public function incrementCounter(): void {
         $this->setCounter($this->getCounter() + 1);
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

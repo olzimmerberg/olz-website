@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20250513214853
+-- MIGRATION: DoctrineMigrations\Version20250526204822
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -163,7 +163,7 @@ CREATE TABLE `doctrine_migration_versions` (
 CREATE TABLE `downloads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` longtext DEFAULT NULL,
-  `position` int(11) NOT NULL,
+  `position` float NOT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `owner_user_id` int(11) DEFAULT NULL,
   `owner_role_id` int(11) DEFAULT NULL,
@@ -224,7 +224,7 @@ CREATE TABLE `links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` longtext DEFAULT NULL,
   `url` longtext DEFAULT NULL,
-  `position` int(11) NOT NULL,
+  `position` float NOT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `owner_user_id` int(11) DEFAULT NULL,
   `owner_role_id` int(11) DEFAULT NULL,
@@ -272,7 +272,7 @@ CREATE TABLE `members` (
   CONSTRAINT `FK_45A0D2FF5A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_45A0D2FF7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_45A0D2FFA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -398,7 +398,7 @@ CREATE TABLE `questions` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `ident` varchar(31) NOT NULL,
-  `position_within_category` int(11) NOT NULL,
+  `position_within_category` float NOT NULL,
   `question` longtext NOT NULL,
   `answer` longtext DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -428,7 +428,7 @@ CREATE TABLE `question_categories` (
   `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `position` int(11) NOT NULL,
+  `position` float NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_5D27D9E02B18554A` (`owner_user_id`),
@@ -550,8 +550,6 @@ CREATE TABLE `roles` (
   `name` longtext NOT NULL,
   `description` longtext NOT NULL COMMENT 'public',
   `parent_role` int(11) DEFAULT NULL,
-  `index_within_parent` int(11) DEFAULT NULL COMMENT 'negative value: hide role',
-  `featured_index` int(11) DEFAULT NULL,
   `can_have_child_roles` tinyint(1) NOT NULL DEFAULT 0,
   `guide` longtext NOT NULL COMMENT 'restricted access',
   `permissions` longtext NOT NULL,
@@ -562,6 +560,8 @@ CREATE TABLE `roles` (
   `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `position_within_parent` float DEFAULT NULL COMMENT 'null: hide role',
+  `featured_position` float DEFAULT NULL COMMENT 'null: not featured',
   PRIMARY KEY (`id`),
   KEY `IDX_B63E2EC72B18554A` (`owner_user_id`),
   KEY `IDX_B63E2EC75A75A473` (`owner_role_id`),
@@ -788,7 +788,7 @@ CREATE TABLE `termin_labels` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `ident` varchar(31) NOT NULL,
-  `position` int(11) NOT NULL,
+  `position` float NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_A3B090E02B18554A` (`owner_user_id`),
   KEY `IDX_A3B090E05A75A473` (`owner_role_id`),

@@ -161,7 +161,7 @@ final class UpdateDownloadEndpointTest extends UnitTestCase {
         $download = $entity_manager->persisted[0];
         $this->assertSame(123, $download->getId());
         $this->assertSame('Test Download', $download->getName());
-        $this->assertSame(3, $download->getPosition());
+        $this->assertSame(3.0, $download->getPosition());
 
         $this->assertSame([
             [$download, 1, 1, 1],

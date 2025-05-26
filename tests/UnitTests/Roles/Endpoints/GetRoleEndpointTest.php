@@ -72,8 +72,8 @@ final class GetRoleEndpointTest extends UnitTestCase {
                 'imageIds' => [],
                 'fileIds' => [],
                 'parentRole' => null,
-                'indexWithinParent' => null,
-                'featuredIndex' => null,
+                'positionWithinParent' => null,
+                'featuredPosition' => null,
                 'canHaveChildRoles' => false,
             ],
         ], $result);
@@ -116,8 +116,8 @@ final class GetRoleEndpointTest extends UnitTestCase {
                 'imageIds' => [],
                 'fileIds' => [],
                 'parentRole' => null,
-                'indexWithinParent' => null,
-                'featuredIndex' => null,
+                'positionWithinParent' => 0.0,
+                'featuredPosition' => null,
                 'canHaveChildRoles' => false,
             ],
         ], $result);
@@ -165,8 +165,8 @@ final class GetRoleEndpointTest extends UnitTestCase {
                 'imageIds' => ['picture________________A.jpg', 'picture________________B.jpg'],
                 'fileIds' => ['file___________________1.pdf', 'file___________________2.txt'],
                 'parentRole' => 3,
-                'indexWithinParent' => 2,
-                'featuredIndex' => 6,
+                'positionWithinParent' => 2.0,
+                'featuredPosition' => 6.0,
                 'canHaveChildRoles' => true,
             ],
         ], $result);

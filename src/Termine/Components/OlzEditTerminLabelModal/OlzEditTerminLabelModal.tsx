@@ -3,11 +3,12 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzTerminLabelData} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNotEmpty, validateInteger} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNotEmpty, validateNumber} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditTerminLabelModal.scss';
@@ -26,7 +27,7 @@ const resolver: Resolver<OlzEditTerminLabelForm> = async (values) => {
     const errors: FieldErrors<OlzEditTerminLabelForm> = {};
     errors.ident = validateNotEmpty(values.ident);
     errors.name = validateNotEmpty(values.name);
-    errors.position = validateInteger(values.position);
+    errors.position = validateNumber(values.position);
     return getResolverResult(errors, values);
 };
 
@@ -70,6 +71,7 @@ export const OlzEditTerminLabelModal = (props: OlzEditTerminLabelModalProps): Re
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isIconLoading, setIsIconLoading] = React.useState<boolean>(false);
+    const [isPositionLoading, setIsPositionLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
 
@@ -110,7 +112,7 @@ export const OlzEditTerminLabelModal = (props: OlzEditTerminLabelModalProps): Re
         ? 'Termin-Label erstellen'
         : 'Termin-Label bearbeiten'
     );
-    const isLoading = isIconLoading || isImagesLoading || isFilesLoading;
+    const isLoading = isIconLoading || isPositionLoading || isImagesLoading || isFilesLoading;
     const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
@@ -156,11 +158,13 @@ export const OlzEditTerminLabelModal = (props: OlzEditTerminLabelModalProps): Re
                 />
             </div>
             <div className='mb-3'>
-                <OlzTextField
+                <OlzPositionField
                     title='Position'
+                    entityType='TerminLabel'
                     name='position'
                     errors={errors}
-                    register={register}
+                    control={control}
+                    setIsLoading={setIsPositionLoading}
                 />
             </div>
             <div id='images-upload'>

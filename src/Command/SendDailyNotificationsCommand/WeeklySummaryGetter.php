@@ -39,7 +39,7 @@ class WeeklySummaryGetter implements NotificationGetterInterface {
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->lte('last_modified_at', $today_at_cut_off),
                 Criteria::expr()->gt('last_modified_at', $last_week_at_cut_off),
-                Criteria::expr()->eq('newsletter', 1),
+                Criteria::expr()->eq('newsletter', true),
                 Criteria::expr()->eq('on_off', 1),
             ))
             ->orderBy(['start_date' => Order::Ascending, 'start_time' => Order::Ascending])

@@ -9,7 +9,7 @@ use PhpTypeScriptApi\HttpError;
 /**
  * @phpstan-type OlzLinkId int
  * @phpstan-type OlzLinkData array{
- *   position?: ?int,
+ *   position?: ?float,
  *   name: non-empty-string,
  *   url: non-empty-string,
  * }

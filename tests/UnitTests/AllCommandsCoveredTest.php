@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Command;
+namespace Olz\Tests\UnitTests;
 
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 

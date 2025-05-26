@@ -16,8 +16,8 @@ use PhpTypeScriptApi\HttpError;
  *   imageIds: array<non-empty-string>,
  *   fileIds: array<non-empty-string>,
  *   parentRole?: ?int<1, max>,
- *   indexWithinParent?: ?int<0, max>,
- *   featuredIndex?: ?int,
+ *   positionWithinParent?: ?float,
+ *   featuredPosition?: ?float,
  *   canHaveChildRoles: bool,
  * }
  */
@@ -34,8 +34,8 @@ trait RoleEndpointTrait {
             'imageIds' => $entity->getStoredImageUploadIds(),
             'fileIds' => $entity->getStoredFileUploadIds(),
             'parentRole' => $this->getParentRoleId($entity),
-            'indexWithinParent' => ($entity->getIndexWithinParent() ?? -1) < 0 ? null : $entity->getIndexWithinParent(),
-            'featuredIndex' => $entity->getFeaturedIndex() ?? null,
+            'positionWithinParent' => $entity->getPositionWithinParent(),
+            'featuredPosition' => $entity->getFeaturedPosition() ?? null,
             'canHaveChildRoles' => $entity->getCanHaveChildRoles(),
         ];
     }
@@ -44,8 +44,8 @@ trait RoleEndpointTrait {
     public function updateEntityWithData(Role $entity, array $input_data): void {
         $this->updateEntityWithNonParentData($entity, $input_data);
         $entity->setParentRoleId($input_data['parentRole'] ?? null);
-        $entity->setIndexWithinParent($input_data['indexWithinParent'] ?? null);
-        $entity->setFeaturedIndex($input_data['featuredIndex'] ?? null);
+        $entity->setPositionWithinParent($input_data['positionWithinParent'] ?? null);
+        $entity->setFeaturedPosition($input_data['featuredPosition'] ?? null);
         $entity->setCanHaveChildRoles($input_data['canHaveChildRoles']);
     }
 

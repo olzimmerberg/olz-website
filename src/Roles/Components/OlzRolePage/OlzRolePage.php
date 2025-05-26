@@ -177,7 +177,7 @@ class OlzRolePage extends OlzComponent {
         $child_roles = $role_repo->findBy([
             'parent_role' => $role_id,
             'on_off' => 1,
-        ], ['index_within_parent' => 'ASC']);
+        ], ['position_within_parent' => 'ASC']);
         $num_child_roles = count($child_roles);
         $out .= "<br/><h2>Unter-Ressorts</h2>";
         if ($num_child_roles === 0) {

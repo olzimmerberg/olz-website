@@ -2,17 +2,20 @@
 
 namespace Olz\Entity\Faq;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\PositionableInterface;
 use Olz\Repository\Faq\QuestionRepository;
 
 #[ORM\Table(name: 'questions')]
 #[ORM\Index(name: 'ident_index', columns: ['on_off', 'ident'])]
 #[ORM\Index(name: 'category_position_index', columns: ['on_off', 'category_id', 'position_within_category'])]
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
-class Question extends OlzEntity implements DataStorageInterface {
+class Question extends OlzEntity implements DataStorageInterface, PositionableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -27,8 +30,8 @@ class Question extends OlzEntity implements DataStorageInterface {
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: true)]
     private ?QuestionCategory $category;
 
-    #[ORM\Column(type: 'integer', nullable: false)]
-    private int $position_within_category;
+    #[ORM\Column(type: 'smallfloat', nullable: false)]
+    private float $position_within_category;
 
     #[ORM\Column(type: 'text', nullable: false)]
     private string $question;
@@ -68,11 +71,11 @@ class Question extends OlzEntity implements DataStorageInterface {
         $this->category = $new_value;
     }
 
-    public function getPositionWithinCategory(): int {
+    public function getPositionWithinCategory(): float {
         return $this->position_within_category;
     }
 
-    public function setPositionWithinCategory(int $new_value): void {
+    public function setPositionWithinCategory(float $new_value): void {
         $this->position_within_category = $new_value;
     }
 
@@ -92,5 +95,50 @@ class Question extends OlzEntity implements DataStorageInterface {
 
     public function getEntityIdForStorage(): string {
         return "{$this->getId()}";
+    }
+
+    public static function getPositionFieldName(string $field): string {
+        switch ($field) {
+            case 'positionWithinCategory':
+                return 'position_within_category';
+            default: throw new \Exception("No such position field: {$field}");
+        }
+    }
+
+    public function getPositionForEntityField(string $field): ?float {
+        switch ($field) {
+            case 'positionWithinCategory':
+                return $this->getPositionWithinCategory();
+            default: throw new \Exception("No such position field: {$field}");
+        }
+    }
+
+    public static function getIdFieldNameForSearch(): string {
+        return 'id';
+    }
+
+    public function getIdForSearch(): int {
+        return $this->getId() ?? 0;
+    }
+
+    public function getTitleForSearch(): string {
+        return "{$this->getIdent()} - {$this->getQuestion()}";
+    }
+
+    public static function getCriteriaForFilter(string $key, string $value): Expression {
+        switch ($key) {
+            case 'questionCategoryId':
+                $category = new QuestionCategory();
+                $category->setId(intval($value));
+                return Criteria::expr()->eq('category', $category);
+            default: throw new \Exception("No such Question filter: {$key}");
+        }
+    }
+
+    public static function getCriteriaForQuery(string $query): Expression {
+        return Criteria::expr()->orX(
+            Criteria::expr()->contains('ident', $query),
+            Criteria::expr()->contains('question', $query),
+        );
     }
 }

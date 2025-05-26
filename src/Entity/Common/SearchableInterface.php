@@ -13,7 +13,9 @@ interface SearchableInterface {
 
     public function getIdForSearch(): int;
 
-    public static function getCriteriaForQuery(string $query): Expression;
-
     public function getTitleForSearch(): string;
+
+    public static function getCriteriaForFilter(string $key, string $value): Expression;
+
+    public static function getCriteriaForQuery(string $query): Expression;
 }

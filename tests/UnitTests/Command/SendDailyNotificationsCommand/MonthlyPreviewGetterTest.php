@@ -32,7 +32,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooEarlyInMonth(): void {
-        $date_utils = new DateUtils('2020-03-14 16:00:00'); // a Saturday, but not yet the second last
+        $date_utils = new DateUtils('2020-02-15 16:00:00'); // a Saturday, but not yet the second last
 
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
@@ -45,7 +45,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetterTooLateInMonth(): void {
-        $date_utils = new DateUtils('2020-03-28 16:00:00'); // a Saturday, but already the last
+        $date_utils = new DateUtils('2020-02-29 16:00:00'); // a Saturday, but already the last
 
         $job = new MonthlyPreviewGetter();
         $job->setDateUtils($date_utils);
@@ -58,7 +58,7 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testMonthlyPreviewGetter(): void {
-        $date_utils = new DateUtils('2020-03-21 16:00:00'); // the second last Saturday of the month
+        $date_utils = new DateUtils('2020-02-22 16:00:00'); // the second last Saturday of the month
         $user = FakeUser::defaultUser();
 
         $job = new MonthlyPreviewGetter();
@@ -69,27 +69,24 @@ final class MonthlyPreviewGetterTest extends UnitTestCase {
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
 
-            Im April haben wir Folgendes auf dem Programm:
+            Im März haben wir Folgendes auf dem Programm:
 
 
             **Termine**
 
             - Fr, 13.03.: [Fake title](http://fake-base-url/_/termine/12)
-            - Sa, 01.01.: [Cannot be empty](http://fake-base-url/_/termine/123)
             - Fr, 13.03. - Mo, 16.03.: [Fake title](http://fake-base-url/_/termine/1234)
 
 
             **Meldeschlüsse**
 
-            - : Meldeschluss für '[Fake title](http://fake-base-url/_/termine/12)'
-            - Sa, 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
             - Fr, 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
 
 
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Monatsvorschau April', $notification?->title);
+        $this->assertSame('Monatsvorschau März', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 

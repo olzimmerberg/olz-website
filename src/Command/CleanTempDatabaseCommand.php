@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'olz:clean-temp-database')]
 class CleanTempDatabaseCommand extends OlzCommand {
     protected string $temp_realpath;
-    protected int $clean_older_than;
 
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {

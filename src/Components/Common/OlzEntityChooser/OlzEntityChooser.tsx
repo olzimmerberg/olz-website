@@ -1,27 +1,35 @@
 import 'bootstrap';
 import React from 'react';
 import {olzApi} from '../../../Api/client';
-import {OlzSearchableEntityTypes, OlzEntityResult} from '../../../Api/client/generated_olz_api_types';
+import {OlzSearchableEntityType, OlzEntityResult} from '../../../Api/client/generated_olz_api_types';
 
 import './OlzEntityChooser.scss';
 
 interface OlzEntityChooserProps {
-    entityType: OlzSearchableEntityTypes;
+    entityType: OlzSearchableEntityType;
+    filter?: {[key: string]: string};
     entityId: number|null;
     onEntityIdChange: (e: CustomEvent<number|null>) => void;
     setIsLoading?: (isLoading: boolean) => void;
     disabled?: boolean;
     nullLabel?: string;
+    nothingAvailableLabel?: string;
+    hasError?: boolean;
 }
 
 export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactElement => {
     const [searchString, setSearchString] = React.useState<string>('');
+    const [confirmedSearch, setConfirmedSearch] = React.useState<string>('');
     const [entityResults, setEntityResults] = React.useState<OlzEntityResult[]|null>(null);
     const [currentEntityTitle, setCurrentEntityTitle] = React.useState<string|null>(null);
 
+    const filterCache = React.useMemo<string>(() => JSON.stringify(props.filter), [props.filter]);
+
     const nullLabel = props.nullLabel ?? 'Bitte wählen';
+    const noResultsLabel =
+        (confirmedSearch === '' ? props.nothingAvailableLabel : null) ?? '(Keine Resultate)';
     const buttonLabel = currentEntityTitle ?? nullLabel;
-    const setIsLoading = props.setIsLoading ?? (() => {});
+    const errorClassName = props.hasError ? ' is-invalid' : '';
 
     const searchInput = React.useRef<HTMLInputElement>(null);
 
@@ -32,7 +40,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
     React.useEffect(() => {
         if (props.entityId && !currentEntityTitle) {
             setCurrentEntityTitle('Lädt...');
-            setIsLoading(true);
+            props.setIsLoading?.(true);
             olzApi.call('searchEntities', {
                 entityType: props.entityType,
                 query: null,
@@ -42,32 +50,40 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
                     const entityResult = response.result?.[0];
                     if (entityResult?.id === props.entityId) {
                         setCurrentEntityTitle(entityResult.title);
-                        setIsLoading(false);
+                        props.setIsLoading?.(false);
                     }
                 });
         }
     }, [props.entityType, props.entityId, currentEntityTitle]);
 
     React.useEffect(() => {
+        const timeoutId = window.setTimeout(() => setConfirmedSearch(searchString), 300);
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, [searchString]);
+
+    React.useEffect(() => {
         setEntityResults(null);
-        setIsLoading(true);
+        props.setIsLoading?.(true);
         olzApi.call('searchEntities', {
             entityType: props.entityType,
-            query: searchString,
+            query: confirmedSearch,
             id: null,
+            filter: props.filter,
         })
             .then((response) => {
                 setEntityResults(response.result);
-                setIsLoading(false);
+                props.setIsLoading?.(false);
             });
-    }, [props.entityType, searchString]);
+    }, [props.entityType, filterCache, confirmedSearch]);
 
     const searchResults = entityResults === null ? (
         <button className="dropdown-item" type="button" disabled>Lädt...</button>
     )
         : entityResults.length === 0 ? (
-            <button className="dropdown-item" type="button" disabled>
-            (Keine Resultate)
+            <button className="dropdown-item" id="no-results" type="button" disabled>
+                {noResultsLabel}
             </button>
         ) : entityResults.map((entity, index) => (
             <button
@@ -88,9 +104,9 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
     return (
         <div className='olz-entity-chooser'>
             <button
-                className="form-select"
+                className={`form-select${errorClassName}`}
                 type="button"
-                id="dropdownMenuButton"
+                id="dropdown-menu-button"
                 data-bs-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
@@ -103,7 +119,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
             >
                 {buttonLabel}
             </button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div className="dropdown-menu" aria-labelledby="dropdown-menu-button">
                 <div className="entity-search-container">
                     <input
                         type="text"

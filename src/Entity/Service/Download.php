@@ -2,15 +2,18 @@
 
 namespace Olz\Entity\Service;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\PositionableInterface;
 
 #[ORM\Table(name: 'downloads')]
 #[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
 #[ORM\Entity]
-class Download extends OlzEntity implements DataStorageInterface {
+class Download extends OlzEntity implements DataStorageInterface, PositionableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -21,8 +24,8 @@ class Download extends OlzEntity implements DataStorageInterface {
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $name;
 
-    #[ORM\Column(type: 'integer', nullable: false)]
-    private int $position;
+    #[ORM\Column(type: 'smallfloat', nullable: false)]
+    private float $position;
 
     public function getId(): ?int {
         return $this->id ?? null;
@@ -40,13 +43,15 @@ class Download extends OlzEntity implements DataStorageInterface {
         $this->name = $new_value;
     }
 
-    public function getPosition(): int {
+    public function getPosition(): float {
         return $this->position;
     }
 
-    public function setPosition(int $new_value): void {
+    public function setPosition(float $new_value): void {
         $this->position = $new_value;
     }
+
+    // ---
 
     public static function getEntityNameForStorage(): string {
         return 'downloads';
@@ -54,5 +59,41 @@ class Download extends OlzEntity implements DataStorageInterface {
 
     public function getEntityIdForStorage(): string {
         return "{$this->getId()}";
+    }
+
+    public static function getPositionFieldName(string $field): string {
+        switch ($field) {
+            case 'position':
+                return 'position';
+            default: throw new \Exception("No such position field: {$field}");
+        }
+    }
+
+    public function getPositionForEntityField(string $field): ?float {
+        switch ($field) {
+            case 'position':
+                return $this->getPosition();
+            default: throw new \Exception("No such position field: {$field}");
+        }
+    }
+
+    public static function getIdFieldNameForSearch(): string {
+        return 'id';
+    }
+
+    public function getIdForSearch(): int {
+        return $this->getId() ?? 0;
+    }
+
+    public function getTitleForSearch(): string {
+        return $this->getName() ?? '---';
+    }
+
+    public static function getCriteriaForFilter(string $key, string $value): Expression {
+        throw new \Exception("No such Download filter: {$key}");
+    }
+
+    public static function getCriteriaForQuery(string $query): Expression {
+        return Criteria::expr()->contains('name', $query);
     }
 }

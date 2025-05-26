@@ -1,7 +1,7 @@
 import 'bootstrap';
 import React from 'react';
 import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
-import {OlzSearchableEntityTypes} from '../../../Api/client/generated_olz_api_types';
+import {OlzSearchableEntityType} from '../../../Api/client/generated_olz_api_types';
 import {OlzEntityChooser} from '../OlzEntityChooser/OlzEntityChooser';
 
 interface OlzEntityFieldProps<
@@ -9,7 +9,8 @@ interface OlzEntityFieldProps<
     Name extends Path<Values>,
 > {
     title?: React.ReactNode;
-    entityType: OlzSearchableEntityTypes;
+    entityType: OlzSearchableEntityType;
+    filter?: {[key: string]: string};
     name: Name;
     rules?: UseControllerProps<Values, Name>['rules'];
     errors?: FieldErrors<Values>;
@@ -29,6 +30,9 @@ export const OlzEntityField = <
         rules: props.rules,
     });
 
+    const errorMessage = props.errors?.[props.name]?.message?.toString();
+    const errorComponent = errorMessage && <p className='error'>{errorMessage}</p>;
+
     return (<>
         <label htmlFor={`${props.name}-field`}>
             {props.title}
@@ -43,8 +47,10 @@ export const OlzEntityField = <
                 setIsLoading={props?.setIsLoading}
                 disabled={props?.disabled}
                 nullLabel={props.nullLabel}
+                hasError={Boolean(errorMessage)}
             >
             </OlzEntityChooser>
         </div>
+        {errorComponent}
     </>);
 };

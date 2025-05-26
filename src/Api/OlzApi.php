@@ -18,6 +18,7 @@ class OlzApi extends Api {
         Endpoints\LogoutEndpoint $logoutEndpoint,
         Endpoints\GetAuthenticatedUserEndpoint $getAuthenticatedUserEndpoint,
         Endpoints\GetAuthenticatedRolesEndpoint $getAuthenticatedRolesEndpoint,
+        Endpoints\GetEntitiesAroundPositionEndpoint $getEntitiesAroundPositionEndpoint,
         Endpoints\VerifyUserEmailEndpoint $verifyUserEmailEndpoint,
         Endpoints\UpdateUserPasswordEndpoint $updateUserPasswordEndpoint,
         Endpoints\ExecuteEmailReactionEndpoint $executeEmailReactionEndpoint,
@@ -111,6 +112,7 @@ class OlzApi extends Api {
         $this->registerEndpoint('logout', $logoutEndpoint);
         $this->registerEndpoint('getAuthenticatedUser', $getAuthenticatedUserEndpoint);
         $this->registerEndpoint('getAuthenticatedRoles', $getAuthenticatedRolesEndpoint);
+        $this->registerEndpoint('getEntitiesAroundPosition', $getEntitiesAroundPositionEndpoint);
         $this->registerEndpoint('verifyUserEmail', $verifyUserEmailEndpoint);
         $this->registerEndpoint('updatePassword', $updateUserPasswordEndpoint);
         $this->registerEndpoint('executeEmailReaction', $executeEmailReactionEndpoint);
@@ -264,6 +266,7 @@ class OlzApi extends Api {
             new Endpoints\LogoutEndpoint(),
             new Endpoints\GetAuthenticatedUserEndpoint(),
             new Endpoints\GetAuthenticatedRolesEndpoint(),
+            new Endpoints\GetEntitiesAroundPositionEndpoint(),
             new Endpoints\VerifyUserEmailEndpoint(),
             new Endpoints\UpdateUserPasswordEndpoint(),
             new Endpoints\ExecuteEmailReactionEndpoint(),

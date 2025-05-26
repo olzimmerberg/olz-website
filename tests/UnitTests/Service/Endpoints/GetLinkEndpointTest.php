@@ -112,7 +112,7 @@ final class GetLinkEndpointTest extends UnitTestCase {
             ],
             'data' => [
                 'name' => 'Fake Link',
-                'position' => 1234,
+                'position' => 1234.0,
                 'url' => 'https://ol-z.ch',
             ],
         ], $result);

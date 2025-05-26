@@ -1,4 +1,12 @@
 .olz-entity-chooser {
+    overflow: hidden;
+
+    .form-select {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .entity-search-container {
         padding: 0 8px;
     }

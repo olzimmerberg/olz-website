@@ -4,7 +4,9 @@ export type OlzAuthenticatedUser = {'id': number, 'firstName': string, 'lastName
 
 export type OlzAuthenticatedRole = {'id': number, 'name': string, 'username': string};
 
-export type OlzSearchableEntityTypes = ('QuestionCategory' | 'SolvEvent' | 'TerminLocation' | 'TerminTemplate' | 'Role' | 'User');
+export type OlzSearchableEntityType = ('Download' | 'Link' | 'Question' | 'QuestionCategory' | 'SolvEvent' | 'TerminLabel' | 'TerminLocation' | 'TerminTemplate' | 'Role' | 'User');
+
+export type OlzEntityPositionResult = {'id': number, 'position': (number | null), 'title': string};
 
 export type OlzEntityResult = {'id': number, 'title': string};
 
@@ -34,7 +36,7 @@ export type IsoDateTime = string;
 
 export type OlzAuthorInfoData = {'roleName'?: (string | null), 'roleUsername'?: (string | null), 'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: ({[key: string]: string} | null)};
 
-export type OlzRoleData = {'username': string, 'name': string, 'description': string, 'guide': string, 'imageIds': Array<string>, 'fileIds': Array<string>, 'parentRole'?: (number | null), 'indexWithinParent'?: (number | null), 'featuredIndex'?: (number | null), 'canHaveChildRoles': boolean};
+export type OlzRoleData = {'username': string, 'name': string, 'description': string, 'guide': string, 'imageIds': Array<string>, 'fileIds': Array<string>, 'parentRole'?: (number | null), 'positionWithinParent'?: (number | null), 'featuredPosition'?: (number | null), 'canHaveChildRoles': boolean};
 
 export type OlzRoleId = number;
 
@@ -136,6 +138,7 @@ export type OlzApiEndpoint =
     'logout'|
     'getAuthenticatedUser'|
     'getAuthenticatedRoles'|
+    'getEntitiesAroundPosition'|
     'verifyUserEmail'|
     'updatePassword'|
     'executeEmailReaction'|
@@ -256,6 +259,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     logout: (Record<string, never> | null),
     getAuthenticatedUser: (Record<string, never> | null),
     getAuthenticatedRoles: (Record<string, never> | null),
+    getEntitiesAroundPosition: {'entityType': OlzSearchableEntityType, 'entityField': string, 'id'?: (number | null), 'position'?: (number | null), 'filter'?: ({[key: string]: string} | null)},
     verifyUserEmail: (Record<string, never> | null),
     updatePassword: {'id': number, 'oldPassword': string, 'newPassword': string},
     executeEmailReaction: {'token': string},
@@ -264,7 +268,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     startUpload: {'suffix'?: (string | null)},
     updateUpload: {'id': string, 'part': number, 'content': string},
     finishUpload: {'id': string, 'numberOfParts': number},
-    searchEntities: {'entityType': OlzSearchableEntityTypes, 'query'?: (string | null), 'id'?: (number | null)},
+    searchEntities: {'entityType': OlzSearchableEntityType, 'query'?: (string | null), 'id'?: (number | null), 'filter'?: ({[key: string]: string} | null)},
     createDownload: {'meta': OlzMetaData, 'data': OlzDownloadData, 'custom'?: never},
     getDownload: {'id': OlzDownloadId, 'custom'?: never},
     editDownload: {'id': OlzDownloadId, 'custom'?: never},
@@ -375,6 +379,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     logout: {'status': ('NO_SESSION' | 'SESSION_CLOSED')},
     getAuthenticatedUser: {'user'?: (OlzAuthenticatedUser | null)},
     getAuthenticatedRoles: {'roles'?: (Array<OlzAuthenticatedRole> | null)},
+    getEntitiesAroundPosition: {'before'?: (OlzEntityPositionResult | null), 'this'?: (OlzEntityPositionResult | null), 'after'?: (OlzEntityPositionResult | null)},
     verifyUserEmail: {'status': ('OK' | 'ERROR')},
     updatePassword: {'status': ('OK' | 'OTHER_USER' | 'INVALID_OLD')},
     executeEmailReaction: {'status': ('INVALID_TOKEN' | 'OK')},

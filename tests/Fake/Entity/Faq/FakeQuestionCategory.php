@@ -19,7 +19,7 @@ class FakeQuestionCategory extends FakeEntity {
                 $entity = new QuestionCategory();
                 FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
-                $entity->setPosition(0);
+                $entity->setPosition(0.0);
                 $entity->setName('');
                 return $entity;
             }
@@ -33,7 +33,7 @@ class FakeQuestionCategory extends FakeEntity {
                 $entity = new QuestionCategory();
                 FakeOlzEntity::empty($entity);
                 $entity->setId(123);
-                $entity->setPosition(0);
+                $entity->setPosition(0.0);
                 $entity->setName('');
                 return $entity;
             }
@@ -47,7 +47,7 @@ class FakeQuestionCategory extends FakeEntity {
                 $entity = new QuestionCategory();
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
-                $entity->setPosition(3);
+                $entity->setPosition(3.0);
                 $entity->setName('Maximal Category');
                 return $entity;
             }

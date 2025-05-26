@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity\Users;
 
 use Olz\Entity\Users\User;
+use Olz\Tests\Fake\Entity\Common\Date;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
@@ -67,7 +68,7 @@ class FakeUser extends FakeEntity {
                 $entity->setRoot('');
                 $entity->setPhone('');
                 $entity->setGender('');
-                $entity->setBirthdate(new \DateTime('1970-01-01 00:00:00'));
+                $entity->setBirthdate(new Date('1970-01-01'));
                 $entity->setStreet('');
                 $entity->setPostalCode('');
                 $entity->setRegion('');
@@ -101,7 +102,7 @@ class FakeUser extends FakeEntity {
                 $entity->setRoot('karten');
                 $entity->setPhone('+410123456');
                 $entity->setGender('M');
-                $entity->setBirthdate(new \DateTime('2020-03-13'));
+                $entity->setBirthdate(new Date('2020-03-13'));
                 $entity->setStreet('Data Hwy. 42');
                 $entity->setPostalCode('19216811');
                 $entity->setRegion('XX');
@@ -135,7 +136,7 @@ class FakeUser extends FakeEntity {
                 $entity->setRoot('karten');
                 $entity->setPhone('+410123456');
                 $entity->setGender('M');
-                $entity->setBirthdate(new \DateTime('2000-01-01'));
+                $entity->setBirthdate(new Date('2000-01-01'));
                 $entity->setStreet('Data Hwy. 42');
                 $entity->setPostalCode('19216811');
                 $entity->setRegion('XX');
@@ -255,7 +256,7 @@ class FakeUser extends FakeEntity {
                 $entity->setParentUserId(2);
                 $entity->setPhone('+0815');
                 $entity->setGender('F');
-                $entity->setBirthdate(new \DateTime('1970-01-01'));
+                $entity->setBirthdate(new Date('1970-01-01'));
                 $entity->setStreet('Hauptstrasse 1');
                 $entity->setPostalCode('0815');
                 $entity->setRegion('XX');

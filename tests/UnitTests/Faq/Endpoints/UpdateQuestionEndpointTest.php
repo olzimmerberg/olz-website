@@ -158,7 +158,7 @@ final class UpdateQuestionEndpointTest extends UnitTestCase {
             FakeQuestionCategory::maximal()->getId(),
             $entity->getCategory()->getId(),
         );
-        $this->assertSame(2, $entity->getPositionWithinCategory());
+        $this->assertSame(2.0, $entity->getPositionWithinCategory());
         $this->assertSame('Test Answer', $entity->getAnswer());
         $this->assertSame(1, $entity->getOnOff());
 

@@ -34,8 +34,8 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
                 'imageIds' => ['uploaded_imageA.jpg', 'uploaded_imageB.jpg'],
                 'fileIds' => ['uploaded_file1.pdf', 'uploaded_file2.txt'],
                 'parentRole' => FakeRole::vorstandRole()->getId(),
-                'indexWithinParent' => 2,
-                'featuredIndex' => 6,
+                'positionWithinParent' => 2.0,
+                'featuredPosition' => 6.0,
                 'canHaveChildRoles' => true,
             ],
         ];
@@ -155,8 +155,8 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         $this->assertSame('Description Test Role', $entity->getDescription());
         $this->assertSame('Just do it!', $entity->getGuide());
         $this->assertSame(FakeRole::vorstandRole()->getId(), $entity->getParentRoleId());
-        $this->assertSame(2, $entity->getIndexWithinParent());
-        $this->assertSame(6, $entity->getFeaturedIndex());
+        $this->assertSame(2.0, $entity->getPositionWithinParent());
+        $this->assertSame(6.0, $entity->getFeaturedPosition());
         $this->assertTrue($entity->getCanHaveChildRoles());
         $this->assertSame(1, $entity->getOnOff());
 
@@ -225,9 +225,9 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         // not updated:
         $this->assertSame(FakeRole::subVorstandRole(false, 1)->getId(), $entity->getParentRoleId());
         // not updated:
-        $this->assertSame(0, $entity->getIndexWithinParent());
+        $this->assertSame(0.0, $entity->getPositionWithinParent());
         // not updated:
-        $this->assertNull($entity->getFeaturedIndex());
+        $this->assertNull($entity->getFeaturedPosition());
         // not updated:
         $this->assertTrue($entity->getCanHaveChildRoles());
 
@@ -300,8 +300,8 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         $this->assertSame('Description Test Role', $entity->getDescription());
         $this->assertSame('Just do it!', $entity->getGuide());
         $this->assertSame(FakeRole::vorstandRole()->getId(), $entity->getParentRoleId());
-        $this->assertSame(2, $entity->getIndexWithinParent());
-        $this->assertSame(6, $entity->getFeaturedIndex());
+        $this->assertSame(2.0, $entity->getPositionWithinParent());
+        $this->assertSame(6.0, $entity->getFeaturedPosition());
         $this->assertTrue($entity->getCanHaveChildRoles());
         $this->assertSame(1, $entity->getOnOff());
 

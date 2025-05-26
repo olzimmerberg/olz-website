@@ -3,9 +3,10 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzDownloadData} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditDownloadModal.scss';
@@ -19,7 +20,7 @@ interface OlzEditDownloadForm {
 const resolver: Resolver<OlzEditDownloadForm> = async (values) => {
     const errors: FieldErrors<OlzEditDownloadForm> = {};
     errors.name = validateNotEmpty(values.name);
-    errors.position = validateInteger(values.position);
+    errors.position = validateNumber(values.position);
     const requiredNumFileIds = values.name === '---' ? 0 : 1;
     if (values.fileIds?.length !== requiredNumFileIds) {
         errors.fileIds = {type: 'validate', message: `Genau ${requiredNumFileIds} Datei(en) erforderlich.`};
@@ -57,6 +58,7 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
         defaultValues: getFormFromApi(props.data),
     });
 
+    const [isPositionLoading, setIsPositionLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
 
@@ -93,7 +95,8 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
     } : undefined;
 
     const dialogTitle = props.id === undefined ? 'Download erstellen' : 'Download bearbeiten';
-    const editModalStatus: OlzEditModalStatus = isFilesLoading ? {id: 'LOADING'} : status;
+    const isLoading = isPositionLoading || isFilesLoading;
+    const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
@@ -113,11 +116,13 @@ export const OlzEditDownloadModal = (props: OlzEditDownloadModalProps): React.Re
                 />
             </div>
             <div className='mb-3'>
-                <OlzTextField
+                <OlzPositionField
                     title='Position'
+                    entityType='Download'
                     name='position'
                     errors={errors}
-                    register={register}
+                    control={control}
+                    setIsLoading={setIsPositionLoading}
                 />
             </div>
             <div id='file-upload'>

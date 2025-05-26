@@ -3,8 +3,9 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzQuestionCategoryData} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 interface OlzEditQuestionCategoryForm {
@@ -14,7 +15,7 @@ interface OlzEditQuestionCategoryForm {
 
 const resolver: Resolver<OlzEditQuestionCategoryForm> = async (values) => {
     const errors: FieldErrors<OlzEditQuestionCategoryForm> = {};
-    errors.position = validateInteger(values.position);
+    errors.position = validateNumber(values.position);
     errors.name = validateNotEmpty(values.name);
     return getResolverResult(errors, values);
 };
@@ -42,11 +43,12 @@ interface OlzEditQuestionCategoryModalProps {
 }
 
 export const OlzEditQuestionCategoryModal = (props: OlzEditQuestionCategoryModalProps): React.ReactElement => {
-    const {register, handleSubmit, formState: {errors}} = useForm<OlzEditQuestionCategoryForm>({
+    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditQuestionCategoryForm>({
         resolver,
         defaultValues: getFormFromApi(props.data),
     });
 
+    const [isPositionLoading, setIsPositionLoading] = React.useState<boolean>(false);
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
 
     const onSubmit: SubmitHandler<OlzEditQuestionCategoryForm> = async (values) => {
@@ -85,21 +87,24 @@ export const OlzEditQuestionCategoryModal = (props: OlzEditQuestionCategoryModal
     const dialogTitle = props.id === undefined
         ? 'Frage-Kategorie erstellen'
         : 'Frage-Kategorie bearbeiten';
+    const editModalStatus: OlzEditModalStatus = isPositionLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-question-category-modal'
             dialogTitle={dialogTitle}
-            status={status}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
             onDelete={onDelete}
         >
             <div className='mb-3'>
-                <OlzTextField
+                <OlzPositionField
                     title='Position'
+                    entityType='QuestionCategory'
                     name='position'
                     errors={errors}
-                    register={register}
+                    control={control}
+                    setIsLoading={setIsPositionLoading}
                 />
             </div>
             <div className='mb-3'>

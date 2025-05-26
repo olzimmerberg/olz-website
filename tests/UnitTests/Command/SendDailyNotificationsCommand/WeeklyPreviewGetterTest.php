@@ -30,7 +30,7 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
     }
 
     public function testWeeklyPreviewGetter(): void {
-        $date_utils = new DateUtils('2020-03-19 16:00:00'); // a Thursday
+        $date_utils = new DateUtils('2020-03-12 16:00:00'); // a Thursday
         $user = FakeUser::defaultUser();
 
         $job = new WeeklyPreviewGetter();
@@ -47,21 +47,18 @@ final class WeeklyPreviewGetterTest extends UnitTestCase {
             **Termine**
 
             - Fr, 13.03.: [Fake title](http://fake-base-url/_/termine/12)
-            - Sa, 01.01.: [Cannot be empty](http://fake-base-url/_/termine/123)
             - Fr, 13.03. - Mo, 16.03.: [Fake title](http://fake-base-url/_/termine/1234)
 
 
             **Meldeschlüsse**
 
-            - : Meldeschluss für '[Fake title](http://fake-base-url/_/termine/12)'
-            - Sa, 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
             - Fr, 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
 
 
             ZZZZZZZZZZ;
         $this->assertSame([
         ], $this->getLogs());
-        $this->assertSame('Vorschau auf die Woche vom 23. März', $notification?->title);
+        $this->assertSame('Vorschau auf die Woche vom 16. März', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
 

@@ -128,10 +128,12 @@ final class VereinTest extends SystemTestCase {
         $this->sendKeys('#edit-role-modal #description-input', "\n\n".WebDriverKeys::CONTROL.'v');
         $this->sendKeys('#edit-role-modal #guide-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #parentRole-field #dropdownMenuButton')?->isEnabled());
+        $this->assertFalse($this->getBrowserElement('#edit-role-modal #parentRole-field #dropdown-menu-button')?->isEnabled());
         $this->assertFalse($this->getBrowserElement('#edit-role-modal #canHaveChildRoles-input')?->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #indexWithinParent-input')?->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #featuredIndex-input')?->isEnabled());
+        $this->assertFalse($this->getBrowserElement('#edit-role-modal #positionWithinParent-field #before-after-input')?->isEnabled());
+        $this->assertFalse($this->getBrowserElement('#edit-role-modal #positionWithinParent-field #dropdown-menu-button')?->isEnabled());
+        $this->assertFalse($this->getBrowserElement('#edit-role-modal #featuredPosition-field #before-after-input')?->isEnabled());
+        $this->assertFalse($this->getBrowserElement('#edit-role-modal #featuredPosition-field #dropdown-menu-button')?->isEnabled());
         $this->screenshot('verein_ressort_edit');
 
         $this->click('#edit-role-modal #submit-button');
@@ -152,7 +154,7 @@ final class VereinTest extends SystemTestCase {
         $this->assertCount(2, $this->getBrowserElements('.role-assignees .assignee'));
         $this->click('#add-role-user-button');
         $this->waitForModal('#add-role-user-modal');
-        $this->click('#add-role-user-modal #newUser-field #dropdownMenuButton');
+        $this->click('#add-role-user-modal #newUser-field #dropdown-menu-button');
         $this->sendKeys('#add-role-user-modal #newUser-field #entity-search-input', 'Nutzer');
         $this->waitFor('#add-role-user-modal #newUser-field #entity-index-0');
         $this->screenshot('verein_add_assignee');
@@ -199,8 +201,10 @@ final class VereinTest extends SystemTestCase {
         $this->sendKeys('#edit-role-modal #description-input', 'Für das Prüfen der Rechnung zuständig.');
         $this->sendKeys('#edit-role-modal #guide-input', 'Buchprüfung halt.');
         $this->click('#edit-role-modal #canHaveChildRoles-input');
-        $this->sendKeys('#edit-role-modal #indexWithinParent-input', '1');
-        $this->sendKeys('#edit-role-modal #featuredIndex-input', '');
+        $this->selectOption('#edit-role-modal #positionWithinParent-field #before-after-input', 'nach');
+        $this->selectOption('#edit-role-modal #positionWithinParent-field .olz-entity-chooser', 'Revisoren');
+        $this->selectOption('#edit-role-modal #featuredPosition-field #before-after-input', 'nirgends');
+
         $this->click('#edit-role-modal #submit-button');
         $this->waitUntilGone('#edit-role-modal');
 

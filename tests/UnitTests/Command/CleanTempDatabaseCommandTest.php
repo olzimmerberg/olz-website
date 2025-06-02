@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\CleanTempDatabaseCommand;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\DateUtils;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -18,8 +19,9 @@ final class CleanTempDatabaseCommandTest extends UnitTestCase {
     public function testCleanTempDatabaseCommand(): void {
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-
         $job = new CleanTempDatabaseCommand();
+        $job->setDateUtils(new DateUtils('2023-03-16 18:00:00'));
+
         $job->run($input, $output);
 
         $this->assertSame([

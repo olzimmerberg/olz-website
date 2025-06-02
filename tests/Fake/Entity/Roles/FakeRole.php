@@ -26,8 +26,8 @@ class FakeRole extends FakeEntity {
                 $entity->setDescription('');
                 $entity->setGuide('');
                 $entity->setParentRoleId(null);
-                $entity->setIndexWithinParent(null);
-                $entity->setFeaturedIndex(null);
+                $entity->setPositionWithinParent(null);
+                $entity->setFeaturedPosition(null);
                 $entity->setCanHaveChildRoles(false);
                 return $entity;
             }
@@ -47,8 +47,8 @@ class FakeRole extends FakeEntity {
                 $entity->setDescription('');
                 $entity->setGuide('');
                 $entity->setParentRoleId(null);
-                $entity->setIndexWithinParent(-1);
-                $entity->setFeaturedIndex(null);
+                $entity->setPositionWithinParent(0.0);
+                $entity->setFeaturedPosition(null);
                 $entity->setCanHaveChildRoles(false);
                 return $entity;
             }
@@ -68,8 +68,8 @@ class FakeRole extends FakeEntity {
                 $entity->setDescription('Description Test Role');
                 $entity->setGuide('Just do it!');
                 $entity->setParentRoleId(3);
-                $entity->setIndexWithinParent(2);
-                $entity->setFeaturedIndex(6);
+                $entity->setPositionWithinParent(2.0);
+                $entity->setFeaturedPosition(6);
                 $entity->setCanHaveChildRoles(true);
                 return $entity;
             },
@@ -113,8 +113,8 @@ class FakeRole extends FakeEntity {
                 $entity->setGuide("Guide {$entity->getName()}");
                 $entity->setPermissions('aktuell ftp vorstand_role');
                 $entity->setParentRoleId(null);
-                $entity->setIndexWithinParent(0);
-                $entity->setFeaturedIndex(null);
+                $entity->setPositionWithinParent(0.0);
+                $entity->setFeaturedPosition(null);
                 $entity->setCanHaveChildRoles(true);
                 return $entity;
             },
@@ -137,8 +137,8 @@ class FakeRole extends FakeEntity {
                 $entity->setGuide("Guide {$entity->getName()}");
                 $entity->setPermissions(str_repeat('sub_', $degree).'vorstand_role ftp');
                 $entity->setParentRoleId(intval(str_repeat('3', $degree)));
-                $entity->setIndexWithinParent(0);
-                $entity->setFeaturedIndex(null);
+                $entity->setPositionWithinParent(0.0);
+                $entity->setFeaturedPosition(null);
                 $entity->setCanHaveChildRoles(true);
                 return $entity;
             }

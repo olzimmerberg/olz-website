@@ -4,31 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Api\Endpoints;
 
-use Doctrine\Common\Collections\AbstractLazyCollection;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Selectable;
 use Olz\Api\Endpoints\SearchEntitiesEndpoint;
-use Olz\Entity\Termine\TerminLocation;
-use Olz\Tests\Fake\Entity\Common\FakeLazyCollection;
-use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
-
-/**
- * @extends FakeOlzRepository<TerminLocation>
- */
-class FakeSearchEntitiesEndpointTerminLocationRepository extends FakeOlzRepository {
-    /** @return AbstractLazyCollection<int, TerminLocation>&Selectable<int, TerminLocation> */
-    public function matching(Criteria $criteria): AbstractLazyCollection&Selectable {
-        $termin_location_1 = new TerminLocation();
-        $termin_location_1->setId(1);
-        $termin_location_1->setName('Query-Hütte');
-        $termin_location_1->setLatitude(47.2);
-        $termin_location_1->setLongitude(8.3);
-        return new FakeLazyCollection([$termin_location_1]);
-    }
-}
 
 /**
  * @internal
@@ -66,8 +45,12 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'entityType' => [['.' => [
+                    ['.' => ["Wert muss vom Typ 'Download' sein."]],
+                    ['.' => ["Wert muss vom Typ 'Link' sein."]],
+                    ['.' => ["Wert muss vom Typ 'Question' sein."]],
                     ['.' => ["Wert muss vom Typ 'QuestionCategory' sein."]],
                     ['.' => ["Wert muss vom Typ 'SolvEvent' sein."]],
+                    ['.' => ["Wert muss vom Typ 'TerminLabel' sein."]],
                     ['.' => ["Wert muss vom Typ 'TerminLocation' sein."]],
                     ['.' => ["Wert muss vom Typ 'TerminTemplate' sein."]],
                     ['.' => ["Wert muss vom Typ 'Role' sein."]],
@@ -94,8 +77,12 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'entityType' => [['.' => [
+                    ['.' => ["Wert muss vom Typ 'Download' sein."]],
+                    ['.' => ["Wert muss vom Typ 'Link' sein."]],
+                    ['.' => ["Wert muss vom Typ 'Question' sein."]],
                     ['.' => ["Wert muss vom Typ 'QuestionCategory' sein."]],
                     ['.' => ["Wert muss vom Typ 'SolvEvent' sein."]],
+                    ['.' => ["Wert muss vom Typ 'TerminLabel' sein."]],
                     ['.' => ["Wert muss vom Typ 'TerminLocation' sein."]],
                     ['.' => ["Wert muss vom Typ 'TerminTemplate' sein."]],
                     ['.' => ["Wert muss vom Typ 'Role' sein."]],
@@ -132,16 +119,13 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
 
     public function testSearchEntitiesEndpointWithValidId(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_location_repo = new FakeSearchEntitiesEndpointTerminLocationRepository($entity_manager);
-        $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         $endpoint = new SearchEntitiesEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'entityType' => 'TerminLocation',
             'query' => null,
-            'id' => 1,
+            'id' => 1234,
         ]);
 
         $this->assertSame([
@@ -149,21 +133,18 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['result' => [
-            ['id' => 1, 'title' => 'Query-Hütte'],
+            ['id' => 1234, 'title' => 'Fake title'],
         ]], $result);
     }
 
     public function testSearchEntitiesEndpointWithValidQuery(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
-        $entity_manager = WithUtilsCache::get('entityManager');
-        $termin_location_repo = new FakeSearchEntitiesEndpointTerminLocationRepository($entity_manager);
-        $entity_manager->repositories[TerminLocation::class] = $termin_location_repo;
         $endpoint = new SearchEntitiesEndpoint();
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
             'entityType' => 'TerminLocation',
-            'query' => 'Query',
+            'query' => 'Fake',
             'id' => null,
         ]);
 
@@ -172,7 +153,71 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['result' => [
-            ['id' => 1, 'title' => 'Query-Hütte'],
+            ['id' => 12, 'title' => 'Fake title'],
+            ['id' => 1234, 'title' => 'Fake title'],
+        ]], $result);
+    }
+
+    public function testSearchEntitiesEndpointWithInvalidFilter(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
+        $endpoint = new SearchEntitiesEndpoint();
+        $endpoint->runtimeSetup();
+
+        try {
+            $endpoint->call([
+                'entityType' => 'TerminLocation',
+                'query' => 'Fake',
+                'id' => null,
+                'filter' => ['invalidFilter' => 'invalid'],
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame(400, $httperr->getCode());
+            $this->assertSame([
+                "INFO Valid user request",
+                "NOTICE HTTP error 400",
+            ], $this->getLogs());
+        }
+    }
+
+    public function testSearchEntitiesEndpointWithValidFilter(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
+        $endpoint = new SearchEntitiesEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'entityType' => 'Role',
+            'query' => 'Test',
+            'id' => null,
+            'filter' => ['featuredPositionNotNull' => 'true'],
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame(['result' => [
+            ['id' => 1234, 'title' => 'Test Role'],
+        ]], $result);
+    }
+
+    public function testSearchEntitiesEndpointForNonOlzEntity(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
+        $endpoint = new SearchEntitiesEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'entityType' => 'SolvEvent',
+            'query' => 'Fake',
+            'id' => null,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame(['result' => [
+            ['id' => 1234, 'title' => '2020-03-13: Fake Event'],
         ]], $result);
     }
 }

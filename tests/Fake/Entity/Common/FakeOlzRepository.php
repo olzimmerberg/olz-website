@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 
 /**
  * @template T of object
@@ -72,11 +73,24 @@ class FakeOlzRepository extends EntityRepository {
             return new FakeLazyCollection($this->entitiesToBeMatched);
         }
         $class = $this->fakeOlzEntityClass;
-        return new FakeLazyCollection([
+        $all_fake_entities = [
             $class::minimal(),
             $class::empty(),
             $class::maximal(),
-        ]);
+        ];
+        $matching_fake_entities = [];
+        foreach ($all_fake_entities as $fake) {
+            if ($this->isFakeMatchingCriteria($fake, $criteria)) {
+                $matching_fake_entities[] = $fake;
+            }
+        }
+        return new FakeLazyCollection($matching_fake_entities);
+    }
+
+    protected function isFakeMatchingCriteria(TestableInterface $fake, Criteria $criteria): bool {
+        $visitor = new ExpressionEvaluationVisitor($fake);
+        $criteria->getWhereExpression()?->visit($visitor);
+        return $visitor->isMatching;
     }
 
     /**

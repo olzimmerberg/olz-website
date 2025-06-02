@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\PositionableInterface;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Repository\Termine\TerminLabelRepository;
 
@@ -18,7 +19,7 @@ use Olz\Repository\Termine\TerminLabelRepository;
 #[ORM\Index(name: 'name_index', columns: ['name'])]
 #[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
 #[ORM\Entity(repositoryClass: TerminLabelRepository::class)]
-class TerminLabel extends OlzEntity implements SearchableInterface, DataStorageInterface {
+class TerminLabel extends OlzEntity implements DataStorageInterface, PositionableInterface, SearchableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -38,8 +39,8 @@ class TerminLabel extends OlzEntity implements SearchableInterface, DataStorageI
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $icon;
 
-    #[ORM\Column(type: 'integer', nullable: false)]
-    private int $position;
+    #[ORM\Column(type: 'smallfloat', nullable: false)]
+    private float $position;
 
     /** @var Collection<int|string, Termin>&iterable<Termin> */
     #[ORM\ManyToMany(targetEntity: Termin::class, mappedBy: 'labels')]
@@ -94,15 +95,39 @@ class TerminLabel extends OlzEntity implements SearchableInterface, DataStorageI
         $this->icon = $new_value;
     }
 
-    public function getPosition(): int {
+    public function getPosition(): float {
         return $this->position;
     }
 
-    public function setPosition(int $new_value): void {
+    public function setPosition(float $new_value): void {
         $this->position = $new_value;
     }
 
     // ---
+
+    public static function getEntityNameForStorage(): string {
+        return 'termin_labels';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
+    }
+
+    public static function getPositionFieldName(string $field): string {
+        switch ($field) {
+            case 'position':
+                return 'position';
+            default: throw new \Exception("No such position field: {$field}");
+        }
+    }
+
+    public function getPositionForEntityField(string $field): ?float {
+        switch ($field) {
+            case 'position':
+                return $this->getPosition();
+            default: throw new \Exception("No such position field: {$field}");
+        }
+    }
 
     public static function getIdFieldNameForSearch(): string {
         return 'id';
@@ -112,21 +137,17 @@ class TerminLabel extends OlzEntity implements SearchableInterface, DataStorageI
         return $this->getId() ?? 0;
     }
 
-    public static function getCriteriaForQuery(string $query): Expression {
-        return Criteria::expr()->orX(
-            Criteria::expr()->contains('name', $query),
-        );
-    }
-
     public function getTitleForSearch(): string {
         return $this->getName();
     }
 
-    public static function getEntityNameForStorage(): string {
-        return 'termin_labels';
+    public static function getCriteriaForFilter(string $key, string $value): Expression {
+        throw new \Exception("No such TerminLabel filter: {$key}");
     }
 
-    public function getEntityIdForStorage(): string {
-        return "{$this->getId()}";
+    public static function getCriteriaForQuery(string $query): Expression {
+        return Criteria::expr()->orX(
+            Criteria::expr()->contains('name', $query),
+        );
     }
 }

@@ -9,6 +9,7 @@ use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsCache;
 
 /**
@@ -38,9 +39,11 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
     }
 
     public function testDeadlineWarningGetter(): void {
+        $date_utils = new DateUtils('2020-03-10 16:00:00'); // 3 days before deadline
         $user = FakeUser::defaultUser();
 
         $job = new DeadlineWarningGetter();
+        $job->setDateUtils($date_utils);
 
         $notification = $job->getNotification(['days' => 3]);
 
@@ -49,8 +52,6 @@ final class DeadlineWarningGetterTest extends UnitTestCase {
 
             Folgende Meldeschlüsse stehen bevor:
 
-            - : Meldeschluss für '[Fake title](http://fake-base-url/_/termine/12)'
-            - Sa, 01.01.: Meldeschluss für '[Cannot be empty](http://fake-base-url/_/termine/123)'
             - Fr, 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
 
             ZZZZZZZZZZ;

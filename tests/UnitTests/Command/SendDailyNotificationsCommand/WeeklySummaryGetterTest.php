@@ -56,38 +56,14 @@ final class WeeklySummaryGetterTest extends UnitTestCase {
             **Aktuell**
 
             - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-            - Sa, 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-
-
-            **Kaderblog**
-
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-            - Sa, 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-
-
-            **Forum**
-
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-            - Sa, 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
-
-
-            **Galerien**
-
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-            - Sa, 01.01. 00:00: [Cannot be empty](http://fake-base-url/_/news/123)
             - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
 
 
             **Aktualisierte Termine**
-
-            - Fr, 13.03.: [Fake title](http://fake-base-url/_/termine/12)
-            - Sa, 01.01.: [Cannot be empty](http://fake-base-url/_/termine/123)
+            
             - Fr, 13.03. - Mo, 16.03.: [Fake title](http://fake-base-url/_/termine/1234)
 
-
+            
             ZZZZZZZZZZ;
         $this->assertSame('Wochenzusammenfassung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));

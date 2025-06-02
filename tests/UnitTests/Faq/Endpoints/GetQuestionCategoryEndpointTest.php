@@ -57,7 +57,7 @@ final class GetQuestionCategoryEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
-                'position' => 0,
+                'position' => 0.0,
                 'name' => '-',
             ],
         ], $result);
@@ -85,7 +85,7 @@ final class GetQuestionCategoryEndpointTest extends UnitTestCase {
                 'onOff' => false,
             ],
             'data' => [
-                'position' => 0,
+                'position' => 0.0,
                 'name' => '-',
             ],
         ], $result);
@@ -113,7 +113,7 @@ final class GetQuestionCategoryEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
-                'position' => 3,
+                'position' => 3.0,
                 'name' => 'Maximal Category',
             ],
         ], $result);

@@ -41,10 +41,10 @@ class RoleRepository extends OlzRepository {
                 FROM {$this->entityClass} r
                 WHERE
                     r.parent_role IS NULL
-                    AND r.index_within_parent IS NOT NULL
-                    AND r.index_within_parent >= 0
+                    AND r.position_within_parent IS NOT NULL
+                    AND r.position_within_parent >= 0
                     AND r.on_off = 1
-                ORDER BY r.index_within_parent ASC";
+                ORDER BY r.position_within_parent ASC";
             $query = $this->getEntityManager()->createQuery($dql);
         } else {
             $dql = "
@@ -52,10 +52,9 @@ class RoleRepository extends OlzRepository {
                 FROM {$this->entityClass} r
                 WHERE
                     r.parent_role = ?1
-                    AND r.index_within_parent IS NOT NULL
-                    AND r.index_within_parent >= 0
+                    AND r.position_within_parent IS NOT NULL
                     AND r.on_off = 1
-                ORDER BY r.index_within_parent ASC";
+                ORDER BY r.position_within_parent ASC";
             $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $roleId);
         }
         $query->setMaxResults($limit);
@@ -68,7 +67,7 @@ class RoleRepository extends OlzRepository {
         // descriptions have been updated. This is just temporary logic!
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
-                Criteria::expr()->gte('index_within_parent', 0), // Negative = hidden
+                Criteria::expr()->gte('position_within_parent', 0), // Negative = hidden
                 Criteria::expr()->neq('guide', ''),
             ))
             ->setFirstResult(0)

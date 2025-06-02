@@ -5,9 +5,10 @@ import {OlzMetaData, OlzRoleData} from '../../../Api/client/generated_olz_api_ty
 import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
+import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateNumberOrNull, validateNotEmpty} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditRoleModal.scss';
@@ -20,8 +21,8 @@ interface OlzEditRoleForm {
     imageIds: string[],
     fileIds: string[],
     parentRole: number|null,
-    indexWithinParent: string,
-    featuredIndex: string,
+    positionWithinParent: string,
+    featuredPosition: string,
     canHaveChildRoles: string|boolean,
 }
 
@@ -29,8 +30,8 @@ const resolver: Resolver<OlzEditRoleForm> = async (values) => {
     const errors: FieldErrors<OlzEditRoleForm> = {};
     errors.username = validateNotEmpty(values.username);
     errors.name = validateNotEmpty(values.name);
-    errors.indexWithinParent = validateIntegerOrNull(values.indexWithinParent);
-    errors.featuredIndex = validateIntegerOrNull(values.featuredIndex);
+    errors.positionWithinParent = validateNumberOrNull(values.positionWithinParent);
+    errors.featuredPosition = validateNumberOrNull(values.featuredPosition);
     return getResolverResult(errors, values);
 };
 
@@ -43,8 +44,8 @@ function getFormFromApi(apiData?: Partial<OlzRoleData>): OlzEditRoleForm {
         imageIds: apiData?.imageIds ?? [],
         fileIds: apiData?.fileIds ?? [],
         parentRole: apiData?.parentRole ?? null,
-        indexWithinParent: getFormNumber(apiData?.indexWithinParent),
-        featuredIndex: getFormNumber(apiData?.featuredIndex),
+        positionWithinParent: getFormNumber(apiData?.positionWithinParent),
+        featuredPosition: getFormNumber(apiData?.featuredPosition),
         canHaveChildRoles: getFormBoolean(apiData?.canHaveChildRoles),
     };
 }
@@ -58,8 +59,8 @@ function getApiFromForm(formData: OlzEditRoleForm): OlzRoleData {
         imageIds: formData.imageIds,
         fileIds: formData.fileIds,
         parentRole: formData.parentRole,
-        indexWithinParent: getApiNumber(formData.indexWithinParent),
-        featuredIndex: getApiNumber(formData.featuredIndex),
+        positionWithinParent: getApiNumber(formData.positionWithinParent),
+        featuredPosition: getApiNumber(formData.featuredPosition),
         canHaveChildRoles: getApiBoolean(formData.canHaveChildRoles ?? ''),
     };
 }
@@ -74,12 +75,14 @@ interface OlzEditRoleModalProps {
 }
 
 export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactElement => {
-    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditRoleForm>({
+    const {register, handleSubmit, formState: {errors}, control, watch} = useForm<OlzEditRoleForm>({
         resolver,
         defaultValues: getFormFromApi(props.data),
     });
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
+    const [isPositionWithinParentLoading, setIsPositionWithinParentLoading] = React.useState<boolean>(false);
+    const [isFeaturedPositionLoading, setIsFeaturedPositionLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [isParentRolesLoading, setIsParentRolesLoading] = React.useState<boolean>(false);
@@ -120,7 +123,8 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
     const dialogTitle = props.id === undefined
         ? 'Ressort erstellen'
         : 'Ressort bearbeiten';
-    const isLoading = isImagesLoading || isFilesLoading || isParentRolesLoading;
+    const parentRole = watch('parentRole');
+    const isLoading = isImagesLoading || isFilesLoading || isParentRolesLoading || isPositionWithinParentLoading || isFeaturedPositionLoading;
     const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
@@ -208,27 +212,34 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                         id='canHaveChildRoles-input'
                     />
                     <label htmlFor='canHaveChildRoles-input'>
-                                        Kinder-Rollen erlauben
+                        Kinder-Rollen erlauben
                     </label>
                 </div>
             </div>
             <div className='row'>
                 <div className='col mb-3'>
-                    <OlzTextField
+                    <OlzPositionField
                         title='Position im Eltern-Ressort'
-                        name='indexWithinParent'
+                        entityType='Role'
+                        name='positionWithinParent'
+                        filter={{parentRoleId: `${parentRole}`}}
                         errors={errors}
-                        register={register}
+                        control={control}
+                        setIsLoading={setIsPositionWithinParentLoading}
                         disabled={!props.canParentRoleEdit}
                     />
                 </div>
                 <div className='col mb-3'>
-                    <OlzTextField
+                    <OlzPositionField
                         title='Position in der "Häufig gesucht"-Liste'
-                        name='featuredIndex'
+                        entityType='Role'
+                        filter={{featuredPositionNotNull: 'true'}}
+                        name='featuredPosition'
                         errors={errors}
-                        register={register}
+                        control={control}
+                        setIsLoading={setIsFeaturedPositionLoading}
                         disabled={!props.canParentRoleEdit}
+                        nullLabel='(wird nicht angezeigt)'
                     />
                 </div>
             </div>

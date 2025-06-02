@@ -6,13 +6,14 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\SearchableInterface;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\SolvEventRepository;
 use Olz\Utils\WithUtilsTrait;
 
 #[ORM\Table(name: 'solv_events')]
 #[ORM\Index(name: 'date_index', columns: ['date'])]
 #[ORM\Entity(repositoryClass: SolvEventRepository::class)]
-class SolvEvent implements SearchableInterface {
+class SolvEvent implements SearchableInterface, TestableInterface {
     use WithUtilsTrait;
 
     #[ORM\Id]
@@ -277,12 +278,25 @@ class SolvEvent implements SearchableInterface {
 
     // ---
 
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
+    }
+
     public static function getIdFieldNameForSearch(): string {
         return 'solv_uid';
     }
 
     public function getIdForSearch(): int {
         return $this->getSolvUid();
+    }
+
+    public function getTitleForSearch(): string {
+        $pretty_date = $this->getDate()->format('Y-m-d');
+        return "{$pretty_date}: {$this->getName()}";
+    }
+
+    public static function getCriteriaForFilter(string $key, string $value): Expression {
+        throw new \Exception("No such SolvEvent filter: {$key}");
     }
 
     public static function getCriteriaForQuery(string $query): Expression {
@@ -306,10 +320,5 @@ class SolvEvent implements SearchableInterface {
         return Criteria::expr()->orX(
             Criteria::expr()->contains('name', $query),
         );
-    }
-
-    public function getTitleForSearch(): string {
-        $pretty_date = $this->getDate()->format('Y-m-d');
-        return "{$pretty_date}: {$this->getName()}";
     }
 }

@@ -20,11 +20,19 @@ final class DownloadsTest extends SystemTestCase {
 
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
+        $this->assertSame([
+            'Statuten',
+            'Spesenreglement',
+        ], array_map(
+            fn ($elem) => $elem->getText(),
+            $this->getBrowserElements('.olz-downloads li')
+        ));
 
         $this->click('#create-download-button');
         $this->waitForModal('#edit-download-modal');
         $this->sendKeys('#edit-download-modal #name-input', 'Neues Jahresprogramm');
-        $this->sendKeys('#edit-download-modal #position-input', '0');
+        $this->selectOption('#edit-download-modal #position-field #before-after-input', 'vor');
+        $this->selectOption('#edit-download-modal #position-field .olz-entity-chooser', 'Statuten');
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-download-modal #file-upload input[type=file]', $document_path);
@@ -39,12 +47,17 @@ final class DownloadsTest extends SystemTestCase {
 
         $this->click('#edit-download-modal #submit-button');
         $this->waitUntilGone('#edit-download-modal');
-        $this->screenshot('downloads_new_finished');
+        $browser->get($this->getUrl());
+        $this->assertSame([
+            'Neues Jahresprogramm',
+            'Statuten',
+            'Spesenreglement',
+        ], array_map(
+            fn ($elem) => $elem->getText(),
+            $this->getBrowserElements('.olz-downloads li')
+        ));
 
         $this->resetDb();
-
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]

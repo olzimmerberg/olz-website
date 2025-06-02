@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\SystemTests;
 
 use Facebook\WebDriver\WebDriverBy;
-use Facebook\WebDriver\WebDriverSelect;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -36,10 +35,9 @@ final class NewsGalerieTest extends SystemTestCase {
 
         $this->click('#create-news-button');
         $this->waitForModal('#edit-news-modal');
-        $this->click('#edit-news-modal #authorUserId-authorRoleId-field #dropdownMenuButton');
+        $this->click('#edit-news-modal #authorUserId-authorRoleId-field #dropdown-menu-button');
         $this->click('#edit-news-modal #authorUserId-authorRoleId-field #user-index-0');
-        $format_select = new WebDriverSelect($this->findBrowserElement('#edit-news-modal #format-input'));
-        $format_select->selectByVisibleText('Galerie');
+        $this->selectOption('#edit-news-modal #format-input', 'Galerie');
         $this->sendKeys('#edit-news-modal #title-input', 'Das Fotoshooting');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');

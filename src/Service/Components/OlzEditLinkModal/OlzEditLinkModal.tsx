@@ -3,8 +3,9 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzLinkData} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditLinkModal.scss';
@@ -18,7 +19,7 @@ interface OlzEditLinkForm {
 const resolver: Resolver<OlzEditLinkForm> = async (values) => {
     const errors: FieldErrors<OlzEditLinkForm> = {};
     errors.name = validateNotEmpty(values.position);
-    errors.position = validateInteger(values.position);
+    errors.position = validateNumber(values.position);
     errors.url = validateNotEmpty(values.url);
     return getResolverResult(errors, values);
 };
@@ -48,11 +49,12 @@ interface OlzEditLinkModalProps {
 }
 
 export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactElement => {
-    const {register, handleSubmit, formState: {errors}} = useForm<OlzEditLinkForm>({
+    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditLinkForm>({
         resolver,
         defaultValues: getFormFromApi(props.data),
     });
 
+    const [isPositionLoading, setIsPositionLoading] = React.useState<boolean>(false);
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
 
     const onSubmit: SubmitHandler<OlzEditLinkForm> = async (values) => {
@@ -88,12 +90,13 @@ export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactEleme
     } : undefined;
 
     const dialogTitle = props.id === undefined ? 'Link erstellen' : 'Link bearbeiten';
+    const editModalStatus: OlzEditModalStatus = isPositionLoading ? {id: 'LOADING'} : status;
 
     return (
         <OlzEditModal
             modalId='edit-link-modal'
             dialogTitle={dialogTitle}
-            status={status}
+            status={editModalStatus}
             onSubmit={handleSubmit(onSubmit)}
             onDelete={onDelete}
         >
@@ -107,11 +110,13 @@ export const OlzEditLinkModal = (props: OlzEditLinkModalProps): React.ReactEleme
                 />
             </div>
             <div className='mb-3'>
-                <OlzTextField
+                <OlzPositionField
                     title='Position'
+                    entityType='Link'
                     name='position'
                     errors={errors}
-                    register={register}
+                    control={control}
+                    setIsLoading={setIsPositionLoading}
                 />
             </div>
             <div className='mb-3'>

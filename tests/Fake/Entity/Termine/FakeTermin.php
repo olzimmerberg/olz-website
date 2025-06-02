@@ -8,8 +8,10 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
+use Olz\Tests\Fake\Entity\Common\Date;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
+use Olz\Tests\Fake\Entity\Common\Time;
 
 /**
  * @extends FakeEntity<Termin>
@@ -23,7 +25,7 @@ class FakeTermin extends FakeEntity {
                 FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
                 $entity->setFromTemplate(null);
-                $entity->setStartDate(new \DateTime('2020-03-13'));
+                $entity->setStartDate(new Date('2020-03-13'));
                 $entity->setStartTime(null);
                 $entity->setEndDate(null);
                 $entity->setEndTime(null);
@@ -51,10 +53,10 @@ class FakeTermin extends FakeEntity {
                 FakeOlzEntity::empty($entity);
                 $entity->setId(123);
                 $entity->setFromTemplate(null);
-                $entity->setStartDate(new \DateTime('0000-01-01'));
-                $entity->setStartTime(new \DateTime('00:00:00'));
-                $entity->setEndDate(new \DateTime('0000-01-01'));
-                $entity->setEndTime(new \DateTime('00:00:00'));
+                $entity->setStartDate(new Date('0000-01-01'));
+                $entity->setStartTime(new Time('00:00:00'));
+                $entity->setEndDate(new Date('0000-01-01'));
+                $entity->setEndTime(new Time('00:00:00'));
                 $entity->setTitle("Cannot be empty");
                 $entity->setText("");
                 $entity->clearLabels();
@@ -90,10 +92,10 @@ class FakeTermin extends FakeEntity {
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
                 $entity->setFromTemplate($termin_template);
-                $entity->setStartDate(new \DateTime('2020-03-13'));
-                $entity->setStartTime(new \DateTime('19:30:00'));
-                $entity->setEndDate(new \DateTime('2020-03-16'));
-                $entity->setEndTime(new \DateTime('12:00:00'));
+                $entity->setStartDate(new Date('2020-03-13'));
+                $entity->setStartTime(new Time('19:30:00'));
+                $entity->setEndDate(new Date('2020-03-16'));
+                $entity->setEndTime(new Time('12:00:00'));
                 $entity->setTitle("Fake title");
                 $entity->setText("Fake content");
                 $entity->clearLabels();

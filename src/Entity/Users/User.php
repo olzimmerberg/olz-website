@@ -525,12 +525,28 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
 
     // ---
 
+    public static function getEntityNameForStorage(): string {
+        return 'users';
+    }
+
+    public function getEntityIdForStorage(): string {
+        return "{$this->getId()}";
+    }
+
     public static function getIdFieldNameForSearch(): string {
         return 'id';
     }
 
     public function getIdForSearch(): int {
         return $this->getId() ?? 0;
+    }
+
+    public function getTitleForSearch(): string {
+        return $this->getFullName();
+    }
+
+    public static function getCriteriaForFilter(string $key, string $value): Expression {
+        throw new \Exception("No such User filter: {$key}");
     }
 
     public static function getCriteriaForQuery(string $query): Expression {
@@ -540,17 +556,5 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
             Criteria::expr()->contains('username', $query),
             Criteria::expr()->contains('email', $query),
         );
-    }
-
-    public function getTitleForSearch(): string {
-        return $this->getFullName();
-    }
-
-    public static function getEntityNameForStorage(): string {
-        return 'users';
-    }
-
-    public function getEntityIdForStorage(): string {
-        return "{$this->getId()}";
     }
 }

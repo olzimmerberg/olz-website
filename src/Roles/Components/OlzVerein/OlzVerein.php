@@ -28,7 +28,7 @@ class OlzVerein extends OlzComponent {
         ]);
 
         $db = $this->dbUtils()->getDb();
-        $result = $db->query("SELECT id, name FROM roles WHERE featured_index IS NOT NULL ORDER BY featured_index ASC");
+        $result = $db->query("SELECT id, name FROM roles WHERE featured_position IS NOT NULL ORDER BY featured_position ASC");
         $featured_out = '';
         // @phpstan-ignore-next-line
         while ($row = $result->fetch_assoc()) {

@@ -3,12 +3,13 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\AuthRequestRepository;
 
 #[ORM\Table(name: 'auth_requests')]
 #[ORM\Index(name: 'ip_address_timestamp_index', columns: ['ip_address', 'timestamp'])]
 #[ORM\Entity(repositoryClass: AuthRequestRepository::class)]
-class AuthRequest {
+class AuthRequest implements TestableInterface {
     #[ORM\Column(type: 'string', length: 40, nullable: false)]
     public string $ip_address;
 
@@ -64,5 +65,11 @@ class AuthRequest {
 
     public function setUsername(string $new_username): void {
         $this->username = $new_username;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

@@ -139,7 +139,7 @@ export const OlzAuthenticatedUserRoleField = <
             <button
                 type="button"
                 disabled={props.disabled}
-                id="dropdownMenuButton"
+                id="dropdown-menu-button"
                 className="btn btn-outline-secondary dropdown-toggle"
                 data-bs-toggle="dropdown"
                 aria-haspopup="true"
@@ -147,7 +147,7 @@ export const OlzAuthenticatedUserRoleField = <
             >
                 {buttonLabel}
             </button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div className="dropdown-menu" aria-labelledby="dropdown-menu-button">
                 <h6 className="dropdown-header">Benutzer</h6>
                 {userChoices}
                 <h6 className="dropdown-header">Rolle</h6>

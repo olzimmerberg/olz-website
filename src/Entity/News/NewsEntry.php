@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Repository\News\NewsRepository;
@@ -13,7 +14,7 @@ use Olz\Repository\News\NewsRepository;
 #[ORM\Table(name: 'news')]
 #[ORM\Index(name: 'published_index', columns: ['published_date', 'published_time'])]
 #[ORM\Entity(repositoryClass: NewsRepository::class)]
-class NewsEntry extends OlzEntity implements DataStorageInterface {
+class NewsEntry extends OlzEntity implements DataStorageInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -225,6 +226,10 @@ class NewsEntry extends OlzEntity implements DataStorageInterface {
 
     public function __toString(): string {
         return "NewsEntry (ID: {$this->getId()})";
+    }
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 
     public static function getEntityNameForStorage(): string {

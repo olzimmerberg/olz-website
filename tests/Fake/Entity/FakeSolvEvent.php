@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake\Entity;
 
 use Olz\Entity\SolvEvent;
+use Olz\Tests\Fake\Entity\Common\Date;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 
 /**
@@ -17,7 +18,7 @@ class FakeSolvEvent extends FakeEntity {
             function () {
                 $entity = new SolvEvent();
                 $entity->setSolvUid(12);
-                $entity->setDate(new \DateTime('1970-01-01'));
+                $entity->setDate(new Date('1970-01-01'));
                 $entity->setDuration(-1);
                 $entity->setKind('');
                 $entity->setDayNight('');
@@ -46,7 +47,7 @@ class FakeSolvEvent extends FakeEntity {
             function () {
                 $entity = new SolvEvent();
                 $entity->setSolvUid(123);
-                $entity->setDate(new \DateTime('1970-01-01'));
+                $entity->setDate(new Date('1970-01-01'));
                 $entity->setDuration(0);
                 $entity->setKind('');
                 $entity->setDayNight('');
@@ -60,7 +61,7 @@ class FakeSolvEvent extends FakeEntity {
                 $entity->setLocation('');
                 $entity->setCoordX(0);
                 $entity->setCoordY(0);
-                $entity->setDeadline(new \DateTime('1970-01-01 00:00:00'));
+                $entity->setDeadline(new Date('1970-01-01'));
                 $entity->setEntryportal(0);
                 $entity->setRankLink(null);
                 $entity->setLastModification(new \DateTime('1970-01-01 00:00:00'));
@@ -75,7 +76,7 @@ class FakeSolvEvent extends FakeEntity {
             function () {
                 $entity = new SolvEvent();
                 $entity->setSolvUid(1234);
-                $entity->setDate(new \DateTime('2020-03-13'));
+                $entity->setDate(new Date('2020-03-13'));
                 $entity->setDuration(3);
                 $entity->setKind('foot');
                 $entity->setDayNight('day');
@@ -89,7 +90,7 @@ class FakeSolvEvent extends FakeEntity {
                 $entity->setLocation('Pumpispitz');
                 $entity->setCoordX(684376);
                 $entity->setCoordY(236945);
-                $entity->setDeadline(new \DateTime('2020-03-13 19:30:00'));
+                $entity->setDeadline(new Date('2020-03-13'));
                 $entity->setEntryportal(2);
                 $entity->setRankLink(null);
                 $entity->setLastModification(new \DateTime('2020-01-11 21:43:58'));
@@ -104,7 +105,7 @@ class FakeSolvEvent extends FakeEntity {
             function () {
                 $entity = new SolvEvent();
                 $entity->setSolvUid(1);
-                $entity->setDate(new \DateTime('2020-03-13'));
+                $entity->setDate(new Date('2020-03-13'));
                 $entity->setDuration(1);
                 $entity->setKind('foot');
                 $entity->setDayNight('day');

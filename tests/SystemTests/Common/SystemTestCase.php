@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests\Common;
 
+use Facebook\WebDriver\Exception\UnexpectedTagNameException;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
+use Facebook\WebDriver\WebDriverSelect;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -155,6 +157,37 @@ class SystemTestCase extends KernelTestCase {
         $element->getLocationOnScreenOnceScrolledIntoView();
         $this->waitABit();
         $element->sendKeys($string);
+    }
+
+    protected function selectOption(string $css_selector, string $option): void {
+        try {
+            $this->doSelectOption($css_selector, $option);
+        } catch (\Throwable $th) {
+            $this->waitABit();
+            $this->doSelectOption($css_selector, $option);
+        }
+    }
+
+    protected function doSelectOption(string $css_selector, string $option): void {
+        $element = $this->findBrowserElement($css_selector);
+        $element->getLocationOnScreenOnceScrolledIntoView();
+        $this->waitABit();
+        try {
+            $select = new WebDriverSelect($element);
+            $select->selectByVisibleText($option);
+        } catch (UnexpectedTagNameException $exc) {
+            $browser = $this::$browser;
+            $this->generalUtils()->checkNotNull($browser, "Browser expected");
+            $browser->wait()->until(function () use ($css_selector) {
+                return $this->findBrowserElement("{$css_selector} #dropdown-menu-button")->getText() !== 'Lädt...';
+            });
+            $this->click("{$css_selector} #dropdown-menu-button");
+            $this->sendKeys("{$css_selector} #entity-search-input", $option);
+            $browser->wait()->until(function () use ($css_selector, $option) {
+                return str_starts_with($this->findBrowserElement("{$css_selector} #entity-index-0")->getText(), $option);
+            });
+            $this->click("{$css_selector} #entity-index-0");
+        }
     }
 
     protected function getText(string $css_selector): ?string {

@@ -9,12 +9,13 @@ use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Termine\TerminLocationRepository;
 
 #[ORM\Table(name: 'termin_locations')]
 #[ORM\Index(name: 'name_index', columns: ['name'])]
 #[ORM\Entity(repositoryClass: TerminLocationRepository::class)]
-class TerminLocation extends OlzEntity implements SearchableInterface, DataStorageInterface {
+class TerminLocation extends OlzEntity implements DataStorageInterface, SearchableInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -97,22 +98,8 @@ class TerminLocation extends OlzEntity implements SearchableInterface, DataStora
 
     // ---
 
-    public static function getIdFieldNameForSearch(): string {
-        return 'id';
-    }
-
-    public function getIdForSearch(): int {
-        return $this->getId() ?? 0;
-    }
-
-    public static function getCriteriaForQuery(string $query): Expression {
-        return Criteria::expr()->orX(
-            Criteria::expr()->contains('name', $query),
-        );
-    }
-
-    public function getTitleForSearch(): string {
-        return $this->getName();
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 
     public static function getEntityNameForStorage(): string {
@@ -121,5 +108,27 @@ class TerminLocation extends OlzEntity implements SearchableInterface, DataStora
 
     public function getEntityIdForStorage(): string {
         return "{$this->getId()}";
+    }
+
+    public static function getIdFieldNameForSearch(): string {
+        return 'id';
+    }
+
+    public function getIdForSearch(): int {
+        return $this->getId() ?? 0;
+    }
+
+    public function getTitleForSearch(): string {
+        return $this->getName();
+    }
+
+    public static function getCriteriaForFilter(string $key, string $value): Expression {
+        throw new \Exception("No such TerminLocation filter: {$key}");
+    }
+
+    public static function getCriteriaForQuery(string $query): Expression {
+        return Criteria::expr()->orX(
+            Criteria::expr()->contains('name', $query),
+        );
     }
 }

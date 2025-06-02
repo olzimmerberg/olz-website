@@ -21,6 +21,20 @@ final class TerminLabelTest extends SystemTestCase {
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
 
+        $this->assertSame([
+            'Alle Termine',
+            'Jahresprogramm',
+            'Weekends',
+            'Trainings',
+            'OLZ-Trophy',
+            'Wettkämpfe',
+            'Vereinsanlässe',
+            'Meldeschlüsse',
+        ], array_map(
+            fn ($elem) => $elem->getText(),
+            $this->getBrowserElements('.type-filter')
+        ));
+
         $this->click('#edit-termin-label-button');
         $this->waitForModal('#edit-termin-label-modal');
         $this->sendKeys('#edit-termin-label-modal #ident-input', '_updated');
@@ -37,7 +51,8 @@ final class TerminLabelTest extends SystemTestCase {
             return count($icon_uploaded) == 1;
         });
 
-        $this->sendKeys('#edit-termin-label-modal #position-input', '9');
+        $this->selectOption('#edit-termin-label-modal #position-field #before-after-input', 'vor');
+        $this->selectOption('#edit-termin-label-modal #position-field .olz-entity-chooser', 'Vereinsanlässe');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
@@ -64,6 +79,21 @@ final class TerminLabelTest extends SystemTestCase {
 
         $this->click('#edit-termin-label-modal #submit-button');
         $this->waitUntilGone('#edit-termin-label-modal');
+
+        $browser->get($this->getUrl());
+        $this->assertSame([
+            'Alle Termine',
+            'Jahresprogramm',
+            'Weekends',
+            'OLZ-Trophy',
+            'Wettkämpfe',
+            'Trainings UPDATED',
+            'Vereinsanlässe',
+            'Meldeschlüsse',
+        ], array_map(
+            fn ($elem) => $elem->getText(),
+            $this->getBrowserElements('.type-filter')
+        ));
 
         $this->assertSame(308, $this->getHeaders($this->getUrl())['http_code']);
         $this->assertSame(200, $this->getHeaders($this->getUpdatedUrl())['http_code']);

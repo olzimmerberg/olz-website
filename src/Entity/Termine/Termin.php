@@ -9,12 +9,13 @@ use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Termine\TerminRepository;
 
 #[ORM\Table(name: 'termine')]
 #[ORM\Index(name: 'start_date_on_off_index', columns: ['start_date', 'on_off'])]
 #[ORM\Entity(repositoryClass: TerminRepository::class)]
-class Termin extends OlzEntity implements DataStorageInterface {
+class Termin extends OlzEntity implements DataStorageInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -345,6 +346,10 @@ class Termin extends OlzEntity implements DataStorageInterface {
     }
 
     // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
+    }
 
     public static function getEntityNameForStorage(): string {
         return 'termine';

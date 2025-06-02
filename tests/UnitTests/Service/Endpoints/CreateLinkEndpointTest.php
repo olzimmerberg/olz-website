@@ -80,7 +80,7 @@ final class CreateLinkEndpointTest extends UnitTestCase {
         $link = $entity_manager->persisted[0];
         $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $link->getId());
         $this->assertSame('Test Link', $link->getName());
-        $this->assertSame(3, $link->getPosition());
+        $this->assertSame(3.0, $link->getPosition());
         $this->assertSame('https://ol-z.ch', $link->getUrl());
 
         $this->assertSame([

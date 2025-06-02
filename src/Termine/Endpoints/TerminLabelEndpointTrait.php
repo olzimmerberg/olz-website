@@ -13,7 +13,7 @@ use PhpTypeScriptApi\HttpError;
  *   name: non-empty-string,
  *   details: string,
  *   icon?: ?non-empty-string,
- *   position?: ?int,
+ *   position?: ?float,
  *   imageIds: array<non-empty-string>,
  *   fileIds: array<non-empty-string>,
  * }

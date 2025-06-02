@@ -136,7 +136,7 @@ final class UpdateQuestionCategoryEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $entity = $entity_manager->persisted[0];
         $this->assertSame($id, $entity->getId());
-        $this->assertSame(2, $entity->getPosition());
+        $this->assertSame(2.0, $entity->getPosition());
         $this->assertSame('Test Answer', $entity->getName());
         $this->assertSame(1, $entity->getOnOff());
 

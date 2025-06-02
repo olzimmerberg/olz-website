@@ -1,0 +1,24 @@
+.olz-position-field {
+    display: flex;
+
+    #before-after-input {
+        flex: 120px 0 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+        &.olz-is-invalid {
+            color: var(--bs-form-invalid-border-color) !important;
+            border-color: var(--bs-form-invalid-border-color) !important;
+        }
+    }
+
+    .olz-entity-chooser {
+        flex: 100px 1 1;
+
+        .form-select {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin-left: -1px;
+        }
+    }
+}

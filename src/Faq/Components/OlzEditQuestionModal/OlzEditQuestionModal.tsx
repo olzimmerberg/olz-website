@@ -3,11 +3,12 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzQuestionData} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditQuestionModal.scss';
@@ -29,7 +30,7 @@ const resolver: Resolver<OlzEditQuestionForm> = async (values) => {
     if (values.categoryId === null) {
         errors.categoryId = {type: 'required', message: 'Darf nicht leer sein.'};
     }
-    errors.positionWithinCategory = validateInteger(values.positionWithinCategory);
+    errors.positionWithinCategory = validateNumber(values.positionWithinCategory);
     errors.answer = validateNotEmpty(values.answer);
     return getResolverResult(errors, values);
 };
@@ -67,12 +68,13 @@ interface OlzEditQuestionModalProps {
 }
 
 export const OlzEditQuestionModal = (props: OlzEditQuestionModalProps): React.ReactElement => {
-    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditQuestionForm>({
+    const {register, handleSubmit, formState: {errors}, control, watch} = useForm<OlzEditQuestionForm>({
         resolver,
         defaultValues: getFormFromApi(props.data),
     });
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
+    const [isPositionLoading, setIsPositionLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [isCategoriesLoading, setIsCategoriesLoading] = React.useState<boolean>(false);
@@ -113,7 +115,8 @@ export const OlzEditQuestionModal = (props: OlzEditQuestionModalProps): React.Re
     const dialogTitle = props.id === undefined
         ? 'Frage erstellen'
         : 'Frage bearbeiten';
-    const isLoading = isImagesLoading || isFilesLoading || isCategoriesLoading;
+    const categoryId = watch('categoryId');
+    const isLoading = isPositionLoading || isImagesLoading || isFilesLoading || isCategoriesLoading;
     const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
@@ -136,11 +139,14 @@ export const OlzEditQuestionModal = (props: OlzEditQuestionModalProps): React.Re
                     />
                 </div>
                 <div className='col mb-3'>
-                    <OlzTextField
+                    <OlzPositionField
                         title='Position in der Fragen-Kategorie'
+                        entityType='Question'
+                        filter={{questionCategoryId: `${categoryId}`}}
                         name='positionWithinCategory'
                         errors={errors}
-                        register={register}
+                        control={control}
+                        setIsLoading={setIsPositionLoading}
                     />
                 </div>
             </div>

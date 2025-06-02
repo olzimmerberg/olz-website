@@ -45,7 +45,6 @@ final class TermineTest extends SystemTestCase {
 
         $this->click('#create-termin-button');
         $this->waitForModal('#edit-termin-modal');
-        $this->waitABit(); // Wait for TerminLabels
         $this->sendKeys('#edit-termin-modal #startTime-input', '14:00');
         $this->sendKeys('#edit-termin-modal #endDate-input', '2020-08-15');
         $this->sendKeys('#edit-termin-modal #endTime-input', '18:00');
@@ -101,7 +100,7 @@ final class TermineTest extends SystemTestCase {
         $this->click('#create-termin-button');
         $this->waitForModal('#edit-termin-modal');
         $this->waitABit(); // Wait for TerminLabels
-        $this->click('#edit-termin-modal .template-chooser #dropdownMenuButton');
+        $this->click('#edit-termin-modal .template-chooser #dropdown-menu-button');
         $this->click('#edit-termin-modal .template-chooser #entity-index-1');
 
         // Wait for data to be populated
@@ -148,7 +147,7 @@ final class TermineTest extends SystemTestCase {
         $this->click('#create-termin-button');
         $this->waitForModal('#edit-termin-modal');
         $this->waitABit(); // Wait for TerminLabels
-        $this->click('#edit-termin-modal #solvId-field #dropdownMenuButton');
+        $this->click('#edit-termin-modal #solvId-field #dropdown-menu-button');
         $this->click('#edit-termin-modal #solvId-field #entity-index-1');
         $this->click('#edit-termin-modal #types-programm-input');
         $this->click('#edit-termin-modal #types-ol-input');

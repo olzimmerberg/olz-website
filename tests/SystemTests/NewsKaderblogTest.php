@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\SystemTests;
 
 use Facebook\WebDriver\WebDriverBy;
-use Facebook\WebDriver\WebDriverSelect;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -36,10 +35,9 @@ final class NewsKaderblogTest extends SystemTestCase {
 
         $this->click('#create-news-button');
         $this->waitForModal('#edit-news-modal');
-        $this->click('#edit-news-modal #authorUserId-authorRoleId-field #dropdownMenuButton');
+        $this->click('#edit-news-modal #authorUserId-authorRoleId-field #dropdown-menu-button');
         $this->click('#edit-news-modal #authorUserId-authorRoleId-field #role-index-0');
-        $format_select = new WebDriverSelect($this->findBrowserElement('#edit-news-modal #format-input'));
-        $format_select->selectByVisibleText('Kaderblog');
+        $this->selectOption('#edit-news-modal #format-input', 'Kaderblog');
         $this->sendKeys('#edit-news-modal #title-input', 'Das Training');
         $this->sendKeys('#edit-news-modal #content-input', "<BILD1>Detailierte Schilderung des Trainings.\n<DATEI1 text='Artikel als PDF'>");
 

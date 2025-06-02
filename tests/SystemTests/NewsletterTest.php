@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\WebDriverSelect;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -31,8 +30,7 @@ final class NewsletterTest extends SystemTestCase {
         $this->click('#telegram-notifications-form input[name="monthly-preview"]');
         $this->click('#telegram-notifications-form input[name="weekly-preview"]');
         $this->click('#telegram-notifications-form input[name="deadline-warning"]');
-        $telegram_deadline_warning_days_elem = new WebDriverSelect($this->findBrowserElement('#telegram-notifications-form select[name="deadline-warning-days"]'));
-        $telegram_deadline_warning_days_elem->selectByVisibleText('2');
+        $this->selectOption('#telegram-notifications-form select[name="deadline-warning-days"]', '2');
         $this->click('#telegram-notifications-form input[name="daily-summary"]');
         $this->click('#telegram-notifications-form input[name="daily-summary-aktuell"]');
         $this->click('#telegram-notifications-form input[name="daily-summary-blog"]');
@@ -45,8 +43,7 @@ final class NewsletterTest extends SystemTestCase {
         $this->click('#email-notifications-form input[name="monthly-preview"]');
         $this->click('#email-notifications-form input[name="weekly-preview"]');
         $this->click('#email-notifications-form input[name="deadline-warning"]');
-        $email_deadline_warning_days_elem = new WebDriverSelect($this->findBrowserElement('#email-notifications-form select[name="deadline-warning-days"]'));
-        $email_deadline_warning_days_elem->selectByVisibleText('2');
+        $this->selectOption('#email-notifications-form select[name="deadline-warning-days"]', '2');
         $this->click('#email-notifications-form input[name="daily-summary"]');
         $this->click('#email-notifications-form input[name="daily-summary-aktuell"]');
         $this->click('#email-notifications-form input[name="daily-summary-blog"]');

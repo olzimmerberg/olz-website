@@ -19,6 +19,7 @@ class MembersUtils {
     /** @return array<array<string, string>> */
     public function parseCsv(string $csv_content): array {
         $utf8_csv_content = mb_convert_encoding($csv_content, 'UTF-8', $this->encoding);
+        $this->generalUtils()->checkNotFalse($utf8_csv_content, 'Could not convert to UTF-8');
         $data = str_getcsv($utf8_csv_content, "\n", "\"", "\\");
         $header = str_getcsv($data[0] ?? '', ";", "\"", "\\");
         $num_columns = count($header);

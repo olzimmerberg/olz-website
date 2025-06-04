@@ -50,7 +50,7 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
 
         const [err, response] = await olzApi.getResult('resetPassword', {...data, captchaToken});
         if (response?.status === 'DENIED') {
-            setStatus({id: 'SUBMIT_FAILED', message: 'Die Captcha-Aufgabe wurde nicht korrekt erledigt.'});
+            setStatus({id: 'SUBMIT_FAILED', message: 'Die Bot-Prüfung wurde nicht korrekt erledigt.'});
             return;
         } else if (response?.status !== 'OK') {
             setStatus({id: 'SUBMIT_FAILED', message: `Fehler: ${err?.message} (Antwort: ${response?.status}).`});

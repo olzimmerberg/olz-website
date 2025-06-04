@@ -1,6 +1,13 @@
 .olz-captcha {
     text-align: center;
 
+    .captcha-instructions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+    }
+
     #captcha-dev {
         opacity: 0.01;
     }

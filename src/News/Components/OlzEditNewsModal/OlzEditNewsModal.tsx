@@ -251,7 +251,10 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
         const [err, response] = await (props.id
             ? olzApi.getResult('updateNews', {id: props.id, meta, data})
             : olzApi.getResult('createNews', {meta, data, custom: {captchaToken}}));
-        if (err) {
+        if (response?.custom?.status === 'DENIED') {
+            setStatus({id: 'SUBMIT_FAILED', message: 'Die Bot-Prüfung wurde nicht korrekt erledigt.'});
+            return;
+        } else if (err || response?.custom?.status === 'ERROR') {
             setStatus({id: 'SUBMIT_FAILED', message: `Anfrage fehlgeschlagen: ${JSON.stringify(err || response)}`});
             return;
         }

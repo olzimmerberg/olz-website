@@ -4,6 +4,8 @@ import {OlzCaptchaConfig} from '../../../Api/client/generated_olz_api_types';
 
 import './OlzCaptcha.scss';
 
+const CAPTCHA_EXPIRATION_MS = 60 * 1000;
+
 const WID = 400;
 const HEI = 200;
 const RES = 2;
@@ -46,19 +48,27 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
     const knobY = inpY + inpHei / 2;
 
     React.useEffect(() => {
-        const getConfig = async () => {
-            const response = await olzApi.call('startCaptcha', {});
-            setConfig(response.config);
+        if (!config) {
+            return () => {};
+        }
+        const timeout = window.setTimeout(() => {
+            setConfig(null);
+            setCurrentRatio(0.0);
+            setIsDragging(false);
+            setIsFinished(false);
+            setLog([]);
+        }, CAPTCHA_EXPIRATION_MS);
+        return () => {
+            window.clearTimeout(timeout);
         };
-        getConfig();
-    }, []);
+    }, [config]);
 
     React.useEffect(() => {
         const ctx = canvas.current?.getContext('2d');
+        ctx?.clearRect(0, 0, wid, hei);
         if (!ctx || rand.length !== 3) {
             return;
         }
-        ctx.clearRect(0, 0, wid, hei);
 
         ctx.beginPath();
         ctx.moveTo(inpX + 12 * RES, knobY - 2 * RES);
@@ -158,8 +168,28 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
 
     return (
         <div className='olz-captcha'>
-            <div>
-                <b>Bot-Prüfung:</b> Bitte den Regler auf {targetValue} stellen
+            <div className='captcha-instructions'>
+
+                <b>Bot-Prüfung:</b>&nbsp;
+                {config
+                    ? `Bitte den Regler auf ${targetValue} stellen`
+                    : (
+                        <button
+                            type='button'
+                            className='btn btn-primary btn-sm'
+                            id='start-captcha-button'
+                            onClick={() => {
+                                const getConfig = async () => {
+                                    const response = await olzApi.call('startCaptcha', {});
+                                    setConfig(response.config);
+                                };
+                                getConfig();
+                            }}
+                        >
+                            starten
+                        </button>
+                    )
+                }
                 <button
                     type='button'
                     id='captcha-dev'

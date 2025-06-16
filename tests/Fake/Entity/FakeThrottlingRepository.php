@@ -13,19 +13,20 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 class FakeThrottlingRepository extends FakeOlzRepository {
     public string $olzEntityClass = Throttling::class;
 
-    public ?string $expected_event_name = null;
-    public ?string $last_occurrence = '2020-03-12 19:30:00';
+    /** @var array<string, false|string> */
+    public array $last_occurrences = [];
     /** @var array<array{0: string, 1: \DateTime|string}> */
     public array $recorded_occurrences = [];
 
     public function getLastOccurrenceOf(string $event_name): ?\DateTime {
-        if ($event_name == $this->expected_event_name) {
-            if (!$this->last_occurrence) {
-                return null;
-            }
-            return new \DateTime($this->last_occurrence);
+        $last_occurrence = $this->last_occurrences[$event_name] ?? null;
+        if ($last_occurrence === null) {
+            throw new \Exception("Fake throttling not set up for {$event_name}");
         }
-        throw new \Exception("this should never happen");
+        if ($last_occurrence === false) {
+            return null;
+        }
+        return new \DateTime($last_occurrence);
     }
 
     public function recordOccurrenceOf(string $event_name, \DateTime|string $datetime): void {

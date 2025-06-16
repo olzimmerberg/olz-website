@@ -32,11 +32,58 @@ class OnContinuouslyCommand extends OlzCommand {
             $output,
         );
 
-        $this->daily('daily_notifications', '16:27:00', fn () => $this->symfonyUtils()->callCommand(
-            'olz:send-daily-notifications',
-            new ArrayInput([]),
-            $output,
-        ));
+        $this->daily('01:00:00', 'clean-temp-directory', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:clean-temp-directory',
+                new ArrayInput([]),
+                $output,
+            );
+        });
+        $this->daily('01:05:00', 'clean-temp-database', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:clean-temp-database',
+                new ArrayInput([]),
+                $output,
+            );
+        });
+        $this->daily('01:10:00', 'clean-logs', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:clean-logs',
+                new ArrayInput([]),
+                $output,
+            );
+        });
+        $this->daily('01:15:00', 'send-telegram-configuration', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:send-telegram-configuration',
+                new ArrayInput([]),
+                $output,
+            );
+        });
+        $this->daily('01:20:00', 'sync-solv', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:sync-solv',
+                new ArrayInput([]),
+                $output,
+            );
+        });
+
+        // TODO: Remove this again!
+        $this->daily('01:25:00', 'send-test-email', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:send-test-email',
+                new ArrayInput([]),
+                $output,
+            );
+        });
+
+        $this->daily('16:27:00', 'send-daily-notifications', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:send-daily-notifications',
+                new ArrayInput([]),
+                $output,
+            );
+        });
 
         $this->logAndOutput("Stopping workers...", level: 'debug');
         $this->symfonyUtils()->callCommand(
@@ -59,7 +106,7 @@ class OnContinuouslyCommand extends OlzCommand {
     }
 
     /** @param callable(): void $fn */
-    public function daily(string $ident, string $time, callable $fn): void {
+    public function daily(string $time, string $ident, callable $fn): void {
         $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
         $last_occurrence = $throttling_repo->getLastOccurrenceOf($ident);
         $iso_now = $this->dateUtils()->getIsoNow();
@@ -75,7 +122,7 @@ class OnContinuouslyCommand extends OlzCommand {
         $should_execute_now = !$is_too_soon && $is_right_time_of_day;
         if ($should_execute_now) {
             try {
-                $this->logAndOutput("Executing daily ({$time}) {$ident} at {$iso_now}...", level: 'debug');
+                $this->logAndOutput("Executing daily ({$time}) {$ident}...", level: 'debug');
                 $fn();
                 $throttling_repo->recordOccurrenceOf($ident, $this->dateUtils()->getIsoNow());
             } catch (\Throwable $th) {

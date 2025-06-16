@@ -10,7 +10,6 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 class OlzApi extends Api {
     public function __construct(
-        Endpoints\OnDailyEndpoint $onDailyEndpoint,
         Endpoints\OnContinuouslyEndpoint $onContinuouslyEndpoint,
         Endpoints\LoginEndpoint $loginEndpoint,
         Endpoints\ResetPasswordEndpoint $resetPasswordEndpoint,
@@ -104,7 +103,6 @@ class OlzApi extends Api {
         \Olz\Users\Endpoints\GetUserInfoEndpoint $getUserInfoEndpoint,
         \Olz\Captcha\Endpoints\StartCaptchaEndpoint $startCaptchaEndpoint,
     ) {
-        $this->registerEndpoint('onDaily', $onDailyEndpoint);
         $this->registerEndpoint('onContinuously', $onContinuouslyEndpoint);
         $this->registerEndpoint('login', $loginEndpoint);
         $this->registerEndpoint('resetPassword', $resetPasswordEndpoint);
@@ -258,7 +256,6 @@ class OlzApi extends Api {
 
     public static function getShallowInstance(): self {
         return new self(
-            new Endpoints\OnDailyEndpoint(),
             new Endpoints\OnContinuouslyEndpoint(),
             new Endpoints\LoginEndpoint(),
             new Endpoints\ResetPasswordEndpoint(),

@@ -25,7 +25,8 @@ class TestOnlyBaseLogsChannel extends BaseLogsChannel {
     ): LineLocation {
         $realpath = realpath(__DIR__.'/../../../tmp/private/logs/fake.log');
         assert($realpath);
-        $log_file = new PlainLogFile($realpath, $realpath);
+        $index_path = "{$realpath}.index.json.gz";
+        $log_file = new PlainLogFile($realpath, $index_path);
         return new LineLocation($log_file, 1, 0);
     }
 
@@ -35,7 +36,8 @@ class TestOnlyBaseLogsChannel extends BaseLogsChannel {
         }
         $realpath = realpath(__DIR__.'/../../../tmp/private/logs/fake-before.log');
         assert($realpath);
-        return new PlainLogFile($realpath, $realpath);
+        $index_path = "{$realpath}.index.json.gz";
+        return new PlainLogFile($realpath, $index_path);
     }
 
     protected function getLogFileAfter(LogFileInterface $log_file): LogFileInterface {
@@ -44,7 +46,8 @@ class TestOnlyBaseLogsChannel extends BaseLogsChannel {
         }
         $realpath = realpath(__DIR__.'/../../../tmp/private/logs/fake-after.log');
         assert($realpath);
-        return new PlainLogFile($realpath, $realpath);
+        $index_path = "{$realpath}.index.json.gz";
+        return new PlainLogFile($realpath, $index_path);
     }
 }
 

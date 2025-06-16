@@ -26,11 +26,12 @@ class AccessSslLogsChannel extends LogrotateLogsChannel {
         if ($index === 0) {
             $file_path = "{$syslog_path}{$log_name}.processed";
         }
+        $index_path = "{$file_path}.index.json.gz";
         if (is_file($file_path)) {
-            return new PlainLogFile($file_path, $file_path);
+            return new PlainLogFile($file_path, $index_path);
         }
         if (is_file("{$file_path}.gz")) {
-            return new HybridLogFile("{$file_path}.gz", $file_path, $file_path);
+            return new HybridLogFile("{$file_path}.gz", $file_path, $index_path);
         }
         throw new \Exception("No such file: {$file_path}");
     }

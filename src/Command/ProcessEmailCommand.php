@@ -532,6 +532,9 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function getAddress(\Webklex\PHPIMAP\Address $item): Address {
+        if (preg_match('/undisclosed\W*recipients/', $item->mail)) {
+            return new Address($this->envUtils()->getSmtpFrom(), 'Undisclosed Recipients');
+        }
         if ($item->personal) {
             return new Address($item->mail, $item->personal);
         }
@@ -543,7 +546,12 @@ class ProcessEmailCommand extends OlzCommand {
         $from = $mail->getFrom()->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
-        if ("{$old_address}" === "{$smtp_from}" || "{$old_address}" === "{$from_address}" || "{$new_address}" === "{$smtp_from}" || "{$new_address}" === "{$from_address}") {
+        if (
+            "{$old_address}" === "{$smtp_from}"
+            || "{$old_address}" === "{$from_address}"
+            || "{$new_address}" === "{$smtp_from}"
+            || "{$new_address}" === "{$from_address}"
+        ) {
             $this->log()->notice("sendRedirectEmail: Avoiding email loop for redirect {$old_address} => {$new_address}");
             return;
         }

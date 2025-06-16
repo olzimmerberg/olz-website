@@ -37,6 +37,7 @@ final class OnDailyCommandTest extends UnitTestCase {
         $this->assertSame([
             'olz:clean-temp-directory ',
             'olz:clean-temp-database ',
+            'olz:clean-logs ',
             'olz:send-telegram-configuration ',
             'olz:sync-solv ',
             'olz:send-test-email ',

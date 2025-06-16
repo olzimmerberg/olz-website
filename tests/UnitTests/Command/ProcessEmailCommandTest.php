@@ -265,7 +265,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'no-such-username@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('no-such-username@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -326,7 +326,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'no-permission@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('no-permission@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -421,7 +421,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'DEBUG Sending email to  (someone@gmail.com)',
+            'DEBUG Sending email to "Undisclosed Recipients" <from@from-domain.com> (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -433,7 +433,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: "Undisclosed Recipients" <from@from-domain.com>
                 Cc: 
                 Bcc: 
                 Subject: Test subject
@@ -507,7 +507,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('someone@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -538,7 +538,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'DEBUG Sending email to  (someone@gmail.com)',
+            'DEBUG Sending email to someone@staging.olzimmerberg.ch (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -550,7 +550,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: someone@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
                 Subject: Test subject
@@ -583,7 +583,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'empty-email@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('empty-email@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -622,7 +622,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone-old@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('someone-old@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -655,7 +655,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'DEBUG Sending email to "From Name" <from@from-domain.com> ()',
             'INFO Redirect E-Mail sent to from@from-domain.com: someone-old@staging.olzimmerberg.ch -> someone@staging.olzimmerberg.ch',
-            'DEBUG Sending email to  (someone-old@gmail.com)',
+            'DEBUG Sending email to someone-old@staging.olzimmerberg.ch (someone-old@gmail.com)',
             'INFO Email forwarded from someone-old@staging.olzimmerberg.ch to someone-old@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -685,7 +685,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: someone-old@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
                 Subject: Test subject
@@ -718,7 +718,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'no-role-permission@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('no-role-permission@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -781,7 +781,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'somerole@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('somerole@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -813,9 +813,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'DEBUG Sending email to  (admin-user@staging.olzimmerberg.ch)',
+            'DEBUG Sending email to somerole@staging.olzimmerberg.ch (admin-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
-            'DEBUG Sending email to  (vorstand-user@staging.olzimmerberg.ch)',
+            'DEBUG Sending email to somerole@staging.olzimmerberg.ch (vorstand-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -828,7 +828,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
                 Subject: Test subject
@@ -841,7 +841,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
                 Subject: Test subject
@@ -878,7 +878,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'somerole-old@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('somerole-old@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -912,9 +912,9 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'DEBUG Sending email to "From Name" <from@from-domain.com> ()',
             'INFO Redirect E-Mail sent to from@from-domain.com: somerole-old@staging.olzimmerberg.ch -> somerole@staging.olzimmerberg.ch',
-            'DEBUG Sending email to  (admin-user@staging.olzimmerberg.ch)',
+            'DEBUG Sending email to somerole-old@staging.olzimmerberg.ch (admin-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
-            'DEBUG Sending email to  (vorstand-user@staging.olzimmerberg.ch)',
+            'DEBUG Sending email to somerole-old@staging.olzimmerberg.ch (vorstand-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole-old@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -945,7 +945,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: somerole-old@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
                 Subject: Test subject
@@ -958,7 +958,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: somerole-old@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
                 Subject: Test subject
@@ -996,7 +996,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('someone@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -1020,7 +1020,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'DEBUG Sending email to  (someone@gmail.com)',
+            'DEBUG Sending email to someone@staging.olzimmerberg.ch (someone@gmail.com)',
             'CRITICAL Error forwarding email from someone@staging.olzimmerberg.ch to someone@gmail.com: mocked-error',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -1273,6 +1273,86 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $envelopes));
     }
 
+    public function testProcessEmailCommandToUndisclosedRecipients(): void {
+        $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
+        $throttling_repo->expected_event_name = 'email_cleanup';
+        $throttling_repo->last_occurrence = '2020-03-13 19:30:00';
+        $mailer = $this->createMock(MailerInterface::class);
+        WithUtilsCache::get('emailUtils')->setMailer($mailer);
+        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
+        $mail = new FakeProcessEmailCommandMail(
+            12,
+            'someone@staging.olzimmerberg.ch',
+            new Attribute('to', []),
+            new Attribute('cc', []),
+            new Attribute('bcc', []),
+            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
+            new Attribute('subject', 'Test subject'),
+            'Test html',
+            'Test text',
+        );
+        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+        $emails = [];
+        $envelopes = [];
+        $mailer->expects($this->exactly(1))->method('send')->with(
+            $this->callback(function (Email $email) use (&$emails) {
+                $emails = [...$emails, $email];
+                return true;
+            }),
+            $this->callback(function (Envelope $envelope) use (&$envelopes) {
+                $envelopes = [...$envelopes, $envelope];
+                return true;
+            }),
+        );
+
+        $job = new ProcessEmailCommand();
+        $job->run($input, $output);
+
+        $this->assertSame([
+            'INFO Running command Olz\Command\ProcessEmailCommand...',
+            'WARNING getMails soft error:',
+            'WARNING getMails soft error:',
+            'DEBUG Sending email to "Undisclosed Recipients" <from@from-domain.com> (someone@gmail.com)',
+            'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
+            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
+        ], $this->getLogs());
+        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
+        $this->assertSame('INBOX.Processed', $mail->moved_to);
+        $this->assertTrue($mail->is_body_fetched);
+        $this->assertSame(
+            ['+flagged', '-flagged'],
+            $mail->flag_actions,
+        );
+
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+                From: "From Name" <from@from-domain.com>
+                Reply-To: "From Name" <from@from-domain.com>
+                To: "Undisclosed Recipients" <from@from-domain.com>
+                Cc: 
+                Bcc: 
+                Subject: Test subject
+
+                Test text
+
+                Test html
+
+                ZZZZZZZZZZ,
+        ], array_map(function ($email) {
+            return $this->emailUtils()->getComparableEmail($email);
+        }, $emails));
+        $this->assertSame([
+            <<<'ZZZZZZZZZZ'
+                Sender: "From Name" <from@from-domain.com>
+                Recipients: someone@gmail.com
+                ZZZZZZZZZZ,
+        ], array_map(function ($envelope) {
+            return $this->emailUtils()->getComparableEnvelope($envelope);
+        }, $envelopes));
+    }
+
     public function testProcessEmailCommandMultipleEmails(): void {
         $throttling_repo = WithUtilsCache::get('entityManager')->repositories[Throttling::class];
         $throttling_repo->expected_event_name = 'email_cleanup';
@@ -1284,7 +1364,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail1 = new FakeProcessEmailCommandMail(
             11,
             'someone@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('someone@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -1295,7 +1375,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail2 = new FakeProcessEmailCommandMail(
             12,
             'somerole@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('somerole@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -1327,11 +1407,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'DEBUG Sending email to  (someone@gmail.com)',
+            'DEBUG Sending email to someone@staging.olzimmerberg.ch (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
-            'DEBUG Sending email to  (admin-user@staging.olzimmerberg.ch)',
+            'DEBUG Sending email to somerole@staging.olzimmerberg.ch (admin-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to admin-user@staging.olzimmerberg.ch',
-            'DEBUG Sending email to  (vorstand-user@staging.olzimmerberg.ch)',
+            'DEBUG Sending email to somerole@staging.olzimmerberg.ch (vorstand-user@staging.olzimmerberg.ch)',
             'INFO Email forwarded from somerole@staging.olzimmerberg.ch to vorstand-user@staging.olzimmerberg.ch',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -1347,7 +1427,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: someone@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
                 Subject: Test subject 1
@@ -1360,7 +1440,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
                 Subject: Test subject 2
@@ -1373,7 +1453,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
                 Subject: Test subject 2
@@ -1414,7 +1494,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('someone@gmail.com', 'To Name')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -1453,7 +1533,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'INFO Saving attachment Attachment1.pdf to AAAAAAAAAAAAAAAAAAAAAAAA.pdf...',
             'INFO Saving attachment Attachment2.docx to AAAAAAAAAAAAAAAAAAAAAAAA.docx...',
-            'DEBUG Sending email to  (someone@gmail.com)',
+            'DEBUG Sending email to "To Name" <someone@gmail.com> (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -1465,7 +1545,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: 
+                To: "To Name" <someone@gmail.com>
                 Cc: 
                 Bcc: 
                 Subject: Test subject
@@ -1499,7 +1579,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('someone@gmail.com', 'To Name')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
@@ -1546,7 +1626,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'fake@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('fake@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('MAILER-DAEMON@219.hosttech.eu', 'Mail Delivery System')),
@@ -1593,7 +1673,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             'from@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('from@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@staging.olzimmerberg.ch', 'From Name')),
@@ -1704,7 +1784,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $mail = new FakeProcessEmailCommandMail(
             12,
             's.p.a.m@staging.olzimmerberg.ch',
-            new Attribute('to', []),
+            new Attribute('to', [getAddress('s.p.a.m@staging.olzimmerberg.ch')]),
             new Attribute('cc', []),
             new Attribute('bcc', []),
             new Attribute('from', getAddress('from@from-domain.com', 'From Name')),

@@ -432,6 +432,9 @@ class ProcessEmailCommand extends OlzCommand {
             $to = $this->getAddresses($mail->getTo());
             $cc = $this->getAddresses($mail->getCc());
             $bcc = $this->getAddresses($mail->getBcc());
+            if (count($to) + count($cc) + count($bcc) === 0) { // E-Mail to undisclosed recipients
+                $to = [new Address($from_address, 'Undisclosed Recipients')];
+            }
             $message_id = $mail->getMessageId()->first();
             $subject = $mail->getSubject()->first();
             $mail->parseBody();

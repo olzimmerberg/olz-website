@@ -36,11 +36,6 @@ final class MessageQueueTest extends SystemTestCase {
         $this->assertGreaterThan(new \DateTime('5 minutes 10 seconds ago'), $last_on_continuously);
         $this->assertLessThanOrEqual(new \DateTime('now'), $last_on_continuously);
 
-        $last_on_daily = $this->getThrottlingDateTime($result, 'on_daily');
-        $this->assertNotNull($last_on_daily, $result);
-        $this->assertGreaterThan(new \DateTime('1 day 2 hours ago'), $last_on_daily);
-        $this->assertLessThanOrEqual(new \DateTime('now'), $last_on_daily);
-
         sleep(3); // give some time for the queue to process the message
         $result = $this->runCommand('olz:test', null);
 

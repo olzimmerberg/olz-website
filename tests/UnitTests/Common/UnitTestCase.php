@@ -8,6 +8,7 @@ use Monolog\LogRecord;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\Fake\FakeCaptchaUtils;
+use Olz\Tests\Fake\FakeDateUtils;
 use Olz\Tests\Fake\FakeDbUtils;
 use Olz\Tests\Fake\FakeDevDataUtils;
 use Olz\Tests\Fake\FakeEmailUtils;
@@ -23,7 +24,6 @@ use Olz\Tests\Fake\FakeSymfonyUtils;
 use Olz\Tests\Fake\FakeTelegramUtils;
 use Olz\Tests\Fake\FakeTermineUtils;
 use Olz\Tests\Fake\FakeUploadUtils;
-use Olz\Utils\DateUtils;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsCache;
 use Olz\Utils\WithUtilsTrait;
@@ -77,7 +77,7 @@ class UnitTestCase extends TestCase {
         WithUtilsCache::setAll([
             'authUtils' => new FakeAuthUtils(),
             'captchaUtils' => new FakeCaptchaUtils(),
-            'dateUtils' => new DateUtils('2020-03-13 19:30:00'),
+            'dateUtils' => new FakeDateUtils(),
             'devDataUtils' => new FakeDevDataUtils(),
             'dbUtils' => new FakeDbUtils(),
             'emailUtils' => new FakeEmailUtils(),

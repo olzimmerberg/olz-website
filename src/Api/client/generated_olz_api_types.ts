@@ -130,7 +130,6 @@ export type OlzSkillData = {'name': string, 'categoryIds': Array<string>};
 
 // eslint-disable-next-line no-shadow
 export type OlzApiEndpoint =
-    'onDaily'|
     'onContinuously'|
     'login'|
     'resetPassword'|
@@ -251,7 +250,6 @@ export type OlzApiEndpoint =
 type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: unknown};
 
 export interface OlzApiRequests extends OlzApiEndpointMapping {
-    onDaily: {'authenticityCode': string},
     onContinuously: {'authenticityCode': string},
     login: {'usernameOrEmail': string, 'password': string, 'rememberMe': boolean},
     resetPassword: {'usernameOrEmail': string, 'captchaToken': string},
@@ -371,7 +369,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
 }
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
-    onDaily: (Record<string, never> | null),
     onContinuously: (Record<string, never> | null),
     login: {'status': ('AUTHENTICATED' | 'INVALID_CREDENTIALS' | 'BLOCKED'), 'numRemainingAttempts': (number | null)},
     resetPassword: {'status': ('OK' | 'DENIED' | 'ERROR')},

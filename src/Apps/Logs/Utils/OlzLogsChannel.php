@@ -25,11 +25,12 @@ class OlzLogsChannel extends DailyFileLogsChannel {
         $iso_date = $datetime->format('Y-m-d');
         $plain_path = "{$logs_path}merged-{$iso_date}.log";
         $gz_path = "{$plain_path}.gz";
+        $index_path = "{$plain_path}.index.json.gz";
         $iso_today = $this->dateUtils()->getIsoToday();
         if ($iso_date < $iso_today) {
-            return new HybridLogFile($gz_path, $plain_path, $plain_path);
+            return new HybridLogFile($gz_path, $plain_path, $index_path);
         }
-        return new PlainLogFile($plain_path, $plain_path);
+        return new PlainLogFile($plain_path, $index_path);
     }
 
     protected function getDateTimeForFilePath(string $file_path): \DateTime {

@@ -31,7 +31,7 @@ class TestOnlyDailyFileLogsChannel extends DailyFileLogsChannel {
         $formatted = $datetime->format('Y-m-d');
         $plain_path = "{$logs_path}{$formatted}.log";
         $gz_path = "{$plain_path}.gz";
-        $index_path = "{$logs_path}{$formatted}";
+        $index_path = "{$logs_path}{$formatted}.index.json.gz";
         if (is_file($plain_path)) {
             return new PlainLogFile($plain_path, $index_path);
         }
@@ -128,7 +128,7 @@ final class DailyFileLogsChannelTest extends UnitTestCase {
             $result->previous?->logFile->getPath() ?? '',
         );
         $this->assertMatchesRegularExpression(
-            '/\/tmp\/private\/logs\/2020-03-12$/',
+            '/\/tmp\/private\/logs\/2020-03-12\.index\.json\.gz$/',
             $result->previous?->logFile->getIndexPath() ?? '',
         );
         $this->assertSame($num_fake - $num_fake_on_page - 1, $result->previous?->lineNumber);

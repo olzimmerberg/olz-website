@@ -32,16 +32,11 @@ class OnContinuouslyCommand extends OlzCommand {
             $output,
         );
 
-        if ($this->shouldSendDailyMailNow()) {
-            $this->logAndOutput("Sending daily mail at {$this->dateUtils()->getIsoNow()}...", level: 'debug');
-            $throttling_repo->recordOccurrenceOf('daily_notifications', $this->dateUtils()->getIsoNow());
-
-            $this->symfonyUtils()->callCommand(
-                'olz:send-daily-notifications',
-                new ArrayInput([]),
-                $output,
-            );
-        }
+        $this->daily('daily_notifications', '16:27:00', fn () => $this->symfonyUtils()->callCommand(
+            'olz:send-daily-notifications',
+            new ArrayInput([]),
+            $output,
+        ));
 
         $this->logAndOutput("Stopping workers...", level: 'debug');
         $this->symfonyUtils()->callCommand(
@@ -63,19 +58,29 @@ class OnContinuouslyCommand extends OlzCommand {
         return Command::SUCCESS;
     }
 
-    public function shouldSendDailyMailNow(): bool {
-        $daily_notifications_time = '16:27:00';
+    /** @param callable(): void $fn */
+    public function daily(string $ident, string $time, callable $fn): void {
         $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
-        $last_daily_notifications = $throttling_repo->getLastOccurrenceOf('daily_notifications');
+        $last_occurrence = $throttling_repo->getLastOccurrenceOf($ident);
+        $iso_now = $this->dateUtils()->getIsoNow();
         $is_too_soon = false;
-        if ($last_daily_notifications) {
-            $now = new \DateTime($this->dateUtils()->getIsoNow());
+        if ($last_occurrence) {
+            $now = new \DateTime($iso_now);
             // Consider daylight saving change date => not 23 hours!
             $min_interval = \DateInterval::createFromDateString('+22 hours');
-            $min_now = $last_daily_notifications->add($min_interval);
+            $min_now = $last_occurrence->add($min_interval);
             $is_too_soon = $now < $min_now;
         }
-        $is_right_time_of_day = $this->dateUtils()->getCurrentDateInFormat('H:i:s') >= $daily_notifications_time;
-        return !$is_too_soon && $is_right_time_of_day;
+        $is_right_time_of_day = $this->dateUtils()->getCurrentDateInFormat('H:i:s') >= $time;
+        $should_execute_now = !$is_too_soon && $is_right_time_of_day;
+        if ($should_execute_now) {
+            try {
+                $this->logAndOutput("Executing daily ({$time}) {$ident} at {$iso_now}...", level: 'debug');
+                $fn();
+                $throttling_repo->recordOccurrenceOf($ident, $this->dateUtils()->getIsoNow());
+            } catch (\Throwable $th) {
+                $this->logAndOutput("Daily ({$time}) {$ident} failed", level: 'error');
+            }
+        }
     }
 }

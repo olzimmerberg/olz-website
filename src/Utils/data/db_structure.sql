@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20250526204822
+-- MIGRATION: DoctrineMigrations\Version20250618220717
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -1000,6 +1000,8 @@ CREATE TABLE `users` (
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
   `avatar_image_id` longtext DEFAULT NULL,
+  `ahv_number` varchar(17) DEFAULT NULL,
+  `dress_size` varchar(4) DEFAULT NULL COMMENT '3XS, XXS, XS, S, M, L, XL, XXL, 3XL',
   PRIMARY KEY (`id`),
   KEY `username_index` (`username`),
   KEY `IDX_1483A5E92B18554A` (`owner_user_id`),

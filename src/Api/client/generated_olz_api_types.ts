@@ -80,7 +80,7 @@ export type OlzTerminTemplateData = {'startTime'?: (IsoTime | null), 'durationSe
 
 export type OlzTerminTemplateId = number;
 
-export type OlzUserData = {'parentUserId'?: (number | null), 'firstName': string, 'lastName': string, 'username': string, 'password'?: (string | null), 'email'?: (string | null), 'phone'?: (string | null), 'gender'?: (('M' | 'F' | 'O') | null), 'birthdate'?: (IsoDate | null), 'street'?: (string | null), 'postalCode'?: (string | null), 'city'?: (string | null), 'region'?: (string | null), 'countryCode'?: (IsoCountry | null), 'siCardNumber'?: (number | null), 'solvNumber'?: (string | null), 'avatarImageId'?: (string | null)};
+export type OlzUserData = {'parentUserId'?: (number | null), 'firstName': string, 'lastName': string, 'username': string, 'password'?: (string | null), 'email'?: (string | null), 'phone'?: (string | null), 'gender'?: (('M' | 'F' | 'O') | null), 'birthdate'?: (IsoDate | null), 'street'?: (string | null), 'postalCode'?: (string | null), 'city'?: (string | null), 'region'?: (string | null), 'countryCode'?: (IsoCountry | null), 'siCardNumber'?: (number | null), 'solvNumber'?: (string | null), 'ahvNumber'?: (string | null), 'dressSize'?: (string | null), 'avatarImageId'?: (string | null)};
 
 export type OlzUserId = number;
 

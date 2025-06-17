@@ -27,6 +27,8 @@ use PhpTypeScriptApi\PhpStan\IsoDate;
  *   countryCode?: ?IsoCountry,
  *   siCardNumber?: ?int<100000, max>,
  *   solvNumber?: ?non-empty-string,
+ *   ahvNumber?: ?non-empty-string,
+ *   dressSize?: ?non-empty-string,
  *   avatarImageId?: ?non-empty-string,
  * }
  */
@@ -57,6 +59,8 @@ trait UserEndpointTrait {
             'countryCode' => $entity->getCountryCode() ? IsoCountry::fromData($entity->getCountryCode()) : null,
             'siCardNumber' => $this->getSiCardNumberForApi($entity),
             'solvNumber' => $entity->getSolvNumber() ? $entity->getSolvNumber() : null,
+            'ahvNumber' => $entity->getAhvNumber() ? $entity->getAhvNumber() : null,
+            'dressSize' => $entity->getDressSize() ? $entity->getDressSize() : null,
             'avatarImageId' => $entity->getAvatarImageId() ? $entity->getAvatarImageId() : null,
         ];
     }
@@ -89,6 +93,8 @@ trait UserEndpointTrait {
         $entity->setCountryCode($input_data['countryCode']?->data());
         $entity->setSiCardNumber($valid_si_card_number);
         $entity->setSolvNumber($input_data['solvNumber'] ?? null);
+        $entity->setAhvNumber($input_data['ahvNumber'] ?? null);
+        $entity->setDressSize($input_data['dressSize'] ?? null);
         $entity->setAvatarImageId($valid_avatar_image_id);
     }
 

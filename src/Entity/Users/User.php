@@ -118,6 +118,12 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $si_card_number;
 
+    #[ORM\Column(type: 'string', length: 17, nullable: true)]
+    public ?string $ahv_number;
+
+    #[ORM\Column(type: 'string', length: 4, nullable: true, options: ['comment' => '3XS, XXS, XS, S, M, L, XL, XXL, 3XL'])]
+    public ?string $dress_size;
+
     #[ORM\Column(type: 'text', nullable: false, options: ['default' => ''])]
     public string $notes;
 
@@ -426,6 +432,22 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
 
     public function setSiCardNumber(?string $new_value): void {
         $this->si_card_number = $new_value;
+    }
+
+    public function getAhvNumber(): ?string {
+        return $this->ahv_number;
+    }
+
+    public function setAhvNumber(?string $new_value): void {
+        $this->ahv_number = $new_value;
+    }
+
+    public function getDressSize(): ?string {
+        return $this->dress_size;
+    }
+
+    public function setDressSize(?string $new_value): void {
+        $this->dress_size = $new_value;
     }
 
     public function getAvatarImageId(): ?string {

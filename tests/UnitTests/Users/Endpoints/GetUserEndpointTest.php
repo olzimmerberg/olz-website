@@ -73,6 +73,8 @@ final class GetUserEndpointTest extends UnitTestCase {
                 'countryCode' => null,
                 'siCardNumber' => null,
                 'solvNumber' => null,
+                'ahvNumber' => null,
+                'dressSize' => null,
                 'avatarImageId' => null,
             ],
         ], $result);
@@ -116,6 +118,8 @@ final class GetUserEndpointTest extends UnitTestCase {
                 'countryCode' => null,
                 'siCardNumber' => null,
                 'solvNumber' => null,
+                'ahvNumber' => null,
+                'dressSize' => null,
                 'avatarImageId' => null,
             ],
         ], $result);
@@ -166,6 +170,8 @@ final class GetUserEndpointTest extends UnitTestCase {
                 'countryCode' => 'CH',
                 'siCardNumber' => 127001,
                 'solvNumber' => '000ADM',
+                'ahvNumber' => '756.9999.9999.99',
+                'dressSize' => '3XL',
                 'avatarImageId' => 'image__________________1.jpg',
             ],
         ], $result);

@@ -477,6 +477,80 @@ describe('validatePhoneOrNull', () => {
     });
 });
 
+describe('validateAhv', () => {
+    it('returns validation error for nullish user inputs', () => {
+        expect(formUtils.validateAhv(''))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+                '',
+            ]);
+        expect(formUtils.validateAhv(' '))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+                '',
+            ]);
+        expect(formUtils.validateAhv('\t'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+                '',
+            ]);
+    });
+
+    it('returns AHV number for correct user inputs', () => {
+        expect(formUtils.validateAhv('756.0000.0000.00'))
+            .toEqual([undefined, '756.0000.0000.00']);
+        expect(formUtils.validateAhv('756.1234.1234.12 '))
+            .toEqual([undefined, '756.1234.1234.12']);
+        expect(formUtils.validateAhv(' 756.9999.9999.99'))
+            .toEqual([undefined, '756.9999.9999.99']);
+    });
+
+    it('returns validation error for invalid user inputs', () => {
+        expect(formUtils.validateAhv('abc.abcd.abcd.ab'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+                'abc.abcd.abcd.ab',
+            ]);
+        expect(formUtils.validateAhv('...'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+                '...',
+            ]);
+        expect(formUtils.validateAhv('123.1234.1234.12'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+                '123.1234.1234.12',
+            ]);
+        expect(formUtils.validateAhv('756.123.123.1234'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+                '756.123.123.1234',
+            ]);
+        expect(formUtils.validateAhv('756 0000 0000 00'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+                '756 0000 0000 00',
+            ]);
+        expect(formUtils.validateAhv('756,1234,1234,12'))
+            .toEqual([
+                {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+                '756,1234,1234,12',
+            ]);
+    });
+});
+
+describe('validateAhvOrNull', () => {
+    it('returns null for nullish user inputs', () => {
+        expect(formUtils.validateAhvOrNull(''))
+            .toEqual([undefined, '']);
+    });
+
+    it('returns same as validateAhv for non-nullish user inputs', () => {
+        expect(formUtils.validateAhvOrNull('756.1234.1234.12'))
+            .toEqual(formUtils.validateAhv('756.1234.1234.12'));
+    });
+});
+
 describe('validateEmailOrNull', () => {
     it('returns null for nullish user inputs', () => {
         expect(formUtils.validateEmailOrNull(''))

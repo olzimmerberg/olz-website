@@ -2,15 +2,15 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzUserData} from '../../../Api/client/generated_olz_api_types';
+import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {user} from '../../../Utils/constants';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateCountryCodeOrNull, validateDateOrNull, validateEmail, validateEmailOrNull, validateGender, validateIntegerOrNull, validateNotEmpty, validatePassword, validatePhoneOrNull} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateAhvOrNull, validateCountryCodeOrNull, validateDateOrNull, validateEmail, validateEmailOrNull, validateGender, validateIntegerOrNull, validateNotEmpty, validatePassword, validatePhoneOrNull} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditUserModal.scss';
-import { OlzCaptcha } from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
 
 interface OlzEditUserForm {
     parentUserId: number|null;
@@ -30,6 +30,8 @@ interface OlzEditUserForm {
     countryCode: string;
     siCardNumber: string;
     solvNumber: string;
+    ahvNumber: string;
+    dressSize: string;
     avatarImageId: string|null;
 }
 
@@ -54,6 +56,7 @@ const resolver: Resolver<OlzEditUserForm> = async (values) => {
     [errors.birthdate, values.birthdate] = validateDateOrNull(values.birthdate);
     [errors.countryCode, values.countryCode] = validateCountryCodeOrNull(values.countryCode);
     errors.siCardNumber = validateIntegerOrNull(values.siCardNumber);
+    [errors.ahvNumber, values.ahvNumber] = validateAhvOrNull(values.ahvNumber);
 
     return getResolverResult(errors, values);
 };
@@ -77,6 +80,8 @@ function getFormFromApi(apiData?: OlzUserData): OlzEditUserForm {
         countryCode: getFormString(apiData?.countryCode),
         siCardNumber: getFormNumber(apiData?.siCardNumber),
         solvNumber: getFormString(apiData?.solvNumber),
+        ahvNumber: getFormString(apiData?.ahvNumber),
+        dressSize: getFormString(apiData?.dressSize),
         avatarImageId: getFormString(apiData?.avatarImageId),
     };
 }
@@ -99,6 +104,8 @@ function getApiFromForm(formData: OlzEditUserForm): OlzUserData {
         countryCode: getApiString(formData.countryCode),
         siCardNumber: getApiNumber(formData.siCardNumber),
         solvNumber: getApiString(formData.solvNumber),
+        ahvNumber: getApiString(formData.ahvNumber),
+        dressSize: getApiString(formData.dressSize),
         avatarImageId: formData.avatarImageId ? getApiString(formData.avatarImageId) : null,
     };
 }
@@ -370,6 +377,35 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
                         errors={errors}
                         register={register}
                     />
+                </div>
+            </div>
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzTextField
+                        title='AHV-Nummer'
+                        name='ahvNumber'
+                        errors={errors}
+                        register={register}
+                    />
+                </div>
+                <div className='col mb-3'>
+                    <label htmlFor='dressSize-input'>Kleidergrösse</label>
+                    <select
+                        className='form-control form-select'
+                        id='dressSize-input'
+                        {...register('dressSize')}
+                    >
+                        <option value=''>unbekannt</option>
+                        <option value='3XS'>3XS</option>
+                        <option value='XXS'>XXS</option>
+                        <option value='XS'>XS</option>
+                        <option value='S'>S</option>
+                        <option value='M'>M</option>
+                        <option value='L'>L</option>
+                        <option value='XL'>XL</option>
+                        <option value='XXL'>XXL</option>
+                        <option value='3XL'>3XL</option>
+                    </select>
                 </div>
             </div>
             <div id='images-upload'>

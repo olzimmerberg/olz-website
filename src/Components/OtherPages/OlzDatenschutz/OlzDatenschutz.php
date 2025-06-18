@@ -56,13 +56,15 @@ class OlzDatenschutz extends OlzComponent {
                 <p>Von <b>eingeloggten</b> Nutzern bearbeiten wir folgende Personendaten:</p>
                 <ul>
                     <li>Name und E-Mail-Adresse für den <b>Versand des Newsletters</b></li>
-                    <li>Benutzername und Passwort für das <b>OLZ-Login</b></li>
-                    <li>Name, Geschlecht, volle Adresse, Telefonnummer, E-Mail-Adresse und Geburtsdatum für die <b>Mitgliederliste</b></li>
+                    <li>Benutzername (bzw. E-Mail-Adresse) und Passwort für das <b>OLZ-Login</b></li>
+                    <li>Notwendige Angaben<sup><a href='#footnote-1'>[1]</a></sup> für die Aktualisierung der <b>Mitgliederliste</b></li>
+                    <li>Kleidergrösse für <b>Kleiderbestellungen</b></li>
                     <li>Name, Geschlecht, Wohnort, Geburtsdatum, SI-Card-Nummer, Telefonnummer und E-Mail-Adresse für die <b>Anmeldung für Anlässe</b></li>
+                    <li>AHV-Nummer für die Abrechnung von Subventionen durch <b>Jugend+Sport</b></li>
                 </ul>
                 <p>Von <b>Vereinsmitgliedern</b> bearbeiten wir folgende Personendaten:</p>
                 <ul>
-                    <li>Name, Geschlecht, volle Adresse, Telefonnummer, E-Mail-Adresse und Geburtsdatum für die <b>Mitgliederliste</b></li>
+                    <li>Notwendige Angaben<sup><a href='#footnote-1'>[1]</a></sup> für die <b>Mitgliederliste</b></li>
                     <li>Name, Geschlecht, Wohnort, Geburtsdatum, SI-Card-Nummer, Telefonnummer und E-Mail-Adresse für die <b>Anmeldung für Anlässe</b></li>
                 </ul>
                 <h3>Speicherungsdauer</h3>
@@ -80,6 +82,8 @@ class OlzDatenschutz extends OlzComponent {
                 <p>Das Cookie enthält keine personenbezogenen Daten.</p>
                 <h3>Auskunft</h3>
                 <p>Um Auskunft über deine Daten zu erhalten, kannst du dich an die Datenschutz-Verantwortlichen wenden.</p>
+                <hr/>
+                <p>[<a name='footnote-1'>1</a>] Notwendige Angaben für die Mitgliederliste: Name, Benutzername, Geschlecht, vollständige Adresse, Geburtsdatum, Telefonnummer, E-Mail-Adresse, SI-Card-Nummer, SOLV-Nummer und AHV-Nummer</p>
             </div>
             ZZZZZZZZZZ;
 

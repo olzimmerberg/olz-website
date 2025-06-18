@@ -42,6 +42,8 @@ class FakeUser extends FakeEntity {
                 $entity->setCountryCode(null);
                 $entity->setSiCardNumber(null);
                 $entity->setSolvNumber(null);
+                $entity->setAhvNumber(null);
+                $entity->setDressSize(null);
                 $entity->setAvatarImageId(null);
                 return $entity;
             }
@@ -76,6 +78,8 @@ class FakeUser extends FakeEntity {
                 $entity->setCountryCode('');
                 $entity->setSiCardNumber('');
                 $entity->setSolvNumber('');
+                $entity->setAhvNumber('');
+                $entity->setDressSize('');
                 $entity->setAvatarImageId('');
                 return $entity;
             }
@@ -110,6 +114,8 @@ class FakeUser extends FakeEntity {
                 $entity->setCountryCode('CH');
                 $entity->setSiCardNumber('127001');
                 $entity->setSolvNumber('000ADM');
+                $entity->setAhvNumber('756.9999.9999.99');
+                $entity->setDressSize('3XL');
                 $entity->setAvatarImageId('image__________________1.jpg');
                 return $entity;
             }
@@ -144,6 +150,8 @@ class FakeUser extends FakeEntity {
                 $entity->setCountryCode('CH');
                 $entity->setSiCardNumber('127001');
                 $entity->setSolvNumber('000ADM');
+                $entity->setAhvNumber('756.1337.1337.42');
+                $entity->setDressSize('M');
                 $entity->setAvatarImageId(null);
                 return $entity;
             },
@@ -264,6 +272,8 @@ class FakeUser extends FakeEntity {
                 $entity->setCountryCode('CH');
                 $entity->setSiCardNumber('8150815');
                 $entity->setSolvNumber('D3F4UL7');
+                $entity->setAhvNumber('756.1234.1234.12');
+                $entity->setDressSize('M');
                 return $entity;
             }
         );

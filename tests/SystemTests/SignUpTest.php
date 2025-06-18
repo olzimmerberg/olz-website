@@ -55,6 +55,10 @@ final class SignUpTest extends SystemTestCase {
         $this->sendKeys('#edit-user-modal #city-input', 'Thalwil');
         $this->sendKeys('#edit-user-modal #region-input', 'ZH');
         $this->sendKeys('#edit-user-modal #countryCode-input', 'CH');
+        $this->sendKeys('#edit-user-modal #siCardNumber-input', 'nan');
+        $this->sendKeys('#edit-user-modal #solvNumber-input', '123TEI');
+        $this->sendKeys('#edit-user-modal #ahvNumber-input', '123.1234.1234.12');
+        $this->selectOption('#edit-user-modal #dressSize-input', 'L');
         $this->click('#edit-user-modal #submit-button');
         $this->screenshot('sign_up_errors');
 
@@ -76,6 +80,10 @@ final class SignUpTest extends SystemTestCase {
         $this->sendKeys('#edit-user-modal #email-input', '@staging.olzimmerberg.ch');
         $this->clear('#edit-user-modal #birthdate-input');
         $this->sendKeys('#edit-user-modal #birthdate-input', '13.1.2006');
+        $this->clear('#edit-user-modal #siCardNumber-input');
+        $this->sendKeys('#edit-user-modal #siCardNumber-input', '8123456');
+        $this->clear('#edit-user-modal #ahvNumber-input');
+        $this->sendKeys('#edit-user-modal #ahvNumber-input', '756.1234.1234.12');
         $this->click('#edit-user-modal #captcha-dev');
         $this->click('#edit-user-modal #submit-button');
         $this->waitUntilGone('#edit-user-modal');

@@ -198,6 +198,25 @@ export function validatePhone(valueArg: string): [FieldError|undefined, string] 
     return [undefined, valueWithoutSpaces];
 }
 
+export function validateAhvOrNull(valueArg: string): [FieldError|undefined, string] {
+    const value = valueArg.trim();
+    if (value === '') {
+        return [undefined, ''];
+    }
+    return validateAhv(value);
+}
+
+export function validateAhv(valueArg: string): [FieldError|undefined, string] {
+    const value = valueArg.trim();
+    if (!/^756\.[0-9]{4}\.[0-9]{4}\.[0-9]{2}$/.exec(value)) {
+        return [
+            {type: 'validate', message: 'Ungültige AHV-Nummer (Format: 756.XXXX.XXXX.XX)'},
+            value,
+        ];
+    }
+    return [undefined, value];
+}
+
 export function getApiString(value: string): string|null {
     if (value.trim() === '') {
         return null;

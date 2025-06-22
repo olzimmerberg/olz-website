@@ -109,16 +109,16 @@ class OnContinuouslyCommand extends OlzCommand {
     public function daily(string $time, string $ident, callable $fn): void {
         $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
         $last_occurrence = $throttling_repo->getLastOccurrenceOf($ident);
-        $iso_now = $this->dateUtils()->getIsoNow();
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
         $is_too_soon = false;
         if ($last_occurrence) {
-            $now = new \DateTime($iso_now);
             // Consider daylight saving change date => not 23 hours!
             $min_interval = \DateInterval::createFromDateString('+22 hours');
             $min_now = $last_occurrence->add($min_interval);
             $is_too_soon = $now < $min_now;
         }
-        $is_right_time_of_day = $this->dateUtils()->getCurrentDateInFormat('H:i:s') >= $time;
+        $time_diff = $this->getTimeOnlyDiffSeconds($now->format('H:i:s'), $time);
+        $is_right_time_of_day = $time_diff > 0 && $time_diff < 7200; // 2h window
         $should_execute_now = !$is_too_soon && $is_right_time_of_day;
         if ($should_execute_now) {
             try {
@@ -129,5 +129,19 @@ class OnContinuouslyCommand extends OlzCommand {
                 $this->logAndOutput("Daily ({$time}) {$ident} failed", level: 'error');
             }
         }
+    }
+
+    public function getTimeOnlyDiffSeconds(string $iso_value, string $iso_cmp): int {
+        date_default_timezone_set('Europe/Zurich');
+        $value = new \DateTime($iso_value);
+        $cmp = new \DateTime($iso_cmp);
+
+        $seconds_diff = $value->getTimestamp() - $cmp->getTimestamp();
+        $time_only_diff = $seconds_diff % 86400;
+        return match (true) {
+            $time_only_diff < -43200 => $time_only_diff + 86400,
+            $time_only_diff >= 43200 => $time_only_diff - 86400,
+            default => $time_only_diff,
+        };
     }
 }

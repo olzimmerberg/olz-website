@@ -68,6 +68,7 @@ abstract class DailyFileLogsChannel extends BaseLogsChannel {
 
         $day = $before_retention;
         $minus_one_day = \DateInterval::createFromDateString("-1 days");
+        $this->log()->info("Clean up {$num_days} log files before {$day->format('Y-m-d')} in channel {$this->getName()} ({$this->getId()})...");
         for ($i = 0; $i < $num_days; $i++) {
             $day = $day->add($minus_one_day);
             $log_file = $this->getLogFileForDateTime($day);
@@ -79,6 +80,7 @@ abstract class DailyFileLogsChannel extends BaseLogsChannel {
         $now = new \DateTime($this->dateUtils()->getIsoNow());
         $retention_days = $this->getRetentionDays();
 
+        $this->log()->info("Optimizing last {$retention_days} hybrid log files in channel {$this->getName()} ({$this->getId()})...");
         $day = $now;
         $minus_one_day = \DateInterval::createFromDateString("-1 days");
         for ($i = 0; $i <= $retention_days; $i++) {

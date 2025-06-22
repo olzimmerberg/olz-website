@@ -33,11 +33,15 @@ final class CleanLogsCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Command\CleanLogsCommand...',
+            'INFO Cleaning logs channel OLZ Logs (olz-logs)...',
+            'INFO Optimizing last 366 hybrid log files in channel OLZ Logs (olz-logs)...',
             'DEBUG Optimize hybrid log file private-path/logs/merged-2020-03-12.log -> private-path/logs/merged-2020-03-12.log.gz',
             'DEBUG Remove redundant hybrid log file private-path/logs/merged-2020-03-12.log',
             'DEBUG Optimize hybrid log file private-path/logs/merged-2019-03-13.log -> private-path/logs/merged-2019-03-13.log.gz',
             'DEBUG Remove redundant hybrid log file private-path/logs/merged-2019-03-13.log',
+            'INFO Clean up 30 log files before 2019-03-13 in channel OLZ Logs (olz-logs)...',
             'INFO Removed old plain log file private-path/logs/merged-2019-03-12.log',
+            'INFO Nothing to do cleaning logs channel Access SSL Logs (access-ssl-logs).',
             'INFO Successfully ran command Olz\Command\CleanLogsCommand.',
         ], $this->getLogs());
 

@@ -21,8 +21,11 @@ class CleanLogsCommand extends OlzCommand {
         $channels = LogsDefinitions::getLogsChannels();
         foreach ($channels as $channel) {
             if ($channel instanceof DailyFileLogsChannel) {
+                $this->log()->info("Cleaning logs channel {$channel->getName()} ({$channel->getId()})...");
                 $channel->optimizeHybridFiles();
                 $channel->cleanUpOldFiles();
+            } else {
+                $this->log()->info("Nothing to do cleaning logs channel {$channel->getName()} ({$channel->getId()}).");
             }
         }
         return Command::SUCCESS;

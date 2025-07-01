@@ -407,6 +407,24 @@ class FakeNotificationSubscription extends FakeEntity {
         );
     }
 
+    public static function subscription23(bool $fresh = false): NotificationSubscription {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = FakeNotificationSubscription::defaultNotificationSubscription(true);
+                $entity->setId(23);
+                $entity->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
+                $entity->setUser(FakeUser::defaultUser());
+                $entity->setNotificationType(NotificationSubscription::TYPE_ROLE_REMINDER);
+                $entity->setNotificationTypeArgs(json_encode([
+                    'role_id' => FakeRole::defaultRole()->getId(),
+                    'cancelled' => false,
+                ]) ?: '');
+                return $entity;
+            }
+        );
+    }
+
     public static function emailReminderDefault(bool $fresh = false): NotificationSubscription {
         return self::getFake(
             $fresh,

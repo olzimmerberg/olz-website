@@ -22,24 +22,26 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
-            'user' => 1,
+            'user' => FakeUser::defaultUser()->getId(),
             'notification_type' => NotificationSubscription::TYPE_DAILY_SUMMARY,
         ])]);
 
         $this->assertSame([
             "INFO Valid user request",
-            "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=daily_summary, notification_type_args={}, ).",
-            "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=weekly_summary, notification_type_args={}, ).",
-            "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=monthly_preview, notification_type_args={}, ).",
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=daily_summary, notification_type_args={"aktuell":true,"blog":true,"galerie":true,"forum":true}, ).',
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=daily_summary, notification_type_args={"no_notification":true}, ).',
             "NOTICE Email subscriptions removed.",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertCount(3, $entity_manager->removed);
-        $this->assertSame(12, $entity_manager->removed[0]->getId());
-        $this->assertSame(123, $entity_manager->removed[1]->getId());
-        $this->assertSame(1234, $entity_manager->removed[2]->getId());
+        $this->assertSame(
+            [10, 11],
+            array_map(
+                fn ($item) => $item->getId(),
+                $entity_manager->removed
+            ),
+        );
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
     }
 
@@ -63,7 +65,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=email_config_reminder, notification_type_args={\"cancelled\":false}, ).",
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=email_config_reminder, notification_type_args={"cancelled":false}, ).',
             "NOTICE Email subscriptions removed.",
             "INFO Valid user response",
         ], $this->getLogs());
@@ -85,18 +87,26 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
-            "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=daily_summary, notification_type_args={}, ).",
-            "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=weekly_summary, notification_type_args={}, ).",
-            "NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=monthly_preview, notification_type_args={}, ).",
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=monthly_preview, notification_type_args=[], ).',
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=deadline_warning, notification_type_args={"days":3}, ).',
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=deadline_warning, notification_type_args={"no_notification":true}, ).',
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=daily_summary, notification_type_args={"aktuell":true,"blog":true,"galerie":true,"forum":true}, ).',
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=daily_summary, notification_type_args={"no_notification":true}, ).',
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=email_config_reminder, notification_type_args={"cancelled":false}, ).',
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=email_config_reminder, notification_type_args={"cancelled":true}, ).',
+            'NOTICE Removing email subscription: NotificationSubscription(delivery_type=email, user=1, notification_type=role_reminder, notification_type_args={"role_id":1,"cancelled":false}, ).',
             "NOTICE Email subscriptions removed.",
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['status' => 'OK'], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
-        $this->assertCount(3, $entity_manager->removed);
-        $this->assertSame(12, $entity_manager->removed[0]->getId());
-        $this->assertSame(123, $entity_manager->removed[1]->getId());
-        $this->assertSame(1234, $entity_manager->removed[2]->getId());
+        $this->assertSame(
+            [1, 8, 9, 10, 11],
+            array_map(
+                fn ($item) => $item->getId(),
+                $entity_manager->removed
+            ),
+        );
         $this->assertSame($entity_manager->removed, $entity_manager->flushed_removed);
     }
 

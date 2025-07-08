@@ -221,7 +221,14 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
-            'olz:send-daily-notifications ',
+            'olz:send-daily-summary ',
+            'olz:send-deadline-warning ',
+            // 'olz:send-email-config-reminder ',
+            // 'olz:send-monthly-preview ',
+            // 'olz:send-role-reminder ',
+            // 'olz:send-telegram-config-reminder ',
+            'olz:send-weekly-preview ',
+            'olz:send-weekly-summary ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);

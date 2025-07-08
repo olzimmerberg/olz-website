@@ -3,6 +3,7 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\NotificationSubscriptionRepository;
 
@@ -10,7 +11,7 @@ use Olz\Repository\NotificationSubscriptionRepository;
 #[ORM\Index(name: 'user_id_index', columns: ['user_id'])]
 #[ORM\Index(name: 'notification_type_index', columns: ['notification_type'])]
 #[ORM\Entity(repositoryClass: NotificationSubscriptionRepository::class)]
-class NotificationSubscription {
+class NotificationSubscription implements TestableInterface {
     public const DELIVERY_EMAIL = 'email';
     public const DELIVERY_TELEGRAM = 'telegram';
 
@@ -118,5 +119,11 @@ class NotificationSubscription {
 
     public function setCreatedAt(\DateTime $new_created_at): void {
         $this->created_at = $new_created_at;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

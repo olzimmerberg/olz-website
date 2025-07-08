@@ -2,15 +2,6 @@ services:
     _defaults:
         public: true
 
-    Olz\Command\SendDailyNotificationsCommand\EmailConfigurationReminderGetter:
-        public: true
-
-    Olz\Command\SendDailyNotificationsCommand\TelegramConfigurationReminderGetter:
-        public: true
-
-    Olz\Command\SendDailyNotificationsCommand\RoleReminderGetter:
-        public: true
-
     Olz\News\Utils\NewsFilterUtils:
         public: true
 

@@ -54,7 +54,7 @@ final class SendWeeklySummaryCommandIntegrationTest extends IntegrationTestCase 
 
             - Mi, 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/news/2901)
             - Fr, 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/news/2902)
-            - Mo, 06.01. 06:07: [Hallo](http://integration-test.host/news/2903)
+            - Mo, 06.01. 02:07: [Hallo](http://integration-test.host/news/2903)
 
 
             **Galerien**

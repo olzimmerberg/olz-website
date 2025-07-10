@@ -14,7 +14,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 class SendWeeklySummaryCommand extends BaseSendNotificationsCommand {
     use WithUtilsTrait;
 
-    public const CUT_OFF_TIME = '16:00:00';
+    public const CUT_OFF_TIME = '03:00:00';
 
     protected \DateTime $today;
     protected \DateTime $lastWeek;

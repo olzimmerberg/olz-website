@@ -8,6 +8,7 @@ use Olz\Command\OnContinuouslyCommand;
 use Olz\Entity\Throttling;
 use Olz\Tests\Fake\Entity\FakeThrottlingRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -71,12 +72,12 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
             'DEBUG Running continuously...',
             'DEBUG Continuously processing email...',
-            'DEBUG Executing daily (01:00:00) clean-temp-directory...',
-            'DEBUG Executing daily (01:05:00) clean-temp-database...',
-            'DEBUG Executing daily (01:10:00) clean-logs...',
-            'DEBUG Executing daily (01:15:00) send-telegram-configuration...',
-            'DEBUG Executing daily (01:20:00) sync-solv...',
-            'DEBUG Executing daily (01:25:00) send-test-email...',
+            'INFO Executing daily (01:00:00) clean-temp-directory...',
+            'INFO Executing daily (01:05:00) clean-temp-database...',
+            'INFO Executing daily (01:10:00) clean-logs...',
+            'INFO Executing daily (01:15:00) send-telegram-configuration...',
+            'INFO Executing daily (01:20:00) sync-solv...',
+            'INFO Executing daily (01:25:00) send-test-email...',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -134,12 +135,12 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
             'DEBUG Running continuously...',
             'DEBUG Continuously processing email...',
-            'DEBUG Executing daily (01:00:00) clean-temp-directory...',
-            'DEBUG Executing daily (01:05:00) clean-temp-database...',
-            'DEBUG Executing daily (01:10:00) clean-logs...',
-            'DEBUG Executing daily (01:15:00) send-telegram-configuration...',
-            'DEBUG Executing daily (01:20:00) sync-solv...',
-            'DEBUG Executing daily (01:25:00) send-test-email...',
+            'INFO Executing daily (01:00:00) clean-temp-directory...',
+            'INFO Executing daily (01:05:00) clean-temp-database...',
+            'INFO Executing daily (01:10:00) clean-logs...',
+            'INFO Executing daily (01:15:00) send-telegram-configuration...',
+            'INFO Executing daily (01:20:00) sync-solv...',
+            'INFO Executing daily (01:25:00) send-test-email...',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -185,9 +186,9 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
     }
 
     public function testOnContinuouslyCommandExecuteSendDaily(): void {
-        WithUtilsCache::get('dateUtils')->testOnlySetDate('2020-03-13 17:30:00');
-        $throttling_repo = $this->setUpThrottling('2020-03-12 17:30:00'); // a day ago
+        $throttling_repo = $this->setUpThrottling('2020-03-11 17:30:00'); // two days ago
         $command = new OnContinuouslyCommand();
+        $command->setDateUtils(new DateUtils('2020-03-13 17:30:00'));
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
@@ -197,7 +198,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
             'DEBUG Running continuously...',
             'DEBUG Continuously processing email...',
-            'DEBUG Executing daily (16:27:00) send-daily-notifications...',
+            'INFO Executing daily (16:27:00) send-deadline-warning...',
+            'INFO Executing daily (17:30:00) send-daily-summary...',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -208,7 +210,8 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Running command Olz\Command\OnContinuouslyCommand...
             Running continuously...
             Continuously processing email...
-            Executing daily (16:27:00) send-daily-notifications...
+            Executing daily (16:27:00) send-deadline-warning...
+            Executing daily (17:30:00) send-daily-summary...
             Stopping workers...
             Consume messages...
             Ran continuously.
@@ -217,18 +220,13 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
             ['on_continuously', '2020-03-13 17:30:00'],
-            ['send-daily-notifications', '2020-03-13 17:30:00'],
+            ['send-deadline-warning', '2020-03-13 17:30:00'],
+            ['send-daily-summary', '2020-03-13 17:30:00'],
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
-            'olz:send-daily-summary ',
             'olz:send-deadline-warning ',
-            // 'olz:send-email-config-reminder ',
-            // 'olz:send-monthly-preview ',
-            // 'olz:send-role-reminder ',
-            // 'olz:send-telegram-config-reminder ',
-            'olz:send-weekly-preview ',
-            'olz:send-weekly-summary ',
+            'olz:send-daily-summary ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -247,9 +245,9 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
             'DEBUG Running continuously...',
             'DEBUG Continuously processing email...',
-            'DEBUG Executing daily (01:00:00) clean-temp-directory...',
-            'DEBUG Executing daily (01:05:00) clean-temp-database...',
-            'DEBUG Executing daily (01:10:00) clean-logs...',
+            'INFO Executing daily (01:00:00) clean-temp-directory...',
+            'INFO Executing daily (01:05:00) clean-temp-database...',
+            'INFO Executing daily (01:10:00) clean-logs...',
             // The rest is not executed yet, because it's only 01:13
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
@@ -312,7 +310,12 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'send-telegram-configuration' => $date,
             'sync-solv' => $date,
             'send-test-email' => $date,
-            'send-daily-notifications' => $date,
+            'send-daily-summary' => $date,
+            'send-deadline-warning' => $date,
+            'send-monthly-preview' => $date,
+            'send-reminders' => $date,
+            'send-weekly-preview' => $date,
+            'send-weekly-summary' => $date,
         ];
         return $throttling_repo;
     }

@@ -77,44 +77,59 @@ class OnContinuouslyCommand extends OlzCommand {
             );
         });
 
-        $this->daily('16:27:00', 'send-daily-notifications', function () use ($output) {
+        $this->daily('08:15:00', 'send-weekly-summary', function () use ($output) {
             $this->symfonyUtils()->callCommand(
-                'olz:send-daily-summary',
+                'olz:send-weekly-summary',
                 new ArrayInput([]),
                 $output,
             );
+        });
+
+        $this->daily('14:30:00', 'send-monthly-preview', function () use ($output) {
             $this->symfonyUtils()->callCommand(
-                'olz:send-deadline-warning',
+                'olz:send-monthly-preview',
                 new ArrayInput([]),
                 $output,
             );
-            // $this->symfonyUtils()->callCommand(
-            //     'olz:send-email-config-reminder',
-            //     new ArrayInput([]),
-            //     $output,
-            // );
-            // $this->symfonyUtils()->callCommand(
-            //     'olz:send-monthly-preview',
-            //     new ArrayInput([]),
-            //     $output,
-            // );
-            // $this->symfonyUtils()->callCommand(
-            //     'olz:send-role-reminder',
-            //     new ArrayInput([]),
-            //     $output,
-            // );
-            // $this->symfonyUtils()->callCommand(
-            //     'olz:send-telegram-config-reminder',
-            //     new ArrayInput([]),
-            //     $output,
-            // );
+        });
+
+        $this->daily('15:14:00', 'send-weekly-preview', function () use ($output) {
             $this->symfonyUtils()->callCommand(
                 'olz:send-weekly-preview',
                 new ArrayInput([]),
                 $output,
             );
+        });
+
+        $this->daily('16:27:00', 'send-deadline-warning', function () use ($output) {
             $this->symfonyUtils()->callCommand(
-                'olz:send-weekly-summary',
+                'olz:send-deadline-warning',
+                new ArrayInput([]),
+                $output,
+            );
+        });
+
+        $this->daily('17:30:00', 'send-daily-summary', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:send-daily-summary',
+                new ArrayInput([]),
+                $output,
+            );
+        });
+
+        $this->daily('18:30:00', 'send-reminders', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:send-email-config-reminder',
+                new ArrayInput([]),
+                $output,
+            );
+            $this->symfonyUtils()->callCommand(
+                'olz:send-role-reminder',
+                new ArrayInput([]),
+                $output,
+            );
+            $this->symfonyUtils()->callCommand(
+                'olz:send-telegram-config-reminder',
                 new ArrayInput([]),
                 $output,
             );
@@ -153,11 +168,11 @@ class OnContinuouslyCommand extends OlzCommand {
             $is_too_soon = $now < $min_now;
         }
         $time_diff = $this->getTimeOnlyDiffSeconds($now->format('H:i:s'), $time);
-        $is_right_time_of_day = $time_diff > 0 && $time_diff < 7200; // 2h window
+        $is_right_time_of_day = $time_diff >= 0 && $time_diff < 7200; // 2h window
         $should_execute_now = !$is_too_soon && $is_right_time_of_day;
         if ($should_execute_now) {
             try {
-                $this->logAndOutput("Executing daily ({$time}) {$ident}...", level: 'debug');
+                $this->logAndOutput("Executing daily ({$time}) {$ident}...", level: 'info');
                 $fn();
                 $throttling_repo->recordOccurrenceOf($ident, $this->dateUtils()->getIsoNow());
             } catch (\Throwable $th) {

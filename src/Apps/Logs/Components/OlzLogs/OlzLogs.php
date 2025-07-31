@@ -26,7 +26,6 @@ class OlzLogs extends OlzComponent {
             'norobots' => true,
         ]);
 
-        $user = $this->authUtils()->getCurrentUser();
         $metadata = new Metadata();
 
         $out .= <<<'ZZZZZZZZZZ'
@@ -41,7 +40,7 @@ class OlzLogs extends OlzComponent {
             ZZZZZZZZZZ;
 
         $out .= "<div class='content-full olz-logs'>";
-        if ($user && $user->getPermissions() == 'all') {
+        if ($this->authUtils()->hasPermission('all')) {
             $channels_data = [];
             foreach (LogsDefinitions::getLogsChannels() as $channel) {
                 $channels_data[$channel::getId()] = $channel::getName();

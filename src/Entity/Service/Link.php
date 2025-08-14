@@ -7,12 +7,13 @@ use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\PositionableInterface;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Service\LinkRepository;
 
 #[ORM\Table(name: 'links')]
 #[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
 #[ORM\Entity(repositoryClass: LinkRepository::class)]
-class Link extends OlzEntity implements PositionableInterface {
+class Link extends OlzEntity implements PositionableInterface, TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -60,6 +61,10 @@ class Link extends OlzEntity implements PositionableInterface {
     }
 
     // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
+    }
 
     public static function getPositionFieldName(string $field): string {
         switch ($field) {

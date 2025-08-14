@@ -3,13 +3,14 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\StravaLinkRepository;
 
 #[ORM\Table(name: 'strava_links')]
 #[ORM\Index(name: 'user_id_index', columns: ['user_id'])]
 #[ORM\Entity(repositoryClass: StravaLinkRepository::class)]
-class StravaLink {
+class StravaLink implements TestableInterface {
     #[ORM\Column(type: 'text', nullable: false)]
     private string $access_token;
 
@@ -77,5 +78,11 @@ class StravaLink {
 
     public function setStravaUser(string $new_strava_user): void {
         $this->strava_user = $new_strava_user;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

@@ -6,13 +6,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Quiz\SkillCategoryRepository;
 
 #[ORM\Table(name: 'quiz_categories')]
 #[ORM\Index(name: 'name_index', columns: ['name'])]
 #[ORM\Index(name: 'parent_category_index', columns: ['parent_category_id'])]
 #[ORM\Entity(repositoryClass: SkillCategoryRepository::class)]
-class SkillCategory extends OlzEntity {
+class SkillCategory extends OlzEntity implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -64,5 +65,11 @@ class SkillCategory extends OlzEntity {
 
     public function addSkill(Skill $new_skill): void {
         $this->skills->add($new_skill);
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

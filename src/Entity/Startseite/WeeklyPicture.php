@@ -6,12 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Startseite\WeeklyPictureRepository;
 
 #[ORM\Table(name: 'weekly_picture')]
 #[ORM\Index(name: 'datum_index', columns: ['datum'])]
 #[ORM\Entity(repositoryClass: WeeklyPictureRepository::class)]
-class WeeklyPicture extends OlzEntity implements DataStorageInterface {
+class WeeklyPicture extends OlzEntity implements DataStorageInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Column(type: 'date', nullable: true)]
@@ -66,6 +67,10 @@ class WeeklyPicture extends OlzEntity implements DataStorageInterface {
 
     public function __toString(): string {
         return "WeeklyPicture (ID: {$this->getId()})";
+    }
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 
     public static function getEntityNameForStorage(): string {

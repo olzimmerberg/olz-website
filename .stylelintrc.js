@@ -1,6 +1,4 @@
-/* global module */
-
-module.exports = {
+export default {
     'extends': 'stylelint-config-sass-guidelines',
     'plugins': [
         'stylelint-scss',

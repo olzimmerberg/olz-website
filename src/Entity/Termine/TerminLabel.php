@@ -12,6 +12,7 @@ use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\PositionableInterface;
 use Olz\Entity\Common\SearchableInterface;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Termine\TerminLabelRepository;
 
 #[ORM\Table(name: 'termin_labels')]
@@ -19,7 +20,7 @@ use Olz\Repository\Termine\TerminLabelRepository;
 #[ORM\Index(name: 'name_index', columns: ['name'])]
 #[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
 #[ORM\Entity(repositoryClass: TerminLabelRepository::class)]
-class TerminLabel extends OlzEntity implements DataStorageInterface, PositionableInterface, SearchableInterface {
+class TerminLabel extends OlzEntity implements DataStorageInterface, PositionableInterface, SearchableInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -104,6 +105,10 @@ class TerminLabel extends OlzEntity implements DataStorageInterface, Positionabl
     }
 
     // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
+    }
 
     public static function getEntityNameForStorage(): string {
         return 'termin_labels';

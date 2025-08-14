@@ -6,11 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Snippets\SnippetRepository;
 
 #[ORM\Table(name: 'snippets')]
 #[ORM\Entity(repositoryClass: SnippetRepository::class)]
-class Snippet extends OlzEntity implements DataStorageInterface {
+class Snippet extends OlzEntity implements DataStorageInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -37,6 +38,10 @@ class Snippet extends OlzEntity implements DataStorageInterface {
     }
 
     // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
+    }
 
     public static function getEntityNameForStorage(): string {
         return 'snippets';

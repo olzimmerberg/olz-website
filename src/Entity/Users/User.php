@@ -547,6 +547,10 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
 
     // ---
 
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
+    }
+
     public static function getEntityNameForStorage(): string {
         return 'users';
     }

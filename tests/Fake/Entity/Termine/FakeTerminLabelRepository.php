@@ -14,21 +14,16 @@ class FakeTerminLabelRepository extends FakeOlzRepository {
     public string $olzEntityClass = TerminLabel::class;
     public string $fakeOlzEntityClass = FakeTerminLabel::class;
 
-    public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        $is_ident_valid = [
-            'programm' => true,
-            'weekend' => true,
-            'training' => true,
-            'trophy' => true,
-            'ol' => true,
-            'club' => true,
+    /** @return array<TerminLabel> */
+    public function findAll(): array {
+        return [
+            FakeTerminLabel::minimal(),
+            FakeTerminLabel::empty(),
+            FakeTerminLabel::maximal(),
+            FakeTerminLabel::weekend(),
+            FakeTerminLabel::training(),
+            FakeTerminLabel::ol(),
+            FakeTerminLabel::club(),
         ];
-        $ident = $criteria['ident'] ?? '';
-        if ($is_ident_valid[$ident] ?? false) {
-            $termin_label = new TerminLabel();
-            $termin_label->setIdent($ident);
-            return $termin_label;
-        }
-        return parent::findOneBy($criteria);
     }
 }

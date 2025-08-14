@@ -4,6 +4,7 @@ namespace Olz\Entity\Members;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\Members\MemberRepository;
 
@@ -11,7 +12,7 @@ use Olz\Repository\Members\MemberRepository;
 #[ORM\Index(name: 'ident_index', columns: ['ident'])]
 #[ORM\Index(name: 'user_id_index', columns: ['user_id'])]
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
-class Member extends OlzEntity {
+class Member extends OlzEntity implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -68,5 +69,11 @@ class Member extends OlzEntity {
 
     public function setUpdates(?string $new_value): void {
         $this->updates = $new_value;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

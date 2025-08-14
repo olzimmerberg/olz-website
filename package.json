@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "olz-website",
   "version": "1.0.0",
   "description": "Der Client-Code der Website der OL Zimmerberg",

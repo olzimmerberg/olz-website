@@ -106,7 +106,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setCoordinateY(237021);
                 $entity->setDeadline(new \DateTime('2020-03-13 18:00:00'));
                 $entity->setShouldPromote(true);
-                $entity->setSolvId(11012);
+                $entity->setSolvId(1234);
                 $entity->setGo2olId('deprecated');
                 $entity->setNewsletter(true);
                 $entity->setImageIds(['image__________________1.jpg', 'image__________________2.png']);

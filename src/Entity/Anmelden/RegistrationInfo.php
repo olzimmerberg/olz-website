@@ -4,12 +4,13 @@ namespace Olz\Entity\Anmelden;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Anmelden\RegistrationInfoRepository;
 
 #[ORM\Table(name: 'anmelden_registration_infos')]
 #[ORM\Index(name: 'ident_index', columns: ['ident'])]
 #[ORM\Entity(repositoryClass: RegistrationInfoRepository::class)]
-class RegistrationInfo extends OlzEntity {
+class RegistrationInfo extends OlzEntity implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -116,5 +117,9 @@ class RegistrationInfo extends OlzEntity {
 
     public function __toString(): string {
         return "RegistrationInfo (ID: {$this->getId()})";
+    }
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

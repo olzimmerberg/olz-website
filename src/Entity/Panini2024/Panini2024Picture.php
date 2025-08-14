@@ -4,11 +4,12 @@ namespace Olz\Entity\Panini2024;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Panini2024\Panini2024PictureRepository;
 
 #[ORM\Table(name: 'panini24')]
 #[ORM\Entity(repositoryClass: Panini2024PictureRepository::class)]
-class Panini2024Picture extends OlzEntity {
+class Panini2024Picture extends OlzEntity implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -147,5 +148,11 @@ class Panini2024Picture extends OlzEntity {
             return;
         }
         $this->infos = $sane_value;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

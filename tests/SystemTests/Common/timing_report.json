@@ -93,6 +93,7 @@
     "Olz\\Tests\\SystemTests\\TermineTest::testTermineCreateSolv": 13.1,
     "Olz\\Tests\\SystemTests\\TermineTest::testTermineDetailDelete": 7.5,
     "Olz\\Tests\\SystemTests\\TermineTest::testTermineReadOnly": 5.1,
+    "Olz\\Tests\\SystemTests\\TermineTest::testTermineUpdate": 12.5,
     "Olz\\Tests\\SystemTests\\VereinTest::testAddRessortAssignee": 9.5,
     "Olz\\Tests\\SystemTests\\VereinTest::testAddSubRole": 9.9,
     "Olz\\Tests\\SystemTests\\VereinTest::testEditRessortData": 13.5,

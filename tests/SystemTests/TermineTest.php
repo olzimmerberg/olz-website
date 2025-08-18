@@ -178,6 +178,26 @@ final class TermineTest extends SystemTestCase {
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testTermineUpdate(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('admin', 'adm1n');
+        $browser->get($this->getDetailUrl());
+
+        $this->click('#edit-termin-button');
+        $this->waitForModal('#edit-termin-modal');
+        $this->sendKeys('#edit-termin-modal #title-input', ' UPDATED');
+
+        $this->click('#edit-termin-modal #submit-button');
+        $this->waitUntilGone('#edit-termin-modal');
+
+        $browser->get($this->getDetailUrl());
+        $this->assertSame('Training 4 UPDATED', $this->getText('.olz-termin-detail h1'));
+
+        $this->resetDb();
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTermineDetailDelete(): void {
         $browser = $this->getBrowser();
 

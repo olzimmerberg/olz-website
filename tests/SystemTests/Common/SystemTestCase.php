@@ -111,13 +111,19 @@ class SystemTestCase extends KernelTestCase {
         );
     }
 
-    protected function click(string $css_selector): void {
-        try {
-            $this->doClick($css_selector);
-        } catch (\Throwable $th) {
-            $this->waitABit();
-            $this->doClick($css_selector);
+    protected function retry(callable $fn): void {
+        for ($i = 0; $i < 10; $i++) {
+            try {
+                $fn();
+                return;
+            } catch (\Throwable $th) {
+                $this->waitABit();
+            }
         }
+    }
+
+    protected function click(string $css_selector): void {
+        $this->retry(fn () => $this->doClick($css_selector));
     }
 
     protected function doClick(string $css_selector): void {
@@ -128,12 +134,7 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function clear(string $css_selector): void {
-        try {
-            $this->doClear($css_selector);
-        } catch (\Throwable $th) {
-            $this->waitABit();
-            $this->doClear($css_selector);
-        }
+        $this->retry(fn () => $this->doClear($css_selector));
     }
 
     protected function doClear(string $css_selector): void {
@@ -144,12 +145,7 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function sendKeys(string $css_selector, string $string): void {
-        try {
-            $this->doSendKeys($css_selector, $string);
-        } catch (\Throwable $th) {
-            $this->waitABit();
-            $this->doSendKeys($css_selector, $string);
-        }
+        $this->retry(fn () => $this->doSendKeys($css_selector, $string));
     }
 
     protected function doSendKeys(string $css_selector, string $string): void {
@@ -160,12 +156,7 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function selectOption(string $css_selector, string $option): void {
-        try {
-            $this->doSelectOption($css_selector, $option);
-        } catch (\Throwable $th) {
-            $this->waitABit();
-            $this->doSelectOption($css_selector, $option);
-        }
+        $this->retry(fn () => $this->doSelectOption($css_selector, $option));
     }
 
     protected function doSelectOption(string $css_selector, string $option): void {

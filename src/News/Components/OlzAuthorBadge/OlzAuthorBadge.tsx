@@ -13,10 +13,10 @@ interface OlzAuthorBadgeProps {
 }
 
 export const OlzAuthorBadge = (props: OlzAuthorBadgeProps): React.ReactElement => {
-    const [authorInfo, setAuthorInfo] = React.useState<OlzAuthorInfoData|null>(null);
-    const [error, setError] = React.useState<Error|null>(null);
+    const [authorInfo, setAuthorInfo] = React.useState<OlzAuthorInfoData | null>(null);
+    const [error, setError] = React.useState<Error | null>(null);
 
-    const onReady = async (captchaToken: string|null) => {
+    const onReady = async (captchaToken: string | null) => {
         const request: OlzApiRequests['getAuthorInfo'] = {id: props.id};
         if (captchaToken) {
             request.captchaToken = captchaToken;

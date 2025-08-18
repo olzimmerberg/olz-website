@@ -122,132 +122,229 @@ describe('Uploader', () => {
         it('works', async () => {
             const uploader = new UploaderForUnitTest();
             const fakeOlzApi = new FakeOlzApi();
-            fakeOlzApi.mock('startUpload', () => Promise.resolve({status: 'OK', id: 'new-id'}));
+            fakeOlzApi.mock(
+                'startUpload',
+                ({suffix}) => Promise.resolve({status: 'OK', id: `id-${suffix}`}),
+            );
             fakeOlzApi.mock('updateUpload', () => Promise.resolve({status: 'OK'}));
             fakeOlzApi.mock('finishUpload', () => Promise.resolve({status: 'OK'}));
             uploader.setOlzApi(fakeOlzApi);
 
             // Start request
-            const promise = uploader.upload('a'.repeat(MAX_PART_LENGTH * 2.5), 'upload.txt');
-
-            let promiseIsResolvedWith: string|null = null;
-            promise.then((uploadId: string) => {
-                promiseIsResolvedWith = uploadId;
+            const promise1 = uploader.upload('a'.repeat(MAX_PART_LENGTH * 0.5), 'upload1.txt');
+            const promise2 = uploader.upload('a'.repeat(MAX_PART_LENGTH * 2.5), 'upload2.txt');
+            let promise1IsResolvedWith: string | null = null;
+            promise1.then((uploadId: string) => {
+                promise1IsResolvedWith = uploadId;
             });
+            let promise2IsResolvedWith: string | null = null;
+            promise2.then((uploadId: string) => {
+                promise2IsResolvedWith = uploadId;
+            });
+
             expect(uploader.getUploadQueue()).toEqual([]);
 
             // Wait for request response
             await Promise.resolve();
 
-            expect(uploader.getUploadQueue()).toEqual([{
-                uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
-                parts: [
-                    {status: 'READY'},
-                    {status: 'READY'},
-                    {status: 'READY'},
-                ],
-                status: 'UPLOADING',
-            }]);
-            expect(uploader.processHasBeenCalledTimes).toEqual(1);
-            expect(promiseIsResolvedWith).toEqual(null);
+            expect(uploader.getUploadQueue()).toEqual([
+                {
+                    uploadId: 'id-upload1.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 0.5),
+                    parts: [
+                        {status: 'READY'},
+                    ],
+                    status: 'UPLOADING',
+                },
+                {
+                    uploadId: 'id-upload2.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                    parts: [
+                        {status: 'READY'},
+                        {status: 'READY'},
+                        {status: 'READY'},
+                    ],
+                    status: 'UPLOADING',
+                },
+            ]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(2);
+            expect(promise1IsResolvedWith).toEqual(null);
+            expect(promise2IsResolvedWith).toEqual(null);
 
             uploader.testOnlyProcess();
 
-            expect(uploader.getUploadQueue()).toEqual([{
-                uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
-                parts: [
-                    {status: 'UPLOADING'},
-                    {status: 'UPLOADING'},
-                    {status: 'READY'}, // Max. 2 concurrent
-                ],
-                status: 'UPLOADING',
-            }]);
-            expect(uploader.processHasBeenCalledTimes).toEqual(1);
+            expect(uploader.getUploadQueue()).toEqual([
+                {
+                    uploadId: 'id-upload1.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 0.5),
+                    parts: [
+                        {status: 'UPLOADING'},
+                    ],
+                    status: 'UPLOADING',
+                },
+                {
+                    uploadId: 'id-upload2.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                    parts: [
+                        {status: 'UPLOADING'},
+                        {status: 'READY'},
+                        {status: 'READY'},
+                    ],
+                    status: 'UPLOADING',
+                },
+            ]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(2);
 
             // Wait for request response
             await Promise.resolve();
 
-            expect(uploader.getUploadQueue()).toEqual([{
-                uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
-                parts: [
-                    {status: 'DONE'},
-                    {status: 'DONE'},
-                    {status: 'READY'},
-                ],
-                status: 'UPLOADING',
-            }]);
-            expect(uploader.processHasBeenCalledTimes).toEqual(3);
+            expect(uploader.getUploadQueue()).toEqual([
+                {
+                    uploadId: 'id-upload1.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 0.5),
+                    parts: [
+                        {status: 'DONE'},
+                    ],
+                    status: 'UPLOADING',
+                },
+                {
+                    uploadId: 'id-upload2.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                    parts: [
+                        {status: 'DONE'},
+                        {status: 'READY'},
+                        {status: 'READY'},
+                    ],
+                    status: 'UPLOADING',
+                },
+            ]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(4);
 
             uploader.testOnlyProcess();
 
-            expect(uploader.getUploadQueue()).toEqual([{
-                uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
-                parts: [
-                    {status: 'DONE'},
-                    {status: 'DONE'},
-                    {status: 'UPLOADING'},
-                ],
-                status: 'UPLOADING',
-            }]);
-            expect(uploader.processHasBeenCalledTimes).toEqual(3);
+            expect(uploader.getUploadQueue()).toEqual([
+                {
+                    uploadId: 'id-upload1.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 0.5),
+                    parts: [
+                        {status: 'DONE'},
+                    ],
+                    status: 'FINISHING',
+                },
+                {
+                    uploadId: 'id-upload2.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                    parts: [
+                        {status: 'DONE'},
+                        {status: 'UPLOADING'},
+                        {status: 'READY'},
+                    ],
+                    status: 'UPLOADING',
+                },
+            ]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(4);
 
             // Wait for request response
             await Promise.resolve();
 
-            expect(uploader.getUploadQueue()).toEqual([{
-                uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
-                parts: [
-                    {status: 'DONE'},
-                    {status: 'DONE'},
-                    {status: 'DONE'},
-                ],
-                status: 'UPLOADING',
-            }]);
-            expect(uploader.processHasBeenCalledTimes).toEqual(4);
+            expect(uploader.getUploadQueue()).toEqual([
+                {
+                    uploadId: 'id-upload1.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 0.5),
+                    parts: [
+                        {status: 'DONE'},
+                    ],
+                    status: 'DONE',
+                },
+                {
+                    uploadId: 'id-upload2.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                    parts: [
+                        {status: 'DONE'},
+                        {status: 'DONE'},
+                        {status: 'READY'},
+                    ],
+                    status: 'UPLOADING',
+                },
+            ]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(6);
 
             uploader.testOnlyProcess();
 
-            expect(uploader.getUploadQueue()).toEqual([{
-                uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
-                parts: [
-                    {status: 'DONE'},
-                    {status: 'DONE'},
-                    {status: 'DONE'},
-                ],
-                status: 'FINISHING',
-            }]);
-            expect(uploader.processHasBeenCalledTimes).toEqual(4);
+            expect(uploader.getUploadQueue()).toEqual([
+                {
+                    uploadId: 'id-upload2.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                    parts: [
+                        {status: 'DONE'},
+                        {status: 'DONE'},
+                        {status: 'UPLOADING'},
+                    ],
+                    status: 'UPLOADING',
+                },
+            ]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(6);
+
+            // Wait for request response
+            await Promise.resolve();
+
+            expect(uploader.getUploadQueue()).toEqual([
+                {
+                    uploadId: 'id-upload2.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                    parts: [
+                        {status: 'DONE'},
+                        {status: 'DONE'},
+                        {status: 'DONE'},
+                    ],
+                    status: 'UPLOADING',
+                },
+            ]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(7);
+
+            uploader.testOnlyProcess();
+
+            expect(uploader.getUploadQueue()).toEqual([
+                {
+                    uploadId: 'id-upload2.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                    parts: [
+                        {status: 'DONE'},
+                        {status: 'DONE'},
+                        {status: 'DONE'},
+                    ],
+                    status: 'FINISHING',
+                },
+            ]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(7);
 
             // Wait for (inexistent) request response
             await Promise.resolve();
 
-            expect(uploader.getUploadQueue()).toEqual([{
-                uploadId: 'new-id',
-                base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
-                parts: [
-                    {status: 'DONE'},
-                    {status: 'DONE'},
-                    {status: 'DONE'},
-                ],
-                status: 'DONE',
-            }]);
-            expect(uploader.processHasBeenCalledTimes).toEqual(5);
+            expect(uploader.getUploadQueue()).toEqual([
+                {
+                    uploadId: 'id-upload2.txt',
+                    base64Content: 'a'.repeat(MAX_PART_LENGTH * 2.5),
+                    parts: [
+                        {status: 'DONE'},
+                        {status: 'DONE'},
+                        {status: 'DONE'},
+                    ],
+                    status: 'DONE',
+                },
+            ]);
+            expect(uploader.processHasBeenCalledTimes).toEqual(8);
 
             uploader.testOnlyProcess();
 
             expect(uploader.getUploadQueue()).toEqual([]);
-            expect(uploader.processHasBeenCalledTimes).toEqual(5);
+            expect(uploader.processHasBeenCalledTimes).toEqual(8);
 
             await Promise.resolve();
             await Promise.resolve();
 
-            expect(promiseIsResolvedWith).toEqual('new-id');
+            expect(promise1IsResolvedWith).toEqual('id-upload1.txt');
+            expect(promise2IsResolvedWith).toEqual('id-upload2.txt');
         });
     });
 

@@ -9,7 +9,7 @@ export class OlzApi extends Api<OlzApiEndpoint, OlzApiRequests, OlzApiResponses>
     public async getResult<T extends OlzApiEndpoint>(
         endpoint: T,
         request: OlzApiRequests[T],
-    ): Promise<[Error, null]|[null, OlzApiResponses[T]]> {
+    ): Promise<[Error, null] | [null, OlzApiResponses[T]]> {
         try {
             const response = await this.call(endpoint, request);
             return [null, response];

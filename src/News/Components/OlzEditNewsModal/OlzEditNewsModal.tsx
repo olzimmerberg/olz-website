@@ -13,17 +13,17 @@ import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditNewsModal.scss';
 
-type PublishAtOption = 'unchanged'|'now'|'custom';
+type PublishAtOption = 'unchanged' | 'now' | 'custom';
 
 interface OlzEditNewsForm {
-    format: OlzNewsFormat|'UNDEFINED'|undefined;
-    authorUserId: number|null;
-    authorRoleId: number|null;
-    authorName: string|null;
-    authorEmail: string|null;
+    format: OlzNewsFormat | 'UNDEFINED' | undefined;
+    authorUserId: number | null;
+    authorRoleId: number | null;
+    authorName: string | null;
+    authorEmail: string | null;
     publishAtOption: PublishAtOption;
-    publishAtDateTime: string|null;
-    publishedAt: string|null;
+    publishAtDateTime: string | null;
+    publishedAt: string | null;
     title: string;
     teaser: string;
     content: string;
@@ -97,13 +97,13 @@ function getApiFromForm(config: OlzEditNewsModalConfig, formData: OlzEditNewsFor
 
 // ---
 
-export type OlzEditNewsModalMode = 'anonymous'|'account'|'account_with_blog'|'account_with_aktuell'|'account_with_all';
+export type OlzEditNewsModalMode = 'anonymous' | 'account' | 'account_with_blog' | 'account_with_aktuell' | 'account_with_all';
 
 interface OlzEditNewsModalConfig {
     name: string;
     hasFreeFormAuthor: boolean;
     hasTeaser: boolean;
-    contentLabel: string|null;
+    contentLabel: string | null;
     hasFormattingNotes: boolean;
     hasExternalUrl: boolean;
     hasImages: boolean;
@@ -230,7 +230,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
     const [isRolesLoading, setIsRolesLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
-    const [captchaToken, setCaptchaToken] = React.useState<string|null>(null);
+    const [captchaToken, setCaptchaToken] = React.useState<string | null>(null);
 
     const format = watch('format');
     const config = (format && format !== 'UNDEFINED') ? CONFIG_BY_FORMAT[format] : DEFAULT_CONFIG;
@@ -337,7 +337,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                                 defaultValue={format ?? 'UNDEFINED'}
                             >
                                 <option disabled value='UNDEFINED'>
-                                                    Bitte wählen...
+                                    Bitte wählen...
                                 </option>
                                 {availableFormats.map((formatOption) => (
                                     <option value={formatOption} key={formatOption}>

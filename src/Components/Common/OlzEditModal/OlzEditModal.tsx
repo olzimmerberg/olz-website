@@ -20,14 +20,14 @@ export const MARKDOWN_NOTICE = (<>
 </>);
 
 export type OlzEditModalStatus = {id: 'IDLE'}
-    |{id: 'LOADING'}
-    |{id: 'WAITING_FOR_CAPTCHA'}
-    |{id: 'SUBMITTING'}
-    |{id: 'SUBMITTED', message?: string}
-    |{id: 'SUBMIT_FAILED', message: string}
-    |{id: 'DELETING'}
-    |{id: 'DELETED', message?: string}
-    |{id: 'DELETE_FAILED', message: string};
+    | {id: 'LOADING'}
+    | {id: 'WAITING_FOR_CAPTCHA'}
+    | {id: 'SUBMITTING'}
+    | {id: 'SUBMITTED', message?: string}
+    | {id: 'SUBMIT_FAILED', message: string}
+    | {id: 'DELETING'}
+    | {id: 'DELETED', message?: string}
+    | {id: 'DELETE_FAILED', message: string};
 
 interface OlzEditModalProps {
     modalId: string;

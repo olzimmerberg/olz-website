@@ -24,7 +24,7 @@ export async function olzOevSearchConnection(
 
 export const OlzTransportConnectionSearch = (): React.ReactElement => {
     const [connectionSuggestions, setConnectionSuggestions] =
-        React.useState<OlzTransportSuggestion[]|null>(null);
+        React.useState<OlzTransportSuggestion[] | null>(null);
 
     const destinationInput = React.useRef<HTMLInputElement>(null);
     const arrivalInput = React.useRef<HTMLInputElement>(null);

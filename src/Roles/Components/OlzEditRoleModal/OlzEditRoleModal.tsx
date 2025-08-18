@@ -20,10 +20,10 @@ interface OlzEditRoleForm {
     guide: string,
     imageIds: string[],
     fileIds: string[],
-    parentRole: number|null,
+    parentRole: number | null,
     positionWithinParent: string,
     featuredPosition: string,
-    canHaveChildRoles: string|boolean,
+    canHaveChildRoles: string | boolean,
 }
 
 const resolver: Resolver<OlzEditRoleForm> = async (values) => {

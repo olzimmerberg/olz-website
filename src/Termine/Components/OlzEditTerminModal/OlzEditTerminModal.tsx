@@ -28,7 +28,7 @@ export const TERMIN_LOCATION_NOTICE = (<>
 </>);
 
 interface OlzEditTerminForm {
-    solvId: number|null;
+    solvId: number | null;
     startDate: string;
     startTime: string;
     endDate: string;
@@ -37,13 +37,13 @@ interface OlzEditTerminForm {
     text: string;
     deadline: string;
     shouldPromote: string;
-    types: (string|boolean)[];
-    locationId: number|null;
+    types: (string | boolean)[];
+    locationId: number | null;
     coordinateX: string;
     coordinateY: string;
     fileIds: string[];
     imageIds: string[];
-    hasNewsletter: string|boolean;
+    hasNewsletter: string | boolean;
 }
 
 const resolver: Resolver<OlzEditTerminForm> = async (values) => {
@@ -85,7 +85,7 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
     };
 }
 
-function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number|undefined, formData: OlzEditTerminForm): OlzTerminData {
+function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number | undefined, formData: OlzEditTerminForm): OlzTerminData {
     const typesSet = new Set(labels
         .map((label, index) => (
             getApiBoolean(formData.types[index]) ? label.data.ident : undefined
@@ -139,8 +139,8 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const [isLocationLoading, setIsLocationLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
-    const [templateId, setTemplateId] = React.useState<number|null>(props.templateId ?? null);
-    const [templateData, setTemplateData] = React.useState<OlzTerminTemplateData|null>(null);
+    const [templateId, setTemplateId] = React.useState<number | null>(props.templateId ?? null);
+    const [templateData, setTemplateData] = React.useState<OlzTerminTemplateData | null>(null);
 
     const startDate = watch('startDate');
     const startTime = watch('startTime');

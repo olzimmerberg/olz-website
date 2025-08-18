@@ -13,12 +13,12 @@ import {assert} from '../../../Utils/generalUtils';
 import './OlzEditUserModal.scss';
 
 interface OlzEditUserForm {
-    parentUserId: number|null;
+    parentUserId: number | null;
     firstName: string;
     lastName: string;
     username: string;
-    password: string|null;
-    passwordRepeat: string|null;
+    password: string | null;
+    passwordRepeat: string | null;
     email: string;
     phone: string;
     gender: OlzUserData['gender'];
@@ -32,7 +32,7 @@ interface OlzEditUserForm {
     solvNumber: string;
     ahvNumber: string;
     dressSize: string;
-    avatarImageId: string|null;
+    avatarImageId: string | null;
 }
 
 const resolver: Resolver<OlzEditUserForm> = async (values) => {
@@ -140,7 +140,7 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
     });
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
-    const [captchaToken, setCaptchaToken] = React.useState<string|null>(null);
+    const [captchaToken, setCaptchaToken] = React.useState<string | null>(null);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
 
     const firstName = watch('firstName');

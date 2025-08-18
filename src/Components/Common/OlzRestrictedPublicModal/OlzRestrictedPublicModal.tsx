@@ -6,7 +6,7 @@ import './OlzRestrictedPublicModal.scss';
 
 interface OlzRestrictedPublicModalProps {
     id: string;
-    onReady: (captchaToken: string|null) => void;
+    onReady: (captchaToken: string | null) => void;
     children: React.ReactNode;
 }
 

@@ -9,7 +9,7 @@ import {initOlzUserInfoModal} from '../../../../Users';
 
 import './OlzMembers.scss';
 
-type ImportState = 'IDLE'|'UPLOADING'|'IMPORTING'|'IMPORTED';
+type ImportState = 'IDLE' | 'UPLOADING' | 'IMPORTING' | 'IMPORTED';
 
 const PANIC_NOTICE = '⚠️ Falls du einen Fehler gemacht hast, mache einfach einen neuen, korrekten Import!';
 const LABEL_BY_ACTION = {
@@ -52,8 +52,8 @@ export const OlzMembers = (): React.ReactElement => {
 
     const [isUploading, setIsUploading] = React.useState<boolean>(false);
     const [status, setStatus] = React.useState<ImportState>('IDLE');
-    const [members, setMembers] = React.useState<OlzMemberInfo[]|null>(null);
-    const [exportCsv, setExportCsv] = React.useState<string|null>(null);
+    const [members, setMembers] = React.useState<OlzMemberInfo[] | null>(null);
+    const [exportCsv, setExportCsv] = React.useState<string | null>(null);
 
     const onSubmit: SubmitHandler<OlzMembersImportForm> = async (values) => {
         const data = getApiFromForm(values);

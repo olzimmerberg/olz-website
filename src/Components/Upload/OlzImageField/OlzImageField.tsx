@@ -28,8 +28,8 @@ interface OlzImageFieldProps<Values extends FieldValues, Name extends Path<Value
 }
 
 export const OlzImageField = <
-Values extends FieldValues,
-Name extends Path<Values>
+    Values extends FieldValues,
+    Name extends Path<Values>,
 >(props: OlzImageFieldProps<Values, Name>): React.ReactElement => {
     const errorMessage = props.errors?.[props.name]?.message;
     const errorClassName = errorMessage ? ' is-invalid' : '';
@@ -41,8 +41,8 @@ Name extends Path<Values>
         rules: props.rules,
     });
 
-    const initialUploadedFile: UploadedFile|null = field.value && {uploadState: 'UPLOADED', uploadId: field.value} || null;
-    const [file, setFile] = React.useState<UploadFile|null>(initialUploadedFile);
+    const initialUploadedFile: UploadedFile | null = field.value && {uploadState: 'UPLOADED', uploadId: field.value} || null;
+    const [file, setFile] = React.useState<UploadFile | null>(initialUploadedFile);
 
     React.useEffect(() => {
         if (file?.uploadState !== 'UPLOADING') {
@@ -115,7 +115,7 @@ Name extends Path<Values>
                 uploadProgress: 0,
                 uploadId: uploadId,
             });
-        } catch (err: unknown) {
+        } catch (_err: unknown) {
             console.error(`${acceptedFile.name} ist kein Bild, bitte wähle ein Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
             setFile(null);
         }

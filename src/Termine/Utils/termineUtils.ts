@@ -12,9 +12,9 @@ export interface TerminUpdate {
     text: string;
     deadline: string;
     shouldPromote: string;
-    hasNewsletter: string|boolean;
-    types: (string|boolean)[];
-    locationId: number|null;
+    hasNewsletter: string | boolean;
+    types: (string | boolean)[];
+    locationId: number | null;
     fileIds: string[];
     imageIds: string[];
 }
@@ -24,7 +24,7 @@ export function getTerminUpdateFromTemplate(
     startDate: string,
     startTime: string,
     labels: Entity<OlzTerminLabelData>[],
-): TerminUpdate|null {
+): TerminUpdate | null {
     const [error, computedStartDate] = validateDateOrNull(startDate);
     const computedStartTime = startTime || templateData.startTime || '';
     const startIso = error

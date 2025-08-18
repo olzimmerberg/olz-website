@@ -11,7 +11,7 @@ const HEI = 200;
 const RES = 2;
 
 interface OlzCaptchaProps {
-    onToken: (captchaToken: string|null) => void;
+    onToken: (captchaToken: string | null) => void;
 }
 
 interface TokenContent {
@@ -20,7 +20,7 @@ interface TokenContent {
 }
 
 interface LogEntry {
-    event: 'D' |'M'| 'U';
+    event: 'D' | 'M' | 'U';
     x: number;
     y: number;
 }
@@ -28,7 +28,7 @@ interface LogEntry {
 type Coord = [number, number];
 
 export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
-    const [config, setConfig] = React.useState<OlzCaptchaConfig|null>(null);
+    const [config, setConfig] = React.useState<OlzCaptchaConfig | null>(null);
     const [currentRatio, setCurrentRatio] = React.useState<number>(0.0);
     const [isDragging, setIsDragging] = React.useState<boolean>(false);
     const [isFinished, setIsFinished] = React.useState<boolean>(false);

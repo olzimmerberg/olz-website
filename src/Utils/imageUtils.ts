@@ -44,7 +44,7 @@ export function getRadianAngle(degreeValue: number): number {
 }
 
 export function getResizedCanvas(
-    original: HTMLImageElement|HTMLCanvasElement,
+    original: HTMLImageElement | HTMLCanvasElement,
     maximumSize: number,
 ): HTMLCanvasElement {
     const [destinationWidth, destinationHeight] = getResizedDimensions(
@@ -52,7 +52,7 @@ export function getResizedCanvas(
     );
 
     // Hack to improve interpolation quality
-    let notTooHugeDrawable: HTMLImageElement|HTMLCanvasElement = original;
+    let notTooHugeDrawable: HTMLImageElement | HTMLCanvasElement = original;
     if (
         destinationWidth * 2 < original.width
         && destinationHeight * 2 < original.height
@@ -73,7 +73,7 @@ export function getResizedCanvas(
 }
 
 export function getCanvasOfSize(
-    drawable: HTMLImageElement|HTMLCanvasElement,
+    drawable: HTMLImageElement | HTMLCanvasElement,
     width: number,
     height: number,
 ): HTMLCanvasElement {
@@ -87,11 +87,11 @@ export function getCanvasOfSize(
 
 export function getBase64FromCanvas(
     canvas: HTMLCanvasElement,
-): string|undefined {
-    let resizedBase64: string|undefined;
+): string | undefined {
+    let resizedBase64: string | undefined;
     try {
         resizedBase64 = canvas.toDataURL('image/jpeg');
-    } catch (err: unknown) {
+    } catch (_err: unknown) {
         resizedBase64 = canvas.toDataURL();
     }
     return resizedBase64;

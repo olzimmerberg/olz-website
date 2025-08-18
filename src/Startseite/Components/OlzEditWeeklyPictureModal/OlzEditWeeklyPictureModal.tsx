@@ -11,7 +11,7 @@ import './OlzEditWeeklyPictureModal.scss';
 
 interface OlzEditWeeklyPictureForm {
     text: string;
-    imageId: string|undefined;
+    imageId: string | undefined;
 }
 
 const resolver: Resolver<OlzEditWeeklyPictureForm> = async (values) => {

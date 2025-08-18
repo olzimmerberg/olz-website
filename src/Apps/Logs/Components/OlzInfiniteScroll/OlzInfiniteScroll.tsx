@@ -3,8 +3,8 @@ import React from 'react';
 export interface OlzInfiniteScrollProps<Item, Query> {
     fetch: (query: Query) => Promise<{
         items: Item[],
-        prevQuery: Query|null,
-        nextQuery: Query|null,
+        prevQuery: Query | null,
+        nextQuery: Query | null,
     }>;
     initialQuery: Query;
     renderItem: (item: Item) => React.ReactElement;
@@ -20,8 +20,8 @@ export const OlzInfiniteScroll = <Item, Query>(
 ): React.ReactElement => {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [items, setItems] = React.useState<Item[]>([]);
-    const [prevQuery, setPrevQuery] = React.useState<Query|null>(null);
-    const [nextQuery, setNextQuery] = React.useState<Query|null>(null);
+    const [prevQuery, setPrevQuery] = React.useState<Query | null>(null);
+    const [nextQuery, setNextQuery] = React.useState<Query | null>(null);
     const [isPrevLoading, setIsPrevLoading] = React.useState<boolean>(false);
     const [isNextLoading, setIsNextLoading] = React.useState<boolean>(false);
     const [containerHeight, setContainerHeight] = React.useState<number>();

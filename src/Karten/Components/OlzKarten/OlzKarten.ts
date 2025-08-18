@@ -50,7 +50,7 @@ const highlightOverlay = new VectorLayer({
         }),
     }),
 });
-let map: Map|null = null;
+let map: Map | null = null;
 
 export function olzKartenMapRender(
     olzKartenList: KartenList[],
@@ -102,13 +102,13 @@ export function olzKartenMapRender(
             zoom: 11,
         }),
     });
-    let highlightedFeature: FeatureLike|null = null;
+    let highlightedFeature: FeatureLike | null = null;
     map.on('pointermove', (evt) => {
         if (!map || evt.dragging) {
             return;
         }
         let nearestDistance: number = 20 - Math.log(map?.getView().getResolution() ?? 1);
-        let nearestFeature: FeatureLike|null = null;
+        let nearestFeature: FeatureLike | null = null;
         map.forEachFeatureAtPixel(evt.pixel, (thisFeature) => {
             const extent = thisFeature.getGeometry()?.getExtent();
             if (!map || !extent) {

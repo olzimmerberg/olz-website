@@ -1,7 +1,7 @@
 import './OlzResults.scss';
 
-let filePath: string|undefined = undefined;
-let xmlDoc: XMLDocument|undefined = undefined;
+let filePath: string | undefined = undefined;
+let xmlDoc: XMLDocument | undefined = undefined;
 
 if (window.location.search) {
     const match = /\?file=([^&#]+)/.exec(window.location.search);
@@ -214,7 +214,7 @@ function showChart(classInd: number) {
         }
     }
 
-    const svg: SVGSVGElement|null = document.querySelector('#grafik-svg');
+    const svg: SVGSVGElement | null = document.querySelector('#grafik-svg');
     if (!svg) {
         return;
     }

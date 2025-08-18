@@ -14,7 +14,7 @@ import './OlzLoginModal.scss';
 interface OlzLoginForm {
     usernameOrEmail: string;
     password: string;
-    rememberMe: string|boolean;
+    rememberMe: string | boolean;
 }
 
 const resolver: Resolver<OlzLoginForm> = async (values) => {

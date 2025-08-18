@@ -29,7 +29,7 @@ interface OlzMultiImageFieldProps<Values extends FieldValues, Name extends Path<
 
 export const OlzMultiImageField = <
     Values extends FieldValues,
-    Name extends Path<Values>
+    Name extends Path<Values>,
 >(props: OlzMultiImageFieldProps<Values, Name>): React.ReactElement => {
     const errorMessage = props.errors?.[props.name]?.message;
     const errorClassName = errorMessage ? ' is-invalid' : '';
@@ -44,7 +44,7 @@ export const OlzMultiImageField = <
     const [uploadFiles, setUploadFiles] = React.useState<UploadFile[]>(() => field.value.map(
         (uploadId: string) => ({uploadState: 'UPLOADED', uploadId}),
     ));
-    const [registeringId, setRegisteringId] = React.useState<string|null>(null);
+    const [registeringId, setRegisteringId] = React.useState<string | null>(null);
 
     React.useEffect(() => {
         const uploadedFiles = uploadFiles.filter((uploadFile) => uploadFile.uploadState === 'UPLOADED');
@@ -120,7 +120,7 @@ export const OlzMultiImageField = <
                     }
                     return {...uploadFile, uploadState: 'UPLOADING', uploadId, uploadProgress: 0};
                 }));
-            } catch (err: unknown) {
+            } catch (_err: unknown) {
                 console.error(`${file.name} ist kein Bild, bitte wähle ein Bild aus. \nEin Bild hat meist die Endung ".jpg", ".jpeg" oder ".png".`);
                 setUploadFiles((current) => current.filter((uploadFile) =>
                     !isRegisteringFile(uploadFile) || uploadFile.id !== registeringFile.id));

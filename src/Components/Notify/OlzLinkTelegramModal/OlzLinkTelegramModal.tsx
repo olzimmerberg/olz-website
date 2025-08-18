@@ -9,10 +9,10 @@ import './OlzLinkTelegramModal.scss';
 // ---
 
 export const OlzLinkTelegramModal = (): React.ReactElement => {
-    const [chatLinkDesktop, setChatLinkDesktop] = React.useState<string|null>(null);
-    const [chatLinkMobile, setChatLinkMobile] = React.useState<string|null>(null);
-    const [chatMessage, setChatMessage] = React.useState<string|null>(null);
-    const [errorMessage, setErrorMessage] = React.useState<string|null>(null);
+    const [chatLinkDesktop, setChatLinkDesktop] = React.useState<string | null>(null);
+    const [chatLinkMobile, setChatLinkMobile] = React.useState<string | null>(null);
+    const [chatMessage, setChatMessage] = React.useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
     React.useEffect(() => {
         olzApi.call(

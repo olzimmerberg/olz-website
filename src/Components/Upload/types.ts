@@ -17,4 +17,4 @@ export interface UploadedFile {
     uploadId: string;
 }
 
-export type UploadFile = RegisteringFile|UploadingFile|UploadedFile;
+export type UploadFile = RegisteringFile | UploadingFile | UploadedFile;

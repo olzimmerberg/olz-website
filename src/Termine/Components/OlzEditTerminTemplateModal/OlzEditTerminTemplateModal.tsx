@@ -20,11 +20,11 @@ interface OlzEditTerminTemplateForm {
     deadlineEarlierSeconds: string;
     deadlineTime: string;
     shouldPromote: string;
-    types: (string|boolean)[];
-    locationId: number|null;
+    types: (string | boolean)[];
+    locationId: number | null;
     imageIds: string[];
     fileIds: string[];
-    hasNewsletter: string|boolean;
+    hasNewsletter: string | boolean;
 }
 
 const resolver: Resolver<OlzEditTerminTemplateForm> = async (values) => {
@@ -273,7 +273,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                     id='hasNewsletter-input'
                 />
                 <label htmlFor='hasNewsletter-input'>
-                                    Newsletter für Änderung
+                    Newsletter für Änderung
                 </label>
             </div>
         </OlzEditModal>

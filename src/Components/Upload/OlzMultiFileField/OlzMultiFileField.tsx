@@ -26,7 +26,7 @@ interface OlzMultiFileFieldProps<Values extends FieldValues, Name extends Path<V
 
 export const OlzMultiFileField = <
     Values extends FieldValues,
-    Name extends Path<Values>
+    Name extends Path<Values>,
 >(props: OlzMultiFileFieldProps<Values, Name>): React.ReactElement => {
     const errorMessage = props.errors?.[props.name]?.message;
     const errorClassName = errorMessage ? ' is-invalid' : '';
@@ -41,7 +41,7 @@ export const OlzMultiFileField = <
     const [uploadFiles, setUploadFiles] = React.useState<UploadFile[]>(() => field.value.map(
         (uploadId: string) => ({uploadState: 'UPLOADED', uploadId}),
     ));
-    const [registeringId, setRegisteringId] = React.useState<string|null>(null);
+    const [registeringId, setRegisteringId] = React.useState<string | null>(null);
 
     React.useEffect(() => {
         if (uploadFiles.length === 0) {
@@ -101,7 +101,7 @@ export const OlzMultiFileField = <
                     }
                     return {...uploadFile, uploadState: 'UPLOADING', uploadId, uploadProgress: 0};
                 }));
-            } catch (err: unknown) {
+            } catch (_err: unknown) {
                 setUploadFiles((current) => current.filter((uploadFile) =>
                     !isRegisteringFile(uploadFile) || uploadFile.id !== registeringFile.id));
             }

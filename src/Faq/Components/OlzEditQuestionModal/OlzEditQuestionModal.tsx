@@ -16,7 +16,7 @@ import './OlzEditQuestionModal.scss';
 interface OlzEditQuestionForm {
     ident: string,
     question: string,
-    categoryId: number|null,
+    categoryId: number | null,
     positionWithinCategory: string,
     answer: string,
     imageIds: string[],

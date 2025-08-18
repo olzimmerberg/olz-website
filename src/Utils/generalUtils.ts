@@ -1,6 +1,6 @@
 import {OlzMetaData} from '../Api/client/generated_olz_api_types';
 
-export function assert<T>(value: T|null|undefined, errorMessage?: string): T {
+export function assert<T>(value: T | null | undefined, errorMessage?: string): T {
     if (value === null || value === undefined) {
         throw new Error(errorMessage ?? 'Non-null/undefined assertion failed');
     }
@@ -18,7 +18,7 @@ export function getErrorOrThrow(err: unknown): Error {
     return err;
 }
 
-export function isDefined<T>(value: T|undefined|null): value is T {
+export function isDefined<T>(value: T | undefined | null): value is T {
     return value !== null && value !== undefined;
 }
 

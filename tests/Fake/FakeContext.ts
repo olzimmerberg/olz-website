@@ -136,7 +136,7 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
         throw new Error('Method not implemented.');
     }
 
-    roundRect(x: number, y: number, w: number, h: number, radii: number|number[]): void {
+    roundRect(x: number, y: number, w: number, h: number, radii: number | number[]): void {
         throw new Error('Method not implemented.');
     }
 
@@ -280,9 +280,9 @@ class FakeContext implements CanvasRenderingContext2D, ImageBitmapRenderingConte
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
-type ContextType = (CanvasRenderingContext2D&
-    ImageBitmapRenderingContext&
-    WebGL2RenderingContext&
+type ContextType = (CanvasRenderingContext2D &
+    ImageBitmapRenderingContext &
+    WebGL2RenderingContext &
     FakeContext);
 
 export function getFakeContext(): ContextType {

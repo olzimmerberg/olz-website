@@ -27,10 +27,10 @@ interface OlzUserInfoModalProps {
 }
 
 export const OlzUserInfoModal = (props: OlzUserInfoModalProps): React.ReactElement => {
-    const [user, setUser] = React.useState<OlzUserInfoData|null>(null);
-    const [error, setError] = React.useState<Error|null>(null);
+    const [user, setUser] = React.useState<OlzUserInfoData | null>(null);
+    const [error, setError] = React.useState<Error | null>(null);
 
-    const onReady = async (captchaToken: string|null) => {
+    const onReady = async (captchaToken: string | null) => {
         const request: OlzApiRequests['getUserInfo'] = {id: props.id};
         if (captchaToken) {
             request.captchaToken = captchaToken;

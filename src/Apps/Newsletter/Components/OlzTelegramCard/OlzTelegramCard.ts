@@ -9,7 +9,7 @@ export function olzTelegramNotificationsUpdate(form: Record<string, {value?: str
     const weeklyPreview = form['weekly-preview'].checked ?? false;
     const deadlineWarning = form['deadline-warning'].checked ?? false;
     const daysString = form['deadline-warning-days'].value;
-    const deadlineWarningDays: '1'|'2'|'3'|'7' = (daysString === '1' || daysString === '2' || daysString === '3' || daysString === '7') ? daysString : '3';
+    const deadlineWarningDays: '1' | '2' | '3' | '7' = (daysString === '1' || daysString === '2' || daysString === '3' || daysString === '7') ? daysString : '3';
     const dailySummary = form['daily-summary'].checked ?? false;
     const dailySummaryAktuell = form['daily-summary-aktuell'].checked ?? false;
     const dailySummaryBlog = form['daily-summary-blog'].checked ?? false;

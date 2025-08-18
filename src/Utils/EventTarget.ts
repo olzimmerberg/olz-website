@@ -8,7 +8,7 @@ interface EventTypeDict {
 
 type EventCallbacksDict<T extends EventTypeDict> = {
     [typeName in keyof T]?: EventCallback<T[typeName]>[]
-}
+};
 
 export class EventTarget<T extends EventTypeDict> {
     private eventRegistry?: EventCallbacksDict<T>;

@@ -1,11 +1,11 @@
-/* global __dirname, module, require */
-/* exported module */
+import fs from 'fs';
+import path from 'path';
+import url from 'url';
+import WebpackShellPluginNext from 'webpack-shell-plugin-next';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import {StatsWriterPlugin} from 'webpack-stats-plugin';
 
-const fs = require('fs');
-const path = require('path');
-const WebpackShellPluginNext = require('webpack-shell-plugin-next');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const {StatsWriterPlugin} = require('webpack-stats-plugin');
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const defaultConfig = {
     mode: 'development',
@@ -105,7 +105,7 @@ const appConfigs = apps
     })
     .filter((config) => config !== null);
 
-module.exports = [
+export default [
     {
         ...defaultConfig,
         entry: './_/index.ts',

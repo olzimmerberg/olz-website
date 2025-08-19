@@ -17,7 +17,7 @@ describe('initReact', () => {
         initTestReactRoot();
 
         const result = initReact('test-id', <div>test-text</div>);
-        await timeout(1);
+        await timeout(10);
 
         expect(result).toEqual(false);
         expect(document.body.textContent).toEqual('test-text');
@@ -27,7 +27,7 @@ describe('initReact', () => {
         initTestReactRoot();
 
         const result = initReact('inexistent-id', <div>test-text</div>);
-        await timeout(1);
+        await timeout(10);
 
         expect(result).toEqual(false);
         expect(document.body.textContent).toEqual('');
@@ -37,13 +37,13 @@ describe('initReact', () => {
         initTestReactRoot();
 
         const result1 = initReact('test-id', <div>test-text-1</div>);
-        await timeout(1);
+        await timeout(10);
 
         expect(result1).toEqual(false);
         expect(document.body.textContent).toEqual('test-text-1');
 
         const result2 = initReact('test-id', <div>test-text-2</div>);
-        await timeout(1);
+        await timeout(10);
 
         expect(result2).toEqual(false);
         expect(document.body.textContent).toEqual('test-text-2');

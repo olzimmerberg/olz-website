@@ -1,4 +1,4 @@
-/* global global */
+/* global global, window */
 import $ from 'jquery';
 global.$ = $;
 global.jQuery = $;

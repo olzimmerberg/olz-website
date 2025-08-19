@@ -40,18 +40,22 @@ describe('getResolverResult', () => {
 describe('getFormBoolean', () => {
     it('works for false', () => {
         expect(formUtils.getFormBoolean(false)).toEqual('');
+        expect(formUtils.getFormBoolean(false, 'foo')).toEqual('');
     });
 
     it('works for true', () => {
         expect(formUtils.getFormBoolean(true)).toEqual('yes');
+        expect(formUtils.getFormBoolean(true, 'foo')).toEqual('foo');
     });
 
     it('works for null', () => {
         expect(formUtils.getFormBoolean(null)).toEqual('');
+        expect(formUtils.getFormBoolean(null, 'foo')).toEqual('');
     });
 
     it('works for undefined', () => {
         expect(formUtils.getFormBoolean(undefined)).toEqual('');
+        expect(formUtils.getFormBoolean(undefined, 'foo')).toEqual('');
     });
 });
 

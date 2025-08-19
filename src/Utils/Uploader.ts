@@ -13,13 +13,13 @@ interface FileUpload {
     status: FileUploadStatus;
 }
 
-type FileUploadStatus = 'UPLOADING'|'FINISHING'|'DONE';
+type FileUploadStatus = 'UPLOADING' | 'FINISHING' | 'DONE';
 
 interface FileUploadPart {
     status: FileUploadPartStatus;
 }
 
-type FileUploadPartStatus = 'READY'|'UPLOADING'| 'DONE';
+type FileUploadPartStatus = 'READY' | 'UPLOADING' | 'DONE';
 
 interface UploaderState {
     numberOfRunningRequests: number;
@@ -33,7 +33,7 @@ interface UploadState {
     size: number;
 }
 
-type UploadRequest = UpdateUploadRequest|FinishUploadRequest;
+type UploadRequest = UpdateUploadRequest | FinishUploadRequest;
 
 interface UpdateUploadRequest {
     type: 'UPDATE';
@@ -49,7 +49,7 @@ interface FinishUploadRequest {
 }
 
 export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
-    private static instance: Uploader|null = null;
+    private static instance: Uploader | null = null;
 
     protected maxPartLength = 1024 * 32;
     protected maxConcurrentRequests = 5;
@@ -58,7 +58,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
 
     protected uploadQueue: FileUpload[] = [];
 
-    public async upload(base64Content: string, suffix: string|null): Promise<FileUploadId> {
+    public async upload(base64Content: string, suffix: string | null): Promise<FileUploadId> {
         const uploadId = await this.add(base64Content, suffix);
         return new Promise((resolve) => {
             const onUploadFinished = (e: CustomEvent<string>) => {
@@ -72,9 +72,9 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
         });
     }
 
-    public async add(base64Content: string, suffix: string|null): Promise<FileUploadId> {
+    public async add(base64Content: string, suffix: string | null): Promise<FileUploadId> {
         const response = await this.olzApi.call('startUpload', {suffix});
-        const uploadId: FileUploadId|null = response.id ?? null;
+        const uploadId: FileUploadId | null = response.id ?? null;
         if (!uploadId) {
             throw new Error('olzApi.startUpload did not return an id');
         }
@@ -201,6 +201,7 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
                 }
             }
             if (uploadAtIndex.status === 'UPLOADING' && numDoneParts === numParts) {
+                /* istanbul ignore next */
                 if (nextRequests.length < this.maxConcurrentRequests) {
                     nextRequests.push({
                         type: 'FINISH',

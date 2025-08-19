@@ -1,53 +1,53 @@
 .content-middle {
-    height: 100%;
-    margin: 14px 0 0 0;
-    padding: 0 10px 10px;
-    position: relative;
+  height: 100%;
+  margin: 14px 0 0;
+  padding: 0 10px 10px;
+  position: relative;
 }
 
 .content-right {
-    float: none;
-    height: 100%;
-    width: auto;
-    margin: 14px 0 0 0;
-    padding: 0 10px 10px;
+  float: none;
+  height: 100%;
+  width: auto;
+  margin: 14px 0 0;
+  padding: 0 10px 10px;
 
-    &.optional,
-    .optional {
-        display: none;
-    }
+  &.optional,
+  .optional {
+    display: none;
+  }
 }
 
 .content-full {
-    height: 100%;
-    margin: 14px 0 0 0;
-    padding: 0 10px 10px;
-    position: relative;
+  height: 100%;
+  margin: 14px 0 0;
+  padding: 0 10px 10px;
+  position: relative;
 }
 
 @media screen and (min-width: 832px) {
-    .content-middle {
-        margin: 0 300px 0 0;
-    }
+  .content-middle {
+    margin: 0 300px 0 0;
+  }
 
-    .content-right {
-        float: right;
-        width: 300px;
-        padding: 0;
+  .content-right {
+    float: right;
+    width: 300px;
+    padding: 0;
 
-        &.optional,
-        .optional {
-            display: block;
-        }
+    &.optional,
+    .optional {
+      display: block;
     }
+  }
 }
 
 @media screen and (min-width: 1024px) {
-    .content-middle {
-        margin: 14px 300px 0 180px;
-    }
+  .content-middle {
+    margin: 14px 300px 0 180px;
+  }
 
-    .content-full {
-        margin: 14px 0 0 180px;
-    }
+  .content-full {
+    margin: 14px 0 0 180px;
+  }
 }

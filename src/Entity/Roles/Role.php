@@ -57,7 +57,6 @@ class Role extends OlzEntity implements DataStorageInterface, PositionableInterf
     public bool $can_have_child_roles;
 
     /** @var Collection<int|string, User>&iterable<User> */
-    #[ORM\JoinTable(name: 'users_roles')]
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles')]
     private Collection $users;
 

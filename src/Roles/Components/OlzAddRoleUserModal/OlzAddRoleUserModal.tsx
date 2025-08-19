@@ -9,7 +9,7 @@ import {assert} from '../../../Utils/generalUtils';
 import './OlzAddRoleUserModal.scss';
 
 interface OlzAddRoleUserForm {
-    newUser: number|null,
+    newUser: number | null,
 }
 
 const resolver: Resolver<OlzAddRoleUserForm> = async (values) => {

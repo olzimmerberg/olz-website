@@ -1,4 +1,6 @@
-/* eslint-disable wrap-iife, func-names */
+/* global document */
+
+/* eslint-disable func-names */
 (function () {
     let styleElem = document.getElementById('style-overrides');
     if (!styleElem) {
@@ -43,4 +45,4 @@
     if (document.activeElement) {
         document.activeElement.blur();
     }
-})();
+}());

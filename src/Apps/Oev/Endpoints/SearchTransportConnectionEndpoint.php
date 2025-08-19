@@ -360,7 +360,7 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
             }
             $does_improve_travel_time =
                 ($latest_departure_by_station_id[$station_id] ?? $time) < $time;
-            if ($is_before_joining && $does_improve_travel_time && $time !== null) {
+            if ($is_before_joining && $time !== null && $does_improve_travel_time) {
                 $latest_departure_by_station_id[$station_id] = $time;
                 $use_this_connection = true;
             }

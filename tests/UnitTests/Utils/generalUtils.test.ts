@@ -43,7 +43,7 @@ describe('assert', () => {
 describe('assertUnreachable', () => {
     it('works if it is unreachable', () => {
         const aimForTheImpossible = () => {
-            const wtf: 'a'|'b' = 'a';
+            const wtf: 'a' | 'b' = 'a';
             if (wtf === 'a' || wtf === 'b') {
                 return;
             }
@@ -84,7 +84,7 @@ describe('isDefined', () => {
     });
 
     it('filters array', () => {
-        const array: Array<number|undefined|null> = [undefined, 1, null, 4];
+        const array: Array<number | undefined | null> = [undefined, 1, null, 4];
         expect(array.filter(isDefined)).toEqual([1, 4]);
     });
 });

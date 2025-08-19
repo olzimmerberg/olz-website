@@ -1,9 +1,0 @@
-coverage/
-deploy/
-jsbuild/
-_/library/
-node_modules/
-php-coverage/
-public/bundles/
-tscbuild/
-vendor/

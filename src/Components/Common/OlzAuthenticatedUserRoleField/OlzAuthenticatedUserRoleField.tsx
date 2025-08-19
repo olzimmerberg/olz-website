@@ -46,8 +46,8 @@ export const OlzAuthenticatedUserRoleField = <
         rules: props.roleRules,
     });
 
-    const [authenticatedUser, setAuthenticatedUser] = React.useState<OlzAuthenticatedUser|null>(null);
-    const [authenticatedRoles, setAuthenticatedRoles] = React.useState<OlzAuthenticatedRole[]|null>(null);
+    const [authenticatedUser, setAuthenticatedUser] = React.useState<OlzAuthenticatedUser | null>(null);
+    const [authenticatedRoles, setAuthenticatedRoles] = React.useState<OlzAuthenticatedRole[] | null>(null);
 
     React.useEffect(() => {
         olzApi.call('getAuthenticatedUser', {}).then(({user}) => {
@@ -99,7 +99,7 @@ export const OlzAuthenticatedUserRoleField = <
     )
         : authenticatedRoles.length === 0 ? (
             <button className="dropdown-item" type="button" disabled>
-            (Keine Rollen im Verein)
+                (Keine Rollen im Verein)
             </button>
         ) : authenticatedRoles.map((role_, index) => (
             <button

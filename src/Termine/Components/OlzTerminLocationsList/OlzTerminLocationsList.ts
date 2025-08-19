@@ -98,13 +98,13 @@ export function olzTerminLocationsMapRender(
             zoom: 11,
         }),
     });
-    let highlightedFeature: FeatureLike|null = null;
+    let highlightedFeature: FeatureLike | null = null;
     map.on('pointermove', (evt) => {
         if (evt.dragging) {
             return;
         }
         let nearestDistance: number = 20 - Math.log(map.getView().getResolution() ?? 1);
-        let nearestFeature: FeatureLike|null = null;
+        let nearestFeature: FeatureLike | null = null;
         map.forEachFeatureAtPixel(evt.pixel, (thisFeature) => {
             const extent = thisFeature.getGeometry()?.getExtent();
             if (!extent) {

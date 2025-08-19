@@ -17,7 +17,7 @@ interface OlzEditTerminLabelForm {
     ident: string;
     name: string;
     details: string;
-    icon: string|null;
+    icon: string | null;
     position: string;
     imageIds: string[];
     fileIds: string[];

@@ -14,7 +14,7 @@ interface OlzLiveResultsModalProps {
 
 export const OlzLiveResultsModal = (props: OlzLiveResultsModalProps): React.ReactElement => {
     const [name, setName] = React.useState<string>(props.data?.file ?? '');
-    const [fileHandle, setFileHandle] = React.useState<FileSystemFileHandle|null>(null);
+    const [fileHandle, setFileHandle] = React.useState<FileSystemFileHandle | null>(null);
     const [lastFileState, setLastFileState] = React.useState<string>('');
 
     const onChooseFile = async () => {

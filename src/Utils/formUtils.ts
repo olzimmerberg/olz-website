@@ -37,21 +37,21 @@ export function getResolverResult<T extends FieldValues>(
 
 // Boolean
 
-export function getFormBoolean(bool: boolean|null|undefined, value = 'yes'): string {
+export function getFormBoolean(bool: boolean | null | undefined, value = 'yes'): string {
     return bool ? value : '';
 }
 
-export function getApiBoolean(value: string|boolean): boolean {
+export function getApiBoolean(value: string | boolean): boolean {
     return Boolean(typeof value === 'string' ? value.trim() : value);
 }
 
 // Numeric
 
-export function getFormNumber(number: number|null|undefined): string {
+export function getFormNumber(number: number | null | undefined): string {
     return isDefined(number) ? String(number) : '';
 }
 
-export function validateNumberOrNull(valueArg: string): FieldError|undefined {
+export function validateNumberOrNull(valueArg: string): FieldError | undefined {
     const value = valueArg.trim();
     if (value === '') {
         return undefined;
@@ -59,7 +59,7 @@ export function validateNumberOrNull(valueArg: string): FieldError|undefined {
     return validateNumber(value);
 }
 
-export function validateNumber(value: string): FieldError|undefined {
+export function validateNumber(value: string): FieldError | undefined {
     if (value.trim() === '') {
         return {type: 'required', message: 'Darf nicht leer sein.'};
     }
@@ -69,7 +69,7 @@ export function validateNumber(value: string): FieldError|undefined {
     return undefined;
 }
 
-export function validateIntegerOrNull(valueArg: string): FieldError|undefined {
+export function validateIntegerOrNull(valueArg: string): FieldError | undefined {
     const value = valueArg.trim();
     if (value === '') {
         return undefined;
@@ -77,7 +77,7 @@ export function validateIntegerOrNull(valueArg: string): FieldError|undefined {
     return validateInteger(value);
 }
 
-export function validateInteger(value: string): FieldError|undefined {
+export function validateInteger(value: string): FieldError | undefined {
     const numberError = validateNumber(value);
     if (numberError) {
         return numberError;
@@ -88,7 +88,7 @@ export function validateInteger(value: string): FieldError|undefined {
     return undefined;
 }
 
-export function getApiNumber(value: string): number|null {
+export function getApiNumber(value: string): number | null {
     if (value.trim() === '') {
         return null;
     }
@@ -97,18 +97,18 @@ export function getApiNumber(value: string): number|null {
 
 // String
 
-export function getFormString(string: string|null|undefined): string {
+export function getFormString(string: string | null | undefined): string {
     return string ?? '';
 }
 
-export function validateNotEmpty(value: string): FieldError|undefined {
+export function validateNotEmpty(value: string): FieldError | undefined {
     if (!value) {
         return {type: 'required', message: 'Darf nicht leer sein.'};
     }
     return undefined;
 }
 
-export function validateCountryCodeOrNull(valueArg: string): [FieldError|undefined, string] {
+export function validateCountryCodeOrNull(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     if (value === '') {
         return [undefined, ''];
@@ -116,7 +116,7 @@ export function validateCountryCodeOrNull(valueArg: string): [FieldError|undefin
     return validateCountryCode(value);
 }
 
-export function validateCountryCode(valueArg: string): [FieldError|undefined, string] {
+export function validateCountryCode(valueArg: string): [FieldError | undefined, string] {
     const trimmedValue = valueArg.trim();
     // TODO: Remove this case?!?
     if (trimmedValue.length === 1) {
@@ -138,7 +138,7 @@ export function validateCountryCode(valueArg: string): [FieldError|undefined, st
     ];
 }
 
-export function validateEmailOrNull(valueArg: string): [FieldError|undefined, string] {
+export function validateEmailOrNull(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     if (value === '') {
         return [undefined, ''];
@@ -146,7 +146,7 @@ export function validateEmailOrNull(valueArg: string): [FieldError|undefined, st
     return validateEmail(value);
 }
 
-export function validateEmail(valueArg: string): [FieldError|undefined, string] {
+export function validateEmail(valueArg: string): [FieldError | undefined, string] {
     const trimmedValue = valueArg.trim();
     if (!EMAIL_REGEX.exec(trimmedValue)) {
         return [
@@ -157,7 +157,7 @@ export function validateEmail(valueArg: string): [FieldError|undefined, string] 
     return [undefined, trimmedValue];
 }
 
-export function validateGender(valueArg: string|null|undefined): [FieldError|undefined, 'M'|'F'|'O'|null] {
+export function validateGender(valueArg: string | null | undefined): [FieldError | undefined, 'M' | 'F' | 'O' | null] {
     switch (valueArg) {
         case 'M': return [undefined, valueArg];
         case 'F': return [undefined, valueArg];
@@ -172,14 +172,14 @@ export function validateGender(valueArg: string|null|undefined): [FieldError|und
     }
 }
 
-export function validatePassword(value: string): FieldError|undefined {
+export function validatePassword(value: string): FieldError | undefined {
     if (value.length < 8) {
         return {type: 'validate', message: 'Das Passwort muss mindestens 8 Zeichen lang sein.'};
     }
     return undefined;
 }
 
-export function validatePhoneOrNull(valueArg: string): [FieldError|undefined, string] {
+export function validatePhoneOrNull(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     if (value === '') {
         return [undefined, ''];
@@ -187,7 +187,7 @@ export function validatePhoneOrNull(valueArg: string): [FieldError|undefined, st
     return validatePhone(value);
 }
 
-export function validatePhone(valueArg: string): [FieldError|undefined, string] {
+export function validatePhone(valueArg: string): [FieldError | undefined, string] {
     const valueWithoutSpaces = valueArg.replace(/\s+/g, '');
     if (!/^\+[0-9]+$/.exec(valueWithoutSpaces)) {
         return [
@@ -198,7 +198,7 @@ export function validatePhone(valueArg: string): [FieldError|undefined, string] 
     return [undefined, valueWithoutSpaces];
 }
 
-export function validateAhvOrNull(valueArg: string): [FieldError|undefined, string] {
+export function validateAhvOrNull(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     if (value === '') {
         return [undefined, ''];
@@ -206,7 +206,7 @@ export function validateAhvOrNull(valueArg: string): [FieldError|undefined, stri
     return validateAhv(value);
 }
 
-export function validateAhv(valueArg: string): [FieldError|undefined, string] {
+export function validateAhv(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     if (!/^756\.[0-9]{4}\.[0-9]{4}\.[0-9]{2}$/.exec(value)) {
         return [
@@ -217,7 +217,7 @@ export function validateAhv(valueArg: string): [FieldError|undefined, string] {
     return [undefined, value];
 }
 
-export function getApiString(value: string): string|null {
+export function getApiString(value: string): string | null {
     if (value.trim() === '') {
         return null;
     }
@@ -226,7 +226,7 @@ export function getApiString(value: string): string|null {
 
 // Date & Time
 
-export function validateDateTimeOrNull(valueArg: string): [FieldError|undefined, string] {
+export function validateDateTimeOrNull(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     if (value === '') {
         return [undefined, ''];
@@ -234,7 +234,7 @@ export function validateDateTimeOrNull(valueArg: string): [FieldError|undefined,
     return validateDateTime(value);
 }
 
-export function validateDateTime(valueArg: string): [FieldError|undefined, string] {
+export function validateDateTime(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     let timestamp = null;
     const swissMatch = SWISS_DATETIME_REGEX.exec(value);
@@ -269,7 +269,7 @@ export function getDateTimeFeedback(valueArg: string): string {
     return `🟢 ${weekday}`;
 }
 
-export function validateDateOrNull(valueArg: string): [FieldError|undefined, string] {
+export function validateDateOrNull(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     if (value === '') {
         return [undefined, ''];
@@ -277,7 +277,7 @@ export function validateDateOrNull(valueArg: string): [FieldError|undefined, str
     return validateDate(value);
 }
 
-export function validateDate(valueArg: string): [FieldError|undefined, string] {
+export function validateDate(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     let timestamp = null;
     const swissMatch = SWISS_DATE_REGEX.exec(value);
@@ -311,7 +311,7 @@ export function getDateFeedback(valueArg: string): string {
     return `🟢 ${weekday}`;
 }
 
-export function validateTimeOrNull(valueArg: string): [FieldError|undefined, string] {
+export function validateTimeOrNull(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     if (value === '') {
         return [undefined, ''];
@@ -319,7 +319,7 @@ export function validateTimeOrNull(valueArg: string): [FieldError|undefined, str
     return validateTime(value);
 }
 
-export function validateTime(valueArg: string): [FieldError|undefined, string] {
+export function validateTime(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     const res = TIME_REGEX.exec(value);
     if (!res) {

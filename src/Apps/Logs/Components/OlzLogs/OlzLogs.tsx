@@ -48,10 +48,10 @@ const elementFromHash = (
     ] as const;
 };
 
-const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, textSearchArg: string): OlzLogsQuery|null => {
-    let targetDate: string|null = null;
-    let firstDate: string|null = null;
-    let lastDate: string|null = null;
+const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, textSearchArg: string): OlzLogsQuery | null => {
+    let targetDate: string | null = null;
+    let firstDate: string | null = null;
+    let lastDate: string | null = null;
     const [dateTimeError, isoDateTime] = validateDateTime(dateArg);
     const [dateError, isoDate] = validateDate(dateArg);
     if (/^\s*(now|jetzt)\s*$/i.exec(dateArg)) {
@@ -69,7 +69,7 @@ const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, text
         return null;
     }
 
-    const logLevelMap: {[key: string]: OlzLogLevel|null} = {
+    const logLevelMap: {[key: string]: OlzLogLevel | null} = {
         'levels-all': null,
         'levels-info-higher': 'info',
         'levels-notice-higher': 'notice',
@@ -79,7 +79,7 @@ const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, text
         'levels-alert-higher': 'alert',
         'levels-emergency-higher': 'emergency',
     };
-    const minLogLevel: OlzLogLevel|null = logLevelMap[logLevelArg] ?? null;
+    const minLogLevel: OlzLogLevel | null = logLevelMap[logLevelArg] ?? null;
 
     const textSearch = textSearchArg || null;
 
@@ -96,8 +96,8 @@ const getQuery = (channelArg: string, dateArg: string, logLevelArg: string, text
 
 const getTokenQuery = (
     initialQuery: OlzLogsQuery,
-    pageToken: string|null,
-): OlzLogsQuery|null => (pageToken ? {
+    pageToken: string | null,
+): OlzLogsQuery | null => (pageToken ? {
     ...initialQuery,
     pageToken,
 } : null);
@@ -137,7 +137,7 @@ const renderItem = (line: string) => {
             <span className='log-channel'>
                 {match[2]}
             </span>
-                .
+            .
             <span className='log-level'>
                 {match[3]}
             </span>

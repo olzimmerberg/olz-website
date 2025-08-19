@@ -210,7 +210,7 @@ export function getSvgFromInstructions(instructions: PaintInstruction[]): React.
     );
 }
 
-type HaltRole = 'departure'|'halt'|'arrival'|'skip';
+type HaltRole = 'departure' | 'halt' | 'arrival' | 'skip';
 
 interface PaintInstruction {
     connection?: number; // 0 = main connection, n = nth side connection
@@ -311,7 +311,7 @@ function getPaintInstructionsFromSection(
 }
 
 function getPaintInstruction(
-    connection: number|undefined,
+    connection: number | undefined,
     halt: OlzTransportHalt,
     role: HaltRole,
 ): PaintInstruction {

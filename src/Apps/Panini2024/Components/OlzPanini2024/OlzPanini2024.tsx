@@ -28,13 +28,13 @@ const RESIDENCES = [
 ];
 
 interface OlzEditPaniniForm {
-    id: number|null;
-    onOff: string|boolean;
-    uploadId: string|undefined;
+    id: number | null;
+    onOff: string | boolean;
+    uploadId: string | undefined;
     line1: string
     line2: string;
-    residenceOption: string|undefined;
-    residence: string|undefined;
+    residenceOption: string | undefined;
+    residence: string | undefined;
     info1: string;
     info2: string;
     info3: string;
@@ -203,7 +203,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                         disabled={isReadOnly}
                     >
                         <option disabled value='UNDEFINED'>
-                        Bitte wählen...
+                            Bitte wählen...
                         </option>
                         {RESIDENCES.map((formatOption) => (
                             <option value={formatOption} key={formatOption}>
@@ -211,7 +211,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                             </option>
                         ))}
                         <option value='OTHER'>
-                        Andere...
+                            Andere...
                         </option>
                     </select>
                 </div>
@@ -294,7 +294,7 @@ export const OlzPanini2024 = (): React.ReactElement => {
                 className='btn btn-primary'
                 id='submit-button'
             >
-            Speichern
+                Speichern
             </button>
         </form>
         <h2>Panini-Bildli für die ganze Familie erstellen</h2>

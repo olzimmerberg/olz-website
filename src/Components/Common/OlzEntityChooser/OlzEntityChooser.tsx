@@ -8,8 +8,8 @@ import './OlzEntityChooser.scss';
 interface OlzEntityChooserProps {
     entityType: OlzSearchableEntityType;
     filter?: {[key: string]: string};
-    entityId: number|null;
-    onEntityIdChange: (e: CustomEvent<number|null>) => void;
+    entityId: number | null;
+    onEntityIdChange: (e: CustomEvent<number | null>) => void;
     setIsLoading?: (isLoading: boolean) => void;
     disabled?: boolean;
     nullLabel?: string;
@@ -20,8 +20,8 @@ interface OlzEntityChooserProps {
 export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactElement => {
     const [searchString, setSearchString] = React.useState<string>('');
     const [confirmedSearch, setConfirmedSearch] = React.useState<string>('');
-    const [entityResults, setEntityResults] = React.useState<OlzEntityResult[]|null>(null);
-    const [currentEntityTitle, setCurrentEntityTitle] = React.useState<string|null>(null);
+    const [entityResults, setEntityResults] = React.useState<OlzEntityResult[] | null>(null);
+    const [currentEntityTitle, setCurrentEntityTitle] = React.useState<string | null>(null);
 
     const filterCache = React.useMemo<string>(() => JSON.stringify(props.filter), [props.filter]);
 

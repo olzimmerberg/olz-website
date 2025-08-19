@@ -38,7 +38,7 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
     });
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
-    const [captchaToken, setCaptchaToken] = React.useState<string|null>(null);
+    const [captchaToken, setCaptchaToken] = React.useState<string | null>(null);
 
     const onSubmit: SubmitHandler<OlzResetPasswordForm> = async (values) => {
         setStatus({id: 'SUBMITTING'});

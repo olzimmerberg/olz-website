@@ -15,10 +15,10 @@ interface OlzRoleInfoModalProps {
 }
 
 export const OlzRoleInfoModal = (props: OlzRoleInfoModalProps): React.ReactElement => {
-    const [role, setRole] = React.useState<OlzRoleInfoData|null>(null);
-    const [error, setError] = React.useState<Error|null>(null);
+    const [role, setRole] = React.useState<OlzRoleInfoData | null>(null);
+    const [error, setError] = React.useState<Error | null>(null);
 
-    const onReady = async (captchaToken: string|null) => {
+    const onReady = async (captchaToken: string | null) => {
         const request: OlzApiRequests['getRoleInfo'] = {id: props.id};
         if (captchaToken) {
             request.captchaToken = captchaToken;

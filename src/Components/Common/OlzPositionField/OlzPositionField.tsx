@@ -7,9 +7,9 @@ import {OlzEntityChooser} from '../OlzEntityChooser/OlzEntityChooser';
 
 import './OlzPositionField.scss';
 
-type BeforeAfterValue = 'BEFORE'|'AFTER'|'ANYWHERE'|'NOWHERE';
+type BeforeAfterValue = 'BEFORE' | 'AFTER' | 'ANYWHERE' | 'NOWHERE';
 
-const getBeforeAfterValue = (value: string): BeforeAfterValue|null => {
+const getBeforeAfterValue = (value: string): BeforeAfterValue | null => {
     switch (value) {
         case 'ANYWHERE':
             return 'ANYWHERE';
@@ -54,7 +54,7 @@ export const OlzPositionField = <
 
     const [isInitialized, setIsInitialized] = React.useState<boolean>(false);
     const [beforeAfter, setBeforeAfter] = React.useState<BeforeAfterValue>(field.value === '' ? 'NOWHERE' : 'ANYWHERE');
-    const [id, setId] = React.useState<number|null>(null);
+    const [id, setId] = React.useState<number | null>(null);
 
     const filterCache = React.useMemo<string>(() => JSON.stringify(props.filter), [props.filter]);
     const errorMessage = props.errors?.[props.name]?.message?.toString();

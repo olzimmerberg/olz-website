@@ -1,7 +1,7 @@
 import React from 'react';
 import {FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister} from 'react-hook-form';
 
-type OlzTextFieldMode = 'text-input'|'password-input'|'textarea';
+type OlzTextFieldMode = 'text-input' | 'password-input' | 'textarea';
 
 interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values>> {
     mode?: OlzTextFieldMode;
@@ -13,7 +13,7 @@ interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values
     disabled?: boolean;
     placeholder?: string;
     autoComplete?: string;
-    onFocus?: React.FocusEventHandler<HTMLTextAreaElement&HTMLInputElement>;
+    onFocus?: React.FocusEventHandler<HTMLTextAreaElement & HTMLInputElement>;
 }
 
 export const OlzTextField = <

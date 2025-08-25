@@ -5,6 +5,8 @@ namespace Olz\Suche\Components\OlzSuche;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Entity\News\NewsEntry;
+use Olz\Entity\Termine\Termin;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{anfrage: string}> */
@@ -15,9 +17,7 @@ class OlzSucheParams extends HttpParams {
 class OlzSuche extends OlzComponent {
     public function getHtml(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzSucheParams::class);
-        $search_key = $params['anfrage'];
         $date_utils = $this->dateUtils();
-        $db = $this->dbUtils()->getDb();
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();
 
@@ -33,125 +33,75 @@ class OlzSuche extends OlzComponent {
             <div class='content-middle'>
             ZZZZZZZZZZ;
 
-        $search_key = trim(str_replace([",", ".", ";", "   ", "  "], [" ", " ", " ", " ", " "], $search_key));
-        $search_words = explode(" ", $search_key, 4);
-        $sql = "";
+        $terms = preg_split('/[\s,\.;]+/', $params['anfrage']);
+        $this->generalUtils()->checkNotFalse($terms, "Could not split search terms '{$params['anfrage']}'");
+        $pretty_terms = implode(', ', $terms);
+        $out .= "<h2>Suchresultate (Suche nach: {$pretty_terms})</h2>";
 
-        $sql_termine = '';
-        $sql_news = '';
-        for ($n = 0; $n < 3; $n++) {
-            $search_key = $search_words[$n] ?? '';
-            $search_key = $db->real_escape_string($search_key);
-            if ($search_key > "") {
-                $sql_termine .= <<<ZZZZZZZZZZ
-                    (
-                        (title LIKE '%{$search_key}%')
-                        OR (text LIKE '%{$search_key}%')
-                    )
-                    AND
-                    ZZZZZZZZZZ;
-            }
-            if ($search_key > "") {
-                $sql_news .= <<<ZZZZZZZZZZ
-                    (
-                        (title LIKE '%{$search_key}%')
-                        OR (teaser LIKE '%{$search_key}%')
-                        OR (content LIKE '%{$search_key}%')
-                    )
-                    AND
-                    ZZZZZZZZZZ;
-            }
-        }
+        $start_time = microtime(true);
 
-        $pretty_search_words = implode(', ', $search_words);
-        $out .= "<h2>Suchresultate (Suche nach: {$pretty_search_words})</h2>";
-
-        $result_termine = '';
-        $result_news = '';
+        $termine_out = '';
+        $news_out = '';
 
         // TERMINE
-        $sql = "SELECT * FROM termine WHERE {$sql_termine}(on_off = 1) ORDER BY start_date DESC";
-        $result = $db->query($sql);
-        // @phpstan-ignore-next-line
-        $num = mysqli_num_rows($result);
-        if ($num > 0) {
-            $result_termine .= "<tr><td colspan='2'><h3 class='bar green'>Termine...</h3></td></tr>";
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
+        $termine = $termin_repo->search($terms);
+        if (!$termine->isEmpty()) {
+            $termine_out .= "<tr><td colspan='2'><h3 class='bar green'>Termine...</h3></td></tr>";
         }
-
-        for ($i = 0; $i < $num; $i++) {
-            // @phpstan-ignore-next-line
-            $row = mysqli_fetch_array($result);
-            // @phpstan-ignore-next-line
-            $title = strip_tags($row['title']);
-            // @phpstan-ignore-next-line
-            $text = strip_tags($row['text']);
-            // @phpstan-ignore-next-line
-            $id = $row['id'];
-            // @phpstan-ignore-next-line
-            $start_date = $date_utils->olzDate("t. MM jjjj", $row['start_date']);
-            $cutout = $this->cutout($text, $search_words);
-            $result_termine .= <<<ZZZZZZZZZZ
+        foreach ($termine as $termin) {
+            $id = $termin->getId();
+            $cutout = $this->cutout($termin->getText() ?? '', $terms);
+            $termine_out .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>
                         <a href="{$code_href}termine/{$id}" class="linkint">
-                            <b>{$start_date}</b>
+                            <b>{$date_utils->olzDate("t. MM jjjj", $termin->getStartDate())}</b>
                         </a>
                     </td>
                     <td>
                         <a href="{$code_href}termine/{$id}" class="linkint">
-                            <b>{$this->highlight($title, $search_words)}</b>
+                            <b>{$this->highlight($termin->getTitle() ?? '', $terms)}</b>
                         </a>
                         <br>
-                        {$this->highlight($cutout, $search_words)}
+                        {$this->highlight($cutout, $terms)}
                     </td>
                 </tr>
                 ZZZZZZZZZZ;
         }
 
         // NEWS
-        $result = $db->query("SELECT * FROM news WHERE {$sql_news}(on_off = 1) ORDER BY published_date DESC");
-        // @phpstan-ignore-next-line
-        $num = mysqli_num_rows($result);
-        if ($num > 0) {
-            $result_news = "<tr><td colspan='2'><h3 class='bar green'>News...</h3></td></tr>";
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
+        $news = $news_repo->search($terms);
+        if (!$news->isEmpty()) {
+            $news_out = "<tr><td colspan='2'><h3 class='bar green'>News...</h3></td></tr>";
         }
-
-        for ($i = 0; $i < $num; $i++) {
-            // @phpstan-ignore-next-line
-            $row = mysqli_fetch_array($result);
-            // @phpstan-ignore-next-line
-            $title = strip_tags($row['title']);
-            // @phpstan-ignore-next-line
-            $text = strip_tags($row['teaser']).strip_tags($row['content']);
-            // @phpstan-ignore-next-line
-            $id = $row['id'];
-            // @phpstan-ignore-next-line
-            $published_date = $date_utils->olzDate("t. MM jjjj", $row['published_date']);
-            $cutout = $this->cutout($text, $search_words);
-            $result_news .= <<<ZZZZZZZZZZ
+        foreach ($news as $news_entry) {
+            $id = $news_entry->getId();
+            $cutout = $this->cutout($news_entry->getTeaser()." ".$news_entry->getContent(), $terms);
+            $news_out .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>
                         <a href="{$code_href}news/{$id}" class="linkint">
-                            <b>{$published_date}</b>
+                            <b>{$date_utils->olzDate("t. MM jjjj", $news_entry->getPublishedDate())}</b>
                         </a>
                     </td>
                     <td>
                         <a href="{$code_href}news/{$id}" class="linkint">
-                            <b>{$this->highlight($title, $search_words)}</b>
+                            <b>{$this->highlight($news_entry->getTitle(), $terms)}</b>
                         </a>
                         <br>
-                        {$this->highlight($cutout, $search_words)}
+                        {$this->highlight($cutout, $terms)}
                     </td>
                 </tr>
                 ZZZZZZZZZZ;
         }
 
-        $text = $result_termine.$result_news;
+        $duration = microtime(true) - $start_time;
+        $pretty_duration = number_format($duration, 3, '.', '\'');
+        $this->log()->info("Search for '{$pretty_terms}' took {$pretty_duration}s.");
 
-        if ($text != '') {
-            $out .= "<table>".$text."</table>";
-        }
-
+        $out .= "<table>{$termine_out}{$news_out}</table>";
         $out .= "</div>";
 
         $out .= OlzFooter::render();

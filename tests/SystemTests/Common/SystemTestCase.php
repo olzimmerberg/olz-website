@@ -131,6 +131,7 @@ class SystemTestCase extends KernelTestCase {
         $element->getLocationOnScreenOnceScrolledIntoView();
         $this->waitABit();
         $element->click();
+        $this->waitABit();
     }
 
     protected function clear(string $css_selector): void {
@@ -153,6 +154,7 @@ class SystemTestCase extends KernelTestCase {
         $element->getLocationOnScreenOnceScrolledIntoView();
         $this->waitABit();
         $element->sendKeys($string);
+        $this->waitABit();
     }
 
     protected function selectOption(string $css_selector, string $option): void {
@@ -178,6 +180,9 @@ class SystemTestCase extends KernelTestCase {
                 return str_starts_with($this->findBrowserElement("{$css_selector} #entity-index-0")->getText(), $option);
             });
             $this->click("{$css_selector} #entity-index-0");
+            $browser->wait()->until(function () use ($css_selector, $option) {
+                return str_starts_with($this->findBrowserElement("{$css_selector} #dropdown-menu-button")->getText(), $option);
+            });
         }
     }
 

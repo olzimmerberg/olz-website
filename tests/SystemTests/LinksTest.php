@@ -22,6 +22,7 @@ final class LinksTest extends SystemTestCase {
         $this->assertSame([
             'SOLV',
             'GO2OL',
+            'Online-Trainings',
         ], array_map(
             fn ($elem) => $elem->getText(),
             $this->getBrowserElements('.olz-links li')
@@ -42,6 +43,7 @@ final class LinksTest extends SystemTestCase {
             'OLZ',
             'SOLV',
             'GO2OL',
+            'Online-Trainings',
         ], array_map(
             fn ($elem) => $elem->getText(),
             $this->getBrowserElements('.olz-links li')

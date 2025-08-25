@@ -1,33 +1,30 @@
 <?php
 
-namespace Olz\Repository\Karten;
+namespace Olz\Repository\Service;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
-use Olz\Entity\Karten\Karte;
+use Olz\Entity\Service\Download;
 use Olz\Repository\Common\OlzRepository;
 
 /**
- * @extends OlzRepository<Karte>
+ * @extends OlzRepository<Download>
  */
-class KartenRepository extends OlzRepository {
+class DownloadRepository extends OlzRepository {
     /**
      * @param string[] $terms
      *
-     * @return Collection<int, Karte>&iterable<Karte>
+     * @return Collection<int, Download>&iterable<Download>
      */
     public function search(array $terms): Collection {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->eq('on_off', 1),
-                ...array_map(fn ($term) => Criteria::expr()->orX(
-                    Criteria::expr()->contains('name', $term),
-                    Criteria::expr()->contains('ort', $term),
-                ), $terms),
+                ...array_map(fn ($term) => Criteria::expr()->contains('name', $term), $terms),
             ))
             ->orderBy([
-                'jahr' => Order::Descending,
+                'position' => Order::Ascending,
             ])
             ->setFirstResult(0)
             ->setMaxResults(1000000)

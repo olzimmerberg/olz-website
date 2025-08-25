@@ -25,6 +25,6 @@ final class SucheTest extends SystemTestCase {
     }
 
     protected function getUrl(): string {
-        return "{$this->getTargetUrl()}/suche?anfrage=neujahr";
+        return "{$this->getTargetUrl()}/suche?anfrage=trainings";
     }
 }

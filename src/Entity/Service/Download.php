@@ -9,10 +9,11 @@ use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\PositionableInterface;
+use Olz\Repository\Service\DownloadRepository;
 
 #[ORM\Table(name: 'downloads')]
 #[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: DownloadRepository::class)]
 class Download extends OlzEntity implements DataStorageInterface, PositionableInterface {
     use DataStorageTrait;
 

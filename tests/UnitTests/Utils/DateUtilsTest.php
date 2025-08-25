@@ -25,6 +25,11 @@ class TestOnlyDateUtils extends DateUtils {
  * @covers \Olz\Utils\DateUtils
  */
 final class DateUtilsTest extends UnitTestCase {
+    public function testGetIsoArchiveThreshold(): void {
+        $date_utils = new TestOnlyDateUtils('2020-03-13 19:30:00');
+        $this->assertSame('2016-01-01', $date_utils->getIsoArchiveThreshold());
+    }
+
     public function testGetIsoNow(): void {
         $date_utils = new TestOnlyDateUtils('2020-03-13 19:30:00');
         $this->assertSame('2020-03-13 19:30:00', $date_utils->getIsoNow());

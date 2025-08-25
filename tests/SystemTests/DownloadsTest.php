@@ -23,6 +23,7 @@ final class DownloadsTest extends SystemTestCase {
         $this->assertSame([
             'Statuten',
             'Spesenreglement',
+            'Trainingsplan 2020',
         ], array_map(
             fn ($elem) => $elem->getText(),
             $this->getBrowserElements('.olz-downloads li')
@@ -52,6 +53,7 @@ final class DownloadsTest extends SystemTestCase {
             'Neues Jahresprogramm',
             'Statuten',
             'Spesenreglement',
+            'Trainingsplan 2020',
         ], array_map(
             fn ($elem) => $elem->getText(),
             $this->getBrowserElements('.olz-downloads li')

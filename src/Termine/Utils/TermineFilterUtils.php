@@ -5,6 +5,7 @@ namespace Olz\Termine\Utils;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsTrait;
 
 /**
@@ -15,8 +16,6 @@ use Olz\Utils\WithUtilsTrait;
  */
 class TermineFilterUtils {
     use WithUtilsTrait;
-
-    public const ARCHIVE_YEARS_THRESHOLD = 4;
 
     public const ALL_ARCHIVE_OPTIONS = [
         ['ident' => 'ohne', 'name' => "ohne Archiv"],
@@ -193,7 +192,7 @@ class TermineFilterUtils {
     public function getDateRangeOptions(array $filter): array {
         $include_archive = $filter['archiv'] === 'mit';
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
-        $first_year = $include_archive ? 2006 : $current_year - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
+        $first_year = $include_archive ? 2006 : $current_year - DateUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [
             ['ident' => 'bevorstehend', 'name' => "Bevorstehende"],
         ];
@@ -314,9 +313,8 @@ class TermineFilterUtils {
     }
 
     public function getIsNotArchivedCriteria(): Comparison {
-        $years_ago = intval($this->dateUtils()->getCurrentDateInFormat('Y')) - TermineFilterUtils::ARCHIVE_YEARS_THRESHOLD;
-        $beginning_of_years_ago = "{$years_ago}-01-01";
-        return Criteria::expr()->gte('start_date', new \DateTime($beginning_of_years_ago));
+        $archive_threshold = $this->dateUtils()->getIsoArchiveThreshold();
+        return Criteria::expr()->gte('start_date', new \DateTime($archive_threshold));
     }
 
     public static function fromEnv(): self {

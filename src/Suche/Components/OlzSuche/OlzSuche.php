@@ -5,7 +5,12 @@ namespace Olz\Suche\Components\OlzSuche;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Entity\Faq\Question;
+use Olz\Entity\Karten\Karte;
 use Olz\Entity\News\NewsEntry;
+use Olz\Entity\Roles\Role;
+use Olz\Entity\Service\Download;
+use Olz\Entity\Service\Link;
 use Olz\Entity\Termine\Termin;
 use Olz\Utils\HttpParams;
 
@@ -40,28 +45,52 @@ class OlzSuche extends OlzComponent {
 
         $start_time = microtime(true);
 
-        $termine_out = '';
+        $questions_out = '';
+        $karten_out = '';
         $news_out = '';
+        $roles_out = '';
+        $downloads_out = '';
+        $links_out = '';
+        $termine_out = '';
 
-        // TERMINE
-        $termin_repo = $this->entityManager()->getRepository(Termin::class);
-        $termine = $termin_repo->search($terms);
-        if (!$termine->isEmpty()) {
-            $termine_out .= "<tr><td colspan='2'><h3 class='bar green'>Termine...</h3></td></tr>";
+        // FAQ
+        $question_repo = $this->entityManager()->getRepository(Question::class);
+        $questions = $question_repo->search($terms);
+        if (!$questions->isEmpty()) {
+            $questions_out = "<tr><td colspan='2'><h3 class='bar green'>Fragen & Antworten...</h3></td></tr>";
         }
-        foreach ($termine as $termin) {
-            $id = $termin->getId();
-            $cutout = $this->cutout($termin->getText() ?? '', $terms);
-            $termine_out .= <<<ZZZZZZZZZZ
+        foreach ($questions as $question) {
+            $ident = $question->getIdent();
+            $cutout = $this->cutout($question->getIdent()." ".$question->getAnswer(), $terms);
+            $questions_out .= <<<ZZZZZZZZZZ
                 <tr>
+                    <td></td>
                     <td>
-                        <a href="{$code_href}termine/{$id}" class="linkint">
-                            <b>{$date_utils->olzDate("t. MM jjjj", $termin->getStartDate())}</b>
+                        <a href="{$code_href}fragen_und_antworten/{$ident}" class="linkint">
+                            <b>{$this->highlight($question->getQuestion(), $terms)}</b>
                         </a>
+                        <br>
+                        {$this->highlight($cutout, $terms)}
                     </td>
+                </tr>
+                ZZZZZZZZZZ;
+        }
+
+        // KARTEN
+        $karte_repo = $this->entityManager()->getRepository(Karte::class);
+        $karten = $karte_repo->search($terms);
+        if (!$karten->isEmpty()) {
+            $karten_out = "<tr><td colspan='2'><h3 class='bar green'>Karten...</h3></td></tr>";
+        }
+        foreach ($karten as $karte) {
+            $id = $karte->getId();
+            $cutout = $this->cutout("{$karte->getPlace()}", $terms);
+            $karten_out .= <<<ZZZZZZZZZZ
+                <tr>
+                    <td></td>
                     <td>
-                        <a href="{$code_href}termine/{$id}" class="linkint">
-                            <b>{$this->highlight($termin->getTitle() ?? '', $terms)}</b>
+                        <a href="{$code_href}karten/{$id}" class="linkint">
+                            <b>{$this->highlight($karte->getName(), $terms)}</b>
                         </a>
                         <br>
                         {$this->highlight($cutout, $terms)}
@@ -97,11 +126,111 @@ class OlzSuche extends OlzComponent {
                 ZZZZZZZZZZ;
         }
 
+        // ROLES
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $roles = $role_repo->search($terms);
+        if (!$roles->isEmpty()) {
+            $roles_out = "<tr><td colspan='2'><h3 class='bar green'>Ressorts...</h3></td></tr>";
+        }
+        foreach ($roles as $role) {
+            $id = $role->getId();
+            $cutout = $this->cutout("{$role->getUsername()} {$role->getOldUsername()} {$role->getDescription()} {$role->getGuide()}", $terms);
+            $roles_out .= <<<ZZZZZZZZZZ
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="{$code_href}karten/{$id}" class="linkint">
+                            <b>{$this->highlight($role->getName(), $terms)}</b>
+                        </a>
+                        <br>
+                        {$this->highlight($cutout, $terms)}
+                    </td>
+                </tr>
+                ZZZZZZZZZZ;
+        }
+
+        // SERVICE
+        $download_repo = $this->entityManager()->getRepository(Download::class);
+        $downloads = $download_repo->search($terms);
+        if (!$downloads->isEmpty()) {
+            $downloads_out = "<tr><td colspan='2'><h3 class='bar green'>Downloads...</h3></td></tr>";
+        }
+        foreach ($downloads as $download) {
+            $downloads_out .= <<<ZZZZZZZZZZ
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="{$code_href}service" class="linkint">
+                            <b>{$this->highlight($download->getName() ?? '', $terms)}</b>
+                        </a>
+                    </td>
+                </tr>
+                ZZZZZZZZZZ;
+        }
+        $link_repo = $this->entityManager()->getRepository(Link::class);
+        $links = $link_repo->search($terms);
+        if (!$links->isEmpty()) {
+            $links_out = "<tr><td colspan='2'><h3 class='bar green'>Links...</h3></td></tr>";
+        }
+        foreach ($links as $link) {
+            $cutout = $this->cutout("{$link->getUrl()}}", $terms);
+            $links_out .= <<<ZZZZZZZZZZ
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="{$code_href}service" class="linkint">
+                            <b>{$this->highlight($link->getName() ?? '', $terms)}</b>
+                        </a>
+                        <br>
+                        {$this->highlight($cutout, $terms)}
+                    </td>
+                </tr>
+                ZZZZZZZZZZ;
+        }
+
+        // TODO: Snippets
+        // TODO: Weekly picture
+
+        // TERMINE
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
+        $termine = $termin_repo->search($terms);
+        if (!$termine->isEmpty()) {
+            $termine_out .= "<tr><td colspan='2'><h3 class='bar green'>Termine...</h3></td></tr>";
+        }
+        foreach ($termine as $termin) {
+            $id = $termin->getId();
+            $cutout = $this->cutout($termin->getText() ?? '', $terms);
+            $termine_out .= <<<ZZZZZZZZZZ
+                <tr>
+                    <td>
+                        <a href="{$code_href}termine/{$id}" class="linkint">
+                            <b>{$date_utils->olzDate("t. MM jjjj", $termin->getStartDate())}</b>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{$code_href}termine/{$id}" class="linkint">
+                            <b>{$this->highlight($termin->getTitle() ?? '', $terms)}</b>
+                        </a>
+                        <br>
+                        {$this->highlight($cutout, $terms)}
+                    </td>
+                </tr>
+                ZZZZZZZZZZ;
+        }
+
         $duration = microtime(true) - $start_time;
         $pretty_duration = number_format($duration, 3, '.', '\'');
         $this->log()->info("Search for '{$pretty_terms}' took {$pretty_duration}s.");
 
-        $out .= "<table>{$termine_out}{$news_out}</table>";
+        $out .= "<table>
+            {$questions_out}
+            {$karten_out}
+            {$news_out}
+            {$roles_out}
+            {$downloads_out}
+            {$links_out}
+            {$termine_out}
+        </table>";
         $out .= "</div>";
 
         $out .= OlzFooter::render();

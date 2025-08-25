@@ -7,10 +7,11 @@ use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\PositionableInterface;
+use Olz\Repository\Service\LinkRepository;
 
 #[ORM\Table(name: 'links')]
 #[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: LinkRepository::class)]
 class Link extends OlzEntity implements PositionableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]

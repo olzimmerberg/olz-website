@@ -106,7 +106,8 @@ INSERT INTO downloads
 VALUES
     ('1', 'Statuten', '0', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('2', '---', '1', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('3', 'Spesenreglement', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+    ('3', 'Spesenreglement', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('4', 'Trainingsplan 2020', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
 
 -- Table karten
 INSERT INTO karten
@@ -114,7 +115,8 @@ INSERT INTO karten
 VALUES
     ('1', '1086', 'Landforst 🗺️', '2017', '1:10\'000', NULL, '8', 'ol', 'MIGRATED0000000000010001.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.270326086742', '8.5619145270506'),
     ('2', '0', 'Eidmatt', '2020', '1:1\'000', 'Wädenswil', '2', 'scool', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.227491444839', '8.6716637472003'),
-    ('3', '0', 'Horgen Dorfkern', '2011', '1:2\'000', 'Horgen', '8', 'stadt', '6R3bpgwcCU3SfUF8vCpepzRJ.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.257355383409', '8.5999590514731');
+    ('3', '0', 'Horgen Dorfkern', '2011', '1:2\'000', 'Horgen', '8', 'stadt', '6R3bpgwcCU3SfUF8vCpepzRJ.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.257355383409', '8.5999590514731'),
+    ('4', '0', 'Trainings-Karte', '2020', '1:7\'500', '', '8', 'ol', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.26641894057469', '8.543090289598807');
 
 -- Table links
 INSERT INTO links
@@ -122,7 +124,8 @@ INSERT INTO links
 VALUES
     ('1', 'SOLV', 'https://swiss-orienteering.ch', '0', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('2', '---', '---', '1', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('3', 'GO2OL', 'https://go2ol.ch', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+    ('3', 'GO2OL', 'https://go2ol.ch', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('4', 'Online-Trainings', 'https://olzimmerberg.ch/quiz', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
 
 -- Table members
 INSERT INTO members

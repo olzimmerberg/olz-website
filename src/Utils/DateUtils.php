@@ -10,7 +10,14 @@ class DateUtils {
     public const MONTHS_SHORT_DE = ["Jan.", "Feb.", "März", "April", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
     public const MONTHS_LONG_DE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
+    public const ARCHIVE_YEARS_THRESHOLD = 4;
+
     public function __construct(protected ?string $date = null) {
+    }
+
+    public function getIsoArchiveThreshold(): string {
+        $years_ago = intval($this->getCurrentDateInFormat('Y')) - self::ARCHIVE_YEARS_THRESHOLD;
+        return "{$years_ago}-01-01";
     }
 
     public function getCurrentDateInFormat(string $format): string {

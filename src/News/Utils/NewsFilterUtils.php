@@ -4,6 +4,7 @@ namespace Olz\News\Utils;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
+use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsTrait;
 
 /**
@@ -14,8 +15,6 @@ use Olz\Utils\WithUtilsTrait;
  */
 class NewsFilterUtils {
     use WithUtilsTrait;
-
-    public const ARCHIVE_YEARS_THRESHOLD = 4;
 
     public const ALL_FORMAT_OPTIONS = [
         ['ident' => 'alle', 'name' => "Alle"],
@@ -170,7 +169,7 @@ class NewsFilterUtils {
     public function getDateRangeOptions(array $filter): array {
         $include_archive = $filter['archiv'] === 'mit';
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
-        $first_year = $include_archive ? 2006 : $current_year - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
+        $first_year = $include_archive ? 2006 : $current_year - DateUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [];
         for ($year = $current_year; $year >= $first_year; $year--) {
             $year_ident = strval($year);
@@ -305,9 +304,8 @@ class NewsFilterUtils {
     }
 
     public function getIsNotArchivedCriteria(): Comparison {
-        $years_ago = intval($this->dateUtils()->getCurrentDateInFormat('Y')) - NewsFilterUtils::ARCHIVE_YEARS_THRESHOLD;
-        $beginning_of_years_ago = "{$years_ago}-01-01";
-        return Criteria::expr()->gte('published_date', new \DateTime($beginning_of_years_ago));
+        $archive_threshold = $this->dateUtils()->getIsoArchiveThreshold();
+        return Criteria::expr()->gte('published_date', new \DateTime($archive_threshold));
     }
 
     /** @param PartialFilter $filter */

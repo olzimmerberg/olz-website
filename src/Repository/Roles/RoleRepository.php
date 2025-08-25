@@ -4,6 +4,7 @@ namespace Olz\Repository\Roles;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Common\OlzRepository;
 
@@ -70,6 +71,32 @@ class RoleRepository extends OlzRepository {
                 Criteria::expr()->gte('position_within_parent', 0), // Negative = hidden
                 Criteria::expr()->neq('guide', ''),
             ))
+            ->setFirstResult(0)
+            ->setMaxResults(1000000)
+        ;
+        return $this->matching($criteria);
+    }
+
+    /**
+     * @param string[] $terms
+     *
+     * @return Collection<int, Role>&iterable<Role>
+     */
+    public function search(array $terms): Collection {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->eq('on_off', 1),
+                ...array_map(fn ($term) => Criteria::expr()->orX(
+                    Criteria::expr()->contains('username', $term),
+                    Criteria::expr()->contains('old_username', $term),
+                    Criteria::expr()->contains('name', $term),
+                    Criteria::expr()->contains('description', $term),
+                    Criteria::expr()->contains('guide', $term),
+                ), $terms),
+            ))
+            ->orderBy([
+                'last_modified_at' => Order::Descending,
+            ])
             ->setFirstResult(0)
             ->setMaxResults(1000000)
         ;

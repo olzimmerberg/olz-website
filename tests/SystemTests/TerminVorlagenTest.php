@@ -77,7 +77,7 @@ final class TerminVorlagenTest extends SystemTestCase {
         $this->click('#edit-termin-template-modal #submit-button');
         $this->waitUntilGone('#edit-termin-template-modal');
 
-        $browser->get("{$this->getUrl()}/7");
+        $browser->get("{$this->getUrl()}/8");
         $this->screenshot('termin_templates_new_finished');
 
         $this->resetDb();

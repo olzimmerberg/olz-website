@@ -44,6 +44,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                 t.deadline IS NOT NULL
                 AND t.deadline >= '{$now}'
                 AND t.deadline <= '{$this->in_two_weeks}'
+                AND t.on_off = '1'
             ORDER BY deadline ASC
             ZZZZZZZZZZ);
         // @phpstan-ignore-next-line
@@ -73,6 +74,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
                 AND t.should_promote != '0'
                 AND t.image_ids IS NOT NULL
                 AND t.image_ids != '[]'
+                AND t.on_off = '1'
             ORDER BY deadline ASC
             LIMIT 7
             ZZZZZZZZZZ);

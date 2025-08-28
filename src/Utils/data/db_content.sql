@@ -107,7 +107,8 @@ VALUES
     ('1', 'Statuten', '0', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('2', '---', '1', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('3', 'Spesenreglement', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('4', 'Trainingsplan 2020', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+    ('4', 'Trainingsplan 2020', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('5', 'SOFT DELETED', '2', '0', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
 
 -- Table karten
 INSERT INTO karten
@@ -116,7 +117,8 @@ VALUES
     ('1', '1086', 'Landforst 🗺️', '2017', '1:10\'000', NULL, '8', 'ol', 'MIGRATED0000000000010001.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.270326086742', '8.5619145270506'),
     ('2', '0', 'Eidmatt', '2020', '1:1\'000', 'Wädenswil', '2', 'scool', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.227491444839', '8.6716637472003'),
     ('3', '0', 'Horgen Dorfkern', '2011', '1:2\'000', 'Horgen', '8', 'stadt', '6R3bpgwcCU3SfUF8vCpepzRJ.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.257355383409', '8.5999590514731'),
-    ('4', '0', 'Trainings-Karte', '2020', '1:7\'500', '', '8', 'ol', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.26641894057469', '8.543090289598807');
+    ('4', '0', 'Trainings-Karte', '2020', '1:7\'500', '', '8', 'ol', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.26641894057469', '8.543090289598807'),
+    ('5', '0', 'SOFT DELETED', '2020', '1:7\'500', '', '8', 'ol', '', NULL, NULL, NULL, NULL, '0', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.26641894057469', '8.543090289598807');
 
 -- Table links
 INSERT INTO links
@@ -125,7 +127,8 @@ VALUES
     ('1', 'SOLV', 'https://swiss-orienteering.ch', '0', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('2', '---', '---', '1', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('3', 'GO2OL', 'https://go2ol.ch', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('4', 'Online-Trainings', 'https://olzimmerberg.ch/quiz', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+    ('4', 'Online-Trainings', 'https://olzimmerberg.ch/quiz', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
+    ('5', 'SOFT DELETED', 'https://olzimmerberg.ch/quiz', '2', '0', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
 
 -- Table members
 INSERT INTO members
@@ -154,6 +157,7 @@ VALUES
     ('8', '1', '5', '1', NULL, '1', '1', '0', '2020-01-15', '16:51:00', '1', 'Hinweis vom Präsi', '', 'Auch der **Präsident** schreibt im Forum!', '[\"9GjbtlsSu96AWZ-oH0rHjxup.jpg\",\"zUXE3aKfbK3edmqS35FhaF8g.jpg\"]', NULL, NULL, NULL, 'forum', '  ', '0', '1', '2020-01-15 16:51:00', '2020-01-15 16:51:00'),
     ('9', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-06', '16:51:00', '1', 'Longjogg am Sonntag', '', 'Ich will mich nicht einloggen, aber hier mein Beitrag:\n\nIch organisiere einen **Longjogg am Sonntag**.\n\nPackt *warme* Kleidung ein.\n\nWer zum Pastaessen bleiben will, muss sich bis am Samstagmittag bei mir melden.\n\nAusserdem habe ich weitere unfassbar komplizierte Anforderungen an meine Gäste und geht dermassen tief ins Detail, dass dieser Forumseintrag unter keinen Umständen in seiner ganzen Länge in der Liste der Forumseinträge angezeigt werden sollte!\n\nAnreise:\nRichterswil ab 09:30\nWädenswil ab 09:31\nHorgen ab 09:32\nThalwil ab 09:33\nZürich HB ab 09:34\nBei mir an 09:35', '[]', NULL, 'Anonymous', 'anonymous@gmail.com', 'forum', '  ', '0', '1', '2020-01-06 16:51:00', '2020-01-06 16:51:00'),
     ('10', '9', '50', '9', NULL, '9', '9', '0', '2020-08-15', '16:51:00', '1', 'Dank dem neuen News-System trainiere ich 50% besser!', '', '![](./DvDB8QkHcGuxQ4lAFwyvHnVd.jpg)Ich bin total Fan vom neuen News-System! Meine Trainingsleistung hat deswegen um 50% zugenommen (keine Ahnung wieso). Hier die Beweise:\n\n- https://verylongsubdomain.alsoaverylongdomain.long/andlastbutnotleastaverylongpathwhichmustreallybeonlyjustonewordsuchthatthiswordmustbebrokenupexplicitlyinordertonotcompletelybreaktheUI\n- [Beweisstück A](./gAQa_kYXqXTP1_DKKU1s1pGr.csv)\n- [Beweisstück B](./8kCalo9sQtu2mrgrmMjoGLUW.pdf)\n\n![](./OOVJIqrWlitR_iTZuIIhztKC.jpg)', '[\"DvDB8QkHcGuxQ4lAFwyvHnVd.jpg\",\"OOVJIqrWlitR_iTZuIIhztKC.jpg\"]', NULL, NULL, NULL, 'kaderblog', '  ', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('11', '9', '50', '9', NULL, '9', '9', '0', '2020-08-15', '16:51:00', '1', 'SOFT DELETED', 'SOFT DELETED', 'SOFT DELETED', '[]', NULL, NULL, NULL, 'aktuell', '  ', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
     ('1202', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-01', NULL, '1', 'Neujahrsgalerie 📷 2020', '', 'Ein paar Fotos vom Neujahrstag.', '[\"MIGRATED0000000012020001.jpg\",\"MIGRATED0000000012020002.jpg\",\"MIGRATED0000000012020003.jpg\",\"MIGRATED0000000012020004.jpg\",\"MIGRATED0000000012020005.jpg\"]', NULL, '', NULL, 'galerie', '  ', '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00'),
     ('1203', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-08-13', NULL, '1', 'Test Video', '', '', '[\"MIGRATED0000000012030001.jpg\"]', 'https://youtu.be/JVL0vgcnM6c', '', NULL, 'video', '  ', '0', '1', '2020-08-13 14:51:00', '2020-08-13 14:51:00'),
     ('2901', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-01', '21:45:37', '0', 'Guets Nois! 🎉', '', 'Hoi zäme, au vo mier no *Guets Nois*! 🎉', '[]', NULL, 'Bruno 😃 Beispielmitglied', 'beispiel@olzimmerberg.ch', 'forum', '', '0', '1', '2020-01-01 21:45:37', '2020-01-01 21:45:37'),
@@ -251,7 +255,8 @@ INSERT INTO question_categories
 VALUES
     ('1', '1', NULL, '1', '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '0', 'Allgemein'),
     ('2', '1', NULL, '1', '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '1', 'Website'),
-    ('3', '1', NULL, '1', '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '2', 'Leer');
+    ('3', '1', NULL, '1', '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '2', 'Leer'),
+    ('4', '1', NULL, '1', '1', '0', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '1', 'SOFT DELETED');
 
 -- Table questions
 INSERT INTO questions
@@ -272,7 +277,8 @@ VALUES
     ('13', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'weshalb_telegram_push', '1', 'Weshalb verwendet ihr Telegram für den Nachrichten-Push?', 'Das ist natürlich eine sehr berechtigte Frage, denn die Chat-App Telegram steht oft datenschutztechnisch in der Kritik, und wird auch politisch teilweise als nicht neutral wahrgenommen.\r\n\r\nDie einfache Antwort ist, dass kein anderes Chat-App einen solchen automatisierten Chat so einfach und kostenfrei anbietet. Um genau zu sein:\r\n\r\n- Threema hat zwar eine solche Funktionalität, sie ist aber kompliziert zu implementieren und kostenpflichtig: Es kostet sowohl für uns jede Nachricht als auch das App für den Nutzer.\r\n- WhatsApp hat zwar die \"WhatsApp Business API\" mit einer ähnichen Funktionalität, diese ist aber ausdrücklich eher an Grossunternehmen gerichtet, und somit auch kostenpflichtig.\r\n- Signal bietet zwar auch eine Möglichkeit, automatische Nachrichten zu schreiben, aber auch diese ist kompliziert und nur mit weiteren Kosten zu implementieren.\r\n\r\nDie Website-Entwickler danken für euer Verständnis. '),
     ('14', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'benutzername_email_herausfinden', '2', 'Wie finde ich meinen Benutzernamen bzw. E-Mail heraus?', '- Erhälst du den Newsletter? Dann ist es die E-Mail Adresse, an welche der Newsletter versendet wird.\r\n- Hast du Telegram verlinkt? Dann schreib deinem OLZ Bot die Nachricht `/ich`, und er wird dir deinen Benutzernamen und deine E-Mail Adresse mitteilen.\r\n- Wenn du hier angelangt bist, bleibt leider nur noch raten, welche E-Mail Adresse du verwendet haben könntest.\r\n\r\n'),
     ('15', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'neues_familienmitglied', '3', 'Wie kann ich ein OLZ-Konto für ein Familienmitglied erstellen?', '1. Stelle sicher, dass du eingeloggt bist\r\n2. Gehe auf dein Profil (OLZ-Konto-Menu rechts oben > Profil)\r\n3. Wähle \"Neues Familienmitglied erstellen\"\r\n4. Formular ausfüllen und abschicken (Hinweis: Im Gegensatz zum Hauptkonto dürfen E-Mail und Passwort leer bleiben)\r\n5. Nun hast du im OLZ-Konto-Menu rechts oben die Möglichkeit, zwischen deinem Hauptkonto und dem Kind-Konto hin- und herzuwechseln\r\n\r\n'),
-    ('16', '127', '25', '127', '127', '2', '1', '2025-02-12 10:40:04', '2025-02-12 20:38:22', 'markdown', '4', 'Wie kann ich Text formatieren?', '---\n\n**Wie es aussehen wird**\n{.float-right}\n\n**Was du eingibst**\n\n---\n{.clear-both}\n\n# Riesen-Titel (1)\n{.float-right}\n\n`# Riesen-Titel (1)`\n\n---\n{.clear-both}\n\n### Titel (3)\n{.float-right}\n\n`### Titel (3)`\n\n---\n{.clear-both}\n\n*kursiv*\n{.float-right}\n\n`*kursiv*`\n\n---\n{.clear-both}\n\n**fett**\n{.float-right}\n\n`**fett**`\n\n---\n{.clear-both}\n\n- Punkt Eins\n- Punkt Zwei\n{.float-right}\n\n```\n- Punkt Eins\n- Punkt Zwei\n```\n\n---\n{.clear-both}\n\n1. Punkt Eins\n2. Punkt Zwei\n{.float-right}\n\n```\n1. Punkt Eins\n2. Punkt Zwei\n```\n\n---\n{.clear-both}\n\n[Swiss Orienteering](https://swiss-orienteering.ch)\n{.float-right}\n\n`[Swiss Orienteering](https://swiss-orienteering.ch)`\n\n---\n{.clear-both}\n\n**Bild**: Hochladen, dann auf ![](/assets/icns/copy_16.svg) (Kopieren) klicken, und im Text einfügen.\n\n---\n{.clear-both}\n\n**Datei**: Hochladen, dann auf ![](/assets/icns/copy_16.svg) (Kopieren) klicken, und im Text einfügen. `LABEL` durch gewünschten Link-Text ersetzen.\n\n---\n{.clear-both}\n\n[Ausführliche Dokumentation von Markdown (Englisch)](https://www.markdownguide.org/basic-syntax/)');
+    ('16', '127', '25', '127', '127', '2', '1', '2025-02-12 10:40:04', '2025-02-12 20:38:22', 'markdown', '4', 'Wie kann ich Text formatieren?', '---\n\n**Wie es aussehen wird**\n{.float-right}\n\n**Was du eingibst**\n\n---\n{.clear-both}\n\n# Riesen-Titel (1)\n{.float-right}\n\n`# Riesen-Titel (1)`\n\n---\n{.clear-both}\n\n### Titel (3)\n{.float-right}\n\n`### Titel (3)`\n\n---\n{.clear-both}\n\n*kursiv*\n{.float-right}\n\n`*kursiv*`\n\n---\n{.clear-both}\n\n**fett**\n{.float-right}\n\n`**fett**`\n\n---\n{.clear-both}\n\n- Punkt Eins\n- Punkt Zwei\n{.float-right}\n\n```\n- Punkt Eins\n- Punkt Zwei\n```\n\n---\n{.clear-both}\n\n1. Punkt Eins\n2. Punkt Zwei\n{.float-right}\n\n```\n1. Punkt Eins\n2. Punkt Zwei\n```\n\n---\n{.clear-both}\n\n[Swiss Orienteering](https://swiss-orienteering.ch)\n{.float-right}\n\n`[Swiss Orienteering](https://swiss-orienteering.ch)`\n\n---\n{.clear-both}\n\n**Bild**: Hochladen, dann auf ![](/assets/icns/copy_16.svg) (Kopieren) klicken, und im Text einfügen.\n\n---\n{.clear-both}\n\n**Datei**: Hochladen, dann auf ![](/assets/icns/copy_16.svg) (Kopieren) klicken, und im Text einfügen. `LABEL` durch gewünschten Link-Text ersetzen.\n\n---\n{.clear-both}\n\n[Ausführliche Dokumentation von Markdown (Englisch)](https://www.markdownguide.org/basic-syntax/)'),
+    ('17', '1', '25', '1', '1', '1', '0', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'soft_deleted', '0', 'SOFT DELETED', 'SOFT DELETED');
 
 -- Table quiz_categories
 INSERT INTO quiz_categories
@@ -284,7 +290,8 @@ VALUES
     ('4', '1', NULL, NULL, NULL, NULL, 'Gewässer und Sümpfe', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
     ('5', '1', NULL, NULL, NULL, NULL, 'Vegetation', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
     ('6', '1', NULL, NULL, NULL, NULL, 'Künstliche Objekte', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('7', '1', NULL, NULL, NULL, NULL, 'Bahnsymbole', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00');
+    ('7', '1', NULL, NULL, NULL, NULL, 'Bahnsymbole', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('8', '1', NULL, NULL, NULL, NULL, 'SOFT DELETED', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00');
 
 -- Table quiz_skill
 INSERT INTO quiz_skill
@@ -297,7 +304,8 @@ VALUES
     ('5', NULL, NULL, NULL, NULL, 'Unpassierbares Gewässer', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
     ('6', NULL, NULL, NULL, NULL, 'Offenes Gebiet', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
     ('7', NULL, NULL, NULL, NULL, 'Befestigte Fläche', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('8', NULL, NULL, NULL, NULL, 'Startpunkt', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00');
+    ('8', NULL, NULL, NULL, NULL, 'Startpunkt', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
+    ('9', NULL, NULL, NULL, NULL, 'SOFT DELETED', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00');
 
 -- Table quiz_skill_levels
 INSERT INTO quiz_skill_levels
@@ -305,7 +313,8 @@ INSERT INTO quiz_skill_levels
 VALUES
     ('1', '1', '1', '1', NULL, '1', '1', '0.5', '2022-03-17 00:25:26', '1', '2022-03-17 00:25:26', '2022-03-17 00:25:26'),
     ('2', '1', '2', '1', NULL, '1', '1', '0.25', '2022-03-17 00:30:43', '1', '2022-03-17 00:30:43', '2022-03-17 00:30:43'),
-    ('3', '2', '5', '2', NULL, '2', '2', '0.25', '2022-03-17 00:30:43', '1', '2022-03-17 00:30:43', '2022-03-17 00:30:43');
+    ('3', '2', '5', '2', NULL, '2', '2', '0.25', '2022-03-17 00:30:43', '1', '2022-03-17 00:30:43', '2022-03-17 00:30:43'),
+    ('4', '2', '5', '2', NULL, '2', '2', '999999999', '2022-03-17 00:30:43', '0', '2022-03-17 00:30:43', '2022-03-17 00:30:43');
 
 -- Table quiz_skills_categories
 INSERT INTO quiz_skills_categories
@@ -375,7 +384,7 @@ VALUES
     ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '# Kontaktperson Nachwuchs\n\n', '7', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', NULL),
     ('50', 'gold-athleten', NULL, 'Athleten', '# Athleten\n\n', '44', '0', '', 'kaderblog', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
     ('51', 'fan-olz-elite', NULL, 'Fan OLZ Elite', '# Fan OLZ Elite\n\n', '8', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '3', '4'),
-    ('52', 'deleted-role', NULL, '!!! DELETED ROLE !!!', '# !!! DELETED ROLE !!!\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '0', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '4', NULL);
+    ('52', 'deleted-role', NULL, 'SOFT DELETED', '# SOFT DELETED\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '0', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '4', NULL);
 
 -- Table snippets
 INSERT INTO snippets
@@ -459,7 +468,8 @@ VALUES
     ('3', NULL, NULL, NULL, NULL, 'Trainings', '![](./QQ8ZApZjsNSBM2wKrkRQxXZG.jpg) Komm an eines unserer Trainings! [Trainingskonzept als PDF](./6f6novQPv2fjHGzzguXE6nzi.pdf)', NULL, '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'training', '2'),
     ('4', NULL, NULL, NULL, NULL, 'OLZ-Trophy', 'Nimm teil an der OLZ Trophy, einer Reihe von OLs für alle Leistungsstufen!', 'EM8hA6vye74doeon2RWzZyRf.svg', '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'trophy', '3'),
     ('5', NULL, NULL, NULL, NULL, 'Wettkämpfe', '', NULL, '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'ol', '4'),
-    ('6', NULL, NULL, NULL, NULL, 'Vereinsanlässe', '', NULL, '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '5');
+    ('6', NULL, NULL, NULL, NULL, 'Vereinsanlässe', '', NULL, '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '5'),
+    ('7', NULL, NULL, NULL, NULL, 'SOFT DELETED', '', NULL, '0', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '5');
 
 -- Table termin_locations
 INSERT INTO termin_locations
@@ -467,7 +477,8 @@ INSERT INTO termin_locations
 VALUES
     ('1', NULL, NULL, NULL, NULL, 'Chilbiplatz (Thalwil)', '**Infrastruktur:** keine, Garderoben im Freien, keine WCs vorhanden\n\n**öV:** Bus bis \"Thalwil, Chilbiplatz\", oder Zug bis \"Thalwil\", dann 10 min Fussmarsch\n\n**Parkplätze:** auf dem Chilbiplatz', '47.288245737451', '8.5627673724772', '[\"2ZiW6T9biPNjEERzj5xjLRDz.jpg\"]', '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06'),
     ('2', NULL, NULL, NULL, NULL, 'Stumpenhölzlimooshütte (Landforst)', NULL, '47.267405813501', '8.5698615816165', NULL, '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06'),
-    ('3', NULL, NULL, NULL, NULL, 'Sportanlage Brand', NULL, '47.288737009648', '8.5510643251822', NULL, '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06');
+    ('3', NULL, NULL, NULL, NULL, 'Sportanlage Brand', NULL, '47.288737009648', '8.5510643251822', NULL, '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06'),
+    ('4', NULL, NULL, NULL, NULL, 'SOFT DELETED', NULL, '47.2631769788326', '8.589723706823843', NULL, '0', '2023-06-11 19:39:06', '2023-06-11 19:39:06');
 
 -- Table termin_notification_templates
 
@@ -492,7 +503,8 @@ VALUES
     ('3', NULL, '2', '10', '2', '2', '09:00:00', '108000', '604800', '23:59:59', NULL, NULL, NULL, NULL, '1', '<<< TODO >>> Weekend', '\n\n', NULL, '1', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0'),
     ('4', NULL, '2', '10', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Minimal', '\n\n', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0'),
     ('5', NULL, '2', '10', '2', '2', '22:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Open end', '\n\n', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0'),
-    ('6', NULL, '2', '10', '2', '2', NULL, '3600', NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Unknown start', '\n\n', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0');
+    ('6', NULL, '2', '10', '2', '2', NULL, '3600', NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Unknown start', '\n\n', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0'),
+    ('7', NULL, '2', '10', '2', '2', NULL, '3600', NULL, NULL, NULL, NULL, NULL, NULL, '0', 'SOFT DELETED', 'SOFT DELETED', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0');
 
 -- Table termine
 INSERT INTO termine
@@ -511,6 +523,7 @@ VALUES
     ('11', '2020-09-13', '00:00:00', '2020-09-19', '00:00:00', 'Mehrtägeler', 'sow', 'Mir werdeds schaffe!\n\n', '1', NULL, NULL, '123456', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0'),
     ('12', '2020-08-16', '17:00:00', '2020-08-17', '17:00:00', '24h-OL', '24h', 'Dauert genau 24h\n\n', '1', NULL, NULL, '1234567', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0'),
     ('13', '2021-03-12', '18:30:00', NULL, NULL, 'Mitgliederversammlung', NULL, 'schon jetzt für 2021 geplant!\n\n', '1', NULL, NULL, NULL, '0', '2021-03-05 23:59:59', NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"8EKYh2n8DZWShYMWo9ZRnor5.jpg\"]', NULL, '1'),
+    ('14', '2021-03-11', '18:30:00', NULL, NULL, 'SOFT DELETED', NULL, 'SOFT DELETED', '0', NULL, NULL, NULL, '0', '2021-03-05 23:59:59', NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', NULL, '1'),
     ('1001', '2006-01-13', '18:00:00', NULL, '18:00:00', 'Gründungsversammlung OL Zimmerberg', NULL, 'wir gründen uns!\n\n', '1', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0');
 
 -- Table throttlings
@@ -528,6 +541,7 @@ VALUES
     ('7', 'child1', NULL, NULL, 'child1@staging.olzimmerberg.ch', 'Kind', 'Eins', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
     ('8', 'child2', NULL, '', '', 'Kind', 'Zwei', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
     ('9', 'kaderlaeufer', NULL, '$2y$10$YTelsKQLm.Ps9lnXRbDIAOP3SqkE8m9Z/Uw75X4wtyBUA1xY95Lui', 'kaderlaeufer@staging.olzimmerberg.ch', 'Kader', 'Läufer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
+    ('10', 'soft.deleted', NULL, '$2y$10$YTelsKQLm.Ps9lnXRbDIAOP3SqkE8m9Z/Uw75X4wtyBUA1xY95Lui', 'soft.deleted@staging.olzimmerberg.ch', 'SOFT DELETED', 'SOFT DELETED', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL),
     ('42', 'monitoring', NULL, '', 'website@staging.olzimmerberg.ch', 'Monitoring', 'Bot', ' command_cache:clear command_olz:db-backup command_olz:db-reset command_olz:monitor-logs command_olz:monitor-backup command_olz:test command_olz:send-telegram-configuration command_messenger:consume ', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL);
 
 -- Table users_roles
@@ -556,6 +570,7 @@ INSERT INTO weekly_picture
     (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `datum`, `image_id`, `text`, `on_off`, `created_at`, `last_modified_at`)
 VALUES
     ('1', NULL, NULL, NULL, NULL, '2020-01-01', 'ed48ksmyjVgRsaKXUXmmcbRN.jpg', 'Neujahrs-Impression vom Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17'),
-    ('2', NULL, NULL, NULL, NULL, '2020-01-02', 'C8k84ncvWyVptk6kjtMJxTUu.jpg', 'Berchtoldstag im Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17');
+    ('2', NULL, NULL, NULL, NULL, '2020-01-02', 'C8k84ncvWyVptk6kjtMJxTUu.jpg', 'Berchtoldstag im Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17'),
+    ('3', NULL, NULL, NULL, NULL, '2020-03-10', 'C8k84ncvWyVptk6kjtMJxTUu.jpg', 'SOFT DELETED', '0', '2022-10-24 16:52:17', '2022-10-24 16:52:17');
 
 COMMIT;

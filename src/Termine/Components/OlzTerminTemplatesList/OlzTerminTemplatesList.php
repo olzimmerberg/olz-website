@@ -46,7 +46,7 @@ class OlzTerminTemplatesList extends OlzComponent {
                 <h1>Termin-Vorlagen</h1>
             ZZZZZZZZZZ;
         $termin_template_repo = $this->entityManager()->getRepository(TerminTemplate::class);
-        $termin_templates = $termin_template_repo->findAll();
+        $termin_templates = $termin_template_repo->findBy(['on_off' => 1]);
         foreach ($termin_templates as $termin_template) {
             $out .= OlzTerminTemplatesListItem::render([
                 'termin_template' => $termin_template,

@@ -36,12 +36,10 @@ class UserRepository extends OlzRepository {
             FROM {$this->entityClass} u
             WHERE
                 u.email != ''
-                AND
-                u.email IS NOT NULL
-                AND
-                u.password != ''
-                AND
-                u.password IS NOT NULL
+                AND u.email IS NOT NULL
+                AND u.password != ''
+                AND u.password IS NOT NULL
+                AND u.on_off = '1'
             ZZZZZZZZZZ;
 
         $query = $this->getEntityManager()->createQuery($dql);

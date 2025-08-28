@@ -73,6 +73,6 @@ trait TerminLabelEndpointTrait {
     /** @return array<TerminLabel> */
     protected function listEntities(): array {
         $repo = $this->entityManager()->getRepository(TerminLabel::class);
-        return $repo->findBy([], ['position' => 'ASC']);
+        return $repo->findBy(['on_off' => 1], ['position' => 'ASC']);
     }
 }

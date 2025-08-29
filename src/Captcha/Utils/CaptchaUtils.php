@@ -91,14 +91,14 @@ class CaptchaUtils {
         $constraints = [false, false];
         for ($i = 0; $i < count($log); $i++) {
             $entry = $log[$i];
-            $res = preg_match('/^(D|M|U)([0-9]+)\,([0-9]+)$/', $entry, $matches);
+            $res = preg_match('/^(D|M|U)(\-?[0-9]+)\,(\-?[0-9]+)$/', $entry, $matches);
             if (!$res) {
                 $this->log()->info("Captcha denied: Log[{$i}] = '{$entry}' does not match pattern", $context);
                 return false;
             }
             $event = $matches[1];
-            $x = $matches[2];
-            $y = $matches[3];
+            $x = intval($matches[2]);
+            $y = intval($matches[3]);
             if ($event === 'D' && pow($x - $x_start, 2) + pow($y - $y_bar, 2) <= pow(12, 2)) {
                 $constraints[0] = true;
             }

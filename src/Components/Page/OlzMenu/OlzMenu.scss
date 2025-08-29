@@ -78,20 +78,6 @@
     }
 }
 
-#site-search {
-    width: 100%;
-    color: rgb(136, 136, 136);
-    padding: 3px;
-    background-color: rgb(238, 238, 238);
-    border-top: 1px solid rgb(170, 170, 170);
-    border-bottom: 1px solid rgb(170, 170, 170);
-    margin-top: 24px;
-
-    &:focus {
-        color: rgb(0, 0, 0);
-    }
-}
-
 .feedback-mail {
     padding: 18px 6px 6px;
 }

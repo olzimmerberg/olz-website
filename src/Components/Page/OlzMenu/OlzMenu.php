@@ -73,16 +73,6 @@ class OlzMenu extends OlzComponent {
                 <div class='back-menu'>{$back_menu_out}</div>
                 <div class='live-menu'>{$live_menu_out}</div>
                 <div class='main-menu'>{$main_menu_out}</div>
-                <form name='Suche' method='get' action='{$code_href}suche'>
-                    <input
-                        type='text'
-                        name='anfrage'
-                        id='site-search'
-                        title='Suche auf olzimmerberg.ch'
-                        placeholder='Suchen...'
-                        value=''
-                    />
-                </form>
                 <div class='feedback-mail'>
                     <script type='text/javascript'>
                         olz.MailTo("website", "olzimmerberg.ch", "Feedback geben", "Homepage%20OL%20Zimmerberg");

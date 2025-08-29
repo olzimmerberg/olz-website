@@ -53,6 +53,37 @@
     flex-grow: 1;
 }
 
+.header-bar #site-search {
+    background-color: rgba(255,255,0,0.5);
+    background-image: url('../../../../assets/icns/magnifier_16.svg');
+    background-position: left 5px center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(255,255,0,0.75);
+    border-radius: 5px;
+    color: rgb(0,0,0);
+    font-weight: bold;
+    width: 80%;
+    margin: 24px 10%;
+    padding: 2px 10px 2px 26px;
+    height: 27px;
+    transition: margin 0.5s, height 0.5s;
+    opacity: 0.75;
+
+    &::placeholder {
+        color: rgb(0,0,0);
+    }
+
+    &:focus {
+        outline: none;
+        opacity: 1;
+    }
+}
+
+.header-minified #site-search {
+    margin: 10px 10%;
+    height: 22px;
+}
+
 .account-menu-container {
     margin-top: 8px;
     margin-right: 10px;

@@ -78,7 +78,18 @@ class OlzHeaderBar extends OlzComponent {
                 <div class='header-content'>
                     {$hamburger_or_back_out}
                     <div class='logo-container'>{$logo_out}</div>
-                    <div class='spacer'></div>
+                    <div class='spacer'>
+                        <form name='Suche' method='get' action='{$code_href}suche'>
+                            <input
+                                type='text'
+                                name='anfrage'
+                                id='site-search'
+                                title='Suche auf olzimmerberg.ch'
+                                placeholder='Suche...'
+                                value=''
+                            />
+                        </form>
+                    </div>
                     <div class='account-menu-container'>{$account_menu_out}</div>
                 </div>
                 <div class='below-header'>

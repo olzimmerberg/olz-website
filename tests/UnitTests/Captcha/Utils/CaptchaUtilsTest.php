@@ -39,7 +39,7 @@ final class CaptchaUtilsTest extends UnitTestCase {
     public function testValidateValidToken(): void {
         $utils = new CaptchaUtils();
         $token_content = [
-            'log' => ['D32,170', 'M66,170', 'U100,170'],
+            'log' => ['M-1,-2', 'D32,170', 'M66,170', 'U100,170'],
             'config' => [
                 'rand' => 'TOQj',
                 'date' => '2020-03-13 19:30:00',

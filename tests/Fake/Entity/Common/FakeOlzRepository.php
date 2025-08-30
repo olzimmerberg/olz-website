@@ -41,6 +41,15 @@ class FakeOlzRepository extends EntityRepository {
         parent::__construct($em, new ClassMetadata('Fake'));
     }
 
+    /**
+     * @param string[] $terms
+     *
+     * @return array<T>
+     */
+    public function search(array $terms): array {
+        return [];
+    }
+
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($this->entityToBeFoundForQuery !== null) {
             $fn = $this->entityToBeFoundForQuery;

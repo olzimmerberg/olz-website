@@ -6,8 +6,8 @@
 
 namespace Olz\Startseite\Components\OlzStartseite;
 
-use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
@@ -17,8 +17,16 @@ use Olz\Utils\HttpParams;
 class OlzStartseiteParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzStartseite extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzStartseite extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public static string $title = "Startseite";
     public static string $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
 

@@ -5,7 +5,7 @@ namespace Olz\Apps\Logs\Components\OlzLogs;
 use Olz\Apps\Logs\Metadata;
 use Olz\Apps\Logs\Utils\LogsDefinitions;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;
@@ -14,8 +14,16 @@ use Olz\Utils\HttpParams;
 class OlzLogsParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzLogs extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzLogs extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzLogsParams::class);
         $code_href = $this->envUtils()->getCodeHref();

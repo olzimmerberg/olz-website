@@ -43,6 +43,8 @@ class TerminRepository extends OlzRepository {
                 ...array_map(fn ($term) => Criteria::expr()->orX(
                     Criteria::expr()->contains('title', $term),
                     Criteria::expr()->contains('text', $term),
+                    ...$this->searchUtils()->getDateCriteria('start_date', $term),
+                    ...$this->searchUtils()->getDateCriteria('end_date', $term),
                 ), $terms),
             ))
             ->orderBy([

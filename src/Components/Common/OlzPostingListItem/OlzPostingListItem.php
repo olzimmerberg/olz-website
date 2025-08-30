@@ -15,14 +15,12 @@ class OlzPostingListItem extends OlzComponent {
         $link = $args['link'] ?? "";
         $class = $args['class'] ?? "";
 
-        $pretty_date = $date ? $this->dateUtils()->olzDate("tt.mm.jj", $date) : '';
-
         return <<<ZZZZZZZZZZ
             <div class='olz-posting-list-item {$class}'>
                 <a class='link' href='{$link}'></a>
                 <div class='content'>
                     <span class='date title'>
-                        {$pretty_date}
+                        {$date}
                     </span>
                     <div class='title'>
                         <img src='{$icon}' class='icon' alt='' />

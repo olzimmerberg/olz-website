@@ -37,7 +37,7 @@ final class SendMonthlyPreviewCommandIntegrationTest extends IntegrationTestCase
             **Termine**
 
             - Di, 04.08.: [Training -1](http://integration-test.host/termine/9)
-            - Di, 11.08.: [Training 0](http://integration-test.host/termine/8)
+            - Di, 11.08.: [Trainingsstart](http://integration-test.host/termine/8)
             - So, 16.08. - Mo, 17.08.: [24h-OL](http://integration-test.host/termine/12)
             - Di, 18.08.: [Training 1](http://integration-test.host/termine/3)
             - Sa, 22.08.: [Grossanlass](http://integration-test.host/termine/10)

@@ -2,7 +2,7 @@
 
 namespace Olz\Roles\Components\OlzRolePage;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Roles\Role;
@@ -13,8 +13,30 @@ use Olz\Utils\HttpParams;
 class OlzRolePageParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzRolePage extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzRolePage extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'Ressorts';
+    }
+
+    public function getSearchResults(array $terms): array {
+        $results = [];
+        $code_href = $this->envUtils()->getCodeHref();
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $roles = $role_repo->search($terms);
+        foreach ($roles as $role) {
+            $ident = $role->getUsername();
+            $results[] = $this->searchUtils()->getScoredSearchResult([
+                'link' => "{$code_href}verein/{$ident}",
+                'icon' => "{$code_href}assets/icns/link_role_16.svg",
+                'date' => null,
+                'title' => $role->getName() ?: '?',
+                'text' => "{$role->getUsername()} {$role->getOldUsername()} {$role->getDescription()}",
+            ], $terms);
+        }
+        return $results;
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzRolePageParams::class);
         $is_member = $this->authUtils()->hasPermission('member');

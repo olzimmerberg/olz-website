@@ -3,8 +3,8 @@
 namespace Olz\Termine\Components\OlzTerminDetail;
 
 use Doctrine\Common\Collections\Criteria;
-use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
@@ -18,8 +18,30 @@ use Olz\Utils\HttpParams;
 class OlzTerminDetailParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzTerminDetail extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzTerminDetail extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'Termine';
+    }
+
+    public function getSearchResults(array $terms): array {
+        $results = [];
+        $code_href = $this->envUtils()->getCodeHref();
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
+        $termine = $termin_repo->search($terms);
+        foreach ($termine as $termin) {
+            $id = $termin->getId();
+            $results[] = $this->searchUtils()->getScoredSearchResult([
+                'link' => "{$code_href}termine/{$id}",
+                'icon' => "{$code_href}assets/icns/termine_type_all_20.svg",
+                'date' => $termin->getStartDate(),
+                'title' => $termin->getTitle() ?: '?',
+                'text' => $termin->getText() ?: null,
+            ], $terms);
+        }
+        return $results;
+    }
+
     public function getHtml(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzTerminDetailParams::class);
 

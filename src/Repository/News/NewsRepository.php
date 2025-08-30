@@ -44,6 +44,7 @@ class NewsRepository extends OlzRepository {
                     Criteria::expr()->contains('title', $term),
                     Criteria::expr()->contains('teaser', $term),
                     Criteria::expr()->contains('content', $term),
+                    ...$this->searchUtils()->getDateCriteria('published_date', $term),
                 ), $terms),
             ))
             ->orderBy([

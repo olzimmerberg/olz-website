@@ -3,7 +3,7 @@
 namespace Olz\Apps\Statistics\Components\OlzStatistics;
 
 use Olz\Apps\Statistics\Metadata;
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;
@@ -12,8 +12,16 @@ use Olz\Utils\HttpParams;
 class OlzStatisticsParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzStatistics extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzStatistics extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzStatisticsParams::class);
         $code_href = $this->envUtils()->getCodeHref();

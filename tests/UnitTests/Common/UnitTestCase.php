@@ -19,6 +19,7 @@ use Olz\Tests\Fake\FakeGeneralUtils;
 use Olz\Tests\Fake\FakeIdUtils;
 use Olz\Tests\Fake\FakeImageUtils;
 use Olz\Tests\Fake\FakeLogHandler;
+use Olz\Tests\Fake\FakeSearchUtils;
 use Olz\Tests\Fake\FakeSession;
 use Olz\Tests\Fake\FakeSymfonyUtils;
 use Olz\Tests\Fake\FakeTelegramUtils;
@@ -89,6 +90,7 @@ class UnitTestCase extends TestCase {
             'imageUtils' => new FakeImageUtils(),
             'log' => $logger,
             'logger' => $logger,
+            'searchUtils' => new FakeSearchUtils(),
             'session' => new FakeSession(),
             'symfonyUtils' => new FakeSymfonyUtils(),
             'telegramUtils' => new FakeTelegramUtils(),

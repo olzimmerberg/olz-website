@@ -2,7 +2,7 @@
 
 namespace Olz\Faq\Components\OlzFaqDetail;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Faq\Question;
@@ -16,8 +16,30 @@ use Olz\Utils\HttpParams;
 class OlzFaqDetailParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzFaqDetail extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzFaqDetail extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'Fragen & Antworten';
+    }
+
+    public function getSearchResults(array $terms): array {
+        $results = [];
+        $code_href = $this->envUtils()->getCodeHref();
+        $question_repo = $this->entityManager()->getRepository(Question::class);
+        $questions = $question_repo->search($terms);
+        foreach ($questions as $question) {
+            $ident = $question->getIdent();
+            $results[] = $this->searchUtils()->getScoredSearchResult([
+                'link' => "{$code_href}fragen_und_antworten/{$ident}",
+                'icon' => "{$code_href}assets/icns/question_mark_20.svg",
+                'date' => null,
+                'title' => $question->getQuestion() ?: '?',
+                'text' => $question->getIdent()." ".$question->getAnswer(),
+            ], $terms);
+        }
+        return $results;
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzFaqDetailParams::class);
         $code_href = $this->envUtils()->getCodeHref();

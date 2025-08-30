@@ -47,6 +47,10 @@ class DateUtils {
         return $this->getCurrentDateInFormat('Y-m-d');
     }
 
+    public function getIsoNow(): string {
+        return $this->getCurrentDateInFormat('Y-m-d H:i:s');
+    }
+
     public function sanitizeDatetimeValue(string|\DateTime|null $value): ?\DateTime {
         if ($value == null) {
             return null;
@@ -81,10 +85,6 @@ class DateUtils {
             throw new \Exception("Invalid datetime: {$value}", 1);
         }
         return $datetime;
-    }
-
-    public function getIsoNow(): string {
-        return $this->getCurrentDateInFormat('Y-m-d H:i:s');
     }
 
     public function isoDateTime(string|\DateTime|null $date = null): string {
@@ -171,7 +171,7 @@ class DateUtils {
             $out = $this->olzDate('WW, t. MM jjjj', $start_date);
         } else {
             $weekday_prefix = $this->olzDate('WW', $start_date).' – '.$this->olzDate('WW', $end_date).', ';
-            if ($this->olzDate('m', $start_date) == $this->olzDate('m', $end_date)) {
+            if ($this->olzDate('jjjj-m', $start_date) == $this->olzDate('jjjj-m', $end_date)) {
                 // Mehrtägig, innerhalb Monat
                 $out = $weekday_prefix.$this->olzDate('t.', $start_date).' – '.$this->olzDate('t. ', $end_date).$this->olzDate('MM jjjj', $start_date);
             } elseif ($this->olzDate('jjjj', $start_date) == $this->olzDate('jjjj', $end_date)) {
@@ -190,5 +190,41 @@ class DateUtils {
             }
         }
         return $out;
+    }
+
+    /** @return ?array{start:\DateTime, end:\DateTime} */
+    public function parseDateTimeRange(string $input): ?array {
+        // Year (e.g. 2020)
+        if (preg_match("/^(2[0-9]{3})$/", $input)) {
+            $year = intval($input);
+            $next_year = $year + 1;
+            return [
+                'start' => new \DateTime("{$year}-01-01 00:00:00"),
+                'end' => new \DateTime("{$next_year}-01-01 00:00:00"),
+            ];
+        }
+        // ISO Day (e.g. 2020-03-13)
+        if (preg_match("/^(2[0-9]{3})\\-([01][0-9])\\-([0123][0-9])$/", $input)) {
+            return $this->getDayRange($input);
+        }
+        // Swiss Day (e.g. 13.3.2020)
+        if (preg_match("/^([0123]?[0-9])\\.\\s*([01]?[0-9])\\.\\s*(2[0-9]{3})$/", $input, $matches)) {
+            $day = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
+            $month = str_pad($matches[2], 2, '0', STR_PAD_LEFT);
+            return $this->getDayRange("{$matches[3]}-{$month}-{$day}");
+        }
+        return null;
+    }
+
+    /** @return ?array{start:\DateTime, end:\DateTime} */
+    protected function getDayRange(string $iso_date): ?array {
+        $day_iso = substr($iso_date, 0, 10);
+        $day_start = new \DateTime("{$day_iso} 00:00:00");
+        $plus_one_day = \DateInterval::createFromDateString("+1 days");
+        $next_day_start = (new \DateTime("{$day_iso} 00:00:00"))->add($plus_one_day);
+        return [
+            'start' => $day_start,
+            'end' => $next_day_start,
+        ];
     }
 }

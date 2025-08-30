@@ -75,10 +75,11 @@ class OlzNewsListItem extends OlzComponent {
                 ZZZZZZZZZZ;
         }
 
+        $pretty_published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
         if ($format === 'aktuell') {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
-                'date' => $published_date,
+                'date' => $pretty_published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
                 'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown($teaser, [])),
@@ -88,7 +89,7 @@ class OlzNewsListItem extends OlzComponent {
         } elseif ($format === 'kaderblog') {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
-                'date' => $published_date,
+                'date' => $pretty_published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
                 'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown(
@@ -100,7 +101,7 @@ class OlzNewsListItem extends OlzComponent {
         } elseif ($format === 'forum') {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
-                'date' => $published_date,
+                'date' => $pretty_published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
                 'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown(
@@ -123,7 +124,7 @@ class OlzNewsListItem extends OlzComponent {
             }
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
-                'date' => $published_date,
+                'date' => $pretty_published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
                 'text' => "<table><tr class='galerie-thumbs'>{$thumbs}</tr></table>",
@@ -140,7 +141,7 @@ class OlzNewsListItem extends OlzComponent {
                 ZZZZZZZZZZ;
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
-                'date' => $published_date,
+                'date' => $pretty_published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
                 'text' => $content,
@@ -149,7 +150,7 @@ class OlzNewsListItem extends OlzComponent {
         } else {
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
-                'date' => $published_date,
+                'date' => $pretty_published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
                 'link' => $link,

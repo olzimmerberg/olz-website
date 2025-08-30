@@ -2,7 +2,7 @@
 
 namespace Olz\Roles\Components\OlzVerein;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;
@@ -12,8 +12,16 @@ use Olz\Utils\HttpParams;
 class OlzVereinParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzVerein extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzVerein extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public static string $title = "Verein";
     public static string $description = "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.";
 

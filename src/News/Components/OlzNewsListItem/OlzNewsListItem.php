@@ -9,15 +9,6 @@ use Olz\News\Utils\NewsFilterUtils;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsListItem extends OlzComponent {
-    /** @var array<string, string> */
-    protected static $iconBasenameByFormat = [
-        'aktuell' => 'entry_type_aktuell_20.svg',
-        'forum' => 'entry_type_forum_20.svg',
-        'galerie' => 'entry_type_gallery_20.svg',
-        'kaderblog' => 'entry_type_kaderblog_20.svg',
-        'video' => 'entry_type_movie_20.svg',
-    ];
-
     public function getHtml(mixed $args): string {
         $news_utils = NewsFilterUtils::fromEnv();
         $code_href = $this->envUtils()->getCodeHref();
@@ -34,8 +25,7 @@ class OlzNewsListItem extends OlzComponent {
         $id = $news_entry->getId();
         $published_date = $news_entry->getPublishedDate();
         $format = $news_entry->getFormat();
-        $icon_basename = self::$iconBasenameByFormat[$format];
-        $icon = "{$code_href}assets/icns/{$icon_basename}";
+        $icon = $this->newsUtils()->getNewsFormatIcon($format);
         $author_user = $news_entry->getAuthorUser();
         $author_role = $news_entry->getAuthorRole();
         $author_name = $news_entry->getAuthorName();

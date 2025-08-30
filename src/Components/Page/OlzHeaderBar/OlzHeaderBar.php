@@ -14,8 +14,8 @@ use Olz\Components\Page\OlzMenu\OlzMenu;
 class OlzHeaderBar extends OlzComponent {
     public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
-        $data_href = $this->envUtils()->getDataHref();
         $back_link = $args['back_link'] ?? null;
+        $search_query_esc = htmlspecialchars($this->getParams()['anfrage'] ?? '');
 
         $account_menu_out = !($args['skip_auth_menu'] ?? false)
             ? OlzAccountMenu::render([], $this)
@@ -86,7 +86,7 @@ class OlzHeaderBar extends OlzComponent {
                                 id='site-search'
                                 title='Suche auf olzimmerberg.ch'
                                 placeholder='Suche...'
-                                value=''
+                                value='{$search_query_esc}'
                             />
                         </form>
                     </div>

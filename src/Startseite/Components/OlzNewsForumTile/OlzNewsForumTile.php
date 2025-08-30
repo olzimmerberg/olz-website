@@ -12,11 +12,6 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsForumTile extends AbstractOlzTile {
-    /** @var array<string, string> */
-    protected static $iconBasenameByFormat = [
-        'forum' => 'entry_type_forum_20.svg',
-    ];
-
     public function getRelevance(?User $user): float {
         return 0.6;
     }
@@ -53,9 +48,8 @@ class OlzNewsForumTile extends AbstractOlzTile {
             $title = $news_entry->getTitle();
             $format = $news_entry->getFormat();
             $image_ids = $news_entry->getImageIds();
+            $icon = $this->newsUtils()->getNewsFormatIcon($format);
 
-            $icon_basename = self::$iconBasenameByFormat[$format];
-            $icon = "{$code_href}assets/icns/{$icon_basename}";
             $image = '';
             $is_image_right = ($index % 2) === 1;
             if (count($image_ids) > 0) {

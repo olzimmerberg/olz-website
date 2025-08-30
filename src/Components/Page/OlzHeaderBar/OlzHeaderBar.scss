@@ -30,14 +30,16 @@
 
 .logo-container {
     height: 65px;
+    flex: 0 0 123px;
     margin-top: 5px;
     margin-left: 55px;
     overflow: hidden;
-    transition: margin 0.5s, height 0.5s;
+    transition: margin 0.5s, height 0.5s, flex 0.5s;
 }
 
 .header-minified .logo-container {
     height: 32px;
+    flex: 0 0 87px;
 }
 
 #olz-logo {
@@ -68,6 +70,7 @@
     height: 27px;
     transition: margin 0.5s, height 0.5s;
     opacity: 0.75;
+    overflow: hidden;
 
     &::placeholder {
         color: rgb(0,0,0);

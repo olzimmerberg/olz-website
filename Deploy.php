@@ -224,23 +224,19 @@ class Deploy extends AbstractDefaultDeploy {
      */
     protected function afterDeploy($result): void {
         $staging_token = $result['staging_token'];
-        sleep(3);
+        sleep(1);
 
         if ($this->environment === 'staging') {
             // Add doctrine:cache:clear-metadata?
             // Add doctrine:cache:clear-query?
             // Add doctrine:cache:clear-result?
             $this->executeCommand('cache:clear', null, $staging_token);
-            sleep(1);
             $this->executeCommand('cache:warmup', null, $staging_token);
-            sleep(1);
             $this->executeCommand('olz:db-reset', 'full', $staging_token);
             $this->executeCommand('olz:send-telegram-configuration', null, $staging_token);
         } elseif ($this->environment === 'prod') {
             $this->executeCommand('cache:clear');
-            sleep(1);
             $this->executeCommand('cache:warmup');
-            sleep(1);
             $this->executeCommand('olz:db-migrate');
         }
     }

@@ -1,2 +1,1 @@
-// dummy export to make the compiler STFU
-export default null;
+export * from './OlzSuche/OlzSuche';

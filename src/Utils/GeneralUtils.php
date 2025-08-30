@@ -74,6 +74,20 @@ class GeneralUtils {
         return "{$callsite} {$computed_error_message}";
     }
 
+    // Escape
+
+    /** @param array<string> $tokens */
+    public function escape(string $string, array $tokens): string {
+        $esc_tokens = array_map(fn ($token) => "\\{$token}", $tokens);
+        return str_replace($tokens, $esc_tokens, $string);
+    }
+
+    /** @param array<string> $tokens */
+    public function unescape(string $string, array $tokens): string {
+        $esc_tokens = array_map(fn ($token) => "\\{$token}", $tokens);
+        return str_replace($esc_tokens, $tokens, $string);
+    }
+
     // Base64
 
     public function base64EncodeUrl(string $string): string {

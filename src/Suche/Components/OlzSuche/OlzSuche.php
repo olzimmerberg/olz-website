@@ -38,7 +38,7 @@ class OlzSuche extends OlzComponent {
         $out .= <<<'ZZZZZZZZZZ'
             <div class='content-right'>
             </div>
-            <div class='content-middle'>
+            <div class='content-middle olz-suche'>
             ZZZZZZZZZZ;
 
         $out .= "<h1>Suchresultate für \"{$esc_pretty_terms}\"</h1>";
@@ -67,12 +67,12 @@ class OlzSuche extends OlzComponent {
         }
         foreach ($questions as $question) {
             $ident = $question->getIdent();
-            $cutout = $this->cutout($question->getIdent()." ".$question->getAnswer(), $terms);
+            $cutout = $this->searchUtils()->getCutout($question->getIdent()." ".$question->getAnswer(), $terms);
             $questions_out .= OlzPostingListItem::render([
                 'link' => "{$code_href}fragen_und_antworten/{$ident}",
                 'icon' => "{$code_href}assets/icns/question_mark_20.svg",
-                'title' => $this->highlight($question->getQuestion(), $terms),
-                'text' => $this->highlight($cutout, $terms),
+                'title' => $this->searchUtils()->highlight($question->getQuestion(), $terms),
+                'text' => $this->searchUtils()->highlight($cutout, $terms),
             ]);
         }
 
@@ -84,12 +84,12 @@ class OlzSuche extends OlzComponent {
         }
         foreach ($karten as $karte) {
             $id = $karte->getId();
-            $cutout = $this->cutout("{$karte->getPlace()}", $terms);
+            $cutout = $this->searchUtils()->getCutout("{$karte->getPlace()}", $terms);
             $karten_out .= OlzPostingListItem::render([
                 'link' => "{$code_href}karten/{$id}",
                 'icon' => "{$code_href}assets/icns/link_map_16.svg",
-                'title' => $this->highlight($karte->getName(), $terms),
-                'text' => $this->highlight($cutout, $terms),
+                'title' => $this->searchUtils()->highlight($karte->getName(), $terms),
+                'text' => $this->searchUtils()->highlight($cutout, $terms),
             ]);
         }
 
@@ -101,13 +101,13 @@ class OlzSuche extends OlzComponent {
         }
         foreach ($news as $news_entry) {
             $id = $news_entry->getId();
-            $cutout = $this->cutout($news_entry->getTeaser()." ".$news_entry->getContent(), $terms);
+            $cutout = $this->searchUtils()->getCutout($news_entry->getTeaser()." ".$news_entry->getContent(), $terms);
             $news_out .= OlzPostingListItem::render([
                 'link' => "{$code_href}news/{$id}",
                 'icon' => $this->newsUtils()->getNewsFormatIcon($news_entry),
                 'date' => $news_entry->getPublishedDate(),
-                'title' => $this->highlight($news_entry->getTitle(), $terms),
-                'text' => $this->highlight($cutout, $terms),
+                'title' => $this->searchUtils()->highlight($news_entry->getTitle(), $terms),
+                'text' => $this->searchUtils()->highlight($cutout, $terms),
             ]);
         }
 
@@ -119,12 +119,12 @@ class OlzSuche extends OlzComponent {
         }
         foreach ($roles as $role) {
             $ident = $role->getUsername();
-            $cutout = $this->cutout("{$role->getUsername()} {$role->getOldUsername()} {$role->getDescription()} {$role->getGuide()}", $terms);
+            $cutout = $this->searchUtils()->getCutout("{$role->getUsername()} {$role->getOldUsername()} {$role->getDescription()} {$role->getGuide()}", $terms);
             $roles_out .= OlzPostingListItem::render([
                 'link' => "{$code_href}verein/{$ident}",
                 'icon' => "{$code_href}assets/icns/link_role_16.svg",
-                'title' => $this->highlight($role->getName(), $terms),
-                'text' => $this->highlight($cutout, $terms),
+                'title' => $this->searchUtils()->highlight($role->getName(), $terms),
+                'text' => $this->searchUtils()->highlight($cutout, $terms),
             ]);
         }
 
@@ -138,7 +138,7 @@ class OlzSuche extends OlzComponent {
             $downloads_out .= OlzPostingListItem::render([
                 'link' => "{$code_href}service",
                 'icon' => "{$code_href}assets/icns/link_internal_16.svg", // TODO better icon
-                'title' => $this->highlight($download->getName() ?? '', $terms),
+                'title' => $this->searchUtils()->highlight($download->getName() ?? '', $terms),
                 'text' => '',
             ]);
         }
@@ -148,12 +148,12 @@ class OlzSuche extends OlzComponent {
             $links_out = "<h2 class='bar green'>Links</h2>";
         }
         foreach ($links as $link) {
-            $cutout = $this->cutout("{$link->getUrl()}}", $terms);
+            $cutout = $this->searchUtils()->getCutout("{$link->getUrl()}}", $terms);
             $links_out .= OlzPostingListItem::render([
                 'link' => "{$code_href}service",
                 'icon' => "{$code_href}assets/icns/link_internal_16.svg", // TODO better icon
-                'title' => $this->highlight($link->getName() ?? '', $terms),
-                'text' => $this->highlight($cutout, $terms),
+                'title' => $this->searchUtils()->highlight($link->getName() ?? '', $terms),
+                'text' => $this->searchUtils()->highlight($cutout, $terms),
             ]);
         }
 
@@ -168,13 +168,13 @@ class OlzSuche extends OlzComponent {
         }
         foreach ($termine as $termin) {
             $id = $termin->getId();
-            $cutout = $this->cutout($termin->getText() ?? '', $terms);
+            $cutout = $this->searchUtils()->getCutout($termin->getText() ?? '', $terms);
             $termine_out .= OlzPostingListItem::render([
                 'link' => "{$code_href}termine/{$id}",
                 'icon' => "{$code_href}assets/icns/termine_type_all_20.svg",
                 'date' => $termin->getStartDate(),
-                'title' => $this->highlight($termin->getTitle() ?? '', $terms),
-                'text' => $this->highlight($cutout, $terms),
+                'title' => $this->searchUtils()->highlight($termin->getTitle() ?? '', $terms),
+                'text' => $this->searchUtils()->highlight($cutout, $terms),
             ]);
         }
 
@@ -196,47 +196,5 @@ class OlzSuche extends OlzComponent {
 
         $out .= OlzFooter::render();
         return $out;
-    }
-
-    /** @param array<string> $search_words */
-    protected function cutout(string $text, array $search_words): string {
-        $length_a = 40;
-        $length_b = 40;
-
-        for ($m = 0; $m < 3; $m++) {
-            $prefix = "...";
-            $suffix = "...";
-            $search_key = $search_words[$m] ?? '';
-            $start = strpos(strtolower($text), $search_key);
-            if ($start > 0) {
-                $m = 3;
-            }
-        }
-        if (($start - $length_a) < 0) {
-            $start = $length_a;
-            $prefix = "";
-        }
-        if (strlen($text) < ($length_a + $length_b)) {
-            $suffix = "";
-        }
-        $text = substr($text, $start - $length_a, $length_a + $length_b);
-        return "{$prefix}{$text}{$suffix}";
-    }
-
-    /** @param array<string> $search_words */
-    protected function highlight(string $text, array $search_words): string {
-        for ($n = 0; $n < 3; $n++) {
-            $search_key = $search_words[$n] ?? '';
-            $search_variants = [
-                $search_key,
-                strtoupper($search_key),
-                ucfirst($search_key), ];
-            $replace_variants = [
-                '<span style="color:red">'.$search_key.'</span>',
-                '<span style="color:red">'.strtoupper($search_key).'</span>',
-                '<span style="color:red">'.ucfirst($search_key).'</span>', ];
-            $text = str_replace($search_variants, $replace_variants, $text);
-        }
-        return $text;
     }
 }

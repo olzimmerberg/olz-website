@@ -17,6 +17,7 @@ export * from '../src/Roles/index';
 export * from '../src/Service/index';
 export * from '../src/Snippets/index';
 export * from '../src/Startseite/index';
+export * from '../src/Suche/index';
 export * from '../src/Termine/index';
 export * from '../src/Users/index';
 

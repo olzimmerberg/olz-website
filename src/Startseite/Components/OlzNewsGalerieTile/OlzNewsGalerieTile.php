@@ -12,12 +12,6 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsGalerieTile extends AbstractOlzTile {
-    /** @var array<string, string> */
-    protected static $iconBasenameByFormat = [
-        'galerie' => 'entry_type_gallery_white_20.svg',
-        'video' => 'entry_type_movie_white_20.svg',
-    ];
-
     public function getRelevance(?User $user): float {
         return 0.55;
     }
@@ -59,9 +53,8 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
             $title = $news_entry->getTitle();
             $format = $news_entry->getFormat();
             $image_ids = $news_entry->getImageIds();
+            $icon = $this->newsUtils()->getNewsFormatIcon($format, 'white');
 
-            $icon_basename = self::$iconBasenameByFormat[$format];
-            $icon = "{$code_href}assets/icns/{$icon_basename}";
             $images = "";
             for ($i = 0; $i < min(count($image_ids), 3); $i++) {
                 $olz_image = $this->imageUtils()->olzImage(

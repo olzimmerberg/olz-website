@@ -4,6 +4,7 @@ namespace Olz\Utils;
 
 use Olz\Captcha\Utils\CaptchaUtilsTrait;
 use Olz\Fetchers\SolvFetcherTrait;
+use Olz\News\Utils\NewsUtilsTrait;
 use Olz\Termine\Utils\TermineUtilsTrait;
 
 trait WithUtilsTrait {
@@ -25,6 +26,7 @@ trait WithUtilsTrait {
     use MapUtilsTrait;
     use MailerTrait;
     use MessageBusTrait;
+    use NewsUtilsTrait;
     use SessionTrait;
     use SolvFetcherTrait;
     use SymfonyUtilsTrait;

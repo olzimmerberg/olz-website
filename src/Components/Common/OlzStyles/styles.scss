@@ -26,7 +26,6 @@ input {
     font-family: 'Open Sans', arial, sans-serif;
     margin: 0;
     padding: 0;
-    vertical-align: top;
 }
 
 table {
@@ -35,6 +34,10 @@ table {
     empty-cells: show;
     table-layout: auto;
     width: 100%;
+
+    td {
+        vertical-align: top;
+    }
 }
 
 .mainbg {

@@ -12,12 +12,6 @@ use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
-    /** @var array<string, string> */
-    protected static $iconBasenameByFormat = [
-        'aktuell' => 'entry_type_aktuell_20.svg',
-        'kaderblog' => 'entry_type_kaderblog_20.svg',
-    ];
-
     public function getRelevance(?User $user): float {
         return 0.65;
     }
@@ -59,9 +53,8 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
             $title = $news_entry->getTitle();
             $format = $news_entry->getFormat();
             $image_ids = $news_entry->getImageIds();
+            $icon = $this->newsUtils()->getNewsFormatIcon($format);
 
-            $icon_basename = self::$iconBasenameByFormat[$format];
-            $icon = "{$code_href}assets/icns/{$icon_basename}";
             $image = '';
             $is_image_right = ($index % 2) === 0;
             if (count($image_ids) > 0) {

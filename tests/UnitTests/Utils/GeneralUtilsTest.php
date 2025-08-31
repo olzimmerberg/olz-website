@@ -156,6 +156,62 @@ final class GeneralUtilsTest extends UnitTestCase {
         }
     }
 
+    public function testEscape(): void {
+        $general_utils = new GeneralUtils();
+        $this->assertSame('abc', $general_utils->escape('abc', []));
+        $this->assertSame('\abc', $general_utils->escape('abc', ['a']));
+        $this->assertSame('\a\b\c', $general_utils->escape('abc', ['a', 'b', 'c']));
+
+        // \\a and \\\\a are nonsensical with '
+        $this->assertSame('\a \\\a \\\\\a', $general_utils->escape('a \a \\\a', ['a']));
+        $this->assertSame('a \\\a \\\\\a', $general_utils->escape('a \a \\\a', ['\a']));
+        $this->assertSame('a \a \\\\\a', $general_utils->escape('a \a \\\a', ['\\\a']));
+
+        // \a and \\\a are nonsensical with "
+        $this->assertSame("\\a \\\\a \\\\\\a", $general_utils->escape("a \\a \\\\a", ["a"]));
+        $this->assertSame("a \\\\a \\\\\\a", $general_utils->escape("a \\a \\\\a", ["\\a"]));
+        $this->assertSame("a \\a \\\\\\a", $general_utils->escape("a \\a \\\\a", ["\\\\a"]));
+
+        // \\t and \\\\t are nonsensical with '
+        $this->assertSame('\t \\\t \\\\\t', $general_utils->escape('t \t \\\t', ['t']));
+        $this->assertSame('t \\\t \\\\\t', $general_utils->escape('t \t \\\t', ['\t']));
+        $this->assertSame('t \t \\\\\t', $general_utils->escape('t \t \\\t', ['\\\t']));
+
+        // everything makes sense with "
+        $this->assertSame("\\t \t \\\\t \\\t", $general_utils->escape("t \t \\t \\\t", ["t"]));
+        $this->assertSame("t \\\t \\t \\\\\t", $general_utils->escape("t \t \\t \\\t", ["\t"]));
+        $this->assertSame("t \t \\\\t \\\t", $general_utils->escape("t \t \\t \\\t", ["\\t"]));
+        $this->assertSame("t \t \\t \\\\\t", $general_utils->escape("t \t \\t \\\t", ["\\\t"]));
+    }
+
+    public function testUnescape(): void {
+        $general_utils = new GeneralUtils();
+        $this->assertSame('\a\b\c', $general_utils->unescape('\a\b\c', []));
+        $this->assertSame('a\b\c', $general_utils->unescape('\a\b\c', ['a']));
+        $this->assertSame('abc', $general_utils->unescape('\a\b\c', ['a', 'b', 'c']));
+
+        // \\a and \\\\a are nonsensical with '
+        $this->assertSame('a a \a \\\a', $general_utils->unescape('a \a \\\a \\\\\a', ['a']));
+        $this->assertSame('a \a \a \\\a', $general_utils->unescape('a \a \\\a \\\\\a', ['\a']));
+        $this->assertSame('a \a \\\a \\\a', $general_utils->unescape('a \a \\\a \\\\\a', ['\\\a']));
+
+        // \a and \\\a are nonsensical with "
+        $this->assertSame("a a \\a \\\\a", $general_utils->unescape("a \\a \\\\a \\\\\\a", ["a"]));
+        $this->assertSame("a \\a \\a \\\\a", $general_utils->unescape("a \\a \\\\a \\\\\\a", ["\\a"]));
+        $this->assertSame("a \\a \\\\a \\\\a", $general_utils->unescape("a \\a \\\\a \\\\\\a", ["\\\\a"]));
+
+        // \\t and \\\\t are nonsensical with '
+        $this->assertSame('t t \t \\\t', $general_utils->unescape('t \t \\\t \\\\\t', ['t']));
+        $this->assertSame('t \t \t \\\t', $general_utils->unescape('t \t \\\t \\\\\t', ['\t']));
+        $this->assertSame('t \t \\\t \\\t', $general_utils->unescape('t \t \\\t \\\\\t', ['\\\t']));
+
+        // everything makes sense with "
+        $this->assertSame("t \t t \\\t \\t \\\\\t", $general_utils->unescape("t \t \\t \\\t \\\\t \\\\\t", ["t"]));
+        $this->assertSame("t \t \\t \t \\\\t \\\t", $general_utils->unescape("t \t \\t \\\t \\\\t \\\\\t", ["\t"]));
+        $this->assertSame("t \t \\t \\\t \\t \\\\\t", $general_utils->unescape("t \t \\t \\\t \\\\t \\\\\t", ["\\t"]));
+        $this->assertSame("t \t \\t \\\t \\\\t \\\t", $general_utils->unescape("t \t \\t \\\t \\\\t \\\\\t", ["\\\t"]));
+    }
+
     public function testBase64EncodeUrl(): void {
         $general_utils = new GeneralUtils();
         $binary_string = base64_decode("+/A="); // contains all special chars

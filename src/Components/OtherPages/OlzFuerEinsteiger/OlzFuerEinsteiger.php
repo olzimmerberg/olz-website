@@ -2,7 +2,7 @@
 
 namespace Olz\Components\OtherPages\OlzFuerEinsteiger;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Roles\Role;
@@ -16,8 +16,16 @@ use Olz\Utils\HttpParams;
 class OlzFuerEinsteigerParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzFuerEinsteiger extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzFuerEinsteiger extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public static string $title = "Für Einsteiger";
     public static string $description = "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.";
 

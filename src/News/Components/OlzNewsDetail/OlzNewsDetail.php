@@ -7,7 +7,7 @@
 namespace Olz\News\Components\OlzNewsDetail;
 
 use Doctrine\Common\Collections\Criteria;
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
@@ -20,8 +20,30 @@ use Olz\Utils\HttpParams;
 class OlzNewsDetailParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzNewsDetail extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzNewsDetail extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'News';
+    }
+
+    public function getSearchResults(array $terms): array {
+        $results = [];
+        $code_href = $this->envUtils()->getCodeHref();
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
+        $news = $news_repo->search($terms);
+        foreach ($news as $news_entry) {
+            $id = $news_entry->getId();
+            $results[] = $this->searchUtils()->getScoredSearchResult([
+                'link' => "{$code_href}news/{$id}",
+                'icon' => $this->newsUtils()->getNewsFormatIcon($news_entry) ?: null,
+                'date' => $news_entry->getPublishedDate(),
+                'title' => $news_entry->getTitle() ?: '?',
+                'text' => $news_entry->getTeaser()." ".$news_entry->getContent(),
+            ], $terms);
+        }
+        return $results;
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzNewsDetailParams::class);
         $code_href = $this->envUtils()->getCodeHref();

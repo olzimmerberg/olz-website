@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Suche\Utils;
 
+use Doctrine\Common\Collections\Criteria;
 use Olz\Suche\Utils\SearchUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
@@ -13,6 +14,120 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  * @covers \Olz\Suche\Utils\SearchUtils
  */
 final class SearchUtilsTest extends UnitTestCase {
+    public function testGetSearchResults(): void {
+        $utils = new SearchUtils();
+        $this->assertSame([
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fragen & Antworten', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Karten', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'News', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Ressorts', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Service', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Suche', 'bestScore' => null, 'results' => []],
+            ['title' => 'Termine', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+        ], $utils->getSearchResults(['test']));
+    }
+
+    public function testGetDateCriteria(): void {
+        $utils = new SearchUtils();
+        $this->assertSame([], $utils->getDateCriteria('field', 'test'));
+        $this->assertEquals([Criteria::expr()->andX(
+            Criteria::expr()->gte('field', new \DateTime('2020-01-01')),
+            Criteria::expr()->lt('field', new \DateTime('2021-01-01')),
+        )], $utils->getDateCriteria('field', '2020'));
+    }
+
+    public function testGetStaticSearchResults(): void {
+        $utils = new SearchUtils();
+        $this->assertSame([[
+            'score' => 0.66667,
+            'icon' => null,
+            'date' => null,
+            'text' => 'Test this test',
+            'link' => '/',
+            'title' => 'Title',
+        ]], $utils->getStaticSearchResults('Test this test', ['test'], ['link' => '/', 'title' => 'Title']));
+        $this->assertEquals([], $utils->getStaticSearchResults('test', ['foo', 'bar'], ['link' => '/', 'title' => 'Title']));
+    }
+
+    public function testGetScoredSearchResult(): void {
+        $utils = new SearchUtils();
+        $this->assertEquals(
+            [
+                'icon' => null,
+                'date' => null,
+                'link' => '/',
+                'title' => 'Title',
+                'text' => 'Test this test',
+                'score' => 0.66667,
+            ],
+            $utils->getScoredSearchResult(['link' => '/', 'title' => 'Title', 'text' => 'Test this test'], ['test']),
+        );
+        $this->assertEquals(
+            [
+                'link' => '/',
+                'icon' => null,
+                'date' => null,
+                'title' => 'Title',
+                'text' => 'test',
+                'score' => 0.0,
+            ],
+            $utils->getScoredSearchResult(['link' => '/', 'title' => 'Title', 'text' => 'test'], ['foo', 'bar']),
+        );
+    }
+
+    public function testGetDateFormattings(): void {
+        $utils = new SearchUtils();
+        $this->assertSame([], $utils->getDateFormattings(null));
+        $this->assertSame(
+            ['2020-03-13', '13.03.2020', '13.3.2020'],
+            $utils->getDateFormattings(new \DateTime('2020-03-13')),
+        );
+    }
+
+    public function testAnalyze(): void {
+        $utils = new SearchUtils();
+        $this->assertSame(
+            ['score' => 0.66667, 'hasAll' => true],
+            $utils->analyze('Test this test', null, ['test']),
+        );
+        $this->assertEquals(
+            ['score' => 0.5, 'hasAll' => true],
+            $utils->analyze('Test this test', new \DateTime('2020-03-13'), ['2020']),
+        );
+    }
+
     public function testGetCutout(): void {
         $utils = new SearchUtils();
 

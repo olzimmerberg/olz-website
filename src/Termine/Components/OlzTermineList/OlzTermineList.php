@@ -6,8 +6,8 @@
 
 namespace Olz\Termine\Components\OlzTermineList;
 
-use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;
@@ -21,8 +21,16 @@ use Olz\Utils\HttpParams;
 class OlzTermineListParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzTermineList extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzTermineList extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public static string $title = "Termine";
     public static string $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
 

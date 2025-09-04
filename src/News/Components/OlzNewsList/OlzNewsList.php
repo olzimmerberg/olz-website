@@ -3,7 +3,7 @@
 namespace Olz\News\Components\OlzNewsList;
 
 use Olz\Apps\OlzApps;
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
@@ -22,8 +22,16 @@ use Olz\Utils\HttpParams;
 class OlzNewsListParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzNewsList extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzNewsList extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public static string $title = "News";
     public static string $description = "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.";
 

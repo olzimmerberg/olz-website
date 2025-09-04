@@ -6,7 +6,7 @@ use Olz\Apps\Newsletter\Components\OlzEmailCard\OlzEmailCard;
 use Olz\Apps\Newsletter\Components\OlzTelegramCard\OlzTelegramCard;
 use Olz\Apps\Newsletter\Metadata;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;
@@ -15,8 +15,16 @@ use Olz\Utils\HttpParams;
 class OlzNewsletterParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzNewsletter extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzNewsletter extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzNewsletterParams::class);
         $code_href = $this->envUtils()->getCodeHref();

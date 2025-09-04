@@ -3,7 +3,7 @@
 namespace Olz\Apps\Youtube\Components\OlzYoutube;
 
 use Olz\Apps\Youtube\Metadata;
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;
@@ -12,8 +12,16 @@ use Olz\Utils\HttpParams;
 class OlzYoutubeParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzYoutube extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzYoutube extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzYoutubeParams::class);
         $code_href = $this->envUtils()->getCodeHref();

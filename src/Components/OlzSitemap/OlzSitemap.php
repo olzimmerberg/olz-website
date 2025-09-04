@@ -2,7 +2,7 @@
 
 namespace Olz\Components\OlzSitemap;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
@@ -23,8 +23,16 @@ use Olz\Startseite\Components\OlzStartseite\OlzStartseite;
 use Olz\Termine\Components\OlzTermineList\OlzTermineList;
 use Olz\Termine\Utils\TermineFilterUtils;
 
-/** @extends OlzComponent<array<string, mixed>> */
-abstract class OlzSitemap extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+abstract class OlzSitemap extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     abstract public function getHtml(mixed $args): string;
 
     /** @return array<array{title: string, description: string, url: string, updates: string, importance: float, level: int}> */

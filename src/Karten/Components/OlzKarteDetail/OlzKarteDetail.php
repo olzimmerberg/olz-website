@@ -2,15 +2,37 @@
 
 namespace Olz\Karten\Components\OlzKarteDetail;
 
-use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Karten\Karte;
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzKarteDetail extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzKarteDetail extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'Karten';
+    }
+
+    public function getSearchResults(array $terms): array {
+        $results = [];
+        $code_href = $this->envUtils()->getCodeHref();
+        $karte_repo = $this->entityManager()->getRepository(Karte::class);
+        $karten = $karte_repo->search($terms);
+        foreach ($karten as $karte) {
+            $id = $karte->getId();
+            $results[] = $this->searchUtils()->getScoredSearchResult([
+                'link' => "{$code_href}karten/{$id}",
+                'icon' => "{$code_href}assets/icns/link_map_16.svg",
+                'date' => null,
+                'title' => $karte->getName() ?: '?',
+                'text' => $karte->getPlace() ?: null,
+            ], $terms);
+        }
+        return $results;
+    }
+
     public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();

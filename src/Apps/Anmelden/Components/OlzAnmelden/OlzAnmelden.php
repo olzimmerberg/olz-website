@@ -3,7 +3,7 @@
 namespace Olz\Apps\Anmelden\Components\OlzAnmelden;
 
 use Olz\Apps\Anmelden\Metadata;
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;
@@ -12,8 +12,16 @@ use Olz\Utils\HttpParams;
 class OlzAnmeldenParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array{id?: ?non-empty-string}> */
-class OlzAnmelden extends OlzComponent {
+/** @extends OlzRootComponent<array{id?: ?non-empty-string}> */
+class OlzAnmelden extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzAnmeldenParams::class);
         $code_href = $this->envUtils()->getCodeHref();

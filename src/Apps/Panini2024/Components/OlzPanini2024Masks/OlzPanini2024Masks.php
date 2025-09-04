@@ -4,7 +4,7 @@ namespace Olz\Apps\Panini2024\Components\OlzPanini2024Masks;
 
 use Olz\Apps\Panini2024\Metadata;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;
@@ -13,8 +13,16 @@ use Olz\Utils\HttpParams;
 class OlzPanini2024MasksParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzPanini2024Masks extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzPanini2024Masks extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzPanini2024MasksParams::class);
         $code_href = $this->envUtils()->getCodeHref();

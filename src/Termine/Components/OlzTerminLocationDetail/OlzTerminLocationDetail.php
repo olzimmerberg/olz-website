@@ -2,8 +2,8 @@
 
 namespace Olz\Termine\Components\OlzTerminLocationDetail;
 
-use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLocation;
@@ -16,8 +16,16 @@ use Olz\Utils\HttpParams;
 class OlzTerminLocationDetailParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzTerminLocationDetail extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzTerminLocationDetail extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public function getHtml(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzTerminLocationDetailParams::class);
 

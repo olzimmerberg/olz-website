@@ -2,7 +2,7 @@
 
 namespace Olz\Components\OtherPages\OlzDatenschutz;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Roles\Role;
@@ -14,8 +14,16 @@ use Olz\Utils\HttpParams;
 class OlzDatenschutzParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzDatenschutz extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzDatenschutz extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public static string $title = "Datenschutz";
     public static string $description = "Die Datenschutzerklärung der OL Zimmerberg.";
 

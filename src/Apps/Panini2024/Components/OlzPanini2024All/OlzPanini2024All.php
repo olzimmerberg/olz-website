@@ -5,7 +5,7 @@ namespace Olz\Apps\Panini2024\Components\OlzPanini2024All;
 use Olz\Apps\Panini2024\Metadata;
 use Olz\Apps\Panini2024\Utils\Panini2024Utils;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
-use Olz\Components\Common\OlzComponent;
+use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
@@ -16,8 +16,16 @@ use Olz\Utils\HttpParams;
 class OlzPanini2024AllParams extends HttpParams {
 }
 
-/** @extends OlzComponent<array<string, mixed>> */
-class OlzPanini2024All extends OlzComponent {
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzPanini2024All extends OlzRootComponent {
+    public function getSearchTitle(): string {
+        return 'TODO';
+    }
+
+    public function getSearchResults(array $terms): array {
+        return [];
+    }
+
     public function getHtml(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzPanini2024AllParams::class);
         $code_href = $this->envUtils()->getCodeHref();

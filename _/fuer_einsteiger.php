@@ -20,5 +20,4 @@ $http_utils->validateGetParams(FuerEinsteigerParams::class, $_GET);
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
 $new_url = "{$code_href}fuer_einsteiger";
-http_response_code(301);
-header("Location: {$new_url}");
+$http_utils->redirect($new_url, 410);

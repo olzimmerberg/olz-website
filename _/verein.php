@@ -19,10 +19,8 @@ $http_utils->validateGetParams(VereinParams::class, $_GET);
 if (isset($_GET['ressort'])) {
     $ressort = $_GET['ressort'];
     $new_url = "{$code_href}verein/{$ressort}";
-    http_response_code(301);
-    header("Location: {$new_url}");
+    $http_utils->redirect($new_url, 410);
 } else {
     $new_url = "{$code_href}verein";
-    http_response_code(301);
-    header("Location: {$new_url}");
+    $http_utils->redirect($new_url, 410);
 }

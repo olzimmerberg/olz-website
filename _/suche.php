@@ -18,5 +18,4 @@ $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
 $anfrage = urlencode($_GET['anfrage'] ?? '');
 $new_url = "{$code_href}suche".($anfrage ? "?anfrage={$anfrage}" : '');
-http_response_code(301);
-header("Location: {$new_url}");
+$http_utils->redirect($new_url, 410);

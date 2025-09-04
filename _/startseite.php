@@ -1,4 +1,6 @@
 <?php
 
-http_response_code(301);
-header('Location: /');
+use Olz\Utils\HttpUtils;
+
+$http_utils = HttpUtils::fromEnv();
+$http_utils->redirect('/', 301);

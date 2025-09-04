@@ -17,5 +17,4 @@ $http_utils->validateGetParams(EmailReaktionParams::class, $_GET);
 
 $token = $_GET['token'] ?? '';
 $new_url = "{$code_href}email_reaktion?token={$token}";
-http_response_code(301);
-header("Location: {$new_url}");
+$http_utils->redirect($new_url, 410);

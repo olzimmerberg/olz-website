@@ -2,10 +2,12 @@
 
 use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\EnvUtils;
+use Olz\Utils\HttpUtils;
 use Olz\Utils\Session;
 
 Session::session_start_if_cookie_set();
 
+$http_utils = HttpUtils::fromEnv();
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
 $termine_filter_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
@@ -20,10 +22,8 @@ $id = $_GET['id'] ?? null;
 
 if ($id === null) {
     $new_url = "{$code_href}termine{$filter_param}";
-    http_response_code(301);
-    header("Location: {$new_url}");
+    $http_utils->redirect($new_url, 410);
 } else {
     $new_url = "{$code_href}termine/{$id}{$filter_param}";
-    http_response_code(301);
-    header("Location: {$new_url}");
+    $http_utils->redirect($new_url, 410);
 }

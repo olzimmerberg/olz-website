@@ -17,5 +17,4 @@ $http_utils->validateGetParams(ProfilParams::class, $_GET);
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
 $new_url = "{$code_href}benutzer/ich";
-http_response_code(301);
-header("Location: {$new_url}");
+$http_utils->redirect($new_url, 410);

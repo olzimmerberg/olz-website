@@ -56,8 +56,8 @@ class HttpUtils {
     }
 
     public function redirect(string $redirect_url, int $http_status_code = 301): void {
-        $this->sendHttpResponseCode($http_status_code);
         $this->sendHeader("Location: {$redirect_url}");
+        $this->sendHttpResponseCode($http_status_code);
 
         $out = "";
         $out .= OlzHeaderWithoutRouting::render([
@@ -67,7 +67,7 @@ class HttpUtils {
         $out .= <<<ZZZZZZZZZZ
             <div class='content-full'>
                 <h2>Automatische Weiterleitung...</h2>
-                <p>Falls die automatische Weiterleitung nicht funktionieren sollte, kannst du auch diesenLink anklicken:</p>
+                <p>Falls die automatische Weiterleitung nicht funktionieren sollte, kannst du auch diesen Link anklicken:</p>
                 <p><b><a href='{$redirect_url}' class='linkint'>{$redirect_url}</a></b></p>
             </div>
             ZZZZZZZZZZ;

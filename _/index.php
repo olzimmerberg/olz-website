@@ -14,4 +14,5 @@ $http_utils = HttpUtils::fromEnv();
 $http_utils->validateGetParams(IndexParams::class, $_GET);
 
 // TODO: Delete; Both index.php and startseite.php are obsolete!
-$http_utils->redirect("{$env_utils->getCodeHref()}startseite", 308);
+$new_url = "{$env_utils->getCodeHref()}";
+$http_utils->redirect($new_url, 410);

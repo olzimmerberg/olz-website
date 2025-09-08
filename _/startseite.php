@@ -1,5 +1,6 @@
 <?php
 
+use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 
 $env_utils = EnvUtils::fromEnv();

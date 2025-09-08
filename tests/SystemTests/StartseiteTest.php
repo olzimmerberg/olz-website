@@ -27,7 +27,7 @@ final class StartseiteTest extends SystemTestCase {
         $url = "{$this->getTargetUrl()}/startseite.php";
         $headers = $this->getHeaders($url);
 
-        $this->assertSame(301, $headers['http_code']);
+        $this->assertSame(410, $headers['http_code']);
     }
 
     #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]

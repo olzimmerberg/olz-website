@@ -40,7 +40,7 @@ final class StartseiteTest extends SystemTestCase {
             $body
         );
         $this->assertMatchesRegularExpression(
-            '/Startseite/i',
+            '/<a href=\'\/\'/i',
             $body
         );
     }
@@ -51,7 +51,7 @@ final class StartseiteTest extends SystemTestCase {
         $body = file_get_contents($url) ?: '';
 
         $this->assertMatchesRegularExpression(
-            '/<title>OL Zimmerberg<\/title>/i',
+            '/<title>Weiterleitung\.\.\. - OL Zimmerberg<\/title>/i',
             $body
         );
         $this->assertMatchesRegularExpression(

@@ -27,7 +27,7 @@ final class StartseiteTest extends SystemTestCase {
         $url = "{$this->getTargetUrl()}/startseite.php";
         $headers = $this->getHeaders($url);
 
-        $this->assertSame(301, $headers['http_code']);
+        $this->assertSame(410, $headers['http_code']);
     }
 
     #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
@@ -40,7 +40,7 @@ final class StartseiteTest extends SystemTestCase {
             $body
         );
         $this->assertMatchesRegularExpression(
-            '/Startseite/i',
+            '/<a href=\'\/\'/i',
             $body
         );
     }
@@ -51,7 +51,7 @@ final class StartseiteTest extends SystemTestCase {
         $body = file_get_contents($url) ?: '';
 
         $this->assertMatchesRegularExpression(
-            '/<title>OL Zimmerberg<\/title>/i',
+            '/<title>Weiterleitung\.\.\. - OL Zimmerberg<\/title>/i',
             $body
         );
         $this->assertMatchesRegularExpression(

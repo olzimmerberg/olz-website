@@ -91,7 +91,6 @@ class RoleRepository extends OlzRepository {
                     Criteria::expr()->contains('old_username', $term),
                     Criteria::expr()->contains('name', $term),
                     Criteria::expr()->contains('description', $term),
-                    Criteria::expr()->contains('guide', $term),
                 ), $terms),
             ))
             ->orderBy([

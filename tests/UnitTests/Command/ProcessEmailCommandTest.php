@@ -411,7 +411,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'DEBUG Sending email to "Undisclosed Recipients" <from@from-domain.com> (someone@gmail.com)',
+            'DEBUG Sending email to "Undisclosed Recipients" <fake@staging.olzimmerberg.ch> (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
@@ -423,7 +423,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
                 Reply-To: "From Name" <from@from-domain.com>
-                To: "Undisclosed Recipients" <from@from-domain.com>
+                To: "Undisclosed Recipients" <fake@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
                 Subject: Test subject
@@ -444,45 +444,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $envelopes));
-    }
-
-    public function testProcessEmailCommandRfcComplianceException(): void {
-        $this->setUpThrottlingNoCleanup();
-        $mailer = $this->createMock(MailerInterface::class);
-        WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        $mail = new FakeProcessEmailCommandMail(
-            12,
-            'someone@staging.olzimmerberg.ch',
-            new Attribute('to', [
-                getAddress('non-rfc-compliant-email', ''),
-            ]),
-            new Attribute('cc', []),
-            new Attribute('bcc', []),
-            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
-            new Attribute('subject', 'Test subject'),
-            'Test html',
-            'Test text',
-        );
-        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $input = new ArrayInput([]);
-        $output = new BufferedOutput();
-        $mailer->expects($this->exactly(0))->method('send');
-
-        $job = new ProcessEmailCommand();
-        $job->run($input, $output);
-
-        $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'WARNING getMails soft error:',
-            'WARNING getMails soft error:',
-            'NOTICE Email from someone@staging.olzimmerberg.ch to someone@gmail.com is not RFC-compliant: Email "non-rfc-compliant-email" does not comply with addr-spec of RFC 2822.',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $this->getLogs());
-        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
-        $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertFalse($mail->is_body_fetched);
-        $this->assertSame(['+flagged'], $mail->flag_actions);
     }
 
     public function testProcessEmailCommandToUser(): void {
@@ -1282,6 +1243,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
+            'NOTICE Skipping non-RFC-compliant email address <undisclosed-recipients>: Email "undisclosed-recipients" does not comply with addr-spec of RFC 2822.',
             'DEBUG Sending email to "Undisclosed Recipients" <fake@staging.olzimmerberg.ch> (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',

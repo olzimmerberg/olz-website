@@ -433,7 +433,7 @@ class ProcessEmailCommand extends OlzCommand {
             $cc = $this->getAddresses($mail->getCc());
             $bcc = $this->getAddresses($mail->getBcc());
             if (count($to) + count($cc) + count($bcc) === 0) { // E-Mail to undisclosed recipients
-                $to = [new Address($from_address, 'Undisclosed Recipients')];
+                $to = [new Address($this->envUtils()->getSmtpFrom(), 'Undisclosed Recipients')];
             }
             $message_id = $mail->getMessageId()->first();
             $subject = $mail->getSubject()->first();
@@ -523,22 +523,29 @@ class ProcessEmailCommand extends OlzCommand {
     protected function getAddresses(Attribute $field): array {
         $addresses = [];
         foreach ($field->toArray() as $item) {
-            if (!empty($item->mail)) {
-                // @phpstan-ignore-next-line
-                $addresses[] = $this->getAddress($item);
+            if (empty($item->mail)) {
+                continue;
             }
+            // @phpstan-ignore-next-line
+            $address = $this->getAddress($item);
+            if ($address === null) {
+                continue;
+            }
+            $addresses[] = $address;
         }
         return $addresses;
     }
 
-    protected function getAddress(\Webklex\PHPIMAP\Address $item): Address {
-        if (preg_match('/undisclosed\W*recipients/', $item->mail)) {
-            return new Address($this->envUtils()->getSmtpFrom(), 'Undisclosed Recipients');
+    protected function getAddress(\Webklex\PHPIMAP\Address $item): ?Address {
+        try {
+            if ($item->personal) {
+                return new Address($item->mail, $item->personal);
+            }
+            return new Address($item->mail);
+        } catch (RfcComplianceException $exc) {
+            $this->log()->notice("Skipping non-RFC-compliant email address {$item->personal}<{$item->mail}>: {$exc->getMessage()}", [$exc]);
+            return null;
         }
-        if ($item->personal) {
-            return new Address($item->mail, $item->personal);
-        }
-        return new Address($item->mail);
     }
 
     protected function sendRedirectEmail(Message $mail, string $old_address, string $new_address): void {

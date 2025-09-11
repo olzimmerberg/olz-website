@@ -224,7 +224,7 @@ class Deploy extends AbstractDefaultDeploy {
      */
     protected function afterDeploy($result): void {
         $staging_token = $result['staging_token'];
-        sleep(1);
+        sleep(3);
 
         if ($this->environment === 'staging') {
             // Add doctrine:cache:clear-metadata?

@@ -1,6 +1,6 @@
 <?php
 
-use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Termine\Utils\TermineUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Olz\Utils\Session;
@@ -10,7 +10,7 @@ Session::session_start_if_cookie_set();
 $http_utils = HttpUtils::fromEnv();
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
-$termine_filter_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+$termine_filter_utils = TermineUtils::fromEnv()->loadTypeOptions();
 $filter = json_decode($_GET['filter'] ?? '{}', true);
 $filter_param = '';
 if ($termine_filter_utils->isValidFilter($filter)) {

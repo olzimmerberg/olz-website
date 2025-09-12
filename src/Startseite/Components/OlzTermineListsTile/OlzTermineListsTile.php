@@ -8,23 +8,17 @@ namespace Olz\Startseite\Components\OlzTermineListsTile;
 
 use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
-use Olz\Termine\Utils\TermineFilterUtils;
 
 class OlzTermineListsTile extends AbstractOlzTile {
-    private TermineFilterUtils $termine_utils;
     private ?\mysqli $db = null;
     private ?int $this_year = null;
-
-    public function __construct() {
-        $this->termine_utils = TermineFilterUtils::fromEnv();
-    }
 
     public function getRelevance(?User $user): float {
         return 0.8;
     }
 
     public function getHtml(mixed $args): string {
-        $this->termine_utils->loadTypeOptions();
+        $this->termineUtils()->loadTypeOptions();
         $this->db = $this->dbUtils()->getDb();
         $this->this_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
 
@@ -45,7 +39,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $icon = "{$code_href}assets/icns/termine_type_all_20.svg";
         $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
-        $filter = $this->termine_utils->getDefaultFilter();
+        $filter = $this->termineUtils()->getDefaultFilter();
         $filter['typ'] = 'alle';
         $filter['datum'] = 'bevorstehend';
         $enc_json_filter = urlencode(json_encode($filter) ?: '{}');
@@ -63,12 +57,12 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $this_year = $this->this_year;
         $next_year = $this->this_year + 1;
         $imminent_filter = [
-            ...$this->termine_utils->getDefaultFilter(),
+            ...$this->termineUtils()->getDefaultFilter(),
             'typ' => 'programm',
             'datum' => 'bevorstehend',
         ];
         $this_year_filter = [
-            ...$this->termine_utils->getDefaultFilter(),
+            ...$this->termineUtils()->getDefaultFilter(),
             'typ' => 'programm',
             'datum' => strval($this_year),
         ];
@@ -86,7 +80,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $current_month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
         if ($current_month > 8) {
             $next_year_filter = [
-                ...$this->termine_utils->getDefaultFilter(),
+                ...$this->termineUtils()->getDefaultFilter(),
                 'typ' => 'programm',
                 'datum' => strval($next_year),
             ];
@@ -109,7 +103,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $icon = "{$code_href}assets/icns/termine_type_weekend_20.svg";
         $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
         $imminent_filter = [
-            ...$this->termine_utils->getDefaultFilter(),
+            ...$this->termineUtils()->getDefaultFilter(),
             'typ' => 'weekend',
             'datum' => 'bevorstehend',
         ];
@@ -128,7 +122,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
         $this_year = $this->this_year;
         $this_year_filter = [
-            ...$this->termine_utils->getDefaultFilter(),
+            ...$this->termineUtils()->getDefaultFilter(),
             'typ' => 'trophy',
             'datum' => strval($this_year),
         ];
@@ -146,7 +140,7 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $icon = "{$code_href}assets/icns/termine_type_training_20.svg";
         $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
         $imminent_filter = [
-            ...$this->termine_utils->getDefaultFilter(),
+            ...$this->termineUtils()->getDefaultFilter(),
             'typ' => 'training',
             'datum' => 'bevorstehend',
         ];
@@ -160,8 +154,8 @@ class OlzTermineListsTile extends AbstractOlzTile {
 
     /** @param array{typ?: string, datum?: string, archiv?: string} $filter */
     protected function getNumberOfEntries(array $filter): int {
-        $date_filter = $this->termine_utils->getSqlDateRangeFilter($filter, 'c');
-        $type_filter = $this->termine_utils->getSqlTypeFilter($filter, 'c');
+        $date_filter = $this->termineUtils()->getSqlDateRangeFilter($filter, 'c');
+        $type_filter = $this->termineUtils()->getSqlTypeFilter($filter, 'c');
         $filter_sql = "({$date_filter}) AND ({$type_filter})";
         $sql = <<<ZZZZZZZZZZ
             SELECT * 

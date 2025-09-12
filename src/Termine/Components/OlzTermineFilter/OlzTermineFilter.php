@@ -3,12 +3,11 @@
 namespace Olz\Termine\Components\OlzTermineFilter;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Termine\Utils\TermineFilterUtils;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzTermineFilter extends OlzComponent {
     public function getHtml(mixed $args): string {
-        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+        $termine_utils = $this->termineUtils()->loadTypeOptions();
         $code_href = $this->envUtils()->getCodeHref();
         $current_filter = json_decode($this->getParams()['filter'] ?? '{}', true);
         $out = "";
@@ -38,16 +37,6 @@ class OlzTermineFilter extends OlzComponent {
             return "<a href='{$code_href}termine?filter={$enc_json_filter}' id='filter-date-{$ident}'{$selected}>{$name}</a>";
         }, $date_range_options));
         $out .= "<div><b>Datum: </b>{$date_range_options_out}</div>";
-
-        $archive_options = $termine_utils->getUiArchiveFilterOptions($current_filter);
-        $archive_options_out = implode(" | ", array_map(function ($option) {
-            $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
-            $enc_json_filter = urlencode(json_encode($option['new_filter']) ?: '{}');
-            $name = $option['name'];
-            $ident = $option['ident'];
-            return "<a href='?filter={$enc_json_filter}' id='filter-archive-{$ident}'{$selected}>{$name}</a>";
-        }, $archive_options));
-        $out .= "<div><b>Archiv: </b>{$archive_options_out}</div>";
 
         $out .= "</div>";
         return $out;

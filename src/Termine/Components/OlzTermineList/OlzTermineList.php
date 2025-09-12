@@ -14,7 +14,6 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
-use Olz\Termine\Utils\TermineFilterUtils;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{filter?: ?string, von?: ?string}> */
@@ -24,7 +23,7 @@ class OlzTermineListParams extends HttpParams {
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzTermineList extends OlzRootComponent {
     public function getSearchTitle(): string {
-        return 'TODO';
+        return 'Termin-Listen';
     }
 
     public function getSearchResults(array $terms): array {
@@ -41,7 +40,7 @@ class OlzTermineList extends OlzRootComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         $current_filter = json_decode($params['filter'] ?? '{}', true);
-        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+        $termine_utils = $this->termineUtils()->loadTypeOptions();
 
         if (!$termine_utils->isValidFilter($current_filter)) {
             $valid_filter = $termine_utils->getValidFilter($current_filter);
@@ -50,14 +49,11 @@ class OlzTermineList extends OlzRootComponent {
         }
 
         $termine_list_title = $termine_utils->getTitleFromFilter($current_filter);
-        $is_not_archived = $termine_utils->isFilterNotArchived($current_filter);
-        $allow_robots = $is_not_archived;
         $enc_json_filter = urlencode(json_encode($current_filter) ?: '{}');
 
         $out = OlzHeader::render([
             'title' => $termine_list_title,
             'description' => self::$description, // TODO: Filter-specific description?
-            'norobots' => !$allow_robots,
             'canonical_url' => "{$code_href}termine?filter={$enc_json_filter}",
         ]);
 
@@ -211,70 +207,58 @@ class OlzTermineList extends OlzRootComponent {
             ORDER BY c.start_date ASC
             ZZZZZZZZZZ;
 
-        $has_archive_access = $this->authUtils()->hasPermission('verified_email');
-        if ($is_not_archived || $has_archive_access) {
-            $result = $db->query($sql);
-            $today = $this->dateUtils()->getCurrentDateInFormat('Y-m-d');
-            $meldeschluss_label = new TerminLabel();
-            $meldeschluss_label->setIdent('meldeschluss');
-            $meldeschluss_label->setIcon(null);
-            $last_date = null;
+        $result = $db->query($sql);
+        $today = $this->dateUtils()->getCurrentDateInFormat('Y-m-d');
+        $meldeschluss_label = new TerminLabel();
+        $meldeschluss_label->setIdent('meldeschluss');
+        $meldeschluss_label->setIcon(null);
+        $last_date = null;
+        // @phpstan-ignore-next-line
+        while ($row = $result->fetch_assoc()) {
+            $this_date = $row['start_date'];
             // @phpstan-ignore-next-line
-            while ($row = $result->fetch_assoc()) {
-                $this_date = $row['start_date'];
-                // @phpstan-ignore-next-line
-                $this_month_start = $this->getMonth($this_date).'-01';
+            $this_month_start = $this->getMonth($this_date).'-01';
 
-                if ($today < $this_month_start && $today > $last_date) {
-                    $out .= "<div class='bar today'>Heute</div>";
-                }
-                // @phpstan-ignore-next-line
-                if ($this->getMonth($this_date) !== $this->getMonth($last_date)) {
-                    // @phpstan-ignore-next-line
-                    $pretty_month = $this->dateUtils()->olzDate("MM jjjj", $this_date);
-                    $out .= "<h3 class='bar green'>{$pretty_month}</h3>";
-                }
-                if ($today <= $this_date && $today > $last_date && $today >= $this_month_start) {
-                    $out .= "<div class='bar today'>Heute</div>";
-                }
-                $labels = [$meldeschluss_label];
-                if ($row['item_type'] === 'termin') {
-                    $termin = $termin_repo->findOneBy(['id' => $row['id']]);
-                    $labels = [...($termin?->getLabels() ?? [])];
-                }
-
-                $out .= OlzTermineListItem::render([
-                    'id' => $row['id'],
-                    'owner_user_id' => $row['owner_user_id'],
-                    'start_date' => $row['start_date'],
-                    'start_time' => $row['start_time'],
-                    'end_date' => $row['end_date'],
-                    'end_time' => $row['end_time'],
-                    'title' => $row['title'],
-                    'text' => $row['text'],
-                    'solv_uid' => $row['solv_uid'],
-                    'labels' => $labels,
-                    // @phpstan-ignore-next-line
-                    'image_ids' => $row['image_ids'] ? json_decode($row['image_ids'], true) : null,
-                    'location_id' => $row['location_id'],
-                ]);
-
-                $last_date = $this_date;
+            if ($today < $this_month_start && $today > $last_date) {
+                $out .= "<div class='bar today'>Heute</div>";
             }
-            if ($last_date === null) {
-                $out .= "<div class='no-entries'>Keine Einträge. Bitte Filter anpassen.</div>";
+            // @phpstan-ignore-next-line
+            if ($this->getMonth($this_date) !== $this->getMonth($last_date)) {
+                // @phpstan-ignore-next-line
+                $pretty_month = $this->dateUtils()->olzDate("MM jjjj", $this_date);
+                $out .= "<h3 class='bar green'>{$pretty_month}</h3>";
             }
-            $out .= "</div>";
-        } else {
-            $out .= <<<'ZZZZZZZZZZ'
-                <div class='olz-no-access'>
-                    <div>Das Archiv ist nur für Vereins-Mitglieder verfügbar.</div>
-                    <div class='auth-buttons'>
-                        <a class='btn btn-primary' href='#login-dialog' role='button'>Login</a>
-                    </div>
-                </div>
-                ZZZZZZZZZZ;
+            if ($today <= $this_date && $today > $last_date && $today >= $this_month_start) {
+                $out .= "<div class='bar today'>Heute</div>";
+            }
+            $labels = [$meldeschluss_label];
+            if ($row['item_type'] === 'termin') {
+                $termin = $termin_repo->findOneBy(['id' => $row['id']]);
+                $labels = [...($termin?->getLabels() ?? [])];
+            }
+
+            $out .= OlzTermineListItem::render([
+                'id' => $row['id'],
+                'owner_user_id' => $row['owner_user_id'],
+                'start_date' => $row['start_date'],
+                'start_time' => $row['start_time'],
+                'end_date' => $row['end_date'],
+                'end_time' => $row['end_time'],
+                'title' => $row['title'],
+                'text' => $row['text'],
+                'solv_uid' => $row['solv_uid'],
+                'labels' => $labels,
+                // @phpstan-ignore-next-line
+                'image_ids' => $row['image_ids'] ? json_decode($row['image_ids'], true) : null,
+                'location_id' => $row['location_id'],
+            ]);
+
+            $last_date = $this_date;
         }
+        if ($last_date === null) {
+            $out .= "<div class='no-entries'>Keine Einträge. Bitte Filter anpassen.</div>";
+        }
+        $out .= "</div>";
 
         $out .= OlzFooter::render();
 

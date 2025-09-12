@@ -5,9 +5,6 @@ services:
     Olz\News\Utils\NewsFilterUtils:
         public: true
 
-    Olz\Termine\Utils\TermineFilterUtils:
-        public: true
-
     Olz\Tests\IntegrationTests\Utils\HttpUtilsForIntegrationTest:
         public: true
 

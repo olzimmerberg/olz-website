@@ -21,7 +21,6 @@ use Olz\Roles\Components\OlzVerein\OlzVerein;
 use Olz\Service\Components\OlzService\OlzService;
 use Olz\Startseite\Components\OlzStartseite\OlzStartseite;
 use Olz\Termine\Components\OlzTermineList\OlzTermineList;
-use Olz\Termine\Utils\TermineFilterUtils;
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 abstract class OlzSitemap extends OlzRootComponent {
@@ -172,7 +171,7 @@ abstract class OlzSitemap extends OlzRootComponent {
             'level' => 0,
         ];
 
-        $termine_utils = TermineFilterUtils::fromEnv()->loadTypeOptions();
+        $termine_utils = $this->termineUtils()->loadTypeOptions();
         $termine_filters = $termine_utils->getAllValidFiltersForSitemap();
         foreach ($termine_filters as $termine_filter) {
             $enc_json_filter = urlencode(json_encode($termine_filter) ?: '{}');

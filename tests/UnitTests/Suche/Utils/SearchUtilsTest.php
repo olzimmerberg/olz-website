@@ -50,7 +50,7 @@ final class SearchUtilsTest extends UnitTestCase {
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Suche', 'bestScore' => null, 'results' => []],
             ['title' => 'Termine', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Termin-Listen', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],

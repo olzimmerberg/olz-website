@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use Olz\Entity\Termine\Termin;
 use Olz\Repository\Common\OlzRepository;
-use Olz\Termine\Utils\TermineFilterUtils;
 
 /**
  * @extends OlzRepository<Termin>
@@ -15,8 +14,7 @@ use Olz\Termine\Utils\TermineFilterUtils;
 class TerminRepository extends OlzRepository {
     /** @return Collection<int, Termin>&iterable<Termin> */
     public function getAllActive(): Collection {
-        $termine_utils = TermineFilterUtils::fromEnv();
-        $is_not_archived = $termine_utils->getIsNotArchivedCriteria();
+        $is_not_archived = $this->termineUtils()->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 $is_not_archived,
@@ -34,8 +32,7 @@ class TerminRepository extends OlzRepository {
      * @return Collection<int, Termin>&iterable<Termin>
      */
     public function search(array $terms): Collection {
-        $termine_utils = TermineFilterUtils::fromEnv();
-        $is_not_archived = $termine_utils->getIsNotArchivedCriteria();
+        $is_not_archived = $this->termineUtils()->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 $is_not_archived,

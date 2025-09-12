@@ -5,7 +5,7 @@ namespace Olz\Controller;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
-use Olz\Termine\Utils\TermineFilterUtils;
+use Olz\Termine\Utils\TermineUtils;
 use Olz\Utils\DateUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
@@ -59,14 +59,14 @@ class OtherPagesController extends AbstractController {
         LoggerInterface $logger,
         HttpUtils $httpUtils,
         EnvUtils $envUtils,
+        TermineUtils $termineUtils,
     ): Response {
         $httpUtils->countRequest($request);
         $dateUtils = new DateUtils();
         $code_href = $envUtils->getCodeHref();
         $this_year = $dateUtils->getCurrentDateInFormat('Y');
-        $termine_utils = TermineFilterUtils::fromEnv();
         $filter = [
-            ...$termine_utils->getDefaultFilter(),
+            ...$termineUtils->getDefaultFilter(),
             'typ' => 'trophy',
             'datum' => strval($this_year),
         ];

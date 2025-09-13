@@ -1,6 +1,6 @@
 <?php
 
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpParams;
 use Olz\Utils\HttpUtils;
@@ -27,8 +27,8 @@ if (isset($_GET['datum']) || isset($_GET['foto'])) {
 
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
-$news_filter_utils = NewsFilterUtils::fromEnv();
-$filter = $news_filter_utils->getDefaultFilter();
+$news_utils = NewsUtils::fromEnv();
+$filter = $news_utils->getDefaultFilter();
 $filter['format'] = 'galerie';
 $enc_json_filter = urlencode(json_encode($filter) ?: '{}');
 

@@ -8,7 +8,6 @@ namespace Olz\Startseite\Components\OlzNewsForumTile;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
-use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsForumTile extends AbstractOlzTile {
@@ -19,9 +18,9 @@ class OlzNewsForumTile extends AbstractOlzTile {
     public function getHtml(mixed $args): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
-        $news_filter_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsUtils();
 
-        $forum_url = $news_filter_utils->getUrl(['format' => 'forum']);
+        $forum_url = $news_utils->getUrl(['format' => 'forum']);
 
         $out = <<<ZZZZZZZZZZ
             <h3>

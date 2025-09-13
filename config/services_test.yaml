@@ -2,9 +2,6 @@ services:
     _defaults:
         public: true
 
-    Olz\News\Utils\NewsFilterUtils:
-        public: true
-
     Olz\Tests\IntegrationTests\Utils\HttpUtilsForIntegrationTest:
         public: true
 

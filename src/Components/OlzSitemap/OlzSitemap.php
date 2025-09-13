@@ -16,7 +16,6 @@ use Olz\Faq\Components\OlzFaqList\OlzFaqList;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Components\OlzNewsList\OlzNewsList;
-use Olz\News\Utils\NewsFilterUtils;
 use Olz\Roles\Components\OlzVerein\OlzVerein;
 use Olz\Service\Components\OlzService\OlzService;
 use Olz\Startseite\Components\OlzStartseite\OlzStartseite;
@@ -90,7 +89,7 @@ abstract class OlzSitemap extends OlzRootComponent {
             'level' => 0,
         ];
 
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsUtils();
         $news_filters = $news_utils->getAllValidFiltersForSitemap();
         foreach ($news_filters as $news_filter) {
             $enc_json_filter = urlencode(json_encode($news_filter) ?: '{}');

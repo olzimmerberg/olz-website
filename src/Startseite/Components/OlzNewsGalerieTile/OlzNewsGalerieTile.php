@@ -8,7 +8,6 @@ namespace Olz\Startseite\Components\OlzNewsGalerieTile;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
-use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsGalerieTile extends AbstractOlzTile {
@@ -19,10 +18,10 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
     public function getHtml(mixed $args): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
-        $news_filter_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsUtils();
 
-        $galerie_url = $news_filter_utils->getUrl(['format' => 'galerie']);
-        $video_url = $news_filter_utils->getUrl(['format' => 'video']);
+        $galerie_url = $news_utils->getUrl(['format' => 'galerie']);
+        $video_url = $news_utils->getUrl(['format' => 'video']);
         $out = <<<ZZZZZZZZZZ
             <h3>
                 <a href='{$galerie_url}&von=startseite'>

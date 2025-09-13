@@ -13,7 +13,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsUtils;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{filter?: ?string, von?: ?string}> */
@@ -52,7 +52,7 @@ class OlzNewsDetail extends OlzRootComponent {
         $user = $this->authUtils()->getCurrentUser();
         $id = $args['id'] ?? null;
 
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsUtils();
         $news_repo = $entityManager->getRepository(NewsEntry::class);
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
@@ -104,7 +104,7 @@ class OlzNewsDetail extends OlzRootComponent {
         $format = $news_entry->getFormat();
         // TODO: Use array_find with PHP 8.4
         $filtered = array_filter(
-            NewsFilterUtils::ALL_FORMAT_OPTIONS,
+            NewsUtils::ALL_FORMAT_OPTIONS,
             fn ($entry) => $entry['ident'] === $format
         );
         // @phpstan-ignore-next-line

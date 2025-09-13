@@ -7,7 +7,6 @@
 namespace Olz\Startseite\Components\OlzNewsListsTile;
 
 use Olz\Entity\Users\User;
-use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsListsTile extends AbstractOlzTile {
@@ -17,32 +16,32 @@ class OlzNewsListsTile extends AbstractOlzTile {
 
     public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
-        $news_filter_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsUtils();
 
         $out = "<h3>News</h3>";
         $out .= "<ul class='links'>";
-        $aktuell_url = $news_filter_utils->getUrl(['format' => 'aktuell']);
+        $aktuell_url = $news_utils->getUrl(['format' => 'aktuell']);
         $out .= <<<ZZZZZZZZZZ
             <li><a href='{$aktuell_url}'>
                 <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
                 <b>Aktuell</b>
             </a></li>
             ZZZZZZZZZZ;
-        $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
+        $kaderblog_url = $news_utils->getUrl(['format' => 'kaderblog']);
         $out .= <<<ZZZZZZZZZZ
             <li><a href='{$kaderblog_url}'>
                 <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
                 <b>Kaderblog</b>
             </a></li>
             ZZZZZZZZZZ;
-        $forum_url = $news_filter_utils->getUrl(['format' => 'forum']);
+        $forum_url = $news_utils->getUrl(['format' => 'forum']);
         $out .= <<<ZZZZZZZZZZ
             <li><a href='{$forum_url}'>
                 <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
                 <b>Forum</b>
             </a></li>
             ZZZZZZZZZZ;
-        $galerie_url = $news_filter_utils->getUrl(['format' => 'galerie']);
+        $galerie_url = $news_utils->getUrl(['format' => 'galerie']);
         $out .= <<<ZZZZZZZZZZ
             <li><a href='{$galerie_url}'>
                 <img src='{$code_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>

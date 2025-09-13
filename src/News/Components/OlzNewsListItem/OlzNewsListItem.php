@@ -5,12 +5,11 @@ namespace Olz\News\Components\OlzNewsListItem;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
-use Olz\News\Utils\NewsFilterUtils;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsListItem extends OlzComponent {
     public function getHtml(mixed $args): string {
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsUtils();
         $code_href = $this->envUtils()->getCodeHref();
 
         $news_entry = $args['news_entry'];

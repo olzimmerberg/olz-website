@@ -1,6 +1,6 @@
 <?php
 
-use Olz\News\Utils\NewsFilterUtils;
+use Olz\News\Utils\NewsUtils;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpParams;
 use Olz\Utils\HttpUtils;
@@ -20,10 +20,10 @@ $http_utils->validateGetParams(AktuellParams::class, $_GET);
 
 $env_utils = EnvUtils::fromEnv();
 $code_href = $env_utils->getCodeHref();
-$news_filter_utils = NewsFilterUtils::fromEnv();
+$news_utils = NewsUtils::fromEnv();
 $filter = json_decode($_GET['filter'] ?? '{}', true);
-if (!$news_filter_utils->isValidFilter($filter)) {
-    $filter = $news_filter_utils->getDefaultFilter();
+if (!$news_utils->isValidFilter($filter)) {
+    $filter = $news_utils->getDefaultFilter();
 }
 $enc_json_filter = urlencode(json_encode($filter) ?: '{}');
 

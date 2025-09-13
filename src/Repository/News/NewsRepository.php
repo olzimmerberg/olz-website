@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use Olz\Entity\News\NewsEntry;
-use Olz\News\Utils\NewsFilterUtils;
 use Olz\Repository\Common\OlzRepository;
 
 /**
@@ -15,7 +14,7 @@ use Olz\Repository\Common\OlzRepository;
 class NewsRepository extends OlzRepository {
     /** @return Collection<int, NewsEntry>&iterable<NewsEntry> */
     public function getAllActive(): Collection {
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsUtils();
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
@@ -34,7 +33,7 @@ class NewsRepository extends OlzRepository {
      * @return Collection<int, NewsEntry>&iterable<NewsEntry>
      */
     public function search(array $terms): Collection {
-        $news_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsUtils();
         $is_not_archived = $news_utils->getIsNotArchivedCriteria();
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(

@@ -8,7 +8,6 @@ namespace Olz\Startseite\Components\OlzNewsAktuellKaderblogTile;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Users\User;
-use Olz\News\Utils\NewsFilterUtils;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
@@ -19,10 +18,10 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
     public function getHtml(mixed $args): string {
         $entity_manager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
-        $news_filter_utils = NewsFilterUtils::fromEnv();
+        $news_utils = $this->newsUtils();
 
-        $aktuell_url = $news_filter_utils->getUrl(['format' => 'aktuell']);
-        $kaderblog_url = $news_filter_utils->getUrl(['format' => 'kaderblog']);
+        $aktuell_url = $news_utils->getUrl(['format' => 'aktuell']);
+        $kaderblog_url = $news_utils->getUrl(['format' => 'kaderblog']);
         $out = <<<ZZZZZZZZZZ
             <h3>
                 <a href='{$aktuell_url}&von=startseite'>

@@ -150,11 +150,15 @@ class TermineUtils {
         }, $this->getDateRangeOptions());
     }
 
+    public function hasArchiveAccess(): bool {
+        return $this->authUtils()->hasPermission('verified_email');
+    }
+
     /**
      * @return array<Option>
      */
     public function getDateRangeOptions(): array {
-        $include_archive = $this->authUtils()->hasPermission('verified_email');
+        $include_archive = $this->hasArchiveAccess();
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $first_year = $include_archive ? 2006 : $current_year - DateUtils::ARCHIVE_YEARS_THRESHOLD;
         $options = [

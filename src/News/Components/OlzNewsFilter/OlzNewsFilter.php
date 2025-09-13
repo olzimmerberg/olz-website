@@ -36,7 +36,8 @@ class OlzNewsFilter extends OlzComponent {
             $ident = $option['ident'];
             return "<a href='?filter={$enc_json_filter}' id='filter-date-{$ident}'{$selected}>{$name}</a>";
         }, $date_range_options));
-        $out .= "<div><b>Datum: </b>{$date_range_options_out}</div>";
+        $archive_out = $news_utils->hasArchiveAccess() ? '' : " | <a href='#login-dialog'>ältere</a>";
+        $out .= "<div><b>Datum: </b>{$date_range_options_out}{$archive_out}</div>";
 
         $out .= "</div>";
         return $out;

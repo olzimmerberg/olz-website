@@ -18,7 +18,7 @@ class SendTestEmailCommand extends OlzCommand {
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
         $base_href = $this->envUtils()->getBaseHref();
-        $to = 'simon+olztestemail@hatt.style';
+        $to = 'thehatt+olztestemail@proton.me';
         $subject = 'Test mail';
         $content = "A test mail has been sent from {$base_href}!";
         $message = new SendEmailMessage($to, $subject, $content);

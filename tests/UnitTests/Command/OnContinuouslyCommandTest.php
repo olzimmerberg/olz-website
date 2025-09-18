@@ -77,7 +77,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'INFO Executing daily (01:10:00) clean-logs...',
             'INFO Executing daily (01:15:00) send-telegram-configuration...',
             'INFO Executing daily (01:20:00) sync-solv...',
-            'INFO Executing daily (01:25:00) send-test-email...',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -93,7 +92,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Executing daily (01:10:00) clean-logs...
             Executing daily (01:15:00) send-telegram-configuration...
             Executing daily (01:20:00) sync-solv...
-            Executing daily (01:25:00) send-test-email...
             Stopping workers...
             Consume messages...
             Ran continuously.
@@ -107,7 +105,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             ['clean-logs', '2020-03-13 02:30:00'],
             ['send-telegram-configuration', '2020-03-13 02:30:00'],
             ['sync-solv', '2020-03-13 02:30:00'],
-            ['send-test-email', '2020-03-13 02:30:00'],
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
@@ -116,7 +113,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:clean-logs ',
             'olz:send-telegram-configuration ',
             'olz:sync-solv ',
-            'olz:send-test-email ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -140,7 +136,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'INFO Executing daily (01:10:00) clean-logs...',
             'INFO Executing daily (01:15:00) send-telegram-configuration...',
             'INFO Executing daily (01:20:00) sync-solv...',
-            'INFO Executing daily (01:25:00) send-test-email...',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -156,7 +151,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Executing daily (01:10:00) clean-logs...
             Executing daily (01:15:00) send-telegram-configuration...
             Executing daily (01:20:00) sync-solv...
-            Executing daily (01:25:00) send-test-email...
             Stopping workers...
             Consume messages...
             Ran continuously.
@@ -170,7 +164,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             ['clean-logs', '2020-03-13 02:30:00'],
             ['send-telegram-configuration', '2020-03-13 02:30:00'],
             ['sync-solv', '2020-03-13 02:30:00'],
-            ['send-test-email', '2020-03-13 02:30:00'],
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
@@ -179,7 +172,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:clean-logs ',
             'olz:send-telegram-configuration ',
             'olz:sync-solv ',
-            'olz:send-test-email ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -309,7 +301,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'clean-logs' => $date,
             'send-telegram-configuration' => $date,
             'sync-solv' => $date,
-            'send-test-email' => $date,
             'send-daily-summary' => $date,
             'send-deadline-warning' => $date,
             'send-monthly-preview' => $date,

@@ -68,15 +68,6 @@ class OnContinuouslyCommand extends OlzCommand {
             );
         });
 
-        // TODO: Remove this again!
-        $this->daily('01:25:00', 'send-test-email', function () use ($output) {
-            $this->symfonyUtils()->callCommand(
-                'olz:send-test-email',
-                new ArrayInput([]),
-                $output,
-            );
-        });
-
         $this->daily('08:15:00', 'send-weekly-summary', function () use ($output) {
             $this->symfonyUtils()->callCommand(
                 'olz:send-weekly-summary',

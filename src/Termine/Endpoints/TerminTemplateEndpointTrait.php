@@ -29,10 +29,6 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
 trait TerminTemplateEndpointTrait {
     use WithUtilsTrait;
 
-    public function configureTerminTemplateEndpointTrait(): void {
-        $this->phpStanUtils->registerApiObject(IsoTime::class);
-    }
-
     /** @return OlzTerminTemplateData */
     public function getEntityData(TerminTemplate $entity): array {
         $types_for_api = $this->getTypesForApi($entity->getLabels());

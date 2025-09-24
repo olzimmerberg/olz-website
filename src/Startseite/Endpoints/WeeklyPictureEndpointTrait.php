@@ -18,10 +18,6 @@ use PhpTypeScriptApi\PhpStan\IsoDate;
 trait WeeklyPictureEndpointTrait {
     use WithUtilsTrait;
 
-    public function configureWeeklyPictureEndpointTrait(): void {
-        $this->phpStanUtils->registerApiObject(IsoDate::class);
-    }
-
     /** @return OlzWeeklyPictureData */
     public function getEntityData(WeeklyPicture $entity): array {
         return [

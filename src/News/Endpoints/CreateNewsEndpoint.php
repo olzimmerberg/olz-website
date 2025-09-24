@@ -23,12 +23,6 @@ use Symfony\Component\Mime\Email;
 class CreateNewsEndpoint extends OlzCreateEntityTypedEndpoint {
     use NewsEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureNewsEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(NewsEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $input_data = $input['data'];
         $format = $input_data['format'];

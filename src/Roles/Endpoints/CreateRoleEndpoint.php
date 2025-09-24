@@ -17,11 +17,6 @@ use PhpTypeScriptApi\HttpError;
 class CreateRoleEndpoint extends OlzCreateEntityTypedEndpoint {
     use RoleEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(RoleEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $parent_role = $input['data']['parentRole'] ?? null;
         if (!$this->authUtils()->hasRoleEditPermission($parent_role)) {

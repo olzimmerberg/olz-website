@@ -36,12 +36,6 @@ use PhpTypeScriptApi\PhpStan\IsoDate;
  * >
  */
 class GetPrefillValuesEndpoint extends OlzTypedEndpoint {
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerApiObject(IsoDate::class);
-        $this->phpStanUtils->registerApiObject(IsoCountry::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

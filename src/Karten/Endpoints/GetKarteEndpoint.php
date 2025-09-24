@@ -16,11 +16,6 @@ use Olz\Api\OlzGetEntityTypedEndpoint;
 class GetKarteEndpoint extends OlzGetEntityTypedEndpoint {
     use KarteEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(KarteEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

@@ -100,7 +100,10 @@ class HttpUtils {
         $params_instance = new $params_class();
         $params_instance->configure();
         $utils = $params_instance->phpStanUtils;
-        $php_doc_node = $utils->parseDocComment($class_info->getDocComment());
+        $php_doc_node = $utils->parseDocComment(
+            $class_info->getDocComment(),
+            $class_info->getFileName() ?: null,
+        );
         $type = $php_doc_node?->getExtendsTagValues()[0]->type->genericTypes[0];
         $aliases = $utils->getAliases($php_doc_node);
         if (!$type) {

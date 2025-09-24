@@ -14,11 +14,6 @@ use PhpTypeScriptApi\HttpError;
 class UpdateTerminLabelEndpoint extends OlzUpdateEntityTypedEndpoint {
     use TerminLabelEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(TerminLabelEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('termine');
 

@@ -14,11 +14,6 @@ use PhpTypeScriptApi\HttpError;
 class DeleteQuestionEndpoint extends OlzDeleteEntityTypedEndpoint {
     use QuestionEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(QuestionEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('faq');
 

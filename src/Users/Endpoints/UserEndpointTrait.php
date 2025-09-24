@@ -35,11 +35,6 @@ use PhpTypeScriptApi\PhpStan\IsoDate;
 trait UserEndpointTrait {
     use WithUtilsTrait;
 
-    public function configureUserEndpointTrait(): void {
-        $this->phpStanUtils->registerApiObject(IsoDate::class);
-        $this->phpStanUtils->registerApiObject(IsoCountry::class);
-    }
-
     /** @return OlzUserData */
     public function getEntityData(User $entity): array {
         return [

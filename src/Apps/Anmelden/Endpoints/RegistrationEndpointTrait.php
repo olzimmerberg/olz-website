@@ -32,10 +32,6 @@ use PhpTypeScriptApi\PhpStan\IsoDateTime;
 trait RegistrationEndpointTrait {
     use WithUtilsTrait;
 
-    public function configureRegistrationEndpointTrait(): void {
-        $this->phpStanUtils->registerApiObject(IsoDateTime::class);
-    }
-
     /** @return OlzRegistrationData */
     public function getEntityData(Registration $entity): array {
         $infos = [];

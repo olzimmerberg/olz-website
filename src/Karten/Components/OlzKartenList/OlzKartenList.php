@@ -74,7 +74,7 @@ class OlzKartenList extends OlzComponent {
                 $icon = 'orienteering_scool_16.svg';
             }
             if ($kind != $last_kind) {
-                $kind_name = $kind_name_by_ident[$kind];
+                $kind_name = $kind_name_by_ident[$kind] ?? '';
                 $out .= <<<ZZZZZZZZZZ
                     <tr><td colspan='3'>
                         <h2 class='section-title'>

@@ -17,12 +17,6 @@ use Olz\Api\OlzGetEntityTypedEndpoint;
 class GetRegistrationEndpoint extends OlzGetEntityTypedEndpoint {
     use RegistrationEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureRegistrationEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(RegistrationEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $external_id = $input['id'];
         $internal_id = $this->idUtils()->toInternalId($external_id, 'Registration');

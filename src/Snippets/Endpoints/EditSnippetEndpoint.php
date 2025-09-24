@@ -14,11 +14,6 @@ use PhpTypeScriptApi\HttpError;
 class EditSnippetEndpoint extends OlzEditEntityTypedEndpoint {
     use SnippetEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(SnippetEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $id = $input['id'];
         $this->checkPermission("snippet_{$id}");

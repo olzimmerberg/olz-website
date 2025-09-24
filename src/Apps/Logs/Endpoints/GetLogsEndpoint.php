@@ -29,11 +29,6 @@ use PhpTypeScriptApi\PhpStan\IsoDateTime;
  * >
  */
 class GetLogsEndpoint extends OlzTypedEndpoint {
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerApiObject(IsoDateTime::class);
-    }
-
     protected function handle(mixed $input): mixed {
         if (!$this->authUtils()->hasPermission('all')) {
             throw new HttpError(403, "Kein Zugriff!");

@@ -26,13 +26,13 @@ export type OlzLinkData = {'position'?: (number | null), 'name': string, 'url': 
 
 export type OlzLinkId = number;
 
-export type OlzNewsData = {'format': OlzNewsFormat, 'authorUserId'?: (number | null), 'authorRoleId'?: (number | null), 'authorName'?: (string | null), 'authorEmail'?: (string | null), 'publishAt'?: (IsoDateTime | null), 'title': string, 'teaser': string, 'content': string, 'externalUrl'?: (string | null), 'tags': Array<string>, 'terminId'?: (number | null), 'imageIds'?: (Array<string> | null), 'fileIds': Array<string>};
+export type OlzNewsData = {'format': OlzNewsFormat, 'authorUserId'?: (number | null), 'authorRoleId'?: (number | null), 'authorName'?: (string | null), 'authorEmail'?: (string | null), 'publishAt'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'title': string, 'teaser': string, 'content': string, 'externalUrl'?: (string | null), 'tags': Array<string>, 'terminId'?: (number | null), 'imageIds'?: (Array<string> | null), 'fileIds': Array<string>};
 
 export type OlzNewsId = number;
 
 export type OlzNewsFormat = ('aktuell' | 'kaderblog' | 'forum' | 'galerie' | 'video' | 'anonymous');
 
-export type IsoDateTime = string;
+export type PhpTypeScriptApi_PhpStan_IsoDateTime = string;
 
 export type OlzAuthorInfoData = {'roleName'?: (string | null), 'roleUsername'?: (string | null), 'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: ({[key: string]: string} | null)};
 
@@ -56,17 +56,17 @@ export type OlzQuestionCategoryData = {'position': number, 'name': string};
 
 export type OlzQuestionCategoryId = number;
 
-export type OlzWeeklyPictureData = {'text': string, 'imageId': string, 'publishedDate'?: (IsoDate | null)};
+export type OlzWeeklyPictureData = {'text': string, 'imageId': string, 'publishedDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null)};
 
 export type OlzWeeklyPictureId = number;
 
-export type IsoDate = string;
+export type PhpTypeScriptApi_PhpStan_IsoDate = string;
 
-export type OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate'?: (IsoDate | null), 'startTime'?: (IsoTime | null), 'endDate'?: (IsoDate | null), 'endTime'?: (IsoTime | null), 'title'?: (string | null), 'text': string, 'deadline'?: (IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'go2olId'?: (string | null), 'types': Array<string>, 'locationId'?: (number | null), 'coordinateX'?: (number | null), 'coordinateY'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
+export type OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'endDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'endTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'title'?: (string | null), 'text': string, 'deadline'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'go2olId'?: (string | null), 'types': Array<string>, 'locationId'?: (number | null), 'coordinateX'?: (number | null), 'coordinateY'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
 export type OlzTerminId = number;
 
-export type IsoTime = string;
+export type PhpTypeScriptApi_PhpStan_IsoTime = string;
 
 export type OlzTerminLabelData = {'ident': string, 'name': string, 'details': string, 'icon'?: (string | null), 'position'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
@@ -76,15 +76,15 @@ export type OlzTerminLocationData = {'name': string, 'details': string, 'latitud
 
 export type OlzTerminLocationId = number;
 
-export type OlzTerminTemplateData = {'startTime'?: (IsoTime | null), 'durationSeconds'?: (number | null), 'title': string, 'text': string, 'deadlineEarlierSeconds'?: (number | null), 'deadlineTime'?: (IsoTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'types': Array<string>, 'locationId'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
+export type OlzTerminTemplateData = {'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'durationSeconds'?: (number | null), 'title': string, 'text': string, 'deadlineEarlierSeconds'?: (number | null), 'deadlineTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'types': Array<string>, 'locationId'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
 export type OlzTerminTemplateId = number;
 
-export type OlzUserData = {'parentUserId'?: (number | null), 'firstName': string, 'lastName': string, 'username': string, 'password'?: (string | null), 'email'?: (string | null), 'phone'?: (string | null), 'gender'?: (('M' | 'F' | 'O') | null), 'birthdate'?: (IsoDate | null), 'street'?: (string | null), 'postalCode'?: (string | null), 'city'?: (string | null), 'region'?: (string | null), 'countryCode'?: (IsoCountry | null), 'siCardNumber'?: (number | null), 'solvNumber'?: (string | null), 'ahvNumber'?: (string | null), 'dressSize'?: (string | null), 'avatarImageId'?: (string | null)};
+export type OlzUserData = {'parentUserId'?: (number | null), 'firstName': string, 'lastName': string, 'username': string, 'password'?: (string | null), 'email'?: (string | null), 'phone'?: (string | null), 'gender'?: (('M' | 'F' | 'O') | null), 'birthdate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'street'?: (string | null), 'postalCode'?: (string | null), 'city'?: (string | null), 'region'?: (string | null), 'countryCode'?: (Olz_Api_ApiObjects_IsoCountry | null), 'siCardNumber'?: (number | null), 'solvNumber'?: (string | null), 'ahvNumber'?: (string | null), 'dressSize'?: (string | null), 'avatarImageId'?: (string | null)};
 
 export type OlzUserId = number;
 
-export type IsoCountry = string;
+export type Olz_Api_ApiObjects_IsoCountry = string;
 
 export type OlzUserInfoData = {'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: {[key: string]: string}};
 
@@ -94,7 +94,7 @@ export type OlzBookingData = {'registrationId': string, 'values': {[key: string]
 
 export type OlzBookingId = string;
 
-export type OlzRegistrationData = {'title': string, 'description': string, 'infos': Array<OlzRegistrationInfo>, 'opensAt'?: (IsoDateTime | null), 'closesAt'?: (IsoDateTime | null)};
+export type OlzRegistrationData = {'title': string, 'description': string, 'infos': Array<OlzRegistrationInfo>, 'opensAt'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'closesAt'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null)};
 
 export type OlzRegistrationId = string;
 
@@ -104,9 +104,9 @@ export type ValidRegistrationInfoType = ('email' | 'firstName' | 'lastName' | 'g
 
 export type ManagedUser = {'id': number, 'firstName': string, 'lastName': string};
 
-export type UserPrefillData = {'firstName': string, 'lastName': string, 'username': string, 'email': string, 'phone'?: (string | null), 'gender'?: (('M' | 'F' | 'O') | null), 'birthdate'?: (IsoDate | null), 'street'?: (string | null), 'postalCode'?: (string | null), 'city'?: (string | null), 'region'?: (string | null), 'countryCode'?: (IsoCountry | null), 'siCardNumber'?: (number | null), 'solvNumber'?: (string | null)};
+export type UserPrefillData = {'firstName': string, 'lastName': string, 'username': string, 'email': string, 'phone'?: (string | null), 'gender'?: (('M' | 'F' | 'O') | null), 'birthdate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'street'?: (string | null), 'postalCode'?: (string | null), 'city'?: (string | null), 'region'?: (string | null), 'countryCode'?: (Olz_Api_ApiObjects_IsoCountry | null), 'siCardNumber'?: (number | null), 'solvNumber'?: (string | null)};
 
-export type OlzLogsQuery = {'channel': string, 'targetDate'?: (IsoDateTime | null), 'firstDate'?: (IsoDateTime | null), 'lastDate'?: (IsoDateTime | null), 'minLogLevel'?: (OlzLogLevel | null), 'textSearch'?: (string | null), 'pageToken'?: (string | null)};
+export type OlzLogsQuery = {'channel': string, 'targetDate'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'firstDate'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'lastDate'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'minLogLevel'?: (OlzLogLevel | null), 'textSearch'?: (string | null), 'pageToken'?: (string | null)};
 
 export type OlzLogLevel = ('debug' | 'info' | 'notice' | 'warning' | 'error' | 'critical' | 'alert' | 'emergency');
 
@@ -120,7 +120,7 @@ export type OlzOriginInfo = {'halt': OlzTransportHalt, 'isSkipped': boolean, 'ra
 
 export type OlzTransportSection = {'departure': OlzTransportHalt, 'arrival': OlzTransportHalt, 'passList': Array<OlzTransportHalt>, 'isWalk': boolean};
 
-export type OlzTransportHalt = {'stationId': string, 'stationName': string, 'time': IsoDateTime};
+export type OlzTransportHalt = {'stationId': string, 'stationName': string, 'time': PhpTypeScriptApi_PhpStan_IsoDateTime};
 
 export type OlzPanini2024PictureData = {'id'?: (number | null), 'line1': string, 'line2': string, 'residence': string, 'uploadId': string, 'onOff': boolean, 'info1': string, 'info2': string, 'info3': string, 'info4': string, 'info5': string};
 
@@ -355,7 +355,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     exportMembers: Record<string, never>,
     getAppMonitoringCredentials: (Record<string, never> | null),
     updateNotificationSubscriptions: {'deliveryType': ('email' | 'telegram'), 'monthlyPreview': boolean, 'weeklyPreview': boolean, 'deadlineWarning': boolean, 'deadlineWarningDays': ('1' | '2' | '3' | '7'), 'dailySummary': boolean, 'dailySummaryAktuell': boolean, 'dailySummaryBlog': boolean, 'dailySummaryForum': boolean, 'dailySummaryGalerie': boolean, 'dailySummaryTermine': boolean, 'weeklySummary': boolean, 'weeklySummaryAktuell': boolean, 'weeklySummaryBlog': boolean, 'weeklySummaryForum': boolean, 'weeklySummaryGalerie': boolean, 'weeklySummaryTermine': boolean},
-    searchTransportConnection: {'destination': string, 'arrival': IsoDateTime},
+    searchTransportConnection: {'destination': string, 'arrival': PhpTypeScriptApi_PhpStan_IsoDateTime},
     listPanini2024Pictures: {'filter'?: (({'idIs': number} | {'page': number}) | null)},
     updateMyPanini2024: {'data': OlzPanini2024PictureData},
     getMySkillLevels: {'skillFilter'?: ({'categoryIdIn': Array<string>} | null)},

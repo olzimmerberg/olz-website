@@ -14,12 +14,6 @@ use Olz\Entity\Termine\TerminTemplate;
 class CreateTerminTemplateEndpoint extends OlzCreateEntityTypedEndpoint {
     use TerminTemplateEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureTerminTemplateEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(TerminTemplateEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('termine');
 

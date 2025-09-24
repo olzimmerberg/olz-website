@@ -13,11 +13,6 @@ use Olz\Api\OlzGetEntityTypedEndpoint;
 class GetSnippetEndpoint extends OlzGetEntityTypedEndpoint {
     use SnippetEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(SnippetEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

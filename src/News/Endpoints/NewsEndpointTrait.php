@@ -32,10 +32,6 @@ use PhpTypeScriptApi\PhpStan\IsoDateTime;
 trait NewsEndpointTrait {
     use WithUtilsTrait;
 
-    public function configureNewsEndpointTrait(): void {
-        $this->phpStanUtils->registerApiObject(IsoDateTime::class);
-    }
-
     /** @return OlzNewsData */
     public function getEntityData(NewsEntry $entity): array {
         $author_name = $entity->getAuthorName();

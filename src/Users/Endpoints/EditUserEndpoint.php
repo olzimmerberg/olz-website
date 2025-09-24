@@ -14,12 +14,6 @@ use PhpTypeScriptApi\HttpError;
 class EditUserEndpoint extends OlzEditEntityTypedEndpoint {
     use UserEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureUserEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(UserEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $entity = $this->getEntityById($input['id']);
 

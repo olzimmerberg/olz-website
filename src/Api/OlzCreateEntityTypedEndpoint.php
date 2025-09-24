@@ -24,9 +24,4 @@ namespace Olz\Api;
  */
 abstract class OlzCreateEntityTypedEndpoint extends OlzTypedEndpoint {
     use OlzEntityEndpointTrait;
-
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(OlzEntityEndpointTrait::class);
-    }
 }

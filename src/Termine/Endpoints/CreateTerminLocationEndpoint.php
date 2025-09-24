@@ -14,11 +14,6 @@ use Olz\Entity\Termine\TerminLocation;
 class CreateTerminLocationEndpoint extends OlzCreateEntityTypedEndpoint {
     use TerminLocationEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(TerminLocationEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('termine');
 

@@ -23,10 +23,6 @@ use PhpTypeScriptApi\PhpStan\IsoDate;
  * }>
  */
 class TestParams extends HttpParams {
-    public function configure(): void {
-        $this->phpStanUtils->registerApiObject(IsoDate::class);
-        $this->phpStanUtils->registerTypeImport(ExitException::class);
-    }
 }
 
 /**

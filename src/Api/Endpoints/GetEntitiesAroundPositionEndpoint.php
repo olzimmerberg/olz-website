@@ -38,11 +38,6 @@ use PhpTypeScriptApi\HttpError;
 class GetEntitiesAroundPositionEndpoint extends OlzTypedEndpoint {
     public const FLOAT_EPSILON = 1e-6; // PHP_FLOAT_EPSILON does not work for doctrine...
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(SearchEntitiesEndpoint::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

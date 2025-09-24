@@ -17,12 +17,6 @@ use PhpTypeScriptApi\HttpError;
 class DeleteNewsEndpoint extends OlzDeleteEntityTypedEndpoint {
     use NewsEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureNewsEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(NewsEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

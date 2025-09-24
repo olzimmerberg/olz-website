@@ -21,12 +21,6 @@ use PhpTypeScriptApi\HttpError;
 class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
     use UserEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureUserEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(UserEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $current_user = $this->authUtils()->getCurrentUser();
         $token = $input['custom']['captchaToken'] ?? null;

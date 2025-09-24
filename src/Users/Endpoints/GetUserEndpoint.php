@@ -13,12 +13,6 @@ use Olz\Api\OlzGetEntityTypedEndpoint;
 class GetUserEndpoint extends OlzGetEntityTypedEndpoint {
     use UserEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureUserEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(UserEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('users');
 

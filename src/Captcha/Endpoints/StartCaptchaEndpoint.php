@@ -16,11 +16,6 @@ use Olz\Captcha\Utils\CaptchaUtils;
  * >
  */
 class StartCaptchaEndpoint extends OlzTypedEndpoint {
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(CaptchaUtils::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $config = $this->captchaUtils()->generateOlzCaptchaConfig(3);
         return [

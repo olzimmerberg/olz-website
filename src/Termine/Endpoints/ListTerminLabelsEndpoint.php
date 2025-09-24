@@ -13,11 +13,6 @@ use Olz\Api\OlzListEntitiesTypedEndpoint;
 class ListTerminLabelsEndpoint extends OlzListEntitiesTypedEndpoint {
     use TerminLabelEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(TerminLabelEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

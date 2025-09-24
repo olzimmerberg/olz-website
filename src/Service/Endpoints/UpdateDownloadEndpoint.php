@@ -14,11 +14,6 @@ use PhpTypeScriptApi\HttpError;
 class UpdateDownloadEndpoint extends OlzUpdateEntityTypedEndpoint {
     use DownloadEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(DownloadEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

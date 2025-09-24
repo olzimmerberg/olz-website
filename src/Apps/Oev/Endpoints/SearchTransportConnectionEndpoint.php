@@ -69,11 +69,6 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
         $this->originStations = $data;
     }
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerApiObject(IsoDateTime::class);
-    }
-
     public function runtimeSetup(): void {
         $this->setLogger($this->log());
         $transport_api_fetcher = new TransportApiFetcher();

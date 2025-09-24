@@ -16,12 +16,6 @@ use Olz\Api\OlzGetEntityTypedEndpoint;
 class GetNewsEndpoint extends OlzGetEntityTypedEndpoint {
     use NewsEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureNewsEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(NewsEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

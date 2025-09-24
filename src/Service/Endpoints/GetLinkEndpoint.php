@@ -13,11 +13,6 @@ use Olz\Api\OlzGetEntityTypedEndpoint;
 class GetLinkEndpoint extends OlzGetEntityTypedEndpoint {
     use LinkEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(LinkEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

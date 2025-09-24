@@ -19,12 +19,6 @@ use Olz\Entity\Anmelden\RegistrationInfo;
 class CreateRegistrationEndpoint extends OlzCreateEntityTypedEndpoint {
     use RegistrationEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureRegistrationEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(RegistrationEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

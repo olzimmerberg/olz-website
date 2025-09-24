@@ -14,11 +14,6 @@ use Olz\Entity\Anmelden\Booking;
 class CreateBookingEndpoint extends OlzCreateEntityTypedEndpoint {
     use BookingEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(BookingEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $booking = new Booking();
         $this->entityUtils()->createOlzEntity($booking, $input['meta']);

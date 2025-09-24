@@ -14,11 +14,6 @@ use PhpTypeScriptApi\HttpError;
 class EditQuestionEndpoint extends OlzEditEntityTypedEndpoint {
     use QuestionEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(QuestionEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('faq');
 

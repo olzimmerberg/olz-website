@@ -14,12 +14,6 @@ use PhpTypeScriptApi\HttpError;
 class UpdateWeeklyPictureEndpoint extends OlzUpdateEntityTypedEndpoint {
     use WeeklyPictureEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureWeeklyPictureEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(WeeklyPictureEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

@@ -13,12 +13,6 @@ use Olz\Api\OlzGetEntityTypedEndpoint;
 class GetTerminTemplateEndpoint extends OlzGetEntityTypedEndpoint {
     use TerminTemplateEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureTerminTemplateEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(TerminTemplateEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

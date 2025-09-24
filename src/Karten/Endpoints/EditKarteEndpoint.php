@@ -17,11 +17,6 @@ use PhpTypeScriptApi\HttpError;
 class EditKarteEndpoint extends OlzEditEntityTypedEndpoint {
     use KarteEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(KarteEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

@@ -13,11 +13,6 @@ use PhpTypeScriptApi\HttpError;
 class AddUserRoleMembershipEndpoint extends OlzAddRelationTypedEndpoint {
     use UserRoleMembershipEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(UserRoleMembershipEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $role = $this->getRoleEntityById($input['ids']['roleId']);
         $user = $this->getUserEntityById($input['ids']['userId']);

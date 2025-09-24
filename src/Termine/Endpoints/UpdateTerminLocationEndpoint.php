@@ -14,11 +14,6 @@ use PhpTypeScriptApi\HttpError;
 class UpdateTerminLocationEndpoint extends OlzUpdateEntityTypedEndpoint {
     use TerminLocationEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(TerminLocationEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('termine');
 

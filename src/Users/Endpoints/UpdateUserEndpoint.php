@@ -19,12 +19,6 @@ use PhpTypeScriptApi\HttpError;
 class UpdateUserEndpoint extends OlzUpdateEntityTypedEndpoint {
     use UserEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->configureUserEndpointTrait();
-        $this->phpStanUtils->registerTypeImport(UserEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);

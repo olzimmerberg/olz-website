@@ -13,11 +13,6 @@ use Olz\Api\OlzGetEntityTypedEndpoint;
 class GetQuestionEndpoint extends OlzGetEntityTypedEndpoint {
     use QuestionEndpointTrait;
 
-    public function configure(): void {
-        parent::configure();
-        $this->phpStanUtils->registerTypeImport(QuestionEndpointTrait::class);
-    }
-
     protected function handle(mixed $input): mixed {
         $this->checkPermission('any');
 

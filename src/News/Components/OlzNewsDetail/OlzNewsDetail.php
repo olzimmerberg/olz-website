@@ -96,9 +96,9 @@ class OlzNewsDetail extends OlzRootComponent {
             $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
             $this->httpUtils()->redirect("{$code_href}news/{$id}?filter={$enc_json_filter}", 308);
         }
-
+        $enc_back_filter = urlencode(json_encode($back_filter) ?: '{}');
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}news?filter={$back_filter}",
+            'back_link' => "{$code_href}news?filter={$enc_back_filter}",
             'title' => "{$title} - News",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => $is_archived,

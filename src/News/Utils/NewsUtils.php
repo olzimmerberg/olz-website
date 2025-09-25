@@ -35,7 +35,7 @@ class NewsUtils {
         ];
     }
 
-    /** @param ?PartialFilter $filter */
+    /** @param ?array<string, string> $filter */
     public function isValidFilter(?array $filter): bool {
         $has_correct_format = (
             isset($filter['format'])

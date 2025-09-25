@@ -41,6 +41,11 @@ final class TermineUtilsTest extends UnitTestCase {
             'typ' => 'alle',
             'datum' => '2011',
         ]));
+        $this->assertFalse($termine_utils->isValidFilter([
+            'typ' => 'alle',
+            'datum' => '2020',
+            'invalid' => 'true',
+        ]));
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => true];
         $this->assertTrue($termine_utils->isValidFilter([
             'typ' => 'alle',
@@ -76,6 +81,14 @@ final class TermineUtilsTest extends UnitTestCase {
         ], $termine_utils->getValidFilter([
             'typ' => 'alle',
             'datum' => '2011',
+        ]));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => '2020',
+        ], $termine_utils->getValidFilter([
+            'typ' => 'alle',
+            'datum' => '2020',
+            'invalid' => 'true',
         ]));
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => true];
         $this->assertSame([

@@ -56,7 +56,7 @@ class NewsUtils {
             )
         );
         $has_no_other_keys = !array_filter(
-            array_keys($filter),
+            array_keys($filter ?? []),
             fn ($key) => $key !== 'format' && $key !== 'datum',
         );
         return $has_correct_format && $has_correct_date_range && $has_no_other_keys;

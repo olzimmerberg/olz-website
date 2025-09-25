@@ -89,14 +89,14 @@ class OlzNewsDetail extends OlzRootComponent {
         }
 
         $title = $news_entry->getTitle();
-        $back_filter = json_decode($params['filter'] ?? '{}', true);
+        $back_filter = json_decode($params['filter'] ?? 'null', true);
         $news_utils = $this->newsUtils();
-        if (!$news_utils->isValidFilter($back_filter)) {
+        if ($back_filter && !$news_utils->isValidFilter($back_filter)) {
             $valid_filter = $news_utils->getValidFilter($back_filter);
             $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
             $this->httpUtils()->redirect("{$code_href}news/{$id}?filter={$enc_json_filter}", 308);
         }
-        $enc_back_filter = urlencode(json_encode($back_filter) ?: '{}');
+        $enc_back_filter = urlencode(json_encode($back_filter ?: $news_utils->getDefaultFilter()) ?: '{}');
         $out = OlzHeader::render([
             'back_link' => "{$code_href}news?filter={$enc_back_filter}",
             'title' => "{$title} - News",

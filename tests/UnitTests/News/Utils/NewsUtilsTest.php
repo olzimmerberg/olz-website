@@ -38,6 +38,11 @@ final class NewsUtilsTest extends UnitTestCase {
             'format' => 'aktuell',
             'datum' => '2011',
         ]));
+        $this->assertFalse($news_utils->isValidFilter([
+            'format' => 'aktuell',
+            'datum' => '2020',
+            'invalid' => 'true',
+        ]));
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => true];
         $this->assertTrue($news_utils->isValidFilter([
             'format' => 'aktuell',
@@ -73,6 +78,14 @@ final class NewsUtilsTest extends UnitTestCase {
         ], $news_utils->getValidFilter([
             'format' => 'aktuell',
             'datum' => '2011',
+        ]));
+        $this->assertSame([
+            'format' => 'aktuell',
+            'datum' => '2020',
+        ], $news_utils->getValidFilter([
+            'format' => 'aktuell',
+            'datum' => '2020',
+            'invalid' => 'true',
         ]));
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => true];
         $this->assertSame([

@@ -35,7 +35,7 @@ class NewsUtils {
         ];
     }
 
-    /** @param ?PartialFilter $filter */
+    /** @param ?array<string, string> $filter */
     public function isValidFilter(?array $filter): bool {
         $has_correct_format = (
             isset($filter['format'])
@@ -55,7 +55,11 @@ class NewsUtils {
                 }
             )
         );
-        return $has_correct_format && $has_correct_date_range;
+        $has_no_other_keys = !array_filter(
+            array_keys($filter ?? []),
+            fn ($key) => $key !== 'format' && $key !== 'datum',
+        );
+        return $has_correct_format && $has_correct_date_range && $has_no_other_keys;
     }
 
     /**

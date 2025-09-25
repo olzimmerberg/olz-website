@@ -57,7 +57,7 @@ class TermineUtils {
         ];
     }
 
-    /** @param ?PartialFilter $filter */
+    /** @param ?array<string, string> $filter */
     public function isValidFilter(?array $filter): bool {
         $has_correct_type = (
             isset($filter['typ'])
@@ -77,7 +77,11 @@ class TermineUtils {
                 }
             )
         );
-        return $has_correct_type && $has_correct_date_range;
+        $has_no_other_keys = !array_filter(
+            array_keys($filter ?? []),
+            fn ($key) => $key !== 'typ' && $key !== 'datum',
+        );
+        return $has_correct_type && $has_correct_date_range && $has_no_other_keys;
     }
 
     /**

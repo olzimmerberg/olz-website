@@ -45,7 +45,7 @@ class OlzNewsDetail extends OlzRootComponent {
     }
 
     public function getHtml(mixed $args): string {
-        $this->httpUtils()->validateGetParams(OlzNewsDetailParams::class);
+        $params = $this->httpUtils()->validateGetParams(OlzNewsDetailParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
@@ -89,9 +89,16 @@ class OlzNewsDetail extends OlzRootComponent {
         }
 
         $title = $news_entry->getTitle();
-        $back_filter = urlencode($_GET['filter'] ?? '{}');
+        $back_filter = json_decode($params['filter'] ?? 'null', true);
+        $news_utils = $this->newsUtils();
+        if ($back_filter && !$news_utils->isValidFilter($back_filter)) {
+            $valid_filter = $news_utils->getValidFilter($back_filter);
+            $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
+            $this->httpUtils()->redirect("{$code_href}news/{$id}?filter={$enc_json_filter}", 308);
+        }
+        $enc_back_filter = urlencode(json_encode($back_filter ?: $news_utils->getDefaultFilter()) ?: '{}');
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}news?filter={$back_filter}",
+            'back_link' => "{$code_href}news?filter={$enc_back_filter}",
             'title' => "{$title} - News",
             'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
             'norobots' => $is_archived,

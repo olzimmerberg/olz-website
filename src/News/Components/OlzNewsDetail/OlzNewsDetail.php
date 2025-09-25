@@ -45,7 +45,7 @@ class OlzNewsDetail extends OlzRootComponent {
     }
 
     public function getHtml(mixed $args): string {
-        $this->httpUtils()->validateGetParams(OlzNewsDetailParams::class);
+        $params = $this->httpUtils()->validateGetParams(OlzNewsDetailParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();
@@ -89,7 +89,7 @@ class OlzNewsDetail extends OlzRootComponent {
         }
 
         $title = $news_entry->getTitle();
-        $back_filter = json_decode($params['filter'] ?? '{}', true);
+        $back_filter = json_decode($['filter'] ?? '{}', true);
         $news_utils = $this->newsUtils();
         if (!$news_utils->isValidFilter($back_filter)) {
             $valid_filter = $news_utils->getValidFilter($back_filter);

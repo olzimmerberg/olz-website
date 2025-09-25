@@ -89,7 +89,7 @@ class OlzNewsDetail extends OlzRootComponent {
         }
 
         $title = $news_entry->getTitle();
-        $back_filter = json_decode($['filter'] ?? '{}', true);
+        $back_filter = json_decode($params['filter'] ?? '{}', true);
         $news_utils = $this->newsUtils();
         if (!$news_utils->isValidFilter($back_filter)) {
             $valid_filter = $news_utils->getValidFilter($back_filter);

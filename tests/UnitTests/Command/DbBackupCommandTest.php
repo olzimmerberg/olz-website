@@ -35,7 +35,7 @@ final class DbBackupCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ, $output->fetch());
         $this->assertSame([
-            ['getDbBackup', 'some-secret-key'],
+            ['printDbBackup', 'some-secret-key'],
         ], WithUtilsCache::get('devDataUtils')->commands_called);
     }
 }

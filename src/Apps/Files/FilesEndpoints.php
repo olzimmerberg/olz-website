@@ -8,12 +8,14 @@ use Olz\Apps\Files\Endpoints\RevokeWebdavAccessTokenEndpoint;
 use PhpTypeScriptApi\Api;
 
 class FilesEndpoints extends BaseAppEndpoints {
+    public function __construct(
+        protected GetWebdavAccessTokenEndpoint $getWebdavAccessTokenEndpoint,
+        protected RevokeWebdavAccessTokenEndpoint $revokeWebdavAccessTokenEndpoint,
+    ) {
+    }
+
     public function register(Api $api): void {
-        $api->registerEndpoint('getWebdavAccessToken', function () {
-            return new GetWebdavAccessTokenEndpoint();
-        });
-        $api->registerEndpoint('revokeWebdavAccessToken', function () {
-            return new RevokeWebdavAccessTokenEndpoint();
-        });
+        $api->registerEndpoint('getWebdavAccessToken', $this->getWebdavAccessTokenEndpoint);
+        $api->registerEndpoint('revokeWebdavAccessToken', $this->revokeWebdavAccessTokenEndpoint);
     }
 }

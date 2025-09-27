@@ -20,7 +20,9 @@ final class OlzApiIntegrationTest extends IntegrationTestCase {
     public function testCanSetupEachEndpoint(): void {
         $olz_api = $this->getSut();
 
-        foreach ($olz_api->getEndpointNames() as $endpoint_name) {
+        $endpoint_names = $olz_api->getEndpointNames();
+        $this->assertGreaterThan(0, count($endpoint_names));
+        foreach ($endpoint_names as $endpoint_name) {
             $endpoint = $olz_api->getEndpointByName($endpoint_name);
             $endpoint?->setLogger(new NullLogger());
             $endpoint?->setup();
@@ -29,6 +31,19 @@ final class OlzApiIntegrationTest extends IntegrationTestCase {
                 || $endpoint instanceof TypedEndpoint
             );
         }
+    }
+
+    public function testOlzApiHasBeenGenerated(): void {
+        $actual_content = file_get_contents(__DIR__.'/../../../src/Api/client/generated_olz_api_types.ts');
+
+        ob_start();
+        $olz_api = $this->getSut();
+        $olz_api->generate();
+        ob_end_clean();
+
+        $expected_content = file_get_contents(__DIR__.'/../../../src/Api/client/generated_olz_api_types.ts');
+
+        $this->assertSame($expected_content, $actual_content);
     }
 
     protected function getSut(): OlzApi {

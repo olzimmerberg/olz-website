@@ -3,7 +3,7 @@
 namespace Olz\Apps\Oev\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
-use Olz\Apps\Oev\Utils\CoordinateUtils;
+use Olz\Apps\Oev\Utils\CoordinateUtilsTrait;
 use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
 use Olz\Fetchers\TransportApiFetcher;
@@ -52,6 +52,8 @@ use PhpTypeScriptApi\PhpStan\IsoDateTime;
  * >
  */
 class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
+    use CoordinateUtilsTrait;
+
     public const MIN_CHANGING_TIME = 1; // Minimum time to change at same station
 
     /** @var array<array{id: string, name: string, coordinate: array{type: string, x: float, y: float}, weight: float}> */
@@ -231,7 +233,7 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
 
     /** @return array<array{id: string, name: string, coordinate: array{type: string, x: float, y: float}, weight: float}> */
     protected function getMostPeripheralOriginStations(): array {
-        $coord_utils = CoordinateUtils::fromEnv();
+        $coord_utils = $this->coordinateUtils();
         $center_of_stations = $this->getCenterOfOriginStations();
         $most_peripheral_stations = array_slice($this->originStations, 0);
         usort(
@@ -261,7 +263,7 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
 
     /** @return array{x: int|float, y: int|float} */
     protected function getCenterOfOriginStations(): array {
-        $coord_utils = CoordinateUtils::fromEnv();
+        $coord_utils = $this->coordinateUtils();
         $station_points = array_map(function ($station) {
             return [
                 'x' => $station['coordinate']['x'],

@@ -57,6 +57,10 @@ class Deploy extends AbstractDefaultDeploy {
         $this->logger?->info("Remove jsbuild...");
         $fs->remove(__DIR__.'/public/jsbuild');
         $this->logger?->info("Webpack build...");
+        $config_dir = __DIR__.'/config/';
+        if (!is_file("{$config_dir}olz.dev.php")) {
+            $fs->copy("{$config_dir}olz.dev.template.php", "{$config_dir}olz.dev.php");
+        }
         $commands = [
             'export NODE_OPTIONS="--max-old-space-size=4096"',
             'npm run webpack-build',

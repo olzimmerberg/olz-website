@@ -5,7 +5,6 @@ namespace Olz\Components\Auth\OlzEmailReaktion;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\EmailUtils;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{token?: ?string}> */
@@ -27,7 +26,7 @@ class OlzEmailReaktion extends OlzRootComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $token = $params['token'] ?? '';
         $js_token = htmlentities(json_encode($token) ?: '');
-        $reaction_data = EmailUtils::fromEnv()->decryptEmailReactionToken($token);
+        $reaction_data = $this->emailUtils()->decryptEmailReactionToken($token);
 
         $out = OlzHeader::render([
             'title' => "Reaktion auf E-Mail",

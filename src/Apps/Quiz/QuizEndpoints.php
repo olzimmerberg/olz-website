@@ -10,18 +10,18 @@ use Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint;
 use PhpTypeScriptApi\Api;
 
 class QuizEndpoints extends BaseAppEndpoints {
+    public function __construct(
+        protected GetMySkillLevelsEndpoint $getMySkillLevelsEndpoint,
+        protected UpdateMySkillLevelsEndpoint $updateMySkillLevelsEndpoint,
+        protected RegisterSkillCategoriesEndpoint $registerSkillCategoriesEndpoint,
+        protected RegisterSkillsEndpoint $registerSkillsEndpoint,
+    ) {
+    }
+
     public function register(Api $api): void {
-        $api->registerEndpoint('getMySkillLevels', function () {
-            return new GetMySkillLevelsEndpoint();
-        });
-        $api->registerEndpoint('updateMySkillLevels', function () {
-            return new UpdateMySkillLevelsEndpoint();
-        });
-        $api->registerEndpoint('registerSkillCategories', function () {
-            return new RegisterSkillCategoriesEndpoint();
-        });
-        $api->registerEndpoint('registerSkills', function () {
-            return new RegisterSkillsEndpoint();
-        });
+        $api->registerEndpoint('getMySkillLevels', $this->getMySkillLevelsEndpoint);
+        $api->registerEndpoint('updateMySkillLevels', $this->updateMySkillLevelsEndpoint);
+        $api->registerEndpoint('registerSkillCategories', $this->registerSkillCategoriesEndpoint);
+        $api->registerEndpoint('registerSkills', $this->registerSkillsEndpoint);
     }
 }

@@ -11,21 +11,20 @@ use Olz\Apps\BaseAppEndpoints;
 use PhpTypeScriptApi\Api;
 
 class AnmeldenEndpoints extends BaseAppEndpoints {
+    public function __construct(
+        protected CreateBookingEndpoint $createBookingEndpoint,
+        protected CreateRegistrationEndpoint $createRegistrationEndpoint,
+        protected GetManagedUsersEndpoint $getManagedUsersEndpoint,
+        protected GetPrefillValuesEndpoint $getPrefillValuesEndpoint,
+        protected GetRegistrationEndpoint $getRegistrationEndpoint,
+    ) {
+    }
+
     public function register(Api $api): void {
-        $api->registerEndpoint('createBooking', function () {
-            return new CreateBookingEndpoint();
-        });
-        $api->registerEndpoint('createRegistration', function () {
-            return new CreateRegistrationEndpoint();
-        });
-        $api->registerEndpoint('getManagedUsers', function () {
-            return new GetManagedUsersEndpoint();
-        });
-        $api->registerEndpoint('getPrefillValues', function () {
-            return new GetPrefillValuesEndpoint();
-        });
-        $api->registerEndpoint('getRegistration', function () {
-            return new GetRegistrationEndpoint();
-        });
+        $api->registerEndpoint('createBooking', $this->createBookingEndpoint);
+        $api->registerEndpoint('createRegistration', $this->createRegistrationEndpoint);
+        $api->registerEndpoint('getManagedUsers', $this->getManagedUsersEndpoint);
+        $api->registerEndpoint('getPrefillValues', $this->getPrefillValuesEndpoint);
+        $api->registerEndpoint('getRegistration', $this->getRegistrationEndpoint);
     }
 }

@@ -7,9 +7,12 @@ use Olz\Apps\Youtube\Endpoints\GetAppYoutubeCredentialsEndpoint;
 use PhpTypeScriptApi\Api;
 
 class YoutubeEndpoints extends BaseAppEndpoints {
+    public function __construct(
+        protected GetAppYoutubeCredentialsEndpoint $getAppYoutubeCredentialsEndpoint,
+    ) {
+    }
+
     public function register(Api $api): void {
-        $api->registerEndpoint('getAppYoutubeCredentials', function () {
-            return new GetAppYoutubeCredentialsEndpoint();
-        });
+        $api->registerEndpoint('getAppYoutubeCredentials', $this->getAppYoutubeCredentialsEndpoint);
     }
 }

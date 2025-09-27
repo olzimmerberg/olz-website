@@ -7,9 +7,12 @@ use Olz\Apps\Statistics\Endpoints\GetAppStatisticsCredentialsEndpoint;
 use PhpTypeScriptApi\Api;
 
 class StatisticsEndpoints extends BaseAppEndpoints {
+    public function __construct(
+        protected GetAppStatisticsCredentialsEndpoint $getAppStatisticsCredentialsEndpoint,
+    ) {
+    }
+
     public function register(Api $api): void {
-        $api->registerEndpoint('getAppStatisticsCredentials', function () {
-            return new GetAppStatisticsCredentialsEndpoint();
-        });
+        $api->registerEndpoint('getAppStatisticsCredentials', $this->getAppStatisticsCredentialsEndpoint);
     }
 }

@@ -2,10 +2,61 @@
 
 namespace Olz\Apps;
 
+use Olz\Apps\Anmelden\AnmeldenEndpoints;
+use Olz\Apps\Commands\CommandsEndpoints;
+use Olz\Apps\Files\FilesEndpoints;
+use Olz\Apps\Logs\LogsEndpoints;
+use Olz\Apps\Members\MembersEndpoints;
+use Olz\Apps\Monitoring\MonitoringEndpoints;
+use Olz\Apps\Newsletter\NewsletterEndpoints;
+use Olz\Apps\Oev\OevEndpoints;
+use Olz\Apps\Panini2024\Panini2024Endpoints;
+use Olz\Apps\Quiz\QuizEndpoints;
+use Olz\Apps\Results\ResultsEndpoints;
+use Olz\Apps\SearchEngines\SearchEnginesEndpoints;
+use Olz\Apps\Statistics\StatisticsEndpoints;
+use Olz\Apps\Youtube\YoutubeEndpoints;
 use Olz\Entity\Users\User;
 use PhpTypeScriptApi\Api;
 
 class OlzApps {
+    /** @var array<BaseAppEndpoints> */
+    protected array $apps_endpoints;
+
+    public function __construct(
+        AnmeldenEndpoints $anmeldenEndpoints,
+        CommandsEndpoints $commandsEndpoints,
+        FilesEndpoints $filesEndpoints,
+        LogsEndpoints $logsEndpoints,
+        MembersEndpoints $membersEndpoints,
+        MonitoringEndpoints $monitoringEndpoints,
+        NewsletterEndpoints $newsletterEndpoints,
+        OevEndpoints $oevEndpoints,
+        Panini2024Endpoints $panini2024Endpoints,
+        QuizEndpoints $quizEndpoints,
+        ResultsEndpoints $resultsEndpoints,
+        SearchEnginesEndpoints $searchEnginesEndpoints,
+        StatisticsEndpoints $statisticsEndpoints,
+        YoutubeEndpoints $youtubeEndpoints,
+    ) {
+        $this->apps_endpoints = [
+            $anmeldenEndpoints,
+            $commandsEndpoints,
+            $filesEndpoints,
+            $logsEndpoints,
+            $membersEndpoints,
+            $monitoringEndpoints,
+            $newsletterEndpoints,
+            $oevEndpoints,
+            $panini2024Endpoints,
+            $quizEndpoints,
+            $resultsEndpoints,
+            $searchEnginesEndpoints,
+            $statisticsEndpoints,
+            $youtubeEndpoints,
+        ];
+    }
+
     public static function getApp(string $basename): ?BaseAppMetadata {
         $metadata_class_name = "\\Olz\\Apps\\{$basename}\\Metadata";
         if (class_exists($metadata_class_name)) {
@@ -56,17 +107,9 @@ class OlzApps {
         return $apps_for_user;
     }
 
-    public static function registerAllEndpoints(Api $api): void {
-        $app_paths = self::getAppPaths();
-        foreach ($app_paths as $app_path) {
-            $app_basename = basename($app_path);
-            $endpoints_class_name = "\\Olz\\Apps\\{$app_basename}\\{$app_basename}Endpoints";
-            if (class_exists($endpoints_class_name)) {
-                $endpoints = new $endpoints_class_name();
-                if ($endpoints instanceof BaseAppEndpoints) {
-                    $endpoints->register($api);
-                }
-            }
+    public function registerAllEndpoints(Api $api): void {
+        foreach ($this->apps_endpoints as $apps_endpoints) {
+            $apps_endpoints->register($api);
         }
     }
 }

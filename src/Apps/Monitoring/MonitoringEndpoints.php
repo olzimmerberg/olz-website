@@ -7,9 +7,12 @@ use Olz\Apps\Monitoring\Endpoints\GetAppMonitoringCredentialsEndpoint;
 use PhpTypeScriptApi\Api;
 
 class MonitoringEndpoints extends BaseAppEndpoints {
+    public function __construct(
+        protected GetAppMonitoringCredentialsEndpoint $getAppMonitoringCredentialsEndpoint,
+    ) {
+    }
+
     public function register(Api $api): void {
-        $api->registerEndpoint('getAppMonitoringCredentials', function () {
-            return new GetAppMonitoringCredentialsEndpoint();
-        });
+        $api->registerEndpoint('getAppMonitoringCredentials', $this->getAppMonitoringCredentialsEndpoint);
     }
 }

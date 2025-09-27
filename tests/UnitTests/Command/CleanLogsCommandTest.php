@@ -41,6 +41,7 @@ final class CleanLogsCommandTest extends UnitTestCase {
             'DEBUG Remove redundant hybrid log file private-path/logs/merged-2019-03-13.log',
             'INFO Clean up 30 log files before 2019-03-13 in channel OLZ Logs (olz-logs)...',
             'INFO Removed old plain log file private-path/logs/merged-2019-03-12.log',
+            'INFO Nothing to do cleaning logs channel Error Logs (error-logs).',
             'INFO Nothing to do cleaning logs channel Access SSL Logs (access-ssl-logs).',
             'INFO Successfully ran command Olz\Command\CleanLogsCommand.',
         ], $this->getLogs());

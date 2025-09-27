@@ -7,6 +7,7 @@ class LogsDefinitions {
     public static function getLogsChannels(): array {
         return [
             new OlzLogsChannel(),
+            new ErrorLogsChannel(),
             new AccessSslLogsChannel(),
         ];
     }

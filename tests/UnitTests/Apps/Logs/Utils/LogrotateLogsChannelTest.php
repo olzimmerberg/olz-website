@@ -24,12 +24,13 @@ class TestOnlyLogrotateLogsChannel extends LogrotateLogsChannel {
     protected function getLogFileForIndex(int $index): LogFileInterface {
         $log_name = 'syslog';
         $syslog_path = $this->envUtils()->getSyslogPath();
-        $basename = "{$log_name}.processed.{$index}";
+        $base_index = $index - 1;
+        $basename = "{$log_name}.processed.{$base_index}";
         $file_path = "{$syslog_path}{$basename}";
-        if ($index === -1) {
+        if ($index === 0) {
             $file_path = "{$syslog_path}{$log_name}";
         }
-        if ($index === 0) {
+        if ($index === 1) {
             $file_path = "{$syslog_path}{$log_name}.processed";
         }
         $index_path = "{$file_path}.index.json.gz";
@@ -52,12 +53,16 @@ class TestOnlyLogrotateLogsChannel extends LogrotateLogsChannel {
             throw new \Exception("Not an OLZ Log file path: {$file_path}");
         }
         if ($matches[1] === '') {
-            return -1;
-        }
-        if ($matches[1] === '.processed') {
             return 0;
         }
-        return intval($matches[2]);
+        if ($matches[1] === '.processed') {
+            return 1;
+        }
+        $index = intval($matches[2]) + 1;
+        if ($index < 0) {
+            throw new \Exception("Index is below 0. This should never happen, due to the regex.");
+        }
+        return $index;
     }
 }
 

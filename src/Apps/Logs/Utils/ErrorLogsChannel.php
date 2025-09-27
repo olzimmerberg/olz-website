@@ -44,7 +44,11 @@ class ErrorLogsChannel extends LogrotateLogsChannel {
         if ($matches[1] === '') {
             return 0;
         }
-        return intval($matches[2]);
+        $index = intval($matches[2]) + 1;
+        if ($index < 0) {
+            throw new \Exception("Index is below 0. This should never happen, due to the regex.");
+        }
+        return $index;
     }
 
     protected function parseDateTimeOfLine(string $line): ?\DateTime {

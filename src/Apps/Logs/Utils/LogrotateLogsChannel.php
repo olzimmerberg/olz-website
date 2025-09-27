@@ -3,15 +3,17 @@
 namespace Olz\Apps\Logs\Utils;
 
 abstract class LogrotateLogsChannel extends BaseLogsChannel {
+    /** @param non-negative-int $index */
     abstract protected function getLogFileForIndex(int $index): LogFileInterface;
 
+    /** @return non-negative-int */
     abstract protected function getIndexForFilePath(string $file_path): int;
 
     protected function getLineLocationForDateTime(
         \DateTime $date_time,
     ): LineLocation {
         $iso_date_time = $date_time->format('Y-m-d H:i:s');
-        $index = -1;
+        $index = 0;
         $continue = true;
         while ($continue) {
             try {
@@ -63,6 +65,9 @@ abstract class LogrotateLogsChannel extends BaseLogsChannel {
         $path = $log_file->getPath();
         $index = $this->getIndexForFilePath($path);
         $index_after = $index - 1;
+        if ($index_after < 0) {
+            throw new \Exception("Reached the start of the list");
+        }
         $new_log_file = $this->getLogFileForIndex($index_after);
         if (!$new_log_file->exists()) {
             throw new \Exception("No such file: {$new_log_file->getPath()}");

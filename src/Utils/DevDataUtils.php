@@ -194,7 +194,7 @@ class DevDataUtils {
         return $output->fetch();
     }
 
-    public function getDbBackup(string $key): void {
+    public function printDbBackup(string $key): void {
         if (!$key || strlen($key) < 10) {
             throw new \Exception("No valid key");
         }
@@ -226,9 +226,18 @@ class DevDataUtils {
             'algo' => $algo,
             'iv' => base64_encode($iv),
             'tag' => base64_encode($tag),
-            'ciphertext' => base64_encode(file_get_contents($cipher_path) ?: ''),
         ]);
-        echo "\n";
+        echo "\n\n";
+
+        $cipher_fp = fopen($cipher_path, 'r');
+        assert((bool) $cipher_fp);
+        while (!feof($cipher_fp)) {
+            $plain = fread($cipher_fp, 57 * 143);
+            $encoded = base64_encode($plain ?: '');
+            $encoded = chunk_split($encoded, 76, "\r\n");
+            echo $encoded;
+        }
+        fclose($cipher_fp);
 
         unlink($cipher_path);
     }

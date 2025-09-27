@@ -17,7 +17,7 @@ class DbBackupCommand extends OlzCommand {
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
         $key = $this->envUtils()->getDatabaseBackupKey();
-        $this->devDataUtils()->getDbBackup($key);
+        $this->devDataUtils()->printDbBackup($key);
         return Command::SUCCESS;
     }
 }

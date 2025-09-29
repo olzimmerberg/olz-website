@@ -289,7 +289,7 @@ class DevDataUtils {
             'auth_requests' => true,
             'messenger_messages' => true,
         ];
-        
+
         $db = $this->dbUtils()->getDb();
         $current_migration = $this->getCurrentMigration();
         $sql_content = (

@@ -284,6 +284,12 @@ class DevDataUtils {
     }
 
     public function getDbContentSql(): string {
+        $ignored_tables = [
+            'counter' => true,
+            'auth_requests' => true,
+            'messenger_messages' => true,
+        ];
+
         $db = $this->dbUtils()->getDb();
         $current_migration = $this->getCurrentMigration();
         $sql_content = (
@@ -304,10 +310,8 @@ class DevDataUtils {
             $sql_content .= "-- Table {$table_name}\n";
             $res_contents = $db->query("SELECT * FROM `{$table_name}`");
             assert(!is_bool($res_contents));
-            if ($table_name === 'counter') {
-                $sql_content .= "-- (counter omitted)\n";
-            } elseif ($table_name === 'auth_requests') {
-                $sql_content .= "-- (auth_requests omitted)\n";
+            if ($ignored_tables[$table_name] ?? false) {
+                $sql_content .= "-- ({$table_name} omitted)\n";
             } elseif ($res_contents->num_rows > 0) {
                 $sql_content .= "INSERT INTO {$table_name}\n";
                 $content_fields = $res_contents->fetch_fields();

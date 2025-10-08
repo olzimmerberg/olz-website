@@ -263,7 +263,8 @@ export function shouldLineBeGreyedOut(line: string): boolean {
     return (
         line.includes(' Olz\\Command\\Monitor') ||
         line.includes(' command olz:monitor') ||
-        line.includes('access forbidden by rule')
+        line.includes('access forbidden by rule') ||
+        line.includes('"user_agent":"OlzSystemTest/1.0"')
     );
 }
 

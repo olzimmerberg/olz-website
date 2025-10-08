@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests\Common;
 
+use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Exception\UnexpectedTagNameException;
+use Facebook\WebDriver\Firefox\FirefoxOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\RemoteWebElement;
@@ -53,8 +55,14 @@ class SystemTestCase extends KernelTestCase {
         $host = "http://localhost:4444/";
         if (self::$browser_name == 'firefox') {
             $capabilities = DesiredCapabilities::firefox();
+            $options = new FirefoxOptions();
+            $options->setPreference('general.useragent.override', 'OlzSystemTest/1.0');
+            $capabilities->setCapability(FirefoxOptions::CAPABILITY, $options);
         } elseif (self::$browser_name == 'chrome') {
             $capabilities = DesiredCapabilities::chrome();
+            $options = new ChromeOptions();
+            $options->addArguments(['--user-agent=OlzSystemTest/1.0']);
+            $capabilities->setCapability(ChromeOptions::CAPABILITY, $options);
         } else {
             $browser_name = self::$browser_name;
             throw new \Exception("Invalid browser: {$browser_name}");

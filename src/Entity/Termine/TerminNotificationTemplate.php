@@ -3,6 +3,7 @@
 namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Repository\Termine\TerminNotificationTemplateRepository;
@@ -10,7 +11,7 @@ use Olz\Repository\Termine\TerminNotificationTemplateRepository;
 #[ORM\Table(name: 'termin_notification_templates')]
 #[ORM\Index(name: 'termin_template_index', columns: ['termin_template_id'])]
 #[ORM\Entity(repositoryClass: TerminNotificationTemplateRepository::class)]
-class TerminNotificationTemplate {
+class TerminNotificationTemplate implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -124,5 +125,11 @@ class TerminNotificationTemplate {
 
     public function setRecipientTerminParticipants(bool $new_value): void {
         $this->recipient_termin_participants = $new_value;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

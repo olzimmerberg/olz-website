@@ -6,12 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Quiz\SkillRepository;
 
 #[ORM\Table(name: 'quiz_skill')]
 #[ORM\Index(name: 'name_index', columns: ['name'])]
 #[ORM\Entity(repositoryClass: SkillRepository::class)]
-class Skill extends OlzEntity {
+class Skill extends OlzEntity implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -58,5 +59,11 @@ class Skill extends OlzEntity {
 
     public function clearCategories(): void {
         $this->categories->clear();
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

@@ -4,13 +4,14 @@ namespace Olz\Entity\Anmelden;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Anmelden\RegistrationRepository;
 
 #[ORM\Table(name: 'anmelden_registrations')]
 #[ORM\Index(name: 'opens_at_index', columns: ['opens_at'])]
 #[ORM\Index(name: 'closes_at_index', columns: ['closes_at'])]
 #[ORM\Entity(repositoryClass: RegistrationRepository::class)]
-class Registration extends OlzEntity {
+class Registration extends OlzEntity implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -66,5 +67,11 @@ class Registration extends OlzEntity {
 
     public function setClosesAt(?\DateTime $new_closes_at): void {
         $this->closes_at = $new_closes_at;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

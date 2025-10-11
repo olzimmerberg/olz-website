@@ -4,12 +4,13 @@ namespace Olz\Entity\Anmelden;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\Anmelden\BookingRepository;
 
 #[ORM\Table(name: 'anmelden_bookings')]
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
-class Booking extends OlzEntity {
+class Booking extends OlzEntity implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -56,5 +57,11 @@ class Booking extends OlzEntity {
 
     public function setFormData(string $new_form_data): void {
         $this->form_data = $new_form_data;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

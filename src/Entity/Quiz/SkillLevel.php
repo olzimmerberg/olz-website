@@ -4,13 +4,14 @@ namespace Olz\Entity\Quiz;
 
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\Quiz\SkillLevelRepository;
 
 #[ORM\Table(name: 'quiz_skill_levels')]
 #[ORM\Index(name: 'user_skill_index', columns: ['user_id', 'skill_id'])]
 #[ORM\Entity(repositoryClass: SkillLevelRepository::class)]
-class SkillLevel extends OlzEntity {
+class SkillLevel extends OlzEntity implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -68,5 +69,11 @@ class SkillLevel extends OlzEntity {
 
     public function setRecordedAt(\DateTime $new_recorded_at): void {
         $this->recorded_at = $new_recorded_at;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

@@ -3,6 +3,7 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\TelegramLinkRepository;
 
@@ -12,7 +13,7 @@ use Olz\Repository\TelegramLinkRepository;
 #[ORM\Index(name: 'telegram_user_id_index', columns: ['telegram_user_id'])]
 #[ORM\Index(name: 'telegram_chat_id_index', columns: ['telegram_chat_id'])]
 #[ORM\Entity(repositoryClass: TelegramLinkRepository::class)]
-class TelegramLink {
+class TelegramLink implements TestableInterface {
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $pin;
 
@@ -123,5 +124,11 @@ class TelegramLink {
 
     public function setLinkedAt(?\DateTime $new_value): void {
         $this->linked_at = $new_value;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

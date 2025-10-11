@@ -3,12 +3,13 @@
 namespace Olz\Entity\Termine;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Termine\TerminInfoRepository;
 
 #[ORM\Table(name: 'termin_infos')]
 #[ORM\Index(name: 'termin_language_index', columns: ['termin_id', 'language', 'index'])]
 #[ORM\Entity(repositoryClass: TerminInfoRepository::class)]
-class TerminInfo {
+class TerminInfo implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -76,5 +77,11 @@ class TerminInfo {
 
     public function setContent(?string $new_value): void {
         $this->content = $new_value;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

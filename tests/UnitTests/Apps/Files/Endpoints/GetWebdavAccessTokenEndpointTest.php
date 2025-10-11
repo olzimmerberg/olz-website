@@ -50,7 +50,7 @@ final class GetWebdavAccessTokenEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             'status' => 'OK',
-            'token' => 'ABC123abc',
+            'token' => 'webdav-token',
         ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(0, $entity_manager->persisted);

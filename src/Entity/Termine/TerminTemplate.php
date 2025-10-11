@@ -11,11 +11,12 @@ use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Termine\TerminTemplateRepository;
 
 #[ORM\Table(name: 'termin_templates')]
 #[ORM\Entity(repositoryClass: TerminTemplateRepository::class)]
-class TerminTemplate extends OlzEntity implements DataStorageInterface, SearchableInterface {
+class TerminTemplate extends OlzEntity implements DataStorageInterface, SearchableInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -232,6 +233,10 @@ class TerminTemplate extends OlzEntity implements DataStorageInterface, Searchab
 
     public function __toString(): string {
         return "TerminTemplate (ID: {$this->getId()})";
+    }
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 
     public static function getEntityNameForStorage(): string {

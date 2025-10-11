@@ -6,12 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Karten\KartenRepository;
 
 #[ORM\Table(name: 'karten')]
 #[ORM\Index(name: 'typ_index', columns: ['on_off', 'typ'])]
 #[ORM\Entity(repositoryClass: KartenRepository::class)]
-class Karte extends OlzEntity implements DataStorageInterface {
+class Karte extends OlzEntity implements DataStorageInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -141,6 +142,10 @@ class Karte extends OlzEntity implements DataStorageInterface {
 
     public function __toString(): string {
         return "Karte (ID: {$this->getId()})";
+    }
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 
     public static function getEntityNameForStorage(): string {

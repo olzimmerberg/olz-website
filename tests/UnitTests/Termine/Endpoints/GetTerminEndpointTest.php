@@ -157,7 +157,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'deadline' => '2020-03-13 18:00:00',
                 'shouldPromote' => true,
                 'newsletter' => true,
-                'solvId' => 11012,
+                'solvId' => 1234,
                 'go2olId' => 'deprecated',
                 'types' => ['training', 'weekends'],
                 'locationId' => 12341,

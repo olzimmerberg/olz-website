@@ -3,6 +3,7 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\AccessTokenRepository;
 
@@ -10,7 +11,7 @@ use Olz\Repository\AccessTokenRepository;
 #[ORM\Index(name: 'token_index', columns: ['token'])]
 #[ORM\Index(name: 'user_id_index', columns: ['user_id'])]
 #[ORM\Entity(repositoryClass: AccessTokenRepository::class)]
-class AccessToken {
+class AccessToken implements TestableInterface {
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private ?User $user;
@@ -78,5 +79,11 @@ class AccessToken {
 
     public function setExpiresAt(?\DateTime $new_expires_at): void {
         $this->expires_at = $new_expires_at;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

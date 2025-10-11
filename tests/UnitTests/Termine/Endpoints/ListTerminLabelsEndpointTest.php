@@ -79,23 +79,6 @@ final class ListTerminLabelsEndpointTest extends UnitTestCase {
                     ],
                 ],
                 [
-                    'id' => 123,
-                    'meta' => [
-                        'ownerUserId' => null,
-                        'ownerRoleId' => null,
-                        'onOff' => false,
-                    ],
-                    'data' => [
-                        'ident' => '-',
-                        'name' => '-',
-                        'details' => '',
-                        'icon' => null,
-                        'position' => 0.0,
-                        'imageIds' => [],
-                        'fileIds' => [],
-                    ],
-                ],
-                [
                     'id' => 1234,
                     'meta' => [
                         'ownerUserId' => 1,
@@ -110,6 +93,74 @@ final class ListTerminLabelsEndpointTest extends UnitTestCase {
                         'position' => 1234.0,
                         'imageIds' => ['picture________________A.jpg', 'picture________________B.jpg'],
                         'fileIds' => ['aaaaaaaaaaaaaaaaaaaaaaaa.svg', 'file___________________1.pdf', 'file___________________2.txt'],
+                    ],
+                ],
+                [
+                    'id' => 2,
+                    'meta' => [
+                        'ownerUserId' => 1,
+                        'ownerRoleId' => 1,
+                        'onOff' => true,
+                    ],
+                    'data' => [
+                        'ident' => 'weekend',
+                        'name' => 'Weekends',
+                        'details' => '',
+                        'icon' => null,
+                        'position' => 1.0,
+                        'imageIds' => [],
+                        'fileIds' => [],
+                    ],
+                ],
+                [
+                    'id' => 3,
+                    'meta' => [
+                        'ownerUserId' => 1,
+                        'ownerRoleId' => 1,
+                        'onOff' => true,
+                    ],
+                    'data' => [
+                        'ident' => 'training',
+                        'name' => 'Trainings',
+                        'details' => 'Kartentrainings, Hallentrainings, Longjoggs',
+                        'icon' => null,
+                        'position' => 2.0,
+                        'imageIds' => [],
+                        'fileIds' => [],
+                    ],
+                ],
+                [
+                    'id' => 5,
+                    'meta' => [
+                        'ownerUserId' => 1,
+                        'ownerRoleId' => 1,
+                        'onOff' => true,
+                    ],
+                    'data' => [
+                        'ident' => 'ol',
+                        'name' => 'Wettkämpfe',
+                        'details' => '',
+                        'icon' => null,
+                        'position' => 4.0,
+                        'imageIds' => [],
+                        'fileIds' => [],
+                    ],
+                ],
+                [
+                    'id' => 6,
+                    'meta' => [
+                        'ownerUserId' => 1,
+                        'ownerRoleId' => 1,
+                        'onOff' => true,
+                    ],
+                    'data' => [
+                        'ident' => 'club',
+                        'name' => 'Vereinsanlässe',
+                        'details' => '',
+                        'icon' => null,
+                        'position' => 5.0,
+                        'imageIds' => [],
+                        'fileIds' => [],
                     ],
                 ],
             ],

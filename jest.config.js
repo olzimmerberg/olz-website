@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* global module */
-
 const percentCoverage = (percent) => ({
     branches: percent,
     functions: percent,
@@ -32,4 +29,4 @@ const jestConfig = {
         './src/Utils/': percentCoverage(100),
     },
 };
-module.exports = jestConfig;
+export default jestConfig;

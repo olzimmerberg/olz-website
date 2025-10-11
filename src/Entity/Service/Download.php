@@ -9,12 +9,13 @@ use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\PositionableInterface;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Service\DownloadRepository;
 
 #[ORM\Table(name: 'downloads')]
 #[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
 #[ORM\Entity(repositoryClass: DownloadRepository::class)]
-class Download extends OlzEntity implements DataStorageInterface, PositionableInterface {
+class Download extends OlzEntity implements DataStorageInterface, PositionableInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -53,6 +54,10 @@ class Download extends OlzEntity implements DataStorageInterface, PositionableIn
     }
 
     // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
+    }
 
     public static function getEntityNameForStorage(): string {
         return 'downloads';

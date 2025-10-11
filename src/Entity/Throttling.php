@@ -3,12 +3,13 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\ThrottlingRepository;
 
 #[ORM\Table(name: 'throttlings')]
 #[ORM\UniqueConstraint(name: 'event_name_index', columns: ['event_name'])]
 #[ORM\Entity(repositoryClass: ThrottlingRepository::class)]
-class Throttling {
+class Throttling implements TestableInterface {
     #[ORM\Column(type: 'string', nullable: false)]
     private string $event_name;
 
@@ -42,5 +43,11 @@ class Throttling {
 
     public function setLastOccurrence(?\DateTime $new_last_occurrence): void {
         $this->last_occurrence = $new_last_occurrence;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

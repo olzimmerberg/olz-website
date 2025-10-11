@@ -34,7 +34,7 @@ class FakeAccessToken extends FakeEntity {
             function () {
                 $entity = new AccessToken();
                 $entity->setId(2);
-                $entity->setToken('valid-token-1');
+                $entity->setToken('valid-token');
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setPurpose('Valid Purpose');
                 $entity->setExpiresAt(new \DateTime('2022-01-24 00:00:00'));
@@ -49,10 +49,25 @@ class FakeAccessToken extends FakeEntity {
             function () {
                 $entity = new AccessToken();
                 $entity->setId(3);
-                $entity->setToken('expired-token-1');
+                $entity->setToken('expired-token');
                 $entity->setUser(FakeUser::adminUser());
                 $entity->setPurpose('Expired Purpose');
                 $entity->setExpiresAt(new \DateTime('2020-01-11 20:00:00'));
+                return $entity;
+            }
+        );
+    }
+
+    public static function webDav(bool $fresh = false): AccessToken {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = new AccessToken();
+                $entity->setId(4);
+                $entity->setToken('webdav-token');
+                $entity->setUser(FakeUser::adminUser());
+                $entity->setPurpose('WebDAV');
+                $entity->setExpiresAt(new \DateTime('2022-01-24 00:00:00'));
                 return $entity;
             }
         );

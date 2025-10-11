@@ -50,30 +50,73 @@ class FakeOlzRepository extends EntityRepository {
         return [];
     }
 
+    /** @return array<T> */
+    public function findAll(): array {
+        $class = $this->fakeOlzEntityClass;
+        return [
+            $class::minimal(),
+            $class::empty(),
+            $class::maximal(),
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $criteria
+     * @param array<string, mixed> $orderBy
+     *
+     * @return T|null
+     */
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        if ($this->entityToBeFoundForQuery !== null) {
-            $fn = $this->entityToBeFoundForQuery;
+        $found = $this->findBy($criteria, $orderBy, 2, 0);
+        return match (count($found)) {
+            0 => null,
+            1 => $found[0],
+            default => throw new \Exception("more than one result for '".json_encode($criteria)."'"),
+        };
+    }
+
+    /**
+     * @param array<string, mixed> $criteria
+     * @param array<string, mixed> $orderBy
+     * @param mixed|null           $limit
+     * @param mixed|null           $offset
+     *
+     * @return array<T>
+     */
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
+        if ($this->entitiesToBeFoundForQuery !== null) {
+            $fn = $this->entitiesToBeFoundForQuery;
             try {
                 return $fn($criteria);
             } catch (\Throwable $th) {
                 // ignore
             }
         }
-        $class = $this->fakeOlzEntityClass;
-        if ($criteria === ['id' => self::MINIMAL_ID]) {
-            return $class::minimal();
+        $filtered = $this->findAll();
+        foreach ($criteria as $field => $filter_value) {
+            $new_filtered = [];
+            foreach ($filtered as $item) {
+                if (!($item instanceof TestableInterface)) {
+                    $class = get_class($item);
+                    throw new \Exception("{$class} must implement TestableInterface");
+                }
+                $field_value = $item->testOnlyGetField($field);
+                $is_same = $field_value === $filter_value;
+                if ($this->isDbObject($field_value)) {
+                    $filter_id = $this->isDbObject($filter_value) ? $filter_value->getId() : $filter_value;
+                    $is_same = ($field_value->getId() === $filter_id);
+                }
+                if ($is_same) {
+                    $new_filtered[] = $item;
+                }
+            }
+            $filtered = $new_filtered;
         }
-        if ($criteria === ['id' => self::EMPTY_ID]) {
-            return $class::empty();
-        }
-        if ($criteria === ['id' => self::MAXIMAL_ID]) {
-            return $class::maximal();
-        }
-        if ($criteria === ['id' => self::NULL_ID]) {
-            return null;
-        }
-        $criteria_json = json_encode($criteria);
-        throw new \Exception("Query not mocked in {$class} repo findOneBy: {$criteria_json}", 1);
+        return $filtered;
+    }
+
+    protected function isDbObject(mixed $object): bool {
+        return is_object($object) && method_exists($object, 'getId');
     }
 
     /** @return AbstractLazyCollection<int, T>&Selectable<int, T> */
@@ -100,30 +143,5 @@ class FakeOlzRepository extends EntityRepository {
         $visitor = new ExpressionEvaluationVisitor($fake);
         $criteria->getWhereExpression()?->visit($visitor);
         return $visitor->isMatching;
-    }
-
-    /**
-     * @param array<string, mixed> $criteria
-     * @param array<string, mixed> $orderBy
-     * @param mixed|null           $limit
-     * @param mixed|null           $offset
-     *
-     * @return array<T>
-     */
-    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
-        if ($this->entitiesToBeFoundForQuery !== null) {
-            $fn = $this->entitiesToBeFoundForQuery;
-            try {
-                return $fn($criteria);
-            } catch (\Throwable $th) {
-                // ignore
-            }
-        }
-        $class = $this->fakeOlzEntityClass;
-        return [
-            $class::minimal(),
-            $class::empty(),
-            $class::maximal(),
-        ];
     }
 }

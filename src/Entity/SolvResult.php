@@ -3,13 +3,14 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\SolvResultRepository;
 
 #[ORM\Table(name: 'solv_results')]
 #[ORM\Index(name: 'person_name_index', columns: ['person', 'name'])]
 #[ORM\Index(name: 'event_index', columns: ['event'])]
 #[ORM\Entity(repositoryClass: SolvResultRepository::class)]
-class SolvResult {
+class SolvResult implements TestableInterface {
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     #[ORM\GeneratedValue]
@@ -237,5 +238,11 @@ class SolvResult {
             throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
         }
         $this->{$field_name} = $new_field_value;
+    }
+
+    // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
     }
 }

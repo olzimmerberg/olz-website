@@ -9,13 +9,14 @@ use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\PositionableInterface;
+use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Faq\QuestionRepository;
 
 #[ORM\Table(name: 'questions')]
 #[ORM\Index(name: 'ident_index', columns: ['on_off', 'ident'])]
 #[ORM\Index(name: 'category_position_index', columns: ['on_off', 'category_id', 'position_within_category'])]
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
-class Question extends OlzEntity implements DataStorageInterface, PositionableInterface {
+class Question extends OlzEntity implements DataStorageInterface, PositionableInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -88,6 +89,10 @@ class Question extends OlzEntity implements DataStorageInterface, PositionableIn
     }
 
     // ---
+
+    public function testOnlyGetField(string $field_name): mixed {
+        return $this->{$field_name};
+    }
 
     public static function getEntityNameForStorage(): string {
         return 'questions';

@@ -37,6 +37,15 @@ class FakeTelegramLinkRepository extends FakeOlzRepository {
         throw new \Exception("findBy query not mocked: {$query_json}");
     }
 
+    /** @return array<TelegramLink> */
+    public function findAll(): array {
+        return [
+            FakeTelegramLink::validPin(),
+            FakeTelegramLink::expiredPin(),
+            FakeTelegramLink::null(),
+        ];
+    }
+
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         global $valid_pin, $expired_pin;
 

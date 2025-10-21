@@ -85,7 +85,7 @@ class OlzHeaderBar extends OlzComponent {
                                 name='anfrage'
                                 id='site-search'
                                 title='Suche auf olzimmerberg.ch'
-                                placeholder='Suche...'
+                                placeholder='Suche auf olzimmerberg.ch...'
                                 value='{$search_query_esc}'
                             />
                         </form>

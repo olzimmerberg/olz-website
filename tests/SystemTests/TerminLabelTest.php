@@ -81,6 +81,8 @@ final class TerminLabelTest extends SystemTestCase {
         $this->waitUntilGone('#edit-termin-label-modal');
 
         $browser->get($this->getUrl());
+        $this->waitUntilGone('#redirect-link');
+        $this->waitABit();
         $this->assertSame([
             'Alle Termine',
             'Jahresprogramm',
@@ -95,7 +97,7 @@ final class TerminLabelTest extends SystemTestCase {
             $this->getBrowserElements('.type-filter')
         ));
 
-        $this->assertSame(308, $this->getHeaders($this->getUrl())['http_code']);
+        $this->assertSame(410, $this->getHeaders($this->getUrl())['http_code']);
         $this->assertSame(200, $this->getHeaders($this->getUpdatedUrl())['http_code']);
 
         $this->resetDb();
@@ -116,7 +118,7 @@ final class TerminLabelTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
         $this->waitUntilGone('#edit-termin-label-modal');
 
-        $this->assertSame(308, $this->getHeaders($this->getUrl())['http_code']);
+        $this->assertSame(410, $this->getHeaders($this->getUrl())['http_code']);
 
         $this->resetDb();
     }

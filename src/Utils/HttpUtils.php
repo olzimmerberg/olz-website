@@ -69,7 +69,7 @@ class HttpUtils {
             <div class='content-full'>
                 <h2>Automatische Weiterleitung...</h2>
                 <p>Falls die automatische Weiterleitung nicht funktionieren sollte, kannst du auch diesen Link anklicken:</p>
-                <p><b><a href='{$redirect_url}' class='linkint'>{$redirect_url}</a></b></p>
+                <p><b><a href='{$redirect_url}' class='linkint' id='redirect-link'>{$redirect_url}</a></b></p>
                 <script type='text/javascript'>
                     window.setTimeout(function () {
                         window.location.href = {$enc_redirect_url};

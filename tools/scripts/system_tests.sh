@@ -57,6 +57,7 @@ mkdir -p ./public/logs
 
 echo "BROWSER = $BROWSER"
 echo "MODE = $MODE"
+echo "NO_BUILD = $NO_BUILD"
 echo "SLICE = $SLICE"
 echo "REST = $REST"
 

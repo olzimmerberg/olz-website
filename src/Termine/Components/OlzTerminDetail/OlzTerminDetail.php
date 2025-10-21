@@ -90,7 +90,7 @@ class OlzTerminDetail extends OlzRootComponent {
         if ($back_filter && !$termine_utils->isValidFilter($back_filter)) {
             $valid_filter = $termine_utils->getValidFilter($back_filter);
             $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
-            $this->httpUtils()->redirect("{$code_href}termine/{$id}?filter={$enc_json_filter}", 308);
+            $this->httpUtils()->redirect("{$code_href}termine/{$id}?filter={$enc_json_filter}", 410);
         }
         $enc_back_filter = urlencode(json_encode($back_filter ?: $termine_utils->getDefaultFilter()) ?: '{}');
         $out = OlzHeader::render([

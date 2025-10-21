@@ -45,7 +45,7 @@ class OlzTermineList extends OlzRootComponent {
         if (!$termine_utils->isValidFilter($current_filter)) {
             $valid_filter = $termine_utils->getValidFilter($current_filter);
             $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
-            $this->httpUtils()->redirect("{$code_href}termine?filter={$enc_json_filter}", 308);
+            $this->httpUtils()->redirect("{$code_href}termine?filter={$enc_json_filter}", 410);
         }
 
         $termine_list_title = $termine_utils->getTitleFromFilter($current_filter);

@@ -16,11 +16,14 @@ class OlzMenu extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
 
+        $enc_news_filter = urlencode(json_encode($this->newsUtils()->getDefaultFilter()) ?: '');
+        $enc_termine_filter = urlencode(json_encode($this->termineUtils()->getDefaultFilter()) ?: '');
+
         $main_menu = [
             ["Startseite", ""], // Menüpunkt ('Name','Link')
             ["", "", ''],
-            ["News", "news"],
-            ["Termine", "termine"],
+            ["News", "news?filter={$enc_news_filter}"],
+            ["Termine", "termine?filter={$enc_termine_filter}"],
             ["", "", ''],
             ["Karten", "karten"],
             ["Material & Kleider", "material"],
@@ -120,10 +123,11 @@ class OlzMenu extends OlzComponent {
             $menupunkt = $menu[$i];
             $name = $menupunkt[0];
             $href = $menupunkt[1];
+            $href_path = substr($href, 0, strpos($href, '?') ?: strlen($href));
             $request_uri = $_SERVER['REQUEST_URI'] ?? '';
             $is_active = (
-                preg_match("/^\\/{$menupunkt[1]}(\\/|\\?|#|$)/", $request_uri)
-                || ($menupunkt[1] === '' && $request_uri === '')
+                preg_match("/^\\/{$href_path}(\\/|\\?|#|$)/", $request_uri)
+                || ($href === '' && $request_uri === '')
             );
             $active_class = $is_active ? ' active' : '';
             if ($name != '') {

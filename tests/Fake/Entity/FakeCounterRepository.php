@@ -13,4 +13,11 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 class FakeCounterRepository extends FakeOlzRepository {
     public string $olzEntityClass = Counter::class;
     public string $fakeOlzEntityClass = FakeCounter::class;
+
+    /** @var array<mixed> */
+    public array $records = [];
+
+    public function record(string $page): void {
+        $this->records[] = $page;
+    }
 }

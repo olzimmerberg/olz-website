@@ -32,6 +32,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
             'id' => intval($_SESSION['user_id'] ?? null),
         ]);
         $iso_now_json = json_encode($this->dateUtils()->getIsoNow());
+        $bot_regexes_json = json_encode($this->httpUtils()->getBotRegexes());
 
         $html_title = "OL Zimmerberg";
         if (isset($args['title'])) {
@@ -81,6 +82,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
                 window.olzDataHref = {$data_href_json};
                 window.olzUser = {$user_json};
                 window.olzIsoNow = {$iso_now_json};
+                window.olzBotRegexes = {$bot_regexes_json};
             </script>
             <script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>
             </head>

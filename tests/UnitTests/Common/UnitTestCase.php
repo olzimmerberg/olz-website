@@ -18,6 +18,8 @@ use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\Fake\FakeEntityUtils;
 use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\Fake\FakeGeneralUtils;
+use Olz\Tests\Fake\FakeHtmlUtils;
+use Olz\Tests\Fake\FakeHttpUtils;
 use Olz\Tests\Fake\FakeIdUtils;
 use Olz\Tests\Fake\FakeImageUtils;
 use Olz\Tests\Fake\FakeLogHandler;
@@ -90,6 +92,8 @@ class UnitTestCase extends TestCase {
             'entityUtils' => new FakeEntityUtils(),
             'envUtils' => new FakeEnvUtils(),
             'generalUtils' => new FakeGeneralUtils(),
+            'httpUtils' => new FakeHttpUtils(),
+            'htmlUtils' => new FakeHtmlUtils(),
             'idUtils' => new FakeIdUtils(),
             'imageUtils' => new FakeImageUtils(),
             'log' => $logger,

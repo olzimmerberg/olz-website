@@ -6,27 +6,43 @@ use Olz\Components\Error\OlzErrorPage\OlzErrorPage;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use Olz\Entity\Counter;
+use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 use PhpTypeScriptApi\PhpStan\ValidateVisitor;
 use Symfony\Component\HttpFoundation\Request;
 
 class HttpUtils {
     use WithUtilsTrait;
 
+    /** @return array<string> */
+    public function getBotRegexes(): array {
+        return [
+            '/bingbot/i',
+            '/googlebot/i',
+            '/google/i',
+            '/facebookexternalhit/i',
+            '/applebot/i',
+            '/yandexbot/i',
+            '/ecosia/i',
+            '/phpservermon/i',
+            '/OlzSystemTest\//i',
+            '/bot\//i',
+            '/crawler\//i',
+        ];
+    }
+
+    public function isBot(string $user_agent): bool {
+        foreach ($this->getBotRegexes() as $regex) {
+            if (preg_match($regex, $user_agent)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** @param array<string> $get_params */
     public function countRequest(Request $request, array $get_params = []): void {
         $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';
-        if (
-            preg_match('/bingbot/i', $user_agent)
-            || preg_match('/googlebot/i', $user_agent)
-            || preg_match('/google/i', $user_agent)
-            || preg_match('/facebookexternalhit/i', $user_agent)
-            || preg_match('/applebot/i', $user_agent)
-            || preg_match('/yandexbot/i', $user_agent)
-            || preg_match('/ecosia\//i', $user_agent)
-            || preg_match('/phpservermon\//i', $user_agent)
-            || preg_match('/bot\//i', $user_agent)
-            || preg_match('/crawler\//i', $user_agent)
-        ) {
+        if ($this->isBot($user_agent)) {
             $this->log()->debug("Counter: user agent is bot: {$user_agent}");
             return;
         }
@@ -97,9 +113,7 @@ class HttpUtils {
             $get_params = $this->getParams();
         }
         $class_info = new \ReflectionClass($params_class);
-        $params_instance = new $params_class();
-        $params_instance->configure();
-        $utils = $params_instance->phpStanUtils;
+        $utils = new PhpStanUtils();
         $php_doc_node = $utils->parseDocComment(
             $class_info->getDocComment(),
             $class_info->getFileName() ?: null,

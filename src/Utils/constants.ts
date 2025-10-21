@@ -3,6 +3,7 @@ interface TypedWindow {
     olzDataHref: unknown;
     olzUser: unknown;
     olzIsoNow: unknown;
+    olzBotRegexes: unknown;
 }
 
 interface UserConstant {
@@ -30,3 +31,7 @@ export const user: UserConstant = typeof typedWindow.olzUser === 'object'
 /* istanbul ignore next */
 export const isoNow: string = typeof typedWindow.olzIsoNow === 'string'
     ? typedWindow.olzIsoNow as string : new Date().toISOString();
+
+/* istanbul ignore next */
+export const botRegexes: string[] = typeof typedWindow.olzBotRegexes === 'object'
+    ? typedWindow.olzBotRegexes as string[] : [];

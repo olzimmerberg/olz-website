@@ -14,12 +14,6 @@ class OlzNewsListItem extends OlzComponent {
 
         $news_entry = $args['news_entry'];
         $out = '';
-        $current_filter = json_decode($_GET['filter'] ?? '{}', true);
-        $filter_arg = '';
-        if ($current_filter !== $news_utils->getDefaultFilter()) {
-            $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
-            $filter_arg = "?filter={$enc_current_filter}";
-        }
 
         $id = $news_entry->getId();
         $published_date = $news_entry->getPublishedDate();
@@ -32,7 +26,7 @@ class OlzNewsListItem extends OlzComponent {
         $title = $news_entry->getTitle();
         $teaser = $news_entry->getTeaser();
         $content = $news_entry->getContent();
-        $link = "news/{$id}{$filter_arg}";
+        $link = "news/{$id}";
 
         $image_ids = $news_entry->getImageIds();
         $thumb = '';

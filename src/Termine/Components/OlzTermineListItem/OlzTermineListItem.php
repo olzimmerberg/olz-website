@@ -12,15 +12,8 @@ class OlzTermineListItem extends OlzComponent {
         $db = $this->dbUtils()->getDb();
         $code_path = $this->envUtils()->getCodePath();
         $code_href = $this->envUtils()->getCodeHref();
-        $termine_utils = $this->termineUtils()->loadTypeOptions();
 
         $out = '';
-        $current_filter = json_decode($_GET['filter'] ?? '{}', true);
-        $filter_arg = '';
-        if ($current_filter !== $termine_utils->getDefaultFilter()) {
-            $enc_current_filter = urlencode($_GET['filter'] ?? '{}');
-            $filter_arg = "?filter={$enc_current_filter}";
-        }
 
         $id = $args['id'];
         $owner_user_id = $args['owner_user_id'];
@@ -35,7 +28,7 @@ class OlzTermineListItem extends OlzComponent {
         $image_ids = $args['image_ids'];
         $is_deadline = count($labels) > 0 && $labels[0]->getIdent() === 'meldeschluss';
 
-        $link = "{$code_href}termine/{$id}{$filter_arg}";
+        $link = "{$code_href}termine/{$id}";
         $type_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
             $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?

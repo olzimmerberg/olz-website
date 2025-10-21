@@ -13,7 +13,7 @@ use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Utils\HttpParams;
 
-/** @extends HttpParams<array{filter?: ?string, von?: ?string}> */
+/** @extends HttpParams<array{von?: ?string}> */
 class OlzTerminDetailParams extends HttpParams {
 }
 
@@ -42,7 +42,7 @@ class OlzTerminDetail extends OlzRootComponent {
     }
 
     public function getHtml(mixed $args): string {
-        $params = $this->httpUtils()->validateGetParams(OlzTerminDetailParams::class);
+        $this->httpUtils()->validateGetParams(OlzTerminDetailParams::class);
 
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();
@@ -85,16 +85,8 @@ class OlzTerminDetail extends OlzRootComponent {
         $this_year = $this->dateUtils()->getCurrentDateInFormat('Y');
         $maybe_date = ($termin_year !== $this_year) ? " {$termin_year}" : '';
         $title = "{$title}{$maybe_date}";
-        $back_filter = json_decode($params['filter'] ?? 'null', true);
-        $termine_utils = $this->termineUtils()->loadTypeOptions();
-        if ($back_filter && !$termine_utils->isValidFilter($back_filter)) {
-            $valid_filter = $termine_utils->getValidFilter($back_filter);
-            $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
-            $this->httpUtils()->redirect("{$code_href}termine/{$id}?filter={$enc_json_filter}", 410);
-        }
-        $enc_back_filter = urlencode(json_encode($back_filter ?: $termine_utils->getDefaultFilter()) ?: '{}');
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}termine?filter={$enc_back_filter}",
+            'back_link' => "{$code_href}termine",
             'title' => "{$title} - Termine",
             'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
             'norobots' => $is_archived,
@@ -279,8 +271,8 @@ class OlzTerminDetail extends OlzRootComponent {
         if ($has_location) {
             if ($location_name !== null) {
                 $location_maybe_link = $location_name;
-                if ($has_termin_location) {
-                    $location_maybe_link = "<a href='{$code_href}termine/orte/{$termin_location->getId()}?filter={$enc_back_filter}&id={$id}' class='linkmap'>{$location_name}</a>";
+                if ($has_termin_location && $this->authUtils()->hasPermission('termine')) {
+                    $location_maybe_link = "<a href='{$code_href}termine/orte/{$termin_location->getId()}' class='linkmap'>{$location_name}</a>";
                 }
                 $out .= "<h3>Ort: {$location_maybe_link}</h3>";
             } else {
@@ -292,6 +284,30 @@ class OlzTerminDetail extends OlzRootComponent {
                 'longitude' => $lng,
                 'zoom' => 13,
             ]);
+            if ($has_termin_location) {
+                $details = $termin_location->getDetails() ?? '';
+                $details_html = $this->htmlUtils()->renderMarkdown($details);
+                $details_html = $termin_location->replaceImagePaths($details_html);
+                $details_html = $termin_location->replaceFilePaths($details_html);
+                $out .= $details_html;
+
+                $location_image_ids = $termin_location->getImageIds();
+                if (count($location_image_ids) > 0) {
+                    $out .= "<div class='lightgallery gallery-container'>";
+                    foreach ($location_image_ids as $image_id) {
+                        $out .= "<div class='gallery-image'>";
+                        $out .= $this->imageUtils()->olzImage(
+                            'termin_locations',
+                            $termin_location->getId(),
+                            $image_id,
+                            110,
+                            'gallery[myset]'
+                        );
+                        $out .= "</div>";
+                    }
+                    $out .= "</div>";
+                }
+            }
         }
 
         $out .= "</div>"; // olz-termin-detail

@@ -43,18 +43,23 @@ class OlzNewsList extends OlzRootComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         $news_utils = $this->newsUtils();
-        $current_filter = json_decode($params['filter'] ?? '{}', true);
-        $page_number = $params['seite'] ?? 1;
+        $current_filter = json_decode($params['filter'] ?? $this->session()->get('news_filter') ?? '{}', true);
+        $page_number = intval($params['seite'] ?? $this->session()->get('news_page') ?? 1);
         $page_index = $page_number - 1;
 
         if (!$news_utils->isValidFilter($current_filter)) {
             $valid_filter = $news_utils->getValidFilter($current_filter);
             $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
-            $this->httpUtils()->redirect("{$code_href}news?filter={$enc_json_filter}", 410);
+            $this->httpUtils()->redirect("{$code_href}news?filter={$enc_json_filter}", empty($params['filter']) ? 308 : 410);
         }
 
+        $current_filter = $news_utils->getValidFilter($current_filter);
         $enc_json_filter = urlencode(json_encode($current_filter) ?: '{}');
         $page_param = $page_number === 1 ? '' : "&seite={$page_number}";
+
+        $this->session()->set('news_filter', urldecode($enc_json_filter));
+        $this->session()->set('news_page', "{$page_number}");
+
         $news_list_title = $news_utils->getTitleFromFilter($current_filter);
         $out = OlzHeader::render([
             'title' => $news_list_title,
@@ -64,7 +69,7 @@ class OlzNewsList extends OlzRootComponent {
 
         $out .= "<div class='content-right'>";
         $out .= "<h2 class='optional'>Filter</h2>";
-        $out .= OlzNewsFilter::render([]);
+        $out .= OlzNewsFilter::render(['currentFilter' => $current_filter]);
         $out .= "</div>";
         $out .= "<div class='content-middle olz-news-list-middle'>";
 

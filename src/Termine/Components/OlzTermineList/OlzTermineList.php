@@ -39,17 +39,20 @@ class OlzTermineList extends OlzRootComponent {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
 
-        $current_filter = json_decode($params['filter'] ?? '{}', true);
+        $current_filter = json_decode($params['filter'] ?? $this->session()->get('termine_filter') ?? '{}', true);
         $termine_utils = $this->termineUtils()->loadTypeOptions();
 
         if (!$termine_utils->isValidFilter($current_filter)) {
             $valid_filter = $termine_utils->getValidFilter($current_filter);
             $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
-            $this->httpUtils()->redirect("{$code_href}termine?filter={$enc_json_filter}", 410);
+            $this->httpUtils()->redirect("{$code_href}termine?filter={$enc_json_filter}", empty($params['filter']) ? 308 : 410);
         }
 
+        $current_filter = $termine_utils->getValidFilter($current_filter);
         $termine_list_title = $termine_utils->getTitleFromFilter($current_filter);
         $enc_json_filter = urlencode(json_encode($current_filter) ?: '{}');
+
+        $this->session()->set('termine_filter', urldecode($enc_json_filter));
 
         $out = OlzHeader::render([
             'title' => $termine_list_title,
@@ -75,7 +78,7 @@ class OlzTermineList extends OlzRootComponent {
                 </div>
                 ZZZZZZZZZZ;
         }
-        $filter_out = OlzTermineFilter::render();
+        $filter_out = OlzTermineFilter::render(['currentFilter' => $current_filter]);
         $downloads_links_out = OlzEditableText::render(['snippet_id' => 2]);
         $newsletter_out = OlzEditableText::render(['snippet_id' => 3]);
         $out .= <<<ZZZZZZZZZZ

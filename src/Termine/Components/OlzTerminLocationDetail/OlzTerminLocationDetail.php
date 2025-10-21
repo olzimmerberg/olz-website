@@ -9,10 +9,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Utils\HttpParams;
 
-/** @extends HttpParams<array{
- *   id?: ?numeric-string,
- *   filter?: ?string,
- * }> */
+/** @extends HttpParams<array{}> */
 class OlzTerminLocationDetailParams extends HttpParams {
 }
 
@@ -27,7 +24,7 @@ class OlzTerminLocationDetail extends OlzRootComponent {
     }
 
     public function getHtml(mixed $args): string {
-        $params = $this->httpUtils()->validateGetParams(OlzTerminLocationDetailParams::class);
+        $this->httpUtils()->validateGetParams(OlzTerminLocationDetailParams::class);
 
         $code_href = $this->envUtils()->getCodeHref();
         $user = $this->authUtils()->getCurrentUser();
@@ -41,17 +38,8 @@ class OlzTerminLocationDetail extends OlzRootComponent {
         }
 
         $title = $termin_location->getName();
-        $back_link = "{$code_href}termine";
-        if ($params['filter'] ?? null) {
-            $enc_filter = urlencode($params['filter']);
-            $back_link = "{$code_href}termine?filter={$enc_filter}";
-            if ($params['id'] ?? null) {
-                $enc_id = intval($params['id']);
-                $back_link = "{$code_href}termine/{$enc_id}?filter={$enc_filter}";
-            }
-        }
         $out = OlzHeader::render([
-            'back_link' => $back_link,
+            'back_link' => "{$code_href}termine/orte",
             'title' => "{$title} - Orte",
             'description' => "Orte, an denen Anlässe der OL Zimmerberg stattfinden.",
             'norobots' => true,

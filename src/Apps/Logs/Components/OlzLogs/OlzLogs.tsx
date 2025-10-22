@@ -8,6 +8,7 @@ import {dataHref, isoNow} from '../../../../Utils/constants';
 import {validateDate, validateDateTime} from '../../../../Utils/formUtils';
 import {toISO} from '../../../../Utils/dateUtils';
 import {assert} from '../../../../Utils/generalUtils';
+import {isBot} from '../../../../Utils/httpUtils';
 
 import './OlzLogs.scss';
 
@@ -264,12 +265,6 @@ export function shouldLineBeGreyedOut(line: string): boolean {
         line.includes(' Olz\\Command\\Monitor') ||
         line.includes(' command olz:monitor') ||
         line.includes('access forbidden by rule') ||
-        line.includes('"user_agent":"OlzSystemTest/1.0"')
+        isBot(line.substring(line.indexOf('"user_agent":"')))
     );
 }
-
-// $(() => {
-//     olzLogsFetch();
-//     olzLogsGetFirstLog();
-//     olzLogsLevelFilterChange();
-// });

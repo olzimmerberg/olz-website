@@ -24,7 +24,7 @@ class OlzMenu extends OlzComponent {
         $main_menu = [
             ["Startseite", ""], // Menüpunkt ('Name','Link')
             ["", "", ''],
-            ["News", "news?filter={$enc_news_filter}"],
+            ["News", "news?filter={$enc_news_filter}&seite=1"],
             ["Termine", "termine?filter={$enc_termine_filter}"],
             ["", "", ''],
             ["Karten", "karten"],

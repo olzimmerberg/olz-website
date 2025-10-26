@@ -35,7 +35,7 @@ class NewsUtils {
     /** @return ?array<string, string> */
     public function deserialize(string $input): ?array {
         $json = '{"'.str_replace(['---', '-'], ['","', '":"'], $input).'"}';
-        return json_decode($json, true);
+        return json_decode($json, true) ?? json_decode($input, true);
     }
 
     /** @return FullFilter */

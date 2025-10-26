@@ -25,14 +25,14 @@ $filter = json_decode($_GET['filter'] ?? '{}', true);
 if (!$news_utils->isValidFilter($filter)) {
     $filter = $news_utils->getDefaultFilter();
 }
-$enc_json_filter = urlencode(json_encode($filter) ?: '{}');
+$serialized_filter = $news_utils->serialize($filter);
 
 $id = $_GET['id'] ?? null;
 
 if ($id === null) {
-    $new_url = "{$code_href}news?filter={$enc_json_filter}";
+    $new_url = "{$code_href}news?filter={$serialized_filter}";
     $http_utils->redirect($new_url, 410);
 } else {
-    $new_url = "{$code_href}news/{$id}?filter={$enc_json_filter}";
+    $new_url = "{$code_href}news/{$id}?filter={$serialized_filter}";
     $http_utils->redirect($new_url, 410);
 }

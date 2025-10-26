@@ -49,6 +49,18 @@ class TermineUtils {
         return $this;
     }
 
+    /** @param FullFilter $filter */
+    public function serialize(array $filter): string {
+        $json = json_encode($filter) ?: '';
+        return str_replace(['{"', '":"', '","', '"}'], ['', '-', '---', ''], $json);
+    }
+
+    /** @return ?array<string, string> */
+    public function deserialize(string $input): ?array {
+        $json = '{"'.str_replace(['---', '-'], ['","', '":"'], $input).'"}';
+        return json_decode($json, true);
+    }
+
     /** @return FullFilter */
     public function getDefaultFilter(): array {
         return [

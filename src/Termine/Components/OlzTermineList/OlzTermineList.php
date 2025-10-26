@@ -39,25 +39,25 @@ class OlzTermineList extends OlzRootComponent {
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
 
-        $current_filter = json_decode($params['filter'] ?? $this->session()->get('termine_filter') ?? '{}', true);
         $termine_utils = $this->termineUtils()->loadTypeOptions();
+        $current_filter = $termine_utils->deserialize($params['filter'] ?? $this->session()->get('termine_filter') ?? '');
 
         if (!$termine_utils->isValidFilter($current_filter)) {
             $valid_filter = $termine_utils->getValidFilter($current_filter);
-            $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
-            $this->httpUtils()->redirect("{$code_href}termine?filter={$enc_json_filter}", empty($params['filter']) ? 308 : 410);
+            $serialized_filter = $termine_utils->serialize($valid_filter);
+            $this->httpUtils()->redirect("{$code_href}termine?filter={$serialized_filter}", empty($params['filter']) ? 308 : 410);
         }
 
-        $current_filter = $termine_utils->getValidFilter($current_filter);
-        $termine_list_title = $termine_utils->getTitleFromFilter($current_filter);
-        $enc_json_filter = urlencode(json_encode($current_filter) ?: '{}');
+        $valid_filter = $termine_utils->getValidFilter($current_filter);
+        $termine_list_title = $termine_utils->getTitleFromFilter($valid_filter);
+        $serialized_filter = $termine_utils->serialize($valid_filter);
 
-        $this->session()->set('termine_filter', urldecode($enc_json_filter));
+        $this->session()->set('termine_filter', $serialized_filter);
 
         $out = OlzHeader::render([
             'title' => $termine_list_title,
             'description' => self::$description, // TODO: Filter-specific description?
-            'canonical_url' => "{$code_href}termine?filter={$enc_json_filter}",
+            'canonical_url' => "{$code_href}termine?filter={$serialized_filter}",
         ]);
 
         $admin_menu_out = '';
@@ -78,7 +78,7 @@ class OlzTermineList extends OlzRootComponent {
                 </div>
                 ZZZZZZZZZZ;
         }
-        $filter_out = OlzTermineFilter::render(['currentFilter' => $current_filter]);
+        $filter_out = OlzTermineFilter::render(['currentFilter' => $valid_filter]);
         $downloads_links_out = OlzEditableText::render(['snippet_id' => 2]);
         $newsletter_out = OlzEditableText::render(['snippet_id' => 3]);
         $out .= <<<ZZZZZZZZZZ
@@ -114,7 +114,7 @@ class OlzTermineList extends OlzRootComponent {
 
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
-        $termin_label = $termin_label_repo->findOneBy(['ident' => $current_filter['typ']]);
+        $termin_label = $termin_label_repo->findOneBy(['ident' => $valid_filter['typ']]);
         $edit_admin = '';
         if ($termin_label) {
             $has_termine_permissions = $this->authUtils()->hasPermission('termine');
@@ -142,13 +142,13 @@ class OlzTermineList extends OlzRootComponent {
 
         // -------------------------------------------------------------
         //  VORSCHAU - LISTE
-        $inner_date_filter = $termine_utils->getSqlDateRangeFilter($current_filter, 't');
+        $inner_date_filter = $termine_utils->getSqlDateRangeFilter($valid_filter, 't');
         $inner_sql_where = <<<ZZZZZZZZZZ
             (t.on_off = '1')
             AND ({$inner_date_filter})
             ZZZZZZZZZZ;
-        $type_filter = $termine_utils->getSqlTypeFilter($current_filter, 'c');
-        $outer_date_filter = $termine_utils->getSqlDateRangeFilter($current_filter, 'c');
+        $type_filter = $termine_utils->getSqlTypeFilter($valid_filter, 'c');
+        $outer_date_filter = $termine_utils->getSqlDateRangeFilter($valid_filter, 'c');
         $outer_sql_where = "({$type_filter}) AND ({$outer_date_filter})";
 
         $sql = <<<ZZZZZZZZZZ

@@ -30,15 +30,15 @@ $code_href = $env_utils->getCodeHref();
 $news_utils = NewsUtils::fromEnv();
 $filter = $news_utils->getDefaultFilter();
 $filter['format'] = 'galerie';
-$enc_json_filter = urlencode(json_encode($filter) ?: '{}');
+$serialized_filter = $news_utils->serialize($filter);
 
 $id = $_GET['id'] ?? null;
 
 if ($id === null) {
-    $new_url = "{$code_href}news?filter={$enc_json_filter}";
+    $new_url = "{$code_href}news?filter={$serialized_filter}";
     $http_utils->redirect($new_url, 410);
 } else {
     $news_id = $id + 1200;
-    $new_url = "{$code_href}news/{$news_id}?filter={$enc_json_filter}";
+    $new_url = "{$code_href}news/{$news_id}?filter={$serialized_filter}";
     $http_utils->redirect($new_url, 410);
 }

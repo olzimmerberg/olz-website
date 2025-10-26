@@ -27,6 +27,49 @@ final class TermineUtilsTest extends UnitTestCase {
         ], $termine_utils->getDefaultFilter());
     }
 
+    public function testSerialize(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => false];
+        $termine_utils = $this->getTermineUtilsForFilter();
+        $this->assertSame('typ-alle---datum-2020', $termine_utils->serialize([
+            'typ' => 'alle',
+            'datum' => '2020',
+        ]));
+        $this->assertSame('typ-alle---datum-2011', $termine_utils->serialize([
+            'typ' => 'alle',
+            'datum' => '2011',
+        ]));
+        $this->assertSame('typ-alle---datum-2020---invalid-true', $termine_utils->serialize([
+            'typ' => 'alle',
+            'datum' => '2020',
+            'invalid' => 'true',
+        ]));
+    }
+
+    public function testDeserialize(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => false];
+        $termine_utils = $this->getTermineUtilsForFilter();
+        $this->assertNull($termine_utils->deserialize(''));
+        $this->assertSame(['' => ''], $termine_utils->deserialize('-'));
+        $this->assertNull($termine_utils->deserialize('--'));
+        $this->assertNull($termine_utils->deserialize('---'));
+        $this->assertNull($termine_utils->deserialize('----'));
+        $this->assertNull($termine_utils->deserialize('-----'));
+        $this->assertNull($termine_utils->deserialize('------'));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => '2020',
+        ], $termine_utils->deserialize('typ-alle---datum-2020'));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => '2011',
+        ], $termine_utils->deserialize('typ-alle---datum-2011'));
+        $this->assertSame([
+            'typ' => 'alle',
+            'datum' => '2020',
+            'invalid' => 'true',
+        ], $termine_utils->deserialize('typ-alle---datum-2020---invalid-true'));
+    }
+
     public function testIsValidFilter(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => false];
         $termine_utils = $this->getTermineUtilsForFilter();

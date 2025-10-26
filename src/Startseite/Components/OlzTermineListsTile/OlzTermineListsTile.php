@@ -42,9 +42,9 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $filter = $this->termineUtils()->getDefaultFilter();
         $filter['typ'] = 'alle';
         $filter['datum'] = 'bevorstehend';
-        $enc_json_filter = urlencode(json_encode($filter) ?: '{}');
+        $serialized_filter = $this->termineUtils()->serialize($filter);
         return <<<ZZZZZZZZZZ
-            <li><a href='{$code_href}termine?filter={$enc_json_filter}&von=startseite'>
+            <li><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                 {$icon_img} <b>Nächste Termine</b>
             </a></li>
             ZZZZZZZZZZ;
@@ -70,9 +70,9 @@ class OlzTermineListsTile extends AbstractOlzTile {
         $out = '';
         if ($num_imminent > 0) {
             $num_this_year = $this->getNumberOfEntries($this_year_filter);
-            $enc_json_filter = urlencode(json_encode($this_year_filter) ?: '{}');
+            $serialized_filter = $this->termineUtils()->serialize($this_year_filter);
             $out .= <<<ZZZZZZZZZZ
-                <li><a href='{$code_href}termine?filter={$enc_json_filter}&von=startseite'>
+                <li><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                     {$icon_img} <b>Jahresprogramm {$this_year}</b><span class='secondary'>({$num_this_year})</span>
                 </a></li>
                 ZZZZZZZZZZ;
@@ -87,9 +87,9 @@ class OlzTermineListsTile extends AbstractOlzTile {
             $num_next_year = $this->getNumberOfEntries($next_year_filter);
 
             if ($num_next_year > 0) {
-                $enc_json_filter = urlencode(json_encode($next_year_filter) ?: '{}');
+                $serialized_filter = $this->termineUtils()->serialize($next_year_filter);
                 $out .= <<<ZZZZZZZZZZ
-                    <li><a href='{$code_href}termine?filter={$enc_json_filter}&von=startseite'>
+                    <li><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                         {$icon_img} <b>Jahresprogramm {$next_year}</b><span class='secondary'>({$num_next_year})</span>
                     </a></li>
                     ZZZZZZZZZZ;
@@ -108,9 +108,9 @@ class OlzTermineListsTile extends AbstractOlzTile {
             'datum' => 'bevorstehend',
         ];
         $num_imminent = $this->getNumberOfEntries($imminent_filter);
-        $enc_json_filter = urlencode(json_encode($imminent_filter) ?: '{}');
+        $serialized_filter = $this->termineUtils()->serialize($imminent_filter);
         return <<<ZZZZZZZZZZ
-            <li><a href='{$code_href}termine?filter={$enc_json_filter}&von=startseite'>
+            <li><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                 {$icon_img} <b>Bevorstehende Weekends</b><span class='secondary'>({$num_imminent})</span>
             </a></li>
             ZZZZZZZZZZ;
@@ -127,9 +127,9 @@ class OlzTermineListsTile extends AbstractOlzTile {
             'datum' => strval($this_year),
         ];
         $num_this_year = $this->getNumberOfEntries($this_year_filter);
-        $enc_json_filter = urlencode(json_encode($this_year_filter) ?: '{}');
+        $serialized_filter = $this->termineUtils()->serialize($this_year_filter);
         return <<<ZZZZZZZZZZ
-            <li><a href='{$code_href}termine?filter={$enc_json_filter}&von=startseite'>
+            <li><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                 {$icon_img} <b>OLZ Trophy {$this_year}</b><span class='secondary'>({$num_this_year})</span>
             </a></li>
             ZZZZZZZZZZ;
@@ -144,9 +144,9 @@ class OlzTermineListsTile extends AbstractOlzTile {
             'typ' => 'training',
             'datum' => 'bevorstehend',
         ];
-        $enc_json_filter = urlencode(json_encode($imminent_filter) ?: '{}');
+        $serialized_filter = $this->termineUtils()->serialize($imminent_filter);
         return <<<ZZZZZZZZZZ
-            <li><a href='{$code_href}termine?filter={$enc_json_filter}&von=startseite'>
+            <li><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                 {$icon_img} <b>Nächste Trainings</b>
             </a></li>
             ZZZZZZZZZZ;

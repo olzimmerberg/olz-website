@@ -15,7 +15,7 @@ echo "Telegram Webhook Simulator PID: $TELEGRAM_WEBHOOK_SIMULATOR_PID"
 # Run dev server, allow aborting
 set +e
 # php -S 127.0.0.1:30270 -t ./public/
-APP_ENV=dev symfony server:start --port=30270 --no-tls
+APP_ENV=dev XDEBUG_MODE=off symfony server:start --port=30270 --no-tls
 
 # Clean up
 kill -9 $TELEGRAM_WEBHOOK_SIMULATOR_PID

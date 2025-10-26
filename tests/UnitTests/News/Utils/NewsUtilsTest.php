@@ -24,6 +24,49 @@ final class NewsUtilsTest extends UnitTestCase {
         ], $news_utils->getDefaultFilter());
     }
 
+    public function testSerialize(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => false];
+        $news_utils = new NewsUtils();
+        $this->assertSame('format-aktuell---datum-2020', $news_utils->serialize([
+            'format' => 'aktuell',
+            'datum' => '2020',
+        ]));
+        $this->assertSame('format-aktuell---datum-2011', $news_utils->serialize([
+            'format' => 'aktuell',
+            'datum' => '2011',
+        ]));
+        $this->assertSame('format-aktuell---datum-2020---invalid-true', $news_utils->serialize([
+            'format' => 'aktuell',
+            'datum' => '2020',
+            'invalid' => 'true',
+        ]));
+    }
+
+    public function testDeserialize(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => false];
+        $news_utils = new NewsUtils();
+        $this->assertNull($news_utils->deserialize(''));
+        $this->assertSame(['' => ''], $news_utils->deserialize('-'));
+        $this->assertNull($news_utils->deserialize('--'));
+        $this->assertNull($news_utils->deserialize('---'));
+        $this->assertNull($news_utils->deserialize('----'));
+        $this->assertNull($news_utils->deserialize('-----'));
+        $this->assertNull($news_utils->deserialize('------'));
+        $this->assertSame([
+            'format' => 'aktuell',
+            'datum' => '2020',
+        ], $news_utils->deserialize('format-aktuell---datum-2020'));
+        $this->assertSame([
+            'format' => 'aktuell',
+            'datum' => '2011',
+        ], $news_utils->deserialize('format-aktuell---datum-2011'));
+        $this->assertSame([
+            'format' => 'aktuell',
+            'datum' => '2020',
+            'invalid' => 'true',
+        ], $news_utils->deserialize('format-aktuell---datum-2020---invalid-true'));
+    }
+
     public function testIsValidFilter(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['verified_email' => false];
         $news_utils = new NewsUtils();

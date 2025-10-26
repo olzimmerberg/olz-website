@@ -169,13 +169,22 @@ class OnContinuouslyCommand extends OlzCommand {
             } catch (\Throwable $th) {
                 $this->logAndOutput("Daily ({$time}) {$ident} failed", level: 'error');
             }
+        } else {
+            $pretty_reasons = [];
+            if ($is_too_soon) {
+                $pretty_reasons[] = 'too soon';
+            }
+            if (!$is_right_time_of_day) {
+                $pretty_reasons[] = "not the right time (diff: {$time_diff})";
+            }
+            $pretty_reason = implode(", ", $pretty_reasons);
+            $this->log()->debug("Not executing daily ({$time}) {$ident}: {$pretty_reason}");
         }
     }
 
     public function getTimeOnlyDiffSeconds(string $iso_value, string $iso_cmp): int {
-        date_default_timezone_set('Europe/Zurich');
-        $value = new \DateTime($iso_value);
-        $cmp = new \DateTime($iso_cmp);
+        $value = new \DateTime($iso_value, new \DateTimeZone('UTC'));
+        $cmp = new \DateTime($iso_cmp, new \DateTimeZone('UTC'));
 
         $seconds_diff = $value->getTimestamp() - $cmp->getTimestamp();
         $time_only_diff = $seconds_diff % 86400;

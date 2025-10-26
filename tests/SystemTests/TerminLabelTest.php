@@ -124,10 +124,10 @@ final class TerminLabelTest extends SystemTestCase {
     }
 
     protected function getUrl(): string {
-        return "{$this->getTargetUrl()}/termine?filter={\"typ\":\"training\",\"datum\":\"bevorstehend\"}";
+        return "{$this->getTargetUrl()}/termine?filter=typ-training---datum-bevorstehend";
     }
 
     protected function getUpdatedUrl(): string {
-        return "{$this->getTargetUrl()}/termine?filter={\"typ\":\"training_updated\",\"datum\":\"bevorstehend\"}";
+        return "{$this->getTargetUrl()}/termine?filter=typ-training_updated---datum-bevorstehend";
     }
 }

@@ -16,8 +16,10 @@ class OlzMenu extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
 
-        $enc_news_filter = urlencode(json_encode($this->newsUtils()->getDefaultFilter()) ?: '');
-        $enc_termine_filter = urlencode(json_encode($this->termineUtils()->getDefaultFilter()) ?: '');
+        $news_utils = $this->newsUtils();
+        $enc_news_filter = $news_utils->serialize($news_utils->getDefaultFilter());
+        $termine_utils = $this->termineUtils();
+        $enc_termine_filter = $termine_utils->serialize($termine_utils->getDefaultFilter());
 
         $main_menu = [
             ["Startseite", ""], // Menüpunkt ('Name','Link')

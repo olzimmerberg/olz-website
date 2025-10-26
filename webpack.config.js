@@ -56,7 +56,7 @@ const defaultConfig = {
         }),
         new WebpackShellPluginNext({
             onBuildStart: {
-                scripts: ['php ./bin/console olz:api-generate'],
+                scripts: ['XDEBUG_MODE=off php ./bin/console olz:api-generate'],
                 blocking: true,
                 parallel: false,
             },

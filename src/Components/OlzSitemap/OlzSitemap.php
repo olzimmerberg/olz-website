@@ -92,7 +92,7 @@ abstract class OlzSitemap extends OlzRootComponent {
         $news_utils = $this->newsUtils();
         $news_filters = $news_utils->getAllValidFiltersForSitemap();
         foreach ($news_filters as $news_filter) {
-            $enc_json_filter = urlencode(json_encode($news_filter) ?: '{}');
+            $serialized_filter = $news_utils->serialize($news_filter);
             $title = $news_utils->getTitleFromFilter($news_filter);
 
             $filter_where = $news_utils->getSqlFromFilter($news_filter);
@@ -116,7 +116,7 @@ abstract class OlzSitemap extends OlzRootComponent {
                 $entries[] = [
                     'title' => "{$title}{$maybe_page_label}",
                     'description' => $description,
-                    'url' => "{$base_href}/news?filter={$enc_json_filter}{$maybe_page_url}",
+                    'url' => "{$base_href}/news?filter={$serialized_filter}{$maybe_page_url}",
                     'updates' => 'weekly',
                     'importance' => $page === 1 ? 0.4 : 0.2,
                     'level' => 1,
@@ -173,13 +173,13 @@ abstract class OlzSitemap extends OlzRootComponent {
         $termine_utils = $this->termineUtils()->loadTypeOptions();
         $termine_filters = $termine_utils->getAllValidFiltersForSitemap();
         foreach ($termine_filters as $termine_filter) {
-            $enc_json_filter = urlencode(json_encode($termine_filter) ?: '{}');
+            $serialized_filter = $termine_utils->serialize($termine_filter);
             $title = $termine_utils->getTitleFromFilter($termine_filter);
             $description = "Termine-Liste \"{$title}\"";
             $entries[] = [
                 'title' => $title,
                 'description' => $description,
-                'url' => "{$base_href}/termine?filter={$enc_json_filter}",
+                'url' => "{$base_href}/termine?filter={$serialized_filter}",
                 'updates' => 'monthly',
                 'importance' => 0.6,
                 'level' => 1,

@@ -43,33 +43,33 @@ class OlzNewsList extends OlzRootComponent {
         $code_href = $this->envUtils()->getCodeHref();
 
         $news_utils = $this->newsUtils();
-        $current_filter = json_decode($params['filter'] ?? $this->session()->get('news_filter') ?? '{}', true);
+        $current_filter = $news_utils->deserialize($params['filter'] ?? $this->session()->get('news_filter') ?? '');
         $page_number = intval($params['seite'] ?? $this->session()->get('news_page') ?? 1);
         $page_index = $page_number - 1;
 
         if (!$news_utils->isValidFilter($current_filter)) {
             $valid_filter = $news_utils->getValidFilter($current_filter);
-            $enc_json_filter = urlencode(json_encode($valid_filter) ?: '{}');
-            $this->httpUtils()->redirect("{$code_href}news?filter={$enc_json_filter}", empty($params['filter']) ? 308 : 410);
+            $serialized_filter = $news_utils->serialize($valid_filter);
+            $this->httpUtils()->redirect("{$code_href}news?filter={$serialized_filter}", empty($params['filter']) ? 308 : 410);
         }
 
-        $current_filter = $news_utils->getValidFilter($current_filter);
-        $enc_json_filter = urlencode(json_encode($current_filter) ?: '{}');
+        $valid_filter = $news_utils->getValidFilter($current_filter);
+        $serialized_filter = $news_utils->serialize($valid_filter);
         $page_param = $page_number === 1 ? '' : "&seite={$page_number}";
 
-        $this->session()->set('news_filter', urldecode($enc_json_filter));
+        $this->session()->set('news_filter', $serialized_filter);
         $this->session()->set('news_page', "{$page_number}");
 
-        $news_list_title = $news_utils->getTitleFromFilter($current_filter);
+        $news_list_title = $news_utils->getTitleFromFilter($valid_filter);
         $out = OlzHeader::render([
             'title' => $news_list_title,
             'description' => self::$description, // TODO: Filter-specific description?
-            'canonical_url' => "{$code_href}news?filter={$enc_json_filter}{$page_param}",
+            'canonical_url' => "{$code_href}news?filter={$serialized_filter}{$page_param}",
         ]);
 
         $out .= "<div class='content-right'>";
         $out .= "<h2 class='optional'>Filter</h2>";
-        $out .= OlzNewsFilter::render(['currentFilter' => $current_filter]);
+        $out .= OlzNewsFilter::render(['currentFilter' => $valid_filter]);
         $out .= "</div>";
         $out .= "<div class='content-middle olz-news-list-middle'>";
 
@@ -146,7 +146,7 @@ class OlzNewsList extends OlzRootComponent {
         }
         $out .= "<h1>{$news_list_title} {$newsletter_link}</h1>";
 
-        $filter_where = $news_utils->getSqlFromFilter($current_filter);
+        $filter_where = $news_utils->getSqlFromFilter($valid_filter);
         $first_index = $page_index * $this::$page_size;
         $sql = <<<ZZZZZZZZZZ
             SELECT
@@ -248,7 +248,7 @@ class OlzNewsList extends OlzRootComponent {
                     <li class='page-item'>
                         <a
                             class='page-link{$page_link_class}'
-                            href='?filter={$enc_json_filter}{$page_param}'
+                            href='?filter={$serialized_filter}{$page_param}'
                         >
                             {$page_number}
                         </a>

@@ -26,6 +26,18 @@ class NewsUtils {
         ['ident' => 'video', 'name' => "Videos", 'icon' => 'entry_type_movie_20.svg'],
     ];
 
+    /** @param array<string, string> $filter */
+    public function serialize(array $filter): string {
+        $json = json_encode($filter) ?: '';
+        return str_replace(['{"', '":"', '","', '"}'], ['', '-', '---', ''], $json);
+    }
+
+    /** @return ?array<string, string> */
+    public function deserialize(string $input): ?array {
+        $json = '{"'.str_replace(['---', '-'], ['","', '":"'], $input).'"}';
+        return json_decode($json, true);
+    }
+
     /** @return FullFilter */
     public function getDefaultFilter(): array {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
@@ -268,8 +280,8 @@ class NewsUtils {
     /** @param PartialFilter $filter */
     public function getUrl(array $filter = []): string {
         $code_href = $this->envUtils()->getCodeHref();
-        $enc_json_filter = urlencode(json_encode($filter) ?: '{}');
-        return "{$code_href}news?filter={$enc_json_filter}";
+        $serialized_filter = $this->newsUtils()->serialize($filter);
+        return "{$code_href}news?filter={$serialized_filter}";
     }
 
     /** @var array<string, string> */

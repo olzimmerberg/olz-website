@@ -33,6 +33,17 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
             'DEBUG Running continuously...',
             'DEBUG Continuously processing email...',
+            'DEBUG Not executing daily (01:00:00) clean-temp-directory: too soon',
+            'DEBUG Not executing daily (01:05:00) clean-temp-database: too soon',
+            'DEBUG Not executing daily (01:10:00) clean-logs: too soon',
+            'DEBUG Not executing daily (01:15:00) send-telegram-configuration: too soon',
+            'DEBUG Not executing daily (01:20:00) sync-solv: too soon',
+            'DEBUG Not executing daily (08:15:00) send-weekly-summary: too soon, not the right time (diff: -20700)',
+            'DEBUG Not executing daily (14:30:00) send-monthly-preview: too soon, not the right time (diff: -43200)',
+            'DEBUG Not executing daily (15:14:00) send-weekly-preview: too soon, not the right time (diff: 40560)',
+            'DEBUG Not executing daily (16:27:00) send-deadline-warning: too soon, not the right time (diff: 36180)',
+            'DEBUG Not executing daily (17:30:00) send-daily-summary: too soon, not the right time (diff: 32400)',
+            'DEBUG Not executing daily (18:30:00) send-reminders: too soon, not the right time (diff: 28800)',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -77,6 +88,12 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'INFO Executing daily (01:10:00) clean-logs...',
             'INFO Executing daily (01:15:00) send-telegram-configuration...',
             'INFO Executing daily (01:20:00) sync-solv...',
+            'DEBUG Not executing daily (08:15:00) send-weekly-summary: not the right time (diff: -20700)',
+            'DEBUG Not executing daily (14:30:00) send-monthly-preview: not the right time (diff: -43200)',
+            'DEBUG Not executing daily (15:14:00) send-weekly-preview: not the right time (diff: 40560)',
+            'DEBUG Not executing daily (16:27:00) send-deadline-warning: not the right time (diff: 36180)',
+            'DEBUG Not executing daily (17:30:00) send-daily-summary: not the right time (diff: 32400)',
+            'DEBUG Not executing daily (18:30:00) send-reminders: not the right time (diff: 28800)',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -136,6 +153,12 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'INFO Executing daily (01:10:00) clean-logs...',
             'INFO Executing daily (01:15:00) send-telegram-configuration...',
             'INFO Executing daily (01:20:00) sync-solv...',
+            'DEBUG Not executing daily (08:15:00) send-weekly-summary: not the right time (diff: -20700)',
+            'DEBUG Not executing daily (14:30:00) send-monthly-preview: not the right time (diff: -43200)',
+            'DEBUG Not executing daily (15:14:00) send-weekly-preview: not the right time (diff: 40560)',
+            'DEBUG Not executing daily (16:27:00) send-deadline-warning: not the right time (diff: 36180)',
+            'DEBUG Not executing daily (17:30:00) send-daily-summary: not the right time (diff: 32400)',
+            'DEBUG Not executing daily (18:30:00) send-reminders: not the right time (diff: 28800)',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -190,8 +213,17 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             "INFO Running command Olz\\Command\\OnContinuouslyCommand...",
             'DEBUG Running continuously...',
             'DEBUG Continuously processing email...',
+            'DEBUG Not executing daily (01:00:00) clean-temp-directory: not the right time (diff: -27000)',
+            'DEBUG Not executing daily (01:05:00) clean-temp-database: not the right time (diff: -27300)',
+            'DEBUG Not executing daily (01:10:00) clean-logs: not the right time (diff: -27600)',
+            'DEBUG Not executing daily (01:15:00) send-telegram-configuration: not the right time (diff: -27900)',
+            'DEBUG Not executing daily (01:20:00) sync-solv: not the right time (diff: -28200)',
+            'DEBUG Not executing daily (08:15:00) send-weekly-summary: not the right time (diff: 33300)',
+            'DEBUG Not executing daily (14:30:00) send-monthly-preview: not the right time (diff: 10800)',
+            'DEBUG Not executing daily (15:14:00) send-weekly-preview: not the right time (diff: 8160)',
             'INFO Executing daily (16:27:00) send-deadline-warning...',
             'INFO Executing daily (17:30:00) send-daily-summary...',
+            'DEBUG Not executing daily (18:30:00) send-reminders: not the right time (diff: -3600)',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -241,6 +273,14 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'INFO Executing daily (01:05:00) clean-temp-database...',
             'INFO Executing daily (01:10:00) clean-logs...',
             // The rest is not executed yet, because it's only 01:13
+            'DEBUG Not executing daily (01:15:00) send-telegram-configuration: not the right time (diff: -120)',
+            'DEBUG Not executing daily (01:20:00) sync-solv: not the right time (diff: -420)',
+            'DEBUG Not executing daily (08:15:00) send-weekly-summary: not the right time (diff: -25320)',
+            'DEBUG Not executing daily (14:30:00) send-monthly-preview: not the right time (diff: 38580)',
+            'DEBUG Not executing daily (15:14:00) send-weekly-preview: not the right time (diff: 35940)',
+            'DEBUG Not executing daily (16:27:00) send-deadline-warning: not the right time (diff: 31560)',
+            'DEBUG Not executing daily (17:30:00) send-daily-summary: not the right time (diff: 27780)',
+            'DEBUG Not executing daily (18:30:00) send-reminders: not the right time (diff: 24180)',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -286,9 +326,9 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         $this->assertSame(40271, $command->getTimeOnlyDiffSeconds('23:23:23', '12:12:12'));
         $this->assertSame(-40271, $command->getTimeOnlyDiffSeconds('12:12:12', '23:23:23'));
 
-        // Daylight saving time boundary
-        $this->assertSame(60, $command->getTimeOnlyDiffSeconds('2020-03-29 03:00:30', '2020-03-29 01:59:30'));
-        $this->assertSame(7260, $command->getTimeOnlyDiffSeconds('2020-10-25 03:00:30', '2020-10-25 01:59:30'));
+        // Daylight saving time boundary (ignores it!)
+        $this->assertSame(3660, $command->getTimeOnlyDiffSeconds('2020-03-29 03:00:30', '2020-03-29 01:59:30'));
+        $this->assertSame(3660, $command->getTimeOnlyDiffSeconds('2020-10-25 03:00:30', '2020-10-25 01:59:30'));
     }
 
     // ---

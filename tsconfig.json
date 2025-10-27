@@ -22,7 +22,6 @@
     "target": "es5"
   },
   "include": [
-    "_/**/*",
     "src/**/*",
     "tests/Fake/**/*",
     "tests/UnitTests/**/*"

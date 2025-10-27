@@ -8,18 +8,18 @@ import lgVideo from 'lightgallery/plugins/video';
 
 import './index.scss';
 
-export * from '../src/Apps/index';
-export * from '../src/Components/index';
-export * from '../src/Faq/index';
-export * from '../src/Karten/index';
-export * from '../src/News/index';
-export * from '../src/Roles/index';
-export * from '../src/Service/index';
-export * from '../src/Snippets/index';
-export * from '../src/Startseite/index';
-export * from '../src/Suche/index';
-export * from '../src/Termine/index';
-export * from '../src/Users/index';
+export * from './Apps/index';
+export * from './Components/index';
+export * from './Faq/index';
+export * from './Karten/index';
+export * from './News/index';
+export * from './Roles/index';
+export * from './Service/index';
+export * from './Snippets/index';
+export * from './Startseite/index';
+export * from './Suche/index';
+export * from './Termine/index';
+export * from './Users/index';
 
 /* @ts-ignore: Ignore file is not a module. */
 import * as bootstrap from 'bootstrap';

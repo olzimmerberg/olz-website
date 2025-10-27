@@ -7,7 +7,6 @@ const ignores = [
     'deploy/',
     'docs/coverage/',
     'jsbuild/',
-    '_/library/',
     'node_modules/',
     'php-coverage/',
     'private/',

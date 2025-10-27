@@ -51,7 +51,7 @@ siehe [`src/Apps`](./src/Apps/).
 
 ### Symfony-Migration
 
-siehe [`_`](./_/).
+siehe [GitHub Issue](https://github.com/olzimmerberg/olz-website/issues/664).
 
 ### OLZ-API
 

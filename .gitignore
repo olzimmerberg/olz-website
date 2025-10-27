@@ -11,9 +11,6 @@
 !/public/screenshots
 /screenshots/generated
 /src/Utils/data/tmp/*
-/_/tools/tmp/*
-/_/olz_ical.ics
-/_/tools/tmp/*
 /tools/fuer_einsteiger/img/*
 /tools/fuer_einsteiger/originals/*
 /tools/fuer_einsteiger/thumb/*

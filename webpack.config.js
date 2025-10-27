@@ -108,7 +108,7 @@ const appConfigs = apps
 export default [
     {
         ...defaultConfig,
-        entry: './_/index.ts',
+        entry: './src/index.ts',
         output: {
             path: path.resolve(__dirname, 'public/jsbuild/olz'),
             publicPath: '/jsbuild/olz/',

@@ -8,11 +8,11 @@
 !/public/.htaccess
 !/public/assets
 !/public/index.php
-/screenshots
+!/public/screenshots
+/screenshots/generated
 /src/Utils/data/tmp/*
 /_/tools/tmp/*
 /_/olz_ical.ics
-/_/screenshots/generated
 /_/tools/tmp/*
 /tools/fuer_einsteiger/img/*
 /tools/fuer_einsteiger/originals/*

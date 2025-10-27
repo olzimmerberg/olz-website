@@ -20,7 +20,8 @@ class OlzNewsForumTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $news_utils = $this->newsUtils();
 
-        $forum_url = $news_utils->getUrl(['format' => 'forum']);
+        $year = $this->dateUtils()->getCurrentDateInFormat('Y');
+        $forum_url = $news_utils->getUrl(['format' => 'forum', 'datum' => $year]);
 
         $out = <<<ZZZZZZZZZZ
             <h3>

@@ -20,8 +20,9 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $news_utils = $this->newsUtils();
 
-        $aktuell_url = $news_utils->getUrl(['format' => 'aktuell']);
-        $kaderblog_url = $news_utils->getUrl(['format' => 'kaderblog']);
+        $year = $this->dateUtils()->getCurrentDateInFormat('Y');
+        $aktuell_url = $news_utils->getUrl(['format' => 'aktuell', 'datum' => $year]);
+        $kaderblog_url = $news_utils->getUrl(['format' => 'kaderblog', 'datum' => $year]);
         $out = <<<ZZZZZZZZZZ
             <h3>
                 <a href='{$aktuell_url}&von=startseite'>

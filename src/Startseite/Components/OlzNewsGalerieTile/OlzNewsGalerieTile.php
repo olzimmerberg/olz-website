@@ -20,8 +20,9 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
         $code_href = $this->envUtils()->getCodeHref();
         $news_utils = $this->newsUtils();
 
-        $galerie_url = $news_utils->getUrl(['format' => 'galerie']);
-        $video_url = $news_utils->getUrl(['format' => 'video']);
+        $year = $this->dateUtils()->getCurrentDateInFormat('Y');
+        $galerie_url = $news_utils->getUrl(['format' => 'galerie', 'datum' => $year]);
+        $video_url = $news_utils->getUrl(['format' => 'video', 'datum' => $year]);
         $out = <<<ZZZZZZZZZZ
             <h3>
                 <a href='{$galerie_url}&von=startseite'>

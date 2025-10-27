@@ -15,7 +15,6 @@
 // TODO: Delete this legacy migration procedure:
 
 use Olz\Kernel;
-use Olz\LegacyBridge;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,21 +55,5 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
-
-/*
- * LegacyBridge will take care of figuring out whether to boot up the
- * existing application or to send the Symfony response back to the client.
- */
-$scriptFile = LegacyBridge::prepareLegacyScript($request, $response, __DIR__);
-if ($scriptFile !== null) {
-    if (preg_match('/\.php$/', $scriptFile)) {
-        require $scriptFile;
-    } else {
-        $mime_type = mime_content_type($scriptFile);
-        header("Content-Type: {$mime_type}");
-        echo file_get_contents($scriptFile);
-    }
-} else {
-    $response->send();
-}
+$response->send();
 $kernel->terminate($request, $response);

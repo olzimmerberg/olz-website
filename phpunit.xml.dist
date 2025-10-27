@@ -65,7 +65,6 @@
         </include>
         <exclude>
             <file>./src/Kernel.php</file>
-            <file>./src/LegacyBridge.php</file>
         </exclude>
         <report>
             <!-- <clover outputFile="php-coverage/clover.xml"/> -->

@@ -152,8 +152,4 @@ class HttpUtils {
     }
 
     // @codeCoverageIgnoreEnd
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

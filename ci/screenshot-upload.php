@@ -16,7 +16,7 @@ $upload = new ScreenshotUpload();
 $remote_fs = $upload->getPublicFlysystemFilesystem();
 
 $remote_private_path = $upload->getRemotePrivatePath();
-$remote_screenshots_path = "{$remote_private_path}/deploy/live/_/screenshots/generated";
+$remote_screenshots_path = "{$remote_private_path}/deploy/live/screenshots/generated";
 try {
     $remote_fs->createDirectory(dirname($remote_screenshots_path));
 } catch (Throwable $th) {
@@ -27,7 +27,7 @@ try {
 } catch (Throwable $th) {
     // ignore
 }
-$screenshots_dir = __DIR__.'/../screenshots';
+$screenshots_dir = __DIR__.'/../screenshots/generated';
 try {
     foreach (scandir($screenshots_dir) as $entry) {
         $file_path = "{$screenshots_dir}/{$entry}";

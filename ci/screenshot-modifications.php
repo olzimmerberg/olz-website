@@ -9,7 +9,7 @@ function parse_screenshot_name($screenshot_path) {
 }
 
 $should_create_diff_image = false;
-$local_dir = './screenshots/';
+$local_dir = './screenshots/generated/';
 if (!is_dir($local_dir)) {
     exit(11);
 }

@@ -420,7 +420,7 @@ class SystemTestCase extends KernelTestCase {
         $this->tick('screenshot');
         $this->adjustCssForScreenshot();
         $browser_name = $browser->getCapabilities()?->getBrowserName();
-        $screenshots_path = __DIR__.'/../../../screenshots/';
+        $screenshots_path = __DIR__.'/../../../screenshots/generated/';
         $screenshot_filename = "{$name}-{$browser_name}.png";
         $window_width = $this->getWindowWidth();
         $window_height = $this->getWindowHeight();

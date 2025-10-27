@@ -16,18 +16,22 @@ class OlzKartenParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzKarten extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'TODO';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
 
     public static string $title = "Karten";
     public static string $description = "Die OL-Karten, die die OL Zimmerberg aufnimmt, unterhält und verkauft.";
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzKartenParams::class);
         $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();

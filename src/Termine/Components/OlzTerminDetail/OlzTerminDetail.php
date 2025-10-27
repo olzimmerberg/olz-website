@@ -19,6 +19,10 @@ class OlzTerminDetailParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzTerminDetail extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'Termine';
     }
@@ -35,13 +39,13 @@ class OlzTerminDetail extends OlzRootComponent {
                 'icon' => "{$code_href}assets/icns/termine_type_all_20.svg",
                 'date' => $termin->getStartDate(),
                 'title' => $termin->getTitle() ?: '?',
-                'text' => $termin->getText() ?: null,
+                'text' => strip_tags("{$termin->getText()}") ?: null,
             ], $terms);
         }
         return $results;
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzTerminDetailParams::class);
 
         $code_href = $this->envUtils()->getCodeHref();

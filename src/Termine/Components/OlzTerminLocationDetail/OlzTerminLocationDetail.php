@@ -15,15 +15,33 @@ class OlzTerminLocationDetailParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzTerminLocationDetail extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return $this->authUtils()->hasPermission('termine');
+    }
+
     public function getSearchTitle(): string {
-        return 'TODO';
+        return 'Termin-Orte';
     }
 
-    public function getSearchResults(array $terms): array {
-        return [];
+    public function getSearchResultsWhenHasAccess(array $terms): array {
+        $results = [];
+        $code_href = $this->envUtils()->getCodeHref();
+        $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
+        $termin_locations = $termin_location_repo->search($terms);
+        foreach ($termin_locations as $termin_location) {
+            $id = $termin_location->getId();
+            $results[] = $this->searchUtils()->getScoredSearchResult([
+                'link' => "{$code_href}termine/orte/{$id}",
+                'icon' => "{$code_href}assets/icns/link_map_16.svg",
+                'date' => null,
+                'title' => $termin_location->getName() ?: '?',
+                'text' => strip_tags("{$termin_location->getDetails()}") ?: null,
+            ], $terms);
+        }
+        return $results;
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzTerminLocationDetailParams::class);
 
         $code_href = $this->envUtils()->getCodeHref();

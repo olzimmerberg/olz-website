@@ -22,18 +22,22 @@ class OlzTermineListParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzTermineList extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'Termin-Listen';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
 
     public static string $title = "Termine";
     public static string $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         /** @return array{filter?: ?string} */
         $params = $this->httpUtils()->validateGetParams(OlzTermineListParams::class);
         $db = $this->dbUtils()->getDb();

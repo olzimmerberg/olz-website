@@ -14,7 +14,7 @@ class OlzOtherError extends OlzComponent {
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
-            'title' => "Fehler",
+            'title' => "Fehler {$http_status_code}",
             'skip_auth_menu' => true,
         ], $this);
         $out .= "<div class='content-full'>";

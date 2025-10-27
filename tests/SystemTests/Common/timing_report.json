@@ -70,10 +70,8 @@
     "Olz\\Tests\\SystemTests\\StagingTest::testStagingIsUp": 0.8,
     "Olz\\Tests\\SystemTests\\StagingTest::testStagingIsWorking": 0.7,
     "Olz\\Tests\\SystemTests\\StartseiteTest::testStartseiteBody": 0.9,
-    "Olz\\Tests\\SystemTests\\StartseiteTest::testStartseiteBodyLegacy": 1.2,
     "Olz\\Tests\\SystemTests\\StartseiteTest::testStartseiteEditSnippet": 10,
     "Olz\\Tests\\SystemTests\\StartseiteTest::testStartseiteHeaders": 0.9,
-    "Olz\\Tests\\SystemTests\\StartseiteTest::testStartseiteHeadersLegacy": 0.6,
     "Olz\\Tests\\SystemTests\\StartseiteTest::testStartseiteReadOnly": 1.6,
     "Olz\\Tests\\SystemTests\\StatusTest::testHttpGetsRedirected": 0.6,
     "Olz\\Tests\\SystemTests\\StatusTest::testStatusIsMonitoring": 2.1,
@@ -83,7 +81,7 @@
     "Olz\\Tests\\SystemTests\\TerminLabelTest::testTerminLabelDelete": 7.8,
     "Olz\\Tests\\SystemTests\\TerminLabelTest::testTerminLabelUpdate": 18.1,
     "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteCreate": 9.8,
-    "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteDetailDelete": 6.6,
+    "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteDetailDelete": 7.2,
     "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteReadOnly": 2.5,
     "Olz\\Tests\\SystemTests\\TerminVorlagenTest::testTerminVorlagenCreate": 13.6,
     "Olz\\Tests\\SystemTests\\TerminVorlagenTest::testTerminVorlagenDetailDelete": 6.6,
@@ -106,8 +104,8 @@
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureCreate": 8.4,
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureReadOnly": 2.1,
     "db_reset": 90.3,
-    "login": 34.4,
+    "login": 9.4,
     "logout": 39.5,
-    "screenshot": 49.6,
-    "total": 584.8
+    "screenshot": 12.6,
+    "total": 153.3
 }

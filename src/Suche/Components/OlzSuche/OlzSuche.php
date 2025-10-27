@@ -14,6 +14,10 @@ class OlzSucheParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzSuche extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getTitle(): string {
         return "Suche";
     }
@@ -39,7 +43,7 @@ class OlzSuche extends OlzRootComponent {
         ];
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzSucheParams::class);
 
         $terms = preg_split('/[\s,\.;]+/', $params['anfrage']);

@@ -13,15 +13,19 @@ class OlzEmailReaktionParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzEmailReaktion extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'TODO';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzEmailReaktionParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $token = $params['token'] ?? '';

@@ -18,11 +18,15 @@ class OlzFuerEinsteigerParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzFuerEinsteiger extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'TODO';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
 
@@ -31,7 +35,7 @@ class OlzFuerEinsteiger extends OlzRootComponent {
 
     protected string $termin_class = Termin::class;
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzFuerEinsteigerParams::class);
         $env_utils = $this->envUtils();
         $code_href = $env_utils->getCodeHref();

@@ -23,15 +23,17 @@ use Olz\Termine\Components\OlzTermineList\OlzTermineList;
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 abstract class OlzSitemap extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'TODO';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
-
-    abstract public function getHtml(mixed $args): string;
 
     /** @return array<array{title: string, description: string, url: string, updates: string, importance: float, level: int}> */
     protected function getEntries(): array {

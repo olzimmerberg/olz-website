@@ -250,6 +250,25 @@ class Deploy extends AbstractDefaultDeploy {
         ?string $argv = null,
         ?string $staging_token = null,
     ): void {
+        $error = null;
+        for ($i = 0; $i < 3; $i++) {
+            try {
+                $this->executeCommandNoRetry($command, $argv, $staging_token);
+                return;
+            } catch (Throwable $th) {
+                $error = $th;
+                sleep(5);
+            }
+        }
+        $this->logger?->error("Error executing \"{$command}\" (retrying failed).");
+        throw new Exception("Number of retries exceeded: {$error->getMessage()}");
+    }
+
+    protected function executeCommandNoRetry(
+        string $command,
+        ?string $argv = null,
+        ?string $staging_token = null,
+    ): void {
         $public_url = $this->getRemotePublicUrl();
         $prefix = ($this->environment === 'staging')
             ? "{$public_url}/{$staging_token}"

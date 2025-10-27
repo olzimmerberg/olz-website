@@ -14,18 +14,22 @@ class OlzVereinParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzVerein extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'TODO';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
 
     public static string $title = "Verein";
     public static string $description = "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.";
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzVereinParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 

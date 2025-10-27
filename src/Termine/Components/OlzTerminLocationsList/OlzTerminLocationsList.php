@@ -14,15 +14,19 @@ class OlzTerminLocationsListParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzTerminLocationsList extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return $this->authUtils()->hasPermission('termine');
+    }
+
     public function getSearchTitle(): string {
         return 'TODO';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzTerminLocationsListParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 

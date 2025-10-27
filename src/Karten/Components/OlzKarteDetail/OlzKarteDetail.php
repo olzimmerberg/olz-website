@@ -11,6 +11,10 @@ use Olz\Entity\Karten\Karte;
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzKarteDetail extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'Karten';
     }
@@ -33,7 +37,7 @@ class OlzKarteDetail extends OlzRootComponent {
         return $results;
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $karten_repo = $this->entityManager()->getRepository(Karte::class);

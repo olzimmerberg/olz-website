@@ -17,6 +17,7 @@ final class TerminOrteTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testTerminOrteReadOnly(): void {
         $browser = $this->getBrowser();
+        $this->login('admin', 'adm1n');
 
         $browser->get($this->getUrl());
         $this->screenshot('termin_locations');
@@ -79,7 +80,8 @@ final class TerminOrteTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
         $this->waitUntilGone('#edit-termin-location-modal');
 
-        $this->assertSame(404, $this->getHeaders($this->getDetailUrl())['http_code']);
+        $browser->get($this->getDetailUrl());
+        $this->assertSame('Fehler 404 Nicht gefunden - OL Zimmerberg', $browser->getTitle());
 
         $this->resetDb();
     }

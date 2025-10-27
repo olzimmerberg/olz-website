@@ -22,6 +22,10 @@ class OlzNewsDetailParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzNewsDetail extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'News';
     }
@@ -38,13 +42,13 @@ class OlzNewsDetail extends OlzRootComponent {
                 'icon' => $this->newsUtils()->getNewsFormatIcon($news_entry) ?: null,
                 'date' => $news_entry->getPublishedDate(),
                 'title' => $news_entry->getTitle() ?: '?',
-                'text' => $news_entry->getTeaser()." ".$news_entry->getContent(),
+                'text' => strip_tags("{$news_entry->getTeaser()} {$news_entry->getContent()}") ?: null,
             ], $terms);
         }
         return $results;
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzNewsDetailParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();

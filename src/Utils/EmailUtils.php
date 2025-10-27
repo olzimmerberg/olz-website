@@ -335,8 +335,4 @@ class EmailUtils {
         mt_srand($page_int ^ $time_int);
         return mt_rand($min, $max);
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

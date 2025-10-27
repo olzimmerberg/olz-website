@@ -37,10 +37,6 @@ class TestOnlyGeneralUtils extends GeneralUtils {
  * @covers \Olz\Utils\GeneralUtils
  */
 final class GeneralUtilsTest extends UnitTestCase {
-    public function testFromEnv(): void {
-        $this->assertEquals(new GeneralUtils(), GeneralUtils::fromEnv());
-    }
-
     public function testCheckNotNull(): void {
         $general_utils = new GeneralUtils();
 

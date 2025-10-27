@@ -23,14 +23,6 @@ final class StartseiteTest extends SystemTestCase {
     }
 
     #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
-    public function testStartseiteHeadersLegacy(): void {
-        $url = "{$this->getTargetUrl()}/startseite.php";
-        $headers = $this->getHeaders($url);
-
-        $this->assertSame(410, $headers['http_code']);
-    }
-
-    #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
     public function testStartseiteBody(): void {
         $url = "{$this->getTargetUrl()}";
         $body = file_get_contents($url) ?: '';
@@ -41,21 +33,6 @@ final class StartseiteTest extends SystemTestCase {
         );
         $this->assertMatchesRegularExpression(
             '/<a href=\'\/\'/i',
-            $body
-        );
-    }
-
-    #[OnlyInModes(['dev', 'dev_rw', 'staging', 'staging_rw', 'prod'])]
-    public function testStartseiteBodyLegacy(): void {
-        $url = "{$this->getTargetUrl()}/startseite.php";
-        $body = file_get_contents($url) ?: '';
-
-        $this->assertMatchesRegularExpression(
-            '/<title>Weiterleitung\.\.\. - OL Zimmerberg<\/title>/i',
-            $body
-        );
-        $this->assertMatchesRegularExpression(
-            '/Startseite/i',
             $body
         );
     }

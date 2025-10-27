@@ -54,7 +54,7 @@ class ScreenshotsController extends AbstractController {
         }
 
         $main_index = json_decode(
-            @file_get_contents("{$main_href}screenshots/index.json.php") ?: '',
+            @file_get_contents("{$main_href}screenshots.json") ?: '',
             true
         );
         if ($main_index === null) {

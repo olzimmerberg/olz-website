@@ -281,7 +281,7 @@ class NewsUtils {
     public function getUrl(array $filter = []): string {
         $code_href = $this->envUtils()->getCodeHref();
         $serialized_filter = $this->newsUtils()->serialize($filter);
-        return "{$code_href}news?filter={$serialized_filter}";
+        return "{$code_href}news?filter={$serialized_filter}&seite=1";
     }
 
     /** @var array<string, string> */

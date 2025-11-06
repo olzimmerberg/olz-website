@@ -111,12 +111,11 @@ abstract class OlzSitemap extends OlzRootComponent {
 
             for ($page = 1; $page <= $num_pages; $page++) {
                 $maybe_page_label = $page > 1 ? " (Seite {$page})" : '';
-                $maybe_page_url = $page > 1 ? "&seite={$page}" : '';
                 $description = "News-Liste \"{$title}\"{$maybe_page_label}";
                 $entries[] = [
                     'title' => "{$title}{$maybe_page_label}",
                     'description' => $description,
-                    'url' => "{$base_href}/news?filter={$serialized_filter}{$maybe_page_url}",
+                    'url' => "{$base_href}/news?filter={$serialized_filter}&seite={$page}",
                     'updates' => 'weekly',
                     'importance' => $page === 1 ? 0.4 : 0.2,
                     'level' => 1,

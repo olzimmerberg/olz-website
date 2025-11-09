@@ -242,6 +242,27 @@ final class SearchUtilsTest extends UnitTestCase {
         $this->assertSame('…ch dä Test äm…', $utils->getCutout($sentence, ['test', 'dä'], 13));
     }
 
+    public function testGetOffsets(): void {
+        $utils = new SearchUtils();
+
+        $this->assertSame([], $utils->getOffsets('', []));
+        $this->assertSame([], $utils->getOffsets('test', []));
+        $this->assertSame([[]], $utils->getOffsets('', ['test']));
+        $this->assertSame([[0]], $utils->getOffsets('test', ['test']));
+        $this->assertSame([[0, 4]], $utils->getOffsets('TesttesT', ['test']));
+
+        $this->assertSame([[0, 3], [1, 2]], $utils->getOffsets('ABBA', ['a', 'b']));
+        $this->assertSame([[0, 3], [0]], $utils->getOffsets('ABBA', ['a', 'ab']));
+        $this->assertSame([[0, 3], [2]], $utils->getOffsets('ABBA', ['a', 'ba']));
+        $this->assertSame([[], [1]], $utils->getOffsets('ABBA', ['aa', 'bb']));
+
+        // Regex delimiter
+        $this->assertSame([[2]], $utils->getOffsets('AC/DC', ['/']));
+
+        // Multibyte characters
+        $this->assertSame([[1, 4], [2, 5]], $utils->getOffsets('ÄÖÜäöÜ', ['ö', 'ü']));
+    }
+
     public function testHighlight(): void {
         $utils = new SearchUtils();
         $start_tag = '<span class="highlight">';
@@ -253,7 +274,7 @@ final class SearchUtilsTest extends UnitTestCase {
         $this->assertSame("{$start_tag}test{$end_tag}1234", $utils->highlight('test1234', ['test']));
 
         // Repetition
-        $this->assertSame("{$start_tag}test{$end_tag}{$start_tag}test{$end_tag}", $utils->highlight('testtest', ['test']));
+        $this->assertSame("{$start_tag}testtest{$end_tag}", $utils->highlight('testtest', ['test']));
         $this->assertSame("{$start_tag}test{$end_tag} {$start_tag}test{$end_tag}", $utils->highlight('test test', ['test']));
 
         // Capitalization
@@ -268,18 +289,12 @@ final class SearchUtilsTest extends UnitTestCase {
         // Start/end tag substring replacement
         $this->assertSame("{$start_tag}test{$end_tag}", $utils->highlight('test', ['test', 'span']));
 
-        // Start/end token escaping
-        $this->assertSame("\\[{$start_tag}test{$end_tag}\\]", $utils->highlight('\[test\]', ['test']));
-        $this->assertSame("{$start_tag}\\[{$end_tag}{$start_tag}test{$end_tag}{$start_tag}\\]{$end_tag}", $utils->highlight('\[test\]', ['test', '\[', '\]']));
-        $this->assertSame("\\[{$start_tag}test{$end_tag}\\]", $utils->highlight('\[test\]', ['test', '[', ']']));
-        $this->assertSame("\\\\[{$start_tag}test{$end_tag}\\\\]", $utils->highlight('\\\[test\\\]', ['test']));
-        $this->assertSame("{$start_tag}\\\\[{$end_tag}{$start_tag}test{$end_tag}{$start_tag}\\\\]{$end_tag}", $utils->highlight('\\\[test\\\]', ['test', '\\\[', '\\\]']));
-        $this->assertSame("\\\\[{$start_tag}test{$end_tag}\\\\]", $utils->highlight('\\\[test\\\]', ['test', '\[', '\]']));
-
-        // Not desired, but reflect how the current implementation works:
-        $this->assertSame("{$start_tag}{$start_tag}test{$end_tag}{$end_tag} {$start_tag}{$start_tag}test{$end_tag}{$end_tag}", $utils->highlight('test test', ['test', 'test']));
-        $this->assertSame("{$start_tag}t{$start_tag}es{$end_tag}t{$end_tag} {$start_tag}t{$start_tag}es{$end_tag}t{$end_tag}", $utils->highlight('test test', ['test', 'es']));
-        $this->assertSame("{$start_tag}tes{$end_tag}t {$start_tag}tes{$end_tag}t", $utils->highlight('test test', ['tes', 'est']));
+        // Overlapping matches
+        $this->assertSame("{$start_tag}test{$end_tag} {$start_tag}test{$end_tag}", $utils->highlight('test test', ['test', 'test']));
+        $this->assertSame("{$start_tag}test{$end_tag} {$start_tag}test{$end_tag}", $utils->highlight('test test', ['test', 'es']));
+        $this->assertSame("{$start_tag}test{$end_tag} {$start_tag}test{$end_tag}", $utils->highlight('test test', ['tes', 'est']));
+        $this->assertSame("{$start_tag}test{$end_tag} {$start_tag}test{$end_tag}", $utils->highlight('test test', ['test', 'tes']));
+        $this->assertSame("{$start_tag}test{$end_tag} {$start_tag}test{$end_tag}", $utils->highlight('test test', ['test', 'est']));
 
         // Use case:
         $this->assertSame(
@@ -305,5 +320,24 @@ final class SearchUtilsTest extends UnitTestCase {
             "{$start_tag}The{$end_tag} quick brown fox jumps over {$start_tag}the{$end_tag} lazy dog",
             $utils->highlight('The quick brown fox jumps over the lazy dog', ['tHe']),
         );
+    }
+
+    public function testNormalizeRanges(): void {
+        $utils = new SearchUtils();
+
+        $this->assertSame([], $utils->normalizeRanges([]));
+        $this->assertSame([[0, 0]], $utils->normalizeRanges([[0, 0]]));
+        $this->assertSame([[0, 1]], $utils->normalizeRanges([[0, 1]]));
+        $this->assertSame([[0, 1], [2, 3]], $utils->normalizeRanges([[0, 1], [2, 3]]));
+        $this->assertSame([[0, 3]], $utils->normalizeRanges([[0, 2], [1, 3]]));
+        $this->assertSame([[0, 3]], $utils->normalizeRanges([[0, 3], [1, 2]]));
+        $this->assertSame([[0, 1], [2, 3], [4, 5]], $utils->normalizeRanges([[0, 1], [2, 3], [4, 5]]));
+        $this->assertSame([[0, 3], [4, 5]], $utils->normalizeRanges([[0, 3], [1, 2], [4, 5]]));
+        $this->assertSame([[0, 1], [2, 5]], $utils->normalizeRanges([[0, 1], [2, 5], [3, 4]]));
+        $this->assertSame([[0, 7]], $utils->normalizeRanges([[0, 3], [2, 5], [4, 7]]));
+        $this->assertSame([[0, 4]], $utils->normalizeRanges([[0, 2], [1, 3], [2, 4]]));
+        $this->assertSame([[0, 3]], $utils->normalizeRanges([[0, 1], [1, 2], [2, 3]]));
+        $this->assertSame([[0, 5]], $utils->normalizeRanges([[0, 5], [1, 4], [2, 3]]));
+        $this->assertSame([[0, 5]], $utils->normalizeRanges([[2, 3], [1, 4], [0, 5]]));
     }
 }

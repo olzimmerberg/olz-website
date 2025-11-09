@@ -323,7 +323,7 @@ class SearchUtils {
         $offsets_by_term = [];
         foreach ($search_terms as $search_term) {
             $term_length = mb_strlen($search_term);
-            $term_regex = preg_quote($search_term);
+            $term_regex = preg_quote($search_term, '/');
             $parts = preg_split("/({$term_regex})/ui", $text) ?: [];
             $part_lengths = array_map(fn ($part) => mb_strlen($part), $parts);
             unset($parts);
@@ -346,28 +346,55 @@ class SearchUtils {
 
     /** @param array<string> $search_terms */
     public function highlight(string $text, array $search_terms): string {
-        $start_token = '\[';
-        $end_token = '\]';
-        $tokens = [$start_token, $end_token];
-        $text = $this->generalUtils()->escape($text, $tokens);
-        foreach ($search_terms as $term) {
-            $esc_term = preg_quote($this->generalUtils()->escape($term, $tokens), '/');
-            $text = preg_replace(
-                "/(?<!\\\\)({$esc_term})/i",
-                "{$start_token}\\1{$end_token}",
-                $text ?? '',
-            );
+        $offsets_by_term = $this->getOffsets($text, $search_terms);
+        $term_lengths = array_map(fn ($term) => mb_strlen($term), $search_terms);
+
+        $ranges = [];
+        for ($i = 0; $i < count($offsets_by_term); $i++) {
+            $term_length = $term_lengths[$i];
+            foreach ($offsets_by_term[$i] as $offset) {
+                $ranges[] = [$offset, $offset + $term_length];
+            }
         }
+        $merged_ranges = $this->normalizeRanges($ranges);
+
+        $out = '';
         $start_tag = '<span class="highlight">';
         $end_tag = '</span>';
-        $esc_start_token = preg_quote($start_token, '/');
-        $esc_end_token = preg_quote($end_token, '/');
-        $text = preg_replace(
-            ["/(?<!\\\\){$esc_start_token}/", "/(?<!\\\\){$esc_end_token}/"],
-            [$start_tag, $end_tag],
-            $text ?? '',
-        );
-        return $this->generalUtils()->unescape($text ?? '', $tokens);
+        $last_end = 0;
+        foreach ($merged_ranges as $range) {
+            $out .= mb_substr($text, $last_end, $range[0] - $last_end);
+            $out .= $start_tag;
+            $out .= mb_substr($text, $range[0], $range[1] - $range[0]);
+            $out .= $end_tag;
+            $last_end = $range[1];
+        }
+        $out .= mb_substr($text, $last_end);
+        return $out;
+    }
+
+    /**
+     * @param array<array{0:int, 1:int}> $ranges
+     *
+     * @return array<array{0:int, 1:int}>
+     */
+    public function normalizeRanges(array $ranges): array {
+        usort($ranges, fn ($a, $b) => $a[0] <=> $b[0]);
+        $normalized_ranges = [];
+        $num_ranges = count($ranges);
+        $i = 0;
+        while ($i < $num_ranges) {
+            $range = $ranges[$i];
+            $start = $range[0];
+            $end = $range[1];
+            while ($i + 1 < $num_ranges && $ranges[$i + 1][0] <= $end) { // merge next range
+                $end = max($end, $ranges[$i + 1][1]);
+                $i++;
+            }
+            $normalized_ranges[] = [$start, $end];
+            $i++;
+        }
+        return $normalized_ranges;
     }
 
     public static function fromEnv(): self {

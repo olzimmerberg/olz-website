@@ -18,6 +18,10 @@ class OlzFaqDetailParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzFaqDetail extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'Fragen & Antworten';
     }
@@ -34,13 +38,13 @@ class OlzFaqDetail extends OlzRootComponent {
                 'icon' => "{$code_href}assets/icns/question_mark_20.svg",
                 'date' => null,
                 'title' => $question->getQuestion() ?: '?',
-                'text' => $question->getIdent()." ".$question->getAnswer(),
+                'text' => strip_tags("{$question->getIdent()} {$question->getAnswer()}") ?: null,
             ], $terms);
         }
         return $results;
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzFaqDetailParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $entityManager = $this->dbUtils()->getEntityManager();

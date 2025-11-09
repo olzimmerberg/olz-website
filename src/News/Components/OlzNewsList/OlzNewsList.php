@@ -23,11 +23,15 @@ class OlzNewsListParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzNewsList extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'TODO';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
 
@@ -36,7 +40,7 @@ class OlzNewsList extends OlzRootComponent {
 
     public static int $page_size = 25;
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzNewsListParams::class);
         $db = $this->dbUtils()->getDb();
         $entityManager = $this->dbUtils()->getEntityManager();

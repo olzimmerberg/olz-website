@@ -7,6 +7,7 @@ namespace Olz\Tests\UnitTests\Suche\Utils;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Suche\Utils\SearchUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal
@@ -15,6 +16,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
  */
 final class SearchUtilsTest extends UnitTestCase {
     public function testGetSearchResults(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $utils = new SearchUtils();
         $this->assertSame([
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
@@ -51,7 +53,53 @@ final class SearchUtilsTest extends UnitTestCase {
             ['title' => 'Suche', 'bestScore' => null, 'results' => []],
             ['title' => 'Termine', 'bestScore' => null, 'results' => []],
             ['title' => 'Termin-Listen', 'bestScore' => null, 'results' => []],
+            ['title' => 'Termin-Orte', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+        ], $utils->getSearchResults(['test']));
+    }
+
+    public function testGetSearchResultsAdmin(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        $utils = new SearchUtils();
+        $this->assertSame([
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fragen & Antworten', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Karten', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'News', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Ressorts', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Service', 'bestScore' => null, 'results' => []],
+            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Suche', 'bestScore' => null, 'results' => []],
+            ['title' => 'Termine', 'bestScore' => null, 'results' => []],
+            ['title' => 'Termin-Listen', 'bestScore' => null, 'results' => []],
+            ['title' => 'Termin-Orte', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],

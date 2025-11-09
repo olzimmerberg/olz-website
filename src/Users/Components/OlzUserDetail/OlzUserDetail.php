@@ -9,15 +9,19 @@ use Olz\Entity\Users\User;
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzUserDetail extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'TODO';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $args['id']]);

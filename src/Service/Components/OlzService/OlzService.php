@@ -18,6 +18,10 @@ class OlzServiceParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzService extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'Service';
     }
@@ -53,7 +57,7 @@ class OlzService extends OlzRootComponent {
     public static string $title = "Service";
     public static string $description = "Diverse Online-Tools rund um OL und die OL Zimmerberg.";
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzServiceParams::class);
 
         $out = OlzHeader::render([

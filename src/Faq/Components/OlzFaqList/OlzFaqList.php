@@ -19,18 +19,22 @@ class OlzFaqListParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzFaqList extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'TODO';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         return [];
     }
 
     public static string $title = "Fragen & Antworten";
     public static string $description = "Antworten auf die wichtigsten Fragen rund um den OL, die OL Zimmerberg und diese Website.";
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzFaqListParams::class);
         $code_href = $this->envUtils()->getCodeHref();
         $entityManager = $this->dbUtils()->getEntityManager();

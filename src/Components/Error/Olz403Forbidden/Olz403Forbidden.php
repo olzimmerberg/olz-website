@@ -13,7 +13,7 @@ class Olz403Forbidden extends OlzComponent {
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
-            'title' => "Fehler",
+            'title' => "Fehler 403 Verboten",
             'skip_auth_menu' => true,
         ], $this);
         $out .= "<div class='content-full'>";

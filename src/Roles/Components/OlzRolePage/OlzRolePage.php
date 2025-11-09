@@ -15,6 +15,10 @@ class OlzRolePageParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzRolePage extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
     public function getSearchTitle(): string {
         return 'Ressorts';
     }
@@ -31,13 +35,13 @@ class OlzRolePage extends OlzRootComponent {
                 'icon' => "{$code_href}assets/icns/link_role_16.svg",
                 'date' => null,
                 'title' => $role->getName() ?: '?',
-                'text' => "{$role->getUsername()} {$role->getOldUsername()} {$role->getDescription()}",
+                'text' => strip_tags("{$role->getUsername()} {$role->getOldUsername()} {$role->getDescription()}") ?: null,
             ], $terms);
         }
         return $results;
     }
 
-    public function getHtml(mixed $args): string {
+    public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzRolePageParams::class);
         $is_member = $this->authUtils()->hasPermission('member');
         $entityManager = $this->dbUtils()->getEntityManager();

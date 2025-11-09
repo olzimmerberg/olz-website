@@ -13,7 +13,7 @@ class Olz401Unauthorized extends OlzComponent {
 
         $out = '';
         $out .= OlzHeaderWithoutRouting::render([
-            'title' => "Fehler",
+            'title' => "Fehler 401 Nicht eingeloggt",
             'skip_auth_menu' => true,
         ], $this);
         $out .= "<div class='content-full'>";

@@ -60,6 +60,25 @@ class HttpUtils {
         $this->log()->debug("Counter: Counted {$path}{$pretty_query} (user agent: {$user_agent})");
     }
 
+    /** @param array<string> $get_params */
+    public function stripParams(Request $request, array $get_params = []): void {
+        $should_strip = false;
+        $query = [];
+        foreach ($request->query->all() as $key => $value) {
+            if (in_array($key, $get_params)) {
+                $should_strip = true;
+            } elseif (is_string($value)) {
+                $query[] = "{$key}={$value}";
+            }
+        }
+        if (!$should_strip) {
+            return;
+        }
+        $path = "{$request->getBasePath()}{$request->getPathInfo()}";
+        $pretty_query = empty($query) ? '' : '?'.implode('&', $query);
+        $this->redirect("{$path}{$pretty_query}", 308);
+    }
+
     public function dieWithHttpError(int $http_status_code): void {
         $this->sendHttpResponseCode($http_status_code);
 

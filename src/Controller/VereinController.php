@@ -20,6 +20,7 @@ class VereinController extends AbstractController {
         OlzVerein $olzVerein,
     ): Response {
         $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzVerein->getHtml([]);
         return new Response($out);
     }
@@ -33,6 +34,7 @@ class VereinController extends AbstractController {
         string $ressort,
     ): Response {
         $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzRolePage->getHtml(['ressort' => $ressort]);
         return new Response($out);
     }

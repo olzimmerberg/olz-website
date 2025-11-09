@@ -25,6 +25,7 @@ class NewsController extends AbstractController {
         OlzNewsList $olzNewsList,
     ): Response {
         $httpUtils->countRequest($request, ['filter', 'von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzNewsList->getHtml([]);
         return new Response($out);
     }
@@ -38,6 +39,7 @@ class NewsController extends AbstractController {
         int $id,
     ): Response {
         $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzNewsDetail->getHtml(['id' => $id]);
         return new Response($out);
     }

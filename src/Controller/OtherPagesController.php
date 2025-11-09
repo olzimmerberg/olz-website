@@ -37,6 +37,7 @@ class OtherPagesController extends AbstractController {
         OlzFuerEinsteiger $olzFuerEinsteiger,
     ): Response {
         $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzFuerEinsteiger->getHtml([]);
         return new Response($out);
     }

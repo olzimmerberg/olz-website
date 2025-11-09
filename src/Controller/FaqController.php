@@ -20,6 +20,7 @@ class FaqController extends AbstractController {
         OlzFaqList $olzFaqList,
     ): Response {
         $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzFaqList->getHtml([]);
         return new Response($out);
     }
@@ -33,6 +34,7 @@ class FaqController extends AbstractController {
         string $ident,
     ): Response {
         $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzFaqDetail->getHtml(['ident' => $ident]);
         return new Response($out);
     }

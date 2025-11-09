@@ -25,6 +25,7 @@ class TermineController extends AbstractController {
         OlzTermineList $olzTermineList,
     ): Response {
         $httpUtils->countRequest($request, ['filter', 'von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzTermineList->getHtml([]);
         return new Response($out);
     }
@@ -38,6 +39,7 @@ class TermineController extends AbstractController {
         int $id,
     ): Response {
         $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzTerminDetail->getHtml(['id' => $id]);
         return new Response($out);
     }

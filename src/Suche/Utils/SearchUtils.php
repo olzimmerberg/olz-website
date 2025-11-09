@@ -250,30 +250,98 @@ class SearchUtils {
     }
 
     /** @param array<string> $search_terms */
-    public function getCutout(string $text, array $search_terms): string {
-        $length_a = 40;
-        $length_b = 40;
+    public function getCutout(string $text, array $search_terms, int $size = 100): string {
+        $offsets_by_term = $this->getOffsets($text, $search_terms);
 
-        $lowercase_text = strtolower($text);
-        $start = 0;
+        $text_length = mb_strlen($text);
+        $term_lengths = [];
+        $term_scores = [];
         foreach ($search_terms as $search_term) {
-            $search_key = strtolower($search_term);
-            $start = strpos($lowercase_text, $search_key);
-            if ($start > 0) {
-                break;
+            $term_length = mb_strlen($search_term);
+            $term_lengths[] = $term_length;
+            $term_scores[] = log($term_length) + 1;
+        }
+
+        $all_end_offsets = [];
+        for ($i = 0; $i < count($offsets_by_term); $i++) {
+            $term_length = $term_lengths[$i];
+            foreach ($offsets_by_term[$i] as $offset) {
+                $all_end_offsets[] = $offset + $term_length;
             }
         }
-        $prefix = "...";
-        $suffix = "...";
-        if (($start - $length_a) < 0) {
-            $start = $length_a;
-            $prefix = "";
+        $all_end_offsets[] = $text_length;
+        sort($all_end_offsets);
+
+        $best_cutout_start = 0;
+        $best_cutout_end = 0;
+        $best_cutout_score = 0;
+        $start_idxs = array_map(fn () => -1, $search_terms);
+        $end_idxs = array_map(fn () => -1, $search_terms);
+        $after_all = $text_length + 1;
+        foreach ($all_end_offsets as $offset) {
+            $start = $offset;
+            $score = 1;
+            for ($i = 0; $i < count($search_terms); $i++) {
+                $term_length = $term_lengths[$i];
+                $offsets = $offsets_by_term[$i];
+                while (($offsets[$end_idxs[$i] + 1] ?? $after_all) + $term_length <= $offset) {
+                    $end_idxs[$i]++;
+                }
+                while (($offsets[$start_idxs[$i] + 1] ?? $after_all) < $offset - $size) {
+                    $start_idxs[$i]++;
+                }
+                $num = $end_idxs[$i] - $start_idxs[$i];
+                $term_score = $term_scores[$i];
+                $score *= ($num * $term_score) + 1;
+                if (($offsets[$start_idxs[$i] + 1] ?? $after_all) < $start) {
+                    $start = $offsets[$start_idxs[$i] + 1];
+                }
+            }
+            if ($score > $best_cutout_score) {
+                $best_cutout_score = $score;
+                $best_cutout_start = $start;
+                $best_cutout_end = $offset;
+            }
         }
-        if (strlen($text) < ($length_a + $length_b)) {
-            $suffix = "";
+        $best_cutout_length = $best_cutout_end - $best_cutout_start;
+        $margin_size = ($size - $best_cutout_length) / 2;
+        $offset = max(0, min($text_length - $size, $best_cutout_start - intval($margin_size)));
+        return implode('', [
+            $offset === 0 ? '' : '…',
+            trim(mb_substr($text, $offset, $size)),
+            ($offset + $size >= $text_length) ? '' : '…',
+        ]);
+    }
+
+    /**
+     * @param array<string> $search_terms
+     *
+     * @return array<array<int>>
+     */
+    public function getOffsets(string $text, array $search_terms): array {
+        $text_length = mb_strlen($text);
+        $offsets_by_term = [];
+        foreach ($search_terms as $search_term) {
+            $term_length = mb_strlen($search_term);
+            $term_regex = preg_quote($search_term);
+            $parts = preg_split("/({$term_regex})/ui", $text) ?: [];
+            $part_lengths = array_map(fn ($part) => mb_strlen($part), $parts);
+            unset($parts);
+            $offsets = [];
+            $offset = 0;
+            $sanity_check = false;
+            foreach ($part_lengths as $part_length) {
+                $offset += $part_length;
+                $sanity_check = $offset === $text_length;
+                if (!$sanity_check) { // Don't add the last offset; it's just the text length
+                    $offsets[] = $offset;
+                }
+                $offset += $term_length;
+            }
+            assert($sanity_check, 'Cutout offset sanity check failed');
+            $offsets_by_term[] = $offsets;
         }
-        $text = substr($text, $start - $length_a, $length_a + $length_b);
-        return "{$prefix}{$text}{$suffix}";
+        return $offsets_by_term;
     }
 
     /** @param array<string> $search_terms */

@@ -181,11 +181,65 @@ final class SearchUtilsTest extends UnitTestCase {
 
         $this->assertSame('', $utils->getCutout('', []));
         $this->assertSame('test', $utils->getCutout('test', []));
+        $this->assertSame('', $utils->getCutout('', ['test']));
         $this->assertSame('test', $utils->getCutout('test', ['test']));
+
+        $this->assertSame(
+            'Just test this Test, man!',
+            $utils->getCutout('Just test this Test, man!', ['test'])
+        );
+        $this->assertSame(
+            '…test…',
+            $utils->getCutout('Just test this Test, man!', ['test'], 4)
+        );
+        $this->assertSame(
+            '…test…', // white space is trimmed
+            $utils->getCutout('Just test this Test, man!', ['test'], 6)
+        );
+        $this->assertSame(
+            '…test t…',
+            $utils->getCutout('Just test this Test, man!', ['test'], 7)
+        );
+        $this->assertSame(
+            '…t test t…',
+            $utils->getCutout('Just test this Test, man!', ['test'], 8)
+        );
+        $this->assertSame(
+            '…test this Test…',
+            $utils->getCutout('Just test this Test, man!', ['test'], 14)
+        );
+        $this->assertSame(
+            '…test this Test,…', // white space is trimmed
+            $utils->getCutout('Just test this Test, man!', ['test'], 16)
+        );
+        $this->assertSame(
+            '…t test this Test,…', // white space is trimmed
+            $utils->getCutout('Just test this Test, man!', ['test'], 18)
+        );
+        $this->assertSame(
+            '…st test this Test, m…', // white space is trimmed
+            $utils->getCutout('Just test this Test, man!', ['test'], 20)
+        );
 
         $sentence = 'The quick brown fox jumps over the lazy dog';
         $this->assertSame($sentence, $utils->getCutout($sentence, []));
-        $this->assertSame($sentence, $utils->getCutout($sentence, ['fox', 'dog']));
+        $this->assertSame($sentence, $utils->getCutout($sentence, ['fox', 'brown']));
+        $this->assertSame('…fox…', $utils->getCutout($sentence, ['fox', 'brown'], 3));
+        $this->assertSame('…brown…', $utils->getCutout($sentence, ['fox', 'brown'], 5));
+        $this->assertSame('…brown fox…', $utils->getCutout($sentence, ['fox', 'brown'], 9));
+        $this->assertSame('…ck brown fox ju…', $utils->getCutout($sentence, ['fox', 'brown'], 15));
+    }
+
+    public function testGetCutoutMultibyte(): void {
+        $utils = new SearchUtils();
+
+        $sentence = 'Äfach dä Test ämal teste, Löli!';
+        $this->assertSame($sentence, $utils->getCutout($sentence, []));
+        $this->assertSame($sentence, $utils->getCutout($sentence, ['test', 'dä']));
+        $this->assertSame('…dä…', $utils->getCutout($sentence, ['test', 'dä'], 2));
+        $this->assertSame('…Test…', $utils->getCutout($sentence, ['test', 'dä'], 4));
+        $this->assertSame('…dä Test…', $utils->getCutout($sentence, ['test', 'dä'], 7));
+        $this->assertSame('…ch dä Test äm…', $utils->getCutout($sentence, ['test', 'dä'], 13));
     }
 
     public function testHighlight(): void {

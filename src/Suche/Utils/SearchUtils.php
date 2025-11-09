@@ -251,6 +251,7 @@ class SearchUtils {
 
     /** @param array<string> $search_terms */
     public function getCutout(string $text, array $search_terms, int $size = 100): string {
+        $text = $this->censorEmails($text);
         $offsets_by_term = $this->getOffsets($text, $search_terms);
 
         $text_length = mb_strlen($text);
@@ -311,6 +312,10 @@ class SearchUtils {
             trim(mb_substr($text, $offset, $size)),
             ($offset + $size >= $text_length) ? '' : '…',
         ]);
+    }
+
+    public function censorEmails(string $text): string {
+        return preg_replace('/([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+)/', '***@***', $text) ?? '';
     }
 
     /**

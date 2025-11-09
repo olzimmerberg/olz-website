@@ -263,6 +263,17 @@ final class SearchUtilsTest extends UnitTestCase {
         $this->assertSame([[1, 4], [2, 5]], $utils->getOffsets('ÄÖÜäöÜ', ['ö', 'ü']));
     }
 
+    public function testCensorEmails(): void {
+        $utils = new SearchUtils();
+
+        $this->assertSame('', $utils->censorEmails(''));
+        $this->assertSame('***@***', $utils->censorEmails('e.mail+test@other-domain.com'));
+        $this->assertSame('***@***', $utils->censorEmails('vorstand_role@staging.olzimmerberg.ch'));
+        $this->assertSame('***@***', $utils->censorEmails('inexistent@staging.olzimmerberg.ch'));
+        $this->assertSame('***@***', $utils->censorEmails('vorstand@staging.olzimmerberg.ch'));
+        $this->assertSame('E-Mail:***@*** Weiter', $utils->censorEmails('E-Mail:e.mail@other-domain.com. Weiter'));
+    }
+
     public function testHighlight(): void {
         $utils = new SearchUtils();
         $start_tag = '<span class="highlight">';

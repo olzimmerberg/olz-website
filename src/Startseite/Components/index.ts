@@ -1,3 +1,4 @@
+export * from './OlzAnniversaryTile/OlzAnniversaryTile';
 export * from './OlzCustomizableHome/OlzCustomizableHome';
 export * from './OlzEditWeeklyPictureModal/OlzEditWeeklyPictureModal';
 export * from './OlzForBeginnersTile/OlzForBeginnersTile';

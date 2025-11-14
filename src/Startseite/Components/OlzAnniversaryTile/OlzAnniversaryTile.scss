@@ -1,0 +1,52 @@
+.anniversary-container {
+    display: block;
+    height: 220px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 3px;
+
+    .anniversary-h3 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+        padding: 10px 0 5px;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .all-bar {
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+        width: 30px;
+        height: 160px;
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    .done-bar {
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+        width: 30px;
+        background-color: #008800;
+    }
+
+    .rocket {
+        position: absolute;
+        left: 0px;
+
+        svg {
+            width: 50px;
+        }
+    }
+
+    &:hover {
+        background-color: #00aa00;
+
+        .anniversary-h3 {
+            // text-shadow: 1px 1px 3px #000;
+        }
+    }
+}

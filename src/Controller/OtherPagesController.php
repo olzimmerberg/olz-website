@@ -2,6 +2,8 @@
 
 namespace Olz\Controller;
 
+use Olz\Components\OtherPages\OlzAnniversary\OlzAnniversary;
+use Olz\Components\OtherPages\OlzAnniversaryRocket\OlzAnniversaryRocket;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
@@ -51,6 +53,26 @@ class OtherPagesController extends AbstractController {
     ): Response {
         $httpUtils->countRequest($request);
         $out = $olzMaterial->getHtml([]);
+        return new Response($out);
+    }
+
+    #[Route('/2026')]
+    public function anniversary(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzAnniversary $olzAnniversary,
+    ): Response {
+        $httpUtils->countRequest($request);
+        $out = $olzAnniversary->getHtml([]);
+        return new Response($out);
+    }
+
+    #[Route('/2026/rakete.svg')]
+    public function rakete(
+        OlzAnniversaryRocket $olzAnniversaryRocket,
+    ): Response {
+        $out = $olzAnniversaryRocket->getHtml([]);
         return new Response($out);
     }
 

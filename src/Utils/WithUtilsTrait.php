@@ -31,6 +31,7 @@ trait WithUtilsTrait {
     use SearchUtilsTrait;
     use SessionTrait;
     use SolvFetcherTrait;
+    use StravaUtilsTrait;
     use SymfonyUtilsTrait;
     use TelegramUtilsTrait;
     use TermineUtilsTrait;

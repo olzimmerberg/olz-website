@@ -19,12 +19,18 @@ class OlzApi extends Api {
         Endpoints\VerifyUserEmailEndpoint $verifyUserEmailEndpoint,
         Endpoints\UpdateUserPasswordEndpoint $updateUserPasswordEndpoint,
         Endpoints\ExecuteEmailReactionEndpoint $executeEmailReactionEndpoint,
+        Endpoints\LinkStravaEndpoint $linkStravaEndpoint,
         Endpoints\LinkTelegramEndpoint $linkTelegramEndpoint,
         Endpoints\OnTelegramEndpoint $onTelegramEndpoint,
         Endpoints\StartUploadEndpoint $startUploadEndpoint,
         Endpoints\UpdateUploadEndpoint $updateUploadEndpoint,
         Endpoints\FinishUploadEndpoint $finishUploadEndpoint,
         Endpoints\SearchEntitiesEndpoint $searchEntitiesEndpoint,
+        \Olz\Anniversary\Endpoints\CreateRunEndpoint $createRunEndpoint,
+        \Olz\Anniversary\Endpoints\GetRunEndpoint $getRunEndpoint,
+        \Olz\Anniversary\Endpoints\EditRunEndpoint $editRunEndpoint,
+        \Olz\Anniversary\Endpoints\UpdateRunEndpoint $updateRunEndpoint,
+        \Olz\Anniversary\Endpoints\DeleteRunEndpoint $deleteRunEndpoint,
         \Olz\Karten\Endpoints\CreateKarteEndpoint $createKarteEndpoint,
         \Olz\Karten\Endpoints\GetKarteEndpoint $getKarteEndpoint,
         \Olz\Karten\Endpoints\EditKarteEndpoint $editKarteEndpoint,
@@ -112,6 +118,7 @@ class OlzApi extends Api {
         $this->registerEndpoint('verifyUserEmail', $verifyUserEmailEndpoint);
         $this->registerEndpoint('updatePassword', $updateUserPasswordEndpoint);
         $this->registerEndpoint('executeEmailReaction', $executeEmailReactionEndpoint);
+        $this->registerEndpoint('linkStrava', $linkStravaEndpoint);
         $this->registerEndpoint('linkTelegram', $linkTelegramEndpoint);
         $this->registerEndpoint('onTelegram', $onTelegramEndpoint);
         $this->registerEndpoint('startUpload', $startUploadEndpoint);
@@ -163,6 +170,14 @@ class OlzApi extends Api {
         $this->registerEndpoint('addUserRoleMembership', $addUserRoleMembershipEndpoint);
         $this->registerEndpoint('removeUserRoleMembership', $removeUserRoleMembershipEndpoint);
         $this->registerEndpoint('getRoleInfo', $getRoleInfoEndpoint);
+
+        // Runs
+
+        $this->registerEndpoint('createRun', $createRunEndpoint);
+        $this->registerEndpoint('getRun', $getRunEndpoint);
+        $this->registerEndpoint('editRun', $editRunEndpoint);
+        $this->registerEndpoint('updateRun', $updateRunEndpoint);
+        $this->registerEndpoint('deleteRun', $deleteRunEndpoint);
 
         // Snippets
 

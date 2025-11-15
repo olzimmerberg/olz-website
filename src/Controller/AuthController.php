@@ -3,6 +3,7 @@
 namespace Olz\Controller;
 
 use Olz\Components\Auth\OlzEmailReaktion\OlzEmailReaktion;
+use Olz\Components\Auth\OlzStravaRedirect\OlzStravaRedirect;
 use Olz\Utils\EnvUtils;
 use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
@@ -21,6 +22,17 @@ class AuthController extends AbstractController {
     ): Response {
         $httpUtils->countRequest($request);
         $out = $olzEmailReaktion->getHtml([]);
+        return new Response($out);
+    }
+
+    #[Route('/strava_redirect')]
+    public function stravaLink(
+        Request $request,
+        HttpUtils $httpUtils,
+        OlzStravaRedirect $olzStravaRedirect,
+    ): Response {
+        $httpUtils->countRequest($request);
+        $out = $olzStravaRedirect->getHtml([]);
         return new Response($out);
     }
 

@@ -6,7 +6,7 @@
 
 namespace Olz\Startseite\Components\OlzAnniversaryTile;
 
-use Olz\Components\OtherPages\OlzAnniversaryRocket\OlzAnniversaryRocket;
+use Olz\Anniversary\Components\OlzAnniversaryRocket\OlzAnniversaryRocket;
 use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
@@ -30,7 +30,7 @@ class OlzAnniversaryTile extends AbstractOlzTile {
                 <h3 class='anniversary-h3'>🥳 20 Jahre OL Zimmerberg</h3>
                 <div class='all-bar'></div>
                 <div class='done-bar' style='height: {$done_hei}px;'></div>
-                <div class='rocket' style='bottom: {$rocket_hei}px;'>{$rocket}</div>
+                <div class='rocket test-flaky' style='bottom: {$rocket_hei}px;'>{$rocket}</div>
             </a>
             ZZZZZZZZZZ;
     }

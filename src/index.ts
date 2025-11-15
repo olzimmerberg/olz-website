@@ -8,6 +8,7 @@ import lgVideo from 'lightgallery/plugins/video';
 
 import './index.scss';
 
+export * from './Anniversary/index';
 export * from './Apps/index';
 export * from './Components/index';
 export * from './Faq/index';

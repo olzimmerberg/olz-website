@@ -4,7 +4,7 @@ import {isBot} from '../../../src/Utils/httpUtils';
 
 describe('isBot', () => {
     // see jestEnv.js
-    
+
     it('returns true for bot', () => {
         expect(isBot('Is_a_Bot')).toBe(true);
     });

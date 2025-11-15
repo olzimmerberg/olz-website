@@ -44,6 +44,10 @@ export type OlzRoleMembershipIds = {'roleId': number, 'userId': number};
 
 export type OlzRoleInfoData = {'name'?: (string | null), 'username'?: (string | null), 'assignees': Array<{'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: {[key: string]: string}}>};
 
+export type OlzRunData = {'userId'?: (number | null), 'runAt'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'distanceMeters': number, 'elevationMeters': number, 'source'?: (string | null)};
+
+export type OlzRunId = number;
+
 export type OlzSnippetId = number;
 
 export type OlzSnippetData = {'text': string, 'imageIds': Array<string>, 'fileIds': Array<string>};
@@ -141,6 +145,7 @@ export type OlzApiEndpoint =
     'verifyUserEmail'|
     'updatePassword'|
     'executeEmailReaction'|
+    'linkStrava'|
     'linkTelegram'|
     'onTelegram'|
     'startUpload'|
@@ -176,6 +181,11 @@ export type OlzApiEndpoint =
     'addUserRoleMembership'|
     'removeUserRoleMembership'|
     'getRoleInfo'|
+    'createRun'|
+    'getRun'|
+    'editRun'|
+    'updateRun'|
+    'deleteRun'|
     'getSnippet'|
     'editSnippet'|
     'updateSnippet'|
@@ -261,6 +271,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     verifyUserEmail: (Record<string, never> | null),
     updatePassword: {'id': number, 'oldPassword': string, 'newPassword': string},
     executeEmailReaction: {'token': string},
+    linkStrava: {'code': string},
     linkTelegram: (Record<string, never> | null),
     onTelegram: {'authenticityCode': string, 'telegramEvent': string},
     startUpload: {'suffix'?: (string | null)},
@@ -296,6 +307,11 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     addUserRoleMembership: {'ids': OlzRoleMembershipIds, 'custom'?: never},
     removeUserRoleMembership: {'ids': OlzRoleMembershipIds, 'custom'?: never},
     getRoleInfo: {'id': OlzRoleId, 'captchaToken'?: (string | null)},
+    createRun: {'meta': OlzMetaData, 'data': OlzRunData, 'custom'?: never},
+    getRun: {'id': OlzRunId, 'custom'?: never},
+    editRun: {'id': OlzRunId, 'custom'?: never},
+    updateRun: {'id': OlzRunId, 'meta': OlzMetaData, 'data': OlzRunData, 'custom'?: never},
+    deleteRun: {'id': OlzRunId, 'custom'?: never},
     getSnippet: {'id': OlzSnippetId, 'custom'?: never},
     editSnippet: {'id': OlzSnippetId, 'custom'?: never},
     updateSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
@@ -380,6 +396,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     verifyUserEmail: {'status': ('OK' | 'ERROR')},
     updatePassword: {'status': ('OK' | 'OTHER_USER' | 'INVALID_OLD')},
     executeEmailReaction: {'status': ('INVALID_TOKEN' | 'OK')},
+    linkStrava: Record<string, never>,
     linkTelegram: {'botName': string, 'pin': string},
     onTelegram: (Record<string, never> | null),
     startUpload: {'status': ('OK' | 'ERROR'), 'id'?: (string | null)},
@@ -415,6 +432,11 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     addUserRoleMembership: {'custom'?: never},
     removeUserRoleMembership: {'custom'?: never},
     getRoleInfo: OlzRoleInfoData,
+    createRun: {'id'?: (OlzRunId | null), 'custom'?: never},
+    getRun: {'id': OlzRunId, 'meta': OlzMetaData, 'data': OlzRunData, 'custom'?: never},
+    editRun: {'id': OlzRunId, 'meta': OlzMetaData, 'data': OlzRunData, 'custom'?: never},
+    updateRun: {'id': OlzRunId, 'custom'?: never},
+    deleteRun: {'custom'?: never},
     getSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
     editSnippet: {'id': OlzSnippetId, 'meta': OlzMetaData, 'data': OlzSnippetData, 'custom'?: never},
     updateSnippet: {'id': OlzSnippetId, 'custom'?: never},

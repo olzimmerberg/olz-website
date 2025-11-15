@@ -126,6 +126,14 @@ class OnContinuouslyCommand extends OlzCommand {
             );
         });
 
+        $this->every('10 minutes', 'sync-strava', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:sync-strava',
+                new ArrayInput(['2025']),
+                $output,
+            );
+        });
+
         $this->logAndOutput("Stopping workers...", level: 'debug');
         $this->symfonyUtils()->callCommand(
             'messenger:stop-workers',
@@ -179,6 +187,31 @@ class OnContinuouslyCommand extends OlzCommand {
             }
             $pretty_reason = implode(", ", $pretty_reasons);
             $this->log()->debug("Not executing daily ({$time}) {$ident}: {$pretty_reason}");
+        }
+    }
+
+    public function every(string $interval, string $ident, callable $fn): void {
+        $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
+        $last_occurrence = $throttling_repo->getLastOccurrenceOf($ident);
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $is_too_soon = false;
+        if ($last_occurrence) {
+            $min_interval = \DateInterval::createFromDateString("+{$interval}");
+            $this->generalUtils()->checkNotFalse($min_interval, "Invalid interval: +{$interval}");
+            $min_now = $last_occurrence->add($min_interval);
+            $is_too_soon = $now < $min_now;
+        }
+        $should_execute_now = !$is_too_soon;
+        if ($should_execute_now) {
+            try {
+                $this->logAndOutput("Executing {$ident} (every {$interval})...", level: 'info');
+                $fn();
+                $throttling_repo->recordOccurrenceOf($ident, $this->dateUtils()->getIsoNow());
+            } catch (\Throwable $th) {
+                $this->logAndOutput("Executing {$ident} (every {$interval}) failed", level: 'error');
+            }
+        } else {
+            $this->log()->debug("Not executing {$ident} (every {$interval}): too soon");
         }
     }
 

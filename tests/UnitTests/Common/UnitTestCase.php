@@ -26,6 +26,7 @@ use Olz\Tests\Fake\FakeLogHandler;
 use Olz\Tests\Fake\FakeNewsUtils;
 use Olz\Tests\Fake\FakeSearchUtils;
 use Olz\Tests\Fake\FakeSession;
+use Olz\Tests\Fake\FakeStravaUtils;
 use Olz\Tests\Fake\FakeSymfonyUtils;
 use Olz\Tests\Fake\FakeTelegramUtils;
 use Olz\Tests\Fake\FakeTermineUtils;
@@ -102,6 +103,7 @@ class UnitTestCase extends TestCase {
             'newsUtils' => new FakeNewsUtils(),
             'searchUtils' => new FakeSearchUtils(),
             'session' => new FakeSession(),
+            'stravaUtils' => new FakeStravaUtils(),
             'symfonyUtils' => new FakeSymfonyUtils(),
             'telegramUtils' => new FakeTelegramUtils(),
             'termineUtils' => new FakeTermineUtils(),

@@ -32,7 +32,7 @@ export function getResolverResult<T extends FieldValues>(
             errors[key] = errorValue;
         }
     }
-    return {errors, values: hasErrors ? {} : values};
+    return hasErrors ? {errors, values: {}} : {errors: {}, values};
 }
 
 // Boolean

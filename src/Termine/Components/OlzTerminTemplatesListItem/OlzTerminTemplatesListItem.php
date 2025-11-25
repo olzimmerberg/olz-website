@@ -36,10 +36,10 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         }, $labels));
 
         $duration_seconds_or_zero = $duration_seconds ?? 0;
-        $duration_interval = \DateInterval::createFromDateString(
-            "+{$duration_seconds_or_zero} seconds"
-        );
-        $start_time_or_midnight = $start_time ? (clone $start_time) : new \DateTime('00:00:00');
+        $duration_string = "+{$duration_seconds_or_zero} seconds";
+        $duration_interval = \DateInterval::createFromDateString($duration_string);
+        $this->generalUtils()->checkNotFalse($duration_interval, "Invalid duration: {$duration_string}");
+        $start_time_or_midnight = new \DateTime($start_time?->format('Y-m-d H:i:s') ?? '00:00:00');
         $end_time = $duration_seconds
             ? $start_time_or_midnight->add($duration_interval) : null;
         $end_time_text = $this->getTimeText($end_time);

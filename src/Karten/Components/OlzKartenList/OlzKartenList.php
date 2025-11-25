@@ -64,7 +64,7 @@ class OlzKartenList extends OlzComponent {
             // @phpstan-ignore-next-line
             $karte->setPreviewImageId($row['vorschau']);
 
-            $kind = $row['typ'];
+            $kind = "{$row['typ']}";
             $icon = null;
             if ($kind == 'ol') {
                 $icon = 'orienteering_forest_16.svg';

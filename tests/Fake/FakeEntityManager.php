@@ -26,6 +26,7 @@ use Olz\Entity\AccessToken;
 use Olz\Entity\Anmelden\Booking;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
+use Olz\Entity\Anniversary\RunRecord;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\Counter;
 use Olz\Entity\Faq\Question;
@@ -54,6 +55,7 @@ use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Anmelden\FakeBookingRepository;
 use Olz\Tests\Fake\Entity\Anmelden\FakeRegistrationInfoRepository;
 use Olz\Tests\Fake\Entity\Anmelden\FakeRegistrationRepository;
+use Olz\Tests\Fake\Entity\Anniversary\FakeRunRecordRepository;
 use Olz\Tests\Fake\Entity\FakeAccessTokenRepository;
 use Olz\Tests\Fake\Entity\FakeAuthRequestRepository;
 use Olz\Tests\Fake\Entity\FakeCounterRepository;
@@ -113,6 +115,7 @@ class FakeEntityManager implements EntityManagerInterface {
             Registration::class => new FakeRegistrationRepository($this),
             RegistrationInfo::class => new FakeRegistrationInfoRepository($this),
             Role::class => new FakeRoleRepository($this),
+            RunRecord::class => new FakeRunRecordRepository($this),
             Skill::class => new FakeSkillRepository($this),
             SkillCategory::class => new FakeSkillCategoryRepository($this),
             SkillLevel::class => new FakeSkillLevelRepository($this),

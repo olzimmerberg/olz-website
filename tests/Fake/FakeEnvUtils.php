@@ -23,6 +23,14 @@ class FakeEnvUtils extends EnvUtils {
         return 'some-secret-key';
     }
 
+    public function getStravaClientId(): string {
+        return 'fake-strava-client-id';
+    }
+
+    public function getStravaClientSecret(): string {
+        return 'fake-strava-client-secret';
+    }
+
     public function getTelegramAuthenticityCode(): string {
         return 'some-token';
     }

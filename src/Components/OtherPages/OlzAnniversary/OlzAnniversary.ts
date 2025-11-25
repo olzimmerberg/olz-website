@@ -1,1 +1,0 @@
-import './OlzAnniversary.scss';

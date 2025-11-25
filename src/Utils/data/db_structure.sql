@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20250618220717
+-- MIGRATION: DoctrineMigrations\Version20251125174358
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -120,6 +120,39 @@ CREATE TABLE `anmelden_registration_infos` (
   CONSTRAINT `FK_D8B1DD497D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_D8B1DD49833D8F43` FOREIGN KEY (`registration_id`) REFERENCES `anmelden_registrations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `anniversary_runs` (
+  `on_off` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `run_at` datetime NOT NULL,
+  `distance_meters` int(11) NOT NULL,
+  `elevation_meters` int(11) NOT NULL,
+  `source` varchar(255) DEFAULT NULL,
+  `info` longtext DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `owner_role_id` int(11) DEFAULT NULL,
+  `created_by_user_id` int(11) DEFAULT NULL,
+  `last_modified_by_user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_9B3F75262B18554A` (`owner_user_id`),
+  KEY `IDX_9B3F75265A75A473` (`owner_role_id`),
+  KEY `IDX_9B3F75267D182D95` (`created_by_user_id`),
+  KEY `IDX_9B3F75261A04EF5A` (`last_modified_by_user_id`),
+  KEY `IDX_9B3F7526A76ED395` (`user_id`),
+  KEY `run_at_index` (`run_at`),
+  KEY `source_index` (`source`),
+  CONSTRAINT `FK_9B3F75261A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_9B3F75262B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_9B3F75265A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_9B3F75267D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_9B3F7526A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -674,6 +707,8 @@ CREATE TABLE `strava_links` (
   `expires_at` datetime NOT NULL,
   `refresh_token` longtext NOT NULL,
   `strava_user` longtext NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `linked_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id_index` (`user_id`),
   CONSTRAINT `FK_72D84739A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)

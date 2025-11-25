@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20250618220717
+-- MIGRATION: DoctrineMigrations\Version20251125174358
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,6 +19,8 @@ VALUES
 -- Table anmelden_registration_infos
 
 -- Table anmelden_registrations
+
+-- Table anniversary_runs
 
 -- Table auth_requests
 -- (auth_requests omitted)
@@ -98,7 +100,8 @@ VALUES
     ('DoctrineMigrations\\Version20250428113621', '2025-04-28 13:59:29', '56'),
     ('DoctrineMigrations\\Version20250513214853', '2025-05-13 23:50:47', '598'),
     ('DoctrineMigrations\\Version20250526204822', '2025-05-29 21:16:25', '669'),
-    ('DoctrineMigrations\\Version20250618220717', '2025-06-19 00:07:51', '81');
+    ('DoctrineMigrations\\Version20250618220717', '2025-06-19 00:07:51', '81'),
+    ('DoctrineMigrations\\Version20251125174358', '2025-11-25 18:44:24', '438');
 
 -- Table downloads
 INSERT INTO downloads
@@ -144,6 +147,7 @@ VALUES
     ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '9', '2000009', '{\"Nachname\":\"Läufer\",\"Vorname\":\"Kader\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"kaderlaeufer\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"kaderlaeufer@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000009\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '9');
 
 -- Table messenger_messages
+-- (messenger_messages omitted)
 
 -- Table news
 INSERT INTO news

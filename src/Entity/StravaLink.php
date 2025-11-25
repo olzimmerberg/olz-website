@@ -27,6 +27,12 @@ class StravaLink implements TestableInterface {
     #[ORM\Column(type: 'text', nullable: false)]
     private string $strava_user;
 
+    #[ORM\Column(type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private \DateTime $created_at;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $linked_at;
+
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -80,7 +86,28 @@ class StravaLink implements TestableInterface {
         $this->strava_user = $new_strava_user;
     }
 
+    public function getCreatedAt(): \DateTime {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTime $new_value): void {
+        $this->created_at = $new_value;
+    }
+
+    public function getLinkedAt(): ?\DateTime {
+        return $this->linked_at;
+    }
+
+    public function setLinkedAt(?\DateTime $new_value): void {
+        $this->linked_at = $new_value;
+    }
+
     // ---
+
+    public function __toString(): string {
+        $id = $this->getId();
+        return "StravaLink (ID: {$id})";
+    }
 
     public function testOnlyGetField(string $field_name): mixed {
         return $this->{$field_name};

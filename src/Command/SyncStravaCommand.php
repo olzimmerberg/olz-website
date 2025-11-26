@@ -86,6 +86,7 @@ class SyncStravaCommand extends OlzCommand {
                     continue;
                 }
                 $run = new RunRecord();
+                $this->entityUtils()->createOlzEntity($run, ['onOff' => true]);
                 $run->setUser($user);
                 $run->setRunAt(new \DateTime($activity['start_date_local']));
                 $run->setDistanceMeters(intval($activity['distance']));

@@ -129,7 +129,7 @@ class OnContinuouslyCommand extends OlzCommand {
         $this->every('10 minutes', 'sync-strava', function () use ($output) {
             $this->symfonyUtils()->callCommand(
                 'olz:sync-strava',
-                new ArrayInput(['2025']),
+                new ArrayInput(['year' => '2025']),
                 $output,
             );
         });

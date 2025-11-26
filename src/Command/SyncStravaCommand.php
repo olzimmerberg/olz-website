@@ -64,7 +64,6 @@ class SyncStravaCommand extends OlzCommand {
 
     /** @param array<StravaLink> $strava_links */
     protected function syncStravaLinks(array $strava_links): void {
-        $min_date_iso = '2025-11-01T00:00:00Z';
         $now = new \DateTime($this->dateUtils()->getIsoNow());
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
         foreach ($strava_links as $strava_link) {
@@ -75,24 +74,31 @@ class SyncStravaCommand extends OlzCommand {
                 $this->logAndOutput("{$strava_link} has no access token...", level: 'debug');
                 continue;
             }
-            $activities = $this->stravaUtils()->callStravaApi('GET', '/athlete/activities', [], $access_token);
+            // $activities = $this->stravaUtils()->callStravaApi('GET', '/athlete/activities', [], $access_token);
+            $activities = $this->stravaUtils()->callStravaApi('GET', '/clubs/158910/activities', [], $access_token);
             foreach ($activities as $activity) {
-                if ($activity['start_date_local'] < $min_date_iso) {
-                    continue;
-                }
-                $source = "strava-{$activity['id']}";
+                $firstname = $activity['athlete']['firstname'] ?? '';
+                $lastname = $activity['athlete']['lastname'] ?? '';
+                $distance = $activity['distance'];
+                $moving_time = $activity['moving_time'];
+                $elapsed_time = $activity['elapsed_time'];
+                $total_elevation_gain = $activity['total_elevation_gain'];
+                $sport_type = $activity['sport_type'];
+                $is_run = $sport_type === 'Run' || $sport_type === 'TrailRun';
+                $id = md5("{$firstname}-{$lastname}-{$distance}-{$total_elevation_gain}-{$moving_time}-{$elapsed_time}");
+                $source = "strava-{$id}";
                 $existing = $runs_repo->findOneBy(['source' => $source]);
                 if ($existing !== null) {
                     continue;
                 }
                 $run = new RunRecord();
                 $this->entityUtils()->createOlzEntity($run, ['onOff' => true]);
-                $run->setUser($user);
-                $run->setRunAt(new \DateTime($activity['start_date_local']));
-                $run->setDistanceMeters(intval($activity['distance']));
-                $run->setElevationMeters(intval($activity['total_elevation_gain']));
+                $run->setUser(null);
+                $run->setRunAt($now);
+                $run->setDistanceMeters(intval($distance));
+                $run->setElevationMeters(intval($total_elevation_gain));
                 $run->setSource($source);
-                $run->setCreatedAt($now);
+                $run->setInfo(json_encode(json_encode($activity)) ?: null);
                 $this->entityManager()->persist($run);
                 $this->entityManager()->flush();
             }

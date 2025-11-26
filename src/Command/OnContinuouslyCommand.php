@@ -170,10 +170,10 @@ class OnContinuouslyCommand extends OlzCommand {
         $is_right_time_of_day = $time_diff >= 0 && $time_diff < 7200; // 2h window
         $should_execute_now = !$is_too_soon && $is_right_time_of_day;
         if ($should_execute_now) {
+            $throttling_repo->recordOccurrenceOf($ident, $this->dateUtils()->getIsoNow());
             try {
                 $this->logAndOutput("Executing daily ({$time}) {$ident}...", level: 'info');
                 $fn();
-                $throttling_repo->recordOccurrenceOf($ident, $this->dateUtils()->getIsoNow());
             } catch (\Throwable $th) {
                 $this->logAndOutput("Daily ({$time}) {$ident} failed", level: 'error');
             }
@@ -203,10 +203,10 @@ class OnContinuouslyCommand extends OlzCommand {
         }
         $should_execute_now = !$is_too_soon;
         if ($should_execute_now) {
+            $throttling_repo->recordOccurrenceOf($ident, $this->dateUtils()->getIsoNow());
             try {
                 $this->logAndOutput("Executing {$ident} (every {$interval})...", level: 'info');
                 $fn();
-                $throttling_repo->recordOccurrenceOf($ident, $this->dateUtils()->getIsoNow());
             } catch (\Throwable $th) {
                 $this->logAndOutput("Executing {$ident} (every {$interval}) failed", level: 'error');
             }

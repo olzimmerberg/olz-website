@@ -4,21 +4,21 @@ import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzRunData} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateDateTimeOrNull, validateInteger} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateDateTimeOrNull, validateInteger, validateNumber} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditRunModal.scss';
 
 interface OlzEditRunForm {
     runAt: string;
-    distanceMeters: string;
+    distanceKm: string;
     elevationMeters: string;
 }
 
 const resolver: Resolver<OlzEditRunForm> = async (values) => {
     const errors: FieldErrors<OlzEditRunForm> = {};
     [errors.runAt, values.runAt] = validateDateTimeOrNull(values.runAt);
-    errors.distanceMeters = validateInteger(values.distanceMeters);
+    errors.distanceKm = validateNumber(values.distanceKm);
     errors.elevationMeters = validateInteger(values.elevationMeters);
     return getResolverResult(errors, values);
 };
@@ -26,7 +26,7 @@ const resolver: Resolver<OlzEditRunForm> = async (values) => {
 function getFormFromApi(apiData?: OlzRunData): OlzEditRunForm {
     return {
         runAt: getFormString(apiData?.runAt),
-        distanceMeters: getFormNumber(apiData?.distanceMeters),
+        distanceKm: getFormNumber(apiData?.distanceMeters && apiData.distanceMeters / 1000),
         elevationMeters: getFormNumber(apiData?.elevationMeters),
     };
 }
@@ -34,7 +34,7 @@ function getFormFromApi(apiData?: OlzRunData): OlzEditRunForm {
 function getApiFromForm(formData: OlzEditRunForm): OlzRunData {
     return {
         runAt: getApiString(formData.runAt) ?? null,
-        distanceMeters: getApiNumber(formData.distanceMeters) ?? 0,
+        distanceMeters: (getApiNumber(formData.distanceKm) ?? 0) * 1000,
         elevationMeters: getApiNumber(formData.elevationMeters) ?? 0,
         source: 'manuell',
     };
@@ -109,8 +109,8 @@ export const OlzEditRunModal = (props: OlzEditRunModalProps): React.ReactElement
             </div>
             <div className='mb-3'>
                 <OlzTextField
-                    title='Distanz (in Metern)'
-                    name='distanceMeters'
+                    title='Distanz (in Kilometern)'
+                    name='distanceKm'
                     options={{required: 'Distanz darf nicht leer sein!'}}
                     errors={errors}
                     register={register}
@@ -118,7 +118,7 @@ export const OlzEditRunModal = (props: OlzEditRunModalProps): React.ReactElement
             </div>
             <div className='mb-3'>
                 <OlzTextField
-                    title='Höhenmeter'
+                    title='Höhenmeter (in Metern)'
                     name='elevationMeters'
                     options={{required: 'Höhenmeter dürfen nicht leer sein!'}}
                     errors={errors}

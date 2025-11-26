@@ -100,7 +100,16 @@ class OlzAnniversary extends OlzRootComponent {
                 </button>
             </p>
             ZZZZZZZZZZ;
-        $out .= "<table class='activities-table'><tr class='header'><td></td><td>Datum</td><td>Quelle</td><td>Höhenmeter</td></tr>";
+        $out .= <<<'ZZZZZZZZZZ'
+            <table class='activities-table'>
+                <tr class='header'>
+                    <td></td>
+                    <td>Datum</td>
+                    <td>Quelle</td>
+                    <td>Distanz</td>
+                    <td>Höhenmeter</td>
+                </tr>
+            ZZZZZZZZZZ;
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
         $runs = $runs_repo->findBy(['user' => $user], ['run_at' => 'DESC']);
         foreach ($runs as $run) {
@@ -116,11 +125,13 @@ class OlzAnniversary extends OlzRootComponent {
                         <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                     </button>
                 ZZZZZZZZZZ : '';
+            $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
             $out .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>{$edit_button}</td>
                     <td>{$date}</td>
                     <td>{$run->getSource()}</td>
+                    <td>{$distance_km}km</td>
                     <td>{$run->getElevationMeters()}m</td>
                 </tr>
                 ZZZZZZZZZZ;

@@ -46,18 +46,23 @@ class OlzTermineList extends OlzRootComponent {
         $termine_utils = $this->termineUtils()->loadTypeOptions();
         $current_filter = $termine_utils->deserialize($params['filter'] ?? $this->session()->get('termine_filter') ?? '');
 
-        if (!$termine_utils->isValidFilter($current_filter)) {
-            $valid_filter = $termine_utils->getValidFilter($current_filter);
-            $serialized_filter = $termine_utils->serialize($valid_filter);
-            $this->httpUtils()->redirect("{$code_href}termine?filter={$serialized_filter}", empty($params['filter']) ? 308 : 410);
-        }
-
         $valid_filter = $termine_utils->getValidFilter($current_filter);
-        $termine_list_title = $termine_utils->getTitleFromFilter($valid_filter);
         $serialized_filter = $termine_utils->serialize($valid_filter);
+
+        if (
+            !$termine_utils->isValidFilter($current_filter)
+            || ($params['filter'] ?? '') !== $serialized_filter
+        ) {
+            $is_backfill = empty($params['filter']);
+            $this->httpUtils()->redirect(
+                "{$code_href}termine?filter={$serialized_filter}",
+                $is_backfill ? 308 : 410,
+            );
+        }
 
         $this->session()->set('termine_filter', $serialized_filter);
 
+        $termine_list_title = $termine_utils->getTitleFromFilter($valid_filter);
         $out = OlzHeader::render([
             'title' => $termine_list_title,
             'description' => self::$description, // TODO: Filter-specific description?

@@ -51,14 +51,20 @@ class OlzNewsList extends OlzRootComponent {
         $page_number = intval($params['seite'] ?? $this->session()->get('news_page') ?? 1);
         $page_index = $page_number - 1;
 
-        if (!$news_utils->isValidFilter($current_filter)) {
-            $valid_filter = $news_utils->getValidFilter($current_filter);
-            $serialized_filter = $news_utils->serialize($valid_filter);
-            $this->httpUtils()->redirect("{$code_href}news?filter={$serialized_filter}", empty($params['filter']) ? 308 : 410);
-        }
-
         $valid_filter = $news_utils->getValidFilter($current_filter);
         $serialized_filter = $news_utils->serialize($valid_filter);
+
+        if (
+            !$news_utils->isValidFilter($current_filter)
+            || ($params['filter'] ?? '') !== $serialized_filter
+            || ($params['seite'] ?? '') !== "{$page_number}"
+        ) {
+            $is_backfill = empty($params['filter']) || empty($params['seite']);
+            $this->httpUtils()->redirect(
+                "{$code_href}news?filter={$serialized_filter}&seite={$page_number}",
+                $is_backfill ? 308 : 410,
+            );
+        }
 
         $this->session()->set('news_filter', $serialized_filter);
         $this->session()->set('news_page', "{$page_number}");

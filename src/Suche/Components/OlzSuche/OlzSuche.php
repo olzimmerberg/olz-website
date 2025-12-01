@@ -32,7 +32,7 @@ class OlzSuche extends OlzRootComponent {
         return 'Suche';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         $code_href = $this->envUtils()->getCodeHref();
         $content = "{$this->getTitle()} - {$this->getDescription('Suche')}";
         return [

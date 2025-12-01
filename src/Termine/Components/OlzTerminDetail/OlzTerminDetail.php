@@ -27,7 +27,7 @@ class OlzTerminDetail extends OlzRootComponent {
         return 'Termine';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         $results = [];
         $code_href = $this->envUtils()->getCodeHref();
         $termin_repo = $this->entityManager()->getRepository(Termin::class);

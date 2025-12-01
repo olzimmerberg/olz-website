@@ -23,7 +23,7 @@ class OlzRolePage extends OlzRootComponent {
         return 'Ressorts';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         $results = [];
         $code_href = $this->envUtils()->getCodeHref();
         $role_repo = $this->entityManager()->getRepository(Role::class);

@@ -26,7 +26,7 @@ class OlzFaqDetail extends OlzRootComponent {
         return 'Fragen & Antworten';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         $results = [];
         $code_href = $this->envUtils()->getCodeHref();
         $question_repo = $this->entityManager()->getRepository(Question::class);

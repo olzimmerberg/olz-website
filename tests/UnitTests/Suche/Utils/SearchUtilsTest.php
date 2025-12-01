@@ -119,7 +119,7 @@ final class SearchUtilsTest extends UnitTestCase {
     public function testGetStaticSearchResults(): void {
         $utils = new SearchUtils();
         $this->assertSame([[
-            'score' => 0.66667,
+            'score' => 0.85714,
             'icon' => null,
             'date' => null,
             'text' => 'Test this test',
@@ -138,9 +138,21 @@ final class SearchUtilsTest extends UnitTestCase {
                 'link' => '/',
                 'title' => 'Title',
                 'text' => 'Test this test',
-                'score' => 0.66667,
+                'score' => 0.85714,
             ],
             $utils->getScoredSearchResult(['link' => '/', 'title' => 'Title', 'text' => 'Test this test'], ['test']),
+        );
+        // Title matches count double
+        $this->assertEquals(
+            [
+                'icon' => null,
+                'date' => null,
+                'link' => '/',
+                'title' => 'Title',
+                'text' => 'Test this test',
+                'score' => 0.85714,
+            ],
+            $utils->getScoredSearchResult(['link' => '/', 'title' => 'Title', 'text' => 'Test this test'], ['title']),
         );
         $this->assertEquals(
             [
@@ -167,12 +179,123 @@ final class SearchUtilsTest extends UnitTestCase {
     public function testAnalyze(): void {
         $utils = new SearchUtils();
         $this->assertSame(
-            ['score' => 0.66667, 'hasAll' => true],
+            ['score' => 0.85714, 'hasAll' => true],
             $utils->analyze('Test this test', null, ['test']),
         );
         $this->assertEquals(
             ['score' => 0.5, 'hasAll' => true],
             $utils->analyze('Test this test', new \DateTime('2020-03-13'), ['2020']),
+        );
+    }
+
+    public function testAnalyzeNonMatch(): void {
+        $utils = new SearchUtils();
+        $this->assertSame(
+            ['score' => 0.0, 'hasAll' => false],
+            $utils->analyze('sägen', null, ['sagen']),
+        );
+    }
+
+    public function testAnalyzeWordMatch(): void {
+        $utils = new SearchUtils();
+        $this->assertSame(
+            ['score' => 0.75, 'hasAll' => true],
+            $utils->analyze('A word match', null, ['word']),
+        );
+        $this->assertSame(
+            ['score' => 0.66667, 'hasAll' => true],
+            $utils->analyze('A wordstart match', null, ['word']),
+        );
+        $this->assertSame(
+            ['score' => 0.66667, 'hasAll' => true],
+            $utils->analyze('A endword match', null, ['word']),
+        );
+        $this->assertSame(
+            ['score' => 0.5, 'hasAll' => true],
+            $utils->analyze('A nonwordstartend match', null, ['word']),
+        );
+
+        // Start / End of content
+        $this->assertSame(
+            ['score' => 0.75, 'hasAll' => true],
+            $utils->analyze('word', null, ['word']),
+        );
+        $this->assertSame(
+            ['score' => 0.66667, 'hasAll' => true],
+            $utils->analyze('wordstart', null, ['word']),
+        );
+        $this->assertSame(
+            ['score' => 0.66667, 'hasAll' => true],
+            $utils->analyze('endword', null, ['word']),
+        );
+        $this->assertSame(
+            ['score' => 0.5, 'hasAll' => true],
+            $utils->analyze('nonwordstartend', null, ['word']),
+        );
+    }
+
+    public function testAnalyzeTermCombinations(): void {
+        $utils = new SearchUtils();
+        // 2-term combined match, space separated (base case)
+        $this->assertSame(
+            ['score' => 0.84615, 'hasAll' => true],
+            $utils->analyze('Test this test', null, ['test', 'this']),
+        );
+        // 2-term combined match, non-alphanumeric separated
+        $this->assertSame(
+            ['score' => 0.84615, 'hasAll' => true],
+            $utils->analyze('Test -> this test', null, ['test', 'this']),
+        );
+        // 2-term combined match, 5-non-alphanumeric separated
+        $this->assertSame(
+            ['score' => 0.84615, 'hasAll' => true],
+            $utils->analyze('Test --- this test', null, ['test', 'this']),
+        );
+        // 2-term combined match, 6-non-alphanumeric separated
+        $this->assertSame(
+            ['score' => 0.81818, 'hasAll' => true],
+            $utils->analyze('Test ---- this test', null, ['test', 'this']),
+        );
+        // 2-term combined match, multi-whitespace separated
+        $this->assertSame(
+            ['score' => 0.84615, 'hasAll' => true],
+            $utils->analyze("Test \n\t    this test", null, ['test', 'this']),
+        );
+        // No combined match, alphanumeric-separated
+        $this->assertSame(
+            ['score' => 0.81818, 'hasAll' => true],
+            $utils->analyze('Test some of this test', null, ['test', 'this']),
+        );
+
+        $sentence = 'The quick brown fox jumps over the lazy dog';
+        // 3-term combined match, space separated (base case)
+        $this->assertSame(
+            ['score' => 0.84211, 'hasAll' => true],
+            $utils->analyze($sentence, null, ['quick', 'brown', 'fox']),
+        );
+        // 4-term combined match, space separated (base case)
+        $this->assertSame(
+            ['score' => 0.875, 'hasAll' => true],
+            $utils->analyze($sentence, null, ['quick', 'brown', 'fox', 'jumps']),
+        );
+        // 5-term combined match, space separated (base case)
+        $this->assertSame(
+            ['score' => 0.88889, 'hasAll' => true],
+            $utils->analyze($sentence, null, ['quick', 'brown', 'fox', 'jumps', 'over']),
+        );
+        // 6-term combined match, space separated (base case)
+        $this->assertSame(
+            ['score' => 0.90164, 'hasAll' => true],
+            $utils->analyze($sentence, null, ['the', 'quick', 'brown', 'fox', 'jumps', 'over']),
+        );
+        $this->assertSame(
+            ['score' => 0.90164, 'hasAll' => true],
+            $utils->analyze($sentence, null, ['quick', 'brown', 'fox', 'jumps', 'over', 'the']),
+        );
+        // 7-term combined match, space separated (base case)
+        $this->assertSame(
+            ['score' => 0.90909, 'hasAll' => true],
+            $utils->analyze($sentence, null, ['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the']),
         );
     }
 

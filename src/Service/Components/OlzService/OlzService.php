@@ -26,7 +26,7 @@ class OlzService extends OlzRootComponent {
         return 'Service';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         $results = [];
         $code_href = $this->envUtils()->getCodeHref();
         $download_repo = $this->entityManager()->getRepository(Download::class);

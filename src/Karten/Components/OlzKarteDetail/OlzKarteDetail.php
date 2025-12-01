@@ -19,7 +19,7 @@ class OlzKarteDetail extends OlzRootComponent {
         return 'Karten';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         $results = [];
         $code_href = $this->envUtils()->getCodeHref();
         $karte_repo = $this->entityManager()->getRepository(Karte::class);

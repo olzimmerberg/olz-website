@@ -30,7 +30,7 @@ class OlzNewsDetail extends OlzRootComponent {
         return 'News';
     }
 
-    public function getSearchResults(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): array {
         $results = [];
         $code_href = $this->envUtils()->getCodeHref();
         $news_repo = $this->entityManager()->getRepository(NewsEntry::class);

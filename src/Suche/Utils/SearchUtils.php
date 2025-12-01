@@ -202,7 +202,8 @@ class SearchUtils {
         array $terms,
     ): array {
         $text_str = $result['text'] ?? '';
-        $search_space = "{$text_str} {$result['title']}";
+        // Count title matches double
+        $search_space = "{$result['title']} {$text_str} {$result['title']}";
         $analysis = $this->analyze($search_space, $result['date'] ?? null, $terms);
         return [
             'icon' => null,
@@ -236,7 +237,10 @@ class SearchUtils {
         $sum_occurrences = 0;
         foreach ($terms as $term) {
             $esc_term = preg_quote($term);
-            $num_occurrences = preg_match_all("/{$esc_term}/i", $content, $matches);
+            $num_occurrences = preg_match_all("/{$esc_term}/i", $content);
+            // Add preference to full-word/start-of-word/end-of-word matches
+            $num_occurrences += preg_match_all("/(\\W|^){$esc_term}/i", $content);
+            $num_occurrences += preg_match_all("/{$esc_term}(\\W|$)/i", $content);
             if (preg_match("/{$esc_term}/i", $date_formattings)) {
                 $num_occurrences++;
             }
@@ -245,7 +249,21 @@ class SearchUtils {
                 $has_all = false;
             }
         }
-        $score = round(1 - (1 / ($sum_occurrences / count($terms) + 1)), 5);
+        $num_terms = count($terms);
+        // Add preference to term combination matches
+        for ($num_combined = 2; $num_combined <= min(4, $num_terms); $num_combined++) {
+            for ($start_combined = 0; $start_combined <= $num_terms - $num_combined; $start_combined++) {
+                $combined_terms = array_slice($terms, $start_combined, $num_combined);
+                $esc_combined_terms = implode('(\W{0,5}|\s*)', array_map(
+                    fn ($term) => preg_quote($term),
+                    $combined_terms
+                ));
+                $num_occurrences = preg_match_all("/{$esc_combined_terms}/i", $content);
+                // TODO: Combined date formattings?
+                $sum_occurrences += $num_occurrences * $num_combined;
+            }
+        }
+        $score = round(1 - (1 / ($sum_occurrences / $num_terms + 1)), 5);
         return ['score' => $score, 'hasAll' => $has_all];
     }
 

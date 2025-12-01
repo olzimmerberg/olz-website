@@ -5,7 +5,10 @@ namespace Olz\Users\Components\OlzUserDetail;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
+use Olz\Repository\Roles\PredefinedRole;
+use Olz\Roles\Components\OlzRoleInfoModal\OlzRoleInfoModal;
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzUserDetail extends OlzRootComponent {
@@ -30,6 +33,9 @@ class OlzUserDetail extends OlzRootComponent {
             $this->httpUtils()->dieWithHttpError(404);
             throw new \Exception('should already have failed');
         }
+
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $sysadmin_role = $role_repo->getPredefinedRole(PredefinedRole::Sysadmin);
 
         $out = OlzHeader::render([
             'back_link' => "{$code_href}verein",
@@ -118,34 +124,60 @@ class OlzUserDetail extends OlzRootComponent {
             }
         }
 
-        $out .= "<div class='edit-user-container'>{$edit_admin}</div>";
-        $out .= "<div class='image-container'>{$img_html}</div>";
-        $out .= "<h1 class='name-container'>{$user->getFullName()}</h1>";
-        $out .= "<div class='info-container username'>Benutzername: {$user->getUsername()}</div>";
+        $out .= <<<ZZZZZZZZZZ
+            <div class='edit-user-container'>{$edit_admin}</div>
+            <div class='image-container'>{$img_html}</div>
+            <h1 class='name-container'>{$user->getFullName()}</h1>
+            <div class='info-container username'>Benutzername: {$user->getUsername()}</div>
+            ZZZZZZZZZZ;
         if ($can_edit) {
-            $out .= "<div class='info-container address1'>{$street}</div>";
-            $out .= "<div class='info-container address2'>{$postal_code} {$city} ({$region}, {$country_code})</div>";
-            $out .= "<div class='info-container birthdate'>Geburtsdatum: {$birthdate}</div>";
-            $out .= "<div class='info-container phone'>Telephon: {$phone}</div>";
+            $out .= <<<ZZZZZZZZZZ
+                <div class='info-container address'>
+                    <div>{$street}</div>
+                    <div>{$postal_code} {$city} ({$region}, {$country_code})</div>
+                </div>
+                <div class='info-container birthdate'>Geburtsdatum: {$birthdate}</div>
+                <div class='info-container phone'>Telephon: {$phone}</div>
+                ZZZZZZZZZZ;
         }
 
         $has_official_email = $this->authUtils()->hasPermission('user_email', $user);
         $email_html = '';
         if ($has_official_email) {
             $host = $this->envUtils()->getEmailForwardingHost();
-            $email = "{$user->getUsername()}@{$host}";
-            $email_html = $this->htmlUtils()->replaceEmailAdresses($email);
+            $olz_email = "{$user->getUsername()}@{$host}";
+            $email = $user->getEmail() ? $olz_email : null;
+            $email_html = "<div class='info-container'>Du hast eine <b>offizielle</b> OLZ E-Mail-Adresse: <b>{$olz_email}</b></div>";
+            if ($user->getOldUsername()) {
+                $old_olz_email = "{$user->getOldUsername()}@{$host}";
+                $email_html .= "<div class='info-container'>Du hast ausserdem eine <b>alte</b> offizielle OLZ E-Mail-Adresse: <b>{$old_olz_email}</b> <i>(nicht mehr benutzen!)</i></div>";
+            }
+            $email_html .= "<div class='info-container'>Die E-Mails <b>werden weitergeleitet</b> an: <b>{$user->getEmail()}</b></div>";
         } else {
-            $email_html = (
-                $user->getEmail()
-                ? $this->htmlUtils()->replaceEmailAdresses($user->getEmail())
-                : ''
-            );
+            $email = $user->getEmail();
+            $email_html = "<div class='info-container'>Du hast <b>keine offizielle</b> OLZ E-Mail-Adresse.</div>";
+            $sysadmin_modal = $sysadmin_role ? OlzRoleInfoModal::render(['role' => $sysadmin_role]) : '"Website"';
+            $email_html .= "<div class='info-container'>Bei Fragen: kontaktiere das Ressort {$sysadmin_modal}.</div>";
         }
-        if ($email_html) {
-            $out .= "<div class='info-container email'>{$email_html}</div>";
+        if ($email) {
+            $email_out = $this->htmlUtils()->replaceEmailAdresses($email);
+            $out .= "<div class='info-container email'>{$email_out}</div>";
         }
         $out .= $edit_password;
+
+        $out .= <<<ZZZZZZZZZZ
+            <h2>Berechtigungen</h2>
+            <div class='info-container'>Persönliche Berechtigungen: <b>{$this->prettyPrintPermissionMap($user->getPermissionMap())}</b></div>
+            ZZZZZZZZZZ;
+        foreach ($user->getRoles() as $role) {
+            $role_modal = OlzRoleInfoModal::render(['role' => $role]);
+            $out .= "<div class='info-container'>Berechtigungen im Rahmen von {$role_modal}: <b>{$this->prettyPrintPermissionMap($role->getPermissionMap())}</b></div>";
+        }
+
+        $out .= <<<ZZZZZZZZZZ
+            <h2>E-Mail Weiterleitung</h2>
+            {$email_html}
+            ZZZZZZZZZZ;
 
         if ($can_edit) {
             $out .= "<h2>Familie</h2>";
@@ -184,5 +216,20 @@ class OlzUserDetail extends OlzRootComponent {
         $out .= OlzFooter::render();
 
         return $out;
+    }
+
+    /** @param array<string, bool> $permissions_map */
+    protected function prettyPrintPermissionMap(array $permissions_map): string {
+        $out = '';
+        foreach ($permissions_map as $permission => $is_given) {
+            if (!$is_given) {
+                continue;
+            }
+            if ($out !== '') {
+                $out .= ', ';
+            }
+            $out .= $permission;
+        }
+        return $out !== '' ? $out : '(keine Berechtigungen)';
     }
 }

@@ -157,15 +157,13 @@ final class HtmlUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <div>
-                    <a
-                        href='#'
-                        onclick='return olz.initOlzRoleInfoModal(3)'
-                        class='linkrole'
-                    >
-                        Vorstand
-                    </a>
-                </div>
+                <a
+                    href='#'
+                    onclick='return olz.initOlzRoleInfoModal(3)'
+                    class='linkrole'
+                >
+                    Vorstand
+                </a>
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('vorstand_role@staging.olzimmerberg.ch')
         );
@@ -175,15 +173,13 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <div>
-                    <a
-                        href='#'
-                        onclick='return olz.initOlzRoleInfoModal(2)'
-                        class='linkrole'
-                    >
-                        Administrator
-                    </a>
-                </div>, <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.
+                Mails: <a
+                    href='#'
+                    onclick='return olz.initOlzRoleInfoModal(2)'
+                    class='linkrole'
+                >
+                    Administrator
+                </a>, <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: admin_role@staging.olzimmerberg.ch, inexistent@staging.olzimmerberg.ch.')
         );
@@ -198,15 +194,13 @@ final class HtmlUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => false];
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <div>
-                    <a
-                        href='#'
-                        onclick='return olz.initOlzRoleInfoModal(3)'
-                        class='linkrole'
-                    >
-                        Vorstand
-                    </a>
-                </div>
+                <a
+                    href='#'
+                    onclick='return olz.initOlzRoleInfoModal(3)'
+                    class='linkrole'
+                >
+                    Vorstand
+                </a>
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('vorstand_role@staging.olzimmerberg.ch')
         );
@@ -216,15 +210,13 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <div>
-                    <a
-                        href='#'
-                        onclick='return olz.initOlzRoleInfoModal(2)'
-                        class='linkrole'
-                    >
-                        Administrator
-                    </a>
-                </div>, <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.
+                Mails: <a
+                    href='#'
+                    onclick='return olz.initOlzRoleInfoModal(2)'
+                    class='linkrole'
+                >
+                    Administrator
+                </a>, <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: admin_role@staging.olzimmerberg.ch, inexistent@staging.olzimmerberg.ch.')
         );
@@ -239,15 +231,13 @@ final class HtmlUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
         $html = $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@staging.olzimmerberg.ch">Test</a>');
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            <div>
-                <a
-                    href='#'
-                    onclick='return olz.initOlzRoleInfoModal(3)'
-                    class='linkrole'
-                >
-                    Test
-                </a>
-            </div>
+            <a
+                href='#'
+                onclick='return olz.initOlzRoleInfoModal(3)'
+                class='linkrole'
+            >
+                Test
+            </a>
             ZZZZZZZZZZ, $html);
         $this->assertSame(
             'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "")</script>!',
@@ -255,15 +245,13 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <div>
-                    <a
-                        href='#'
-                        onclick='return olz.initOlzRoleInfoModal(2)'
-                        class='linkrole'
-                    >
-                        Contact me
-                    </a>
-                </div> <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "")</script>!
+                Mails: <a
+                    href='#'
+                    onclick='return olz.initOlzRoleInfoModal(2)'
+                    class='linkrole'
+                >
+                    Contact me
+                </a> <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "")</script>!
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:admin_role@staging.olzimmerberg.ch" class="linkmail">Contact me</a> <a name="" href="mailto:inexistent@staging.olzimmerberg.ch">Contact me</a>!')
         );
@@ -274,15 +262,13 @@ final class HtmlUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <div>
-                    <a
-                        href='#'
-                        onclick='return olz.initOlzRoleInfoModal(3)'
-                        class='linkrole'
-                    >
-                        Test
-                    </a>
-                </div>
+                <a
+                    href='#'
+                    onclick='return olz.initOlzRoleInfoModal(3)'
+                    class='linkrole'
+                >
+                    Test
+                </a>
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('<a href="mailto:vorstand_role@staging.olzimmerberg.ch?subject=test">Test</a>')
         );
@@ -292,15 +278,13 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>, <div>
-                    <a
-                        href='#'
-                        onclick='return olz.initOlzRoleInfoModal(2)'
-                        class='linkrole'
-                    >
-                        Contact me
-                    </a>
-                </div>!
+                Mails: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me" + "", "another%20test")</script>, <a
+                    href='#'
+                    onclick='return olz.initOlzRoleInfoModal(2)'
+                    class='linkrole'
+                >
+                    Contact me
+                </a>!
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:inexistent@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:admin_role@staging.olzimmerberg.ch?subject=another%20test">Contact me</a>!')
         );

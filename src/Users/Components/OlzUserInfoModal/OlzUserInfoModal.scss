@@ -1,6 +1,7 @@
 @use '../../../Components/Common/OlzStyles/colors' as colors;
 
 .olz-user-info-modal-trigger {
+    display: block;
     color: colors.$olz-bg-dark;
     text-align: center;
 

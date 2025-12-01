@@ -165,7 +165,7 @@ class AuthUtils {
 
     /** @return array<string, bool> */
     protected function getRolePermissionMap(?Role $role): array {
-        if (!$role) {
+        if (!$role || !$role->getOnOff()) {
             return ['any' => false];
         }
         $role_id = $role->getId() ?: 0;
@@ -265,6 +265,9 @@ class AuthUtils {
         $auth_roles = $this->getAuthenticatedRoles($user);
         $is_role_id_authenticated = [];
         foreach (($auth_roles ?? []) as $auth_role) {
+            if (!$auth_role->getOnOff()) {
+                continue;
+            }
             $is_role_id_authenticated[$auth_role->getId()] = true;
         }
         $role_repo = $this->entityManager()->getRepository(Role::class);

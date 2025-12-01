@@ -447,6 +447,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasRolePermissionWithNoPermission(): void {
         $role = new Role();
+        $role->setOnOff(1);
         $role->setPermissions('');
         $auth_utils = new AuthUtils();
         $this->assertFalse($auth_utils->hasRolePermission('test', $role));
@@ -457,6 +458,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasRolePermissionWithSpecificPermission(): void {
         $role = new Role();
+        $role->setOnOff(1);
         $role->setPermissions('test');
         $auth_utils = new AuthUtils();
         $this->assertTrue($auth_utils->hasRolePermission('test', $role));
@@ -467,12 +469,46 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasRolePermissionWithAllPermissions(): void {
         $role = new Role();
+        $role->setOnOff(1);
         $role->setPermissions('all');
         $auth_utils = new AuthUtils();
         $this->assertTrue($auth_utils->hasRolePermission('test', $role));
         $this->assertTrue($auth_utils->hasRolePermission('other', $role));
         $this->assertTrue($auth_utils->hasRolePermission('all', $role));
         $this->assertTrue($auth_utils->hasRolePermission('any', $role));
+    }
+
+    public function testHasSoftDeletedRolePermissionWithNoPermission(): void {
+        $role = new Role();
+        $role->setOnOff(0);
+        $role->setPermissions('');
+        $auth_utils = new AuthUtils();
+        $this->assertFalse($auth_utils->hasRolePermission('test', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('other', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('all', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('any', $role));
+    }
+
+    public function testHasSoftDeletedRolePermissionWithSpecificPermission(): void {
+        $role = new Role();
+        $role->setOnOff(0);
+        $role->setPermissions('test');
+        $auth_utils = new AuthUtils();
+        $this->assertFalse($auth_utils->hasRolePermission('test', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('other', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('all', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('any', $role));
+    }
+
+    public function testHasSoftDeletedRolePermissionWithAllPermissions(): void {
+        $role = new Role();
+        $role->setOnOff(0);
+        $role->setPermissions('all');
+        $auth_utils = new AuthUtils();
+        $this->assertFalse($auth_utils->hasRolePermission('test', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('other', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('all', $role));
+        $this->assertFalse($auth_utils->hasRolePermission('any', $role));
     }
 
     public function testGetCurrentUserFromToken(): void {

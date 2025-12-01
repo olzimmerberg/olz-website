@@ -279,10 +279,12 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
         $this->phone = $new_value;
     }
 
+    /** @deprecated Use `getPermissionMap` instead. */
     public function getPermissions(): string {
         return $this->permissions;
     }
 
+    /** @deprecated Use `setPermissionMap` instead. */
     public function setPermissions(string $new_value): void {
         $this->permissions = $new_value;
     }

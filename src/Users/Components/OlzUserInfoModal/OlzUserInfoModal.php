@@ -13,15 +13,13 @@ class OlzUserInfoModal extends OlzComponent {
 
         if ($mode == 'name') {
             return <<<ZZZZZZZZZZ
-                <div>
-                    <a
-                        href='#'
-                        onclick='return olz.initOlzUserInfoModal({$user_id})'
-                        class='olz-user-info-modal-trigger'
-                    >
-                        {$user->getFullName()}
-                    </a>
-                </div>
+                <a
+                    href='#'
+                    onclick='return olz.initOlzUserInfoModal({$user_id})'
+                    class='olz-user-info-modal-trigger'
+                >
+                    {$user->getFullName()}
+                </a>
                 ZZZZZZZZZZ;
         }
         if ($mode == 'name_picture') {

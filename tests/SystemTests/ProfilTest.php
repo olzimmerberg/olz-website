@@ -42,8 +42,7 @@ final class ProfilTest extends SystemTestCase {
         $this->login('vorstand', 'v0r57and');
         $browser->get($this->getUrl());
         $this->assertSame('Benutzername: vorstand', $this->getBrowserElement('.info-container.username')?->getText());
-        $this->assertSame('(Keine Adresse)', $this->getBrowserElement('.info-container.address1')?->getText());
-        $this->assertSame('(Keine PLZ) (Kein Ort) (Keine Region, Kein Land)', $this->getBrowserElement('.info-container.address2')?->getText());
+        $this->assertSame("(Keine Adresse)\n(Keine PLZ) (Kein Ort) (Keine Region, Kein Land)", $this->getBrowserElement('.info-container.address')?->getText());
         $this->assertSame('Geburtsdatum: (Unbekannt)', $this->getBrowserElement('.info-container.birthdate')?->getText());
         $this->assertSame('Telephon: (Unbekannt)', $this->getBrowserElement('.info-container.phone')?->getText());
         $this->assertNull($this->getBrowserElement('.info-container.email'));
@@ -65,8 +64,7 @@ final class ProfilTest extends SystemTestCase {
 
         $browser->get($this->getUrl());
         $this->assertSame('Benutzername: vorstand', $this->getBrowserElement('.info-container.username')?->getText());
-        $this->assertSame('Zimmerbergstrasse 270', $this->getBrowserElement('.info-container.address1')?->getText());
-        $this->assertSame('8800 Thalwil (ZH, CH)', $this->getBrowserElement('.info-container.address2')?->getText());
+        $this->assertSame("Zimmerbergstrasse 270\n8800 Thalwil (ZH, CH)", $this->getBrowserElement('.info-container.address')?->getText());
         $this->assertSame('Geburtsdatum: 12.03.1999', $this->getBrowserElement('.info-container.birthdate')?->getText());
         $this->assertSame('Telephon: (Unbekannt)', $this->getBrowserElement('.info-container.phone')?->getText());
         $this->assertSame('E-Mail', $this->getBrowserElement('.info-container.email')?->getText());

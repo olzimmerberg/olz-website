@@ -15,15 +15,13 @@ class OlzRoleInfoModal extends OlzComponent {
         $text = $args['text'] ?? $role->getName();
         $role_id = intval($role->getId());
         return <<<ZZZZZZZZZZ
-            <div>
-                <a
-                    href='#'
-                    onclick='return olz.initOlzRoleInfoModal({$role_id})'
-                    class='linkrole'
-                >
-                    {$text}
-                </a>
-            </div>
+            <a
+                href='#'
+                onclick='return olz.initOlzRoleInfoModal({$role_id})'
+                class='linkrole'
+            >
+                {$text}
+            </a>
             ZZZZZZZZZZ;
     }
 }

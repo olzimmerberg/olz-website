@@ -10,6 +10,7 @@ use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
 use Olz\Utils\HttpParams;
 
@@ -43,7 +44,7 @@ class OlzStartseite extends OlzRootComponent {
 
         $out .= "<div class='content-full'>";
 
-        $banner_text = OlzEditableText::render(['snippet_id' => 22], $this);
+        $banner_text = OlzEditableText::render(['snippet' => PredefinedSnippet::StartseiteBanner], $this);
         if (trim(strip_tags($banner_text)) !== '' || $this->authUtils()->hasPermission('olz_text_22')) {
             $out .= "<div id='important-banner' class='banner'>";
             $out .= $banner_text;

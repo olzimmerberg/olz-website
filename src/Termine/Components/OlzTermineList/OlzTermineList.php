@@ -12,6 +12,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Utils\HttpParams;
@@ -88,8 +89,8 @@ class OlzTermineList extends OlzRootComponent {
                 ZZZZZZZZZZ;
         }
         $filter_out = OlzTermineFilter::render(['currentFilter' => $valid_filter]);
-        $downloads_links_out = OlzEditableText::render(['snippet_id' => 2]);
-        $newsletter_out = OlzEditableText::render(['snippet_id' => 3]);
+        $downloads_links_out = OlzEditableText::render(['snippet' => PredefinedSnippet::TermineDownloadsLinks]);
+        $newsletter_out = OlzEditableText::render(['snippet' => PredefinedSnippet::TermineNewsletter]);
         $out .= <<<ZZZZZZZZZZ
             <div class='content-right'>
                 {$admin_menu_out}

@@ -8,6 +8,7 @@ use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Karten\Karte;
+use Olz\Repository\Snippets\PredefinedSnippet;
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzKarteDetail extends OlzRootComponent {
@@ -154,7 +155,7 @@ class OlzKarteDetail extends OlzRootComponent {
         }
 
         $out .= "<h2>Kartenverkauf</h2>";
-        $out .= OlzEditableText::render(['snippet_id' => 12]);
+        $out .= OlzEditableText::render(['snippet' => PredefinedSnippet::KartenVerkauf]);
 
         $out .= "</div>"; // olz-karte-detail
         $out .= "</div>"; // content-middle

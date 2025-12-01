@@ -3,26 +3,19 @@
 namespace Olz\Components\OlzZielsprint;
 
 use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzZielsprint extends OlzComponent {
     public function getHtml(mixed $args): string {
         $out = '';
-
         $db = $this->dbUtils()->getDb();
-
-        $out .= "<h2>OLZ-Zielsprint-Challenge 2026</h2>";
-
-        // $out .= "<div style='color:rgb(180,0,0); font-weight:bold; text-align:center; font-size:14px;'>In Bearbeitung</div>";
-        $out .= OlzEditableText::render(['snippet_id' => 9]);
 
         $sql = "
             SELECT solv_uid, name, date
             FROM solv_events
             WHERE
-                date>'2025-01-01'
-                AND date<'2025-01-01'
+                date>='2025-01-01'
+                AND date<='2025-12-31'
                 AND kind='foot'
             ORDER BY date ASC";
         $res_events = $db->query($sql);

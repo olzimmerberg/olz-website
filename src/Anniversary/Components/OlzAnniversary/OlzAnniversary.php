@@ -3,12 +3,14 @@
 namespace Olz\Anniversary\Components\OlzAnniversary;
 
 use Olz\Anniversary\Components\OlzAnniversaryRocket\OlzAnniversaryRocket;
+use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\OlzZielsprint\OlzZielsprint;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Anniversary\RunRecord;
 use Olz\Entity\StravaLink;
+use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
@@ -44,20 +46,14 @@ class OlzAnniversary extends OlzRootComponent {
             <div class='content-full olz-anniversary'>
                 <h1>🎉 20 Jahre OL Zimmerberg 🥳</h1>
                 {$this->getRunsHtml()}
-                {$this->getZielsprintHtml()}
                 {$this->getElevationStravaHtml()}
+                {$this->getZielsprintHtml()}
                 {$rocket}
                 TODO
             </div>
             ZZZZZZZZZZ;
 
         $out .= OlzFooter::render();
-        return $out;
-    }
-
-    protected function getZielsprintHtml(): string {
-        $out = '<h2>Zielsprint-Challenge</h2>';
-        $out .= OlzZielsprint::render();
         return $out;
     }
 
@@ -69,6 +65,7 @@ class OlzAnniversary extends OlzRootComponent {
             $out .= "<p>😕 Du musst <a href='#login-dialog'>eingeloggt</a> sein, um an der Höhenmeter-Challenge teilzunehmen.</p>";
             return $out;
         }
+        $out .= OlzEditableText::render(['snippet' => PredefinedSnippet::AnniversaryHoehenmeter]);
         $out .= <<<ZZZZZZZZZZ
             <p>
                 Deine Aktivitäten:
@@ -146,6 +143,13 @@ class OlzAnniversary extends OlzRootComponent {
             $out .= "</ul>";
             $out .= "<p><a href='{$strava_url}'>Mit Strava verbinden</a></p>";
         }
+        return $out;
+    }
+
+    protected function getZielsprintHtml(): string {
+        $out = '<h2>Zielsprint-Challenge</h2>';
+        $out .= OlzEditableText::render(['snippet' => PredefinedSnippet::AnniversaryZielsprint]);
+        $out .= OlzZielsprint::render();
         return $out;
     }
 }

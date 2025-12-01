@@ -4,13 +4,14 @@ namespace Olz\Components\Common\OlzEditableText;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Snippets\Snippet;
+use Olz\Repository\Snippets\PredefinedSnippet;
 
-/** @extends OlzComponent<array<string, mixed>> */
+/** @extends OlzComponent<array{snippet_id?: ?int, snippet?: ?PredefinedSnippet}> */
 class OlzEditableText extends OlzComponent {
     public function getHtml(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
 
-        $snippet_id = intval($args['snippet_id'] ?? 0);
+        $snippet_id = intval($args['snippet_id'] ?? $args['snippet']->value ?? 0);
         $esc_id = htmlentities(json_encode($snippet_id) ?: '0');
         $entityManager = $this->dbUtils()->getEntityManager();
         $snippet_repo = $entityManager->getRepository(Snippet::class);

@@ -91,6 +91,7 @@ class SyncStravaCommand extends OlzCommand {
                 if ($existing !== null) {
                     continue;
                 }
+                $this->logAndOutput("New activity: {$source} by {$firstname} {$lastname}");
                 $run = new RunRecord();
                 $this->entityUtils()->createOlzEntity($run, ['onOff' => true]);
                 $run->setUser(null);

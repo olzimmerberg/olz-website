@@ -8,71 +8,8 @@ use Olz\Components\Common\OlzComponent;
 class OlzZielsprint extends OlzComponent {
     public function getHtml(mixed $args): string {
         $out = '';
-        $db = $this->dbUtils()->getDb();
 
-        $sql = "
-            SELECT solv_uid, name, date
-            FROM solv_events
-            WHERE
-                date>='2025-01-01'
-                AND date<='2025-12-31'
-                AND kind='foot'
-            ORDER BY date ASC";
-        $res_events = $db->query($sql);
-        $points_by_person = [];
-        // @phpstan-ignore-next-line
-        while ($row_event = $res_events->fetch_assoc()) {
-            // $out .= "<h3>".json_encode($row_event)."</h3>";
-            $event_id = intval($row_event['solv_uid']);
-            $sql = "
-                SELECT person, finish_split
-                FROM solv_results
-                WHERE
-                    event='{$event_id}'
-                    AND finish_split > '0'
-                ORDER BY finish_split ASC";
-            $res_results = $db->query($sql);
-            $last_finish_split = null;
-            $last_actual_points = null;
-            // @phpstan-ignore-next-line
-            for ($points = $res_results->num_rows; $points > 0; $points--) {
-                // @phpstan-ignore-next-line
-                $row_results = $res_results->fetch_assoc();
-                // @phpstan-ignore-next-line
-                $person_id = intval($row_results['person']);
-                // @phpstan-ignore-next-line
-                $finish_split = $row_results['finish_split'];
-                $actual_points = ($last_finish_split === $finish_split)
-                    ? $last_actual_points
-                    : $points;
-                $person_points = $points_by_person[$person_id]
-                    ?? ['points' => 0, 'calculation' => []];
-                $points_by_person[$person_id]['points'] = $person_points['points'] + $actual_points;
-                $points_by_person[$person_id]['calculation'][] = [
-                    'event_name' => $row_event['name'],
-                    'points' => $actual_points,
-                    'finish_split' => $finish_split,
-                    // @phpstan-ignore-next-line
-                    'max_points' => $res_results->num_rows,
-                ];
-                $last_finish_split = $finish_split;
-                $last_actual_points = $actual_points;
-                // $out .= "<div>".json_encode($row_results)."</div>";
-            }
-        }
-        $ranking = [];
-        foreach ($points_by_person as $person_id => $points) {
-            $ranking[] = [
-                'person_id' => $person_id,
-                'points' => $points['points'],
-                'calculation' => $points['calculation'],
-            ];
-        }
-
-        // @phpstan-ignore-next-line
-        usort($ranking, function ($a, $b) {
-            return $b['points'] - $a['points'];
-        });
+        $ranking = $this->getRanking();
 
         $out .= "<table>";
         $out .= "<tr>";
@@ -85,20 +22,12 @@ class OlzZielsprint extends OlzComponent {
         for ($index = 0; $index < count($ranking); $index++) {
             $rank = $index + 1;
             $ranking_entry = $ranking[$index];
-            $person_id = intval($ranking_entry['person_id']);
+            $person_name = $ranking_entry['person_name'];
             $points = intval($ranking_entry['points']);
             $actual_rank = ($last_points === $points)
                 ? $last_actual_rank
                 : $rank;
-            $sql = "
-                SELECT name
-                FROM solv_people
-                WHERE id='{$person_id}'";
-            $res_person = $db->query($sql);
-            // @phpstan-ignore-next-line
-            $row_person = $res_person->fetch_assoc();
-            // @phpstan-ignore-next-line
-            $person_name = $row_person['name'];
+
             $calculation = "{$person_name}\\n---\\n";
             foreach ($ranking_entry['calculation'] as $event_calculation) {
                 $event_name = $event_calculation['event_name'];
@@ -122,5 +51,92 @@ class OlzZielsprint extends OlzComponent {
         $out .= "</table>";
 
         return $out;
+    }
+
+    /**
+     * @return array<array{
+     *   person_id: int,
+     *   person_name: string,
+     *   points: int,
+     *   calculation: array<array{
+     *     event_name: string,
+     *     points: int,
+     *     finish_split: int,
+     *     max_points: int,
+     *   }>
+     * }>
+     */
+    public function getRanking(): array {
+        $year = $this->dateUtils()->getCurrentDateInFormat('Y');
+        $db = $this->dbUtils()->getDb();
+
+        $sql = "
+            SELECT solv_uid, name, date
+            FROM solv_events
+            WHERE
+                date>='{$year}-01-01'
+                AND date<='{$year}-12-31'
+                AND kind='foot'
+            ORDER BY date ASC";
+        $res_events = $db->query($sql);
+        $this->generalUtils()->checkNotBool($res_events, "Query error: {$sql}");
+        $points_by_person = [];
+        while ($row_event = $res_events->fetch_assoc()) {
+            // $out .= "<h3>".json_encode($row_event)."</h3>";
+            $event_id = intval($row_event['solv_uid']);
+            $sql = "
+                SELECT person, finish_split
+                FROM solv_results
+                WHERE
+                    event='{$event_id}'
+                    AND finish_split > '0'
+                ORDER BY finish_split ASC";
+            $res_results = $db->query($sql);
+            $this->generalUtils()->checkNotBool($res_results, "Query error: {$sql}");
+            $num_participants = intval($res_results->num_rows);
+            $last_finish_split = null;
+            $last_actual_points = null;
+            for ($points = $num_participants; $points > 0; $points--) {
+                $row_results = $res_results->fetch_assoc();
+                $person_id = intval($row_results['person'] ?? 0);
+                $finish_split = intval($row_results['finish_split'] ?? PHP_INT_MAX);
+                $actual_points = ($last_finish_split === $finish_split)
+                    ? $last_actual_points
+                    : $points;
+                $person_points = $points_by_person[$person_id]
+                    ?? ['points' => 0, 'calculation' => []];
+                $points_by_person[$person_id]['points'] = $person_points['points'] + $actual_points;
+                $points_by_person[$person_id]['calculation'][] = [
+                    'event_name' => "{$row_event['name']}",
+                    'points' => $actual_points,
+                    'finish_split' => $finish_split,
+                    'max_points' => $num_participants,
+                ];
+                $last_finish_split = $finish_split;
+                $last_actual_points = $actual_points;
+                // $out .= "<div>".json_encode($row_results)."</div>";
+            }
+        }
+        $ranking = [];
+        foreach ($points_by_person as $person_id => $points) {
+            $sql = "
+                SELECT name
+                FROM solv_people
+                WHERE id='{$person_id}'";
+            $res_person = $db->query($sql);
+            $this->generalUtils()->checkNotBool($res_person, "Query error: {$sql}");
+            $row_person = $res_person->fetch_assoc();
+            $person_name = strval($row_person['name'] ?? '?');
+            $ranking[] = [
+                'person_id' => $person_id,
+                'person_name' => $person_name,
+                'points' => $points['points'],
+                'calculation' => $points['calculation'],
+            ];
+        }
+
+        usort($ranking, fn ($a, $b) => $b['points'] - $a['points']);
+
+        return $ranking;
     }
 }

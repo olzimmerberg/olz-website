@@ -45,7 +45,7 @@ class OlzStartseite extends OlzRootComponent {
         $out .= "<div class='content-full'>";
 
         $banner_text = OlzEditableText::render(['snippet' => PredefinedSnippet::StartseiteBanner], $this);
-        if (trim(strip_tags($banner_text)) !== '' || $this->authUtils()->hasPermission('olz_text_22')) {
+        if (trim(strip_tags($banner_text)) !== '' || $this->authUtils()->hasPermission('snippet_22')) {
             $out .= "<div id='important-banner' class='banner'>";
             $out .= $banner_text;
             $out .= "</div>";

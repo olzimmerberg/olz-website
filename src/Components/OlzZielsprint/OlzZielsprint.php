@@ -67,7 +67,7 @@ class OlzZielsprint extends OlzComponent {
      * }>
      */
     public function getRanking(): array {
-        $year = $this->dateUtils()->getCurrentDateInFormat('Y');
+        $year = 2026;
         $db = $this->dbUtils()->getDb();
 
         $sql = "

@@ -13,9 +13,6 @@ use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 
 class OlzAnniversaryTile extends AbstractOlzTile {
     public function getRelevance(?User $user): float {
-        if (!$this->authUtils()->hasPermission('anniversary', $user)) {
-            return 0.0;
-        }
         return ((bool) $user) ? 0.91 : 0.01;
     }
 
@@ -33,8 +30,8 @@ class OlzAnniversaryTile extends AbstractOlzTile {
                 SELECT SUM(elevation_meters) as sum_elevation
                 FROM anniversary_runs
                 WHERE
-                    run_at >= '2025-01-01'
-                    AND run_at <= '2025-12-31'
+                    run_at >= '2026-01-01'
+                    AND run_at <= '2026-12-31'
             ZZZZZZZZZZ;
         $res_sum_elevation = $db->query($sql);
         $this->generalUtils()->checkNotBool($res_sum_elevation, "Query error: {$sql}");

@@ -99,7 +99,7 @@ class SyncStravaCommand extends OlzCommand {
                 $run->setDistanceMeters(intval($distance));
                 $run->setElevationMeters(intval($total_elevation_gain));
                 $run->setSource($source);
-                $run->setInfo(json_encode(json_encode($activity)) ?: null);
+                $run->setInfo(json_encode($activity) ?: null);
                 $this->entityManager()->persist($run);
                 $this->entityManager()->flush();
             }

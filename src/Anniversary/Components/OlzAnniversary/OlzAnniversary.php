@@ -69,9 +69,8 @@ class OlzAnniversary extends OlzRootComponent {
         $out .= <<<'ZZZZZZZZZZ'
             <table class='activities-table'>
                 <tr class='header'>
-                    <td></td>
                     <td>Datum</td>
-                    <td>Quelle</td>
+                    <td>Person</td>
                     <td>Distanz</td>
                     <td>Höhenmeter</td>
                 </tr>
@@ -84,26 +83,25 @@ class OlzAnniversary extends OlzRootComponent {
             ))
             ->orderBy(['run_at' => 'DESC'])
             ->setFirstResult(0)
-            ->setMaxResults(1));
+            ->setMaxResults(1000));
         foreach ($runs as $run) {
             $id = $run->getId();
             $json_id = json_encode($id);
-            $date = $run->getRunAt()->format('d.m.Y H:i:s');
-            $edit_button = $run->getSource() === 'manuell' ? <<<ZZZZZZZZZZ
-                    <button
-                        id='edit-run-{$id}-button'
-                        class='btn btn-secondary-outline btn-sm edit-run-list-button'
-                        onclick='return olz.olzAnniversaryEditRun({$json_id})'
-                    >
-                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
-                    </button>
-                ZZZZZZZZZZ : '';
+            $date = $run->getRunAt()->format('d.m.Y H:i');
+            $user = $run->getUser();
+            $name = "?";
+            if ($user) {
+                $last_name = substr($user->getLastName(), 0, 1).".";
+                $name = "{$user->getFirstName()} {$last_name}";
+            } else {
+                $info = json_decode($run->getInfo(), true);
+                $name = "{$info['athlete']['firstname']} {$info['athlete']['lastname']}";
+            }
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
             $out .= <<<ZZZZZZZZZZ
                 <tr>
-                    <td>{$edit_button}</td>
                     <td>{$date}</td>
-                    <td>{$run->getSource()}</td>
+                    <td>{$name}</td>
                     <td>{$distance_km}km</td>
                     <td>{$run->getElevationMeters()}m</td>
                 </tr>

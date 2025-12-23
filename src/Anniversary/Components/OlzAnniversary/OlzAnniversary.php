@@ -2,7 +2,7 @@
 
 namespace Olz\Anniversary\Components\OlzAnniversary;
 
-use Olz\Anniversary\Components\OlzAnniversaryRocket\OlzAnniversaryRocket;
+use Doctrine\Common\Collections\Criteria;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\OlzZielsprint\OlzZielsprint;
@@ -41,15 +41,12 @@ class OlzAnniversary extends OlzRootComponent {
             'title' => self::$title,
             'description' => self::$description,
         ]);
-        $rocket = OlzAnniversaryRocket::render();
         $out .= <<<ZZZZZZZZZZ
             <div class='content-full olz-anniversary'>
                 <h1>🎉 20 Jahre OL Zimmerberg 🥳</h1>
                 {$this->getRunsHtml()}
                 {$this->getElevationStravaHtml()}
                 {$this->getZielsprintHtml()}
-                {$rocket}
-                TODO
             </div>
             ZZZZZZZZZZ;
 
@@ -65,10 +62,58 @@ class OlzAnniversary extends OlzRootComponent {
             $out .= "<p>😕 Du musst <a href='#login-dialog'>eingeloggt</a> sein, um an der Höhenmeter-Challenge teilzunehmen.</p>";
             return $out;
         }
+
         $out .= OlzEditableText::render(['snippet' => PredefinedSnippet::AnniversaryHoehenmeter]);
+
+        $out .= "<h3>Aktivitäten in den letzten 24 Stunden</h3>";
+        $out .= <<<'ZZZZZZZZZZ'
+            <table class='activities-table'>
+                <tr class='header'>
+                    <td></td>
+                    <td>Datum</td>
+                    <td>Quelle</td>
+                    <td>Distanz</td>
+                    <td>Höhenmeter</td>
+                </tr>
+            ZZZZZZZZZZ;
+        $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
+        $runs = $runs_repo->matching(Criteria::create()
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->gt('run_at', new \DateTime('-14 hours')),
+                Criteria::expr()->eq('on_off', 1),
+            ))
+            ->orderBy(['run_at' => 'DESC'])
+            ->setFirstResult(0)
+            ->setMaxResults(1));
+        foreach ($runs as $run) {
+            $id = $run->getId();
+            $json_id = json_encode($id);
+            $date = $run->getRunAt()->format('d.m.Y H:i:s');
+            $edit_button = $run->getSource() === 'manuell' ? <<<ZZZZZZZZZZ
+                    <button
+                        id='edit-run-{$id}-button'
+                        class='btn btn-secondary-outline btn-sm edit-run-list-button'
+                        onclick='return olz.olzAnniversaryEditRun({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                    </button>
+                ZZZZZZZZZZ : '';
+            $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
+            $out .= <<<ZZZZZZZZZZ
+                <tr>
+                    <td>{$edit_button}</td>
+                    <td>{$date}</td>
+                    <td>{$run->getSource()}</td>
+                    <td>{$distance_km}km</td>
+                    <td>{$run->getElevationMeters()}m</td>
+                </tr>
+                ZZZZZZZZZZ;
+        }
+        $out .= "</table>";
+
         $out .= <<<ZZZZZZZZZZ
-            <p>
-                Deine Aktivitäten:
+            <h3>
+                Deine Aktivitäten
                 <button
                     id='create-run-button'
                     class='btn btn-secondary'
@@ -77,7 +122,7 @@ class OlzAnniversary extends OlzRootComponent {
                     <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
                     Aktivität manuell hinzufügen
                 </button>
-            </p>
+            </h3>
             ZZZZZZZZZZ;
         $out .= <<<'ZZZZZZZZZZ'
             <table class='activities-table'>
@@ -129,7 +174,7 @@ class OlzAnniversary extends OlzRootComponent {
         $num_strava_links = count($strava_links);
         $redirect_url = "{$this->envUtils()->getBaseHref()}{$this->envUtils()->getCodeHref()}2026";
         $strava_url = $this->stravaUtils()->getRegistrationUrl(['read', 'activity:read'], $redirect_url);
-        $out = '';
+        $out = "<div class='admin-only'><div class='admin-only-text'>Nur für Organisatoren sichtbar</div>";
         if ($num_strava_links === 0) {
             $out .= "<p>😕 Kein Strava-Konto verlinkt. <a href='{$strava_url}' class='linkext'>Jetzt mit Strava verbinden!</a></p>";
         } else {
@@ -143,6 +188,7 @@ class OlzAnniversary extends OlzRootComponent {
             $out .= "</ul>";
             $out .= "<p><a href='{$strava_url}'>Mit Strava verbinden</a></p>";
         }
+        $out .= '</div>';
         return $out;
     }
 

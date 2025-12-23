@@ -16,11 +16,11 @@
         pointer-events: none;
     }
 
-    .all-bar {
+    .done-range {
         position: absolute;
         left: 10px;
         bottom: 10px;
-        width: 30px;
+        width: 20px;
         height: 160px;
         background-color: rgba(0,0,0,0.1);
     }
@@ -29,27 +29,52 @@
         position: absolute;
         left: 10px;
         bottom: 10px;
-        width: 30px;
+        width: 20px;
         background-color: #008800;
     }
 
     .rocket {
         position: absolute;
-        left: 0px;
+        left: -5px;
 
         svg {
             width: 50px;
         }
     }
 
+    .speed-range {
+        position: absolute;
+        left: 40px;
+        bottom: 10px;
+        width: 10px;
+        height: 160px;
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    .speed-bar {
+        position: absolute;
+        left: 40px;
+        width: 10px;
+
+        &.ahead {
+            bottom: 90px;
+            background-color: #008800;
+        }
+
+        &.behind {
+            top: 130px;
+            background-color: #aa0000;
+        }
+    }
+
     .elevation {
         color: #000;
         position: absolute;
-        left: 50px;
+        left: 60px;
         right: 10px;
         top: 50px;
         height: 60px;
-        font-size: 13px;
+        font-size: 12px;
 
         .title {
             font-weight: bold;
@@ -57,12 +82,29 @@
             text-align: left;
             margin-bottom: 3px;
         }
+
+        .done-text {
+            font-weight: bold;
+        }
+
+        .diff-meters,
+        .diff-days {
+            font-weight: bold;
+
+            &.ahead {
+                color: #008800;
+            }
+
+            &.behind {
+                color: #aa0000;
+            }
+        }
     }
 
     .zielsprint {
         color: #000;
         position: absolute;
-        left: 70px;
+        left: 80px;
         right: 10px;
         top: 120px;
         bottom: 10px;
@@ -74,6 +116,29 @@
             font-size: 14px;
             text-align: center;
             margin-bottom: 3px;
+        }
+
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+            vertical-align: middle;
+
+            &:first-child {
+                width: 20px;
+                font-size: 14px;
+            }
+
+            &:last-child {
+                width: 30px;
+                text-align: right;
+            }
         }
     }
 

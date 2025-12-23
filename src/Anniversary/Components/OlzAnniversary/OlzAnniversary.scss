@@ -14,4 +14,22 @@
             margin: -6px -12px;
         }
     }
+
+    #create-run-button {
+        float: right;
+    }
+
+    .admin-only {
+        border: 1px solid #aa0000;
+        border-radius: 5px;
+        background-color: rgba(0,0,0,0.1);
+        padding: 5px;
+        margin: 5px 0;
+    }
+
+    .admin-only-text {
+        color: #aa0000;
+        font-style: italic;
+        text-align: center;
+    }
 }

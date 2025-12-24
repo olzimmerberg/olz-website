@@ -70,7 +70,7 @@ class OlzAnniversary extends OlzRootComponent {
 
         $out .= "<h3>Aktivitäten in den letzten 24 Stunden</h3>";
         $out .= <<<'ZZZZZZZZZZ'
-            <table class='activities-table'>
+            <table class='activities-table activities-24h'>
                 <tr class='header'>
                     <td>Datum</td>
                     <td>Person</td>
@@ -143,7 +143,7 @@ class OlzAnniversary extends OlzRootComponent {
             </h3>
             ZZZZZZZZZZ;
         $out .= <<<'ZZZZZZZZZZ'
-            <table class='activities-table'>
+            <table class='activities-table activities-manual'>
                 <tr class='header'>
                     <td></td>
                     <td>Datum</td>
@@ -154,7 +154,10 @@ class OlzAnniversary extends OlzRootComponent {
                 </tr>
             ZZZZZZZZZZ;
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
-        $runs = $runs_repo->findBy(['user' => $user], ['run_at' => 'DESC']);
+        $runs = $runs_repo->findBy(
+            ['user' => $user, 'on_off' => 1],
+            ['run_at' => 'DESC'],
+        );
         foreach ($runs as $run) {
             $id = $run->getId();
             $json_id = json_encode($id);

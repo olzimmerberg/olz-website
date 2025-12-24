@@ -244,9 +244,7 @@ class SystemTestCase extends KernelTestCase {
         curl_setopt($ch, CURLOPT_NOBODY, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $body = curl_exec($ch);
-        $header = curl_getinfo($ch);
-        curl_close($ch);
-        return $header;
+        return curl_getinfo($ch);
     }
 
     protected function getTargetUrl(): ?string {

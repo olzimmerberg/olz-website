@@ -60,7 +60,6 @@ class SolvFetcher {
         $result = curl_exec($ch);
         $errno = curl_errno($ch);
         $error = curl_error($ch);
-        curl_close($ch);
         if ($errno || !is_string($result)) {
             $url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
             throw new \Exception("Error fetching {$url}: {$error} ({$errno})");

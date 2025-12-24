@@ -112,7 +112,9 @@ class OlzAnniversary extends OlzRootComponent {
             }
             $source_short = mb_split('-', $run->getSource())[0] ?? '?';
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
-            $inclination_percent = number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2);
+            $inclination_percent = $run->getDistanceMeters()
+                ? number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2)
+                : 'NaN';
             $out .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>{$date}</td>

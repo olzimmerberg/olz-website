@@ -40,12 +40,15 @@ class OlzAnniversary extends OlzRootComponent {
         $out = OlzHeader::render([
             'title' => self::$title,
             'description' => self::$description,
+            'norobots' => true,
         ]);
         $out .= <<<ZZZZZZZZZZ
             <div class='content-full olz-anniversary'>
                 <h1>🎉 20 Jahre OL Zimmerberg 🥳</h1>
+                <br>
                 {$this->getRunsHtml()}
                 {$this->getElevationStravaHtml()}
+                <br>
                 {$this->getZielsprintHtml()}
             </div>
             ZZZZZZZZZZ;
@@ -57,7 +60,7 @@ class OlzAnniversary extends OlzRootComponent {
     protected function getRunsHtml(): string {
         $code_href = $this->envUtils()->getCodeHref();
         $user = $this->authUtils()->getCurrentUser();
-        $out = '<h2>Höhenmeter-Challenge</h2>';
+        $out = '<h2>🏃 Höhenmeter-Challenge ⛰️</h2>';
         if (!$user) {
             $out .= "<p>😕 Du musst <a href='#login-dialog'>eingeloggt</a> sein, um an der Höhenmeter-Challenge teilzunehmen.</p>";
             return $out;
@@ -71,14 +74,20 @@ class OlzAnniversary extends OlzRootComponent {
                 <tr class='header'>
                     <td>Datum</td>
                     <td>Person</td>
+                    <td>Quelle</td>
                     <td>Distanz</td>
                     <td>Höhenmeter</td>
+                    <td>Steigung</td>
+                    <td>Art</td>
                 </tr>
             ZZZZZZZZZZ;
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
+        $iso_now = $this->dateUtils()->getIsoNow();
+        $minus_one_day = \DateInterval::createFromDateString("-24 hours");
+        $one_day_ago = (new \DateTime($iso_now))->add($minus_one_day);
         $runs = $runs_repo->matching(Criteria::create()
             ->where(Criteria::expr()->andX(
-                Criteria::expr()->gt('run_at', new \DateTime('-14 hours')),
+                Criteria::expr()->gt('run_at', $one_day_ago),
                 Criteria::expr()->eq('on_off', 1),
             ))
             ->orderBy(['run_at' => 'DESC'])
@@ -88,22 +97,31 @@ class OlzAnniversary extends OlzRootComponent {
             $id = $run->getId();
             $json_id = json_encode($id);
             $date = $run->getRunAt()->format('d.m.Y H:i');
-            $user = $run->getUser();
+            $info = json_decode($run->getInfo(), true) ?? null;
+            $run_user = $run->getUser();
             $name = "?";
-            if ($user) {
-                $last_name = substr($user->getLastName(), 0, 1).".";
-                $name = "{$user->getFirstName()} {$last_name}";
+            $sport_type = "?";
+            if ($run_user) {
+                $last_name = substr($run_user->getLastName(), 0, 1).".";
+                $name = "{$run_user->getFirstName()} {$last_name}";
             } else {
-                $info = json_decode($run->getInfo(), true);
-                $name = "{$info['athlete']['firstname']} {$info['athlete']['lastname']}";
+                if (is_array($info)) {
+                    $name = "{$info['athlete']['firstname']} {$info['athlete']['lastname']}";
+                    $sport_type = "{$info['type']} / {$info['sport_type']}";
+                }
             }
+            $source_short = mb_split('-', $run->getSource())[0] ?? '?';
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
+            $inclination_percent = number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2);
             $out .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>{$date}</td>
                     <td>{$name}</td>
-                    <td>{$distance_km}km</td>
-                    <td>{$run->getElevationMeters()}m</td>
+                    <td>{$source_short}</td>
+                    <td class='number'>{$distance_km}km</td>
+                    <td class='number'><b>{$run->getElevationMeters()}m</b></td>
+                    <td class='number'>{$inclination_percent}%</td>
+                    <td>{$sport_type}</td>
                 </tr>
                 ZZZZZZZZZZ;
         }
@@ -111,7 +129,7 @@ class OlzAnniversary extends OlzRootComponent {
 
         $out .= <<<ZZZZZZZZZZ
             <h3>
-                Deine Aktivitäten
+                Deine Aktivitäten (ohne Strava)
                 <button
                     id='create-run-button'
                     class='btn btn-secondary'
@@ -130,6 +148,7 @@ class OlzAnniversary extends OlzRootComponent {
                     <td>Quelle</td>
                     <td>Distanz</td>
                     <td>Höhenmeter</td>
+                    <td>Steigung</td>
                 </tr>
             ZZZZZZZZZZ;
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
@@ -148,13 +167,15 @@ class OlzAnniversary extends OlzRootComponent {
                     </button>
                 ZZZZZZZZZZ : '';
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
+            $inclination_percent = number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2);
             $out .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>{$edit_button}</td>
                     <td>{$date}</td>
                     <td>{$run->getSource()}</td>
-                    <td>{$distance_km}km</td>
-                    <td>{$run->getElevationMeters()}m</td>
+                    <td class='number'>{$distance_km}km</td>
+                    <td class='number'><b>{$run->getElevationMeters()}m</b></td>
+                    <td class='number'>{$inclination_percent}%</td>
                 </tr>
                 ZZZZZZZZZZ;
         }
@@ -191,7 +212,7 @@ class OlzAnniversary extends OlzRootComponent {
     }
 
     protected function getZielsprintHtml(): string {
-        $out = '<h2>Zielsprint-Challenge</h2>';
+        $out = '<h2>🏁 Zielsprint-Challenge 🏃</h2>';
         $out .= OlzEditableText::render(['snippet' => PredefinedSnippet::AnniversaryZielsprint]);
         $out .= OlzZielsprint::render();
         return $out;

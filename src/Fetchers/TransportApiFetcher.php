@@ -20,9 +20,6 @@ class TransportApiFetcher {
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $connection_result = curl_exec($ch);
-        $connection_response = json_decode(!is_bool($connection_result) ? $connection_result : '', true);
-        curl_close($ch);
-
-        return $connection_response;
+        return json_decode(!is_bool($connection_result) ? $connection_result : '', true);
     }
 }

@@ -17,9 +17,6 @@ class TelegramFetcher {
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($args, '', '&'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $telegram_result = curl_exec($ch);
-        $telegram_response = json_decode(!is_bool($telegram_result) ? $telegram_result : '', true);
-        curl_close($ch);
-
-        return $telegram_response;
+        return json_decode(!is_bool($telegram_result) ? $telegram_result : '', true);
     }
 }

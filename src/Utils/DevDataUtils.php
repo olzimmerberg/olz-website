@@ -801,7 +801,6 @@ class DevDataUtils {
             } else {
                 imagepng($destination, $tmp_path);
             }
-            imagedestroy($destination);
         }
         $this->copy($tmp_path, $destination_path);
     }

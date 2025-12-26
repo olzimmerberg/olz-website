@@ -210,7 +210,6 @@ class Panini2024Utils {
                 $payload_wid,
                 $payload_hei,
             );
-            imagedestroy($payload_img);
             gc_collect_cycles();
         }
 
@@ -218,13 +217,11 @@ class Panini2024Utils {
         $bottom_mask = imagecreatefrompng($bottom_mask_path);
         $this->generalUtils()->checkNotFalse($bottom_mask, "renderSingle: Could not read bottom_mask");
         imagecopy($img, $bottom_mask, 0, 0, 0, 0, $wid, $hei);
-        imagedestroy($bottom_mask);
         gc_collect_cycles();
         if ($has_top) {
             $top_mask = imagecreatefrompng($top_mask_path);
             $this->generalUtils()->checkNotFalse($top_mask, "renderSingle: Could not create top_mask");
             imagecopy($img, $top_mask, 0, 0, 0, 0, $wid, $hei);
-            imagedestroy($top_mask);
             gc_collect_cycles();
         }
 
@@ -233,7 +230,6 @@ class Panini2024Utils {
             $association_mask = imagecreatefrompng($association_mask_path);
             $this->generalUtils()->checkNotFalse($association_mask, "renderSingle: Could not create association_mask");
             imagecopy($img, $association_mask, 0, 0, 0, 0, $wid, $hei);
-            imagedestroy($association_mask);
             gc_collect_cycles();
 
             $offset = intval(round(($wid + $hei) * 0.01) - 1);
@@ -258,7 +254,6 @@ class Panini2024Utils {
                 imagesx($association_img_orig),
                 imagesy($association_img_orig),
             );
-            imagedestroy($association_img_orig);
             gc_collect_cycles();
 
             for ($x = 0; $x < $size; $x++) {
@@ -292,8 +287,6 @@ class Panini2024Utils {
                     }
                 }
             }
-            imagedestroy($flag_mask);
-            imagedestroy($association_img);
             gc_collect_cycles();
         }
 
@@ -325,7 +318,6 @@ class Panini2024Utils {
         imagejpeg($img, null, 90);
         $image_data = ob_get_contents();
         ob_end_clean();
-        imagedestroy($img);
         $this->generalUtils()->checkNotFalse($image_data, "Could not retrieve image data");
         file_put_contents($cache_file, $image_data);
         $this->log()->info("Written to cache: {$id}-{$md5}.jpg");
@@ -533,7 +525,6 @@ class Panini2024Utils {
             $this->generalUtils()->checkNotFalse($img, "cachePictureId: Failed rotating");
         }
         imagejpeg($img, $temp_file_path);
-        imagedestroy($img);
         gc_collect_cycles();
     }
 

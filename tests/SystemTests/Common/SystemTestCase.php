@@ -244,9 +244,7 @@ class SystemTestCase extends KernelTestCase {
         curl_setopt($ch, CURLOPT_NOBODY, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $body = curl_exec($ch);
-        $header = curl_getinfo($ch);
-        curl_close($ch);
-        return $header;
+        return curl_getinfo($ch);
     }
 
     protected function getTargetUrl(): ?string {
@@ -442,12 +440,10 @@ class SystemTestCase extends KernelTestCase {
                 $src = imagecreatefrompng($path);
                 assert((bool) $src);
                 imagecopy($dest, $src, $scroll_x, $scroll_y, $scroll_x_diff, $scroll_y_diff, $window_width, $window_height);
-                imagedestroy($src);
                 unlink($path);
             }
         }
         imagepng($dest, "{$screenshots_path}{$screenshot_filename}");
-        imagedestroy($dest);
         $this->unhideFlakyElements();
         $this->tock('screenshot', 'screenshot');
     }

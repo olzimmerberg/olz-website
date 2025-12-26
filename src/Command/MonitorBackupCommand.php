@@ -87,8 +87,6 @@ class MonitorBackupCommand extends OlzCommand {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $artifacts_raw = curl_exec($ch);
 
-        curl_close($ch);
-
         $artifacts_dict = json_decode(!is_bool($artifacts_raw) ? $artifacts_raw : '', true);
         if (!$artifacts_dict) {
             throw new \Exception("No artifacts JSON");

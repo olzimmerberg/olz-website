@@ -132,7 +132,6 @@ class ImageUtils {
             imagesavealpha($thumb, true);
             imagecopyresampled($thumb, $img, 0, 0, 0, 0, $wid, $hei, $swid, $shei);
             imagejpeg($thumb, $thumbfile, 90);
-            imagedestroy($thumb);
         }
         return $thumbfile;
     }

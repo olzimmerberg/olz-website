@@ -202,6 +202,7 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
                 </button>
             </div>
             <canvas
+                className='captcha-canvas'
                 width={wid}
                 height={hei}
                 style={{width: `${WID}px`, height: `${HEI}px`}}

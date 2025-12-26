@@ -80,8 +80,6 @@
     "allestuetsmerweh/php-deploy": "^2.0",
     "allestuetsmerweh/php-typescript-api": "^2.0",
     "artgris/filemanager-bundle": "^2.5",
-    "doctrine/annotations": "^2.0",
-    "doctrine/cache": "^2.2",
     "doctrine/doctrine-bundle": "^2.6",
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/migrations": "^3.0",

@@ -99,16 +99,17 @@ class OlzAnniversary extends OlzRootComponent {
 
         $out .= "<h3>Aktivitäten in den letzten 24 Stunden</h3>";
         $out .= <<<'ZZZZZZZZZZ'
-            <table class='activities-table activities-24h'>
-                <tr class='header'>
-                    <td>Datum</td>
-                    <td>Person</td>
-                    <td>Quelle</td>
-                    <td>Distanz</td>
-                    <td>Höhenmeter</td>
-                    <td>Steigung</td>
-                    <td>Art</td>
-                </tr>
+            <div class='activities-table activities-24h'>
+                <table>
+                    <tr class='header'>
+                        <td>Datum</td>
+                        <td>Person</td>
+                        <td>Quelle</td>
+                        <td>Distanz</td>
+                        <td>Höhenmeter</td>
+                        <td>Steigung</td>
+                        <td>Art</td>
+                    </tr>
             ZZZZZZZZZZ;
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
         $iso_now = $this->dateUtils()->getIsoNow();
@@ -156,7 +157,7 @@ class OlzAnniversary extends OlzRootComponent {
                 </tr>
                 ZZZZZZZZZZ;
         }
-        $out .= "</table>";
+        $out .= "</table></div>";
 
         $out .= <<<ZZZZZZZZZZ
             <h3>
@@ -172,15 +173,16 @@ class OlzAnniversary extends OlzRootComponent {
             </h3>
             ZZZZZZZZZZ;
         $out .= <<<'ZZZZZZZZZZ'
-            <table class='activities-table activities-manual'>
-                <tr class='header'>
-                    <td></td>
-                    <td>Datum</td>
-                    <td>Quelle</td>
-                    <td>Distanz</td>
-                    <td>Höhenmeter</td>
-                    <td>Steigung</td>
-                </tr>
+            <div class='activities-table activities-manual'>
+                <table>
+                    <tr class='header'>
+                        <td></td>
+                        <td>Datum</td>
+                        <td>Quelle</td>
+                        <td>Distanz</td>
+                        <td>Höhenmeter</td>
+                        <td>Steigung</td>
+                    </tr>
             ZZZZZZZZZZ;
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
         $runs = $runs_repo->findBy(
@@ -213,7 +215,7 @@ class OlzAnniversary extends OlzRootComponent {
                 </tr>
                 ZZZZZZZZZZ;
         }
-        $out .= "</table>";
+        $out .= "</table></div>";
         return $out;
     }
 

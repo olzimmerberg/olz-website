@@ -3,6 +3,7 @@
 namespace Olz\Anniversary\Components\OlzAnniversary;
 
 use Doctrine\Common\Collections\Criteria;
+use Olz\Anniversary\Components\OlzAnniversaryRocket\OlzAnniversaryRocket;
 use Olz\Components\Common\OlzEditableText\OlzEditableText;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\OlzZielsprint\OlzZielsprint;
@@ -67,6 +68,34 @@ class OlzAnniversary extends OlzRootComponent {
         }
 
         $out .= OlzEditableText::render(['snippet' => PredefinedSnippet::AnniversaryHoehenmeter]);
+
+        $stats = $this->anniversaryUtils()->getElevationStats();
+
+        $done_wid = \number_format(max(0, $stats['completion'] * 100), 2);
+        $diff_wid = log10(abs($stats['diffDays']) + 1) * 25;
+        $rocket = OlzAnniversaryRocket::render();
+        $out .= <<<ZZZZZZZZZZ
+                <div class='elevation-stats'>
+                    <div class='done-range'></div>
+                    <div class='done-bar' style='width: {$done_wid}%;'></div>
+                    <div class='rocket test-flaky' style='left: {$done_wid}%;'>{$rocket}</div>
+                    <div class='diff-range'></div>
+                    <div class='diff-bar {$stats['diffKind']}' style='width: {$diff_wid}%;'></div>
+                    <div class='marker' style='left: 12.72%;'></div>
+                    <div class='marker' style='left: 27.42%;'></div>
+                    <div class='marker' style='left: 42.47%;'></div>
+                    <div class='marker' style='left: 50%;'></div>
+                    <div class='marker' style='left: 57.53%;'></div>
+                    <div class='marker' style='left: 72.58%;'></div>
+                    <div class='marker' style='left: 87.28%;'></div>
+                    <div class='marker-text' style='left: 12.72%;'>-1 Monat</div>
+                    <div class='marker-text' style='left: 27.42%;'>-1 Woche</div>
+                    <div class='marker-text' style='left: 42.47%;'>-1 Tag</div>
+                    <div class='marker-text' style='left: 57.53%;'>+1 Tag</div>
+                    <div class='marker-text' style='left: 72.58%;'>+1 Woche</div>
+                    <div class='marker-text' style='left: 87.28%;'>+1 Monat</div>
+                </div>
+            ZZZZZZZZZZ;
 
         $out .= "<h3>Aktivitäten in den letzten 24 Stunden</h3>";
         $out .= <<<'ZZZZZZZZZZ'

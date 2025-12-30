@@ -2,6 +2,7 @@
 
 namespace Olz\Utils;
 
+use Olz\Anniversary\Utils\AnniversaryUtilsTrait;
 use Olz\Captcha\Utils\CaptchaUtilsTrait;
 use Olz\Fetchers\SolvFetcherTrait;
 use Olz\News\Utils\NewsUtilsTrait;
@@ -9,6 +10,7 @@ use Olz\Suche\Utils\SearchUtilsTrait;
 use Olz\Termine\Utils\TermineUtilsTrait;
 
 trait WithUtilsTrait {
+    use AnniversaryUtilsTrait;
     use AuthUtilsTrait;
     use CaptchaUtilsTrait;
     use DateUtilsTrait;

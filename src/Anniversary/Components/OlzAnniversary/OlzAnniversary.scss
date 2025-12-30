@@ -1,4 +1,74 @@
 .olz-anniversary {
+    .elevation-stats {
+        position: relative;
+        height: 70px;
+        margin: 10px 0;
+    }
+
+    .done-range {
+        position: absolute;
+        width: 100%;
+        height: 30px;
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    .done-bar {
+        position: absolute;
+        width: 100%;
+        height: 30px;
+        background-color: #008800;
+    }
+
+    .rocket {
+        position: absolute;
+        top: -36px;
+        transform: matrix(0, -1, -1, 0, -50, 0);
+
+        svg {
+            width: 75px;
+        }
+    }
+
+    .diff-range {
+        position: absolute;
+        top: 40px;
+        width: 100%;
+        height: 10px;
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    .diff-bar {
+        position: absolute;
+        top: 40px;
+        height: 10px;
+
+        &.ahead {
+            left: 50%;
+            background-color: #008800;
+        }
+
+        &.behind {
+            right: 50%;
+            background-color: #aa0000;
+        }
+    }
+
+    .marker {
+        position: absolute;
+        top: 38px;
+        height: 14px;
+        border-left: 1px solid black;
+    }
+    
+    .marker-text {
+        position: absolute;
+        top: 52px;
+        height: 14px;
+        margin-left: -50px;
+        width: 100px;
+        text-align: center;
+    }
+    
     .activities-table {
         width: auto;
 

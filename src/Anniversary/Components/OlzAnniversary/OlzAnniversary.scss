@@ -70,10 +70,17 @@
     }
     
     .activities-table {
-        width: auto;
+        clear: both;
+        overflow-y: hidden;
+        overflow-x: auto;
+
+        table {
+            width: auto;
+        }
 
         td {
             padding: 2px 5px;
+            white-space: nowrap;
         }
 
         .header td {

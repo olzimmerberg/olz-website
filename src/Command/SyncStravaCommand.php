@@ -64,6 +64,12 @@ class SyncStravaCommand extends OlzCommand {
 
     /** @param array<StravaLink> $strava_links */
     protected function syncStravaLinks(array $strava_links): void {
+        $is_sport_type_valid = [
+            'Run' => true,
+            'TrailRun' => true,
+            'Hike' => true,
+            'Walk' => true,
+        ];
         $now = new \DateTime($this->dateUtils()->getIsoNow());
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
         foreach ($strava_links as $strava_link) {
@@ -84,7 +90,7 @@ class SyncStravaCommand extends OlzCommand {
                 $elapsed_time = $activity['elapsed_time'];
                 $total_elevation_gain = $activity['total_elevation_gain'];
                 $sport_type = $activity['sport_type'];
-                $is_run = $sport_type === 'Run' || $sport_type === 'TrailRun';
+                $is_counting = $is_sport_type_valid[$sport_type] ?? false;
                 $id = md5("{$firstname}-{$lastname}-{$distance}-{$total_elevation_gain}-{$moving_time}-{$elapsed_time}");
                 $source = "strava-{$id}";
                 $existing = $runs_repo->findOneBy(['source' => $source]);
@@ -95,7 +101,9 @@ class SyncStravaCommand extends OlzCommand {
                 $run = new RunRecord();
                 $this->entityUtils()->createOlzEntity($run, ['onOff' => true]);
                 $run->setUser(null);
+                $run->setRunnerName("{$firstname} {$lastname}");
                 $run->setRunAt($now);
+                $run->setIsCounting($is_counting);
                 $run->setDistanceMeters(intval($distance));
                 $run->setElevationMeters(intval($total_elevation_gain));
                 $run->setSource($source);

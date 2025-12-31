@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20251125174358
+-- MIGRATION: DoctrineMigrations\Version20251231090437
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -22,10 +22,10 @@ VALUES
 
 -- Table anniversary_runs
 INSERT INTO anniversary_runs
-    (`on_off`, `created_at`, `last_modified_at`, `id`, `run_at`, `distance_meters`, `elevation_meters`, `source`, `info`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `user_id`)
+    (`on_off`, `created_at`, `last_modified_at`, `id`, `run_at`, `distance_meters`, `elevation_meters`, `source`, `info`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `user_id`, `runner_name`, `is_counting`)
 VALUES
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '1', '2020-08-15 16:51:00', '12340', '123', 'manuell', NULL, '1', NULL, '1', '1', '1'),
-    ('1', '2020-08-14 23:45:00', '2020-08-14 23:45:00', '2', '2020-08-14 23:45:00', '43210', '432', 'strava-09d1fe82bdfa94def6a94a4ef800cf95', '{"resource_state":2,"athlete":{"resource_state":2,"firstname":"Simon","lastname":"H."},"name":"Evening Run","distance":9522.8,"moving_time":2919,"elapsed_time":2919,"total_elevation_gain":232.7,"type":"Run","sport_type":"Run","workout_type":null,"device_name":"Garmin Forerunner 55"}', NULL, NULL, NULL, NULL, NULL);
+    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '1', '2020-08-15 16:51:00', '12340', '123', 'manuell', NULL, '1', NULL, '1', '1', '1', '', '1'),
+    ('1', '2020-08-14 23:45:00', '2020-08-14 23:45:00', '2', '2020-08-14 23:45:00', '43210', '432', 'strava-09d1fe82bdfa94def6a94a4ef800cf95', '{\"resource_state\":2,\"athlete\":{\"resource_state\":2,\"firstname\":\"Simon\",\"lastname\":\"H.\"},\"name\":\"Evening Run\",\"distance\":9522.8,\"moving_time\":2919,\"elapsed_time\":2919,\"total_elevation_gain\":232.7,\"type\":\"Run\",\"sport_type\":\"Run\",\"workout_type\":null,\"device_name\":\"Garmin Forerunner 55\"}', NULL, NULL, NULL, NULL, NULL, '', '1');
 
 -- Table auth_requests
 -- (auth_requests omitted)
@@ -106,7 +106,8 @@ VALUES
     ('DoctrineMigrations\\Version20250513214853', '2025-05-13 23:50:47', '598'),
     ('DoctrineMigrations\\Version20250526204822', '2025-05-29 21:16:25', '669'),
     ('DoctrineMigrations\\Version20250618220717', '2025-06-19 00:07:51', '81'),
-    ('DoctrineMigrations\\Version20251125174358', '2025-11-25 18:44:24', '438');
+    ('DoctrineMigrations\\Version20251125174358', '2025-11-25 18:44:24', '438'),
+    ('DoctrineMigrations\\Version20251231090437', '2025-12-31 10:05:41', '13');
 
 -- Table downloads
 INSERT INTO downloads

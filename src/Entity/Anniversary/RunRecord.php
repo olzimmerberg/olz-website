@@ -22,8 +22,14 @@ class RunRecord extends OlzEntity implements TestableInterface {
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private ?User $user;
 
+    #[ORM\Column(type: 'string', nullable: false, options: ['default' => ''])]
+    private string $runner_name;
+
     #[ORM\Column(type: 'datetime', nullable: false)]
     private \DateTime $run_at;
+
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    private bool $is_counting;
 
     #[ORM\Column(type: 'integer', nullable: false)]
     private int $distance_meters;
@@ -53,12 +59,28 @@ class RunRecord extends OlzEntity implements TestableInterface {
         $this->user = $new_user;
     }
 
+    public function getRunnerName(): string {
+        return $this->runner_name;
+    }
+
+    public function setRunnerName(string $new_value): void {
+        $this->runner_name = $new_value;
+    }
+
     public function getRunAt(): \DateTime {
         return $this->run_at;
     }
 
     public function setRunAt(\DateTime $new_value): void {
         $this->run_at = $new_value;
+    }
+
+    public function getIsCounting(): bool {
+        return $this->is_counting;
+    }
+
+    public function setIsCounting(bool $new_value): void {
+        $this->is_counting = $new_value;
     }
 
     public function getDistanceMeters(): int {

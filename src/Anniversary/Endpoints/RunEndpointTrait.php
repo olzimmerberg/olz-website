@@ -42,9 +42,13 @@ trait RunEndpointTrait {
         if ($user === null) {
             $user = $this->authUtils()->getCurrentUser();
         }
+        $last_name = substr($user?->getLastName() ?? '', 0, 1).".";
+        $name = "{$user?->getFirstName()} {$last_name}";
 
         $entity->setUser($user);
+        $entity->setRunnerName($name);
         $entity->setRunAt($input_data['runAt'] ?? $now);
+        $entity->setIsCounting(true);
         $entity->setDistanceMeters($input_data['distanceMeters']);
         $entity->setElevationMeters($input_data['elevationMeters']);
         $entity->setSource($input_data['source'] ?? 'manuell');

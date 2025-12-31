@@ -30,6 +30,8 @@ class AnniversaryUtils {
                 WHERE
                     run_at >= '2026-01-01'
                     AND run_at <= '2026-12-31'
+                    AND is_counting = '1'
+                    AND on_off = '1'
             ZZZZZZZZZZ;
         $res_sum_elevation = $db->query($sql);
         $this->generalUtils()->checkNotBool($res_sum_elevation, "Query error: {$sql}");
@@ -46,5 +48,17 @@ class AnniversaryUtils {
             'diffDays' => $diff_days,
             'diffKind' => $diff_kind,
         ];
+    }
+
+    public function getPrettySource(string $source): string {
+        $source_short = mb_split('-', $source)[0] ?? '?';
+        if ($source_short === 'manuell') {
+            return "✍️ manuell";
+        }
+        if ($source_short === 'strava') {
+            $code_href = $this->envUtils()->getCodeHref();
+            return "<img src='{$code_href}assets/icns/strava_16.svg' alt='s' class='noborder'> strava";
+        }
+        return "🤷 {$source_short}";
     }
 }

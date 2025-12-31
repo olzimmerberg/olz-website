@@ -78,7 +78,7 @@ class OlzAnniversary extends OlzRootComponent {
                 <div class='elevation-stats'>
                     <div class='done-range'></div>
                     <div class='done-bar' style='width: {$done_wid}%;'></div>
-                    <div class='rocket test-flaky' style='left: {$done_wid}%;'>{$rocket}</div>
+                    <div class='rocket test-flaky' style='left: {$done_wid}%;' ondblclick='olz.handleRocketClick(this, event)'>{$rocket}</div>
                     <div class='diff-range'></div>
                     <div class='diff-bar {$stats['diffKind']}' style='width: {$diff_wid}%;'></div>
                     <div class='marker' style='left: 12.72%;'></div>
@@ -128,19 +128,14 @@ class OlzAnniversary extends OlzRootComponent {
             $json_id = json_encode($id);
             $date = $run->getRunAt()->format('d.m.Y H:i');
             $info = json_decode($run->getInfo(), true) ?? null;
-            $run_user = $run->getUser();
-            $name = "?";
+            $is_counting_emoji = $run->getIsCounting() ? '✅' : '🚫';
+            $is_counting_title = $run->getIsCounting() ? 'zählt' : 'zählt nicht';
+            $name = $run->getRunnerName() ?? "?";
             $sport_type = "?";
-            if ($run_user) {
-                $last_name = substr($run_user->getLastName(), 0, 1).".";
-                $name = "{$run_user->getFirstName()} {$last_name}";
-            } else {
-                if (is_array($info)) {
-                    $name = "{$info['athlete']['firstname']} {$info['athlete']['lastname']}";
-                    $sport_type = "{$info['type']} / {$info['sport_type']}";
-                }
+            if (is_array($info)) {
+                $sport_type = "{$info['type']} / {$info['sport_type']}";
             }
-            $source_short = mb_split('-', $run->getSource())[0] ?? '?';
+            $source = $this->anniversaryUtils()->getPrettySource($run->getSource() ?? '?');
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
             $inclination_percent = $run->getDistanceMeters()
                 ? number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2)
@@ -149,11 +144,11 @@ class OlzAnniversary extends OlzRootComponent {
                 <tr>
                     <td>{$date}</td>
                     <td>{$name}</td>
-                    <td>{$source_short}</td>
+                    <td>{$source}</td>
                     <td class='number'>{$distance_km}km</td>
                     <td class='number'><b>{$run->getElevationMeters()}m</b></td>
                     <td class='number'>{$inclination_percent}%</td>
-                    <td>{$sport_type}</td>
+                    <td><span title='{$is_counting_title}'>{$is_counting_emoji} {$sport_type}</span></td>
                 </tr>
                 ZZZZZZZZZZ;
         }
@@ -202,13 +197,14 @@ class OlzAnniversary extends OlzRootComponent {
                         <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                     </button>
                 ZZZZZZZZZZ : '';
+            $source = $this->anniversaryUtils()->getPrettySource($run->getSource() ?? '?');
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
             $inclination_percent = number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2);
             $out .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>{$edit_button}</td>
                     <td>{$date}</td>
-                    <td>{$run->getSource()}</td>
+                    <td>{$source}</td>
                     <td class='number'>{$distance_km}km</td>
                     <td class='number'><b>{$run->getElevationMeters()}m</b></td>
                     <td class='number'>{$inclination_percent}%</td>

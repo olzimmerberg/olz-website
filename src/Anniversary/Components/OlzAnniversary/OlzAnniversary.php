@@ -78,7 +78,14 @@ class OlzAnniversary extends OlzRootComponent {
                 <div class='elevation-stats'>
                     <div class='done-range'></div>
                     <div class='done-bar' style='width: {$done_wid}%;'></div>
-                    <div class='rocket test-flaky' style='left: {$done_wid}%;' ondblclick='olz.handleRocketClick(this, event)'>{$rocket}</div>
+                    <div
+                        class='rocket test-flaky'
+                        style='left: {$done_wid}%;'
+                        ondblclick='olz.handleRocketClick(this, event)'
+                        ontouchstart='olz.handleRocketTap(this)'
+                    >
+                        {$rocket}
+                    </div>
                     <div class='diff-range'></div>
                     <div class='diff-bar {$stats['diffKind']}' style='width: {$diff_wid}%;'></div>
                     <div class='marker' style='left: 12.72%;'></div>

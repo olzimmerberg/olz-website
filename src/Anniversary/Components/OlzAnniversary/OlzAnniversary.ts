@@ -42,3 +42,7 @@ export function handleRocketClick(elem: HTMLDivElement, click: MouseEvent): void
         currentTarget = [move.pageX, move.pageY, angle];
     });
 }
+
+export function handleRocketTap(elem: HTMLDivElement): void {
+    elem.ondblclick = () => false;
+}

@@ -21,7 +21,7 @@ class AnniversaryUtils {
 
         $is_before_2026 = intval($this->dateUtils()->getCurrentDateInFormat('Y')) < 2026;
         $goal_meters_per_day = 4478;
-        $year_start_secs = 1735689600; // 2025-01-01 00:00:00
+        $year_start_secs = 1767222000; // 2026-01-01 00:00:00
         $now_secs = $is_before_2026 ? $year_start_secs : strtotime($this->dateUtils()->getIsoNow());
         $goal_elevation = ($now_secs - $year_start_secs) * $goal_meters_per_day / 86400;
         $sql = <<<'ZZZZZZZZZZ'

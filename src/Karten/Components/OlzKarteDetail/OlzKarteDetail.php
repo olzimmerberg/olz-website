@@ -20,22 +20,27 @@ class OlzKarteDetail extends OlzRootComponent {
         return 'Karten';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        $results = [];
+    public function getSearchResultsWhenHasAccess(array $terms): ?array {
+        return null; // TODO: Remove after migration
+    }
+
+    public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
-        $karte_repo = $this->entityManager()->getRepository(Karte::class);
-        $karten = $karte_repo->search($terms);
-        foreach ($karten as $karte) {
-            $id = $karte->getId();
-            $results[] = $this->searchUtils()->getScoredSearchResult([
-                'link' => "{$code_href}karten/{$id}",
-                'icon' => "{$code_href}assets/icns/link_map_16.svg",
-                'date' => null,
-                'title' => $karte->getName() ?: '?',
-                'text' => $karte->getPlace() ?: null,
-            ], $terms);
-        }
-        return $results;
+        $where = implode(' AND ', array_map(
+            fn ($term) => "(k.name LIKE '%{$term}%' OR k.ort LIKE '%{$term}%')",
+            $terms,
+        ));
+        return <<<ZZZZZZZZZZ
+            SELECT
+                CONCAT('{$code_href}karten/', k.id) AS link,
+                '{$code_href}assets/icns/link_map_16.svg' AS icon,
+                NULL AS date,
+                k.name AS title,
+                k.ort AS text
+            FROM karten k
+            WHERE
+                k.on_off = '1' AND {$where}
+            ZZZZZZZZZZ;
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

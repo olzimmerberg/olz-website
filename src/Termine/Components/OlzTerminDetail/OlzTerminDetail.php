@@ -27,22 +27,47 @@ class OlzTerminDetail extends OlzRootComponent {
         return 'Termine';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        $results = [];
+    public function getSearchResultsWhenHasAccess(array $terms): ?array {
+        return null; // TODO: Remove after migration
+    }
+
+    public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
-        $termin_repo = $this->entityManager()->getRepository(Termin::class);
-        $termine = $termin_repo->search($terms);
-        foreach ($termine as $termin) {
-            $id = $termin->getId();
-            $results[] = $this->searchUtils()->getScoredSearchResult([
-                'link' => "{$code_href}termine/{$id}",
-                'icon' => "{$code_href}assets/icns/termine_type_all_20.svg",
-                'date' => $termin->getStartDate(),
-                'title' => $termin->getTitle() ?: '?',
-                'text' => strip_tags("{$termin->getText()}") ?: null,
-            ], $terms);
-        }
-        return $results;
+        $where = implode(' AND ', array_map(function ($term) {
+            $date_sql = '';
+            $term_date_range = $this->dateUtils()->parseDateTimeRange($term);
+            if ($term_date_range !== null) {
+                $query_start = $term_date_range['start']->format('Y-m-d');
+                $query_end = $term_date_range['end']->format('Y-m-d');
+                $date_sql = <<<ZZZZZZZZZZ
+                    OR (
+                        t.start_date < '{$query_end}'
+                        AND IFNULL(t.end_date, t.start_date) >= '{$query_start}'
+                    )
+                    ZZZZZZZZZZ;
+            }
+            return <<<ZZZZZZZZZZ
+                (
+                    t.title LIKE '%{$term}%'
+                    OR t.text LIKE '%{$term}%'
+                    OR tl.name LIKE '%{$term}%'
+                    {$date_sql}
+                )
+                ZZZZZZZZZZ;
+        }, $terms));
+        return <<<ZZZZZZZZZZ
+            SELECT
+                CONCAT('{$code_href}termine/', t.id) AS link,
+                '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
+                t.start_date AS date,
+                t.title AS title,
+                CONCAT(IFNULL(tl.name, ''), ' ', IFNULL(t.text, '')) AS text
+            FROM termine t LEFT JOIN termin_locations tl ON (t.location_id = tl.id)
+            WHERE
+                t.on_off = '1'
+                AND {$this->termineUtils()->getIsNotArchivedSql('t')}
+                AND {$where}
+            ZZZZZZZZZZ;
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

@@ -20,9 +20,9 @@ abstract class OlzRootComponent extends OlzComponent {
     /**
      * @param array<string> $terms
      *
-     * @return array<SearchResult>
+     * @return ?array<SearchResult>
      */
-    public function getSearchResults(array $terms): array {
+    public function getSearchResults(array $terms): ?array {
         if (!$this->hasAccess()) {
             return [];
         }
@@ -32,11 +32,25 @@ abstract class OlzRootComponent extends OlzComponent {
     /**
      * @param array<string> $terms
      *
-     * @return array<SearchResult>
+     * @return ?array<SearchResult>
      */
-    public function getSearchResultsWhenHasAccess(array $terms): array {
+    public function getSearchResultsWhenHasAccess(array $terms): ?array {
         $called_class = get_called_class();
         throw new \Exception("{$called_class}::getSearchResultsWhenHasAccess is not implemented");
+    }
+
+    /** @param array<string> $terms */
+    public function searchSql(array $terms): ?string {
+        if (!$this->hasAccess()) {
+            return null;
+        }
+        return $this->searchSqlWhenHasAccess($terms);
+    }
+
+    /** @param array<string> $terms */
+    public function searchSqlWhenHasAccess(array $terms): ?string {
+        $called_class = get_called_class();
+        throw new \Exception("{$called_class}::searchSqlWhenHasAccess is not implemented");
     }
 
     /** @param T $args */

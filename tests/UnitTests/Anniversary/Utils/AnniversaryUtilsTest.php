@@ -15,6 +15,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 final class AnniversaryUtilsTest extends UnitTestCase {
     public function testGetElevationStats(): void {
         $this->assertSame([
+            'sumMeters' => 0.0,
             'completion' => 0.0,
             'diffMeters' => 0.0,
             'diffDays' => 0.0,

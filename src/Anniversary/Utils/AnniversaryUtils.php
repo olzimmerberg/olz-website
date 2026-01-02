@@ -6,6 +6,7 @@ use Olz\Utils\WithUtilsTrait;
 
 /**
  * @phpstan-type OlzElevationStats array{
+ *   sumMeters: float,
  *   completion: float,
  *   diffMeters: float,
  *   diffDays: float,
@@ -23,9 +24,10 @@ class AnniversaryUtils {
         $goal_meters_per_day = 4478;
         $year_start_secs = 1767222000; // 2026-01-01 00:00:00
         $now_secs = $is_before_2026 ? $year_start_secs : strtotime($this->dateUtils()->getIsoNow());
-        $goal_elevation = ($now_secs - $year_start_secs) * $goal_meters_per_day / 86400;
+        $sum_days = floatval($now_secs - $year_start_secs) / 86400;
+        $goal_meters = $sum_days * $goal_meters_per_day;
         $sql = <<<'ZZZZZZZZZZ'
-                SELECT SUM(elevation_meters) as sum_elevation
+                SELECT SUM(elevation_meters) as sum_meters
                 FROM anniversary_runs
                 WHERE
                     run_at >= '2026-01-01'
@@ -33,16 +35,17 @@ class AnniversaryUtils {
                     AND is_counting = '1'
                     AND on_off = '1'
             ZZZZZZZZZZ;
-        $res_sum_elevation = $db->query($sql);
-        $this->generalUtils()->checkNotBool($res_sum_elevation, "Query error: {$sql}");
-        $sum_elevation = floatval($res_sum_elevation->fetch_assoc()['sum_elevation'] ?? 0);
+        $res_sum_meters = $db->query($sql);
+        $this->generalUtils()->checkNotBool($res_sum_meters, "Query error: {$sql}");
+        $sum_meters = floatval($res_sum_meters->fetch_assoc()['sum_meters'] ?? 0);
 
-        $completion = $sum_elevation / ($goal_meters_per_day * 356);
-        $diff_meters = $sum_elevation - $goal_elevation;
+        $completion = $sum_meters / ($goal_meters_per_day * 356);
+        $diff_meters = $sum_meters - $goal_meters;
         $diff_days = $diff_meters / $goal_meters_per_day;
         $diff_kind = $diff_days >= 0 ? 'ahead' : 'behind';
 
         return [
+            'sumMeters' => $sum_meters,
             'completion' => $completion,
             'diffMeters' => $diff_meters,
             'diffDays' => $diff_days,

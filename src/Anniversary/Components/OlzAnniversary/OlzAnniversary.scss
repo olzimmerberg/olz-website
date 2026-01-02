@@ -1,8 +1,12 @@
 .olz-anniversary {
     .elevation-stats {
-        position: relative;
-        height: 70px;
         margin: 10px 0;
+    }
+
+    .done-graph {
+        position: relative;
+        margin: 10px 0 5px 0;
+        height: 30px;
     }
 
     .done-range {
@@ -29,9 +33,15 @@
         }
     }
 
+    .diff-graph {
+        position: relative;
+        margin: 20px 0 5px 0;
+        height: 30px;
+    }
+
     .diff-range {
         position: absolute;
-        top: 40px;
+        top: 2px;
         width: 100%;
         height: 10px;
         background-color: rgba(0,0,0,0.1);
@@ -39,7 +49,7 @@
 
     .diff-bar {
         position: absolute;
-        top: 40px;
+        top: 2px;
         height: 10px;
 
         &.ahead {
@@ -55,20 +65,32 @@
 
     .marker {
         position: absolute;
-        top: 38px;
         height: 14px;
         border-left: 1px solid black;
     }
     
     .marker-text {
         position: absolute;
-        top: 52px;
+        top: 14px;
         height: 14px;
         margin-left: -50px;
         width: 100px;
         text-align: center;
     }
-    
+        
+    .diff-meters,
+    .diff-days {
+        font-weight: bold;
+
+        &.ahead {
+            color: #008800;
+        }
+
+        &.behind {
+            color: #aa0000;
+        }
+    }
+
     .activities-table {
         clear: both;
         overflow-y: hidden;

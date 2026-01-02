@@ -49,6 +49,7 @@ class OlzAnniversaryTile extends AbstractOlzTile {
      * @param OlzElevationStats $stats
      */
     public function getElevationHtml(array $stats): string {
+        $pretty_sum_meters = number_format($stats['sumMeters'], 0, ".", "'")."m";
         $pretty_done = number_format($stats['completion'] * 100, 1, ".", "'")."%";
         $diff_verb = $stats['diffMeters'] >= 0 ? 'sind' : 'liegen';
         $diff_particle = $stats['diffMeters'] >= 0 ? 'voraus' : 'zurück';
@@ -57,7 +58,15 @@ class OlzAnniversaryTile extends AbstractOlzTile {
         return <<<ZZZZZZZZZZ
             <div class='title'>🏃 Höhenmeter-Challenge ⛰️</div>
             <div>
-                Ziel zu <span class='done-text'>{$pretty_done}</span> erreicht.
+                Ziel mit
+                <span class='done-text'>
+                    {$pretty_sum_meters}
+                </span>
+                zu
+                <span class='done-text'>
+                    {$pretty_done}
+                </span>
+                erreicht.
 
                 Wir {$diff_verb}
                 <span class='diff-meters {$stats['diffKind']}'>

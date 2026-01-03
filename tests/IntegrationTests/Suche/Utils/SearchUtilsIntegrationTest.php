@@ -40,8 +40,8 @@ final class SearchUtilsIntegrationTest extends IntegrationTestCase {
                     'date' => new \DateTime('2020-01-01'),
                     'title' => 'Frohes neues Jahr! 🎆',
                     'text' => '…Bisschen.* Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und…',
-                    'score' => 0.07422,
-                    'debug' => 'Score: 0.07422 / Time relevance: 0.619',
+                    'score' => 0.10468,
+                    'debug' => 'Score: 0.10468 / Time relevance: 0.873',
                 ],
             ]],
             ['title' => 'Fragen & Antworten', 'bestScore' => 0.29044, 'results' => [

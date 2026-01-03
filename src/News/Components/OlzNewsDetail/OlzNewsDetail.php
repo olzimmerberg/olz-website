@@ -63,8 +63,8 @@ class OlzNewsDetail extends OlzRootComponent {
             SELECT
                 *,
                 CASE
-                    WHEN diffdays < -400 THEN 0.1
-                    WHEN diffdays < -100 THEN 1.0 + (diffdays + 100) * 0.9 / 300.0
+                    WHEN diffdays < -400 THEN 0.7
+                    WHEN diffdays < -100 THEN 1.0 + (diffdays + 100) * 0.3 / 300.0
                     WHEN diffdays < 100 THEN 1.0
                     ELSE 0.1
                 END AS time_relevance

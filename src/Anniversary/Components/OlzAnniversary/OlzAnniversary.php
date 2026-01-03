@@ -159,19 +159,15 @@ class OlzAnniversary extends OlzRootComponent {
             $id = $run->getId();
             $json_id = json_encode($id);
             $date = $run->getRunAt()->format('d.m.Y H:i');
-            $info = json_decode($run->getInfo(), true) ?? null;
             $is_counting_emoji = $run->getIsCounting() ? '✅' : '🚫';
             $is_counting_title = $run->getIsCounting() ? 'zählt' : 'zählt nicht';
             $name = $run->getRunnerName() ?? "?";
-            $sport_type = $run->getSportType() ?? "?";
-            if (is_array($info)) {
-                $sport_type = "{$info['type']} / {$info['sport_type']}";
-            }
             $source = $this->anniversaryUtils()->getPrettySource($run->getSource() ?? '?');
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
             $inclination_percent = $run->getDistanceMeters()
                 ? number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2)
                 : 'NaN';
+            $sport_type = $run->getSportType() ?? "?";
             $out .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>{$date}</td>

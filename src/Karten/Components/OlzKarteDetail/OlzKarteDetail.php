@@ -32,7 +32,8 @@ class OlzKarteDetail extends OlzRootComponent {
                 '{$code_href}assets/icns/link_map_16.svg' AS icon,
                 NULL AS date,
                 k.name AS title,
-                k.ort AS text
+                k.ort AS text,
+                0.8 AS time_relevance
             FROM karten k
             WHERE
                 k.on_off = '1' AND {$where}

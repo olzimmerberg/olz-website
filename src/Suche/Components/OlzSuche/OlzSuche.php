@@ -40,7 +40,8 @@ class OlzSuche extends OlzRootComponent {
                 '{$code_href}assets/icns/magnifier_16.svg' AS icon,
                 NULL AS date,
                 'Suche' AS title,
-                '{$this->getTitle()} - {$this->getDescription('Suche')}' AS text
+                '{$this->getTitle()} - {$this->getDescription('Suche')}' AS text,
+                1.0 AS time_relevance
             ZZZZZZZZZZ;
     }
 
@@ -99,13 +100,13 @@ class OlzSuche extends OlzRootComponent {
                         $pretty_date = $this->searchUtils()->highlight($pretty_date, [$pretty_date]);
                     }
                 }
-                $pretty_score = $this->authUtils()->hasPermission('all') ? " (Score: {$result['score']})" : '';
+                $pretty_debug = $this->authUtils()->hasPermission('all') ? "<pre>{$result['debug']}</pre>" : '';
                 $out .= OlzPostingListItem::render([
                     'link' => $result['link'],
                     'icon' => $result['icon'],
                     'date' => $pretty_date,
-                    'title' => $this->searchUtils()->highlight($result['title'], $terms).$pretty_score,
-                    'text' => $this->searchUtils()->highlight($result['text'] ?? '', $terms),
+                    'title' => $this->searchUtils()->highlight($result['title'], $terms),
+                    'text' => $pretty_debug.$this->searchUtils()->highlight($result['text'] ?? '', $terms),
                 ]);
             }
         }

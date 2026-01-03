@@ -39,7 +39,8 @@ class OlzService extends OlzRootComponent {
                 '{$code_href}assets/icns/link_internal_16.svg' AS icon,
                 NULL AS date,
                 name AS title,
-                NULL AS text
+                NULL AS text,
+                0.7 AS time_relevance
             FROM downloads
             WHERE
                 on_off = '1'
@@ -50,7 +51,8 @@ class OlzService extends OlzRootComponent {
                 '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
                 NULL AS date,
                 name AS title,
-                url AS text
+                url AS text,
+                0.7 AS time_relevance
             FROM links
             WHERE
                 on_off = '1'

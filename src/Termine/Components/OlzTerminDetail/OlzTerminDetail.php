@@ -29,6 +29,7 @@ class OlzTerminDetail extends OlzRootComponent {
 
     public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
+        $today_iso = $this->dateUtils()->getIsoToday();
         $where = implode(' AND ', array_map(function ($term) {
             $date_sql = '';
             $term_date_range = $this->dateUtils()->parseDateTimeRange($term);
@@ -52,17 +53,31 @@ class OlzTerminDetail extends OlzRootComponent {
                 ZZZZZZZZZZ;
         }, $terms));
         return <<<ZZZZZZZZZZ
+            WITH
+                base AS (
+                    SELECT
+                        CONCAT('{$code_href}termine/', t.id) AS link,
+                        '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
+                        t.start_date AS date,
+                        t.title AS title,
+                        CONCAT(IFNULL(tl.name, ''), ' ', IFNULL(t.text, '')) AS text,
+                        DATEDIFF(t.start_date, '{$today_iso}') AS diffdays
+                    FROM termine t LEFT JOIN termin_locations tl ON (t.location_id = tl.id)
+                    WHERE
+                        t.on_off = '1'
+                        AND {$this->termineUtils()->getIsNotArchivedSql('t')}
+                        AND {$where}
+                )
             SELECT
-                CONCAT('{$code_href}termine/', t.id) AS link,
-                '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
-                t.start_date AS date,
-                t.title AS title,
-                CONCAT(IFNULL(tl.name, ''), ' ', IFNULL(t.text, '')) AS text
-            FROM termine t LEFT JOIN termin_locations tl ON (t.location_id = tl.id)
-            WHERE
-                t.on_off = '1'
-                AND {$this->termineUtils()->getIsNotArchivedSql('t')}
-                AND {$where}
+                *,
+                CASE
+                    WHEN diffdays < -30 THEN 0.1
+                    WHEN diffdays <= 0 THEN 1.0 + diffdays * 0.9 / 30.0
+                    WHEN diffdays < 100 THEN 1.0
+                    WHEN diffdays < 400 THEN 1.0 - (diffdays - 100) * 0.9 / 300.0
+                    ELSE 0.1
+                END AS time_relevance
+            FROM base
             ZZZZZZZZZZ;
     }
 

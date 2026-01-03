@@ -39,7 +39,8 @@ class OlzTerminLocationDetail extends OlzRootComponent {
                 '{$code_href}assets/icns/link_map_16.svg' AS icon,
                 NULL AS date,
                 name AS title,
-                details AS text
+                details AS text,
+                0.8 AS time_relevance
             FROM termin_locations
             WHERE
                 on_off = '1'

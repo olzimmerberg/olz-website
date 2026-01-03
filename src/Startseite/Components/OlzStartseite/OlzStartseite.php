@@ -28,8 +28,8 @@ class OlzStartseite extends OlzRootComponent {
         return 'TODO';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        return [];
+    public function searchSqlWhenHasAccess(array $terms): ?string {
+        return null;
     }
 
     public static string $title = "Startseite";

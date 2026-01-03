@@ -28,8 +28,8 @@ class OlzAnniversary extends OlzRootComponent {
         return 'Jubiläumsjahr';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        return [];
+    public function searchSqlWhenHasAccess(array $terms): ?string {
+        return null;
     }
 
     public static string $title = "🎉 20 Jahre OL Zimmerberg 🥳";

@@ -289,7 +289,7 @@ class TermineUtils {
     public function getIsNotArchivedSql(?string $tbl = null): string {
         $tbl_sql = $tbl === null ? '' : "{$tbl}.";
         $archive_threshold = $this->dateUtils()->getIsoArchiveThreshold();
-        return "{$tbl_sql}start_date >= {$archive_threshold}";
+        return "{$tbl_sql}start_date >= '{$archive_threshold}'";
     }
 
     public function updateTerminFromSolvEvent(Termin $termin, ?SolvEvent $solv_event_arg = null): void {

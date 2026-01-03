@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Suche\Utils;
 
-use Doctrine\Common\Collections\Criteria;
 use Olz\Suche\Utils\SearchUtils;
 use Olz\Tests\Fake\FakeSearchUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -20,45 +19,45 @@ final class SearchUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
         $utils = new FakeSearchUtils();
         $this->assertSame([
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Suche', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Termin-Listen', 'bestScore' => null, 'results' => []],
-            ['title' => 'Termin-Orte', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
         ], $utils->getSearchResults(['test']));
     }
 
@@ -66,106 +65,46 @@ final class SearchUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
         $utils = new FakeSearchUtils();
         $this->assertSame([
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Suche', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Termin-Listen', 'bestScore' => null, 'results' => []],
             ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'TODO', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
         ], $utils->getSearchResults(['test']));
-    }
-
-    public function testGetDateCriteria(): void {
-        $utils = new SearchUtils();
-        $this->assertSame([], $utils->getDateCriteria('field', 'test'));
-        $this->assertEquals([Criteria::expr()->andX(
-            Criteria::expr()->gte('field', new \DateTime('2020-01-01')),
-            Criteria::expr()->lt('field', new \DateTime('2021-01-01')),
-        )], $utils->getDateCriteria('field', '2020'));
-    }
-
-    public function testGetStaticSearchResults(): void {
-        $utils = new SearchUtils();
-        $this->assertSame([[
-            'score' => 0.85714,
-            'icon' => null,
-            'date' => null,
-            'text' => 'Test this test',
-            'link' => '/',
-            'title' => 'Title',
-        ]], $utils->getStaticSearchResults('Test this test', ['test'], ['link' => '/', 'title' => 'Title']));
-        $this->assertEquals([], $utils->getStaticSearchResults('test', ['foo', 'bar'], ['link' => '/', 'title' => 'Title']));
-    }
-
-    public function testGetScoredSearchResult(): void {
-        $utils = new SearchUtils();
-        $this->assertEquals(
-            [
-                'icon' => null,
-                'date' => null,
-                'link' => '/',
-                'title' => 'Title',
-                'text' => 'Test this test',
-                'score' => 0.85714,
-            ],
-            $utils->getScoredSearchResult(['link' => '/', 'title' => 'Title', 'text' => 'Test this test'], ['test']),
-        );
-        // Title matches count double
-        $this->assertEquals(
-            [
-                'icon' => null,
-                'date' => null,
-                'link' => '/',
-                'title' => 'Title',
-                'text' => 'Test this test',
-                'score' => 0.85714,
-            ],
-            $utils->getScoredSearchResult(['link' => '/', 'title' => 'Title', 'text' => 'Test this test'], ['title']),
-        );
-        $this->assertEquals(
-            [
-                'link' => '/',
-                'icon' => null,
-                'date' => null,
-                'title' => 'Title',
-                'text' => 'test',
-                'score' => 0.0,
-            ],
-            $utils->getScoredSearchResult(['link' => '/', 'title' => 'Title', 'text' => 'test'], ['foo', 'bar']),
-        );
     }
 
     public function testGetDateFormattings(): void {
@@ -174,129 +113,6 @@ final class SearchUtilsTest extends UnitTestCase {
         $this->assertSame(
             ['2020-03-13', '13.03.2020', '13.3.2020'],
             $utils->getDateFormattings(new \DateTime('2020-03-13')),
-        );
-    }
-
-    public function testAnalyze(): void {
-        $utils = new SearchUtils();
-        $this->assertSame(
-            ['score' => 0.85714, 'hasAll' => true],
-            $utils->analyze('Test this test', null, ['test']),
-        );
-        $this->assertEquals(
-            ['score' => 0.5, 'hasAll' => true],
-            $utils->analyze('Test this test', new \DateTime('2020-03-13'), ['2020']),
-        );
-    }
-
-    public function testAnalyzeNonMatch(): void {
-        $utils = new SearchUtils();
-        $this->assertSame(
-            ['score' => 0.0, 'hasAll' => false],
-            $utils->analyze('sägen', null, ['sagen']),
-        );
-    }
-
-    public function testAnalyzeWordMatch(): void {
-        $utils = new SearchUtils();
-        $this->assertSame(
-            ['score' => 0.75, 'hasAll' => true],
-            $utils->analyze('A word match', null, ['word']),
-        );
-        $this->assertSame(
-            ['score' => 0.66667, 'hasAll' => true],
-            $utils->analyze('A wordstart match', null, ['word']),
-        );
-        $this->assertSame(
-            ['score' => 0.66667, 'hasAll' => true],
-            $utils->analyze('A endword match', null, ['word']),
-        );
-        $this->assertSame(
-            ['score' => 0.5, 'hasAll' => true],
-            $utils->analyze('A nonwordstartend match', null, ['word']),
-        );
-
-        // Start / End of content
-        $this->assertSame(
-            ['score' => 0.75, 'hasAll' => true],
-            $utils->analyze('word', null, ['word']),
-        );
-        $this->assertSame(
-            ['score' => 0.66667, 'hasAll' => true],
-            $utils->analyze('wordstart', null, ['word']),
-        );
-        $this->assertSame(
-            ['score' => 0.66667, 'hasAll' => true],
-            $utils->analyze('endword', null, ['word']),
-        );
-        $this->assertSame(
-            ['score' => 0.5, 'hasAll' => true],
-            $utils->analyze('nonwordstartend', null, ['word']),
-        );
-    }
-
-    public function testAnalyzeTermCombinations(): void {
-        $utils = new SearchUtils();
-        // 2-term combined match, space separated (base case)
-        $this->assertSame(
-            ['score' => 0.84615, 'hasAll' => true],
-            $utils->analyze('Test this test', null, ['test', 'this']),
-        );
-        // 2-term combined match, non-alphanumeric separated
-        $this->assertSame(
-            ['score' => 0.84615, 'hasAll' => true],
-            $utils->analyze('Test -> this test', null, ['test', 'this']),
-        );
-        // 2-term combined match, 5-non-alphanumeric separated
-        $this->assertSame(
-            ['score' => 0.84615, 'hasAll' => true],
-            $utils->analyze('Test --- this test', null, ['test', 'this']),
-        );
-        // 2-term combined match, 6-non-alphanumeric separated
-        $this->assertSame(
-            ['score' => 0.81818, 'hasAll' => true],
-            $utils->analyze('Test ---- this test', null, ['test', 'this']),
-        );
-        // 2-term combined match, multi-whitespace separated
-        $this->assertSame(
-            ['score' => 0.84615, 'hasAll' => true],
-            $utils->analyze("Test \n\t    this test", null, ['test', 'this']),
-        );
-        // No combined match, alphanumeric-separated
-        $this->assertSame(
-            ['score' => 0.81818, 'hasAll' => true],
-            $utils->analyze('Test some of this test', null, ['test', 'this']),
-        );
-
-        $sentence = 'The quick brown fox jumps over the lazy dog';
-        // 3-term combined match, space separated (base case)
-        $this->assertSame(
-            ['score' => 0.84211, 'hasAll' => true],
-            $utils->analyze($sentence, null, ['quick', 'brown', 'fox']),
-        );
-        // 4-term combined match, space separated (base case)
-        $this->assertSame(
-            ['score' => 0.875, 'hasAll' => true],
-            $utils->analyze($sentence, null, ['quick', 'brown', 'fox', 'jumps']),
-        );
-        // 5-term combined match, space separated (base case)
-        $this->assertSame(
-            ['score' => 0.88889, 'hasAll' => true],
-            $utils->analyze($sentence, null, ['quick', 'brown', 'fox', 'jumps', 'over']),
-        );
-        // 6-term combined match, space separated (base case)
-        $this->assertSame(
-            ['score' => 0.90164, 'hasAll' => true],
-            $utils->analyze($sentence, null, ['the', 'quick', 'brown', 'fox', 'jumps', 'over']),
-        );
-        $this->assertSame(
-            ['score' => 0.90164, 'hasAll' => true],
-            $utils->analyze($sentence, null, ['quick', 'brown', 'fox', 'jumps', 'over', 'the']),
-        );
-        // 7-term combined match, space separated (base case)
-        $this->assertSame(
-            ['score' => 0.90909, 'hasAll' => true],
-            $utils->analyze($sentence, null, ['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the']),
         );
     }
 

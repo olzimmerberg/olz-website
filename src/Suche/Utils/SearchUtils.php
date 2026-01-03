@@ -2,8 +2,6 @@
 
 namespace Olz\Suche\Utils;
 
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Olz\Apps\Anmelden\Components\OlzAnmelden\OlzAnmelden;
 use Olz\Apps\Commands\Components\OlzCommands\OlzCommands;
@@ -131,32 +129,19 @@ class SearchUtils {
      */
     protected function getPageSearchResults(string $page_class, array $terms): array {
         $page = new $page_class();
-        $results = $page->getSearchResults($terms);
-        if ($results === null) { // New QueryBuilder API
-            return $this->getPageSearchResultsNew($page_class, $terms);
-        }
-        // Old PHP API
-        usort($results, fn ($a, $b) => $b['score'] <=> $a['score']);
-        $first_result = $results[0] ?? null;
-        $best_score = $first_result['score'] ?? null;
-        return [
-            'title' => $page->getSearchTitle(),
-            'bestScore' => $best_score,
-            'results' => $results,
-        ];
-    }
-
-    /**
-     * @param class-string<OlzRootComponent<array<string, mixed>>> $page_class
-     * @param array<string>                                        $terms
-     *
-     * @return PageSearchResults
-     */
-    protected function getPageSearchResultsNew(string $page_class, array $terms): array {
-        $page = new $page_class();
         $db = $this->dbUtils()->getDb();
         $esc_terms = array_map(fn ($term) => $db->real_escape_string($term), $terms);
         $num_terms = count($terms);
+
+        $sub_sql = $page->searchSql($esc_terms);
+        if ($sub_sql === null) {
+            return [
+                'title' => $page->getSearchTitle(),
+                'bestScore' => null,
+                'results' => [],
+            ];
+        }
+
         $idx = 0;
         $term_evaluation_sqls = [];
         $term_evaluation_columns = [];
@@ -184,8 +169,6 @@ class SearchUtils {
                 // TODO: Combined date formattings?
             }
         }
-
-        $sub_sql = $page->searchSql($esc_terms);
         $term_evaluation_sql = implode(',', $term_evaluation_sqls);
         $term_quality_sql = implode('+', $term_evaluation_columns);
         $rsm = new ResultSetMapping();
@@ -233,7 +216,7 @@ class SearchUtils {
                 'date' => $row['date'],
                 'title' => $row['title'],
                 'text' => $this->searchUtils()->getCutout($row['text'] ?? '', $terms) ?: null,
-                'score' => $row['score'],
+                'score' => round($row['score'], 5),
             ];
         }, $sql_results);
         $first_result = $results[0] ?? null;
@@ -242,92 +225,6 @@ class SearchUtils {
             'title' => $page->getSearchTitle(),
             'bestScore' => $best_score,
             'results' => $results,
-        ];
-    }
-
-    /** @return array<Expression> */
-    public function getDateCriteria(string $field, string $term): array {
-        $result = $this->dateUtils()->parseDateTimeRange($term);
-        if ($result === null) {
-            return [];
-        }
-        return [Criteria::expr()->andX(
-            Criteria::expr()->gte($field, $result['start']),
-            Criteria::expr()->lt($field, $result['end']),
-        )];
-    }
-
-    public function getDateSql(string $field, string $term): ?string {
-        $result = $this->dateUtils()->parseDateTimeRange($term);
-        if ($result === null) {
-            return null;
-        }
-        return <<<ZZZZZZZZZZ
-            (
-                {$field} >= '{$result['start']->format('Y-m-d')}'
-                AND {$field} < '{$result['end']->format('Y-m-d')}'
-            )
-            ZZZZZZZZZZ;
-    }
-
-    /**
-     * @param array<string> $terms
-     * @param array{
-     *   link: non-empty-string,
-     *   icon?: ?non-empty-string,
-     *   date?: ?\DateTime,
-     *   title: non-empty-string,
-     * } $defaults
-     *
-     * @return array<SearchResult>
-     */
-    public function getStaticSearchResults(
-        string $content,
-        array $terms,
-        array $defaults,
-    ): array {
-        $search_space = "{$content} {$defaults['title']}";
-        $analysis = $this->analyze($search_space, $defaults['date'] ?? null, $terms);
-        if (!$analysis['hasAll']) {
-            return [];
-        }
-        return [
-            [
-                'score' => $analysis['score'],
-                'icon' => null,
-                'date' => null,
-                'text' => $this->searchUtils()->getCutout($content, $terms) ?: null,
-                ...$defaults,
-            ],
-        ];
-    }
-
-    /**
-     * @param array{
-     *   link: non-empty-string,
-     *   icon?: ?non-empty-string,
-     *   date?: ?\DateTime,
-     *   title: non-empty-string,
-     *   text?: ?non-empty-string,
-     * } $result
-     * @param array<string> $terms
-     *
-     * @return SearchResult
-     */
-    public function getScoredSearchResult(
-        array $result,
-        array $terms,
-    ): array {
-        $text_str = $result['text'] ?? '';
-        // Count title matches double
-        $search_space = "{$result['title']} {$text_str} {$result['title']}";
-        $analysis = $this->analyze($search_space, $result['date'] ?? null, $terms);
-        return [
-            'icon' => null,
-            'date' => null,
-            ...$result,
-            'score' => $analysis['score'],
-            'text' => $this->searchUtils()->getCutout($text_str, $terms) ?: null,
         ];
     }
 
@@ -343,45 +240,17 @@ class SearchUtils {
         ];
     }
 
-    /**
-     * @param array<string> $terms
-     *
-     * @return array{score: float, hasAll: bool}
-     */
-    public function analyze(string $content, ?\DateTime $date, array $terms): array {
-        $date_formattings = implode(' ', $this->getDateFormattings($date));
-        $has_all = true;
-        $sum_occurrences = 0;
-        foreach ($terms as $term) {
-            $esc_term = preg_quote($term);
-            $num_occurrences = preg_match_all("/{$esc_term}/i", $content);
-            // Add preference to full-word/start-of-word/end-of-word matches
-            $num_occurrences += preg_match_all("/(\\W|^){$esc_term}/i", $content);
-            $num_occurrences += preg_match_all("/{$esc_term}(\\W|$)/i", $content);
-            if (preg_match("/{$esc_term}/i", $date_formattings)) {
-                $num_occurrences++;
-            }
-            $sum_occurrences += $num_occurrences;
-            if (!$num_occurrences) {
-                $has_all = false;
-            }
+    public function getDateSql(string $field, string $term): ?string {
+        $result = $this->dateUtils()->parseDateTimeRange($term);
+        if ($result === null) {
+            return null;
         }
-        $num_terms = count($terms);
-        // Add preference to term combination matches
-        for ($num_combined = 2; $num_combined <= min(4, $num_terms); $num_combined++) {
-            for ($start_combined = 0; $start_combined <= $num_terms - $num_combined; $start_combined++) {
-                $combined_terms = array_slice($terms, $start_combined, $num_combined);
-                $esc_combined_terms = implode('(\W{0,5}|\s*)', array_map(
-                    fn ($term) => preg_quote($term),
-                    $combined_terms
-                ));
-                $num_occurrences = preg_match_all("/{$esc_combined_terms}/i", $content);
-                // TODO: Combined date formattings?
-                $sum_occurrences += $num_occurrences * $num_combined;
-            }
-        }
-        $score = round(1 - (1 / ($sum_occurrences / $num_terms + 1)), 5);
-        return ['score' => $score, 'hasAll' => $has_all];
+        return <<<ZZZZZZZZZZ
+            (
+                {$field} >= '{$result['start']->format('Y-m-d')}'
+                AND {$field} < '{$result['end']->format('Y-m-d')}'
+            )
+            ZZZZZZZZZZ;
     }
 
     /** @param array<string> $search_terms */

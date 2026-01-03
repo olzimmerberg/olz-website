@@ -25,13 +25,13 @@ class OlzNewsAktuellKaderblogTile extends AbstractOlzTile {
         $kaderblog_url = $news_utils->getUrl(['format' => 'kaderblog', 'datum' => $year]);
         $out = <<<ZZZZZZZZZZ
             <h3>
-                <a href='{$aktuell_url}&von=startseite'>
-                    <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='link-icon'>
+                <a href='{$aktuell_url}&von=startseite' class='header-link'>
+                    <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='header-link-icon'>
                     Aktuell
                 </a>
                 &nbsp;&amp;&nbsp;
-                <a href='{$kaderblog_url}&von=startseite'>
-                    <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='link-icon'>
+                <a href='{$kaderblog_url}&von=startseite' class='header-link'>
+                    <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='header-link-icon'>
                     Kaderblog
                 </a>
             </h3>

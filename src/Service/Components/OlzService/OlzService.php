@@ -24,10 +24,6 @@ class OlzService extends OlzRootComponent {
         return 'Service';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): ?array {
-        return null; // TODO: Remove after migration
-    }
-
     public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
         $downloads_where = implode(' AND ', array_map(function ($term) {

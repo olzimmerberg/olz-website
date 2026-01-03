@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20251231090437
+-- MIGRATION: DoctrineMigrations\Version20260103215409
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -141,6 +141,7 @@ CREATE TABLE `anniversary_runs` (
   `user_id` int(11) DEFAULT NULL,
   `runner_name` varchar(255) NOT NULL DEFAULT '',
   `is_counting` tinyint(4) NOT NULL DEFAULT 1,
+  `sport_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_9B3F75262B18554A` (`owner_user_id`),
   KEY `IDX_9B3F75265A75A473` (`owner_role_id`),
@@ -154,7 +155,7 @@ CREATE TABLE `anniversary_runs` (
   CONSTRAINT `FK_9B3F75265A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_9B3F75267D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_9B3F7526A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

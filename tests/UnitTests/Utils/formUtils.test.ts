@@ -217,6 +217,56 @@ describe('validateNotEmpty', () => {
     });
 });
 
+describe('validateStringLength', () => {
+    it('returns undefined for OK strings', () => {
+        expect(formUtils.validateStringLength('', 0, 0))
+            .toEqual(undefined);
+        expect(formUtils.validateStringLength('1', 1, 1))
+            .toEqual(undefined);
+        expect(formUtils.validateStringLength('123', null, null))
+            .toEqual(undefined);
+        expect(formUtils.validateStringLength('123', 3, null))
+            .toEqual(undefined);
+        expect(formUtils.validateStringLength('123', null, 3))
+            .toEqual(undefined);
+        expect(formUtils.validateStringLength('123', 10, null))
+            .toEqual(undefined);
+        expect(formUtils.validateStringLength('123', null, 1))
+            .toEqual(undefined);
+    });
+    
+    it('whitespace is being stripped', () => {
+        expect(formUtils.validateStringLength(' ', 0, null))
+            .toEqual(undefined);
+        expect(formUtils.validateStringLength(' ', null, 1))
+            .toEqual({type: 'validate', message: 'Die Eingabe muss mindestens 1 Zeichen lang sein.'});
+        expect(formUtils.validateStringLength('\t', 0, null))
+            .toEqual(undefined);
+        expect(formUtils.validateStringLength('\t', null, 1))
+            .toEqual({type: 'validate', message: 'Die Eingabe muss mindestens 1 Zeichen lang sein.'});
+    });
+
+    it('returns validation error for too short strings', () => {
+        expect(formUtils.validateStringLength('', null, 1))
+            .toEqual({type: 'validate', message: 'Die Eingabe muss mindestens 1 Zeichen lang sein.'});
+        expect(formUtils.validateStringLength(' ', null, 2))
+            .toEqual({type: 'validate', message: 'Die Eingabe muss mindestens 2 Zeichen lang sein.'});
+        expect(formUtils.validateStringLength('123', null, 4))
+            .toEqual({type: 'validate', message: 'Die Eingabe muss mindestens 4 Zeichen lang sein.'});
+        expect(formUtils.validateStringLength('123', 100, 10))
+            .toEqual({type: 'validate', message: 'Die Eingabe muss mindestens 10 Zeichen lang sein.'});
+    });
+
+    it('returns validation error for too long strings', () => {
+        expect(formUtils.validateStringLength('123', 0, null))
+            .toEqual({type: 'validate', message: 'Die Eingabe darf höchstens 0 Zeichen lang sein.'});
+        expect(formUtils.validateStringLength('123', 2, null))
+            .toEqual({type: 'validate', message: 'Die Eingabe darf höchstens 2 Zeichen lang sein.'});
+        expect(formUtils.validateStringLength('123', 2, 1))
+            .toEqual({type: 'validate', message: 'Die Eingabe darf höchstens 2 Zeichen lang sein.'});
+    });
+});
+
 describe('validateCountryCode', () => {
     it('returns validation error for nullish user inputs', () => {
         expect(formUtils.validateCountryCode(''))

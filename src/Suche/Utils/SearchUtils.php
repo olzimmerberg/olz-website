@@ -192,7 +192,7 @@ class SearchUtils {
                 concatted AS (
                     SELECT
                         *,
-                        CONCAT(IFNULL(title, ''), ' ', IFNULL(text, '')) AS concatted_content,
+                        CONCAT(IFNULL(title, ''), ' ', IFNULL(title, ''), ' ', IFNULL(title, ''), ' ', IFNULL(text, '')) AS concatted_content,
                         LEAST(1.0, GREATEST(0.0, time_relevance)) AS norm_time_relevance
                     FROM sub
                 ),

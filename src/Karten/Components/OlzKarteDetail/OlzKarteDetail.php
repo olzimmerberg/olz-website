@@ -33,7 +33,7 @@ class OlzKarteDetail extends OlzRootComponent {
                 NULL AS date,
                 k.name AS title,
                 k.ort AS text,
-                0.8 AS time_relevance
+                1.0 AS time_relevance
             FROM karten k
             WHERE
                 k.on_off = '1' AND {$where}

@@ -38,6 +38,9 @@ class RunRecord extends OlzEntity implements TestableInterface {
     private int $elevation_meters;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $sport_type;
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $source;
 
     #[ORM\Column(type: 'text', nullable: true)]
@@ -97,6 +100,14 @@ class RunRecord extends OlzEntity implements TestableInterface {
 
     public function setElevationMeters(int $new_value): void {
         $this->elevation_meters = $new_value;
+    }
+
+    public function getSportType(): ?string {
+        return $this->sport_type;
+    }
+
+    public function setSportType(?string $new_value): void {
+        $this->sport_type = $new_value;
     }
 
     public function getSource(): ?string {

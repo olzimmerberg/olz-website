@@ -44,7 +44,7 @@ class OlzFaqDetail extends OlzRootComponent {
                 NULL AS date,
                 question AS title,
                 CONCAT(IFNULL(ident, ''), ' ', IFNULL(answer, '')) AS text,
-                0.8 AS time_relevance
+                1.0 AS time_relevance
             FROM questions
             WHERE
                 on_off = '1'

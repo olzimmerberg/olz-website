@@ -33,6 +33,7 @@ final class UpdateRunEndpointTest extends UnitTestCase {
                     'runAt' => null,
                     'distanceMeters' => 3000,
                     'elevationMeters' => 200,
+                    'sportType' => null,
                 ],
             ]);
             $this->fail('Error expected');
@@ -63,6 +64,7 @@ final class UpdateRunEndpointTest extends UnitTestCase {
                     'runAt' => null,
                     'distanceMeters' => 3000,
                     'elevationMeters' => 200,
+                    'sportType' => null,
                 ],
             ]);
             $this->fail('Error expected');
@@ -99,6 +101,7 @@ final class UpdateRunEndpointTest extends UnitTestCase {
                     'runAt' => null,
                     'distanceMeters' => 3000,
                     'elevationMeters' => 200,
+                    'sportType' => null,
                 ],
             ]);
             $this->fail('Error expected');
@@ -133,6 +136,7 @@ final class UpdateRunEndpointTest extends UnitTestCase {
                 'runAt' => null,
                 'distanceMeters' => 3000,
                 'elevationMeters' => 200,
+                'sportType' => 'Test run',
             ],
         ]);
 
@@ -158,6 +162,7 @@ final class UpdateRunEndpointTest extends UnitTestCase {
         $this->assertSame('2020-03-13 19:30:00', $entity->getRunAt()->format('Y-m-d H:i:s'));
         $this->assertSame(3000, $entity->getDistanceMeters());
         $this->assertSame(200, $entity->getElevationMeters());
+        $this->assertSame('Test run', $entity->getSportType());
         $this->assertSame('manuell', $entity->getSource());
 
         $this->assertSame([

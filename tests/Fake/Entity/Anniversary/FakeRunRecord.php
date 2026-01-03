@@ -21,9 +21,11 @@ class FakeRunRecord extends FakeEntity {
                 FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
                 $entity->setUser(null);
+                $entity->setRunnerName('Required N.');
                 $entity->setRunAt(new \DateTime('2020-08-15 16:27:00'));
                 $entity->setDistanceMeters(0);
                 $entity->setElevationMeters(0);
+                $entity->setSportType(null);
                 $entity->setSource(null);
                 return $entity;
             }
@@ -38,9 +40,11 @@ class FakeRunRecord extends FakeEntity {
                 FakeOlzEntity::empty($entity);
                 $entity->setId(123);
                 $entity->setUser(FakeUser::empty());
+                $entity->setRunnerName('');
                 $entity->setRunAt(new \DateTime('0000-00-00 00:00:00'));
                 $entity->setDistanceMeters(0);
                 $entity->setElevationMeters(0);
+                $entity->setSportType('');
                 $entity->setSource('');
                 return $entity;
             }
@@ -55,9 +59,11 @@ class FakeRunRecord extends FakeEntity {
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
                 $entity->setUser(FakeUser::maximal());
+                $entity->setRunnerName('Max M.');
                 $entity->setRunAt(new \DateTime('2020-08-15 16:27:00'));
                 $entity->setDistanceMeters(3000);
                 $entity->setElevationMeters(200);
+                $entity->setSportType('Maximal Run');
                 $entity->setSource('shady_source');
                 return $entity;
             }

@@ -110,6 +110,7 @@ final class EditRunEndpointTest extends UnitTestCase {
                 'runAt' => '2020-08-15 16:27:00',
                 'distanceMeters' => 0,
                 'elevationMeters' => 0,
+                'sportType' => null,
                 'source' => null,
             ],
         ], $result);
@@ -146,6 +147,7 @@ final class EditRunEndpointTest extends UnitTestCase {
                 'runAt' => '-0001-11-30 00:00:00',
                 'distanceMeters' => 0,
                 'elevationMeters' => 0,
+                'sportType' => '',
                 'source' => null,
             ],
         ], $result);
@@ -182,6 +184,7 @@ final class EditRunEndpointTest extends UnitTestCase {
                 'runAt' => '2020-08-15 16:27:00',
                 'distanceMeters' => 3000,
                 'elevationMeters' => 200,
+                'sportType' => 'Maximal Run',
                 'source' => 'shady_source',
             ],
         ], $result);

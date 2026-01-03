@@ -89,8 +89,10 @@ class SyncStravaCommand extends OlzCommand {
                 $moving_time = $activity['moving_time'];
                 $elapsed_time = $activity['elapsed_time'];
                 $total_elevation_gain = $activity['total_elevation_gain'];
-                $sport_type = $activity['sport_type'];
+                $type = $activity['type'] ?? '';
+                $sport_type = $activity['sport_type'] ?? '';
                 $is_counting = $is_sport_type_valid[$sport_type] ?? false;
+                $pretty_sport_type = "{$type} / {$sport_type}";
                 $id = md5("{$firstname}-{$lastname}-{$distance}-{$total_elevation_gain}-{$moving_time}-{$elapsed_time}");
                 $source = "strava-{$id}";
                 $existing = $runs_repo->findOneBy(['source' => $source]);
@@ -106,6 +108,7 @@ class SyncStravaCommand extends OlzCommand {
                 $run->setIsCounting($is_counting);
                 $run->setDistanceMeters(intval($distance));
                 $run->setElevationMeters(intval($total_elevation_gain));
+                $run->setSportType($pretty_sport_type);
                 $run->setSource($source);
                 $run->setInfo(json_encode($activity) ?: null);
                 $this->entityManager()->persist($run);

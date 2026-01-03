@@ -47,12 +47,13 @@ use Olz\Utils\WithUtilsTrait;
 
 /**
  * @phpstan-type SearchResult array{
- *   score: float,
  *   link: non-empty-string,
  *   icon: ?non-empty-string,
  *   date: ?\DateTime,
  *   title: non-empty-string,
  *   text: ?non-empty-string,
+ *   score: float,
+ *   debug: string,
  * }
  * @phpstan-type PageSearchResults array{
  *   title: non-empty-string,
@@ -147,12 +148,12 @@ class SearchUtils {
         $term_evaluation_columns = [];
         foreach ($terms as $term) {
             $esc_term = $db->real_escape_string(preg_quote($term));
-            $term_evaluation_sqls[] = "get_quality(content, '{$esc_term}') AS term{$idx}_any";
+            $term_evaluation_sqls[] = "get_quality(concatted_content, '{$esc_term}') AS term{$idx}_any";
             $term_evaluation_columns[] = "term{$idx}_any";
             // Add preference for word matches
-            $term_evaluation_sqls[] = "get_quality(content, '(?=\\\\W|^){$esc_term}') AS term{$idx}_prefix";
+            $term_evaluation_sqls[] = "get_quality(concatted_content, '(?=\\\\W|^){$esc_term}') AS term{$idx}_prefix";
             $term_evaluation_columns[] = "term{$idx}_prefix";
-            $term_evaluation_sqls[] = "get_quality(content, '{$esc_term}(?=\\\\W|$)') AS term{$idx}_suffix";
+            $term_evaluation_sqls[] = "get_quality(concatted_content, '{$esc_term}(?=\\\\W|$)') AS term{$idx}_suffix";
             $term_evaluation_columns[] = "term{$idx}_suffix";
             $idx++;
         }
@@ -164,7 +165,7 @@ class SearchUtils {
                     fn ($term) => preg_quote($term),
                     $combined_terms
                 )));
-                $term_evaluation_sqls[] = "get_quality(content, '{$esc_combined_terms}') AS terms_{$start_combined}_{$num_combined}";
+                $term_evaluation_sqls[] = "get_quality(concatted_content, '{$esc_combined_terms}') AS terms_{$start_combined}_{$num_combined}";
                 $term_evaluation_columns[] = "terms_{$start_combined}_{$num_combined}";
                 // TODO: Combined date formattings?
             }
@@ -178,33 +179,40 @@ class SearchUtils {
         $rsm->addScalarResult('title', 'title', 'string');
         $rsm->addScalarResult('text', 'text', 'string');
         $rsm->addScalarResult('score', 'score', 'string');
-        $this->entityManager()->createNativeQuery(<<<'ZZZZZZZZZZ'
-                DROP FUNCTION IF EXISTS get_quality
-            ZZZZZZZZZZ, new ResultSetMapping())->execute();
-        $this->entityManager()->createNativeQuery(<<<'ZZZZZZZZZZ'
-                CREATE FUNCTION get_quality (content TEXT, regex TEXT)
-                    RETURNS FLOAT DETERMINISTIC
-                    RETURN (LENGTH(content) - LENGTH(REGEXP_REPLACE(content, regex, ''))) / SQRT(LENGTH(content))
-            ZZZZZZZZZZ, new ResultSetMapping())->execute();
+        $rsm->addScalarResult('time_relevance', 'time_relevance', 'string');
+        $this->sqlExecute('DROP FUNCTION IF EXISTS get_quality');
+        $this->sqlExecute(<<<'ZZZZZZZZZZ'
+            CREATE FUNCTION get_quality (content TEXT, regex TEXT)
+                RETURNS FLOAT DETERMINISTIC
+                RETURN (LENGTH(content) - LENGTH(REGEXP_REPLACE(content, regex, ''))) / SQRT(LENGTH(content))
+            ZZZZZZZZZZ);
         $sql = <<<ZZZZZZZZZZ
             WITH
                 sub AS ({$sub_sql}),
                 concatted AS (
-                    SELECT *, CONCAT(IFNULL(title, ''), ' ', IFNULL(text, '')) AS content
+                    SELECT
+                        *,
+                        CONCAT(IFNULL(title, ''), ' ', IFNULL(text, '')) AS concatted_content,
+                        LEAST(1.0, GREATEST(0.0, time_relevance)) AS norm_time_relevance
                     FROM sub
                 ),
                 evaluated AS (
-                    SELECT *, {$term_evaluation_sql}
+                    SELECT
+                        *,
+                        {$term_evaluation_sql}
                     FROM concatted
                 ),
                 scored AS (
-                    SELECT *, (
-                        1 - 1 / (1 + ({$term_quality_sql}))
-                    ) AS score
+                    SELECT 
+                        *, 
+                        (
+                            (1 - 1 / (1 + ({$term_quality_sql}))) * norm_time_relevance
+                        ) AS score
                     FROM evaluated
                 )
             SELECT *
             FROM scored
+            WHERE score > 0
             ORDER BY score DESC
             ZZZZZZZZZZ;
         $this->log()->debug("Search SQL: {$sql}");
@@ -217,6 +225,10 @@ class SearchUtils {
                 'title' => $row['title'],
                 'text' => $this->searchUtils()->getCutout($row['text'] ?? '', $terms) ?: null,
                 'score' => round($row['score'], 5),
+                'debug' => implode(' / ', [
+                    'Score: '.round($row['score'], 5),
+                    'Time relevance: '.round($row['time_relevance'], 5),
+                ]),
             ];
         }, $sql_results);
         $first_result = $results[0] ?? null;
@@ -226,6 +238,10 @@ class SearchUtils {
             'bestScore' => $best_score,
             'results' => $results,
         ];
+    }
+
+    protected function sqlExecute(string $sql): void {
+        $this->entityManager()->createNativeQuery($sql, new ResultSetMapping())->execute();
     }
 
     /** @return array<string> */

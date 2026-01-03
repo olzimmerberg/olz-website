@@ -163,7 +163,7 @@ class OlzAnniversary extends OlzRootComponent {
             $is_counting_emoji = $run->getIsCounting() ? '✅' : '🚫';
             $is_counting_title = $run->getIsCounting() ? 'zählt' : 'zählt nicht';
             $name = $run->getRunnerName() ?? "?";
-            $sport_type = "?";
+            $sport_type = $run->getSportType() ?? "?";
             if (is_array($info)) {
                 $sport_type = "{$info['type']} / {$info['sport_type']}";
             }
@@ -192,7 +192,7 @@ class OlzAnniversary extends OlzRootComponent {
                 <button
                     id='create-run-button'
                     class='btn btn-secondary'
-                    onclick='return olz.initOlzEditRunModal()'
+                    onclick='return olz.initOlzEditRunModal(null, null, {sportType: &quot;Lauf&quot;})'
                 >
                     <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
                     Aktivität manuell hinzufügen
@@ -209,6 +209,7 @@ class OlzAnniversary extends OlzRootComponent {
                         <td>Distanz</td>
                         <td>Höhenmeter</td>
                         <td>Steigung</td>
+                        <td>Art</td>
                     </tr>
             ZZZZZZZZZZ;
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
@@ -232,6 +233,7 @@ class OlzAnniversary extends OlzRootComponent {
             $source = $this->anniversaryUtils()->getPrettySource($run->getSource() ?? '?');
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
             $inclination_percent = number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2);
+            $sport_type = $run->getSportType() ?? '?';
             $out .= <<<ZZZZZZZZZZ
                 <tr>
                     <td>{$edit_button}</td>
@@ -240,6 +242,7 @@ class OlzAnniversary extends OlzRootComponent {
                     <td class='number'>{$distance_km}km</td>
                     <td class='number'><b>{$run->getElevationMeters()}m</b></td>
                     <td class='number'>{$inclination_percent}%</td>
+                    <td>{$sport_type}</td>
                 </tr>
                 ZZZZZZZZZZ;
         }

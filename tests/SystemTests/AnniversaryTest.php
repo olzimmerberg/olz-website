@@ -32,8 +32,8 @@ final class AnniversaryTest extends SystemTestCase {
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Datum Quelle Distanz Höhenmeter Steigung
-            15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00%
+            Datum Quelle Distanz Höhenmeter Steigung Art
+            15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% ?
             ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
 
         $this->click('#create-run-button');
@@ -48,9 +48,9 @@ final class AnniversaryTest extends SystemTestCase {
         $this->waitUntilGone('#edit-run-modal');
         $browser->get($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Datum Quelle Distanz Höhenmeter Steigung
-            15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00%
-            01.08.2020 12:00:00 ✍️ manuell 3.21km 321m 10.00%
+            Datum Quelle Distanz Höhenmeter Steigung Art
+            15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% ?
+            01.08.2020 12:00:00 ✍️ manuell 3.21km 321m 10.00% Lauf
             ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
 
         $this->resetDb();
@@ -63,8 +63,8 @@ final class AnniversaryTest extends SystemTestCase {
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Datum Quelle Distanz Höhenmeter Steigung
-            15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00%
+            Datum Quelle Distanz Höhenmeter Steigung Art
+            15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% ?
             ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
 
         $this->click('#edit-run-1-button');
@@ -75,6 +75,8 @@ final class AnniversaryTest extends SystemTestCase {
         $this->sendKeys('#edit-run-modal #distanceKm-input', '3.21');
         $this->clear('#edit-run-modal #elevationMeters-input');
         $this->sendKeys('#edit-run-modal #elevationMeters-input', '321');
+        $this->clear('#edit-run-modal #sportType-input');
+        $this->sendKeys('#edit-run-modal #sportType-input', 'Test run');
 
         $this->screenshot('anniversary_run_new_edit');
 
@@ -82,8 +84,8 @@ final class AnniversaryTest extends SystemTestCase {
         $this->waitUntilGone('#edit-run-modal');
         $browser->get($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Datum Quelle Distanz Höhenmeter Steigung
-            01.08.2020 12:00:00 ✍️ manuell 3.21km 321m 10.00%
+            Datum Quelle Distanz Höhenmeter Steigung Art
+            01.08.2020 12:00:00 ✍️ manuell 3.21km 321m 10.00% Test run
             ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
 
         $this->resetDb();
@@ -96,8 +98,8 @@ final class AnniversaryTest extends SystemTestCase {
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Datum Quelle Distanz Höhenmeter Steigung
-            15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00%
+            Datum Quelle Distanz Höhenmeter Steigung Art
+            15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% ?
             ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
 
         $this->click('#edit-run-1-button');
@@ -110,7 +112,7 @@ final class AnniversaryTest extends SystemTestCase {
 
         $browser->get($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            Datum Quelle Distanz Höhenmeter Steigung
+            Datum Quelle Distanz Höhenmeter Steigung Art
             ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
         $this->assertNull($this->getBrowserElement('#edit-run-1-button'));
 

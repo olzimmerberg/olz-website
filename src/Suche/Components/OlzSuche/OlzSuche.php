@@ -34,14 +34,31 @@ class OlzSuche extends OlzRootComponent {
 
     public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
+        $db = $this->dbUtils()->getDb();
+        $esc_title = $db->real_escape_string($this->getTitle());
+        $esc_content = $db->real_escape_string($this->getDescription('Suche'));
+        $where = implode(' AND ', array_map(function ($term) {
+            return <<<ZZZZZZZZZZ
+                (
+                    title LIKE '%{$term}%'
+                    OR text LIKE '%{$term}%'
+                )
+                ZZZZZZZZZZ;
+        }, $terms));
         return <<<ZZZZZZZZZZ
-            SELECT
-                '{$code_href}suche?anfrage=Suche' AS link,
-                '{$code_href}assets/icns/magnifier_16.svg' AS icon,
-                NULL AS date,
-                'Suche' AS title,
-                '{$this->getTitle()} - {$this->getDescription('Suche')}' AS text,
-                1.0 AS time_relevance
+            WITH
+                base AS (
+                    SELECT
+                        '{$code_href}suche?anfrage=Suche' AS link,
+                        '{$code_href}assets/icns/magnifier_16.svg' AS icon,
+                        NULL AS date,
+                        '{$esc_title}' AS title,
+                        '{$esc_content}' AS text,
+                        0.9 AS time_relevance
+                )
+            SELECT *
+            FROM base
+            WHERE {$where}
             ZZZZZZZZZZ;
     }
 

@@ -4,7 +4,7 @@ import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzRunData} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateDateTimeOrNull, validateInteger, validateNumber} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateDateTimeOrNull, validateInteger, validateNumber, validateStringLength} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditRunModal.scss';
@@ -13,6 +13,7 @@ interface OlzEditRunForm {
     runAt: string;
     distanceKm: string;
     elevationMeters: string;
+    sportType: string;
 }
 
 const resolver: Resolver<OlzEditRunForm> = async (values) => {
@@ -20,6 +21,7 @@ const resolver: Resolver<OlzEditRunForm> = async (values) => {
     [errors.runAt, values.runAt] = validateDateTimeOrNull(values.runAt);
     errors.distanceKm = validateNumber(values.distanceKm);
     errors.elevationMeters = validateInteger(values.elevationMeters);
+    errors.sportType = validateStringLength(values.sportType, 200, null);
     return getResolverResult(errors, values);
 };
 
@@ -28,6 +30,7 @@ function getFormFromApi(apiData?: OlzRunData): OlzEditRunForm {
         runAt: getFormString(apiData?.runAt),
         distanceKm: getFormNumber(apiData?.distanceMeters && apiData.distanceMeters / 1000),
         elevationMeters: getFormNumber(apiData?.elevationMeters),
+        sportType: getFormString(apiData?.sportType)
     };
 }
 
@@ -36,6 +39,7 @@ function getApiFromForm(formData: OlzEditRunForm): OlzRunData {
         runAt: getApiString(formData.runAt) ?? null,
         distanceMeters: (getApiNumber(formData.distanceKm) ?? 0) * 1000,
         elevationMeters: getApiNumber(formData.elevationMeters) ?? 0,
+        sportType: getApiString(formData.sportType) ?? null,
         source: 'manuell',
     };
 }
@@ -121,6 +125,14 @@ export const OlzEditRunModal = (props: OlzEditRunModalProps): React.ReactElement
                     title='Höhenmeter (in Metern)'
                     name='elevationMeters'
                     options={{required: 'Höhenmeter dürfen nicht leer sein!'}}
+                    errors={errors}
+                    register={register}
+                />
+            </div>
+            <div className='mb-3'>
+                <OlzTextField
+                    title='Art der Aktivität (z.B. Lauf, Spazieren, Traillauf, etc.)'
+                    name='sportType'
                     errors={errors}
                     register={register}
                 />

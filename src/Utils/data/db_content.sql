@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20251231090437
+-- MIGRATION: DoctrineMigrations\Version20260103215409
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -22,12 +22,12 @@ VALUES
 
 -- Table anniversary_runs
 INSERT INTO anniversary_runs
-    (`on_off`, `created_at`, `last_modified_at`, `id`, `run_at`, `distance_meters`, `elevation_meters`, `source`, `info`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `user_id`, `runner_name`, `is_counting`)
+    (`on_off`, `created_at`, `last_modified_at`, `id`, `run_at`, `distance_meters`, `elevation_meters`, `source`, `info`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `user_id`, `runner_name`, `is_counting`, `sport_type`)
 VALUES
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '1', '2020-08-15 16:51:00', '12340', '123', 'manuell', NULL, '1', NULL, '1', '1', '1', 'Armin 😂 A.', '1'),
-    ('1', '2020-08-14 23:45:00', '2020-08-14 23:45:00', '2', '2020-08-14 23:45:00', '43210', '432', 'strava-09d1fe82bdfa94def6a94a4ef800cf95', '{\"resource_state\":2,\"athlete\":{\"resource_state\":2,\"firstname\":\"Simon\",\"lastname\":\"H.\"},\"name\":\"Evening Run\",\"distance\":43210.1,\"moving_time\":29190,\"elapsed_time\":29190,\"total_elevation_gain\":432.1,\"type\":\"Run\",\"sport_type\":\"Run\",\"workout_type\":null,\"device_name\":\"Garmin Forerunner 55\"}', NULL, NULL, NULL, NULL, NULL, 'Simon H.', '1'),
-    ('1', '2020-08-15 12:00:00', '2020-08-15 12:00:00', '3', '2020-08-15 12:00:00', '8765', '123', 'strava-abcdef0123456789abcdef0123456789', '{\"resource_state\":2,\"athlete\":{\"resource_state\":2,\"firstname\":\"Test\",\"lastname\":\"U.\"},\"name\":\"Evening Whatever\",\"distance\":8765.4,\"moving_time\":2919,\"elapsed_time\":2919,\"total_elevation_gain\":123.4,\"type\":\"Whatever\",\"sport_type\":\"Whatever\",\"workout_type\":null,\"device_name\":\"Garmin Forerunner 55\"}', NULL, NULL, NULL, NULL, NULL, 'Test U.', '0'),
-    ('0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '4', '2020-08-15 16:51:00', '123', '12', 'softdeleted', NULL, '2', NULL, '2', '2', '2', 'Volker V.', '1');
+    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '1', '2020-08-15 16:51:00', '12340', '123', 'manuell', NULL, '1', NULL, '1', '1', '1', 'Armin 😂 A.', '1', NULL),
+    ('1', '2020-08-14 23:45:00', '2020-08-14 23:45:00', '2', '2020-08-14 23:45:00', '43210', '432', 'strava-09d1fe82bdfa94def6a94a4ef800cf95', '{\"resource_state\":2,\"athlete\":{\"resource_state\":2,\"firstname\":\"Simon\",\"lastname\":\"H.\"},\"name\":\"Evening Run\",\"distance\":43210.1,\"moving_time\":29190,\"elapsed_time\":29190,\"total_elevation_gain\":432.1,\"type\":\"Run\",\"sport_type\":\"Run\",\"workout_type\":null,\"device_name\":\"Garmin Forerunner 55\"}', NULL, NULL, NULL, NULL, NULL, 'Simon H.', '1', NULL),
+    ('1', '2020-08-15 12:00:00', '2020-08-15 12:00:00', '3', '2020-08-15 12:00:00', '8765', '123', 'strava-abcdef0123456789abcdef0123456789', '{\"resource_state\":2,\"athlete\":{\"resource_state\":2,\"firstname\":\"Test\",\"lastname\":\"U.\"},\"name\":\"Evening Whatever\",\"distance\":8765.4,\"moving_time\":2919,\"elapsed_time\":2919,\"total_elevation_gain\":123.4,\"type\":\"Whatever\",\"sport_type\":\"Whatever\",\"workout_type\":null,\"device_name\":\"Garmin Forerunner 55\"}', NULL, NULL, NULL, NULL, NULL, 'Test U.', '0', NULL),
+    ('0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '4', '2020-08-15 16:51:00', '123', '12', 'softdeleted', NULL, '2', NULL, '2', '2', '2', 'Volker V.', '1', NULL);
 
 -- Table auth_requests
 -- (auth_requests omitted)
@@ -109,7 +109,8 @@ VALUES
     ('DoctrineMigrations\\Version20250526204822', '2025-05-29 21:16:25', '669'),
     ('DoctrineMigrations\\Version20250618220717', '2025-06-19 00:07:51', '81'),
     ('DoctrineMigrations\\Version20251125174358', '2025-11-25 18:44:24', '438'),
-    ('DoctrineMigrations\\Version20251231090437', '2025-12-31 10:05:41', '13');
+    ('DoctrineMigrations\\Version20251231090437', '2025-12-31 10:05:41', '13'),
+    ('DoctrineMigrations\\Version20260103215409', '2026-01-03 22:54:48', '16');
 
 -- Table downloads
 INSERT INTO downloads

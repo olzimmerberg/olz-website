@@ -108,6 +108,21 @@ export function validateNotEmpty(value: string): FieldError | undefined {
     return undefined;
 }
 
+export function validateStringLength(
+    valueArg: string,
+    maxLength: number|null,
+    minLength: number|null,
+): FieldError | undefined {
+    const trimmedValue = valueArg.trim();
+    if (maxLength !== null && trimmedValue.length > maxLength) {
+        return {type: 'validate', message: `Die Eingabe darf höchstens ${maxLength} Zeichen lang sein.`};
+    }
+    if (minLength !== null && trimmedValue.length < minLength) {
+        return {type: 'validate', message: `Die Eingabe muss mindestens ${minLength} Zeichen lang sein.`};
+    }
+    return undefined;
+}
+
 export function validateCountryCodeOrNull(valueArg: string): [FieldError | undefined, string] {
     const value = valueArg.trim();
     if (value === '') {

@@ -44,7 +44,7 @@ export type OlzRoleMembershipIds = {'roleId': number, 'userId': number};
 
 export type OlzRoleInfoData = {'name'?: (string | null), 'username'?: (string | null), 'assignees': Array<{'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: {[key: string]: string}}>};
 
-export type OlzRunData = {'userId'?: (number | null), 'runAt'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'distanceMeters': number, 'elevationMeters': number, 'source'?: (string | null)};
+export type OlzRunData = {'userId'?: (number | null), 'runAt'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'distanceMeters': number, 'elevationMeters': number, 'sportType'?: (string | null), 'source'?: (string | null)};
 
 export type OlzRunId = number;
 

@@ -40,7 +40,7 @@ class OlzService extends OlzRootComponent {
                 NULL AS date,
                 name AS title,
                 NULL AS text,
-                0.7 AS time_relevance
+                0.9 AS time_relevance
             FROM downloads
             WHERE
                 on_off = '1'
@@ -52,7 +52,7 @@ class OlzService extends OlzRootComponent {
                 NULL AS date,
                 name AS title,
                 url AS text,
-                0.7 AS time_relevance
+                0.9 AS time_relevance
             FROM links
             WHERE
                 on_off = '1'

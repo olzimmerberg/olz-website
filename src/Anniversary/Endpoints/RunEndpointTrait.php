@@ -15,6 +15,7 @@ use PhpTypeScriptApi\PhpStan\IsoDateTime;
  *   runAt?: ?IsoDateTime,
  *   distanceMeters: int,
  *   elevationMeters: int,
+ *   sportType?: ?non-empty-string,
  *   source?: ?non-empty-string,
  * }
  */
@@ -30,6 +31,7 @@ trait RunEndpointTrait {
             'runAt' => $run_at,
             'distanceMeters' => $entity->getDistanceMeters(),
             'elevationMeters' => $entity->getElevationMeters(),
+            'sportType' => $entity->getSportType() ?: null,
             'source' => $entity->getSource() ?: null,
         ];
     }
@@ -51,6 +53,7 @@ trait RunEndpointTrait {
         $entity->setIsCounting(true);
         $entity->setDistanceMeters($input_data['distanceMeters']);
         $entity->setElevationMeters($input_data['elevationMeters']);
+        $entity->setSportType($input_data['sportType'] ?? null);
         $entity->setSource($input_data['source'] ?? 'manuell');
     }
 

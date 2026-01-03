@@ -40,7 +40,7 @@ class OlzTerminLocationDetail extends OlzRootComponent {
                 NULL AS date,
                 name AS title,
                 details AS text,
-                0.8 AS time_relevance
+                1.0 AS time_relevance
             FROM termin_locations
             WHERE
                 on_off = '1'

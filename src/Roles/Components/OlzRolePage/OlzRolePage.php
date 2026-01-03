@@ -42,7 +42,7 @@ class OlzRolePage extends OlzRootComponent {
                 NULL AS date,
                 name AS title,
                 CONCAT(IFNULL(username, ''), ' ', IFNULL(old_username, ''), ' ', IFNULL(description, '')) AS text,
-                0.8 AS time_relevance
+                1.0 AS time_relevance
             FROM roles
             WHERE
                 on_off = '1'

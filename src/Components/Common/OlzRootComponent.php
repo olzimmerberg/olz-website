@@ -17,28 +17,6 @@ abstract class OlzRootComponent extends OlzComponent {
     /** @return non-empty-string */
     abstract public function getSearchTitle(): string;
 
-    /**
-     * @param array<string> $terms
-     *
-     * @return ?array<SearchResult>
-     */
-    public function getSearchResults(array $terms): ?array {
-        if (!$this->hasAccess()) {
-            return [];
-        }
-        return $this->getSearchResultsWhenHasAccess($terms);
-    }
-
-    /**
-     * @param array<string> $terms
-     *
-     * @return ?array<SearchResult>
-     */
-    public function getSearchResultsWhenHasAccess(array $terms): ?array {
-        $called_class = get_called_class();
-        throw new \Exception("{$called_class}::getSearchResultsWhenHasAccess is not implemented");
-    }
-
     /** @param array<string> $terms */
     public function searchSql(array $terms): ?string {
         if (!$this->hasAccess()) {

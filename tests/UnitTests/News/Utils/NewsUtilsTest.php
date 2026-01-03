@@ -331,7 +331,7 @@ final class NewsUtilsTest extends UnitTestCase {
                     'datum' => '2020',
                 ],
                 'name' => "Galerien",
-                'icon' => 'entry_type_gallery_20.svg',
+                'icon' => 'entry_type_galerie_20.svg',
                 'ident' => 'galerie',
             ],
             [
@@ -341,7 +341,7 @@ final class NewsUtilsTest extends UnitTestCase {
                     'datum' => '2020',
                 ],
                 'name' => "Videos",
-                'icon' => 'entry_type_movie_20.svg',
+                'icon' => 'entry_type_video_20.svg',
                 'ident' => 'video',
             ],
         ], $news_utils->getUiFormatFilterOptions([
@@ -396,7 +396,7 @@ final class NewsUtilsTest extends UnitTestCase {
                     'datum' => '2020',
                 ],
                 'name' => "Galerien",
-                'icon' => 'entry_type_gallery_20.svg',
+                'icon' => 'entry_type_galerie_20.svg',
                 'ident' => 'galerie',
             ],
             [
@@ -406,7 +406,7 @@ final class NewsUtilsTest extends UnitTestCase {
                     'datum' => '2020',
                 ],
                 'name' => "Videos",
-                'icon' => 'entry_type_movie_20.svg',
+                'icon' => 'entry_type_video_20.svg',
                 'ident' => 'video',
             ],
         ], $news_utils->getUiFormatFilterOptions([
@@ -746,9 +746,9 @@ final class NewsUtilsTest extends UnitTestCase {
         $news_utils = new NewsUtils();
         $this->assertSame('/_/assets/icns/entry_type_aktuell_20.svg', $news_utils->getNewsFormatIcon('aktuell'));
         $this->assertSame('/_/assets/icns/entry_type_forum_20.svg', $news_utils->getNewsFormatIcon('forum'));
-        $this->assertSame('/_/assets/icns/entry_type_gallery_20.svg', $news_utils->getNewsFormatIcon('galerie'));
+        $this->assertSame('/_/assets/icns/entry_type_galerie_20.svg', $news_utils->getNewsFormatIcon('galerie'));
         $this->assertSame('/_/assets/icns/entry_type_kaderblog_20.svg', $news_utils->getNewsFormatIcon('kaderblog'));
-        $this->assertSame('/_/assets/icns/entry_type_movie_20.svg', $news_utils->getNewsFormatIcon('video'));
+        $this->assertSame('/_/assets/icns/entry_type_video_20.svg', $news_utils->getNewsFormatIcon('video'));
     }
 
     public function testGetInvalidNewsFormatIcon(): void {

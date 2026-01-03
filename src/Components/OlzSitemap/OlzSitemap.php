@@ -31,8 +31,8 @@ abstract class OlzSitemap extends OlzRootComponent {
         return 'TODO';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        return [];
+    public function searchSqlWhenHasAccess(array $terms): ?string {
+        return null;
     }
 
     /** @return array<array{title: string, description: string, url: string, updates: string, importance: float, level: int}> */

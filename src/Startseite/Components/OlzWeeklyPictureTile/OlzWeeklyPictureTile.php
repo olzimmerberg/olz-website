@@ -58,13 +58,12 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
                     <a
                         href='#'
                         id='edit-weekly-picture-{$id}-button'
-                        class='header-link'
+                        class='link-icon'
                         onclick='return olz.editWeeklyPicture({$enc_id})'
                     >
                         <img
                             src='{$code_href}assets/icns/edit_white_16.svg'
                             alt='E'
-                            class='header-link-icon'
                             title='Bild der Woche bearbeiten'
                         />
                     </a>

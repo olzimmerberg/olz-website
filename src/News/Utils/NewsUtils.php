@@ -22,8 +22,8 @@ class NewsUtils {
         ['ident' => 'aktuell', 'name' => "Aktuell", 'icon' => 'entry_type_aktuell_20.svg'],
         ['ident' => 'kaderblog', 'name' => "Kaderblog", 'icon' => 'entry_type_kaderblog_20.svg'],
         ['ident' => 'forum', 'name' => "Forum", 'icon' => 'entry_type_forum_20.svg'],
-        ['ident' => 'galerie', 'name' => "Galerien", 'icon' => 'entry_type_gallery_20.svg'],
-        ['ident' => 'video', 'name' => "Videos", 'icon' => 'entry_type_movie_20.svg'],
+        ['ident' => 'galerie', 'name' => "Galerien", 'icon' => 'entry_type_galerie_20.svg'],
+        ['ident' => 'video', 'name' => "Videos", 'icon' => 'entry_type_video_20.svg'],
     ];
 
     /** @param array<string, string> $filter */
@@ -280,7 +280,7 @@ class NewsUtils {
     public function getIsNotArchivedSql(?string $tbl = null): string {
         $tbl_sql = $tbl === null ? '' : "{$tbl}.";
         $archive_threshold = $this->dateUtils()->getIsoArchiveThreshold();
-        return "{$tbl_sql}published_date >= {$archive_threshold}";
+        return "{$tbl_sql}published_date >= '{$archive_threshold}'";
     }
 
     /** @param PartialFilter $filter */
@@ -290,30 +290,16 @@ class NewsUtils {
         return "{$code_href}news?filter={$serialized_filter}&seite=1";
     }
 
-    /** @var array<string, string> */
-    protected static $iconBasenameByFormat = [
-        'aktuell' => 'entry_type_aktuell_20.svg',
-        'forum' => 'entry_type_forum_20.svg',
-        'galerie' => 'entry_type_gallery_20.svg',
-        'kaderblog' => 'entry_type_kaderblog_20.svg',
-        'video' => 'entry_type_movie_20.svg',
-
-        'galerie_white' => 'entry_type_gallery_white_20.svg',
-        'video_white' => 'entry_type_movie_white_20.svg',
-    ];
-
     public function getNewsFormatIcon(
         NewsEntry|string $input,
         ?string $modifier = null,
     ): ?string {
         $format = $input instanceof NewsEntry ? $input->getFormat() : $input;
         $key = $modifier === null ? $format : "{$format}_{$modifier}";
-        $icon = self::$iconBasenameByFormat[$key] ?? null;
-        if ($icon === null) {
-            return null;
-        }
         $code_href = $this->envUtils()->getCodeHref();
-        return "{$code_href}assets/icns/{$icon}";
+        $code_path = $this->envUtils()->getCodePath();
+        $path = "assets/icns/entry_type_{$key}_20.svg";
+        return is_file("{$code_path}{$path}") ? "{$code_href}{$path}" : null;
     }
 
     public static function fromEnv(): self {

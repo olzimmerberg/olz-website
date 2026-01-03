@@ -25,13 +25,13 @@ class OlzNewsGalerieTile extends AbstractOlzTile {
         $video_url = $news_utils->getUrl(['format' => 'video', 'datum' => $year]);
         $out = <<<ZZZZZZZZZZ
             <h3>
-                <a href='{$galerie_url}&von=startseite'>
-                    <img src='{$code_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
+                <a href='{$galerie_url}&von=startseite' class='header-link'>
+                    <img src='{$code_href}assets/icns/entry_type_galerie_20.svg' alt='Galerie' class='header-link-icon'>
                     Galerie
                 </a>
                 &nbsp;&amp;&nbsp;
-                <a href='{$video_url}&von=startseite'>
-                    <img src='{$code_href}assets/icns/entry_type_movie_20.svg' alt='Video' class='link-icon'>
+                <a href='{$video_url}&von=startseite' class='header-link'>
+                    <img src='{$code_href}assets/icns/entry_type_video_20.svg' alt='Video' class='header-link-icon'>
                     Video
                 </a>
             </h3>

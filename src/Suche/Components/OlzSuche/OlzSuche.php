@@ -32,15 +32,16 @@ class OlzSuche extends OlzRootComponent {
         return 'Suche';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
+    public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
-        $content = "{$this->getTitle()} - {$this->getDescription('Suche')}";
-        return [
-            ...$this->searchUtils()->getStaticSearchResults($content, $terms, [
-                'link' => "{$code_href}suche?anfrage=Suche",
-                'title' => $this->searchUtils()->highlight('Suche', $terms) ?: '?',
-            ]),
-        ];
+        return <<<ZZZZZZZZZZ
+            SELECT
+                '{$code_href}suche?anfrage=Suche' AS link,
+                '{$code_href}assets/icns/magnifier_16.svg' AS icon,
+                NULL AS date,
+                'Suche' AS title,
+                '{$this->getTitle()} - {$this->getDescription('Suche')}' AS text
+            ZZZZZZZZZZ;
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

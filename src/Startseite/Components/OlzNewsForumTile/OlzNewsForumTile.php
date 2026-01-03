@@ -25,8 +25,8 @@ class OlzNewsForumTile extends AbstractOlzTile {
 
         $out = <<<ZZZZZZZZZZ
             <h3>
-                <a href='{$forum_url}&von=startseite'>
-                    <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='link-icon'>
+                <a href='{$forum_url}&von=startseite' class='header-link'>
+                    <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='header-link-icon'>
                     Forum
                 </a>
             </h3>

@@ -44,7 +44,7 @@ class OlzNewsListsTile extends AbstractOlzTile {
         $galerie_url = $news_utils->getUrl(['format' => 'galerie']);
         $out .= <<<ZZZZZZZZZZ
             <li><a href='{$galerie_url}'>
-                <img src='{$code_href}assets/icns/entry_type_gallery_20.svg' alt='Galerie' class='link-icon'>
+                <img src='{$code_href}assets/icns/entry_type_galerie_20.svg' alt='Galerie' class='link-icon'>
                 <b>Galerie</b>
             </a></li>
             ZZZZZZZZZZ;

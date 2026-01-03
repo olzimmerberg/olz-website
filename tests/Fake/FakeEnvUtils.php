@@ -47,6 +47,10 @@ class FakeEnvUtils extends EnvUtils {
         return '/_/';
     }
 
+    public function getCodePath(): string {
+        return __DIR__.'/../../';
+    }
+
     public function getPrivatePath(): string {
         return __DIR__.'/../UnitTests/tmp/private/';
     }

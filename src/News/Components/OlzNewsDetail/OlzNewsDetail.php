@@ -30,22 +30,36 @@ class OlzNewsDetail extends OlzRootComponent {
         return 'News';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        $results = [];
+    public function getSearchResultsWhenHasAccess(array $terms): ?array {
+        return null; // TODO: Remove after migration
+    }
+
+    public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
-        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
-        $news = $news_repo->search($terms);
-        foreach ($news as $news_entry) {
-            $id = $news_entry->getId();
-            $results[] = $this->searchUtils()->getScoredSearchResult([
-                'link' => "{$code_href}news/{$id}",
-                'icon' => $this->newsUtils()->getNewsFormatIcon($news_entry) ?: null,
-                'date' => $news_entry->getPublishedDate(),
-                'title' => $news_entry->getTitle() ?: '?',
-                'text' => strip_tags("{$news_entry->getTeaser()} {$news_entry->getContent()}") ?: null,
-            ], $terms);
-        }
-        return $results;
+        $where = implode(' AND ', array_map(function ($term) {
+            $date_sql = $this->searchUtils()->getDateSql('published_date', $term) ?? '0';
+            return <<<ZZZZZZZZZZ
+                (
+                    title LIKE '%{$term}%'
+                    OR teaser LIKE '%{$term}%'
+                    OR content LIKE '%{$term}%'
+                    OR {$date_sql}
+                )
+                ZZZZZZZZZZ;
+        }, $terms));
+        return <<<ZZZZZZZZZZ
+            SELECT
+                CONCAT('{$code_href}news/', id) AS link,
+                CONCAT('{$code_href}assets/icns/entry_type_', format, '_20.svg') AS icon,
+                published_date AS date,
+                title AS title,
+                CONCAT(IFNULL(teaser, ''), ' ', IFNULL(content, '')) AS text
+            FROM news
+            WHERE
+                on_off = '1'
+                AND {$this->newsUtils()->getIsNotArchivedSql()}
+                AND {$where}
+            ZZZZZZZZZZ;
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

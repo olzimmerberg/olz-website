@@ -23,22 +23,32 @@ class OlzTerminLocationDetail extends OlzRootComponent {
         return 'Termin-Orte';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        $results = [];
+    public function getSearchResultsWhenHasAccess(array $terms): ?array {
+        return null; // TODO: Remove after migration
+    }
+
+    public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
-        $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
-        $termin_locations = $termin_location_repo->search($terms);
-        foreach ($termin_locations as $termin_location) {
-            $id = $termin_location->getId();
-            $results[] = $this->searchUtils()->getScoredSearchResult([
-                'link' => "{$code_href}termine/orte/{$id}",
-                'icon' => "{$code_href}assets/icns/link_map_16.svg",
-                'date' => null,
-                'title' => $termin_location->getName() ?: '?',
-                'text' => strip_tags("{$termin_location->getDetails()}") ?: null,
-            ], $terms);
-        }
-        return $results;
+        $where = implode(' AND ', array_map(function ($term) {
+            return <<<ZZZZZZZZZZ
+                (
+                    name LIKE '%{$term}%'
+                    OR details LIKE '%{$term}%'
+                )
+                ZZZZZZZZZZ;
+        }, $terms));
+        return <<<ZZZZZZZZZZ
+            SELECT
+                CONCAT('{$code_href}termine/orte/', id) AS link,
+                '{$code_href}assets/icns/link_map_16.svg' AS icon,
+                NULL AS date,
+                name AS title,
+                details AS text
+            FROM termin_locations
+            WHERE
+                on_off = '1'
+                AND {$where}
+            ZZZZZZZZZZ;
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

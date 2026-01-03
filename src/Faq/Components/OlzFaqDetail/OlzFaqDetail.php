@@ -26,22 +26,33 @@ class OlzFaqDetail extends OlzRootComponent {
         return 'Fragen & Antworten';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        $results = [];
+    public function getSearchResultsWhenHasAccess(array $terms): ?array {
+        return null; // TODO: Remove after migration
+    }
+
+    public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
-        $question_repo = $this->entityManager()->getRepository(Question::class);
-        $questions = $question_repo->search($terms);
-        foreach ($questions as $question) {
-            $ident = $question->getIdent();
-            $results[] = $this->searchUtils()->getScoredSearchResult([
-                'link' => "{$code_href}fragen_und_antworten/{$ident}",
-                'icon' => "{$code_href}assets/icns/question_mark_20.svg",
-                'date' => null,
-                'title' => $question->getQuestion() ?: '?',
-                'text' => strip_tags("{$question->getIdent()} {$question->getAnswer()}") ?: null,
-            ], $terms);
-        }
-        return $results;
+        $where = implode(' AND ', array_map(function ($term) {
+            return <<<ZZZZZZZZZZ
+                (
+                    ident LIKE '%{$term}%'
+                    OR question LIKE '%{$term}%'
+                    OR answer LIKE '%{$term}%'
+                )
+                ZZZZZZZZZZ;
+        }, $terms));
+        return <<<ZZZZZZZZZZ
+            SELECT
+                CONCAT('{$code_href}fragen_und_antworten/', id) AS link,
+                '{$code_href}assets/icns/question_mark_20.svg' AS icon,
+                NULL AS date,
+                question AS title,
+                CONCAT(IFNULL(ident, ''), ' ', IFNULL(answer, '')) AS text
+            FROM questions
+            WHERE
+                on_off = '1'
+                AND {$where}
+            ZZZZZZZZZZ;
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

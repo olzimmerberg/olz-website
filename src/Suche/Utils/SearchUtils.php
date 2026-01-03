@@ -4,6 +4,7 @@ namespace Olz\Suche\Utils;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Expression;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Olz\Apps\Anmelden\Components\OlzAnmelden\OlzAnmelden;
 use Olz\Apps\Commands\Components\OlzCommands\OlzCommands;
 use Olz\Apps\Files\Components\OlzFiles\OlzFiles;
@@ -131,7 +132,110 @@ class SearchUtils {
     protected function getPageSearchResults(string $page_class, array $terms): array {
         $page = new $page_class();
         $results = $page->getSearchResults($terms);
+        if ($results === null) { // New QueryBuilder API
+            return $this->getPageSearchResultsNew($page_class, $terms);
+        }
+        // Old PHP API
         usort($results, fn ($a, $b) => $b['score'] <=> $a['score']);
+        $first_result = $results[0] ?? null;
+        $best_score = $first_result['score'] ?? null;
+        return [
+            'title' => $page->getSearchTitle(),
+            'bestScore' => $best_score,
+            'results' => $results,
+        ];
+    }
+
+    /**
+     * @param class-string<OlzRootComponent<array<string, mixed>>> $page_class
+     * @param array<string>                                        $terms
+     *
+     * @return PageSearchResults
+     */
+    protected function getPageSearchResultsNew(string $page_class, array $terms): array {
+        $page = new $page_class();
+        $db = $this->dbUtils()->getDb();
+        $esc_terms = array_map(fn ($term) => $db->real_escape_string($term), $terms);
+        $num_terms = count($terms);
+        $idx = 0;
+        $term_evaluation_sqls = [];
+        $term_evaluation_columns = [];
+        foreach ($terms as $term) {
+            $esc_term = $db->real_escape_string(preg_quote($term));
+            $term_evaluation_sqls[] = "get_quality(content, '{$esc_term}') AS term{$idx}_any";
+            $term_evaluation_columns[] = "term{$idx}_any";
+            // Add preference for word matches
+            $term_evaluation_sqls[] = "get_quality(content, '(?=\\\\W|^){$esc_term}') AS term{$idx}_prefix";
+            $term_evaluation_columns[] = "term{$idx}_prefix";
+            $term_evaluation_sqls[] = "get_quality(content, '{$esc_term}(?=\\\\W|$)') AS term{$idx}_suffix";
+            $term_evaluation_columns[] = "term{$idx}_suffix";
+            $idx++;
+        }
+        // Add preference to term combination matches
+        for ($num_combined = 2; $num_combined <= min(3, $num_terms); $num_combined++) {
+            for ($start_combined = 0; $start_combined <= $num_terms - $num_combined; $start_combined++) {
+                $combined_terms = array_slice($terms, $start_combined, $num_combined);
+                $esc_combined_terms = $db->real_escape_string(implode('(\W{0,5}|\s*)', array_map(
+                    fn ($term) => preg_quote($term),
+                    $combined_terms
+                )));
+                $term_evaluation_sqls[] = "get_quality(content, '{$esc_combined_terms}') AS terms_{$start_combined}_{$num_combined}";
+                $term_evaluation_columns[] = "terms_{$start_combined}_{$num_combined}";
+                // TODO: Combined date formattings?
+            }
+        }
+
+        $sub_sql = $page->searchSql($esc_terms);
+        $term_evaluation_sql = implode(',', $term_evaluation_sqls);
+        $term_quality_sql = implode('+', $term_evaluation_columns);
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('link', 'link', 'string');
+        $rsm->addScalarResult('icon', 'icon', 'string');
+        $rsm->addScalarResult('date', 'date', 'date');
+        $rsm->addScalarResult('title', 'title', 'string');
+        $rsm->addScalarResult('text', 'text', 'string');
+        $rsm->addScalarResult('score', 'score', 'string');
+        $this->entityManager()->createNativeQuery(<<<'ZZZZZZZZZZ'
+                DROP FUNCTION IF EXISTS get_quality
+            ZZZZZZZZZZ, new ResultSetMapping())->execute();
+        $this->entityManager()->createNativeQuery(<<<'ZZZZZZZZZZ'
+                CREATE FUNCTION get_quality (content TEXT, regex TEXT)
+                    RETURNS FLOAT DETERMINISTIC
+                    RETURN (LENGTH(content) - LENGTH(REGEXP_REPLACE(content, regex, ''))) / SQRT(LENGTH(content))
+            ZZZZZZZZZZ, new ResultSetMapping())->execute();
+        $sql = <<<ZZZZZZZZZZ
+            WITH
+                sub AS ({$sub_sql}),
+                concatted AS (
+                    SELECT *, CONCAT(IFNULL(title, ''), ' ', IFNULL(text, '')) AS content
+                    FROM sub
+                ),
+                evaluated AS (
+                    SELECT *, {$term_evaluation_sql}
+                    FROM concatted
+                ),
+                scored AS (
+                    SELECT *, (
+                        1 - 1 / (1 + ({$term_quality_sql}))
+                    ) AS score
+                    FROM evaluated
+                )
+            SELECT *
+            FROM scored
+            ORDER BY score DESC
+            ZZZZZZZZZZ;
+        $this->log()->debug("Search SQL: {$sql}");
+        $sql_results = $this->entityManager()->createNativeQuery($sql, $rsm)->getArrayResult();
+        $results = array_map(function ($row) use ($terms) {
+            return [
+                'link' => $row['link'],
+                'icon' => $row['icon'],
+                'date' => $row['date'],
+                'title' => $row['title'],
+                'text' => $this->searchUtils()->getCutout($row['text'] ?? '', $terms) ?: null,
+                'score' => $row['score'],
+            ];
+        }, $sql_results);
         $first_result = $results[0] ?? null;
         $best_score = $first_result['score'] ?? null;
         return [
@@ -151,6 +255,19 @@ class SearchUtils {
             Criteria::expr()->gte($field, $result['start']),
             Criteria::expr()->lt($field, $result['end']),
         )];
+    }
+
+    public function getDateSql(string $field, string $term): ?string {
+        $result = $this->dateUtils()->parseDateTimeRange($term);
+        if ($result === null) {
+            return null;
+        }
+        return <<<ZZZZZZZZZZ
+            (
+                {$field} >= '{$result['start']->format('Y-m-d')}'
+                AND {$field} < '{$result['end']->format('Y-m-d')}'
+            )
+            ZZZZZZZZZZ;
     }
 
     /**

@@ -277,6 +277,12 @@ class NewsUtils {
         return Criteria::expr()->gte('published_date', new \DateTime($archive_threshold));
     }
 
+    public function getIsNotArchivedSql(?string $tbl = null): string {
+        $tbl_sql = $tbl === null ? '' : "{$tbl}.";
+        $archive_threshold = $this->dateUtils()->getIsoArchiveThreshold();
+        return "{$tbl_sql}published_date >= {$archive_threshold}";
+    }
+
     /** @param PartialFilter $filter */
     public function getUrl(array $filter = []): string {
         $code_href = $this->envUtils()->getCodeHref();

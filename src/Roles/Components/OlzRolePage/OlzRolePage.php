@@ -23,22 +23,34 @@ class OlzRolePage extends OlzRootComponent {
         return 'Ressorts';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        $results = [];
+    public function getSearchResultsWhenHasAccess(array $terms): ?array {
+        return null; // TODO: Remove after migration
+    }
+
+    public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
-        $role_repo = $this->entityManager()->getRepository(Role::class);
-        $roles = $role_repo->search($terms);
-        foreach ($roles as $role) {
-            $ident = $role->getUsername();
-            $results[] = $this->searchUtils()->getScoredSearchResult([
-                'link' => "{$code_href}verein/{$ident}",
-                'icon' => "{$code_href}assets/icns/link_role_16.svg",
-                'date' => null,
-                'title' => $role->getName() ?: '?',
-                'text' => strip_tags("{$role->getUsername()} {$role->getOldUsername()} {$role->getDescription()}") ?: null,
-            ], $terms);
-        }
-        return $results;
+        $where = implode(' AND ', array_map(function ($term) {
+            return <<<ZZZZZZZZZZ
+                (
+                    username LIKE '%{$term}%'
+                    OR old_username LIKE '%{$term}%'
+                    OR name LIKE '%{$term}%'
+                    OR description LIKE '%{$term}%'
+                )
+                ZZZZZZZZZZ;
+        }, $terms));
+        return <<<ZZZZZZZZZZ
+            SELECT
+                CONCAT('{$code_href}verein/', username) AS link,
+                '{$code_href}assets/icns/link_role_16.svg' AS icon,
+                NULL AS date,
+                name AS title,
+                CONCAT(IFNULL(username, ''), ' ', IFNULL(old_username, ''), ' ', IFNULL(description, '')) AS text
+            FROM roles
+            WHERE
+                on_off = '1'
+                AND {$where}
+            ZZZZZZZZZZ;
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

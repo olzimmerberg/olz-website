@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Suche\Utils;
 
 use Doctrine\Common\Collections\Criteria;
 use Olz\Suche\Utils\SearchUtils;
+use Olz\Tests\Fake\FakeSearchUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 
@@ -17,7 +18,7 @@ use Olz\Utils\WithUtilsCache;
 final class SearchUtilsTest extends UnitTestCase {
     public function testGetSearchResults(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
-        $utils = new SearchUtils();
+        $utils = new FakeSearchUtils();
         $this->assertSame([
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
@@ -40,18 +41,18 @@ final class SearchUtilsTest extends UnitTestCase {
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fragen & Antworten', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Karten', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'News', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Ressorts', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Service', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Suche', 'bestScore' => null, 'results' => []],
-            ['title' => 'Termine', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'Termin-Listen', 'bestScore' => null, 'results' => []],
             ['title' => 'Termin-Orte', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
@@ -63,7 +64,7 @@ final class SearchUtilsTest extends UnitTestCase {
 
     public function testGetSearchResultsAdmin(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $utils = new SearchUtils();
+        $utils = new FakeSearchUtils();
         $this->assertSame([
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
@@ -86,20 +87,20 @@ final class SearchUtilsTest extends UnitTestCase {
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fragen & Antworten', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Karten', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'News', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Ressorts', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
-            ['title' => 'Service', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'Suche', 'bestScore' => null, 'results' => []],
-            ['title' => 'Termine', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'Termin-Listen', 'bestScore' => null, 'results' => []],
-            ['title' => 'Termin-Orte', 'bestScore' => null, 'results' => []],
+            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],
             ['title' => 'TODO', 'bestScore' => null, 'results' => []],

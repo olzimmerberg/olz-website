@@ -2,9 +2,6 @@
 
 namespace Olz\Repository\Karten;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Order;
 use Olz\Entity\Karten\Karte;
 use Olz\Repository\Common\OlzRepository;
 
@@ -12,26 +9,4 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<Karte>
  */
 class KartenRepository extends OlzRepository {
-    /**
-     * @param string[] $terms
-     *
-     * @return Collection<int, Karte>&iterable<Karte>
-     */
-    public function search(array $terms): Collection {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->eq('on_off', 1),
-                ...array_map(fn ($term) => Criteria::expr()->orX(
-                    Criteria::expr()->contains('name', $term),
-                    Criteria::expr()->contains('ort', $term),
-                ), $terms),
-            ))
-            ->orderBy([
-                'jahr' => Order::Descending,
-            ])
-            ->setFirstResult(0)
-            ->setMaxResults(1000000)
-        ;
-        return $this->matching($criteria);
-    }
 }

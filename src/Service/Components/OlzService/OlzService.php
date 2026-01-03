@@ -6,8 +6,6 @@ use Olz\Components\Apps\OlzAppsList\OlzAppsList;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Entity\Service\Download;
-use Olz\Entity\Service\Link;
 use Olz\Service\Components\OlzDownloads\OlzDownloads;
 use Olz\Service\Components\OlzLinks\OlzLinks;
 use Olz\Utils\HttpParams;
@@ -26,32 +24,42 @@ class OlzService extends OlzRootComponent {
         return 'Service';
     }
 
-    public function getSearchResultsWhenHasAccess(array $terms): array {
-        $results = [];
+    public function getSearchResultsWhenHasAccess(array $terms): ?array {
+        return null; // TODO: Remove after migration
+    }
+
+    public function searchSqlWhenHasAccess(array $terms): ?string {
         $code_href = $this->envUtils()->getCodeHref();
-        $download_repo = $this->entityManager()->getRepository(Download::class);
-        $downloads = $download_repo->search($terms);
-        foreach ($downloads as $download) {
-            $results[] = $this->searchUtils()->getScoredSearchResult([
-                'link' => "{$code_href}service",
-                'icon' => "{$code_href}assets/icns/link_internal_16.svg", // TODO better icon
-                'date' => null,
-                'title' => $download->getName() ?: '?',
-                'text' => null,
-            ], $terms);
-        }
-        $link_repo = $this->entityManager()->getRepository(Link::class);
-        $links = $link_repo->search($terms);
-        foreach ($links as $link) {
-            $results[] = $this->searchUtils()->getScoredSearchResult([
-                'link' => "{$code_href}service",
-                'icon' => "{$code_href}assets/icns/link_internal_16.svg", // TODO better icon
-                'date' => null,
-                'title' => $link->getName() ?: '?',
-                'text' => $link->getUrl() ?: null,
-            ], $terms);
-        }
-        return $results;
+        $downloads_where = implode(' AND ', array_map(function ($term) {
+            return "name LIKE '%{$term}%'";
+        }, $terms));
+        $links_where = implode(' AND ', array_map(function ($term) {
+            return "(name LIKE '%{$term}%' OR url LIKE '%{$term}%')";
+        }, $terms));
+        // TODO better icons
+        return <<<ZZZZZZZZZZ
+            SELECT
+                '{$code_href}service' AS link,
+                '{$code_href}assets/icns/link_internal_16.svg' AS icon,
+                NULL AS date,
+                name AS title,
+                NULL AS text
+            FROM downloads
+            WHERE
+                on_off = '1'
+                AND {$downloads_where}
+            UNION ALL
+            SELECT
+                '{$code_href}service' AS link,
+                '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
+                NULL AS date,
+                name AS title,
+                url AS text
+            FROM links
+            WHERE
+                on_off = '1'
+                AND {$links_where}
+            ZZZZZZZZZZ;
     }
 
     public static string $title = "Service";

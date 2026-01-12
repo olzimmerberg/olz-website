@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Entity\TelegramLink;
 use Olz\Entity\Users\User;
-use Olz\Fetchers\TelegramFetcher;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\TelegramUtils;
@@ -24,7 +23,7 @@ $generated_pin_2 = '00000002';
 // The $generated_pin_2 expiration has been updated, now the first available PIN is this.
 $generated_pin_3 = '00000003';
 
-class TestOnlyTelegramFetcher extends TelegramFetcher {
+class TestOnlyTelegramUtils extends TelegramUtils {
     public bool $fetchEmpty = false;
     public bool $fetchNotOk = false;
     public bool $fetchBlocked = false;
@@ -32,7 +31,9 @@ class TestOnlyTelegramFetcher extends TelegramFetcher {
     /** @var array<array{0: string, 1: array<string, mixed>, 2: string}> */
     public array $sentCommands = [];
 
-    public function callTelegramApi(string $command, array $args, string $bot_token): ?array {
+    private int $generateTelegramPinCallCount = 0;
+
+    public function fetchTelegramApi(string $command, array $args, string $bot_token): ?array {
         $this->sentCommands[] = [$command, $args, $bot_token];
         if ($this->fetchEmpty) {
             return null;
@@ -52,10 +53,6 @@ class TestOnlyTelegramFetcher extends TelegramFetcher {
         }
         return ['result' => 'interesting'];
     }
-}
-
-class DeterministicTelegramUtils extends TelegramUtils {
-    private int $generateTelegramPinCallCount = 0;
 
     public function generateTelegramPin(): string {
         $pin = str_pad(strval($this->generateTelegramPinCallCount), 8, '0', STR_PAD_LEFT);
@@ -71,7 +68,6 @@ class DeterministicTelegramUtils extends TelegramUtils {
  */
 final class TelegramUtilsTest extends UnitTestCase {
     public function testGenerateTelegramPin(): void {
-        global $iso_now;
         $telegram_utils = new TelegramUtils();
 
         $this->assertSame('fake-bot-name', $telegram_utils->getBotName());
@@ -82,8 +78,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testSetNewPinForLink(): void {
-        global $iso_now, $generated_pin_1;
-        $telegram_utils = new DeterministicTelegramUtils();
+        global $generated_pin_1;
+        $telegram_utils = new TestOnlyTelegramUtils();
         $telegram_link = new TelegramLink();
 
         $telegram_utils->setNewPinForLink($telegram_link);
@@ -94,8 +90,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testStartChatForUser(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2;
-        $telegram_utils = new DeterministicTelegramUtils();
+        global $generated_pin_1, $generated_pin_2;
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $user = new User();
         $user->setId(1);
@@ -116,7 +112,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testStartAnonymousChat(): void {
         global $iso_now, $expired_pin;
-        $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $telegram_link = $telegram_utils->startAnonymousChat('2', '2');
 
@@ -145,7 +141,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testLinkChatUsingPin(): void {
         global $iso_now, $valid_pin, $expired_pin, $inexistent_pin;
-        $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $telegram_chat_id = '1';
         $telegram_user_id = '10';
@@ -180,7 +176,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testLinkUserUsingPin(): void {
         global $iso_now, $valid_pin, $expired_pin, $inexistent_pin;
-        $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $user = new User();
         $user->setId(1);
@@ -226,8 +222,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testGetFreshPinForUser(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2;
-        $telegram_utils = new DeterministicTelegramUtils();
+        global $generated_pin_1, $generated_pin_2;
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $user = new User();
         $user->setId(4);
@@ -245,8 +241,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testGetFreshPinForChat(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_utils = new DeterministicTelegramUtils();
+        global $generated_pin_1, $generated_pin_2, $generated_pin_3;
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $telegram_chat_id = '1';
         $chat_link = $telegram_utils->getFreshPinForChat($telegram_chat_id);
@@ -278,7 +274,7 @@ final class TelegramUtilsTest extends UnitTestCase {
 
     public function testIsAnonymousChat(): void {
         global $iso_now;
-        $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $this->assertFalse($telegram_utils->isAnonymousChat('1'));
         $this->assertFalse($telegram_utils->isAnonymousChat('2'));
@@ -288,8 +284,7 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testGetChatState(): void {
-        global $iso_now;
-        $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $this->assertSame(['state' => 'valid'], $telegram_utils->getChatState('1'));
         $this->assertSame(['state' => 'expired'], $telegram_utils->getChatState('2'));
@@ -299,8 +294,7 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testSetChatState(): void {
-        global $iso_now;
-        $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $telegram_utils->setChatState('1', ['test' => true]);
         $telegram_utils->setChatState('2', ['test' => 2]);
@@ -315,11 +309,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testSendConfiguration(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new TestOnlyTelegramFetcher();
-        $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setTelegramFetcher($telegram_fetcher);
-
+        global $generated_pin_1, $generated_pin_2, $generated_pin_3;
+        $telegram_utils = new TestOnlyTelegramUtils();
         $telegram_utils->sendConfiguration();
 
         $this->assertSame([
@@ -330,7 +321,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             ['setWebhook', [
                 'url' => 'http://fake-base-url/_/api/onTelegram?authenticityCode=some-token',
             ], 'fake-bot-token'],
-        ], $telegram_fetcher->sentCommands);
+        ], $telegram_utils->sentCommands);
         $this->assertSame([
             "INFO Telegram API setMyCommands call successful",
             "INFO Telegram API setWebhook call successful",
@@ -338,12 +329,8 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testSendConfigurationError(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new TestOnlyTelegramFetcher();
-        $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setTelegramFetcher($telegram_fetcher);
-
-        $telegram_fetcher->fetchNotOk = true;
+        $telegram_utils = new TestOnlyTelegramUtils();
+        $telegram_utils->fetchNotOk = true;
         $telegram_utils->sendConfiguration();
 
         $this->assertSame([
@@ -354,7 +341,7 @@ final class TelegramUtilsTest extends UnitTestCase {
             ['setWebhook', [
                 'url' => 'http://fake-base-url/_/api/onTelegram?authenticityCode=some-token',
             ], 'fake-bot-token'],
-        ], $telegram_fetcher->sentCommands);
+        ], $telegram_utils->sentCommands);
         $this->assertSame([
             "ERROR Telegram API response was not OK: {\"ok\":false}",
             "ERROR Telegram API: Could not 'setMyCommands'",
@@ -364,10 +351,7 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testCallTelegramApi(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new TestOnlyTelegramFetcher();
-        $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         $result = $telegram_utils->callTelegramApi('fakeCommand', ['fakeArg' => 'fakeValue']);
 
@@ -378,14 +362,11 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testCallTelegramApiEmpty(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new TestOnlyTelegramFetcher();
-        $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils = new TestOnlyTelegramUtils();
+        $telegram_utils->fetchEmpty = true;
 
         try {
-            $telegram_fetcher->fetchEmpty = true;
-            $result = $telegram_utils->callTelegramApi('fakeCommand', ['fakeArg' => 'fakeValue']);
+            $telegram_utils->callTelegramApi('fakeCommand', ['fakeArg' => 'fakeValue']);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('{"ok":false}', $exc->getMessage());
@@ -396,14 +377,11 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testCallTelegramApiNotOk(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new TestOnlyTelegramFetcher();
-        $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils = new TestOnlyTelegramUtils();
+        $telegram_utils->fetchNotOk = true;
 
         try {
-            $telegram_fetcher->fetchNotOk = true;
-            $result = $telegram_utils->callTelegramApi('fakeCommand', ['fakeArg' => 'fakeValue']);
+            $telegram_utils->callTelegramApi('fakeCommand', ['fakeArg' => 'fakeValue']);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('{"ok":false}', $exc->getMessage());
@@ -414,13 +392,10 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testCallTelegramApiBlocked(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new TestOnlyTelegramFetcher();
-        $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils = new TestOnlyTelegramUtils();
+        $telegram_utils->fetchBlocked = true;
 
         try {
-            $telegram_fetcher->fetchBlocked = true;
             $telegram_utils->callTelegramApi('fakeCommand', ['chat_id' => 1]);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
@@ -443,14 +418,11 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testCallTelegramApiWithError(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_fetcher = new TestOnlyTelegramFetcher();
-        $telegram_utils = new DeterministicTelegramUtils();
-        $telegram_utils->setTelegramFetcher($telegram_fetcher);
+        $telegram_utils = new TestOnlyTelegramUtils();
+        $telegram_utils->fetchWithError = true;
 
         try {
-            $telegram_fetcher->fetchWithError = true;
-            $result = $telegram_utils->callTelegramApi('fakeCommand', ['fakeArg' => 'fakeValue']);
+            $telegram_utils->callTelegramApi('fakeCommand', ['fakeArg' => 'fakeValue']);
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame('fake-telegram-fetcher-exception', $exc->getMessage());
@@ -459,8 +431,7 @@ final class TelegramUtilsTest extends UnitTestCase {
     }
 
     public function testRenderMarkdown(): void {
-        global $iso_now, $generated_pin_1, $generated_pin_2, $generated_pin_3;
-        $telegram_utils = new DeterministicTelegramUtils();
+        $telegram_utils = new TestOnlyTelegramUtils();
 
         // Ignore HTML
         $html = $telegram_utils->renderMarkdown("Normal<h1>H1</h1><script>alert('not good!');</script>");

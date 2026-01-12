@@ -144,8 +144,4 @@ class EntityUtils {
     public function olzEntityClasses(): array {
         return $this::$olzEntityClasses;
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

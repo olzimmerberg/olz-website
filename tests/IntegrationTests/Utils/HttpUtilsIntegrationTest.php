@@ -34,10 +34,6 @@ class HttpUtilsForIntegrationTest extends HttpUtils {
     protected function exitExecution(): void {
         $this->has_exited_execution = true;
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }
 
 /**

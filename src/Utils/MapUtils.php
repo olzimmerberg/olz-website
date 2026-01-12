@@ -93,8 +93,4 @@ class MapUtils {
         // Result in sexagesimal seconds
         return $sec + $min * 60 + $deg * 3600;
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

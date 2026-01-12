@@ -301,8 +301,4 @@ class NewsUtils {
         $path = "assets/icns/entry_type_{$key}_20.svg";
         return is_file("{$code_path}{$path}") ? "{$code_href}{$path}" : null;
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

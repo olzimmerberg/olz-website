@@ -9,27 +9,9 @@ use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
 use League\CommonMark\MarkdownConverter;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\Users\User;
-use Olz\Fetchers\TelegramFetcher;
-use Symfony\Contracts\Service\Attribute\Required;
 
 class TelegramUtils {
     use WithUtilsTrait;
-
-    protected TelegramFetcher $telegramFetcher;
-
-    public static function fromEnv(): self {
-        $telegram_fetcher = new TelegramFetcher();
-
-        $instance = new self();
-        $instance->setTelegramFetcher($telegram_fetcher);
-
-        return $instance;
-    }
-
-    #[Required]
-    public function setTelegramFetcher(TelegramFetcher $telegramFetcher): void {
-        $this->telegramFetcher = $telegramFetcher;
-    }
 
     public function getBotName(): string {
         return $this->envUtils()->getTelegramBotName();
@@ -270,7 +252,7 @@ class TelegramUtils {
      * @return array<string, mixed>
      */
     public function callTelegramApi(string $command, array $args): array {
-        $response = $this->telegramFetcher->callTelegramApi($command, $args, $this->getBotToken());
+        $response = $this->fetchTelegramApi($command, $args, $this->getBotToken());
         if (!$response) {
             $this->log()->warning("Telegram API response was empty");
             $json = json_encode(['ok' => false]);
@@ -306,6 +288,23 @@ class TelegramUtils {
         }
         $this->log()->info("Telegram API {$command} call successful", [$args, $response]);
         return $response;
+    }
+
+    /**
+     * @param array<string, mixed> $args
+     *
+     * @return ?array<string, mixed>
+     */
+    public function fetchTelegramApi(string $command, array $args, string $bot_token): ?array {
+        $telegram_url = "https://api.telegram.org/bot{$bot_token}/{$command}";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $telegram_url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($args, '', '&'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $telegram_result = curl_exec($ch);
+        return json_decode(!is_bool($telegram_result) ? $telegram_result : '', true);
     }
 
     public function renderMarkdown(string $markdown): string {

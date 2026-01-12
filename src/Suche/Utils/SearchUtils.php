@@ -421,8 +421,4 @@ class SearchUtils {
         }
         return $normalized_ranges;
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

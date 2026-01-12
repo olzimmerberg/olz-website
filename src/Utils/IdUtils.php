@@ -71,8 +71,4 @@ class IdUtils {
         }
         return $crc;
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

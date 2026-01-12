@@ -135,8 +135,4 @@ class ImageUtils {
         }
         return $thumbfile;
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

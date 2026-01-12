@@ -346,8 +346,4 @@ class TermineUtils {
         $termin->setCoordinateY($solv_event->getCoordY());
         $this->log()->info("Termin {$termin->getId()} updated from SOLV.");
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

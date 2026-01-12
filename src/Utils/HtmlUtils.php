@@ -189,8 +189,4 @@ class HtmlUtils {
     protected function escapeDollar(string $replacement): string {
         return str_replace('$', '\$', $replacement);
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

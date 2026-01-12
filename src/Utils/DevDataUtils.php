@@ -845,8 +845,4 @@ class DevDataUtils {
             touch($path, $timestamp, $timestamp);
         }
     }
-
-    public static function fromEnv(): self {
-        return new self();
-    }
 }

@@ -67,6 +67,7 @@ class RoleRepository extends OlzRepository {
         // descriptions have been updated. This is just temporary logic!
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
+                Criteria::expr()->eq('on_off', 1),
                 Criteria::expr()->gte('position_within_parent', 0), // Negative = hidden
                 Criteria::expr()->neq('guide', ''),
             ))

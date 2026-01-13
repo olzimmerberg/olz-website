@@ -46,7 +46,7 @@ final class SearchUtilsIntegrationTest extends IntegrationTestCase {
             ]],
             ['title' => 'Fragen & Antworten', 'bestScore' => 0.29044, 'results' => [
                 [
-                    'link' => '/fragen_und_antworten/5',
+                    'link' => '/fragen_und_antworten/trainings_anreise',
                     'icon' => '/assets/icns/question_mark_20.svg',
                     'date' => null,
                     'title' => 'Wie reise ich zu einem Training?',
@@ -55,7 +55,7 @@ final class SearchUtilsIntegrationTest extends IntegrationTestCase {
                     'debug' => 'Score: 0.29044 / Time relevance: 1',
                 ],
                 [
-                    'link' => '/fragen_und_antworten/14',
+                    'link' => '/fragen_und_antworten/benutzername_email_herausfinden',
                     'icon' => '/assets/icns/question_mark_20.svg',
                     'date' => null,
                     'title' => 'Wie finde ich meinen Benutzernamen bzw. E-Mail heraus?',

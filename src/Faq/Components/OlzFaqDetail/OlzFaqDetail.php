@@ -39,7 +39,7 @@ class OlzFaqDetail extends OlzRootComponent {
         }, $terms));
         return <<<ZZZZZZZZZZ
             SELECT
-                CONCAT('{$code_href}fragen_und_antworten/', id) AS link,
+                CONCAT('{$code_href}fragen_und_antworten/', ident) AS link,
                 '{$code_href}assets/icns/question_mark_20.svg' AS icon,
                 NULL AS date,
                 question AS title,

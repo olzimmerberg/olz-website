@@ -28,9 +28,17 @@ class OlzUserDetail extends OlzRootComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $user_repo = $this->entityManager()->getRepository(User::class);
         $user = $user_repo->findOneBy(['id' => $args['id']]);
-
         if (!$user) {
             $this->httpUtils()->dieWithHttpError(404);
+            throw new \Exception('should already have failed');
+        }
+
+        $user_id = $user->getId();
+        $parent_id = $user->getParentId();
+        $auth_user_id = $this->authUtils->getCurrentAuthUser()?->getId();
+        $is_root = $this->authUtils()->hasPermission('all');
+        if (!$is_root && $user_id !== $auth_user_id && $parent_id !== $auth_user_id) {
+            $this->httpUtils()->dieWithHttpError(403);
             throw new \Exception('should already have failed');
         }
 

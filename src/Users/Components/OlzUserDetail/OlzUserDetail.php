@@ -33,8 +33,8 @@ class OlzUserDetail extends OlzRootComponent {
             throw new \Exception('should already have failed');
         }
 
-        $user_id = $user->getId();
-        $parent_id = $user->getParentUserId();
+        $user_id = $user->getId() ?? -1;
+        $parent_id = $user->getParentUserId() ?? -1;
         $auth_user_id = $this->authUtils()->getCurrentAuthUser()?->getId();
         $is_root = $this->authUtils()->hasPermission('all');
         if (!$is_root && $user_id !== $auth_user_id && $parent_id !== $auth_user_id) {

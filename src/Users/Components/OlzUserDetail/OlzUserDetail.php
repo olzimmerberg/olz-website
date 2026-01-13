@@ -35,7 +35,7 @@ class OlzUserDetail extends OlzRootComponent {
 
         $user_id = $user->getId();
         $parent_id = $user->getParentUserId();
-        $auth_user_id = $this->authUtils->getCurrentAuthUser()?->getId();
+        $auth_user_id = $this->authUtils()->getCurrentAuthUser()?->getId();
         $is_root = $this->authUtils()->hasPermission('all');
         if (!$is_root && $user_id !== $auth_user_id && $parent_id !== $auth_user_id) {
             $this->httpUtils()->dieWithHttpError(403);

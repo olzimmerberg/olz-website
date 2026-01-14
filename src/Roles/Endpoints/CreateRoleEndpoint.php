@@ -31,15 +31,7 @@ class CreateRoleEndpoint extends OlzCreateEntityTypedEndpoint {
         if (!$this->authUtils()->isUsernameAllowed($new_username)) {
             throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
-        $same_username_user = $user_repo->findOneBy(['username' => $new_username]);
-        $same_old_username_user = $user_repo->findOneBy(['old_username' => $new_username]);
-        $same_username_role = $role_repo->findOneBy(['username' => $new_username]);
-        $same_old_username_role = $role_repo->findOneBy(['old_username' => $new_username]);
-        $is_existing_username = (bool) (
-            $same_username_user || $same_old_username_user
-            || $same_username_role || $same_old_username_role
-        );
-        if ($is_existing_username) {
+        if (!$this->authUtils()->isUsernameUnique($new_username, null)) {
             throw new ValidationError(['username' => ["Dieser Benutzername ist bereits vergeben."]]);
         }
 

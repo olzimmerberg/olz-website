@@ -8,7 +8,7 @@ import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntit
 import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateNumberOrNull, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateNumberOrNull, validateNotEmpty, validateStringRegex} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditRoleModal.scss';
@@ -28,7 +28,7 @@ interface OlzEditRoleForm {
 
 const resolver: Resolver<OlzEditRoleForm> = async (values) => {
     const errors: FieldErrors<OlzEditRoleForm> = {};
-    errors.username = validateNotEmpty(values.username);
+    errors.username = validateStringRegex(values.username, /^[a-z0-9\-.]+$/, 'Benutzername darf nur Kleinbuchstaben, Zahlen, "-" und "." enthalten.');
     errors.name = validateNotEmpty(values.name);
     errors.positionWithinParent = validateNumberOrNull(values.positionWithinParent);
     errors.featuredPosition = validateNumberOrNull(values.featuredPosition);

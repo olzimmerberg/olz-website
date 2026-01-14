@@ -653,6 +653,42 @@ final class CreateUserEndpointTest extends UnitTestCase {
         }
     }
 
+    public function testCreateUserEndpointWithValidDataForExistingOldUsername(): void {
+        $endpoint = new CreateUserEndpoint();
+        $endpoint->runtimeSetup();
+        $endpoint->setServer(['REMOTE_ADDR' => '1.2.3.4']);
+
+        try {
+            $endpoint->call([
+                ...self::MINIMAL_INPUT,
+                'data' => [
+                    ...self::MINIMAL_INPUT['data'],
+                    'username' => 'admin-old',
+                ],
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                "INFO Valid user request",
+                "INFO New sign-up (using password): fakeFirstName fakeLastName (admin-old@) <fakeEmail> (Parent: )",
+                "NOTICE Bad user request",
+            ], $this->getLogs());
+            $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
+            $this->assertSame(
+                [
+                    'message' => 'Fehlerhafte Eingabe',
+                    'error' => [
+                        'type' => 'ValidationError',
+                        'validationErrors' => [
+                            'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?'],
+                        ],
+                    ],
+                ],
+                $httperr->getStructuredAnswer(),
+            );
+        }
+    }
+
     public function testCreateUserEndpointErrorSending(): void {
         WithUtilsCache::get('emailUtils')->send_email_verification_email_error = new \Exception('test');
         $endpoint = new CreateUserEndpoint();

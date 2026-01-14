@@ -234,7 +234,7 @@ describe('validateStringLength', () => {
         expect(formUtils.validateStringLength('123', null, 1))
             .toEqual(undefined);
     });
-    
+
     it('whitespace is being stripped', () => {
         expect(formUtils.validateStringLength(' ', 0, null))
             .toEqual(undefined);
@@ -264,6 +264,26 @@ describe('validateStringLength', () => {
             .toEqual({type: 'validate', message: 'Die Eingabe darf höchstens 2 Zeichen lang sein.'});
         expect(formUtils.validateStringLength('123', 2, 1))
             .toEqual({type: 'validate', message: 'Die Eingabe darf höchstens 2 Zeichen lang sein.'});
+    });
+});
+
+describe('validateStringRegex', () => {
+    it('returns undefined for OK strings', () => {
+        expect(formUtils.validateStringRegex('', '^$', 'Ungültig'))
+            .toEqual(undefined);
+        expect(formUtils.validateStringRegex('a', '^a$', 'Ungültig'))
+            .toEqual(undefined);
+        expect(formUtils.validateStringRegex('A', /^a$/i, 'Ungültig'))
+            .toEqual(undefined);
+    });
+
+    it('returns validation error for mismatches', () => {
+        expect(formUtils.validateStringRegex('', '^a$', 'Ungültig'))
+            .toEqual({type: 'validate', message: 'Ungültig'});
+        expect(formUtils.validateStringRegex('a', '^$', 'Ungültig'))
+            .toEqual({type: 'validate', message: 'Ungültig'});
+        expect(formUtils.validateStringRegex('A', /^a$/, 'Ungültig'))
+            .toEqual({type: 'validate', message: 'Ungültig'});
     });
 });
 

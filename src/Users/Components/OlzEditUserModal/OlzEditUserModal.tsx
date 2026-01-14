@@ -7,7 +7,7 @@ import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Compo
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {user} from '../../../Utils/constants';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateAhvOrNull, validateCountryCodeOrNull, validateDateOrNull, validateEmail, validateEmailOrNull, validateGender, validateIntegerOrNull, validateNotEmpty, validatePassword, validatePhoneOrNull} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateAhvOrNull, validateCountryCodeOrNull, validateDateOrNull, validateEmail, validateEmailOrNull, validateGender, validateIntegerOrNull, validateNotEmpty, validatePassword, validatePhoneOrNull, validateStringRegex} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditUserModal.scss';
@@ -39,7 +39,7 @@ const resolver: Resolver<OlzEditUserForm> = async (values) => {
     const errors: FieldErrors<OlzEditUserForm> = {};
     errors.firstName = validateNotEmpty(values.firstName);
     errors.lastName = validateNotEmpty(values.lastName);
-    errors.username = validateNotEmpty(values.username);
+    errors.username = validateStringRegex(values.username, /^[a-z0-9\-.]+$/, 'Benutzername darf nur Kleinbuchstaben, Zahlen, "-" und "." enthalten.');
     if (values.password) {
         errors.password = validatePassword(values.password);
         if (values.password !== values.passwordRepeat) {

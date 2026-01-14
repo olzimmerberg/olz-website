@@ -46,8 +46,8 @@ class OlzICal extends OlzComponent {
         foreach ($termine as $termin) {
             $id = $termin->getId();
             $start_date = $termin->getStartDate();
-            $end_date = $termin->getEndDate();
-            $duration_days = $end_date ? ($end_date->getTimestamp() - $start_date->getTimestamp()) / 86400 : 0;
+            $end_date = $termin->getEndDate() ?? $start_date;
+            $duration_days = ($end_date->getTimestamp() - $start_date->getTimestamp()) / 86400;
             $should_split = $duration_days > 8;
             $solv_id = $termin->getSolvId();
 
@@ -59,8 +59,10 @@ class OlzICal extends OlzComponent {
             $links .= $solv_id ? "\nSOLV-Termin: {$solv_url}" : "";
             $attach .= $solv_id ? "\r\nATTACH;FMTTYPE=text/html:{$solv_url}" : "";
 
+            $plus_one_day = \DateInterval::createFromDateString("+1 days");
             $start_date_fmt = $this->dateUtils()->olzDate('jjjjmmtt', $start_date);
-            $end_date_fmt = $end_date ? $this->dateUtils()->olzDate('jjjjmmtt', $end_date) : $start_date_fmt;
+            $end_date_fmt = $this->dateUtils()->olzDate('jjjjmmtt', $end_date);
+            $end_date_end_fmt = $this->dateUtils()->olzDate('jjjjmmtt', (new \DateTime($end_date))->add($plus_one_day));
             $modified_fmt = $termin->getLastModifiedAt()->format('Ymd\THis\Z');
             $created_fmt = $termin->getCreatedAt()->format('Ymd\THis\Z');
             $description_fmt = $this->escapeText("{$termin->getText()}\n{$links}");
@@ -100,7 +102,7 @@ class OlzICal extends OlzComponent {
                 $ical .=
                 "\r\nBEGIN:VEVENT".
                 "\r\nDTSTART;VALUE=DATE:{$start_date_fmt}".
-                "\r\nDTEND;VALUE=DATE:{$end_date_fmt}".
+                "\r\nDTEND;VALUE=DATE:{$end_date_end_fmt}".
                 "\r\nDTSTAMP:{$now_fmt}".
                 "\r\nLAST-MODIFIED:{$modified_fmt}".
                 "\r\nCREATED:{$created_fmt}".

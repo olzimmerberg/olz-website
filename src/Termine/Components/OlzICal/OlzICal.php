@@ -60,9 +60,10 @@ class OlzICal extends OlzComponent {
             $attach .= $solv_id ? "\r\nATTACH;FMTTYPE=text/html:{$solv_url}" : "";
 
             $plus_one_day = \DateInterval::createFromDateString("+1 days");
+            $end_date_end = (new \DateTime($end_date->format('Y-m-d')))->add($plus_one_day);
             $start_date_fmt = $this->dateUtils()->olzDate('jjjjmmtt', $start_date);
             $end_date_fmt = $this->dateUtils()->olzDate('jjjjmmtt', $end_date);
-            $end_date_end_fmt = $this->dateUtils()->olzDate('jjjjmmtt', (clone $end_date)->add($plus_one_day));
+            $end_date_end_fmt = $this->dateUtils()->olzDate('jjjjmmtt', $end_date_end);
             $modified_fmt = $termin->getLastModifiedAt()->format('Ymd\THis\Z');
             $created_fmt = $termin->getCreatedAt()->format('Ymd\THis\Z');
             $description_fmt = $this->escapeText("{$termin->getText()}\n{$links}");

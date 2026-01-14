@@ -62,7 +62,7 @@ class OlzICal extends OlzComponent {
             $plus_one_day = \DateInterval::createFromDateString("+1 days");
             $start_date_fmt = $this->dateUtils()->olzDate('jjjjmmtt', $start_date);
             $end_date_fmt = $this->dateUtils()->olzDate('jjjjmmtt', $end_date);
-            $end_date_end_fmt = $this->dateUtils()->olzDate('jjjjmmtt', (new \DateTime($end_date))->add($plus_one_day));
+            $end_date_end_fmt = $this->dateUtils()->olzDate('jjjjmmtt', (clone $end_date)->add($plus_one_day));
             $modified_fmt = $termin->getLastModifiedAt()->format('Ymd\THis\Z');
             $created_fmt = $termin->getCreatedAt()->format('Ymd\THis\Z');
             $description_fmt = $this->escapeText("{$termin->getText()}\n{$links}");

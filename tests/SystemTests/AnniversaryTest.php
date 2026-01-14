@@ -38,6 +38,7 @@ final class AnniversaryTest extends SystemTestCase {
 
         $this->click('#create-run-button');
         $this->waitForModal('#edit-run-modal');
+        $this->clear('#edit-run-modal #runAt-input');
         $this->sendKeys('#edit-run-modal #runAt-input', '2020-08-01 12:00:00');
         $this->sendKeys('#edit-run-modal #distanceKm-input', '3.21');
         $this->sendKeys('#edit-run-modal #elevationMeters-input', '321');

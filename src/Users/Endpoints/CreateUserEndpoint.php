@@ -68,7 +68,6 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
 
         $same_username_user = $user_repo->findOneBy(['username' => $username]);
         $same_email_user = $user_repo->findOneBy(['email' => $email]);
-        // TODO: Test users with old username, roles
         if ($username && $same_username_user) {
             if ($same_username_user->getPasswordHash()) {
                 throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
@@ -83,6 +82,8 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
             // If it's an existing user WITHOUT password, we just update that existing user!
             $entity = $same_email_user;
             $this->entityUtils()->updateOlzEntity($entity, ['onOff' => true]);
+        } elseif (!$this->authUtils()->isUsernameUnique($username, null)) {
+            throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
         } else {
             $entity = new User();
             $this->entityUtils()->createOlzEntity($entity, ['onOff' => true]);

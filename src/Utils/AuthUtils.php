@@ -285,7 +285,27 @@ class AuthUtils {
     }
 
     public function isUsernameAllowed(string $username): bool {
+        // TODO: Underscore & uppercase is disallowed in frontend, but allowed in backend.
         return preg_match('/^[a-zA-Z0-9-_\.]+$/', $username) ? true : false;
+    }
+
+    /** @param ?(User|Role) $existing_entity */
+    public function isUsernameUnique(string $username, ?object $existing_entity): bool {
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+
+        $same_username_user = $user_repo->findOneBy(['username' => $username]);
+        $same_old_username_user = $user_repo->findOneBy(['old_username' => $username]);
+        $same_username_role = $role_repo->findOneBy(['username' => $username]);
+        $same_old_username_role = $role_repo->findOneBy(['old_username' => $username]);
+
+        $has_conflict = (
+            ($same_username_user && ($same_username_user !== $existing_entity))
+            || ($same_old_username_user && ($same_old_username_user !== $existing_entity))
+            || ($same_username_role && ($same_username_role !== $existing_entity))
+            || ($same_old_username_role && ($same_old_username_role !== $existing_entity))
+        );
+        return !$has_conflict;
     }
 
     public function isPasswordAllowed(string $password): bool {

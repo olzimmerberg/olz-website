@@ -4,6 +4,7 @@ import {olzApi} from '../../../Api/client';
 import {OlzMetaData, OlzRunData} from '../../../Api/client/generated_olz_api_types';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {toISO} from '../../../Utils/dateUtils';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateDateTimeOrNull, validateInteger, validateNumber, validateStringLength} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
@@ -27,10 +28,10 @@ const resolver: Resolver<OlzEditRunForm> = async (values) => {
 
 function getFormFromApi(apiData?: OlzRunData): OlzEditRunForm {
     return {
-        runAt: getFormString(apiData?.runAt),
+        runAt: getFormString(apiData?.runAt ?? toISO(new Date()).substring(0, 16)),
         distanceKm: getFormNumber(apiData?.distanceMeters && apiData.distanceMeters / 1000),
         elevationMeters: getFormNumber(apiData?.elevationMeters),
-        sportType: getFormString(apiData?.sportType)
+        sportType: getFormString(apiData?.sportType),
     };
 }
 
@@ -105,7 +106,7 @@ export const OlzEditRunModal = (props: OlzEditRunModalProps): React.ReactElement
         >
             <div className='mb-3'>
                 <OlzTextField
-                    title='Datum & Zeit (leer lassen für "jetzt")'
+                    title='Datum & Zeit'
                     name='runAt'
                     errors={errors}
                     register={register}

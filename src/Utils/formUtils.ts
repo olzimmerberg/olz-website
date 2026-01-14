@@ -110,8 +110,8 @@ export function validateNotEmpty(value: string): FieldError | undefined {
 
 export function validateStringLength(
     valueArg: string,
-    maxLength: number|null,
-    minLength: number|null,
+    maxLength: number | null,
+    minLength: number | null,
 ): FieldError | undefined {
     const trimmedValue = valueArg.trim();
     if (maxLength !== null && trimmedValue.length > maxLength) {
@@ -119,6 +119,18 @@ export function validateStringLength(
     }
     if (minLength !== null && trimmedValue.length < minLength) {
         return {type: 'validate', message: `Die Eingabe muss mindestens ${minLength} Zeichen lang sein.`};
+    }
+    return undefined;
+}
+
+export function validateStringRegex(
+    valueArg: string,
+    pattern: string | RegExp,
+    errorMessage: string,
+): FieldError | undefined {
+    const regex = new RegExp(pattern);
+    if (!regex.test(valueArg)) {
+        return {type: 'validate', message: errorMessage};
     }
     return undefined;
 }

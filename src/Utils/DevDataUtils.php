@@ -301,7 +301,8 @@ class DevDataUtils {
         $fp = fopen($path, 'w+');
         assert((bool) $fp);
 
-        fwrite($fp,
+        fwrite(
+            $fp,
             "-- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg\n"
             ."-- MIGRATION: {$current_migration}\n"
             ."\n"

@@ -199,11 +199,7 @@ class DevDataUtils {
             throw new \Exception("No valid key");
         }
 
-        $tmp_dir = __DIR__.'/data/tmp/';
-        if (!is_dir($tmp_dir)) {
-            mkdir($tmp_dir);
-        }
-
+        $tmp_dir = $this->tmpdir();
         $plain_path = "{$tmp_dir}backup.plain.sql";
         $plain_fp = fopen($plain_path, 'w+');
         assert((bool) $plain_fp);
@@ -284,15 +280,28 @@ class DevDataUtils {
     }
 
     public function getDbContentSql(): string {
+        $path = $this->getDbContentSqlFile();
+        $content = file_get_contents($path);
+        unlink($path);
+        return $content;
+    }
+
+    public function getDbContentSqlFile(): string {
         $ignored_tables = [
             'counter' => true,
             'auth_requests' => true,
             'messenger_messages' => true,
         ];
 
+        $tmp_dir = $this->tmpdir();
         $db = $this->dbUtils()->getDb();
         $current_migration = $this->getCurrentMigration();
-        $sql_content = (
+
+        $path = "{$tmp_dir}backup.plain.sql";
+        $fp = fopen($path, 'w+');
+        assert((bool) $fp);
+
+        fwrite($fp, (
             "-- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg\n"
             ."-- MIGRATION: {$current_migration}\n"
             ."\n"
@@ -300,34 +309,34 @@ class DevDataUtils {
             ."SET AUTOCOMMIT = 0;\n"
             ."START TRANSACTION;\n"
             ."SET time_zone = \"+00:00\";\n"
-        );
+        ));
 
         $res_tables = $db->query('SHOW TABLES');
         assert(!is_bool($res_tables));
         while ($row_tables = $res_tables->fetch_row()) {
             $table_name = $row_tables[0];
-            $sql_content .= "\n";
-            $sql_content .= "-- Table {$table_name}\n";
+            fwrite($fp, "\n");
+            fwrite($fp, "-- Table {$table_name}\n");
             $res_contents = $db->query("SELECT * FROM `{$table_name}`");
             assert(!is_bool($res_contents));
             if ($ignored_tables[$table_name] ?? false) {
-                $sql_content .= "-- ({$table_name} omitted)\n";
+                fwrite($fp, "-- ({$table_name} omitted)\n");
             } elseif ($res_contents->num_rows > 0) {
-                $sql_content .= "INSERT INTO {$table_name}\n";
+                fwrite($fp, "INSERT INTO {$table_name}\n");
                 $content_fields = $res_contents->fetch_fields();
                 $field_names = [];
                 foreach ($content_fields as $field) {
                     $field_names[] = $field->name;
                 }
                 $field_names_sql = implode('`, `', $field_names);
-                $sql_content .= "    (`{$field_names_sql}`)\n";
-                $sql_content .= "VALUES\n";
+                fwrite($fp, "    (`{$field_names_sql}`)\n");
+                fwrite($fp, "VALUES\n");
                 $first = true;
                 while ($row_contents = $res_contents->fetch_assoc()) {
                     if ($first) {
                         $first = false;
                     } else {
-                        $sql_content .= ",\n";
+                        fwrite($fp, ",\n");
                     }
                     $field_values = [];
                     foreach ($field_names as $name) {
@@ -340,16 +349,17 @@ class DevDataUtils {
                         }
                     }
                     $field_values_sql = implode(', ', $field_values);
-                    $sql_content .= "    ({$field_values_sql})";
+                    fwrite($fp, "    ({$field_values_sql})");
                 }
-                $sql_content .= ";\n";
+                fwrite($fp, ";\n");
             }
             unset($res_contents);
             gc_collect_cycles();
         }
-        $sql_content .= "\n";
-        $sql_content .= "COMMIT;\n";
-        return $sql_content;
+        fwrite($fp, "\n");
+        fwrite($fp, "COMMIT;\n");
+        fclose($fp);
+        return $path;
     }
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
@@ -715,6 +725,14 @@ class DevDataUtils {
         $this->mkdir("{$private_path}sessions");
 
         $this->touchEnqueued(1584118800);
+    }
+
+    protected function tmpdir(): string {
+        $tmp_dir = __DIR__.'/data/tmp/';
+        if (!is_dir($tmp_dir)) {
+            mkdir($tmp_dir);
+        }
+        return $tmp_dir;
     }
 
     protected function mkdir(string $path, int $mode = 0o777, bool $recursive = false): void {

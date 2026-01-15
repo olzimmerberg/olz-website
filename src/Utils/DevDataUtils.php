@@ -344,6 +344,8 @@ class DevDataUtils {
                 }
                 $sql_content .= ";\n";
             }
+            unset($res_contents);
+            gc_collect_cycles();
         }
         $sql_content .= "\n";
         $sql_content .= "COMMIT;\n";

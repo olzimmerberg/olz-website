@@ -301,7 +301,7 @@ class DevDataUtils {
         $fp = fopen($path, 'w+');
         assert((bool) $fp);
 
-        fwrite($fp, (
+        fwrite($fp,
             "-- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg\n"
             ."-- MIGRATION: {$current_migration}\n"
             ."\n"
@@ -309,7 +309,7 @@ class DevDataUtils {
             ."SET AUTOCOMMIT = 0;\n"
             ."START TRANSACTION;\n"
             ."SET time_zone = \"+00:00\";\n"
-        ));
+        );
 
         $res_tables = $db->query('SHOW TABLES');
         assert(!is_bool($res_tables));

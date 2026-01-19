@@ -228,7 +228,9 @@ class OlzAnniversary extends OlzRootComponent {
                 ZZZZZZZZZZ : '';
             $source = $this->anniversaryUtils()->getPrettySource($run->getSource() ?? '?');
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
-            $inclination_percent = number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2);
+            $inclination_percent = $run->getDistanceMeters()
+                ? number_format($run->getElevationMeters() * 100 / $run->getDistanceMeters(), 2)
+                : 'NaN';
             $sport_type = $run->getSportType() ?? '?';
             $out .= <<<ZZZZZZZZZZ
                 <tr>

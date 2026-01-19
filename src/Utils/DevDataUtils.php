@@ -199,18 +199,32 @@ class DevDataUtils {
             throw new \Exception("No valid key");
         }
 
-        $tmp_dir = __DIR__.'/data/tmp/';
-        if (!is_dir($tmp_dir)) {
-            mkdir($tmp_dir);
-        }
-
+        $tmp_dir = $this->tmpdir();
         $plain_path = "{$tmp_dir}backup.plain.sql";
         $plain_fp = fopen($plain_path, 'w+');
         assert((bool) $plain_fp);
-        fwrite($plain_fp, $this->getDbStructureSql());
+
+        $structure_path = $this->getDbStructureSqlFile();
+        $structure_fp = fopen($structure_path, 'r');
+        assert((bool) $structure_fp);
+        while ($chunk = fread($structure_fp, 1024)) {
+            fwrite($plain_fp, $chunk);
+        }
+        fclose($structure_fp);
+
         fwrite($plain_fp, "\n\n----------\n\n\n");
-        fwrite($plain_fp, $this->getDbContentSql());
+
+        $content_path = $this->getDbContentSqlFile();
+        $content_fp = fopen($content_path, 'r');
+        assert((bool) $content_fp);
+        while ($chunk = fread($content_fp, 1024)) {
+            fwrite($plain_fp, $chunk);
+        }
+        fclose($content_fp);
+
         fclose($plain_fp);
+        unlink($structure_path);
+        unlink($content_path);
 
         $cipher_path = "{$tmp_dir}backup.cipher.sql";
         $cipher_fp = fopen($cipher_path, 'w+');
@@ -254,15 +268,17 @@ class DevDataUtils {
     }
 
     public function getDbStructureSql(): string {
+        $path = $this->getDbStructureSqlFile();
+        $content = file_get_contents($path) ?: '';
+        unlink($path);
+        return $content;
+    }
+
+    public function getDbStructureSqlFile(): string {
+        $tmp_dir = $this->tmpdir();
         $env_utils = $this->envUtils();
 
-        $current_migration = $this->getCurrentMigration();
-        $sql_content = (
-            "-- Die Struktur der Datenbank der Webseite der OL Zimmerberg\n"
-            ."-- MIGRATION: {$current_migration}\n"
-            ."\n"
-        );
-        $dump_filename = tempnam(__DIR__.'/tmp', 'OLZ');
+        $path_tmp = "{$tmp_dir}structure_tmp.sql";
         $mysql_server = $env_utils->getMysqlServer();
         $mysql_schema = $env_utils->getMysqlSchema();
         $dump = new Mysqldump(
@@ -276,23 +292,55 @@ class DevDataUtils {
                 'include-views' => [''], // include only a view which does not exist.
             ],
         );
-        $dump->start($dump_filename);
-        $sql_content .= file_get_contents($dump_filename);
-        unlink($dump_filename);
+        $dump->start($path_tmp);
 
-        return $sql_content;
+        $path = "{$tmp_dir}structure.sql";
+        $fp = fopen($path, 'w+');
+        assert((bool) $fp);
+
+        $current_migration = $this->getCurrentMigration();
+        fwrite(
+            $fp,
+            "-- Die Struktur der Datenbank der Webseite der OL Zimmerberg\n"
+            ."-- MIGRATION: {$current_migration}\n"
+            ."\n"
+        );
+        $fp_tmp = fopen($path_tmp, 'r');
+        assert((bool) $fp_tmp);
+        while ($chunk = fread($fp_tmp, 1024)) {
+            fwrite($fp, $chunk);
+        }
+        fclose($fp_tmp);
+        fclose($fp);
+        unlink($path_tmp);
+
+        return $path;
     }
 
     public function getDbContentSql(): string {
+        $path = $this->getDbContentSqlFile();
+        $content = file_get_contents($path) ?: '';
+        unlink($path);
+        return $content;
+    }
+
+    public function getDbContentSqlFile(): string {
         $ignored_tables = [
             'counter' => true,
             'auth_requests' => true,
             'messenger_messages' => true,
         ];
 
+        $tmp_dir = $this->tmpdir();
         $db = $this->dbUtils()->getDb();
         $current_migration = $this->getCurrentMigration();
-        $sql_content = (
+
+        $path = "{$tmp_dir}content.sql";
+        $fp = fopen($path, 'w+');
+        assert((bool) $fp);
+
+        fwrite(
+            $fp,
             "-- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg\n"
             ."-- MIGRATION: {$current_migration}\n"
             ."\n"
@@ -306,28 +354,28 @@ class DevDataUtils {
         assert(!is_bool($res_tables));
         while ($row_tables = $res_tables->fetch_row()) {
             $table_name = $row_tables[0];
-            $sql_content .= "\n";
-            $sql_content .= "-- Table {$table_name}\n";
+            fwrite($fp, "\n");
+            fwrite($fp, "-- Table {$table_name}\n");
             $res_contents = $db->query("SELECT * FROM `{$table_name}`");
             assert(!is_bool($res_contents));
             if ($ignored_tables[$table_name] ?? false) {
-                $sql_content .= "-- ({$table_name} omitted)\n";
+                fwrite($fp, "-- ({$table_name} omitted)\n");
             } elseif ($res_contents->num_rows > 0) {
-                $sql_content .= "INSERT INTO {$table_name}\n";
+                fwrite($fp, "INSERT INTO {$table_name}\n");
                 $content_fields = $res_contents->fetch_fields();
                 $field_names = [];
                 foreach ($content_fields as $field) {
                     $field_names[] = $field->name;
                 }
                 $field_names_sql = implode('`, `', $field_names);
-                $sql_content .= "    (`{$field_names_sql}`)\n";
-                $sql_content .= "VALUES\n";
+                fwrite($fp, "    (`{$field_names_sql}`)\n");
+                fwrite($fp, "VALUES\n");
                 $first = true;
                 while ($row_contents = $res_contents->fetch_assoc()) {
                     if ($first) {
                         $first = false;
                     } else {
-                        $sql_content .= ",\n";
+                        fwrite($fp, ",\n");
                     }
                     $field_values = [];
                     foreach ($field_names as $name) {
@@ -340,14 +388,17 @@ class DevDataUtils {
                         }
                     }
                     $field_values_sql = implode(', ', $field_values);
-                    $sql_content .= "    ({$field_values_sql})";
+                    fwrite($fp, "    ({$field_values_sql})");
                 }
-                $sql_content .= ";\n";
+                fwrite($fp, ";\n");
             }
+            unset($res_contents);
+            gc_collect_cycles();
         }
-        $sql_content .= "\n";
-        $sql_content .= "COMMIT;\n";
-        return $sql_content;
+        fwrite($fp, "\n");
+        fwrite($fp, "COMMIT;\n");
+        fclose($fp);
+        return $path;
     }
 
     /** DO NOT CALL THIS FUNCTION ON PROD! */
@@ -713,6 +764,14 @@ class DevDataUtils {
         $this->mkdir("{$private_path}sessions");
 
         $this->touchEnqueued(1584118800);
+    }
+
+    protected function tmpdir(): string {
+        $tmp_dir = __DIR__.'/data/tmp/';
+        if (!is_dir($tmp_dir)) {
+            mkdir($tmp_dir);
+        }
+        return $tmp_dir;
     }
 
     protected function mkdir(string $path, int $mode = 0o777, bool $recursive = false): void {

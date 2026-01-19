@@ -62,15 +62,9 @@ class OlzAnniversary extends OlzRootComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $user = $this->authUtils()->getCurrentUser();
         $out = '<h2>🏃 Höhenmeter-Challenge ⛰️</h2>';
-        if (!$user) {
-            $out .= "<p>😕 Du musst <a href='#login-dialog'>eingeloggt</a> sein, um an der Höhenmeter-Challenge teilzunehmen.</p>";
-            return $out;
-        }
-
         $out .= OlzEditableText::render(['snippet' => PredefinedSnippet::AnniversaryHoehenmeter]);
 
         $stats = $this->anniversaryUtils()->getElevationStats();
-
         $done_wid = \number_format(max(0, $stats['completion'] * 100), 2);
         $diff_wid = log10(abs($stats['diffDays']) + 1) * 25;
         $pretty_sum_meters = number_format($stats['sumMeters'], 0, ".", "'");
@@ -81,53 +75,58 @@ class OlzAnniversary extends OlzRootComponent {
         $pretty_diff_days = number_format(abs($stats['diffDays']), 1, ".", "'")." Tage";
         $rocket = OlzAnniversaryRocket::render();
         $out .= <<<ZZZZZZZZZZ
-                <div class='elevation-stats'>
-                    <div class='done-graph'>
-                        <div class='done-range'></div>
-                        <div class='done-bar' style='width: {$done_wid}%;'></div>
-                        <div
-                            class='rocket test-flaky'
-                            style='left: {$done_wid}%;'
-                            ondblclick='olz.handleRocketClick(this, event)'
-                            ontouchstart='olz.handleRocketTap(this)'
-                        >
-                            {$rocket}
-                        </div>
-                    </div>
-                    <div>
-                        Wir haben zusammen <b>{$pretty_sum_meters} Höhenmeter</b> bewältigt,
-                        und damit unser Ziel zu <b>{$pretty_done}</b> erreicht.
-                    </div>
-                    <div class='diff-graph'>
-                        <div class='diff-range'></div>
-                        <div class='diff-bar {$stats['diffKind']}' style='width: {$diff_wid}%;'></div>
-                        <div class='marker' style='left: 12.72%;'></div>
-                        <div class='marker' style='left: 27.42%;'></div>
-                        <div class='marker' style='left: 42.47%;'></div>
-                        <div class='marker' style='left: 50%;'></div>
-                        <div class='marker' style='left: 57.53%;'></div>
-                        <div class='marker' style='left: 72.58%;'></div>
-                        <div class='marker' style='left: 87.28%;'></div>
-                        <div class='marker-text' style='left: 12.72%;'>-1 Monat</div>
-                        <div class='marker-text' style='left: 27.42%;'>-1 Woche</div>
-                        <div class='marker-text' style='left: 42.47%;'>-1 Tag</div>
-                        <div class='marker-text' style='left: 57.53%;'>+1 Tag</div>
-                        <div class='marker-text' style='left: 72.58%;'>+1 Woche</div>
-                        <div class='marker-text' style='left: 87.28%;'>+1 Monat</div>
-                    </div>
-                    <div>
-                        Zurzeit {$diff_verb} wir unserem Ziel
-                        <span class='diff-meters {$stats['diffKind']}'>
-                            {$pretty_diff_meters}
-                        </span>
-                        bzw.
-                        <span class='diff-days {$stats['diffKind']}'>
-                            {$pretty_diff_days}
-                        </span>
-                        {$diff_particle}.
+            <div class='elevation-stats'>
+                <div class='done-graph'>
+                    <div class='done-range'></div>
+                    <div class='done-bar' style='width: {$done_wid}%;'></div>
+                    <div
+                        class='rocket test-flaky'
+                        style='left: {$done_wid}%;'
+                        ondblclick='olz.handleRocketClick(this, event)'
+                        ontouchstart='olz.handleRocketTap(this)'
+                    >
+                        {$rocket}
                     </div>
                 </div>
+                <div>
+                    Wir haben zusammen <b>{$pretty_sum_meters} Höhenmeter</b> bewältigt,
+                    und damit unser Ziel zu <b>{$pretty_done}</b> erreicht.
+                </div>
+                <div class='diff-graph'>
+                    <div class='diff-range'></div>
+                    <div class='diff-bar {$stats['diffKind']}' style='width: {$diff_wid}%;'></div>
+                    <div class='marker' style='left: 12.72%;'></div>
+                    <div class='marker' style='left: 27.42%;'></div>
+                    <div class='marker' style='left: 42.47%;'></div>
+                    <div class='marker' style='left: 50%;'></div>
+                    <div class='marker' style='left: 57.53%;'></div>
+                    <div class='marker' style='left: 72.58%;'></div>
+                    <div class='marker' style='left: 87.28%;'></div>
+                    <div class='marker-text' style='left: 12.72%;'>-1 Monat</div>
+                    <div class='marker-text' style='left: 27.42%;'>-1 Woche</div>
+                    <div class='marker-text' style='left: 42.47%;'>-1 Tag</div>
+                    <div class='marker-text' style='left: 57.53%;'>+1 Tag</div>
+                    <div class='marker-text' style='left: 72.58%;'>+1 Woche</div>
+                    <div class='marker-text' style='left: 87.28%;'>+1 Monat</div>
+                </div>
+                <div>
+                    Zurzeit {$diff_verb} wir unserem Ziel
+                    <span class='diff-meters {$stats['diffKind']}'>
+                        {$pretty_diff_meters}
+                    </span>
+                    bzw.
+                    <span class='diff-days {$stats['diffKind']}'>
+                        {$pretty_diff_days}
+                    </span>
+                    {$diff_particle}.
+                </div>
+            </div>
             ZZZZZZZZZZ;
+
+        if (!$user) {
+            $out .= "<p>😕 Du musst <a href='#login-dialog'>eingeloggt</a> sein, um an der Höhenmeter-Challenge teilzunehmen.</p>";
+            return $out;
+        }
 
         $out .= "<h3>Aktivitäten in den letzten 24 Stunden</h3>";
         $out .= <<<'ZZZZZZZZZZ'

@@ -28,11 +28,7 @@ class OlzSuche extends OlzRootComponent {
 
     public string $description = "Stichwort-Suche auf der Website der OL Zimmerberg.";
 
-    public function getSearchTitle(): string {
-        return 'Suche';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
         $db = $this->dbUtils()->getDb();
         $esc_title = $db->real_escape_string($this->getTitle());
@@ -45,21 +41,27 @@ class OlzSuche extends OlzRootComponent {
                 )
                 ZZZZZZZZZZ;
         }, $terms));
-        return <<<ZZZZZZZZZZ
-            WITH
-                base AS (
+        return [
+            'with' => [
+                <<<ZZZZZZZZZZ
+                    base_suche AS (
+                        SELECT
+                            '{$code_href}suche?anfrage=Suche' AS link,
+                            '{$code_href}assets/icns/magnifier_16.svg' AS icon,
+                            NULL AS date,
+                            '{$esc_title}' AS title,
+                            '{$esc_content}' AS text
+                    )
+                    ZZZZZZZZZZ,
+            ],
+            'query' => <<<ZZZZZZZZZZ
                     SELECT
-                        '{$code_href}suche?anfrage=Suche' AS link,
-                        '{$code_href}assets/icns/magnifier_16.svg' AS icon,
-                        NULL AS date,
-                        '{$esc_title}' AS title,
-                        '{$esc_content}' AS text,
+                        link, icon, date, title, text,
                         0.9 AS time_relevance
-                )
-            SELECT *
-            FROM base
-            WHERE {$where}
-            ZZZZZZZZZZ;
+                    FROM base_suche
+                    WHERE {$where}
+                ZZZZZZZZZZ,
+        ];
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
@@ -91,43 +93,34 @@ class OlzSuche extends OlzRootComponent {
 
         $start_time = microtime(true);
 
-        $sections = $this->searchUtils()->getSearchResults($terms);
-        $has_results = false;
-        foreach ($sections as $section) {
-            if ($section['bestScore'] === null) {
-                continue;
-            }
-            $has_results = true;
-            $pretty_best_score = $this->authUtils()->hasPermission('all') ? " (Score: {$section['bestScore']})" : '';
-            $out .= "<h2 class='bar green'>{$section['title']}{$pretty_best_score}</h2>";
-            foreach ($section['results'] as $result) {
-                $pretty_date = null;
-                if ($result['date']) {
-                    $pretty_date = $this->dateUtils()->olzDate("tt.mm.jj", $result['date']);
-                    $date_formattings = implode(' ', $this->searchUtils()->getDateFormattings($result['date']));
-                    $is_date_matching = false;
-                    foreach ($terms as $term) {
-                        $esc_term = preg_quote($term);
-                        if (preg_match("/{$esc_term}/i", $date_formattings)) {
-                            $is_date_matching = true;
-                            break;
-                        }
-                    }
-                    if ($is_date_matching) {
-                        $pretty_date = $this->searchUtils()->highlight($pretty_date, [$pretty_date]);
+        $results = $this->searchUtils()->getSearchResults($terms);
+        foreach ($results as $result) {
+            $pretty_date = null;
+            if ($result['date']) {
+                $pretty_date = $this->dateUtils()->olzDate("tt.mm.jj", $result['date']);
+                $date_formattings = implode(' ', $this->searchUtils()->getDateFormattings($result['date']));
+                $is_date_matching = false;
+                foreach ($terms as $term) {
+                    $esc_term = preg_quote($term);
+                    if (preg_match("/{$esc_term}/i", $date_formattings)) {
+                        $is_date_matching = true;
+                        break;
                     }
                 }
-                $pretty_debug = $this->authUtils()->hasPermission('all') ? "<pre>{$result['debug']}</pre>" : '';
-                $out .= OlzPostingListItem::render([
-                    'link' => $result['link'],
-                    'icon' => $result['icon'],
-                    'date' => $pretty_date,
-                    'title' => $this->searchUtils()->highlight($result['title'], $terms),
-                    'text' => $pretty_debug.$this->searchUtils()->highlight($result['text'] ?? '', $terms),
-                ]);
+                if ($is_date_matching) {
+                    $pretty_date = $this->searchUtils()->highlight($pretty_date, [$pretty_date]);
+                }
             }
+            $pretty_debug = $this->authUtils()->hasPermission('all') ? "<pre>{$result['debug']}</pre>" : '';
+            $out .= OlzPostingListItem::render([
+                'link' => $result['link'],
+                'icon' => $result['icon'],
+                'date' => $pretty_date,
+                'title' => $this->searchUtils()->highlight($result['title'], $terms),
+                'text' => $pretty_debug.$this->searchUtils()->highlight($result['text'] ?? '', $terms),
+            ]);
         }
-        if (!$has_results) {
+        if (count($results) === 0) {
             $out .= "<p><i>Keine Resultate</i></p>";
         }
 

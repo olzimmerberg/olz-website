@@ -19,33 +19,31 @@ class OlzRolePage extends OlzRootComponent {
         return true;
     }
 
-    public function getSearchTitle(): string {
-        return 'Ressorts';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
         $where = implode(' AND ', array_map(function ($term) {
             return <<<ZZZZZZZZZZ
                 (
-                    username LIKE '%{$term}%'
-                    OR old_username LIKE '%{$term}%'
-                    OR name LIKE '%{$term}%'
-                    OR description LIKE '%{$term}%'
+                    r.username LIKE '%{$term}%'
+                    OR r.old_username LIKE '%{$term}%'
+                    OR r.name LIKE '%{$term}%'
+                    OR r.description LIKE '%{$term}%'
                 )
                 ZZZZZZZZZZ;
         }, $terms));
         return <<<ZZZZZZZZZZ
             SELECT
-                CONCAT('{$code_href}verein/', username) AS link,
+                CONCAT('{$code_href}verein/', r.username) AS link,
                 '{$code_href}assets/icns/link_role_16.svg' AS icon,
                 NULL AS date,
-                name AS title,
-                CONCAT(IFNULL(username, ''), ' ', IFNULL(old_username, ''), ' ', IFNULL(description, '')) AS text,
+                CONCAT('Ressort: ', IF(rpp.name IS NULL, '', CONCAT(rpp.name, ' &gt; ')), IF(rp.name IS NULL, '', CONCAT(rp.name, ' &gt; ')), r.name) AS title,
+                CONCAT(IFNULL(r.username, ''), ' ', IFNULL(r.old_username, ''), ' ', IFNULL(r.description, '')) AS text,
                 1.0 AS time_relevance
-            FROM roles
+            FROM roles r
+                LEFT JOIN roles rp ON (rp.id = r.parent_role)
+                LEFT JOIN roles rpp ON (rpp.id = rp.parent_role)
             WHERE
-                on_off = '1'
+                r.on_off = '1'
                 AND {$where}
             ZZZZZZZZZZ;
     }

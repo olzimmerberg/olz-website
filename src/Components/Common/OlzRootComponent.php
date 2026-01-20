@@ -5,6 +5,8 @@ namespace Olz\Components\Common;
 use Olz\Suche\Utils\SearchUtils;
 
 /**
+ * @phpstan-type WithQuery array{with: array<string>, query: string}
+ *
  * @phpstan-import-type SearchResult from SearchUtils
  *
  * @template T
@@ -14,19 +16,24 @@ use Olz\Suche\Utils\SearchUtils;
 abstract class OlzRootComponent extends OlzComponent {
     abstract public function hasAccess(): bool;
 
-    /** @return non-empty-string */
-    abstract public function getSearchTitle(): string;
-
-    /** @param array<string> $terms */
-    public function searchSql(array $terms): ?string {
+    /**
+     * @param array<string> $terms
+     *
+     * @return string|WithQuery|null
+     */
+    public function searchSql(array $terms): string|array|null {
         if (!$this->hasAccess()) {
             return null;
         }
         return $this->searchSqlWhenHasAccess($terms);
     }
 
-    /** @param array<string> $terms */
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    /**
+     * @param array<string> $terms
+     *
+     * @return string|WithQuery|null
+     */
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $called_class = get_called_class();
         throw new \Exception("{$called_class}::searchSqlWhenHasAccess is not implemented");
     }

@@ -23,11 +23,7 @@ class OlzTerminDetail extends OlzRootComponent {
         return true;
     }
 
-    public function getSearchTitle(): string {
-        return 'Termine';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
         $today_iso = $this->dateUtils()->getIsoToday();
         $where = implode(' AND ', array_map(function ($term) {
@@ -52,33 +48,45 @@ class OlzTerminDetail extends OlzRootComponent {
                 )
                 ZZZZZZZZZZ;
         }, $terms));
-        return <<<ZZZZZZZZZZ
-            WITH
-                base AS (
-                    SELECT
-                        CONCAT('{$code_href}termine/', t.id) AS link,
-                        '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
-                        t.start_date AS date,
-                        t.title AS title,
-                        CONCAT(IFNULL(tl.name, ''), ' ', IFNULL(t.text, '')) AS text,
-                        DATEDIFF(t.start_date, '{$today_iso}') AS diffdays
-                    FROM termine t LEFT JOIN termin_locations tl ON (t.location_id = tl.id)
-                    WHERE
-                        t.on_off = '1'
-                        AND {$this->termineUtils()->getIsNotArchivedSql('t')}
-                        AND {$where}
-                )
-            SELECT
-                *,
-                CASE
-                    WHEN diffdays < -30 THEN 0.7
-                    WHEN diffdays <= 0 THEN 1.0 + diffdays * 0.3 / 30.0
-                    WHEN diffdays < 100 THEN 1.0
-                    WHEN diffdays < 400 THEN 1.0 - (diffdays - 100) * 0.3 / 300.0
-                    ELSE 0.7
-                END AS time_relevance
-            FROM base
-            ZZZZZZZZZZ;
+        return [
+            'with' => [
+                <<<ZZZZZZZZZZ
+                    base_termine AS (
+                        SELECT
+                            CONCAT('{$code_href}termine/', t.id) AS link,
+                            '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
+                            t.start_date AS date,
+                            CONCAT('Termin: ', t.title) AS title,
+                            CONCAT(IFNULL(tl.name, ''), ' ', IFNULL(t.text, ''), ' Typ: ', (
+                                SELECT GROUP_CONCAT(l.name ORDER BY l.position ASC SEPARATOR ', ')
+                                FROM
+                                    termin_label_map tl
+                                    JOIN termin_labels l ON (l.id = tl.label_id)
+                                WHERE tl.termin_id = t.id
+                                GROUP BY t.id
+                            )) AS text,
+                            DATEDIFF(t.start_date, '{$today_iso}') AS diffdays
+                        FROM termine t LEFT JOIN termin_locations tl ON (t.location_id = tl.id)
+                        WHERE
+                            t.on_off = '1'
+                            AND {$this->termineUtils()->getIsNotArchivedSql('t')}
+                            AND {$where}
+                    )
+                    ZZZZZZZZZZ,
+            ],
+            'query' => <<<'ZZZZZZZZZZ'
+                SELECT
+                    link, icon, date, title, text,
+                    CASE
+                        WHEN diffdays < -30 THEN 0.7
+                        WHEN diffdays <= 0 THEN 1.0 + diffdays * 0.3 / 30.0
+                        WHEN diffdays < 100 THEN 1.0
+                        WHEN diffdays < 400 THEN 1.0 - (diffdays - 100) * 0.3 / 300.0
+                        ELSE 0.7
+                    END AS time_relevance
+                FROM base_termine
+                ZZZZZZZZZZ,
+        ];
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

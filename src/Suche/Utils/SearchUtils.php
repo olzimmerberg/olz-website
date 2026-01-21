@@ -55,11 +55,6 @@ use Olz\Utils\WithUtilsTrait;
  *   score: float,
  *   debug: string,
  * }
- * @phpstan-type PageSearchResults array{
- *   title: non-empty-string,
- *   bestScore: ?float,
- *   results: array<SearchResult>,
- * }
  */
 class SearchUtils {
     use WithUtilsTrait;
@@ -111,37 +106,28 @@ class SearchUtils {
     /**
      * @param array<string> $terms
      *
-     * @return array<PageSearchResults>
+     * @return array<SearchResult>
      */
     public function getSearchResults(array $terms): array {
-        $results = [];
-        foreach (self::$all_page_classes as $page_class) {
-            $results[] = $this->getPageSearchResults($page_class, $terms);
-        }
-        usort($results, fn ($a, $b) => $b['bestScore'] <=> $a['bestScore']);
-        return $results;
-    }
-
-    /**
-     * @param class-string<OlzRootComponent<array<string, mixed>>> $page_class
-     * @param array<string>                                        $terms
-     *
-     * @return PageSearchResults
-     */
-    protected function getPageSearchResults(string $page_class, array $terms): array {
-        $page = new $page_class();
         $db = $this->dbUtils()->getDb();
-        $esc_terms = array_map(fn ($term) => $db->real_escape_string($term), $terms);
         $num_terms = count($terms);
-
-        $sub_sql = $page->searchSql($esc_terms);
-        if ($sub_sql === null) {
-            return [
-                'title' => $page->getSearchTitle(),
-                'bestScore' => null,
-                'results' => [],
-            ];
+        $esc_terms = array_map(fn ($term) => $db->real_escape_string($term), $terms);
+        $page_queries = [];
+        $page_withs = [];
+        foreach (self::$all_page_classes as $page_class) {
+            $page = new $page_class();
+            $result = $page->searchSql($esc_terms);
+            if (is_array($result)) {
+                $page_queries[] = $result['query'];
+                foreach ($result['with'] as $with) {
+                    $page_withs[] = $with;
+                }
+            } elseif (is_string($result)) {
+                $page_queries[] = $result;
+            } // else ignore
         }
+        $page_withs_sql = implode(',', $page_withs);
+        $merged_sql = implode(' UNION ALL ', $page_queries);
 
         $idx = 0;
         $term_evaluation_sqls = [];
@@ -188,13 +174,14 @@ class SearchUtils {
             ZZZZZZZZZZ);
         $sql = <<<ZZZZZZZZZZ
             WITH
-                sub AS ({$sub_sql}),
+                {$page_withs_sql},
+                merged AS ({$merged_sql}),
                 concatted AS (
                     SELECT
                         *,
                         CONCAT(IFNULL(title, ''), ' ', IFNULL(title, ''), ' ', IFNULL(title, ''), ' ', IFNULL(text, '')) AS concatted_content,
                         LEAST(1.0, GREATEST(0.0, time_relevance)) AS norm_time_relevance
-                    FROM sub
+                    FROM merged
                 ),
                 evaluated AS (
                     SELECT
@@ -217,13 +204,13 @@ class SearchUtils {
             ZZZZZZZZZZ;
         $this->log()->debug("Search SQL: {$sql}");
         $sql_results = $this->entityManager()->createNativeQuery($sql, $rsm)->getArrayResult();
-        $results = array_map(function ($row) use ($terms) {
+        return array_map(function ($row) use ($terms) {
             return [
                 'link' => $row['link'],
                 'icon' => $row['icon'],
                 'date' => $row['date'],
                 'title' => $row['title'],
-                'text' => $this->searchUtils()->getCutout($row['text'] ?? '', $terms) ?: null,
+                'text' => $this->searchUtils()->getCutout(strip_tags($row['text'] ?? ''), $terms) ?: null,
                 'score' => round($row['score'], 5),
                 'debug' => implode(' / ', [
                     'Score: '.round($row['score'], 5),
@@ -231,13 +218,6 @@ class SearchUtils {
                 ]),
             ];
         }, $sql_results);
-        $first_result = $results[0] ?? null;
-        $best_score = $first_result['score'] ?? null;
-        return [
-            'title' => $page->getSearchTitle(),
-            'bestScore' => $best_score,
-            'results' => $results,
-        ];
     }
 
     protected function sqlExecute(string $sql): void {

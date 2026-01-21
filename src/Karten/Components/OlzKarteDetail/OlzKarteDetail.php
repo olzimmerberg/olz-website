@@ -16,12 +16,16 @@ class OlzKarteDetail extends OlzRootComponent {
         return true;
     }
 
-    public function getSearchTitle(): string {
-        return 'Karten';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
+        $pretty_typ_sql = <<<'ZZZZZZZZZZ'
+            CASE 
+                WHEN k.typ = 'ol' THEN 'OL-Karte'
+                WHEN k.typ = 'stadt' THEN 'Stadt-OL-Karte'
+                WHEN k.typ = 'scool' THEN 'Schulhaus-Karte'
+                ELSE k.typ
+            END
+            ZZZZZZZZZZ;
         $where = implode(' AND ', array_map(
             fn ($term) => "(k.name LIKE '%{$term}%' OR k.ort LIKE '%{$term}%')",
             $terms,
@@ -31,7 +35,7 @@ class OlzKarteDetail extends OlzRootComponent {
                 CONCAT('{$code_href}karten/', k.id) AS link,
                 '{$code_href}assets/icns/link_map_16.svg' AS icon,
                 NULL AS date,
-                k.name AS title,
+                CONCAT({$pretty_typ_sql}, ': ', k.name) AS title,
                 k.ort AS text,
                 1.0 AS time_relevance
             FROM karten k

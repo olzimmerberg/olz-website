@@ -22,11 +22,7 @@ class OlzFaqDetail extends OlzRootComponent {
         return true;
     }
 
-    public function getSearchTitle(): string {
-        return 'Fragen & Antworten';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
         $where = implode(' AND ', array_map(function ($term) {
             return <<<ZZZZZZZZZZ
@@ -42,8 +38,8 @@ class OlzFaqDetail extends OlzRootComponent {
                 CONCAT('{$code_href}fragen_und_antworten/', ident) AS link,
                 '{$code_href}assets/icns/question_mark_20.svg' AS icon,
                 NULL AS date,
-                question AS title,
-                CONCAT(IFNULL(ident, ''), ' ', IFNULL(answer, '')) AS text,
+                CONCAT('Frage: ', question) AS title,
+                CONCAT(IFNULL(ident, ''), ' Antwort: ', IFNULL(answer, '')) AS text,
                 1.0 AS time_relevance
             FROM questions
             WHERE

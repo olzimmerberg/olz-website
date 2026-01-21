@@ -22,11 +22,7 @@ class OlzFuerEinsteiger extends OlzRootComponent {
         return true;
     }
 
-    public function getSearchTitle(): string {
-        return 'TODO';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         return null;
     }
 

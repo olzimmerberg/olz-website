@@ -20,11 +20,7 @@ class OlzService extends OlzRootComponent {
         return true;
     }
 
-    public function getSearchTitle(): string {
-        return 'Service';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
         $downloads_where = implode(' AND ', array_map(function ($term) {
             return "name LIKE '%{$term}%'";
@@ -38,7 +34,7 @@ class OlzService extends OlzRootComponent {
                 '{$code_href}service' AS link,
                 '{$code_href}assets/icns/link_internal_16.svg' AS icon,
                 NULL AS date,
-                name AS title,
+                CONCAT('Download: ', name) AS title,
                 NULL AS text,
                 0.9 AS time_relevance
             FROM downloads
@@ -50,7 +46,7 @@ class OlzService extends OlzRootComponent {
                 '{$code_href}service' AS link,
                 '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
                 NULL AS date,
-                name AS title,
+                CONCAT('Link: ', name) AS title,
                 url AS text,
                 0.9 AS time_relevance
             FROM links

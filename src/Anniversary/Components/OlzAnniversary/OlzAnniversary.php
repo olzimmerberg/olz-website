@@ -24,11 +24,7 @@ class OlzAnniversary extends OlzRootComponent {
         return true;
     }
 
-    public function getSearchTitle(): string {
-        return 'Jubiläumsjahr';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         return null;
     }
 

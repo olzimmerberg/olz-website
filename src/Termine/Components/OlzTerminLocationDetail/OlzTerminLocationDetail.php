@@ -19,11 +19,7 @@ class OlzTerminLocationDetail extends OlzRootComponent {
         return $this->authUtils()->hasPermission('termine');
     }
 
-    public function getSearchTitle(): string {
-        return 'Termin-Orte';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
         $where = implode(' AND ', array_map(function ($term) {
             return <<<ZZZZZZZZZZ
@@ -38,7 +34,7 @@ class OlzTerminLocationDetail extends OlzRootComponent {
                 CONCAT('{$code_href}termine/orte/', id) AS link,
                 '{$code_href}assets/icns/link_map_16.svg' AS icon,
                 NULL AS date,
-                name AS title,
+                CONCAT('Termin-Ort: ', name) AS title,
                 details AS text,
                 1.0 AS time_relevance
             FROM termin_locations

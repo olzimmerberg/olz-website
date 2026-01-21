@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Suche\Utils;
 
 use Olz\Suche\Utils\SearchUtils;
-use Olz\Tests\Fake\FakeSearchUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal
@@ -15,98 +13,6 @@ use Olz\Utils\WithUtilsCache;
  * @covers \Olz\Suche\Utils\SearchUtils
  */
 final class SearchUtilsTest extends UnitTestCase {
-    public function testGetSearchResults(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
-        $utils = new FakeSearchUtils();
-        $this->assertSame([
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-        ], $utils->getSearchResults(['test']));
-    }
-
-    public function testGetSearchResultsAdmin(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
-        $utils = new FakeSearchUtils();
-        $this->assertSame([
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-            ['title' => 'Fake title', 'bestScore' => null, 'results' => []],
-        ], $utils->getSearchResults(['test']));
-    }
-
     public function testGetDateFormattings(): void {
         $utils = new SearchUtils();
         $this->assertSame([], $utils->getDateFormattings(null));

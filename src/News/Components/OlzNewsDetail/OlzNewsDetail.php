@@ -26,13 +26,15 @@ class OlzNewsDetail extends OlzRootComponent {
         return true;
     }
 
-    public function getSearchTitle(): string {
-        return 'News';
-    }
-
-    public function searchSqlWhenHasAccess(array $terms): ?string {
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
         $today_iso = $this->dateUtils()->getIsoToday();
+        $db = $this->dbUtils()->getDb();
+        $pretty_format_sql = "CASE ".implode('', array_map(function ($entry) use ($db) {
+            $esc_ident = $db->real_escape_string($entry['ident']);
+            $esc_name = $db->real_escape_string($entry['name']);
+            return "WHEN format = '{$esc_ident}' THEN '{$esc_name}'";
+        }, NewsUtils::ALL_FORMAT_OPTIONS))." ELSE format END";
         $where = implode(' AND ', array_map(function ($term) {
             $date_sql = $this->searchUtils()->getDateSql('published_date', $term) ?? '0';
             return <<<ZZZZZZZZZZ
@@ -44,32 +46,37 @@ class OlzNewsDetail extends OlzRootComponent {
                 )
                 ZZZZZZZZZZ;
         }, $terms));
-        return <<<ZZZZZZZZZZ
-            WITH
-                base AS (
+        return [
+            'with' => [
+                <<<ZZZZZZZZZZ
+                    base_news AS (
+                        SELECT
+                            CONCAT('{$code_href}news/', id) AS link,
+                            CONCAT('{$code_href}assets/icns/entry_type_', format, '_20.svg') AS icon,
+                            published_date AS date,
+                            CONCAT('News (', {$pretty_format_sql}, '): ', title) AS title,
+                            CONCAT(IFNULL(teaser, ''), ' ', IFNULL(content, '')) AS text,
+                            DATEDIFF(published_date, '{$today_iso}') AS diffdays
+                        FROM news
+                        WHERE
+                            on_off = '1'
+                            AND {$this->newsUtils()->getIsNotArchivedSql()}
+                            AND {$where}
+                    )
+                    ZZZZZZZZZZ,
+            ],
+            'query' => <<<'ZZZZZZZZZZ'
                     SELECT
-                        CONCAT('{$code_href}news/', id) AS link,
-                        CONCAT('{$code_href}assets/icns/entry_type_', format, '_20.svg') AS icon,
-                        published_date AS date,
-                        title AS title,
-                        CONCAT(IFNULL(teaser, ''), ' ', IFNULL(content, '')) AS text,
-                        DATEDIFF(published_date, '{$today_iso}') AS diffdays
-                    FROM news
-                    WHERE
-                        on_off = '1'
-                        AND {$this->newsUtils()->getIsNotArchivedSql()}
-                        AND {$where}
-                )
-            SELECT
-                *,
-                CASE
-                    WHEN diffdays < -400 THEN 0.7
-                    WHEN diffdays < -100 THEN 1.0 + (diffdays + 100) * 0.3 / 300.0
-                    WHEN diffdays < 100 THEN 1.0
-                    ELSE 0.1
-                END AS time_relevance
-            FROM base
-            ZZZZZZZZZZ;
+                        link, icon, date, title, text,
+                        CASE
+                            WHEN diffdays < -400 THEN 0.7
+                            WHEN diffdays < -100 THEN 1.0 + (diffdays + 100) * 0.3 / 300.0
+                            WHEN diffdays < 100 THEN 1.0
+                            ELSE 0.1
+                        END AS time_relevance
+                    FROM base_news
+                ZZZZZZZZZZ,
+        ];
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

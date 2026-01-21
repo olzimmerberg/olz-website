@@ -389,7 +389,14 @@ a {
     }
 }
 
-@media (update: slow) {
+@media (update: slow) or (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
+
+.olz-override-root.is-bot,
+.olz-override-root.is-eink {
     * {
         transition: none !important;
     }

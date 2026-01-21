@@ -104,6 +104,36 @@ final class HttpUtilsTest extends UnitTestCase {
         $this->assertFalse($utils->isBot('Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1'));
     }
 
+    public function testGetEInkRegexes(): void {
+        $utils = new TestOnlyHttpUtils();
+        $this->assertContains('/kindle\//i', $utils->getEInkRegexes());
+        $this->assertContains('/pocketbook\//i', $utils->getEInkRegexes());
+    }
+
+    public function testIsEInk(): void {
+        $utils = new TestOnlyHttpUtils();
+        $this->assertTrue($utils->isEInk('Mozilla/5.0 (X11; U; Linux armv7l like Android; en-us) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/533.2+ Kindle/3.0+'));
+        $this->assertTrue($utils->isEInk('Mozilla/5.0 (Linux; Android 10; K; en_US) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.171 Mobile Safari/537.36 PocketBook/743K3 (screen 1404x1872; FW U743k3.6.10.2854; LCP)'));
+
+        $this->assertFalse($utils->isEInk(''));
+        // Chrome
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36'));
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'));
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'));
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/141.0.7390.96 Mobile/15E148 Safari/604.1'));
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.7390.112 Mobile Safari/537.36'));
+        // Firefox
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0'));
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:143.0) Gecko/20100101 Firefox/143.0'));
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (X11; Linux x86_64; rv:143.0) Gecko/20100101 Firefox/143.0'));
+        // Edge
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0'));
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0'));
+        // Safari
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Safari/605.1.15'));
+        $this->assertFalse($utils->isEInk('Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1'));
+    }
+
     public function testCountRequest(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $utils = new TestOnlyHttpUtils();

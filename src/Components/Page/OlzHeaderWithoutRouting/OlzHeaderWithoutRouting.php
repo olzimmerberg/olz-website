@@ -33,6 +33,14 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         ]);
         $iso_now_json = json_encode($this->dateUtils()->getIsoNow());
         $bot_regexes_json = json_encode($this->httpUtils()->getBotRegexes());
+        $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';
+        $user_agent_classes = '';
+        if ($this->httpUtils()->isBot($user_agent)) {
+            $user_agent_classes .= ' is-bot';
+        }
+        if ($this->httpUtils()->isEInk($user_agent)) {
+            $user_agent_classes .= ' is-eink';
+        }
 
         $html_title = "OL Zimmerberg";
         if (isset($args['title'])) {
@@ -86,7 +94,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
             </script>
             <script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>
             </head>
-            <body class='olz-override-root'>
+            <body class='olz-override-root{$user_agent_classes}'>
                 <a name='top'></a>
                 {$header_bar}
                 <div class='site-container'>

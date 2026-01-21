@@ -39,6 +39,23 @@ class HttpUtils {
         return false;
     }
 
+    /** @return array<string> */
+    public function getEInkRegexes(): array {
+        return [
+            '/kindle\//i',
+            '/pocketbook\//i',
+        ];
+    }
+
+    public function isEInk(string $user_agent): bool {
+        foreach ($this->getEInkRegexes() as $regex) {
+            if (preg_match($regex, $user_agent)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** @param array<string> $get_params */
     public function countRequest(Request $request, array $get_params = []): void {
         $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';

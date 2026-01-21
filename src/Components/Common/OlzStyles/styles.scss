@@ -388,3 +388,9 @@ a {
         }
     }
 }
+
+@media (update: slow) {
+    * {
+        transition: none !important;
+    }
+}

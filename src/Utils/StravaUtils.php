@@ -95,10 +95,14 @@ class StravaUtils {
         $refresh_token = $data['refresh_token'] ?? null;
         $expires_at = $data['expires_at'] ?? null;
 
+        if (!$access_token || !$refresh_token || !$expires_at) {
+            $json_data = json_encode($data) ?: '';
+            $this->log()->notice("Refreshing strava token failed: {$json_data}");
+            return null;
+        }
         $strava_link->setAccessToken($access_token);
         $strava_link->setRefreshToken($refresh_token);
         $strava_link->setExpiresAt(new \DateTime(date('Y-m-d H:i:s', $expires_at)));
-
         return $access_token;
     }
 

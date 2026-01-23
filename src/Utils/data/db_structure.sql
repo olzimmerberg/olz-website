@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260103215409
+-- MIGRATION: DoctrineMigrations\Version20260123161002
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -218,6 +218,23 @@ CREATE TABLE `downloads` (
   CONSTRAINT `FK_4B73A4B55A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_4B73A4B57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `forwarded_emails` (
+  `sender_address` varchar(255) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `body` longtext NOT NULL,
+  `forwarded_at` datetime DEFAULT NULL,
+  `error_message` varchar(255) DEFAULT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `recipient_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_FB65F126B15EFB97` (`recipient_user_id`),
+  KEY `recipient_user_id_forwarded_at_index` (`recipient_user_id`,`forwarded_at`),
+  CONSTRAINT `FK_FB65F126B15EFB97` FOREIGN KEY (`recipient_user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

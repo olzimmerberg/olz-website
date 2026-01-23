@@ -27,8 +27,17 @@ final class SyncStravaCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\SyncStravaCommand...',
             'INFO Syncing Strava for 2020...',
             'INFO Syncing StravaLink (ID: 12)...',
+            'DEBUG Strava token refresh...',
+            'DEBUG Strava token refresh response:',
+            'DEBUG Strava token refreshed',
             'INFO Syncing StravaLink (ID: 123)...',
+            'DEBUG Strava token refresh...',
+            'DEBUG Strava token refresh response:',
+            'DEBUG Strava token refreshed',
             'INFO Syncing StravaLink (ID: 1234)...',
+            'DEBUG Strava token refresh...',
+            'DEBUG Strava token refresh response:',
+            'DEBUG Strava token refreshed',
             'INFO Successfully ran command Olz\Command\SyncStravaCommand.',
         ], $this->getLogs());
 

@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260103215409
+-- MIGRATION: DoctrineMigrations\Version20260123161002
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -110,7 +110,8 @@ VALUES
     ('DoctrineMigrations\\Version20250618220717', '2025-06-19 00:07:51', '81'),
     ('DoctrineMigrations\\Version20251125174358', '2025-11-25 18:44:24', '438'),
     ('DoctrineMigrations\\Version20251231090437', '2025-12-31 10:05:41', '13'),
-    ('DoctrineMigrations\\Version20260103215409', '2026-01-03 22:54:48', '16');
+    ('DoctrineMigrations\\Version20260103215409', '2026-01-03 22:54:48', '16'),
+    ('DoctrineMigrations\\Version20260123161002', '2026-01-23 17:10:51', '33');
 
 -- Table downloads
 INSERT INTO downloads
@@ -121,6 +122,12 @@ VALUES
     ('3', 'Spesenreglement', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('4', 'Trainingsplan 2020', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('5', 'SOFT DELETED', '2', '0', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+
+-- Table forwarded_emails
+INSERT INTO forwarded_emails
+    (`sender_address`, `subject`, `body`, `forwarded_at`, `error_message`, `id`, `recipient_user_id`)
+VALUES
+    ('beispiel@olzimmerberg.ch', 'Wichtiger Betreff!', 'Wichtige Mitteilung', '2020-03-13 17:11:25', NULL, '1', '1');
 
 -- Table karten
 INSERT INTO karten

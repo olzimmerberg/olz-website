@@ -3,6 +3,7 @@
 namespace Olz\Command;
 
 use Olz\Command\Common\OlzCommand;
+use Olz\Entity\ForwardedEmail;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Throttling;
 use Olz\Entity\Users\User;
@@ -425,6 +426,10 @@ class ProcessEmailCommand extends OlzCommand {
         $mail->setFlag('flagged');
 
         $forward_address = $user->getEmail();
+        $from_address = '?';
+        $subject = '?';
+        $html = '?';
+        $text = '?';
         try {
             $from = $mail->getFrom()->first();
             $from_name = $from->personal;
@@ -501,22 +506,48 @@ class ProcessEmailCommand extends OlzCommand {
             $this->emailUtils()->send($email, $envelope);
 
             $this->log()->info("Email forwarded from {$address} to {$forward_address}");
+            $this->recordForwardedEmail($user, $from_address, $subject, $html."\n".$text, null);
 
             $mail->unsetFlag('flagged');
             return 2;
         } catch (RfcComplianceException $exc) {
             $message = $exc->getMessage();
-            $this->log()->notice("Email from {$address} to {$forward_address} is not RFC-compliant: {$message}", [$exc]);
+            $error_message = "Email from {$address} to {$forward_address} is not RFC-compliant: {$message}";
+            $this->log()->notice($error_message, [$exc]);
+            $this->recordForwardedEmail($user, $from_address, $subject, $html."\n".$text, $error_message);
             return 2;
         } catch (TransportExceptionInterface $exc) {
             $message = $exc->getMessage();
-            $this->log()->error("Error sending email (from {$address}) to {$forward_address}: {$message}", [$exc]);
+            $error_message = "Error sending email (from {$address}) to {$forward_address}: {$message}";
+            $this->log()->error($error_message, [$exc]);
+            $this->recordForwardedEmail($user, $from_address, $subject, $html."\n".$text, $error_message);
             return 0;
         } catch (\Exception $exc) {
             $message = $exc->getMessage();
-            $this->log()->critical("Error forwarding email from {$address} to {$forward_address}: {$message}", [$exc]);
+            $error_message = "Error forwarding email from {$address} to {$forward_address}: {$message}";
+            $this->log()->critical($error_message, [$exc]);
+            $this->recordForwardedEmail($user, $from_address, $subject, $html."\n".$text, $error_message);
             return 0;
         }
+    }
+
+    protected function recordForwardedEmail(
+        User $recipient_user,
+        string $sender_address,
+        string $subject,
+        string $body,
+        ?string $error_message,
+    ): void {
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $entity = new ForwardedEmail();
+        $entity->setRecipientUser($recipient_user);
+        $entity->setSenderAddress($sender_address);
+        $entity->setSubject($subject);
+        $entity->setBody($body);
+        $entity->setForwardedAt($now);
+        $entity->setErrorMessage($error_message);
+        $this->entityManager()->persist($entity);
+        $this->entityManager()->flush();
     }
 
     /** @return array<Address> */

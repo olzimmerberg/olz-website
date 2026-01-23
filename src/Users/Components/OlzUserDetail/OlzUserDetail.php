@@ -5,6 +5,7 @@ namespace Olz\Users\Components\OlzUserDetail;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
+use Olz\Entity\ForwardedEmail;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Repository\Roles\PredefinedRole;
@@ -157,6 +158,20 @@ class OlzUserDetail extends OlzRootComponent {
                 $email_html .= "<div class='info-container'>Du hast ausserdem eine <b>alte</b> offizielle OLZ E-Mail-Adresse: <b>{$old_olz_email}</b> <i>(nicht mehr benutzen!)</i></div>";
             }
             $email_html .= "<div class='info-container'>Die E-Mails <b>werden weitergeleitet</b> an: <b>{$user->getEmail()}</b></div>";
+            $email_html .= "<h3>Kürzlich weitergeleitete E-Mails</h3>";
+            $email_html .= "<table class='forwarded-emails'><tr><th>Datum</th><th>Absender</th><th>Betreff</th></tr>";
+            $forwarded_email_repo = $this->entityManager()->getRepository(ForwardedEmail::class);
+            $forwarded_emails = $forwarded_email_repo->findBy(['recipient_user' => $user], ['forwarded_at' => 'DESC']);
+            foreach ($forwarded_emails as $forwarded_email) {
+                $email_html .= <<<ZZZZZZZZZZ
+                    <tr>
+                        <td>{$forwarded_email->getForwardedAt()?->format('d.m.Y H:i')}</td>
+                        <td>{$forwarded_email->getSenderAddress()}</td>
+                        <td>{$forwarded_email->getSubject()}</td>
+                    </tr>
+                    ZZZZZZZZZZ;
+            }
+            $email_html .= "</table>";
         } else {
             $email = $user->getEmail();
             $email_html = "<div class='info-container'>Du hast <b>keine offizielle</b> OLZ E-Mail-Adresse.</div>";

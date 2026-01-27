@@ -22,6 +22,42 @@ final class SolvResultParserTest extends UnitTestCase {
 
     private string $result_2018_path = __DIR__.'/data/result-2018-4491.html';
 
+    private string $splits_default = <<<'ZZZZZZZZZZ'
+            1.   0.38 (2)  2.   1.06 (2)  3.   1.40 (3)  4.   1.41 (3)  5.   2.10 (4)
+           131   0.38 (2) 164   0.28 (2) 140   0.34 (6) 145   0.01 (1) 180   0.29 (7)
+                 0.04           0.04           0.07           0.00           0.10
+            6.   3.15 (5)  7.   3.31 (5)  8.   4.22 (5)  9.   4.25 (5) 10.   5.02 (4)
+           185   1.05(10)  95   0.16 (4) 160   0.51 (5) 165   0.03(10)  92   0.37 (2)
+                 0.32           0.06           0.14           0.02           0.02
+           11.   5.41 (4) 12.   6.14 (4) 13.   7.38 (4) 14.   7.55 (4) 15.   9.14 (4)
+           170   0.39 (2)  96   0.33 (5)  94   1.24 (7)  93   0.17 (1)  97   1.19 (4)
+                 0.03           0.05           0.28           0.00           0.21
+           16.  10.07 (4) 17.  10.33 (4)      11.04 (4)
+           177   0.53 (2) 190   0.26 (3)  Zi   0.31(10)
+                 0.02           0.05           0.06
+        ZZZZZZZZZZ;
+
+    private string $splits_zero_controls = <<<'ZZZZZZZZZZ'
+              20.31 (4)
+          Zi  20.31(10)
+               0.06
+        ZZZZZZZZZZ;
+
+    private string $splits_one_control = <<<'ZZZZZZZZZZ'
+            1.   0.38(12)       1.06 (2)
+           131   0.38(12) Zi    0.28 (2)
+                 0.04           0.04
+        ZZZZZZZZZZ;
+
+    private string $splits_newline_finish = <<<'ZZZZZZZZZZ'
+            1.   0.38 (2)  2.   1.06 (2)  3.   1.40 (3)  4.   1.41 (3)  5.   2.10 (4)
+           131   0.38 (2) 164   0.28 (2) 140   0.34 (6) 145   0.01 (1) 180   0.29 (7)
+                 0.04           0.04           0.07           0.00           0.10
+                10.07 (4)
+           Zi    0.53 (2)
+                 0.02
+        ZZZZZZZZZZ;
+
     public function testParseResults2006(): void {
         $results_2006 = file_get_contents($this->results_2006_path) ?: '';
         $parser = new SolvResultParser();
@@ -141,5 +177,45 @@ final class SolvResultParserTest extends UnitTestCase {
         $this->assertSame(10, $first_result->getClassElevation());
         $this->assertSame(17, $first_result->getClassControlCount());
         $this->assertSame(14, $first_result->getClassCompetitorCount());
+    }
+
+    public function testParseFinishSplitDefault(): void {
+        $parser = new SolvResultParser();
+        $this->assertSame(31, $parser->parse_finish_split($this->splits_default));
+    }
+
+    public function testParseFinishSplitZeroControls(): void {
+        $parser = new SolvResultParser();
+        $this->assertSame(1231, $parser->parse_finish_split($this->splits_zero_controls));
+    }
+
+    public function testParseFinishSplitOneControl(): void {
+        $parser = new SolvResultParser();
+        $this->assertSame(2, $parser->parse_finish_split($this->splits_one_control));
+    }
+
+    public function testParseFinishSplitNewlineFinish(): void {
+        $parser = new SolvResultParser();
+        $this->assertSame(5, $parser->parse_finish_split($this->splits_newline_finish));
+    }
+
+    public function testParseLastControlCodeDefault(): void {
+        $parser = new SolvResultParser();
+        $this->assertSame(190, $parser->parse_last_control_code($this->splits_default));
+    }
+
+    public function testParseLastControlCodeZeroControls(): void {
+        $parser = new SolvResultParser();
+        $this->assertSame(0, $parser->parse_last_control_code($this->splits_zero_controls));
+    }
+
+    public function testParseLastControlCodeOneControl(): void {
+        $parser = new SolvResultParser();
+        $this->assertSame(131, $parser->parse_last_control_code($this->splits_one_control));
+    }
+
+    public function testParseLastControlCodeNewlineFinish(): void {
+        $parser = new SolvResultParser();
+        $this->assertSame(180, $parser->parse_last_control_code($this->splits_newline_finish));
     }
 }

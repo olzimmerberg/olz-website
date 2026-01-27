@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260123161002
+-- MIGRATION: DoctrineMigrations\Version20260127134010
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -712,6 +712,7 @@ CREATE TABLE `solv_results` (
   `class_elevation` int(11) NOT NULL,
   `class_control_count` int(11) NOT NULL,
   `class_competitor_count` int(11) NOT NULL,
+  `last_control_code` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `person_name_index` (`person`,`name`),
   KEY `event_index` (`event`)

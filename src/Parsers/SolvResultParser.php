@@ -81,9 +81,8 @@ class SolvResultParser {
                 }
                 $splits_length = $splits_ends_at - $competitor_line_ends_at;
                 $splits = trim(mb_substr($class_body, $competitor_line_ends_at, $splits_length));
-
-                $finish_offset = mb_strpos($splits, ' Zi ');
-                $finish_split = $this->timeParser->time_str_to_seconds(trim(mb_substr($splits, $finish_offset + 4, 6)));
+                $last_control_code = $this->parse_last_control_code($splits);
+                $finish_split = $this->parse_finish_split($splits);
 
                 if ($rank !== 1 || preg_match('/zimmerberg/i', $club)) {
                     $solv_result = new SolvResult();
@@ -97,6 +96,7 @@ class SolvResultParser {
                     $solv_result->setClub($club);
                     $solv_result->setResult($result);
                     $solv_result->setSplits($splits);
+                    $solv_result->setLastControlCode($last_control_code);
                     $solv_result->setFinishSplit($finish_split);
                     $solv_result->setClassDistance($class_info['distance']);
                     $solv_result->setClassElevation($class_info['elevation']);
@@ -107,5 +107,24 @@ class SolvResultParser {
             }
         }
         return $results;
+    }
+
+    public function parse_finish_split(string $splits): int {
+        $finish_offset = mb_strpos($splits, ' Zi ');
+        return $this->timeParser->time_str_to_seconds(trim(mb_substr($splits, $finish_offset + 4, 6)));
+    }
+
+    public function parse_last_control_code(string $splits): int {
+        // Last control and finish are on the same line
+        $has_match = preg_match('/ ([0-9]+)\s+[0-9.:]+\s*\([0-9]+\)\s*Zi /', $splits, $matches);
+        if ($has_match) {
+            return intval($matches[1]);
+        }
+        // Last control and finish are NOT on the same line
+        $has_match = preg_match('/ ([0-9]+)\s+[0-9.:]+\s*\([0-9]+\)\s*\n.+\n.+\n\s*Zi /', $splits, $matches);
+        if ($has_match) {
+            return intval($matches[1]);
+        }
+        return 0;
     }
 }

@@ -47,6 +47,9 @@ class SolvResult implements TestableInterface {
     private string $splits;
 
     #[ORM\Column(type: 'integer', nullable: false)]
+    private int $last_control_code;
+
+    #[ORM\Column(type: 'integer', nullable: false)]
     private int $finish_split;
 
     #[ORM\Column(type: 'integer', nullable: false)]
@@ -102,128 +105,136 @@ class SolvResult implements TestableInterface {
         return $this->id ?? null;
     }
 
-    public function setId(int $new_id): void {
-        $this->id = $new_id;
+    public function setId(int $new_value): void {
+        $this->id = $new_value;
     }
 
     public function getPerson(): int {
         return $this->person;
     }
 
-    public function setPerson(int $new_person): void {
-        $this->person = $new_person;
+    public function setPerson(int $new_value): void {
+        $this->person = $new_value;
     }
 
     public function getEvent(): int {
         return $this->event;
     }
 
-    public function setEvent(int $new_event): void {
-        $this->event = $new_event;
+    public function setEvent(int $new_value): void {
+        $this->event = $new_value;
     }
 
     public function getClass(): string {
         return $this->class;
     }
 
-    public function setClass(string $new_class): void {
-        $this->class = $new_class;
+    public function setClass(string $new_value): void {
+        $this->class = $new_value;
     }
 
     public function getRank(): int {
         return $this->rank;
     }
 
-    public function setRank(int $new_rank): void {
-        $this->rank = $new_rank;
+    public function setRank(int $new_value): void {
+        $this->rank = $new_value;
     }
 
     public function getName(): string {
         return $this->name;
     }
 
-    public function setName(string $new_name): void {
-        $this->name = $new_name;
+    public function setName(string $new_value): void {
+        $this->name = $new_value;
     }
 
     public function getBirthYear(): string {
         return $this->birth_year;
     }
 
-    public function setBirthYear(string $new_birth_year): void {
-        $this->birth_year = $new_birth_year;
+    public function setBirthYear(string $new_value): void {
+        $this->birth_year = $new_value;
     }
 
     public function getDomicile(): string {
         return $this->domicile;
     }
 
-    public function setDomicile(string $new_domicile): void {
-        $this->domicile = $new_domicile;
+    public function setDomicile(string $new_value): void {
+        $this->domicile = $new_value;
     }
 
     public function getClub(): string {
         return $this->club;
     }
 
-    public function setClub(string $new_club): void {
-        $this->club = $new_club;
+    public function setClub(string $new_value): void {
+        $this->club = $new_value;
     }
 
     public function getResult(): int {
         return $this->result;
     }
 
-    public function setResult(int $new_result): void {
-        $this->result = $new_result;
+    public function setResult(int $new_value): void {
+        $this->result = $new_value;
     }
 
     public function getSplits(): string {
         return $this->splits;
     }
 
-    public function setSplits(string $new_splits): void {
-        $this->splits = $new_splits;
+    public function setSplits(string $new_value): void {
+        $this->splits = $new_value;
+    }
+
+    public function getLastControlCode(): int {
+        return $this->last_control_code;
+    }
+
+    public function setLastControlCode(int $new_value): void {
+        $this->last_control_code = $new_value;
     }
 
     public function getFinishSplit(): int {
         return $this->finish_split;
     }
 
-    public function setFinishSplit(int $new_finish_split): void {
-        $this->finish_split = $new_finish_split;
+    public function setFinishSplit(int $new_value): void {
+        $this->finish_split = $new_value;
     }
 
     public function getClassDistance(): int {
         return $this->class_distance;
     }
 
-    public function setClassDistance(int $new_class_distance): void {
-        $this->class_distance = $new_class_distance;
+    public function setClassDistance(int $new_value): void {
+        $this->class_distance = $new_value;
     }
 
     public function getClassElevation(): int {
         return $this->class_elevation;
     }
 
-    public function setClassElevation(int $new_class_elevation): void {
-        $this->class_elevation = $new_class_elevation;
+    public function setClassElevation(int $new_value): void {
+        $this->class_elevation = $new_value;
     }
 
     public function getClassControlCount(): int {
         return $this->class_control_count;
     }
 
-    public function setClassControlCount(int $new_class_control_count): void {
-        $this->class_control_count = $new_class_control_count;
+    public function setClassControlCount(int $new_value): void {
+        $this->class_control_count = $new_value;
     }
 
     public function getClassCompetitorCount(): int {
         return $this->class_competitor_count;
     }
 
-    public function setClassCompetitorCount(int $new_class_competitor_count): void {
-        $this->class_competitor_count = $new_class_competitor_count;
+    public function setClassCompetitorCount(int $new_value): void {
+        $this->class_competitor_count = $new_value;
     }
 
     public function getFieldValue(string $field_name): mixed {
@@ -233,11 +244,11 @@ class SolvResult implements TestableInterface {
         return $this->{$field_name};
     }
 
-    public function setFieldValue(string $field_name, mixed $new_field_value): void {
+    public function setFieldValue(string $field_name, mixed $new_value): void {
         if (!isset($this->valid_field_names[$field_name])) {
             throw new \Exception("setFieldValue: Invalid field name: {$field_name}", 1);
         }
-        $this->{$field_name} = $new_field_value;
+        $this->{$field_name} = $new_value;
     }
 
     // ---

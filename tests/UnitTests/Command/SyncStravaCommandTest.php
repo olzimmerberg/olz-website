@@ -30,14 +30,17 @@ final class SyncStravaCommandTest extends UnitTestCase {
             'DEBUG Strava token refresh...',
             'DEBUG Strava token refresh response:',
             'DEBUG Strava token refreshed',
+            'DEBUG Fetched 0 activities...',
             'INFO Syncing StravaLink (ID: 123)...',
             'DEBUG Strava token refresh...',
             'DEBUG Strava token refresh response:',
             'DEBUG Strava token refreshed',
+            'DEBUG Fetched 0 activities...',
             'INFO Syncing StravaLink (ID: 1234)...',
             'DEBUG Strava token refresh...',
             'DEBUG Strava token refresh response:',
             'DEBUG Strava token refreshed',
+            'DEBUG Fetched 0 activities...',
             'INFO Successfully ran command Olz\Command\SyncStravaCommand.',
         ], $this->getLogs());
 

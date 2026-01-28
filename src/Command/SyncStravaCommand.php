@@ -82,7 +82,11 @@ class SyncStravaCommand extends OlzCommand {
             }
             // $activities = $this->stravaUtils()->callStravaApi('GET', '/athlete/activities', [], $access_token);
             $activities = $this->stravaUtils()->callStravaApi('GET', '/clubs/158910/activities', [], $access_token);
+            $num_activities = count($activities);
+            $this->logAndOutput("Fetched {$num_activities} activities...", level: 'debug');
             foreach ($activities as $activity) {
+                $activity_json = json_encode($activity) ?: '';
+                $this->logAndOutput("Processing activity {$activity_json}...", level: 'debug');
                 $firstname = $activity['athlete']['firstname'] ?? '';
                 $lastname = $activity['athlete']['lastname'] ?? '';
                 $distance = $activity['distance'];

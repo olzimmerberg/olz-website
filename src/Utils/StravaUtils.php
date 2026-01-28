@@ -106,6 +106,7 @@ class StravaUtils {
         $strava_link->setAccessToken($access_token);
         $strava_link->setRefreshToken($refresh_token);
         $strava_link->setExpiresAt(new \DateTime(date('Y-m-d H:i:s', $expires_at)));
+        $this->entityManager()->flush();
         return $access_token;
     }
 

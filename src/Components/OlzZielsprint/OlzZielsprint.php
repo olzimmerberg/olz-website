@@ -82,39 +82,46 @@ class OlzZielsprint extends OlzComponent {
         $this->generalUtils()->checkNotBool($res_events, "Query error: {$sql}");
         $points_by_person = [];
         while ($row_event = $res_events->fetch_assoc()) {
-            // $out .= "<h3>".json_encode($row_event)."</h3>";
             $event_id = intval($row_event['solv_uid']);
-            $sql = "
-                SELECT person, finish_split
-                FROM solv_results
-                WHERE
-                    event='{$event_id}'
-                    AND finish_split > '0'
-                ORDER BY finish_split ASC";
-            $res_results = $db->query($sql);
-            $this->generalUtils()->checkNotBool($res_results, "Query error: {$sql}");
-            $num_participants = intval($res_results->num_rows);
-            $last_finish_split = null;
-            $last_actual_points = null;
-            for ($points = $num_participants; $points > 0; $points--) {
-                $row_results = $res_results->fetch_assoc();
-                $person_id = intval($row_results['person'] ?? 0);
-                $finish_split = intval($row_results['finish_split'] ?? PHP_INT_MAX);
-                $actual_points = ($last_finish_split === $finish_split)
-                    ? $last_actual_points
-                    : $points;
-                $person_points = $points_by_person[$person_id]
-                    ?? ['points' => 0, 'calculation' => []];
-                $points_by_person[$person_id]['points'] = $person_points['points'] + $actual_points;
-                $points_by_person[$person_id]['calculation'][] = [
-                    'event_name' => "{$row_event['name']}",
-                    'points' => $actual_points,
-                    'finish_split' => $finish_split,
-                    'max_points' => $num_participants,
-                ];
-                $last_finish_split = $finish_split;
-                $last_actual_points = $actual_points;
-                // $out .= "<div>".json_encode($row_results)."</div>";
+            $sql = "SELECT DISTINCT last_control_code FROM solv_results WHERE event='{$event_id}'";
+            $res_last_control = $db->query($sql);
+            $this->generalUtils()->checkNotBool($res_last_control, "Query error: {$sql}");
+            while ($row_last_control = $res_last_control->fetch_assoc()) {
+                $last_control_code = intval($row_last_control['last_control_code']);
+                // $out .= "<h3>".json_encode($row_event)."</h3>";
+                $sql = "
+                    SELECT person, finish_split
+                    FROM solv_results
+                    WHERE
+                        event='{$event_id}'
+                        AND finish_split > '0'
+                        AND last_control_code = '{$last_control_code}'
+                    ORDER BY finish_split ASC";
+                $res_results = $db->query($sql);
+                $this->generalUtils()->checkNotBool($res_results, "Query error: {$sql}");
+                $num_participants = intval($res_results->num_rows);
+                $last_finish_split = null;
+                $last_actual_points = null;
+                for ($points = $num_participants; $points > 0; $points--) {
+                    $row_results = $res_results->fetch_assoc();
+                    $person_id = intval($row_results['person'] ?? 0);
+                    $finish_split = intval($row_results['finish_split'] ?? PHP_INT_MAX);
+                    $actual_points = ($last_finish_split === $finish_split)
+                        ? $last_actual_points
+                        : $points;
+                    $person_points = $points_by_person[$person_id]
+                        ?? ['points' => 0, 'calculation' => []];
+                    $points_by_person[$person_id]['points'] = $person_points['points'] + $actual_points;
+                    $points_by_person[$person_id]['calculation'][] = [
+                        'event_name' => "{$row_event['name']} ({$last_control_code})",
+                        'points' => $actual_points,
+                        'finish_split' => $finish_split,
+                        'max_points' => $num_participants,
+                    ];
+                    $last_finish_split = $finish_split;
+                    $last_actual_points = $actual_points;
+                    // $out .= "<div>".json_encode($row_results)."</div>";
+                }
             }
         }
         $ranking = [];

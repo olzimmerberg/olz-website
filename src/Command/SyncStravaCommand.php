@@ -87,20 +87,27 @@ class SyncStravaCommand extends OlzCommand {
             foreach ($activities as $activity) {
                 $activity_json = json_encode($activity) ?: '';
                 $this->logAndOutput("Processing activity {$activity_json}...", level: 'debug');
-                $firstname = $activity['athlete']['firstname'] ?? '';
-                $lastname = $activity['athlete']['lastname'] ?? '';
-                $distance = $activity['distance'];
-                $moving_time = $activity['moving_time'];
-                $elapsed_time = $activity['elapsed_time'];
-                $total_elevation_gain = $activity['total_elevation_gain'];
+                $firstname = $activity['athlete']['firstname'] ?? null;
+                $lastname = $activity['athlete']['lastname'] ?? null;
+                $distance = $activity['distance'] ?? null;
+                $moving_time = $activity['moving_time'] ?? null;
+                $elapsed_time = $activity['elapsed_time'] ?? null;
+                $total_elevation_gain = $activity['total_elevation_gain'] ?? null;
                 $type = $activity['type'] ?? '';
                 $sport_type = $activity['sport_type'] ?? '';
+                if ($firstname === null || $lastname === null || $distance === null || $moving_time === null || $elapsed_time === null || $total_elevation_gain === null) {
+                    $this->logAndOutput("Invalid activity {$activity_json}", level: 'notice');
+                    continue;
+                }
                 $is_counting = $is_sport_type_valid[$sport_type] ?? false;
                 $pretty_sport_type = "{$type} / {$sport_type}";
-                $id = md5("{$firstname}-{$lastname}-{$distance}-{$total_elevation_gain}-{$moving_time}-{$elapsed_time}");
+                $old_id = md5("{$firstname}-{$lastname}-{$distance}-{$total_elevation_gain}-{$moving_time}-{$elapsed_time}");
+                $id = md5("{$firstname}-{$lastname}-{$distance}-{$moving_time}-{$elapsed_time}");
+                $old_source = "strava-{$id}";
                 $source = "strava-{$id}";
+                $old_existing = $runs_repo->findOneBy(['source' => $source]);
                 $existing = $runs_repo->findOneBy(['source' => $source]);
-                if ($existing !== null) {
+                if ($old_existing !== null || $existing !== null) {
                     continue;
                 }
                 $this->logAndOutput("New activity: {$source} by {$firstname} {$lastname}");

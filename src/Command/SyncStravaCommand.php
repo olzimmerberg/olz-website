@@ -105,7 +105,7 @@ class SyncStravaCommand extends OlzCommand {
                 $id = md5("{$firstname}-{$lastname}-{$distance}-{$moving_time}-{$elapsed_time}");
                 $old_source = "strava-{$id}";
                 $source = "strava-{$id}";
-                $old_existing = $runs_repo->findOneBy(['source' => $source]);
+                $old_existing = $runs_repo->findOneBy(['source' => $old_source]);
                 $existing = $runs_repo->findOneBy(['source' => $source]);
                 if ($old_existing !== null || $existing !== null) {
                     continue;

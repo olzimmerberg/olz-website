@@ -317,12 +317,6 @@ class ProcessEmailCommand extends OlzCommand {
             }
         }
         if ($role != null) {
-            $has_role_email_permission = $this->authUtils()->hasRolePermission('role_email', $role);
-            if (!$has_role_email_permission) {
-                $this->log()->warning("E-Mail {$mail_uid} to role with no role_email permission: {$username}");
-                $this->sendReportEmail($mail, $address, 550);
-                return 2;
-            }
             $role_users = $role->getUsers();
             $all_successful = 2;
             foreach ($role_users as $role_user) {
@@ -340,12 +334,6 @@ class ProcessEmailCommand extends OlzCommand {
             }
         }
         if ($user != null) {
-            $has_user_email_permission = $this->authUtils()->hasPermission('user_email', $user);
-            if (!$has_user_email_permission) {
-                $this->log()->notice("E-Mail {$mail_uid} to user with no user_email permission: {$username}");
-                $this->sendReportEmail($mail, $address, 550);
-                return 2;
-            }
             return $this->forwardEmailToUser($mail, $user, $address);
         }
 

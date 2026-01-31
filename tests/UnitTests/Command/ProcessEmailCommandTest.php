@@ -311,65 +311,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $emails));
     }
 
-    public function testProcessEmailCommandNoUserEmailPermission(): void {
-        $this->setUpThrottlingNoCleanup();
-        $mailer = $this->createMock(MailerInterface::class);
-        WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        $mail = new FakeProcessEmailCommandMail(
-            12,
-            'no-permission@staging.olzimmerberg.ch',
-            new Attribute('to', [getAddress('no-permission@staging.olzimmerberg.ch')]),
-            new Attribute('cc', []),
-            new Attribute('bcc', []),
-            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
-        );
-        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $input = new ArrayInput([]);
-        $output = new BufferedOutput();
-        $emails = [];
-        $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$emails) {
-                $emails = [...$emails, $email];
-                return true;
-            }),
-            null,
-        );
-
-        $job = new ProcessEmailCommand();
-        $job->run($input, $output);
-
-        $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'WARNING getMails soft error:',
-            'WARNING getMails soft error:',
-            'NOTICE E-Mail 12 to user with no user_email permission: no-permission',
-            'DEBUG Sending email to "From Name" <from@from-domain.com> ()',
-            'INFO Report E-Mail sent to from@from-domain.com',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $this->getLogs());
-        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
-        $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertTrue($mail->is_body_fetched);
-        $this->assertSame([], $mail->flag_actions);
-        $this->assertSame([
-            <<<ZZZZZZZZZZ
-                From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
-                Reply-To: 
-                To: "From Name" <from@from-domain.com>
-                Cc: 
-                Bcc: 
-                Subject: Undelivered Mail Returned to Sender
-
-                {$job->getReportMessage(550, $mail, 'no-permission@staging.olzimmerberg.ch')}
-
-                (no html body)
-
-                ZZZZZZZZZZ,
-        ], array_map(function ($email) {
-            return $this->emailUtils()->getComparableEmail($email);
-        }, $emails));
-    }
-
     public function testProcessEmailCommandEmptyToException(): void {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
@@ -650,66 +591,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         ], array_map(function ($envelope) {
             return $this->emailUtils()->getComparableEnvelope($envelope);
         }, $envelopes));
-    }
-
-    public function testProcessEmailCommandNoRoleEmailPermission(): void {
-        $this->setUpThrottlingNoCleanup();
-        $mailer = $this->createMock(MailerInterface::class);
-        WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        $mail = new FakeProcessEmailCommandMail(
-            12,
-            'no-role-permission@staging.olzimmerberg.ch',
-            new Attribute('to', [getAddress('no-role-permission@staging.olzimmerberg.ch')]),
-            new Attribute('cc', []),
-            new Attribute('bcc', []),
-            new Attribute('from', getAddress('from@from-domain.com', 'From Name')),
-        );
-        WithUtilsCache::get('emailUtils')->client->folders['INBOX'] = [$mail];
-        $input = new ArrayInput([]);
-        $output = new BufferedOutput();
-        $emails = [];
-        $envelopes = [];
-        $mailer->expects($this->exactly(1))->method('send')->with(
-            $this->callback(function (Email $email) use (&$emails) {
-                $emails = [...$emails, $email];
-                return true;
-            }),
-            null,
-        );
-
-        $job = new ProcessEmailCommand();
-        $job->run($input, $output);
-
-        $this->assertSame([
-            'INFO Running command Olz\Command\ProcessEmailCommand...',
-            'WARNING getMails soft error:',
-            'WARNING getMails soft error:',
-            'WARNING E-Mail 12 to role with no role_email permission: no-role-permission',
-            'DEBUG Sending email to "From Name" <from@from-domain.com> ()',
-            'INFO Report E-Mail sent to from@from-domain.com',
-            'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
-        ], $this->getLogs());
-        $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
-        $this->assertSame('INBOX.Processed', $mail->moved_to);
-        $this->assertTrue($mail->is_body_fetched);
-        $this->assertSame([], $mail->flag_actions);
-        $this->assertSame([
-            <<<ZZZZZZZZZZ
-                From: "OLZ Bot" <fake@staging.olzimmerberg.ch>
-                Reply-To: 
-                To: "From Name" <from@from-domain.com>
-                Cc: 
-                Bcc: 
-                Subject: Undelivered Mail Returned to Sender
-
-                {$job->getReportMessage(550, $mail, 'no-role-permission@staging.olzimmerberg.ch')}
-
-                (no html body)
-
-                ZZZZZZZZZZ,
-        ], array_map(function ($email) {
-            return $this->emailUtils()->getComparableEmail($email);
-        }, $emails));
     }
 
     public function testProcessEmailCommandToRole(): void {

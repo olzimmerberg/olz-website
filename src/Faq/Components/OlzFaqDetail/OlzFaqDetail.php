@@ -67,17 +67,18 @@ class OlzFaqDetail extends OlzRootComponent {
         }
 
         $question = $answered_question->getQuestion();
-        $out = OlzHeader::render([
-            'back_link' => "{$code_href}fragen_und_antworten",
-            'title' => "{$question} - Fragen & Antworten",
-            'description' => "Antworten auf die wichtigsten Fragen rund um den OL, die OL Zimmerberg und diese Website.",
-            'canonical_url' => "{$code_href}fragen_und_antworten/{$ident}",
-        ]);
-
         $answer = $answered_question->getAnswer() ?? '';
         $answer_html = $this->htmlUtils()->renderMarkdown($answer);
         $answer_html = $answered_question->replaceImagePaths($answer_html);
         $answer_html = $answered_question->replaceFilePaths($answer_html);
+
+        $description = strip_tags($answer_html);
+        $out = OlzHeader::render([
+            'back_link' => "{$code_href}fragen_und_antworten",
+            'title' => "{$question} - Fragen & Antworten",
+            'description' => $description,
+            'canonical_url' => "{$code_href}fragen_und_antworten/{$ident}",
+        ]);
 
         $edit_admin = '';
         $can_edit = $this->authUtils()->hasPermission('faq');

@@ -32,7 +32,7 @@ class OlzNewsList extends OlzRootComponent {
     }
 
     public static string $title = "News";
-    public static string $description = "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.";
+    public static string $description = "Aktuelle Beiträge, Berichte von Anlässen, Foto-Galerien und weitere Neuigkeiten vom Vorstand, Kaderläufern und anderen Mitgliedern der OL Zimmerberg.";
 
     public static int $page_size = 25;
 

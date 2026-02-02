@@ -134,10 +134,11 @@ class OlzTerminDetail extends OlzRootComponent {
         $this_year = $this->dateUtils()->getCurrentDateInFormat('Y');
         $maybe_date = ($termin_year !== $this_year) ? " {$termin_year}" : '';
         $title = "{$title}{$maybe_date}";
+        $text = $termin->getText() ?? '';
         $out = OlzHeader::render([
             'back_link' => "{$code_href}termine",
             'title' => "{$title} - Termine",
-            'description' => "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.",
+            'description' => "{$text}",
             'norobots' => $is_archived,
             'canonical_url' => "{$code_href}termine/{$id}",
         ]);
@@ -155,7 +156,6 @@ class OlzTerminDetail extends OlzRootComponent {
         $start_time = $termin->getStartTime() ?? null;
         $end_time = $termin->getEndTime() ?? null;
         $organizer = $termin->getOrganizerUser();
-        $text = $termin->getText() ?? '';
         $labels = [...$termin->getLabels()];
         $xkoord = $termin->getCoordinateX() ?? 0;
         $ykoord = $termin->getCoordinateY() ?? 0;

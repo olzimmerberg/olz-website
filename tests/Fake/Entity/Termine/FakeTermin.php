@@ -8,6 +8,7 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
+use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Common\Date;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
@@ -31,6 +32,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(null);
                 $entity->setTitle("Fake title");
                 $entity->setText("");
+                $entity->setOrganizerUser(null);
                 $entity->setLocation(null);
                 $entity->setCoordinateX(null);
                 $entity->setCoordinateY(null);
@@ -59,6 +61,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(new Time('00:00:00'));
                 $entity->setTitle("Cannot be empty");
                 $entity->setText("");
+                $entity->setOrganizerUser(null);
                 $entity->clearLabels();
                 $entity->setLocation(null);
                 $entity->setCoordinateX(0);
@@ -80,14 +83,16 @@ class FakeTermin extends FakeEntity {
             function () {
                 $termin_template = new TerminTemplate();
                 $termin_template->setId(12341);
+                $organizer_user = new User();
+                $organizer_user->setId(12342);
                 $termin_label_1 = new TerminLabel();
-                $termin_label_1->setId(12341);
+                $termin_label_1->setId(12343);
                 $termin_label_1->setIdent('training');
                 $termin_label_2 = new TerminLabel();
-                $termin_label_2->setId(12342);
+                $termin_label_2->setId(12344);
                 $termin_label_2->setIdent('weekends');
                 $termin_location = new TerminLocation();
-                $termin_location->setId(12341);
+                $termin_location->setId(12345);
                 $entity = new Termin();
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
@@ -98,6 +103,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(new Time('12:00:00'));
                 $entity->setTitle("Fake title");
                 $entity->setText("Fake content");
+                $entity->setOrganizerUser($organizer_user);
                 $entity->clearLabels();
                 $entity->addLabel($termin_label_1);
                 $entity->addLabel($termin_label_2);

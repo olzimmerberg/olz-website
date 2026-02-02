@@ -39,19 +39,20 @@ final class ProfilTest extends SystemTestCase {
     public function testProfilUpdateUser(): void {
         $browser = $this->getBrowser();
 
-        $this->login('vorstand', 'v0r57and');
+        $this->login('karten', 'kar73n');
         $browser->get($this->getUrl());
-        $this->assertSame('Benutzername: vorstand', $this->getBrowserElement('.info-container.username')?->getText());
+        $this->assertSame('Benutzername: karten', $this->getBrowserElement('.info-container.username')?->getText());
         $this->assertSame("(Keine Adresse)\n(Keine PLZ) (Kein Ort) (Keine Region, Kein Land)", $this->getBrowserElement('.info-container.address')?->getText());
         $this->assertSame('Geburtsdatum: (Unbekannt)', $this->getBrowserElement('.info-container.birthdate')?->getText());
         $this->assertSame('Telephon: (Unbekannt)', $this->getBrowserElement('.info-container.phone')?->getText());
-        $this->assertNull($this->getBrowserElement('.info-container.email'));
+        $this->assertSame('E-Mail', $this->getBrowserElement('.info-container.email')?->getText());
 
         $this->click('#edit-user-button');
         $this->waitForModal('#edit-user-modal');
         $this->sendKeys('#edit-user-modal #firstName-input', 'Integration T.');
         $this->sendKeys('#edit-user-modal #lastName-input', 'User');
         $this->click('#edit-user-modal #username-input');
+        $this->clear('#edit-user-modal #email-input');
         $this->sendKeys('#edit-user-modal #email-input', 'update-test@staging.olzimmerberg.ch');
         $this->sendKeys('#edit-user-modal #gender-input', 'm');
         $this->sendKeys('#edit-user-modal #birthdate-input', '12.3.1999');
@@ -63,7 +64,7 @@ final class ProfilTest extends SystemTestCase {
         $this->click('#edit-user-modal #submit-button');
 
         $browser->get($this->getUrl());
-        $this->assertSame('Benutzername: vorstand', $this->getBrowserElement('.info-container.username')?->getText());
+        $this->assertSame('Benutzername: karten', $this->getBrowserElement('.info-container.username')?->getText());
         $this->assertSame("Zimmerbergstrasse 270\n8800 Thalwil (ZH, CH)", $this->getBrowserElement('.info-container.address')?->getText());
         $this->assertSame('Geburtsdatum: 12.03.1999', $this->getBrowserElement('.info-container.birthdate')?->getText());
         $this->assertSame('Telephon: (Unbekannt)', $this->getBrowserElement('.info-container.phone')?->getText());

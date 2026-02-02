@@ -12,6 +12,7 @@ use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Common\TestableInterface;
+use Olz\Entity\Users\User;
 use Olz\Repository\Termine\TerminTemplateRepository;
 
 #[ORM\Table(name: 'termin_templates')]
@@ -38,6 +39,10 @@ class TerminTemplate extends OlzEntity implements DataStorageInterface, Searchab
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
     private bool $should_promote;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'organizer_user_id', referencedColumnName: 'id', nullable: true)]
+    protected ?User $organizer_user;
 
     // TODO: Participants registration template
 
@@ -128,6 +133,14 @@ class TerminTemplate extends OlzEntity implements DataStorageInterface, Searchab
 
     public function setShouldPromote(bool $new_value): void {
         $this->should_promote = $new_value;
+    }
+
+    public function getOrganizerUser(): ?User {
+        return $this->organizer_user;
+    }
+
+    public function setOrganizerUser(?User $new_value): void {
+        $this->organizer_user = $new_value;
     }
 
     public function getMinParticipants(): ?int {

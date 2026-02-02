@@ -28,6 +28,7 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
             'durationSeconds' => 5400,
             'title' => 'Fake title',
             'text' => 'Fake text',
+            'organizerUserId' => 1234,
             'deadlineEarlierSeconds' => 86400,
             'deadlineTime' => '22:00:00',
             'shouldPromote' => true,

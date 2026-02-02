@@ -21,6 +21,7 @@ final class SendEmailConfigurationReminderCommandIntegrationTest extends Integra
 
         $this->assertSame([
             'INFO Generating email configuration reminder subscriptions...',
+            "INFO Generating email configuration reminder subscription for 'vorstand (User ID: 2)'...",
             "INFO Generating email configuration reminder subscription for 'karten (User ID: 3)'...",
             "INFO Generating email configuration reminder subscription for 'benutzer (User ID: 5)'...",
             "INFO Generating email configuration reminder subscription for 'parent (User ID: 6)'...",

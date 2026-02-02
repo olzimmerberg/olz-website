@@ -66,7 +66,7 @@ export type OlzWeeklyPictureId = number;
 
 export type PhpTypeScriptApi_PhpStan_IsoDate = string;
 
-export type OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'endDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'endTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'title'?: (string | null), 'text': string, 'deadline'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'go2olId'?: (string | null), 'types': Array<string>, 'locationId'?: (number | null), 'coordinateX'?: (number | null), 'coordinateY'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
+export type OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'endDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'endTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'title'?: (string | null), 'text': string, 'organizerUserId': (number | null), 'deadline'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'go2olId'?: (string | null), 'types': Array<string>, 'locationId'?: (number | null), 'coordinateX'?: (number | null), 'coordinateY'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
 export type OlzTerminId = number;
 
@@ -80,7 +80,7 @@ export type OlzTerminLocationData = {'name': string, 'details': string, 'latitud
 
 export type OlzTerminLocationId = number;
 
-export type OlzTerminTemplateData = {'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'durationSeconds'?: (number | null), 'title': string, 'text': string, 'deadlineEarlierSeconds'?: (number | null), 'deadlineTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'types': Array<string>, 'locationId'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
+export type OlzTerminTemplateData = {'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'durationSeconds'?: (number | null), 'title': string, 'text': string, 'organizerUserId': (number | null), 'deadlineEarlierSeconds'?: (number | null), 'deadlineTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'types': Array<string>, 'locationId'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
 export type OlzTerminTemplateId = number;
 

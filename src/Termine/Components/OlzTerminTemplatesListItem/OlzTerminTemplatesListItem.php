@@ -5,6 +5,7 @@ namespace Olz\Termine\Components\OlzTerminTemplatesListItem;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzTerminTemplatesListItem extends OlzComponent {
@@ -21,6 +22,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $duration_seconds = $termin_template->getDurationSeconds();
         $title = $termin_template->getTitle();
         $text = $termin_template->getText();
+        $organizer = $termin_template->getOrganizerUser();
         $labels = [...$termin_template->getLabels()];
         $termin_location = $termin_template->getLocation();
 
@@ -80,6 +82,10 @@ class OlzTerminTemplatesListItem extends OlzComponent {
             $row_location = $result_location->fetch_assoc();
             $location_name = $row_location['name'] ?? null;
             $text = "<a href='{$code_href}termine/orte/{$sane_termin_location_id}' class='linkmap'>{$location_name}</a> {$text}";
+        }
+        if ($organizer) {
+            $pretty_organizer = OlzUserInfoModal::render(['user' => $organizer]);
+            $text = "{$pretty_organizer} {$text}";
         }
 
         $out .= <<<ZZZZZZZZZZ

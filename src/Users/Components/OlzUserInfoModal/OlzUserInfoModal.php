@@ -28,15 +28,14 @@ class OlzUserInfoModal extends OlzComponent {
             $img_html = "<img {$image_src_html} alt='' class='image'>";
 
             return <<<ZZZZZZZZZZ
-                <div>
-                    <a
-                        href='#'
-                        onclick='return olz.initOlzUserInfoModal({$user_id})'
-                        class='olz-user-info-modal-trigger'
-                    >
-                        {$img_html}<br>{$user->getFullName()}
-                    </a>
-                </div>
+                <a
+                    href='#'
+                    onclick='return olz.initOlzUserInfoModal({$user_id})'
+                    class='olz-user-info-modal-trigger'
+                >
+                    {$img_html}
+                    <div class='name'>{$user->getFullName()}</div>
+                </a>
                 ZZZZZZZZZZ;
         }
         return "olz_user_info_with_popup: mode {$mode} nicht definiert";

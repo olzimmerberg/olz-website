@@ -189,11 +189,10 @@ class OlzRolePage extends OlzRootComponent {
                     $out .= <<<ZZZZZZZZZZ
                             <button
                                 id='delete-role-user-button'
-                                class='btn btn-danger'
+                                class='btn btn-sm btn-danger'
                                 onclick='return olz.deleteRoleUser({$json_role_id}, {$json_user_id})'
                             >
                                 <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
-                                Entfernen
                             </button>
                         ZZZZZZZZZZ;
                 }

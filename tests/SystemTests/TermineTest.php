@@ -50,11 +50,13 @@ final class TermineTest extends SystemTestCase {
         $this->sendKeys('#edit-termin-modal #endTime-input', '18:00');
         $this->sendKeys('#edit-termin-modal #title-input', 'Der Event');
         $this->sendKeys('#edit-termin-modal #text-input', "...wird episch!\n\n[Infos](https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822)");
+        $this->click('#edit-termin-modal #locationId-field button[data-bs-toggle="dropdown"]');
+        $this->click('#edit-termin-modal #locationId-field #entity-index-1');
+        $this->click('#edit-termin-modal #organizerUserId-field button[data-bs-toggle="dropdown"]');
+        $this->click('#edit-termin-modal #organizerUserId-field #entity-index-1');
         $this->sendKeys('#edit-termin-modal #deadline-input', '2020-08-01 23:59:59');
         $this->click('#edit-termin-modal #types-programm-input');
         $this->click('#edit-termin-modal #types-ol-input');
-        $this->click('#edit-termin-modal #locationId-field button[data-bs-toggle="dropdown"]');
-        $this->click('#edit-termin-modal #locationId-field #entity-index-1');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
@@ -140,7 +142,6 @@ final class TermineTest extends SystemTestCase {
 
         $this->login('admin', 'adm1n');
         $browser->get($this->getUrl());
-        $this->click('#filter-archive-mit');
         $this->click('#filter-date-2015');
         $this->assertNotNull($this->getBrowserElement('.olz-termine-list-middle .no-entries'));
 
@@ -170,7 +171,6 @@ final class TermineTest extends SystemTestCase {
         $this->waitUntilGone('#edit-termin-modal');
 
         $browser->get($this->getUrl());
-        $this->click('#filter-archive-mit');
         $this->click('#filter-date-2015');
         $this->assertCount(2, $this->getBrowserElements('.olz-termine-list-middle .olz-termine-list-item'));
 

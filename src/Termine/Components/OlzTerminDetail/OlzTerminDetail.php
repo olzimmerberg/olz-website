@@ -11,6 +11,7 @@ use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
@@ -153,6 +154,7 @@ class OlzTerminDetail extends OlzRootComponent {
         $end_date = $termin->getEndDate() ?? null;
         $start_time = $termin->getStartTime() ?? null;
         $end_time = $termin->getEndTime() ?? null;
+        $organizer = $termin->getOrganizerUser();
         $text = $termin->getText() ?? '';
         $labels = [...$termin->getLabels()];
         $xkoord = $termin->getCoordinateX() ?? 0;
@@ -278,6 +280,10 @@ class OlzTerminDetail extends OlzRootComponent {
         }, $labels));
         $out .= "<h5>{$pretty_date}{$maybe_solv_link}</h5>";
         $out .= "<h1>{$title} {$label_imgs}</h1>";
+        if ($organizer) {
+            $pretty_organizer = OlzUserInfoModal::render(['user' => $organizer]);
+            $out .= "<div>Organisator: {$pretty_organizer}</div><br>";
+        }
 
         // Text
         // TODO: Temporary fix for broken Markdown

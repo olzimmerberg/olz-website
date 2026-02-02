@@ -31,6 +31,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
             'endTime' => null,
             'title' => 'Test event',
             'text' => "some info\n\n[Home](test-anlass.ch)",
+            'organizerUserId' => 1234,
             'deadline' => null,
             'shouldPromote' => false,
             'newsletter' => false,

@@ -570,7 +570,8 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
     }
 
     public function getTitleForSearch(): string {
-        return $this->getFullName();
+        $city_suffix = $this->getCity() ? " ({$this->getCity()})" : '';
+        return "{$this->getFullName()}{$city_suffix}";
     }
 
     public static function getCriteriaForFilter(string $key, string $value): Expression {

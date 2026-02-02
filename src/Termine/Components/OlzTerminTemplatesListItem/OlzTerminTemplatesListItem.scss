@@ -30,9 +30,26 @@
         display: flex;
         align-items: center;
 
+        .olz-user-info-modal-trigger {
+            display: inline-flex;
+            align-items: center;
+            color: colors.$olz-bg;
+            border: 1px solid colors.$olz-bg;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: normal;
+            padding: 0 5px;
+            margin-right: 6px;
+
+            &:hover {
+                color: rgb(0,75,0);
+                border: 1px solid rgb(0,75,0);    
+            }
+        }
+
         a,
         button,
-        .olz-author-badge {
+        .olz-user-info-modal-trigger {
             pointer-events: all;
         }
     }

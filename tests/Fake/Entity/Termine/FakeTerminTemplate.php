@@ -7,6 +7,7 @@ namespace Olz\Tests\Fake\Entity\Termine;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
+use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 use Olz\Tests\Fake\Entity\Common\Time;
@@ -26,6 +27,7 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setDurationSeconds(null);
                 $entity->setTitle(null);
                 $entity->setText(null);
+                $entity->setOrganizerUser(null);
                 $entity->setDeadlineEarlierSeconds(null);
                 $entity->setDeadlineTime(null);
                 $entity->setShouldPromote(false);
@@ -48,6 +50,7 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setDurationSeconds(null);
                 $entity->setTitle(null);
                 $entity->setText(null);
+                $entity->setOrganizerUser(null);
                 $entity->setDeadlineEarlierSeconds(null);
                 $entity->setDeadlineTime(null);
                 $entity->setShouldPromote(false);
@@ -64,14 +67,16 @@ class FakeTerminTemplate extends FakeEntity {
         return self::getFake(
             $fresh,
             function () {
+                $organizer_user = new User();
+                $organizer_user->setId(12341);
                 $termin_label_1 = new TerminLabel();
-                $termin_label_1->setId(12341);
+                $termin_label_1->setId(12342);
                 $termin_label_1->setIdent('ol');
                 $termin_label_2 = new TerminLabel();
-                $termin_label_2->setId(12342);
+                $termin_label_2->setId(12343);
                 $termin_label_2->setIdent('club');
                 $termin_location = new TerminLocation();
-                $termin_location->setId(12341);
+                $termin_location->setId(12344);
                 $entity = new TerminTemplate();
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
@@ -79,6 +84,7 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setDurationSeconds(7200);
                 $entity->setTitle("Fake title");
                 $entity->setText("Fake text");
+                $entity->setOrganizerUser($organizer_user);
                 $entity->setDeadlineEarlierSeconds(86400 * 2);
                 $entity->setDeadlineTime(new Time('18:00:00'));
                 $entity->setShouldPromote(true);

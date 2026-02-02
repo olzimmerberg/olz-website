@@ -4,7 +4,9 @@ namespace Olz\Termine\Components\OlzTermineListItem;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Entity\Users\User;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzTermineListItem extends OlzComponent {
@@ -21,6 +23,7 @@ class OlzTermineListItem extends OlzComponent {
         $start_time = $args['start_time'];
         $end_date = $args['end_date'];
         $end_time = $args['end_time'];
+        $organizer_user_id = $args['organizer_user_id'];
         $title = $args['title'];
         $text = $args['text'];
         $labels = $args['labels'];
@@ -67,6 +70,13 @@ class OlzTermineListItem extends OlzComponent {
             $text = "{$location_name} {$text}";
         }
         $text = strip_tags($this->htmlUtils()->renderMarkdown($text));
+        $organizer_prefix = '';
+        if ($organizer_user_id) {
+            $user_repo = $this->entityManager()->getRepository(User::class);
+            $organizer = $user_repo->findOneBy(['id' => $organizer_user_id]);
+            $pretty_organizer = OlzUserInfoModal::render(['user' => $organizer]);
+            $organizer_prefix = "{$pretty_organizer} ";
+        }
         $image = '';
         if (count($image_ids ?? []) > 0) {
             $image = $this->imageUtils()->olzImage(
@@ -105,7 +115,7 @@ class OlzTermineListItem extends OlzComponent {
                     </div>
                     <div class='title-text-container'>
                         <div class='title'>{$title}{$edit_admin} {$type_imgs}</div>
-                        <div class='text'>{$text}</div>
+                        <div class='text'>{$organizer_prefix}{$text}</div>
                     </div>
                     <div class='image-container'>
                         {$image}

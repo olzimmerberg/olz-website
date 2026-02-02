@@ -8,6 +8,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminTemplate;
+use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{filter?: ?string}> */
@@ -80,6 +81,7 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
         $duration_seconds = $termin_template->getDurationSeconds() ?? '';
         $title = $termin_template->getTitle() ?? '';
         $text = $termin_template->getText() ?? '';
+        $organizer = $termin_template->getOrganizerUser();
         $labels = [...$termin_template->getLabels()];
         $termin_location = $termin_template->getLocation();
         $image_ids = $termin_template->getImageIds();
@@ -126,6 +128,10 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
 
         $out .= "<h5>{$pretty_date}</h5>";
         $out .= "<h1>{$title} {$label_imgs}</h1>";
+        if ($organizer) {
+            $pretty_organizer = OlzUserInfoModal::render(['user' => $organizer]);
+            $out .= "<div>Organisator: {$pretty_organizer}</div><br>";
+        }
 
         if ($termin_location) {
             $out .= OlzLocationMap::render([

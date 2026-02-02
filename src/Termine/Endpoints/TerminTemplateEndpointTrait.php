@@ -5,6 +5,7 @@ namespace Olz\Termine\Endpoints;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
+use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoTime;
@@ -16,6 +17,7 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
  *   durationSeconds?: ?int<0, max>,
  *   title: string,
  *   text: string,
+ *   organizerUserId: ?int,
  *   deadlineEarlierSeconds?: ?int<0, max>,
  *   deadlineTime?: ?IsoTime,
  *   shouldPromote: bool,
@@ -41,6 +43,7 @@ trait TerminTemplateEndpointTrait {
             'durationSeconds' => $this->getDurationSeconds($entity),
             'title' => $entity->getTitle() ?? '',
             'text' => $entity->getText() ?? '',
+            'organizerUserId' => $entity->getOrganizerUser()?->getId(),
             'deadlineEarlierSeconds' => $this->getDeadlineEarlierSeconds($entity),
             'deadlineTime' => IsoTime::fromDateTime($entity->getDeadlineTime()),
             'shouldPromote' => $entity->getShouldPromote(),
@@ -56,6 +59,9 @@ trait TerminTemplateEndpointTrait {
     public function updateEntityWithData(TerminTemplate $entity, array $input_data): void {
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($input_data['imageIds']);
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $organizer_user_id = $input_data['organizerUserId'] ?? null;
+        $organizer_user = $user_repo->findOneBy(['id' => $organizer_user_id]);
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         $location_id = $input_data['locationId'] ?? null;
         $termin_location = $termin_location_repo->findOneBy(['id' => $location_id]);
@@ -64,6 +70,7 @@ trait TerminTemplateEndpointTrait {
         $entity->setDurationSeconds($input_data['durationSeconds'] ?? null);
         $entity->setTitle($input_data['title']);
         $entity->setText($input_data['text']);
+        $entity->setOrganizerUser($organizer_user);
         $entity->setDeadlineEarlierSeconds($input_data['deadlineEarlierSeconds'] ?? null);
         $entity->setDeadlineTime($input_data['deadlineTime'] ?? null);
         if (count($valid_image_ids) > 0) {

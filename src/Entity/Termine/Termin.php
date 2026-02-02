@@ -10,6 +10,7 @@ use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\TestableInterface;
+use Olz\Entity\Users\User;
 use Olz\Repository\Termine\TerminRepository;
 
 #[ORM\Table(name: 'termine')]
@@ -44,6 +45,10 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
     private bool $should_promote;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'organizer_user_id', referencedColumnName: 'id', nullable: true)]
+    protected ?User $organizer_user;
 
     #[ORM\ManyToOne(targetEntity: Registration::class)]
     #[ORM\JoinColumn(name: 'participants_registration_id', referencedColumnName: 'id')]
@@ -279,6 +284,14 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
             return;
         }
         $this->image_ids = $enc_value;
+    }
+
+    public function getOrganizerUser(): ?User {
+        return $this->organizer_user;
+    }
+
+    public function setOrganizerUser(?User $new_value): void {
+        $this->organizer_user = $new_value;
     }
 
     public function getParticipantsRegistration(): ?Registration {

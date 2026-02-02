@@ -17,11 +17,12 @@ interface OlzEditTerminTemplateForm {
     durationSeconds: string;
     title: string;
     text: string;
+    locationId: number | null;
+    organizerUserId: number | null;
     deadlineEarlierSeconds: string;
     deadlineTime: string;
     shouldPromote: string;
     types: (string | boolean)[];
-    locationId: number | null;
     imageIds: string[];
     fileIds: string[];
     hasNewsletter: string | boolean;
@@ -43,11 +44,12 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         durationSeconds: getFormNumber(apiData?.durationSeconds),
         title: getFormString(apiData?.title),
         text: getFormString(apiData?.text),
+        locationId: apiData?.locationId ?? null,
+        organizerUserId: apiData?.organizerUserId ?? null,
         deadlineEarlierSeconds: getFormNumber(apiData?.deadlineEarlierSeconds),
         deadlineTime: getFormString(apiData?.deadlineTime),
         shouldPromote: getFormBoolean(apiData?.shouldPromote),
         types: labels.map((label) => getFormBoolean(typesSet.has(label.data.ident))),
-        locationId: apiData?.locationId ?? null,
         fileIds: apiData?.fileIds ?? [],
         imageIds: apiData?.imageIds ?? [],
         hasNewsletter: getFormBoolean(apiData?.newsletter),
@@ -65,11 +67,12 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], formData: OlzEditT
         durationSeconds: getApiNumber(formData.durationSeconds),
         title: getApiString(formData.title) ?? '',
         text: getApiString(formData.text) ?? '',
+        locationId: formData.locationId,
+        organizerUserId: formData.organizerUserId,
         deadlineEarlierSeconds: getApiNumber(formData.deadlineEarlierSeconds),
         deadlineTime: getApiString(formData.deadlineTime),
         shouldPromote: getApiBoolean(formData.shouldPromote),
         types: Array.from(typesSet),
-        locationId: formData.locationId,
         fileIds: formData.fileIds,
         imageIds: formData.imageIds,
         newsletter: getApiBoolean(formData.hasNewsletter),
@@ -93,6 +96,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isLocationLoading, setIsLocationLoading] = React.useState<boolean>(false);
+    const [isOrganizerLoading, setIsOrganizerLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
 
@@ -136,7 +140,7 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
         : 'Termin-Vorlage bearbeiten'
     );
     const isShouldPromoteEnabled = imageIds.length > 0;
-    const isLoading = isLocationLoading || isImagesLoading || isFilesLoading;
+    const isLoading = isLocationLoading || isOrganizerLoading || isImagesLoading || isFilesLoading;
     const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
@@ -181,6 +185,30 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                     errors={errors}
                     register={register}
                 />
+            </div>
+            <div className='row'>
+                <div className='col mb-3'>
+                    <OlzEntityField
+                        title='Ort'
+                        entityType='TerminLocation'
+                        name='locationId'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsLocationLoading}
+                        nullLabel={'Kein Standart-Termin-Ort'}
+                    />
+                </div>
+                <div className='col mb-3'>
+                    <OlzEntityField
+                        title='Organisator'
+                        entityType='User'
+                        name='organizerUserId'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsOrganizerLoading}
+                        nullLabel={'Kein Standart-Organisator'}
+                    />
+                </div>
             </div>
             <div className='row'>
                 <div className='col mb-3'>
@@ -230,21 +258,6 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                             </label>
                         </span>
                     ))}
-                </div>
-            </div>
-            <div className='row'>
-                <div className='col mb-3'>
-                    <OlzEntityField
-                        title='Ort'
-                        entityType='TerminLocation'
-                        name='locationId'
-                        errors={errors}
-                        control={control}
-                        setIsLoading={setIsLocationLoading}
-                        nullLabel={'Kein Termin-Ort ausgewählt'}
-                    />
-                </div>
-                <div className='col mb-3'>
                 </div>
             </div>
             <div className='mb-3' id='images-upload'>

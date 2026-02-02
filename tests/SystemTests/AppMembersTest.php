@@ -76,8 +76,8 @@ final class AppMembersTest extends SystemTestCase {
         $this->assertSame('✨ Eintritt', $this->getText('#member-table #row-8 .status'));
         $this->assertSame('🚫 Austritt', $this->getText('#member-table #row-9 .status'));
 
-        $this->assertSame('Nachname: "Admin" => "Admin 🤣", Vorname: "Armin" => "Armin 😂"', $this->getText('#member-table #row-0 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-1 .updates'));
+        $this->assertSame('Nachname: "Admin" => "Admin 🤣", Vorname: "Armin" => "Armin 😂", Adresse: "" => "Administratorweg 1234", PLZ: "" => "8134", Ort: "" => "Admiswil"', $this->getText('#member-table #row-0 .updates'));
+        $this->assertSame('Adresse: "" => "Vorstandgasse 9", PLZ: "" => "5200", Ort: "" => "Vorstadt"', $this->getText('#member-table #row-1 .updates'));
         $this->assertSame('Benutzer-Id: "kartenverkauf" => "karten"', $this->getText('#member-table #row-2 .updates'));
         $this->assertSame('', $this->getText('#member-table #row-3 .updates'));
         $this->assertSame('', $this->getText('#member-table #row-4 .updates'));
@@ -93,7 +93,8 @@ final class AppMembersTest extends SystemTestCase {
         $csv_export_content = file_get_contents("{$this->getTargetUrl()}{$csv_export_url}");
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Nachname,Vorname,Firma,Adresse,PLZ,Ort,"Telefon Privat","Telefon Mobil",Benutzer-Id,Anrede,Titel,Briefanrede,Adress-Zusatz,Land,Nationalität,"Telefon Geschäft",Fax,E-Mail,"E-Mail Alternativ",[Gruppen],Status,[Rolle],Eintritt,Mitgliedsjahre,Austritt,Zivilstand,Geschlecht,Geburtsdatum,Jahrgang,Alter,Bemerkungen,Firmen-Webseite,Rechnungsversand,"Nie mahnen",IBAN,BIC,Kontoinhaber,Mail-MV,"SOLV NR","Badge Nummer",Werbegrund,Geburtsjahr,[Id],"[Zuletzt geändert am]","[Zuletzt geändert von]"
-            "Admin 🤣","Armin 😂",,,,,,,admin,Herr,,,,,,,,admin@staging.olzimmerberg.ch,,,E,Administrator,13.01.2006,14,,,,,,,,,E-Mail,Nein,,,,ja,,,,,2000001,"01.05.2020 12:34:56",Clubdesk-Benutzer
+            "Admin 🤣","Armin 😂",,"Administratorweg 1234",8134,Admiswil,,,admin,Herr,,,,,,,,admin@staging.olzimmerberg.ch,,,E,Administrator,13.01.2006,14,,,,,,,,,E-Mail,Nein,,,,ja,,,,,2000001,"01.05.2020 12:34:56",Clubdesk-Benutzer
+            Vorstand,Volker,,"Vorstandgasse 9",5200,Vorstadt,,,vorstand,Herr,,,,,,,,,,,A,"Standard Benutzer",13.01.2006,14,,,,,,,,,E-Mail,Nein,,,,ja,,,,,2000002,"01.05.2020 12:34:56",Clubdesk-Benutzer
             Karten,Karen,,,,,,,karten,Frau,,,,,,,,karen@staging.olzimmerberg.ch,,,A,"Standard Benutzer",13.01.2006,14,,,,,,,,,E-Mail,Nein,,,,ja,,,,,2000003,"01.05.2020 12:34:56",Clubdesk-Benutzer
 
             ZZZZZZZZZZ, $csv_export_content);

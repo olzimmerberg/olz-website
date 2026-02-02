@@ -6,6 +6,7 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
+use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDate;
@@ -22,6 +23,7 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
  *   endTime?: ?IsoTime,
  *   title?: ?non-empty-string,
  *   text: string,
+ *   organizerUserId: ?int,
  *   deadline?: ?IsoDateTime,
  *   shouldPromote: bool,
  *   newsletter: bool,
@@ -53,6 +55,7 @@ trait TerminEndpointTrait {
             'endTime' => IsoTime::fromDateTime($entity->getEndTime()),
             'title' => $entity->getTitle() ?: '-',
             'text' => $entity->getText() ?? '',
+            'organizerUserId' => $entity->getOrganizerUser()?->getId(),
             'deadline' => IsoDateTime::fromDateTime($entity->getDeadline()),
             'shouldPromote' => $entity->getShouldPromote(),
             'newsletter' => $entity->getNewsletter(),
@@ -74,6 +77,9 @@ trait TerminEndpointTrait {
         $from_template_id = $input_data['fromTemplateId'] ?? null;
         $termin_template = $termin_template_repo->findOneBy(['id' => $from_template_id]);
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $organizer_user_id = $input_data['organizerUserId'] ?? null;
+        $organizer_user = $user_repo->findOneBy(['id' => $organizer_user_id]);
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         $location_id = $input_data['locationId'] ?? null;
         $termin_location = $termin_location_repo->findOneBy(['id' => $location_id]);
@@ -85,6 +91,7 @@ trait TerminEndpointTrait {
         $entity->setEndTime($input_data['endTime'] ?? null);
         $entity->setTitle($input_data['title'] ?? null);
         $entity->setText($input_data['text']);
+        $entity->setOrganizerUser($organizer_user);
         $entity->setDeadline($input_data['deadline'] ?? null);
         if (count($valid_image_ids) > 0) {
             $entity->setShouldPromote($input_data['shouldPromote']);

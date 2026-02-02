@@ -35,12 +35,13 @@ interface OlzEditTerminForm {
     endTime: string;
     title: string;
     text: string;
-    deadline: string;
-    shouldPromote: string;
-    types: (string | boolean)[];
     locationId: number | null;
     coordinateX: string;
     coordinateY: string;
+    organizerUserId: number | null;
+    deadline: string;
+    shouldPromote: string;
+    types: (string | boolean)[];
     fileIds: string[];
     imageIds: string[];
     hasNewsletter: string | boolean;
@@ -57,9 +58,9 @@ const resolver: Resolver<OlzEditTerminForm> = async (values) => {
     if (values.solvId === null) {
         errors.title = validateNotEmpty(values.title);
     }
-    [errors.deadline, values.deadline] = validateDateTimeOrNull(getDeadlineDateTime(values.deadline));
     errors.coordinateX = validateIntegerOrNull(values.coordinateX);
     errors.coordinateY = validateIntegerOrNull(values.coordinateY);
+    [errors.deadline, values.deadline] = validateDateTimeOrNull(getDeadlineDateTime(values.deadline));
     return getResolverResult(errors, values);
 };
 
@@ -73,12 +74,13 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         endTime: getFormString(apiData?.endTime),
         title: getFormString(apiData?.title),
         text: getFormString(apiData?.text),
-        deadline: getFormString(apiData?.deadline),
-        shouldPromote: getFormBoolean(apiData?.shouldPromote),
-        types: labels.map((label) => getFormBoolean(typesSet.has(label.data.ident))),
         locationId: apiData?.locationId ?? null,
         coordinateX: getFormNumber(apiData?.coordinateX),
         coordinateY: getFormNumber(apiData?.coordinateY),
+        organizerUserId: apiData?.organizerUserId ?? null,
+        deadline: getFormString(apiData?.deadline),
+        shouldPromote: getFormBoolean(apiData?.shouldPromote),
+        types: labels.map((label) => getFormBoolean(typesSet.has(label.data.ident))),
         fileIds: apiData?.fileIds ?? [],
         imageIds: apiData?.imageIds ?? [],
         hasNewsletter: getFormBoolean(apiData?.newsletter),
@@ -100,12 +102,13 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number
         endTime: getApiString(formData.endTime),
         title: getApiString(formData.title),
         text: getApiString(formData.text) ?? '',
-        deadline: getApiString(formData.deadline) || null,
-        shouldPromote: getApiBoolean(formData.shouldPromote),
-        types: Array.from(typesSet),
         locationId: formData.locationId,
         coordinateX: formData.locationId ? null : getApiNumber(formData.coordinateX),
         coordinateY: formData.locationId ? null : getApiNumber(formData.coordinateY),
+        organizerUserId: formData.organizerUserId,
+        deadline: getApiString(formData.deadline) || null,
+        shouldPromote: getApiBoolean(formData.shouldPromote),
+        types: Array.from(typesSet),
         fileIds: formData.fileIds,
         imageIds: formData.imageIds,
         newsletter: getApiBoolean(formData.hasNewsletter),
@@ -137,6 +140,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const [isTemplateLoading, setIsTemplateLoading] = React.useState<boolean>(false);
     const [isSolvLoading, setIsSolvLoading] = React.useState<boolean>(false);
     const [isLocationLoading, setIsLocationLoading] = React.useState<boolean>(false);
+    const [isOrganizerLoading, setIsOrganizerLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [templateId, setTemplateId] = React.useState<number | null>(props.templateId ?? null);
@@ -247,7 +251,13 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const endDateInfo = getDateFeedback(endDate);
     const deadlineInfo = getDateTimeFeedback(getDeadlineDateTime(deadline));
     const isShouldPromoteEnabled = imageIds.length > 0;
-    const isLoading = isTemplateLoading || isSolvLoading || isLocationLoading || isImagesLoading || isFilesLoading;
+    const isLoading =
+        isTemplateLoading
+        || isSolvLoading
+        || isLocationLoading
+        || isOrganizerLoading
+        || isImagesLoading
+        || isFilesLoading;
     const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
@@ -349,6 +359,57 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             </div>
             <div className='row'>
                 <div className={`col mb-3${solvDisabledClass}`}>
+                    <OlzEntityField
+                        title={<>Ort {TERMIN_LOCATION_NOTICE}</>}
+                        entityType='TerminLocation'
+                        name='locationId'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsLocationLoading}
+                        nullLabel={solvId ? 'Wird von SOLV übernommen' : 'Kein Termin-Ort ausgewählt'}
+                        disabled={solvId !== null}
+                    />
+                </div>
+                <div className={`col mb-3${solvDisabledClass}`}>
+                    <OlzEntityField
+                        title='Organisator'
+                        entityType='User'
+                        name='organizerUserId'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsOrganizerLoading}
+                        nullLabel={solvId ? 'Wird von SOLV übernommen' : 'Kein Organisator ausgewählt'}
+                        disabled={solvId !== null}
+                    />
+                </div>
+            </div>
+            {locationId === null ? (
+                <div className='row'>
+                    <div className={`col mb-3${solvDisabledClass}`}>
+                        <OlzTextField
+                            title='X-Koordinate (LV1903)'
+                            name='coordinateX'
+                            errors={errors}
+                            register={register}
+                            disabled={solvId !== null}
+                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
+
+                        />
+                    </div>
+                    <div className={`col mb-3${solvDisabledClass}`}>
+                        <OlzTextField
+                            title='Y-Koordinate (LV1903)'
+                            name='coordinateY'
+                            errors={errors}
+                            register={register}
+                            disabled={solvId !== null}
+                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
+                        />
+                    </div>
+                </div>
+            ) : null}
+            <div className='row'>
+                <div className={`col mb-3${solvDisabledClass}`}>
                     <OlzTextField
                         title='Meldeschluss'
                         name='deadline'
@@ -392,47 +453,6 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                     ))}
                 </div>
             </div>
-            <div className='row'>
-                <div className={`col mb-3${solvDisabledClass}`}>
-                    <OlzEntityField
-                        title={<>Ort {TERMIN_LOCATION_NOTICE}</>}
-                        entityType='TerminLocation'
-                        name='locationId'
-                        errors={errors}
-                        control={control}
-                        setIsLoading={setIsLocationLoading}
-                        nullLabel={solvId ? 'Wird von SOLV übernommen' : 'Kein Termin-Ort ausgewählt'}
-                        disabled={solvId !== null}
-                    />
-                </div>
-                <div className='col mb-3'>
-                </div>
-            </div>
-            {locationId === null ? (
-                <div className='row'>
-                    <div className={`col mb-3${solvDisabledClass}`}>
-                        <OlzTextField
-                            title='X-Koordinate (LV1903)'
-                            name='coordinateX'
-                            errors={errors}
-                            register={register}
-                            disabled={solvId !== null}
-                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
-
-                        />
-                    </div>
-                    <div className={`col mb-3${solvDisabledClass}`}>
-                        <OlzTextField
-                            title='Y-Koordinate (LV1903)'
-                            name='coordinateY'
-                            errors={errors}
-                            register={register}
-                            disabled={solvId !== null}
-                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
-                        />
-                    </div>
-                </div>
-            ) : null}
             <div className='mb-3' id='images-upload'>
                 <OlzMultiImageField
                     title='Bilder'

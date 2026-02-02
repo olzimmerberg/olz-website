@@ -119,15 +119,18 @@ class SystemTestCase extends KernelTestCase {
         );
     }
 
-    protected function retry(callable $fn): void {
-        for ($i = 0; $i < 10; $i++) {
+    protected function retry(callable $fn, int $num = 10): void {
+        $last_th = null;
+        for ($i = 0; $i < $num; $i++) {
             try {
                 $fn();
                 return;
             } catch (\Throwable $th) {
+                $last_th = $th;
                 $this->waitABit();
             }
         }
+        throw $last_th ?? new \Exception("Failed after {$num} retries");
     }
 
     protected function click(string $css_selector): void {

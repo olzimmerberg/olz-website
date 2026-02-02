@@ -7,9 +7,16 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
+    align-items: center;
 
     .assignee {
         flex: 0 0 150px;
-        text-align: center;
+        position: relative;
+
+        #delete-role-user-button {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     }
 }

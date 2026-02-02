@@ -122,11 +122,35 @@ class OlzNewsDetail extends OlzRootComponent {
             throw new \Exception('should already have failed');
         }
 
+        $format = $news_entry->getFormat();
         $title = $news_entry->getTitle();
+        $teaser = $news_entry->getTeaser() ?? '';
+        $content = $news_entry->getContent() ?? '';
+
+        // TODO: Temporary fix for broken Markdown
+        $content = str_replace("\n", "\n\n", $content);
+        $content = str_replace("\n\n\n\n", "\n\n", $content);
+
+        // Markdown
+        $html_input = $format === 'forum' ? 'escape' : 'allow'; // TODO: Do NOT allow!
+        $teaser = $this->htmlUtils()->renderMarkdown($teaser, [
+            'html_input' => $html_input,
+        ]);
+        $content = $this->htmlUtils()->renderMarkdown($content, [
+            'html_input' => $html_input,
+        ]);
+
+        // Datei- & Bildpfade
+        $teaser = $news_entry->replaceImagePaths($teaser);
+        $teaser = $news_entry->replaceFilePaths($teaser);
+        $content = $news_entry->replaceImagePaths($content);
+        $content = $news_entry->replaceFilePaths($content);
+
+        $description = trim(strip_tags($teaser)) ?: trim(strip_tags($content));
         $out = OlzHeader::render([
             'back_link' => "{$code_href}news",
             'title' => "{$title} - News",
-            'description' => "Aktuelle Beiträge, Berichte von Anlässen und weitere Neuigkeiten von der OL Zimmerberg.",
+            'description' => $description,
             'norobots' => $is_archived,
             'canonical_url' => "{$code_href}news/{$id}",
             'additional_headers' => [
@@ -134,7 +158,6 @@ class OlzNewsDetail extends OlzRootComponent {
             ],
         ]);
 
-        $format = $news_entry->getFormat();
         // TODO: Use array_find with PHP 8.4
         $filtered = array_filter(
             NewsUtils::ALL_FORMAT_OPTIONS,
@@ -179,11 +202,7 @@ class OlzNewsDetail extends OlzRootComponent {
 
         $db->query("UPDATE news SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
 
-        $title = $news_entry->getTitle();
-        $teaser = $news_entry->getTeaser() ?? '';
-        $content = $news_entry->getContent() ?? '';
         $published_date = $news_entry->getPublishedDate();
-
         $published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
 
         $is_owner = $user && intval($news_entry->getOwnerUser()?->getId() ?? 0) === intval($user->getId());
@@ -208,25 +227,6 @@ class OlzNewsDetail extends OlzRootComponent {
                 </div>
                 ZZZZZZZZZZ;
         }
-
-        // TODO: Temporary fix for broken Markdown
-        $content = str_replace("\n", "\n\n", $content);
-        $content = str_replace("\n\n\n\n", "\n\n", $content);
-
-        // Markdown
-        $html_input = $format === 'forum' ? 'escape' : 'allow'; // TODO: Do NOT allow!
-        $teaser = $this->htmlUtils()->renderMarkdown($teaser, [
-            'html_input' => $html_input,
-        ]);
-        $content = $this->htmlUtils()->renderMarkdown($content, [
-            'html_input' => $html_input,
-        ]);
-
-        // Datei- & Bildpfade
-        $teaser = $news_entry->replaceImagePaths($teaser);
-        $teaser = $news_entry->replaceFilePaths($teaser);
-        $content = $news_entry->replaceImagePaths($content);
-        $content = $news_entry->replaceFilePaths($content);
 
         $out .= "<h1>{$edit_admin}{$title}</h1>";
 

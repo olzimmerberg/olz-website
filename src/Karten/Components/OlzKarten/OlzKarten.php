@@ -41,7 +41,8 @@ class OlzKarten extends OlzRootComponent {
         $out .= "<div class='content-right olz-karten'>";
         $out .= OlzKartenList::render([]);
         $out .= "</div>
-        <div class='content-middle olz-karten'>";
+        <div class='content-middle olz-karten'>
+        <h1>Unsere OL-Karten</h1>";
 
         $karten_repo = $this->entityManager()->getRepository(Karte::class);
         $karten = $karten_repo->findAll();

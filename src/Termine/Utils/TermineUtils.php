@@ -22,6 +22,8 @@ class TermineUtils {
     /** @var array<Option> */
     public array $allTypeOptions = [];
 
+    public string $allDescription = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe";
+
     public function loadTypeOptions(): self {
         $code_href = $this->envUtils()->getCodeHref();
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);

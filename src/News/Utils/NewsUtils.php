@@ -26,6 +26,8 @@ class NewsUtils {
         ['ident' => 'video', 'name' => "Videos", 'icon' => 'entry_type_video_20.svg'],
     ];
 
+    public string $allDescription = "Aktuelle Beiträge, Berichte von Anlässen, Foto-Galerien und weitere Neuigkeiten vom Vorstand, Kaderläufern und anderen Mitgliedern der OL Zimmerberg";
+
     /** @param array<string, string> $filter */
     public function serialize(array $filter): string {
         $json = json_encode($filter) ?: '';

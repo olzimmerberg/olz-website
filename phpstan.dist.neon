@@ -7,5 +7,7 @@ parameters:
         - src/
         - tests
         - Deploy.php
+    excludePaths:
+        - config/reference.php
     doctrine:
         objectManagerLoader: tests/object-manager.php

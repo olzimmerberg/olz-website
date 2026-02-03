@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import {assert, assertUnreachable, getErrorOrThrow, isDefined, isLocal, timeout} from '../../../src/Utils/generalUtils';
 
 describe('assert', () => {

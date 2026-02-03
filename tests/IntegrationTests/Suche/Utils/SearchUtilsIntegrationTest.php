@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Olz\Tests\UnitTests\Suche\Utils;
+namespace Olz\Tests\IntegrationTests\Suche\Utils;
 
 use Olz\Suche\Utils\SearchUtils;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;

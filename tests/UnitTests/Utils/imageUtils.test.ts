@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import {getFakeContext} from '../../Fake/FakeContext';
 import {loadImageFromBase64, getBase64FromCanvas, getResizedDimensions, getCanvasOfSize, getRadianAngle, getResizedCanvas} from '../../../src/Utils/imageUtils';
 

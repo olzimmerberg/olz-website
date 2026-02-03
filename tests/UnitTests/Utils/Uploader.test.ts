@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import cloneDeep from 'lodash/cloneDeep';
 import {OlzApi, OlzApiResponses} from '../../../src/Api/client/index';
 import {TestOnlyUpdateUploadRequest, TestOnlyUploadRequest, TestOnlyFileUpload, Uploader} from '../../../src/Utils/Uploader';

@@ -2,6 +2,7 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/')
+    ->notPath('config/reference.php')
     ->exclude('deploy/')
     ->exclude('node_modules/')
     ->exclude('var/')

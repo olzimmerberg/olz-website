@@ -96,7 +96,7 @@ class FakeOlzRepository extends EntityRepository {
         foreach ($criteria as $field => $filter_value) {
             $new_filtered = [];
             foreach ($filtered as $item) {
-                if (!($item instanceof TestableInterface)) {
+                if (!$item instanceof TestableInterface) {
                     $class = get_class($item);
                     throw new \Exception("{$class} must implement TestableInterface");
                 }

@@ -48,7 +48,7 @@ final class CleanLogsCommandTest extends UnitTestCase {
             if ($level_name === 'DEBUG' && preg_match('/^Optimizing [a-zA-Z\\\]+ for day [0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $message)) {
                 return null;
             }
-            if ($level_name === 'DEBUG' && preg_match('/^Optimizing hybrid log file private\-path\/logs\/merged\-[0-9]{4}\-[0-9]{2}\-[0-9]{2}\.log \/ private\-path\/logs\/merged\-[0-9]{4}\-[0-9]{2}\-[0-9]{2}\.log\.gz\.\.\.$/', $message)) {
+            if ($level_name === 'DEBUG' && preg_match('/^Optimizing hybrid log file private\-path\/logs\/merged\-[0-9]{4}\-[0-9]{2}\-[0-9]{2}\.log (?:✅|🚫) \/ private\-path\/logs\/merged\-[0-9]{4}\-[0-9]{2}\-[0-9]{2}\.log\.gz (?:✅|🚫)\.\.\.$/', $message)) {
                 return null;
             }
             return "{$level_name} {$message}";

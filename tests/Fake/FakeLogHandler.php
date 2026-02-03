@@ -31,7 +31,7 @@ class FakeLogHandler implements HandlerInterface {
     }
 
     /**
-     * @param ?callable(LogRecord, string, string): string $map_fn
+     * @param ?callable(LogRecord, string, string): ?string $map_fn
      *
      * @return array<string>
      */

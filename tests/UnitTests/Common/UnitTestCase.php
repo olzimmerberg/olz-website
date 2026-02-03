@@ -142,7 +142,7 @@ class UnitTestCase extends TestCase {
     }
 
     /**
-     * @param ?callable(LogRecord, string, string): string $formatter
+     * @param ?callable(LogRecord, string, string): ?string $formatter
      *
      * @return array<string>
      */

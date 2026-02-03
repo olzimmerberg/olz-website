@@ -363,7 +363,7 @@ class DevDataUtils {
             }
             $offset = 0;
             while (true) {
-                $res_contents = $db->query("SELECT * FROM `{$table_name}`");
+                $res_contents = $db->query("SELECT * FROM `{$table_name}` LIMIT {$offset},{$batch_size}");
                 assert(!is_bool($res_contents));
                 if ($res_contents->num_rows === 0) {
                     unset($res_contents);
@@ -400,6 +400,7 @@ class DevDataUtils {
                     fwrite($fp, "    ({$field_values_sql})");
                 }
                 fwrite($fp, ";\n");
+                $offset += $batch_size;
                 unset($res_contents);
                 gc_collect_cycles();
             }

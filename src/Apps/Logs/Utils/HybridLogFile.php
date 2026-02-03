@@ -84,9 +84,11 @@ class HybridLogFile implements LogFileInterface {
     }
 
     public function optimize(): void {
-        $this->log()->debug("Optimizing hybrid log file {$this->plainPath} / {$this->gzPath}...");
         $has_gz = is_file($this->gzPath);
         $has_plain = is_file($this->plainPath);
+        $pretty_has_gz = $has_gz ? '✅' : '🚫';
+        $pretty_has_plain = $has_plain ? '✅' : '🚫';
+        $this->log()->debug("Optimizing hybrid log file {$this->plainPath} {$pretty_has_plain} / {$this->gzPath} {$pretty_has_gz}...");
         if (!$has_gz && $has_plain) {
             $this->copyToGz();
         }

@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import {getTerminUpdateFromTemplate, TerminUpdate} from '../../../../src/Termine/Utils/termineUtils';
 import {OlzTerminLabelData, OlzTerminTemplateData} from '../../../../src/Api/client/generated_olz_api_types';
 import {Entity} from '../../../../src/Utils/generalUtils';

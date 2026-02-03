@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import {TEST_ONLY, WGStoCHy, WGStoCHx, CHtoWGSlat, CHtoWGSlng} from '../../../src/Utils/mapUtils';
 
 const GROSSMUENSTER = {

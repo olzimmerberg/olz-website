@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import React from 'react';
 import {initReact} from '../../../src/Utils/reactUtils';
 import {timeout} from '../../../src/Utils/generalUtils';

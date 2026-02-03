@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import * as dateUtils from '../../../src/Utils/dateUtils';
 
 const defaultDateMs = Date.parse('2020-03-13 19:30:00');

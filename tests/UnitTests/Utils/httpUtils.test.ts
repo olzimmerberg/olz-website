@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import {isBot} from '../../../src/Utils/httpUtils';
 
 describe('isBot', () => {

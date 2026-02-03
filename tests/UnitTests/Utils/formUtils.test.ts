@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import * as formUtils from '../../../src/Utils/formUtils';
 
 describe('EMAIL_REGEX', () => {

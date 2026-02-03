@@ -1,5 +1,3 @@
-/* eslint-env jasmine */
-
 import {EventTarget} from '../../../src/Utils/EventTarget';
 
 describe('EventTarget', () => {

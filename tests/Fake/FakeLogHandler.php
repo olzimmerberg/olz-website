@@ -31,7 +31,7 @@ class FakeLogHandler implements HandlerInterface {
     }
 
     /**
-     * @param ?callable(LogRecord, string, string): string $map_fn
+     * @param ?callable(LogRecord, string, string): ?string $map_fn
      *
      * @return array<string>
      */
@@ -44,7 +44,7 @@ class FakeLogHandler implements HandlerInterface {
         if (!$map_fn) {
             $map_fn = fn ($record, $level_name, $message) => "{$level_name} {$message}";
         }
-        return array_map(
+        $formatted = array_map(
             function ($record) use ($private_path, $data_path, $data_realpath, $map_fn) {
                 $arr = $record->toArray();
                 $level_name = $arr['level_name'];
@@ -65,6 +65,7 @@ class FakeLogHandler implements HandlerInterface {
             },
             $this->records
         );
+        return array_values(array_filter($formatted, fn ($line) => $line !== null));
     }
 
     public function resetRecords(): void {

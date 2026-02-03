@@ -85,6 +85,8 @@ abstract class DailyFileLogsChannel extends BaseLogsChannel {
         $minus_one_day = \DateInterval::createFromDateString("-1 days");
         for ($i = 0; $i <= $retention_days; $i++) {
             $log_file = $this->getLogFileForDateTime($day);
+            $class_name = get_class($log_file);
+            $this->log()->debug("Optimizing {$class_name} for day {$day->format('Y-m-d')}");
             $log_file->optimize();
             $day = $day->add($minus_one_day);
         }

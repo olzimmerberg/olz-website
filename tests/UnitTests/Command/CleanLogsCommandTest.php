@@ -44,7 +44,15 @@ final class CleanLogsCommandTest extends UnitTestCase {
             'INFO Nothing to do cleaning logs channel Error Logs (error-logs).',
             'INFO Nothing to do cleaning logs channel Access SSL Logs (access-ssl-logs).',
             'INFO Successfully ran command Olz\Command\CleanLogsCommand.',
-        ], $this->getLogs());
+        ], $this->getLogs(function ($record, $level_name, $message) {
+            if ($level_name === 'DEBUG' && preg_match('/^Optimizing [a-zA-Z\\\]+ for day [0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $message)) {
+                return null;
+            }
+            if ($level_name === 'DEBUG' && preg_match('/^Optimizing hybrid log file private\-path\/logs\/merged\-[0-9]{4}\-[0-9]{2}\-[0-9]{2}\.log \/ private\-path\/logs\/merged\-[0-9]{4}\-[0-9]{2}\-[0-9]{2}\.log\.gz\.\.\.$/', $message)) {
+                return null;
+            }
+            return "{$level_name} {$message}";
+        }));
 
         $this->assertFileDoesNotExist("{$private_path}logs/merged-2019-03-12.log");
         $this->assertFileDoesNotExist("{$private_path}logs/merged-2019-03-13.log");

@@ -330,6 +330,7 @@ class DevDataUtils {
             'auth_requests' => true,
             'messenger_messages' => true,
         ];
+        $batch_size = 100;
 
         $tmp_dir = $this->tmpdir();
         $db = $this->dbUtils()->getDb();
@@ -356,11 +357,19 @@ class DevDataUtils {
             $table_name = $row_tables[0];
             fwrite($fp, "\n");
             fwrite($fp, "-- Table {$table_name}\n");
-            $res_contents = $db->query("SELECT * FROM `{$table_name}`");
-            assert(!is_bool($res_contents));
             if ($ignored_tables[$table_name] ?? false) {
                 fwrite($fp, "-- ({$table_name} omitted)\n");
-            } elseif ($res_contents->num_rows > 0) {
+                continue;
+            }
+            $offset = 0;
+            while (true) {
+                $res_contents = $db->query("SELECT * FROM `{$table_name}`");
+                assert(!is_bool($res_contents));
+                if ($res_contents->num_rows === 0) {
+                    unset($res_contents);
+                    gc_collect_cycles();
+                    break;
+                }
                 fwrite($fp, "INSERT INTO {$table_name}\n");
                 $content_fields = $res_contents->fetch_fields();
                 $field_names = [];
@@ -391,9 +400,9 @@ class DevDataUtils {
                     fwrite($fp, "    ({$field_values_sql})");
                 }
                 fwrite($fp, ";\n");
+                unset($res_contents);
+                gc_collect_cycles();
             }
-            unset($res_contents);
-            gc_collect_cycles();
         }
         fwrite($fp, "\n");
         fwrite($fp, "COMMIT;\n");

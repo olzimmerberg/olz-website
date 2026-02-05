@@ -150,6 +150,12 @@ class Deploy extends AbstractDefaultDeploy {
         throw new Exception("Target must be `hosttech`");
     }
 
+    protected function afterUpload(): void {
+        if ($this->environment === 'prod') {
+            $this->executeCommand('messenger:stop-workers');
+        }
+    }
+
     /**
      * @param string $public_path
      *

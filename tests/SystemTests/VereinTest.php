@@ -223,7 +223,7 @@ final class VereinTest extends SystemTestCase {
         $browser->get("{$this->getUrl()}/revisoren");
         $this->click('#edit-role-button');
         $this->waitForModal('#edit-role-modal');
-        $this->click('#edit-role-modal #delete-button');
+        $this->click('#edit-role-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

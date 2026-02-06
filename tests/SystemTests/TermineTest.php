@@ -206,7 +206,7 @@ final class TermineTest extends SystemTestCase {
 
         $this->click('#edit-termin-button');
         $this->waitForModal('#edit-termin-modal');
-        $this->click('#edit-termin-modal #delete-button');
+        $this->click('#edit-termin-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

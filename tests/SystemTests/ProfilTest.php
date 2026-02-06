@@ -86,7 +86,7 @@ final class ProfilTest extends SystemTestCase {
 
         $this->click('#edit-user-button');
         $this->waitForModal('#edit-user-modal');
-        $this->click('#edit-user-modal #delete-button');
+        $this->click('#edit-user-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

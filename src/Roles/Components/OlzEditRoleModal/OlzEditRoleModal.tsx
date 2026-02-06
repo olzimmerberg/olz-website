@@ -28,7 +28,8 @@ interface OlzEditRoleForm {
 
 const resolver: Resolver<OlzEditRoleForm> = async (values) => {
     const errors: FieldErrors<OlzEditRoleForm> = {};
-    errors.username = validateStringRegex(values.username, /^[a-z0-9\-.]+$/, 'Benutzername darf nur Kleinbuchstaben, Zahlen, "-" und "." enthalten.');
+    errors.username = validateStringRegex(values.username, /^[a-z0-9\-.]+$/,
+        'Benutzername darf nur Kleinbuchstaben, Zahlen, "-" und "." enthalten, darf nicht leer sein.');
     errors.name = validateNotEmpty(values.name);
     errors.positionWithinParent = validateNumberOrNull(values.positionWithinParent);
     errors.featuredPosition = validateNumberOrNull(values.featuredPosition);
@@ -169,7 +170,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                     register={register}
                 />
             </div>
-            <div id='images-upload'>
+            <div id='images-upload' className='mb-3'>
                 <OlzMultiImageField
                     title='Bilder'
                     name='imageIds'
@@ -178,7 +179,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                     setIsLoading={setIsImagesLoading}
                 />
             </div>
-            <div id='files-upload'>
+            <div id='files-upload' className='mb-3'>
                 <OlzMultiFileField
                     title='Dateien'
                     name='fileIds'

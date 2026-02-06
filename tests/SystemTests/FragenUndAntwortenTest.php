@@ -157,7 +157,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->assertCount(16, $this->getBrowserElements('.olz-posting-list-item'));
         $this->click('.olz-posting-list-item:nth-of-type(2) .edit-question-list-button');
         $this->waitForModal('#edit-question-modal');
-        $this->click('#edit-question-modal #delete-button');
+        $this->click('#edit-question-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');
@@ -246,7 +246,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->assertCount(3, $this->getBrowserElements('h2.category'));
         $this->click('h2.category:nth-of-type(2) .edit-question-category-list-button');
         $this->waitForModal('#edit-question-category-modal');
-        $this->click('#edit-question-category-modal #delete-button');
+        $this->click('#edit-question-category-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

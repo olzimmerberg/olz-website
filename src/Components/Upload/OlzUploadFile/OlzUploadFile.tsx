@@ -1,7 +1,8 @@
 import React from 'react';
 import {OlzProgressBar} from '../../Common/OlzProgressBar/OlzProgressBar';
 import {UploadFile, UploadingFile, UploadedFile, RegisteringFile} from '../types';
-import {dataHref} from '../../../Utils/constants';
+import {codeHref, dataHref} from '../../../Utils/constants';
+import {getCompactUploadId, getFileWarning} from '../../../Utils/fileUtils';
 
 import './OlzUploadFile.scss';
 
@@ -42,31 +43,47 @@ export const OlzUploadFile = (props: OlzUploadFileProps): React.ReactElement => 
     }
     if (uploadFile?.uploadState === 'UPLOADED') {
         const uploadedFile: UploadedFile = uploadFile;
-        const uploadedInfo = `Uploaded: ${uploadedFile.uploadId}`;
+        const warning = getFileWarning(uploadedFile.uploadId);
+        const prettyWarning = warning ? (
+            <a
+                href={`${codeHref}fragen_und_antworten/datei_upload`}
+                target='_blank'
+                title={warning}
+            >⚠️</a>
+        ) : '✅';
+        const fullInfo = `Uploaded: ${uploadedFile.uploadId}`;
+        const compactInfo = `Uploaded: ${getCompactUploadId(uploadedFile.uploadId)}`;
         const onCopy = React.useCallback(() => {
             const copyContent = `[LABEL](./${uploadFile.uploadId})`;
             navigator.clipboard.writeText(copyContent);
         }, [props.uploadFile]);
         const copyButton = (
-            <button id='copy-button' className='button' type='button' onClick={onCopy}>
+            <button
+                id='copy-button'
+                className='button'
+                type='button'
+                title='Datei-Code Kopieren'
+                onClick={onCopy}
+            >
                 <img src={`${dataHref}assets/icns/copy_16.svg`} alt='Cp' />
             </button>
         );
         const deleteButton = props.onDelete ? (
-            <button id='delete-button' className='button' type='button' onClick={() => {
-                if (props.onDelete) {
-                    props.onDelete(uploadedFile.uploadId);
-                }
-            }}>
+            <button
+                id='delete-button'
+                className='button'
+                type='button'
+                title='Datei löschen'
+                onClick={() => props.onDelete?.(uploadedFile.uploadId)}
+            >
                 <img src={`${dataHref}assets/icns/delete_16.svg`} alt='Lö' />
             </button>
         ) : undefined;
         return (
-            <div className='olz-upload-file uploaded' title={uploadedInfo}>
+            <div className='olz-upload-file uploaded'>
                 <div className='uploaded-file-container test-flaky'>
-                    <div className='info'>
-                        {uploadedInfo}
-                    </div>
+                    {prettyWarning}
+                    <div className='info' title={fullInfo}>{compactInfo}</div>
                     {copyButton}
                     {deleteButton}
                 </div>

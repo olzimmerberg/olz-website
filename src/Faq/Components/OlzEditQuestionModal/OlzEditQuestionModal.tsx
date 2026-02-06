@@ -8,7 +8,7 @@ import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty, validateStringRegex} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditQuestionModal.scss';
@@ -25,7 +25,8 @@ interface OlzEditQuestionForm {
 
 const resolver: Resolver<OlzEditQuestionForm> = async (values) => {
     const errors: FieldErrors<OlzEditQuestionForm> = {};
-    errors.ident = validateNotEmpty(values.ident);
+    errors.ident = validateStringRegex(values.ident, /^[a-z0-9_]+$/,
+        'Darf nur Kleinbuchstaben, Zahlen und "_" enthalten, darf nicht leer sein.');
     errors.question = validateNotEmpty(values.question);
     if (values.categoryId === null) {
         errors.categoryId = {type: 'required', message: 'Darf nicht leer sein.'};
@@ -175,7 +176,7 @@ export const OlzEditQuestionModal = (props: OlzEditQuestionModalProps): React.Re
                     register={register}
                 />
             </div>
-            <div id='images-upload'>
+            <div id='images-upload' className='mb-3'>
                 <OlzMultiImageField
                     title='Bilder'
                     name='imageIds'
@@ -184,7 +185,7 @@ export const OlzEditQuestionModal = (props: OlzEditQuestionModalProps): React.Re
                     setIsLoading={setIsImagesLoading}
                 />
             </div>
-            <div id='files-upload'>
+            <div id='files-upload' className='mb-3'>
                 <OlzMultiFileField
                     title='Dateien'
                     name='fileIds'

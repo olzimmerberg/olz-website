@@ -71,7 +71,7 @@ final class DownloadsTest extends SystemTestCase {
 
         $this->click('#edit-download-1-button');
         $this->waitForModal('#edit-download-modal');
-        $this->click('#edit-download-modal #delete-button');
+        $this->click('#edit-download-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

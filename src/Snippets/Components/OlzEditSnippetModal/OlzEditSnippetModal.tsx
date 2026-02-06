@@ -97,7 +97,7 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
                     register={register}
                 />
             </div>
-            <div id='images-upload'>
+            <div id='images-upload' className='mb-3'>
                 <OlzMultiImageField
                     title='Bilder'
                     name='imageIds'
@@ -106,7 +106,7 @@ export const OlzEditSnippetModal = (props: OlzEditSnippetModalProps): React.Reac
                     setIsLoading={setIsImagesLoading}
                 />
             </div>
-            <div id='files-upload'>
+            <div id='files-upload' className='mb-3'>
                 <OlzMultiFileField
                     title='Dateien'
                     name='fileIds'

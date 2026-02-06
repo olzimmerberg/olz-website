@@ -75,7 +75,7 @@ final class KartenTest extends SystemTestCase {
 
         $this->click('#edit-karte-button');
         $this->waitForModal('#edit-karte-modal');
-        $this->click('#edit-karte-modal #delete-button');
+        $this->click('#edit-karte-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

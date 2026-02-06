@@ -67,7 +67,7 @@ export const OlzEditModal = (props: OlzEditModalProps): React.ReactElement => {
     const deleteButton = props.onDelete ? (
         <button
             type='button'
-            id='delete-button'
+            id='delete-entity-button'
             className='btn btn-danger btn-sm'
             onClick={() => olzConfirm('Wirklich löschen?').then(props.onDelete)}
         >

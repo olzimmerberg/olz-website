@@ -61,7 +61,7 @@ final class LinksTest extends SystemTestCase {
 
         $this->click('#edit-link-1-button');
         $this->waitForModal('#edit-link-modal');
-        $this->click('#edit-link-modal #delete-button');
+        $this->click('#edit-link-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

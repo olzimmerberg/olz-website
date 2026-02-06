@@ -167,7 +167,7 @@ export const OlzEditTerminLabelModal = (props: OlzEditTerminLabelModalProps): Re
                     setIsLoading={setIsPositionLoading}
                 />
             </div>
-            <div id='images-upload'>
+            <div id='images-upload' className='mb-3'>
                 <OlzMultiImageField
                     title='Bilder'
                     name='imageIds'
@@ -176,7 +176,7 @@ export const OlzEditTerminLabelModal = (props: OlzEditTerminLabelModalProps): Re
                     setIsLoading={setIsImagesLoading}
                 />
             </div>
-            <div id='files-upload'>
+            <div id='files-upload' className='mb-3'>
                 <OlzMultiFileField
                     title='Dateien'
                     name='fileIds'

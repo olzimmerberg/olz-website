@@ -112,7 +112,7 @@ final class TerminLabelTest extends SystemTestCase {
 
         $this->click('#edit-termin-label-button');
         $this->waitForModal('#edit-termin-label-modal');
-        $this->click('#edit-termin-label-modal #delete-button');
+        $this->click('#edit-termin-label-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

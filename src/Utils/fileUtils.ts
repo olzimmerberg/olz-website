@@ -1,3 +1,28 @@
+
+export function getFileWarning(uploadId: string): string | null {
+    if (/\.docx?$/.test(uploadId)) {
+        return "Wenn möglich PDF statt Word-Datei verwenden";
+    }
+    if (/\.xlsx?$/.test(uploadId)) {
+        return "Wenn möglich PDF statt Excel-Datei verwenden";
+    }
+    if (/\.pptx?$/.test(uploadId)) {
+        return "Wenn möglich PDF statt PowerPoint-Datei verwenden";
+    }
+    if (/\.(odt|ods|odp)$/.test(uploadId)) {
+        return "Wenn möglich PDF statt OpenDocument-Datei verwenden";
+    }
+    return null;
+}
+
+export function getCompactUploadId(uploadId: string): string {
+    const match = /^([a-zA-Z0-9_-]{24})(\.[a-zA-Z0-9]+)$/.exec(uploadId);
+    if (!match) {
+        return uploadId.length > 10 ? `${uploadId.substring(0, 9)}…` : uploadId;
+    }
+    return `${match[1].substring(0, 4)}…${match[1].substring(20, 24)}${match[2]}`;
+}
+
 export interface ReadBase64Options {
     fileReader?: FileReader;
 }

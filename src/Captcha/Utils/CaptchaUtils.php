@@ -14,6 +14,11 @@ use Olz\Utils\WithUtilsTrait;
 class CaptchaUtils {
     use WithUtilsTrait;
 
+    public const WID = 350;
+    public const HEI = 200;
+    public const INP_WID = 250;
+    public const INP_HEI = 24;
+
     /** @return OlzCaptchaConfig */
     public function generateOlzCaptchaConfig(int $length): array {
         // TODO: Derive from app secret?
@@ -74,11 +79,11 @@ class CaptchaUtils {
             $this->log()->warning("Captcha denied: Rand length must be 3, was {$len}", []);
             return false;
         }
-        $x_start = ord($bytes[0]) / 255.0 * 75 + 10;
-        $y_bar = ord($bytes[1]) / 255.0 * 176 + 12;
+        $x_start = ord($bytes[0]) / 255.0 * (self::WID - self::INP_WID - 25) + 10;
+        $y_bar = ord($bytes[1]) / 255.0 * (self::HEI - self::INP_HEI) + 12;
         $target = round(2 + ord($bytes[2]) / 20.0);
-        $x_end_min = $x_start + ($target - 0.55) / 15 * 280;
-        $x_end_max = $x_start + ($target + 0.55) / 15 * 280;
+        $x_end_min = $x_start + ($target - 0.55) / 15 * (self::INP_WID - 20);
+        $x_end_max = $x_start + ($target + 0.55) / 15 * (self::INP_WID - 20);
         $context = [
             'log' => $log,
             'config' => $config,

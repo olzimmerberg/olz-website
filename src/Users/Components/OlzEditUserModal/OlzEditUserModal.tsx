@@ -39,7 +39,8 @@ const resolver: Resolver<OlzEditUserForm> = async (values) => {
     const errors: FieldErrors<OlzEditUserForm> = {};
     errors.firstName = validateNotEmpty(values.firstName);
     errors.lastName = validateNotEmpty(values.lastName);
-    errors.username = validateStringRegex(values.username, /^[a-z0-9\-.]+$/, 'Benutzername darf nur Kleinbuchstaben, Zahlen, "-" und "." enthalten.');
+    errors.username = validateStringRegex(values.username, /^[a-z0-9\-.]+$/,
+        'Benutzername darf nur Kleinbuchstaben, Zahlen, "-" und "." enthalten, darf nicht leer sein.');
     if (values.password) {
         errors.password = validatePassword(values.password);
         if (values.password !== values.passwordRepeat) {
@@ -408,7 +409,7 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
                     </select>
                 </div>
             </div>
-            <div id='images-upload'>
+            <div id='images-upload' className='mb-3'>
                 <OlzImageField
                     title='Profilbild'
                     name='avatarImageId'

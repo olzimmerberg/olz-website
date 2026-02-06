@@ -419,7 +419,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                 </div>
             ) : null}
             {config.hasImages ? (
-                <div id='images-upload'>
+                <div id='images-upload' className='mb-3'>
                     <OlzMultiImageField
                         title='Bilder'
                         name='imageIds'
@@ -430,7 +430,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                 </div>
             ) : null}
             {config.hasFiles ? (
-                <div id='files-upload'>
+                <div id='files-upload' className='mb-3'>
                     <OlzMultiFileField
                         title='Dateien'
                         name='fileIds'

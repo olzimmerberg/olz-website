@@ -167,7 +167,7 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
                     />
                 </div>
             </div>
-            <div id='images-upload'>
+            <div id='images-upload' className='mb-3'>
                 <OlzMultiImageField
                     title='Bilder'
                     name='imageIds'

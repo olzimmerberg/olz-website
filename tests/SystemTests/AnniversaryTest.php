@@ -105,7 +105,7 @@ final class AnniversaryTest extends SystemTestCase {
 
         $this->click('#edit-run-1-button');
         $this->waitForModal('#edit-run-modal');
-        $this->click('#edit-run-modal #delete-button');
+        $this->click('#edit-run-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

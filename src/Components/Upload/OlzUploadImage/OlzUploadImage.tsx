@@ -48,16 +48,24 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
             navigator.clipboard.writeText(copyContent);
         }, [props.uploadFile]);
         const copyButton = (
-            <button id='copy-button' className='button' type='button' onClick={onCopy}>
+            <button
+                id='copy-button'
+                className='button'
+                type='button'
+                title='Bild-Code kopieren'
+                onClick={onCopy}
+            >
                 <img src={`${dataHref}assets/icns/copy_16.svg`} alt='Cp' />
             </button>
         );
         const deleteButton = props.onDelete ? (
-            <button id='delete-button' className='button' type='button' onClick={() => {
-                if (props.onDelete) {
-                    props.onDelete(uploadedFile.uploadId);
-                }
-            }}>
+            <button
+                id='delete-button'
+                className='button'
+                type='button'
+                title='Bild löschen'
+                onClick={() => props.onDelete?.(uploadedFile.uploadId)}
+            >
                 <img src={`${dataHref}assets/icns/delete_16.svg`} alt='Lö' />
             </button>
         ) : undefined;
@@ -71,9 +79,6 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
                     />
                 </div>
                 <div className='footer test-flaky'>
-                    <div className='info'>
-                        {uploadedInfo}
-                    </div>
                     {copyButton}
                     {deleteButton}
                 </div>

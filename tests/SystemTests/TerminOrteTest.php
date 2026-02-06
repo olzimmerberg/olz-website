@@ -74,7 +74,7 @@ final class TerminOrteTest extends SystemTestCase {
 
         $this->click('#edit-termin-location-button');
         $this->waitForModal('#edit-termin-location-modal');
-        $this->click('#edit-termin-location-modal #delete-button');
+        $this->click('#edit-termin-location-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

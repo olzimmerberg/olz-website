@@ -94,7 +94,7 @@ final class NewsForumTest extends SystemTestCase {
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');
-        $this->click('#edit-news-modal #delete-button');
+        $this->click('#edit-news-modal #delete-entity-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');

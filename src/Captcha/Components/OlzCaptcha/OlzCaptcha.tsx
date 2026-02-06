@@ -6,8 +6,10 @@ import './OlzCaptcha.scss';
 
 const CAPTCHA_EXPIRATION_MS = 60 * 1000;
 
-const WID = 400;
+const WID = 350;
 const HEI = 200;
+const INP_WID = 250;
+const INP_HEI = 24;
 const RES = 2;
 
 interface OlzCaptchaProps {
@@ -30,6 +32,7 @@ type Coord = [number, number];
 export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
     const [config, setConfig] = React.useState<OlzCaptchaConfig | null>(null);
     const [currentRatio, setCurrentRatio] = React.useState<number>(0.0);
+    const [coord, setCoord] = React.useState<Coord | null>(null);
     const [isDragging, setIsDragging] = React.useState<boolean>(false);
     const [isFinished, setIsFinished] = React.useState<boolean>(false);
     const [log, setLog] = React.useState<string[]>([]);
@@ -38,8 +41,8 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
 
     const wid = WID * RES;
     const hei = HEI * RES;
-    const inpWid = 300 * RES;
-    const inpHei = 24 * RES;
+    const inpWid = INP_WID * RES;
+    const inpHei = INP_HEI * RES;
     const rand = window.atob(config?.rand ?? '');
     const targetValue = Math.round(2 + rand.charCodeAt(2) / 20);
     const inpX = rand.charCodeAt(0) * (wid - inpWid - 25 * RES) / 255;
@@ -95,12 +98,22 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
         ctx.fill();
         ctx.stroke();
 
+        if (coord !== null) {
+            const xOutOfView = Math.max(0, coord[0] < 0 ? -coord[0] : coord[0] - WID);
+            const yOutOfView = Math.max(0, coord[1] < 0 ? -coord[1] : coord[1] - HEI);
+            const outOfView = Math.sqrt(Math.pow(xOutOfView, 2) + Math.pow(yOutOfView, 2));
+            ctx.beginPath();
+            ctx.arc(coord[0] * RES, coord[1] * RES, (20 + outOfView) * RES, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.fill();
+        }
+
         ctx.fillStyle = 'rgb(0,0,0)';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
         ctx.font = `${Math.ceil(HEI * RES / 14)}px 'Open Sans', arial, sans-serif`;
         ctx.fillText(`${Math.round(currentRatio * 15)}`, inpX + inpWid + 5 * RES, inpY + (inpHei / 2));
-    }, [config, canvas, currentRatio, isDragging]);
+    }, [config, canvas, currentRatio, coord, isDragging]);
 
     React.useEffect(() => {
         if (!isFinished || !config) {
@@ -134,12 +147,16 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
             setIsDragging(true);
             onDrag(x);
         }
+        setCoord([x, y]);
         appendLog({event: 'D', x, y});
     };
 
     const onMove = ([x, y]: Coord) => {
         if (isDragging) {
             onDrag(x);
+        }
+        if (coord !== null) {
+            setCoord([x, y]);
         }
         appendLog({event: 'M', x, y});
     };
@@ -149,6 +166,7 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
             onDrag(x);
         }
         setIsDragging(false);
+        setCoord(null);
         appendLog({event: 'U', x, y});
         if (config && Math.round(currentRatio * 15) === targetValue) {
             setIsFinished(true);

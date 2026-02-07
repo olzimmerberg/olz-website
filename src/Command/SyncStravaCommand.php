@@ -70,18 +70,23 @@ class SyncStravaCommand extends OlzCommand {
             'Hike' => true,
             'Walk' => true,
         ];
-        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $iso_now = $this->dateUtils()->getIsoNow();
+        $now = new \DateTime($iso_now);
+        $minus_one_month = \DateInterval::createFromDateString("-30 days");
+        $one_month_ago = (new \DateTime($iso_now))->add($minus_one_month);
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
         foreach ($strava_links as $strava_link) {
             $this->logAndOutput("Syncing {$strava_link}...");
-            $user = $strava_link->getUser();
             $access_token = $this->stravaUtils()->getAccessToken($strava_link);
             if (!$access_token) {
                 $this->logAndOutput("{$strava_link} has no access token...", level: 'debug');
                 continue;
             }
-            // $activities = $this->stravaUtils()->callStravaApi('GET', '/athlete/activities', [], $access_token);
             $activities = $this->stravaUtils()->callStravaApi('GET', '/clubs/158910/activities', [], $access_token);
+            if (!is_array($activities)) {
+                $activities_str = var_export($activities, true);
+                $this->logAndOutput("Invalid activities fetched: {$activities_str}", level: 'notice');
+            }
             $num_activities = count($activities);
             $this->logAndOutput("Fetched {$num_activities} activities...", level: 'debug');
             foreach ($activities as $activity) {
@@ -105,9 +110,13 @@ class SyncStravaCommand extends OlzCommand {
                 $id = md5("{$firstname}-{$lastname}-{$distance}-{$moving_time}-{$elapsed_time}");
                 $old_source = "strava-{$old_id}";
                 $source = "strava-{$id}";
-                $old_existing = $runs_repo->findOneBy(['source' => $old_source]);
-                $existing = $runs_repo->findOneBy(['source' => $source]);
-                if ($old_existing !== null || $existing !== null) {
+                $old_existing = $runs_repo->findOneBy(['source' => $old_source], ['run_at' => 'DESC']);
+                $existing = $runs_repo->findOneBy(['source' => $source], ['run_at' => 'DESC']);
+                if (
+                    ($old_existing !== null && $old_existing->getRunAt() > $one_month_ago)
+                    || ($existing !== null && $existing->getRunAt() > $one_month_ago)
+                ) {
+                    $this->logAndOutput("Duplicate activity {$activity_json}", level: 'debug');
                     continue;
                 }
                 $this->logAndOutput("New activity: {$source} by {$firstname} {$lastname}");

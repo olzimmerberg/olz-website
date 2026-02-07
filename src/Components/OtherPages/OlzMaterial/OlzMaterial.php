@@ -40,7 +40,7 @@ class OlzMaterial extends OlzRootComponent {
         <div>";
 
         $out .= <<<'ZZZZZZZZZZ'
-            <h1>Material &amp; Karten</h1>
+            <h1>Material &amp; Kleider</h1>
             <h2>Leihmaterial</h2>
             <b>Zur Durchführung eines Orientierungslaufes mit Zeitnahme und Auswertung</b>
             <table>

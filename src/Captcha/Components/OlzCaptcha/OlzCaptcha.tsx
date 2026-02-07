@@ -103,7 +103,7 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
             const yOutOfView = Math.max(0, coord[1] < 0 ? -coord[1] : coord[1] - HEI);
             const outOfView = Math.sqrt(Math.pow(xOutOfView, 2) + Math.pow(yOutOfView, 2));
             ctx.beginPath();
-            ctx.arc(coord[0] * RES, coord[1] * RES, (20 + outOfView) * RES, 0, Math.PI * 2);
+            ctx.arc(coord[0] * RES, coord[1] * RES, (25 + outOfView) * RES, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(0,0,0,0.2)';
             ctx.fill();
         }

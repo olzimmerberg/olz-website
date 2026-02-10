@@ -94,7 +94,7 @@ class OlzAnniversary extends OlzRootComponent {
                     <div class='marker' style='left: 12.72%;'></div>
                     <div class='marker' style='left: 27.42%;'></div>
                     <div class='marker' style='left: 42.47%;'></div>
-                    <div class='marker' style='left: 50%;'></div>
+                    <div class='main marker' style='left: 50%;'></div>
                     <div class='marker' style='left: 57.53%;'></div>
                     <div class='marker' style='left: 72.58%;'></div>
                     <div class='marker' style='left: 87.28%;'></div>

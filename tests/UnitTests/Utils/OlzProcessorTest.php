@@ -26,8 +26,15 @@ final class OlzProcessorTest extends UnitTestCase {
             'REQUEST_URI' => '/path?access_token=ABC_-def/+123',
             'HTTP_USER_AGENT' => 'user-agent',
             'HTTP_REFERER' => 'https://olzimmerberg.ch/page',
+            'APP_SECRET' => 'verysecretappsecretohsoprivate',
         ]);
-        $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'not-app', Level::Info, "Message", ['con' => 'text']);
+        $fake_log_record = new LogRecord(
+            new \DateTimeImmutable('now'),
+            'app',
+            Level::Info,
+            "Leaking verysecretappsecretohsoprivate message",
+            ['con' => 'text'],
+        );
 
         $result = $processor($fake_log_record);
 
@@ -38,13 +45,20 @@ final class OlzProcessorTest extends UnitTestCase {
             'user' => 'child',
             'auth_user' => 'parent',
         ], $result->extra);
-        $this->assertSame('not-app', $result->channel);
+        $this->assertSame('OlzProcessorTest', $result->channel);
+        $this->assertSame('Leaking ***APP_SECRET*** message', $result->message);
     }
 
     public function testOlzProcessorMinimal(): void {
         $processor = new OlzProcessor();
         WithUtilsCache::get('session')->session_storage = [];
-        $fake_log_record = new LogRecord(new \DateTimeImmutable('now'), 'app', Level::Info, "Message", ['con' => 'text']);
+        $fake_log_record = new LogRecord(
+            new \DateTimeImmutable('now'),
+            '',
+            Level::Info,
+            "Leaking verysecretappsecretohsoprivate message",
+            ['con' => 'text'],
+        );
 
         $result = $processor($fake_log_record);
 
@@ -56,5 +70,40 @@ final class OlzProcessorTest extends UnitTestCase {
             'auth_user' => null,
         ], $result->extra);
         $this->assertSame('OlzProcessorTest', $result->channel);
+        // The APP_SECRET is not defined in this test
+        $this->assertSame('Leaking verysecretappsecretohsoprivate message', $result->message);
+    }
+
+    public function testOlzProcessorNonApp(): void {
+        $processor = new OlzProcessor();
+        WithUtilsCache::get('session')->session_storage = [
+            'user' => 'admin',
+            'auth_user' => 'admin',
+        ];
+        $this->setServer([
+            'REQUEST_URI' => '/path?access_token=ABC_-def/+123',
+            'HTTP_USER_AGENT' => 'user-agent',
+            'HTTP_REFERER' => 'https://olzimmerberg.ch/page',
+            'APP_SECRET' => 'verysecretappsecretohsoprivate',
+        ]);
+        $fake_log_record = new LogRecord(
+            new \DateTimeImmutable('now'),
+            'non-app',
+            Level::Info,
+            "Leaking verysecretappsecretohsoprivate message",
+            ['con' => 'text'],
+        );
+
+        $result = $processor($fake_log_record);
+
+        $this->assertSame([
+            'url' => '/path?access_token=ABC***123',
+            'referrer' => 'https://olzimmerberg.ch/page',
+            'user_agent' => 'user-agent',
+            'user' => 'admin',
+            'auth_user' => 'admin',
+        ], $result->extra);
+        $this->assertSame('non-app', $result->channel);
+        $this->assertSame('Leaking ***APP_SECRET*** message', $result->message);
     }
 }

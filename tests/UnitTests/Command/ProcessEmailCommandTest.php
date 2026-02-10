@@ -315,7 +315,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
@@ -391,7 +390,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
@@ -465,7 +463,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'empty-email@staging.olzimmerberg.ch',
@@ -489,11 +486,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'INFO Running command Olz\Command\ProcessEmailCommand...',
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
-            'CRITICAL Error forwarding email from empty-email@staging.olzimmerberg.ch to : getUserAddress: empty-email (User ID: 1) has no email.',
+            'NOTICE User empty-email does not have an email address',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
         ], $this->getLogs());
         $this->assertTrue(WithUtilsCache::get('emailUtils')->client->is_connected);
-        $this->assertNull($mail->moved_to);
+        $this->assertSame('INBOX.Processed', $mail->moved_to);
         $this->assertTrue($mail->is_body_fetched);
         $this->assertSame(['+flagged'], $mail->flag_actions);
     }
@@ -502,7 +499,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone-old@staging.olzimmerberg.ch',
@@ -597,7 +593,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'somerole@staging.olzimmerberg.ch',
@@ -692,7 +687,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'somerole-old@staging.olzimmerberg.ch',
@@ -808,7 +802,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
@@ -850,8 +843,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             null,
@@ -971,8 +962,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             null,
@@ -1089,7 +1078,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
@@ -1168,8 +1156,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
-        WithUtilsCache::get('authUtils')->has_role_permission_by_query['role_email'] = true;
         $mail1 = new FakeProcessEmailCommandMail(
             11,
             'someone@staging.olzimmerberg.ch',
@@ -1297,7 +1283,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createPartialMock(MailerInterface::class, ['send']);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
@@ -1380,7 +1365,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandWithFailingAttachment(): void {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             'someone@staging.olzimmerberg.ch',
@@ -1580,7 +1564,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
     public function testProcessEmailCommandToSpamHoneypotEmailAddress(): void {
         $this->setUpThrottlingNoCleanup();
         $mailer = $this->createMock(MailerInterface::class);
-        WithUtilsCache::get('authUtils')->has_permission_by_query['user_email'] = true;
         $mail = new FakeProcessEmailCommandMail(
             12,
             's.p.a.m@staging.olzimmerberg.ch',

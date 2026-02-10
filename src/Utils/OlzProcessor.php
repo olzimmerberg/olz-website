@@ -18,19 +18,41 @@ class OlzProcessor implements ProcessorInterface {
         }
         $record->extra['user'] = $this->session()->get('user');
         $record->extra['auth_user'] = $this->session()->get('auth_user');
+        $safe_message = $this->protectTokens($record->message);
         if ($record->channel && $record->channel !== 'app') {
-            return $record;
+            return $record->with(message: $safe_message);
         }
         $trace = debug_backtrace();
         $general_utils = new GeneralUtils();
         $trace_overview = $general_utils->getTraceOverview($trace);
-        return $record->with(channel: $trace_overview);
+        return $record->with(
+            channel: $trace_overview,
+            message: $safe_message,
+        );
     }
+
+    /** @var ?array<string, string> */
+    protected ?array $protected_tokens = null;
 
     protected function protectTokens(?string $unsanitized): ?string {
         if (!$unsanitized) {
             return $unsanitized;
         }
-        return preg_replace('/(access\_token\=[a-zA-Z0-9\_\-\+\/]{3})[a-zA-Z0-9\_\-\+\/]*([a-zA-Z0-9\_\-\+\/]{3})/', '$1***$2', $unsanitized);
+        if ($this->protected_tokens === null) {
+            $this->protected_tokens = [];
+            $app_secret = $this->server()['APP_SECRET'] ?? null;
+            if ($app_secret) {
+                $this->protected_tokens[$app_secret] = '***APP_SECRET***';
+            }
+        }
+        $value = preg_replace(
+            '/(access\_token\=[a-zA-Z0-9\_\-\+\/]{3})[a-zA-Z0-9\_\-\+\/]*([a-zA-Z0-9\_\-\+\/]{3})/',
+            '$1***$2',
+            $unsanitized,
+        );
+        foreach ($this->protected_tokens as $token => $replacement) {
+            $value = str_replace($token, $replacement, $value ?? '');
+        }
+        return $value;
     }
 }

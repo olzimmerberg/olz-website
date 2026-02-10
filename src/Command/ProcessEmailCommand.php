@@ -436,6 +436,12 @@ class ProcessEmailCommand extends OlzCommand {
             if (!$html) {
                 $html = nl2br($text ?? '');
             }
+            if (!$forward_address) {
+                $error_message = "User {$user->getUsername()} does not have an email address";
+                $this->log()->notice($error_message);
+                $this->recordForwardedEmail($user, $from_address, $subject, $html."\n".$text, $error_message);
+                return 2;
+            }
             $this->emailUtils()->setLogger($this->log());
 
             $email = (new Email())

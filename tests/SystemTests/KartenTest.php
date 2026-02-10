@@ -38,8 +38,7 @@ final class KartenTest extends SystemTestCase {
         $this->click('#create-karte-button');
         $this->waitForModal('#edit-karte-modal');
         $this->sendKeys('#edit-karte-modal #name-input', 'Die Karte');
-        $this->sendKeys('#edit-karte-modal #latitude-input', '46.83474');
-        $this->sendKeys('#edit-karte-modal #longitude-input', '9.21544');
+        $this->sendKeys('#edit-karte-modal #location-input', '46.83474, 9.21544');
         $this->sendKeys('#edit-karte-modal #year-input', '2020');
         $this->sendKeys('#edit-karte-modal #scale-input', '1:15\'000');
         $this->click('#edit-karte-modal #isKindScool-input');

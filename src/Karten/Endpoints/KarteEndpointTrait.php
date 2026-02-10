@@ -3,18 +3,19 @@
 namespace Olz\Karten\Endpoints;
 
 use Olz\Entity\Karten\Karte;
+use Olz\Utils\MapUtils;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
- * Note: `latitude` may be from -90.0 to 90.0, `longitude` from -180.0 to 180.0.
- *
  * @phpstan-type OlzKarteId int
+ *
+ * @phpstan-import-type OlzLocationCoordinates from MapUtils
+ *
  * @phpstan-type OlzKarteData array{
  *   kartennr?: ?int,
  *   name: non-empty-string,
- *   latitude?: ?float,
- *   longitude?: ?float,
+ *   location?: ?OlzLocationCoordinates,
  *   year?: ?int,
  *   scale?: ?non-empty-string,
  *   place?: ?non-empty-string,
@@ -30,8 +31,6 @@ trait KarteEndpointTrait {
     /** @return OlzKarteData */
     public function getEntityData(Karte $entity): array {
         $name = $entity->getName();
-        $latitude = $entity->getLatitude();
-        $longitude = $entity->getLongitude();
         $year = $entity->getYear();
         $scale = $entity->getScale();
         $place = $entity->getPlace();
@@ -41,8 +40,10 @@ trait KarteEndpointTrait {
         return [
             'kartennr' => $entity->getKartenNr() ?? null,
             'name' => $name ? $name : '-',
-            'latitude' => $latitude ? floatval($latitude) : null,
-            'longitude' => $longitude ? floatval($longitude) : null,
+            'location' => ($entity->getLatitude() && $entity->getLongitude()) ? [
+                'latitude' => $entity->getLatitude(),
+                'longitude' => $entity->getLongitude(),
+            ] : null,
             'year' => $year ? intval($year) : null,
             'scale' => $scale ? $scale : null,
             'place' => $place ? $place : null,
@@ -61,8 +62,8 @@ trait KarteEndpointTrait {
 
         $entity->setKartenNr($input_data['kartennr'] ?? null);
         $entity->setName($input_data['name']);
-        $entity->setLatitude($input_data['latitude'] ?? null);
-        $entity->setLongitude($input_data['longitude'] ?? null);
+        $entity->setLatitude($input_data['location']['latitude'] ?? null);
+        $entity->setLongitude($input_data['location']['longitude'] ?? null);
         $entity->setYear($valid_year);
         $entity->setScale($input_data['scale'] ?? null);
         $entity->setPlace($input_data['place'] ?? null);

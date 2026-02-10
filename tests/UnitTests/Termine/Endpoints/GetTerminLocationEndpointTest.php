@@ -57,8 +57,10 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
             'data' => [
                 'name' => 'Fake title',
                 'details' => '',
-                'latitude' => 0.0,
-                'longitude' => 0.0,
+                'location' => [
+                    'latitude' => 0.0,
+                    'longitude' => 0.0,
+                ],
                 'imageIds' => [],
             ],
         ], $result);
@@ -87,8 +89,10 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
             'data' => [
                 'name' => 'Cannot be empty',
                 'details' => '',
-                'latitude' => 0.0,
-                'longitude' => 0.0,
+                'location' => [
+                    'latitude' => 0.0,
+                    'longitude' => 0.0,
+                ],
                 'imageIds' => [],
             ],
         ], $result);
@@ -123,8 +127,10 @@ final class GetTerminLocationEndpointTest extends UnitTestCase {
             'data' => [
                 'name' => 'Fake title',
                 'details' => 'Fake content',
-                'latitude' => 47.2790953,
-                'longitude' => 8.5591936,
+                'location' => [
+                    'latitude' => 47.2790953,
+                    'longitude' => 8.5591936,
+                ],
                 'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
             ],
         ], $result);

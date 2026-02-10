@@ -25,8 +25,10 @@ final class CreateKarteEndpointTest extends UnitTestCase {
         'data' => [
             'kartennr' => 12345,
             'name' => 'Test Karte',
-            'latitude' => 47.2,
-            'longitude' => 8.6,
+            'location' => [
+                'latitude' => 47.2,
+                'longitude' => 8.6,
+            ],
             'year' => 2020,
             'scale' => '1:10\'000',
             'place' => 'Testiswil',

@@ -3,18 +3,19 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Entity\Termine\TerminLocation;
+use Olz\Utils\MapUtils;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**
- * Note: `latitude` may be from -90.0 to 90.0, `longitude` from -180.0 to 180.0.
- *
  * @phpstan-type OlzTerminLocationId int
+ *
+ * @phpstan-import-type OlzLocationCoordinates from MapUtils
+ *
  * @phpstan-type OlzTerminLocationData array{
  *   name: non-empty-string,
  *   details: string,
- *   latitude: float,
- *   longitude: float,
+ *   location: OlzLocationCoordinates,
  *   imageIds: array<non-empty-string>,
  * }
  */
@@ -28,8 +29,10 @@ trait TerminLocationEndpointTrait {
         return [
             'name' => $entity->getName() ?: '-',
             'details' => $entity->getDetails() ?? '',
-            'latitude' => $entity->getLatitude(),
-            'longitude' => $entity->getLongitude(),
+            'location' => [
+                'latitude' => $entity->getLatitude(),
+                'longitude' => $entity->getLongitude(),
+            ],
             'imageIds' => $valid_image_ids,
         ];
     }
@@ -40,8 +43,8 @@ trait TerminLocationEndpointTrait {
 
         $entity->setName($input_data['name']);
         $entity->setDetails($input_data['details']);
-        $entity->setLatitude($input_data['latitude']);
-        $entity->setLongitude($input_data['longitude']);
+        $entity->setLatitude($input_data['location']['latitude']);
+        $entity->setLongitude($input_data['location']['longitude']);
         $entity->setImageIds($valid_image_ids);
     }
 

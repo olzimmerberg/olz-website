@@ -192,11 +192,15 @@ export type Olz_Karten_Endpoints_CreateKarteEndpoint_OlzKarteData = Olz_Karten_E
 
 export type Olz_Karten_Endpoints_CreateKarteEndpoint_OlzKarteId = Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteId;
 
-export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteData = {'kartennr'?: (number | null), 'name': string, 'latitude'?: (number | null), 'longitude'?: (number | null), 'year'?: (number | null), 'scale'?: (string | null), 'place'?: (string | null), 'zoom'?: (number | null), 'kind'?: (Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteKind | null), 'previewImageId'?: (string | null)};
+export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteData = {'kartennr'?: (number | null), 'name': string, 'location'?: (Olz_Karten_Endpoints_KarteEndpointTrait_OlzLocationCoordinates | null), 'year'?: (number | null), 'scale'?: (string | null), 'place'?: (string | null), 'zoom'?: (number | null), 'kind'?: (Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteKind | null), 'previewImageId'?: (string | null)};
 
 export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteId = number;
 
+export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzLocationCoordinates = Olz_Utils_MapUtils_OlzLocationCoordinates;
+
 export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteKind = ('ol' | 'stadt' | 'scool');
+
+export type Olz_Utils_MapUtils_OlzLocationCoordinates = {'latitude': number, 'longitude': number};
 
 export type Olz_Api_OlzTypedEndpoint5d02f180fe5876e5d2e56cba74dfbb25_Request = {'id': Olz_Api_OlzGetEntityTypedEndpoint30455ea4a414619c516ba9c084b9d175_Id, 'custom'?: Olz_Api_OlzGetEntityTypedEndpoint30455ea4a414619c516ba9c084b9d175_CustomRequest};
 
@@ -1230,9 +1234,11 @@ export type Olz_Termine_Endpoints_CreateTerminLocationEndpoint_OlzTerminLocation
 
 export type Olz_Termine_Endpoints_CreateTerminLocationEndpoint_OlzTerminLocationId = Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationId;
 
-export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationData = {'name': string, 'details': string, 'latitude': number, 'longitude': number, 'imageIds': Array<string>};
+export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationData = {'name': string, 'details': string, 'location': Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzLocationCoordinates, 'imageIds': Array<string>};
 
 export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationId = number;
+
+export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzLocationCoordinates = Olz_Utils_MapUtils_OlzLocationCoordinates;
 
 export type Olz_Api_OlzTypedEndpoint3df57566388159e570e908eca0bdbe86_Request = {'id': Olz_Api_OlzGetEntityTypedEndpoint1a1e55388407b8507da2d323e4886deb_Id, 'custom'?: Olz_Api_OlzGetEntityTypedEndpoint1a1e55388407b8507da2d323e4886deb_CustomRequest};
 

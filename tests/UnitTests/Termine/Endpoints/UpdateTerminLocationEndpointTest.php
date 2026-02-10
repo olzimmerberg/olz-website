@@ -26,8 +26,10 @@ final class UpdateTerminLocationEndpointTest extends UnitTestCase {
         'data' => [
             'name' => 'Test location',
             'details' => 'some location info',
-            'latitude' => 47.2790953,
-            'longitude' => 8.5591936,
+            'location' => [
+                'latitude' => 47.2790953,
+                'longitude' => 8.5591936,
+            ],
             'imageIds' => ['uploaded_image.jpg', 'inexistent.png'],
         ],
     ];

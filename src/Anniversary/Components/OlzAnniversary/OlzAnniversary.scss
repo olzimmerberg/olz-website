@@ -67,6 +67,12 @@
         position: absolute;
         height: 14px;
         border-left: 1px solid black;
+
+        &.main {
+            height: 16px;
+            border-left: 3px solid black;
+            margin: -1px;
+        }
     }
     
     .marker-text {

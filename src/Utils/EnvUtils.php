@@ -468,7 +468,10 @@ class EnvUtils {
         global $_SERVER;
 
         $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
-        if ($server_name === '127.0.0.1' || $server_name === 'localhost') {
+        $user_name = $_SERVER['USER'] ?? '';
+        $is_local = ($server_name === '127.0.0.1' || $server_name === 'localhost')
+            && $user_name !== 'olzimmerberg';
+        if ($is_local) {
             $local_private = __DIR__.'/../../private';
             if (!is_dir($local_private)) {
                 mkdir($local_private, 0o777, true);

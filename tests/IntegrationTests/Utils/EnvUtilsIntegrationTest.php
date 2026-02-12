@@ -16,7 +16,7 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
     public function testEnvUtilsFromEnv(): void {
         $utils = $this->getSut();
         $this->assertSame(
-            realpath(__DIR__.'/../../../private/').'/',
+            realpath(__DIR__.'/../../../config/').'/../private/',
             $utils->getPrivatePath()
         );
         $this->assertMatchesRegularExpression(

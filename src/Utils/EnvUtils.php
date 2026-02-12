@@ -71,13 +71,6 @@ class EnvUtils {
         }
         global $_SERVER;
 
-        // TODO: Also use the configuration file?
-        $private_path = self::computePrivatePath();
-        $this->setPrivatePath($private_path);
-
-        // TODO: Also use the configuration file?
-        $data_path = self::computeDataPath();
-        $this->setDataPath($data_path);
         $this->setDataHref('/');
 
         $code_href = '/';
@@ -122,6 +115,8 @@ class EnvUtils {
 
     /** @param array<string, mixed> $config_dict */
     public function configure(array $config_dict): void {
+        $this->data_path = $config_dict['data_path'] ?? $this->data_path;
+        $this->private_path = $config_dict['private_path'] ?? $this->private_path;
         $this->syslog_path = $config_dict['syslog_path'] ?? $this->syslog_path;
         $this->base_href = $config_dict['base_href'] ?? $this->base_href;
         $this->app_env = $config_dict['app_env'] ?? $this->app_env;

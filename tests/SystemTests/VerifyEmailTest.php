@@ -27,8 +27,8 @@ final class VerifyEmailTest extends SystemTestCase {
         $this->click('#verify-user-email-modal #submit-button');
         $this->waitUntilGone('#verify-user-email-modal');
 
-        $data_path = $this->getEnvUtils()->getDataPath();
-        $last_email_file = "{$data_path}last_email.txt";
+        $dev_env_data_path = __DIR__.'/../../public/';
+        $last_email_file = "{$dev_env_data_path}last_email.txt";
         $this->assertFileExists($last_email_file);
         $email_text = file_get_contents($last_email_file) ?: '';
         $this->assertMatchesRegularExpression(

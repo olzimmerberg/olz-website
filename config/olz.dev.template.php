@@ -7,7 +7,9 @@ ini_set('display_errors', 1);
 
 $configure_env_utils = function ($env_utils) {
     $env_utils->configure([
-        'syslog_path' => __DIR__.'/../public/logs/server/',
+        'data_path' => __DIR__.'/../public/',
+        'private_path' => __DIR__.'/../private/',
+        'syslog_path' => __DIR__.'/../private/logs/server/',
         'base_href' => 'http://127.0.0.1:30270',
         'app_env' => 'dev',
 

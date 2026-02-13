@@ -25,6 +25,11 @@ class OnContinuouslyCommand extends OlzCommand {
         $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
         $throttling_repo->recordOccurrenceOf('on_continuously', $this->dateUtils()->getIsoNow());
 
+        if ($this->isDeploying()) {
+            $this->logAndOutput("Deploying. Cancel running continuously.", level: 'debug');
+            return Command::SUCCESS;
+        }
+
         $this->logAndOutput("Continuously processing email...", level: 'debug');
         $this->symfonyUtils()->callCommand(
             'olz:process-email',
@@ -152,6 +157,15 @@ class OnContinuouslyCommand extends OlzCommand {
 
         $this->logAndOutput("Ran continuously.", level: 'debug');
         return Command::SUCCESS;
+    }
+
+    protected function isDeploying(): bool {
+        $status_path = "{$this->envUtils()->getPrivatePath()}deploy/status.json";
+        if (!is_file($status_path)) {
+            return false;
+        }
+        $status = json_decode(file_get_contents($status_path) ?: '{}', true);
+        return ($status['status'] ?? 'IDLE') !== 'IDLE'; // TODO: Expire
     }
 
     /** @param callable(): void $fn */

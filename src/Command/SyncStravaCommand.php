@@ -70,6 +70,12 @@ class SyncStravaCommand extends OlzCommand {
             'Hike' => true,
             'Walk' => true,
         ];
+        $name_blocklist = [
+            'Michael B.' => true,
+            'Kamm M.' => true,
+            'Sandro A.' => true,
+            'Daniel G.' => true,
+        ];
         $iso_now = $this->dateUtils()->getIsoNow();
         $now = new \DateTime($iso_now);
         $minus_one_month = \DateInterval::createFromDateString("-30 days");
@@ -94,6 +100,7 @@ class SyncStravaCommand extends OlzCommand {
                 $this->logAndOutput("Processing activity {$activity_json}...", level: 'debug');
                 $firstname = $activity['athlete']['firstname'] ?? null;
                 $lastname = $activity['athlete']['lastname'] ?? null;
+                $is_name_blocklisted = $name_blocklist["{$firstname} {$lastname}"] ?? false;
                 $distance = $activity['distance'] ?? null;
                 $moving_time = $activity['moving_time'] ?? null;
                 $elapsed_time = $activity['elapsed_time'] ?? null;
@@ -121,7 +128,7 @@ class SyncStravaCommand extends OlzCommand {
                 }
                 $this->logAndOutput("New activity: {$source} by {$firstname} {$lastname}");
                 $run = new RunRecord();
-                $this->entityUtils()->createOlzEntity($run, ['onOff' => true]);
+                $this->entityUtils()->createOlzEntity($run, ['onOff' => !$is_name_blocklisted]);
                 $run->setUser(null);
                 $run->setRunnerName("{$firstname} {$lastname}");
                 $run->setRunAt($now);

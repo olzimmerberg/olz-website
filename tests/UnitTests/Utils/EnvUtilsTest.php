@@ -10,6 +10,11 @@ use Olz\Utils\EnvUtils;
 class TestOnlyEnvUtils extends EnvUtils {
     public function lazyInit(): void {
         // Avoid the error for config file not found...
+        $this->private_path = '/private/';
+        $this->data_path = '//';
+        $this->data_href = '/';
+        $this->code_path = '//_/';
+        $this->code_href = '/_/';
     }
 }
 
@@ -21,14 +26,6 @@ class TestOnlyEnvUtils extends EnvUtils {
 final class EnvUtilsTest extends UnitTestCase {
     public function testConfigure(): void {
         $env_utils = new TestOnlyEnvUtils();
-
-        $env_utils->setPrivatePath('/private/');
-
-        $env_utils->setDataPath('//');
-        $env_utils->setDataHref('/');
-
-        $env_utils->setCodePath('//_/');
-        $env_utils->setCodeHref('/_/');
 
         $env_utils->configure([
             'syslog_path' => 'fake-syslog-path',
@@ -128,42 +125,7 @@ final class EnvUtilsTest extends UnitTestCase {
         $this->assertSame('asdf', $env_utils->getAppMonitoringPassword());
         $this->assertSame('fake-user', $env_utils->getAppStatisticsUsername());
         $this->assertSame('qwer', $env_utils->getAppStatisticsPassword());
-    }
-
-    public function testComputePrivatePathDeployed(): void {
-        global $_SERVER;
-        $_SERVER['SERVER_NAME'] = 'fake.url';
-        $this->assertSame(realpath(__DIR__.'/../../../../../').'/', EnvUtils::computePrivatePath());
-    }
-
-    public function testComputePrivatePathLocal(): void {
-        global $_SERVER;
-        $_SERVER['SERVER_NAME'] = '127.0.0.1';
-        $this->assertSame(realpath(__DIR__.'/../../../private/').'/', EnvUtils::computePrivatePath());
-    }
-
-    public function testComputeDataPathFromDocumentRoot(): void {
-        global $_SERVER;
-        $_SERVER['DOCUMENT_ROOT'] = 'fake-document-root';
-        $this->assertSame('fake-document-root/', EnvUtils::computeDataPath());
-    }
-
-    public function testComputeDataPathFromInjectedPath(): void {
-        global $_SERVER;
-        $_SERVER['DOCUMENT_ROOT'] = '';
-        file_put_contents(__DIR__.'/../../../src/Utils/data/DATA_PATH', __DIR__);
-        $this->assertSame(__DIR__.'/', EnvUtils::computeDataPath());
-        unlink(__DIR__.'/../../../src/Utils/data/DATA_PATH');
-    }
-
-    public function testComputeDataPathFromLocalRoot(): void {
-        global $_SERVER;
-        $_SERVER['DOCUMENT_ROOT'] = '';
-        $_SERVER['argv'] = 'isset';
-        $this->assertSame(
-            realpath(__DIR__.'/../../../public').'/',
-            EnvUtils::computeDataPath(),
-        );
+        $this->assertSame(['status' => null, 'date' => null], $env_utils->getDeployStatus());
     }
 
     public function testGetConfigPathFromInjectedEnvPath(): void {

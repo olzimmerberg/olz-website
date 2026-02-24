@@ -30,6 +30,10 @@ final class EnvUtilsIntegrationTest extends IntegrationTestCase {
         );
         $this->assertSame('/', $utils->getCodeHref());
         $this->assertSame('http://integration-test.host', $utils->getBaseHref());
+        $this->assertSame([
+            'status' => 'TEST',
+            'date' => '2020-03-13 12:34:56',
+        ], $utils->getDeployStatus());
     }
 
     protected function getSut(): EnvUtils {

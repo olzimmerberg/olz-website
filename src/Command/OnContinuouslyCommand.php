@@ -160,12 +160,13 @@ class OnContinuouslyCommand extends OlzCommand {
     }
 
     protected function isDeploying(): bool {
-        $status_path = "{$this->envUtils()->getPrivatePath()}deploy/status.json";
-        if (!is_file($status_path)) {
+        $status = $this->envUtils()->getDeployStatus();
+        $minus_one_hour = \DateInterval::createFromDateString("-1 hours");
+        $one_hour_ago = (new \DateTime($this->dateUtils()->getIsoNow()))->add($minus_one_hour);
+        if ($status['date'] < $one_hour_ago->format('Y-m-d H:i:s')) {
             return false;
         }
-        $status = json_decode(file_get_contents($status_path) ?: '{}', true);
-        return ($status['status'] ?? 'IDLE') !== 'IDLE'; // TODO: Expire
+        return ($status['status'] ?? 'IDLE') !== 'IDLE';
     }
 
     /** @param callable(): void $fn */

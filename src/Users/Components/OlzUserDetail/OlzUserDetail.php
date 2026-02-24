@@ -2,6 +2,7 @@
 
 namespace Olz\Users\Components\OlzUserDetail;
 
+use Doctrine\Common\Collections\Criteria;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
@@ -160,13 +161,23 @@ class OlzUserDetail extends OlzRootComponent {
             $email_html .= "<div class='info-container'>Die E-Mails <b>werden weitergeleitet</b> an: <b>{$user->getEmail()}</b></div>";
             $email_html .= "<h3>Kürzlich weitergeleitete E-Mails</h3>";
             $email_html .= "<table class='forwarded-emails'><tr><th>Datum</th><th>Absender</th><th>Betreff</th></tr>";
+            $iso_now = $this->dateUtils()->getIsoNow();
+            $minus_one_month = \DateInterval::createFromDateString("-30 days");
+            $one_month_ago = (new \DateTime($iso_now))->add($minus_one_month);
             $forwarded_email_repo = $this->entityManager()->getRepository(ForwardedEmail::class);
-            $forwarded_emails = $forwarded_email_repo->findBy(['recipient_user' => $user], ['forwarded_at' => 'DESC']);
+            $forwarded_emails = $forwarded_email_repo->matching(Criteria::create()
+                ->where(Criteria::expr()->andX(
+                    Criteria::expr()->eq('recipient_user', $user),
+                    Criteria::expr()->gt('forwarded_at', $one_month_ago),
+                ))
+                ->orderBy(['forwarded_at' => 'DESC'])
+                ->setFirstResult(0)
+                ->setMaxResults(1000));
             foreach ($forwarded_emails as $forwarded_email) {
                 $email_html .= <<<ZZZZZZZZZZ
                     <tr>
-                        <td>{$forwarded_email->getForwardedAt()?->format('d.m.Y H:i')}</td>
-                        <td>{$forwarded_email->getSenderAddress()}</td>
+                        <td class='nowrap'>{$forwarded_email->getForwardedAt()?->format('d.m.Y H:i')}</td>
+                        <td class='nowrap'>{$forwarded_email->getSenderAddress()}</td>
                         <td>{$forwarded_email->getSubject()}</td>
                     </tr>
                     ZZZZZZZZZZ;

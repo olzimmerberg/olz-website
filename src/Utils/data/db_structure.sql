@@ -181,7 +181,7 @@ CREATE TABLE `counter` (
   `date_range` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `date_range_page_index` (`date_range`,`page`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -234,7 +234,7 @@ CREATE TABLE `forwarded_emails` (
   KEY `IDX_FB65F126B15EFB97` (`recipient_user_id`),
   KEY `recipient_user_id_forwarded_at_index` (`recipient_user_id`,`forwarded_at`),
   CONSTRAINT `FK_FB65F126B15EFB97` FOREIGN KEY (`recipient_user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

@@ -129,7 +129,8 @@ VALUES
 INSERT INTO forwarded_emails
     (`sender_address`, `subject`, `body`, `forwarded_at`, `error_message`, `id`, `recipient_user_id`)
 VALUES
-    ('beispiel@olzimmerberg.ch', 'Wichtiger Betreff!', 'Wichtige Mitteilung', '2020-03-13 17:11:25', NULL, '1', '1');
+    ('beispiel@olzimmerberg.ch', 'MV findet statt!', 'MV findet trotz ausserordentlicher Lage statt.', '2020-03-13 17:11:25', NULL, '1', '1'),
+    ('beispiel@olzimmerberg.ch', 'Wichtiger Betreff, der unbedingt gelesen werden sollte, aber definitiv auch einigermassen lange werden kann!', 'Wichtige Mitteilung, die sehr sehr viel Inhalt hat. Wir gehen hier richtig in die Tiefe, was in einer E-Mail ja auch durchaus mal vorkommen kann.', '2020-08-01 17:11:25', NULL, '2', '1');
 
 -- Table karten
 INSERT INTO karten

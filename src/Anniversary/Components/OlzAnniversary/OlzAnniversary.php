@@ -147,13 +147,14 @@ class OlzAnniversary extends OlzRootComponent {
                 Criteria::expr()->gt('run_at', $one_day_ago),
                 Criteria::expr()->eq('on_off', 1),
             ))
-            ->orderBy(['run_at' => 'DESC'])
+            ->orderBy(['created_at' => 'DESC'])
             ->setFirstResult(0)
             ->setMaxResults(1000));
         foreach ($runs as $run) {
             $id = $run->getId();
             $json_id = json_encode($id);
             $date = $run->getRunAt()->format('d.m.Y H:i');
+            $is_backdated_emoji = $run->getRunAt() < $one_day_ago ? ' 🔙' : '';
             $is_counting_emoji = $run->getIsCounting() ? '✅' : '🚫';
             $is_counting_title = $run->getIsCounting() ? 'zählt' : 'zählt nicht';
             $name = $run->getRunnerName() ?? "?";
@@ -165,7 +166,7 @@ class OlzAnniversary extends OlzRootComponent {
             $sport_type = $run->getSportType() ?? "?";
             $out .= <<<ZZZZZZZZZZ
                 <tr>
-                    <td>{$date}</td>
+                    <td>{$date}{$is_backdated_emoji}</td>
                     <td>{$name}</td>
                     <td>{$source}</td>
                     <td class='number'>{$distance_km}km</td>

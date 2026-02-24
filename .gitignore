@@ -3,7 +3,8 @@
 /deploy
 /deploy.zip
 /docs/coverage
-/private
+/private/logs/*
+/private/sessions/*
 /public/*
 !/public/.htaccess
 !/public/assets

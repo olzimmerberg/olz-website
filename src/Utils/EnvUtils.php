@@ -3,11 +3,11 @@
 namespace Olz\Utils;
 
 class EnvUtils {
-    private ?string $private_path = null;
-    private ?string $data_path = null;
-    private ?string $data_href = null;
-    private ?string $code_path = null;
-    private ?string $code_href = null;
+    protected ?string $private_path = null;
+    protected ?string $data_path = null;
+    protected ?string $data_href = null;
+    protected ?string $code_path = null;
+    protected ?string $code_href = null;
 
     private ?string $syslog_path = null;
     private ?string $base_href = null;
@@ -71,15 +71,14 @@ class EnvUtils {
         }
         global $_SERVER;
 
-        $this->setDataHref('/');
+        $this->data_href = '/';
 
         $code_href = '/';
         if (isset($_SERVER['OLZ_SYMFONY_HREF']) && preg_match('/^\/.+\/$/', $_SERVER['OLZ_SYMFONY_HREF'])) {
             $code_href = $_SERVER['OLZ_SYMFONY_HREF'];
         }
-        $code_path = realpath(__DIR__.'/../../').'/';
-        $this->setCodePath($code_path);
-        $this->setCodeHref($code_href);
+        $this->code_href = $code_href;
+        $this->code_path = realpath(__DIR__.'/../../').'/';
 
         $config_path = self::getConfigPath();
         if (!is_file($config_path)) {
@@ -91,26 +90,6 @@ class EnvUtils {
         $configure_env_utils_function($this);
 
         $this->lazyInitCompleted = true;
-    }
-
-    public function setPrivatePath(?string $private_path): void {
-        $this->private_path = $private_path;
-    }
-
-    public function setDataPath(string $data_path): void {
-        $this->data_path = $data_path;
-    }
-
-    public function setDataHref(string $data_href): void {
-        $this->data_href = $data_href;
-    }
-
-    public function setCodePath(string $code_path): void {
-        $this->code_path = $code_path;
-    }
-
-    public function setCodeHref(string $code_href): void {
-        $this->code_href = $code_href;
     }
 
     /** @param array<string, mixed> $config_dict */
@@ -436,44 +415,21 @@ class EnvUtils {
         return $this->app_statistics_password;
     }
 
+    /** @return array{status: ?string, date: ?string} */
+    public function getDeployStatus(): array {
+        $status_path = "{$this->getPrivatePath()}deploy/status.json";
+        $status = json_decode(@file_get_contents($status_path) ?: '{}', true);
+        return [
+            'status' => $status['status'] ?? null,
+            'date' => $status['date'] ?? null,
+        ];
+    }
+
     /** @phpstan-assert !null $value */
     protected function checkNotNull(mixed $value, string $error_message): void {
         if ($value === null) {
             throw new \Exception($error_message);
         }
-    }
-
-    public static function computeDataPath(): string {
-        $document_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
-        if ($document_root) {
-            return "{$document_root}/";
-        }
-        $injected_path = __DIR__.'/data/DATA_PATH';
-        if (is_file($injected_path)) {
-            $injected_data_path = file_get_contents($injected_path);
-            if ($injected_data_path && is_dir($injected_data_path)) {
-                return "{$injected_data_path}/";
-            }
-        }
-        $local_root = realpath(__DIR__.'/../../public');
-        return "{$local_root}/";
-    }
-
-    public static function computePrivatePath(): ?string {
-        global $_SERVER;
-
-        $server_name = $_SERVER['SERVER_NAME'] ?? 'localhost';
-        $user_name = $_SERVER['USER'] ?? '';
-        $is_local = ($server_name === '127.0.0.1' || $server_name === 'localhost')
-            && $user_name !== 'olzimmerberg';
-        if ($is_local) {
-            $local_private = __DIR__.'/../../private';
-            if (!is_dir($local_private)) {
-                mkdir($local_private, 0o777, true);
-            }
-            return realpath($local_private).'/';
-        }
-        return realpath(__DIR__.'/../../../../').'/';
     }
 
     public static function getConfigPath(): string {

@@ -75,7 +75,7 @@ class OlzNewsListItem extends OlzComponent {
                 'date' => $pretty_published_date,
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
-                'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown($teaser, [])),
+                'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown($teaser ?? '', [])),
                 'link' => $link,
                 'class' => 'has-thumb',
             ]);
@@ -86,7 +86,7 @@ class OlzNewsListItem extends OlzComponent {
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
                 'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown(
-                    self::truncateText($content),
+                    self::truncateText($content ?? ''),
                 )),
                 'link' => $link,
                 'class' => 'has-thumb',
@@ -98,7 +98,7 @@ class OlzNewsListItem extends OlzComponent {
                 'author' => $author_badge,
                 'title' => $title.$edit_admin,
                 'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown(
-                    self::truncateText($content),
+                    self::truncateText($content ?? ''),
                 )),
                 'link' => $link,
                 'class' => 'has-thumb',

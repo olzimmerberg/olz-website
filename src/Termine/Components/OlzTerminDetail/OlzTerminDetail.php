@@ -286,11 +286,9 @@ class OlzTerminDetail extends OlzRootComponent {
         }
 
         // Text
-        // TODO: Temporary fix for broken Markdown
-        $text = str_replace("\n", "\n\n", $text);
-        $text = str_replace("\n\n\n\n", "\n\n", $text);
         $text_html = $this->htmlUtils()->renderMarkdown($text, [
-            'html_input' => 'allow', // TODO: Do NOT allow!
+            // TODO: Do NOT ever allow!
+            'html_input' => $start_date->format('Y') > '2020' ? 'escape' : 'allow',
         ]);
         $text_html = $termin->replaceImagePaths($text_html);
         $text_html = $termin->replaceFilePaths($text_html);

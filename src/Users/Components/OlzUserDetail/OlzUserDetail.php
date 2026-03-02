@@ -212,13 +212,11 @@ class OlzUserDetail extends OlzRootComponent {
         if ($can_edit) {
             $out .= "<h2>Familie</h2>";
             $child_users = $user_repo->findBy(['parent_user' => $user->getId()]);
-            if ($child_users) {
-                $out .= "<ul class='info-container'>";
-                foreach ($child_users as $child_user) {
-                    $out .= "<li>Familienmitglied <a href='{$code_href}benutzer/{$child_user->getId()}'>{$child_user->getFullName()}</a></li>";
-                }
-                $out .= "</ul>";
+            $out .= "<ul id='child-users-list' class='info-container'>";
+            foreach ($child_users as $child_user) {
+                $out .= "<li>Familienmitglied <a href='{$code_href}benutzer/{$child_user->getId()}'>{$child_user->getFullName()}</a></li>";
             }
+            $out .= "</ul>";
             if ($user->getParentUserId()) {
                 $parent_user = $user_repo->findOneBy(['id' => $user->getParentUserId()]);
                 $out .= "<div class='info-container'>Familienmitglied von <a href='{$code_href}benutzer/{$parent_user?->getId()}'>{$parent_user?->getFullName()}</a></div>";

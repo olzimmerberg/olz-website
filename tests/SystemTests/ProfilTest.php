@@ -100,6 +100,30 @@ final class ProfilTest extends SystemTestCase {
         $this->resetDb();
     }
 
+    #[OnlyInModes(['dev_rw', 'staging_rw'])]
+    public function testAddFamilyMember(): void {
+        $browser = $this->getBrowser();
+
+        $this->login('karten', 'kar73n');
+        $browser->get($this->getUrl());
+        $this->assertSame('', $this->getBrowserElement('#child-users-list')?->getText());
+
+        $this->click('#add-child-user-button');
+        $this->waitForModal('#edit-user-modal');
+        $this->sendKeys('#edit-user-modal #firstName-input', 'Child Integration T.');
+        $this->click('#edit-user-modal #username-input');
+        $this->clear('#edit-user-modal #email-input');
+        $this->click('#edit-user-modal #submit-button');
+
+        $browser->get($this->getUrl());
+        $this->assertSame(
+            'Familienmitglied Child Integration T. Karten',
+            $this->getBrowserElement('#child-users-list')?->getText(),
+        );
+
+        $this->resetDb();
+    }
+
     protected function getUrl(): string {
         return "{$this->getTargetUrl()}/benutzer/ich";
     }

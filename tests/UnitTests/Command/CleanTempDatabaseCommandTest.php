@@ -26,8 +26,11 @@ final class CleanTempDatabaseCommandTest extends UnitTestCase {
 
         $this->assertSame([
             'INFO Running command Olz\Command\CleanTempDatabaseCommand...',
+            'INFO Cleaning up 2 access token entries...',
             'INFO Cleaning up 3 auth request entries...',
             'INFO Cleaning up 3 counter entries...',
+            'INFO Cleaning up 3 forwarded email entries...',
+            'INFO Cleaning up 3 throttling entries...',
             'INFO Successfully ran command Olz\Command\CleanTempDatabaseCommand.',
         ], $this->getLogs());
     }

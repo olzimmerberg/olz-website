@@ -12,6 +12,7 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
  */
 class FakeThrottlingRepository extends FakeOlzRepository {
     public string $olzEntityClass = Throttling::class;
+    public string $fakeOlzEntityClass = FakeThrottling::class;
 
     /** @var array<string, false|string> */
     public array $last_occurrences = [];

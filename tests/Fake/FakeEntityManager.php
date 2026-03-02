@@ -31,6 +31,7 @@ use Olz\Entity\AuthRequest;
 use Olz\Entity\Counter;
 use Olz\Entity\Faq\Question;
 use Olz\Entity\Faq\QuestionCategory;
+use Olz\Entity\ForwardedEmail;
 use Olz\Entity\Karten\Karte;
 use Olz\Entity\Members\Member;
 use Olz\Entity\News\NewsEntry;
@@ -59,6 +60,7 @@ use Olz\Tests\Fake\Entity\Anniversary\FakeRunRecordRepository;
 use Olz\Tests\Fake\Entity\FakeAccessTokenRepository;
 use Olz\Tests\Fake\Entity\FakeAuthRequestRepository;
 use Olz\Tests\Fake\Entity\FakeCounterRepository;
+use Olz\Tests\Fake\Entity\FakeForwardedEmailRepository;
 use Olz\Tests\Fake\Entity\FakeNotificationSubscriptionRepository;
 use Olz\Tests\Fake\Entity\FakeSolvEventRepository;
 use Olz\Tests\Fake\Entity\FakeStravaLinkRepository;
@@ -105,6 +107,7 @@ class FakeEntityManager implements EntityManagerInterface {
             Booking::class => new FakeBookingRepository($this),
             Counter::class => new FakeCounterRepository($this),
             Download::class => new FakeDownloadRepository($this),
+            ForwardedEmail::class => new FakeForwardedEmailRepository($this),
             Karte::class => new FakeKarteRepository($this),
             Link::class => new FakeLinkRepository($this),
             Member::class => new FakeMemberRepository($this),

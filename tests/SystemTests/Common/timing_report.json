@@ -53,6 +53,7 @@
     "Olz\\Tests\\SystemTests\\ProdTest::testHttpGetsRedirected": 0.4,
     "Olz\\Tests\\SystemTests\\ProdTest::testHttpWwwGetsRedirected": 0.4,
     "Olz\\Tests\\SystemTests\\ProdTest::testWwwGetsRedirected": 0.5,
+    "Olz\\Tests\\SystemTests\\ProfilTest::testAddFamilyMember": 5,
     "Olz\\Tests\\SystemTests\\ProfilTest::testProfilDeleteUser": 3.1,
     "Olz\\Tests\\SystemTests\\ProfilTest::testProfilScreenshots": 2.6,
     "Olz\\Tests\\SystemTests\\ProfilTest::testProfilUpdateUser": 5.4,
@@ -107,9 +108,9 @@
     "Olz\\Tests\\SystemTests\\WebmailTest::testWebmailIsWorking": 0.4,
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureCreate": 3.1,
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureReadOnly": 1.1,
-    "db_reset": 1.1,
-    "login": 0.6,
+    "db_reset": 0.8,
+    "login": 0.5,
     "logout": 1.8,
     "screenshot": 0.7,
-    "total": 12.9
+    "total": 9
 }

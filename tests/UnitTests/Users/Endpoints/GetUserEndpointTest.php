@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Users\Endpoints;
 
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\GetUserEndpoint;
 use Olz\Utils\WithUtilsCache;
@@ -17,7 +18,7 @@ use PhpTypeScriptApi\HttpError;
  */
 final class GetUserEndpointTest extends UnitTestCase {
     public function testGetUserEndpointNoAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['users' => false];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
         $endpoint = new GetUserEndpoint();
         $endpoint->runtimeSetup();
 
@@ -35,9 +36,55 @@ final class GetUserEndpointTest extends UnitTestCase {
         }
     }
 
+    public function testGetUserEndpointMe(): void {
+        $id = FakeUser::minimal()->getId();
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::minimal();
+        $endpoint = new GetUserEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'id' => $id,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame([
+            'id' => $id,
+            'meta' => [
+                'ownerUserId' => null,
+                'ownerRoleId' => null,
+                'onOff' => true,
+            ],
+            'data' => [
+                'parentUserId' => null,
+                'firstName' => 'Required',
+                'lastName' => 'Non-empty',
+                'username' => 'minimal-user',
+                'password' => null,
+                'email' => null,
+                'phone' => null,
+                'gender' => null,
+                'birthdate' => null,
+                'street' => null,
+                'postalCode' => null,
+                'city' => null,
+                'region' => null,
+                'countryCode' => null,
+                'siCardNumber' => null,
+                'solvNumber' => null,
+                'ahvNumber' => null,
+                'dressSize' => null,
+                'avatarImageId' => null,
+            ],
+        ], $result);
+    }
+
     public function testGetUserEndpointMinimal(): void {
         $id = FakeOlzRepository::MINIMAL_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['users' => true];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new GetUserEndpoint();
         $endpoint->runtimeSetup();
 
@@ -82,7 +129,7 @@ final class GetUserEndpointTest extends UnitTestCase {
 
     public function testGetUserEndpointEmpty(): void {
         $id = FakeOlzRepository::EMPTY_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['users' => true];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new GetUserEndpoint();
         $endpoint->runtimeSetup();
 
@@ -127,7 +174,7 @@ final class GetUserEndpointTest extends UnitTestCase {
 
     public function testGetUserEndpointMaximal(): void {
         $id = FakeOlzRepository::MAXIMAL_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['users' => true];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new GetUserEndpoint();
         $endpoint->runtimeSetup();
 

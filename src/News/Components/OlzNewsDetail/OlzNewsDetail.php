@@ -126,9 +126,12 @@ class OlzNewsDetail extends OlzRootComponent {
         $title = $news_entry->getTitle();
         $teaser = $news_entry->getTeaser() ?? '';
         $content = $news_entry->getContent() ?? '';
+        $published_date = $news_entry->getPublishedDate();
 
         // Markdown
-        $html_input = $format === 'forum' ? 'escape' : 'allow'; // TODO: Do NOT allow!
+        // TODO: Do NOT ever allow!
+        $html_input = ($format === 'forum' || $published_date->format('Y') > '2020')
+            ? 'escape' : 'allow';
         $teaser = $this->htmlUtils()->renderMarkdown($teaser, [
             'html_input' => $html_input,
         ]);
@@ -198,7 +201,6 @@ class OlzNewsDetail extends OlzRootComponent {
 
         $db->query("UPDATE news SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
 
-        $published_date = $news_entry->getPublishedDate();
         $published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
 
         $is_owner = $user && intval($news_entry->getOwnerUser()?->getId() ?? 0) === intval($user->getId());

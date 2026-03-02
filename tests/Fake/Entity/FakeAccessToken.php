@@ -12,6 +12,54 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
  * @extends FakeEntity<AccessToken>
  */
 class FakeAccessToken extends FakeEntity {
+    public static function minimal(bool $fresh = false): AccessToken {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = new AccessToken();
+                $entity->setId(12);
+                $entity->setUser(null);
+                $entity->setPurpose('');
+                $entity->setToken('');
+                $entity->setCreatedAt(new \DateTime('1970-01-01 00:00:00'));
+                $entity->setExpiresAt(new \DateTime('1970-01-01 00:00:00'));
+                return $entity;
+            }
+        );
+    }
+
+    public static function empty(bool $fresh = false): AccessToken {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = new AccessToken();
+                $entity->setId(123);
+                $entity->setUser(null);
+                $entity->setPurpose('');
+                $entity->setToken('');
+                $entity->setCreatedAt(new \DateTime('0000-00-00 00:00:00'));
+                $entity->setExpiresAt(new \DateTime('0000-00-00 00:00:00'));
+                return $entity;
+            }
+        );
+    }
+
+    public static function maximal(bool $fresh = false): AccessToken {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = new AccessToken();
+                $entity->setId(1234);
+                $entity->setUser(FakeUser::maximal());
+                $entity->setPurpose('Fake Purpose');
+                $entity->setToken('ABC123abc');
+                $entity->setCreatedAt(new \DateTime('2020-03-13 19:30:00'));
+                $entity->setExpiresAt(new \DateTime('2021-03-13 19:30:00'));
+                return $entity;
+            }
+        );
+    }
+
     public static function default(bool $fresh = false): AccessToken {
         return self::getFake(
             $fresh,

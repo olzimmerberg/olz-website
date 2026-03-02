@@ -127,10 +127,6 @@ class OlzNewsDetail extends OlzRootComponent {
         $teaser = $news_entry->getTeaser() ?? '';
         $content = $news_entry->getContent() ?? '';
 
-        // TODO: Temporary fix for broken Markdown
-        $content = str_replace("\n", "\n\n", $content);
-        $content = str_replace("\n\n\n\n", "\n\n", $content);
-
         // Markdown
         $html_input = $format === 'forum' ? 'escape' : 'allow'; // TODO: Do NOT allow!
         $teaser = $this->htmlUtils()->renderMarkdown($teaser, [

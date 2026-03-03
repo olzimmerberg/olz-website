@@ -54,6 +54,12 @@ class Deploy extends AbstractDefaultDeploy {
         $fs = new Symfony\Component\Filesystem\Filesystem();
         $build_folder_path = $this->getLocalBuildFolderPath();
 
+        $this->logger?->info("Cache warmup...");
+        $commands = [
+            './bin/console cache:warmup --env=prod',
+        ];
+        shell_exec(implode(';', $commands));
+
         $this->logger?->info("Remove jsbuild...");
         $fs->remove(__DIR__.'/public/jsbuild');
         $this->logger?->info("Webpack build...");

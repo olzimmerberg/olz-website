@@ -238,7 +238,7 @@ class OlzNewsDetail extends OlzRootComponent {
                     'news',
                     $id,
                     $image_id,
-                    110,
+                    128,
                     'gallery[myset]'
                 );
                 $gallery .= "</div>";

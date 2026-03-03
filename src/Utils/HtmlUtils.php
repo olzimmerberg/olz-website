@@ -48,8 +48,6 @@ class HtmlUtils {
         $esc_host = preg_quote($host);
         $this->olz_email_regex = '([A-Z0-9a-z._%+-]+)@'.$esc_host;
 
-        $html = str_replace(['<p>', '<p ', '</p>'], ['<div>', '<div ', '</div>'], $html);
-
         preg_match_all(
             "/{$this->prefix_regex}{$this->olz_email_regex}{$this->subject_regex}{$this->suffix_regex}/",
             $html,

@@ -36,7 +36,7 @@
             color: colors.$olz-bg;
             border: 1px solid colors.$olz-bg;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: normal;
             padding: 0 5px;
             margin-right: 6px;
@@ -73,7 +73,7 @@
 
     .title {
         font-weight: bold;
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .type-icon {
@@ -102,5 +102,6 @@
 
     .image-container img {
         border: 0;
+        border-radius: 3px;
     }
 }

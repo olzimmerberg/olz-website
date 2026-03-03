@@ -11,14 +11,14 @@
 body {
     background-image: url('../../../../assets/icns/brushedbgschwarz.png');
     color: rgb(0, 0, 0);
-    font-size: 12px;
+    font-size: 13px;
     z-index: -2;
     word-wrap: break-word; // @deprecated?
     overflow-wrap: break-word;
 }
 
 input {
-    font-size: 12px;
+    font-size: 13px;
 }
 
 * {
@@ -60,7 +60,7 @@ ul {
     background-color: colors.$banner-bg;
     border-bottom: 1px solid colors.$olz-bg-dark;
     border-top: 1px solid colors.$olz-bg-dark;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     margin: 5px 0;
     padding: 10px 0;
@@ -77,7 +77,7 @@ ul {
     margin: 0 -10px;
     border: 0;
     padding: 0 14px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
 
     &.green {
@@ -125,32 +125,32 @@ li {
 
 /*-------SCHRIFTEIGENSCHAFTEN--------*/
 h1 {
-    font-size: 28px;
+    font-size: 27px;
     margin: 14px 0 7px;
 }
 
 h2 {
-    font-size: 22px;
+    font-size: 23px;
     margin: 12px 0 6px;
 }
 
 h3 {
-    font-size: 20px;
+    font-size: 21px;
     margin: 10px 0 5px;
 }
 
 h4 {
-    font-size: 18px;
+    font-size: 19px;
     margin: 8px 0 4px;
 }
 
 h5 {
-    font-size: 16px;
+    font-size: 17px;
     margin: 6px 0 3px;
 }
 
 h6 {
-    font-size: 14px;
+    font-size: 15px;
     margin: 4px 0 2px;
 }
 
@@ -327,6 +327,18 @@ a {
 
     &.linkrole {
         background-image: url('../../../../assets/icns/link_role_16.svg');
+    }
+}
+
+.rendered-markdown .lightgallery {
+    padding: 5px;
+    background: none;
+    display: block;
+    text-align: center;
+
+    img {
+        border-radius: 3px;
+        padding: 5px;
     }
 }
 

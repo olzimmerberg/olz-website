@@ -352,7 +352,7 @@ class OlzTerminDetail extends OlzRootComponent {
                             'termin_locations',
                             $termin_location->getId(),
                             $image_id,
-                            110,
+                            128,
                             'gallery[myset]'
                         );
                         $out .= "</div>";

@@ -36,7 +36,7 @@ class OlzNewsListItem extends OlzComponent {
                 'news',
                 $id,
                 $image_ids[0] ?? null,
-                110,
+                128,
                 'image',
             );
         }
@@ -113,7 +113,7 @@ class OlzNewsListItem extends OlzComponent {
                     $random_index = rand(1, $size);
                 }
                 array_push($used_thumb_indexes, $random_index);
-                $thumbs .= "<td class='test-flaky'>".$this->imageUtils()->olzImage("news", $id, $image_ids[$random_index - 1], 110, 'image')."</td>";
+                $thumbs .= "<td class='test-flaky'>".$this->imageUtils()->olzImage("news", $id, $image_ids[$random_index - 1], 128, 'image')."</td>";
             }
             $out .= OlzPostingListItem::render([
                 'icon' => $icon,
@@ -124,7 +124,7 @@ class OlzNewsListItem extends OlzComponent {
                 'link' => $link,
             ]);
         } elseif ($format === 'video') {
-            $thumbnail = $this->imageUtils()->olzImage("news", $id, $image_ids[0] ?? null, 110, 'image');
+            $thumbnail = $this->imageUtils()->olzImage("news", $id, $image_ids[0] ?? null, 128, 'image');
             $content = <<<ZZZZZZZZZZ
                 <div href='{$link}' style='background-color:#000;padding-top:0;' class='video-thumb'>\n
                 <span style='display:block;background-image:url({$code_href}assets/icns/movie_dot.svg);background-repeat:repeat-x;height:24px;'></span>\n

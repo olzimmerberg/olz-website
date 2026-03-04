@@ -80,15 +80,14 @@
         position: absolute;
         left: 60px;
         right: 10px;
-        top: 50px;
+        top: 46px;
         height: 60px;
-        font-size: 12px;
+        font-size: 13px;
 
         .title {
             font-weight: bold;
             font-size: 14px;
             text-align: left;
-            margin-bottom: 3px;
         }
 
         .done-text {
@@ -114,16 +113,15 @@
         position: absolute;
         left: 80px;
         right: 10px;
-        top: 120px;
+        top: 118px;
         bottom: 10px;
-        font-size: 12px;
+        font-size: 13px;
         border-left: 1px solid #000;
 
         .title {
             font-weight: bold;
             font-size: 14px;
             text-align: center;
-            margin-bottom: 3px;
         }
 
         table {
@@ -140,7 +138,7 @@
 
             &:first-child {
                 width: 20px;
-                font-size: 14px;
+                font-size: 15px;
             }
 
             &:last-child {

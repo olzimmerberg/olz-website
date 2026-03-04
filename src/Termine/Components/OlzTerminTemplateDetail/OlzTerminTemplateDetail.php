@@ -155,7 +155,7 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
                     'termin_templates',
                     $id,
                     $image_id,
-                    110,
+                    128,
                     'gallery[myset]'
                 );
                 $out .= "</div>";

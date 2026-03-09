@@ -1,0 +1,1 @@
+import './OlzAngebot.scss';

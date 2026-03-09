@@ -3,7 +3,7 @@
 namespace Olz\Repository\Snippets;
 
 enum PredefinedSnippet: int {
-    // The string value is the username.
+    case Angebot = 1;
     case TermineDownloadsLinks = 2;
     case TermineNewsletter = 3;
     case AnniversaryHoehenmeter = 9;

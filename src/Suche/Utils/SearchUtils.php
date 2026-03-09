@@ -22,9 +22,9 @@ use Olz\Apps\Youtube\Components\OlzYoutube\OlzYoutube;
 use Olz\Components\Auth\OlzEmailReaktion\OlzEmailReaktion;
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
+use Olz\Components\OtherPages\OlzAngebot\OlzAngebot;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
-use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
 use Olz\Faq\Components\OlzFaqDetail\OlzFaqDetail;
 use Olz\Faq\Components\OlzFaqList\OlzFaqList;
 use Olz\Karten\Components\OlzKarteDetail\OlzKarteDetail;
@@ -82,7 +82,7 @@ class SearchUtils {
         OlzHtmlSitemap::class,
         OlzDatenschutz::class,
         OlzFuerEinsteiger::class,
-        OlzMaterial::class,
+        OlzAngebot::class,
         OlzFaqDetail::class,
         OlzFaqList::class,
         OlzKarteDetail::class,

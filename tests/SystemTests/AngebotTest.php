@@ -12,19 +12,19 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  *
  * @coversNothing
  */
-final class MaterialTest extends SystemTestCase {
+final class AngebotTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
-    public function testMaterialReadOnly(): void {
+    public function testAngebotReadOnly(): void {
         $browser = $this->getBrowser();
 
         $browser->get($this->getUrl());
-        $this->screenshot('material');
+        $this->screenshot('angebot');
 
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
     }
 
     protected function getUrl(): string {
-        return "{$this->getTargetUrl()}/material";
+        return "{$this->getTargetUrl()}/angebot";
     }
 }

@@ -1,4 +1,5 @@
 {
+    "Olz\\Tests\\SystemTests\\AngebotTest::testAngebotReadOnly": 2.9,
     "Olz\\Tests\\SystemTests\\AnniversaryTest::testAnniversaryReadOnly": 3,
     "Olz\\Tests\\SystemTests\\AnniversaryTest::testAnniversaryRunCreate": 3.3,
     "Olz\\Tests\\SystemTests\\AnniversaryTest::testAnniversaryRunDelete": 3.3,
@@ -27,7 +28,6 @@
     "Olz\\Tests\\SystemTests\\LinksTest::testLinksDelete": 3,
     "Olz\\Tests\\SystemTests\\LiveResultsTest::testLiveResultsScreenshots": 1,
     "Olz\\Tests\\SystemTests\\LoginLogoutTest::testLoginLogoutScreenshots": 4.6,
-    "Olz\\Tests\\SystemTests\\MaterialTest::testMaterialReadOnly": 0.6,
     "Olz\\Tests\\SystemTests\\MessageQueueTest::testIsMessageQueueRunningOnProd": 0.7,
     "Olz\\Tests\\SystemTests\\MessageQueueTest::testMessageQueueOnDev": 2.3,
     "Olz\\Tests\\SystemTests\\NewsAktuellTest::testNewsAktuellCreate": 5.3,
@@ -111,6 +111,6 @@
     "db_reset": 0.8,
     "login": 0.5,
     "logout": 1.8,
-    "screenshot": 0.7,
-    "total": 9
+    "screenshot": 0.5,
+    "total": 6.6
 }

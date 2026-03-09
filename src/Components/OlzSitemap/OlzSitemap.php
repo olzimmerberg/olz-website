@@ -4,9 +4,9 @@ namespace Olz\Components\OlzSitemap;
 
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
+use Olz\Components\OtherPages\OlzAngebot\OlzAngebot;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
-use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
 use Olz\Entity\Faq\Question;
 use Olz\Entity\Karten\Karte;
 use Olz\Entity\News\NewsEntry;
@@ -235,9 +235,9 @@ abstract class OlzSitemap extends OlzRootComponent {
         }
 
         $entries[] = [
-            'title' => OlzMaterial::$title,
-            'description' => OlzMaterial::$description,
-            'url' => "{$base_href}/material",
+            'title' => OlzAngebot::$title,
+            'description' => OlzAngebot::$description,
+            'url' => "{$base_href}/angebot",
             'updates' => 'monthly',
             'importance' => 0.5,
             'level' => 0,

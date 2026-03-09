@@ -2,9 +2,9 @@
 
 namespace Olz\Controller;
 
+use Olz\Components\OtherPages\OlzAngebot\OlzAngebot;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
-use Olz\Components\OtherPages\OlzMaterial\OlzMaterial;
 use Olz\Termine\Utils\TermineUtils;
 use Olz\Utils\DateUtils;
 use Olz\Utils\EnvUtils;
@@ -42,16 +42,27 @@ class OtherPagesController extends AbstractController {
         return new Response($out);
     }
 
+    #[Route('/angebot')]
+    public function angebot(
+        Request $request,
+        HttpUtils $httpUtils,
+        OlzAngebot $olzAngebot,
+    ): Response {
+        $httpUtils->countRequest($request);
+        $out = $olzAngebot->getHtml([]);
+        return new Response($out);
+    }
+
     #[Route('/material')]
     public function material(
         Request $request,
-        LoggerInterface $logger,
         HttpUtils $httpUtils,
-        OlzMaterial $olzMaterial,
+        EnvUtils $envUtils,
     ): Response {
         $httpUtils->countRequest($request);
-        $out = $olzMaterial->getHtml([]);
-        return new Response($out);
+        $code_href = $envUtils->getCodeHref();
+        $url = "{$code_href}angebot";
+        return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'material']);
     }
 
     #[Route('/trophy')]

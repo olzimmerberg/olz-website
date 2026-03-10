@@ -2,11 +2,11 @@
 
 .user-selected {
     .dropdown-toggle {
-        background-color: rgba(colors.$olz-bg, 0.1);
+        background-color: rgba(colors.$olz-bg, 0.2);
         color: colors.$olz-bg;
 
         &:hover, &.show {
-            background-color: rgba(colors.$olz-bg-dark, 0.2);
+            background-color: rgba(colors.$olz-bg-dark, 0.3);
             color: colors.$olz-bg-dark;
         }
     }
@@ -38,12 +38,12 @@
     padding-top: 0;
 
     .badge {
-        background-color: rgba(colors.$olz-bg, 0.1);
+        background-color: rgba(colors.$olz-bg, 0.2);
         color: colors.$olz-bg;
     }
 
     &:hover .badge {
-        background-color: rgba(colors.$olz-bg-dark, 0.2);
+        background-color: rgba(colors.$olz-bg-dark, 0.3);
         color: colors.$olz-bg-dark;
     }
 

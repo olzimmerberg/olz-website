@@ -3,7 +3,7 @@
 .olz-author-badge {
     display: inline-flex;
     align-items: center;
-    background-color: rgba(100,100,100, 0.1);
+    background-color: rgba(100,100,100, 0.2);
     color: rgb(100,100,100);
     border-radius: 4px;
     font-size: 14px;
@@ -18,16 +18,16 @@
     }
 
     &.has-popup:hover {
-        background-color: rgba(50,50,50, 0.2);
+        background-color: rgba(50,50,50, 0.3);
         color: rgb(50,50,50);
     }
 
     &.level-user {
-        background-color: rgba(colors.$olz-bg, 0.1);
+        background-color: rgba(colors.$olz-bg, 0.2);
         color: colors.$olz-bg;
 
         &.has-popup:hover {
-            background-color: rgba(colors.$olz-bg-dark, 0.2);
+            background-color: rgba(colors.$olz-bg-dark, 0.3);
             color: colors.$olz-bg-dark;
         }
     }

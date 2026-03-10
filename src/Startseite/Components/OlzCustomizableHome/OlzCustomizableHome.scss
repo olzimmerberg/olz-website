@@ -1,3 +1,5 @@
+@use '../../../Components/Common/OlzStyles/colors' as colors;
+
 .olz-customizable-home {
     display: flex;
     flex-wrap: wrap;
@@ -24,6 +26,33 @@
 
 .tile .center {
     text-align: center;
+}
+
+.tile .secondary {
+    margin-left: 6px;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.tile ul.filters {
+    padding-left: 0;
+
+    li {
+        display: inline-flex;
+        background-color: rgba(colors.$olz-bg, 0.2);
+        border: 1px solid colors.$olz-bg;
+        border-radius: 24px;
+        height: 24px;
+        line-height: 24px;
+        margin: 2px;
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            padding: 0px 6px;
+        }
+    }
 }
 
 .tile ul.links {
@@ -63,17 +92,12 @@
             margin-left: 8px;
         }
     }
-
-    .secondary {
-        margin-left: 6px;
-        font-style: italic;
-    }
 }
 
 .tile .link-icon {
     display: inline-block;
     border: 0;
-    height: 16px;
+    height: 18px;
     margin: -2px 0 -1px;
 }
 

@@ -294,6 +294,13 @@ class TermineUtils {
         return "{$tbl_sql}start_date >= '{$archive_threshold}'";
     }
 
+    /** @param PartialFilter $filter */
+    public function getUrl(array $filter = []): string {
+        $code_href = $this->envUtils()->getCodeHref();
+        $serialized_filter = $this->serialize($this->getValidFilter($filter));
+        return "{$code_href}termine?filter={$serialized_filter}";
+    }
+
     public function updateTerminFromSolvEvent(Termin $termin, ?SolvEvent $solv_event_arg = null): void {
         $solv_id = $termin->getSolvId();
         if (!$solv_id) {

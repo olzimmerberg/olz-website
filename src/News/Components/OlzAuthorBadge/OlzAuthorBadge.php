@@ -32,12 +32,12 @@ class OlzAuthorBadge extends OlzComponent {
         $label = '?';
         $has_popup = false;
         if ($user && $role) {
-            $icon = 'author_role_20.svg';
+            $icon = 'author_role_white_20.svg';
             $level = 'role';
             $label = "{$user->getFirstName()} {$user->getLastName()}, {$role->getName()}";
             $has_popup = true;
         } elseif ($role) {
-            $icon = 'author_role_20.svg';
+            $icon = 'author_role_white_20.svg';
             $level = 'role';
             $label = "{$role->getName()}";
             $has_popup = true;

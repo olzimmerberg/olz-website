@@ -1,2 +1,0 @@
-import './OlzNewsForumTile.scss';
-

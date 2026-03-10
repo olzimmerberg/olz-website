@@ -25,13 +25,39 @@ class OlzForBeginnersTile extends AbstractOlzTile {
         return <<<ZZZZZZZZZZ
             <h3>Neu hier?</h3>
             <h1 class='welcome'>Willkommen bei <b>OL Zimmerberg</b>!</h1>
-            <div>Wir sind euer <b>Orientierungslauf (OL) Sportverein</b> in Thalwil, Horgen, Wädenswil, Richterswil, Adliswil, Langnau am Albis, Kilchberg, Rüschlikon,  Oberrieden und Zürich-Süd.</div>
+            <div>
+                Wir sind euer <b>Orientierungslauf (OL) Sportverein</b> in 
+                {$this->getSektionLink('sektion-thalwil', 'Thalwil')},
+                {$this->getSektionLink('sektion-horgen', 'Horgen')},
+                {$this->getSektionLink('sektion-waedenswil', 'Wädenswil')},
+                {$this->getSektionLink('sektion-richterswil', 'Richterswil')},
+                {$this->getSektionLink('sektion-adliswil', 'Adliswil')},
+                {$this->getSektionLink('sektion-langnau', 'Langnau am Albis')},
+                {$this->getSektionLink('sektion-kilchberg', 'Kilchberg')},
+                {$this->getSektionLink('sektion-rueschlikon', 'Rüschlikon')},
+                {$this->getSektionLink('sektion-oberrieden', 'Oberrieden')} und 
+                {$this->getSektionLink('sektion-zuerich', 'Zürich-Süd')}.
+            </div>
             <ul class='links'>
-                <li><a href='{$code_href}fuer_einsteiger?von=startseite' class='linkint'>Für Einsteiger</a></li>
+                <li><a href='{$code_href}fuer_einsteiger?von=startseite' class='linkint'><b>Für Einsteiger</b></a></li>
                 <li><a href='{$code_href}fragen_und_antworten?von=startseite' class='linkint'>Häufige Fragen (FAQ)</a></li>
                 <li><a href='{$code_href}verein?von=startseite' class='linkint'>Unser Verein</a></li>
                 {$fan_olz_elite}
             </ul>
+            ZZZZZZZZZZ;
+    }
+
+    protected function getSektionLink(string $username, string $name): string {
+        $code_href = $this->envUtils()->getCodeHref();
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $role = $role_repo->findOneBy(['username' => $username]);
+        if ($role === null) {
+            return $name;
+        }
+        return <<<ZZZZZZZZZZ
+            <a href='{$code_href}verein/{$role->getUsername()}'>
+                {$name}
+            </a>
             ZZZZZZZZZZ;
     }
 }

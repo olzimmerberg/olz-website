@@ -407,7 +407,8 @@ VALUES
     ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '# Kontaktperson Nachwuchs\n\n', '7', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', NULL),
     ('50', 'gold-athleten', NULL, 'Athleten', '# Athleten\n\n', '44', '0', '', 'kaderblog', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
     ('51', 'fan-olz-elite', NULL, 'Fan OLZ Elite', '# Fan OLZ Elite\n\n', '8', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '3', '4'),
-    ('52', 'deleted-role', NULL, 'SOFT DELETED', '# SOFT DELETED\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '0', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '4', NULL);
+    ('52', 'deleted-role', NULL, 'SOFT DELETED', '# SOFT DELETED\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '0', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '4', NULL),
+    ('53', 'sektion-oberrieden', NULL, 'Oberrieden', '# Orientierungslauf-Verein Oberrieden\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '6', NULL);
 
 -- Table snippets
 INSERT INTO snippets

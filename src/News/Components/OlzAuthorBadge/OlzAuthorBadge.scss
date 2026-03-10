@@ -3,12 +3,13 @@
 .olz-author-badge {
     display: inline-flex;
     align-items: center;
+    background-color: rgba(100,100,100, 0.1);
     color: rgb(100,100,100);
-    border: 1px solid rgb(150,150,150);
-    border-radius: 12px;
+    border-radius: 4px;
     font-size: 14px;
     font-weight: normal;
-    padding: 0 5px;
+    height: 20px;
+    padding: 0 6px;
 
     .author-icon {
         border: 0;
@@ -17,29 +18,27 @@
     }
 
     &.has-popup:hover {
+        background-color: rgba(50,50,50, 0.2);
         color: rgb(50,50,50);
-        border: 1px solid rgb(75,75,75);
     }
 
     &.level-user {
+        background-color: rgba(colors.$olz-bg, 0.1);
         color: colors.$olz-bg;
-        border: 1px solid colors.$olz-bg;
 
         &.has-popup:hover {
-            color: rgb(0,75,0);
-            border: 1px solid rgb(0,75,0);    
+            background-color: rgba(colors.$olz-bg-dark, 0.2);
+            color: colors.$olz-bg-dark;
         }
     }
 
     &.level-role {
-        background-color: rgba(0,150,0, 0.1);
-        color: colors.$olz-bg;
-        border: 1px solid colors.$olz-bg;
+        background-color: rgba(colors.$olz-bg, 0.75);
+        color: rgb(240, 240, 240);
 
         &.has-popup:hover {
-            background-color: rgba(0,75,0, 0.1);
-            color: rgb(0,75,0);
-            border: 1px solid rgb(0,75,0);    
+            background-color: rgba(colors.$olz-bg-dark, 0.85);
+            color: rgb(255, 255, 255);
         }
     }
 }

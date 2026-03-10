@@ -12,13 +12,10 @@ use Olz\Startseite\Components\OlzCustomTile\OlzCustomTile;
 use Olz\Startseite\Components\OlzForBeginnersTile\OlzForBeginnersTile;
 // use Olz\Startseite\Components\OlzJomCounterTile\OlzJomCounterTile;
 // use Olz\Startseite\Components\OlzNewsListsTile\OlzNewsListsTile;
-use Olz\Startseite\Components\OlzNewsAktuellKaderblogTile\OlzNewsAktuellKaderblogTile;
-use Olz\Startseite\Components\OlzNewsForumTile\OlzNewsForumTile;
-use Olz\Startseite\Components\OlzNewsGalerieTile\OlzNewsGalerieTile;
+use Olz\Startseite\Components\OlzNewsEntriesTile\OlzNewsEntriesTile;
 use Olz\Startseite\Components\OlzTermineDeadlinesTile\OlzTermineDeadlinesTile;
-use Olz\Startseite\Components\OlzTermineListsTile\OlzTermineListsTile;
-use Olz\Startseite\Components\OlzTermineUpcomingTile\OlzTermineUpcomingTile;
 // use Olz\Startseite\Components\OlzTermineUpdatesTile\OlzTermineUpdatesTile;
+use Olz\Startseite\Components\OlzTermineUpcomingTile\OlzTermineUpcomingTile;
 use Olz\Startseite\Components\OlzWeeklyPictureTile\OlzWeeklyPictureTile;
 
 /** @extends OlzComponent<array<string, mixed>> */
@@ -29,14 +26,14 @@ class OlzCustomizableHome extends OlzComponent {
         $tile_classes = [
             OlzForBeginnersTile::class,
             OlzWeeklyPictureTile::class,
-            OlzTermineListsTile::class,
             OlzTermineUpcomingTile::class,
             OlzTermineDeadlinesTile::class,
             // OlzTermineUpdatesTile::class,
             // OlzNewsListsTile::class,
-            OlzNewsAktuellKaderblogTile::class,
-            OlzNewsGalerieTile::class,
-            OlzNewsForumTile::class,
+            // OlzNewsAktuellKaderblogTile::class,
+            OlzNewsEntriesTile::class,
+            // OlzNewsGalerieTile::class,
+            // OlzNewsForumTile::class,
             // OlzNewsRecentlyTile::class,
             OlzCustomTile::class,
             // OlzJomCounterTile::class,

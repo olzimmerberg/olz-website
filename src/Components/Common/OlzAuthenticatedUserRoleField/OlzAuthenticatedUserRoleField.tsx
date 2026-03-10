@@ -120,7 +120,7 @@ export const OlzAuthenticatedUserRoleField = <
                             : `${role_.name}`
                     )}
                     <img
-                        src={`${dataHref}assets/icns/author_role_20.svg`}
+                        src={`${dataHref}assets/icns/author_role_white_20.svg`}
                         alt=''
                         className='author-icon'
                     />

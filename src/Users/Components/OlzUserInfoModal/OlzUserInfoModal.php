@@ -16,7 +16,7 @@ class OlzUserInfoModal extends OlzComponent {
                 <a
                     href='#'
                     onclick='return olz.initOlzUserInfoModal({$user_id})'
-                    class='olz-user-info-modal-trigger'
+                    class='olz-user-info-modal-trigger name'
                 >
                     {$user->getFullName()}
                 </a>

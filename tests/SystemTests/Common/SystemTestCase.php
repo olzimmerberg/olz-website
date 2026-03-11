@@ -276,7 +276,7 @@ class SystemTestCase extends KernelTestCase {
         parent::setUp();
         self::bootKernel();
         $test_class_name = get_called_class();
-        $test_name = "{$test_class_name}::{$this->getName()}";
+        $test_name = "{$test_class_name}::{$this->name()}";
         $slice_index = SystemTestCase::$slice_by_test[$test_name] ?? null;
         if ($slice_index === null) {
             echo <<<ZZZZZZZZZZ
@@ -304,7 +304,7 @@ class SystemTestCase extends KernelTestCase {
     protected function tearDown(): void {
         parent::tearDown();
         $test_class_name = get_called_class();
-        $test_name = "{$test_class_name}::{$this->getName()}";
+        $test_name = "{$test_class_name}::{$this->name()}";
         if (!$this->isSkipped) {
             $this::tock($test_name, $test_name);
         }
@@ -331,7 +331,7 @@ class SystemTestCase extends KernelTestCase {
         }
     }
 
-    public function onNotSuccessfulTest(\Throwable $t): void {
+    public function onNotSuccessfulTest(\Throwable $t): never {
         try {
             $this->screenshot('testing_error');
         } catch (\Throwable $th) {

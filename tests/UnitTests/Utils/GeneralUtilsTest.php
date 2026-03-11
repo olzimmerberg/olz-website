@@ -499,7 +499,7 @@ final class GeneralUtilsTest extends UnitTestCase {
             $general_utils->testOnlyGetRandomIvForAlgo('unknown');
             $this->fail('Error expected');
         } catch (\Exception $exc) {
-            $this->assertMatchesRegularExpression('/Unknown cipher algorithm/', $exc->getMessage());
+            $this->assertMatchesRegularExpression('/Unknown openssl_cipher_iv_length\(unknown\)/', $exc->getMessage());
         }
     }
 }

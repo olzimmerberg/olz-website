@@ -118,7 +118,7 @@ sleep 3
 # Run test, allow aborting
 set +e
 EXIT_CODE=0
-APP_ENV=test XDEBUG_MODE=off SYSTEM_TEST_MODE="$MODE" SYSTEM_TEST_SLICE="$SLICE" SYMFONY_DEPRECATIONS_HELPER='max[direct]=0' php ./bin/phpunit -c ./phpunit.xml.dist $REST ./tests/SystemTests
+APP_ENV=test XDEBUG_MODE=coverage SYSTEM_TEST_MODE="$MODE" SYSTEM_TEST_SLICE="$SLICE" SYMFONY_DEPRECATIONS_HELPER='max[direct]=0' php ./bin/phpunit -c ./phpunit.xml.dist $REST ./tests/SystemTests
 EXIT_CODE=$?
 
 # Display logs

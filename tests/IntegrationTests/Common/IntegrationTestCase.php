@@ -63,7 +63,7 @@ class IntegrationTestCase extends KernelTestCase {
 
         $duration = microtime(true) - $this->setUpAt;
         self::$slowestTests[] = [
-            'name' => $this->getName(),
+            'name' => $this->name(),
             'duration' => $duration,
         ];
     }

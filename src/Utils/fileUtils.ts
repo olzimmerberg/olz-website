@@ -1,16 +1,16 @@
 
 export function getFileWarning(uploadId: string): string | null {
     if (/\.docx?$/.test(uploadId)) {
-        return "Wenn möglich PDF statt Word-Datei verwenden";
+        return 'Wenn möglich PDF statt Word-Datei verwenden';
     }
     if (/\.xlsx?$/.test(uploadId)) {
-        return "Wenn möglich PDF statt Excel-Datei verwenden";
+        return 'Wenn möglich PDF statt Excel-Datei verwenden';
     }
     if (/\.pptx?$/.test(uploadId)) {
-        return "Wenn möglich PDF statt PowerPoint-Datei verwenden";
+        return 'Wenn möglich PDF statt PowerPoint-Datei verwenden';
     }
     if (/\.(odt|ods|odp)$/.test(uploadId)) {
-        return "Wenn möglich PDF statt OpenDocument-Datei verwenden";
+        return 'Wenn möglich PDF statt OpenDocument-Datei verwenden';
     }
     return null;
 }

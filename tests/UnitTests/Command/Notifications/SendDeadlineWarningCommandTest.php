@@ -57,7 +57,8 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
             'DEBUG Sending email to "Default User" <default-user@staging.olzimmerberg.ch> ()',
             'INFO Email sent to user (1): Meldeschlusswarnung',
             'INFO Getting notification for \'{"no_notification":true}\'...',
-            'ERROR Error running command Olz\Command\Notifications\SendDeadlineWarningCommand: Undefined array key "days".',
+            'INFO Nothing to send.',
+            'INFO Successfully ran command Olz\Command\Notifications\SendDeadlineWarningCommand.',
         ], $this->getLogs());
 
         $this->assertSame([

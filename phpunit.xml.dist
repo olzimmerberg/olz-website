@@ -6,7 +6,6 @@
          backupGlobals="false"
          colors="true"
          bootstrap="tests/bootstrap.php"
-         convertDeprecationsToExceptions="false"
 >
     <php>
         <ini name="display_errors" value="1" />
@@ -59,20 +58,22 @@
         </testsuite>
     </testsuites>
 
-    <coverage 
-        cacheDirectory="./php-coverage/cache"
-        includeUncoveredFiles="true"
-        processUncoveredFiles="true"
-        pathCoverage="false"
-        ignoreDeprecatedCodeUnits="true"
-        disableCodeCoverageIgnore="false"
-    >
+    <source>
         <include>
             <directory suffix=".php">./src</directory>
         </include>
         <exclude>
             <file>./src/Kernel.php</file>
         </exclude>
+    </source>
+
+    <coverage 
+        cacheDirectory="./php-coverage/cache"
+        includeUncoveredFiles="true"
+        pathCoverage="false"
+        ignoreDeprecatedCodeUnits="true"
+        disableCodeCoverageIgnore="false"
+    >
         <report>
             <!-- <clover outputFile="php-coverage/clover.xml"/> -->
             <!-- <crap4j outputFile="php-coverage/crap4j.xml" threshold="50"/> -->
@@ -90,10 +91,6 @@
             <!-- <xml outputDirectory="php-coverage/xml-coverage"/> -->
         </report>
     </coverage>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
 
     <extensions>
     </extensions>

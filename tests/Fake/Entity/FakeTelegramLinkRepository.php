@@ -47,17 +47,15 @@ class FakeTelegramLinkRepository extends FakeOlzRepository {
     }
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        global $valid_pin, $expired_pin;
-
         $user = $criteria['user'] ?? null;
         if ($user instanceof User) {
             $user = $user->getId();
         }
 
-        if ($criteria == ['pin' => $valid_pin]) {
+        if ($criteria == ['pin' => FakeTelegramLink::$valid_pin]) {
             return FakeTelegramLink::validPin();
         }
-        if ($criteria == ['pin' => $expired_pin]) {
+        if ($criteria == ['pin' => FakeTelegramLink::$expired_pin]) {
             return FakeTelegramLink::expiredPin();
         }
         if ($user === 1) {

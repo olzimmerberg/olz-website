@@ -12,13 +12,16 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
  * @extends FakeEntity<TelegramLink>
  */
 class FakeTelegramLink extends FakeEntity {
+    public static string $valid_pin = '77777777';
+    public static string $expired_pin = '66666666';
+    public static string $inexistent_pin = '55555555';
+
     public static function validPin(bool $fresh = false): TelegramLink {
         return self::getFake(
             $fresh,
             function () {
-                global $valid_pin;
                 $entity = new TelegramLink();
-                $entity->setPin($valid_pin);
+                $entity->setPin(FakeTelegramLink::$valid_pin);
                 $entity->setPinExpiresAt(new \DateTime('2020-03-13 19:35:00')); // in 5 minutes
                 $entity->setUser(FakeUser::defaultUser());
                 $entity->setTelegramChatId('99999');
@@ -35,9 +38,8 @@ class FakeTelegramLink extends FakeEntity {
         return self::getFake(
             $fresh,
             function () {
-                global $expired_pin;
                 $entity = new TelegramLink();
-                $entity->setPin($expired_pin);
+                $entity->setPin(FakeTelegramLink::$expired_pin);
                 $entity->setPinExpiresAt(new \DateTime('2020-03-13 19:25:00')); // 5 minutes ago
                 $entity->setUser(FakeUser::vorstandUser());
                 $entity->setTelegramChatId('88888');

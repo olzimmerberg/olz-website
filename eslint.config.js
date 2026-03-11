@@ -109,6 +109,7 @@ const javaScriptRules = {
     'no-unused-expressions': 'error',
     'no-unused-vars': ['error', {'args': 'none'}],
     'no-use-before-define': 'off',
+    'no-useless-assignment': 'off',
     'no-useless-concat': 'error',
     'no-useless-constructor': 'error',
     'no-useless-rename': 'error',

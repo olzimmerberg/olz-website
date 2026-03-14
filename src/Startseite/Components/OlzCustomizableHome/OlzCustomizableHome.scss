@@ -37,21 +37,8 @@
 .tile ul.filters {
     padding-left: 0;
 
-    li {
-        display: inline-flex;
-        background-color: rgba(colors.$olz-bg, 0.2);
-        border: 1px solid colors.$olz-bg;
-        border-radius: 24px;
-        height: 24px;
-        line-height: 24px;
-        margin: 2px;
-
-        a {
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-            padding: 0px 6px;
-        }
+    li.filter {
+        margin: 1px;
     }
 }
 

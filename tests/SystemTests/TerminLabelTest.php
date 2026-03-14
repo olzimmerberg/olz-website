@@ -32,7 +32,7 @@ final class TerminLabelTest extends SystemTestCase {
             'Meldeschlüsse',
         ], array_map(
             fn ($elem) => $elem->getText(),
-            $this->getBrowserElements('.type-filter')
+            $this->getBrowserElements('.filter.type')
         ));
 
         $this->click('#edit-termin-label-button');
@@ -94,7 +94,7 @@ final class TerminLabelTest extends SystemTestCase {
             'Meldeschlüsse',
         ], array_map(
             fn ($elem) => $elem->getText(),
-            $this->getBrowserElements('.type-filter')
+            $this->getBrowserElements('.filter.type')
         ));
 
         $this->assertSame(410, $this->getHeaders($this->getUrl())['http_code']);

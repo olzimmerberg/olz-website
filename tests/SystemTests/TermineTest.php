@@ -171,7 +171,10 @@ final class TermineTest extends SystemTestCase {
         $this->waitUntilGone('#edit-termin-modal');
 
         $browser->get($this->getUrl());
-        $this->click('#filter-date-2015');
+        $this->assertMatchesRegularExpression(
+            '/(^| )selected( |$)/',
+            "{$this->getBrowserElement('#filter-date-2015')?->getAttribute('class')}"
+        );
         $this->assertCount(2, $this->getBrowserElements('.olz-termine-list-middle .olz-termine-list-item'));
 
         $this->resetDb();

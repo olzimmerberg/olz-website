@@ -17,32 +17,29 @@ class OlzNewsFilter extends OlzComponent {
         $out = "";
         $out .= "<div class='olz-news-filter'>";
 
-        $separator = "<span class='separator'> | </span>";
         $type_options = $news_utils->getUiFormatFilterOptions($args['currentFilter']);
-        $type_options_out = implode($separator, array_map(function ($option) use ($news_utils, $code_href) {
-            $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
+        $type_options_out = implode(' ', array_map(function ($option) use ($news_utils, $code_href) {
+            $selected = $option['selected'] ? " selected" : "";
             $serialized_filter = $news_utils->serialize($option['new_filter']);
             $url = "?filter={$serialized_filter}&seite=1";
             $name = $option['name'];
             $icon = $option['icon'] ?? null;
             $icon_html = $icon ? "<img src='{$code_href}assets/icns/{$icon}' alt='' class='format-filter-icon'>" : '';
             $ident = $option['ident'];
-            return "<span class='format-filter'{$selected}><a href='{$url}' id='filter-format-{$ident}'>
-                {$icon_html}{$name}
-            </a></span>";
+            return "<a href='{$url}' class='filter format{$selected}' id='filter-format-{$ident}'>{$icon_html}{$name}</a>";
         }, $type_options));
         $out .= "<div><b>Format: </b>{$type_options_out}</div>";
 
         $date_range_options = $news_utils->getUiDateRangeFilterOptions($args['currentFilter']);
-        $date_range_options_out = implode(" | ", array_map(function ($option) use ($news_utils) {
-            $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
+        $date_range_options_out = implode(' ', array_map(function ($option) use ($news_utils) {
+            $selected = $option['selected'] ? " selected" : "";
             $serialized_filter = $news_utils->serialize($option['new_filter']);
             $url = "?filter={$serialized_filter}&seite=1";
             $name = $option['name'];
             $ident = $option['ident'];
-            return "<a href='{$url}' id='filter-date-{$ident}'{$selected}>{$name}</a>";
+            return "<a href='{$url}' class='filter date{$selected}' id='filter-date-{$ident}'>{$name}</a>";
         }, $date_range_options));
-        $archive_out = $news_utils->hasArchiveAccess() ? '' : " | <a href='#login-dialog'>ältere</a>";
+        $archive_out = $news_utils->hasArchiveAccess() ? '' : " <a href='#login-dialog'>ältere</a>";
         $out .= "<div><b>Datum: </b>{$date_range_options_out}{$archive_out}</div>";
 
         $out .= "</div>";

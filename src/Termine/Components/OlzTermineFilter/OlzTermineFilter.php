@@ -17,28 +17,41 @@ class OlzTermineFilter extends OlzComponent {
         $out = "";
         $out .= "<div class='olz-termine-filter'>";
 
-        $separator = "<span class='separator'> | </span>";
         $type_options = $termine_utils->getUiTypeFilterOptions($args['currentFilter']);
-        $type_options_out = implode($separator, array_map(function ($option) use ($termine_utils, $code_href) {
-            $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
+        $type_options_out = implode(' ', array_map(function ($option) use ($termine_utils, $code_href) {
+            $selected = $option['selected'] ? " selected" : "";
             $serialized_filter = $termine_utils->serialize($option['new_filter']);
             $name = $option['name'];
             $icon = $option['icon'];
             $icon_html = $icon ? "<img src='{$icon}' alt='' class='type-filter-icon'>" : '';
             $ident = $option['ident'];
-            return "<span class='type-filter'{$selected}><a href='{$code_href}termine?filter={$serialized_filter}' id='filter-type-{$ident}'>
-                {$icon_html}{$name}
-            </a></span>";
+            return <<<ZZZZZZZZZZ
+                <a
+                    href='{$code_href}termine?filter={$serialized_filter}'
+                    class='filter type{$selected}'
+                    id='filter-type-{$ident}'
+                >
+                    {$icon_html}{$name}
+                </a>
+                ZZZZZZZZZZ;
         }, $type_options));
         $out .= "<div><b>Termin-Typ: </b>{$type_options_out}</div>";
 
         $date_range_options = $termine_utils->getUiDateRangeFilterOptions($args['currentFilter']);
-        $date_range_options_out = implode(" | ", array_map(function ($option) use ($termine_utils, $code_href) {
-            $selected = $option['selected'] ? " style='text-decoration:underline;'" : "";
+        $date_range_options_out = implode(' ', array_map(function ($option) use ($termine_utils, $code_href) {
+            $selected = $option['selected'] ? " selected" : "";
             $serialized_filter = $termine_utils->serialize($option['new_filter']);
             $name = $option['name'];
             $ident = $option['ident'];
-            return "<a href='{$code_href}termine?filter={$serialized_filter}' id='filter-date-{$ident}'{$selected}>{$name}</a>";
+            return <<<ZZZZZZZZZZ
+                <a
+                    href='{$code_href}termine?filter={$serialized_filter}'
+                    class='filter date{$selected}'
+                    id='filter-date-{$ident}'
+                >
+                    {$name}
+                </a>
+                ZZZZZZZZZZ;
         }, $date_range_options));
         $archive_out = $termine_utils->hasArchiveAccess() ? '' : " | <a href='#login-dialog'>ältere</a>";
         $out .= "<div><b>Datum: </b>{$date_range_options_out}{$archive_out}</div>";

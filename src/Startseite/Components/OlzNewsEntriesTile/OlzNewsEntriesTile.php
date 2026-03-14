@@ -37,23 +37,23 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
             ZZZZZZZZZZ;
         $out .= <<<ZZZZZZZZZZ
             <ul class='filters'>
-                <li><a href='{$aktuell_url}&von=startseite'>
+                <li class='filter'><a href='{$aktuell_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='header-link-icon'>
                     Aktuell
                 </a></li>
-                <li><a href='{$galerie_url}&von=startseite'>
+                <li class='filter'><a href='{$galerie_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_galerie_20.svg' alt='Galerie' class='header-link-icon'>
                     Galerie
                 </a></li>
-                <li><a href='{$video_url}&von=startseite'>
+                <li class='filter'><a href='{$video_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_video_20.svg' alt='Video' class='header-link-icon'>
                     Video
                 </a></li>
-                <li><a href='{$kaderblog_url}&von=startseite'>
+                <li class='filter'><a href='{$kaderblog_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='header-link-icon'>
                     Kaderblog
                 </a></li>
-                <li><a href='{$forum_url}&von=startseite'>
+                <li class='filter'><a href='{$forum_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='header-link-icon'>
                     Forum
                 </a></li>

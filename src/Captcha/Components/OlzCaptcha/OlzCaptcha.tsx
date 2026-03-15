@@ -126,8 +126,8 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
     const getMouseXY = (e: React.MouseEvent): Coord => {
         const rect = canvas.current?.getBoundingClientRect();
         return [
-            Math.round(e.pageX - (rect?.left ?? 0)),
-            Math.round(e.pageY - (rect?.top ?? 0)),
+            Math.round(e.clientX - (rect?.left ?? 0)),
+            Math.round(e.clientY - (rect?.top ?? 0)),
         ];
     };
 
@@ -178,8 +178,8 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
         for (let i = 0; i < e.nativeEvent.changedTouches.length; i++) {
             const t = e.nativeEvent.changedTouches[i];
             fn([
-                Math.round(t.pageX - (rect?.left ?? 0)),
-                Math.round(t.pageY - (rect?.top ?? 0)),
+                Math.round(t.clientX - (rect?.left ?? 0)),
+                Math.round(t.clientY - (rect?.top ?? 0)),
             ]);
         }
     };

@@ -16,6 +16,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
+use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Attribute;
@@ -422,80 +423,24 @@ class ProcessEmailCommand extends OlzCommand {
             $from = $mail->getFrom()->first();
             $from_name = $from->personal;
             $from_address = $from->mail;
-            $to = $this->getAddresses($mail->getTo());
-            $cc = $this->getAddresses($mail->getCc());
-            $bcc = $this->getAddresses($mail->getBcc());
-            if (count($to) + count($cc) + count($bcc) === 0) { // E-Mail to undisclosed recipients
-                $to = [new Address($this->envUtils()->getSmtpFrom(), 'Undisclosed Recipients')];
-            }
             $message_id = $mail->getMessageId()->first();
             $subject = $mail->getSubject()->first();
             $mail->parseBody();
-            $html = $mail->hasHTMLBody() ? $mail->getHTMLBody() : null;
-            $text = $mail->hasTextBody() ? $mail->getTextBody() : null;
-            if (!$html) {
-                $html = nl2br($text ?? '');
-            }
+
+            $this->emailUtils()->setLogger($this->log());
             if (!$forward_address) {
                 $error_message = "User {$user->getUsername()} does not have an email address";
                 $this->log()->notice($error_message);
                 $this->recordForwardedEmail($user, $from_address, $subject, $html."\n".$text, $error_message);
                 return 2;
             }
-            $this->emailUtils()->setLogger($this->log());
 
-            $email = (new Email())
-                ->from(new Address($from_address, $from_name))
-                ->replyTo(new Address($from_address, $from_name))
-                ->to(...$to)
-                ->cc(...$cc)
-                ->bcc(...$bcc)
-                ->subject($subject)
-                ->text($text ? $text : '(leer)')
-                ->html($html ? $html : '(leer)')
-            ;
-            if ($message_id) {
-                $email->getHeaders()->addIdHeader("References", [$message_id]);
-            }
+            $email = $this->incomingToOutgoingEmail($mail);
 
-            if ($mail->hasAttachments()) {
-                $attachments = $mail->getAttachments();
-                $data_path = $this->envUtils()->getDataPath();
-                $temp_path = "{$data_path}temp/";
-                if (!is_dir($temp_path)) {
-                    mkdir($temp_path, 0o777, true);
-                }
-                foreach ($attachments as $attachment_id => $attachment) {
-                    gc_collect_cycles();
-                    $upload_id = '';
-                    $upload_path = '';
-                    $continue = true;
-                    for ($i = 0; $i < self::MAX_LOOP && $continue; $i++) {
-                        try {
-                            $ext = strrchr($attachment->name, '.') ?: '.data';
-                            $upload_id = $this->uploadUtils()->getRandomUploadId($ext);
-                        } catch (\Throwable $th) {
-                            $upload_id = $this->uploadUtils()->getRandomUploadId('.data');
-                        }
-
-                        $upload_path = "{$temp_path}{$upload_id}";
-                        if (!is_file($upload_path)) {
-                            $continue = false;
-                        }
-                    }
-                    $this->log()->info("Saving attachment {$attachment->name} to {$upload_id}...");
-                    if ($attachment->save($temp_path, $upload_id)) {
-                        $email = $email->addPart(new DataPart(new File($upload_path), $attachment->name));
-                    } else {
-                        throw new \Exception("Could not save attachment {$attachment->name} to {$upload_id}.");
-                    }
-                    gc_collect_cycles();
-                }
-            }
-
-            $default_envelope = Envelope::create($email);
-            $sender = $default_envelope->getSender();
-            $envelope = new Envelope($sender, [$this->emailUtils()->getUserAddress($user)]);
+            $envelope = new Envelope(
+                new Address($this->envUtils()->getSmtpFrom()),
+                [$this->emailUtils()->getUserAddress($user)]
+            );
 
             $this->emailUtils()->send($email, $envelope);
 
@@ -544,6 +489,105 @@ class ProcessEmailCommand extends OlzCommand {
         $this->entityManager()->flush();
     }
 
+    protected function incomingToOutgoingEmail(Message $incoming): Email {
+        $headers = new Headers();
+        $header_types = [
+            'from' => 'mailbox-list',
+            'to' => 'mailbox-list',
+            'cc' => 'mailbox-list',
+            'bcc' => 'mailbox-list',
+            'reply_to' => 'mailbox-list',
+            'sender' => 'mailbox',
+            'date' => 'date',
+            'return_path' => 'path',
+            'message_id' => 'id',
+            'content_id' => 'id',
+        ];
+        foreach ($incoming->getAttributes() as $key => $value) {
+            if (!$value instanceof Attribute) {
+                continue;
+            }
+            $type = $header_types[strtolower($key)] ?? '';
+            $name = str_replace('_', '-', $value->getName());
+            if ($type === 'mailbox-list') {
+                $addresses = $this->getAddresses($value);
+                if (count($addresses) > 0) {
+                    $headers = $headers->addMailboxListHeader($name, $addresses);
+                }
+            } elseif ($type === 'mailbox') {
+                $address = $this->getAddress($value->first());
+                if ($address) {
+                    $headers = $headers->addMailboxHeader($name, $address);
+                }
+            } elseif ($type === 'date') {
+                $headers = $headers->addDateHeader($name, new \DateTimeImmutable($value->toDate()));
+            } elseif ($type === 'path') {
+                foreach ($value->all() as $item) {
+                    $headers = $headers->addPathHeader($name, $item);
+                }
+            } elseif ($type === 'id') {
+                $headers = $headers->addIdHeader($name, $value->first());
+            } else {
+                foreach ($value->all() as $item) {
+                    $headers = $headers->addTextHeader($name, $item);
+                }
+            }
+        }
+
+        $to = $this->getAddresses($incoming->getTo());
+        $cc = $this->getAddresses($incoming->getCc());
+        $bcc = $this->getAddresses($incoming->getBcc());
+        if (count($to) + count($cc) + count($bcc) === 0) { // E-Mail to undisclosed recipients
+            $to = [new Address($this->envUtils()->getSmtpFrom(), 'Undisclosed Recipients')];
+            $headers = $headers->addMailboxListHeader('to', $to);
+        }
+
+        $html = $incoming->hasHTMLBody() ? $incoming->getHTMLBody() : null;
+        $text = $incoming->hasTextBody() ? $incoming->getTextBody() : null;
+        if (!$html) {
+            $html = nl2br($text ?? '');
+        }
+        $outgoing = (new Email($headers))
+            ->text($text ? $text : '(leer)')
+            ->html($html ? $html : '(leer)')
+        ;
+        if ($incoming->hasAttachments()) {
+            $attachments = $incoming->getAttachments();
+            $data_path = $this->envUtils()->getDataPath();
+            $temp_path = "{$data_path}temp/";
+            if (!is_dir($temp_path)) {
+                mkdir($temp_path, 0o777, true);
+            }
+            foreach ($attachments as $attachment_id => $attachment) {
+                gc_collect_cycles();
+                $upload_id = '';
+                $upload_path = '';
+                $continue = true;
+                for ($i = 0; $i < self::MAX_LOOP && $continue; $i++) {
+                    try {
+                        $ext = strrchr($attachment->name, '.') ?: '.data';
+                        $upload_id = $this->uploadUtils()->getRandomUploadId($ext);
+                    } catch (\Throwable $th) {
+                        $upload_id = $this->uploadUtils()->getRandomUploadId('.data');
+                    }
+
+                    $upload_path = "{$temp_path}{$upload_id}";
+                    if (!is_file($upload_path)) {
+                        $continue = false;
+                    }
+                }
+                $this->log()->info("Saving attachment {$attachment->name} to {$upload_id}...");
+                if ($attachment->save($temp_path, $upload_id)) {
+                    $outgoing = $outgoing->addPart(new DataPart(new File($upload_path), $attachment->name));
+                } else {
+                    throw new \Exception("Could not save attachment {$attachment->name} to {$upload_id}.");
+                }
+                gc_collect_cycles();
+            }
+        }
+        return $outgoing;
+    }
+
     /** @return array<Address> */
     protected function getAddresses(Attribute $field): array {
         $addresses = [];
@@ -561,7 +605,10 @@ class ProcessEmailCommand extends OlzCommand {
         return $addresses;
     }
 
-    protected function getAddress(\Webklex\PHPIMAP\Address $item): ?Address {
+    protected function getAddress(?\Webklex\PHPIMAP\Address $item): ?Address {
+        if (!$item) {
+            return null;
+        }
         try {
             if ($item->personal) {
                 return new Address($item->mail, $item->personal);

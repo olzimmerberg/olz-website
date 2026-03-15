@@ -117,9 +117,26 @@ class FakeProcessEmailCommandMail extends Message {
 
     /** @return array<Attribute> */
     public function getAttributes(): array {
-        return [
-            new Attribute('fake_attribute', 'fake_attribute value'),
-        ];
+        $attributes = [];
+        if ($this->to) {
+            $attributes['to'] = $this->to;
+        }
+        if ($this->cc) {
+            $attributes['cc'] = $this->cc;
+        }
+        if ($this->bcc) {
+            $attributes['bcc'] = $this->bcc;
+        }
+        if ($this->from) {
+            $attributes['from'] = $this->from;
+        }
+        if ($this->subject) {
+            $attributes['subject'] = $this->subject;
+        }
+        if ($this->message_id) {
+            $attributes['message_id'] = $this->message_id;
+        }
+        return $attributes;
     }
 
     public function getFlags(): FlagCollection {
@@ -196,6 +213,10 @@ class FakeProcessEmailCommandAttachment {
 class TestOnlyProcessEmailCommand extends ProcessEmailCommand {
     public function testOnlyGetSpamNoticeScore(string $body): int {
         return $this->getSpamNoticeScore($body);
+    }
+
+    public function testOnlyIncomingToOutgoingEmail(Message $incoming): Email {
+        return $this->incomingToOutgoingEmail($incoming);
     }
 }
 
@@ -362,7 +383,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: "Undisclosed Recipients" <fake@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
@@ -378,7 +399,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: someone@gmail.com
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -435,7 +456,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: someone@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -451,7 +472,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: someone@gmail.com
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -564,7 +585,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: someone-old@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -581,7 +602,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             null,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: someone-old@gmail.com
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -642,7 +663,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -655,7 +676,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -671,11 +692,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: admin-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: vorstand-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -756,7 +777,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: somerole-old@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -769,7 +790,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: somerole-old@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -786,11 +807,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             null,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: admin-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: vorstand-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -900,7 +921,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -913,7 +934,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -926,7 +947,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -942,15 +963,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: someone@gmail.com
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: admin-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: vorstand-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -1016,7 +1037,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: 
                 Cc: "Some One" <someone@staging.olzimmerberg.ch>
                 Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
@@ -1029,7 +1050,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: 
                 Cc: "Some One" <someone@staging.olzimmerberg.ch>
                 Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
@@ -1042,7 +1063,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: 
                 Cc: "Some One" <someone@staging.olzimmerberg.ch>
                 Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
@@ -1058,15 +1079,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: someone@gmail.com
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: admin-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: vorstand-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -1113,6 +1134,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
             'NOTICE Skipping non-RFC-compliant email address <undisclosed-recipients>: Email "undisclosed-recipients" does not comply with addr-spec of RFC 2822.',
+            'NOTICE Skipping non-RFC-compliant email address <undisclosed-recipients>: Email "undisclosed-recipients" does not comply with addr-spec of RFC 2822.',
             'DEBUG Sending email to "Undisclosed Recipients" <fake@staging.olzimmerberg.ch> (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
@@ -1128,7 +1150,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: "Undisclosed Recipients" <fake@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
@@ -1144,7 +1166,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: someone@gmail.com
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -1221,7 +1243,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: someone@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -1234,7 +1256,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -1247,7 +1269,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -1263,15 +1285,15 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: someone@gmail.com
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: admin-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: vorstand-user@staging.olzimmerberg.ch
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -1336,7 +1358,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
                 From: "From Name" <from@from-domain.com>
-                Reply-To: "From Name" <from@from-domain.com>
+                Reply-To: 
                 To: "To Name" <someone@gmail.com>
                 Cc: 
                 Bcc: 
@@ -1354,7 +1376,7 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         }, $emails));
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                Sender: "From Name" <from@from-domain.com>
+                Sender: fake@staging.olzimmerberg.ch
                 Recipients: someone@gmail.com
                 ZZZZZZZZZZ,
         ], array_map(function ($envelope) {
@@ -1595,6 +1617,115 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame('INBOX.Spam', $mail->moved_to);
         $this->assertFalse($mail->is_body_fetched);
         $this->assertSame([], $mail->flag_actions);
+    }
+
+    public function testIncomingToOutgoingEmail(): void {
+        $incoming = Message::fromString(<<<'ZZZZZZZZZZ'
+            Return-Path: <allestuetsmerweh@gmail.com>
+            X-Original-To: simon.hatt@olzimmerberg.ch
+            Delivered-To: bot@olzimmerberg.ch
+            Received: from ch2-live-mailin001 (ch2-live-mailin001.hosttech.eu [45.131.252.192])
+                by 219.hosttech.eu (Postfix) with ESMTPS id 19C66A1BDB
+                for <simon.hatt@olzimmerberg.ch>; Sat, 14 Mar 2026 14:32:03 +0100 (CET)
+            X-hosttech-spam: No
+            X-exp-category: clean
+            X-exp-id: 155819::1773495123-B7FFD7A2-C51F8DBA/0/0
+            Received: from mail-yx1-xb134.google.com (unknown [2607:f8b0:4864:20::b134])
+                by mail2.hosttech.eu (Halon) with ESMTPS
+                id 25a943a7-1faa-11f1-a764-e59693065a4f;
+                Sat, 14 Mar 2026 13:32:03 +0000 (UTC)
+            Received: by mail-yx1-xb134.google.com with SMTP id 956f58d0204a3-64c9ebd1369so3049940d50.1
+                    for <simon.hatt@olzimmerberg.ch>; Sat, 14 Mar 2026 06:31:47 -0700 (PDT)
+            ARC-Seal: i=1; a=rsa-sha256; t=1773495106; cv=none;
+                    d=google.com; s=arc-20240605;
+                    b=JCWnRPs0fIIo2Gr+YWFsSimUOY2TQWFyn+3yP2YDRcTZSh8pwbSTaq0UolRPGAH4/U
+                    rMIpXiXOwiDhkNgYmpIREuua3ch/aw8V9WQkLL75y/W9rYrDqErdhOo2Kd+TWTfK8HSK
+                    WLl7Ix9dWsac3TfvdTVpXJI+h0TMq2XDO+cDDZExRGDG+Dwe5XQzIfJAWdbvucdtDf+a
+                    qBxWSOOCdMF+Cy64qjCqhGSh1PPwOPnN6O+kg8+9033dV4yFnpBITpUVpLK0NoKKut7x
+                    hgnpiZ7OpQnWQqrSmo0ctCfjLoqZASrmeHUkCRiyyPlYJ3VcL8oYDCE46Rst5vZ6fJMD
+                    Em9w==
+            ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+                    h=to:subject:message-id:date:from:mime-version:dkim-signature;
+                    bh=vu2aq3Z3zGvc2faQpjf5KXywMRb/+kJHlEFnhFX0kos=;
+                    fh=IpsnIqW/lDA9MkCtiJ0us4EljIob3mRS5F/u1f+YDMo=;
+                    b=Hztz3OefBj9ZSBl5CJGKwdohS3dhLNRXMlBCCLndWvy65J9+E46X4095m5XlLTvT0j
+                    twEzoP5CLiZma/bK+sEehgDA96MkWewB2MdweQu2geJ6UUM1/gPSGq/JfgXbaS+Jelam
+                    5NLutATPLtvnenXUSX9noBxPcnF89mRxEIDeVC0yxqGPApIsdkQPyOAXBKtFJblrHcco
+                    J1WaUnBFHifmgKNpdUs7E2Bv2y9hfExxZ+I4FKPV2V1wRX6evZm+/8ZqQCIg9IYfnQ9J
+                    cRauymQCcJhFUL6dLWOc3W4Cv5wFaYE/WMxLzviIhndkgf5NgAHFuLfr6zohotqenjOv
+                    T9pg==;
+                    darn=olzimmerberg.ch
+            ARC-Authentication-Results: i=1; mx.google.com; arc=none
+            DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+                    d=gmail.com; s=20230601; t=1773495106; x=1774099906; darn=olzimmerberg.ch;
+                    h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+                    :date:message-id:reply-to;
+                    bh=vu2aq3Z3zGvc2faQpjf5KXywMRb/+kJHlEFnhFX0kos=;
+                    b=e5jqFKneu4tE8EJyVDfzKj9W9CcahhHAA6GpKWdC3CFMG8PGkWKq20aJgitnwxCMov
+                    z0G3KtLKax9tr9PGnyqxFiqxQQl2wZWv9KDem6rdIXYE6Z0HfJu/BWzdDpcSeZrYHjOh
+                    E6pEqkp5W8HU72ByNCBLaeKthNAUUVXy5cJV0YdSPRqanNbjkYzURPDsLNrRJQeDVKGW
+                    EZfJtRt+R7G4HRdcxVx28RnEtejGJh+Vz/K4ltnTanNJhRQ+ldJVR/VgD5IsmW4X/H5L
+                    9PO+UHCg+KkeQ3P2Krmp/YncbLQ9klXipDpy+BqRvh+HMYfJoURpQiNQY51SVM+wAjpO
+                    0LMA==
+            X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+                    d=1e100.net; s=20251104; t=1773495106; x=1774099906;
+                    h=to:subject:message-id:date:from:mime-version:x-gm-gg
+                    :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+                    bh=vu2aq3Z3zGvc2faQpjf5KXywMRb/+kJHlEFnhFX0kos=;
+                    b=bS8xTPGuPWHPJgEMGwtNTOxcRANwqNSy/iInOxiuW5Ue41WZsDFYMPNudBKirlAe4v
+                    BVgQnNHK7smjgHZOLMxhv+NcImmQcCZwHVCqfh6UyF/1jaVenXrr7dGfjuIKPn9dycYK
+                    2BH5hmEbNXG2AQek0S52WAvoRcMZ/1puRyIqFAf4pEQnnZ2OafYEWSepp1CLfHZCMr6O
+                    JIxPYgDahNaCv/0NICX3hqsiF0V7xeFFKuLHMQfh2BfhM4QXr7ClYvAcpdPfmwFzZExo
+                    ptvD5FOQtnuqQOLWp44FP9pj1s05FM9YOosfUuipwE8oMfsw9h8/tCOjpFy4p7wFykDN
+                    lJzg==
+            X-Gm-Message-State: AOJu0YwtFHuVNGmG19TmX11NgrnbtBW1g0K3x6700zv0uCrU87ybmpw0
+                7HlZKbZl0m9vrlMi70z9n48ky2wWXsAtTC8vZ5VrmwrPkAvDbrMSexfxca0JE98+YKYfxLaI2s9
+                nfK70D7NsPkNMcsBAAWI3L1yEeBQa3D2Yzg==
+            X-Gm-Gg: ATEYQzxNx/dHy8IPIs2qRnZjfm37+li4yh5ZA9JAWHnWZDI+hqgIF13IvzOxNogfJIF
+                ZTXPU1aXeI9JJFFOhH56/lbH17wsdpsGrbGtfNG+Vm6DESkZROUBPLjPY7xEbgiR13Sfz7S6O3c
+                9cLrDhs/fGE+McYGr8M3rxg1yKVqOogo9PkimZ1JV95dXmZ8INqNtUsYncb5SIdphYFVN+jtVXt
+                T7VGdGpDQgl+WvHlboPweLRmkcCYydTOkezbdaXtJW4NV/DnhWZntjiaWKUD3d93k/iUxh1YHqE
+                zoK4aE/H
+            X-Received: by 2002:a53:eccf:0:b0:64c:f7d0:5bfe with SMTP id
+            956f58d0204a3-64e62eeb404mr5756445d50.13.1773495106495; Sat, 14 Mar 2026
+            06:31:46 -0700 (PDT)
+            MIME-Version: 1.0
+            From: Simon Hatt <allestuetsmerweh@gmail.com>
+            Date: Sat, 14 Mar 2026 14:31:35 +0100
+            X-Gm-Features: AaiRm50y30xSZSOzUhgdeUgdYl7szueGECC76B3z5zrdzqpj6Lz2kIr28UdA5qY
+            Message-ID: <CAGT2g4y6d1tj79Q5FSDOT6C8Z_ZwGET_OFCWYLMoOueNvaiRTA@mail.gmail.com>
+            Subject: Test email
+            To: Simon Hatt <simon.hatt@olzimmerberg.ch>
+            Content-Type: multipart/alternative; boundary="000000000000d5685c064cfc0117"
+
+            --000000000000d5685c064cfc0117
+            Content-Type: text/plain; charset="UTF-8"
+
+            test 1234
+
+            --000000000000d5685c064cfc0117
+            Content-Type: text/html; charset="UTF-8"
+
+            <div dir="ltr">test 1234</div>
+
+            --000000000000d5685c064cfc0117--
+
+            ZZZZZZZZZZ);
+        $job = new TestOnlyProcessEmailCommand();
+        $outgoing = $job->testOnlyIncomingToOutgoingEmail($incoming);
+        $out_string = $outgoing->toString();
+        $this->assertStringContainsString('from: Simon Hatt <allestuetsmerweh@gmail.com>', $out_string);
+        $this->assertStringContainsString('to: Simon Hatt <simon.hatt@olzimmerberg.ch>', $out_string);
+        $this->assertStringContainsString('return-path: <allestuetsmerweh@gmail.com>', $out_string);
+        $this->assertStringContainsString('delivered-to: bot@olzimmerberg.ch', $out_string);
+        $this->assertStringContainsString('subject: Test email', $out_string);
+        $this->assertStringContainsString('message-id: <CAGT2g4y6d1tj79Q5FSDOT6C8Z_ZwGET_OFCWYLMoOueNvaiRTA@mail.gmail.com>', $out_string);
+        $this->assertStringContainsString('date: Sat, 14 Mar 2026 14:31:35 +0000', $out_string);
+        $this->assertStringContainsString('Content-Type: multipart/alternative; boundary=', $out_string);
+        $this->assertStringContainsString('Content-Type: text/plain; charset=utf-8', $out_string);
+        $this->assertStringContainsString('test 1234', $out_string);
+        $this->assertStringContainsString('Content-Type: text/html; charset=utf-8', $out_string);
+        $this->assertStringContainsString('<div dir=3D"ltr">test 1234</div>', $out_string);
     }
 
     public function testProcessEmailCommandGet431ReportMessage(): void {

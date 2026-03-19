@@ -16,7 +16,6 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
-use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
 use Webklex\PHPIMAP\Attribute;
@@ -490,67 +489,34 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function incomingToOutgoingEmail(Message $incoming): Email {
-        $headers = new Headers();
-        $header_types = [
-            'from' => 'mailbox-list',
-            'to' => 'mailbox-list',
-            'cc' => 'mailbox-list',
-            'bcc' => 'mailbox-list',
-            'reply_to' => 'mailbox-list',
-            'sender' => 'mailbox',
-            'date' => 'date',
-            'return_path' => 'path',
-            'message_id' => 'id',
-            'content_id' => 'id',
-        ];
-        foreach ($incoming->getAttributes() as $key => $value) {
-            if (!$value instanceof Attribute) {
-                continue;
-            }
-            $type = $header_types[strtolower($key)] ?? '';
-            $name = str_replace('_', '-', $value->getName());
-            if ($type === 'mailbox-list') {
-                $addresses = $this->getAddresses($value);
-                if (count($addresses) > 0) {
-                    $headers = $headers->addMailboxListHeader($name, $addresses);
-                }
-            } elseif ($type === 'mailbox') {
-                $address = $this->getAddress($value->first());
-                if ($address) {
-                    $headers = $headers->addMailboxHeader($name, $address);
-                }
-            } elseif ($type === 'date') {
-                $headers = $headers->addDateHeader($name, new \DateTimeImmutable($value->toDate()));
-            } elseif ($type === 'path') {
-                foreach ($value->all() as $item) {
-                    $headers = $headers->addPathHeader($name, $item);
-                }
-            } elseif ($type === 'id') {
-                $headers = $headers->addIdHeader($name, $value->first());
-            } else {
-                foreach ($value->all() as $item) {
-                    $headers = $headers->addTextHeader($name, $item);
-                }
-            }
-        }
-
+        $from = $incoming->getFrom()->first();
+        $from_name = $from->personal;
+        $from_address = $from->mail;
         $to = $this->getAddresses($incoming->getTo());
         $cc = $this->getAddresses($incoming->getCc());
         $bcc = $this->getAddresses($incoming->getBcc());
         if (count($to) + count($cc) + count($bcc) === 0) { // E-Mail to undisclosed recipients
             $to = [new Address($this->envUtils()->getSmtpFrom(), 'Undisclosed Recipients')];
-            $headers = $headers->addMailboxListHeader('to', $to);
         }
-
+        $message_id = $incoming->getMessageId()->first();
+        $subject = $incoming->getSubject()->first();
         $html = $incoming->hasHTMLBody() ? $incoming->getHTMLBody() : null;
         $text = $incoming->hasTextBody() ? $incoming->getTextBody() : null;
         if (!$html) {
             $html = nl2br($text ?? '');
         }
-        $outgoing = (new Email($headers))
+        $outgoing = (new Email())
+            ->from(new Address($from_address, $from_name))
+            ->to(...$to)
+            ->cc(...$cc)
+            ->bcc(...$bcc)
+            ->subject($subject)
             ->text($text ? $text : '(leer)')
             ->html($html ? $html : '(leer)')
         ;
+        if ($message_id) {
+            $outgoing->getHeaders()->addIdHeader("References", [$message_id]);
+        }
         if ($incoming->hasAttachments()) {
             $attachments = $incoming->getAttachments();
             $data_path = $this->envUtils()->getDataPath();

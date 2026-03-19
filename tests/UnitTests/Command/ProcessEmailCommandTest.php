@@ -1134,7 +1134,6 @@ final class ProcessEmailCommandTest extends UnitTestCase {
             'WARNING getMails soft error:',
             'WARNING getMails soft error:',
             'NOTICE Skipping non-RFC-compliant email address <undisclosed-recipients>: Email "undisclosed-recipients" does not comply with addr-spec of RFC 2822.',
-            'NOTICE Skipping non-RFC-compliant email address <undisclosed-recipients>: Email "undisclosed-recipients" does not comply with addr-spec of RFC 2822.',
             'DEBUG Sending email to "Undisclosed Recipients" <fake@staging.olzimmerberg.ch> (someone@gmail.com)',
             'INFO Email forwarded from someone@staging.olzimmerberg.ch to someone@gmail.com',
             'INFO Successfully ran command Olz\Command\ProcessEmailCommand.',
@@ -1714,13 +1713,11 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new TestOnlyProcessEmailCommand();
         $outgoing = $job->testOnlyIncomingToOutgoingEmail($incoming);
         $out_string = $outgoing->toString();
-        $this->assertStringContainsString('from: Simon Hatt <allestuetsmerweh@gmail.com>', $out_string);
-        $this->assertStringContainsString('to: Simon Hatt <simon.hatt@olzimmerberg.ch>', $out_string);
-        $this->assertStringContainsString('return-path: <allestuetsmerweh@gmail.com>', $out_string);
-        $this->assertStringContainsString('delivered-to: bot@olzimmerberg.ch', $out_string);
-        $this->assertStringContainsString('subject: Test email', $out_string);
-        $this->assertStringContainsString('message-id: <CAGT2g4y6d1tj79Q5FSDOT6C8Z_ZwGET_OFCWYLMoOueNvaiRTA@mail.gmail.com>', $out_string);
-        $this->assertStringContainsString('date: Sat, 14 Mar 2026 14:31:35 +0000', $out_string);
+        $this->assertStringContainsString('From: Simon Hatt <allestuetsmerweh@gmail.com>', $out_string);
+        $this->assertStringContainsString('To: Simon Hatt <simon.hatt@olzimmerberg.ch>', $out_string);
+        $this->assertStringContainsString('Subject: Test email', $out_string);
+        $this->assertStringContainsString('References: <CAGT2g4y6d1tj79Q5FSDOT6C8Z_ZwGET_OFCWYLMoOueNvaiRTA@mail.gmail.com>', $out_string);
+        // $this->assertStringContainsString('Date: Sat, 14 Mar 2026 14:31:35 +0000', $out_string);
         $this->assertStringContainsString('Content-Type: multipart/alternative; boundary=', $out_string);
         $this->assertStringContainsString('Content-Type: text/plain; charset=utf-8', $out_string);
         $this->assertStringContainsString('test 1234', $out_string);

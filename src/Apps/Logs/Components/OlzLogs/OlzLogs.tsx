@@ -1,8 +1,7 @@
 import React from 'react';
 import {useHash} from 'react-use';
 
-import {olzApi} from '../../../../Api/client';
-import {OlzLogLevel, OlzLogsQuery} from '../../../../Api/client/generated_olz_api_types';
+import {olzApi, OlzLogLevel, OlzLogsQuery} from '../../../../Api/client';
 import {OlzInfiniteScroll} from '../OlzInfiniteScroll/OlzInfiniteScroll';
 import {dataHref, isoNow} from '../../../../Utils/constants';
 import {validateDate, validateDateTime} from '../../../../Utils/formUtils';

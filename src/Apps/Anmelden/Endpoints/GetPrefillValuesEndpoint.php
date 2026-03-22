@@ -78,7 +78,7 @@ class GetPrefillValuesEndpoint extends OlzTypedEndpoint {
             'postalCode' => $postal_code,
             'city' => $city,
             'region' => $region,
-            'countryCode' => $country_code ? IsoCountry::fromData($country_code) : null,
+            'countryCode' => $country_code ? IsoCountry::fromWire($country_code) : null,
             'siCardNumber' => $this->getSiCardNumberForApi($user),
             'solvNumber' => $solv_number,
         ];

@@ -6,7 +6,6 @@ namespace Olz\Tests\UnitTests\Utils;
 
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\HttpParams;
-use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 
 /**
@@ -30,14 +29,9 @@ class TestOnlyHttpParams extends HttpParams {
  */
 final class HttpParamsTest extends UnitTestCase {
     public function testHttpParams(): void {
-        $params_class = new \ReflectionClass(TestOnlyHttpParams::class);
         $utils = new PhpStanUtils();
-        $php_doc_node = $utils->parseDocComment(
-            $params_class->getDocComment(),
-            $params_class->getFileName() ?: null,
-        );
         $this->assertEquals([
-            'Test' => new IdentifierTypeNode('bool'),
-        ], $utils->getAliases($php_doc_node));
+            'Test' => ['namespace' => FakeForTypeImport::class, 'name' => 'Test'],
+        ], $utils->getAliases(TestOnlyHttpParams::class));
     }
 }

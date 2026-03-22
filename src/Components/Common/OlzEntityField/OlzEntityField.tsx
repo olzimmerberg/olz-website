@@ -1,7 +1,7 @@
 import 'bootstrap';
 import React from 'react';
 import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
-import {OlzSearchableEntityType} from '../../../Api/client/generated_olz_api_types';
+import {OlzSearchableEntityType} from '../../../Api/client';
 import {OlzEntityChooser} from '../OlzEntityChooser/OlzEntityChooser';
 
 interface OlzEntityFieldProps<

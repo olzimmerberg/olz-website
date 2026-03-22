@@ -12,11 +12,11 @@ class IsoCountry implements ApiObjectInterface {
     public function __construct(protected string $alpha2) {
     }
 
-    public function data(): mixed {
+    public function toWire(): mixed {
         return $this->alpha2;
     }
 
-    public static function fromData(mixed $data): IsoCountry {
+    public static function fromWire(mixed $data): IsoCountry {
         if (!is_string($data)) {
             throw new \InvalidArgumentException("IsoCountry must be string");
         }

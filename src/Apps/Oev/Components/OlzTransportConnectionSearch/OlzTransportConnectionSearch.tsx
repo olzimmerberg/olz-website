@@ -1,6 +1,5 @@
 import React from 'react';
-import {olzApi, OlzApiResponses} from '../../../../Api/client';
-import {OlzTransportSuggestion} from '../../../../Api/client/generated_olz_api_types';
+import {olzApi, OlzApiResponses, OlzTransportSuggestion} from '../../../../Api/client';
 import {OlzTransportConnectionView} from '../OlzTransportConnectionView/OlzTransportConnectionView';
 import {validateDateTime} from '../../../../Utils/formUtils';
 

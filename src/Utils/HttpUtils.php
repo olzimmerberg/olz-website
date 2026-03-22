@@ -6,6 +6,7 @@ use Olz\Components\Error\OlzErrorPage\OlzErrorPage;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use Olz\Entity\Counter;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 use PhpTypeScriptApi\PhpStan\ValidateVisitor;
 use Symfony\Component\HttpFoundation\Request;
@@ -148,19 +149,19 @@ class HttpUtils {
         if ($get_params === null) {
             $get_params = $this->getParams();
         }
-        $class_info = new \ReflectionClass($params_class);
         $utils = new PhpStanUtils();
-        $php_doc_node = $utils->parseDocComment(
-            $class_info->getDocComment(),
-            $class_info->getFileName() ?: null,
-        );
-        $type = $php_doc_node?->getExtendsTagValues()[0]->type->genericTypes[0];
-        $aliases = $utils->getAliases($php_doc_node);
+        $generics = $utils->getSuperGenerics($params_class, HttpParams::class);
+        $type = $generics[0] ?? null;
         if (!$type) {
             $this->dieWithHttpError(400);
             throw new \Exception('should already have failed');
         }
-        $result = ValidateVisitor::validateDeserialize($utils, $get_params, $type, $aliases);
+        $resolved_type = $utils->resolveType($type, $params_class);
+        if (!$resolved_type instanceof TypeNode) {
+            $this->dieWithHttpError(400);
+            throw new \Exception('should already have failed');
+        }
+        $result = ValidateVisitor::validateDeserialize($utils, $get_params, $resolved_type, []);
         if (!$result->isValid() && ($options['just_log'] ?? false) === false) {
             $this->dieWithHttpError(400);
             throw new \Exception('should already have failed');

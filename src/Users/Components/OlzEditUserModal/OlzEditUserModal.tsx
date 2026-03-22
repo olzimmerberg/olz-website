@@ -1,7 +1,6 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
-import {olzApi} from '../../../Api/client';
-import {OlzMetaData, OlzUserData} from '../../../Api/client/generated_olz_api_types';
+import {olzApi, OlzMetaData, OlzUserData} from '../../../Api/client';
 import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';

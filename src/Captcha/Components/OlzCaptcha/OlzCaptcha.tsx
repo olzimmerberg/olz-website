@@ -1,6 +1,5 @@
 import React from 'react';
-import {olzApi} from '../../../Api/client';
-import {OlzCaptchaConfig} from '../../../Api/client/generated_olz_api_types';
+import {olzApi, OlzCaptchaConfig} from '../../../Api/client';
 
 import './OlzCaptcha.scss';
 

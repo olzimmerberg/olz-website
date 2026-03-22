@@ -1,7 +1,6 @@
 import 'bootstrap';
 import React from 'react';
-import {olzApi} from '../../../Api/client';
-import {OlzSearchableEntityType, OlzEntityResult} from '../../../Api/client/generated_olz_api_types';
+import {olzApi, OlzSearchableEntityType, OlzEntityResult} from '../../../Api/client';
 
 import './OlzEntityChooser.scss';
 

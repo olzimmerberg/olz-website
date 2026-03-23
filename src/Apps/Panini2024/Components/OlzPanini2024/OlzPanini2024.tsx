@@ -1,9 +1,8 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
-import {olzApi} from '../../../../Api/client';
+import {olzApi, OlzPanini2024PictureData} from '../../../../Api/client';
 import {OlzTextField} from '../../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../../Components/Upload/OlzImageField/OlzImageField';
-import {OlzPanini2024PictureData} from '../../../../Api/client/generated_olz_api_types';
 import {getApiBoolean, getApiString} from '../../../../Utils/formUtils';
 import {timeout} from '../../../../Utils/generalUtils';
 import {initReact} from '../../../../Utils/reactUtils';

@@ -1,6 +1,5 @@
 import React from 'react';
-import {olzApi} from '../../../Api/client';
-import {OlzApiRequests, OlzAuthorInfoData} from '../../../Api/client/generated_olz_api_types';
+import {olzApi, OlzApiRequests, OlzAuthorInfoData} from '../../../Api/client';
 import {initOlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzRestrictedPublicModal} from '../../../Components/Common/OlzRestrictedPublicModal/OlzRestrictedPublicModal';
 import {getImageSrcArray} from '../../../Users/Components/OlzUserInfoModal/OlzUserInfoModal';

@@ -78,7 +78,7 @@
     "ext-ctype": "*",
     "ext-iconv": "*",
     "allestuetsmerweh/php-deploy": "^2.0",
-    "allestuetsmerweh/php-typescript-api": "^2.0",
+    "allestuetsmerweh/php-typescript-api": "^3.0",
     "artgris/filemanager-bundle": "^2.5",
     "doctrine/doctrine-bundle": "^2.6",
     "doctrine/doctrine-migrations-bundle": "^3.2",

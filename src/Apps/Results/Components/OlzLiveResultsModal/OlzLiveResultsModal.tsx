@@ -1,7 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import {olzApi} from '../../../../Api/client';
-import {OlzApiRequests} from '../../../../Api/client/generated_olz_api_types';
+import {olzApi, OlzApiRequests} from '../../../../Api/client';
 import {olzConfirm} from '../../../../Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 import {initOlzEditModal, OlzEditModal} from '../../../../Components/Common/OlzEditModal/OlzEditModal';
 import {readBase64} from '../../../../Utils/fileUtils';

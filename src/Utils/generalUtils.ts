@@ -1,4 +1,4 @@
-import {OlzMetaData} from '../Api/client/generated_olz_api_types';
+import {OlzMetaData} from '../Api/client';
 
 export function assert<T>(value: T | null | undefined, errorMessage?: string): T {
     if (value === null || value === undefined) {

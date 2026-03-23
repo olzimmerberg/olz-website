@@ -1,4 +1,4 @@
-import {OlzTerminLabelData, OlzTerminTemplateData} from '../../Api/client/generated_olz_api_types';
+import {OlzTerminLabelData, OlzTerminTemplateData} from '../../Api/client';
 import {getFormBoolean, getFormString, validateDateOrNull} from '../../Utils/formUtils';
 import {Entity} from '../../Utils/generalUtils';
 import {isoNow} from '../../Utils/constants';

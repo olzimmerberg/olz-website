@@ -1,5 +1,4 @@
-import {olzApi} from '../../../Api/client';
-import {OlzUserData} from '../../../Api/client/generated_olz_api_types';
+import {olzApi, OlzUserData} from '../../../Api/client';
 import {initOlzEditUserModal} from '../OlzEditUserModal/OlzEditUserModal';
 
 import './OlzUserDetail.scss';

@@ -51,7 +51,7 @@ trait UserEndpointTrait {
             'postalCode' => $entity->getPostalCode() ? $entity->getPostalCode() : null,
             'city' => $entity->getCity() ? $entity->getCity() : null,
             'region' => $entity->getRegion() ? $entity->getRegion() : null,
-            'countryCode' => $entity->getCountryCode() ? IsoCountry::fromData($entity->getCountryCode()) : null,
+            'countryCode' => $entity->getCountryCode() ? IsoCountry::fromWire($entity->getCountryCode()) : null,
             'siCardNumber' => $this->getSiCardNumberForApi($entity),
             'solvNumber' => $entity->getSolvNumber() ? $entity->getSolvNumber() : null,
             'ahvNumber' => $entity->getAhvNumber() ? $entity->getAhvNumber() : null,
@@ -85,7 +85,7 @@ trait UserEndpointTrait {
         $entity->setPostalCode($input_data['postalCode'] ?? null);
         $entity->setCity($input_data['city'] ?? null);
         $entity->setRegion($input_data['region'] ?? null);
-        $entity->setCountryCode($input_data['countryCode']?->data());
+        $entity->setCountryCode($input_data['countryCode']?->toWire());
         $entity->setSiCardNumber($valid_si_card_number);
         $entity->setSolvNumber($input_data['solvNumber'] ?? null);
         $entity->setAhvNumber($input_data['ahvNumber'] ?? null);

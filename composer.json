@@ -12,7 +12,7 @@
     },
     "optimize-autoloader": true,
     "platform": {
-      "php": "8.3"
+      "php": "8.4"
     },
     "preferred-install": {
       "*": "dist"
@@ -74,7 +74,7 @@
     "symfony/phpunit-bridge": "^8"
   },
   "require": {
-    "php": ">=8.3",
+    "php": ">=8.4",
     "ext-ctype": "*",
     "ext-iconv": "*",
     "allestuetsmerweh/php-deploy": "^2.0",

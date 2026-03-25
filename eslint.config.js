@@ -11,7 +11,7 @@ const ignores = [
     'php-coverage/',
     'private/',
     'public/',
-    'src/Api/client.ts',
+    'src/Api/client/generated_olz_api_types.ts',
     'tmp/',
     'translations/',
     'tscbuild/',

@@ -157,13 +157,11 @@ class OlzNewsDetail extends OlzRootComponent {
             ],
         ]);
 
-        // TODO: Use array_find with PHP 8.4
-        $filtered = array_filter(
+        $found_entry = array_find(
             NewsUtils::ALL_FORMAT_OPTIONS,
-            fn ($entry) => $entry['ident'] === $format
+            fn ($entry) => $entry['ident'] === $format,
         );
-        // @phpstan-ignore-next-line
-        $found_entry = $filtered[array_keys($filtered)[0]];
+        $this->generalUtils()->checkNotNull($found_entry, "No such format: {$format}");
         $name = $found_entry['name'];
         $icon = $found_entry['icon'] ?? null;
         $icon_html = "<img src='{$code_href}assets/icns/{$icon}' alt='' class='format-icon'>";

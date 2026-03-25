@@ -34,14 +34,14 @@ final class OlzApiIntegrationTest extends IntegrationTestCase {
     }
 
     public function testOlzApiHasBeenGenerated(): void {
-        $actual_content = file_get_contents(__DIR__.'/../../../src/Api/client.ts');
+        $actual_content = file_get_contents(__DIR__.'/../../../src/Api/client/generated_olz_api_types.ts');
 
         ob_start();
         $olz_api = $this->getSut();
         $olz_api->generate();
         ob_end_clean();
 
-        $expected_content = file_get_contents(__DIR__.'/../../../src/Api/client.ts');
+        $expected_content = file_get_contents(__DIR__.'/../../../src/Api/client/generated_olz_api_types.ts');
 
         $this->assertSame($expected_content, $actual_content);
     }

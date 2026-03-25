@@ -299,7 +299,7 @@ class OlzTerminDetail extends OlzRootComponent {
 
         // Link
         $link = '';
-        if ($solv_uid && $start_date <= $today && !preg_match('/(Rangliste|Resultat)/', $link)) {
+        if ($solv_uid && $start_date->format('Y-m-d') <= $today && !preg_match('/(Rangliste|Resultat)/', $link)) {
             // SOLV Ranglisten-Link zeigen
             $link .= "<div><a href='http://www.o-l.ch/cgi-bin/results?unique_id={$solv_uid}&club=zimmerberg' target='_blank' class='linkol'>Rangliste</a></div>\n";
         }

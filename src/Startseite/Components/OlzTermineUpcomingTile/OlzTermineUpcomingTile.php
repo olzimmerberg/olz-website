@@ -38,12 +38,12 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             </h3>
             ZZZZZZZZZZ;
 
-        $out .= "<ul class='filters'>".implode(' ', [
+        $out .= "<div class='filters'>".implode(' ', [
             $this->renderProgramList(),
             $this->renderWeekendsList(),
             $this->renderTrophyList(),
             $this->renderUpcomingTrainingsList(),
-        ])."</ul>";
+        ])."</div>";
 
         $out .= "<ul class='links'>";
         $res = $this->db->query(<<<ZZZZZZZZZZ
@@ -115,9 +115,9 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             $num_this_year = $this->getNumberOfEntries($this_year_filter);
             $serialized_filter = $this->termineUtils()->serialize($this_year_filter);
             $out .= <<<ZZZZZZZZZZ
-                <li class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
+                <div class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                     {$icon_img} Programm {$this_year}<span class='secondary'>({$num_this_year})</span>
-                </a></li>
+                </a></div>
                 ZZZZZZZZZZ;
         }
         $current_month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
@@ -132,9 +132,9 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             if ($num_next_year > 0) {
                 $serialized_filter = $this->termineUtils()->serialize($next_year_filter);
                 $out .= <<<ZZZZZZZZZZ
-                    <li class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
+                    <div class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                         {$icon_img} Programm {$next_year}<span class='secondary'>({$num_next_year})</span>
-                    </a></li>
+                    </a></div>
                     ZZZZZZZZZZ;
             }
         }
@@ -153,9 +153,9 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         $num_imminent = $this->getNumberOfEntries($imminent_filter);
         $serialized_filter = $this->termineUtils()->serialize($imminent_filter);
         return <<<ZZZZZZZZZZ
-            <li class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
+            <div class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                 {$icon_img} Weekends<span class='secondary'>({$num_imminent})</span>
-            </a></li>
+            </a></div>
             ZZZZZZZZZZ;
     }
 
@@ -172,9 +172,9 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         $num_this_year = $this->getNumberOfEntries($this_year_filter);
         $serialized_filter = $this->termineUtils()->serialize($this_year_filter);
         return <<<ZZZZZZZZZZ
-            <li class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
+            <div class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                 {$icon_img} OLZ Trophy<span class='secondary'>({$num_this_year})</span>
-            </a></li>
+            </a></div>
             ZZZZZZZZZZ;
     }
 
@@ -189,9 +189,9 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         ];
         $serialized_filter = $this->termineUtils()->serialize($imminent_filter);
         return <<<ZZZZZZZZZZ
-            <li class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
+            <div class='filter'><a href='{$code_href}termine?filter={$serialized_filter}&von=startseite'>
                 {$icon_img} Trainings
-            </a></li>
+            </a></div>
             ZZZZZZZZZZ;
     }
 

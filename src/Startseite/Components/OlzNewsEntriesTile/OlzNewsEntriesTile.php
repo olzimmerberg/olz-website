@@ -36,28 +36,28 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
             </h3>
             ZZZZZZZZZZ;
         $out .= <<<ZZZZZZZZZZ
-            <ul class='filters'>
-                <li class='filter'><a href='{$aktuell_url}&von=startseite'>
+            <div class='filters'>
+                <div class='filter'><a href='{$aktuell_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='header-link-icon'>
                     Aktuell
-                </a></li>
-                <li class='filter'><a href='{$galerie_url}&von=startseite'>
+                </a></div>
+                <div class='filter'><a href='{$galerie_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_galerie_20.svg' alt='Galerie' class='header-link-icon'>
                     Galerie
-                </a></li>
-                <li class='filter'><a href='{$video_url}&von=startseite'>
+                </a></div>
+                <div class='filter'><a href='{$video_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_video_20.svg' alt='Video' class='header-link-icon'>
                     Video
-                </a></li>
-                <li class='filter'><a href='{$kaderblog_url}&von=startseite'>
+                </a></div>
+                <div class='filter'><a href='{$kaderblog_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='header-link-icon'>
                     Kaderblog
-                </a></li>
-                <li class='filter'><a href='{$forum_url}&von=startseite'>
+                </a></div>
+                <div class='filter'><a href='{$forum_url}&von=startseite'>
                     <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='header-link-icon'>
                     Forum
-                </a></li>
-            </ul>
+                </a></div>
+            </div>
             ZZZZZZZZZZ;
 
         $out .= "<ul class='links'>";

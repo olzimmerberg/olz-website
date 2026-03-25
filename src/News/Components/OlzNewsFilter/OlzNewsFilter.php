@@ -28,7 +28,7 @@ class OlzNewsFilter extends OlzComponent {
             $ident = $option['ident'];
             return "<a href='{$url}' class='filter format{$selected}' id='filter-format-{$ident}'>{$icon_html}{$name}</a>";
         }, $type_options));
-        $out .= "<div><b>Format: </b>{$type_options_out}</div>";
+        $out .= "<div class='filters'><div class='title'>Format:</div> </b>{$type_options_out}</div>";
 
         $date_range_options = $news_utils->getUiDateRangeFilterOptions($args['currentFilter']);
         $date_range_options_out = implode(' ', array_map(function ($option) use ($news_utils) {
@@ -40,7 +40,7 @@ class OlzNewsFilter extends OlzComponent {
             return "<a href='{$url}' class='filter date{$selected}' id='filter-date-{$ident}'>{$name}</a>";
         }, $date_range_options));
         $archive_out = $news_utils->hasArchiveAccess() ? '' : " <a href='#login-dialog'>ältere</a>";
-        $out .= "<div><b>Datum: </b>{$date_range_options_out}{$archive_out}</div>";
+        $out .= "<div class='filters'><div class='title'>Datum: </div>{$date_range_options_out}{$archive_out}</div>";
 
         $out .= "</div>";
         return $out;

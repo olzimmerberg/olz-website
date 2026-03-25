@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260202103935
+-- MIGRATION: DoctrineMigrations\Version20260326192143
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -387,6 +387,22 @@ CREATE TABLE `news` (
   CONSTRAINT `FK_1DD399509339BDEF` FOREIGN KEY (`author_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_1DD39950E2544CD6` FOREIGN KEY (`author_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6404 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `news_reactions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `emoji` varchar(15) NOT NULL,
+  `news_entry_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_24562072F308EA13` (`news_entry_id`),
+  KEY `IDX_24562072A76ED395` (`user_id`),
+  KEY `news_emoji_user_index` (`news_entry_id`,`emoji`,`user_id`),
+  CONSTRAINT `FK_24562072A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_24562072F308EA13` FOREIGN KEY (`news_entry_id`) REFERENCES `news` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -950,6 +966,22 @@ CREATE TABLE `termin_notification_templates` (
   CONSTRAINT `FK_43613C90B15EFB97` FOREIGN KEY (`recipient_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_43613C90C0330AAE` FOREIGN KEY (`recipient_role_id`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `termin_reactions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `emoji` varchar(15) NOT NULL,
+  `termin_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_F5B7DF14CA0B7C00` (`termin_id`),
+  KEY `IDX_F5B7DF14A76ED395` (`user_id`),
+  KEY `termin_emoji_user_index` (`termin_id`,`emoji`,`user_id`),
+  CONSTRAINT `FK_F5B7DF14A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_F5B7DF14CA0B7C00` FOREIGN KEY (`termin_id`) REFERENCES `termine` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

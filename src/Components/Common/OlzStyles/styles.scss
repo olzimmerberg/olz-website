@@ -113,6 +113,46 @@ ul {
         background-color: colors.$olz-bg;
         color: #fff;
         pointer-events: none;
+
+        img {
+            filter: brightness(0.0) invert(100%);
+        }
+    }
+}
+
+.reactions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.reaction,
+.pretty a[href^='#react-'],
+.rendered-markdown a[href^='#react-'] {
+    background-color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(0,0,0,0.25);
+    border-radius: 5px;
+    color: #000;
+    margin: 1px 2px;
+    padding: 3px 6px;
+    line-height: 23px;
+
+    &:hover {
+        background-color: rgba(255,255,255,1.0);
+        border: 1px solid rgba(0,0,0,0.5);
+    }
+
+    &.active {
+        background-color: rgba(colors.$olz-bg, 0.25);
+        border: 2px solid rgba(colors.$olz-bg, 0.5);
+        padding: 2px 5px;
+        font-weight: bold;
+
+        &:hover {
+            background-color: rgba(colors.$olz-bg, 0.15);
+            border: 2px solid rgba(colors.$olz-bg, 0.3);
+        }
     }
 }
 
@@ -300,8 +340,13 @@ a {
     padding: 0 6px 0 19px;
     background-image: url('../../../../assets/icns/link_null_16.svg');
 
-    &[href^='/'], &[href^='https://olzimmerberg.ch'], &[href^='https://www.olzimmerberg.ch'] {
+    &[href^='#'], &[href^='/'], &[href^='https://olzimmerberg.ch'], &[href^='https://www.olzimmerberg.ch'] {
         background-image: url('../../../../assets/icns/link_internal_16.svg');
+    }
+
+    &[href^='#react-'] {
+        background-image: none;
+        padding: 3px 6px;
     }
 
     &[href^='http://'], &[href^='https://'] {

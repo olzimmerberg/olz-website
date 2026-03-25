@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57edd6332c7bd5a1d199f40229d69197",
+    "content-hash": "142973364d770edffe235f2bffbb46be",
     "packages": [
         {
             "name": "allestuetsmerweh/php-deploy",
@@ -1113,30 +1113,29 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0"
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/23da848e1a2308728fe5fdddabf4be17ff9720c7",
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.4"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^11",
+                "doctrine/coding-standard": "^14",
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpbench/phpbench": "^1.2",
-                "phpstan/phpstan": "^1.9.4",
-                "phpstan/phpstan-phpunit": "^1.3",
-                "phpunit/phpunit": "^9.5.27",
-                "vimeo/psalm": "^5.4"
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5.58"
             },
             "type": "library",
             "autoload": {
@@ -1163,7 +1162,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/2.0.0"
+                "source": "https://github.com/doctrine/instantiator/tree/2.1.0"
             },
             "funding": [
                 {
@@ -1179,7 +1178,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-30T00:23:10+00:00"
+            "time": "2026-01-05T06:47:08+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -1725,16 +1724,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v13.1.1",
+            "version": "v13.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "f292e283edce44f53300320488d33bc367e2b202"
+                "reference": "adf06b38984b02ce29297b1489f0c757c56bff15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/f292e283edce44f53300320488d33bc367e2b202",
-                "reference": "f292e283edce44f53300320488d33bc367e2b202",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/adf06b38984b02ce29297b1489f0c757c56bff15",
+                "reference": "adf06b38984b02ce29297b1489f0c757c56bff15",
                 "shasum": ""
             },
             "require": {
@@ -1780,11 +1779,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-03-16T14:19:51+00:00"
+            "time": "2026-03-23T14:32:36+00:00"
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v13.1.1",
+            "version": "v13.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1830,16 +1829,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v13.1.1",
+            "version": "v13.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "2b4789bc4bbe5a23e1726e2e24f1391cd160a76a"
+                "reference": "6728b11fd8748dea0206e0b21c993cb8ae7ce426"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/2b4789bc4bbe5a23e1726e2e24f1391cd160a76a",
-                "reference": "2b4789bc4bbe5a23e1726e2e24f1391cd160a76a",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/6728b11fd8748dea0206e0b21c993cb8ae7ce426",
+                "reference": "6728b11fd8748dea0206e0b21c993cb8ae7ce426",
                 "shasum": ""
             },
             "require": {
@@ -1874,11 +1873,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-03-10T20:04:12+00:00"
+            "time": "2026-03-20T15:16:26+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v13.1.1",
+            "version": "v13.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1924,7 +1923,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v13.1.1",
+            "version": "v13.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1974,7 +1973,7 @@
         },
         {
             "name": "illuminate/reflection",
-            "version": "v13.1.1",
+            "version": "v13.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/reflection.git",
@@ -2025,16 +2024,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v13.1.1",
+            "version": "v13.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "a61b5675ac92bbbcb22a40e5904c4b8f09480588"
+                "reference": "4ae94d59ea40bc6293ef3c087fc53a1f35619576"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/a61b5675ac92bbbcb22a40e5904c4b8f09480588",
-                "reference": "a61b5675ac92bbbcb22a40e5904c4b8f09480588",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/4ae94d59ea40bc6293ef3c087fc53a1f35619576",
+                "reference": "4ae94d59ea40bc6293ef3c087fc53a1f35619576",
                 "shasum": ""
             },
             "require": {
@@ -2100,7 +2099,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-03-18T17:04:23+00:00"
+            "time": "2026-03-21T01:01:22+00:00"
         },
         {
             "name": "league/commonmark",
@@ -2293,16 +2292,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.32.0",
+            "version": "3.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "254b1595b16b22dbddaaef9ed6ca9fdac4956725"
+                "reference": "570b8871e0ce693764434b29154c54b434905350"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/254b1595b16b22dbddaaef9ed6ca9fdac4956725",
-                "reference": "254b1595b16b22dbddaaef9ed6ca9fdac4956725",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/570b8871e0ce693764434b29154c54b434905350",
+                "reference": "570b8871e0ce693764434b29154c54b434905350",
                 "shasum": ""
             },
             "require": {
@@ -2370,9 +2369,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.32.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.33.0"
             },
-            "time": "2026-02-25T17:01:41+00:00"
+            "time": "2026-03-25T07:59:30+00:00"
         },
         {
             "name": "league/flysystem-ftp",
@@ -9974,11 +9973,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.42",
+            "version": "2.1.44",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1279e1ce86ba768f0780c9d889852b4e02ff40d0",
-                "reference": "1279e1ce86ba768f0780c9d889852b4e02ff40d0",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4a88c083c668b2c364a425c9b3171b2d9ea5d218",
+                "reference": "4a88c083c668b2c364a425c9b3171b2d9ea5d218",
                 "shasum": ""
             },
             "require": {
@@ -10023,7 +10022,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-17T14:58:32+00:00"
+            "time": "2026-03-25T17:34:21+00:00"
         },
         {
             "name": "phpstan/phpstan-doctrine",
@@ -12594,13 +12593,13 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.3",
+        "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.3"
+        "php": "8.4"
     },
     "plugin-api-version": "2.9.0"
 }

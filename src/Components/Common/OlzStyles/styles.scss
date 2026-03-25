@@ -86,6 +86,12 @@ ul {
     }    
 }
 
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
 .filter {
     display: inline-flex;
     align-items: center;
@@ -95,7 +101,7 @@ ul {
     color: colors.$olz-bg;
     height: 24px;
     line-height: 24px;
-    margin: 1px;
+    margin: 1px 2px;
     padding: 0 6px;
 
     &:hover {

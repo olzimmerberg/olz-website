@@ -35,7 +35,7 @@ class OlzTermineFilter extends OlzComponent {
                 </a>
                 ZZZZZZZZZZ;
         }, $type_options));
-        $out .= "<div><b>Termin-Typ: </b>{$type_options_out}</div>";
+        $out .= "<div class='filters'><div class='title'>Termin-Typ: </div>{$type_options_out}</div>";
 
         $date_range_options = $termine_utils->getUiDateRangeFilterOptions($args['currentFilter']);
         $date_range_options_out = implode(' ', array_map(function ($option) use ($termine_utils, $code_href) {
@@ -54,7 +54,7 @@ class OlzTermineFilter extends OlzComponent {
                 ZZZZZZZZZZ;
         }, $date_range_options));
         $archive_out = $termine_utils->hasArchiveAccess() ? '' : " | <a href='#login-dialog'>ältere</a>";
-        $out .= "<div><b>Datum: </b>{$date_range_options_out}{$archive_out}</div>";
+        $out .= "<div class='filters'><div class='title'>Datum: </div>{$date_range_options_out}{$archive_out}</div>";
 
         $out .= "</div>";
         return $out;

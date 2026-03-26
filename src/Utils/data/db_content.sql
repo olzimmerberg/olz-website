@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260202103935
+-- MIGRATION: DoctrineMigrations\Version20260326192143
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -113,7 +113,8 @@ VALUES
     ('DoctrineMigrations\\Version20260103215409', '2026-01-03 22:54:48', '16'),
     ('DoctrineMigrations\\Version20260123161002', '2026-01-27 14:42:01', '38'),
     ('DoctrineMigrations\\Version20260127134010', '2026-01-27 14:42:01', '13'),
-    ('DoctrineMigrations\\Version20260202103935', '2026-02-02 11:41:18', '96');
+    ('DoctrineMigrations\\Version20260202103935', '2026-02-02 11:41:18', '96'),
+    ('DoctrineMigrations\\Version20260326192143', '2026-03-26 20:22:16', '106');
 
 -- Table downloads
 INSERT INTO downloads
@@ -189,6 +190,21 @@ VALUES
     ('6401', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2019-01-01', '15:15:15', '0', 'Saisonstart 2019!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Hoi zäme, dieser Eintrag wurde noch mit dem alten System geschrieben. Hier die Anhänge:\n![](./MIGRATED0000000064010001.jpg)\n![](./MIGRATED0000000064010002.jpg)\n<DL1>\n<DL2>', '[\"MIGRATED0000000064010001.jpg\",\"MIGRATED0000000064010002.jpg\"]', NULL, 'Gold Junge', NULL, 'kaderblog', '', '0', '1', '2019-01-01 15:15:15', '2019-01-01 15:15:15'),
     ('6402', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2019-08-15', '15:15:15', '0', 'Neuer Eintrag auf meinem externen Blog', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Kleiner Teaser', '[]', 'https://www.external-blog.com/entry/1234', 'Eliteläuferin', NULL, 'kaderblog', '', '0', '1', '2019-08-15 15:15:15', '2019-08-15 15:15:15'),
     ('6403', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-01', '15:15:15', '0', 'Saisonstart 2020!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', '![](./MIGRATED0000000064030001.jpg) Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: [Extrem Harte Trainingsstrategie](./MIGRATED0000000064030001.pdf)', '[\"MIGRATED0000000064030001.jpg\"]', NULL, 'Gold Junge', NULL, 'kaderblog', '', '0', '1', '2020-01-01 15:15:15', '2020-01-01 15:15:15');
+
+-- Table news_reactions
+INSERT INTO news_reactions
+    (`id`, `emoji`, `news_entry_id`, `user_id`)
+VALUES
+    ('1', '👍', '3', '1'),
+    ('2', '🎆', '3', '1'),
+    ('3', '👍', '3', '5'),
+    ('4', '🥂', '3', '5'),
+    ('5', '👍', '3', '6'),
+    ('6', '🥂', '3', '6'),
+    ('7', '👍', '3', '7'),
+    ('8', '👩🏼‍❤️‍💋‍👨🏼', '3', '7'),
+    ('9', '👍', '12', '1'),
+    ('10', '🥰', '12', '1');
 
 -- Table notification_subscriptions
 INSERT INTO notification_subscriptions
@@ -508,6 +524,21 @@ VALUES
 
 -- Table termin_notifications
 
+-- Table termin_reactions
+INSERT INTO termin_reactions
+    (`id`, `emoji`, `termin_id`, `user_id`)
+VALUES
+    ('1', '👍', '7', '1'),
+    ('2', '🔴', '7', '1'),
+    ('3', '👍', '7', '5'),
+    ('4', '🔵', '7', '5'),
+    ('5', '👍', '7', '6'),
+    ('6', '🔵', '7', '6'),
+    ('7', '👍', '7', '7'),
+    ('8', '🟢', '7', '7'),
+    ('9', '👍', '12', '1'),
+    ('10', '🔴', '12', '1');
+
 -- Table termin_template_label_map
 INSERT INTO termin_template_label_map
     (`termin_template_id`, `label_id`)
@@ -523,7 +554,7 @@ INSERT INTO termin_templates
     (`id`, `location_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `start_time`, `duration_seconds`, `deadline_earlier_seconds`, `deadline_time`, `min_participants`, `max_participants`, `min_volunteers`, `max_volunteers`, `newsletter`, `title`, `text`, `image_ids`, `on_off`, `created_at`, `last_modified_at`, `should_promote`, `organizer_user_id`)
 VALUES
     ('1', '3', '2', '47', '2', '2', '18:15:00', '5400', NULL, NULL, NULL, NULL, NULL, NULL, '0', 'Hallentraining Brand', 'für alle ab 14 Jahren\n\n', '[]', '1', '2023-10-02 17:03:21', '2023-10-02 17:03:21', '0', '9'),
-    ('2', NULL, '2', '46', '2', '2', '18:30:00', '5400', '172800', '23:59:59', NULL, NULL, NULL, NULL, '0', 'Kartentraining: <<< TODO >>>', 'Karte: <<< TODO >>>\r\nOrganisator: <<< TODO >>>\n\n[Datei](./qjhUey6Lc6svXsmUcSaguWkJ.pdf)[Link](https://solv.ch)', '[\"bv3KeYVKDJNg3MTyjhSQsDRx.jpg\"]', '1', '2023-10-02 17:06:51', '2023-10-02 17:06:51', '1', NULL),
+    ('2', NULL, '2', '46', '2', '2', '18:30:00', '5400', '172800', '23:59:59', NULL, NULL, NULL, NULL, '0', 'Kartentraining: <<< TODO >>>', 'Karte: <<< TODO >>>\n\n[Datei](./qjhUey6Lc6svXsmUcSaguWkJ.pdf)[Link](https://solv.ch)\n\nAnmeldung: [Daumen hoch 👍](#react-👍) und Kategorie wählen: [leicht 🟢](#react-🟢), [mittel 🔵](#react-🔵) oder [schwer 🔴](#react-🔴)', '[\"bv3KeYVKDJNg3MTyjhSQsDRx.jpg\"]', '1', '2023-10-02 17:06:51', '2023-10-02 17:06:51', '1', NULL),
     ('3', NULL, '2', '10', '2', '2', '09:00:00', '108000', '604800', '23:59:59', NULL, NULL, NULL, NULL, '1', '<<< TODO >>> Weekend', '\n\n', NULL, '1', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', '2'),
     ('4', NULL, '2', '10', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Minimal', '\n\n', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL),
     ('5', NULL, '2', '10', '2', '2', '22:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Open end', '\n\n', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL),
@@ -540,7 +571,7 @@ VALUES
     ('4', '2020-08-25', '18:30:00', NULL, '20:00:00', 'Training 2', '', '\n\n', '1', '683498', '236660', '0', '0', '2020-08-24 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL, '2', '0', '6'),
     ('5', '2020-08-26', '18:00:00', '2020-08-26', '19:30:00', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '', 'Organisation: OL Zimmerberg\r\nKarte: Chopfholz\n\n[OLZ Trophy 2020](/termine?filter={\"typ\":\"trophy\",\"datum\":\"2020\",\"archiv\":\"ohne\"})\r\n[Anmeldung](https://forms.gle/ixS1ZD22PmbdeYcy6)\r\n[Ausschreibung](./MIGRATED0000000000050001.pdf)', '1', '0', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, '2019-11-20 09:04:26', '2020-08-24 22:40:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"Ffpi3PK5wBjKfN4etpvGK3ti.jpg\"]', NULL, '0', NULL),
     ('6', '2020-09-01', '18:30:00', NULL, '20:00:00', 'Training 3', '', '\n\n', '1', '684376', '236945', '0', '0', '2020-08-31 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL),
-    ('7', '2020-09-08', '18:00:00', NULL, '19:30:00', 'Training 4', '', '\n\n[Details](./Kzt5p5g6cjM5k9CXdVaSsGFx.pdf)', '1', '0', '0', '0', '0', '2020-09-06 23:59:59', '2', NULL, '2', '2', '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL),
+    ('7', '2020-09-08', '18:00:00', NULL, '19:30:00', 'Training 4', '', '\n\n[Details](./Kzt5p5g6cjM5k9CXdVaSsGFx.pdf)\n\nAnmeldung: [Daumen hoch 👍](#react-👍) und Kategorie wählen: [leicht 🟢](#react-🟢), [mittel 🔵](#react-🔵) oder [schwer 🔴](#react-🔴)', '1', '0', '0', '0', '0', '2020-09-06 23:59:59', '2', NULL, '2', '2', '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL),
     ('8', '2020-08-11', '18:30:00', NULL, '20:00:00', 'Trainingsstart', '', '\n\n', '1', '0', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL),
     ('9', '2020-08-04', '18:30:00', NULL, '20:00:00', 'Training -1', '', '\n\n', '1', '0', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL),
     ('10', '2020-08-22', '00:00:00', NULL, '00:00:00', 'Grossanlass', 'gal', 'Mit allem drum und dran!\n\n', '1', NULL, NULL, '12345', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"659gCbqzigX8D37XgWMbedB3.jpg\"]', NULL, '1', '2'),

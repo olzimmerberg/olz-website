@@ -10,6 +10,8 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Entity\Termine\TerminReaction;
+use Olz\Entity\Users\User;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
@@ -361,6 +363,58 @@ class OlzTerminDetail extends OlzRootComponent {
                 }
             }
         }
+
+        // Reactions
+        $termin_reaction_repo = $this->entityManager()->getRepository(TerminReaction::class);
+        $reactions = $termin_reaction_repo->findBy(['termin' => $id]);
+        $count_by_emoji = [
+            // Shown by default:
+            '👍' => 0,
+            '🤩' => 0,
+            '🙏' => 0,
+            '😢' => 0,
+        ];
+        $active_by_emoji = [];
+        $emojis_by_user = [];
+        foreach ($reactions as $reaction) {
+            $emoji = $reaction->getEmoji();
+            $user_id = $reaction->getUser()->getId();
+            $count_by_emoji[$emoji] ??= 0;
+            $count_by_emoji[$emoji]++;
+            $emojis_by_user[$user_id] ??= [];
+            $emojis_by_user[$user_id][] = $emoji;
+            if ($reaction->getUser() === $user) {
+                $active_by_emoji[$emoji] = true;
+            }
+        }
+        arsort($count_by_emoji);
+        $out .= "<div class='reactions'>";
+        $json_id = json_encode($id);
+        foreach ($count_by_emoji as $emoji => $count) {
+            $active_class = ($active_by_emoji[$emoji] ?? false) ? ' active' : '';
+            $json_emoji = json_encode($emoji);
+            $out .= "<a href='#' onclick='return olz.toggleTerminReaction({$json_id}, {$json_emoji})' class='reaction{$active_class}'>{$emoji} {$count}</a>";
+        }
+        $out .= <<<ZZZZZZZZZZ
+            <button
+                id='add-reaction-button'
+                class='btn btn-sm btn-secondary'
+                onclick='return olz.addCustomTerminReaction({$json_id})'
+            >
+                <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+            </button>
+            ZZZZZZZZZZ;
+        $out .= "</div>";
+        foreach ($emojis_by_user as $user_id => $emojis) {
+            $user_repo = $this->entityManager()->getRepository(User::class);
+            $reaction_user = $user_repo->findOneBy(['id' => $user_id]);
+            $pretty_user = OlzUserInfoModal::render(['user' => $reaction_user]);
+            usort($emojis, fn ($a, $b) => $count_by_emoji[$b] <=> $count_by_emoji[$a]);
+            $emoji_string = implode(' ', $emojis);
+            $out .= "<div>{$pretty_user}: {$emoji_string}</div>";
+        }
+        $json_active_emojis = json_encode($active_by_emoji);
+        $out .= "<script>olz.activateTerminReactionLinks({$json_active_emojis})</script>";
 
         $out .= "</div>"; // olz-termin-detail
         $out .= "</div>"; // content-middle

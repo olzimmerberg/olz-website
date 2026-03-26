@@ -35,6 +35,7 @@ use Olz\Entity\ForwardedEmail;
 use Olz\Entity\Karten\Karte;
 use Olz\Entity\Members\Member;
 use Olz\Entity\News\NewsEntry;
+use Olz\Entity\News\NewsReaction;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillCategory;
@@ -50,6 +51,7 @@ use Olz\Entity\TelegramLink;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
+use Olz\Entity\Termine\TerminReaction;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Entity\Throttling;
 use Olz\Entity\Users\User;
@@ -70,6 +72,7 @@ use Olz\Tests\Fake\Entity\Faq\FakeQuestionCategoryRepository;
 use Olz\Tests\Fake\Entity\Faq\FakeQuestionRepository;
 use Olz\Tests\Fake\Entity\Karten\FakeKarteRepository;
 use Olz\Tests\Fake\Entity\Members\FakeMemberRepository;
+use Olz\Tests\Fake\Entity\News\FakeNewsReactionRepository;
 use Olz\Tests\Fake\Entity\News\FakeNewsRepository;
 use Olz\Tests\Fake\Entity\Quiz\FakeSkillCategoryRepository;
 use Olz\Tests\Fake\Entity\Quiz\FakeSkillLevelRepository;
@@ -81,6 +84,7 @@ use Olz\Tests\Fake\Entity\Snippets\FakeSnippetRepository;
 use Olz\Tests\Fake\Entity\Startseite\FakeWeeklyPictureRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminLabelRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminLocationRepository;
+use Olz\Tests\Fake\Entity\Termine\FakeTerminReactionRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminTemplateRepository;
 use Olz\Tests\Fake\Entity\Users\FakeUserRepository;
@@ -112,6 +116,7 @@ class FakeEntityManager implements EntityManagerInterface {
             Link::class => new FakeLinkRepository($this),
             Member::class => new FakeMemberRepository($this),
             NewsEntry::class => new FakeNewsRepository($this),
+            NewsReaction::class => new FakeNewsReactionRepository($this),
             NotificationSubscription::class => new FakeNotificationSubscriptionRepository($this),
             Question::class => new FakeQuestionRepository($this),
             QuestionCategory::class => new FakeQuestionCategoryRepository($this),
@@ -129,6 +134,7 @@ class FakeEntityManager implements EntityManagerInterface {
             Termin::class => new FakeTerminRepository($this),
             TerminLabel::class => new FakeTerminLabelRepository($this),
             TerminLocation::class => new FakeTerminLocationRepository($this),
+            TerminReaction::class => new FakeTerminReactionRepository($this),
             TerminTemplate::class => new FakeTerminTemplateRepository($this),
             Throttling::class => new FakeThrottlingRepository($this),
             User::class => new FakeUserRepository($this),

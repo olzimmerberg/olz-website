@@ -34,6 +34,11 @@ class ToggleNewsReactionEndpoint extends OlzTypedEndpoint {
             'emoji' => $input['emoji'],
             'user' => $user,
         ]);
+        // Hack for prod not applying the emoji filter correctly.
+        $reactions = array_filter(
+            $reactions,
+            fn ($reaction) => $input['emoji'] === $reaction->getEmoji(),
+        );
         $has_reactions = count($reactions) > 0;
         $want_reaction = $input['action'] === 'on' || ($input['action'] === 'toggle' && !$has_reactions);
 

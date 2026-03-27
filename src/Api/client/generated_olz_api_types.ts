@@ -1210,9 +1210,13 @@ export type Olz_Termine_Endpoints_CreateTerminLocationEndpoint_OlzTerminLocation
 
 export type Olz_Termine_Endpoints_CreateTerminLocationEndpoint_OlzTerminLocationId = Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationId;
 
-export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationData = {'name': string, 'details': string, 'latitude': number, 'longitude': number, 'imageIds': Array<string>};
+export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationData = ({'name': string, 'details': string, 'location': Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzLocationCoordinates, 'imageIds': Array<string>} | {'name': string, 'details': string, 'latitude': number, 'longitude': number, 'imageIds': Array<string>});
 
 export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationId = number;
+
+export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzLocationCoordinates = Olz_Utils_MapUtils_OlzLocationCoordinates;
+
+export type Olz_Utils_MapUtils_OlzLocationCoordinates = {'latitude': number, 'longitude': number};
 
 export type Olz_Api_OlzTypedEndpoint3df57566388159e570e908eca0bdbe86_Request = {'id': Olz_Api_OlzGetEntityTypedEndpoint1a1e55388407b8507da2d323e4886deb_Id, 'custom'?: Olz_Api_OlzGetEntityTypedEndpoint1a1e55388407b8507da2d323e4886deb_CustomRequest};
 

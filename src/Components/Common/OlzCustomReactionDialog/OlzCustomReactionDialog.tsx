@@ -37,8 +37,7 @@ export const OlzCustomReactionDialog = (props: OlzCustomReactionDialogProps): Re
         setStatus({id: 'SUBMITTING'});
         await props.onConfirm(values.emoji);
         setStatus({id: 'SUBMITTED'});
-        // This could probably be done more smoothly!
-        window.location.reload();
+        bootstrap.Modal.getInstance('#emoji-modal')?.hide();
     };
 
     return (

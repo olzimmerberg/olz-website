@@ -8,12 +8,12 @@ use Olz\Entity\Quiz\Skill;
 use Olz\Entity\Quiz\SkillLevel;
 
 /**
+ * @phpstan-type OlzSkillFilter array{categoryIdIn: array<non-empty-string>}
+ *
  * Note: `value` must be between 0.0 and 1.0.
  *
  * @extends OlzTypedEndpoint<
- *   array{skillFilter?: ?(
- *     array{categoryIdIn: array<non-empty-string>}
- *   )},
+ *   array{skillFilter?: ?OlzSkillFilter},
  *   array<string, array{value: float}>,
  * >
  */

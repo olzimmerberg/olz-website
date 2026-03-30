@@ -8,13 +8,17 @@ use Olz\Entity\Termine\TerminReaction;
 use PhpTypeScriptApi\HttpError;
 
 /**
+ * @phpstan-import-type OlzReaction from ListTerminReactionsEndpoint
+ *
  * @extends OlzTypedEndpoint<
  *   array{
  *     terminId: int<1, max>,
  *     emoji: non-empty-string,
  *     action: 'on'|'off'|'toggle',
  *   },
- *   array{}
+ *   array{
+ *     result: ?OlzReaction,
+ *   }
  * >
  */
 class ToggleTerminReactionEndpoint extends OlzTypedEndpoint {
@@ -41,6 +45,7 @@ class ToggleTerminReactionEndpoint extends OlzTypedEndpoint {
         );
         $has_reactions = count($reactions) > 0;
         $want_reaction = $input['action'] === 'on' || ($input['action'] === 'toggle' && !$has_reactions);
+        $result = null;
 
         if (!$has_reactions && $want_reaction) {
             $termin_repo = $this->entityManager()->getRepository(Termin::class);
@@ -54,6 +59,11 @@ class ToggleTerminReactionEndpoint extends OlzTypedEndpoint {
             $reaction->setEmoji($input['emoji']);
             $this->entityManager()->persist($reaction);
             $this->entityManager()->flush();
+            $result = [
+                'userId' => $reaction->getUser()->getId() ?? 0,
+                'name' => $reaction->getUser()->getFullName() ?: '?',
+                'emoji' => $reaction->getEmoji() ?: '?',
+            ];
         }
         if ($has_reactions && !$want_reaction) {
             foreach ($reactions as $reaction) {
@@ -62,6 +72,6 @@ class ToggleTerminReactionEndpoint extends OlzTypedEndpoint {
             $this->entityManager()->flush();
         }
 
-        return [];
+        return ['result' => $result];
     }
 }

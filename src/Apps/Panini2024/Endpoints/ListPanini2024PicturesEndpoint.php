@@ -5,6 +5,7 @@ namespace Olz\Apps\Panini2024\Endpoints;
 use Olz\Api\OlzTypedEndpoint;
 
 /**
+ * @phpstan-type OlzPanini2024Filter array{idIs: int<1, max>} | array{page: int<1, max>}
  * @phpstan-type OlzPanini2024PictureData array{
  *   id: int<1, max>,
  *   line1: non-empty-string,
@@ -17,10 +18,7 @@ use Olz\Api\OlzTypedEndpoint;
  * }
  *
  * @extends OlzTypedEndpoint<
- *   array{filter?: ?(
- *     array{idIs: int<1, max>}
- *     | array{page: int<1, max>}
- *   )},
+ *   array{filter?: ?OlzPanini2024Filter},
  *   array<array{data: OlzPanini2024PictureData}>,
  * >
  */

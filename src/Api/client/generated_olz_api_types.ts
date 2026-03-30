@@ -452,9 +452,19 @@ export type Olz_News_Endpoints_GetAuthorInfoEndpoint_OlzNewsId = number;
 
 export type Olz_News_Endpoints_GetAuthorInfoEndpoint_OlzAuthorInfoData = {'roleName'?: (string | null), 'roleUsername'?: (string | null), 'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: ({[key: string]: string} | null)};
 
-export type Olz_Api_OlzTypedEndpointd1437f2ab3e195cf733324a18dc56569_Request = {'newsEntryId': number, 'emoji': string, 'action': ('on' | 'off' | 'toggle')};
+export type Olz_Api_OlzTypedEndpointf091e93370e42c7ba62ac4a32e1c40f5_Request = {'filter': Olz_News_Endpoints_ListNewsReactionsEndpoint_OlzNewsReactionFilter};
 
-export type Olz_Api_OlzTypedEndpointd1437f2ab3e195cf733324a18dc56569_Response = Record<string, never>;
+export type Olz_Api_OlzTypedEndpointf091e93370e42c7ba62ac4a32e1c40f5_Response = {'result': Array<Olz_News_Endpoints_ListNewsReactionsEndpoint_OlzReaction>};
+
+export type Olz_News_Endpoints_ListNewsReactionsEndpoint_OlzNewsReactionFilter = {'newsEntryId': number};
+
+export type Olz_News_Endpoints_ListNewsReactionsEndpoint_OlzReaction = {'userId': number, 'name': (string | null), 'emoji': string};
+
+export type Olz_Api_OlzTypedEndpointb86ece73e26e81be28d034731631534a_Request = {'newsEntryId': number, 'emoji': string, 'action': ('on' | 'off' | 'toggle')};
+
+export type Olz_Api_OlzTypedEndpointb86ece73e26e81be28d034731631534a_Response = {'result': (Olz_News_Endpoints_ToggleNewsReactionEndpoint_OlzReaction | null)};
+
+export type Olz_News_Endpoints_ToggleNewsReactionEndpoint_OlzReaction = Olz_News_Endpoints_ListNewsReactionsEndpoint_OlzReaction;
 
 export type Olz_Api_OlzTypedEndpoint576e136131c17cd3ce98f45eb4f09b42_Request = {'meta': Olz_Api_OlzCreateEntityTypedEndpoint7c4d6b31e4b761693bbc799b48850c6a_OlzMetaData, 'data': Olz_Api_OlzCreateEntityTypedEndpoint7c4d6b31e4b761693bbc799b48850c6a_Data, 'custom'?: Olz_Api_OlzCreateEntityTypedEndpoint7c4d6b31e4b761693bbc799b48850c6a_CustomRequest};
 
@@ -1080,9 +1090,19 @@ export type Olz_Api_OlzDeleteEntityTypedEndpointfb0c3beb8255130c5e6b518b9fe87c65
 
 export type Olz_Termine_Endpoints_DeleteTerminEndpoint_OlzTerminId = Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminId;
 
-export type Olz_Api_OlzTypedEndpoint9dc8d17fd871a55a609e46342723ade7_Request = {'terminId': number, 'emoji': string, 'action': ('on' | 'off' | 'toggle')};
+export type Olz_Api_OlzTypedEndpoint73faca57780e0d82c43937d3db325082_Request = {'filter': Olz_Termine_Endpoints_ListTerminReactionsEndpoint_OlzTerminReactionFilter};
 
-export type Olz_Api_OlzTypedEndpoint9dc8d17fd871a55a609e46342723ade7_Response = Record<string, never>;
+export type Olz_Api_OlzTypedEndpoint73faca57780e0d82c43937d3db325082_Response = {'result': Array<Olz_Termine_Endpoints_ListTerminReactionsEndpoint_OlzReaction>};
+
+export type Olz_Termine_Endpoints_ListTerminReactionsEndpoint_OlzTerminReactionFilter = {'terminId': number};
+
+export type Olz_Termine_Endpoints_ListTerminReactionsEndpoint_OlzReaction = {'userId': number, 'name': (string | null), 'emoji': string};
+
+export type Olz_Api_OlzTypedEndpointb2ff38c5eaa06dd6feeb2919a3e369a1_Request = {'terminId': number, 'emoji': string, 'action': ('on' | 'off' | 'toggle')};
+
+export type Olz_Api_OlzTypedEndpointb2ff38c5eaa06dd6feeb2919a3e369a1_Response = {'result': (Olz_Termine_Endpoints_ToggleTerminReactionEndpoint_OlzReaction | null)};
+
+export type Olz_Termine_Endpoints_ToggleTerminReactionEndpoint_OlzReaction = Olz_Termine_Endpoints_ListTerminReactionsEndpoint_OlzReaction;
 
 export type Olz_Api_OlzTypedEndpointdf7751ad58812e0aea6158f1c6a8eab1_Request = {'meta': Olz_Api_OlzCreateEntityTypedEndpoint4583018f20bc8bb0fefcc8c8c9d0d6f1_OlzMetaData, 'data': Olz_Api_OlzCreateEntityTypedEndpoint4583018f20bc8bb0fefcc8c8c9d0d6f1_Data, 'custom'?: Olz_Api_OlzCreateEntityTypedEndpoint4583018f20bc8bb0fefcc8c8c9d0d6f1_CustomRequest};
 
@@ -1600,9 +1620,11 @@ export type Olz_Apps_Oev_Endpoints_SearchTransportConnectionEndpoint_OlzTranspor
 
 export type Olz_Apps_Oev_Endpoints_SearchTransportConnectionEndpoint_OlzTransportHalt = {'stationId': string, 'stationName': string, 'time': PhpTypeScriptApi_PhpStan_IsoDateTime};
 
-export type Olz_Api_OlzTypedEndpoint191a97cfdf45ab74ef97c5649a883230_Request = {'filter'?: (({'idIs': number} | {'page': number}) | null)};
+export type Olz_Api_OlzTypedEndpoint03b59825b9902599a80ee265bb7fd709_Request = {'filter'?: (Olz_Apps_Panini2024_Endpoints_ListPanini2024PicturesEndpoint_OlzPanini2024Filter | null)};
 
-export type Olz_Api_OlzTypedEndpoint191a97cfdf45ab74ef97c5649a883230_Response = Array<{'data': Olz_Apps_Panini2024_Endpoints_ListPanini2024PicturesEndpoint_OlzPanini2024PictureData}>;
+export type Olz_Api_OlzTypedEndpoint03b59825b9902599a80ee265bb7fd709_Response = Array<{'data': Olz_Apps_Panini2024_Endpoints_ListPanini2024PicturesEndpoint_OlzPanini2024PictureData}>;
+
+export type Olz_Apps_Panini2024_Endpoints_ListPanini2024PicturesEndpoint_OlzPanini2024Filter = ({'idIs': number} | {'page': number});
 
 export type Olz_Apps_Panini2024_Endpoints_ListPanini2024PicturesEndpoint_OlzPanini2024PictureData = {'id': number, 'line1': string, 'line2'?: (string | null), 'association'?: (string | null), 'imgSrc': string, 'imgStyle': string, 'isLandscape': boolean, 'hasTop': boolean};
 
@@ -1612,9 +1634,11 @@ export type Olz_Api_OlzTypedEndpoint0512e306bea6fbc8e315fa6275a636ec_Response = 
 
 export type Olz_Apps_Panini2024_Endpoints_UpdateMyPanini2024Endpoint_OlzPanini2024PictureData = {'id'?: (number | null), 'line1': string, 'line2': string, 'residence': string, 'uploadId': string, 'onOff': boolean, 'info1': string, 'info2': string, 'info3': string, 'info4': string, 'info5': string};
 
-export type Olz_Api_OlzTypedEndpointe2031f04cd13ab803289053d9f90002c_Request = {'skillFilter'?: ({'categoryIdIn': Array<string>} | null)};
+export type Olz_Api_OlzTypedEndpointf6b4da7f60ffa6cde730312876e34828_Request = {'skillFilter'?: (Olz_Apps_Quiz_Endpoints_GetMySkillLevelsEndpoint_OlzSkillFilter | null)};
 
-export type Olz_Api_OlzTypedEndpointe2031f04cd13ab803289053d9f90002c_Response = {[key: string]: {'value': number}};
+export type Olz_Api_OlzTypedEndpointf6b4da7f60ffa6cde730312876e34828_Response = {[key: string]: {'value': number}};
+
+export type Olz_Apps_Quiz_Endpoints_GetMySkillLevelsEndpoint_OlzSkillFilter = {'categoryIdIn': Array<string>};
 
 export type Olz_Api_OlzTypedEndpoint6635bad660fed6f9571be56c72986b9b_Request = {'updates': {[key: string]: {'change': number}}};
 
@@ -1681,6 +1705,7 @@ export type OlzApiEndpoint =
     'updateNews'|
     'deleteNews'|
     'getAuthorInfo'|
+    'listNewsReactions'|
     'toggleNewsReaction'|
     'createRole'|
     'getRole'|
@@ -1718,6 +1743,7 @@ export type OlzApiEndpoint =
     'editTermin'|
     'updateTermin'|
     'deleteTermin'|
+    'listTerminReactions'|
     'toggleTerminReaction'|
     'createTerminLabel'|
     'listTerminLabels'|
@@ -1809,7 +1835,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     updateNews: Olz_Api_OlzTypedEndpoint9cc8cb238c7b7382e41e76c82f736c96_Request,
     deleteNews: Olz_Api_OlzTypedEndpoint94a3d0f53a145aff5f346769797884f7_Request,
     getAuthorInfo: Olz_Api_OlzTypedEndpoint6664ec7267d06a2c192baa1ac488f2dc_Request,
-    toggleNewsReaction: Olz_Api_OlzTypedEndpointd1437f2ab3e195cf733324a18dc56569_Request,
+    listNewsReactions: Olz_Api_OlzTypedEndpointf091e93370e42c7ba62ac4a32e1c40f5_Request,
+    toggleNewsReaction: Olz_Api_OlzTypedEndpointb86ece73e26e81be28d034731631534a_Request,
     createRole: Olz_Api_OlzTypedEndpoint576e136131c17cd3ce98f45eb4f09b42_Request,
     getRole: Olz_Api_OlzTypedEndpoint1f2a0489dfbd35ff09e89fbbd44ac432_Request,
     editRole: Olz_Api_OlzTypedEndpoint373ffe0fa05d1cd7a0158f3643700420_Request,
@@ -1846,7 +1873,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     editTermin: Olz_Api_OlzTypedEndpoint444d1d5a251edf092840b6d4a8042bd5_Request,
     updateTermin: Olz_Api_OlzTypedEndpointde8bfc4d144ea939be23aab4dacd4467_Request,
     deleteTermin: Olz_Api_OlzTypedEndpointb3fe6adefad0c99cd5d2f6d0d13a9852_Request,
-    toggleTerminReaction: Olz_Api_OlzTypedEndpoint9dc8d17fd871a55a609e46342723ade7_Request,
+    listTerminReactions: Olz_Api_OlzTypedEndpoint73faca57780e0d82c43937d3db325082_Request,
+    toggleTerminReaction: Olz_Api_OlzTypedEndpointb2ff38c5eaa06dd6feeb2919a3e369a1_Request,
     createTerminLabel: Olz_Api_OlzTypedEndpointdf7751ad58812e0aea6158f1c6a8eab1_Request,
     listTerminLabels: Olz_Api_OlzTypedEndpointccb48a140bb788e43280a406985861f2_Request,
     getTerminLabel: Olz_Api_OlzTypedEndpoint04827aea927649ecd854fdff9f2dd24b_Request,
@@ -1884,9 +1912,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     getAppMonitoringCredentials: Olz_Api_OlzTypedEndpoint52d7b1ce86c234a277873630b3ab8b95_Request,
     updateNotificationSubscriptions: Olz_Api_OlzTypedEndpointf4bafa0cce57bbea6b9a48aaa723a361_Request,
     searchTransportConnection: Olz_Api_OlzTypedEndpoint2b88ae7a3b1880cf64104cbba31f615d_Request,
-    listPanini2024Pictures: Olz_Api_OlzTypedEndpoint191a97cfdf45ab74ef97c5649a883230_Request,
+    listPanini2024Pictures: Olz_Api_OlzTypedEndpoint03b59825b9902599a80ee265bb7fd709_Request,
     updateMyPanini2024: Olz_Api_OlzTypedEndpoint0512e306bea6fbc8e315fa6275a636ec_Request,
-    getMySkillLevels: Olz_Api_OlzTypedEndpointe2031f04cd13ab803289053d9f90002c_Request,
+    getMySkillLevels: Olz_Api_OlzTypedEndpointf6b4da7f60ffa6cde730312876e34828_Request,
     updateMySkillLevels: Olz_Api_OlzTypedEndpoint6635bad660fed6f9571be56c72986b9b_Request,
     registerSkillCategories: Olz_Api_OlzTypedEndpoint9e5cfbe2e06be54829a365c5dcefeb9a_Request,
     registerSkills: Olz_Api_OlzTypedEndpoint713ffb4d8f8bd57ef9bd9b67ea30b2c0_Request,
@@ -1936,7 +1964,8 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     updateNews: Olz_Api_OlzTypedEndpoint9cc8cb238c7b7382e41e76c82f736c96_Response,
     deleteNews: Olz_Api_OlzTypedEndpoint94a3d0f53a145aff5f346769797884f7_Response,
     getAuthorInfo: Olz_Api_OlzTypedEndpoint6664ec7267d06a2c192baa1ac488f2dc_Response,
-    toggleNewsReaction: Olz_Api_OlzTypedEndpointd1437f2ab3e195cf733324a18dc56569_Response,
+    listNewsReactions: Olz_Api_OlzTypedEndpointf091e93370e42c7ba62ac4a32e1c40f5_Response,
+    toggleNewsReaction: Olz_Api_OlzTypedEndpointb86ece73e26e81be28d034731631534a_Response,
     createRole: Olz_Api_OlzTypedEndpoint576e136131c17cd3ce98f45eb4f09b42_Response,
     getRole: Olz_Api_OlzTypedEndpoint1f2a0489dfbd35ff09e89fbbd44ac432_Response,
     editRole: Olz_Api_OlzTypedEndpoint373ffe0fa05d1cd7a0158f3643700420_Response,
@@ -1973,7 +2002,8 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     editTermin: Olz_Api_OlzTypedEndpoint444d1d5a251edf092840b6d4a8042bd5_Response,
     updateTermin: Olz_Api_OlzTypedEndpointde8bfc4d144ea939be23aab4dacd4467_Response,
     deleteTermin: Olz_Api_OlzTypedEndpointb3fe6adefad0c99cd5d2f6d0d13a9852_Response,
-    toggleTerminReaction: Olz_Api_OlzTypedEndpoint9dc8d17fd871a55a609e46342723ade7_Response,
+    listTerminReactions: Olz_Api_OlzTypedEndpoint73faca57780e0d82c43937d3db325082_Response,
+    toggleTerminReaction: Olz_Api_OlzTypedEndpointb2ff38c5eaa06dd6feeb2919a3e369a1_Response,
     createTerminLabel: Olz_Api_OlzTypedEndpointdf7751ad58812e0aea6158f1c6a8eab1_Response,
     listTerminLabels: Olz_Api_OlzTypedEndpointccb48a140bb788e43280a406985861f2_Response,
     getTerminLabel: Olz_Api_OlzTypedEndpoint04827aea927649ecd854fdff9f2dd24b_Response,
@@ -2011,9 +2041,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     getAppMonitoringCredentials: Olz_Api_OlzTypedEndpoint52d7b1ce86c234a277873630b3ab8b95_Response,
     updateNotificationSubscriptions: Olz_Api_OlzTypedEndpointf4bafa0cce57bbea6b9a48aaa723a361_Response,
     searchTransportConnection: Olz_Api_OlzTypedEndpoint2b88ae7a3b1880cf64104cbba31f615d_Response,
-    listPanini2024Pictures: Olz_Api_OlzTypedEndpoint191a97cfdf45ab74ef97c5649a883230_Response,
+    listPanini2024Pictures: Olz_Api_OlzTypedEndpoint03b59825b9902599a80ee265bb7fd709_Response,
     updateMyPanini2024: Olz_Api_OlzTypedEndpoint0512e306bea6fbc8e315fa6275a636ec_Response,
-    getMySkillLevels: Olz_Api_OlzTypedEndpointe2031f04cd13ab803289053d9f90002c_Response,
+    getMySkillLevels: Olz_Api_OlzTypedEndpointf6b4da7f60ffa6cde730312876e34828_Response,
     updateMySkillLevels: Olz_Api_OlzTypedEndpoint6635bad660fed6f9571be56c72986b9b_Response,
     registerSkillCategories: Olz_Api_OlzTypedEndpoint9e5cfbe2e06be54829a365c5dcefeb9a_Response,
     registerSkills: Olz_Api_OlzTypedEndpoint713ffb4d8f8bd57ef9bd9b67ea30b2c0_Response,

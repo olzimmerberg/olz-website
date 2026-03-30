@@ -137,7 +137,7 @@ class TransportSection {
         $cropped_pass_list = [];
         foreach ($this->getHalts() as $halt) {
             if ($stage === 'search_start') {
-                if ($start_halt && $halt->equals($start_halt)) {
+                if ($halt->equals($start_halt)) {
                     $cropped_section->setDeparture($halt);
                     $stage = 'search_end';
                 }

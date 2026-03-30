@@ -42,6 +42,7 @@ class OlzApi extends Api {
         \Olz\News\Endpoints\UpdateNewsEndpoint $updateNewsEndpoint,
         \Olz\News\Endpoints\DeleteNewsEndpoint $deleteNewsEndpoint,
         \Olz\News\Endpoints\GetAuthorInfoEndpoint $getAuthorInfoEndpoint,
+        \Olz\News\Endpoints\ListNewsReactionsEndpoint $listNewsReactionsEndpoint,
         \Olz\News\Endpoints\ToggleNewsReactionEndpoint $toggleNewsReactionEndpoint,
         \Olz\Roles\Endpoints\CreateRoleEndpoint $createRoleEndpoint,
         \Olz\Roles\Endpoints\GetRoleEndpoint $getRoleEndpoint,
@@ -84,6 +85,7 @@ class OlzApi extends Api {
         \Olz\Termine\Endpoints\EditTerminEndpoint $editTerminEndpoint,
         \Olz\Termine\Endpoints\UpdateTerminEndpoint $updateTerminEndpoint,
         \Olz\Termine\Endpoints\DeleteTerminEndpoint $deleteTerminEndpoint,
+        \Olz\Termine\Endpoints\ListTerminReactionsEndpoint $listTerminReactionsEndpoint,
         \Olz\Termine\Endpoints\ToggleTerminReactionEndpoint $toggleTerminReactionEndpoint,
         \Olz\Termine\Endpoints\CreateTerminLabelEndpoint $createTerminLabelEndpoint,
         \Olz\Termine\Endpoints\ListTerminLabelsEndpoint $listTerminLabelsEndpoint,
@@ -160,6 +162,7 @@ class OlzApi extends Api {
         $this->registerEndpoint('updateNews', $updateNewsEndpoint);
         $this->registerEndpoint('deleteNews', $deleteNewsEndpoint);
         $this->registerEndpoint('getAuthorInfo', $getAuthorInfoEndpoint);
+        $this->registerEndpoint('listNewsReactions', $listNewsReactionsEndpoint);
         $this->registerEndpoint('toggleNewsReaction', $toggleNewsReactionEndpoint);
 
         // Roles
@@ -217,6 +220,7 @@ class OlzApi extends Api {
         $this->registerEndpoint('editTermin', $editTerminEndpoint);
         $this->registerEndpoint('updateTermin', $updateTerminEndpoint);
         $this->registerEndpoint('deleteTermin', $deleteTerminEndpoint);
+        $this->registerEndpoint('listTerminReactions', $listTerminReactionsEndpoint);
         $this->registerEndpoint('toggleTerminReaction', $toggleTerminReactionEndpoint);
 
         // Termin Label

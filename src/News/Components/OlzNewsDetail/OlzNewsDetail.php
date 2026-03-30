@@ -11,12 +11,9 @@ use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
-use Olz\Entity\News\NewsReaction;
-use Olz\Entity\Users\User;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Utils\NewsUtils;
-use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
@@ -282,79 +279,8 @@ class OlzNewsDetail extends OlzRootComponent {
         }
 
         // Reactions
-        $can_vote = $this->authUtils()->hasPermission('any');
-        $news_reaction_repo = $this->entityManager()->getRepository(NewsReaction::class);
-        $reactions = $news_reaction_repo->findBy(['news_entry' => $id]);
-        $count_by_emoji = [
-            // Shown by default:
-            '👍' => 0,
-            '🤩' => 0,
-            '🙏' => 0,
-        ];
-        $active_by_emoji = [];
-        $emojis_by_user = [];
-        foreach ($reactions as $reaction) {
-            $emoji = $reaction->getEmoji();
-            $user_id = $reaction->getUser()->getId();
-            $count_by_emoji[$emoji] ??= 0;
-            $count_by_emoji[$emoji]++;
-            $emojis_by_user[$user_id] ??= [];
-            $emojis_by_user[$user_id][] = $emoji;
-            if ($reaction->getUser() === $user) {
-                $active_by_emoji[$emoji] = true;
-            }
-        }
-        arsort($count_by_emoji);
-        $out .= "<div class='reactions'>";
         $json_id = json_encode($id);
-        foreach ($count_by_emoji as $emoji => $count) {
-            $active_class = ($active_by_emoji[$emoji] ?? false) ? ' active' : '';
-            $json_emoji = json_encode($emoji);
-            if ($can_vote) {
-                $out .= <<<ZZZZZZZZZZ
-                    <a
-                        href='#'
-                        onclick='return olz.toggleNewsReaction({$json_id}, {$json_emoji})'
-                        class='reaction{$active_class}'
-                    >
-                        {$emoji} {$count}
-                    </a>
-                    ZZZZZZZZZZ;
-            } else {
-                $out .= <<<ZZZZZZZZZZ
-                    <a
-                        href='#login-dialog'
-                        class='reaction{$active_class}'
-                    >
-                        {$emoji} {$count}
-                    </a>
-                    ZZZZZZZZZZ;
-            }
-        }
-        if ($can_vote) {
-            $out .= <<<ZZZZZZZZZZ
-                <button
-                    id='add-reaction-button'
-                    class='btn btn-sm btn-secondary'
-                    onclick='return olz.addCustomNewsReaction({$json_id})'
-                >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                </button>
-                ZZZZZZZZZZ;
-        }
-        $out .= "</div>";
-        if ($can_vote) {
-            foreach ($emojis_by_user as $user_id => $emojis) {
-                $user_repo = $this->entityManager()->getRepository(User::class);
-                $reaction_user = $user_repo->findOneBy(['id' => $user_id]);
-                $pretty_user = OlzUserInfoModal::render(['user' => $reaction_user]);
-                usort($emojis, fn ($a, $b) => $count_by_emoji[$b] <=> $count_by_emoji[$a]);
-                $emoji_string = implode(' ', $emojis);
-                $out .= "<div>{$pretty_user}: {$emoji_string}</div>";
-            }
-            $json_active_emojis = json_encode($active_by_emoji);
-            $out .= "<script>olz.activateNewsReactionLinks({$json_active_emojis})</script>";
-        }
+        $out .= "<div id='news-reactions'></div><script>olz.initNewsReactions({$json_id});</script>";
 
         $out .= "</div>"; // content-middle
 

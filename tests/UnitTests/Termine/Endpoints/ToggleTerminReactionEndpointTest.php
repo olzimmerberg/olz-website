@@ -55,7 +55,13 @@ final class ToggleTerminReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([], $result);
+        $this->assertSame([
+            'result' => [
+                'userId' => 12,
+                'name' => 'Required Non-empty',
+                'emoji' => '👍',
+            ],
+        ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(0, $entity_manager->removed);
         $this->assertCount(0, $entity_manager->flushed_removed);
@@ -85,7 +91,9 @@ final class ToggleTerminReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([], $result);
+        $this->assertSame([
+            'result' => null,
+        ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(0, $entity_manager->persisted);
         $this->assertCount(0, $entity_manager->flushed_persisted);
@@ -115,7 +123,13 @@ final class ToggleTerminReactionEndpointTest extends UnitTestCase {
             "INFO Valid user request",
             "INFO Valid user response",
         ], $this->getLogs());
-        $this->assertSame([], $result);
+        $this->assertSame([
+            'result' => [
+                'userId' => 1234,
+                'name' => 'Maximal User',
+                'emoji' => '👍',
+            ],
+        ], $result);
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(0, $entity_manager->removed);
         $this->assertCount(0, $entity_manager->flushed_removed);

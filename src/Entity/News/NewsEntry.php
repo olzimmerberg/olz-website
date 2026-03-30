@@ -74,6 +74,12 @@ class NewsEntry extends OlzEntity implements DataStorageInterface, TestableInter
     // PRIMARY KEY (`id`),
     // KEY `datum` (`datum`)
 
+    public static function id(int $id): self {
+        $entity = new self();
+        $entity->setId($id);
+        return $entity;
+    }
+
     public function getId(): ?int {
         return $this->id ?? null;
     }

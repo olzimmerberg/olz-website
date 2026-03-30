@@ -117,6 +117,12 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
     // KEY `datum_end` (`datum_end`),
     // KEY `datum_off` (`datum_off`)
 
+    public static function id(int $id): self {
+        $entity = new self();
+        $entity->setId($id);
+        return $entity;
+    }
+
     public function __construct() {
         $this->labels = new ArrayCollection();
     }

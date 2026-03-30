@@ -60,8 +60,8 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
     protected array $originStations;
     protected TransportApiFetcher $transportApiFetcher;
 
-    /** @var array<string, bool> */
-    protected array $is_origin_station_by_station_id = [];
+    /** @var ?array<string, bool> */
+    protected ?array $is_origin_station_by_station_id = null;
 
     public function __construct() {
         parent::__construct();
@@ -424,7 +424,7 @@ class SearchTransportConnectionEndpoint extends OlzTypedEndpoint {
     }
 
     protected function isOriginStation(string $station_id): bool {
-        if (($this->is_origin_station_by_station_id ?? null) === null) {
+        if ($this->is_origin_station_by_station_id === null) {
             $this->is_origin_station_by_station_id = [];
             foreach ($this->originStations as $station) {
                 $this->is_origin_station_by_station_id[$station['id']] = true;

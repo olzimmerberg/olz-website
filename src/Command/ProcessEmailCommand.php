@@ -489,6 +489,7 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function incomingToOutgoingEmail(Message $incoming): Email {
+        $smtp_from = $this->envUtils()->getSmtpFrom();
         $from = $incoming->getFrom()->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
@@ -496,7 +497,7 @@ class ProcessEmailCommand extends OlzCommand {
         $cc = $this->getAddresses($incoming->getCc());
         $bcc = $this->getAddresses($incoming->getBcc());
         if (count($to) + count($cc) + count($bcc) === 0) { // E-Mail to undisclosed recipients
-            $to = [new Address($this->envUtils()->getSmtpFrom(), 'Undisclosed Recipients')];
+            $to = [new Address($smtp_from, 'Undisclosed Recipients')];
         }
         $message_id = $incoming->getMessageId()->first();
         $subject = $incoming->getSubject()->first();
@@ -506,7 +507,8 @@ class ProcessEmailCommand extends OlzCommand {
             $html = nl2br($text ?? '');
         }
         $outgoing = (new Email())
-            ->from(new Address($from_address, $from_name))
+            ->from(new Address($smtp_from, "{$from_name} (via OLZ)"))
+            ->replyTo(new Address($from_address, $from_name))
             ->to(...$to)
             ->cc(...$cc)
             ->bcc(...$bcc)

@@ -382,8 +382,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: "Undisclosed Recipients" <fake@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
@@ -455,8 +455,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: someone@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -584,8 +584,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: someone-old@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -662,8 +662,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -675,8 +675,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -776,8 +776,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
                 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: somerole-old@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -789,8 +789,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: somerole-old@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -920,8 +920,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -933,8 +933,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -946,8 +946,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: someone@staging.olzimmerberg.ch, somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -1036,8 +1036,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: 
                 Cc: "Some One" <someone@staging.olzimmerberg.ch>
                 Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
@@ -1049,8 +1049,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: 
                 Cc: "Some One" <someone@staging.olzimmerberg.ch>
                 Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
@@ -1062,8 +1062,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: 
                 Cc: "Some One" <someone@staging.olzimmerberg.ch>
                 Bcc: "Some Role" <somerole@staging.olzimmerberg.ch>
@@ -1148,8 +1148,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: "Undisclosed Recipients" <fake@staging.olzimmerberg.ch>
                 Cc: 
                 Bcc: 
@@ -1241,8 +1241,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: someone@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -1254,8 +1254,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -1267,8 +1267,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
 
                 ZZZZZZZZZZ,
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: somerole@staging.olzimmerberg.ch
                 Cc: 
                 Bcc: 
@@ -1356,8 +1356,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $this->assertSame(['+flagged', '-flagged'], $mail->flag_actions);
         $this->assertSame([
             <<<'ZZZZZZZZZZ'
-                From: "From Name" <from@from-domain.com>
-                Reply-To: 
+                From: "From Name (via OLZ)" <fake@staging.olzimmerberg.ch>
+                Reply-To: "From Name" <from@from-domain.com>
                 To: "To Name" <someone@gmail.com>
                 Cc: 
                 Bcc: 
@@ -1713,7 +1713,8 @@ final class ProcessEmailCommandTest extends UnitTestCase {
         $job = new TestOnlyProcessEmailCommand();
         $outgoing = $job->testOnlyIncomingToOutgoingEmail($incoming);
         $out_string = $outgoing->toString();
-        $this->assertStringContainsString('From: Simon Hatt <allestuetsmerweh@gmail.com>', $out_string);
+        $this->assertStringContainsString('From: "Simon Hatt (via OLZ)" <fake@staging.olzimmerberg.ch>', $out_string);
+        $this->assertStringContainsString('Reply-To: Simon Hatt <allestuetsmerweh@gmail.com>', $out_string);
         $this->assertStringContainsString('To: Simon Hatt <simon.hatt@olzimmerberg.ch>', $out_string);
         $this->assertStringContainsString('Subject: Test email', $out_string);
         $this->assertStringContainsString('References: <CAGT2g4y6d1tj79Q5FSDOT6C8Z_ZwGET_OFCWYLMoOueNvaiRTA@mail.gmail.com>', $out_string);

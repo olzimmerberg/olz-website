@@ -1,0 +1,17 @@
+.olz-location-field {
+    display: flex;
+    align-items: center;
+    height: 125px;
+
+    #location-field-map-overview,
+    #location-field-map-medium,
+    #location-field-map-detail {
+        width: 20%;
+        height: 100%;
+        margin-right: 8px;
+    }
+
+    #location-field-input-column {
+        width: 40%;
+    }
+}

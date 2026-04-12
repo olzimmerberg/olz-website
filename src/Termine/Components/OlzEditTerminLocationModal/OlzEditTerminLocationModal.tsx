@@ -2,29 +2,24 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzTerminLocationData} from '../../../Api/client';
 import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {OlzLocationField, deserializeLocation, serializeLocation} from '../../../Components/Common/OlzLocationField/OlzLocationField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNotEmpty, validateNumber} from '../../../Utils/formUtils';
+import {getApiString, getFormString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
 import './OlzEditTerminLocationModal.scss';
 
-const COMMA_LATLONG_REGEX = /^\s*([0-9.]+)\s*,\s*([0-9.]+)\s*$/;
-const EMPTY_REGEX = /^\s*$/;
-
 interface OlzEditTerminLocationForm {
     name: string;
     details: string;
-    latitude: string;
-    longitude: string;
+    location: string;
     imageIds: string[];
 }
 
 const resolver: Resolver<OlzEditTerminLocationForm> = async (values) => {
     const errors: FieldErrors<OlzEditTerminLocationForm> = {};
     errors.name = validateNotEmpty(values.name);
-    errors.latitude = validateNumber(values.latitude);
-    errors.longitude = validateNumber(values.longitude);
     return getResolverResult(errors, values);
 };
 
@@ -32,8 +27,7 @@ function getFormFromApi(apiData?: OlzTerminLocationData): OlzEditTerminLocationF
     return {
         name: getFormString(apiData?.name),
         details: getFormString(apiData?.details),
-        latitude: getFormNumber(apiData?.latitude),
-        longitude: getFormNumber(apiData?.longitude),
+        location: apiData?.location ? serializeLocation(apiData?.location) : '',
         imageIds: apiData?.imageIds ?? [],
     };
 }
@@ -42,8 +36,7 @@ function getApiFromForm(formData: OlzEditTerminLocationForm): OlzTerminLocationD
     return {
         name: getApiString(formData.name) ?? '',
         details: getApiString(formData.details) ?? '',
-        latitude: getApiNumber(formData.latitude) ?? 0,
-        longitude: getApiNumber(formData.longitude) ?? 0,
+        location: deserializeLocation(formData.location) ?? '',
         imageIds: formData.imageIds,
     };
 }
@@ -57,32 +50,13 @@ interface OlzEditTerminLocationModalProps {
 }
 
 export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProps): React.ReactElement => {
-    const {register, handleSubmit, formState: {errors}, control, setValue, watch} = useForm<OlzEditTerminLocationForm>({
+    const {register, handleSubmit, formState: {errors}, control} = useForm<OlzEditTerminLocationForm>({
         resolver,
         defaultValues: getFormFromApi(props.data),
     });
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
-
-    const latitude = watch('latitude');
-    const longitude = watch('longitude');
-
-    React.useEffect(() => {
-        const latMatch = COMMA_LATLONG_REGEX.exec(latitude);
-        if (latMatch && EMPTY_REGEX.exec(longitude)) {
-            setValue('latitude', getFormString(latMatch[1]));
-            setValue('longitude', getFormString(latMatch[2]));
-        }
-    }, [latitude]);
-
-    React.useEffect(() => {
-        const lngMatch = COMMA_LATLONG_REGEX.exec(longitude);
-        if (lngMatch && EMPTY_REGEX.exec(latitude)) {
-            setValue('latitude', getFormString(lngMatch[1]));
-            setValue('longitude', getFormString(lngMatch[2]));
-        }
-    }, [longitude]);
 
     const onSubmit: SubmitHandler<OlzEditTerminLocationForm> = async (values) => {
         setStatus({id: 'SUBMITTING'});
@@ -149,22 +123,12 @@ export const OlzEditTerminLocationModal = (props: OlzEditTerminLocationModalProp
                 />
             </div>
             <div className='row'>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title='Breite (Latitude)'
-                        name='latitude'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title='Länge (Longitude)'
-                        name='longitude'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
+                <OlzLocationField
+                    title='Geografische Position'
+                    name='location'
+                    errors={errors}
+                    control={control}
+                />
             </div>
             <div id='images-upload' className='mb-3'>
                 <OlzMultiImageField

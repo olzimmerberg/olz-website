@@ -6,6 +6,11 @@ namespace Olz\Utils;
 // Updated 9 dec 2014
 // Please validate your results with NAVREF on-line service: http://www.swisstopo.admin.ch/internet/swisstopo/en/home/apps/calc/navref.html (difference ~ 1-2m)
 
+/**
+ * Note: `latitude` may be from -90.0 to 90.0, `longitude` from -180.0 to 180.0.
+ *
+ * @phpstan-type OlzLocationCoordinates array{latitude: float, longitude: float}
+ */
 class MapUtils {
     use WithUtilsTrait;
 

@@ -40,8 +40,7 @@ final class TerminOrteTest extends SystemTestCase {
         $this->waitForModal('#edit-termin-location-modal');
         $this->sendKeys('#edit-termin-location-modal #name-input', 'Der Austragungsort');
         $this->sendKeys('#edit-termin-location-modal #details-input', '...ist perfekt!');
-        $this->sendKeys('#edit-termin-location-modal #latitude-input', '46.83479');
-        $this->sendKeys('#edit-termin-location-modal #longitude-input', '9.21555');
+        $this->sendKeys('#edit-termin-location-modal #location-input', '46.83479, 9.21555');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);

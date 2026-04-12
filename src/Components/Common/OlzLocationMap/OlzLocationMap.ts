@@ -23,8 +23,22 @@ export function olzLocationMapRender(
     lng: number,
     zoom: number,
 ): void {
-    new Map({
-        target: `olz-location-map-render-${hash}`,
+    getOlzLocationMap(`olz-location-map-render-${hash}`, name, lat, lng, zoom);
+}
+
+export function getOlzLocationMap(
+    id: string,
+    name: string,
+    lat: number,
+    lng: number,
+    zoom: number,
+): Map {
+    const elem = document.getElementById(id);
+    if (elem) {
+        elem.innerHTML = '';
+    }
+    return new Map({
+        target: id,
         layers: [
             new TileLayer({
                 source: new XYZ({
@@ -49,7 +63,7 @@ export function olzLocationMapRender(
                             width: 4 - Math.log(scale) / 5,
                         }),
                     }),
-                    text: new TextStyle({
+                    text: feature.get('label') ? new TextStyle({
                         textAlign: 'center',
                         textBaseline: 'top',
                         font: 'Open Sans, sans-serif',
@@ -59,7 +73,7 @@ export function olzLocationMapRender(
                         offsetX: 0,
                         offsetY: 20 - Math.log(scale),
                         scale: 1.75 - Math.log(scale) / 10,
-                    }),
+                    }) : undefined,
                 }),
             }),
         ],

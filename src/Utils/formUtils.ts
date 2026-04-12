@@ -112,12 +112,14 @@ export function validateStringLength(
     valueArg: string,
     maxLength: number | null,
     minLength: number | null,
+    lengthFn?: (text: string) => number,
 ): FieldError | undefined {
+    const getLength = lengthFn ?? ((text: string) => text.length);
     const trimmedValue = valueArg.trim();
-    if (maxLength !== null && trimmedValue.length > maxLength) {
+    if (maxLength !== null && getLength(trimmedValue) > maxLength) {
         return {type: 'validate', message: `Die Eingabe darf höchstens ${maxLength} Zeichen lang sein.`};
     }
-    if (minLength !== null && trimmedValue.length < minLength) {
+    if (minLength !== null && getLength(trimmedValue) < minLength) {
         return {type: 'validate', message: `Die Eingabe muss mindestens ${minLength} Zeichen lang sein.`};
     }
     return undefined;

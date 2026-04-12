@@ -3,7 +3,7 @@ import React from 'react';
 import emojiRegex from 'emoji-regex';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {initReact} from '../../../Utils/reactUtils';
-import {getResolverResult, validateStringRegex} from '../../../Utils/formUtils';
+import {getResolverResult, validateStringLength, validateStringRegex} from '../../../Utils/formUtils';
 import {OlzTextField} from '../OlzTextField/OlzTextField';
 import {OlzEditModal, OlzEditModalStatus} from '../OlzEditModal/OlzEditModal';
 
@@ -13,7 +13,12 @@ interface OlzCustomReactionForm {
 
 const resolver: Resolver<OlzCustomReactionForm> = async (values) => {
     const errors: FieldErrors<OlzCustomReactionForm> = {};
-    errors.emoji = validateStringRegex(
+    errors.emoji = validateStringLength(
+        values.emoji,
+        1,
+        1,
+        (text: string) => [...new Intl.Segmenter().segment(text)].length,
+    ) ?? validateStringRegex(
         values.emoji,
         `^${emojiRegex().source}$`,
         'Muss ein Emoji sein',

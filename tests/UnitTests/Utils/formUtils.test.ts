@@ -263,6 +263,18 @@ describe('validateStringLength', () => {
         expect(formUtils.validateStringLength('123', 2, 1))
             .toEqual({type: 'validate', message: 'Die Eingabe darf höchstens 2 Zeichen lang sein.'});
     });
+
+    it('works for custom length function', () => {
+        const lengthFn = (text: string) => [...new Intl.Segmenter().segment(text)].length;
+        expect(formUtils.validateStringLength('👍', 1, 1, lengthFn)).toEqual(undefined);
+        expect(formUtils.validateStringLength('⌚️', 1, 1, lengthFn)).toEqual(undefined);
+        expect(formUtils.validateStringLength('👍🏼', 1, 1, lengthFn)).toEqual(undefined);
+        expect(formUtils.validateStringLength('💑', 1, 1, lengthFn)).toEqual(undefined);
+        expect(formUtils.validateStringLength('👨🏽‍💻', 1, 1, lengthFn)).toEqual(undefined);
+        expect(formUtils.validateStringLength('0️⃣', 1, 1, lengthFn)).toEqual(undefined);
+        expect(formUtils.validateStringLength('🇨🇭', 1, 1, lengthFn)).toEqual(undefined);
+        expect(formUtils.validateStringLength('', 0, 0, lengthFn)).toEqual(undefined);
+    });
 });
 
 describe('validateStringRegex', () => {

@@ -85,6 +85,7 @@
     "doctrine/migrations": "^3.0",
     "doctrine/orm": "^3",
     "ifsnop/mysqldump-php": "^2.9",
+    "incenteev/emoji-pattern": "^1.4",
     "league/commonmark": "^2.1",
     "league/flysystem": "^3.2",
     "league/flysystem-ftp": "^3.0",

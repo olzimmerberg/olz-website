@@ -2,6 +2,8 @@
 
 namespace Olz\Utils;
 
+use Incenteev\EmojiPattern\EmojiPattern;
+
 class GeneralUtils {
     use WithUtilsTrait;
 
@@ -72,6 +74,12 @@ class GeneralUtils {
         }
         $computed_error_message = $error_message();
         return "{$callsite} {$computed_error_message}";
+    }
+
+    // Emoji
+
+    public function isOneEmoji(string $text): bool {
+        return (bool) preg_match('/^'.EmojiPattern::getEmojiPattern().'$/u', $text);
     }
 
     // Escape

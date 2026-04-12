@@ -28,8 +28,9 @@ class ToggleTerminReactionEndpoint extends OlzTypedEndpoint {
         if (!$has_access || !$user) {
             throw new HttpError(403, 'Kein Zugriff');
         }
-        if (mb_strlen($input['emoji']) !== 1) {
-            throw new HttpError(400, 'Ungültiges Emoji');
+        if (!$this->generalUtils()->isOneEmoji($input['emoji'])) {
+            $enc_emoji = urlencode($input['emoji']);
+            throw new HttpError(400, "Ungültiges Emoji: {$input['emoji']} ({$enc_emoji})");
         }
 
         $termin_reaction_repo = $this->entityManager()->getRepository(TerminReaction::class);

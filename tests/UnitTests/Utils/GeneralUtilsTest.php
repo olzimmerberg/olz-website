@@ -152,6 +152,23 @@ final class GeneralUtilsTest extends UnitTestCase {
         }
     }
 
+    public function testIsOneEmoji(): void {
+        $general_utils = new GeneralUtils();
+        $this->assertFalse($general_utils->isOneEmoji(''));
+        $this->assertFalse($general_utils->isOneEmoji('a'));
+        $this->assertFalse($general_utils->isOneEmoji('Ä'));
+
+        $this->assertTrue($general_utils->isOneEmoji('👍'));
+        $this->assertTrue($general_utils->isOneEmoji('⌚'));
+        $this->assertTrue($general_utils->isOneEmoji('👍🏼'));
+        $this->assertTrue($general_utils->isOneEmoji('💑'));
+        $this->assertTrue($general_utils->isOneEmoji('👨🏽‍💻'));
+        $this->assertTrue($general_utils->isOneEmoji('0️⃣'));
+        $this->assertTrue($general_utils->isOneEmoji('🇨🇭'));
+
+        $this->assertFalse($general_utils->isOneEmoji('👍👍'));
+    }
+
     public function testEscape(): void {
         $general_utils = new GeneralUtils();
         $this->assertSame('abc', $general_utils->escape('abc', []));

@@ -5,12 +5,12 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": [
-      "es6",
+      "es2022",
       "dom",
       "es2015.promise"
     ],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "noUnusedLocals": true,
     "outDir": "tscbuild/",
     "resolveJsonModule": true,
@@ -19,7 +19,7 @@
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "es5"
+    "target": "es6"
   },
   "include": [
     "src/**/*",

@@ -173,7 +173,7 @@ VALUES
 INSERT INTO news
     (`id`, `author_user_id`, `author_role_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `termin`, `published_date`, `published_time`, `newsletter`, `title`, `teaser`, `content`, `image_ids`, `external_url`, `author_name`, `author_email`, `format`, `tags`, `counter`, `on_off`, `created_at`, `last_modified_at`)
 VALUES
-    ('3', NULL, NULL, NULL, NULL, NULL, NULL, '0', '2020-01-01', '00:00:00', '1', 'Frohes neues Jahr! 🎆', '![](./MIGRATED0000000000030001.jpg)Im Namen des Vorstands wünsche ich euch allen ein **frohes neues Jahr**! 🎆 [Neujahrsansprache als PDF](./MIGRATED0000000000030001.pdf)', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. *Ein Bisschen.* Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n![](./MIGRATED0000000000030002.jpg)\n\nUnd hier nochmals das Emoji: 🎆.\n\nUnd hier nochmals die [Neujahrsansprache als PDF](./MIGRATED0000000000030001.pdf)\n\n Und hier ein riesiger Link: https://verylongsubdomain.alsoaverylongdomain.long/andlastbutnotleastaverylongpathwhichmustreallybeonlyjustonewordsuchthatthiswordmustbebrokenupexplicitlyinordertonotcompletelybreaktheUI', '[\"MIGRATED0000000000030001.jpg\",\"MIGRATED0000000000030002.jpg\"]', '', 'prä', NULL, 'aktuell', '', '0', '1', '2021-06-28 16:37:03', '2021-06-28 16:37:03'),
+    ('3', '1', NULL, NULL, NULL, NULL, '1', '0', '2020-01-01', '00:00:00', '1', 'Frohes neues Jahr! 🎆', '![](./MIGRATED0000000000030001.jpg)Im Namen des Vorstands wünsche ich euch allen ein **frohes neues Jahr**! 🎆 [Neujahrsansprache als PDF](./MIGRATED0000000000030001.pdf)', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. *Ein Bisschen.* Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n![](./MIGRATED0000000000030002.jpg)\n\nAlle Arten von Links:\n- [Intern](/news)\n- [Reaktion](#react-🥰)\n- [Extern](https://solv.ch)\n- [PDF](/pdf/dokument.pdf)\n- [Word](/files/dokument.docx)\n- [PowerPoint](/files/dokument.pptx)\n- [Excel](/files/dokument.xlsx)\n- [Zip](/files/dokument.zip)\n- [Text, CSV, o.ä.](/files/dokument.csv)\n- [HTML](/files/dokument.html)\n- [Bild](/files/dokument.gif)\n- [E-Mail](mailto:karen@staging.olzimmerberg.ch)\n- [Ressort](#){.linkrole}\n- *Manuell black*{.linkblack}\n- *Manuell edit*{.linkedit}\n- *Manuell duplicate*{.linkduplicate}\n- *Manuell ext*{.linkext}\n- *Manuell img*{.linkimg}\n- *Manuell int*{.linkint}\n- *Manuell map*{.linkmap}\n- *Manuell mail*{.linkmail}\n- *Manuell movie*{.linkmovie}\n- *Manuell neu*{.linkneu}\n- *Manuell oev*{.linkoev}\n- *Manuell ol*{.linkol}\n- *Manuell pdf*{.linkpdf}\n- *Manuell role*{.linkrole}\n\nUnd hier nochmals das Emoji: 🎆.\n\nUnd hier nochmals die [Neujahrsansprache als PDF](./MIGRATED0000000000030001.pdf)\n\nUnd hier ein riesiger Link: https://verylongsubdomain.alsoaverylongdomain.long/andlastbutnotleastaverylongpathwhichmustreallybeonlyjustonewordsuchthatthiswordmustbebrokenupexplicitlyinordertonotcompletelybreaktheUI', '[\"MIGRATED0000000000030001.jpg\",\"MIGRATED0000000000030002.jpg\"]', NULL, 'prä', NULL, 'aktuell', '  ', '1', '1', '2021-06-28 16:37:03', '2020-08-15 16:51:00'),
     ('4', '1', '25', '1', NULL, NULL, NULL, '0', '2020-03-16', NULL, '1', 'Neues System für News-Einträge online!', '![](./xkbGJQgO5LFXpTSz2dCnvJzu.jpg)Heute ging ein neues System für **News-Einträge online**. Nach und nach sollen Aktuell- Galerie- Kaderblog- und Forumseinträge auf das neue System migriert werden. Siehe [Motivationsschreiben](./xMpu3ExjfBKa8Cp35bcmsDgq.pdf).', 'All diese Einträge sind ähnlich: Sie werden von einem Autor erstellt, enthalten Titel und Text, evtl. Teaser, Bilder und angehängte Dateien, und sind für alle *OL-Zimmerberg-Mitglieder* von Interesse. Deshalb **vereinheitlichen** wir nun diese verschiedenen Einträge.\n\nDie Gründe für die Änderung haben wir in [diesem Schreiben](./xMpu3ExjfBKa8Cp35bcmsDgq.pdf) zusammengefasst.\n\n![](./xkbGJQgO5LFXpTSz2dCnvJzu.jpg)', '[\"xkbGJQgO5LFXpTSz2dCnvJzu.jpg\"]', NULL, '', NULL, 'aktuell', '  ', '0', '1', '2020-03-16 14:51:00', '2020-03-16 14:51:00'),
     ('5', '1', NULL, '1', NULL, NULL, NULL, '0', '2020-08-15', NULL, '1', 'Neues System für News-Einträge bewährt sich', 'Das neue System für News-Einträge scheint *gut anzukommen*. Neu können eingeloggte Benutzer in ihren News-Einträgen (ehem. Forumseinträgen) auch Bilder und Dateien einbinden.', '', '[]', NULL, '', NULL, 'aktuell', '  ', '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00'),
     ('6', '3', NULL, '3', NULL, NULL, NULL, '0', '2020-01-02', NULL, '1', 'Berchtoldstagsgalerie 2020', '', 'Ein paar Fotos vom Berchtoldstag.', '[\"eGbiJQgOyLF5p6S92kC3vTzE.jpg\",\"Frw83uTOyLF5p6S92kC7zpEW.jpg\"]', NULL, '', NULL, 'galerie', '  ', '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00'),
@@ -195,14 +195,14 @@ VALUES
 INSERT INTO news_reactions
     (`id`, `emoji`, `news_entry_id`, `user_id`)
 VALUES
-    ('1', '👍', '3', '1'),
     ('2', '🎆', '3', '1'),
+    ('1', '👍', '3', '1'),
     ('3', '👍', '3', '5'),
-    ('4', '🥂', '3', '5'),
     ('5', '👍', '3', '6'),
-    ('6', '🥂', '3', '6'),
     ('7', '👍', '3', '7'),
     ('8', '👩🏼‍❤️‍💋‍👨🏼', '3', '7'),
+    ('4', '🥂', '3', '5'),
+    ('6', '🥂', '3', '6'),
     ('9', '👍', '12', '1'),
     ('10', '🥰', '12', '1');
 
@@ -529,12 +529,12 @@ INSERT INTO termin_reactions
     (`id`, `emoji`, `termin_id`, `user_id`)
 VALUES
     ('1', '👍', '7', '1'),
-    ('2', '🔴', '7', '1'),
     ('3', '👍', '7', '5'),
-    ('4', '🔵', '7', '5'),
     ('5', '👍', '7', '6'),
-    ('6', '🔵', '7', '6'),
     ('7', '👍', '7', '7'),
+    ('2', '🔴', '7', '1'),
+    ('4', '🔵', '7', '5'),
+    ('6', '🔵', '7', '6'),
     ('8', '🟢', '7', '7'),
     ('9', '👍', '12', '1'),
     ('10', '🔴', '12', '1');

@@ -30,7 +30,11 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
         $out = <<<ZZZZZZZZZZ
             <h3>
                 <a href='{$news_url}&von=startseite' class='header-link'>
-                    <img src='{$code_href}assets/icns/entry_type_galerie_20.svg' alt='News' class='header-link-icon'>
+                    <img
+                        src='{$code_href}assets/icns/entry_type_galerie_20.svg'
+                        alt='News'
+                        class='header-link-icon text-icon'
+                    >
                     News
                 </a>
             </h3>
@@ -98,7 +102,7 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
                 $out .= <<<ZZZZZZZZZZ
                     <li>
                         <a href='{$code_href}news/{$id}?von=startseite' class='flex min-two-lines aktuell-kaderblog-tile'>
-                            <img src='{$icon}' alt='{$format}' class='link-icon'>
+                            <img src='{$icon}' alt='{$format}' class='link-icon text-icon'>
                             <div style='flex-grow:1;'>
                                 <span class='title'>{$title}</span>
                                 <span class='secondary'>({$date})</span>
@@ -128,7 +132,7 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
                     <li class='flex gallery min-two-lines'>
                         <a href='{$code_href}news/{$id}?von=startseite'>
                             <div class='images'>
-                                <img src='{$icon}' alt='{$format}' class='link-icon'>
+                                <img src='{$icon}' alt='{$format}' class='link-icon text-icon'>
                                 {$images}
                             </div>
                             <div class='overlay'>

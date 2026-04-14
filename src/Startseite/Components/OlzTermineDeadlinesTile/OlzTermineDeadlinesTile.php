@@ -112,7 +112,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         $icon_color = $image_id ? '_white' : '';
         $icon_basename = "termine_type_meldeschluss_{$urgency}{$icon_color}_20.svg";
         $icon = "{$code_href}assets/icns/{$icon_basename}";
-        $icon_img = "<img src='{$icon}' alt='' class='link-icon'>";
+        $icon_img = "<img src='{$icon}' alt='' class='link-icon text-icon'>";
         if ($image_id) {
             $image = $this->imageUtils()->olzImage(
                 'termine',
@@ -138,8 +138,8 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         }
         return <<<ZZZZZZZZZZ
                 <li class='flex'>
-                    {$icon_img}
                     <a href='{$code_href}termine/{$id}?von=startseite'>
+                        {$icon_img}
                         <b>{$deadline}</b>: Für {$title} vom {$date}
                     </a>
                 </li>

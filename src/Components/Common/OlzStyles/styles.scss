@@ -107,6 +107,10 @@ ul {
     &:hover {
         background-color: rgba(colors.$olz-bg, 0.3);
         color: #000;
+
+        img {
+            filter: brightness(0.0);
+        }
     }
 
     &.selected {
@@ -231,6 +235,10 @@ a {
 
     &:hover {
         color: #000;
+
+        img.text-icon {
+            filter: brightness(0.0);
+        }
     }
 }
 
@@ -260,6 +268,7 @@ a {
 }
 
 .linkblack,
+.linkduplicate,
 .linkedit,
 .linkext,
 .linkimg,
@@ -269,13 +278,39 @@ a {
 .linkmovie,
 .linkneu,
 .linkoev {
+    background-repeat: no-repeat;
     padding: 0 6px 0 16px;
 }
 
 .linkol,
 .linkpdf,
 .linkrole {
+    background-repeat: no-repeat;
     padding: 0 6px 0 19px;
+}
+
+.linkblack,
+.linkedit,
+.linkduplicate,
+.linkext,
+.linkimg,
+.linkint,
+.linkmap,
+.linkmail,
+.linkmovie,
+.linkneu,
+.linkoev,
+.linkrole {
+    &:hover {
+        filter: brightness(0.0);
+    }
+}
+
+.linkol,
+.linkpdf {
+        &:hover {
+        filter: brightness(0.75);
+    }
 }
 
 .linkblack {
@@ -342,38 +377,70 @@ a {
 
     &[href^='#'], &[href^='/'], &[href^='https://olzimmerberg.ch'], &[href^='https://www.olzimmerberg.ch'] {
         background-image: url('../../../../assets/icns/link_internal_16.svg');
+
+        &:hover {
+            filter: brightness(0.0);
+        }
     }
 
     &[href^='#react-'] {
         background-image: none;
         padding: 3px 6px;
+
+        &:hover {
+            filter: none;
+        }
     }
 
     &[href^='http://'], &[href^='https://'] {
         background-image: url('../../../../assets/icns/link_external_16.svg');
+
+        &:hover {
+            filter: brightness(0.0);
+        }
     }
 
     &[href$='.pdf'], &[href*='.pdf?'] {
         background-image: url('../../../../assets/icns/link_pdf_16.svg');
+
+        &:hover {
+            filter: brightness(0.75);
+        }
     }
 
     &[href$='.doc'], &[href*='.doc?'],
     &[href$='.docx'], &[href*='.docx?'] {
         background-image: url('../../../../assets/icns/link_doc_16.svg');
+
+        &:hover {
+            filter: brightness(0.75);
+        }
     }
 
     &[href$='.ppt'], &[href*='.ppt?'],
     &[href$='.pptx'], &[href*='.pptx?'] {
         background-image: url('../../../../assets/icns/link_ppt_16.svg');
+
+        &:hover {
+            filter: brightness(0.75);
+        }
     }
 
     &[href$='.xls'], &[href*='.xls?'],
     &[href$='.xlsx'], &[href*='.xlsx?'] {
         background-image: url('../../../../assets/icns/link_xls_16.svg');
+
+        &:hover {
+            filter: brightness(0.75);
+        }
     }
 
     &[href$='.zip'], &[href*='.zip?'] {
         background-image: url('../../../../assets/icns/link_zip_16.svg');
+
+        &:hover {
+            filter: brightness(0.75);
+        }
     }
 
     &[href$='.csv'], &[href*='.csv?'],
@@ -382,11 +449,19 @@ a {
     &[href$='.vcf'], &[href*='.vcf?'],
     &[href$='.xml'], &[href*='.xml?'] {
         background-image: url('../../../../assets/icns/link_txt_16.svg');
+
+        &:hover {
+            filter: brightness(0.75);
+        }
     }
 
     &[href$='.html'], &[href*='.html?'],
     &[href$='.htm'], &[href*='.htm?'] {
         background-image: url('../../../../assets/icns/link_html_16.svg');
+
+        &:hover {
+            filter: brightness(0.75);
+        }
     }
 
     &[href$='.gif'], &[href*='.gif?'],
@@ -394,14 +469,26 @@ a {
     &[href$='.jpeg'], &[href*='.jpeg?'],
     &[href$='.png'], &[href*='.png?'] {
         background-image: url('../../../../assets/icns/link_image_16.svg');
+
+        &:hover {
+            filter: brightness(0.75);
+        }
     }
 
     &[href^='mailto:'] {
         background-image: url('../../../../assets/icns/link_mail_16.svg');
+
+        &:hover {
+            filter: brightness(0.0);
+        }
     }
 
     &.linkrole {
         background-image: url('../../../../assets/icns/link_role_16.svg');
+
+        &:hover {
+            filter: brightness(0.0);
+        }
     }
 }
 

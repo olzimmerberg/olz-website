@@ -13,6 +13,14 @@
         a {
             display: block;
             width: 100%;
+
+            &:hover {
+                filter: brightness(0.75);
+
+                img.text-icon {
+                    filter: none;
+                }
+            }
         }
 
         .overlay {
@@ -56,6 +64,10 @@
         justify-content: space-between;
         gap: 8px;
         text-align: right;
+
+        a:hover .bubble {
+            filter: brightness(0.9);
+        }
 
         .bubble {
             display: flex;

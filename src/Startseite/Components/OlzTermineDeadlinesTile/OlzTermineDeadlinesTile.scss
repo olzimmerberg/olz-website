@@ -11,6 +11,14 @@
         a {
             display: block;
             width: 100%;
+
+            &:hover {
+                filter: brightness(0.75);
+
+                .overlay img.text-icon {
+                    filter: none;
+                }
+            }
         }
 
         .overlay {

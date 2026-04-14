@@ -32,7 +32,11 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         $out = <<<ZZZZZZZZZZ
             <h3>
                 <a href='{$termine_url}&von=startseite' class='header-link'>
-                    <img src='{$code_href}assets/icns/termine_type_all_20.svg' alt='Termine' class='header-link-icon'>
+                    <img
+                        src='{$code_href}assets/icns/termine_type_all_20.svg'
+                        alt='Termine'
+                        class='header-link-icon text-icon'
+                    >
                     Termine
                 </a>
             </h3>
@@ -78,11 +82,11 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             $fallback_href = is_file($fallback_path)
                 ? "{$code_href}assets/icns/termine_type_{$label_ident}_20.svg" : null;
             $icon_href = $label?->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
-            $icon_img = $icon_href ? "<img src='{$icon_href}' alt='' class='link-icon'>" : '';
+            $icon_img = $icon_href ? "<img src='{$icon_href}' alt='' class='link-icon text-icon'>" : '';
             $out .= <<<ZZZZZZZZZZ
                     <li class='flex'>
-                        {$icon_img}
                         <a href='{$code_href}termine/{$id}?von=startseite'>
+                            {$icon_img}
                             <b>{$date}</b>: {$title}
                         </a>
                     </li>

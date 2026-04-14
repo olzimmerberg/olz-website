@@ -38,8 +38,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             'go2olId' => null,
             'types' => ['training', 'weekend'],
             'locationId' => 1234,
-            'coordinateX' => null,
-            'coordinateY' => null,
+            'location' => null,
             'imageIds' => ['uploaded_image.jpg', 'inexistent.png'],
             'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
         ],
@@ -106,8 +105,8 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         }, [...$termin->getLabels()]));
         $this->assertSame(1234, $termin->getLocation()->getId());
         $this->assertSame('Fake title', $termin->getLocation()->getName());
-        $this->assertNull($termin->getCoordinateX());
-        $this->assertNull($termin->getCoordinateY());
+        $this->assertNull($termin->getLatitude());
+        $this->assertNull($termin->getLongitude());
         $this->assertSame(
             ['uploaded_image.jpg', 'inexistent.png'],
             $termin->getImageIds(),

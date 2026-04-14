@@ -4,7 +4,7 @@ import {olzApi, OlzMetaData, OlzKarteData, OlzKarteKind} from '../../../Api/clie
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
-import {OlzLocationField, deserializeLocation, serializeLocation} from '../../../Components/Common/OlzLocationField/OlzLocationField';
+import {OlzLocationField, deserializeLocation, serializeLocation, validateLocation} from '../../../Components/Common/OlzLocationField/OlzLocationField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 
@@ -26,6 +26,7 @@ const resolver: Resolver<OlzEditKarteForm> = async (values) => {
     const errors: FieldErrors<OlzEditKarteForm> = {};
     errors.kartenNr = validateIntegerOrNull(values.kartenNr);
     errors.name = validateNotEmpty(values.name);
+    errors.location = validateLocation(values.location);
     errors.year = validateIntegerOrNull(values.year);
     errors.zoom = validateIntegerOrNull(values.zoom);
     return getResolverResult(errors, values);
@@ -54,7 +55,7 @@ function getApiFromForm(formData: OlzEditKarteForm): OlzKarteData {
     return {
         kartennr: getApiNumber(formData?.kartenNr),
         name: getApiString(formData?.name) ?? '',
-        location: deserializeLocation(formData.location) ?? '',
+        location: deserializeLocation(formData.location),
         year: getApiNumber(formData?.year),
         scale: getApiString(formData?.scale),
         place: getApiString(formData?.place),

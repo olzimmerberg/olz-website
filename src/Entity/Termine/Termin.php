@@ -105,6 +105,12 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $ykoord;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $latitude;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $longitude;
+
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $solv_uid;
 
@@ -242,20 +248,36 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
         $this->go2ol = $new_value;
     }
 
-    public function getCoordinateX(): ?int {
-        return $this->xkoord;
+    // public function getCoordinateX(): ?int {
+    //     return $this->xkoord;
+    // }
+
+    // public function setCoordinateX(?int $new_value): void {
+    //     $this->xkoord = $new_value;
+    // }
+
+    // public function getCoordinateY(): ?int {
+    //     return $this->ykoord;
+    // }
+
+    // public function setCoordinateY(?int $new_value): void {
+    //     $this->ykoord = $new_value;
+    // }
+
+    public function getLatitude(): ?float {
+        return $this->latitude;
     }
 
-    public function setCoordinateX(?int $new_value): void {
-        $this->xkoord = $new_value;
+    public function setLatitude(?float $new_value): void {
+        $this->latitude = $new_value;
     }
 
-    public function getCoordinateY(): ?int {
-        return $this->ykoord;
+    public function getLongitude(): ?float {
+        return $this->longitude;
     }
 
-    public function setCoordinateY(?int $new_value): void {
-        $this->ykoord = $new_value;
+    public function setLongitude(?float $new_value): void {
+        $this->longitude = $new_value;
     }
 
     public function getLocation(): ?TerminLocation {

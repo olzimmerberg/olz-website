@@ -1028,8 +1028,8 @@ final class TermineUtilsTest extends UnitTestCase {
             ZZZZZZZZZZ, $termin->getText());
         $this->assertFalse($termin->getNewsletter());
         $this->assertNull($termin->getLocation());
-        $this->assertSame(-1, $termin->getCoordinateX());
-        $this->assertSame(-1, $termin->getCoordinateY());
+        $this->assertSame(44.89002351123054, $termin->getLatitude());
+        $this->assertSame(-0.16172945909461392, $termin->getLongitude());
     }
 
     public function testEmptySolvEvent(): void {
@@ -1057,8 +1057,8 @@ final class TermineUtilsTest extends UnitTestCase {
             ZZZZZZZZZZ, $termin->getText());
         $this->assertFalse($termin->getNewsletter());
         $this->assertNull($termin->getLocation());
-        $this->assertSame(0, $termin->getCoordinateX());
-        $this->assertSame(0, $termin->getCoordinateY());
+        $this->assertNull($termin->getLatitude());
+        $this->assertNull($termin->getLongitude());
     }
 
     public function testMaximalSolvEvent(): void {
@@ -1086,8 +1086,8 @@ final class TermineUtilsTest extends UnitTestCase {
             ZZZZZZZZZZ, $termin->getText());
         $this->assertFalse($termin->getNewsletter());
         $this->assertNull($termin->getLocation());
-        $this->assertSame(684376, $termin->getCoordinateX());
-        $this->assertSame(236945, $termin->getCoordinateY());
+        $this->assertSame(47.27800574768321, $termin->getLatitude());
+        $this->assertSame(8.553828072285507, $termin->getLongitude());
     }
 
     public function testMaximalTermin(): void {
@@ -1113,7 +1113,7 @@ final class TermineUtilsTest extends UnitTestCase {
             ZZZZZZZZZZ, $termin->getText());
         $this->assertFalse($termin->getNewsletter());
         $this->assertNull($termin->getLocation());
-        $this->assertSame(684376, $termin->getCoordinateX());
-        $this->assertSame(236945, $termin->getCoordinateY());
+        $this->assertSame(47.27800574768321, $termin->getLatitude());
+        $this->assertSame(8.553828072285507, $termin->getLongitude());
     }
 }

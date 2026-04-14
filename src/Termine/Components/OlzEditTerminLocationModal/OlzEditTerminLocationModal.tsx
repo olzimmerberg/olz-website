@@ -2,7 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzTerminLocationData} from '../../../Api/client';
 import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzLocationField, deserializeLocation, serializeLocation} from '../../../Components/Common/OlzLocationField/OlzLocationField';
+import {OlzLocationField, deserializeLocation, serializeLocation, validateLocation} from '../../../Components/Common/OlzLocationField/OlzLocationField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {getApiString, getFormString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
@@ -20,6 +20,7 @@ interface OlzEditTerminLocationForm {
 const resolver: Resolver<OlzEditTerminLocationForm> = async (values) => {
     const errors: FieldErrors<OlzEditTerminLocationForm> = {};
     errors.name = validateNotEmpty(values.name);
+    errors.location = validateLocation(values.location);
     return getResolverResult(errors, values);
 };
 
@@ -36,7 +37,7 @@ function getApiFromForm(formData: OlzEditTerminLocationForm): OlzTerminLocationD
     return {
         name: getApiString(formData.name) ?? '',
         details: getApiString(formData.details) ?? '',
-        location: deserializeLocation(formData.location) ?? '',
+        location: deserializeLocation(formData.location) ?? {latitude: 0, longitude: 0},
         imageIds: formData.imageIds,
     };
 }

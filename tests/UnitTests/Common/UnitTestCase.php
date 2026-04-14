@@ -32,6 +32,7 @@ use Olz\Tests\Fake\FakeTelegramUtils;
 use Olz\Tests\Fake\FakeTermineUtils;
 use Olz\Tests\Fake\FakeUploadUtils;
 use Olz\Utils\GeneralUtils;
+use Olz\Utils\MapUtils;
 use Olz\Utils\WithUtilsCache;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\Translator;
@@ -99,6 +100,7 @@ class UnitTestCase extends TestCase {
             'imageUtils' => new FakeImageUtils(),
             'log' => $logger,
             'logger' => $logger,
+            'mapUtils' => new MapUtils(),
             'membersUtils' => new MembersUtils(),
             'newsUtils' => new FakeNewsUtils(),
             'searchUtils' => new FakeSearchUtils(),

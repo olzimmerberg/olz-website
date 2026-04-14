@@ -39,8 +39,7 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
             'go2olId' => null,
             'types' => ['training', 'weekend'],
             'locationId' => 123,
-            'coordinateX' => null,
-            'coordinateY' => null,
+            'location' => null,
             'imageIds' => ['uploaded_image.jpg', 'inexistent.png'],
             'fileIds' => ['uploaded_file.pdf', 'inexistent.txt'],
         ],
@@ -141,8 +140,8 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         }, [...$termin->getLabels()]));
         $this->assertSame(123, $termin->getLocation()->getId());
         $this->assertSame('Cannot be empty', $termin->getLocation()->getName());
-        $this->assertNull($termin->getCoordinateX());
-        $this->assertNull($termin->getCoordinateY());
+        $this->assertNull($termin->getLatitude());
+        $this->assertNull($termin->getLongitude());
         $this->assertSame(
             ['uploaded_image.jpg', 'inexistent.png'],
             $termin->getImageIds(),

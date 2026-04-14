@@ -1022,11 +1022,13 @@ export type Olz_Termine_Endpoints_CreateTerminEndpoint_OlzTerminData = Olz_Termi
 
 export type Olz_Termine_Endpoints_CreateTerminEndpoint_OlzTerminId = Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminId;
 
-export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'endDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'endTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'title'?: (string | null), 'text': string, 'organizerUserId': (number | null), 'deadline'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'go2olId'?: (string | null), 'types': Array<string>, 'locationId'?: (number | null), 'coordinateX'?: (number | null), 'coordinateY'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
+export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'endDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'endTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'title'?: (string | null), 'text': string, 'organizerUserId': (number | null), 'deadline'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'go2olId'?: (string | null), 'types': Array<string>, 'locationId'?: (number | null), 'location'?: (Olz_Termine_Endpoints_TerminEndpointTrait_OlzLocationCoordinates | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
 export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminId = number;
 
 export type PhpTypeScriptApi_PhpStan_IsoTime = string;
+
+export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzLocationCoordinates = Olz_Utils_MapUtils_OlzLocationCoordinates;
 
 export type Olz_Api_OlzTypedEndpoint4455200f95effde91a87d232e9d2df9c_Request = {'id': Olz_Api_OlzGetEntityTypedEndpointeb2c48c20933f9c7cbec66ac99b7b823_Id, 'custom'?: Olz_Api_OlzGetEntityTypedEndpointeb2c48c20933f9c7cbec66ac99b7b823_CustomRequest};
 

@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260326192143
+-- MIGRATION: DoctrineMigrations\Version20260414214346
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -809,6 +809,8 @@ CREATE TABLE `termine` (
   `from_template_id` int(11) DEFAULT NULL,
   `should_promote` tinyint(1) NOT NULL DEFAULT 0,
   `organizer_user_id` int(11) DEFAULT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_168C0A8F2B18554A` (`owner_user_id`),
   KEY `IDX_168C0A8F5A75A473` (`owner_role_id`),

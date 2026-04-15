@@ -157,11 +157,11 @@ class OlzTerminDetail extends OlzRootComponent {
         $end_time = $termin->getEndTime() ?? null;
         $organizer = $termin->getOrganizerUser();
         $labels = [...$termin->getLabels()];
-        $xkoord = $termin->getCoordinateX() ?? 0;
-        $ykoord = $termin->getCoordinateY() ?? 0;
+        $latitude = $termin->getLatitude() ?? 0;
+        $longitude = $termin->getLongitude() ?? 0;
         $solv_uid = $termin->getSolvId();
         $termin_location = $termin->getLocation();
-        $has_olz_location = ($xkoord > 0 && $ykoord > 0);
+        $has_olz_location = ($latitude > 0 && $longitude > 0);
         $has_termin_location = (
             $termin_location
             && $termin_location->getLatitude() > 0
@@ -176,8 +176,8 @@ class OlzTerminDetail extends OlzRootComponent {
             $location_name = $termin_location->getName();
         }
         if ($has_olz_location) {
-            $lat = $this->mapUtils()->CHtoWGSlat($xkoord, $ykoord);
-            $lng = $this->mapUtils()->CHtoWGSlng($xkoord, $ykoord);
+            $lat = $latitude;
+            $lng = $longitude;
             $location_name = null;
         }
         $has_location = $has_olz_location || $has_termin_location;

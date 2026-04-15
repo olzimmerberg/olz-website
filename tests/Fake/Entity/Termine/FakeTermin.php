@@ -34,8 +34,8 @@ class FakeTermin extends FakeEntity {
                 $entity->setText("");
                 $entity->setOrganizerUser(null);
                 $entity->setLocation(null);
-                $entity->setCoordinateX(null);
-                $entity->setCoordinateY(null);
+                $entity->setLatitude(null);
+                $entity->setLongitude(null);
                 $entity->setDeadline(null);
                 $entity->setShouldPromote(false);
                 $entity->setSolvId(null);
@@ -64,8 +64,8 @@ class FakeTermin extends FakeEntity {
                 $entity->setOrganizerUser(null);
                 $entity->clearLabels();
                 $entity->setLocation(null);
-                $entity->setCoordinateX(0);
-                $entity->setCoordinateY(0);
+                $entity->setLatitude(0);
+                $entity->setLongitude(0);
                 $entity->setDeadline(new \DateTime('0000-01-01 00:00:00'));
                 $entity->setShouldPromote(false);
                 $entity->setSolvId(0);
@@ -108,8 +108,8 @@ class FakeTermin extends FakeEntity {
                 $entity->addLabel($termin_label_1);
                 $entity->addLabel($termin_label_2);
                 $entity->setLocation($termin_location);
-                $entity->setCoordinateX(684835);
-                $entity->setCoordinateY(237021);
+                $entity->setLatitude(47.2);
+                $entity->setLongitude(8.6);
                 $entity->setDeadline(new \DateTime('2020-03-13 18:00:00'));
                 $entity->setShouldPromote(true);
                 $entity->setSolvId(1234);

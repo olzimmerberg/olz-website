@@ -5,10 +5,11 @@ import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} fro
 import {OlzEntityChooser} from '../../../Components/Common/OlzEntityChooser/OlzEntityChooser';
 import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {OlzLocationField, serializeLocation, deserializeLocation, validateLocationOrNull} from '../../../Components/Common/OlzLocationField/OlzLocationField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {isoNow, codeHref} from '../../../Utils/constants';
-import {getApiBoolean, getApiNumber, getApiString, getDateFeedback, getDateTimeFeedback, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateIntegerOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
+import {getApiBoolean, getApiString, getDateFeedback, getDateTimeFeedback, getFormBoolean, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
 import {isDefined, Entity, assert} from '../../../Utils/generalUtils';
 import {getTerminUpdateFromTemplate} from '../../Utils/termineUtils';
 
@@ -35,8 +36,7 @@ interface OlzEditTerminForm {
     title: string;
     text: string;
     locationId: number | null;
-    coordinateX: string;
-    coordinateY: string;
+    location: string;
     organizerUserId: number | null;
     deadline: string;
     shouldPromote: string;
@@ -57,8 +57,7 @@ const resolver: Resolver<OlzEditTerminForm> = async (values) => {
     if (values.solvId === null) {
         errors.title = validateNotEmpty(values.title);
     }
-    errors.coordinateX = validateIntegerOrNull(values.coordinateX);
-    errors.coordinateY = validateIntegerOrNull(values.coordinateY);
+    errors.location = validateLocationOrNull(values.location);
     [errors.deadline, values.deadline] = validateDateTimeOrNull(getDeadlineDateTime(values.deadline));
     return getResolverResult(errors, values);
 };
@@ -74,8 +73,7 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         title: getFormString(apiData?.title),
         text: getFormString(apiData?.text),
         locationId: apiData?.locationId ?? null,
-        coordinateX: getFormNumber(apiData?.coordinateX),
-        coordinateY: getFormNumber(apiData?.coordinateY),
+        location: apiData?.location ? serializeLocation(apiData?.location) : '',
         organizerUserId: apiData?.organizerUserId ?? null,
         deadline: getFormString(apiData?.deadline),
         shouldPromote: getFormBoolean(apiData?.shouldPromote),
@@ -102,8 +100,7 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number
         title: getApiString(formData.title),
         text: getApiString(formData.text) ?? '',
         locationId: formData.locationId,
-        coordinateX: formData.locationId ? null : getApiNumber(formData.coordinateX),
-        coordinateY: formData.locationId ? null : getApiNumber(formData.coordinateY),
+        location: formData.locationId ? null : deserializeLocation(formData.location),
         organizerUserId: formData.organizerUserId,
         deadline: getApiString(formData.deadline) || null,
         shouldPromote: getApiBoolean(formData.shouldPromote),
@@ -383,28 +380,14 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                 </div>
             </div>
             {locationId === null ? (
-                <div className='row'>
-                    <div className={`col mb-3${solvDisabledClass}`}>
-                        <OlzTextField
-                            title='X-Koordinate (LV1903)'
-                            name='coordinateX'
-                            errors={errors}
-                            register={register}
-                            disabled={solvId !== null}
-                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
-
-                        />
-                    </div>
-                    <div className={`col mb-3${solvDisabledClass}`}>
-                        <OlzTextField
-                            title='Y-Koordinate (LV1903)'
-                            name='coordinateY'
-                            errors={errors}
-                            register={register}
-                            disabled={solvId !== null}
-                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
-                        />
-                    </div>
+                <div className={`row mb-3${solvDisabledClass}`}>
+                    <OlzLocationField
+                        title='Geografische Position'
+                        name='location'
+                        errors={errors}
+                        control={control}
+                        disabled={solvId !== null}
+                    />
                 </div>
             ) : null}
             <div className='row'>

@@ -332,6 +332,10 @@ class TermineUtils {
         $club = $solv_event->getClub() ?: '-';
         $map = $solv_event->getMap() ?: '-';
         $location = $solv_event->getLocation() ?: '-';
+        $coord_x = $solv_event->getCoordX();
+        $coord_y = $solv_event->getCoordY();
+        $lat = ($coord_x && $coord_y) ? $this->mapUtils()->CHtoWGSlat($coord_x, $coord_y) : null;
+        $lng = ($coord_x && $coord_y) ? $this->mapUtils()->CHtoWGSlng($coord_x, $coord_y) : null;
         $text = <<<ZZZZZZZZZZ
             Link: {$link}
 
@@ -351,8 +355,8 @@ class TermineUtils {
         $termin->setText($text);
         $termin->setNewsletter(false); // TODO: Enable Newsletter for SOLV Termine
         $termin->setLocation(null);
-        $termin->setCoordinateX($solv_event->getCoordX());
-        $termin->setCoordinateY($solv_event->getCoordY());
+        $termin->setLatitude($lat);
+        $termin->setLongitude($lng);
         $this->log()->info("Termin {$termin->getId()} updated from SOLV.");
     }
 }

@@ -7,6 +7,7 @@ use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Entity\Users\User;
+use Olz\Utils\MapUtils;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDate;
@@ -15,6 +16,9 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
 
 /**
  * @phpstan-type OlzTerminId int
+ *
+ * @phpstan-import-type OlzLocationCoordinates from MapUtils
+ *
  * @phpstan-type OlzTerminData array{
  *   fromTemplateId?: ?int,
  *   startDate?: ?IsoDate,
@@ -31,8 +35,7 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
  *   go2olId?: ?non-empty-string,
  *   types: array<non-empty-string>,
  *   locationId?: ?int,
- *   coordinateX?: ?int,
- *   coordinateY?: ?int,
+ *   location?: ?OlzLocationCoordinates,
  *   imageIds: array<non-empty-string>,
  *   fileIds: array<non-empty-string>,
  * }
@@ -63,8 +66,10 @@ trait TerminEndpointTrait {
             'go2olId' => $entity->getGo2olId() ?: null,
             'types' => $types_for_api,
             'locationId' => $entity->getLocation()?->getId(),
-            'coordinateX' => $entity->getCoordinateX(),
-            'coordinateY' => $entity->getCoordinateY(),
+            'location' => ($entity->getLatitude() !== null && $entity->getLongitude() !== null) ? [
+                'latitude' => $entity->getLatitude(),
+                'longitude' => $entity->getLongitude(),
+            ] : null,
             'imageIds' => $valid_image_ids,
             'fileIds' => $file_ids,
         ];
@@ -110,8 +115,8 @@ trait TerminEndpointTrait {
             $entity->addLabel($termin_label);
         }
         $entity->setLocation($termin_location);
-        $entity->setCoordinateX($input_data['coordinateX'] ?? null);
-        $entity->setCoordinateY($input_data['coordinateY'] ?? null);
+        $entity->setLatitude($input_data['location']['latitude'] ?? null);
+        $entity->setLongitude($input_data['location']['longitude'] ?? null);
         $entity->setImageIds($valid_image_ids);
 
         if ($entity->getSolvId() !== null) {

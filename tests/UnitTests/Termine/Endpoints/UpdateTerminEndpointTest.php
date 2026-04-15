@@ -36,7 +36,6 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
             'shouldPromote' => false,
             'newsletter' => false,
             'solvId' => null,
-            'go2olId' => null,
             'types' => ['training', 'weekend'],
             'locationId' => 123,
             'location' => null,
@@ -134,7 +133,6 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
         $this->assertFalse($termin->getShouldPromote());
         $this->assertFalse($termin->getNewsletter());
         $this->assertNull($termin->getSolvId());
-        $this->assertNull($termin->getGo2olId());
         $this->assertSame(['training', 'weekend'], array_map(function ($label) {
             return $label->getIdent();
         }, [...$termin->getLabels()]));

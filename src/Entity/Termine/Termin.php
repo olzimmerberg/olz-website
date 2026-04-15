@@ -83,10 +83,10 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
     private ?string $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $go2ol;
+    private ?string $text;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $text;
+    private ?string $documentation;
 
     /** @var Collection<int|string, TerminLabel>&iterable<TerminLabel> */
     #[ORM\JoinTable(name: 'termin_label_map')]
@@ -98,12 +98,6 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
     #[ORM\ManyToOne(targetEntity: TerminLocation::class)]
     #[ORM\JoinColumn(name: 'location_id', referencedColumnName: 'id', nullable: true)]
     private ?TerminLocation $location;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $xkoord;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $ykoord;
 
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $latitude;
@@ -213,6 +207,14 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
         $this->text = $new_value;
     }
 
+    public function getDocumentation(): ?string {
+        return $this->documentation;
+    }
+
+    public function setDocumentation(?string $new_value): void {
+        $this->documentation = $new_value;
+    }
+
     /** @return Collection<int|string, TerminLabel>&iterable<TerminLabel> */
     public function getLabels(): Collection {
         return $this->labels;
@@ -237,32 +239,6 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
     public function setSolvId(?int $new_value): void {
         $this->solv_uid = $new_value;
     }
-
-    // @deprecated Use SolvId to get the go2ol (or other platform) ID
-    public function getGo2olId(): ?string {
-        return $this->go2ol;
-    }
-
-    // @deprecated Use SolvId to get the go2ol (or other platform) ID
-    public function setGo2olId(?string $new_value): void {
-        $this->go2ol = $new_value;
-    }
-
-    // public function getCoordinateX(): ?int {
-    //     return $this->xkoord;
-    // }
-
-    // public function setCoordinateX(?int $new_value): void {
-    //     $this->xkoord = $new_value;
-    // }
-
-    // public function getCoordinateY(): ?int {
-    //     return $this->ykoord;
-    // }
-
-    // public function setCoordinateY(?int $new_value): void {
-    //     $this->ykoord = $new_value;
-    // }
 
     public function getLatitude(): ?float {
         return $this->latitude;

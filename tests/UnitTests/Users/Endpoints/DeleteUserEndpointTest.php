@@ -202,7 +202,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $this->assertNull($default_user->getCity());
         $this->assertNull($default_user->getRegion());
         $this->assertNull($default_user->getCountryCode());
-        $this->assertSame('', $default_user->getPermissions());
+        $this->assertSame([], $default_user->getPermissionMap());
         $this->assertNull($default_user->getRoot());
         $this->assertSame(
             '2020-03-13 19:30:00',

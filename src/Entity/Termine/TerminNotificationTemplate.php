@@ -39,7 +39,13 @@ class TerminNotificationTemplate implements TestableInterface {
     private ?Role $recipient_role;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
-    private bool $recipient_termin_owners;
+    private bool $recipient_termin_owner_user;
+
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
+    private bool $recipient_termin_owner_role;
+
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
+    private bool $recipient_termin_organizer;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
     private bool $recipient_termin_volunteers;
@@ -103,12 +109,28 @@ class TerminNotificationTemplate implements TestableInterface {
         $this->recipient_role = $new_value;
     }
 
-    public function getRecipientTerminOwners(): bool {
-        return $this->recipient_termin_owners;
+    public function getRecipientTerminOwnerUser(): bool {
+        return $this->recipient_termin_owner_user;
     }
 
-    public function setRecipientTerminOwners(bool $new_value): void {
-        $this->recipient_termin_owners = $new_value;
+    public function setRecipientTerminOwnerUser(bool $new_value): void {
+        $this->recipient_termin_owner_user = $new_value;
+    }
+
+    public function getRecipientTerminOwnerRole(): bool {
+        return $this->recipient_termin_owner_role;
+    }
+
+    public function setRecipientTerminOwnerRole(bool $new_value): void {
+        $this->recipient_termin_owner_role = $new_value;
+    }
+
+    public function getRecipientTerminOrganizer(): bool {
+        return $this->recipient_termin_organizer;
+    }
+
+    public function setRecipientTerminOrganizer(bool $new_value): void {
+        $this->recipient_termin_organizer = $new_value;
     }
 
     public function getRecipientTerminVolunteers(): bool {

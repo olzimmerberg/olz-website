@@ -67,7 +67,6 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'shouldPromote' => false,
                 'newsletter' => false,
                 'solvId' => null,
-                'go2olId' => null,
                 'types' => [],
                 'locationId' => null,
                 'location' => null,
@@ -110,7 +109,6 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'shouldPromote' => false,
                 'newsletter' => false,
                 'solvId' => null,
-                'go2olId' => null,
                 'types' => [],
                 'locationId' => null,
                 'location' => [
@@ -162,7 +160,6 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'shouldPromote' => true,
                 'newsletter' => true,
                 'solvId' => 1234,
-                'go2olId' => 'deprecated',
                 'types' => ['training', 'weekends'],
                 'locationId' => 12345,
                 'location' => [

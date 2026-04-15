@@ -39,7 +39,6 @@ class FakeTermin extends FakeEntity {
                 $entity->setDeadline(null);
                 $entity->setShouldPromote(false);
                 $entity->setSolvId(null);
-                $entity->setGo2olId(null);
                 $entity->setNewsletter(false);
                 $entity->setImageIds([]);
                 return $entity;
@@ -69,7 +68,6 @@ class FakeTermin extends FakeEntity {
                 $entity->setDeadline(new \DateTime('0000-01-01 00:00:00'));
                 $entity->setShouldPromote(false);
                 $entity->setSolvId(0);
-                $entity->setGo2olId('');
                 $entity->setNewsletter(false);
                 $entity->setImageIds([]);
                 return $entity;
@@ -113,7 +111,6 @@ class FakeTermin extends FakeEntity {
                 $entity->setDeadline(new \DateTime('2020-03-13 18:00:00'));
                 $entity->setShouldPromote(true);
                 $entity->setSolvId(1234);
-                $entity->setGo2olId('deprecated');
                 $entity->setNewsletter(true);
                 $entity->setImageIds(['image__________________1.jpg', 'image__________________2.png']);
                 return $entity;

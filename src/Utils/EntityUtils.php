@@ -5,10 +5,12 @@ namespace Olz\Utils;
 use Olz\Entity\Anmelden\Booking;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
+use Olz\Entity\Anniversary\RunRecord;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Faq\Question;
 use Olz\Entity\Faq\QuestionCategory;
 use Olz\Entity\Karten\Karte;
+use Olz\Entity\Members\Member;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Panini2024\Panini2024Picture;
 use Olz\Entity\Quiz\Skill;
@@ -33,9 +35,11 @@ class EntityUtils {
         Booking::class,
         Registration::class,
         RegistrationInfo::class,
+        RunRecord::class,
         Question::class,
         QuestionCategory::class,
         Karte::class,
+        Member::class,
         NewsEntry::class,
         Panini2024Picture::class,
         Skill::class,

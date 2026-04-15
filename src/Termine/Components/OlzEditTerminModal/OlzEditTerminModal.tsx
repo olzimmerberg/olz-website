@@ -108,7 +108,6 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number
         fileIds: formData.fileIds,
         imageIds: formData.imageIds,
         newsletter: getApiBoolean(formData.hasNewsletter),
-        go2olId: null,
     };
 }
 

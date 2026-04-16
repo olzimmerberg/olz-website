@@ -4,6 +4,12 @@ namespace Olz\Repository\Snippets;
 
 enum PredefinedSnippet: int {
     case Angebot = 1;
+    case AngebotTrainings = 13;
+    case AngebotStarterpack = 14;
+    case AngebotKarten = 15;
+    case AngebotKleider = 16;
+    case AngebotMaterial = 17;
+    case AngebotDienstleistungen = 18;
     case TermineDownloadsLinks = 2;
     case TermineNewsletter = 3;
     case AnniversaryHoehenmeter = 9;

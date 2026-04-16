@@ -53,6 +53,18 @@ class OtherPagesController extends AbstractController {
         return new Response($out);
     }
 
+    #[Route('/angebot/{audience}')]
+    public function angebotAudience(
+        Request $request,
+        HttpUtils $httpUtils,
+        OlzAngebot $olzAngebot,
+        string $audience,
+    ): Response {
+        $httpUtils->countRequest($request);
+        $out = $olzAngebot->getHtml(['audience' => $audience]);
+        return new Response($out);
+    }
+
     #[Route('/material')]
     public function material(
         Request $request,

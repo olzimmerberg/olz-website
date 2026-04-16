@@ -14,7 +14,7 @@ use Olz\Utils\WithUtilsTrait;
 #[ORM\Index(name: 'date_index', columns: ['date'])]
 #[ORM\Entity(repositoryClass: SolvEventRepository::class)]
 class SolvEvent implements SearchableInterface, TestableInterface {
-    use WithUtilsTrait;
+    // use WithUtilsTrait;
 
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]

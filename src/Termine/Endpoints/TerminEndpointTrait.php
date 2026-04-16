@@ -32,7 +32,6 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
  *   shouldPromote: bool,
  *   newsletter: bool,
  *   solvId?: ?int,
- *   go2olId?: ?non-empty-string,
  *   types: array<non-empty-string>,
  *   locationId?: ?int,
  *   location?: ?OlzLocationCoordinates,
@@ -63,7 +62,6 @@ trait TerminEndpointTrait {
             'shouldPromote' => $entity->getShouldPromote(),
             'newsletter' => $entity->getNewsletter(),
             'solvId' => $entity->getSolvId() ?: null,
-            'go2olId' => $entity->getGo2olId() ?: null,
             'types' => $types_for_api,
             'locationId' => $entity->getLocation()?->getId(),
             'location' => ($entity->getLatitude() !== null && $entity->getLongitude() !== null) ? [
@@ -105,7 +103,6 @@ trait TerminEndpointTrait {
         }
         $entity->setNewsletter($input_data['newsletter']);
         $entity->setSolvId($input_data['solvId'] ?? null);
-        $entity->setGo2olId($input_data['go2olId'] ?? null);
         $entity->clearLabels();
         foreach ($input_data['types'] as $ident) {
             $termin_label = $termin_label_repo->findOneBy(['ident' => $ident]);

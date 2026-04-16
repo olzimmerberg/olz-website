@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260414214346
+-- MIGRATION: DoctrineMigrations\Version20260416193600
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -782,11 +782,8 @@ CREATE TABLE `termine` (
   `end_date` date DEFAULT NULL,
   `end_time` time DEFAULT NULL,
   `title` longtext DEFAULT NULL,
-  `go2ol` longtext DEFAULT NULL,
   `text` longtext DEFAULT NULL,
   `on_off` int(11) NOT NULL DEFAULT 1,
-  `xkoord` int(11) DEFAULT NULL,
-  `ykoord` int(11) DEFAULT NULL,
   `solv_uid` int(11) DEFAULT NULL,
   `newsletter` tinyint(1) NOT NULL DEFAULT 0,
   `deadline` datetime DEFAULT NULL,
@@ -811,6 +808,7 @@ CREATE TABLE `termine` (
   `organizer_user_id` int(11) DEFAULT NULL,
   `latitude` double DEFAULT NULL,
   `longitude` double DEFAULT NULL,
+  `documentation` longtext DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_168C0A8F2B18554A` (`owner_user_id`),
   KEY `IDX_168C0A8F5A75A473` (`owner_role_id`),
@@ -933,9 +931,11 @@ CREATE TABLE `termin_notifications` (
   `fires_at` datetime NOT NULL,
   `title` longtext NOT NULL,
   `content` longtext DEFAULT NULL,
-  `recipient_termin_owners` tinyint(1) NOT NULL DEFAULT 0,
+  `recipient_termin_owner_user` tinyint(4) NOT NULL DEFAULT 0,
   `recipient_termin_volunteers` tinyint(1) NOT NULL DEFAULT 0,
   `recipient_termin_participants` tinyint(1) NOT NULL DEFAULT 0,
+  `recipient_termin_owner_role` tinyint(4) NOT NULL DEFAULT 0,
+  `recipient_termin_organizer` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `IDX_23876048B15EFB97` (`recipient_user_id`),
   KEY `IDX_23876048C0330AAE` (`recipient_role_id`),
@@ -957,9 +957,11 @@ CREATE TABLE `termin_notification_templates` (
   `fires_earlier_seconds` int(11) DEFAULT NULL,
   `title` longtext NOT NULL,
   `content` longtext DEFAULT NULL,
-  `recipient_termin_owners` tinyint(1) NOT NULL DEFAULT 0,
+  `recipient_termin_owner_user` tinyint(4) NOT NULL DEFAULT 0,
   `recipient_termin_volunteers` tinyint(1) NOT NULL DEFAULT 0,
   `recipient_termin_participants` tinyint(1) NOT NULL DEFAULT 0,
+  `recipient_termin_owner_role` tinyint(4) NOT NULL DEFAULT 0,
+  `recipient_termin_organizer` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `IDX_43613C90B15EFB97` (`recipient_user_id`),
   KEY `IDX_43613C90C0330AAE` (`recipient_role_id`),

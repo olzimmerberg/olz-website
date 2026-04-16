@@ -124,28 +124,12 @@ class Role extends OlzEntity implements DataStorageInterface, PositionableInterf
 
     /** @return array<string, true> */
     public function getPermissionMap(): array {
-        $permission_list = preg_split('/[ ]+/', $this->permissions ?? '');
-        if (!is_array($permission_list)) {
-            return [];
-        }
-        $permission_map = [];
-        foreach ($permission_list as $permission) {
-            if (strlen($permission) > 0) {
-                $permission_map[$permission] = true;
-            }
-        }
-        return $permission_map;
+        return $this->generalUtils()->deserializeTokenBitMap($this->permissions ?? '');
     }
 
     /** @param array<string, bool> $new_value */
     public function setPermissionMap(array $new_value): void {
-        $permission_list = [];
-        foreach ($new_value as $key => $value) {
-            if ($value) {
-                $permission_list[] = $key;
-            }
-        }
-        $this->permissions = ' '.implode(' ', $permission_list).' ';
+        $this->permissions = $this->generalUtils()->serializeTokenBitMap($new_value);
     }
 
     public function getParentRoleId(): ?int {

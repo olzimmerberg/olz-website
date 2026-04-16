@@ -291,28 +291,12 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
 
     /** @return array<string, true> */
     public function getPermissionMap(): array {
-        $permission_list = preg_split('/[ ]+/', $this->permissions ?? '');
-        if (!is_array($permission_list)) {
-            return [];
-        }
-        $permission_map = [];
-        foreach ($permission_list as $permission) {
-            if (strlen($permission) > 0) {
-                $permission_map[$permission] = true;
-            }
-        }
-        return $permission_map;
+        return $this->generalUtils()->deserializeTokenBitMap($this->permissions ?? '');
     }
 
     /** @param array<string, bool> $new_value */
     public function setPermissionMap(array $new_value): void {
-        $permission_list = [];
-        foreach ($new_value as $key => $value) {
-            if ($value) {
-                $permission_list[] = $key;
-            }
-        }
-        $this->permissions = ' '.implode(' ', $permission_list).' ';
+        $this->permissions = $this->generalUtils()->serializeTokenBitMap($new_value);
     }
 
     public function hasPermission(string $has_permission): bool {
@@ -530,7 +514,7 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
         $this->setCity(null);
         $this->setRegion(null);
         $this->setCountryCode(null);
-        $this->setPermissions('');
+        $this->setPermissionMap([]);
         $this->setRoot(null);
         $this->setMemberType(null);
         $this->setMemberLastPaid(null);

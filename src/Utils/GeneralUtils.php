@@ -106,6 +106,34 @@ class GeneralUtils {
         return base64_decode(str_replace(['-', '_'], ['+', '/'], $string));
     }
 
+    // Data transformation
+
+    /** @param array<string, bool> $token_bitmap */
+    public function serializeTokenBitMap(array $token_bitmap): string {
+        $token_list = [];
+        foreach ($token_bitmap as $key => $value) {
+            if ($value) {
+                $token_list[] = $key;
+            }
+        }
+        return ' '.implode(' ', $token_list).' ';
+    }
+
+    /** @return array<string, true> */
+    public function deserializeTokenBitMap(string $serialized): array {
+        $token_list = preg_split('/[ ]+/', $serialized);
+        if (!is_array($token_list)) {
+            return [];
+        }
+        $token_bitmap = [];
+        foreach ($token_list as $token) {
+            if (strlen($token) > 0) {
+                $token_bitmap[$token] = true;
+            }
+        }
+        return $token_bitmap;
+    }
+
     // Crypto
 
     public function encrypt(string $key, mixed $data): string {

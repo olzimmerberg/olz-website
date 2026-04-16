@@ -237,6 +237,22 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame($binary_string, $general_utils->base64DecodeUrl('-_A'));
     }
 
+    public function testSerializeTokenBitMap(): void {
+        $general_utils = new GeneralUtils();
+        $this->assertSame('  ', $general_utils->serializeTokenBitMap([]));
+        $this->assertSame(' a ', $general_utils->serializeTokenBitMap(['a' => true]));
+        $this->assertSame(' x z ', $general_utils->serializeTokenBitMap(['x' => true, 'y' => false, 'z' => true]));
+    }
+
+    public function testDeserializeTokenBitMap(): void {
+        $general_utils = new GeneralUtils();
+        $this->assertSame([], $general_utils->deserializeTokenBitMap(''));
+        $this->assertSame([], $general_utils->deserializeTokenBitMap(' '));
+        $this->assertSame([], $general_utils->deserializeTokenBitMap('  '));
+        $this->assertSame(['a' => true], $general_utils->deserializeTokenBitMap(' a '));
+        $this->assertSame(['x' => true, 'z' => true], $general_utils->deserializeTokenBitMap(' x z '));
+    }
+
     public function testEncryptDecryptData(): void {
         $general_utils = new GeneralUtils();
         $key = 'asdf';

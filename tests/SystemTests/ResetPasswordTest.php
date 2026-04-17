@@ -52,6 +52,7 @@ final class ResetPasswordTest extends SystemTestCase {
 
         $browser->get($link);
         $this->click('#execute-reaction-button');
+        $this->waitABit();
         $this->waitABit(); // Wait until executed
 
         $this->login('benutzer', 'b3nu723r');

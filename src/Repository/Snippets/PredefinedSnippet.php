@@ -3,6 +3,7 @@
 namespace Olz\Repository\Snippets;
 
 enum PredefinedSnippet: int {
+    /** @deprecated Use AngebotTrainings, AngebotKarten, etc. instead! */
     case Angebot = 1;
     case AngebotTrainings = 13;
     case AngebotStarterpack = 14;

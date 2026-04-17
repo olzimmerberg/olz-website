@@ -38,12 +38,24 @@ class OlzForBeginnersTile extends AbstractOlzTile {
                 {$this->getSektionLink('sektion-oberrieden', 'Oberrieden')} und 
                 {$this->getSektionLink('sektion-zuerich', 'Zürich-Süd')}.
             </div>
-            <ul class='links'>
+            <ul class='links two-columns'>
                 <li><a href='{$code_href}fuer_einsteiger?von=startseite' class='linkint'><b>Für Einsteiger</b></a></li>
-                <li><a href='{$code_href}fragen_und_antworten?von=startseite' class='linkint'>Häufige Fragen (FAQ)</a></li>
+                <li><a href='{$code_href}fragen_und_antworten?von=startseite' class='linkint'>Häufige Fragen</a></li>
                 <li><a href='{$code_href}verein?von=startseite' class='linkint'>Unser Verein</a></li>
                 {$fan_olz_elite}
             </ul>
+            <h4>Angebot</h4>
+            <div class='filters'>
+                <div class='filter'><a href='{$code_href}angebot/anfaenger?von=startseite'>
+                    für Anfänger
+                </a></div>
+                <div class='filter'><a href='{$code_href}angebot/schulen?von=startseite'>
+                    für Schulen
+                </a></div>
+                <div class='filter'><a href='{$code_href}angebot/mitglieder?von=startseite'>
+                    für Mitglieder
+                </a></div>
+            </div>
             ZZZZZZZZZZ;
     }
 

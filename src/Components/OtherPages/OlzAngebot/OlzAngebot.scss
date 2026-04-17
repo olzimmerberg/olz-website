@@ -1,10 +1,6 @@
-.sportident-assignees {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-
-    li {
-        flex: 0 0 150px;
-        text-align: center;
+.olz-angebot {
+    .filter {
+        font-size: 14px;
+        pointer-events: none;
     }
 }

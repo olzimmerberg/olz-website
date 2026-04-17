@@ -28,7 +28,23 @@ class OlzAngebot extends OlzRootComponent {
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzAngebotParams::class);
+        $code_href = $this->envUtils()->getCodeHref();
         $audience = $args['audience'] ?? '';
+        $filter_text_by_audience = [
+            'sportler' => 'für Sportler',
+            'schulen' => 'für Schulen',
+            'organisatoren' => 'für Organisatoren',
+            'anfaenger' => 'für Anfänger',
+            'mitglieder' => 'für Mitglieder',
+        ];
+        $default_offerings = [
+            PredefinedSnippet::AngebotTrainings,
+            PredefinedSnippet::AngebotStarterpack,
+            PredefinedSnippet::AngebotKleider,
+            PredefinedSnippet::AngebotKarten,
+            PredefinedSnippet::AngebotMaterial,
+            PredefinedSnippet::AngebotDienstleistungen,
+        ];
         $offerings_by_audience = [
             'sportler' => [
                 PredefinedSnippet::AngebotTrainings,
@@ -44,7 +60,7 @@ class OlzAngebot extends OlzRootComponent {
                 PredefinedSnippet::AngebotKarten,
                 PredefinedSnippet::AngebotMaterial,
             ],
-            'einsteiger' => [
+            'anfaenger' => [
                 PredefinedSnippet::AngebotTrainings,
                 PredefinedSnippet::AngebotStarterpack,
                 PredefinedSnippet::AngebotKleider,
@@ -55,24 +71,21 @@ class OlzAngebot extends OlzRootComponent {
                 PredefinedSnippet::AngebotKleider,
             ],
         ];
-        $offerings = $offerings_by_audience[$audience] ?? null;
+        $filter_text = $filter_text_by_audience[$audience] ?? null;
+        $pretty_filter = $filter_text ? " <span class='filter'>{$filter_text}</span>" : '';
+        $offerings = $offerings_by_audience[$audience] ?? $default_offerings;
 
         $out = OlzHeader::render([
+            'back_link' => $filter_text === null ? null : "{$code_href}",
             'title' => self::$title,
             'description' => self::$description,
         ]);
 
-        $out .= "<div class='content-full'>";
-        $out .= "<h1>Angebot</h1>";
+        $out .= "<div class='content-full olz-angebot'>";
+        $out .= "<h1>Angebot</h1>{$pretty_filter}";
 
-        if ($offerings !== null) {
-            foreach ($offerings as $offering) {
-                $out .= OlzEditableText::render(['snippet' => $offering]);
-            }
-        } else {
-            $angebot_snippet_id = PredefinedSnippet::Angebot;
-            $angebot_text = OlzEditableText::render(['snippet' => $angebot_snippet_id]);
-            $out .= $angebot_text;
+        foreach ($offerings as $offering) {
+            $out .= OlzEditableText::render(['snippet' => $offering]);
         }
 
         $out .= "</div>";

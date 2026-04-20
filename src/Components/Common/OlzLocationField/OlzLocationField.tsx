@@ -172,9 +172,9 @@ export const OlzLocationField = <Values extends FieldValues, Name extends Path<V
     return (<>
         {labelComponent}
         <div className={className}>
-            <div id='location-field-map-overview'></div>
-            <div id='location-field-map-medium'></div>
-            <div id='location-field-map-detail'></div>
+            <div className='test-flaky' id='location-field-map-overview'></div>
+            <div className='test-flaky' id='location-field-map-medium'></div>
+            <div className='test-flaky' id='location-field-map-detail'></div>
             <div id='location-field-input-column'>
                 <input
                     type='text'

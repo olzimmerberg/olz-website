@@ -532,12 +532,24 @@ a {
     table-layout: fixed;
 }
 
-.rendered-markdown .float-right {
-    float: right;
-}
+.rendered-markdown {
+    overflow-x: auto;
 
-.rendered-markdown .clear-both {
-    clear: both;
+    .disabled {
+        opacity: 0.25;
+    }
+
+    .float-left {
+        float: left;
+    }
+    
+    .float-right {
+        float: right;
+    }
+
+    .clear-both {
+        clear: both;
+    }
 }
 
 .responsive-flex {

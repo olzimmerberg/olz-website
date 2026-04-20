@@ -139,7 +139,7 @@ jobs:
     - name: PHP Code style check
       run: composer fixdiff
     - name: PHP Static Analysis
-      run: composer check
+      run: composer stan
     - name: Lint JavaScript & TypeScript
       run: npm run eslint
     - name: Lint CSS & SCSS

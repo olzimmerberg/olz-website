@@ -42,7 +42,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->selectOption('#edit-question-modal #categoryId-field', 'Leer');
         $this->selectOption('#edit-question-modal #positionWithinCategory-field #before-after-input', 'nach');
         $this->click("#edit-question-modal #positionWithinCategory-field .olz-entity-chooser #dropdown-menu-button");
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $no_results = $browser->findElement(
                 WebDriverBy::cssSelector('#edit-question-modal #positionWithinCategory-field .olz-entity-chooser #no-results')
             );
@@ -56,19 +56,14 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-question-modal #images-upload input[type=file]', $image_path);
-        $browser->wait()->until(function () use ($browser) {
-            $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-question-modal #images-upload .olz-upload-image.uploaded')
-            );
-            return count($image_uploaded) == 1;
-        });
+        $this->waitFor('#edit-question-modal #images-upload .olz-upload-image.uploaded');
         $this->click('#edit-question-modal #images-upload .olz-upload-image.uploaded #copy-button');
         $this->sendKeys('#edit-question-modal #answer-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-question-modal #files-upload input[type=file]', $document_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $file_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-question-modal #files-upload .olz-upload-file.uploaded')
             );
@@ -111,7 +106,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-question-modal #images-upload input[type=file]', $image_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $image_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-question-modal #images-upload .olz-upload-image.uploaded')
             );
@@ -123,7 +118,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-question-modal #files-upload input[type=file]', $document_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $file_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-question-modal #files-upload .olz-upload-file.uploaded')
             );

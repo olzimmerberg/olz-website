@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -37,12 +36,7 @@ final class DownloadsTest extends SystemTestCase {
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-download-modal #file-upload input[type=file]', $document_path);
-        $browser->wait()->until(function () use ($browser) {
-            $file_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-download-modal #file-upload .olz-upload-file.uploaded')
-            );
-            return count($file_uploaded) == 1;
-        });
+        $this->waitFor('#edit-download-modal #file-upload .olz-upload-file.uploaded');
 
         $this->screenshot('downloads_new_edit');
 

@@ -163,8 +163,7 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
             '',
         ));
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
     }
 
     public function testGetClosestMatchesOfPersonInfo(): void {
@@ -228,8 +227,7 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
             ]
         ));
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
     }
 
     public function testGetUnambiguousPerson(): void {
@@ -255,8 +253,7 @@ final class SyncSolvAssignPeopleCommandTest extends UnitTestCase {
         ]));
         $this->assertNull($job->getUnambiguousPerson([]));
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
     }
 
     public function testGetMatchingPerson(): void {

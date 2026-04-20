@@ -41,7 +41,7 @@ final class ResultateTest extends SystemTestCase {
         $this->sendKeys('#edit-result-modal #name-input', 'system-test.xml');
         $iof_xml_path = __DIR__."/../../src/Utils/data/sample-data/sample-results.xml";
         $this->sendKeys('#edit-result-modal #file-upload input[type=file]', $iof_xml_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $file_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-result-modal #file-upload .olz-upload-file.uploaded')
             );

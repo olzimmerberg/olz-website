@@ -170,8 +170,7 @@ final class EmailUtilsTest extends UnitTestCase {
             'notification_type' => 'monthly_preview',
         ]);
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             From: 
             Reply-To: 

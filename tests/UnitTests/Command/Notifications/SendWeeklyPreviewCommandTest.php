@@ -136,8 +136,7 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
 
 
             ZZZZZZZZZZ;
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertSame('Vorschau auf die Woche vom 16. März', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -153,8 +152,7 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
 
         $notification = $job->getNotification([]);
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertNull($notification);
     }
 }

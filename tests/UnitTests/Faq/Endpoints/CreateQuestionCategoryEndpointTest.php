@@ -80,9 +80,7 @@ final class CreateQuestionCategoryEndpointTest extends UnitTestCase {
 
         $id = FakeEntityManager::AUTO_INCREMENT_ID;
 
-        $this->assertSame([
-        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
-        $this->assertSame([
-        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
+        $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

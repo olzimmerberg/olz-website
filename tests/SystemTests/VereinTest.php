@@ -105,7 +105,7 @@ final class VereinTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-role-modal #images-upload input[type=file]', $image_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $image_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-role-modal #images-upload .olz-upload-image.uploaded')
             );
@@ -118,7 +118,7 @@ final class VereinTest extends SystemTestCase {
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-role-modal #files-upload input[type=file]', $document_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $file_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-role-modal #files-upload .olz-upload-file.uploaded')
             );

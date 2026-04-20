@@ -142,10 +142,8 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
             // The entity is created, but not persisted.
             $this->assertCount(1, WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
-            $this->assertSame([
-            ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
-            $this->assertSame([
-            ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
+            $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+            $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
         }
     }
 }

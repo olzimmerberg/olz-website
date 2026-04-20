@@ -61,7 +61,7 @@ final class TermineTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $image_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
             );
@@ -71,7 +71,7 @@ final class TermineTest extends SystemTestCase {
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-termin-modal #files-upload input[type=file]', $document_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $file_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-termin-modal #files-upload .olz-upload-file.uploaded')
             );
@@ -106,7 +106,7 @@ final class TermineTest extends SystemTestCase {
         $this->click('#edit-termin-modal .template-chooser #entity-index-1');
 
         // Wait for data to be populated
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $image_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
             );
@@ -116,7 +116,7 @@ final class TermineTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $image_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
             );
@@ -156,7 +156,7 @@ final class TermineTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $image_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
             );

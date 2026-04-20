@@ -68,8 +68,7 @@ final class SendRoleReminderCommandIntegrationTest extends IntegrationTestCase {
             
             Der Vorstand der OL Zimmerberg
             ZZZZZZZZZZ;
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertSame('Ressort-Erinnerung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

@@ -70,8 +70,7 @@ final class SendWeeklySummaryCommandIntegrationTest extends IntegrationTestCase 
 
 
             ZZZZZZZZZZ;
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertSame('Wochenzusammenfassung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }

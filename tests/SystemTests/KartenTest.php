@@ -47,7 +47,7 @@ final class KartenTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-karte-modal #images-upload input[type=file]', $image_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $image_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-karte-modal #images-upload .olz-upload-image.uploaded')
             );

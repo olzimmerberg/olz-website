@@ -20,7 +20,7 @@ final class WeeklyPictureTest extends SystemTestCase {
         $browser->get($this->getUrl());
 
         $this->click('#weekly-picture-carousel .active a[href*="/img/weekly_picture/"]');
-        $browser->wait()->until(function () {
+        $this->waitUntil(function () {
             return $this->findBrowserElement('.lg-container.lg-show img[src*="/img/weekly_picture/"]')->getCssValue('opacity') == 1;
         });
         $this->screenshot('startseite_weekly_picture');
@@ -42,7 +42,7 @@ final class WeeklyPictureTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-weekly-picture-modal #image-upload input[type=file]', $image_path);
-        $browser->wait()->until(function () use ($browser) {
+        $this->waitUntil(function () use ($browser) {
             $image_uploaded = $browser->findElements(
                 WebDriverBy::cssSelector('#edit-weekly-picture-modal #image-upload .olz-upload-image.uploaded')
             );

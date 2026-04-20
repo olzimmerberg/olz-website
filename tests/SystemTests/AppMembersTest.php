@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -24,12 +23,7 @@ final class AppMembersTest extends SystemTestCase {
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-member-import.csv');
         assert($document_path);
         $this->sendKeys('.olz-members #import-upload input[type=file]', $document_path);
-        $browser->wait()->until(function () use ($browser) {
-            $member_tables = $browser->findElements(
-                WebDriverBy::cssSelector('#member-table')
-            );
-            return count($member_tables) == 1;
-        });
+        $this->waitFor('#member-table');
         $this->screenshot('app_members_imported');
 
         $this->assertSame('2000001', $this->getText('#member-table #row-0 .ident'));

@@ -56,8 +56,7 @@ final class SendDailySummaryCommandIntegrationTest extends IntegrationTestCase {
 
 
             ZZZZZZZZZZ;
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertSame('Tageszusammenfassung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -96,8 +95,7 @@ final class SendDailySummaryCommandIntegrationTest extends IntegrationTestCase {
 
 
             ZZZZZZZZZZ;
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertSame('Tageszusammenfassung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -118,8 +116,7 @@ final class SendDailySummaryCommandIntegrationTest extends IntegrationTestCase {
             'termine' => true,
         ]);
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertNull($notification);
     }
 

@@ -186,8 +186,7 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
 
         $notification = $job->getNotification([]);
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertNull($notification);
     }
 
@@ -199,8 +198,7 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
 
         $notification = $job->getNotification([]);
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertNull($notification);
     }
 
@@ -212,8 +210,7 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
 
         $notification = $job->getNotification([]);
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertNull($notification);
     }
 
@@ -244,8 +241,7 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
 
 
             ZZZZZZZZZZ;
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertSame('Monatsvorschau März', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -261,8 +257,7 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
 
         $notification = $job->getNotification([]);
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertNull($notification);
     }
 }

@@ -144,9 +144,7 @@ final class UpdateQuestionCategoryEndpointTest extends UnitTestCase {
             [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
-        $this->assertSame([
-        ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
-        $this->assertSame([
-        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
+        $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
+        $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

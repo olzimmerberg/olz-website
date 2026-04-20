@@ -36,8 +36,7 @@ final class SendDeadlineWarningCommandIntegrationTest extends IntegrationTestCas
             - Mo, 17.08.: Meldeschluss für '[Training 1](http://integration-test.host/termine/3)'
 
             ZZZZZZZZZZ;
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertSame('Meldeschlusswarnung', $notification?->title);
         $this->assertSame($expected_text, $notification->getTextForUser($user));
     }
@@ -52,8 +51,7 @@ final class SendDeadlineWarningCommandIntegrationTest extends IntegrationTestCas
         $job->setEnvUtils(new EnvUtils());
         $notification = $job->getNotification(['days' => 3]);
 
-        $this->assertSame([
-        ], $this->getLogs());
+        $this->assertSame([], $this->getLogs());
         $this->assertNull($notification);
     }
 

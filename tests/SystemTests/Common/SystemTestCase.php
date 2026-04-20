@@ -182,16 +182,16 @@ class SystemTestCase extends KernelTestCase {
         } catch (UnexpectedTagNameException $exc) {
             $browser = $this::$browser;
             $this->generalUtils()->checkNotNull($browser, "Browser expected");
-            $browser->wait()->until(function () use ($css_selector) {
+            $this->waitUntil(function () use ($css_selector) {
                 return $this->findBrowserElement("{$css_selector} #dropdown-menu-button")->getText() !== 'Lädt...';
             });
             $this->click("{$css_selector} #dropdown-menu-button");
             $this->sendKeys("{$css_selector} #entity-search-input", $option);
-            $browser->wait()->until(function () use ($css_selector, $option) {
+            $this->waitUntil(function () use ($css_selector, $option) {
                 return str_starts_with($this->findBrowserElement("{$css_selector} #entity-index-0")->getText(), $option);
             });
             $this->click("{$css_selector} #entity-index-0");
-            $browser->wait()->until(function () use ($css_selector, $option) {
+            $this->waitUntil(function () use ($css_selector, $option) {
                 return str_starts_with($this->findBrowserElement("{$css_selector} #dropdown-menu-button")->getText(), $option);
             });
         }
@@ -209,9 +209,22 @@ class SystemTestCase extends KernelTestCase {
         usleep(100 * 1000);
     }
 
-    protected function waitForModal(string $css_selector): void {
+    /**
+     * @param callable(): bool $is_finished
+     */
+    protected function waitUntil(callable $is_finished): void {
         $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        $this::$browser->wait()->until(function () use ($css_selector) {
+        $this::$browser->wait()->until(function () use ($is_finished) {
+            try {
+                return $is_finished();
+            } catch (\Throwable $th) {
+                return false;
+            }
+        });
+    }
+
+    protected function waitForModal(string $css_selector): void {
+        $this->waitUntil(function () use ($css_selector) {
             return $this->findBrowserElement($css_selector)->getCssValue('opacity') == 1;
         });
     }
@@ -219,22 +232,22 @@ class SystemTestCase extends KernelTestCase {
     protected function waitUntilGone(string $css_selector): void {
         $browser = $this::$browser;
         $this->generalUtils()->checkNotNull($browser, "Browser expected");
-        $browser->wait()->until(function () use ($css_selector, $browser) {
+        $this->waitUntil(function () use ($css_selector, $browser) {
             $elements = $browser->findElements(
                 WebDriverBy::cssSelector($css_selector)
             );
-            return count($elements) == 0;
+            return count($elements) === 0;
         });
     }
 
     protected function waitFor(string $css_selector): void {
         $browser = $this::$browser;
         $this->generalUtils()->checkNotNull($browser, "Browser expected");
-        $browser->wait()->until(function () use ($css_selector, $browser) {
+        $this->waitUntil(function () use ($css_selector, $browser) {
             $elements = $browser->findElements(
                 WebDriverBy::cssSelector($css_selector)
             );
-            return count($elements) > 0;
+            return count($elements) === 1;
         });
     }
 

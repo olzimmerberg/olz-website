@@ -99,7 +99,6 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
                 realpath(__DIR__.'/../../../Fake/')."/../UnitTests/tmp/files/downloads/{$id}/",
             ],
         ], WithUtilsCache::get('uploadUtils')->move_uploads_calls);
-        $this->assertSame([
-        ], WithUtilsCache::get('imageUtils')->generatedThumbnails);
+        $this->assertSame([], WithUtilsCache::get('imageUtils')->generatedThumbnails);
     }
 }

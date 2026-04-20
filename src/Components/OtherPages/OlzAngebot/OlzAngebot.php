@@ -67,7 +67,6 @@ class OlzAngebot extends OlzRootComponent {
             ],
             'mitglieder' => [
                 PredefinedSnippet::AngebotTrainings,
-                PredefinedSnippet::AngebotStarterpack,
                 PredefinedSnippet::AngebotKleider,
             ],
         ];

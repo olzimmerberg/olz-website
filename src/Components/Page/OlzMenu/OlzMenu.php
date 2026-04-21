@@ -16,16 +16,11 @@ class OlzMenu extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
 
-        $news_utils = $this->newsUtils();
-        $enc_news_filter = $news_utils->serialize($news_utils->getDefaultFilter());
-        $termine_utils = $this->termineUtils();
-        $enc_termine_filter = $termine_utils->serialize($termine_utils->getDefaultFilter());
-
         $main_menu = [
             ["Startseite", ""], // Menüpunkt ('Name','Link')
             ["", "", ''],
-            ["News", "news?filter={$enc_news_filter}&seite=1"],
-            ["Termine", "termine?filter={$enc_termine_filter}"],
+            ["News", "news"],
+            ["Termine", "termine"],
             ["", "", ''],
             ["Angebot", "angebot"],
             ["Karten", "karten"],

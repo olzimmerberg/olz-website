@@ -114,7 +114,8 @@ final class SearchUtilsTest extends UnitTestCase {
 
         $this->assertSame('', $utils->censorEmails(''));
         $this->assertSame('***@***', $utils->censorEmails('e.mail+test@other-domain.com'));
-        $this->assertSame('***@***', $utils->censorEmails('vorstand_role@staging.olzimmerberg.ch'));
+        $this->assertSame('***@***', $utils->censorEmails('admin_role@staging.olzimmerberg.ch'));
+        $this->assertSame('***@***', $utils->censorEmails('vorstand-role@staging.olzimmerberg.ch'));
         $this->assertSame('***@***', $utils->censorEmails('inexistent@staging.olzimmerberg.ch'));
         $this->assertSame('***@***', $utils->censorEmails('vorstand@staging.olzimmerberg.ch'));
         $this->assertSame('E-Mail:***@*** Weiter', $utils->censorEmails('E-Mail:e.mail@other-domain.com. Weiter'));

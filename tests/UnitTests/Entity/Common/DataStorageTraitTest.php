@@ -52,7 +52,7 @@ final class DataStorageTraitTest extends UnitTestCase {
 
         $this->assertSame(
             "before <span style='color:#ff0000; font-style:italic;'>Ungültige db_table: concrete_entity (in olzImage)</span> between <span style='color:#ff0000; font-style:italic;'>Ungültige db_table: concrete_entity (in olzImage)</span> after",
-            $storage_entity->replaceImagePaths('before <img src="./abcdefghijklmnopqrstuvw2.jpg" alt="" /> between <img src="./abcdefghijklmnopqrstuvw1.jpg" alt="" /> after')
+            $storage_entity->replaceImagePaths('before <img src="./abcdefghijklmnopqrstuvw2.jpg" alt="" /> between <img src="./abcdefghijklmnopqrstuvw1.jpg" alt=""> after')
         );
     }
 

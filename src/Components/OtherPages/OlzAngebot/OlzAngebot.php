@@ -43,7 +43,7 @@ class OlzAngebot extends OlzRootComponent {
             PredefinedSnippet::AngebotKleider,
             PredefinedSnippet::AngebotKarten,
             PredefinedSnippet::AngebotMaterial,
-            PredefinedSnippet::AngebotDienstleistungen,
+            PredefinedSnippet::AngebotKurse,
         ];
         $offerings_by_audience = [
             'sportler' => [
@@ -52,7 +52,7 @@ class OlzAngebot extends OlzRootComponent {
                 PredefinedSnippet::AngebotKleider,
             ],
             'schulen' => [
-                PredefinedSnippet::AngebotDienstleistungen,
+                PredefinedSnippet::AngebotKurse,
                 PredefinedSnippet::AngebotMaterial,
                 PredefinedSnippet::AngebotKarten,
             ],
@@ -69,6 +69,12 @@ class OlzAngebot extends OlzRootComponent {
                 PredefinedSnippet::AngebotTrainings,
                 PredefinedSnippet::AngebotKleider,
             ],
+            'trainings' => [PredefinedSnippet::AngebotTrainings],
+            'starterpack' => [PredefinedSnippet::AngebotStarterpack],
+            'kleider' => [PredefinedSnippet::AngebotKleider],
+            'karten' => [PredefinedSnippet::AngebotKarten],
+            'material' => [PredefinedSnippet::AngebotMaterial],
+            'kurse' => [PredefinedSnippet::AngebotKurse],
         ];
         $filter_text = $filter_text_by_audience[$audience] ?? null;
         $pretty_filter = $filter_text ? " <span class='filter'>{$filter_text}</span>" : '';

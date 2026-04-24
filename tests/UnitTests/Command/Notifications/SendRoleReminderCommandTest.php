@@ -281,7 +281,7 @@ final class SendRoleReminderCommandTest extends UnitTestCase {
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
 
-            Du bist im [OLZ-Organigramm](http://fake-base-url/_/verein) unter dem Ressort [**Vorstand**](http://fake-base-url/_/verein/vorstand_role) eingetragen, bzw. für dieses Ressort zuständig.
+            Du bist im [OLZ-Organigramm](http://fake-base-url/_/verein) unter dem Ressort [**Vorstand**](http://fake-base-url/_/verein/vorstand-role) eingetragen, bzw. für dieses Ressort zuständig.
 
             **Vielen Dank, dass du mithilfst, unseren Verein am Laufen zu halten!**
 
@@ -289,7 +289,7 @@ final class SendRoleReminderCommandTest extends UnitTestCase {
 
             **Falls etwas unklar ist, kontaktiere bitte den Website-Admin: website.fake@staging.olzimmerberg.ch!**
 
-            - Bitte schau dir die [Präsenz deines Ressorts auf olzimmerberg.ch](http://fake-base-url/_/verein/vorstand_role) an, und **kontrolliere, ergänze und verbessere** gegebenenfalls die Angaben. Wenn du eingeloggt bist, kannst du diese direkt bearbeiten.
+            - Bitte schau dir die [Präsenz deines Ressorts auf olzimmerberg.ch](http://fake-base-url/_/verein/vorstand-role) an, und **kontrolliere, ergänze und verbessere** gegebenenfalls die Angaben. Wenn du eingeloggt bist, kannst du diese direkt bearbeiten.
             - **Falls** du im kommenden Jahr nicht mehr für dieses Ressort zuständig sein kannst oder möchtest, bzw. nicht mehr unter diesem Ressort angezeigt werden solltest, kontaktiere bitte "deinen" Vorstand: Vorstand Mitglied, vorstand-user@staging.olzimmerberg.ch (oder den Präsi).
             - **Falls** du noch kein OLZ-Konto hast, erstelle doch eines ([zum Login-Dialog](http://fake-base-url/_/#login-dialog), dann "Noch kein OLZ-Konto?" wählen). Verwende den Benutzernamen "default", um automatisch Schreib-Zugriff für dein Ressort zu erhalten.
 

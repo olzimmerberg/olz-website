@@ -295,7 +295,7 @@ class EmailUtils {
             'admin-old' => true,
             'admin_role' => true,
             'vorstand' => true,
-            'vorstand_role' => true,
+            'vorstand-role' => true,
             'inexistent' => true,
             'test.adress' => true, // sic!
             'test.address' => true,

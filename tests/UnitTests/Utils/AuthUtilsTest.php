@@ -593,7 +593,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testGetAuthenticatedRolesVorstand(): void {
         $auth_utils = new AuthUtils();
-        $this->assertSame(['vorstand_role'], array_map(function ($role) {
+        $this->assertSame(['vorstand-role'], array_map(function ($role) {
             return $role->getUsername();
         }, $auth_utils->getAuthenticatedRoles(FakeUser::vorstandUser()) ?? []));
     }

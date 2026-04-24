@@ -10,7 +10,7 @@ enum PredefinedSnippet: int {
     case AngebotKarten = 15;
     case AngebotKleider = 16;
     case AngebotMaterial = 17;
-    case AngebotDienstleistungen = 18;
+    case AngebotKurse = 18;
     case TermineDownloadsLinks = 2;
     case TermineNewsletter = 3;
     case AnniversaryHoehenmeter = 9;

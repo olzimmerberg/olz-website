@@ -23,9 +23,11 @@ trait DataStorageTrait {
         $entity_id = $this->getEntityIdForStorage();
         $upload_ids = $this->getStoredImageUploadIds();
         foreach ($upload_ids as $upload_id) {
-            $search = "<img src=\"./{$upload_id}\" alt=\"\" />";
+            $search1 = "<img src=\"./{$upload_id}\" alt=\"\">";
+            $search2 = "<img src=\"./{$upload_id}\" alt=\"\" />";
             $replace = $this->imageUtils()->olzImage($entity_name, $entity_id, $upload_id, 256, 'image');
-            $html = str_replace($search, $replace, $html);
+            $html = str_replace($search1, $replace, $html);
+            $html = str_replace($search2, $replace, $html);
         }
         return $html;
     }

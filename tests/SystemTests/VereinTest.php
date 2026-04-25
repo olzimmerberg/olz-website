@@ -139,7 +139,7 @@ final class VereinTest extends SystemTestCase {
         $this->click('#edit-role-modal #submit-button');
         $this->waitUntilGone('#edit-role-modal');
 
-        $this->assertSame(404, $this->getHeaders("{$this->getUrl()}/finanzen")['http_code']);
+        $this->assertSame(308, $this->getHeaders("{$this->getUrl()}/finanzen")['http_code']);
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/kassier")['http_code']);
 
         $this->resetDb();

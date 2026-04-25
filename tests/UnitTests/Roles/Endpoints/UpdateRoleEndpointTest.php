@@ -150,7 +150,7 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         $entity = $entity_manager->persisted[0];
         $this->assertSame($id, $entity->getId());
         $this->assertSame('test', $entity->getUsername());
-        $this->assertSame('sub_sub_vorstand_role', $entity->getOldUsername());
+        $this->assertSame('sub-sub-vorstand-role', $entity->getOldUsername());
         $this->assertSame('Test Role', $entity->getName());
         $this->assertSame('Description Test Role', $entity->getDescription());
         $this->assertSame('Just do it!', $entity->getGuide());
@@ -218,7 +218,7 @@ final class UpdateRoleEndpointTest extends UnitTestCase {
         $entity = $entity_manager->persisted[0];
         $this->assertSame($id, $entity->getId());
         $this->assertSame('test', $entity->getUsername());
-        $this->assertSame('sub_sub_vorstand_role', $entity->getOldUsername());
+        $this->assertSame('sub-sub-vorstand-role', $entity->getOldUsername());
         $this->assertSame('Test Role', $entity->getName());
         $this->assertSame('Description Test Role', $entity->getDescription());
         $this->assertSame('Just do it!', $entity->getGuide());

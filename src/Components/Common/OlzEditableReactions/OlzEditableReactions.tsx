@@ -94,7 +94,6 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
         }
         return (
             <a
-                href='#'
                 onClick={() => toggleReaction(emoji)}
                 className={`reaction${activeClass}`}
                 key={emoji}
@@ -122,7 +121,6 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
             emojis.sort((a, b) => countByEmoji[b] - countByEmoji[a]);
             userOverview.push(<div key={`user-${userId}`}>
                 <a
-                    href='#'
                     onClick={() => initOlzUserInfoModal(Number(userId))}
                     className='olz-user-info-modal-trigger name'
                 >

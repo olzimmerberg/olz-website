@@ -107,7 +107,7 @@ class FakeRole extends FakeEntity {
                 $entity = new Role();
                 FakeOlzEntity::minimal($entity);
                 $entity->setId(3);
-                $entity->setUsername('vorstand_role');
+                $entity->setUsername('vorstand-role');
                 $entity->setName('Vorstand');
                 $entity->setDescription("Description {$entity->getName()}");
                 $entity->setGuide("Guide {$entity->getName()}");
@@ -131,7 +131,7 @@ class FakeRole extends FakeEntity {
                 $entity = new Role();
                 FakeOlzEntity::minimal($entity);
                 $entity->setId(intval(str_repeat('3', $degree + 1)));
-                $entity->setUsername(str_repeat('sub_', $degree).'vorstand_role');
+                $entity->setUsername(str_repeat('sub-', $degree).'vorstand-role');
                 $entity->setName(str_repeat('Sub-', $degree).'Vorstand');
                 $entity->setDescription("Description {$entity->getName()}");
                 $entity->setGuide("Guide {$entity->getName()}");

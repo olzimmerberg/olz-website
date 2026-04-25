@@ -13,9 +13,7 @@ use Olz\Roles\Components\OlzRoleInfoModal\OlzRoleInfoModal;
 class HtmlUtils {
     use WithUtilsTrait;
 
-    public string $prefix_regex = '<a ([^>]*)href=[\'"]mailto:';
     public string $subject_regex = '\?subject=([^\'"]*)';
-    public string $suffix_regex = '[\'"]([^>]*)>([^<@]*)([^<]*)<\/a>';
     public string $olz_email_regex = '';
     public string $email_regex = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,64})';
 
@@ -44,62 +42,22 @@ class HtmlUtils {
 
     public function replaceEmailAdresses(string $html): string {
         $role_repo = $this->entityManager()->getRepository(Role::class);
+
         $host = $this->envUtils()->getEmailForwardingHost();
         $esc_host = preg_quote($host);
         $this->olz_email_regex = '([A-Z0-9a-z._%+-]+)@'.$esc_host;
 
-        preg_match_all(
-            "/{$this->prefix_regex}{$this->olz_email_regex}{$this->subject_regex}{$this->suffix_regex}/",
-            $html,
-            $matches,
+        $doc = \DOM\HTMLDocument::createFromString(
+            "<div id='root'>{$html}</div>",
+            LIBXML_NOERROR
         );
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $username = $matches[2][$i];
-            // TODO: Only active roles!
-            $role = $role_repo->findOneBy(['username' => $username]);
-            if ($role) {
-                $prefix = $this->getPrefix($matches[1][$i]);
-                $username = preg_quote($username);
-                $email = "{$username}@{$host}";
-                $subject = $this->getSubject($matches[3][$i]);
-                $suffix = $this->getSuffix($matches[4][$i], $matches[5][$i], $matches[6][$i]);
-                $html = preg_replace(
-                    "/{$prefix}{$email}{$subject}{$suffix}/",
-                    $this->escapeDollar(OlzRoleInfoModal::render([
-                        'role' => $role,
-                        'text' => $matches[5][$i] ?: null,
-                    ])),
-                    $html
-                );
-                $this->generalUtils()->checkNotNull($html, "String replacement failed");
-            }
+        $links = [...$doc->getElementsByTagName('a')];
+        foreach ($links as $link) {
+            $this->replaceMailtoLink($link);
         }
-
-        preg_match_all(
-            "/{$this->prefix_regex}{$this->olz_email_regex}{$this->suffix_regex}/",
-            $html,
-            $matches,
-        );
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $username = $matches[2][$i];
-            // TODO: Only active roles!
-            $role = $role_repo->findOneBy(['username' => $username]);
-            if ($role) {
-                $prefix = $this->getPrefix($matches[1][$i]);
-                $username = preg_quote($username);
-                $email = "{$username}@{$host}";
-                $suffix = $this->getSuffix($matches[3][$i], $matches[4][$i], $matches[5][$i]);
-                $html = preg_replace(
-                    "/{$prefix}{$email}{$suffix}/",
-                    $this->escapeDollar(OlzRoleInfoModal::render([
-                        'role' => $role,
-                        'text' => $matches[4][$i] ?: null,
-                    ])),
-                    $html
-                );
-                $this->generalUtils()->checkNotNull($html, "String replacement failed");
-            }
-        }
+        $root = $doc->getElementById('root');
+        $this->generalUtils()->checkNotNull($root, 'Root not found anymore');
+        $html = $this->getDOMNodeInnerHtml($root);
 
         preg_match_all(
             "/(\\s|^){$this->olz_email_regex}([\\s,\\.!\\?]|$)/",
@@ -123,24 +81,85 @@ class HtmlUtils {
         }
 
         $html = preg_replace(
-            "/{$this->prefix_regex}{$this->email_regex}{$this->subject_regex}{$this->suffix_regex}/",
-            "<script>olz.MailTo(\"\$2\", \"\$3\", \"\$6\" + \"\$7\", \"\$4\")</script>",
-            $html
-        );
-        $this->generalUtils()->checkNotNull($html, "String replacement failed");
-        $html = preg_replace(
-            "/{$this->prefix_regex}{$this->email_regex}{$this->suffix_regex}/",
-            "<script>olz.MailTo(\"\$2\", \"\$3\", \"\$5\" + \"\$6\")</script>",
-            $html
-        );
-        $this->generalUtils()->checkNotNull($html, "String replacement failed");
-        $html = preg_replace(
             "/(\\s|^){$this->email_regex}([\\s,\\.!\\?]|$)/",
             "\$1<script>olz.MailTo(\"\$2\", \"\$3\", \"E-Mail\")</script>\$4",
             $html
         );
         $this->generalUtils()->checkNotNull($html, "String replacement failed");
         return $html;
+    }
+
+    protected function replaceMailtoLink(\DOM\Element $link): void {
+        $href_attr = $link->attributes->getNamedItem('href');
+        if (!$href_attr) {
+            return;
+        }
+        $olz_email_pattern = "/^mailto:{$this->olz_email_regex}(?:{$this->subject_regex})?\$/";
+        $is_olz_email = preg_match($olz_email_pattern, $href_attr->value, $matches);
+        if ($is_olz_email) {
+            $username = $matches[1];
+            // Note: Subject remains unused
+            // TODO: Only active roles!
+            $role_repo = $this->entityManager()->getRepository(Role::class);
+            $role = $role_repo->findOneBy(['username' => $username]);
+            if ($role) {
+                $this->replaceNodeWithHtml($link, OlzRoleInfoModal::render([
+                    'role' => $role,
+                    'text' => $this->getDOMNodeInnerHtml($link) ?: null,
+                ]));
+                return;
+            }
+        }
+        $email_pattern = "/^mailto:{$this->email_regex}(?:{$this->subject_regex})?\$/";
+        $is_email = preg_match($email_pattern, $href_attr->value, $matches);
+        if ($is_email) {
+            $username = $matches[1];
+            $domain = $matches[2];
+            $subject = $matches[3] ?? null;
+            $text = $this->getDOMNodeInnerHtml($link) ?: "E-Mail";
+            $text_js = implode("+\"@\"+", array_map(
+                fn ($part) => json_encode($part),
+                explode("@", $text),
+            ));
+            $subject_js = $subject ? ", \"{$subject}\"" : '';
+            $this->replaceNodeWithHtml(
+                $link,
+                "<script>olz.MailTo(\"{$username}\", \"{$domain}\", {$text_js}{$subject_js})</script>"
+            );
+            return;
+        }
+    }
+
+    protected function replaceNodeWithHtml(\DOM\Element $old, string $new): void {
+        $replacement_nodes = $this->getDOMNode($new)->childNodes ?? [];
+        $doc = $old->ownerDocument;
+        $this->generalUtils()->checkNotNull($doc, 'No owner doc');
+        foreach ($replacement_nodes as $replacement_node) {
+            $imported_node = $doc->importNode($replacement_node, true);
+            $old->parentNode?->insertBefore($imported_node, $old);
+        }
+        $old->parentNode?->removeChild($old);
+    }
+
+    protected function getDOMNodeInnerHtml(\DOM\Element $node): string {
+        $innerHTML = "";
+        $doc = $node->ownerDocument;
+        if (!$doc instanceof \DOM\HTMLDocument) {
+            throw new \Exception('No owner HTML doc');
+        }
+        $children = $node->childNodes;
+        foreach ($children as $child) {
+            $innerHTML .= $doc->saveHTML($child) ?: '';
+        }
+        return $innerHTML;
+    }
+
+    protected function getDOMNode(string $html): ?\DOM\Node {
+        $tmp_doc = \DOM\HTMLDocument::createFromString(
+            "<div id='root'>{$html}</div>",
+            LIBXML_NOERROR
+        );
+        return $tmp_doc->getElementById('root');
     }
 
     /** @param array<string, string> $image_hrefs */
@@ -165,23 +184,6 @@ class HtmlUtils {
             '
             src='{$default_src}'
             ZZZZZZZZZZ;
-    }
-
-    protected function getPrefix(string $match): string {
-        $esc_match = preg_quote($match);
-        return "<a {$esc_match}href=['\"]mailto:";
-    }
-
-    protected function getSubject(string $match): string {
-        $esc_match = preg_quote($match);
-        return "\\?subject={$esc_match}";
-    }
-
-    protected function getSuffix(string $match1, string $match2, string $match3): string {
-        $esc_match1 = preg_quote($match1);
-        $esc_match2 = preg_quote($match2);
-        $esc_match3 = preg_quote($match3);
-        return "['\"]{$esc_match1}>{$esc_match2}{$esc_match3}<\\/a>";
     }
 
     protected function escapeDollar(string $replacement): string {

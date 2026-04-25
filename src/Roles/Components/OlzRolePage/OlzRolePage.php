@@ -53,14 +53,18 @@ class OlzRolePage extends OlzRootComponent {
         $is_member = $this->authUtils()->hasPermission('member');
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
-        $role_repo = $entityManager->getRepository(Role::class);
         $role_username = $args['ressort'];
         $role_repo = $entityManager->getRepository(Role::class);
         $role = $role_repo->findOneBy(['username' => $role_username, 'on_off' => 1]);
-
         if (!$role) {
+            $old_role = $role_repo->findOneBy(['old_username' => $role_username, 'on_off' => 1]);
+            if ($old_role) {
+                $redirect_url = "{$code_href}verein/{$old_role->getUsername()}";
+                $this->httpUtils()->redirect($redirect_url, 308);
+                throw new \Exception('should already have terminated');
+            }
             $this->httpUtils()->dieWithHttpError(404);
-            throw new \Exception('should already have failed');
+            throw new \Exception('should already have terminated');
         }
 
         // TODO: Remove again, after all ressort descriptions have been updated.

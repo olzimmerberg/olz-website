@@ -28,7 +28,7 @@ class FakeRoleRepository extends FakeOlzRepository {
         if ($criteria === ['username' => 'admin_role'] || $criteria === ['id' => 2]) {
             return FakeRole::adminRole();
         }
-        if ($criteria === ['username' => 'vorstand_role'] || $criteria === ['id' => 3]) {
+        if ($criteria === ['username' => 'vorstand-role'] || $criteria === ['id' => 3]) {
             return FakeRole::vorstandRole();
         }
         if (preg_match('/^[3]+$/', strval($criteria['id'] ?? ''))) {

@@ -39,6 +39,7 @@ type OlzTerminTemplateData = gen.Olz_Termine_Endpoints_TerminTemplateEndpointTra
 type OlzUserData = gen.Olz_Users_Endpoints_UserEndpointTrait_OlzUserData;
 type OlzUserInfoData = gen.Olz_Users_Endpoints_GetUserInfoEndpoint_OlzUserInfoData;
 type OlzLocationCoordinates = gen.Olz_Utils_MapUtils_OlzLocationCoordinates;
+type OlzEmailInfoData = gen.Olz_Captcha_Endpoints_DecryptEmailTokenEndpoint_OlzEmailInfoData;
 
 export {
     OlzApi,
@@ -84,4 +85,5 @@ export {
     OlzUserData,
     OlzUserInfoData,
     OlzLocationCoordinates,
+    OlzEmailInfoData,
 };

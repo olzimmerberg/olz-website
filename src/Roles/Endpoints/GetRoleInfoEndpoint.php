@@ -58,7 +58,7 @@ class GetRoleInfoEndpoint extends OlzTypedEndpoint {
         }
 
         return [
-            'name' => $role->getName() ? $role->getName() : null,
+            'name' => $role->getName() ? (html_entity_decode($role->getName()) ?: null) : null,
             'username' => $role->getUsername() ? $role->getUsername() : null,
             'assignees' => $assignee_infos,
         ];

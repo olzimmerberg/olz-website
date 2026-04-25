@@ -122,6 +122,11 @@ class FakeEnvUtils extends EnvUtils {
         return 'staging.olzimmerberg.ch';
     }
 
+    public function getEncryptionKey(string $purpose): string {
+        $encryption_key = 'AAAAAAAAAAAAAAAAAAAA';
+        return hash('sha256', "{$encryption_key}-{$purpose}");
+    }
+
     public function getEmailReactionKey(): string {
         return 'aaaaaaaaaaaaaaaaaaaa';
     }

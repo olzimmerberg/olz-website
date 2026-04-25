@@ -25,6 +25,7 @@ class EnvUtils {
     /** @var array<string, mixed> */
     private array $date_utils_class_args = [];
 
+    private ?string $encryption_key = null;
     private ?string $database_backup_key = null;
     private ?string $email_reaction_key = null;
     private ?string $id_encryption_key = null;
@@ -111,6 +112,7 @@ class EnvUtils {
         $this->date_utils_class_name = $config_dict['date_utils_class_name'] ?? $this->date_utils_class_name;
         $this->date_utils_class_args = $config_dict['date_utils_class_args'] ?? $this->date_utils_class_args;
 
+        $this->encryption_key = $config_dict['encryption_key'] ?? $this->encryption_key;
         $this->database_backup_key = $config_dict['database_backup_key'] ?? $this->database_backup_key;
         $this->email_reaction_key = $config_dict['email_reaction_key'] ?? $this->email_reaction_key;
         $this->id_encryption_key = $config_dict['id_encryption_key'] ?? $this->id_encryption_key;
@@ -246,6 +248,12 @@ class EnvUtils {
     public function getDateUtilsClassArgs(): array {
         $this->lazyInit();
         return $this->date_utils_class_args;
+    }
+
+    public function getEncryptionKey(string $purpose): string {
+        $this->lazyInit();
+        $this->checkNotNull($this->encryption_key, "encryption_key not set");
+        return hash('sha256', "{$this->encryption_key}-{$purpose}");
     }
 
     public function getDatabaseBackupKey(): string {

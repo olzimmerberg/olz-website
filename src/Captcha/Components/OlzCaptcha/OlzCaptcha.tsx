@@ -185,53 +185,52 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
 
     return (
         <div className='olz-captcha'>
-            <div className='captcha-instructions'>
-
-                <b>Bot-Prüfung:</b>&nbsp;
-                {config
-                    ? `Bitte den Regler auf ${targetValue} stellen`
-                    : (
-                        <button
-                            type='button'
-                            className='btn btn-primary btn-sm'
-                            id='start-captcha-button'
-                            onClick={() => {
-                                const getConfig = async () => {
-                                    const response = await olzApi.call('startCaptcha', {});
-                                    setConfig(response.config);
-                                };
-                                getConfig();
-                            }}
-                        >
-                            starten
-                        </button>
-                    )
-                }
-                <button
-                    type='button'
-                    id='captcha-dev'
-                    onClick={() => {
-                        // works only on dev
-                        props.onToken('dev');
-                    }}
+            {config ? (<>
+                <div><b>Bot-Prüfung:</b> Bitte den Regler auf {targetValue} stellen</div>
+                <canvas
+                    className='captcha-canvas'
+                    width={wid}
+                    height={hei}
+                    style={{width: `${WID}px`, height: `${HEI}px`}}
+                    ref={canvas}
+                    onMouseDown={(e) => onDown(getMouseXY(e))}
+                    onMouseMove={(e) => onMove(getMouseXY(e))}
+                    onMouseUp={(e) => onUp(getMouseXY(e))}
+                    onTouchStart={(e) => forEachTouch(onDown, e)}
+                    onTouchMove={(e) => forEachTouch(onMove, e)}
+                    onTouchEnd={(e) => forEachTouch(onUp, e)}
                 >
-                    &nbsp;
-                </button>
-            </div>
-            <canvas
-                className='captcha-canvas'
-                width={wid}
-                height={hei}
-                style={{width: `${WID}px`, height: `${HEI}px`}}
-                ref={canvas}
-                onMouseDown={(e) => onDown(getMouseXY(e))}
-                onMouseMove={(e) => onMove(getMouseXY(e))}
-                onMouseUp={(e) => onUp(getMouseXY(e))}
-                onTouchStart={(e) => forEachTouch(onDown, e)}
-                onTouchMove={(e) => forEachTouch(onMove, e)}
-                onTouchEnd={(e) => forEachTouch(onUp, e)}
+                </canvas>
+            </>) : (
+                <div className='captcha-intro'>
+                    <div>Um unsere Kontaktdaten vor Spam zu schützen,</div>
+                    <div>muss zuerst eine <b>Bot-Prüfung</b> absolviert werden:</div>
+                    <button
+                        type='button'
+                        className='btn btn-primary btn-sm'
+                        id='start-captcha-button'
+                        onClick={() => {
+                            const getConfig = async () => {
+                                const response = await olzApi.call('startCaptcha', {});
+                                setConfig(response.config);
+                            };
+                            getConfig();
+                        }}
+                    >
+                        Bot-Prüfung starten
+                    </button>
+                </div>
+            )}
+            <button
+                type='button'
+                id='captcha-dev'
+                onClick={() => {
+                    // works only on dev
+                    props.onToken('dev');
+                }}
             >
-            </canvas>
+                &nbsp;
+            </button>
         </div>
     );
 };

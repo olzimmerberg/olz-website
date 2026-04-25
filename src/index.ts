@@ -10,6 +10,7 @@ import './index.scss';
 
 export * from './Anniversary/index';
 export * from './Apps/index';
+export * from './Captcha/index';
 export * from './Components/index';
 export * from './Faq/index';
 export * from './Karten/index';

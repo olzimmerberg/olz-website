@@ -1,11 +1,12 @@
 .olz-captcha {
     text-align: center;
 
-    .captcha-instructions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        justify-content: center;
+    .captcha-intro {
+        margin: 20px;
+    }
+
+    #start-captcha-button {
+        margin-top: 20px;
     }
 
     .captcha-canvas {

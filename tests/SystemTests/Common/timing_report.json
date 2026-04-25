@@ -1,5 +1,5 @@
 {
-    "Olz\\Tests\\SystemTests\\AngebotTest::testAngebotReadOnly": 3.2,
+    "Olz\\Tests\\SystemTests\\AngebotTest::testAngebotReadOnly": 3,
     "Olz\\Tests\\SystemTests\\AnniversaryTest::testAnniversaryReadOnly": 0.9,
     "Olz\\Tests\\SystemTests\\AnniversaryTest::testAnniversaryRunCreate": 2.5,
     "Olz\\Tests\\SystemTests\\AnniversaryTest::testAnniversaryRunDelete": 2.6,
@@ -111,6 +111,6 @@
     "db_reset": 25.6,
     "login": 8.6,
     "logout": 7.5,
-    "screenshot": 27.4,
-    "total": 176.9
+    "screenshot": 2.3,
+    "total": 14.6
 }

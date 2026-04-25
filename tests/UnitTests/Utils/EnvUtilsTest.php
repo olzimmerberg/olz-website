@@ -42,6 +42,7 @@ final class EnvUtilsTest extends UnitTestCase {
             'date_utils_class_name' => 'DateUtils',
             'date_utils_class_args' => ['2020-08-15 12:34:56'],
 
+            'encryption_key' => 'AAAAAAAAAAAAAAAAAAAA',
             'database_backup_key' => 'aaaaaaaaaaaaaaaaaaaa',
             'email_reaction_key' => 'aaaaaaaaaaaaaaaaaaab',
             'id_encryption_key' => 'aaaaaaaaaaaaaaaaaaac',

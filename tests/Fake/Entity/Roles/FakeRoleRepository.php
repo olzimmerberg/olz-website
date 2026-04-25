@@ -21,14 +21,37 @@ class FakeRoleRepository extends FakeOlzRepository {
         return $role;
     }
 
+    /** @return array<Role> */
+    public function findAll(): array {
+        return [
+            FakeRole::minimal(),
+            FakeRole::empty(),
+            FakeRole::maximal(),
+            // TODO: Enable auto-search!
+            // FakeRole::defaultRole(),
+            // FakeRole::adminRole(),
+            // FakeRole::vorstandRole(),
+            // FakeRole::subVorstandRole(false, 1),
+            // FakeRole::subVorstandRole(false, 2),
+            // FakeRole::subVorstandRole(false, 3),
+        ];
+    }
+
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($criteria === ['username' => 'role'] || $criteria === ['id' => 1]) {
             return FakeRole::defaultRole();
         }
-        if ($criteria === ['username' => 'admin_role'] || $criteria === ['id' => 2]) {
+        if (
+            $criteria === ['username' => 'admin_role']
+            || $criteria === ['username' => 'admin_role', 'on_off' => 1]
+            || $criteria === ['id' => 2]) {
             return FakeRole::adminRole();
         }
-        if ($criteria === ['username' => 'vorstand-role'] || $criteria === ['id' => 3]) {
+        if (
+            $criteria === ['username' => 'vorstand-role']
+            || $criteria === ['username' => 'vorstand-role', 'on_off' => 1]
+            || $criteria === ['id' => 3]
+        ) {
             return FakeRole::vorstandRole();
         }
         if (preg_match('/^[3]+$/', strval($criteria['id'] ?? ''))) {

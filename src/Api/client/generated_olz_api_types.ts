@@ -84,6 +84,20 @@ export type Olz_Api_OlzTypedEndpoint6fa66265cdbcade62b0a9b7e88701d82_Response = 
 
 export type Olz_Api_Endpoints_SearchEntitiesEndpoint_OlzEntityResult = {'id': number, 'title': string};
 
+export type Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Request = Record<string, never>;
+
+export type Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Response = {'config': Olz_Captcha_Endpoints_StartCaptchaEndpoint_OlzCaptchaConfig};
+
+export type Olz_Captcha_Endpoints_StartCaptchaEndpoint_OlzCaptchaConfig = Olz_Captcha_Utils_CaptchaUtils_OlzCaptchaConfig;
+
+export type Olz_Captcha_Utils_CaptchaUtils_OlzCaptchaConfig = {'rand': string, 'date': string, 'mac': string};
+
+export type Olz_Api_OlzTypedEndpoint0137a9f9e67898b7b333b8c07bb2a1e6_Request = {'emailToken': string, 'captchaToken'?: (string | null)};
+
+export type Olz_Api_OlzTypedEndpoint0137a9f9e67898b7b333b8c07bb2a1e6_Response = Olz_Captcha_Endpoints_DecryptEmailTokenEndpoint_OlzEmailInfoData;
+
+export type Olz_Captcha_Endpoints_DecryptEmailTokenEndpoint_OlzEmailInfoData = {'email': Array<string>, 'text': string, 'subject'?: (string | null)};
+
 export type Olz_Api_OlzTypedEndpoint684aef211f71db9c37adc9bd332bd07e_Request = {'meta': Olz_Api_OlzCreateEntityTypedEndpointe77f241a1f3df236251c968ecf335417_OlzMetaData, 'data': Olz_Api_OlzCreateEntityTypedEndpointe77f241a1f3df236251c968ecf335417_Data, 'custom'?: Olz_Api_OlzCreateEntityTypedEndpointe77f241a1f3df236251c968ecf335417_CustomRequest};
 
 export type Olz_Api_OlzTypedEndpoint684aef211f71db9c37adc9bd332bd07e_Response = {'id'?: (Olz_Api_OlzCreateEntityTypedEndpointe77f241a1f3df236251c968ecf335417_Id | null), 'custom'?: Olz_Api_OlzCreateEntityTypedEndpointe77f241a1f3df236251c968ecf335417_CustomResponse};
@@ -1494,14 +1508,6 @@ export type Olz_Users_Endpoints_GetUserInfoEndpoint_OlzUserId = number;
 
 export type Olz_Users_Endpoints_GetUserInfoEndpoint_OlzUserInfoData = {'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: {[key: string]: string}};
 
-export type Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Request = Record<string, never>;
-
-export type Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Response = {'config': Olz_Captcha_Endpoints_StartCaptchaEndpoint_OlzCaptchaConfig};
-
-export type Olz_Captcha_Endpoints_StartCaptchaEndpoint_OlzCaptchaConfig = Olz_Captcha_Utils_CaptchaUtils_OlzCaptchaConfig;
-
-export type Olz_Captcha_Utils_CaptchaUtils_OlzCaptchaConfig = {'rand': string, 'date': string, 'mac': string};
-
 export type Olz_Api_OlzTypedEndpoint170a4b1ce0b1702a55ee822927170ee6_Request = {'meta': Olz_Api_OlzCreateEntityTypedEndpoint40a502a154310f752e60e292e38da9d2_OlzMetaData, 'data': Olz_Api_OlzCreateEntityTypedEndpoint40a502a154310f752e60e292e38da9d2_Data, 'custom'?: Olz_Api_OlzCreateEntityTypedEndpoint40a502a154310f752e60e292e38da9d2_CustomRequest};
 
 export type Olz_Api_OlzTypedEndpoint170a4b1ce0b1702a55ee822927170ee6_Response = {'id'?: (Olz_Api_OlzCreateEntityTypedEndpoint40a502a154310f752e60e292e38da9d2_Id | null), 'custom'?: Olz_Api_OlzCreateEntityTypedEndpoint40a502a154310f752e60e292e38da9d2_CustomResponse};
@@ -1692,6 +1698,8 @@ export type OlzApiEndpoint =
     'updateUpload'|
     'finishUpload'|
     'searchEntities'|
+    'startCaptcha'|
+    'decryptEmailToken'|
     'createDownload'|
     'getDownload'|
     'editDownload'|
@@ -1775,7 +1783,6 @@ export type OlzApiEndpoint =
     'updateUser'|
     'deleteUser'|
     'getUserInfo'|
-    'startCaptcha'|
     'createBooking'|
     'createRegistration'|
     'getManagedUsers'|
@@ -1822,6 +1829,8 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     updateUpload: Olz_Api_OlzTypedEndpointd117e6872a98ac8700650adae232c1b1_Request,
     finishUpload: Olz_Api_OlzTypedEndpoint9baba960f97e0a6240ed22098e6ff39a_Request,
     searchEntities: Olz_Api_OlzTypedEndpoint6fa66265cdbcade62b0a9b7e88701d82_Request,
+    startCaptcha: Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Request,
+    decryptEmailToken: Olz_Api_OlzTypedEndpoint0137a9f9e67898b7b333b8c07bb2a1e6_Request,
     createDownload: Olz_Api_OlzTypedEndpoint684aef211f71db9c37adc9bd332bd07e_Request,
     getDownload: Olz_Api_OlzTypedEndpointe74f002b53b4440c17f4a57531cbf2f1_Request,
     editDownload: Olz_Api_OlzTypedEndpoint3dad7d40795e6e21b3ddda39464756cd_Request,
@@ -1905,7 +1914,6 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     updateUser: Olz_Api_OlzTypedEndpoint4d89e85018426dc4142157a11ae464f1_Request,
     deleteUser: Olz_Api_OlzTypedEndpoint08e0d27bf8fd7b3910a2fa4f1da158d2_Request,
     getUserInfo: Olz_Api_OlzTypedEndpoint8fae1f69c089585dfb04c3666fe1bb14_Request,
-    startCaptcha: Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Request,
     createBooking: Olz_Api_OlzTypedEndpoint170a4b1ce0b1702a55ee822927170ee6_Request,
     createRegistration: Olz_Api_OlzTypedEndpointa374395e4b7c60a53889b8edcc160983_Request,
     getManagedUsers: Olz_Api_OlzTypedEndpoint2a56c497e838f118422edaeb0e59f017_Request,
@@ -1951,6 +1959,8 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     updateUpload: Olz_Api_OlzTypedEndpointd117e6872a98ac8700650adae232c1b1_Response,
     finishUpload: Olz_Api_OlzTypedEndpoint9baba960f97e0a6240ed22098e6ff39a_Response,
     searchEntities: Olz_Api_OlzTypedEndpoint6fa66265cdbcade62b0a9b7e88701d82_Response,
+    startCaptcha: Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Response,
+    decryptEmailToken: Olz_Api_OlzTypedEndpoint0137a9f9e67898b7b333b8c07bb2a1e6_Response,
     createDownload: Olz_Api_OlzTypedEndpoint684aef211f71db9c37adc9bd332bd07e_Response,
     getDownload: Olz_Api_OlzTypedEndpointe74f002b53b4440c17f4a57531cbf2f1_Response,
     editDownload: Olz_Api_OlzTypedEndpoint3dad7d40795e6e21b3ddda39464756cd_Response,
@@ -2034,7 +2044,6 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     updateUser: Olz_Api_OlzTypedEndpoint4d89e85018426dc4142157a11ae464f1_Response,
     deleteUser: Olz_Api_OlzTypedEndpoint08e0d27bf8fd7b3910a2fa4f1da158d2_Response,
     getUserInfo: Olz_Api_OlzTypedEndpoint8fae1f69c089585dfb04c3666fe1bb14_Response,
-    startCaptcha: Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Response,
     createBooking: Olz_Api_OlzTypedEndpoint170a4b1ce0b1702a55ee822927170ee6_Response,
     createRegistration: Olz_Api_OlzTypedEndpointa374395e4b7c60a53889b8edcc160983_Response,
     getManagedUsers: Olz_Api_OlzTypedEndpoint2a56c497e838f118422edaeb0e59f017_Response,

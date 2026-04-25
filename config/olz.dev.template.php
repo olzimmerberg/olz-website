@@ -24,6 +24,7 @@ $configure_env_utils = function ($env_utils) {
         'date_utils_class_name' => 'FixedDateUtils',
         'date_utils_class_args' => ['2020-08-15 16:51:00'],
 
+        'encryption_key' => 'AAAAAAAAAAAAAAAAAAAA',
         'database_backup_key' => 'aaaaaaaaaaaaaaaaaaaa',
         'email_reaction_key' => 'aaaaaaaaaaaaaaaaaaab',
         'id_encryption_key' => 'aaaaaaaaaaaaaaaaaaac',

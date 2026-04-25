@@ -476,7 +476,8 @@ a {
         }
     }
 
-    &[href^='mailto:'] {
+    &[href^='mailto:'],
+    &.linkmail {
         background-image: url('../../../../assets/icns/link_mail_16.svg');
 
         &:hover {

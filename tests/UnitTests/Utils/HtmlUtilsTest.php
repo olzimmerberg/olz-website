@@ -65,7 +65,12 @@ final class HtmlUtilsTest extends UnitTestCase {
         $html = $html_utils->renderMarkdown("Hier:\nhttps://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0");
         $this->assertSame("<div class='rendered-markdown'><p>Hier:\n<a href=\"https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0\">https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0</a></p>\n</div>", $html);
         $html = $html_utils->renderMarkdown("user+olz@gmail.com");
-        $this->assertSame("<div class='rendered-markdown'><p><script>olz.MailTo(\"user+olz\", \"gmail.com\", \"user+olz\"+\"@\"+\"gmail.com\")</script></p>\n</div>", $html);
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            <div class='rendered-markdown'><p><a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJkUnE3QXRKekNKVFhoc1VadlM2SUpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFlTi1zaVZPWUYtT05iYU0xUWJMbFM2VTB3MGI0dkRzRGZ2QXRGVjZIeG5qa3ItcFNsUVRDcVp1M2NsS2xHY3E2cmtha1EifQ&quot;)" class="linkmail">
+                E-Mail
+            </a></p>
+            </div>
+            ZZZZZZZZZZ, $html);
 
         // Image
         $html = $html_utils->renderMarkdown("Normal ![bird](img/bird.jpg)");
@@ -99,7 +104,11 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testPostprocess(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "other-domain.com", "E-Mail")</script>',
+            <<<'ZZZZZZZZZZ'
+                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;)" class="linkmail">
+                    E-Mail
+                </a>
+                ZZZZZZZZZZ,
             $html_utils->postprocess('e.mail+test@other-domain.com')
         );
     }
@@ -107,15 +116,29 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testReplacePureEmailAdresses(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "other-domain.com", "E-Mail")</script>',
+            <<<'ZZZZZZZZZZ'
+                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;)" class="linkmail">
+                    E-Mail
+                </a>
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('e.mail+test@other-domain.com')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "other-domain.com", "E-Mail")</script>.',
+            <<<'ZZZZZZZZZZ'
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;)" class="linkmail">
+                    E-Mail
+                </a>.
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mail: e.mail+test@other-domain.com.')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "other-domain.com", "E-Mail")</script>, <script>olz.MailTo("e.mail", "other-domain.com", "E-Mail")</script>.',
+            <<<'ZZZZZZZZZZ'
+                Mails: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;)" class="linkmail">
+                    E-Mail
+                </a>, <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJ3VHZZbHE5R09JOWtJTmtmRDJJeUpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWTNPYkFibUV4a0xEMUNDYTEwRVpvLXZrVjZQQS1oSkhSbmE0MlphbUt4Y0pFLVlvbXRsTDFEY2hfS0ZVMWtQYjF4amMifQ&quot;)" class="linkmail">
+                    E-Mail
+                </a>.
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: e.mail+test@other-domain.com, e.mail@other-domain.com.')
         );
     }
@@ -123,15 +146,29 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testReplaceMailToLinksWithoutSubject(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "other-domain.com", "Test")</script>',
+            <<<'ZZZZZZZZZZ'
+                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJMVmFicDM4eEZhd2hfWWFaZjRlMVNRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENLNkYzeklnU2xDNHhfYjhUajFtTWdSclVIUFZtIn0&quot;)" class="linkmail">
+                    Test
+                </a>
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@other-domain.com">Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "other-domain.com", "Contact me")</script>!',
+            <<<'ZZZZZZZZZZ'
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIycGYxUHhSajE0ZXViczFWR2NlaFlRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;)" class="linkmail">
+                    Contact me
+                </a>!
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@other-domain.com" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "other-domain.com", "Contact me")</script> <script>olz.MailTo("e.mail", "other-domain.com", "Contact me")</script>!',
+            <<<'ZZZZZZZZZZ'
+                Mails: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIycGYxUHhSajE0ZXViczFWR2NlaFlRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;)" class="linkmail">
+                    Contact me
+                </a> <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJ2R195bFJaOWZFd2J1cERiRkhJdUVBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWTNPYkFibUV4a0xEMUNDYTEwRVpvLXZrVjZQQS1oSkhSbmE0MlpEa0NBSUJITEFrMWM4Y21uODM2cmNjaVU3YW1VN1BCZlYzQ3cifQ&quot;)" class="linkmail">
+                    Contact me
+                </a>!
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@other-domain.com" class="linkmail">Contact me</a> <a name="" href="mailto:e.mail@other-domain.com">Contact me</a>!')
         );
     }
@@ -139,15 +176,29 @@ final class HtmlUtilsTest extends UnitTestCase {
     public function testReplaceMailToLinksWithSubject(): void {
         $html_utils = new HtmlUtils();
         $this->assertSame(
-            '<script>olz.MailTo("e.mail+test", "other-domain.com", "Test", "test")</script>',
+            <<<'ZZZZZZZZZZ'
+                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJpeWtxRlB2eVp6VmQzYl9BQ1NyN0ZBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENLNkYzeklnU2xDNHhfYjhUajFtTWdWYlZGZXB2Vk9zIn0&quot;)" class="linkmail">
+                    Test
+                </a>
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('<a href="mailto:e.mail+test@other-domain.com?subject=test">Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("e.mail+test", "other-domain.com", "Contact me", "another%20test")</script>!',
+            <<<'ZZZZZZZZZZ'
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiI4enljekFXQWRfTHlhYnBNMW84RWZ3IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VExRNzRHN3c2Vl9Ca19rMV9jeHVRNGpPIn0&quot;)" class="linkmail">
+                    Contact me
+                </a>!
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:e.mail+test@other-domain.com?subject=another%20test" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
-            'Mails: <script>olz.MailTo("e.mail+test", "other-domain.com", "Contact me", "another%20test")</script>, <script>olz.MailTo("e.mail", "other-domain.com", "Contact me", "another%20test")</script>!',
+            <<<'ZZZZZZZZZZ'
+                Mails: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiI4enljekFXQWRfTHlhYnBNMW84RWZ3IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VExRNzRHN3c2Vl9Ca19rMV9jeHVRNGpPIn0&quot;)" class="linkmail">
+                    Contact me
+                </a>, <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJTQUtlZGxHQlhSRF8wckl1NENsTURRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWTNPYkFibUV4a0xEMUNDYTEwRVpvLXZrVjZQQS1oSkhSbmE0MlpEa0NBSUJITEFrMWM4Y21uODM2cmNjaVU3YW1VNkRFZmQwQXY0X19DUzJzVTdXeGI4bjlBIn0&quot;)" class="linkmail">
+                    Contact me
+                </a>!
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:e.mail+test@other-domain.com?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:e.mail@other-domain.com?subject=another%20test">Contact me</a>!')
         );
     }
@@ -157,34 +208,36 @@ final class HtmlUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => true];
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <a
-                    href='#'
-                    onclick='return olz.initOlzRoleInfoModal(3)'
-                    class='linkrole'
-                >
+                <a href="#" onclick="return olz.initOlzRoleInfoModal(3)" class="linkrole">
                     Vorstand
                 </a>
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('vorstand-role@staging.olzimmerberg.ch')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.',
+            <<<'ZZZZZZZZZZ'
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;)" class="linkmail">
+                    E-Mail
+                </a>.
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mail: inexistent@staging.olzimmerberg.ch.')
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <a
-                    href='#'
-                    onclick='return olz.initOlzRoleInfoModal(2)'
-                    class='linkrole'
-                >
+                Mails: <a href="#" onclick="return olz.initOlzRoleInfoModal(2)" class="linkrole">
                     Administrator
-                </a>, <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.
+                </a>, <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;)" class="linkmail">
+                    E-Mail
+                </a>.
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: admin_role@staging.olzimmerberg.ch, inexistent@staging.olzimmerberg.ch.')
         );
         $this->assertSame(
-            '<script>olz.MailTo("vorstand", "staging.olzimmerberg.ch", "E-Mail")</script>',
+            <<<'ZZZZZZZZZZ'
+                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJLS2U0NGRETks3bHlVMWNJNUlhOG5BIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFlQmlwU1FSYmwyUU5hS1YxUWpPMVNyVjBVTk5xZW5rRVAyQTZ3VllIRGZxMmYtcEVoTVlDLVktbXU4VC16d3Q4X2Rhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;)" class="linkmail">
+                    E-Mail
+                </a>
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('vorstand@staging.olzimmerberg.ch')
         );
     }
@@ -194,34 +247,36 @@ final class HtmlUtilsTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['user_email' => false];
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <a
-                    href='#'
-                    onclick='return olz.initOlzRoleInfoModal(3)'
-                    class='linkrole'
-                >
+                <a href="#" onclick="return olz.initOlzRoleInfoModal(3)" class="linkrole">
                     Vorstand
                 </a>
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('vorstand-role@staging.olzimmerberg.ch')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.',
+            <<<'ZZZZZZZZZZ'
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;)" class="linkmail">
+                    E-Mail
+                </a>.
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mail: inexistent@staging.olzimmerberg.ch.')
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <a
-                    href='#'
-                    onclick='return olz.initOlzRoleInfoModal(2)'
-                    class='linkrole'
-                >
+                Mails: <a href="#" onclick="return olz.initOlzRoleInfoModal(2)" class="linkrole">
                     Administrator
-                </a>, <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "E-Mail")</script>.
+                </a>, <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;)" class="linkmail">
+                    E-Mail
+                </a>.
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: admin_role@staging.olzimmerberg.ch, inexistent@staging.olzimmerberg.ch.')
         );
         $this->assertSame(
-            '<script>olz.MailTo("vorstand", "staging.olzimmerberg.ch", "E-Mail")</script>',
+            <<<'ZZZZZZZZZZ'
+                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJLS2U0NGRETks3bHlVMWNJNUlhOG5BIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFlQmlwU1FSYmwyUU5hS1YxUWpPMVNyVjBVTk5xZW5rRVAyQTZ3VllIRGZxMmYtcEVoTVlDLVktbXU4VC16d3Q4X2Rhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;)" class="linkmail">
+                    E-Mail
+                </a>
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('vorstand@staging.olzimmerberg.ch')
         );
     }
@@ -236,14 +291,20 @@ final class HtmlUtilsTest extends UnitTestCase {
             </a>
             ZZZZZZZZZZ, $html);
         $this->assertSame(
-            'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me")</script>!',
+            <<<'ZZZZZZZZZZ'
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJack40TUNPWHNRWkMzMlhmcFdOQkpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211MVRHMnFkNCJ9&quot;)" class="linkmail">
+                    Contact me
+                </a>!
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:inexistent@staging.olzimmerberg.ch" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
                 Mails: <a href="#" onclick="return olz.initOlzRoleInfoModal(2)" class="linkrole">
                     Contact me
-                </a> <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me")</script>!
+                </a> <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJack40TUNPWHNRWkMzMlhmcFdOQkpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211MVRHMnFkNCJ9&quot;)" class="linkmail">
+                    Contact me
+                </a>!
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:admin_role@staging.olzimmerberg.ch" class="linkmail">Contact me</a> <a name="" href="mailto:inexistent@staging.olzimmerberg.ch">Contact me</a>!')
         );
@@ -261,17 +322,24 @@ final class HtmlUtilsTest extends UnitTestCase {
             $html_utils->replaceEmailAdresses('<a href="mailto:vorstand-role@staging.olzimmerberg.ch?subject=test"><b>Bold</b> Test</a>')
         );
         $this->assertSame(
-            'Mail: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me", "another%20test")</script>!',
+            <<<'ZZZZZZZZZZ'
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJMeFk3dlMzTXVrekZSQXEtWmJTNW13IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211eGpTMktSeDRjeHZFcGlETlEyY2ZlS0kifQ&quot;)" class="linkmail">
+                    Contact me
+                </a>!
+                ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mail: <a name="" href="mailto:inexistent@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>!')
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <script>olz.MailTo("inexistent", "staging.olzimmerberg.ch", "Contact me", "another%20test")</script>, <a href="#" onclick="return olz.initOlzRoleInfoModal(2)" class="linkrole">
+                Mails: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJMeFk3dlMzTXVrekZSQXEtWmJTNW13IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211eGpTMktSeDRjeHZFcGlETlEyY2ZlS0kifQ&quot;)" class="linkmail">
+                    Contact me
+                </a>, <a href="#" onclick="return olz.initOlzRoleInfoModal(2)" class="linkrole">
                     Contact me
                 </a>!
                 ZZZZZZZZZZ,
             $html_utils->replaceEmailAdresses('Mails: <a href="mailto:inexistent@staging.olzimmerberg.ch?subject=another%20test" class="linkmail">Contact me</a>, <a name="" href="mailto:admin_role@staging.olzimmerberg.ch?subject=another%20test">Contact me</a>!')
         );
+        $this->assertSame([], $this->getLogs());
     }
 
     public function testGetImageSrcHtml(): void {

@@ -31,6 +31,8 @@ class OlzApi extends Api {
         \Olz\Anniversary\Endpoints\EditRunEndpoint $editRunEndpoint,
         \Olz\Anniversary\Endpoints\UpdateRunEndpoint $updateRunEndpoint,
         \Olz\Anniversary\Endpoints\DeleteRunEndpoint $deleteRunEndpoint,
+        \Olz\Captcha\Endpoints\StartCaptchaEndpoint $startCaptchaEndpoint,
+        \Olz\Captcha\Endpoints\DecryptEmailTokenEndpoint $decryptEmailTokenEndpoint,
         \Olz\Karten\Endpoints\CreateKarteEndpoint $createKarteEndpoint,
         \Olz\Karten\Endpoints\GetKarteEndpoint $getKarteEndpoint,
         \Olz\Karten\Endpoints\EditKarteEndpoint $editKarteEndpoint,
@@ -109,7 +111,6 @@ class OlzApi extends Api {
         \Olz\Users\Endpoints\UpdateUserEndpoint $updateUserEndpoint,
         \Olz\Users\Endpoints\DeleteUserEndpoint $deleteUserEndpoint,
         \Olz\Users\Endpoints\GetUserInfoEndpoint $getUserInfoEndpoint,
-        \Olz\Captcha\Endpoints\StartCaptchaEndpoint $startCaptchaEndpoint,
     ) {
         $this->registerEndpoint('onContinuously', $onContinuouslyEndpoint);
         $this->registerEndpoint('login', $loginEndpoint);
@@ -129,6 +130,11 @@ class OlzApi extends Api {
         $this->registerEndpoint('updateUpload', $updateUploadEndpoint);
         $this->registerEndpoint('finishUpload', $finishUploadEndpoint);
         $this->registerEndpoint('searchEntities', $searchEntitiesEndpoint);
+
+        // Captcha
+
+        $this->registerEndpoint('startCaptcha', $startCaptchaEndpoint);
+        $this->registerEndpoint('decryptEmailToken', $decryptEmailTokenEndpoint);
 
         // Downloads
 
@@ -256,10 +262,6 @@ class OlzApi extends Api {
         $this->registerEndpoint('updateUser', $updateUserEndpoint);
         $this->registerEndpoint('deleteUser', $deleteUserEndpoint);
         $this->registerEndpoint('getUserInfo', $getUserInfoEndpoint);
-
-        // Utils
-
-        $this->registerEndpoint('startCaptcha', $startCaptchaEndpoint);
 
         $olz_apps->registerAllEndpoints($this);
     }

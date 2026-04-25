@@ -135,7 +135,7 @@ class FakeRole extends FakeEntity {
                 $entity->setName(str_repeat('Sub-', $degree).'Vorstand');
                 $entity->setDescription("Description {$entity->getName()}");
                 $entity->setGuide("Guide {$entity->getName()}");
-                $entity->setPermissions(str_repeat('sub_', $degree).'vorstand_role ftp');
+                $entity->setPermissions(str_repeat('sub-', $degree).'vorstand-role ftp');
                 $entity->setParentRoleId(intval(str_repeat('3', $degree)));
                 $entity->setPositionWithinParent(0.0);
                 $entity->setFeaturedPosition(null);

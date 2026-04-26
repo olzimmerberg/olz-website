@@ -80,13 +80,12 @@ class DeleteUserEndpoint extends OlzDeleteEntityTypedEndpoint {
         $this->generalUtils()->removeRecursive($avatar_path);
 
         // Log out
-        if ($this->session()->get('user') === $entity->getUsername()) {
-            $this->session()->delete('auth');
-            $this->session()->delete('root');
-            $this->session()->delete('user');
-            $this->session()->delete('user_id');
-            $this->session()->delete('auth_user');
-            $this->session()->delete('auth_user_id');
+        if (
+            $this->session()->get('user') === $entity->getUsername()
+            || $this->session()->get('auth_user') === $entity->getUsername()
+        ) {
+            $this->authUtils()->setSessionUser(null);
+            $this->authUtils()->setSessionAuthUser(null);
             $this->session()->clear();
         }
 

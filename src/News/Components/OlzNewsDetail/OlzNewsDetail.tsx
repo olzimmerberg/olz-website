@@ -31,9 +31,9 @@ export function initNewsReactions(
                 ).then((resp) => resp.result)
             }
             toggleFn={
-                (emoji) => olzApi.call(
+                (userId, emoji) => olzApi.call(
                     'toggleNewsReaction',
-                    {newsEntryId, emoji, action: 'toggle'},
+                    {userId, newsEntryId, emoji, action: 'toggle'},
                 ).then((resp) => resp.result)
             }
         />,

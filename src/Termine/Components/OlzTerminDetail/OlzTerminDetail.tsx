@@ -35,9 +35,9 @@ export function initTerminReactions(
                 ).then((resp) => resp.result)
             }
             toggleFn={
-                (emoji) => olzApi.call(
+                (userId, emoji) => olzApi.call(
                     'toggleTerminReaction',
-                    {terminId, emoji, action: 'toggle'},
+                    {userId, terminId, emoji, action: 'toggle'},
                 ).then((resp) => resp.result)
             }
         />,

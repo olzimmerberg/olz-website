@@ -10,8 +10,6 @@ use Olz\Utils\Session;
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzHeaderWithoutRouting extends OlzComponent {
     public function getHtml(mixed $args): string {
-        global $_SESSION;
-
         Session::session_start_if_cookie_set();
 
         $code_href = $this->envUtils()->getCodeHref();
@@ -26,11 +24,13 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         $code_href_json = json_encode($code_href);
         $data_href_json = json_encode($data_href);
         $user_json = json_encode([
-            'permissions' => $_SESSION['auth'] ?? null,
-            'root' => $_SESSION['root'] ?? null,
-            'username' => $_SESSION['user'] ?? null,
-            'id' => intval($_SESSION['user_id'] ?? null),
+            'id' => intval($this->session()->get('user_id') ?? null),
+            'username' => $this->session()->get('user') ?? null,
+            'name' => $this->session()->get('user_name') ?? null,
+            'permissions' => json_decode($this->session()->get('user_permissions') ?? 'null', true) ?? null,
+            'root' => $this->session()->get('user_root') ?? null,
         ]);
+        $child_users_json = $this->session()->get('user_children') ?? null;
         $iso_now_json = json_encode($this->dateUtils()->getIsoNow());
         $bot_regexes_json = json_encode($this->httpUtils()->getBotRegexes());
         $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';
@@ -89,6 +89,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
                 window.olzCodeHref = {$code_href_json};
                 window.olzDataHref = {$data_href_json};
                 window.olzUser = {$user_json};
+                window.olzChildUsers = {$child_users_json};
                 window.olzIsoNow = {$iso_now_json};
                 window.olzBotRegexes = {$bot_regexes_json};
             </script>

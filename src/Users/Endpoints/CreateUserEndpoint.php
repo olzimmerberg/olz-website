@@ -119,13 +119,9 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
         if (!$parent_user_id) {
             $this->session()->resetConfigure(['timeout' => 3600]);
 
-            $root = $entity->getRoot() !== '' ? $entity->getRoot() : './';
-            $this->session()->set('auth', $entity->getPermissions());
-            $this->session()->set('root', $root);
-            $this->session()->set('user', $entity->getUsername());
-            $this->session()->set('user_id', "{$entity->getId()}");
-            $this->session()->set('auth_user', $entity->getUsername());
-            $this->session()->set('auth_user_id', "{$entity->getId()}");
+            $this->authUtils()->setSessionUser($entity);
+            $this->authUtils()->setSessionAuthUser($entity);
+
             $auth_request_repo->addAuthRequest($ip_address, 'AUTHENTICATED_PASSWORD', $entity->getUsername());
 
             $this->emailUtils()->setLogger($this->log());

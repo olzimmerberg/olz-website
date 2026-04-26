@@ -304,8 +304,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => '',
             'root' => null,
-            'user' => 'fakeUsername',
             'user_id' => strval(FakeEntityManager::AUTO_INCREMENT_ID),
+            'user' => 'fakeUsername',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
             'auth_user' => 'fakeUsername',
             'auth_user_id' => strval(FakeEntityManager::AUTO_INCREMENT_ID),
         ], WithUtilsCache::get('session')->session_storage);
@@ -522,8 +526,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => '',
             'root' => null,
-            'user' => 'child1',
             'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
             'auth_user' => 'child1',
             'auth_user_id' => '5',
         ], WithUtilsCache::get('session')->session_storage);
@@ -600,8 +608,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => '',
             'root' => null,
-            'user' => 'inexistent',
             'user_id' => '5',
+            'user' => 'inexistent',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
             'auth_user' => 'inexistent',
             'auth_user_id' => '5',
         ], WithUtilsCache::get('session')->session_storage);
@@ -710,8 +722,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => '',
             'root' => null,
-            'user' => 'fakeUsername',
             'user_id' => strval(FakeEntityManager::AUTO_INCREMENT_ID),
+            'user' => 'fakeUsername',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
             'auth_user' => 'fakeUsername',
             'auth_user_id' => strval(FakeEntityManager::AUTO_INCREMENT_ID),
         ], WithUtilsCache::get('session')->session_storage);

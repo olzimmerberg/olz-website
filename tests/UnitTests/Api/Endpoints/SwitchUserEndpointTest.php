@@ -57,8 +57,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('session')->session_storage = [
             'auth' => 'parent',
             'root' => 'parent',
-            'user' => 'child1',
             'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
@@ -73,8 +77,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => 'child1',
             'root' => 'child1',
-            'user' => 'child1',
             'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'Kind Eins',
+            'user_permissions' => '{"child1":true}',
+            'user_root' => 'child1',
+            'user_children' => '[]',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ], WithUtilsCache::get('session')->session_storage);
@@ -90,8 +98,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('session')->session_storage = [
             'auth' => 'child1',
             'root' => 'child1',
-            'user' => 'child1',
             'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'Kind Eins',
+            'user_permissions' => '[]',
+            'user_root' => 'child1',
+            'user_children' => '{"child1":true}',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
@@ -106,8 +118,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => 'child2',
             'root' => 'child2',
-            'user' => 'child2',
             'user_id' => '6',
+            'user' => 'child2',
+            'user_name' => 'Kind Zwei',
+            'user_permissions' => '{"child2":true}',
+            'user_root' => 'child2',
+            'user_children' => '[]',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ], WithUtilsCache::get('session')->session_storage);
@@ -123,8 +139,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('session')->session_storage = [
             'auth' => 'child1',
             'root' => 'child1',
-            'user' => 'child1',
             'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
@@ -139,8 +159,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => 'parent',
             'root' => 'parent',
-            'user' => 'parent',
             'user_id' => '4',
+            'user' => 'parent',
+            'user_name' => 'Eltern Teil',
+            'user_permissions' => '{"parent":true}',
+            'user_root' => 'parent',
+            'user_children' => '[{"id":5,"permissions":{"child1":true},"name":"Kind Eins","username":"child1","root":"child1"},{"id":6,"permissions":{"child2":true},"name":"Kind Zwei","username":"child2","root":"child2"}]',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ], WithUtilsCache::get('session')->session_storage);
@@ -156,8 +180,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('session')->session_storage = [
             'auth' => 'parent',
             'root' => 'parent',
-            'user' => 'child1',
             'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
@@ -177,8 +205,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'auth' => 'parent',
                 'root' => 'parent',
-                'user' => 'child1',
                 'user_id' => '5',
+                'user' => 'child1',
+                'user_name' => 'fakeFirstName fakeLastName',
+                'user_permissions' => '[]',
+                'user_root' => null,
+                'user_children' => '[]',
                 'auth_user' => 'parent',
                 'auth_user_id' => '4',
             ], WithUtilsCache::get('session')->session_storage);
@@ -191,8 +223,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         WithUtilsCache::get('session')->session_storage = [
             'auth' => 'parent',
             'root' => 'parent',
-            'user' => 'child1',
             'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
             'auth_user' => 'parent',
             'auth_user_id' => '4',
         ];
@@ -212,8 +248,12 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'auth' => 'parent',
                 'root' => 'parent',
-                'user' => 'child1',
                 'user_id' => '5',
+                'user' => 'child1',
+                'user_name' => 'fakeFirstName fakeLastName',
+                'user_permissions' => '[]',
+                'user_root' => null,
+                'user_children' => '[]',
                 'auth_user' => 'parent',
                 'auth_user_id' => '4',
             ], WithUtilsCache::get('session')->session_storage);

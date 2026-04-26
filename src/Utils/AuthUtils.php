@@ -215,9 +215,58 @@ class AuthUtils {
         return $this->getUserByUsername($username);
     }
 
+    public function setSessionUser(?User $user): void {
+        if ($user === null) {
+            $this->session()->delete('auth');
+            $this->session()->delete('root');
+            $this->session()->delete('user_id');
+            $this->session()->delete('user');
+            $this->session()->delete('user_name');
+            $this->session()->delete('user_permissions');
+            $this->session()->delete('user_root');
+            $this->session()->delete('user_children');
+            return;
+        }
+        // Family
+        $user_repo = $this->entityManager()->getRepository(User::class);
+        $child_users = $user_repo->findBy(['parent_user' => $user->getId()]);
+        $children = [];
+        foreach ($child_users as $child_user) {
+            $children[] = [
+                'id' => $child_user->getId(),
+                'permissions' => $child_user->getPermissionMap(),
+                'name' => $child_user->getFullName(),
+                'username' => $child_user->getUsername(),
+                'root' => $child_user->getRoot() !== '' ? $child_user->getRoot() : './',
+            ];
+        }
+        $children_json = json_encode($children) ?: '[]';
+
+        $root = $user->getRoot() !== '' ? $user->getRoot() : './';
+        $permission_map_json = json_encode($user->getPermissionMap()) ?: '{}';
+        $this->session()->set('auth', $user->getPermissions()); // TODO: Deprecate
+        $this->session()->set('root', $root); // TODO: Deprecate
+        $this->session()->set('user_id', "{$user->getId()}");
+        $this->session()->set('user', $user->getUsername());
+        $this->session()->set('user_name', $user->getFullName());
+        $this->session()->set('user_permissions', $permission_map_json);
+        $this->session()->set('user_root', $root);
+        $this->session()->set('user_children', $children_json);
+    }
+
     public function getSessionAuthUser(): ?User {
         $auth_username = $this->session()->get('auth_user');
         return $this->getUserByUsername($auth_username);
+    }
+
+    public function setSessionAuthUser(?User $user): void {
+        if ($user === null) {
+            $this->session()->delete('auth_user');
+            $this->session()->delete('auth_user_id');
+            return;
+        }
+        $this->session()->set('auth_user', $user->getUsername());
+        $this->session()->set('auth_user_id', "{$user->getId()}");
     }
 
     private function getUserByUsername(?string $username): ?User {

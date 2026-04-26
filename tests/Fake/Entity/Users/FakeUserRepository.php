@@ -12,8 +12,25 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
  */
 class FakeUserRepository extends FakeOlzRepository {
     public string $olzEntityClass = User::class;
+    public string $fakeOlzEntityClass = FakeUser::class;
 
     public ?User $fakeProcessEmailCommandUser = null;
+
+    /** @return array<User> */
+    public function findAll(): array {
+        return [
+            FakeUser::minimal(),
+            FakeUser::empty(),
+            FakeUser::maximal(),
+            // TODO: Enable auto-search!
+            // FakeUser::defaultUser(),
+            // FakeUser::adminUser(),
+            // FakeUser::vorstandUser(),
+            // FakeUser::parentUser(),
+            // FakeUser::child1User(),
+            // FakeUser::child2User(),
+        ];
+    }
 
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
         if ($criteria == ['parent_user' => 2]) {
@@ -22,6 +39,20 @@ class FakeUserRepository extends FakeOlzRepository {
                 FakeUser::defaultUser(),
             ];
         }
+        if ($criteria === ['parent_user' => 4]) {// Parent user
+            return [
+                FakeUser::child1User(),
+                FakeUser::child2User(),
+            ];
+        }
+        if (
+            $criteria === ['parent_user' => 270]
+            || $criteria === ['parent_user' => 5] // Child 1
+            || $criteria === ['parent_user' => 6] // Child 2
+        ) {
+            return [];
+        }
+        // TODO: Enable auto-search!
         $json_criteria = json_encode($criteria);
         throw new \Exception("criteria no mocked: {$json_criteria}");
     }

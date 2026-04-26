@@ -80,8 +80,12 @@ final class LoginEndpointTest extends UnitTestCase {
         $this->assertSame([
             'auth' => 'all verified_email',
             'root' => 'karten',
-            'user' => 'admin',
             'user_id' => '2',
+            'user' => 'admin',
+            'user_name' => 'Admin Istrator',
+            'user_permissions' => '{"all":true,"verified_email":true}',
+            'user_root' => 'karten',
+            'user_children' => '[{"id":3,"permissions":{"aktuell":true,"ftp":true,"vorstand_user":true},"name":"Vorstand Mitglied","username":"vorstand","root":"vorstand"},{"id":1,"permissions":{"default":true},"name":"Default User","username":"default","root":null}]',
             'auth_user' => 'admin',
             'auth_user_id' => '2',
         ], WithUtilsCache::get('session')->session_storage);

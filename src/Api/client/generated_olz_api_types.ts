@@ -478,9 +478,9 @@ export type Olz_News_Endpoints_ListNewsReactionsEndpoint_OlzNewsReactionFilter =
 
 export type Olz_News_Endpoints_ListNewsReactionsEndpoint_OlzReaction = {'userId': number, 'name': (string | null), 'emoji': string};
 
-export type Olz_Api_OlzTypedEndpointb86ece73e26e81be28d034731631534a_Request = {'newsEntryId': number, 'emoji': string, 'action': ('on' | 'off' | 'toggle')};
+export type Olz_Api_OlzTypedEndpoint358bbd9cafe16ee71c6f4ccc305e742d_Request = {'userId'?: (number | null), 'newsEntryId': number, 'emoji': string, 'action': ('on' | 'off' | 'toggle')};
 
-export type Olz_Api_OlzTypedEndpointb86ece73e26e81be28d034731631534a_Response = {'result': (Olz_News_Endpoints_ToggleNewsReactionEndpoint_OlzReaction | null)};
+export type Olz_Api_OlzTypedEndpoint358bbd9cafe16ee71c6f4ccc305e742d_Response = {'result': (Olz_News_Endpoints_ToggleNewsReactionEndpoint_OlzReaction | null)};
 
 export type Olz_News_Endpoints_ToggleNewsReactionEndpoint_OlzReaction = Olz_News_Endpoints_ListNewsReactionsEndpoint_OlzReaction;
 
@@ -1118,9 +1118,9 @@ export type Olz_Termine_Endpoints_ListTerminReactionsEndpoint_OlzTerminReactionF
 
 export type Olz_Termine_Endpoints_ListTerminReactionsEndpoint_OlzReaction = {'userId': number, 'name': (string | null), 'emoji': string};
 
-export type Olz_Api_OlzTypedEndpointb2ff38c5eaa06dd6feeb2919a3e369a1_Request = {'terminId': number, 'emoji': string, 'action': ('on' | 'off' | 'toggle')};
+export type Olz_Api_OlzTypedEndpoint49c58d157081dfb9b541f9be2886bee6_Request = {'userId'?: (number | null), 'terminId': number, 'emoji': string, 'action': ('on' | 'off' | 'toggle')};
 
-export type Olz_Api_OlzTypedEndpointb2ff38c5eaa06dd6feeb2919a3e369a1_Response = {'result': (Olz_Termine_Endpoints_ToggleTerminReactionEndpoint_OlzReaction | null)};
+export type Olz_Api_OlzTypedEndpoint49c58d157081dfb9b541f9be2886bee6_Response = {'result': (Olz_Termine_Endpoints_ToggleTerminReactionEndpoint_OlzReaction | null)};
 
 export type Olz_Termine_Endpoints_ToggleTerminReactionEndpoint_OlzReaction = Olz_Termine_Endpoints_ListTerminReactionsEndpoint_OlzReaction;
 
@@ -1853,7 +1853,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     deleteNews: Olz_Api_OlzTypedEndpoint94a3d0f53a145aff5f346769797884f7_Request,
     getAuthorInfo: Olz_Api_OlzTypedEndpoint6664ec7267d06a2c192baa1ac488f2dc_Request,
     listNewsReactions: Olz_Api_OlzTypedEndpointf091e93370e42c7ba62ac4a32e1c40f5_Request,
-    toggleNewsReaction: Olz_Api_OlzTypedEndpointb86ece73e26e81be28d034731631534a_Request,
+    toggleNewsReaction: Olz_Api_OlzTypedEndpoint358bbd9cafe16ee71c6f4ccc305e742d_Request,
     createRole: Olz_Api_OlzTypedEndpoint576e136131c17cd3ce98f45eb4f09b42_Request,
     getRole: Olz_Api_OlzTypedEndpoint1f2a0489dfbd35ff09e89fbbd44ac432_Request,
     editRole: Olz_Api_OlzTypedEndpoint373ffe0fa05d1cd7a0158f3643700420_Request,
@@ -1891,7 +1891,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     updateTermin: Olz_Api_OlzTypedEndpointde8bfc4d144ea939be23aab4dacd4467_Request,
     deleteTermin: Olz_Api_OlzTypedEndpointb3fe6adefad0c99cd5d2f6d0d13a9852_Request,
     listTerminReactions: Olz_Api_OlzTypedEndpoint73faca57780e0d82c43937d3db325082_Request,
-    toggleTerminReaction: Olz_Api_OlzTypedEndpointb2ff38c5eaa06dd6feeb2919a3e369a1_Request,
+    toggleTerminReaction: Olz_Api_OlzTypedEndpoint49c58d157081dfb9b541f9be2886bee6_Request,
     createTerminLabel: Olz_Api_OlzTypedEndpointdf7751ad58812e0aea6158f1c6a8eab1_Request,
     listTerminLabels: Olz_Api_OlzTypedEndpointccb48a140bb788e43280a406985861f2_Request,
     getTerminLabel: Olz_Api_OlzTypedEndpoint04827aea927649ecd854fdff9f2dd24b_Request,
@@ -1983,7 +1983,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     deleteNews: Olz_Api_OlzTypedEndpoint94a3d0f53a145aff5f346769797884f7_Response,
     getAuthorInfo: Olz_Api_OlzTypedEndpoint6664ec7267d06a2c192baa1ac488f2dc_Response,
     listNewsReactions: Olz_Api_OlzTypedEndpointf091e93370e42c7ba62ac4a32e1c40f5_Response,
-    toggleNewsReaction: Olz_Api_OlzTypedEndpointb86ece73e26e81be28d034731631534a_Response,
+    toggleNewsReaction: Olz_Api_OlzTypedEndpoint358bbd9cafe16ee71c6f4ccc305e742d_Response,
     createRole: Olz_Api_OlzTypedEndpoint576e136131c17cd3ce98f45eb4f09b42_Response,
     getRole: Olz_Api_OlzTypedEndpoint1f2a0489dfbd35ff09e89fbbd44ac432_Response,
     editRole: Olz_Api_OlzTypedEndpoint373ffe0fa05d1cd7a0158f3643700420_Response,
@@ -2021,7 +2021,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     updateTermin: Olz_Api_OlzTypedEndpointde8bfc4d144ea939be23aab4dacd4467_Response,
     deleteTermin: Olz_Api_OlzTypedEndpointb3fe6adefad0c99cd5d2f6d0d13a9852_Response,
     listTerminReactions: Olz_Api_OlzTypedEndpoint73faca57780e0d82c43937d3db325082_Response,
-    toggleTerminReaction: Olz_Api_OlzTypedEndpointb2ff38c5eaa06dd6feeb2919a3e369a1_Response,
+    toggleTerminReaction: Olz_Api_OlzTypedEndpoint49c58d157081dfb9b541f9be2886bee6_Response,
     createTerminLabel: Olz_Api_OlzTypedEndpointdf7751ad58812e0aea6158f1c6a8eab1_Response,
     listTerminLabels: Olz_Api_OlzTypedEndpointccb48a140bb788e43280a406985861f2_Response,
     getTerminLabel: Olz_Api_OlzTypedEndpoint04827aea927649ecd854fdff9f2dd24b_Response,

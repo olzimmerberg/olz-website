@@ -2,15 +2,17 @@ interface TypedWindow {
     olzCodeHref: unknown;
     olzDataHref: unknown;
     olzUser: unknown;
+    olzChildUsers: unknown;
     olzIsoNow: unknown;
     olzBotRegexes: unknown;
 }
 
-interface UserConstant {
+export interface UserConstant {
+    id?: number;
+    username?: string;
+    name?: string;
     permissions?: string;
     root?: string;
-    username?: string;
-    id?: number;
 }
 
 /* @ts-expect-error: Ignore type unsafety. */
@@ -27,6 +29,14 @@ export const dataHref: string = typeof typedWindow.olzDataHref === 'string'
 /* istanbul ignore next */
 export const user: UserConstant = typeof typedWindow.olzUser === 'object'
     ? typedWindow.olzUser as UserConstant : {};
+
+/* istanbul ignore next */
+export const childUsers: Array<UserConstant> =
+    (
+        typeof typedWindow.olzChildUsers === 'object'
+        && Array.isArray(typedWindow.olzChildUsers)
+        && typedWindow.olzChildUsers.every((item) => typeof item === 'object')
+    ) ? typedWindow.olzChildUsers as Array<UserConstant> : [];
 
 /* istanbul ignore next */
 export const isoNow: string = typeof typedWindow.olzIsoNow === 'string'

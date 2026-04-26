@@ -31,11 +31,8 @@ class SwitchUserEndpoint extends OlzTypedEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $root = $user->getRoot() !== '' ? $user->getRoot() : './';
-        $this->session()->set('auth', $user->getPermissions());
-        $this->session()->set('root', $root);
-        $this->session()->set('user', $user->getUsername());
-        $this->session()->set('user_id', "{$user->getId()}");
+        $this->authUtils()->setSessionUser($user);
+
         return [
             'status' => 'OK',
         ];

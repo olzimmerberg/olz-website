@@ -14,12 +14,8 @@ use Olz\Api\OlzTypedEndpoint;
  */
 class LogoutEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
-        $this->session()->delete('auth');
-        $this->session()->delete('root');
-        $this->session()->delete('user');
-        $this->session()->delete('user_id');
-        $this->session()->delete('auth_user');
-        $this->session()->delete('auth_user_id');
+        $this->authUtils()->setSessionUser(null);
+        $this->authUtils()->setSessionAuthUser(null);
         $this->session()->clear();
         return [
             'status' => 'SESSION_CLOSED',

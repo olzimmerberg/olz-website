@@ -6,6 +6,7 @@ import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntit
 import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
+import {OlzTimeIntervalField} from '../../../Components/Common/OlzTimeIntervalField/OlzTimeIntervalField';
 import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateTimeOrNull} from '../../../Utils/formUtils';
 import {Entity, isDefined, assert} from '../../../Utils/generalUtils';
 
@@ -160,11 +161,11 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
                     />
                 </div>
                 <div className='col mb-3'>
-                    <OlzTextField
-                        title='Dauer (in Sekunden)'
+                    <OlzTimeIntervalField
+                        title='Dauer'
                         name='durationSeconds'
                         errors={errors}
-                        register={register}
+                        control={control}
                     />
                 </div>
             </div>
@@ -211,11 +212,11 @@ export const OlzEditTerminTemplateModal = (props: OlzEditTerminTemplateModalProp
             </div>
             <div className='row'>
                 <div className='col mb-3'>
-                    <OlzTextField
-                        title='Meldeschluss vorher (in Sekunden)'
+                    <OlzTimeIntervalField
+                        title='Meldeschluss ... vorher (leer: kein Meldeschluss)'
                         name='deadlineEarlierSeconds'
                         errors={errors}
-                        register={register}
+                        control={control}
                     />
                 </div>
                 <div className='col mb-3'>

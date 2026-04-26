@@ -1,5 +1,5 @@
 import React from 'react';
-import {FieldErrors, FieldError, FieldValues, Path, useController, Control, UseControllerProps} from 'react-hook-form';
+import {FieldErrors, FieldError, FieldValues, Path, useController, Control} from 'react-hook-form';
 import {OlzLocationCoordinates} from '../../../Api/client';
 import {WGStoCHx, WGStoCHy, CHtoWGSlat, CHtoWGSlng} from '../../../Utils/mapUtils';
 import {getOlzLocationMap} from '../OlzLocationMap/OlzLocationMap';
@@ -74,7 +74,6 @@ function userTextLocation(location: OlzLocationCoordinates | null): string {
 interface OlzLocationFieldProps<Values extends FieldValues, Name extends Path<Values>> {
     title?: React.ReactNode;
     name: Name;
-    rules?: UseControllerProps<Values, Name>['rules'];
     errors?: FieldErrors<Values>;
     control: Control<Values, Name>;
     disabled?: boolean;

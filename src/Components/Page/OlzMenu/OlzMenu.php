@@ -8,7 +8,11 @@ namespace Olz\Components\Page\OlzMenu;
 
 use Olz\Components\Common\OlzComponent;
 
-/** @extends OlzComponent<array<string, mixed>> */
+/**
+ * @phpstan-type MenuItem array{name: string, ident: string, href: string}
+ *
+ * @extends OlzComponent<array<string, mixed>>
+ */
 class OlzMenu extends OlzComponent {
     public function getHtml(mixed $args): string {
         $out = '';
@@ -16,17 +20,22 @@ class OlzMenu extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $data_path = $this->envUtils()->getDataPath();
 
+        $news_utils = $this->newsUtils();
+        $enc_news_filter = $news_utils->serialize($news_utils->getDefaultFilter());
+        $termine_utils = $this->termineUtils();
+        $enc_termine_filter = $termine_utils->serialize($termine_utils->getDefaultFilter());
+
         $main_menu = [
-            ["Startseite", ""], // Menüpunkt ('Name','Link')
-            ["", "", ''],
-            ["News", "news"],
-            ["Termine", "termine"],
-            ["", "", ''],
-            ["Angebot", "angebot"],
-            ["Karten", "karten"],
-            ["", "", ''],
-            ["Service", "service"],
-            ["Verein", "verein"],
+            ['name' => "Startseite", 'ident' => 'startseite', 'href' => ''],
+            null,
+            ['name' => "News", 'ident' => 'news', 'href' => "news?filter={$enc_news_filter}&seite=1"],
+            ['name' => "Termine", 'ident' => 'termine', 'href' => "termine?filter={$enc_termine_filter}"],
+            null,
+            ['name' => "Angebot", 'ident' => 'angebot', 'href' => 'angebot'],
+            ['name' => "Karten", 'ident' => 'karten', 'href' => 'karten'],
+            null,
+            ['name' => "Service", 'ident' => 'service', 'href' => 'service'],
+            ['name' => "Verein", 'ident' => 'verein', 'href' => 'verein'],
         ];
 
         // BACK-BUTTON
@@ -66,7 +75,7 @@ class OlzMenu extends OlzComponent {
             }
         }
 
-        $main_menu_out = self::getMenu($main_menu, $code_href);
+        $main_menu_out = $this->getMenu($main_menu);
 
         $out .= <<<ZZZZZZZZZZ
             <div id='menu' class='menu'>
@@ -113,34 +122,40 @@ class OlzMenu extends OlzComponent {
         return $out;
     }
 
-    /** @param array<array<string>> $menu */
-    protected static function getMenu(array $menu, string $code_href): string {
+    /** @param array<?MenuItem> $menu */
+    protected function getMenu(array $menu): string {
         $out = '';
         for ($i = 0; $i < count($menu); $i++) {
             $menupunkt = $menu[$i];
-            $name = $menupunkt[0];
-            $href = $menupunkt[1];
-            $href_path = substr($href, 0, strpos($href, '?') ?: strlen($href));
-            $request_uri = $_SERVER['REQUEST_URI'] ?? '';
-            $is_active = (
-                preg_match("/^\\/{$href_path}(\\/|\\?|#|$)/", $request_uri)
-                || ($href === '' && $request_uri === '')
-            );
-            $active_class = $is_active ? ' active' : '';
-            if ($name != '') {
-                $out .= <<<ZZZZZZZZZZ
-                    <a href='{$code_href}{$href}' id='menu_a_page_{$href}' class='menu-link'>
-                        <div class='menutag{$active_class}'>
-                            {$name}
-                        </div>
-                    </a>
-                    ZZZZZZZZZZ;
-            } else {
-                $out .= <<<'ZZZZZZZZZZ'
-                    <div class='separator'></div>
-                    ZZZZZZZZZZ;
-            }
+            $out .= $this->getMenuItem($menupunkt);
         }
         return $out;
+    }
+
+    /**
+     * @param ?MenuItem $menu_item
+     */
+    protected function getMenuItem(?array $menu_item): string {
+        if ($menu_item === null) {
+            return <<<'ZZZZZZZZZZ'
+                <div class='separator'></div>
+                ZZZZZZZZZZ;
+        }
+        $code_href = $this->envUtils()->getCodeHref();
+        $href = $menu_item['href'];
+        $href_path = substr($href, 0, strpos($href, '?') ?: strlen($href));
+        $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+        $is_active = (
+            preg_match("/^\\/{$href_path}(\\/|\\?|#|$)/", $request_uri)
+            || ($href === '' && $request_uri === '')
+        );
+        $active_class = $is_active ? ' active' : '';
+        return <<<ZZZZZZZZZZ
+            <a href='{$code_href}{$href}' id='menu_a_page_{$menu_item['ident']}' class='menu-link'>
+                <div class='menutag{$active_class}'>
+                    {$menu_item['name']}
+                </div>
+            </a>
+            ZZZZZZZZZZ;
     }
 }

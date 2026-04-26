@@ -88,7 +88,7 @@
     "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteCreate": 2.9,
     "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteDetailDelete": 1.7,
     "Olz\\Tests\\SystemTests\\TerminOrteTest::testTerminOrteReadOnly": 0.8,
-    "Olz\\Tests\\SystemTests\\TerminVorlagenTest::testTerminVorlagenCreate": 5.2,
+    "Olz\\Tests\\SystemTests\\TerminVorlagenTest::testTerminVorlagenCreate": 7.5,
     "Olz\\Tests\\SystemTests\\TerminVorlagenTest::testTerminVorlagenDetailDelete": 1.7,
     "Olz\\Tests\\SystemTests\\TerminVorlagenTest::testTerminVorlagenReadOnly": 0.8,
     "Olz\\Tests\\SystemTests\\TermineTest::testTermineCreate": 5.7,
@@ -108,9 +108,9 @@
     "Olz\\Tests\\SystemTests\\WebmailTest::testWebmailIsWorking": 0.4,
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureCreate": 2.6,
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureReadOnly": 1,
-    "db_reset": 25.6,
-    "login": 8.6,
+    "db_reset": 13.1,
+    "login": 4.6,
     "logout": 7.5,
-    "screenshot": 2.3,
-    "total": 14.6
+    "screenshot": 1.4,
+    "total": 13.7
 }

@@ -9,7 +9,11 @@
     }
 
     .shouldPromote-container {
-        margin-top: 28px;
+        margin-top: 18px;
+    }
+
+    label[for="shouldPromote-input"] {
+        display: inline;
     }
 
     #types-container {

@@ -363,4 +363,43 @@ final class HtmlUtilsTest extends UnitTestCase {
             $html_utils->getImageSrcHtml(['1x' => 'fake-image.jpg', '2x' => 'fake-image@2x.jpg'])
         );
     }
+
+    public function testGetLinkedReactions(): void {
+        $html_utils = new HtmlUtils();
+        $this->assertSame(
+            ['👟'],
+            $html_utils->getLinkedReactions('<a href="#react-👟">Schuh</a>'),
+        );
+        $url_shoe = urlencode('👟');
+        $this->assertSame(
+            ['👟'],
+            $html_utils->getLinkedReactions("<a href='#react-{$url_shoe}'>Schuh</a>"),
+        );
+        $this->assertSame(
+            ['🧭', '🌲'],
+            $html_utils->getLinkedReactions('<a href="#react-🧭">Kompass</a><a href="#react-🌲">Baum</a>'),
+        );
+        $this->assertSame(
+            ['🌲', '🌳', '🏃'],
+            $html_utils->getLinkedReactions(<<<'ZZZZZZZZZZ'
+                <a href="#react-🌲">Baum</a>
+                <a href="#react-🌳">Baum</a>
+                <a href="#react-🏃">Läufer</a>
+                <a href="#react-🌲">Baum</a>
+                <a href="#react-🌳">Baum</a>
+                <a href="#react-🌲">Baum</a>
+                ZZZZZZZZZZ),
+        );
+        $this->assertSame(
+            ['🌳', '🌲', '🏃'],
+            $html_utils->getLinkedReactions(<<<'ZZZZZZZZZZ'
+                <a href="#react-🌲">Baum</a>
+                <a href="#react-🌳">Baum</a>
+                <a href="#react-🏃">Läufer</a>
+                <a href="#react-🌲">Baum</a>
+                <a href="#react-🌳">Baum</a>
+                <a href="#react-🌳">Baum</a>
+                ZZZZZZZZZZ),
+        );
+    }
 }

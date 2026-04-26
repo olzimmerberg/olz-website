@@ -364,7 +364,9 @@ class OlzTerminDetail extends OlzRootComponent {
 
         // Reactions
         $json_id = json_encode($id);
-        $out .= "<div id='termin-reactions'></div><script>olz.initTerminReactions({$json_id});</script>";
+        $linked_reactions = $this->htmlUtils()->getLinkedReactions($text_html);
+        $json_reactions = json_encode($linked_reactions) ?: '[]';
+        $out .= "<div id='termin-reactions'></div><script>olz.initTerminReactions({$json_id}, {$json_reactions});</script>";
 
         $out .= "</div>"; // olz-termin-detail
         $out .= "</div>"; // content-middle

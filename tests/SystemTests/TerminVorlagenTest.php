@@ -40,14 +40,16 @@ final class TerminVorlagenTest extends SystemTestCase {
         $this->click('#create-termin-template-button');
         $this->waitForModal('#edit-termin-template-modal');
         $this->sendKeys('#edit-termin-template-modal #startTime-input', '14:00');
-        $this->sendKeys('#edit-termin-template-modal #durationSeconds-input', '7200');
+        $this->selectOption('#edit-termin-template-modal #durationSeconds-field #unit-input', 'Stunden');
+        $this->sendKeys('#edit-termin-template-modal #durationSeconds-input', '2');
         $this->sendKeys('#edit-termin-template-modal #title-input', 'Die Event-Vorlage');
         $this->sendKeys('#edit-termin-template-modal #text-input', "...wird jedes Mal episch!\n\n[immer dasselbe](https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id=6822)");
         $this->click('#edit-termin-template-modal #locationId-field button[data-bs-toggle="dropdown"]');
         $this->click('#edit-termin-template-modal #locationId-field #entity-index-1');
         $this->click('#edit-termin-template-modal #organizerUserId-field button[data-bs-toggle="dropdown"]');
         $this->click('#edit-termin-template-modal #organizerUserId-field #entity-index-1');
-        $this->sendKeys('#edit-termin-template-modal #deadlineEarlierSeconds-input', '259200');
+        $this->selectOption('#edit-termin-template-modal #deadlineEarlierSeconds-field #unit-input', 'Tage');
+        $this->sendKeys('#edit-termin-template-modal #deadlineEarlierSeconds-input', '3');
         $this->sendKeys('#edit-termin-template-modal #deadlineTime-input', '23:59:59');
         $this->click('#edit-termin-template-modal #types-programm-input');
         $this->click('#edit-termin-template-modal #types-ol-input');

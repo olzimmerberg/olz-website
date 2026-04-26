@@ -15,6 +15,18 @@ import {getTerminUpdateFromTemplate} from '../../Utils/termineUtils';
 
 import './OlzEditTerminModal.scss';
 
+export const TERMIN_TEMPLATE_NOTICE = (<>
+    <span className='termin-template-notice'>
+        <a
+            href={`${codeHref}termine/vorlagen`}
+            target='_blank'
+            className='linkint'
+        >
+            Termin-Vorlagen bearbeiten
+        </a>
+    </span>
+</>);
+
 export const TERMIN_LOCATION_NOTICE = (<>
     <span className='termin-location-notice'>
         <a
@@ -265,7 +277,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
         >
             <div className='row'>
                 <div className='col mb-3 template-chooser'>
-                    <label>Vorlage</label>
+                    <label>Vorlage {TERMIN_TEMPLATE_NOTICE}</label>
                     <OlzEntityChooser
                         entityType={'TerminTemplate'}
                         entityId={templateId}

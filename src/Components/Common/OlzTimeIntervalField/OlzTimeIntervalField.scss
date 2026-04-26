@@ -1,0 +1,21 @@
+.olz-time-interval-field {
+    display: flex;
+
+    .number-input {
+        flex: 120px 1 1;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+        &.olz-is-invalid {
+            color: var(--bs-form-invalid-border-color) !important;
+            border-color: var(--bs-form-invalid-border-color) !important;
+        }
+    }
+
+    #unit-input {
+        flex: 150px 0 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        margin-left: -1px;
+    }
+}

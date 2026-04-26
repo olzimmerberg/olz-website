@@ -280,7 +280,9 @@ class OlzNewsDetail extends OlzRootComponent {
 
         // Reactions
         $json_id = json_encode($id);
-        $out .= "<div id='news-reactions'></div><script>olz.initNewsReactions({$json_id});</script>";
+        $linked_reactions = $this->htmlUtils()->getLinkedReactions("{$teaser} {$content}");
+        $json_reactions = json_encode($linked_reactions) ?: '[]';
+        $out .= "<div id='news-reactions'></div><script>olz.initNewsReactions({$json_id}, {$json_reactions});</script>";
 
         $out .= "</div>"; // content-middle
 

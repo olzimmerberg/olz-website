@@ -19,11 +19,12 @@ export function editNews(
 
 export function initNewsReactions(
     newsEntryId: number,
+    emojis: Array<string>,
 ): void {
     initReact(
         'news-reactions',
         <OlzEditableReactions
-            defaultEmojis={['👍', '🤩', '🙏', '😢']}
+            defaultEmojis={['👍', '🤩', '🙏', '😢', ...emojis]}
             listFn={
                 () => olzApi.call(
                     'listNewsReactions',

@@ -23,11 +23,12 @@ export function editTermin(
 
 export function initTerminReactions(
     terminId: number,
+    emojis: Array<string>,
 ): void {
     initReact(
         'termin-reactions',
         <OlzEditableReactions
-            defaultEmojis={['👍', '🤩', '🙏', '😢']}
+            defaultEmojis={['👍', '🤩', '🙏', '😢', ...emojis]}
             listFn={
                 () => olzApi.call(
                     'listTerminReactions',

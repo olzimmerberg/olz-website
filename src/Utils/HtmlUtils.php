@@ -170,4 +170,18 @@ class HtmlUtils {
             src='{$default_src}'
             ZZZZZZZZZZ;
     }
+
+    /** @return array<non-empty-string> */
+    public function getLinkedReactions(string $html): array {
+        $num_matches = preg_match_all('/#react-([^\"\']+)[\"\']/u', $html, $matches);
+        $count_by_reaction = [];
+        for ($i = 0; $i < $num_matches ?: 0; $i++) {
+            $emoji = urldecode($matches[1][$i]);
+            $count_by_reaction[$emoji] ??= 0;
+            $count_by_reaction[$emoji]++;
+        }
+        $reactions = array_keys($count_by_reaction);
+        usort($reactions, fn ($a, $b) => $count_by_reaction[$b] <=> $count_by_reaction[$a]);
+        return $reactions;
+    }
 }

@@ -141,7 +141,7 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
 
     const userOverview = [];
     if (currentUser.id) {
-        for (const userId in Object.keys(emojisByUser)) {
+        for (const userId in emojisByUser) {
             const emojis = emojisByUser[userId];
             emojis.sort((a, b) => countByEmoji[b] - countByEmoji[a]);
             userOverview.push(<div key={`user-${userId}`}>

@@ -202,8 +202,8 @@ class OlzNewsDetail extends OlzRootComponent {
         $published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
 
         $is_owner = $user && intval($news_entry->getOwnerUser()?->getId() ?? 0) === intval($user->getId());
-        $has_all_permissions = $this->authUtils()->hasPermission('all');
-        $can_edit = $is_owner || $has_all_permissions;
+        $has_news_permissions = $this->authUtils()->hasPermission('news');
+        $can_edit = $is_owner || $has_news_permissions;
         $edit_admin = '';
         if ($can_edit) {
             $json_id = json_encode($id);

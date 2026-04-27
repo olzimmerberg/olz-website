@@ -52,8 +52,8 @@ class OlzNewsListItem extends OlzComponent {
         $user = $this->authUtils()->getCurrentUser();
         $owner_user = $news_entry->getOwnerUser();
         $is_owner = $user && $owner_user && intval($owner_user->getId() ?? 0) === intval($user->getId());
-        $has_all_permissions = $this->authUtils()->hasPermission('all');
-        $can_edit = $is_owner || $has_all_permissions;
+        $has_news_permissions = $this->authUtils()->hasPermission('news');
+        $can_edit = $is_owner || $has_news_permissions;
         $edit_admin = '';
         if ($can_edit) {
             $json_id = json_encode($id);

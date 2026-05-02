@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Suche\Utils;
 
+use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Suche\Utils\SearchUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 
@@ -20,6 +21,43 @@ final class SearchUtilsTest extends UnitTestCase {
             ['2020-03-13', '13.03.2020', '13.3.2020'],
             $utils->getDateFormattings(new \DateTime('2020-03-13')),
         );
+    }
+
+    public function testGetDateSql(): void {
+        $utils = new SearchUtils();
+        $this->assertNull($utils->getDateSql('starts_at', 'test'));
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            (
+                starts_at >= '2020-03-13'
+                AND starts_at < '2020-03-14'
+            )
+            ZZZZZZZZZZ, $utils->getDateSql('starts_at', '13.3.2020'));
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            (
+                starts_at >= '2020-01-01'
+                AND starts_at < '2021-01-01'
+            )
+            ZZZZZZZZZZ, $utils->getDateSql('starts_at', '2020'));
+    }
+
+    public function testGetSnippetsWhereSql(): void {
+        $utils = new SearchUtils();
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            on_off = '1'
+            AND text LIKE '%test%'
+            AND id IN ('1')
+            ZZZZZZZZZZ, $utils->getSnippetsWhereSql([1], ['test']));
+        $this->assertSame(<<<'ZZZZZZZZZZ'
+            on_off = '1'
+            AND text LIKE '%anfänger%' AND text LIKE '%training%'
+            AND id IN ('13','14')
+            ZZZZZZZZZZ, $utils->getSnippetsWhereSql([
+            PredefinedSnippet::AngebotTrainings,
+            PredefinedSnippet::AngebotStarterpack,
+        ], [
+            'anfänger',
+            'training',
+        ]));
     }
 
     public function testGetCutout(): void {

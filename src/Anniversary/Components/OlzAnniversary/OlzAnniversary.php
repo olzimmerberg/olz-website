@@ -25,7 +25,22 @@ class OlzAnniversary extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        $snippets_where = $this->searchUtils()->getSnippetsWhereSql([
+            PredefinedSnippet::AnniversaryHoehenmeter,
+            PredefinedSnippet::AnniversaryZielsprint,
+        ], $terms);
+        return <<<ZZZZZZZZZZ
+            SELECT
+                '{$code_href}2026' AS link,
+                '{$code_href}assets/icns/question_mark_20.svg' AS icon,
+                NULL AS date,
+                '20 Jahre OL Zimmerberg' AS title,
+                IFNULL(text, '') AS text,
+                1.0 AS time_relevance
+            FROM snippets
+            WHERE {$snippets_where}
+            ZZZZZZZZZZ;
     }
 
     public static string $title = "🎉 20 Jahre OL Zimmerberg 🥳";

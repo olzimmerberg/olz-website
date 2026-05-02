@@ -3,6 +3,7 @@
 namespace Olz\Suche\Utils;
 
 use Doctrine\ORM\Query\ResultSetMapping;
+use Olz\Anniversary\Components\OlzAnniversary\OlzAnniversary;
 use Olz\Apps\Anmelden\Components\OlzAnmelden\OlzAnmelden;
 use Olz\Apps\Commands\Components\OlzCommands\OlzCommands;
 use Olz\Apps\Files\Components\OlzFiles\OlzFiles;
@@ -31,6 +32,7 @@ use Olz\Karten\Components\OlzKarteDetail\OlzKarteDetail;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
 use Olz\News\Components\OlzNewsDetail\OlzNewsDetail;
 use Olz\News\Components\OlzNewsList\OlzNewsList;
+use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Roles\Components\OlzRolePage\OlzRolePage;
 use Olz\Roles\Components\OlzVerein\OlzVerein;
 use Olz\Service\Components\OlzService\OlzService;
@@ -63,6 +65,7 @@ class SearchUtils {
     protected static array $all_page_classes = [
         // All classes that extend `OlzRootComponent` should be listed here:
         OlzAnmelden::class,
+        OlzAnniversary::class,
         OlzCommands::class,
         OlzFiles::class,
         OlzLogs::class,
@@ -246,6 +249,23 @@ class SearchUtils {
                 {$field} >= '{$result['start']->format('Y-m-d')}'
                 AND {$field} < '{$result['end']->format('Y-m-d')}'
             )
+            ZZZZZZZZZZ;
+    }
+
+    /**
+     * @param array<PredefinedSnippet|int<1,max>> $snippets
+     * @param array<string>                       $terms
+     */
+    public function getSnippetsWhereSql(array $snippets, array $terms): ?string {
+        $terms_where = implode(' AND ', array_map(fn ($term) => "text LIKE '%{$term}%'", $terms));
+        $ids = implode(',', array_map(
+            fn ($snippet) => is_int($snippet) ? "'{$snippet}'" : "'{$snippet->value}'",
+            $snippets,
+        ));
+        return <<<ZZZZZZZZZZ
+            on_off = '1'
+            AND {$terms_where}
+            AND id IN ({$ids})
             ZZZZZZZZZZ;
     }
 

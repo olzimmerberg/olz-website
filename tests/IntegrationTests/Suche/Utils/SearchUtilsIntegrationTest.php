@@ -43,6 +43,15 @@ final class SearchUtilsIntegrationTest extends IntegrationTestCase {
                 'debug' => 'Score: 0.28271 / Time relevance: 1',
             ],
             [
+                'link' => '/angebot',
+                'icon' => '/assets/icns/question_mark_20.svg',
+                'date' => null,
+                'title' => 'Angebot',
+                'text' => "## Starterpack\n\n{#test .float-right}\n![](./myjGV7ADStN8rITm5OSy9c48.jpg)\n\nDu hast ein Schnuppertrain…",
+                'score' => 0.28234,
+                'debug' => 'Score: 0.28234 / Time relevance: 1',
+            ],
+            [
                 'link' => '/fragen_und_antworten/benutzername_email_herausfinden',
                 'icon' => '/assets/icns/question_mark_20.svg',
                 'date' => null,

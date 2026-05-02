@@ -20,7 +20,26 @@ class OlzAngebot extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        $snippets_where = $this->searchUtils()->getSnippetsWhereSql([
+            PredefinedSnippet::AngebotTrainings,
+            PredefinedSnippet::AngebotStarterpack,
+            PredefinedSnippet::AngebotKleider,
+            PredefinedSnippet::AngebotKarten,
+            PredefinedSnippet::AngebotMaterial,
+            PredefinedSnippet::AngebotKurse,
+        ], $terms);
+        return <<<ZZZZZZZZZZ
+            SELECT
+                '{$code_href}angebot' AS link,
+                '{$code_href}assets/icns/question_mark_20.svg' AS icon,
+                NULL AS date,
+                'Angebot' AS title,
+                IFNULL(text, '') AS text,
+                1.0 AS time_relevance
+            FROM snippets
+            WHERE {$snippets_where}
+            ZZZZZZZZZZ;
     }
 
     public static string $title = "Angebot";

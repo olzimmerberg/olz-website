@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Suche\Utils;
 
-use Olz\Apps\Quiz\Metadata;
 use Olz\Suche\Utils\SearchUtils;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
@@ -15,7 +14,6 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  */
 final class SearchUtilsIntegrationTest extends IntegrationTestCase {
     public function testGetSearchResultsForTest(): void {
-        $quiz_metadata = new Metadata();
         $this->assertEquals([
             [
                 'link' => '/news/1203',

@@ -18,11 +18,40 @@ class OlzTerminTemplateDetailParams extends HttpParams {
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzTerminTemplateDetail extends OlzRootComponent {
     public function hasAccess(): bool {
-        return true;
+        return $this->authUtils()->hasPermission('termine');
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        $where = implode(' AND ', array_map(function ($term) {
+            return <<<ZZZZZZZZZZ
+                (
+                    tt.title LIKE '%{$term}%'
+                    OR tt.text LIKE '%{$term}%'
+                    OR tl.name LIKE '%{$term}%'
+                )
+                ZZZZZZZZZZ;
+        }, $terms));
+        return <<<ZZZZZZZZZZ
+            SELECT
+                CONCAT('{$code_href}termine/vorlagen/', tt.id) AS link,
+                '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
+                NULL AS date,
+                CONCAT('Termin-Vorlage: ', tt.title) AS title,
+                CONCAT(IFNULL(tl.name, ''), ' ', IFNULL(tt.text, ''), ' Typ: ', (
+                    SELECT GROUP_CONCAT(l.name ORDER BY l.position ASC SEPARATOR ', ')
+                    FROM
+                        termin_template_label_map ttlm
+                        JOIN termin_labels l ON (l.id = ttlm.label_id)
+                    WHERE ttlm.termin_template_id = tt.id
+                    GROUP BY tt.id
+                )) AS text,
+                1.0 AS time_relevance
+            FROM termin_templates tt LEFT JOIN termin_locations tl ON (tt.location_id = tl.id)
+            WHERE
+                tt.on_off = '1'
+                AND {$where}
+            ZZZZZZZZZZ;
     }
 
     public function getPageTitle(): string {
@@ -38,7 +67,6 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
 
         $code_href = $this->envUtils()->getCodeHref();
         $code_path = $this->envUtils()->getCodePath();
-        $user = $this->authUtils()->getCurrentUser();
         $id = $args['id'] ?? null;
 
         $termin_template = $this->getTerminTemplateById($id);
@@ -58,23 +86,19 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
         ]);
 
         // Creation Tools
-        $has_termine_permissions = $this->authUtils()->hasPermission('termine');
-        $creation_tools = '';
-        if ($has_termine_permissions) {
-            $esc_template_id = json_encode($id);
-            $creation_tools .= <<<ZZZZZZZZZZ
-                <div>
-                    <button
-                        id='create-termin-template-button'
-                        class='btn btn-secondary'
-                        onclick='return olz.initOlzEditTerminModal(undefined, {$esc_template_id})'
-                    >
-                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                        Neuer Termin aus dieser Vorlage
-                    </button>
-                </div>
-                ZZZZZZZZZZ;
-        }
+        $esc_template_id = json_encode($id);
+        $creation_tools = <<<ZZZZZZZZZZ
+            <div>
+                <button
+                    id='create-termin-template-button'
+                    class='btn btn-secondary'
+                    onclick='return olz.initOlzEditTerminModal(undefined, {$esc_template_id})'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Neuer Termin aus dieser Vorlage
+                </button>
+            </div>
+            ZZZZZZZZZZ;
 
         $out .= <<<ZZZZZZZZZZ
             <div class='content-right'>
@@ -97,24 +121,19 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
         $out .= "<div class='olz-termin-template-detail'>";
 
         // Editing Tools
-        $is_owner = $user && intval($termin_template->getOwnerUser()?->getId() ?? 0) === intval($user->getId());
-        $has_termine_permissions = $this->authUtils()->hasPermission('termine');
-        $can_edit = $is_owner || $has_termine_permissions;
-        if ($can_edit) {
-            $json_id = json_encode($id);
-            $out .= <<<ZZZZZZZZZZ
-                <div>
-                    <button
-                        id='edit-termin-template-button'
-                        class='btn btn-primary'
-                        onclick='return olz.editTerminTemplate({$json_id})'
-                    >
-                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
-                        Bearbeiten
-                    </button>
-                </div>
-                ZZZZZZZZZZ;
-        }
+        $json_id = json_encode($id);
+        $out .= <<<ZZZZZZZZZZ
+            <div>
+                <button
+                    id='edit-termin-template-button'
+                    class='btn btn-primary'
+                    onclick='return olz.editTerminTemplate({$json_id})'
+                >
+                    <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                    Bearbeiten
+                </button>
+            </div>
+            ZZZZZZZZZZ;
 
         $pretty_date = '(irgendwann)';
         $duration_interval = \DateInterval::createFromDateString("+{$duration_seconds} seconds");

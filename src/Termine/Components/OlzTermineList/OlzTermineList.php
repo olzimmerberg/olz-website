@@ -28,7 +28,28 @@ class OlzTermineList extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        $where = implode(' AND ', array_map(function ($term) {
+            return <<<ZZZZZZZZZZ
+                (
+                    name LIKE '%{$term}%'
+                    OR details LIKE '%{$term}%'
+                )
+                ZZZZZZZZZZ;
+        }, $terms));
+        return <<<ZZZZZZZZZZ
+            SELECT
+                CONCAT('{$code_href}termine?filter=typ-', ident, '---datum-bevorstehend') AS link,
+                '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
+                NULL AS date,
+                CONCAT('Termine: ', name) AS title,
+                details AS text,
+                1.0 AS time_relevance
+            FROM termin_labels
+            WHERE
+                on_off = '1'
+                AND {$where}
+            ZZZZZZZZZZ;
     }
 
     public function getPageTitle(): string {
@@ -36,6 +57,7 @@ class OlzTermineList extends OlzRootComponent {
     }
 
     public function getPageDescription(): string {
+        // TODO: Filter-specific description?
         return "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
     }
 
@@ -67,7 +89,7 @@ class OlzTermineList extends OlzRootComponent {
         $termine_list_title = $termine_utils->getTitleFromFilter($valid_filter);
         $out = OlzHeader::render([
             'title' => $termine_list_title,
-            'description' => $this->getPageDescription(), // TODO: Filter-specific description?
+            'description' => $this->getPageDescription(),
             'canonical_url' => "{$code_href}termine?filter={$serialized_filter}",
         ]);
 

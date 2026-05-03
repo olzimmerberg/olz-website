@@ -29,6 +29,6 @@ class AnniversaryController extends AbstractController {
         OlzAnniversaryRocket $olzAnniversaryRocket,
     ): Response {
         $out = $olzAnniversaryRocket->getHtml([]);
-        return new Response($out);
+        return new Response($out, 200, ['Content-Type' => 'image/svg+xml']);
     }
 }

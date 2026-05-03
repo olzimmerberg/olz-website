@@ -19,7 +19,21 @@ class OlzTerminLocationsList extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => "{$code_href}termine/orte",
+            'icon' => "{$code_href}assets/icns/link_map_16.svg",
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+    }
+
+    public function getPageTitle(): string {
+        return "Termin-Orte";
+    }
+
+    public function getPageDescription(): string {
+        return "Orte, die oft für Termine verwendet werden (z.B. Besammlungsorte für Trainings).";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
@@ -33,23 +47,18 @@ class OlzTerminLocationsList extends OlzRootComponent {
             'norobots' => true,
         ]);
 
-        // Creation Tools
-        $has_termine_permissions = $this->authUtils()->hasPermission('termine');
-        $creation_tools = '';
-        if ($has_termine_permissions) {
-            $creation_tools .= <<<ZZZZZZZZZZ
-                <div class='create-termin-location-container'>
-                    <button
-                        id='create-termin-location-button'
-                        class='btn btn-secondary'
-                        onclick='return olz.initOlzEditTerminLocationModal()'
-                    >
-                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
-                        Neuen Ort hinzufügen
-                    </button>
-                </div>
-                ZZZZZZZZZZ;
-        }
+        $creation_tools = <<<ZZZZZZZZZZ
+            <div class='create-termin-location-container'>
+                <button
+                    id='create-termin-location-button'
+                    class='btn btn-secondary'
+                    onclick='return olz.initOlzEditTerminLocationModal()'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Neuen Ort hinzufügen
+                </button>
+            </div>
+            ZZZZZZZZZZ;
 
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         $termin_locations = $termin_location_repo->findBy(['on_off' => 1]);

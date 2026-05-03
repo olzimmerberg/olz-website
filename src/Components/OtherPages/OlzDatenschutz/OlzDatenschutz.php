@@ -21,11 +21,22 @@ class OlzDatenschutz extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => "{$code_href}karten",
+            'icon' => "{$code_href}assets/icns/link_map_16.svg",
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
     }
 
-    public static string $title = "Datenschutz";
-    public static string $description = "Die Datenschutzerklärung der OL Zimmerberg.";
+    public function getPageTitle(): string {
+        return "Datenschutz";
+    }
+
+    public function getPageDescription(): string {
+        return "Die Datenschutzerklärung der OL Zimmerberg.";
+    }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzDatenschutzParams::class);
@@ -34,8 +45,8 @@ class OlzDatenschutz extends OlzRootComponent {
         $datenschutz_role = $role_repo->getPredefinedRole(PredefinedRole::Sysadmin);
 
         $out = OlzHeader::render([
-            'title' => self::$title,
-            'description' => self::$description,
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
         ]);
         $out .= <<<'ZZZZZZZZZZ'
             <div class='content-right'>

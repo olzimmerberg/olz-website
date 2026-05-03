@@ -48,6 +48,14 @@ class OlzFaqDetail extends OlzRootComponent {
             ZZZZZZZZZZ;
     }
 
+    public function getPageTitle(): string {
+        return "";
+    }
+
+    public function getPageDescription(): string {
+        return "";
+    }
+
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzFaqDetailParams::class);
         $code_href = $this->envUtils()->getCodeHref();

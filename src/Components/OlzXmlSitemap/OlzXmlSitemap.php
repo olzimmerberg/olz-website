@@ -5,6 +5,14 @@ namespace Olz\Components\OlzXmlSitemap;
 use Olz\Components\OlzSitemap\OlzSitemap;
 
 class OlzXmlSitemap extends OlzSitemap {
+    public function getPageTitle(): string {
+        return "XML-Sitemap";
+    }
+
+    public function getPageDescription(): string {
+        return "Eine maschinenlesbare Übersicht über alle öffentlichen Inhalte der Website der OL Zimmerberg.";
+    }
+
     public function getHtmlWhenHasAccess(mixed $args): string {
         $out = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $out .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";

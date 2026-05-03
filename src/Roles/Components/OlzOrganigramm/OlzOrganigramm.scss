@@ -16,6 +16,10 @@
     .organigramm-column {
         flex: 0 0 111px;
         overflow: hidden;
+
+        .role-box:first-child {
+            min-height: 180px;
+        }
     }
     
     .role-box {

@@ -3,7 +3,7 @@ import {initOlzEditRoleModal} from '../OlzEditRoleModal/OlzEditRoleModal';
 import {initOlzAddRoleUserModal} from '../OlzAddRoleUserModal/OlzAddRoleUserModal';
 import {olzConfirm} from '../../../Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
 
-import './OlzRolePage.scss';
+import './OlzRoleDetail.scss';
 
 export function editRole(
     roleId: number,

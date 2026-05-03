@@ -31,8 +31,13 @@ class OlzTermineList extends OlzRootComponent {
         return null;
     }
 
-    public static string $title = "Termine";
-    public static string $description = "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
+    public function getPageTitle(): string {
+        return "Termine";
+    }
+
+    public function getPageDescription(): string {
+        return "Orientierungslauf-Wettkämpfe, OL-Wochen, OL-Weekends, Trainings und Vereinsanlässe der OL Zimmerberg.";
+    }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         /** @return array{filter?: ?string} */
@@ -62,7 +67,7 @@ class OlzTermineList extends OlzRootComponent {
         $termine_list_title = $termine_utils->getTitleFromFilter($valid_filter);
         $out = OlzHeader::render([
             'title' => $termine_list_title,
-            'description' => self::$description, // TODO: Filter-specific description?
+            'description' => $this->getPageDescription(), // TODO: Filter-specific description?
             'canonical_url' => "{$code_href}termine?filter={$serialized_filter}",
         ]);
 

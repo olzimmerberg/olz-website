@@ -225,6 +225,22 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertSame("t \t \\t \\\t \\\\t \\\t", $general_utils->unescape("t \t \\t \\\t \\\\t \\\\\t", ["\\\t"]));
     }
 
+    public function testInternalSqlEscape(): void {
+        $general_utils = new GeneralUtils();
+        $this->assertSame('\x27 OR 1=1 --', $general_utils->internalSqlEscape('\' OR 1=1 --'));
+        $this->assertSame('\x22 OR 1=1 --', $general_utils->internalSqlEscape('" OR 1=1 --'));
+        $this->assertSame('\x5c OR 1=1 --', $general_utils->internalSqlEscape('\ OR 1=1 --'));
+
+        // Preserves multibyte characters
+        $this->assertSame('Für dich 🥰', $general_utils->internalSqlEscape('Für dich 🥰'));
+    }
+
+    public function testInternalNullableSqlEscape(): void {
+        $general_utils = new GeneralUtils();
+        $this->assertSame('\'\x27 OR 1=1 --\'', $general_utils->internalNullableSqlEscape('\' OR 1=1 --'));
+        $this->assertSame('NULL', $general_utils->internalNullableSqlEscape(null));
+    }
+
     public function testBase64EncodeUrl(): void {
         $general_utils = new GeneralUtils();
         $binary_string = base64_decode("+/A="); // contains all special chars

@@ -25,6 +25,14 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
         return null;
     }
 
+    public function getPageTitle(): string {
+        return "";
+    }
+
+    public function getPageDescription(): string {
+        return "";
+    }
+
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzTerminTemplateDetailParams::class);
 

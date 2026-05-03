@@ -18,11 +18,25 @@ class OlzNewsletterParams extends HttpParams {
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzNewsletter extends OlzRootComponent {
     public function hasAccess(): bool {
-        return true;
+        return (new Metadata())->isAccessibleToUser($this->authUtils()->getCurrentUser());
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $metadata = new Metadata();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => $metadata->getHref(),
+            'icon' => $metadata->getIcon(),
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+    }
+
+    public function getPageTitle(): string {
+        return "Apps: Newsletter";
+    }
+
+    public function getPageDescription(): string {
+        return "Hier kannst du Benachrichtigungen abonnieren. Damit wirst du automatisch per Mail und/oder Telegram über bevorstehende Termine, News und Aktualisierungen der Homepage benachrichtigt.";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
@@ -31,7 +45,8 @@ class OlzNewsletter extends OlzRootComponent {
 
         $out = OlzHeader::render([
             'back_link' => "{$code_href}service/",
-            'title' => "Newsletter",
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'norobots' => true,
         ]);
 

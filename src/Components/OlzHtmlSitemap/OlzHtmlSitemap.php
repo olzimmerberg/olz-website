@@ -12,15 +12,20 @@ class OlzHtmlSitemapParams extends HttpParams {
 }
 
 class OlzHtmlSitemap extends OlzSitemap {
-    public static string $title = "Sitemap";
-    public static string $description = "Eine Übersicht über alle aktiven Inhalte der Website der OL Zimmerberg.";
+    public function getPageTitle(): string {
+        return "Sitemap";
+    }
+
+    public function getPageDescription(): string {
+        return "Eine Übersicht über alle öffentlichen Inhalte der Website der OL Zimmerberg.";
+    }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzHtmlSitemapParams::class);
 
         $out = OlzHeader::render([
-            'title' => self::$title,
-            'description' => self::$description,
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
         ]);
         $out .= "<div class='content-full olz-html-sitemap'>";
         $out .= "<h1>Sitemap</h1>";

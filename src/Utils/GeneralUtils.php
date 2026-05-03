@@ -96,6 +96,29 @@ class GeneralUtils {
         return str_replace($esc_tokens, $tokens, $string);
     }
 
+    public function internalSqlEscape(string $value): string {
+        $escaped = '';
+        $value_len = strlen($value);
+        for ($i = 0; $i < $value_len; $i++) {
+            $char = $value[$i];
+            $ord = ord($char);
+            if ($char !== "'" && $char !== "\"" && $char !== '\\') {
+                $escaped .= $char;
+            } else {
+                $escaped .= '\x'.dechex($ord);
+            }
+        }
+        return $escaped;
+    }
+
+    public function internalNullableSqlEscape(?string $value): string {
+        if ($value === null) {
+            return 'NULL';
+        }
+        $escaped = $this->internalSqlEscape($value);
+        return "'{$escaped}'";
+    }
+
     // Base64
 
     public function base64EncodeUrl(string $string): string {

@@ -29,21 +29,37 @@ class OlzAngebot extends OlzRootComponent {
             PredefinedSnippet::AngebotMaterial,
             PredefinedSnippet::AngebotKurse,
         ], $terms);
-        return <<<ZZZZZZZZZZ
-            SELECT
-                '{$code_href}angebot' AS link,
-                '{$code_href}assets/icns/question_mark_20.svg' AS icon,
-                NULL AS date,
-                'Angebot' AS title,
-                IFNULL(text, '') AS text,
-                1.0 AS time_relevance
-            FROM snippets
-            WHERE {$snippets_where}
-            ZZZZZZZZZZ;
+        $static_page_query = $this->searchUtils()->getStaticResultQuery([
+            'link' => "{$code_href}karten",
+            'icon' => "{$code_href}assets/icns/link_map_16.svg",
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+        return [
+            'with' => $static_page_query['with'],
+            'query' => <<<ZZZZZZZZZZ
+                    SELECT
+                        '{$code_href}angebot' AS link,
+                        '{$code_href}assets/icns/question_mark_20.svg' AS icon,
+                        NULL AS date,
+                        'Angebot' AS title,
+                        IFNULL(text, '') AS text,
+                        1.0 AS time_relevance
+                    FROM snippets
+                    WHERE {$snippets_where}
+                UNION ALL
+                    {$static_page_query['query']}
+                ZZZZZZZZZZ,
+        ];
     }
 
-    public static string $title = "Angebot";
-    public static string $description = "Unser Angebot an Material und Kleidern, die die OL Zimmerberg vermietet bzw. verkauft.";
+    public function getPageTitle(): string {
+        return "Angebot";
+    }
+
+    public function getPageDescription(): string {
+        return "Unser Angebot an Material und Kleidern, die die OL Zimmerberg vermietet bzw. verkauft.";
+    }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzAngebotParams::class);
@@ -101,8 +117,8 @@ class OlzAngebot extends OlzRootComponent {
 
         $out = OlzHeader::render([
             'back_link' => $filter_text === null ? null : "{$code_href}",
-            'title' => self::$title,
-            'description' => self::$description,
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
         ]);
 
         $out .= "<div class='content-full olz-angebot'>";

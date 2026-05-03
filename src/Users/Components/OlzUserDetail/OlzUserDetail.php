@@ -22,6 +22,14 @@ class OlzUserDetail extends OlzRootComponent {
         return null;
     }
 
+    public function getPageTitle(): string {
+        return "";
+    }
+
+    public function getPageDescription(): string {
+        return "";
+    }
+
     public function getHtmlWhenHasAccess(mixed $args): string {
         $code_href = $this->envUtils()->getCodeHref();
         $user_repo = $this->entityManager()->getRepository(User::class);

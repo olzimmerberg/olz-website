@@ -21,6 +21,7 @@ final class SendRoleReminderCommandIntegrationTest extends IntegrationTestCase {
 
         $this->assertSame([
             'INFO Generating role reminder subscriptions...',
+            "INFO Generating role (1) reminder subscription for 'parent (User ID: 6)'...",
             "INFO Generating role (4) reminder subscription for 'vorstand (User ID: 2)'...",
             "INFO Generating role (4) reminder subscription for 'karten (User ID: 3)'...",
             "INFO Generating role (5) reminder subscription for 'admin (User ID: 1)'...",

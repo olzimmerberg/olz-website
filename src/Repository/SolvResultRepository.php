@@ -34,21 +34,21 @@ class SolvResultRepository extends OlzRepository {
     }
 
     public function getExactPersonId(SolvResult $solv_result): int {
-        $db = $this->dbUtils()->getDb();
-
-        $sane_name = $db->real_escape_string($solv_result->getName());
-        $sane_birth_year = $db->real_escape_string($solv_result->getBirthYear());
-        $sane_domicile = $db->real_escape_string($solv_result->getDomicile());
         $dql = "
             SELECT sr.person
             FROM {$this->entityClass} sr
             WHERE
-                sr.name = '{$sane_name}'
-                AND sr.birth_year = '{$sane_birth_year}'
-                AND sr.domicile = '{$sane_domicile}'
+                sr.name = :name
+                AND sr.birth_year = :birth_year
+                AND sr.domicile = :domicile
                 AND sr.person != '0'
         ";
         $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameters([
+            'name' => $solv_result->getName(),
+            'birth_year' => $solv_result->getBirthYear(),
+            'domicile' => $solv_result->getDomicile(),
+        ]);
         $query->setMaxResults(1);
         try {
             $person_id = $query->getSingleScalarResult();

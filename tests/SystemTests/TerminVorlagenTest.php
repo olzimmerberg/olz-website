@@ -104,7 +104,8 @@ final class TerminVorlagenTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
         $this->waitUntilGone('#edit-termin-template-modal');
 
-        $this->assertSame(404, $this->getHeaders($this->getDetailUrl())['http_code']);
+        $browser->get($this->getDetailUrl());
+        $this->assertSame('Fehler 404 Nicht gefunden - OL Zimmerberg', $browser->getTitle());
 
         $this->resetDb();
     }

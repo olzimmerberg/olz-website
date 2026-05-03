@@ -52,7 +52,7 @@ class OlzService extends OlzRootComponent {
                 UNION ALL
                     SELECT
                         '{$code_href}service' AS link,
-                        '{$code_href}assets/icns/termine_type_all_20.svg' AS icon,
+                        '{$code_href}assets/icns/link_internal_16.svg' AS icon,
                         NULL AS date,
                         CONCAT('Link: ', name) AS title,
                         url AS text,

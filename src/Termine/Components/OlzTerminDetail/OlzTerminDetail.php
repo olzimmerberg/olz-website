@@ -61,9 +61,9 @@ class OlzTerminDetail extends OlzRootComponent {
                             CONCAT(IFNULL(tl.name, ''), ' ', IFNULL(t.text, ''), ' Typ: ', (
                                 SELECT GROUP_CONCAT(l.name ORDER BY l.position ASC SEPARATOR ', ')
                                 FROM
-                                    termin_label_map tl
-                                    JOIN termin_labels l ON (l.id = tl.label_id)
-                                WHERE tl.termin_id = t.id
+                                    termin_label_map tlm
+                                    JOIN termin_labels l ON (l.id = tlm.label_id)
+                                WHERE tlm.termin_id = t.id
                                 GROUP BY t.id
                             )) AS text,
                             DATEDIFF(t.start_date, '{$today_iso}') AS diffdays

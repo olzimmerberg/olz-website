@@ -11,6 +11,7 @@ use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
+use Olz\News\Utils\NewsUtils;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{
@@ -28,7 +29,20 @@ class OlzNewsList extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $format_options = NewsUtils::ALL_FORMAT_OPTIONS;
+        $queries = array_map(function ($format_option) use ($terms) {
+            $ident = $format_option['ident'];
+            $valid_filter = $this->newsUtils()->getValidFilter([
+                'format' => $ident,
+            ]);
+            return $this->searchUtils()->getStaticResultQuery([
+                'link' => $this->newsUtils()->getUrl($valid_filter),
+                'icon' => $this->newsUtils()->getNewsFormatIcon($ident),
+                'title' => "News: {$format_option['name']}",
+                'text' => $this->getPageDescription(),
+            ], $terms);
+        }, $format_options);
+        return $this->searchUtils()->unionAllQueries($queries);
     }
 
     public function getPageTitle(): string {

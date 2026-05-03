@@ -326,6 +326,30 @@ class SearchUtils {
         ];
     }
 
+    /**
+     * @param array<WithQuery|string> $queries
+     *
+     * @return WithQuery
+     */
+    public function unionAllQueries(array $queries): array {
+        $out_withs = [];
+        $out_queries = [];
+        foreach ($queries as $query) {
+            if (is_array($query)) {
+                $out_queries[] = $query['query'];
+                foreach ($query['with'] as $with) {
+                    $out_withs[] = $with;
+                }
+            } elseif (is_string($query)) {
+                $out_queries[] = $query;
+            } // else ignore
+        }
+        return [
+            'with' => $out_withs,
+            'query' => implode(' UNION ALL ', $out_queries),
+        ];
+    }
+
     /** @param array<string> $search_terms */
     public function getCutout(string $text, array $search_terms, int $size = 100): string {
         $text = $this->censorEmails($text);

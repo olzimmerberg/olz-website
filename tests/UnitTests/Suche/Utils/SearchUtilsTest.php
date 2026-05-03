@@ -47,17 +47,133 @@ final class SearchUtilsTest extends UnitTestCase {
             AND text LIKE '%test%'
             AND id IN ('1')
             ZZZZZZZZZZ, $utils->getSnippetsWhereSql([1], ['test']));
-        $this->assertSame(<<<'ZZZZZZZZZZ'
-            on_off = '1'
-            AND text LIKE '%anfänger%' AND text LIKE '%training%'
-            AND id IN ('13','14')
-            ZZZZZZZZZZ, $utils->getSnippetsWhereSql([
-            PredefinedSnippet::AngebotTrainings,
-            PredefinedSnippet::AngebotStarterpack,
-        ], [
-            'anfänger',
-            'training',
-        ]));
+        $this->assertSame(
+            <<<'ZZZZZZZZZZ'
+                on_off = '1'
+                AND text LIKE '%anfänger%' AND text LIKE '%training%'
+                AND id IN ('13','14')
+                ZZZZZZZZZZ,
+            $utils->getSnippetsWhereSql([
+                PredefinedSnippet::AngebotTrainings,
+                PredefinedSnippet::AngebotStarterpack,
+            ], [
+                'anfänger',
+                'training',
+            ])
+        );
+    }
+
+    public function testGetStaticResultQuery(): void {
+        $utils = new SearchUtils();
+        $this->assertSame(
+            [
+                'with' => [<<<'ZZZZZZZZZZ'
+                    static_0c5906d1981cc8e7d8c81f5e6b72b2d8 AS (
+                        SELECT
+                            '/test' AS link,
+                            NULL AS icon,
+                            NULL AS date,
+                            'Test' AS title,
+                            NULL AS text
+                    )
+                    ZZZZZZZZZZ],
+                'query' => <<<'ZZZZZZZZZZ'
+                    SELECT
+                        link, icon, date, title, text,
+                        1 AS time_relevance
+                    FROM static_0c5906d1981cc8e7d8c81f5e6b72b2d8
+                    WHERE (
+                        title LIKE '%test%'
+                        OR text LIKE '%test%'
+                    )
+                    ZZZZZZZZZZ,
+            ],
+            $utils->getStaticResultQuery([
+                'link' => '/test',
+                'title' => 'Test',
+            ], ['test']),
+        );
+        $this->assertSame(
+            [
+                'with' => [<<<'ZZZZZZZZZZ'
+                    static_975de5720dee4fb4966d797a334363f9 AS (
+                        SELECT
+                            '/trainings' AS link,
+                            NULL AS icon,
+                            NULL AS date,
+                            'Training' AS title,
+                            NULL AS text
+                    )
+                    ZZZZZZZZZZ],
+                'query' => <<<'ZZZZZZZZZZ'
+                    SELECT
+                        link, icon, date, title, text,
+                        1 AS time_relevance
+                    FROM static_975de5720dee4fb4966d797a334363f9
+                    WHERE (
+                        title LIKE '%anfänger%'
+                        OR text LIKE '%anfänger%'
+                    ) AND (
+                        title LIKE '%training%'
+                        OR text LIKE '%training%'
+                    )
+                    ZZZZZZZZZZ,
+            ],
+            $utils->getStaticResultQuery([
+                'link' => '/trainings',
+                'title' => 'Training',
+            ], ['anfänger', 'training'])
+        );
+    }
+
+    public function testUnionAllQueries(): void {
+        $utils = new SearchUtils();
+        $this->assertSame(['with' => [], 'query' => ''], $utils->unionAllQueries([]));
+        $this->assertSame(
+            ['with' => [], 'query' => 'SELECT * FROM table_a'],
+            $utils->unionAllQueries(['SELECT * FROM table_a']),
+        );
+        $this->assertSame(
+            ['with' => [], 'query' => 'SELECT * FROM table_a UNION ALL SELECT * FROM table_b'],
+            $utils->unionAllQueries([
+                'SELECT * FROM table_a',
+                'SELECT * FROM table_b',
+            ]),
+        );
+        $this->assertSame(
+            [
+                'with' => [
+                    'with_a AS SELECT * FROM table_a',
+                    'with_b AS SELECT * FROM table_b',
+                ],
+                'query' => 'SELECT * FROM with_a UNION ALL SELECT * FROM with_b',
+            ],
+            $utils->unionAllQueries([
+                [
+                    'with' => ['with_a AS SELECT * FROM table_a'],
+                    'query' => 'SELECT * FROM with_a',
+                ],
+                [
+                    'with' => ['with_b AS SELECT * FROM table_b'],
+                    'query' => 'SELECT * FROM with_b',
+                ],
+            ]),
+        );
+        $this->assertSame(
+            [
+                'with' => [
+                    'with_a AS SELECT * FROM table_a',
+                ],
+                'query' => 'SELECT * FROM with_a UNION ALL SELECT * FROM table_b',
+            ],
+            $utils->unionAllQueries([
+                [
+                    'with' => ['with_a AS SELECT * FROM table_a'],
+                    'query' => 'SELECT * FROM with_a',
+                ],
+                'SELECT * FROM table_b',
+            ]),
+        );
     }
 
     public function testGetCutout(): void {

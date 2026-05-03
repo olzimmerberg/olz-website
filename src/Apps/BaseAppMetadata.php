@@ -20,6 +20,19 @@ abstract class BaseAppMetadata {
         return basename($this->getPath());
     }
 
+    public function getIconHref(): ?string {
+        $app_path = $this->getPath();
+        $svg_path = "{$app_path}/icon.svg";
+        if (is_file($svg_path)) {
+            return "/apps/{$this->getBasename()}/icon.svg";
+        }
+        $png_path = "{$app_path}/icon.png";
+        if (is_file($png_path)) {
+            return "/apps/{$this->getBasename()}/icon.png";
+        }
+        return null;
+    }
+
     public function getIconPath(): ?string {
         $app_path = $this->getPath();
         $svg_path = "{$app_path}/icon.svg";

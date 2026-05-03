@@ -24,7 +24,7 @@ class OlzLogs extends OlzRootComponent {
         $metadata = new Metadata();
         return $this->searchUtils()->getStaticResultQuery([
             'link' => $metadata->getHref(),
-            'icon' => $metadata->getIcon(),
+            'icon' => $metadata->getIconHref(),
             'title' => $this->getPageTitle(),
             'text' => $this->getPageDescription(),
         ], $terms);

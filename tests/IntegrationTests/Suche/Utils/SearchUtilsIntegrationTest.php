@@ -36,8 +36,8 @@ final class SearchUtilsIntegrationTest extends IntegrationTestCase {
                 'debug' => 'Score: 0.69881 / Time relevance: 1',
             ],
             [
-                'link' => $quiz_metadata->getHref(),
-                'icon' => $quiz_metadata->getIcon(),
+                'link' => 'apps/quiz',
+                'icon' => '/apps/Quiz/icon.svg',
                 'date' => null,
                 'title' => 'Apps: Quiz',
                 'text' => 'Teste dein OL-Wissen.',

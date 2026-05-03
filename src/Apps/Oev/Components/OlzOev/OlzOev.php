@@ -19,11 +19,25 @@ class OlzOevParams extends HttpParams {
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzOev extends OlzRootComponent {
     public function hasAccess(): bool {
-        return true;
+        return (new Metadata())->isAccessibleToUser($this->authUtils()->getCurrentUser());
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $metadata = new Metadata();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => $metadata->getHref(),
+            'icon' => $metadata->getIcon(),
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+    }
+
+    public function getPageTitle(): string {
+        return "Apps: öV";
+    }
+
+    public function getPageDescription(): string {
+        return "Tool für die Suche von gemeinsamen ÖV-Verbindungen.";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
@@ -33,8 +47,8 @@ class OlzOev extends OlzRootComponent {
 
         $out = OlzHeader::render([
             'back_link' => "{$code_href}service/",
-            'title' => "ÖV-Tool",
-            'description' => "Tool für die Suche von gemeinsamen ÖV-Verbindungen.",
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'norobots' => true,
         ]);
 

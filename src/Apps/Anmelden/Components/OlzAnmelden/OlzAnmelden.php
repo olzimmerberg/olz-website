@@ -15,11 +15,25 @@ class OlzAnmeldenParams extends HttpParams {
 /** @extends OlzRootComponent<array{id?: ?non-empty-string}> */
 class OlzAnmelden extends OlzRootComponent {
     public function hasAccess(): bool {
-        return true;
+        return (new Metadata())->isAccessibleToUser($this->authUtils()->getCurrentUser());
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $metadata = new Metadata();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => $metadata->getHref(),
+            'icon' => $metadata->getIcon(),
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+    }
+
+    public function getPageTitle(): string {
+        return "Apps: Anmelden";
+    }
+
+    public function getPageDescription(): string {
+        return "Hier kann man sich für OLZ-Anlässe anmelden (in Entwicklung).";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
@@ -28,8 +42,8 @@ class OlzAnmelden extends OlzRootComponent {
 
         $out = OlzHeader::render([
             'back_link' => "{$code_href}service/",
-            'title' => 'Anmelden',
-            'description' => "Hier kann man sich für OLZ-Anlässe anmelden.",
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
         ]);
 
         $out .= "<div class='content-full'><div id='react-root'>Lädt...</div></div>";

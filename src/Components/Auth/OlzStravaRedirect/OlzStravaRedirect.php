@@ -26,6 +26,14 @@ class OlzStravaRedirect extends OlzRootComponent {
         return null;
     }
 
+    public function getPageTitle(): string {
+        return "Mit Strava verbinden";
+    }
+
+    public function getPageDescription(): string {
+        return "Mit Strava verbinden";
+    }
+
     public function getHtmlWhenHasAccess(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzStravaRedirectParams::class);
         $code = $params['code'] ?? '';
@@ -33,8 +41,8 @@ class OlzStravaRedirect extends OlzRootComponent {
         $js_redirect_url = json_encode($params['redirect_url'] ?? null) ?: 'null';
 
         $out = OlzHeader::render([
-            'title' => "Mit Strava verbinden",
-            'description' => "Mit Strava verbinden.",
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'norobots' => true,
         ]);
 

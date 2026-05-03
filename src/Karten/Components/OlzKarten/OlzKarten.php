@@ -22,20 +22,49 @@ class OlzKarten extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        $snippets_where = $this->searchUtils()->getSnippetsWhereSql([
+            PredefinedSnippet::KartenVerkauf,
+        ], $terms);
+        $static_page_query = $this->searchUtils()->getStaticResultQuery([
+            'link' => "{$code_href}karten",
+            'icon' => "{$code_href}assets/icns/link_map_16.svg",
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+        return [
+            'with' => $static_page_query['with'],
+            'query' => <<<ZZZZZZZZZZ
+                    SELECT
+                        '{$code_href}karten' AS link,
+                        '{$code_href}assets/icns/link_map_16.svg' AS icon,
+                        NULL AS date,
+                        'Karten' AS title,
+                        IFNULL(text, '') AS text,
+                        1.0 AS time_relevance
+                    FROM snippets
+                    WHERE {$snippets_where}
+                UNION ALL
+                    {$static_page_query['query']}
+                ZZZZZZZZZZ,
+        ];
     }
 
-    public static string $title = "Karten";
-    public static string $description = "Die OL-Karten, die die OL Zimmerberg aufnimmt, unterhält und verkauft.";
+    public function getPageTitle(): string {
+        return "Unsere OL-Karten";
+    }
+
+    public function getPageDescription(): string {
+        return "Die OL-Karten, die die OL Zimmerberg aufnimmt, unterhält und verkauft.";
+    }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzKartenParams::class);
-        $db = $this->dbUtils()->getDb();
         $code_href = $this->envUtils()->getCodeHref();
 
         $out = OlzHeader::render([
-            'title' => self::$title,
-            'description' => self::$description,
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
         ]);
 
         $out .= "<div class='content-right olz-karten'>";

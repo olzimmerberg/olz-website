@@ -15,11 +15,25 @@ class OlzFilesParams extends HttpParams {
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzFiles extends OlzRootComponent {
     public function hasAccess(): bool {
-        return true;
+        return (new Metadata())->isAccessibleToUser($this->authUtils()->getCurrentUser());
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $metadata = new Metadata();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => $metadata->getHref(),
+            'icon' => $metadata->getIcon(),
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+    }
+
+    public function getPageTitle(): string {
+        return "Apps: Dateien";
+    }
+
+    public function getPageDescription(): string {
+        return "";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
@@ -40,7 +54,8 @@ class OlzFiles extends OlzRootComponent {
 
         $out = OlzHeader::render([
             'back_link' => "{$code_href}service/",
-            'title' => "Dateien",
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'norobots' => true,
         ]);
 

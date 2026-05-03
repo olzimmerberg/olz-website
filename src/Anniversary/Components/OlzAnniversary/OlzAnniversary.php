@@ -30,28 +30,44 @@ class OlzAnniversary extends OlzRootComponent {
             PredefinedSnippet::AnniversaryHoehenmeter,
             PredefinedSnippet::AnniversaryZielsprint,
         ], $terms);
-        return <<<ZZZZZZZZZZ
-            SELECT
-                '{$code_href}2026' AS link,
-                '{$code_href}assets/icns/question_mark_20.svg' AS icon,
-                NULL AS date,
-                '20 Jahre OL Zimmerberg' AS title,
-                IFNULL(text, '') AS text,
-                1.0 AS time_relevance
-            FROM snippets
-            WHERE {$snippets_where}
-            ZZZZZZZZZZ;
+        $static_page_query = $this->searchUtils()->getStaticResultQuery([
+            'link' => "{$code_href}karten",
+            'icon' => "{$code_href}assets/icns/link_map_16.svg",
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+        return [
+            'with' => $static_page_query['with'],
+            'query' => <<<ZZZZZZZZZZ
+                    SELECT
+                        '{$code_href}2026' AS link,
+                        '{$code_href}assets/icns/question_mark_20.svg' AS icon,
+                        NULL AS date,
+                        '20 Jahre OL Zimmerberg' AS title,
+                        IFNULL(text, '') AS text,
+                        1.0 AS time_relevance
+                    FROM snippets
+                    WHERE {$snippets_where}
+                UNION ALL
+                    {$static_page_query['query']}
+                ZZZZZZZZZZ,
+        ];
     }
 
-    public static string $title = "🎉 20 Jahre OL Zimmerberg 🥳";
-    public static string $description = "Alle Aktivitäten und Informationen zum Jubiläumsjahr 2026.";
+    public function getPageTitle(): string {
+        return "🎉 20 Jahre OL Zimmerberg 🥳";
+    }
+
+    public function getPageDescription(): string {
+        return "Alle Aktivitäten und Informationen zum Jubiläumsjahr 2026.";
+    }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzAnniversaryParams::class);
 
         $out = OlzHeader::render([
-            'title' => self::$title,
-            'description' => self::$description,
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'norobots' => true,
         ]);
         $out .= <<<ZZZZZZZZZZ

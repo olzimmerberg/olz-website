@@ -21,6 +21,14 @@ class OlzEmailReaktion extends OlzRootComponent {
         return null;
     }
 
+    public function getPageTitle(): string {
+        return "Reaktion auf E-Mail";
+    }
+
+    public function getPageDescription(): string {
+        return "Reaktion auf E-Mail";
+    }
+
     public function getHtmlWhenHasAccess(mixed $args): string {
         $params = $this->httpUtils()->validateGetParams(OlzEmailReaktionParams::class);
         $code_href = $this->envUtils()->getCodeHref();
@@ -29,8 +37,8 @@ class OlzEmailReaktion extends OlzRootComponent {
         $reaction_data = $this->emailUtils()->decryptEmailReactionToken($token);
 
         $out = OlzHeader::render([
-            'title' => "Reaktion auf E-Mail",
-            'description' => "Reaktion auf E-Mail.",
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'norobots' => true,
         ]);
 

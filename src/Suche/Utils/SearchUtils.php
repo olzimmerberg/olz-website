@@ -33,7 +33,7 @@ use Olz\Karten\Components\OlzKarten\OlzKarten;
 use Olz\News\Components\OlzNewsDetail\OlzNewsDetail;
 use Olz\News\Components\OlzNewsList\OlzNewsList;
 use Olz\Repository\Snippets\PredefinedSnippet;
-use Olz\Roles\Components\OlzRolePage\OlzRolePage;
+use Olz\Roles\Components\OlzRoleDetail\OlzRoleDetail;
 use Olz\Roles\Components\OlzVerein\OlzVerein;
 use Olz\Service\Components\OlzService\OlzService;
 use Olz\Startseite\Components\OlzStartseite\OlzStartseite;
@@ -56,6 +56,18 @@ use Olz\Utils\WithUtilsTrait;
  *   text: ?non-empty-string,
  *   score: float,
  *   debug: string,
+ * }
+ * @phpstan-type StaticResult array{
+ *   link: string,
+ *   icon?: ?string,
+ *   date?: ?\DateTime,
+ *   title: string,
+ *   text?: ?string,
+ *   timeRelevance?: ?float,
+ * }
+ * @phpstan-type WithQuery array{
+ *   with: array<string>,
+ *   query: string,
  * }
  */
 class SearchUtils {
@@ -92,7 +104,7 @@ class SearchUtils {
         OlzKarten::class,
         OlzNewsDetail::class,
         OlzNewsList::class,
-        OlzRolePage::class,
+        OlzRoleDetail::class,
         OlzVerein::class,
         OlzService::class,
         OlzStartseite::class,
@@ -267,6 +279,51 @@ class SearchUtils {
             AND {$terms_where}
             AND id IN ({$ids})
             ZZZZZZZZZZ;
+    }
+
+    /**
+     * @param StaticResult  $static_result
+     * @param array<string> $terms
+     *
+     * @return WithQuery
+     */
+    public function getStaticResultQuery(array $static_result, array $terms): array {
+        $ident = md5(json_encode($static_result) ?: '');
+        $esc_link = $this->generalUtils()->internalSqlEscape($static_result['link']);
+        $esc_icon = $this->generalUtils()->internalNullableSqlEscape($static_result['icon'] ?? null);
+        // TODO: date
+        $esc_title = $this->generalUtils()->internalSqlEscape($static_result['title']);
+        $esc_text = $this->generalUtils()->internalNullableSqlEscape($static_result['text'] ?? null);
+        $esc_time_relevance = floatval($static_result['timeRelevance'] ?? '1.0');
+        $static_where = implode(' AND ', array_map(function ($term) {
+            return <<<ZZZZZZZZZZ
+                (
+                    title LIKE '%{$term}%'
+                    OR text LIKE '%{$term}%'
+                )
+                ZZZZZZZZZZ;
+        }, $terms));
+        return [
+            'with' => [
+                <<<ZZZZZZZZZZ
+                    static_{$ident} AS (
+                        SELECT
+                            '{$esc_link}' AS link,
+                            {$esc_icon} AS icon,
+                            NULL AS date,
+                            '{$esc_title}' AS title,
+                            {$esc_text} AS text
+                    )
+                    ZZZZZZZZZZ,
+            ],
+            'query' => <<<ZZZZZZZZZZ
+                SELECT
+                    link, icon, date, title, text,
+                    {$esc_time_relevance} AS time_relevance
+                FROM static_{$ident}
+                WHERE {$static_where}
+                ZZZZZZZZZZ,
+        ];
     }
 
     /** @param array<string> $search_terms */

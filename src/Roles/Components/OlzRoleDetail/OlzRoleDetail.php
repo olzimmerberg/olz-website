@@ -1,6 +1,6 @@
 <?php
 
-namespace Olz\Roles\Components\OlzRolePage;
+namespace Olz\Roles\Components\OlzRoleDetail;
 
 use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
@@ -10,11 +10,11 @@ use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
-class OlzRolePageParams extends HttpParams {
+class OlzRoleDetailParams extends HttpParams {
 }
 
 /** @extends OlzRootComponent<array<string, mixed>> */
-class OlzRolePage extends OlzRootComponent {
+class OlzRoleDetail extends OlzRootComponent {
     public function hasAccess(): bool {
         return true;
     }
@@ -48,8 +48,16 @@ class OlzRolePage extends OlzRootComponent {
             ZZZZZZZZZZ;
     }
 
+    public function getPageTitle(): string {
+        return "";
+    }
+
+    public function getPageDescription(): string {
+        return "";
+    }
+
     public function getHtmlWhenHasAccess(mixed $args): string {
-        $this->httpUtils()->validateGetParams(OlzRolePageParams::class);
+        $this->httpUtils()->validateGetParams(OlzRoleDetailParams::class);
         $is_member = $this->authUtils()->hasPermission('member');
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();

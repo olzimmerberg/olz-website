@@ -31,8 +31,13 @@ class OlzNewsList extends OlzRootComponent {
         return null;
     }
 
-    public static string $title = "News";
-    public static string $description = "Aktuelle Beiträge, Berichte von Anlässen, Foto-Galerien und weitere Neuigkeiten vom Vorstand, Kaderläufern und anderen Mitgliedern der OL Zimmerberg.";
+    public function getPageTitle(): string {
+        return "News";
+    }
+
+    public function getPageDescription(): string {
+        return "Aktuelle Beiträge, Berichte von Anlässen, Foto-Galerien und weitere Neuigkeiten vom Vorstand, Kaderläufern und anderen Mitgliedern der OL Zimmerberg.";
+    }
 
     public static int $page_size = 25;
 
@@ -68,7 +73,7 @@ class OlzNewsList extends OlzRootComponent {
         $news_list_title = $news_utils->getTitleFromFilter($valid_filter);
         $out = OlzHeader::render([
             'title' => $news_list_title,
-            'description' => self::$description, // TODO: Filter-specific description?
+            'description' => $this->getPageDescription(), // TODO: Filter-specific description?
             'canonical_url' => "{$code_href}news?filter={$serialized_filter}&seite={$page_number}",
         ]);
 

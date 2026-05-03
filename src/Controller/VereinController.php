@@ -2,7 +2,7 @@
 
 namespace Olz\Controller;
 
-use Olz\Roles\Components\OlzRolePage\OlzRolePage;
+use Olz\Roles\Components\OlzRoleDetail\OlzRoleDetail;
 use Olz\Roles\Components\OlzVerein\OlzVerein;
 use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
@@ -30,12 +30,12 @@ class VereinController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
         HttpUtils $httpUtils,
-        OlzRolePage $olzRolePage,
+        OlzRoleDetail $olzRoleDetail,
         string $ressort,
     ): Response {
         $httpUtils->countRequest($request, ['von']);
         $httpUtils->stripParams($request, ['von']);
-        $out = $olzRolePage->getHtml(['ressort' => $ressort]);
+        $out = $olzRoleDetail->getHtml(['ressort' => $ressort]);
         return new Response($out);
     }
 }

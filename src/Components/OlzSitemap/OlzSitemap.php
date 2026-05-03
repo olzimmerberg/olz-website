@@ -41,24 +41,24 @@ abstract class OlzSitemap extends OlzRootComponent {
         $entries = [];
 
         $entries[] = [
-            'title' => OlzStartseite::$title,
-            'description' => OlzStartseite::$description,
+            'title' => (new OlzStartseite())->getPageTitle(),
+            'description' => (new OlzStartseite())->getPageDescription(),
             'url' => "{$base_href}/",
             'updates' => 'daily',
             'importance' => 0.8,
             'level' => 0,
         ];
         $entries[] = [
-            'title' => OlzFuerEinsteiger::$title,
-            'description' => OlzFuerEinsteiger::$description,
+            'title' => (new OlzFuerEinsteiger())->getPageTitle(),
+            'description' => (new OlzFuerEinsteiger())->getPageDescription(),
             'url' => "{$base_href}/fuer_einsteiger",
             'updates' => 'daily',
             'importance' => 1.0,
             'level' => 0,
         ];
         $entries[] = [
-            'title' => OlzFaqList::$title,
-            'description' => OlzFaqList::$description,
+            'title' => (new OlzFaqList())->getPageTitle(),
+            'description' => (new OlzFaqList())->getPageDescription(),
             'url' => "{$base_href}/fragen_und_antworten",
             'updates' => 'daily',
             'importance' => 0.8,
@@ -79,8 +79,8 @@ abstract class OlzSitemap extends OlzRootComponent {
         }
 
         $entries[] = [
-            'title' => OlzNewsList::$title,
-            'description' => OlzNewsList::$description,
+            'title' => (new OlzNewsList())->getPageTitle(),
+            'description' => (new OlzNewsList())->getPageDescription(),
             'url' => "{$base_href}/news",
             'updates' => 'daily',
             'importance' => 0.6,
@@ -159,8 +159,8 @@ abstract class OlzSitemap extends OlzRootComponent {
         }
 
         $entries[] = [
-            'title' => OlzTermineList::$title,
-            'description' => OlzTermineList::$description,
+            'title' => (new OlzTermineList())->getPageTitle(),
+            'description' => (new OlzTermineList())->getPageDescription(),
             'url' => "{$base_href}/termine",
             'updates' => 'daily',
             'importance' => 0.7,
@@ -207,8 +207,8 @@ abstract class OlzSitemap extends OlzRootComponent {
         }
 
         $entries[] = [
-            'title' => OlzKarten::$title,
-            'description' => OlzKarten::$description,
+            'title' => (new OlzKarten())->getPageTitle(),
+            'description' => (new OlzKarten())->getPageDescription(),
             'url' => "{$base_href}/karten",
             'updates' => 'monthly',
             'importance' => 0.5,
@@ -235,24 +235,24 @@ abstract class OlzSitemap extends OlzRootComponent {
         }
 
         $entries[] = [
-            'title' => OlzAngebot::$title,
-            'description' => OlzAngebot::$description,
+            'title' => (new OlzAngebot())->getPageTitle(),
+            'description' => (new OlzAngebot())->getPageDescription(),
             'url' => "{$base_href}/angebot",
             'updates' => 'monthly',
             'importance' => 0.5,
             'level' => 0,
         ];
         $entries[] = [
-            'title' => OlzService::$title,
-            'description' => OlzService::$description,
+            'title' => (new OlzService())->getPageTitle(),
+            'description' => (new OlzService())->getPageDescription(),
             'url' => "{$base_href}/service",
             'updates' => 'monthly',
             'importance' => 0.3,
             'level' => 0,
         ];
         $entries[] = [
-            'title' => OlzVerein::$title,
-            'description' => OlzVerein::$description,
+            'title' => (new OlzVerein())->getPageTitle(),
+            'description' => (new OlzVerein())->getPageDescription(),
             'url' => "{$base_href}/verein",
             'updates' => 'monthly',
             'importance' => 0.8,
@@ -275,16 +275,16 @@ abstract class OlzSitemap extends OlzRootComponent {
         }
 
         $entries[] = [
-            'title' => OlzDatenschutz::$title,
-            'description' => OlzDatenschutz::$description,
+            'title' => (new OlzDatenschutz())->getPageTitle(),
+            'description' => (new OlzDatenschutz())->getPageDescription(),
             'url' => "{$base_href}/datenschutz",
             'updates' => 'monthly',
             'importance' => 0.1,
             'level' => 0,
         ];
         $entries[] = [
-            'title' => OlzHtmlSitemap::$title,
-            'description' => OlzHtmlSitemap::$description,
+            'title' => (new OlzHtmlSitemap())->getPageTitle(),
+            'description' => (new OlzHtmlSitemap())->getPageDescription(),
             'url' => "{$base_href}/sitemap",
             'updates' => 'daily',
             'importance' => 0.5,

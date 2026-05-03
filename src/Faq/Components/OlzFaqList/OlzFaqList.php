@@ -24,11 +24,22 @@ class OlzFaqList extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => "{$code_href}karten",
+            'icon' => "{$code_href}assets/icns/link_map_16.svg",
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
     }
 
-    public static string $title = "Fragen & Antworten";
-    public static string $description = "Antworten auf die wichtigsten Fragen rund um den OL, die OL Zimmerberg und diese Website.";
+    public function getPageTitle(): string {
+        return "Fragen & Antworten";
+    }
+
+    public function getPageDescription(): string {
+        return "Antworten auf die wichtigsten Fragen rund um den OL, die OL Zimmerberg und diese Website.";
+    }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzFaqListParams::class);
@@ -38,8 +49,8 @@ class OlzFaqList extends OlzRootComponent {
         $category_repo = $entityManager->getRepository(QuestionCategory::class);
 
         $out = OlzHeader::render([
-            'title' => self::$title,
-            'description' => self::$description,
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'canonical_url' => "{$code_href}fragen_und_antworten",
         ]);
 

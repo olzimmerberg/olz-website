@@ -29,10 +29,9 @@ class OlzNewsDetail extends OlzRootComponent {
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
         $today_iso = $this->dateUtils()->getIsoToday();
-        $db = $this->dbUtils()->getDb();
-        $pretty_format_sql = "CASE ".implode('', array_map(function ($entry) use ($db) {
-            $esc_ident = $db->real_escape_string($entry['ident']);
-            $esc_name = $db->real_escape_string($entry['name']);
+        $pretty_format_sql = "CASE ".implode('', array_map(function ($entry) {
+            $esc_ident = $this->generalUtils()->internalSqlEscape($entry['ident']);
+            $esc_name = $this->generalUtils()->internalSqlEscape($entry['name']);
             return "WHEN format = '{$esc_ident}' THEN '{$esc_name}'";
         }, NewsUtils::ALL_FORMAT_OPTIONS))." ELSE format END";
         $where = implode(' AND ', array_map(function ($term) {
@@ -77,6 +76,14 @@ class OlzNewsDetail extends OlzRootComponent {
                     FROM base_news
                 ZZZZZZZZZZ,
         ];
+    }
+
+    public function getPageTitle(): string {
+        return "";
+    }
+
+    public function getPageDescription(): string {
+        return "";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

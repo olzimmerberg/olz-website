@@ -18,21 +18,22 @@ class OlzSuche extends OlzRootComponent {
         return true;
     }
 
-    public function getTitle(): string {
-        return "Suche";
-    }
-
     public function getDescription(string $pretty_terms): string {
         return "Stichwort-Suche nach \"{$pretty_terms}\" auf der Website der OL Zimmerberg.";
     }
 
-    public string $description = "Stichwort-Suche auf der Website der OL Zimmerberg.";
+    public function getPageTitle(): string {
+        return "Suche";
+    }
+
+    public function getPageDescription(): string {
+        return "Stichwort-Suche auf der Website der OL Zimmerberg.";
+    }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
         $code_href = $this->envUtils()->getCodeHref();
-        $db = $this->dbUtils()->getDb();
-        $esc_title = $db->real_escape_string($this->getTitle());
-        $esc_content = $db->real_escape_string($this->getDescription('Suche'));
+        $esc_title = $this->generalUtils()->internalSqlEscape($this->getPageTitle());
+        $esc_content = $this->generalUtils()->internalSqlEscape($this->getDescription('Suche'));
         $where = implode(' AND ', array_map(function ($term) {
             return <<<ZZZZZZZZZZ
                 (
@@ -73,7 +74,7 @@ class OlzSuche extends OlzRootComponent {
         $esc_pretty_terms = htmlspecialchars($pretty_terms);
 
         $out = OlzHeader::render([
-            'title' => "\"{$pretty_terms}\" - {$this->getTitle()}",
+            'title' => "\"{$pretty_terms}\" - {$this->getPageTitle()}",
             'description' => $this->getDescription($pretty_terms),
         ]);
 

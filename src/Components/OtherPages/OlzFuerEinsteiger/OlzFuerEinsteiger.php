@@ -23,11 +23,22 @@ class OlzFuerEinsteiger extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => "{$code_href}karten",
+            'icon' => "{$code_href}assets/icns/link_map_16.svg",
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
     }
 
-    public static string $title = "Für Einsteiger";
-    public static string $description = "Das Wichtigste für Neulinge beim Orientierungslauf oder der OL Zimmerberg, dem OL-Sport-Verein am linken Zürichseeufer.";
+    public function getPageTitle(): string {
+        return "Für Einsteiger";
+    }
+
+    public function getPageDescription(): string {
+        return "Das Wichtigste für OL-Anfänger und Neulinge beim Orientierungslauf oder bei der OL Zimmerberg, unserem OL-Sportverein am linken Zürichseeufer.";
+    }
 
     protected string $termin_class = Termin::class;
 
@@ -37,8 +48,8 @@ class OlzFuerEinsteiger extends OlzRootComponent {
         $code_href = $env_utils->getCodeHref();
 
         $out = OlzHeader::render([
-            'title' => self::$title,
-            'description' => self::$description,
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'canonical_url' => "{$code_href}fuer_einsteiger",
         ]);
 

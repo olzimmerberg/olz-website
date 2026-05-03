@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Suche\Utils;
 
+use Olz\Apps\Quiz\Metadata;
 use Olz\Suche\Utils\SearchUtils;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 
@@ -14,6 +15,7 @@ use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
  */
 final class SearchUtilsIntegrationTest extends IntegrationTestCase {
     public function testGetSearchResultsForTest(): void {
+        $quiz_metadata = new Metadata();
         $this->assertEquals([
             [
                 'link' => '/news/1203',
@@ -32,6 +34,15 @@ final class SearchUtilsIntegrationTest extends IntegrationTestCase {
                 'text' => 'https://youtu.be/JVL0vgcnM6c',
                 'score' => 0.69881,
                 'debug' => 'Score: 0.69881 / Time relevance: 1',
+            ],
+            [
+                'link' => $quiz_metadata->getHref(),
+                'icon' => $quiz_metadata->getIcon(),
+                'date' => null,
+                'title' => 'Apps: Quiz',
+                'text' => 'Teste dein OL-Wissen.',
+                'score' => 0.35247,
+                'debug' => 'Score: 0.35247 / Time relevance: 1',
             ],
             [
                 'link' => '/fragen_und_antworten/trainings_anreise',

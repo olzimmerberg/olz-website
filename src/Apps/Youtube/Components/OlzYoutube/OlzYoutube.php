@@ -15,11 +15,25 @@ class OlzYoutubeParams extends HttpParams {
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzYoutube extends OlzRootComponent {
     public function hasAccess(): bool {
-        return true;
+        return (new Metadata())->isAccessibleToUser($this->authUtils()->getCurrentUser());
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $metadata = new Metadata();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => $metadata->getHref(),
+            'icon' => $metadata->getIcon(),
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+    }
+
+    public function getPageTitle(): string {
+        return "Apps: YouTube-Kanal";
+    }
+
+    public function getPageDescription(): string {
+        return "Zugang zum YouTube-Kanal der OL Zimmerberg.";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
@@ -28,7 +42,8 @@ class OlzYoutube extends OlzRootComponent {
 
         $out = OlzHeader::render([
             'back_link' => "{$code_href}service/",
-            'title' => "Youtube-Kanal",
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'norobots' => true,
         ]);
 

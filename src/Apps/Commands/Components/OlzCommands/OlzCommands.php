@@ -15,11 +15,25 @@ class OlzCommandsParams extends HttpParams {
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzCommands extends OlzRootComponent {
     public function hasAccess(): bool {
-        return true;
+        return (new Metadata())->isAccessibleToUser($this->authUtils()->getCurrentUser());
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $metadata = new Metadata();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => $metadata->getHref(),
+            'icon' => $metadata->getIcon(),
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+    }
+
+    public function getPageTitle(): string {
+        return "Apps: Commands";
+    }
+
+    public function getPageDescription(): string {
+        return "Symfony-Commands (Befehle) manuell ausführen.";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
@@ -28,8 +42,8 @@ class OlzCommands extends OlzRootComponent {
 
         $out = OlzHeader::render([
             'back_link' => "{$code_href}service/",
-            'title' => 'Commands',
-            'description' => "Symfony-Commands (Befehle) ausführen.",
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
         ]);
 
         $out .= "<div class='content-full'><div id='react-root'>Lädt...</div></div>";

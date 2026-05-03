@@ -16,21 +16,30 @@ class OlzTerminTemplatesListParams extends HttpParams {
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzTerminTemplatesList extends OlzRootComponent {
     public function hasAccess(): bool {
-        return true;
+        return $this->authUtils()->hasPermission('termine');
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => "{$code_href}termine/vorlagen",
+            'icon' => "{$code_href}assets/icns/termine_type_all_20.svg",
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
+    }
+
+    public function getPageTitle(): string {
+        return "Termin-Vorlagen";
+    }
+
+    public function getPageDescription(): string {
+        return "Vorlagen, um Termine effizienter erstellen zu können.";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzTerminTemplatesListParams::class);
         $code_href = $this->envUtils()->getCodeHref();
-
-        if (!$this->authUtils()->hasPermission('termine')) {
-            $this->httpUtils()->dieWithHttpError(401);
-            throw new \Exception('should already have failed');
-        }
 
         $out = OlzHeader::render([
             'back_link' => "{$code_href}termine",

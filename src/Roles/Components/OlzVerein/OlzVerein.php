@@ -19,19 +19,30 @@ class OlzVerein extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        return $this->searchUtils()->getStaticResultQuery([
+            'link' => "{$code_href}karten",
+            'icon' => "{$code_href}assets/icns/link_map_16.svg",
+            'title' => $this->getPageTitle(),
+            'text' => $this->getPageDescription(),
+        ], $terms);
     }
 
-    public static string $title = "Verein";
-    public static string $description = "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.";
+    public function getPageTitle(): string {
+        return "Verein";
+    }
+
+    public function getPageDescription(): string {
+        return "Die wichtigsten Kontaktadressen und eine Liste aller Vereinsorgane der OL Zimmerberg.";
+    }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzVereinParams::class);
         $code_href = $this->envUtils()->getCodeHref();
 
         $out = OlzHeader::render([
-            'title' => self::$title,
-            'description' => self::$description,
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
             'canonical_url' => "{$code_href}verein",
         ]);
 

@@ -25,17 +25,36 @@ class OlzStartseite extends OlzRootComponent {
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
-        return null;
+        $code_href = $this->envUtils()->getCodeHref();
+        $snippets_where = $this->searchUtils()->getSnippetsWhereSql([
+            PredefinedSnippet::StartseiteBanner,
+        ], $terms);
+        return <<<ZZZZZZZZZZ
+            SELECT
+                '{$code_href}' AS link,
+                '{$code_href}assets/icns/question_mark_20.svg' AS icon,
+                NULL AS date,
+                'Startseite' AS title,
+                IFNULL(text, '') AS text,
+                1.0 AS time_relevance
+            FROM snippets
+            WHERE {$snippets_where}
+            ZZZZZZZZZZ;
     }
 
-    public static string $title = "Startseite";
-    public static string $description = "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
+    public function getPageTitle(): string {
+        return "Startseite";
+    }
+
+    public function getPageDescription(): string {
+        return "Eine Übersicht der Neuigkeiten und geplanten Anlässe der OL Zimmerberg.";
+    }
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzStartseiteParams::class);
 
         $out = OlzHeader::render([
-            'description' => self::$description,
+            'description' => $this->getPageDescription(),
         ], $this);
 
         $out .= "<div class='content-full'>";

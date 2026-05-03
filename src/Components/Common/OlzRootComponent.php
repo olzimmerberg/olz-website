@@ -5,15 +5,18 @@ namespace Olz\Components\Common;
 use Olz\Suche\Utils\SearchUtils;
 
 /**
- * @phpstan-type WithQuery array{with: array<string>, query: string}
- *
  * @phpstan-import-type SearchResult from SearchUtils
+ * @phpstan-import-type WithQuery from SearchUtils
  *
  * @template T
  *
  * @extends OlzComponent<T>
  */
 abstract class OlzRootComponent extends OlzComponent {
+    abstract public function getPageTitle(): string;
+
+    abstract public function getPageDescription(): string;
+
     abstract public function hasAccess(): bool;
 
     /**

@@ -19,11 +19,19 @@ class OlzPanini2024AllParams extends HttpParams {
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzPanini2024All extends OlzRootComponent {
     public function hasAccess(): bool {
-        return true;
+        return (new Metadata())->isAccessibleToUser($this->authUtils()->getCurrentUser());
     }
 
     public function searchSqlWhenHasAccess(array $terms): string|array|null {
         return null;
+    }
+
+    public function getPageTitle(): string {
+        return "";
+    }
+
+    public function getPageDescription(): string {
+        return "";
     }
 
     public function getHtmlWhenHasAccess(mixed $args): string {

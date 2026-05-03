@@ -8,7 +8,6 @@ namespace Olz\Startseite\Components\OlzCustomizableHome;
 
 use Olz\Components\Common\OlzComponent;
 use Olz\Startseite\Components\OlzAnniversaryTile\OlzAnniversaryTile;
-use Olz\Startseite\Components\OlzCustomTile\OlzCustomTile;
 use Olz\Startseite\Components\OlzForBeginnersTile\OlzForBeginnersTile;
 // use Olz\Startseite\Components\OlzJomCounterTile\OlzJomCounterTile;
 // use Olz\Startseite\Components\OlzNewsListsTile\OlzNewsListsTile;
@@ -31,7 +30,6 @@ class OlzCustomizableHome extends OlzComponent {
             // OlzTermineUpdatesTile::class,
             // OlzNewsListsTile::class,
             OlzNewsEntriesTile::class,
-            OlzCustomTile::class,
             // OlzJomCounterTile::class,
             OlzAnniversaryTile::class,
         ];

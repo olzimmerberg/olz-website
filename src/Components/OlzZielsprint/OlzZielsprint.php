@@ -15,6 +15,8 @@ class OlzZielsprint extends OlzComponent {
         $out .= "<tr>";
         $out .= "<th style='border-bottom: 1px solid black; text-align: right;'>Rang&nbsp;</th>";
         $out .= "<th style='border-bottom: 1px solid black;'>Name</th>";
+        $out .= "<th style='border-bottom: 1px solid black;'>Jahrgang</th>";
+        $out .= "<th style='border-bottom: 1px solid black;'>Wohnort</th>";
         $out .= "<th style='border-bottom: 1px solid black; text-align: right;'>Punkte</th>";
         $out .= "</tr>";
         $last_points = null;
@@ -23,12 +25,14 @@ class OlzZielsprint extends OlzComponent {
             $rank = $index + 1;
             $ranking_entry = $ranking[$index];
             $person_name = $ranking_entry['person_name'];
+            $person_birth_year = $ranking_entry['person_birth_year'];
+            $person_domicile = $ranking_entry['person_domicile'];
             $points = intval($ranking_entry['points']);
             $actual_rank = ($last_points === $points)
                 ? $last_actual_rank
                 : $rank;
 
-            $calculation = "{$person_name}\\n---\\n";
+            $calculation = "{$person_name}, {$person_birth_year}, {$person_domicile}\\n---\\n";
             foreach ($ranking_entry['calculation'] as $event_calculation) {
                 $event_name = $event_calculation['event_name'];
                 $event_points = $event_calculation['points'];
@@ -43,6 +47,8 @@ class OlzZielsprint extends OlzComponent {
             $out .= "<tr style='background-color:{$bgcolor}; cursor:pointer;' onclick='alert(&quot;{$calculation}&quot;)'>";
             $out .= "<td style='text-align: right;'>{$actual_rank}.&nbsp;</td>";
             $out .= "<td>{$person_name}</td>";
+            $out .= "<td>{$person_birth_year}</td>";
+            $out .= "<td>{$person_domicile}</td>";
             $out .= "<td style='text-align: right;'>{$points}</td>";
             $out .= "</tr>";
             $last_points = $points;
@@ -57,6 +63,8 @@ class OlzZielsprint extends OlzComponent {
      * @return array<array{
      *   person_id: int,
      *   person_name: string,
+     *   person_birth_year: string,
+     *   person_domicile: string,
      *   points: int,
      *   calculation: array<array{
      *     event_name: string,
@@ -68,8 +76,12 @@ class OlzZielsprint extends OlzComponent {
      */
     public function getRanking(): array {
         $year = 2026;
+        $event_denylist = [
+            13145, // Ranglistenformat kaputt: 2. Lauf EGK OL-Sprint-Cup
+        ];
         $db = $this->dbUtils()->getDb();
 
+        $enc_denylist = implode(',', array_map(fn ($item) => "'{$item}'", $event_denylist));
         $sql = "
             SELECT solv_uid, name, date
             FROM solv_events
@@ -77,6 +89,7 @@ class OlzZielsprint extends OlzComponent {
                 date>='{$year}-01-01'
                 AND date<='{$year}-12-31'
                 AND kind='foot'
+                AND solv_uid NOT IN ({$enc_denylist})
             ORDER BY date ASC";
         $res_events = $db->query($sql);
         $this->generalUtils()->checkNotBool($res_events, "Query error: {$sql}");
@@ -127,16 +140,17 @@ class OlzZielsprint extends OlzComponent {
         $ranking = [];
         foreach ($points_by_person as $person_id => $points) {
             $sql = "
-                SELECT name
+                SELECT name, birth_year, domicile
                 FROM solv_people
                 WHERE id='{$person_id}'";
             $res_person = $db->query($sql);
             $this->generalUtils()->checkNotBool($res_person, "Query error: {$sql}");
             $row_person = $res_person->fetch_assoc();
-            $person_name = strval($row_person['name'] ?? '?');
             $ranking[] = [
                 'person_id' => $person_id,
-                'person_name' => $person_name,
+                'person_name' => strval($row_person['name'] ?? '?'),
+                'person_birth_year' => strval($row_person['birth_year'] ?? '?'),
+                'person_domicile' => strval($row_person['domicile'] ?? '?'),
                 'points' => $points['points'],
                 'calculation' => $points['calculation'],
             ];

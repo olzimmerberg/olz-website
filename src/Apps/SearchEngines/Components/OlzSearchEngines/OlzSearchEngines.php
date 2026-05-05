@@ -23,13 +23,13 @@ class OlzSearchEngines extends OlzRootComponent {
         return $this->searchUtils()->getStaticResultQuery([
             'link' => $metadata->getHref(),
             'icon' => $metadata->getIconHref(),
-            'title' => $this->getPageTitle(),
+            'title' => "Apps: {$this->getPageTitle()}",
             'text' => $this->getPageDescription(),
         ], $terms);
     }
 
     public function getPageTitle(): string {
-        return "Apps: Suchmaschinen-Analyse";
+        return "Suchmaschinen-Analyse";
     }
 
     public function getPageDescription(): string {

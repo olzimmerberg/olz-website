@@ -27,7 +27,7 @@ class TermineUtils {
     public function loadTypeOptions(): self {
         $code_href = $this->envUtils()->getCodeHref();
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
-        $termine_labels = $termin_label_repo->findBy(['on_off' => 1], ['position' => 'ASC']);
+        $termin_labels = $termin_label_repo->findBy(['on_off' => 1], ['position' => 'ASC']);
         $this->allTypeOptions = [
             [
                 'ident' => 'alle',
@@ -41,7 +41,7 @@ class TermineUtils {
                     'name' => "{$label->getName()}",
                     'icon' => $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href,
                 ];
-            }, $termine_labels),
+            }, $termin_labels),
             [
                 'ident' => 'meldeschluss',
                 'name' => "Meldeschlüsse",

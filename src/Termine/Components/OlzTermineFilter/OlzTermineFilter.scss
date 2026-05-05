@@ -9,21 +9,10 @@
         font-weight: bold;
         margin-right: 4px;
     }
-
-    .type-filter-icon {
-        display: inline-block;
-        border: 0;
-        height: 16px;
-        margin: -2px 2px -1px 0;
-    }
 }
 
 @media screen and (min-width: 832px) {
     .olz-termine-filter {
-        .type-filter-icon {
-            margin: -2px 5px -1px 0;
-        }
-
         .separator {
             display: none;
         }

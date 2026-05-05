@@ -23,13 +23,13 @@ class OlzStatistics extends OlzRootComponent {
         return $this->searchUtils()->getStaticResultQuery([
             'link' => $metadata->getHref(),
             'icon' => $metadata->getIconHref(),
-            'title' => $this->getPageTitle(),
+            'title' => "Apps: {$this->getPageTitle()}",
             'text' => $this->getPageDescription(),
         ], $terms);
     }
 
     public function getPageTitle(): string {
-        return "Apps: Website-Statistiken";
+        return "Website-Statistiken";
     }
 
     public function getPageDescription(): string {

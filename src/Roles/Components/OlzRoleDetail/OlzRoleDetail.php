@@ -28,6 +28,12 @@ class OlzRoleDetail extends OlzRootComponent {
                     OR r.old_username LIKE '%{$term}%'
                     OR r.name LIKE '%{$term}%'
                     OR r.description LIKE '%{$term}%'
+                    OR EXISTS(
+                        SELECT id
+                        FROM users u
+                            JOIN users_roles ur ON (ur.role_id = r.id AND ur.user_id = u.id)
+                        WHERE u.first_name LIKE '%{$term}%' OR u.last_name LIKE '%{$term}%'
+                    )
                 )
                 ZZZZZZZZZZ;
         }, $terms));
@@ -37,7 +43,14 @@ class OlzRoleDetail extends OlzRootComponent {
                 '{$code_href}assets/icns/link_role_16.svg' AS icon,
                 NULL AS date,
                 CONCAT('Ressort: ', IF(rpp.name IS NULL, '', CONCAT(rpp.name, ' &gt; ')), IF(rp.name IS NULL, '', CONCAT(rp.name, ' &gt; ')), r.name) AS title,
-                CONCAT(IFNULL(r.username, ''), ' ', IFNULL(r.old_username, ''), ' ', IFNULL(r.description, '')) AS text,
+                CONCAT(IFNULL(r.username, ''), ' ', IFNULL(r.old_username, ''), ' ', IFNULL(r.description, ''), ' Verantwortlich: ', (
+                    SELECT GROUP_CONCAT(CONCAT(u.first_name, ' ', u.last_name) SEPARATOR ', ')
+                    FROM
+                        users_roles ur
+                        JOIN users u ON (u.id = ur.user_id)
+                    WHERE ur.role_id = r.id
+                    GROUP BY r.id
+                )) AS text,
                 1.0 AS time_relevance
             FROM roles r
                 LEFT JOIN roles rp ON (rp.id = r.parent_role)

@@ -26,13 +26,13 @@ class OlzPanini2024 extends OlzRootComponent {
         return $this->searchUtils()->getStaticResultQuery([
             'link' => $metadata->getHref(),
             'icon' => $metadata->getIconHref(),
-            'title' => $this->getPageTitle(),
+            'title' => "Apps: {$this->getPageTitle()}",
             'text' => $this->getPageDescription(),
         ], $terms);
     }
 
     public function getPageTitle(): string {
-        return "Apps: Panini '24";
+        return "Panini '24";
     }
 
     public function getPageDescription(): string {

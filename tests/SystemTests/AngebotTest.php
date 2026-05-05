@@ -29,7 +29,7 @@ final class AngebotTest extends SystemTestCase {
                 strval($role_mailto_link->getAttribute('onclick'))
             );
             $this->assertSame("Ressort Karten", strval($role_mailto_link->getText()));
-    
+
             $role_direct_link = $this->getBrowserElement('#role-direct a');
             $this->assertNotNull($role_direct_link);
             $this->assertSame("#", strval($role_direct_link->getAttribute('href')));
@@ -38,7 +38,7 @@ final class AngebotTest extends SystemTestCase {
                 strval($role_direct_link->getAttribute('onclick'))
             );
             $this->assertSame("Kartenverkauf", strval($role_direct_link->getText()));
-    
+
             $user_mailto_link = $this->getBrowserElement('#user-mailto a');
             $this->assertNotNull($user_mailto_link);
             $this->assertSame("#", strval($user_mailto_link->getAttribute('href')));
@@ -47,7 +47,7 @@ final class AngebotTest extends SystemTestCase {
                 strval($user_mailto_link->getAttribute('onclick'))
             );
             $this->assertSame("Karen Karten", strval($user_mailto_link->getText()));
-    
+
             $user_direct_link = $this->getBrowserElement('#user-direct a');
             $this->assertNotNull($user_direct_link);
             $this->assertSame("#", strval($user_direct_link->getAttribute('href')));

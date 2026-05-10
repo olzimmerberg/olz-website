@@ -92,6 +92,7 @@ export const OlzRoleInfoModal = (props: OlzRoleInfoModalProps): React.ReactEleme
     return (
         <OlzRestrictedPublicModal
             id='role-info-modal'
+            protectionReason='unsere Kontaktdaten'
             onReady={onReady}
         >
             {content}

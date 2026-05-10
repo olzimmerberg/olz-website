@@ -123,6 +123,7 @@ interface OlzEditUserOptions {
     showPassword: boolean;
     isPasswordRequired: boolean;
     isEmailRequired: boolean;
+    simplified: boolean;
 }
 
 interface OlzEditUserModalProps {
@@ -285,140 +286,147 @@ export const OlzEditUserModal = (props: OlzEditUserModalProps): React.ReactEleme
                         register={register}
                     />
                 </div>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title='Telefonnummer (Format: +41XXXXXXXXX)'
-                        name='phone'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
+                {options.simplified ? (<div className='col mb-3'></div>) : (
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='Telefonnummer (Format: +41XXXXXXXXX)'
+                            name='phone'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                )}
             </div>
-            <div className='row'>
-                <div className='col mb-3'>
-                    <label htmlFor='gender-input'>Geschlecht</label>
-                    <select
-                        className='form-control form-select'
-                        id='gender-input'
-                        {...register('gender')}
-                    >
-                        <option value=''>unbekannt</option>
-                        <option value='M'>männlich</option>
-                        <option value='F'>weiblich</option>
-                        <option value='O'>andere</option>
-                    </select>
+            {options.simplified ? null : (<>
+                <div className='row'>
+                    <div className='col mb-3'>
+                        <label htmlFor='gender-input'>Geschlecht</label>
+                        <select
+                            className='form-control form-select'
+                            id='gender-input'
+                            {...register('gender')}
+                        >
+                            <option value=''>unbekannt</option>
+                            <option value='M'>männlich</option>
+                            <option value='F'>weiblich</option>
+                            <option value='O'>andere</option>
+                        </select>
+                    </div>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='Geburtsdatum (Format: TT.MM.YYYY)'
+                            name='birthdate'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
                 </div>
-                <div className='col mb-3'>
+                <div className='mb-3'>
                     <OlzTextField
-                        title='Geburtsdatum (Format: TT.MM.YYYY)'
-                        name='birthdate'
+                        title='Adresse (mit Hausnummer)'
+                        name='street'
                         errors={errors}
                         register={register}
                     />
                 </div>
-            </div>
-            <div className='mb-3'>
-                <OlzTextField
-                    title='Adresse (mit Hausnummer)'
-                    name='street'
-                    errors={errors}
-                    register={register}
-                />
-            </div>
-            <div className='row'>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title='PLZ'
-                        name='postalCode'
+                <div className='row'>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='PLZ'
+                            name='postalCode'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='Wohnort'
+                            name='city'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='Region / Kanton (2-Buchstaben-Code, z.B. ZH)'
+                            name='region'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='Land (2-Buchstaben-Code, z.B. CH)'
+                            name='countryCode'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='SI-Card-Nummer (Badge-Nummer)'
+                            name='siCardNumber'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title={<>SOLV-Nummer (siehe <a href='https://www.o-l.ch/cgi-bin/solvdb' target='_blank'>SOLV-DB</a>)</>}
+                            name='solvNumber'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col mb-3'>
+                        <OlzTextField
+                            title='AHV-Nummer'
+                            name='ahvNumber'
+                            errors={errors}
+                            register={register}
+                        />
+                    </div>
+                    <div className='col mb-3'>
+                        <label htmlFor='dressSize-input'>Kleidergrösse</label>
+                        <select
+                            className='form-control form-select'
+                            id='dressSize-input'
+                            {...register('dressSize')}
+                        >
+                            <option value=''>unbekannt</option>
+                            <option value='3XS'>3XS</option>
+                            <option value='XXS'>XXS</option>
+                            <option value='XS'>XS</option>
+                            <option value='S'>S</option>
+                            <option value='M'>M</option>
+                            <option value='L'>L</option>
+                            <option value='XL'>XL</option>
+                            <option value='XXL'>XXL</option>
+                            <option value='3XL'>3XL</option>
+                        </select>
+                    </div>
+                </div>
+                <div id='images-upload' className='mb-3'>
+                    <OlzImageField
+                        title='Profilbild'
+                        name='avatarImageId'
                         errors={errors}
-                        register={register}
+                        control={control}
+                        setIsLoading={setIsImagesLoading}
                     />
                 </div>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title='Wohnort'
-                        name='city'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
-            </div>
-            <div className='row'>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title='Region / Kanton (2-Buchstaben-Code, z.B. ZH)'
-                        name='region'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title='Land (2-Buchstaben-Code, z.B. CH)'
-                        name='countryCode'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
-            </div>
-            <div className='row'>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title='SI-Card-Nummer (Badge-Nummer)'
-                        name='siCardNumber'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title={<>SOLV-Nummer (siehe <a href='https://www.o-l.ch/cgi-bin/solvdb' target='_blank'>SOLV-DB</a>)</>}
-                        name='solvNumber'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
-            </div>
-            <div className='row'>
-                <div className='col mb-3'>
-                    <OlzTextField
-                        title='AHV-Nummer'
-                        name='ahvNumber'
-                        errors={errors}
-                        register={register}
-                    />
-                </div>
-                <div className='col mb-3'>
-                    <label htmlFor='dressSize-input'>Kleidergrösse</label>
-                    <select
-                        className='form-control form-select'
-                        id='dressSize-input'
-                        {...register('dressSize')}
-                    >
-                        <option value=''>unbekannt</option>
-                        <option value='3XS'>3XS</option>
-                        <option value='XXS'>XXS</option>
-                        <option value='XS'>XS</option>
-                        <option value='S'>S</option>
-                        <option value='M'>M</option>
-                        <option value='L'>L</option>
-                        <option value='XL'>XL</option>
-                        <option value='XXL'>XXL</option>
-                        <option value='3XL'>3XL</option>
-                    </select>
-                </div>
-            </div>
-            <div id='images-upload' className='mb-3'>
-                <OlzImageField
-                    title='Profilbild'
-                    name='avatarImageId'
-                    errors={errors}
-                    control={control}
-                    setIsLoading={setIsImagesLoading}
-                />
-            </div>
+            </>)}
             {user.id ? null : (<>
-                <OlzCaptcha onToken={setCaptchaToken}/>
+                <OlzCaptcha
+                    protectionReason='unsere Benutzer-Datenbank'
+                    onToken={setCaptchaToken}
+                />
             </>)}
         </OlzEditModal>
     );
@@ -437,5 +445,45 @@ export function initOlzEditUserModal(
             data={data}
             options={options}
         />
-    ));
+    ), (modal) => {
+        modal.addEventListener('shown.bs.modal', () => {
+            window.location.href = '#';
+        });
+        modal.addEventListener('hidden.bs.modal', () => {
+            window.location.href = '#';
+        });
+    });
 }
+
+window.addEventListener('load', () => {
+    const openSignupDialogIfHash = () => {
+        if (document.getElementById('edit-user-modal')?.style.display === 'block') {
+            return; // Already displayed
+        }
+        const options = {
+            showPassword: true,
+            isPasswordRequired: true,
+            isEmailRequired: true,
+        };
+        if (window.location.hash === '#signup-dialog') {
+            if (user.id) {
+                // eslint-disable-next-line no-alert
+                window.alert(`Du bist bereits eingeloggt als ${user.name} (${user.username})!`);
+                window.location.href = '#';
+                return; // Already logged in!
+            }
+            initOlzEditUserModal({...options, simplified: false});
+        }
+        if (window.location.hash === '#simple-signup-dialog') {
+            if (user.id) {
+                // eslint-disable-next-line no-alert
+                window.alert(`Du bist bereits eingeloggt als ${user.name} (${user.username})!`);
+                window.location.href = '#';
+                return; // Already logged in!
+            }
+            initOlzEditUserModal({...options, simplified: true});
+        }
+    };
+    window.addEventListener('hashchange', openSignupDialogIfHash);
+    openSignupDialogIfHash();
+});

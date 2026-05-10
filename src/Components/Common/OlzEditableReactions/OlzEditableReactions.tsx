@@ -37,7 +37,8 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
                 setReactions([...reactions, result]);
             }
         } catch {
-            // ignore
+            // TODO: Check if it actually was an HTTP 403 error
+            location.hash = '#login-dialog';
         }
     };
 
@@ -46,6 +47,9 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
             const match = /^#react-(.+)$/.exec(location.hash);
             if (!match) {
                 return;
+            }
+            if (!currentUser.id) {
+                location.hash = '#login-dialog';
             }
             const emoji = decodeURIComponent(match[1]);
             toggleReaction(currentUser.id, emoji);

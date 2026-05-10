@@ -170,6 +170,7 @@ function openSignUpModal() {
         showPassword: true,
         isPasswordRequired: true,
         isEmailRequired: true,
+        simplified: false,
     };
     initOlzEditUserModal(options);
 }

@@ -87,6 +87,7 @@ export const OlzUserInfoModal = (props: OlzUserInfoModalProps): React.ReactEleme
     return (
         <OlzRestrictedPublicModal
             id='user-info-modal'
+            protectionReason='unsere Kontaktdaten'
             onReady={onReady}
         >
             {content}

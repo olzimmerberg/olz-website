@@ -89,6 +89,7 @@ export const OlzAuthorBadge = (props: OlzAuthorBadgeProps): React.ReactElement =
     return (
         <OlzRestrictedPublicModal
             id='author-badge-modal'
+            protectionReason='unsere Kontaktdaten'
             onReady={onReady}
         >
             {content}

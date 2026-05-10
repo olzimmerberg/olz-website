@@ -12,6 +12,7 @@ const INP_HEI = 24;
 const RES = 2;
 
 interface OlzCaptchaProps {
+    protectionReason?: string;
     onToken: (captchaToken: string | null) => void;
 }
 
@@ -203,7 +204,7 @@ export const OlzCaptcha = (props: OlzCaptchaProps): React.ReactElement => {
                 </canvas>
             </>) : (
                 <div className='captcha-intro'>
-                    <div>Um unsere Kontaktdaten vor Spam zu schützen,</div>
+                    <div>Um {props.protectionReason ?? 'diesen Vorgang'} vor Spam zu schützen,</div>
                     <div>muss zuerst eine <b>Bot-Prüfung</b> absolviert werden:</div>
                     <button
                         type='button'

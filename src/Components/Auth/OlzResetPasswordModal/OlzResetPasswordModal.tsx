@@ -89,7 +89,10 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
                     register={register}
                 />
             </div>
-            <OlzCaptcha onToken={setCaptchaToken}/>
+            <OlzCaptcha
+                protectionReason='dein Benutzerkonto'
+                onToken={setCaptchaToken}
+            />
         </OlzEditModal>
     );
 };

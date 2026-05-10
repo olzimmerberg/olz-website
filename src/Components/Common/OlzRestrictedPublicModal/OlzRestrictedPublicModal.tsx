@@ -6,6 +6,7 @@ import './OlzRestrictedPublicModal.scss';
 
 interface OlzRestrictedPublicModalProps {
     id: string;
+    protectionReason?: string;
     onReady: (captchaToken: string | null) => void;
     children: React.ReactNode;
 }
@@ -27,10 +28,13 @@ export const OlzRestrictedPublicModal = (props: OlzRestrictedPublicModalProps): 
     if (!isReady) {
         content = (
             <div className='mb-3'>
-                <OlzCaptcha onToken={(token) => {
-                    setIsReady(true);
-                    props.onReady(token);
-                }} />
+                <OlzCaptcha
+                    protectionReason={props.protectionReason}
+                    onToken={(token) => {
+                        setIsReady(true);
+                        props.onReady(token);
+                    }}
+                />
             </div>
         );
     } else {

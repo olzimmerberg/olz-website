@@ -440,7 +440,10 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
                 </div>
             ) : null}
             {config.hasCaptcha ? (
-                <OlzCaptcha onToken={setCaptchaToken}/>
+                <OlzCaptcha
+                    protectionReason='den News-Feed'
+                    onToken={setCaptchaToken}
+                />
             ) : null}
             <p>
                 <span className='required-field-asterisk'>*</span>

@@ -12,6 +12,7 @@ export function editUser(
                 showPassword: false,
                 isPasswordRequired: false,
                 isEmailRequired: response.data.parentUserId === null,
+                simplified: false,
             };
             initOlzEditUserModal(options, response.id, response.meta, response.data);
         });
@@ -27,6 +28,7 @@ export function addChildUser(
                 showPassword: true,
                 isPasswordRequired: false,
                 isEmailRequired: false,
+                simplified: false,
             };
             const prefillData: OlzUserData = {
                 parentUserId,

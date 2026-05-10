@@ -68,6 +68,7 @@ export const OlzEmailModal = (props: OlzEmailModalProps): React.ReactElement => 
     return (
         <OlzRestrictedPublicModal
             id='olz-email-modal'
+            protectionReason='unsere Kontaktdaten'
             onReady={onReady}
         >
             {content}

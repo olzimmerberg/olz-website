@@ -94,13 +94,17 @@ class SearchEntitiesEndpoint extends OlzTypedEndpoint {
         ;
         $matching_entities = $repo->matching($criteria);
 
-        return [
-            'result' => array_map(function ($entity) {
-                return [
-                    'id' => $entity->getIdForSearch(),
-                    'title' => $entity->getTitleForSearch(),
-                ];
-            }, [...$matching_entities]),
-        ];
+        $result = [];
+        foreach ($matching_entities as $entity) {
+            if ($entity->getIdForSearch() <= 0 || !$entity->getTitleForSearch()) {
+                continue;
+            }
+            $result[] = [
+                'id' => $entity->getIdForSearch(),
+                'title' => $entity->getTitleForSearch(),
+            ];
+        }
+
+        return ['result' => $result];
     }
 }

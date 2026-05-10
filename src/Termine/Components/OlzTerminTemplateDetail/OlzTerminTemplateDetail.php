@@ -137,7 +137,7 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
 
         $pretty_date = '(irgendwann)';
         $duration_interval = \DateInterval::createFromDateString("+{$duration_seconds} seconds");
-        if ($start_time && $duration_interval) {
+        if ($start_time) {
             $end_time = (clone $start_time)->add($duration_interval);
             $pretty_date = $duration_seconds
                 ? $start_time->format('H:i')." – ".$end_time->format('H:i')

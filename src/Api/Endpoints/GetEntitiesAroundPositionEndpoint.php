@@ -95,10 +95,12 @@ class GetEntitiesAroundPositionEndpoint extends OlzTypedEndpoint {
         ;
         [$this_entity] = $repo->matching($this_entity_criteria);
 
+        // @phpstan-ignore-next-line method.notFound
         $this_position = $this_entity?->getPositionForEntityField($entity_field);
         if ($this_position === null) {
             return [
                 'before' => null,
+                // @phpstan-ignore-next-line method.notFound
                 'this' => $this->getOlzEntityPositionResult($entity_field, $this_entity),
                 'after' => null,
             ];
@@ -131,8 +133,11 @@ class GetEntitiesAroundPositionEndpoint extends OlzTypedEndpoint {
         [$after_entity] = $repo->matching($after_criteria);
 
         return [
+            // @phpstan-ignore-next-line method.notFound
             'before' => $this->getOlzEntityPositionResult($entity_field, $before_entity),
+            // @phpstan-ignore-next-line method.notFound
             'this' => $this->getOlzEntityPositionResult($entity_field, $this_entity),
+            // @phpstan-ignore-next-line method.notFound
             'after' => $this->getOlzEntityPositionResult($entity_field, $after_entity),
         ];
     }

@@ -188,7 +188,7 @@ class OlzAnniversary extends OlzRootComponent {
             $is_backdated_emoji = $run->getRunAt() < $one_day_ago ? ' 🔙' : '';
             $is_counting_emoji = $run->getIsCounting() ? '✅' : '🚫';
             $is_counting_title = $run->getIsCounting() ? 'zählt' : 'zählt nicht';
-            $name = $run->getRunnerName() ?? "?";
+            $name = $run->getRunnerName();
             $source = $this->anniversaryUtils()->getPrettySource($run->getSource() ?? '?');
             $distance_km = number_format($run->getDistanceMeters() / 1000, 2);
             $inclination_percent = $run->getDistanceMeters()

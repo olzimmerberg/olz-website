@@ -331,7 +331,7 @@ class OlzTerminDetail extends OlzRootComponent {
         if ($has_location) {
             if ($location_name !== null) {
                 $location_maybe_link = $location_name;
-                if ($has_termin_location && $this->authUtils()->hasPermission('termine')) {
+                if ($this->authUtils()->hasPermission('termine')) {
                     $location_maybe_link = "<a href='{$code_href}termine/orte/{$termin_location->getId()}' class='linkmap'>{$location_name}</a>";
                 }
                 $out .= "<h3>Ort: {$location_maybe_link}</h3>";

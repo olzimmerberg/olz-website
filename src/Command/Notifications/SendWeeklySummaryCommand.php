@@ -152,7 +152,7 @@ class SendWeeklySummaryCommand extends BaseSendNotificationsCommand {
                     ? $this->dateUtils()->compactDate($starts_on).' - '.$this->dateUtils()->compactDate($ends_on)
                     : $this->dateUtils()->compactDate($starts_on);
                 $title = $termin->getTitle();
-                if (strlen(trim($title)) > 0) {
+                if (strlen(trim($title ?? '')) > 0) {
                     $termine_text .= "- {$pretty_date}: [{$title}]({$termine_url}/{$id})\n";
                 }
             }

@@ -53,14 +53,17 @@ class ScreenshotsController extends AbstractController {
             }
         }
 
-        $main_index = json_decode(
-            @file_get_contents("{$main_href}screenshots.json") ?: '',
-            true
-        );
+        $content = '';
+        try {
+            $content = file_get_contents("{$main_href}screenshots.json") ?: '';
+        } catch (\Throwable $th) {
+            // ignore
+        }
+        $main_index = json_decode($content, true);
         if ($main_index === null) {
-            $out .= '<div>No JSON screenshot index on main</div>';
+            $out .= "<div>No JSON screenshot index on main: {$content}</div>";
         } elseif (!isset($main_index['screenshot_paths'])) {
-            $out .= '<div>Invalid JSON screenshot index on main</div>';
+            $out .= "<div>Invalid JSON screenshot index on main: {$content}</div>";
         } else {
             $main_paths = $main_index['screenshot_paths'];
             foreach ($main_paths as $main_path) {

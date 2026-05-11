@@ -51,7 +51,7 @@ final class LinkStravaEndpointTest extends UnitTestCase {
         } catch (\Throwable $th) {
             $this->assertSame([
                 'INFO Valid user request',
-                'NOTICE HTTP error 400',
+                'NOTICE HTTP error 400 Ungültige Anfrage!',
             ], $this->getLogs());
             $this->assertSame('Ungültige Anfrage!', $th->getMessage());
         }
@@ -69,7 +69,7 @@ final class LinkStravaEndpointTest extends UnitTestCase {
         } catch (\Throwable $th) {
             $this->assertSame([
                 'INFO Valid user request',
-                'NOTICE HTTP error 403',
+                'NOTICE HTTP error 403 Kein Zugriff!',
             ], $this->getLogs());
             $this->assertSame('Kein Zugriff!', $th->getMessage());
         }

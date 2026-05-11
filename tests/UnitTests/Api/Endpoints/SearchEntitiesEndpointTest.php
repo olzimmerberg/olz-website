@@ -24,8 +24,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'entityType' => ["Fehlender Schlüssel: entityType."],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 "NOTICE Bad user request",
             ], $this->getLogs());
@@ -44,20 +43,19 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'entityType' => [['.' => [
-                    ['.' => ["Wert muss vom Typ 'Download' sein."]],
-                    ['.' => ["Wert muss vom Typ 'Link' sein."]],
-                    ['.' => ["Wert muss vom Typ 'Question' sein."]],
-                    ['.' => ["Wert muss vom Typ 'QuestionCategory' sein."]],
-                    ['.' => ["Wert muss vom Typ 'SolvEvent' sein."]],
-                    ['.' => ["Wert muss vom Typ 'TerminLabel' sein."]],
-                    ['.' => ["Wert muss vom Typ 'TerminLocation' sein."]],
-                    ['.' => ["Wert muss vom Typ 'TerminTemplate' sein."]],
-                    ['.' => ["Wert muss vom Typ 'Role' sein."]],
-                    ['.' => ["Wert muss vom Typ 'User' sein."]],
-                ]]],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+                'entityType' => [
+                    "Wert muss vom Typ 'Download' sein.",
+                    "Wert muss vom Typ 'Link' sein.",
+                    "Wert muss vom Typ 'Question' sein.",
+                    "Wert muss vom Typ 'QuestionCategory' sein.",
+                    "Wert muss vom Typ 'SolvEvent' sein.",
+                    "Wert muss vom Typ 'TerminLabel' sein.",
+                    "Wert muss vom Typ 'TerminLocation' sein.",
+                    "Wert muss vom Typ 'TerminTemplate' sein.",
+                    "Wert muss vom Typ 'Role' sein.",
+                    "Wert muss vom Typ 'User' sein.",
+                ],
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 "NOTICE Bad user request",
             ], $this->getLogs());
@@ -76,20 +74,19 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'entityType' => [['.' => [
-                    ['.' => ["Wert muss vom Typ 'Download' sein."]],
-                    ['.' => ["Wert muss vom Typ 'Link' sein."]],
-                    ['.' => ["Wert muss vom Typ 'Question' sein."]],
-                    ['.' => ["Wert muss vom Typ 'QuestionCategory' sein."]],
-                    ['.' => ["Wert muss vom Typ 'SolvEvent' sein."]],
-                    ['.' => ["Wert muss vom Typ 'TerminLabel' sein."]],
-                    ['.' => ["Wert muss vom Typ 'TerminLocation' sein."]],
-                    ['.' => ["Wert muss vom Typ 'TerminTemplate' sein."]],
-                    ['.' => ["Wert muss vom Typ 'Role' sein."]],
-                    ['.' => ["Wert muss vom Typ 'User' sein."]],
-                ]]],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+                'entityType' => [
+                    "Wert muss vom Typ 'Download' sein.",
+                    "Wert muss vom Typ 'Link' sein.",
+                    "Wert muss vom Typ 'Question' sein.",
+                    "Wert muss vom Typ 'QuestionCategory' sein.",
+                    "Wert muss vom Typ 'SolvEvent' sein.",
+                    "Wert muss vom Typ 'TerminLabel' sein.",
+                    "Wert muss vom Typ 'TerminLocation' sein.",
+                    "Wert muss vom Typ 'TerminTemplate' sein.",
+                    "Wert muss vom Typ 'Role' sein.",
+                    "Wert muss vom Typ 'User' sein.",
+                ],
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 "NOTICE Bad user request",
             ], $this->getLogs());
@@ -112,7 +109,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             $this->assertSame(403, $httperr->getCode());
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 403",
+                "NOTICE HTTP error 403 Kein Zugriff!",
             ], $this->getLogs());
         }
     }
@@ -175,7 +172,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             $this->assertSame(400, $httperr->getCode());
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 400",
+                "NOTICE HTTP error 400 Invalid filter invalidFilter => invalid for entity TerminLocation: No such TerminLocation filter: invalidFilter",
             ], $this->getLogs());
         }
     }

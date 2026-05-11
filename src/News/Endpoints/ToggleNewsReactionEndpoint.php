@@ -32,7 +32,7 @@ class ToggleNewsReactionEndpoint extends OlzTypedEndpoint {
             $user = $user_repo->findOneBy(['id' => $input['userId']]);
         }
         if (!$has_access || !$user) {
-            throw new HttpError(403, 'Kein Zugriff');
+            throw new HttpError(403, 'Kein Zugriff!');
         }
         $auth_user_id = $this->session()->get('auth_user_id');
         $is_parent = $auth_user_id && intval($user->getParentUserId()) === intval($auth_user_id);

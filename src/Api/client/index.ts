@@ -1,6 +1,6 @@
 import * as gen from './generated_olz_api_types';
 import {OlzApi, olzApi} from './OlzApi';
-import {ValidationError} from 'php-typescript-api';
+import {ApiError} from 'php-typescript-api';
 
 type OlzApiEndpoint = gen.OlzApiEndpoint;
 type OlzApiRequests = gen.OlzApiRequests;
@@ -47,7 +47,7 @@ export {
     OlzApiEndpoint,
     OlzApiRequests,
     OlzApiResponses,
-    ValidationError,
+    ApiError,
 
     // ---
 

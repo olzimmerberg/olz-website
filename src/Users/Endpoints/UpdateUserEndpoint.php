@@ -4,7 +4,6 @@ namespace Olz\Users\Endpoints;
 
 use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -38,22 +37,22 @@ class UpdateUserEndpoint extends OlzUpdateEntityTypedEndpoint {
         $new_username = $input['data']['username'];
         $is_username_updated = $new_username !== $old_username;
         if (!$this->authUtils()->isUsernameAllowed($new_username)) {
-            throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
+            throw HttpError::validationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
         if ($is_username_updated && !$this->authUtils()->isUsernameUnique($new_username, $entity)) {
-            throw new ValidationError(['username' => ["Dieser Benutzername ist bereits vergeben."]]);
+            throw HttpError::validationError(['username' => ["Dieser Benutzername ist bereits vergeben."]]);
         }
 
         // Email validation
         $new_email = $input['data']['email'] ?? null;
         $is_email_updated = $new_email !== $entity->getEmail();
         if (preg_match('/@olzimmerberg\.ch$/i', $new_email ?? '')) {
-            throw new ValidationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
+            throw HttpError::validationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
         }
         if ($is_email_updated) {
             $same_email_user = $user_repo->findOneBy(['email' => $new_email]);
             if ($same_email_user) {
-                throw new ValidationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse."]]);
+                throw HttpError::validationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse."]]);
             }
         }
 

@@ -30,7 +30,7 @@ final class UpdateResultsEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 403",
+                "NOTICE HTTP error 403 Kein Zugriff!",
             ], $this->getLogs());
             $this->assertSame(403, $err->getCode());
         }
@@ -95,7 +95,7 @@ final class UpdateResultsEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 400",
+                "NOTICE HTTP error 400 Either iofXmlFileId or content must be set!",
             ], $this->getLogs());
             $this->assertSame(400, $err->getCode());
         }
@@ -119,7 +119,7 @@ final class UpdateResultsEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 400",
+                "NOTICE HTTP error 400 Uploaded file not found!",
             ], $this->getLogs());
             $this->assertSame(400, $err->getCode());
         }

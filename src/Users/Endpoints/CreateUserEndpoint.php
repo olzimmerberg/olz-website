@@ -5,7 +5,6 @@ namespace Olz\Users\Endpoints;
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -48,19 +47,19 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
         $password = $input['data']['password'] ?? null;
         $this->log()->info("New sign-up (using password): {$first_name} {$last_name} ({$username}@) <{$email}> (Parent: {$parent_user_id})");
         if (!$parent_user_id && !$email) {
-            throw new ValidationError(['email' => ["Feld darf nicht leer sein."]]);
+            throw HttpError::validationError(['email' => ["Feld darf nicht leer sein."]]);
         }
         if (!$parent_user_id && !$password) {
-            throw new ValidationError(['password' => ["Feld darf nicht leer sein."]]);
+            throw HttpError::validationError(['password' => ["Feld darf nicht leer sein."]]);
         }
         if (!$this->authUtils()->isUsernameAllowed($username)) {
-            throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
+            throw HttpError::validationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
         if (!$parent_user_id && !$this->authUtils()->isPasswordAllowed($password)) {
-            throw new ValidationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
+            throw HttpError::validationError(['password' => ["Das Passwort muss mindestens 8 Zeichen lang sein."]]);
         }
         if ($email && preg_match('/@olzimmerberg\.ch$/i', $email)) {
-            throw new ValidationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
+            throw HttpError::validationError(['email' => ["Bitte keine @olzimmerberg.ch E-Mail verwenden."]]);
         }
         $ip_address = $this->server()['REMOTE_ADDR'];
         $auth_request_repo = $this->entityManager()->getRepository(AuthRequest::class);
@@ -70,20 +69,20 @@ class CreateUserEndpoint extends OlzCreateEntityTypedEndpoint {
         $same_email_user = $user_repo->findOneBy(['email' => $email]);
         if ($username && $same_username_user) {
             if ($same_username_user->getPasswordHash()) {
-                throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
+                throw HttpError::validationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
             }
             // If it's an existing user WITHOUT password, we just update that existing user!
             $entity = $same_username_user;
             $this->entityUtils()->updateOlzEntity($entity, ['onOff' => true]);
         } elseif ($email && $same_email_user) {
             if ($same_email_user->getPasswordHash()) {
-                throw new ValidationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
+                throw HttpError::validationError(['email' => ["Es existiert bereits eine Person mit dieser E-Mail Adresse. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
             }
             // If it's an existing user WITHOUT password, we just update that existing user!
             $entity = $same_email_user;
             $this->entityUtils()->updateOlzEntity($entity, ['onOff' => true]);
         } elseif (!$this->authUtils()->isUsernameUnique($username, null)) {
-            throw new ValidationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
+            throw HttpError::validationError(['username' => ["Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?"]]);
         } else {
             $entity = new User();
             $this->entityUtils()->createOlzEntity($entity, ['onOff' => true]);

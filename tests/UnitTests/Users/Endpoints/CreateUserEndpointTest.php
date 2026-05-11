@@ -118,13 +118,10 @@ final class CreateUserEndpointTest extends UnitTestCase {
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
-                'data' => [[
-                    'firstName' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
-                    'lastName' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
-                    'username' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
-                ]],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+                'data.firstName' => ['Wert muss vom Typ non-empty-string sein.'],
+                'data.lastName' => ['Wert muss vom Typ non-empty-string sein.'],
+                'data.username' => ['Wert muss vom Typ non-empty-string sein.'],
+            ], $httperr->getErrorsByField());
         }
     }
 
@@ -163,13 +160,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (inv@lid@) <fakeEmail> (Parent: )",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'username' => ['Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten.'],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
         }
     }
 
@@ -191,13 +187,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail> (Parent: )",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'password' => ['Das Passwort muss mindestens 8 Zeichen lang sein.'],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
         }
     }
 
@@ -219,13 +214,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fake-user@olzimmerberg.ch> (Parent: )",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Bitte keine @olzimmerberg.ch E-Mail verwenden.'],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
         }
     }
 
@@ -247,13 +241,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <> (Parent: )",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Feld darf nicht leer sein.'],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
         }
     }
 
@@ -275,13 +268,12 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (fakeUsername@) <fakeEmail> (Parent: )",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'password' => ['Feld darf nicht leer sein.'],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
         }
     }
 
@@ -564,17 +556,15 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (admin@) <fakeEmail> (Parent: )",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame(
                 [
+                    'status' => 400,
                     'message' => 'Fehlerhafte Eingabe',
                     'error' => [
-                        'type' => 'ValidationError',
-                        'validationErrors' => [
-                            'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?'],
-                        ],
+                        'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?'],
                     ],
                 ],
                 $httperr->getStructuredAnswer(),
@@ -647,18 +637,14 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (inexistent@) <admin@gmail.com> (Parent: )",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame(
                 [
+                    'status' => 400,
                     'message' => 'Fehlerhafte Eingabe',
-                    'error' => [
-                        'type' => 'ValidationError',
-                        'validationErrors' => [
-                            'email' => ['Es existiert bereits eine Person mit dieser E-Mail Adresse. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?'],
-                        ],
-                    ],
+                    'error' => ['email' => ['Es existiert bereits eine Person mit dieser E-Mail Adresse. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?']],
                 ],
                 $httperr->getStructuredAnswer(),
             );
@@ -683,18 +669,14 @@ final class CreateUserEndpointTest extends UnitTestCase {
             $this->assertSame([
                 "INFO Valid user request",
                 "INFO New sign-up (using password): fakeFirstName fakeLastName (admin-old@) <fakeEmail> (Parent: )",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame(
                 [
+                    'status' => 400,
                     'message' => 'Fehlerhafte Eingabe',
-                    'error' => [
-                        'type' => 'ValidationError',
-                        'validationErrors' => [
-                            'username' => ['Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?'],
-                        ],
-                    ],
+                    'error' => ['username' => ['Es existiert bereits eine Person mit diesem Benutzernamen. Wolltest du gar kein Konto erstellen, sondern dich nur einloggen?']],
                 ],
                 $httperr->getStructuredAnswer(),
             );

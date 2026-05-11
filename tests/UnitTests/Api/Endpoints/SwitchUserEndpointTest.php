@@ -24,8 +24,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'userId' => ["Fehlender Schlüssel: userId."],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 "NOTICE Bad user request",
             ], $this->getLogs());
@@ -42,9 +41,8 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'userId' => [['.' => ['Wert muss vom Typ int<1, max> sein.']]],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+                'userId' => ['Wert muss vom Typ int<1, max> sein.'],
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 "NOTICE Bad user request",
             ], $this->getLogs());
@@ -200,7 +198,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 403",
+                "NOTICE HTTP error 403 Kein Zugriff!",
             ], $this->getLogs());
             $this->assertSame([
                 'auth' => 'parent',
@@ -243,7 +241,7 @@ final class SwitchUserEndpointTest extends UnitTestCase {
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 403",
+                "NOTICE HTTP error 403 Kein Zugriff!",
             ], $this->getLogs());
             $this->assertSame([
                 'auth' => 'parent',

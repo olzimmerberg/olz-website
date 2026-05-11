@@ -23,16 +23,19 @@ foreach ($local_paths as $local_path) {
 }
 
 $remote_url = 'https://olzimmerberg.ch/';
-$remote_index = json_decode(
-    @file_get_contents("{$remote_url}screenshots.json") ?? '',
-    true
-);
+$remote_content = '';
+try {
+    $remote_content = file_get_contents("{$remote_url}screenshots.json") ?? '';
+} catch (Throwable $th) {
+    // ignore
+}
+$remote_index = json_decode($remote_content, true);
 if ($remote_index === null) {
-    echo 'No JSON screenshot index on main';
+    echo "No JSON screenshot index on main: {$remote_content}";
     exit(21);
 }
 if (!isset($remote_index['screenshot_paths'])) {
-    echo 'Invalid JSON screenshot index on main';
+    echo "Invalid JSON screenshot index on main: {$remote_content}";
     exit(22);
 }
 $remote_paths = $remote_index['screenshot_paths'];

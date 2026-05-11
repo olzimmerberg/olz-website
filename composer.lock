@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df9ec4f6b8609bf9ec1c045be4b25240",
+    "content-hash": "dcd60a3110ccb2c82ca63abbbe1cf7cd",
     "packages": [
         {
             "name": "allestuetsmerweh/php-deploy",
@@ -68,16 +68,16 @@
         },
         {
             "name": "allestuetsmerweh/php-typescript-api",
-            "version": "3.0.1",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/allestuetsmerweh/php-typescript-api.git",
-                "reference": "9cb9c420711976bfcd1244431a3a96a0704fe076"
+                "reference": "83bfadfb13c53cb5cf897d3c779fa2a76e0f86f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/allestuetsmerweh/php-typescript-api/zipball/9cb9c420711976bfcd1244431a3a96a0704fe076",
-                "reference": "9cb9c420711976bfcd1244431a3a96a0704fe076",
+                "url": "https://api.github.com/repos/allestuetsmerweh/php-typescript-api/zipball/83bfadfb13c53cb5cf897d3c779fa2a76e0f86f0",
+                "reference": "83bfadfb13c53cb5cf897d3c779fa2a76e0f86f0",
                 "shasum": ""
             },
             "require": {
@@ -119,9 +119,9 @@
             ],
             "support": {
                 "issues": "https://github.com/allestuetsmerweh/php-typescript-api/issues",
-                "source": "https://github.com/allestuetsmerweh/php-typescript-api/tree/3.0.1"
+                "source": "https://github.com/allestuetsmerweh/php-typescript-api/tree/4.0.1"
             },
-            "time": "2026-03-23T21:13:34+00:00"
+            "time": "2026-05-11T20:20:41+00:00"
         },
         {
             "name": "artgris/filemanager-bundle",
@@ -1362,16 +1362,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "3.6.4",
+            "version": "3.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "156f3b5a984e7eaa72d440bb6de1d3b6f8d2d6fd"
+                "reference": "7e88b416153dceeb563352ca2b12465f09eea173"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/156f3b5a984e7eaa72d440bb6de1d3b6f8d2d6fd",
-                "reference": "156f3b5a984e7eaa72d440bb6de1d3b6f8d2d6fd",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/7e88b416153dceeb563352ca2b12465f09eea173",
+                "reference": "7e88b416153dceeb563352ca2b12465f09eea173",
                 "shasum": ""
             },
             "require": {
@@ -1444,9 +1444,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/3.6.4"
+                "source": "https://github.com/doctrine/orm/tree/3.6.5"
             },
-            "time": "2026-05-07T07:04:34+00:00"
+            "time": "2026-05-11T06:47:19+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -2855,16 +2855,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.1.3",
+            "version": "v4.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "bb3ea637e3d131d72acc033cfc2746ee893349fe"
+                "reference": "056e6b2486d1f0573756228db991b7aaef096ffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/bb3ea637e3d131d72acc033cfc2746ee893349fe",
-                "reference": "bb3ea637e3d131d72acc033cfc2746ee893349fe",
+                "url": "https://api.github.com/repos/nette/utils/zipball/056e6b2486d1f0573756228db991b7aaef096ffb",
+                "reference": "056e6b2486d1f0573756228db991b7aaef096ffb",
                 "shasum": ""
             },
             "require": {
@@ -2940,9 +2940,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.1.3"
+                "source": "https://github.com/nette/utils/tree/v4.1.4"
             },
-            "time": "2026-02-13T03:05:33+00:00"
+            "time": "2026-05-11T19:33:07+00:00"
         },
         {
             "name": "nikic/php-parser",

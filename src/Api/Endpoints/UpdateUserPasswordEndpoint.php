@@ -4,7 +4,7 @@ namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\ValidationError;
+use PhpTypeScriptApi\HttpError;
 
 /**
  * @extends OlzTypedEndpoint<
@@ -26,7 +26,7 @@ class UpdateUserPasswordEndpoint extends OlzTypedEndpoint {
         $new_password = $input['newPassword'];
 
         if (!$this->authUtils()->isPasswordAllowed($new_password)) {
-            throw new ValidationError(['newPassword' => ["Das neue Passwort muss mindestens 8 Zeichen lang sein."]]);
+            throw HttpError::validationError(['newPassword' => ["Das neue Passwort muss mindestens 8 Zeichen lang sein."]]);
         }
 
         $user_repo = $this->entityManager()->getRepository(User::class);

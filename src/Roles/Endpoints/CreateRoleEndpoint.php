@@ -5,7 +5,6 @@ namespace Olz\Roles\Endpoints;
 use Olz\Api\OlzCreateEntityTypedEndpoint;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -29,10 +28,10 @@ class CreateRoleEndpoint extends OlzCreateEntityTypedEndpoint {
         // Username validation
         $new_username = $input['data']['username'];
         if (!$this->authUtils()->isUsernameAllowed($new_username)) {
-            throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
+            throw HttpError::validationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
         if (!$this->authUtils()->isUsernameUnique($new_username, null)) {
-            throw new ValidationError(['username' => ["Dieser Benutzername ist bereits vergeben."]]);
+            throw HttpError::validationError(['username' => ["Dieser Benutzername ist bereits vergeben."]]);
         }
 
         $entity = new Role();

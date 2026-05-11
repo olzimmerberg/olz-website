@@ -29,8 +29,7 @@ final class LoginEndpointTest extends UnitTestCase {
                 'usernameOrEmail' => ["Fehlender Schlüssel: usernameOrEmail."],
                 'password' => ["Fehlender Schlüssel: password."],
                 'rememberMe' => ["Fehlender Schlüssel: rememberMe."],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 "NOTICE Bad user request",
             ], $this->getLogs());
@@ -49,11 +48,10 @@ final class LoginEndpointTest extends UnitTestCase {
             $this->fail('Exception expected.');
         } catch (HttpError $httperr) {
             $this->assertSame([
-                'usernameOrEmail' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
-                'password' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
-                'rememberMe' => [['.' => ['Wert muss vom Typ bool sein.']]],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+                'usernameOrEmail' => ['Wert muss vom Typ non-empty-string sein.'],
+                'password' => ['Wert muss vom Typ non-empty-string sein.'],
+                'rememberMe' => ['Wert muss vom Typ bool sein.'],
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 "NOTICE Bad user request",
             ], $this->getLogs());

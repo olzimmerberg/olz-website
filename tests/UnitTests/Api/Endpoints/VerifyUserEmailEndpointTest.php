@@ -45,7 +45,7 @@ final class VerifyUserEmailEndpointTest extends UnitTestCase {
             $this->assertSame('Nicht eingeloggt!', $httperr->getMessage());
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 401",
+                "NOTICE HTTP error 401 Nicht eingeloggt!",
             ], $this->getLogs());
         }
     }

@@ -38,8 +38,7 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
             $this->assertSame([
                 'usernameOrEmail' => ["Fehlender Schlüssel: usernameOrEmail."],
                 'captchaToken' => ["Fehlender Schlüssel: captchaToken."],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 "NOTICE Bad user request",
             ], $this->getLogs());
@@ -60,10 +59,9 @@ final class ResetPasswordEndpointTest extends UnitTestCase {
                 "NOTICE Bad user request",
             ], $this->getLogs());
             $this->assertSame([
-                'usernameOrEmail' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
-                'captchaToken' => [['.' => ['Wert muss vom Typ non-empty-string sein.']]],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+                'usernameOrEmail' => ['Wert muss vom Typ non-empty-string sein.'],
+                'captchaToken' => ['Wert muss vom Typ non-empty-string sein.'],
+            ], $httperr->getErrorsByField());
         }
     }
 

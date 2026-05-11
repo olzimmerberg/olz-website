@@ -42,7 +42,7 @@ final class LinkTelegramEndpointTest extends UnitTestCase {
         } catch (\Throwable $th) {
             $this->assertSame([
                 'INFO Valid user request',
-                'NOTICE HTTP error 403',
+                'NOTICE HTTP error 403 Kein Zugriff!',
             ], $this->getLogs());
             $this->assertSame('Kein Zugriff!', $th->getMessage());
         }

@@ -5,7 +5,6 @@ namespace Olz\Roles\Endpoints;
 use Olz\Api\OlzUpdateEntityTypedEndpoint;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
-use PhpTypeScriptApi\Fields\ValidationError;
 use PhpTypeScriptApi\HttpError;
 
 /**
@@ -32,10 +31,10 @@ class UpdateRoleEndpoint extends OlzUpdateEntityTypedEndpoint {
         $new_username = $input['data']['username'];
         $is_username_updated = $new_username !== $entity->getUsername();
         if (!$this->authUtils()->isUsernameAllowed($new_username)) {
-            throw new ValidationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
+            throw HttpError::validationError(['username' => ["Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten."]]);
         }
         if ($is_username_updated && !$this->authUtils()->isUsernameUnique($new_username, $entity)) {
-            throw new ValidationError(['username' => ["Dieser Benutzername ist bereits vergeben."]]);
+            throw HttpError::validationError(['username' => ["Dieser Benutzername ist bereits vergeben."]]);
         }
 
         // TODO Do this more elegantly?

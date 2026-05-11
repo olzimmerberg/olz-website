@@ -149,7 +149,7 @@ class Panini2024Utils {
         $current_user = $this->authUtils()->getCurrentUser();
         $is_mine = $owner && $current_user && ($owner->getId() === $current_user->getId());
         if (!$has_panini && !$is_mine) {
-            throw new AccessDeniedHttpException("Kein Zugriff");
+            throw new AccessDeniedHttpException("Kein Zugriff!");
         }
 
         $wid = max(1, intval(round(($is_landscape ? self::PANINI_LONG : self::PANINI_SHORT)

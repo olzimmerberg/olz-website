@@ -26,7 +26,7 @@ class GetUserInfoEndpoint extends OlzTypedEndpoint {
         $token = $input['captchaToken'] ?? null;
         $is_valid_token = $token ? $this->captchaUtils()->validateToken($token) : false;
         if (!$has_access && !$is_valid_token) {
-            throw new HttpError(403, 'Captcha token invalid');
+            throw new HttpError(403, 'Bot-Prüfung nicht bestanden!');
         }
 
         $id = $input['id'];

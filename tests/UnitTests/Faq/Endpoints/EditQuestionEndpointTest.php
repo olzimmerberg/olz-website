@@ -32,7 +32,7 @@ final class EditQuestionEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 403",
+                "NOTICE HTTP error 403 Kein Zugriff!",
             ], $this->getLogs());
 
             $this->assertSame(
@@ -57,7 +57,7 @@ final class EditQuestionEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 404",
+                "NOTICE HTTP error 404 Nicht gefunden.",
             ], $this->getLogs());
             $this->assertSame(404, $err->getCode());
         }
@@ -77,7 +77,7 @@ final class EditQuestionEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 403",
+                "NOTICE HTTP error 403 Kein Zugriff!",
             ], $this->getLogs());
 
             $this->assertSame(

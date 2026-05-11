@@ -90,7 +90,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 403",
+                "NOTICE HTTP error 403 Kein Zugriff!",
             ], $this->getLogs());
             $this->assertSame('Kein Zugriff!', $httperr->getMessage());
             $this->assertSame([
@@ -127,13 +127,12 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'username' => ['Der Benutzername darf nur Buchstaben, Zahlen, und die Zeichen -_. enthalten.'],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 'auth' => 'ftp',
                 'root' => 'karten',
@@ -168,13 +167,12 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE Bad user request",
+                "NOTICE HTTP error 400 Fehlerhafte Eingabe",
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Bitte keine @olzimmerberg.ch E-Mail verwenden.'],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 'auth' => 'ftp',
                 'root' => 'karten',
@@ -390,13 +388,12 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'INFO Valid user request',
-                'NOTICE Bad user request',
+                'NOTICE HTTP error 400 Fehlerhafte Eingabe',
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'username' => ['Dieser Benutzername ist bereits vergeben.'],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 'auth' => 'ftp',
                 'root' => 'karten',
@@ -440,13 +437,12 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $httperr) {
             $this->assertSame([
                 'INFO Valid user request',
-                'NOTICE Bad user request',
+                'NOTICE HTTP error 400 Fehlerhafte Eingabe',
             ], $this->getLogs());
             $this->assertSame('Fehlerhafte Eingabe', $httperr->getMessage());
             $this->assertSame([
                 'email' => ['Es existiert bereits eine Person mit dieser E-Mail Adresse.'],
-                // @phpstan-ignore-next-line
-            ], $httperr->getPrevious()->getValidationErrors());
+            ], $httperr->getErrorsByField());
             $this->assertSame([
                 'auth' => 'ftp',
                 'root' => 'karten',
@@ -527,7 +523,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 403",
+                "NOTICE HTTP error 403 Kein Zugriff!",
             ], $this->getLogs());
 
             $this->assertSame([
@@ -556,7 +552,7 @@ final class UpdateUserEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 404",
+                "NOTICE HTTP error 404 Nicht gefunden.",
             ], $this->getLogs());
 
             $this->assertSame(

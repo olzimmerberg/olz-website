@@ -48,7 +48,7 @@ final class VereinTest extends SystemTestCase {
             $this->assertNull($this->getBrowserElement('#user-info-modal h3'));
             $this->assertNull($this->getBrowserElement('#user-info-modal a.linkmail'));
             $this->assertMatchesRegularExpression(
-                '/ Fehler /i',
+                '/ Bot-Prüfung /i',
                 $this->getBrowserElement('#user-info-modal .container')?->getText() ?? ''
             );
         }

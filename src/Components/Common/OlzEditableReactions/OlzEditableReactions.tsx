@@ -73,14 +73,14 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
     (props.defaultEmojis ?? []).forEach((emoji) => {
         countByEmoji[emoji] = 0;
     });
-    const userIds: Array<number> = [];
+    const userIdSet = new Set<number>([]);
     const nameByUser: {[userId: number]: string | null} = {};
     const emojisByUser: {[userId: number]: Array<string>} = {};
     const isActiveByEmojiByUser: {[userId: number]: {[emoji: string]: boolean}} = {};
     reactions.forEach((reaction) => {
         countByEmoji[reaction.emoji] ??= 0;
         countByEmoji[reaction.emoji]++;
-        userIds.push(reaction.userId);
+        userIdSet.add(reaction.userId);
         nameByUser[reaction.userId] = reaction.name;
         emojisByUser[reaction.userId] ??= [];
         emojisByUser[reaction.userId].push(reaction.emoji);
@@ -147,9 +147,10 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
 
     const userOverview = [];
     if (currentUser.id) {
-        userIds.sort((a, b) => (nameByUser[a] ?? '').localeCompare(nameByUser[b] ?? ''));
-        for (const userId in userIds) {
-            const emojis = emojisByUser[userId];
+        const userIds = [...userIdSet].sort((a, b) =>
+            (nameByUser[a] ?? '').localeCompare(nameByUser[b] ?? ''));
+        for (const userId of userIds) {
+            const emojis = emojisByUser[userId] ?? [];
             emojis.sort((a, b) => countByEmoji[b] - countByEmoji[a]);
             userOverview.push(<div key={`user-${userId}`}>
                 <a

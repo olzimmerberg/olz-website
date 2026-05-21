@@ -50,10 +50,11 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
             }
             if (!currentUser.id) {
                 location.hash = '#login-dialog';
+                return;
             }
             const emoji = decodeURIComponent(match[1]);
             toggleReaction(currentUser.id, emoji);
-            location.hash = '';
+            history.replaceState(null, '', window.location.pathname);
         };
         window.addEventListener('hashchange', onHashChange);
         return () => {

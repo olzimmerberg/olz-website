@@ -11,6 +11,7 @@ import Style from 'ol/style/Style';
 import CircleStyle from 'ol/style/Circle';
 import Stroke from 'ol/style/Stroke';
 import TextStyle from 'ol/style/Text';
+import {defaults, Attribution} from 'ol/control';
 import {transform} from 'ol/proj';
 
 import 'ol/ol.css';
@@ -83,5 +84,9 @@ export function getOlzLocationMap(
             zoom,
         }),
         interactions: [],
+        controls: defaults({attribution: false}).extend([new Attribution({
+            collapsible: false,
+            attributions: '© <a href="https://openstreetmap.org">OpenStreetMap</a>-Mitwirkende',
+        })]),
     });
 }

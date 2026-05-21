@@ -13,6 +13,7 @@ import Style from 'ol/style/Style';
 import CircleStyle from 'ol/style/Circle';
 import Stroke from 'ol/style/Stroke';
 import TextStyle from 'ol/style/Text';
+import {defaults, Attribution} from 'ol/control';
 
 import 'ol/ol.css';
 import './OlzTerminLocationsList.scss';
@@ -97,6 +98,10 @@ export function olzTerminLocationsMapRender(
             center: transform([8.57, 47.27], 'EPSG:4326', 'EPSG:3857'),
             zoom: 11,
         }),
+        controls: defaults({attribution: false}).extend([new Attribution({
+            collapsible: false,
+            attributions: '© <a href="https://openstreetmap.org">OpenStreetMap</a>-Mitwirkende',
+        })]),
     });
     let highlightedFeature: FeatureLike | null = null;
     map.on('pointermove', (evt) => {

@@ -18,7 +18,8 @@ class ServiceController extends AbstractController {
         HttpUtils $httpUtils,
         OlzService $olzService,
     ): Response {
-        $httpUtils->countRequest($request);
+        $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzService->getHtml([]);
         return new Response($out);
     }

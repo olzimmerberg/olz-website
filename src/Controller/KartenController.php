@@ -19,7 +19,8 @@ class KartenController extends AbstractController {
         HttpUtils $httpUtils,
         OlzKarten $olzKarten,
     ): Response {
-        $httpUtils->countRequest($request);
+        $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzKarten->getHtml([]);
         return new Response($out);
     }

@@ -31,7 +31,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
 
         $out = <<<ZZZZZZZZZZ
             <h3>
-                <a href='{$termine_url}&von=startseite' class='header-link'>
+                <a href='{$termine_url}&von=st-tr' class='header-link'>
                     <img
                         src='{$code_href}assets/icns/termine_type_all_20.svg'
                         alt='Termine'
@@ -69,6 +69,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             ORDER BY t.start_date ASC
             LIMIT 7
             ZZZZZZZZZZ);
+        $index = 0;
         // @phpstan-ignore-next-line
         while ($row = $res->fetch_assoc()) {
             $id = $row['id'];
@@ -85,12 +86,13 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             $icon_img = $icon_href ? "<img src='{$icon_href}' alt='' class='link-icon text-icon'>" : '';
             $out .= <<<ZZZZZZZZZZ
                     <li class='flex'>
-                        <a href='{$code_href}termine/{$id}?von=startseite'>
+                        <a href='{$code_href}termine/{$id}?von=st-tr-{$index}'>
                             {$icon_img}
                             <b>{$date}</b>: {$title}
                         </a>
                     </li>
                 ZZZZZZZZZZ;
+            $index++;
         }
         $out .= "</ul>";
 
@@ -119,7 +121,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             $num_this_year = $this->getNumberOfEntries($this_year_filter);
             $serialized_filter = $this->termineUtils()->serialize($this_year_filter);
             $out .= <<<ZZZZZZZZZZ
-                <a href='{$code_href}termine?filter={$serialized_filter}&von=startseite' class='filter'>
+                <a href='{$code_href}termine?filter={$serialized_filter}&von=st-tr' class='filter'>
                     {$icon_img} Programm {$this_year}<span class='secondary'>({$num_this_year})</span>
                 </a>
                 ZZZZZZZZZZ;
@@ -136,7 +138,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
             if ($num_next_year > 0) {
                 $serialized_filter = $this->termineUtils()->serialize($next_year_filter);
                 $out .= <<<ZZZZZZZZZZ
-                    <a href='{$code_href}termine?filter={$serialized_filter}&von=startseite' class='filter'>
+                    <a href='{$code_href}termine?filter={$serialized_filter}&von=st-tr' class='filter'>
                         {$icon_img} Programm {$next_year}<span class='secondary'>({$num_next_year})</span>
                     </a>
                     ZZZZZZZZZZ;
@@ -157,7 +159,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         $num_imminent = $this->getNumberOfEntries($imminent_filter);
         $serialized_filter = $this->termineUtils()->serialize($imminent_filter);
         return <<<ZZZZZZZZZZ
-            <a href='{$code_href}termine?filter={$serialized_filter}&von=startseite' class='filter'>
+            <a href='{$code_href}termine?filter={$serialized_filter}&von=st-tr' class='filter'>
                 {$icon_img} Weekends<span class='secondary'>({$num_imminent})</span>
             </a>
             ZZZZZZZZZZ;
@@ -176,7 +178,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         $num_this_year = $this->getNumberOfEntries($this_year_filter);
         $serialized_filter = $this->termineUtils()->serialize($this_year_filter);
         return <<<ZZZZZZZZZZ
-            <a href='{$code_href}termine?filter={$serialized_filter}&von=startseite' class='filter'>
+            <a href='{$code_href}termine?filter={$serialized_filter}&von=st-tr' class='filter'>
                 {$icon_img} OLZ Trophy<span class='secondary'>({$num_this_year})</span>
             </a>
             ZZZZZZZZZZ;
@@ -193,7 +195,7 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
         ];
         $serialized_filter = $this->termineUtils()->serialize($imminent_filter);
         return <<<ZZZZZZZZZZ
-            <a href='{$code_href}termine?filter={$serialized_filter}&von=startseite' class='filter'>
+            <a href='{$code_href}termine?filter={$serialized_filter}&von=st-tr' class='filter'>
                 {$icon_img} Trainings
             </a>
             ZZZZZZZZZZ;

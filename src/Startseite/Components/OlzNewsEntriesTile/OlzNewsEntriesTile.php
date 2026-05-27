@@ -29,7 +29,7 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
         $forum_url = $news_utils->getUrl(['format' => 'forum', 'datum' => $year]);
         $out = <<<ZZZZZZZZZZ
             <h3>
-                <a href='{$news_url}&von=startseite' class='header-link'>
+                <a href='{$news_url}&von=st-nw' class='header-link'>
                     <img
                         src='{$code_href}assets/icns/entry_type_galerie_20.svg'
                         alt='News'
@@ -41,23 +41,23 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
             ZZZZZZZZZZ;
         $out .= <<<ZZZZZZZZZZ
             <div class='filters'>
-                <a href='{$aktuell_url}&von=startseite' class='filter'>
+                <a href='{$aktuell_url}&von=st-nw' class='filter'>
                     <img src='{$code_href}assets/icns/entry_type_aktuell_20.svg' alt='Aktuell' class='header-link-icon'>
                     Aktuell
                 </a>
-                <a href='{$galerie_url}&von=startseite' class='filter'>
+                <a href='{$galerie_url}&von=st-nw' class='filter'>
                     <img src='{$code_href}assets/icns/entry_type_galerie_20.svg' alt='Galerie' class='header-link-icon'>
                     Galerie
                 </a>
-                <a href='{$video_url}&von=startseite' class='filter'>
+                <a href='{$video_url}&von=st-nw' class='filter'>
                     <img src='{$code_href}assets/icns/entry_type_video_20.svg' alt='Video' class='header-link-icon'>
                     Video
                 </a>
-                <a href='{$kaderblog_url}&von=startseite' class='filter'>
+                <a href='{$kaderblog_url}&von=st-nw' class='filter'>
                     <img src='{$code_href}assets/icns/entry_type_kaderblog_20.svg' alt='Kaderblog' class='header-link-icon'>
                     Kaderblog
                 </a>
-                <a href='{$forum_url}&von=startseite' class='filter'>
+                <a href='{$forum_url}&von=st-nw' class='filter'>
                     <img src='{$code_href}assets/icns/entry_type_forum_20.svg' alt='Forum' class='header-link-icon'>
                     Forum
                 </a>
@@ -101,7 +101,7 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
 
                 $out .= <<<ZZZZZZZZZZ
                     <li>
-                        <a href='{$code_href}news/{$id}?von=startseite' class='flex min-two-lines aktuell-kaderblog-tile'>
+                        <a href='{$code_href}news/{$id}?von=st-nw-{$index}' class='flex min-two-lines aktuell-kaderblog-tile'>
                             <img src='{$icon}' alt='{$format}' class='link-icon text-icon'>
                             <div style='flex-grow:1;'>
                                 <span class='title'>{$title}</span>
@@ -130,7 +130,7 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
 
                 $out .= <<<ZZZZZZZZZZ
                     <li class='flex gallery min-two-lines'>
-                        <a href='{$code_href}news/{$id}?von=startseite'>
+                        <a href='{$code_href}news/{$id}?von=st-nw-{$index}'>
                             <div class='images'>
                                 <img src='{$icon}' alt='{$format}' class='link-icon text-icon'>
                                 {$images}
@@ -161,7 +161,7 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
                 $out .= <<<ZZZZZZZZZZ
                     <li class='forum'>
                         <img src='{$icon}' alt='{$format}' class='link-icon'>
-                        <a href='{$code_href}news/{$id}?von=startseite'>
+                        <a href='{$code_href}news/{$id}?von=st-nw-{$index}'>
                             <div class='bubble'>
                                 <span class='title'>{$title}</span>
                                 <span class='date'>{$date}</span>

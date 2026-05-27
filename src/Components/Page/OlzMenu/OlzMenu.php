@@ -26,16 +26,16 @@ class OlzMenu extends OlzComponent {
         $enc_termine_filter = $termine_utils->serialize($termine_utils->getDefaultFilter());
 
         $main_menu = [
-            ['name' => "Startseite", 'ident' => 'startseite', 'href' => ''],
+            ['name' => "Startseite", 'ident' => 'startseite', 'href' => '?von=menu'],
             null,
-            ['name' => "News", 'ident' => 'news', 'href' => "news?filter={$enc_news_filter}&seite=1"],
-            ['name' => "Termine", 'ident' => 'termine', 'href' => "termine?filter={$enc_termine_filter}"],
+            ['name' => "News", 'ident' => 'news', 'href' => "news?filter={$enc_news_filter}&seite=1&von=menu"],
+            ['name' => "Termine", 'ident' => 'termine', 'href' => "termine?filter={$enc_termine_filter}&von=menu"],
             null,
-            ['name' => "Angebot", 'ident' => 'angebot', 'href' => 'angebot'],
-            ['name' => "Karten", 'ident' => 'karten', 'href' => 'karten'],
+            ['name' => "Angebot", 'ident' => 'angebot', 'href' => 'angebot?von=menu'],
+            ['name' => "Karten", 'ident' => 'karten', 'href' => 'karten?von=menu'],
             null,
-            ['name' => "Service", 'ident' => 'service', 'href' => 'service'],
-            ['name' => "Verein", 'ident' => 'verein', 'href' => 'verein'],
+            ['name' => "Service", 'ident' => 'service', 'href' => 'service?von=menu'],
+            ['name' => "Verein", 'ident' => 'verein', 'href' => 'verein?von=menu'],
         ];
 
         // BACK-BUTTON
@@ -143,11 +143,11 @@ class OlzMenu extends OlzComponent {
         }
         $code_href = $this->envUtils()->getCodeHref();
         $href = $menu_item['href'];
-        $href_path = substr($href, 0, strpos($href, '?') ?: strlen($href));
+        $href_path = substr($href, 0, strpos($href, '?') === false ? strlen($href) : strpos($href, '?'));
         $request_uri = $_SERVER['REQUEST_URI'] ?? '';
         $is_active = (
             preg_match("/^\\/{$href_path}(\\/|\\?|#|$)/", $request_uri)
-            || ($href === '' && $request_uri === '')
+            || ($href_path === '' && $request_uri === '')
         );
         $active_class = $is_active ? ' active' : '';
         return <<<ZZZZZZZZZZ

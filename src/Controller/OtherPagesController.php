@@ -24,7 +24,8 @@ class OtherPagesController extends AbstractController {
         HttpUtils $httpUtils,
         OlzDatenschutz $olzDatenschutz,
     ): Response {
-        $httpUtils->countRequest($request);
+        $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzDatenschutz->getHtml([]);
         return new Response($out);
     }
@@ -48,7 +49,8 @@ class OtherPagesController extends AbstractController {
         HttpUtils $httpUtils,
         OlzAngebot $olzAngebot,
     ): Response {
-        $httpUtils->countRequest($request);
+        $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzAngebot->getHtml([]);
         return new Response($out);
     }

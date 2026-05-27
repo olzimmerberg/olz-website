@@ -124,7 +124,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
             );
             return <<<ZZZZZZZZZZ
                     <li class='flex deadline-image min-two-lines'>
-                        <a href='{$code_href}termine/{$id}?von=startseite'>
+                        <a href='{$code_href}termine/{$id}?von=st-dl-img'>
                             <div class='overlay'>
                                 {$icon_img}
                                 <span class='date'>{$deadline}</span>
@@ -138,7 +138,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         }
         return <<<ZZZZZZZZZZ
                 <li class='flex'>
-                    <a href='{$code_href}termine/{$id}?von=startseite'>
+                    <a href='{$code_href}termine/{$id}?von=st-dl'>
                         {$icon_img}
                         <b>{$deadline}</b>: Für {$title} vom {$date}
                     </a>

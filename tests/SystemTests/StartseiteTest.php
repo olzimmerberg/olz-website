@@ -32,7 +32,7 @@ final class StartseiteTest extends SystemTestCase {
             $body
         );
         $this->assertMatchesRegularExpression(
-            '/<a href=\'\/\'/i',
+            '/olz_logo\.svg/i',
             $body
         );
     }

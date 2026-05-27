@@ -18,7 +18,8 @@ class StartseiteController extends AbstractController {
         HttpUtils $httpUtils,
         OlzStartseite $olzStartseite,
     ): Response {
-        $httpUtils->countRequest($request);
+        $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         $out = $olzStartseite->getHtml([]);
         return new Response($out);
     }

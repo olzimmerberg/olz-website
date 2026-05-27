@@ -30,7 +30,8 @@ class SitemapController extends AbstractController {
         HttpUtils $httpUtils,
         OlzHtmlSitemap $olzHtmlSitemap,
     ): Response {
-        $httpUtils->countRequest($request);
+        $httpUtils->countRequest($request, ['von']);
+        $httpUtils->stripParams($request, ['von']);
         return new Response($olzHtmlSitemap->getHtml([]));
     }
 }

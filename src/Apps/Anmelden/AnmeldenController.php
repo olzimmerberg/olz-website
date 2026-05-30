@@ -18,9 +18,10 @@ class AnmeldenController extends AbstractController {
         HttpUtils $httpUtils,
         OlzAnmelden $olzAnmelden,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzAnmelden->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzAnmelden) {
+            $html_out = $olzAnmelden->getHtml([]);
+            return new Response($html_out);
+        });
     }
 
     #[Route('/apps/anmelden/{id}', requirements: [
@@ -33,8 +34,9 @@ class AnmeldenController extends AbstractController {
         OlzAnmelden $olzAnmelden,
         string $id,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzAnmelden->getHtml(['id' => $id ?: null]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzAnmelden, $id) {
+            $html_out = $olzAnmelden->getHtml(['id' => $id ?: null]);
+            return new Response($html_out);
+        });
     }
 }

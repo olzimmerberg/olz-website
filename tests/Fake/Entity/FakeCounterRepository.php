@@ -15,9 +15,16 @@ class FakeCounterRepository extends FakeOlzRepository {
     public string $fakeOlzEntityClass = FakeCounter::class;
 
     /** @var array<mixed> */
-    public array $records = [];
+    public array $visit_records = [];
 
-    public function record(string $page): void {
-        $this->records[] = $page;
+    /** @var array<mixed> */
+    public array $latency_records = [];
+
+    public function recordVisit(string $page): void {
+        $this->visit_records[] = $page;
+    }
+
+    public function recordLatency(string $page, float $latency_ms): void {
+        $this->latency_records[] = [$page, $latency_ms];
     }
 }

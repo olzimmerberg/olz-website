@@ -18,8 +18,9 @@ class MembersController extends AbstractController {
         HttpUtils $httpUtils,
         OlzMembers $olzMembers,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzMembers->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzMembers) {
+            $html_out = $olzMembers->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

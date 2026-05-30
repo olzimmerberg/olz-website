@@ -19,10 +19,11 @@ class KartenController extends AbstractController {
         HttpUtils $httpUtils,
         OlzKarten $olzKarten,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzKarten->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzKarten) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzKarten->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/karten/{id}', requirements: ['id' => '\d+'])]
@@ -33,8 +34,9 @@ class KartenController extends AbstractController {
         OlzKarteDetail $olzKarteDetail,
         int $id,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzKarteDetail->getHtml(['id' => $id]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzKarteDetail, $id) {
+            $out = $olzKarteDetail->getHtml(['id' => $id]);
+            return new Response($out);
+        });
     }
 }

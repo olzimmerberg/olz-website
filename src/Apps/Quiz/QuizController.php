@@ -18,8 +18,9 @@ class QuizController extends AbstractController {
         HttpUtils $httpUtils,
         OlzQuiz $olzQuiz,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzQuiz->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzQuiz) {
+            $html_out = $olzQuiz->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

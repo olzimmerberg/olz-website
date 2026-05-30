@@ -19,9 +19,10 @@ class FilesController extends AbstractController {
         HttpUtils $httpUtils,
         OlzFiles $olzFiles,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzFiles->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzFiles) {
+            $html_out = $olzFiles->getHtml([]);
+            return new Response($html_out);
+        });
     }
 
     #[Route('/apps/files/webdav')]
@@ -31,8 +32,9 @@ class FilesController extends AbstractController {
         HttpUtils $httpUtils,
         OlzWebDav $olzWebDav,
     ): Response {
-        $httpUtils->countRequest($request);
-        return $this->webdav($request, $logger, $olzWebDav);
+        return $httpUtils->measure($request, [], function () use ($request, $logger, $olzWebDav) {
+            return $this->webdav($request, $logger, $olzWebDav);
+        });
     }
 
     #[Route('/apps/files/webdav/{path}', requirements: ['path' => '.*'])]
@@ -43,8 +45,9 @@ class FilesController extends AbstractController {
         OlzWebDav $olzWebDav,
         string $path,
     ): Response {
-        $httpUtils->countRequest($request);
-        return $this->webdav($request, $logger, $olzWebDav, $path);
+        return $httpUtils->measure($request, [], function () use ($request, $logger, $olzWebDav, $path) {
+            return $this->webdav($request, $logger, $olzWebDav, $path);
+        });
     }
 
     protected function webdav(

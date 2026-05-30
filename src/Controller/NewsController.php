@@ -24,10 +24,11 @@ class NewsController extends AbstractController {
         HttpUtils $httpUtils,
         OlzNewsList $olzNewsList,
     ): Response {
-        $httpUtils->countRequest($request, ['filter', 'von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzNewsList->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['filter', 'von'], function () use ($httpUtils, $request, $olzNewsList) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzNewsList->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/news/{id}', requirements: ['id' => '\d+'])]
@@ -38,10 +39,11 @@ class NewsController extends AbstractController {
         OlzNewsDetail $olzNewsDetail,
         int $id,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzNewsDetail->getHtml(['id' => $id]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzNewsDetail, $id) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzNewsDetail->getHtml(['id' => $id]);
+            return new Response($out);
+        });
     }
 
     #[Route('/news/{id}/all.zip', requirements: ['id' => '\d+'])]
@@ -51,54 +53,55 @@ class NewsController extends AbstractController {
         HttpUtils $httpUtils,
         int $id,
     ): Response {
-        $httpUtils->countRequest($request);
-        if (!$this->authUtils()->hasPermission('any')) {
-            throw new NotFoundHttpException();
-        }
-
-        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
-        $news_entry = $news_repo->findOneBy(['id' => $id]);
-        if (!$news_entry) {
-            throw new NotFoundHttpException();
-        }
-        $image_ids = $news_entry->getImageIds();
-
-        $data_path = $this->envUtils()->getDataPath();
-        $imgdir = "{$data_path}img/news/{$id}/img/";
-        if (!is_dir($imgdir)) {
-            throw new NotFoundHttpException("No such image directory: {$imgdir}");
-        }
-
-        $this->log()->info("Downloading all images zip file for news/{$id}");
-        $zip_id = $this->uploadUtils()->getRandomUploadId('.zip');
-        $zip_path = "{$data_path}temp/{$zip_id}";
-        $zip = new \ZipArchive();
-        if ($zip->open($zip_path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
-            $this->log()->error("Could not create ZIP file: {$zip_path}");
-            throw new \Exception("Could not create ZIP file: {$zip_path}");
-        }
-        $num_images = count($image_ids);
-        for ($i = 0; $i < $num_images; $i++) {
-            $image_id = $image_ids[$i];
-            $file_path = "{$imgdir}{$image_id}";
-            if (is_file($file_path)) {
-                $index = $i + 1;
-                $pad_len = intval(ceil(log10($num_images)));
-                $name = str_pad("{$index}", $pad_len, '0', STR_PAD_LEFT);
-                $zip->addFile($file_path, "{$name}.jpg");
-            } else {
-                $this->log()->warning("Missing image in news/{$id}: {$file_path}");
+        return $httpUtils->measure($request, [], function () use ($id) {
+            if (!$this->authUtils()->hasPermission('any')) {
+                throw new NotFoundHttpException();
             }
-        }
-        if ($zip->status != \ZipArchive::ER_OK) {
-            $this->log()->error("Could write files to ZIP: {$imgdir}*.jpg");
-            throw new \Exception("Could write files to ZIP: {$imgdir}*.jpg");
-        }
-        $zip->close();
 
-        $response = new Response(file_get_contents($zip_path) ?: null);
-        $response->headers->set('Content-Type', 'application/zip');
-        $response->headers->set('Content-Disposition', "attachment;filename=Fotos {$news_entry->getTitle()}.zip");
-        return $response;
+            $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
+            $news_entry = $news_repo->findOneBy(['id' => $id]);
+            if (!$news_entry) {
+                throw new NotFoundHttpException();
+            }
+            $image_ids = $news_entry->getImageIds();
+
+            $data_path = $this->envUtils()->getDataPath();
+            $imgdir = "{$data_path}img/news/{$id}/img/";
+            if (!is_dir($imgdir)) {
+                throw new NotFoundHttpException("No such image directory: {$imgdir}");
+            }
+
+            $this->log()->info("Downloading all images zip file for news/{$id}");
+            $zip_id = $this->uploadUtils()->getRandomUploadId('.zip');
+            $zip_path = "{$data_path}temp/{$zip_id}";
+            $zip = new \ZipArchive();
+            if ($zip->open($zip_path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+                $this->log()->error("Could not create ZIP file: {$zip_path}");
+                throw new \Exception("Could not create ZIP file: {$zip_path}");
+            }
+            $num_images = count($image_ids);
+            for ($i = 0; $i < $num_images; $i++) {
+                $image_id = $image_ids[$i];
+                $file_path = "{$imgdir}{$image_id}";
+                if (is_file($file_path)) {
+                    $index = $i + 1;
+                    $pad_len = intval(ceil(log10($num_images)));
+                    $name = str_pad("{$index}", $pad_len, '0', STR_PAD_LEFT);
+                    $zip->addFile($file_path, "{$name}.jpg");
+                } else {
+                    $this->log()->warning("Missing image in news/{$id}: {$file_path}");
+                }
+            }
+            if ($zip->status != \ZipArchive::ER_OK) {
+                $this->log()->error("Could write files to ZIP: {$imgdir}*.jpg");
+                throw new \Exception("Could write files to ZIP: {$imgdir}*.jpg");
+            }
+            $zip->close();
+
+            $response = new Response(file_get_contents($zip_path) ?: null);
+            $response->headers->set('Content-Type', 'application/zip');
+            $response->headers->set('Content-Disposition', "attachment;filename=Fotos {$news_entry->getTitle()}.zip");
+            return $response;
+        });
     }
 }

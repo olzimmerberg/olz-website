@@ -18,8 +18,9 @@ class StatisticsController extends AbstractController {
         HttpUtils $httpUtils,
         OlzStatistics $olzStatistics,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzStatistics->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzStatistics) {
+            $html_out = $olzStatistics->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

@@ -21,7 +21,8 @@ class LatencyTestController extends AbstractController {
         HttpUtils $httpUtils,
     ): Response {
         // Prod: 382, 530, 439, 425, 844, 529, 431, 522, 516, 713 => 533.1 +/- 142.7
-        $httpUtils->countRequest($request, ['von']);
-        return new Response('counter response');
+        return $httpUtils->measure($request, ['von'], function () {
+            return new Response('counter response');
+        });
     }
 }

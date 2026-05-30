@@ -19,10 +19,11 @@ class FaqController extends AbstractController {
         HttpUtils $httpUtils,
         OlzFaqList $olzFaqList,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzFaqList->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzFaqList) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzFaqList->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/fragen_und_antworten/{ident}')]
@@ -33,9 +34,10 @@ class FaqController extends AbstractController {
         OlzFaqDetail $olzFaqDetail,
         string $ident,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzFaqDetail->getHtml(['ident' => $ident]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzFaqDetail, $ident) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzFaqDetail->getHtml(['ident' => $ident]);
+            return new Response($out);
+        });
     }
 }

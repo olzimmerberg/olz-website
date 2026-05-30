@@ -18,8 +18,9 @@ class MonitoringController extends AbstractController {
         HttpUtils $httpUtils,
         OlzMonitoring $olzMonitoring,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzMonitoring->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzMonitoring) {
+            $html_out = $olzMonitoring->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

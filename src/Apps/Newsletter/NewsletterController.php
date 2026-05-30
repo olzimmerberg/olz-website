@@ -18,8 +18,9 @@ class NewsletterController extends AbstractController {
         HttpUtils $httpUtils,
         OlzNewsletter $olzNewsletter,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzNewsletter->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzNewsletter) {
+            $html_out = $olzNewsletter->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

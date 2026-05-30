@@ -24,10 +24,11 @@ class OtherPagesController extends AbstractController {
         HttpUtils $httpUtils,
         OlzDatenschutz $olzDatenschutz,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzDatenschutz->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzDatenschutz) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzDatenschutz->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/fuer_einsteiger')]
@@ -37,10 +38,11 @@ class OtherPagesController extends AbstractController {
         HttpUtils $httpUtils,
         OlzFuerEinsteiger $olzFuerEinsteiger,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzFuerEinsteiger->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzFuerEinsteiger) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzFuerEinsteiger->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/angebot')]
@@ -49,10 +51,11 @@ class OtherPagesController extends AbstractController {
         HttpUtils $httpUtils,
         OlzAngebot $olzAngebot,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzAngebot->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzAngebot) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzAngebot->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/angebot/{audience}')]
@@ -62,10 +65,11 @@ class OtherPagesController extends AbstractController {
         OlzAngebot $olzAngebot,
         string $audience,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzAngebot->getHtml(['audience' => $audience]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzAngebot, $audience) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzAngebot->getHtml(['audience' => $audience]);
+            return new Response($out);
+        });
     }
 
     #[Route('/material')]
@@ -74,10 +78,11 @@ class OtherPagesController extends AbstractController {
         HttpUtils $httpUtils,
         EnvUtils $envUtils,
     ): Response {
-        $httpUtils->countRequest($request);
-        $code_href = $envUtils->getCodeHref();
-        $url = "{$code_href}angebot";
-        return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'material']);
+        return $httpUtils->measure($request, [], function () use ($envUtils) {
+            $code_href = $envUtils->getCodeHref();
+            $url = "{$code_href}angebot";
+            return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'material']);
+        });
     }
 
     #[Route('/trophy')]
@@ -88,17 +93,18 @@ class OtherPagesController extends AbstractController {
         EnvUtils $envUtils,
         TermineUtils $termineUtils,
     ): Response {
-        $httpUtils->countRequest($request);
-        $dateUtils = new DateUtils();
-        $code_href = $envUtils->getCodeHref();
-        $this_year = $dateUtils->getCurrentDateInFormat('Y');
-        $filter = [
-            ...$termineUtils->getDefaultFilter(),
-            'typ' => 'trophy',
-            'datum' => strval($this_year),
-        ];
-        $serialized_filter = $termineUtils->serialize($filter);
-        $url = "{$code_href}termine?filter={$serialized_filter}";
-        return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'trophy']);
+        return $httpUtils->measure($request, [], function () use ($envUtils, $termineUtils) {
+            $dateUtils = new DateUtils();
+            $code_href = $envUtils->getCodeHref();
+            $this_year = $dateUtils->getCurrentDateInFormat('Y');
+            $filter = [
+                ...$termineUtils->getDefaultFilter(),
+                'typ' => 'trophy',
+                'datum' => strval($this_year),
+            ];
+            $serialized_filter = $termineUtils->serialize($filter);
+            $url = "{$code_href}termine?filter={$serialized_filter}";
+            return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'trophy']);
+        });
     }
 }

@@ -18,8 +18,9 @@ class LogsController extends AbstractController {
         HttpUtils $httpUtils,
         OlzLogs $olzLogs,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzLogs->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzLogs) {
+            $html_out = $olzLogs->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

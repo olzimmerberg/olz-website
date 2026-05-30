@@ -20,9 +20,10 @@ class AuthController extends AbstractController {
         HttpUtils $httpUtils,
         OlzEmailReaktion $olzEmailReaktion,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzEmailReaktion->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzEmailReaktion) {
+            $out = $olzEmailReaktion->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/strava_redirect')]
@@ -31,9 +32,10 @@ class AuthController extends AbstractController {
         HttpUtils $httpUtils,
         OlzStravaRedirect $olzStravaRedirect,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzStravaRedirect->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzStravaRedirect) {
+            $out = $olzStravaRedirect->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/profil')]
@@ -43,8 +45,9 @@ class AuthController extends AbstractController {
         EnvUtils $envUtils,
         LoggerInterface $logger,
     ): Response {
-        $httpUtils->countRequest($request);
-        $code_href = $envUtils->getCodeHref();
-        return new RedirectResponse("{$code_href}benutzer/ich");
+        return $httpUtils->measure($request, [], function () use ($envUtils) {
+            $code_href = $envUtils->getCodeHref();
+            return new RedirectResponse("{$code_href}benutzer/ich");
+        });
     }
 }

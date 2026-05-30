@@ -10,6 +10,7 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PhpTypeScriptApi\PhpStan\PhpStanUtils;
 use PhpTypeScriptApi\PhpStan\ValidateVisitor;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class HttpUtils {
     use WithUtilsTrait;
@@ -57,13 +58,38 @@ class HttpUtils {
         return false;
     }
 
-    /** @param array<string> $get_params */
-    public function countRequest(Request $request, array $get_params = []): void {
-        $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';
-        if ($this->isBot($user_agent)) {
-            $this->log()->debug("Counter: user agent is bot: {$user_agent}");
-            return;
+    /**
+     * @param array{
+     *   countParams?: array<string>,
+     * } $options
+     * @param callable(Request): Response $get_response
+     */
+    public function measure(
+        Request $request,
+        array $options,
+        callable $get_response,
+    ): Response {
+        $is_bot = $this->isBot($this->server()['HTTP_USER_AGENT'] ?? '');
+        $normalized_path = $this->getNormalizedPath($request, $options['countParams'] ?? []);
+        $counter_repo = $this->entityManager()->getRepository(Counter::class);
+        if (!$is_bot) {
+            try {
+                $counter_repo->recordVisit($normalized_path);
+            } catch (\Throwable $th) {
+            }
         }
+        $started_at = microtime(true);
+        $response = $get_response($request);
+        $duration = microtime(true) - $started_at;
+        try {
+            $counter_repo->recordLatency($normalized_path, $duration * 1000);
+        } catch (\Throwable $th) {
+        }
+        return $response;
+    }
+
+    /** @param array<string> $get_params */
+    public function getNormalizedPath(Request $request, array $get_params = []): string {
         $path = "{$request->getBasePath()}{$request->getPathInfo()}";
         $query = [];
         foreach ($get_params as $key) {
@@ -73,9 +99,7 @@ class HttpUtils {
             }
         }
         $pretty_query = empty($query) ? '' : '?'.implode('&', $query);
-        $counter_repo = $this->entityManager()->getRepository(Counter::class);
-        $counter_repo->record("{$path}{$pretty_query}");
-        $this->log()->debug("Counter: Counted {$path}{$pretty_query} (user agent: {$user_agent})");
+        return "{$path}{$pretty_query}";
     }
 
     /** @param array<string> $get_params */

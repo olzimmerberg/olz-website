@@ -11,6 +11,7 @@ use Olz\Utils\HttpUtils;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\PhpStan\IsoDate;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * TODO: string -> int and string -> float.
@@ -134,13 +135,27 @@ final class HttpUtilsTest extends UnitTestCase {
         $this->assertFalse($utils->isEInk('Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1'));
     }
 
-    public function testCountRequest(): void {
+    public function testMeasure(): void {
         $entity_manager = WithUtilsCache::get('entityManager');
         $utils = new TestOnlyHttpUtils();
 
-        $utils->countRequest(new Request(['k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3']), ['k1', 'k3']);
+        $utils->measure(
+            new Request(['k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3']),
+            ['countParams' => ['k1', 'k3']],
+            function () {
+                usleep(10 * 1000);
+                return new Response('');
+            },
+        );
 
-        $this->assertSame(['/?k1=v1&k3=v3'], $entity_manager->repositories[Counter::class]->records);
+        $this->assertSame([
+            '/?k1=v1&k3=v3',
+        ], $entity_manager->repositories[Counter::class]->visit_records);
+        $latencies = $entity_manager->repositories[Counter::class]->latency_records;
+        $this->assertCount(1, $latencies);
+        $this->assertSame('/?k1=v1&k3=v3', $latencies[0][0]);
+        $this->assertGreaterThanOrEqual(10.0, $latencies[0][1]);
+        $this->assertLessThanOrEqual(20.0, $latencies[0][1]);
     }
 
     public function testDieWithHttpError(): void {

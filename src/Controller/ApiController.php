@@ -19,11 +19,11 @@ class ApiController extends AbstractController {
         OlzApi $olz_api,
         string $endpoint_name
     ): Response {
-        $httpUtils->countRequest($request);
+        return $httpUtils->measure($request, [], function () use ($request, $olz_api, $log, $endpoint_name) {
+            $olz_api->setLogger($log);
 
-        $olz_api->setLogger($log);
-
-        $request->server->set('PATH_INFO', "/{$endpoint_name}");
-        return $olz_api->getResponse($request);
+            $request->server->set('PATH_INFO', "/{$endpoint_name}");
+            return $olz_api->getResponse($request);
+        });
     }
 }

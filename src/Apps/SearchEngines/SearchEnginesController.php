@@ -18,8 +18,9 @@ class SearchEnginesController extends AbstractController {
         HttpUtils $httpUtils,
         OlzSearchEngines $olzSearchEngines,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzSearchEngines->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzSearchEngines) {
+            $html_out = $olzSearchEngines->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

@@ -19,10 +19,11 @@ class VereinController extends AbstractController {
         HttpUtils $httpUtils,
         OlzVerein $olzVerein,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzVerein->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzVerein) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzVerein->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/verein/{ressort}')]
@@ -33,9 +34,10 @@ class VereinController extends AbstractController {
         OlzRoleDetail $olzRoleDetail,
         string $ressort,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzRoleDetail->getHtml(['ressort' => $ressort]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzRoleDetail, $ressort) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzRoleDetail->getHtml(['ressort' => $ressort]);
+            return new Response($out);
+        });
     }
 }

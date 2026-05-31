@@ -18,8 +18,9 @@ class CommandsController extends AbstractController {
         HttpUtils $httpUtils,
         OlzCommands $olzCommands,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzCommands->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzCommands) {
+            $html_out = $olzCommands->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

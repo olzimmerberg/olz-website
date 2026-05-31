@@ -18,8 +18,9 @@ class ResultsController extends AbstractController {
         HttpUtils $httpUtils,
         OlzResults $olzResults,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzResults->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzResults) {
+            $html_out = $olzResults->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

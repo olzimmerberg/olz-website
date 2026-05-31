@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260416193600
+-- MIGRATION: DoctrineMigrations\Version20260530162734
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -175,10 +175,11 @@ CREATE TABLE `auth_requests` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `counter` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `page` varchar(255) DEFAULT NULL,
-  `args` longtext DEFAULT NULL,
-  `counter` int(11) DEFAULT NULL,
-  `date_range` varchar(255) DEFAULT NULL,
+  `page` varchar(255) NOT NULL,
+  `counter` int(11) NOT NULL,
+  `date_range` varchar(255) NOT NULL,
+  `latency_avg_ms` double NOT NULL,
+  `latency_num` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `date_range_page_index` (`date_range`,`page`)
 ) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

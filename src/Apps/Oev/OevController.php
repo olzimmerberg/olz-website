@@ -18,8 +18,9 @@ class OevController extends AbstractController {
         HttpUtils $httpUtils,
         OlzOev $olzOev,
     ): Response {
-        $httpUtils->countRequest($request);
-        $html_out = $olzOev->getHtml([]);
-        return new Response($html_out);
+        return $httpUtils->measure($request, [], function () use ($olzOev) {
+            $html_out = $olzOev->getHtml([]);
+            return new Response($html_out);
+        });
     }
 }

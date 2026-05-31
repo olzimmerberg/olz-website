@@ -19,9 +19,10 @@ class AnniversaryController extends AbstractController {
         HttpUtils $httpUtils,
         OlzAnniversary $olzAnniversary,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzAnniversary->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzAnniversary) {
+            $out = $olzAnniversary->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/2026/rakete.svg')]

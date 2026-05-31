@@ -18,9 +18,10 @@ class UsersController extends AbstractController {
         LoggerInterface $logger,
         HttpUtils $httpUtils,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = 'TODO';
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () {
+            $out = 'TODO';
+            return new Response($out);
+        });
     }
 
     #[Route('/benutzer/ich')]
@@ -31,11 +32,12 @@ class UsersController extends AbstractController {
         HttpUtils $httpUtils,
         OlzUserDetail $olzUserDetail,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzUserDetail->getHtml([
-            'id' => $authUtils->getCurrentUser()?->getId(),
-        ]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzUserDetail, $authUtils) {
+            $out = $olzUserDetail->getHtml([
+                'id' => $authUtils->getCurrentUser()?->getId(),
+            ]);
+            return new Response($out);
+        });
     }
 
     #[Route('/benutzer/{id}', requirements: ['id' => '\d+'])]
@@ -46,8 +48,9 @@ class UsersController extends AbstractController {
         OlzUserDetail $olzUserDetail,
         int $id,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzUserDetail->getHtml(['id' => $id]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzUserDetail, $id) {
+            $out = $olzUserDetail->getHtml(['id' => $id]);
+            return new Response($out);
+        });
     }
 }

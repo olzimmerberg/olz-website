@@ -24,10 +24,11 @@ class TermineController extends AbstractController {
         HttpUtils $httpUtils,
         OlzTermineList $olzTermineList,
     ): Response {
-        $httpUtils->countRequest($request, ['filter', 'von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzTermineList->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['filter', 'von'], function () use ($httpUtils, $request, $olzTermineList) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzTermineList->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/termine/{id}', requirements: ['id' => '\d+'])]
@@ -38,10 +39,11 @@ class TermineController extends AbstractController {
         OlzTerminDetail $olzTerminDetail,
         int $id,
     ): Response {
-        $httpUtils->countRequest($request, ['von']);
-        $httpUtils->stripParams($request, ['von']);
-        $out = $olzTerminDetail->getHtml(['id' => $id]);
-        return new Response($out);
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzTerminDetail, $id) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzTerminDetail->getHtml(['id' => $id]);
+            return new Response($out);
+        });
     }
 
     #[Route('/termine/orte')]
@@ -51,9 +53,10 @@ class TermineController extends AbstractController {
         HttpUtils $httpUtils,
         OlzTerminLocationsList $olzTerminLocationsList,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzTerminLocationsList->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzTerminLocationsList) {
+            $out = $olzTerminLocationsList->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/termine/orte/{id}', requirements: ['id' => '\d+'])]
@@ -64,9 +67,10 @@ class TermineController extends AbstractController {
         OlzTerminLocationDetail $olzTerminLocationDetail,
         int $id,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzTerminLocationDetail->getHtml(['id' => $id]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzTerminLocationDetail, $id) {
+            $out = $olzTerminLocationDetail->getHtml(['id' => $id]);
+            return new Response($out);
+        });
     }
 
     #[Route('/termine/vorlagen')]
@@ -76,9 +80,10 @@ class TermineController extends AbstractController {
         HttpUtils $httpUtils,
         OlzTerminTemplatesList $olzTerminTemplatesList,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzTerminTemplatesList->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzTerminTemplatesList) {
+            $out = $olzTerminTemplatesList->getHtml([]);
+            return new Response($out);
+        });
     }
 
     #[Route('/termine/vorlagen/{id}', requirements: ['id' => '\d+'])]
@@ -89,9 +94,10 @@ class TermineController extends AbstractController {
         OlzTerminTemplateDetail $olzTerminTemplateDetail,
         int $id,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzTerminTemplateDetail->getHtml(['id' => $id]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzTerminTemplateDetail, $id) {
+            $out = $olzTerminTemplateDetail->getHtml(['id' => $id]);
+            return new Response($out);
+        });
     }
 
     #[Route('/olz_ical.ics')]

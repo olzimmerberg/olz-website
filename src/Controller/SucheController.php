@@ -18,8 +18,9 @@ class SucheController extends AbstractController {
         HttpUtils $httpUtils,
         OlzSuche $olzSuche,
     ): Response {
-        $httpUtils->countRequest($request);
-        $out = $olzSuche->getHtml([]);
-        return new Response($out);
+        return $httpUtils->measure($request, [], function () use ($olzSuche) {
+            $out = $olzSuche->getHtml([]);
+            return new Response($out);
+        });
     }
 }

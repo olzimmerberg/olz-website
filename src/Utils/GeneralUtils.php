@@ -4,6 +4,12 @@ namespace Olz\Utils;
 
 use Incenteev\EmojiPattern\EmojiPattern;
 
+#[\Attribute(\Attribute::TARGET_METHOD)]
+class IgnoreInTrace {
+    public function __construct(public ?string $fieldName = null) {
+    }
+}
+
 class GeneralUtils {
     use WithUtilsTrait;
 
@@ -292,6 +298,18 @@ class GeneralUtils {
             if ($reflection_class->isAbstract()) {
                 continue;
             }
+            $function_name = $entry['function'] ?? '';
+            try {
+                $reflection_method = $reflection_class->getMethod($function_name);
+                if (count($reflection_method->getAttributes(IgnoreInTrace::class)) > 0) {
+                    continue;
+                }
+            } catch (\ReflectionException $exc) {
+                // @codeCoverageIgnoreStart
+                // Reason: Can't simulate it in tests.
+                continue;
+                // @codeCoverageIgnoreEnd
+            }
             $last_class_name = $class_name;
             $base_class_name = substr($class_name, strrpos($class_name, '\\') + 1);
 
@@ -304,6 +322,7 @@ class GeneralUtils {
     }
 
     /** @return array<mixed> */
+    #[IgnoreInTrace]
     public function measureLatency(callable $fn): array {
         $before = microtime(true);
         $result = $fn();

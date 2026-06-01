@@ -8,7 +8,7 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\GeneralUtils;
 
 /**
- * @phpstan-type DebugTrace array<array{function: string, line?: int, file?: string, class?: class-string, type?: '->'|'::', args?: array<mixed>, object?: object}>
+ * @phpstan-import-type DebugTrace from GeneralUtilsTest
  */
 class TestOnlyGeneralUtils extends GeneralUtils {
     public function testOnlyGetRandomIvForAlgo(string $algo): string {
@@ -18,6 +18,20 @@ class TestOnlyGeneralUtils extends GeneralUtils {
     /** @return DebugTrace */
     public function testOnlyGetTrace(): array {
         return $this->testOnlyGetTrace1();
+    }
+
+    /** @return DebugTrace */
+    public function testOnlyGetTraceWithIgnored(): array {
+        [$result, $msg] = $this->measureLatency(function () {
+            return $this->testOnlyGetTrace1();
+        });
+        return $result;
+    }
+
+    /** @return DebugTrace */
+    public function testOnlyGetTraceWithAbstract(): array {
+        $concrete_instance = new ConcreteClass();
+        return $concrete_instance->testOnlyGetTrace3();
     }
 
     /** @return DebugTrace */
@@ -32,6 +46,39 @@ class TestOnlyGeneralUtils extends GeneralUtils {
 }
 
 /**
+ * @phpstan-import-type DebugTrace from GeneralUtilsTest
+ */
+abstract class AbstractClass {
+    /** @return DebugTrace */
+    abstract public function testOnlyGetTrace3(): array;
+
+    /** @return DebugTrace */
+    protected function testOnlyGetTrace4(): array {
+        return $this->testOnlyGetTrace5();
+    }
+
+    /** @return DebugTrace */
+    abstract protected function testOnlyGetTrace5(): array;
+}
+
+/**
+ * @phpstan-import-type DebugTrace from GeneralUtilsTest
+ */
+class ConcreteClass extends AbstractClass {
+    /** @return DebugTrace */
+    public function testOnlyGetTrace3(): array {
+        return $this->testOnlyGetTrace4();
+    }
+
+    /** @return DebugTrace */
+    protected function testOnlyGetTrace5(): array {
+        return debug_backtrace();
+    }
+}
+
+/**
+ * @phpstan-type DebugTrace array<array{function: string, line?: int, file?: string, class?: class-string, type?: '->'|'::', args?: array<mixed>, object?: object}>
+ *
  * @internal
  *
  * @covers \Olz\Utils\GeneralUtils
@@ -481,6 +528,31 @@ final class GeneralUtilsTest extends UnitTestCase {
         $this->assertMatchesRegularExpression('/phpunit/', $pretty_trace);
     }
 
+    public function testGetPrettyTraceWithAbstract(): void {
+        $general_utils = new TestOnlyGeneralUtils();
+        $trace = $general_utils->testOnlyGetTraceWithAbstract();
+        $pretty_trace = $general_utils->getPrettyTrace($trace);
+        $this->assertStringStartsWith('Stack trace:', $pretty_trace);
+        $this->assertMatchesRegularExpression('/\#0 \S+tests\/UnitTests\/Utils\/GeneralUtilsTest\.php:[0-9]+ \- testOnlyGetTrace5\(\)/', $pretty_trace);
+        $this->assertMatchesRegularExpression('/\#1 \S+tests\/UnitTests\/Utils\/GeneralUtilsTest\.php:[0-9]+ \- testOnlyGetTrace4\(\)/', $pretty_trace);
+        $this->assertMatchesRegularExpression('/\#2 \S+tests\/UnitTests\/Utils\/GeneralUtilsTest\.php:[0-9]+ \- testOnlyGetTrace3\(\)/', $pretty_trace);
+        $this->assertMatchesRegularExpression('/\#3 \S+tests\/UnitTests\/Utils\/GeneralUtilsTest\.php:[0-9]+ \- testOnlyGetTraceWithAbstract\(\)/', $pretty_trace);
+        $this->assertMatchesRegularExpression('/\#4 \S+\.php\:[0-9]+ \- testGetPrettyTraceWithAbstract\(\)/', $pretty_trace);
+        $this->assertMatchesRegularExpression('/phpunit/', $pretty_trace);
+    }
+
+    public function testGetPrettyTraceWithIgnored(): void {
+        $general_utils = new TestOnlyGeneralUtils();
+        $trace = $general_utils->testOnlyGetTraceWithIgnored();
+        $pretty_trace = $general_utils->getPrettyTrace($trace);
+        $this->assertStringStartsWith('Stack trace:', $pretty_trace);
+        $this->assertMatchesRegularExpression('/\#0 \S+tests\/UnitTests\/Utils\/GeneralUtilsTest\.php:[0-9]+ \- testOnlyGetTrace2\(\)/', $pretty_trace);
+        $this->assertMatchesRegularExpression('/\#1 \S+tests\/UnitTests\/Utils\/GeneralUtilsTest\.php:[0-9]+ \- testOnlyGetTrace1\(\)/', $pretty_trace);
+        $this->assertMatchesRegularExpression('/\#4 \S+tests\/UnitTests\/Utils\/GeneralUtilsTest\.php:[0-9]+ \- testOnlyGetTraceWithIgnored\(\)/', $pretty_trace);
+        $this->assertMatchesRegularExpression('/\#5 \S+\.php\:[0-9]+ \- testGetPrettyTraceWithIgnored\(\)/', $pretty_trace);
+        $this->assertMatchesRegularExpression('/phpunit/', $pretty_trace);
+    }
+
     public function testGetTraceOverview(): void {
         $trace = debug_backtrace();
         $general_utils = new GeneralUtils();
@@ -490,6 +562,24 @@ final class GeneralUtilsTest extends UnitTestCase {
     public function testGetTraceOverviewComplex(): void {
         $general_utils = new TestOnlyGeneralUtils();
         $trace = $general_utils->testOnlyGetTrace();
+        $this->assertSame(
+            'GeneralUtilsTest>TestOnlyGeneralUtils',
+            $general_utils->getTraceOverview($trace),
+        );
+    }
+
+    public function testGetTraceOverviewWithAbstract(): void {
+        $general_utils = new TestOnlyGeneralUtils();
+        $trace = $general_utils->testOnlyGetTraceWithAbstract();
+        $this->assertSame(
+            'GeneralUtilsTest>TestOnlyGeneralUtils>ConcreteClass',
+            $general_utils->getTraceOverview($trace),
+        );
+    }
+
+    public function testGetTraceOverviewWithIgnored(): void {
+        $general_utils = new TestOnlyGeneralUtils();
+        $trace = $general_utils->testOnlyGetTraceWithIgnored();
         $this->assertSame(
             'GeneralUtilsTest>TestOnlyGeneralUtils',
             $general_utils->getTraceOverview($trace),

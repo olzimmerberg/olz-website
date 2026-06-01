@@ -64,6 +64,7 @@ class HttpUtils {
      * } $options
      * @param callable(Request): Response $get_response
      */
+    #[IgnoreInTrace]
     public function measure(
         Request $request,
         array $options,

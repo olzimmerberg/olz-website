@@ -59,19 +59,17 @@ class HttpUtils {
     }
 
     /**
-     * @param array{
-     *   countParams?: array<string>,
-     * } $options
+     * @param array<string>               $get_params
      * @param callable(Request): Response $get_response
      */
     #[IgnoreInTrace]
     public function measure(
         Request $request,
-        array $options,
+        array $get_params,
         callable $get_response,
     ): Response {
         $is_bot = $this->isBot($this->server()['HTTP_USER_AGENT'] ?? '');
-        $normalized_path = $this->getNormalizedPath($request, $options['countParams'] ?? []);
+        $normalized_path = $this->getNormalizedPath($request, $get_params);
         $counter_repo = $this->entityManager()->getRepository(Counter::class);
         if (!$is_bot) {
             try {

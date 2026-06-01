@@ -141,7 +141,7 @@ final class HttpUtilsTest extends UnitTestCase {
 
         $utils->measure(
             new Request(['k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3']),
-            ['countParams' => ['k1', 'k3']],
+            ['k1', 'k3'],
             function () {
                 usleep(10 * 1000);
                 return new Response('');

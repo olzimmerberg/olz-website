@@ -7,6 +7,8 @@
 namespace Olz\Components\Page\OlzMenu;
 
 use Olz\Components\Common\OlzComponent;
+use Olz\Entity\Roles\Role;
+use Olz\Repository\Roles\PredefinedRole;
 
 /**
  * @phpstan-type MenuItem array{name: string, ident: string, href: string}
@@ -77,15 +79,21 @@ class OlzMenu extends OlzComponent {
 
         $main_menu_out = $this->getMenu($main_menu);
 
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $sysadmin_role = $role_repo->getPredefinedRole(PredefinedRole::Sysadmin);
         $out .= <<<ZZZZZZZZZZ
             <div id='menu' class='menu'>
                 <div class='back-menu'>{$back_menu_out}</div>
                 <div class='live-menu'>{$live_menu_out}</div>
                 <div class='main-menu'>{$main_menu_out}</div>
                 <div class='feedback-mail'>
-                    <script type='text/javascript'>
-                        olz.MailTo("website", "olzimmerberg.ch", "Feedback geben", "Homepage%20OL%20Zimmerberg");
-                    </script>
+                    <a
+                        href='#'
+                        onclick='return olz.initOlzRoleInfoModal({$sysadmin_role?->getId()})'
+                        class='linkmail'
+                    >
+                        Feedback geben
+                    </a>
                 </div>
                 <div class='platform-links'>
                     <a

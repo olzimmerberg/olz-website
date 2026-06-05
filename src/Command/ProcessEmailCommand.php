@@ -493,6 +493,7 @@ class ProcessEmailCommand extends OlzCommand {
         $from = $incoming->getFrom()->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
+        $from_label = $from_name ?? $from_address;
         $to = $this->getAddresses($incoming->getTo());
         $cc = $this->getAddresses($incoming->getCc());
         $bcc = $this->getAddresses($incoming->getBcc());
@@ -507,7 +508,7 @@ class ProcessEmailCommand extends OlzCommand {
             $html = nl2br($text ?? '');
         }
         $outgoing = (new Email())
-            ->from(new Address($smtp_from, "{$from_name} (via OLZ)"))
+            ->from(new Address($smtp_from, "{$from_label} (via OLZ)"))
             ->replyTo(new Address($from_address, $from_name))
             ->to(...$to)
             ->cc(...$cc)

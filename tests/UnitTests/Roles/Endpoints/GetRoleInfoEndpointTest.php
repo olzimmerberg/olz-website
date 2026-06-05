@@ -43,6 +43,9 @@ final class GetRoleInfoEndpointTest extends UnitTestCase {
             'any' => false,
             'user_email' => false,
         ];
+        WithUtilsCache::get('authUtils')->has_role_permission_by_query = [
+            'role_email' => false,
+        ];
         $endpoint = new GetRoleInfoEndpoint();
         $endpoint->runtimeSetup();
 
@@ -58,6 +61,7 @@ final class GetRoleInfoEndpointTest extends UnitTestCase {
         $this->assertSame([
             'name' => 'Test Role',
             'username' => 'test-role',
+            'email' => null,
             'assignees' => [
                 [
                     'firstName' => 'Maximal',
@@ -94,29 +98,8 @@ final class GetRoleInfoEndpointTest extends UnitTestCase {
             'any' => true,
             'user_email' => true,
         ];
-        $endpoint = new GetRoleInfoEndpoint();
-        $endpoint->runtimeSetup();
-
-        $result = $endpoint->call([
-            'id' => $id,
-        ]);
-
-        $this->assertSame([
-            "INFO Valid user request",
-            "INFO Valid user response",
-        ], $this->getLogs());
-        $this->assertSame([
-            'name' => null,
-            'username' => null,
-            'assignees' => [],
-        ], $result);
-    }
-
-    public function testGetRoleInfoEndpointEmpty(): void {
-        $id = FakeOlzRepository::EMPTY_ID;
-        WithUtilsCache::get('authUtils')->has_permission_by_query = [
-            'any' => true,
-            'user_email' => false,
+        WithUtilsCache::get('authUtils')->has_role_permission_by_query = [
+            'role_email' => false,
         ];
         $endpoint = new GetRoleInfoEndpoint();
         $endpoint->runtimeSetup();
@@ -132,6 +115,35 @@ final class GetRoleInfoEndpointTest extends UnitTestCase {
         $this->assertSame([
             'name' => null,
             'username' => null,
+            'email' => null,
+            'assignees' => [],
+        ], $result);
+    }
+
+    public function testGetRoleInfoEndpointEmpty(): void {
+        $id = FakeOlzRepository::EMPTY_ID;
+        WithUtilsCache::get('authUtils')->has_permission_by_query = [
+            'any' => true,
+            'user_email' => false,
+        ];
+        WithUtilsCache::get('authUtils')->has_role_permission_by_query = [
+            'role_email' => false,
+        ];
+        $endpoint = new GetRoleInfoEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'id' => $id,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame([
+            'name' => null,
+            'username' => null,
+            'email' => null,
             'assignees' => [],
         ], $result);
     }
@@ -141,6 +153,9 @@ final class GetRoleInfoEndpointTest extends UnitTestCase {
         WithUtilsCache::get('authUtils')->has_permission_by_query = [
             'any' => true,
             'user_email' => true,
+        ];
+        WithUtilsCache::get('authUtils')->has_role_permission_by_query = [
+            'role_email' => true,
         ];
         $endpoint = new GetRoleInfoEndpoint();
         $endpoint->runtimeSetup();
@@ -156,6 +171,7 @@ final class GetRoleInfoEndpointTest extends UnitTestCase {
         $this->assertSame([
             'name' => 'Test Role',
             'username' => 'test-role',
+            'email' => $this->emailUtils()->obfuscateEmail('test-role@staging.olzimmerberg.ch'),
             'assignees' => [
                 [
                     'firstName' => 'Maximal',

@@ -604,7 +604,7 @@ export type Olz_Api_OlzTypedEndpointd0f24d2860294d00c9f3671fd1b09be2_Response = 
 
 export type Olz_Roles_Endpoints_GetRoleInfoEndpoint_OlzRoleId = number;
 
-export type Olz_Roles_Endpoints_GetRoleInfoEndpoint_OlzRoleInfoData = {'name'?: (string | null), 'username'?: (string | null), 'assignees': Array<{'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: {[key: string]: string}}>};
+export type Olz_Roles_Endpoints_GetRoleInfoEndpoint_OlzRoleInfoData = {'name'?: (string | null), 'username'?: (string | null), 'email'?: (Array<string> | null), 'assignees': Array<{'firstName': string, 'lastName': string, 'email'?: (Array<string> | null), 'avatarImageId'?: {[key: string]: string}}>};
 
 export type Olz_Api_OlzTypedEndpointe17d3e151e9de1f6183752624a658c0d_Request = {'meta': Olz_Api_OlzCreateEntityTypedEndpoint93f7bee6a51a8cae8d54842062c478ef_OlzMetaData, 'data': Olz_Api_OlzCreateEntityTypedEndpoint93f7bee6a51a8cae8d54842062c478ef_Data, 'custom'?: Olz_Api_OlzCreateEntityTypedEndpoint93f7bee6a51a8cae8d54842062c478ef_CustomRequest};
 

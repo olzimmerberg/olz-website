@@ -40,9 +40,9 @@ export const OlzRoleInfoModal = (props: OlzRoleInfoModalProps): React.ReactEleme
                         />
                     </div>) : null)}
                     <div>
-                        <h3>{assignee.firstName} {assignee.lastName}</h3>
+                        <h4>{assignee.firstName} {assignee.lastName}</h4>
                         {email ? (
-                            <div className='user-data'>
+                            <div className='user-email'>
                                 <a
                                     href='#'
                                     onClick={() => {
@@ -70,17 +70,52 @@ export const OlzRoleInfoModal = (props: OlzRoleInfoModalProps): React.ReactEleme
                 </div>
             );
         });
+        const email = role.email ? role.email.map(atob) : null;
         content = (
             <div className='role-data container'>
-                {role.username ? (<h4>
+                {role.username ? (<h3>
+                    Ressort:
+                    &nbsp;
                     <a
                         href={`${codeHref}verein/${role.username}`}
                         className='linkint'
                     >
                         {role.name}
                     </a>
-                </h4>) : null}
-                {assigneesContent}
+                </h3>) : null}
+                {email ? (
+                    <div className='role-email'>
+                        <span>
+                            E-Mail:
+                            &nbsp;
+                            <a
+                                href='#'
+                                onClick={() => {
+                                    location.href = `mailto:${email.join('')}`;
+                                }}
+                                className='linkmail'
+                            >
+                                {email.map((chunk) => (
+                                    <span className='chunk'>{chunk}&nbsp;</span>
+                                ))}
+                            </a>
+                        </span>
+                        <button
+                            id='copy-button'
+                            className='button'
+                            type='button'
+                            onClick={() => {
+                                navigator.clipboard.writeText(email.join(''));
+                            }}
+                        >
+                            <img src={`${dataHref}assets/icns/copy_16.svg`} alt='Cp' />
+                        </button>
+                    </div>
+                ) : null}
+                <div className='assignee-container'>
+                    <h5>Verantwortlich</h5>
+                    {assigneesContent}
+                </div>
             </div>
         );
     } else if (error) {

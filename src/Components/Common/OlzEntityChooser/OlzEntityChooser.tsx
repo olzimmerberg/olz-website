@@ -127,6 +127,7 @@ export const OlzEntityChooser = (props: OlzEntityChooserProps): React.ReactEleme
                         className="form-control"
                         id="entity-search-input"
                         placeholder='Suche...'
+                        autoComplete='off'
                         ref={searchInput}
                     />
                 </div>

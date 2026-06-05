@@ -11,6 +11,7 @@ use PhpTypeScriptApi\HttpError;
  * @phpstan-type OlzRoleInfoData array{
  *   name?: ?non-empty-string,
  *   username?: ?non-empty-string,
+ *   email?: ?array<non-empty-string>,
  *   assignees: array<array{
  *     firstName: non-empty-string,
  *     lastName: non-empty-string,
@@ -40,11 +41,11 @@ class GetRoleInfoEndpoint extends OlzTypedEndpoint {
             throw new HttpError(404, "Nicht gefunden.");
         }
 
+        $host = $this->envUtils()->getEmailForwardingHost();
         $assignees = $role->getUsers();
         $assignee_infos = [];
         foreach ($assignees as $assignee) {
             $has_official_email = $this->authUtils()->hasPermission('user_email', $assignee);
-            $host = $this->envUtils()->getEmailForwardingHost();
             $email = $has_official_email
                 ? "{$assignee->getUsername()}@{$host}"
                 : ($assignee->getEmail() ? $assignee->getEmail() : null);
@@ -57,9 +58,12 @@ class GetRoleInfoEndpoint extends OlzTypedEndpoint {
             ];
         }
 
+        $has_role_email = $this->authUtils()->hasRolePermission('role_email', $role);
+        $role_email = $has_role_email ? "{$role->getUsername()}@{$host}" : null;
         return [
             'name' => $role->getName() ? (html_entity_decode($role->getName()) ?: null) : null,
             'username' => $role->getUsername() ? $role->getUsername() : null,
+            'email' => $this->emailUtils()->obfuscateEmail($role_email),
             'assignees' => $assignee_infos,
         ];
     }

@@ -5,6 +5,8 @@ namespace Olz\Components\Error\Olz400BadRequest;
 use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
+use Olz\Entity\Roles\Role;
+use Olz\Repository\Roles\PredefinedRole;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class Olz400BadRequest extends OlzComponent {
@@ -16,6 +18,8 @@ class Olz400BadRequest extends OlzComponent {
             'title' => "Fehler 400 Fehlerhafte Anfrage",
             'skip_auth_menu' => true,
         ], $this);
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $sysadmin_role = $role_repo->getPredefinedRole(PredefinedRole::Sysadmin);
         $out .= "<div class='content-full'>";
         $out .= <<<ZZZZZZZZZZ
             <div class='error-image-container-400'>
@@ -35,9 +39,14 @@ class Olz400BadRequest extends OlzComponent {
             <p>Vielleicht hast du falsch abgezeichnet? Oder der Posten wurde bereits abgeräumt!</p>
             <p>Aber keine Bange, <a href='{$code_href}' class='linkint'>hier kannst du dich wieder auffangen.</a></p>
             <p>Und wenn du felsenfest davon überzeugt bist, dass der Posten hier sein <b>muss</b>, dann hat wohl der Postensetzer einen Fehler gemacht und sollte schläunigst informiert werden:
-            <script type='text/javascript'>
-                olz.MailTo("website", "olzimmerberg.ch", "Postensetzer", "Fehler%20400%20OLZ");
-            </script></p>
+                <a
+                    href='#'
+                    onclick='return olz.initOlzRoleInfoModal({$sysadmin_role?->getId()})'
+                    class='linkmail'
+                >
+                    Postensetzer
+                </a>
+            </p>
             ZZZZZZZZZZ;
         $out .= "</div>";
         $out .= OlzFooter::render([], $this);

@@ -399,7 +399,7 @@ VALUES
     ('22', 'sportident', NULL, 'SportIdent', '# SportIdent\n\n', '20', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
     ('23', 'buessli', NULL, 'OLZ-Büssli', '# OLZ-Büssli\n\n', '2', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', NULL),
     ('24', 'presse', NULL, 'Presse', '# Presse\n\n', '3', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('25', 'website', NULL, 'Homepage', '# Homepage\n\n', '3', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
+    ('25', 'website', NULL, 'Homepage', '# Homepage\n\n', '3', '0', '', 'role_email', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
     ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '# Heftli \"HOLZ\"\n\n', '3', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL),
     ('27', 'revisoren', NULL, 'Revisoren', '# Revisoren\n\n', '4', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
     ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '# Ersatzrevisor\n\n', '27', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),

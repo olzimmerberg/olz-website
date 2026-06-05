@@ -1,6 +1,12 @@
 #role-info-modal {
     .role-data {
-        .user-data {
+        .assignee-container {
+            margin-top: 24px;
+        }
+
+        .user-data,
+        .user-email,
+        .role-email {
             display: flex;
             flex-direction: row;
             align-items: center;

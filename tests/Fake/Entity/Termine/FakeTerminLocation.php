@@ -19,7 +19,7 @@ class FakeTerminLocation extends FakeEntity {
                 $entity = new TerminLocation();
                 FakeOlzEntity::minimal($entity);
                 $entity->setId(12);
-                $entity->setName("Fake title");
+                $entity->setName("Fake title!");
                 $entity->setDetails("");
                 $entity->setLatitude(0);
                 $entity->setLongitude(0);
@@ -53,8 +53,8 @@ class FakeTerminLocation extends FakeEntity {
                 $entity = new TerminLocation();
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
-                $entity->setName("Fake title");
-                $entity->setDetails("Fake content");
+                $entity->setName("Fake title!");
+                $entity->setDetails("Fake content!");
                 $entity->setLatitude(47.2790953);
                 $entity->setLongitude(8.5591936);
                 $entity->setImageIds(['image__________________1.jpg', 'image__________________2.png']);

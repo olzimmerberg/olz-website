@@ -30,7 +30,7 @@ class FakeNews extends FakeEntity {
                 $entity->setAuthorRole(null);
                 $entity->setPublishedDate(new Date('2020-03-13'));
                 $entity->setPublishedTime(new Time('18:00:00'));
-                $entity->setTitle("Fake title");
+                $entity->setTitle("Fake title!");
                 $entity->setTeaser("");
                 $entity->setContent("");
                 $entity->setTags('');
@@ -82,9 +82,9 @@ class FakeNews extends FakeEntity {
                 $entity->setAuthorRole(FakeRole::adminRole());
                 $entity->setPublishedDate(new Date('2020-03-13'));
                 $entity->setPublishedTime(new Time('18:00:00'));
-                $entity->setTitle("Fake title");
-                $entity->setTeaser("Fake teaser");
-                $entity->setContent("Fake content");
+                $entity->setTitle("Fake title!");
+                $entity->setTeaser("Fake teaser!");
+                $entity->setContent("Fake content!");
                 $entity->setTags(' test unit ');
                 $entity->setTermin(0);
                 $entity->setExternalUrl('');

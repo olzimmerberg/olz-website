@@ -36,13 +36,13 @@ final class SendMonthlyPreviewCommandIntegrationTest extends IntegrationTestCase
 
             **Termine**
 
-            - Di, 04.08.: [Training -1](http://integration-test.host/termine/9)
+            - Di, 04.08.: [Training \-1](http://integration-test.host/termine/9)
             - Di, 11.08.: [Trainingsstart](http://integration-test.host/termine/8)
-            - So, 16.08. - Mo, 17.08.: [24h-OL](http://integration-test.host/termine/12)
+            - So, 16.08. - Mo, 17.08.: [24h\-OL](http://integration-test.host/termine/12)
             - Di, 18.08.: [Training 1](http://integration-test.host/termine/3)
             - Sa, 22.08.: [Grossanlass](http://integration-test.host/termine/10)
             - Di, 25.08.: [Training 2](http://integration-test.host/termine/4)
-            - Mi, 26.08.: [Milchsuppen-Cup, OLZ Trophy 4. Lauf](http://integration-test.host/termine/5)
+            - Mi, 26.08.: [Milchsuppen\-Cup, OLZ Trophy 4\. Lauf](http://integration-test.host/termine/5)
 
 
             **Meldeschlüsse**

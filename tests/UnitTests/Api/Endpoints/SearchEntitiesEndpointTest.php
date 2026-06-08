@@ -130,7 +130,7 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['result' => [
-            ['id' => 1234, 'title' => 'Fake title'],
+            ['id' => 1234, 'title' => 'Fake title!'],
         ]], $result);
     }
 
@@ -150,8 +150,8 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
         $this->assertSame(['result' => [
-            ['id' => 12, 'title' => 'Fake title'],
-            ['id' => 1234, 'title' => 'Fake title'],
+            ['id' => 12, 'title' => 'Fake title!'],
+            ['id' => 1234, 'title' => 'Fake title!'],
         ]], $result);
     }
 

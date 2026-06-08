@@ -182,7 +182,7 @@ final class EditWeeklyPictureEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
-                'text' => 'Fake text',
+                'text' => 'Fake text!',
                 'imageId' => 'image__________________1.jpg',
                 'publishedDate' => '2020-03-13',
             ],

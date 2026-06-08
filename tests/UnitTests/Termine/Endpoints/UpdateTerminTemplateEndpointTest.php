@@ -26,8 +26,8 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
         'data' => [
             'startTime' => '18:30:00',
             'durationSeconds' => 5400,
-            'title' => 'Fake title',
-            'text' => 'Fake text',
+            'title' => 'Fake title!',
+            'text' => 'Fake text!',
             'organizerUserId' => 1234,
             'deadlineEarlierSeconds' => 86400,
             'deadlineTime' => '22:00:00',
@@ -118,8 +118,8 @@ final class UpdateTerminTemplateEndpointTest extends UnitTestCase {
         $this->assertSame(123, $termin_template->getId());
         $this->assertSame('18:30:00', $termin_template->getStartTime()->format('H:i:s'));
         $this->assertSame(5400, $termin_template->getDurationSeconds());
-        $this->assertSame('Fake title', $termin_template->getTitle());
-        $this->assertSame('Fake text', $termin_template->getText());
+        $this->assertSame('Fake title!', $termin_template->getTitle());
+        $this->assertSame('Fake text!', $termin_template->getText());
         $this->assertSame(86400, $termin_template->getDeadlineEarlierSeconds());
         $this->assertSame('22:00:00', $termin_template->getDeadlineTime()->format('H:i:s'));
         $this->assertTrue($termin_template->getShouldPromote());

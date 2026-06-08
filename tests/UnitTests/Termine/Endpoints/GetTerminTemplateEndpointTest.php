@@ -146,8 +146,8 @@ final class GetTerminTemplateEndpointTest extends UnitTestCase {
             'data' => [
                 'startTime' => '09:00:00',
                 'durationSeconds' => 7200,
-                'title' => 'Fake title',
-                'text' => 'Fake text',
+                'title' => 'Fake title!',
+                'text' => 'Fake text!',
                 'organizerUserId' => 12341,
                 'deadlineEarlierSeconds' => 172800,
                 'deadlineTime' => '18:00:00',

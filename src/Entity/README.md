@@ -40,6 +40,14 @@ CREATE OR REPLACE VIEW users_latest_login AS
 ```
 
 ```
+CREATE OR REPLACE VIEW counter_angebot AS
+    SELECT date_range, page, counter
+    FROM counter
+    WHERE page LIKE '/angebot%'
+    ORDER BY date_range DESC, counter DESC;
+```
+
+```
 CREATE OR REPLACE VIEW counter_fuer_einsteiger AS
     SELECT date_range, page, counter
     FROM counter
@@ -51,7 +59,7 @@ CREATE OR REPLACE VIEW counter_fuer_einsteiger AS
 CREATE OR REPLACE VIEW counter_high_latency AS
     SELECT date_range, page, counter, latency_avg_ms, latency_num
     FROM counter
-    WHERE latency_num > '3'
+    WHERE latency_num > '10'
     ORDER BY date_range DESC, latency_avg_ms DESC;
 ```
 

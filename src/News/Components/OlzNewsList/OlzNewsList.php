@@ -132,7 +132,7 @@ class OlzNewsList extends OlzRootComponent {
                 >
                     <li><button
                         class='dropdown-item'
-                        onclick='return olz.initOlzLoginModal({})'
+                        onclick='olz.loginAndReload({}); return false;'
                     >
                         Login
                     </button></li>

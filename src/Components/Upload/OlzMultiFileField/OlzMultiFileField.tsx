@@ -12,8 +12,6 @@ import {dataHref} from '../../../Utils/constants';
 import '../../../Components/Common/OlzStyles/dropzone.scss';
 import './OlzMultiFileField.scss';
 
-const uploader = Uploader.getInstance();
-
 interface OlzMultiFileFieldProps<Values extends FieldValues, Name extends Path<Values>> {
     title?: string;
     name: Name;
@@ -28,6 +26,8 @@ export const OlzMultiFileField = <
     Values extends FieldValues,
     Name extends Path<Values>,
 >(props: OlzMultiFileFieldProps<Values, Name>): React.ReactElement => {
+    const uploader = Uploader.getInstance();
+
     const errorMessage = props.errors?.[props.name]?.message;
     const errorClassName = errorMessage ? ' is-invalid' : '';
     const disabledClassName = props.disabled ? ' disabled' : '';

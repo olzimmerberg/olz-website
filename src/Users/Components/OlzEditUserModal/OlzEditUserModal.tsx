@@ -445,12 +445,12 @@ export function initOlzEditUserModal(
             data={data}
             options={options}
         />
-    ), (modal) => {
-        modal.addEventListener('shown.bs.modal', () => {
-            window.location.href = '#';
+    ), (modalElem) => {
+        modalElem.addEventListener('shown.bs.modal', () => {
+            history.pushState(null, document.title, ' ');
         });
-        modal.addEventListener('hidden.bs.modal', () => {
-            window.location.href = '#';
+        modalElem.addEventListener('hidden.bs.modal', () => {
+            history.pushState(null, document.title, ' ');
         });
     });
 }
@@ -469,7 +469,7 @@ window.addEventListener('load', () => {
             if (user.id) {
                 // eslint-disable-next-line no-alert
                 window.alert(`Du bist bereits eingeloggt als ${user.name} (${user.username})!`);
-                window.location.href = '#';
+                history.pushState(null, document.title, ' ');
                 return; // Already logged in!
             }
             initOlzEditUserModal({...options, simplified: false});
@@ -478,7 +478,7 @@ window.addEventListener('load', () => {
             if (user.id) {
                 // eslint-disable-next-line no-alert
                 window.alert(`Du bist bereits eingeloggt als ${user.name} (${user.username})!`);
-                window.location.href = '#';
+                history.pushState(null, document.title, ' ');
                 return; // Already logged in!
             }
             initOlzEditUserModal({...options, simplified: true});

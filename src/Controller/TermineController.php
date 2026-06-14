@@ -111,4 +111,19 @@ class TermineController extends AbstractController {
         $response->headers->set('Content-Type', 'text/calendar');
         return $response;
     }
+
+    #[Route('/termine.ics')]
+    public function termineListIcs(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzICal $olzICal,
+    ): Response {
+        return $httpUtils->measure($request, [], function () use ($olzICal) {
+            $out = $olzICal->getHtml([]);
+            $response = new Response($out);
+            $response->headers->set('Content-Type', 'text/calendar');
+            return $response;
+        });
+    }
 }

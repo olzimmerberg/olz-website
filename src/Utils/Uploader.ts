@@ -54,9 +54,14 @@ export class Uploader extends EventTarget<{'uploadFinished': FileUploadId}> {
     protected maxPartLength = 1024 * 32;
     protected maxConcurrentRequests = 5;
 
-    protected olzApi = new OlzApi();
+    protected olzApi: OlzApi;
 
     protected uploadQueue: FileUpload[] = [];
+
+    public constructor() {
+        super();
+        this.olzApi = new OlzApi();
+    }
 
     public async upload(base64Content: string, suffix: string | null): Promise<FileUploadId> {
         const uploadId = await this.add(base64Content, suffix);

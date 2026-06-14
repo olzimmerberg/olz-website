@@ -100,8 +100,8 @@ export const OlzResetPasswordModal = (): React.ReactElement => {
 export function initOlzResetPasswordModal(): boolean {
     return initOlzEditModal('reset-password-modal', () => (
         <OlzResetPasswordModal/>
-    ), (modal) => {
-        modal.addEventListener('shown.bs.modal', () => {
+    ), (modalElem) => {
+        modalElem.addEventListener('shown.bs.modal', () => {
             document.getElementById('usernameOrEmail-input')?.focus();
         });
     });

@@ -15,8 +15,6 @@ import './OlzMultiImageField.scss';
 
 const MAX_IMAGE_SIZE = 800;
 
-const uploader = Uploader.getInstance();
-
 interface OlzMultiImageFieldProps<Values extends FieldValues, Name extends Path<Values>> {
     title?: string;
     name: Name;
@@ -31,6 +29,8 @@ export const OlzMultiImageField = <
     Values extends FieldValues,
     Name extends Path<Values>,
 >(props: OlzMultiImageFieldProps<Values, Name>): React.ReactElement => {
+    const uploader = Uploader.getInstance();
+
     const errorMessage = props.errors?.[props.name]?.message;
     const errorClassName = errorMessage ? ' is-invalid' : '';
     const disabledClassName = props.disabled ? ' disabled' : '';

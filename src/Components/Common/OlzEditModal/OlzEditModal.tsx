@@ -136,7 +136,7 @@ export const OlzEditModal = (props: OlzEditModalProps): React.ReactElement => {
 export function initOlzEditModal(
     modalId: string,
     getElement: () => React.ReactElement,
-    configureModal?: (modal: HTMLElement) => void,
+    configureModal?: (modalElem: HTMLElement, modal: bootstrap.Modal) => void,
 ): boolean {
     initReact('edit-entity-react-root', getElement());
     window.setTimeout(() => {
@@ -150,7 +150,7 @@ export function initOlzEditModal(
         }
         modal.show();
         if (configureModal) {
-            configureModal(modalElem);
+            configureModal(modalElem, modal);
         }
     }, 1);
     return false;

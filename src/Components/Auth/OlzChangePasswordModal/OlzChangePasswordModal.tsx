@@ -65,7 +65,6 @@ export const OlzChangePasswordModal = (): React.ReactElement => {
         }
         setStatus({id: 'SUBMITTED', message: 'Passwort erfolgreich aktualisiert. Bitte warten...'});
         // This could probably be done more smoothly!
-        window.location.href = '#';
         window.location.reload();
     };
 
@@ -126,8 +125,8 @@ export const OlzChangePasswordModal = (): React.ReactElement => {
 export function initOlzChangePasswordModal(): boolean {
     return initOlzEditModal('change-password-modal', () => (
         <OlzChangePasswordModal/>
-    ), (modal) => {
-        modal.addEventListener('shown.bs.modal', () => {
+    ), (modalElem) => {
+        modalElem.addEventListener('shown.bs.modal', () => {
             document.getElementById('oldPassword-input')?.focus();
         });
     });

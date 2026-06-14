@@ -36,6 +36,7 @@ function getApiFromForm(formData: OlzLoginForm): OlzApiRequests['login'] {
 
 interface OlzLoginModalProps {
     autoSubmitAutoFilled?: boolean;
+    onSubmit?: () => void;
 }
 
 export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => {
@@ -73,8 +74,7 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
         }
         setStatus({id: 'SUBMITTED', message: 'Login erfolgreich. Bitte warten...'});
         // This could probably be done more smoothly!
-        window.location.href = '#';
-        window.location.reload();
+        props.onSubmit?.();
     };
 
     React.useEffect(() => {
@@ -175,25 +175,51 @@ function openSignUpModal() {
     initOlzEditUserModal(options);
 }
 
-export function initOlzLoginModal(props: OlzLoginModalProps): boolean {
-    return initOlzEditModal('login-modal', () => (
-        <OlzLoginModal {...props}/>
-    ), (modal) => {
-        modal.addEventListener('shown.bs.modal', () => {
-            document.getElementById('usernameOrEmail-input')?.focus();
-            window.location.href = '#login-dialog';
-        });
-        modal.addEventListener('hidden.bs.modal', () => {
-            window.location.href = '#';
-            localStorage.removeItem('OLZ_AUTO_LOGIN');
+export function loginAndReload(props: OlzLoginModalProps): Promise<void> {
+    return login(props).then(() => {
+        maybeRemoveLoginModalHash();
+        window.location.reload();
+    });
+}
+
+export function login(props: OlzLoginModalProps): Promise<void> {
+    return new Promise((resolve, reject) => {
+        let isResolved = false;
+        let hideFn: (() => void) | null = null;
+        initOlzEditModal('login-modal', () => (
+            <OlzLoginModal {...props} onSubmit={() => {
+                isResolved = true;
+                resolve();
+                maybeRemoveLoginModalHash();
+                hideFn?.();
+            }}/>
+        ), (modalElem, modal) => {
+            hideFn = () => modal.hide();
+            modalElem.addEventListener('shown.bs.modal', () => {
+                document.getElementById('usernameOrEmail-input')?.focus();
+                window.location.href = '#login-dialog';
+            });
+            modalElem.addEventListener('hidden.bs.modal', () => {
+                maybeRemoveLoginModalHash();
+                localStorage.removeItem('OLZ_AUTO_LOGIN');
+                if (!isResolved) {
+                    reject(new Error('Login abgebrochen'));
+                }
+            });
         });
     });
+}
+
+function maybeRemoveLoginModalHash() {
+    if (window.location.hash === '#login-dialog') {
+        history.pushState(null, document.title, ' ');
+    }
 }
 
 window.addEventListener('load', () => {
     const usernameOrEmail = localStorage.getItem('OLZ_AUTO_LOGIN');
     if (!user?.username && usernameOrEmail) {
-        initOlzLoginModal({autoSubmitAutoFilled: true});
+        loginAndReload({autoSubmitAutoFilled: true});
     }
 
     const openLoginDialogIfHash = () => {
@@ -201,7 +227,7 @@ window.addEventListener('load', () => {
             window.location.hash === '#login-dialog'
             && document.getElementById('login-modal')?.style.display !== 'block'
         ) {
-            initOlzLoginModal({});
+            loginAndReload({});
         }
     };
     window.addEventListener('hashchange', openLoginDialogIfHash);

@@ -8,9 +8,9 @@
 
 namespace Olz\Termine\Components\OlzICal;
 
-use Doctrine\Common\Collections\Criteria;
 use Olz\Components\Common\OlzComponent;
 use Olz\Entity\Termine\Termin;
+use Olz\Entity\Termine\TerminReaction;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzICal extends OlzComponent {
@@ -20,18 +20,37 @@ class OlzICal extends OlzComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $now_fmt = date('Ymd\THis\Z');
         $host = $this->envUtils()->getEmailForwardingHost();
+        $user = $this->authUtils()->getTokenUser();
 
         // Termine abfragen
-        $termin_repo = $this->entityManager()->getRepository(Termin::class);
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->andX(
-                Criteria::expr()->gte('start_date', new \DateTime("{$jahr}-01-01")),
-                Criteria::expr()->eq('on_off', 1),
-            ))
-            ->setFirstResult(0)
-            ->setMaxResults(1000000)
+        $termin_class = Termin::class;
+        $termin_reaction_class = TerminReaction::class;
+        // TODO: Add `HAVING MIN(tyes.emoji) IS NOT NULL OR MIN(tno.emoji) IS NULL`
+        $dql = <<<ZZZZZZZZZZ
+            SELECT t, MIN(tyes.emoji), MIN(tno.emoji)
+            FROM {$termin_class} t
+                LEFT JOIN {$termin_reaction_class} tyes ON (
+                    tyes.user = :user_id
+                    AND tyes.termin = t.id
+                    AND tyes.emoji IN ('👍', '✅', '✔️')
+                )
+                LEFT JOIN {$termin_reaction_class} tno ON (
+                    tno.user = :user_id
+                    AND tno.termin = t.id
+                    AND tno.emoji IN ('👎', '❎', '❌', '😢', '🚫')
+                )
+            WHERE
+                t.start_date >= :start_date
+                AND t.on_off = '1'
+            GROUP BY t.id
+            ORDER BY t.start_date ASC, t.start_time ASC
+            ZZZZZZZZZZ;
+        $termine = $this->entityManager()
+            ->createQuery($dql)
+            ->setParameter('user_id', $user?->getId())
+            ->setParameter('start_date', "{$jahr}-01-01")
+            ->getResult()
         ;
-        $termine = $termin_repo->matching($criteria);
 
         // ical-Kalender
         $ical = "BEGIN:VCALENDAR".
@@ -43,7 +62,9 @@ class OlzICal extends OlzComponent {
         "\r\nX-WR-TIMEZONE:Europe/Zurich";
 
         // Termine
-        foreach ($termine as $termin) {
+        foreach ($termine as $termin_row) {
+            [$termin, $yes_emoji, $no_emoji] = $termin_row;
+
             $id = $termin->getId();
             $start_date = $termin->getStartDate();
             $end_date = $termin->getEndDate() ?? $start_date;
@@ -66,6 +87,9 @@ class OlzICal extends OlzComponent {
             $end_date_end_fmt = $this->dateUtils()->olzDate('jjjjmmtt', $end_date_end);
             $modified_fmt = $termin->getLastModifiedAt()->format('Ymd\THis\Z');
             $created_fmt = $termin->getCreatedAt()->format('Ymd\THis\Z');
+            $yes_emoji_suffix = $yes_emoji ? " {$yes_emoji}" : '';
+            $no_emoji_suffix = $no_emoji ? " {$no_emoji}" : '';
+            $title_fmt = "{$termin->getTitle()}{$yes_emoji_suffix}{$no_emoji_suffix}";
             $description_fmt = $this->escapeText("{$termin->getText()}\n{$links}");
             $label_idents = implode(', ', array_map(
                 fn ($label) => "{$label->getIdent()}",
@@ -79,7 +103,7 @@ class OlzICal extends OlzComponent {
                 "\r\nDTSTAMP:{$now_fmt}".
                 "\r\nLAST-MODIFIED:{$modified_fmt}".
                 "\r\nCREATED:{$created_fmt}".
-                "\r\nSUMMARY:{$termin->getTitle()} (Beginn)".
+                "\r\nSUMMARY:{$title_fmt} (Beginn)".
                 "\r\nDESCRIPTION:{$description_fmt}".
                 "\r\nCATEGORIES:{$label_idents}".
                 $attach.
@@ -92,7 +116,7 @@ class OlzICal extends OlzComponent {
                 "\r\nDTSTAMP:{$now_fmt}".
                 "\r\nLAST-MODIFIED:{$modified_fmt}".
                 "\r\nCREATED:{$created_fmt}".
-                "\r\nSUMMARY:{$termin->getTitle()} (Ende)".
+                "\r\nSUMMARY:{$title_fmt} (Ende)".
                 "\r\nDESCRIPTION:{$description_fmt}".
                 "\r\nCATEGORIES:{$label_idents}".
                 $attach.
@@ -107,7 +131,7 @@ class OlzICal extends OlzComponent {
                 "\r\nDTSTAMP:{$now_fmt}".
                 "\r\nLAST-MODIFIED:{$modified_fmt}".
                 "\r\nCREATED:{$created_fmt}".
-                "\r\nSUMMARY:{$termin->getTitle()}".
+                "\r\nSUMMARY:{$title_fmt}".
                 "\r\nDESCRIPTION:{$description_fmt}".
                 "\r\nCATEGORIES:{$label_idents}".
                 $attach.

@@ -12,7 +12,8 @@ INSERT INTO access_tokens
 VALUES
     ('1', '1', 'Test', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-09-13 22:59:11', NULL),
     ('2', '3', 'WebDAV', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', '2021-09-13 23:00:00', NULL),
-    ('3', '42', 'access', 'public_dev_data_access_token', '2023-04-22 14:00:00', NULL);
+    ('3', '1', 'Calendar', 'cccccccccccccccccccccccccccccccc', '2026-06-16 23:00:00', NULL),
+    ('42', '42', 'access', 'public_dev_data_access_token', '2023-04-22 14:00:00', NULL);
 
 -- Table anmelden_bookings
 

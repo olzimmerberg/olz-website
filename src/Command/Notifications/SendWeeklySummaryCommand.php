@@ -69,7 +69,7 @@ class SendWeeklySummaryCommand extends BaseSendNotificationsCommand {
                     $aktuell->getPublishedDate(),
                     $aktuell->getPublishedTime()
                 );
-                $title = $aktuell->getTitle();
+                $title = $this->htmlUtils()->escapeMarkdown($aktuell->getTitle());
                 $aktuell_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
             if (strlen($aktuell_text) > 0) {
@@ -89,7 +89,7 @@ class SendWeeklySummaryCommand extends BaseSendNotificationsCommand {
                     $blog->getPublishedDate(),
                     $blog->getPublishedTime()
                 );
-                $title = $blog->getTitle();
+                $title = $this->htmlUtils()->escapeMarkdown($blog->getTitle());
                 $blog_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
             if (strlen($blog_text) > 0) {
@@ -109,7 +109,7 @@ class SendWeeklySummaryCommand extends BaseSendNotificationsCommand {
                     $forum->getPublishedDate(),
                     $forum->getPublishedTime()
                 );
-                $title = $forum->getTitle();
+                $title = $this->htmlUtils()->escapeMarkdown($forum->getTitle());
                 if (strlen(trim($title)) > 0) {
                     $forum_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
                 }
@@ -131,7 +131,7 @@ class SendWeeklySummaryCommand extends BaseSendNotificationsCommand {
                     $galerie->getPublishedDate(),
                     $galerie->getPublishedTime()
                 );
-                $title = $galerie->getTitle();
+                $title = $this->htmlUtils()->escapeMarkdown($galerie->getTitle());
                 $galerie_text .= "- {$pretty_datetime}: [{$title}]({$news_url}/{$id})\n";
             }
             if (strlen($galerie_text) > 0) {
@@ -151,8 +151,8 @@ class SendWeeklySummaryCommand extends BaseSendNotificationsCommand {
                 $pretty_date = ($ends_on && $ends_on > $starts_on)
                     ? $this->dateUtils()->compactDate($starts_on).' - '.$this->dateUtils()->compactDate($ends_on)
                     : $this->dateUtils()->compactDate($starts_on);
-                $title = $termin->getTitle();
-                if (strlen(trim($title ?? '')) > 0) {
+                $title = $this->htmlUtils()->escapeMarkdown($termin->getTitle() ?? '');
+                if (strlen(trim($title)) > 0) {
                     $termine_text .= "- {$pretty_date}: [{$title}]({$termine_url}/{$id})\n";
                 }
             }

@@ -102,7 +102,7 @@ final class CreateTerminEndpointTest extends UnitTestCase {
             return $label->getIdent();
         }, [...$termin->getLabels()]));
         $this->assertSame(1234, $termin->getLocation()->getId());
-        $this->assertSame('Fake title', $termin->getLocation()->getName());
+        $this->assertSame('Fake title!', $termin->getLocation()->getName());
         $this->assertNull($termin->getLatitude());
         $this->assertNull($termin->getLongitude());
         $this->assertSame(

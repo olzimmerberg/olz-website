@@ -82,8 +82,8 @@ class FakeTerminTemplate extends FakeEntity {
                 $entity->setId(1234);
                 $entity->setStartTime(new Time('09:00:00'));
                 $entity->setDurationSeconds(7200);
-                $entity->setTitle("Fake title");
-                $entity->setText("Fake text");
+                $entity->setTitle("Fake title!");
+                $entity->setText("Fake text!");
                 $entity->setOrganizerUser($organizer_user);
                 $entity->setDeadlineEarlierSeconds(86400 * 2);
                 $entity->setDeadlineTime(new Time('18:00:00'));

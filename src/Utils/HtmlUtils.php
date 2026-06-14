@@ -18,6 +18,12 @@ class HtmlUtils {
     public string $olz_email_regex = '';
     public string $email_regex = '([A-Z0-9a-z._%+-]+)@([A-Za-z0-9.-]+\.[A-Za-z]{2,64})';
 
+    public function escapeMarkdown(string $text): string {
+        $esc_text = preg_replace('/([\`\*\_\{\}\[\]\(\)\#\+\-\.\!\\\])/', '\\\$1', $text);
+        $this->generalUtils()->checkNotNull($esc_text, 'esc_text must not be null');
+        return $esc_text;
+    }
+
     /** @param array<string, mixed> $override_config */
     public function renderMarkdown(string $markdown, array $override_config = []): string {
         $default_config = [

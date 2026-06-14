@@ -81,7 +81,7 @@ final class EditTerminLocationEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
-                'name' => 'Fake title',
+                'name' => 'Fake title!',
                 'details' => '',
                 'location' => [
                     'latitude' => 0.0,
@@ -165,8 +165,8 @@ final class EditTerminLocationEndpointTest extends UnitTestCase {
                 'onOff' => true,
             ],
             'data' => [
-                'name' => 'Fake title',
-                'details' => 'Fake content',
+                'name' => 'Fake title!',
+                'details' => 'Fake content!',
                 'location' => [
                     'latitude' => 47.2790953,
                     'longitude' => 8.5591936,

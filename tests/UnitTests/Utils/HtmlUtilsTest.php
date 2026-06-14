@@ -14,6 +14,22 @@ use Olz\Utils\WithUtilsCache;
  * @covers \Olz\Utils\HtmlUtils
  */
 final class HtmlUtilsTest extends UnitTestCase {
+    public function testEscapeMarkdown(): void {
+        $html_utils = new HtmlUtils();
+
+        $this->assertSame('Accent grave: \` \(sans lettre\)', $html_utils->escapeMarkdown('Accent grave: ` (sans lettre)'));
+        $this->assertSame('Mitarbeiter\*innen', $html_utils->escapeMarkdown('Mitarbeiter*innen'));
+        $this->assertSame('Datei: 2020\_corona', $html_utils->escapeMarkdown('Datei: 2020_corona'));
+        $this->assertSame('A = \{1, 2, \.\.\., n\}', $html_utils->escapeMarkdown('A = {1, 2, ..., n}'));
+        $this->assertSame('Ich \[\.\.\.\] bin', $html_utils->escapeMarkdown('Ich [...] bin'));
+        $this->assertSame('Au \(ZH\)', $html_utils->escapeMarkdown('Au (ZH)'));
+        $this->assertSame('\# Test', $html_utils->escapeMarkdown('# Test'));
+        $this->assertSame('1 \+ 2', $html_utils->escapeMarkdown('1 + 2'));
+        $this->assertSame('2 \- 1', $html_utils->escapeMarkdown('2 - 1'));
+        $this->assertSame('Sic\!', $html_utils->escapeMarkdown('Sic!'));
+        $this->assertSame('C:\\\Documents', $html_utils->escapeMarkdown('C:\Documents'));
+    }
+
     public function testRenderMarkdown(): void {
         $html_utils = new HtmlUtils();
 

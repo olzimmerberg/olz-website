@@ -42,17 +42,17 @@ final class SendWeeklySummaryCommandIntegrationTest extends IntegrationTestCase 
 
             **Aktuell**
 
-            - Mi, 01.01. 00:00: [Frohes neues Jahr! 🎆](http://integration-test.host/news/3)
+            - Mi, 01.01. 00:00: [Frohes neues Jahr\! 🎆](http://integration-test.host/news/3)
 
 
             **Kaderblog**
 
-            - Mi, 01.01. 15:15: [Saisonstart 2020!](http://integration-test.host/news/6403)
+            - Mi, 01.01. 15:15: [Saisonstart 2020\!](http://integration-test.host/news/6403)
 
 
             **Forum**
 
-            - Mi, 01.01. 21:45: [Guets Nois! 🎉](http://integration-test.host/news/2901)
+            - Mi, 01.01. 21:45: [Guets Nois\! 🎉](http://integration-test.host/news/2901)
             - Fr, 03.01. 18:42: [Verspätete Neujahrsgrüsse](http://integration-test.host/news/2902)
             - Mo, 06.01. 02:07: [Hallo](http://integration-test.host/news/2903)
 

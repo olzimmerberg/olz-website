@@ -93,7 +93,7 @@ class SendMonthlyPreviewCommand extends BaseSendNotificationsCommand {
             $date = ($ends_on && $ends_on > $starts_on)
                 ? $this->dateUtils()->compactDate($starts_on).' - '.$this->dateUtils()->compactDate($ends_on)
                 : $this->dateUtils()->compactDate($starts_on);
-            $title = $termin->getTitle();
+            $title = $this->htmlUtils()->escapeMarkdown($termin->getTitle() ?? '');
             $termine_text .= "- {$date}: [{$title}]({$termine_url}/{$id})\n";
         }
         return $termine_text;
@@ -125,7 +125,7 @@ class SendMonthlyPreviewCommand extends BaseSendNotificationsCommand {
             $deadline_date = $termin->getDeadline();
             $date = $deadline_date ? $this->dateUtils()->compactDate($deadline_date) : '';
             $id = $termin->getId();
-            $title = $termin->getTitle();
+            $title = $this->htmlUtils()->escapeMarkdown($termin->getTitle() ?? '');
             $deadlines_text .= "- {$date}: Meldeschluss für '[{$title}]({$termine_url}/{$id})'\n";
         }
 

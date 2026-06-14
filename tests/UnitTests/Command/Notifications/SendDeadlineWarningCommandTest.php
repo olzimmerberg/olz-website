@@ -74,7 +74,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
 
                 Folgende Meldeschlüsse stehen bevor:
 
-                - Fr, 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
+                - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
 
                 ---
@@ -90,7 +90,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
 
                 Folgende Meldeschlüsse stehen bevor:
 
-                - Fr, 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
+                - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
                 <br /><br />
                 <hr style="border: 0; border-top: 1px solid black;">
@@ -113,7 +113,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
 
                     Folgende Meldeschlüsse stehen bevor:
 
-                    - Fr, 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
+                    - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
                     ZZZZZZZZZZ,
                 'disable_web_page_preview' => true,
@@ -155,7 +155,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
 
             Folgende Meldeschlüsse stehen bevor:
 
-            - Fr, 13.03.: Meldeschluss für '[Fake title](http://fake-base-url/_/termine/1234)'
+            - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
             ZZZZZZZZZZ;
         $this->assertSame('Meldeschlusswarnung', $notification?->title);

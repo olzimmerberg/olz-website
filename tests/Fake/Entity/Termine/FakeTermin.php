@@ -30,7 +30,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setStartTime(null);
                 $entity->setEndDate(null);
                 $entity->setEndTime(null);
-                $entity->setTitle("Fake title");
+                $entity->setTitle("Fake title!");
                 $entity->setText("");
                 $entity->setOrganizerUser(null);
                 $entity->setLocation(null);
@@ -99,7 +99,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setStartTime(new Time('19:30:00'));
                 $entity->setEndDate(new Date('2020-03-16'));
                 $entity->setEndTime(new Time('12:00:00'));
-                $entity->setTitle("Fake title");
+                $entity->setTitle("Fake title!");
                 $entity->setText("Fake content");
                 $entity->setOrganizerUser($organizer_user);
                 $entity->clearLabels();

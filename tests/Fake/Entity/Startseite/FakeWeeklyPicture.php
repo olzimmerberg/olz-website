@@ -53,7 +53,7 @@ class FakeWeeklyPicture extends FakeEntity {
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
                 $entity->setPublishedDate($published_at);
-                $entity->setText('Fake text');
+                $entity->setText('Fake text!');
                 $entity->setImageId('image__________________1.jpg');
                 return $entity;
             }

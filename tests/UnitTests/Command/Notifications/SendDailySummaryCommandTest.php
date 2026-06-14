@@ -69,8 +69,8 @@ final class SendDailySummaryCommandTest extends UnitTestCase {
                 
                 **Aktuell**
                 
-                - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-                - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
+                - Fr, 13.03. 18:00: [Fake title\!](http://fake-base-url/_/news/12)
+                - Fr, 13.03. 18:00: [Fake title\!](http://fake-base-url/_/news/1234)
                 
                 
                 
@@ -90,8 +90,8 @@ final class SendDailySummaryCommandTest extends UnitTestCase {
                 
                 **Aktuell**
                 
-                - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-                - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
+                - Fr, 13.03. 18:00: [Fake title\!](http://fake-base-url/_/news/12)
+                - Fr, 13.03. 18:00: [Fake title\!](http://fake-base-url/_/news/1234)
                 
 
                 <br /><br />
@@ -130,13 +130,13 @@ final class SendDailySummaryCommandTest extends UnitTestCase {
 
             **Aktuell**
 
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/12)
-            - Fr, 13.03. 18:00: [Fake title](http://fake-base-url/_/news/1234)
+            - Fr, 13.03. 18:00: [Fake title\!](http://fake-base-url/_/news/12)
+            - Fr, 13.03. 18:00: [Fake title\!](http://fake-base-url/_/news/1234)
 
 
             **Aktualisierte Termine**
 
-            - Fr, 13.03. - Mo, 16.03.: [Fake title](http://fake-base-url/_/termine/1234)
+            - Fr, 13.03. - Mo, 16.03.: [Fake title\!](http://fake-base-url/_/termine/1234)
 
 
             ZZZZZZZZZZ;

@@ -49,7 +49,7 @@ final class VereinTest extends SystemTestCase {
             $this->assertNull($this->getBrowserElement('#user-info-modal a.linkmail'));
             $this->assertMatchesRegularExpression(
                 '/Bot-Prüfung/i',
-                $this->getBrowserElement('#user-info-modal .olz-captcha')?->getText() ?? ''
+                $this->getBrowserElement('#user-info-modal .container')?->getText() ?? ''
             );
         }
 

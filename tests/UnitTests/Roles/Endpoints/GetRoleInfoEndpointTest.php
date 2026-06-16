@@ -31,9 +31,9 @@ final class GetRoleInfoEndpointTest extends UnitTestCase {
         } catch (HttpError $err) {
             $this->assertSame([
                 "INFO Valid user request",
-                "NOTICE HTTP error 403 Bot-Prüfung nicht bestanden!",
+                "NOTICE HTTP error 400 Bot-Prüfung nicht bestanden!",
             ], $this->getLogs());
-            $this->assertSame(403, $err->getCode());
+            $this->assertSame(400, $err->getCode());
         }
     }
 

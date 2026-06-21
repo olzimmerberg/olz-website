@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260530162734
+-- MIGRATION: DoctrineMigrations\Version20260621085647
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -394,7 +394,7 @@ CREATE TABLE `news` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `news_reactions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `emoji` varchar(15) NOT NULL,
+  `emoji` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `news_entry_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -977,7 +977,7 @@ CREATE TABLE `termin_notification_templates` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `termin_reactions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `emoji` varchar(15) NOT NULL,
+  `emoji` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `termin_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),

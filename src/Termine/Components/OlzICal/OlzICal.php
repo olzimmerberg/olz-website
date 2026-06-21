@@ -87,9 +87,9 @@ class OlzICal extends OlzComponent {
             $end_date_end_fmt = $this->dateUtils()->olzDate('jjjjmmtt', $end_date_end);
             $modified_fmt = $termin->getLastModifiedAt()->format('Ymd\THis\Z');
             $created_fmt = $termin->getCreatedAt()->format('Ymd\THis\Z');
-            $yes_emoji_suffix = $yes_emoji ? " {$yes_emoji}" : '';
-            $no_emoji_suffix = $no_emoji ? " {$no_emoji}" : '';
-            $title_fmt = "{$termin->getTitle()}{$yes_emoji_suffix}{$no_emoji_suffix}";
+            $yes_emoji_prefix = $yes_emoji ? "{$yes_emoji} " : '';
+            $no_emoji_prefix = $no_emoji ? "{$no_emoji} " : '';
+            $title_fmt = "{$yes_emoji_prefix}{$no_emoji_prefix}{$termin->getTitle()}";
             $description_fmt = $this->escapeText("{$termin->getText()}\n{$links}");
             $label_idents = implode(', ', array_map(
                 fn ($label) => "{$label->getIdent()}",

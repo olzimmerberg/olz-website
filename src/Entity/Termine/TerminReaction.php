@@ -24,7 +24,7 @@ class TerminReaction implements TestableInterface {
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
     private User $user;
 
-    #[ORM\Column(type: 'string', length: 15, nullable: false)]
+    #[ORM\Column(type: 'string', length: 15, nullable: false, options: ['collation' => 'utf8mb4_bin'])]
     private string $emoji;
 
     public function getId(): ?int {

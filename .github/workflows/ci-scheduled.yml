@@ -6,15 +6,6 @@ on:
 name: CI:scheduled
 jobs:
 
-  fetch:
-    name: HTTP fetch
-    runs-on: ubuntu-latest
-    steps:
-    - name: olzimmerberg.ch
-      run: wget -O - https://olzimmerberg.ch
-    - name: staging.olzimmerberg.ch
-      run: wget -O - https://staging.olzimmerberg.ch
-
   backup:
     name: Backup
     runs-on: ubuntu-latest
@@ -22,7 +13,7 @@ jobs:
     - name: Create backup
       env:
         TOKEN: ${{ secrets.OLZ_BOT_TOKEN_PROD }}
-      run: mkdir backup; wget -O backup/prod.sql.crypt.json "https://olzimmerberg.ch/api/executeCommand?access_token=$TOKEN&request={%22command%22:%22olz:db-backup%22,%22argv%22:null}"
+      run: mkdir -p backup; curl --retry 3 --retry-delay 5 -A "Mozilla/5.0 (compatible; OlzBackupBot/1.0; +https://github.com/olzimmerberg/olz-website)" -H "Accept: application/json" -o backup/prod.sql.crypt.json "https://olzimmerberg.ch/api/executeCommand?access_token=$TOKEN&request={%22command%22:%22olz:db-backup%22,%22argv%22:null}"
     - name: Store backup
       uses: actions/upload-artifact@v4
       with:

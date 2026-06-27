@@ -16,9 +16,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class NewsKaderblogTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testNewsKaderblogReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getKaderblogDetailUrl());
+        $this->loadUrl($this->getKaderblogDetailUrl());
         $this->screenshot('news_detail_kaderblog');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Kaderblog/i',
@@ -31,7 +29,7 @@ final class NewsKaderblogTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('kaderlaeufer', 'kad3rla3uf3r');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -75,10 +73,8 @@ final class NewsKaderblogTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsKaderblogUpdate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('kaderlaeufer', 'kad3rla3uf3r');
-        $browser->get($this->getKaderblogDetailUrl());
+        $this->loadUrl($this->getKaderblogDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -96,10 +92,8 @@ final class NewsKaderblogTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsKaderblogDetailDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getKaderblogDetailUrl());
+        $this->loadUrl($this->getKaderblogDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');

@@ -16,9 +16,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class TermineTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testTermineReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('termine');
 
         $this->click('#filter-type-training');
@@ -29,7 +27,7 @@ final class TermineTest extends SystemTestCase {
         }
         $this->screenshot('termine_past');
 
-        $browser->get($this->getDetailUrl());
+        $this->loadUrl($this->getDetailUrl());
         $this->screenshot('termine_detail');
 
         // TODO: Dummy assert
@@ -41,7 +39,7 @@ final class TermineTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-termin-button');
         $this->waitForModal('#edit-termin-modal');
@@ -84,7 +82,7 @@ final class TermineTest extends SystemTestCase {
 
         $this->click('#edit-termin-modal #submit-button');
         $this->waitUntilGone('#edit-termin-modal');
-        $browser->get("{$this->getUrl()}/1002");
+        $this->loadUrl("{$this->getUrl()}/1002");
         $this->screenshot('termine_new_finished');
 
         $this->resetDb();
@@ -97,7 +95,7 @@ final class TermineTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-termin-button');
         $this->waitForModal('#edit-termin-modal');
@@ -130,7 +128,7 @@ final class TermineTest extends SystemTestCase {
         $this->click('#edit-termin-modal #submit-button');
         $this->waitUntilGone('#edit-termin-modal');
 
-        $browser->get("{$this->getUrl()}/1002");
+        $this->loadUrl("{$this->getUrl()}/1002");
         $this->assertSame('Kartentraining: <<< TODO >>>', $this->getBrowserElement('.olz-termin-detail h1')?->getText());
 
         $this->resetDb();
@@ -141,7 +139,7 @@ final class TermineTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->click('#filter-date-2015');
         $this->assertNotNull($this->getBrowserElement('.olz-termine-list-middle .no-entries'));
 
@@ -170,7 +168,7 @@ final class TermineTest extends SystemTestCase {
         $this->click('#edit-termin-modal #submit-button');
         $this->waitUntilGone('#edit-termin-modal');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertMatchesRegularExpression(
             '/(^| )selected( |$)/',
             "{$this->getBrowserElement('#filter-date-2015')?->getAttribute('class')}"
@@ -182,10 +180,8 @@ final class TermineTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTermineUpdate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getDetailUrl());
+        $this->loadUrl($this->getDetailUrl());
 
         $this->click('#edit-termin-button');
         $this->waitForModal('#edit-termin-modal');
@@ -194,7 +190,7 @@ final class TermineTest extends SystemTestCase {
         $this->click('#edit-termin-modal #submit-button');
         $this->waitUntilGone('#edit-termin-modal');
 
-        $browser->get($this->getDetailUrl());
+        $this->loadUrl($this->getDetailUrl());
         $this->assertSame('Training 4 UPDATED', $this->getText('.olz-termin-detail h1'));
 
         $this->resetDb();
@@ -202,10 +198,8 @@ final class TermineTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTermineDetailDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getDetailUrl());
+        $this->loadUrl($this->getDetailUrl());
 
         $this->click('#edit-termin-button');
         $this->waitForModal('#edit-termin-modal');

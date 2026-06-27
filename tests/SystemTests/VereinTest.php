@@ -17,8 +17,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class VereinTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testVereinReadOnly(): void {
-        $browser = $this->getBrowser();
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         // View data using dev captcha
         if ($this->isInModes(['dev_rw', 'dev'])) {
@@ -56,7 +55,7 @@ final class VereinTest extends SystemTestCase {
         if (!$this->isInModes('prod')) {
             $this->login('vorstand', 'v0r57and');
         }
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('verein');
 
         // View data using login
@@ -77,10 +76,10 @@ final class VereinTest extends SystemTestCase {
             );
         }
 
-        $browser->get("{$this->getUrl()}/praesi");
+        $this->loadUrl("{$this->getUrl()}/praesi");
         $this->screenshot('verein_praesi');
 
-        $browser->get("{$this->getUrl()}/finanzen");
+        $this->loadUrl("{$this->getUrl()}/finanzen");
         $this->screenshot('verein_finanzen');
 
         // TODO: Dummy assert
@@ -91,7 +90,7 @@ final class VereinTest extends SystemTestCase {
     public function testEditRessortData(): void {
         $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
-        $browser->get("{$this->getUrl()}/finanzen");
+        $this->loadUrl("{$this->getUrl()}/finanzen");
 
         $this->click('#edit-role-button');
         $this->waitForModal('#edit-role-modal');
@@ -147,10 +146,9 @@ final class VereinTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testAddRessortAssignee(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
 
-        $browser->get("{$this->getUrl()}/finanzen");
+        $this->loadUrl("{$this->getUrl()}/finanzen");
         $this->assertCount(2, $this->getBrowserElements('.role-assignees .assignee'));
         $this->click('#add-role-user-button');
         $this->waitForModal('#add-role-user-modal');
@@ -162,7 +160,7 @@ final class VereinTest extends SystemTestCase {
         $this->click('#add-role-user-modal #submit-button');
         $this->waitUntilGone('#add-role-user-modal');
 
-        $browser->get("{$this->getUrl()}/finanzen");
+        $this->loadUrl("{$this->getUrl()}/finanzen");
         $this->assertCount(3, $this->getBrowserElements('.role-assignees .assignee'));
 
         $this->resetDb();
@@ -170,17 +168,16 @@ final class VereinTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testRemoveRessortAssignee(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
 
-        $browser->get("{$this->getUrl()}/finanzen");
+        $this->loadUrl("{$this->getUrl()}/finanzen");
         $this->assertCount(2, $this->getBrowserElements('.role-assignees .assignee'));
         $this->click('.role-assignees .assignee:nth-of-type(2) #delete-role-user-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');
 
-        $browser->get("{$this->getUrl()}/finanzen");
+        $this->loadUrl("{$this->getUrl()}/finanzen");
         $this->assertCount(1, $this->getBrowserElements('.role-assignees .assignee'));
 
         $this->resetDb();
@@ -188,9 +185,8 @@ final class VereinTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testAddSubRole(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
-        $browser->get("{$this->getUrl()}/finanzen");
+        $this->loadUrl("{$this->getUrl()}/finanzen");
 
         $this->click('#add-sub-role-button');
         $this->waitForModal('#edit-role-modal');
@@ -208,7 +204,7 @@ final class VereinTest extends SystemTestCase {
         $this->click('#edit-role-modal #submit-button');
         $this->waitUntilGone('#edit-role-modal');
 
-        $browser->get("{$this->getUrl()}/finanzen");
+        $this->loadUrl("{$this->getUrl()}/finanzen");
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/rechnungspruefer")['http_code']);
         $this->assertStringContainsString('Rechnungsprüfer', $this->getBrowserElement('#sub-roles')?->getText() ?? '');
 
@@ -217,10 +213,9 @@ final class VereinTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testRemoveSubRole(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
 
-        $browser->get("{$this->getUrl()}/revisoren");
+        $this->loadUrl("{$this->getUrl()}/revisoren");
         $this->click('#edit-role-button');
         $this->waitForModal('#edit-role-modal');
         $this->click('#edit-role-modal #delete-entity-button');
@@ -229,7 +224,7 @@ final class VereinTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
         $this->waitUntilGone('#edit-role-modal');
 
-        $browser->get("{$this->getUrl()}/revisoren");
+        $this->loadUrl("{$this->getUrl()}/revisoren");
         $this->assertSame(404, $this->getHeaders("{$this->getUrl()}/revisoren")['http_code']);
 
         $this->resetDb();

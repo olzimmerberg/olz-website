@@ -16,29 +16,27 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class AppsTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testAppsScreenshots(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('apps_admin');
         $this->logout();
 
         $this->login('vorstand', 'v0r57and');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('apps_vorstand');
         $this->logout();
 
         $this->login('karten', 'kar73n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('apps_karten');
         $this->logout();
 
         $this->login('benutzer', 'b3nu723r');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('apps_benutzer');
         $this->logout();
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('apps_anonym');
 
         $this->login('admin', 'adm1n');
@@ -46,7 +44,7 @@ final class AppsTest extends SystemTestCase {
         foreach ($apps as $app) {
             $app_href = "/{$app->getHref()}";
             $app_basename = $app->getBasename();
-            $browser->get("{$this->getTargetUrl()}{$app_href}");
+            $this->loadUrl("{$this->getTargetUrl()}{$app_href}");
             $this->screenshot("app_{$app_basename}");
         }
         $this->logout();

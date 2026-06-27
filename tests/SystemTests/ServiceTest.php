@@ -15,9 +15,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class ServiceTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testServiceReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('service');
 
         // TODO: Dummy assert
@@ -26,10 +24,8 @@ final class ServiceTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testServiceAuthenticated(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('service_authenticated');
 
         // TODO: Dummy assert

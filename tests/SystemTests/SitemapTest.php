@@ -15,9 +15,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class SitemapTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testSitemapReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('sitemap');
 
         // TODO: Dummy assert

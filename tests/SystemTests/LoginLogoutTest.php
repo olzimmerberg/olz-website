@@ -15,9 +15,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class LoginLogoutTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testLoginLogoutScreenshots(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#account-menu-link');
         $this->click('#login-menu-item');
@@ -30,7 +28,7 @@ final class LoginLogoutTest extends SystemTestCase {
         $this->click('#login-modal #submit-button');
         $this->waitUntilGone('#login-modal');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#account-menu-link');
         $this->screenshot('logout_account_menu');
@@ -38,7 +36,7 @@ final class LoginLogoutTest extends SystemTestCase {
         $this->click('#logout-menu-item');
         $this->waitABit();
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#account-menu-link');
         $this->screenshot('login_account_menu');

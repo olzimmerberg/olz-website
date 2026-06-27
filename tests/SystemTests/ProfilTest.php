@@ -15,10 +15,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class ProfilTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testProfilScreenshots(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('profil_admin');
 
         $this->click('#change-password-button');
@@ -37,10 +35,8 @@ final class ProfilTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testProfilUpdateUser(): void {
-        $browser = $this->getBrowser();
-
         $this->login('karten', 'kar73n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame('Benutzername: karten', $this->getBrowserElement('.info-container.username')?->getText());
         $this->assertSame("(Keine Adresse)\n(Keine PLZ) (Kein Ort) (Keine Region, Kein Land)", $this->getBrowserElement('.info-container.address')?->getText());
         $this->assertSame('Geburtsdatum: (Unbekannt)', $this->getBrowserElement('.info-container.birthdate')?->getText());
@@ -63,7 +59,7 @@ final class ProfilTest extends SystemTestCase {
         $this->sendKeys('#edit-user-modal #countryCode-input', 'CH');
         $this->click('#edit-user-modal #submit-button');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame('Benutzername: karten', $this->getBrowserElement('.info-container.username')?->getText());
         $this->assertSame("Zimmerbergstrasse 270\n8800 Thalwil (ZH, CH)", $this->getBrowserElement('.info-container.address')?->getText());
         $this->assertSame('Geburtsdatum: 12.03.1999', $this->getBrowserElement('.info-container.birthdate')?->getText());
@@ -75,14 +71,12 @@ final class ProfilTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testProfilDeleteUser(): void {
-        $browser = $this->getBrowser();
-
         $this->assertSame(200, $this->getHeaders("{$this->getTargetUrl()}/news/7")['http_code']);
-        $browser->get("{$this->getTargetUrl()}/verein");
+        $this->loadUrl("{$this->getTargetUrl()}/verein");
         $this->assertStringContainsString('Volker Vorstand', $this->getBrowserElement('#organigramm')?->getText() ?? '');
 
         $this->login('vorstand', 'v0r57and');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#edit-user-button');
         $this->waitForModal('#edit-user-modal');
@@ -94,7 +88,7 @@ final class ProfilTest extends SystemTestCase {
 
         $this->assertSame(404, $this->getHeaders($this->getUrl())['http_code']);
         $this->assertSame(404, $this->getHeaders("{$this->getTargetUrl()}/news/7")['http_code']);
-        $browser->get("{$this->getTargetUrl()}/verein");
+        $this->loadUrl("{$this->getTargetUrl()}/verein");
         $this->assertStringNotContainsString('Volker Vorstand', $this->getBrowserElement('#organigramm')?->getText() ?? '');
 
         $this->resetDb();
@@ -102,10 +96,8 @@ final class ProfilTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testAddFamilyMember(): void {
-        $browser = $this->getBrowser();
-
         $this->login('karten', 'kar73n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame('', $this->getBrowserElement('#child-users-list')?->getText());
 
         $this->click('#add-child-user-button');
@@ -115,7 +107,7 @@ final class ProfilTest extends SystemTestCase {
         $this->clear('#edit-user-modal #email-input');
         $this->click('#edit-user-modal #submit-button');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(
             'Familienmitglied Child Integration T. Karten',
             $this->getBrowserElement('#child-users-list')?->getText(),

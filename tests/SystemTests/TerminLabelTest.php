@@ -19,7 +19,7 @@ final class TerminLabelTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->assertSame([
             'Alle Termine',
@@ -80,7 +80,7 @@ final class TerminLabelTest extends SystemTestCase {
         $this->click('#edit-termin-label-modal #submit-button');
         $this->waitUntilGone('#edit-termin-label-modal');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->waitUntilGone('#redirect-link');
         $this->waitABit();
         $this->assertSame([
@@ -105,10 +105,8 @@ final class TerminLabelTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTerminLabelDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#edit-termin-label-button');
         $this->waitForModal('#edit-termin-label-modal');

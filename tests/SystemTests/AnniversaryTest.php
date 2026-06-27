@@ -15,10 +15,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class AnniversaryTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testAnniversaryReadOnly(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('anniversary');
 
         // TODO: Dummy assert
@@ -27,10 +25,8 @@ final class AnniversaryTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testAnniversaryRunCreate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% Test Lauf
@@ -47,7 +43,7 @@ final class AnniversaryTest extends SystemTestCase {
 
         $this->click('#edit-run-modal #submit-button');
         $this->waitUntilGone('#edit-run-modal');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% Test Lauf
@@ -59,10 +55,8 @@ final class AnniversaryTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testAnniversaryRunUpdate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% Test Lauf
@@ -83,7 +77,7 @@ final class AnniversaryTest extends SystemTestCase {
 
         $this->click('#edit-run-modal #submit-button');
         $this->waitUntilGone('#edit-run-modal');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             01.08.2020 12:00:00 ✍️ manuell 3.21km 321m 10.00% Test run
@@ -94,10 +88,8 @@ final class AnniversaryTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testAnniversaryRunDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% Test Lauf
@@ -111,7 +103,7 @@ final class AnniversaryTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
         $this->waitUntilGone('#edit-run-modal');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());

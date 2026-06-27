@@ -15,15 +15,13 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class NewsletterTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsletterScreenshots(): void {
-        $browser = $this->getBrowser();
-
         $this->login('vorstand', 'v0r57and');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->screenshot('newsletter_vorstand');
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->screenshot('newsletter_original');
 

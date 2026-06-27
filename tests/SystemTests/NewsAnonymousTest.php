@@ -17,7 +17,7 @@ final class NewsAnonymousTest extends SystemTestCase {
     public function testNewsAnonymousCreate(): void {
         $browser = $this->getBrowser();
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-news-button');
         $this->click('#create-anonymous-button');

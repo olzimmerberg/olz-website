@@ -16,9 +16,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class ResultateTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testResultateReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get("{$this->getUrl()}/?file=results.xml#/class0");
+        $this->loadUrl("{$this->getUrl()}/?file=results.xml#/class0");
         $this->waitABit();
 
         $this->click('input#chk-0');
@@ -35,7 +33,7 @@ final class ResultateTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('vorstand', 'v0r57and');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->click('#create-result-button');
         $this->waitForModal('#edit-result-modal');
         $this->sendKeys('#edit-result-modal #name-input', 'system-test.xml');
@@ -51,7 +49,7 @@ final class ResultateTest extends SystemTestCase {
         $this->waitUntilGone('#edit-result-modal');
         $this->logout();
 
-        $browser->get("{$this->getUrl()}/?file=system-test.xml");
+        $this->loadUrl("{$this->getUrl()}/?file=system-test.xml");
         $this->assertSame('OL-Training', $this->getBrowserElement('#title-box #title')?->getText());
 
         $this->resetDb();

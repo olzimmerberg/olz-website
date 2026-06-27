@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -28,8 +27,6 @@ final class KartenTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testKartenCreate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
         $this->loadUrl($this->getUrl());
 
@@ -45,10 +42,8 @@ final class KartenTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-karte-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () use ($browser) {
-            $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-karte-modal #images-upload .olz-upload-image.uploaded')
-            );
+        $this->waitUntil(function () {
+            $image_uploaded = $this->getBrowserElements('#edit-karte-modal #images-upload .olz-upload-image.uploaded');
             return count($image_uploaded) == 1;
         });
 

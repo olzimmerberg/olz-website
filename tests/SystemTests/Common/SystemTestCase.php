@@ -96,6 +96,11 @@ class SystemTestCase extends KernelTestCase {
         }
     }
 
+    protected function getTitle(): string {
+        $browser = $this->getBrowser();
+        return $browser->getTitle();
+    }
+
     /**
      * @return array<RemoteWebElement>
      */

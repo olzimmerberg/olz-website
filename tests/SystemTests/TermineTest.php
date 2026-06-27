@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -36,8 +35,6 @@ final class TermineTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTermineCreate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
         $this->loadUrl($this->getUrl());
 
@@ -59,20 +56,16 @@ final class TermineTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () use ($browser) {
-            $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
-            );
+        $this->waitUntil(function () {
+            $image_uploaded = $this->getBrowserElements('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
             return count($image_uploaded) == 1;
         });
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-termin-modal #files-upload input[type=file]', $document_path);
-        $this->waitUntil(function () use ($browser) {
-            $file_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-termin-modal #files-upload .olz-upload-file.uploaded')
-            );
+        $this->waitUntil(function () {
+            $file_uploaded = $this->getBrowserElements('#edit-termin-modal #files-upload .olz-upload-file.uploaded');
             return count($file_uploaded) == 1;
         });
 
@@ -92,8 +85,6 @@ final class TermineTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTermineCreateFromTemplate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
         $this->loadUrl($this->getUrl());
 
@@ -104,20 +95,16 @@ final class TermineTest extends SystemTestCase {
         $this->click('#edit-termin-modal .template-chooser #entity-index-1');
 
         // Wait for data to be populated
-        $this->waitUntil(function () use ($browser) {
-            $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
-            );
+        $this->waitUntil(function () {
+            $image_uploaded = $this->getBrowserElements('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
             return count($image_uploaded) == 1;
         });
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () use ($browser) {
-            $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
-            );
+        $this->waitUntil(function () {
+            $image_uploaded = $this->getBrowserElements('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
             return count($image_uploaded) == 2;
         });
 
@@ -136,8 +123,6 @@ final class TermineTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTermineCreateSolv(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
         $this->loadUrl($this->getUrl());
         $this->click('#filter-date-2015');
@@ -154,10 +139,8 @@ final class TermineTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () use ($browser) {
-            $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-termin-modal #images-upload .olz-upload-image.uploaded')
-            );
+        $this->waitUntil(function () {
+            $image_uploaded = $this->getBrowserElements('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
             return count($image_uploaded) == 1;
         });
 

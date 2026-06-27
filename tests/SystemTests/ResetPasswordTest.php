@@ -16,9 +16,7 @@ use Olz\Utils\EnvUtils;
 final class ResetPasswordTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw'])]
     public function testResetPasswordScreenshots(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#account-menu-link');
         $this->click('#login-menu-item');
@@ -50,17 +48,17 @@ final class ResetPasswordTest extends SystemTestCase {
         $this->assertSame(1, $res);
         $new_password = "{$matches[1]}";
 
-        $browser->get($link);
+        $this->loadUrl($link);
         $this->click('#execute-reaction-button');
         $this->waitABit();
         $this->waitABit(); // Wait until executed
 
         $this->login('benutzer', 'b3nu723r');
-        $browser->get("{$this->getTargetUrl()}/benutzer/ich");
+        $this->loadUrl("{$this->getTargetUrl()}/benutzer/ich");
         $this->assertNull($this->getBrowserElement('h1.name-container'));
 
         $this->login('benutzer', $new_password);
-        $browser->get("{$this->getTargetUrl()}/benutzer/ich");
+        $this->loadUrl("{$this->getTargetUrl()}/benutzer/ich");
         $this->assertNotNull($this->getBrowserElement('h1.name-container'));
 
         $this->resetDb();

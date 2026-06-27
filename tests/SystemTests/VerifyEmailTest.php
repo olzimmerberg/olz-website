@@ -16,10 +16,8 @@ use Olz\Utils\EnvUtils;
 final class VerifyEmailTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw'])]
     public function testVerifyEmailScreenshots(): void {
-        $browser = $this->getBrowser();
-
         $this->login('benutzer', 'b3nu723r');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#verify-user-email-link');
         $this->waitForModal('#verify-user-email-modal');
@@ -43,12 +41,12 @@ final class VerifyEmailTest extends SystemTestCase {
         $this->assertSame(1, $res);
         $link = "{$this->getTargetUrl()}{$matches[1]}";
 
-        $browser->get($link);
+        $this->loadUrl($link);
         $this->click('#execute-reaction-button');
         $this->waitABit(); // Wait until executed
 
         $this->login('benutzer', 'b3nu723r');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertNull($this->getBrowserElement('#verify-user-email-link'));
 
         $this->resetDb();

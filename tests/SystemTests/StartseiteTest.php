@@ -39,9 +39,7 @@ final class StartseiteTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testStartseiteReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('startseite');
 
         // TODO: Dummy assert
@@ -53,7 +51,7 @@ final class StartseiteTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#important-banner .olz-editable-text .olz-edit-button');
 

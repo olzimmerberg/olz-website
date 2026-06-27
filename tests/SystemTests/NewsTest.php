@@ -15,11 +15,9 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class NewsTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testNewsReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('news');
-        $browser->get("{$this->getUrl()}/3");
+        $this->loadUrl("{$this->getUrl()}/3");
         $this->screenshot('news_id_3');
 
         // TODO: Dummy assert

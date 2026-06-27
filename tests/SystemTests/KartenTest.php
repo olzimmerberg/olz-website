@@ -16,12 +16,10 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class KartenTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testKartenReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('karten');
 
-        $browser->get("{$this->getUrl()}/1");
+        $this->loadUrl("{$this->getUrl()}/1");
         $this->screenshot('karten_detail');
 
         // TODO: Dummy assert
@@ -33,7 +31,7 @@ final class KartenTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-karte-button');
         $this->waitForModal('#edit-karte-modal');
@@ -67,10 +65,8 @@ final class KartenTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testKartenDetailDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get("{$this->getUrl()}/1");
+        $this->loadUrl("{$this->getUrl()}/1");
 
         $this->click('#edit-karte-button');
         $this->waitForModal('#edit-karte-modal');

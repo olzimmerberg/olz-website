@@ -39,15 +39,14 @@ final class StatusTest extends SystemTestCase {
 
     #[OnlyInModes(['meta'])]
     public function testStatusIsMonitoring(): void {
-        $browser = $this->getBrowser();
-        $browser->get("{$this::$statusUrl}");
+        $this->loadUrl("{$this::$statusUrl}");
         $username_input = $this->findBrowserElement('#input-username');
         $username_input->sendKeys($this::$statusUsername);
         $password_input = $this->findBrowserElement('#input-password');
         $password_input->sendKeys($this::$statusPassword);
         $login_button = $this->findBrowserElement('button[type="submit"]');
         $login_button->click();
-        $browser->get("{$this::$statusUrl}?&mod=server");
+        $this->loadUrl("{$this::$statusUrl}?&mod=server");
         $prod_check = $this->getBrowserElement('a[href="https://olzimmerberg.ch"]');
         $this->assertNotNull($prod_check);
         $prod_backup = $this->getBrowserElement('a[href*="monitor-backup"]');
@@ -59,7 +58,7 @@ final class StatusTest extends SystemTestCase {
         $some_view_href = strval($some_view_link->getAttribute('href'));
         $escaped_status_url = preg_quote($this::$statusUrl, '/');
         $this->assertMatchesRegularExpression("/^{$escaped_status_url}/", $some_view_href);
-        $browser->get($some_view_href);
+        $this->loadUrl($some_view_href);
         $body = $this->findBrowserElement('body');
         $last_check = $this->parseLastCheck($body->getText());
         $this->assertNotNull($last_check, $body->getText());

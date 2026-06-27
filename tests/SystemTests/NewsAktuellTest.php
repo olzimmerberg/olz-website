@@ -16,9 +16,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class NewsAktuellTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testNewsAktuellReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getAktuellDetailUrl());
+        $this->loadUrl($this->getAktuellDetailUrl());
         $this->screenshot('news_detail_aktuell');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Aktuell/i',
@@ -31,7 +29,7 @@ final class NewsAktuellTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('vorstand', 'v0r57and');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -76,10 +74,8 @@ final class NewsAktuellTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsAktuellUpdate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getAktuellDetailUrl());
+        $this->loadUrl($this->getAktuellDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -98,10 +94,8 @@ final class NewsAktuellTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsAktuellDetailDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getAktuellDetailUrl());
+        $this->loadUrl($this->getAktuellDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');

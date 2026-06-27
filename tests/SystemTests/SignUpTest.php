@@ -33,7 +33,7 @@ final class SignUpTest extends SystemTestCase {
     }
 
     protected function doSignUpReadOnly(RemoteWebDriver $browser): void {
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#account-menu-link');
         $this->click('#login-menu-item');
@@ -89,7 +89,7 @@ final class SignUpTest extends SystemTestCase {
         $this->waitUntilGone('#edit-user-modal');
         $this->screenshot('sign_up_submitted');
 
-        $browser->get("{$this->getTargetUrl()}/apps/files/webdav/");
+        $this->loadUrl("{$this->getTargetUrl()}/apps/files/webdav/");
         $this->screenshot('sign_up_new_webdav');
 
         $this->resetDb();

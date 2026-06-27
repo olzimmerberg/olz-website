@@ -15,10 +15,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class AppMembersTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testMembersImportExport(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-member-import.csv');
         assert($document_path);

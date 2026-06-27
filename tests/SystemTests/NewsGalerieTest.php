@@ -16,9 +16,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class NewsGalerieTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testNewsGalerieReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getGalerieDetailUrl());
+        $this->loadUrl($this->getGalerieDetailUrl());
         $this->screenshot('news_detail_galerie');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Galerie/i',
@@ -31,7 +29,7 @@ final class NewsGalerieTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('benutzer', 'b3nu723r');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -64,10 +62,8 @@ final class NewsGalerieTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsGalerieUpdate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getGalerieDetailUrl());
+        $this->loadUrl($this->getGalerieDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -86,10 +82,8 @@ final class NewsGalerieTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsGalerieDetailDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getGalerieDetailUrl());
+        $this->loadUrl($this->getGalerieDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');

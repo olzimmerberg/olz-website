@@ -30,30 +30,30 @@ final class WebdavTest extends SystemTestCase {
             ZZZZZZZZZZ;
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $browser->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_admin_php_session');
         $this->logout();
 
         $this->login('vorstand', 'v0r57and');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $browser->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_vorstand_php_session');
         $this->logout();
 
         $this->login('karten', 'kar73n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $browser->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_karten_php_session');
         $this->logout();
 
         $this->login('benutzer', 'b3nu723r');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $browser->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_benutzer_php_session');
         $this->logout();
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $browser->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_anonym_php_session');
 

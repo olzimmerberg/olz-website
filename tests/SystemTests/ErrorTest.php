@@ -15,24 +15,22 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class ErrorTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testErrorReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get("{$this->getUrl()}/400");
+        $this->loadUrl("{$this->getUrl()}/400");
         $this->screenshot('error_400');
 
-        $browser->get("{$this->getUrl()}/401");
+        $this->loadUrl("{$this->getUrl()}/401");
         $this->screenshot('error_401');
 
-        $browser->get("{$this->getUrl()}/403");
+        $this->loadUrl("{$this->getUrl()}/403");
         $this->screenshot('error_403');
 
-        $browser->get("{$this->getUrl()}/404");
+        $this->loadUrl("{$this->getUrl()}/404");
         $this->screenshot('error_404');
 
-        $browser->get("{$this->getUrl()}/500");
+        $this->loadUrl("{$this->getUrl()}/500");
         $this->screenshot('error_500');
 
-        $browser->get("{$this->getUrl()}/529");
+        $this->loadUrl("{$this->getUrl()}/529");
         $this->screenshot('error_529');
 
         // TODO: Dummy assert

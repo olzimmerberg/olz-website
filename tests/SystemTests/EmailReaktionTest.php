@@ -16,9 +16,7 @@ use Olz\Utils\EmailUtils;
 final class EmailReaktionTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testEmailReaktionScreenshots(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('email_reaktion_no_token');
         $email_utils = $this->getEmailUtils();
         $token = $email_utils->encryptEmailReactionToken([
@@ -26,7 +24,7 @@ final class EmailReaktionTest extends SystemTestCase {
             'user' => 1,
             'notification_type' => 'monthly_preview',
         ]);
-        $browser->get("{$this->getUrl()}?token={$token}");
+        $this->loadUrl("{$this->getUrl()}?token={$token}");
         $this->screenshot('email_reaktion');
         // TODO: Actually click reaction, check modification in DB, reset
         // $this->resetDb();

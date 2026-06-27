@@ -16,13 +16,12 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class TerminOrteTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testTerminOrteReadOnly(): void {
-        $browser = $this->getBrowser();
         $this->login('admin', 'adm1n');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('termin_locations');
 
-        $browser->get($this->getDetailUrl());
+        $this->loadUrl($this->getDetailUrl());
         $this->screenshot('termin_locations_detail');
 
         // TODO: Dummy assert
@@ -34,7 +33,7 @@ final class TerminOrteTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-termin-location-button');
         $this->waitForModal('#edit-termin-location-modal');
@@ -56,7 +55,7 @@ final class TerminOrteTest extends SystemTestCase {
 
         $this->click('#edit-termin-location-modal #submit-button');
         $this->waitUntilGone('#edit-termin-location-modal');
-        $browser->get("{$this->getUrl()}/5");
+        $this->loadUrl("{$this->getUrl()}/5");
         $this->screenshot('termin_locations_new_finished');
 
         $this->resetDb();
@@ -69,7 +68,7 @@ final class TerminOrteTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getDetailUrl());
+        $this->loadUrl($this->getDetailUrl());
 
         $this->click('#edit-termin-location-button');
         $this->waitForModal('#edit-termin-location-modal');
@@ -79,7 +78,7 @@ final class TerminOrteTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
         $this->waitUntilGone('#edit-termin-location-modal');
 
-        $browser->get($this->getDetailUrl());
+        $this->loadUrl($this->getDetailUrl());
         $this->assertSame('Fehler 404 Nicht gefunden - OL Zimmerberg', $browser->getTitle());
 
         $this->resetDb();

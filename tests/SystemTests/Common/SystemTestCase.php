@@ -85,6 +85,17 @@ class SystemTestCase extends KernelTestCase {
         $this::$browser->manage()->window()->setSize($size_to_set);
     }
 
+    protected function loadUrl(string $url): void {
+        $browser = $this->getBrowser();
+        $browser->get($url);
+        for ($i = 0; $i < 30; $i++) {
+            if ($browser->getTitle() === 'One moment, please...') {
+                echo "Waiting one moment...\n";
+                $browser->wait(1);
+            }
+        }
+    }
+
     /**
      * @return array<RemoteWebElement>
      */
@@ -366,15 +377,13 @@ class SystemTestCase extends KernelTestCase {
             'rememberMe' => false,
         ]);
         $get_params = "?request={$esc_request}";
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        $this::$browser->get("{$this->getTargetUrl()}{$this::$login_api_url}{$get_params}");
+        $this->getBrowser()->get("{$this->getTargetUrl()}{$this::$login_api_url}{$get_params}");
         $this->tock('login', 'login');
     }
 
     public function logout(): void {
         $this->tick('logout');
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        $this::$browser->get("{$this->getTargetUrl()}{$this::$logout_api_url}");
+        $this->getBrowser()->get("{$this->getTargetUrl()}{$this::$logout_api_url}");
         $this->tock('logout', 'logout');
     }
 

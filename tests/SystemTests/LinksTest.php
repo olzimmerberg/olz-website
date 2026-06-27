@@ -15,10 +15,8 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class LinksTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testLinksCreate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame([
             'SOLV',
             'GO2OL',
@@ -38,7 +36,7 @@ final class LinksTest extends SystemTestCase {
 
         $this->click('#edit-link-modal #submit-button');
         $this->waitUntilGone('#edit-link-modal');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame([
             'OLZ',
             'SOLV',
@@ -54,10 +52,8 @@ final class LinksTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testLinksDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#edit-link-1-button');
         $this->waitForModal('#edit-link-modal');
@@ -67,7 +63,7 @@ final class LinksTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
         $this->waitUntilGone('#edit-link-modal');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertNull($this->getBrowserElement('#edit-link-1-button'));
 
         $this->resetDb();

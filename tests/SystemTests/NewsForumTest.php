@@ -16,9 +16,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class NewsForumTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testNewsForumReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getForumDetailUrl());
+        $this->loadUrl($this->getForumDetailUrl());
         $this->screenshot('news_detail_forum');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Forum/i',
@@ -31,7 +29,7 @@ final class NewsForumTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('benutzer', 'b3nu723r');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -65,10 +63,8 @@ final class NewsForumTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsForumUpdate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getForumDetailUrl());
+        $this->loadUrl($this->getForumDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');
@@ -87,10 +83,8 @@ final class NewsForumTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsForumDetailDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
-        $browser->get($this->getForumDetailUrl());
+        $this->loadUrl($this->getForumDetailUrl());
 
         $this->click('#edit-news-button');
         $this->waitForModal('#edit-news-modal');

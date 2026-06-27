@@ -15,9 +15,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class AngebotTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testAngebotReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('angebot');
 
         if ($this->isInModes(['dev_rw', 'dev'])) {

@@ -17,12 +17,10 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class FragenUndAntwortenTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testFragenUndAntwortenReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('fragen_und_antworten');
 
-        $browser->get("{$this->getUrl()}/was_ist_ol");
+        $this->loadUrl("{$this->getUrl()}/was_ist_ol");
         $this->screenshot('fragen_und_antworten_detail');
 
         // TODO: Dummy assert
@@ -33,7 +31,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
     public function testCreateQuestion(): void {
         $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->assertSame(404, $this->getHeaders("{$this->getUrl()}/erstellen")['http_code']);
 
@@ -79,7 +77,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
 
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/erstellen")['http_code']);
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $elems = $this->getBrowserElements('.olz-faq-list .olz-posting-list-item');
         $this->assertSame('Wie kann ich Text formatieren?', $elems[15]->getText());
         $this->assertSame('Wie kann ich einen OL erstellen?', $elems[16]->getText());
@@ -91,7 +89,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
     public function testEditQuestionData(): void {
         $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
-        $browser->get("{$this->getUrl()}/ausprobieren");
+        $this->loadUrl("{$this->getUrl()}/ausprobieren");
 
         $this->click('#edit-question-button');
         $this->waitForModal('#edit-question-modal');
@@ -135,7 +133,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->assertSame(404, $this->getHeaders("{$this->getUrl()}/ausprobieren")['http_code']);
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/testen")['http_code']);
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $elems = $this->getBrowserElements('.olz-faq-list .olz-posting-list-item');
         $this->assertSame('Wie kann ich Text formatieren?', $elems[14]->getText());
         $this->assertSame('Wie kann ich OL testen?', $elems[15]->getText());
@@ -145,10 +143,9 @@ final class FragenUndAntwortenTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testDeleteQuestion(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertCount(16, $this->getBrowserElements('.olz-posting-list-item'));
         $this->click('.olz-posting-list-item:nth-of-type(2) .edit-question-list-button');
         $this->waitForModal('#edit-question-modal');
@@ -157,7 +154,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertCount(15, $this->getBrowserElements('.olz-posting-list-item'));
 
         $this->resetDb();
@@ -165,10 +162,9 @@ final class FragenUndAntwortenTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testCreateQuestionCategory(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(
             ['Allgemein', 'Website', 'Leer'],
             array_map(
@@ -186,7 +182,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->click('#edit-question-category-modal #submit-button');
         $this->waitUntilGone('#edit-question-category-modal');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(
             ['Allgemein', 'Website', 'Leer', 'Test'],
             array_map(
@@ -200,10 +196,9 @@ final class FragenUndAntwortenTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testEditQuestionCategory(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(
             ['Allgemein', 'Website', 'Leer'],
             array_map(
@@ -220,7 +215,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->click('#edit-question-category-modal #submit-button');
         $this->waitUntilGone('#edit-question-category-modal');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertSame(
             ['Allgemein', 'Leer', 'Test'],
             array_map(
@@ -234,10 +229,9 @@ final class FragenUndAntwortenTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testDeleteQuestionCategory(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertCount(3, $this->getBrowserElements('h2.category'));
         $this->click('h2.category:nth-of-type(2) .edit-question-category-list-button');
         $this->waitForModal('#edit-question-category-modal');
@@ -246,7 +240,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');
 
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->assertCount(2, $this->getBrowserElements('h2.category'));
 
         $this->resetDb();

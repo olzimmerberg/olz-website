@@ -16,8 +16,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class WeeklyPictureTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testWeeklyPictureReadOnly(): void {
-        $browser = $this->getBrowser();
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#weekly-picture-carousel .active a[href*="/img/weekly_picture/"]');
         $this->waitUntil(function () {
@@ -33,7 +32,7 @@ final class WeeklyPictureTest extends SystemTestCase {
         $browser = $this->getBrowser();
 
         $this->login('admin', 'adm1n');
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
 
         $this->click('#create-weekly-picture-button');
         $this->waitForModal('#edit-weekly-picture-modal');

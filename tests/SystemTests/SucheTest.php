@@ -15,9 +15,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class SucheTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
     public function testSucheReadOnly(): void {
-        $browser = $this->getBrowser();
-
-        $browser->get($this->getUrl());
+        $this->loadUrl($this->getUrl());
         $this->screenshot('suche');
 
         // TODO: Dummy assert

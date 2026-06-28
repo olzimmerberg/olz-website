@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -30,8 +29,6 @@ final class TerminOrteTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTerminOrteCreate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
         $this->loadUrl($this->getUrl());
 
@@ -44,10 +41,8 @@ final class TerminOrteTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-location-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () use ($browser) {
-            $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-termin-location-modal #images-upload .olz-upload-image.uploaded')
-            );
+        $this->waitUntil(function () {
+            $image_uploaded = $this->getBrowserElements('#edit-termin-location-modal #images-upload .olz-upload-image.uploaded');
             return count($image_uploaded) == 1;
         });
 
@@ -65,8 +60,6 @@ final class TerminOrteTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTerminOrteDetailDelete(): void {
-        $browser = $this->getBrowser();
-
         $this->login('admin', 'adm1n');
         $this->loadUrl($this->getDetailUrl());
 
@@ -79,7 +72,7 @@ final class TerminOrteTest extends SystemTestCase {
         $this->waitUntilGone('#edit-termin-location-modal');
 
         $this->loadUrl($this->getDetailUrl());
-        $this->assertSame('Fehler 404 Nicht gefunden - OL Zimmerberg', $browser->getTitle());
+        $this->assertSame('Fehler 404 Nicht gefunden - OL Zimmerberg', $this->getTitle());
 
         $this->resetDb();
     }

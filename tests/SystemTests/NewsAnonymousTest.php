@@ -15,8 +15,6 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class NewsAnonymousTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsAnonymousCreate(): void {
-        $browser = $this->getBrowser();
-
         $this->loadUrl($this->getUrl());
 
         $this->click('#create-news-button');

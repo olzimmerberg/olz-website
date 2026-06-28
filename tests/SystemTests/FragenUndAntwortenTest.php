@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
@@ -29,7 +28,6 @@ final class FragenUndAntwortenTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testCreateQuestion(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
         $this->loadUrl($this->getUrl());
 
@@ -40,11 +38,11 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->selectOption('#edit-question-modal #categoryId-field', 'Leer');
         $this->selectOption('#edit-question-modal #positionWithinCategory-field #before-after-input', 'nach');
         $this->click("#edit-question-modal #positionWithinCategory-field .olz-entity-chooser #dropdown-menu-button");
-        $this->waitUntil(function () use ($browser) {
-            $no_results = $browser->findElement(
-                WebDriverBy::cssSelector('#edit-question-modal #positionWithinCategory-field .olz-entity-chooser #no-results')
+        $this->waitUntil(function () {
+            $no_results = $this->getBrowserElement(
+                '#edit-question-modal #positionWithinCategory-field .olz-entity-chooser #no-results'
             );
-            return str_contains($no_results->getText(), 'irgendwo');
+            return str_contains($no_results?->getText() ?? '', 'irgendwo');
         });
         $this->selectOption('#edit-question-modal #positionWithinCategory-field #before-after-input', 'irgendwo');
         $this->sendKeys('#edit-question-modal #ident-input', 'erstellen');
@@ -61,9 +59,9 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-question-modal #files-upload input[type=file]', $document_path);
-        $this->waitUntil(function () use ($browser) {
-            $file_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-question-modal #files-upload .olz-upload-file.uploaded')
+        $this->waitUntil(function () {
+            $file_uploaded = $this->getBrowserElements(
+                '#edit-question-modal #files-upload .olz-upload-file.uploaded'
             );
             return count($file_uploaded) == 1;
         });
@@ -87,7 +85,6 @@ final class FragenUndAntwortenTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testEditQuestionData(): void {
-        $browser = $this->getBrowser();
         $this->login('vorstand', 'v0r57and');
         $this->loadUrl("{$this->getUrl()}/ausprobieren");
 
@@ -104,9 +101,9 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-question-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () use ($browser) {
-            $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-question-modal #images-upload .olz-upload-image.uploaded')
+        $this->waitUntil(function () {
+            $image_uploaded = $this->getBrowserElements(
+                '#edit-question-modal #images-upload .olz-upload-image.uploaded'
             );
             return count($image_uploaded) == 1;
         });
@@ -116,9 +113,9 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-question-modal #files-upload input[type=file]', $document_path);
-        $this->waitUntil(function () use ($browser) {
-            $file_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-question-modal #files-upload .olz-upload-file.uploaded')
+        $this->waitUntil(function () {
+            $file_uploaded = $this->getBrowserElements(
+                '#edit-question-modal #files-upload .olz-upload-file.uploaded'
             );
             return count($file_uploaded) == 1;
         });

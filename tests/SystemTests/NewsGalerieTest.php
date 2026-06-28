@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\WebDriverBy;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -26,8 +25,6 @@ final class NewsGalerieTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testNewsGalerieCreate(): void {
-        $browser = $this->getBrowser();
-
         $this->login('benutzer', 'b3nu723r');
         $this->loadUrl($this->getUrl());
 
@@ -41,10 +38,8 @@ final class NewsGalerieTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-news-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () use ($browser) {
-            $image_uploaded = $browser->findElements(
-                WebDriverBy::cssSelector('#edit-news-modal #images-upload .olz-upload-image.uploaded')
-            );
+        $this->waitUntil(function () {
+            $image_uploaded = $this->getBrowserElements('#edit-news-modal #images-upload .olz-upload-image.uploaded');
             return count($image_uploaded) == 1;
         });
 

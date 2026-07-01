@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Termine\Endpoints\EditTerminEndpoint;
 use Olz\Tests\Fake\Entity\Termine\FakeTermin;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -17,7 +18,7 @@ use PhpTypeScriptApi\HttpError;
  */
 final class EditTerminEndpointTest extends UnitTestCase {
     public function testEditTerminEndpointNoAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new EditTerminEndpoint();
         $endpoint->runtimeSetup();
 
@@ -36,7 +37,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminEndpointNoSuchEntity(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new EditTerminEndpoint();
         $endpoint->runtimeSetup();
 
@@ -54,8 +55,62 @@ final class EditTerminEndpointTest extends UnitTestCase {
         }
     }
 
+    public function testEditTerminEndpointAsOrganizer(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::maximal();
+        $endpoint = new EditTerminEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'id' => 1234,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            'WARNING Storage file "data-path/img/termine/1234/img/image__________________1.jpg" does not exist.',
+            'WARNING Storage file "data-path/img/termine/1234/img/image__________________2.png" does not exist.',
+            "INFO Valid user response",
+        ], $this->getLogs());
+
+        $this->assertSame([
+            [FakeTermin::maximal(), 'default', 'default', 'role', null, 'termine_admin'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
+        $this->assertSame([
+            'id' => 1234,
+            'meta' => [
+                'ownerUserId' => 1,
+                'ownerRoleId' => 1,
+                'onOff' => true,
+            ],
+            'data' => [
+                'fromTemplateId' => 12341,
+                'startDate' => '2020-03-13',
+                'startTime' => '19:30:00',
+                'endDate' => '2020-03-16',
+                'endTime' => '12:00:00',
+                'title' => 'Fake title!',
+                'text' => 'Fake content',
+                'organizerUserId' => 1234,
+                'deadline' => '2020-03-13 18:00:00',
+                'shouldPromote' => true,
+                'newsletter' => true,
+                'solvId' => 1234,
+                'types' => ['training', 'weekends'],
+                'locationId' => 12345,
+                'location' => [
+                    'latitude' => 47.2,
+                    'longitude' => 8.6,
+                ],
+                'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
+                'fileIds' => [],
+            ],
+        ], $result);
+    }
+
     public function testEditTerminEndpointMinimal(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminEndpoint();
         $endpoint->runtimeSetup();
@@ -103,7 +158,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminEndpointEmpty(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminEndpoint();
         $endpoint->runtimeSetup();
@@ -154,7 +209,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminEndpointMaximal(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminEndpoint();
         $endpoint->runtimeSetup();
@@ -200,7 +255,7 @@ final class EditTerminEndpointTest extends UnitTestCase {
                 'endTime' => '12:00:00',
                 'title' => 'Fake title!',
                 'text' => 'Fake content',
-                'organizerUserId' => 12342,
+                'organizerUserId' => 1234,
                 'deadline' => '2020-03-13 18:00:00',
                 'shouldPromote' => true,
                 'newsletter' => true,

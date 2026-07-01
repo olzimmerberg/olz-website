@@ -15,11 +15,18 @@ class UpdateTerminEndpoint extends OlzUpdateEntityTypedEndpoint {
     use TerminEndpointTrait;
 
     protected function handle(mixed $input): mixed {
-        $this->checkPermission('termine');
+        $this->checkPermission('any');
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'termine_admin')) {
+        $current_user = $this->authUtils()->getCurrentUser();
+        $organizer_user = $entity->getOrganizerUser();
+        $is_organizer = ($organizer_user && $current_user?->getId() === $organizer_user->getId());
+
+        if (
+            !$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'termine_admin')
+            && !$is_organizer
+        ) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 

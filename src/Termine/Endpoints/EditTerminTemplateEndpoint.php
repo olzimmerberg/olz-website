@@ -3,7 +3,6 @@
 namespace Olz\Termine\Endpoints;
 
 use Olz\Api\OlzEditEntityTypedEndpoint;
-use PhpTypeScriptApi\HttpError;
 
 /**
  * @phpstan-import-type OlzTerminTemplateId from TerminTemplateEndpointTrait
@@ -15,13 +14,12 @@ class EditTerminTemplateEndpoint extends OlzEditEntityTypedEndpoint {
     use TerminTemplateEndpointTrait;
 
     protected function handle(mixed $input): mixed {
-        $this->checkPermission('termine');
+        $this->checkPermission('any');
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, null, 'termine_admin')) {
-            throw new HttpError(403, "Kein Zugriff!");
-        }
+        // We intentionally don't do a permission check here.
+        // The OlzEditTerminModal needs to call this to stage the images and files.
 
         $this->editUploads($entity);
 

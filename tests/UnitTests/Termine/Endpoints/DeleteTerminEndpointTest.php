@@ -6,6 +6,7 @@ namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Termine\Endpoints\DeleteTerminEndpoint;
 use Olz\Tests\Fake\Entity\Termine\FakeTermin;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -17,7 +18,7 @@ use PhpTypeScriptApi\HttpError;
  */
 final class DeleteTerminEndpointTest extends UnitTestCase {
     public function testDeleteTerminEndpointNoAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new DeleteTerminEndpoint();
         $endpoint->runtimeSetup();
 
@@ -36,7 +37,7 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
     }
 
     public function testDeleteTerminEndpoint(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteTerminEndpoint();
         $endpoint->runtimeSetup();
@@ -65,8 +66,39 @@ final class DeleteTerminEndpointTest extends UnitTestCase {
         $this->assertSame(0, $termin->getOnOff());
     }
 
+    public function testDeleteTerminEndpointAsOrganizer(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
+        WithUtilsCache::get('entityUtils')->can_update_olz_entity = false;
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::maximal();
+        $endpoint = new DeleteTerminEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'id' => 1234,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+
+        $this->assertSame([], $result);
+
+        $this->assertSame([
+            [FakeTermin::maximal(), 'default', 'default', 'role', null, 'termine_admin'],
+        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $this->assertCount(1, $entity_manager->persisted);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
+        $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
+        $termin = $entity_manager->persisted[0];
+        $this->assertSame(1234, $termin->getId());
+        $this->assertSame(0, $termin->getOnOff());
+    }
+
     public function testDeleteTerminEndpointInexistent(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new DeleteTerminEndpoint();
         $endpoint->runtimeSetup();

@@ -90,8 +90,9 @@ class OlzTermineListItem extends OlzComponent {
 
         $user = $this->authUtils()->getCurrentUser();
         $is_owner = $user && $owner_user_id && intval($owner_user_id) === intval($user->getId());
+        $is_organizer = $user && $organizer_user_id && intval($organizer_user_id) === intval($user->getId());
         $has_all_permissions = $this->authUtils()->hasPermission('all');
-        $can_edit = $is_owner || $has_all_permissions;
+        $can_edit = $is_owner || $is_organizer || $has_all_permissions;
         $edit_admin = '';
         if ($can_edit) {
             $json_id = json_encode(intval($id));

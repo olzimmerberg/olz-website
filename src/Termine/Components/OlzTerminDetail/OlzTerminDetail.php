@@ -246,8 +246,9 @@ class OlzTerminDetail extends OlzRootComponent {
 
         // Editing Tools
         $is_owner = $user && intval($termin->getOwnerUser()?->getId() ?? 0) === intval($user->getId());
+        $is_organizer = $user && intval($termin->getOrganizerUser()?->getId() ?? 0) === intval($user->getId());
         $has_termine_permissions = $this->authUtils()->hasPermission('termine');
-        $can_edit = $is_owner || $has_termine_permissions;
+        $can_edit = $is_owner || $is_organizer || $has_termine_permissions;
         if ($can_edit) {
             $json_id = json_encode($id);
             $out .= <<<ZZZZZZZZZZ

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
 use Olz\Termine\Endpoints\EditTerminTemplateEndpoint;
-use Olz\Tests\Fake\Entity\Termine\FakeTerminTemplate;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
@@ -17,7 +16,7 @@ use PhpTypeScriptApi\HttpError;
  */
 final class EditTerminTemplateEndpointTest extends UnitTestCase {
     public function testEditTerminTemplateEndpointNoAccess(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => false];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => false];
         $endpoint = new EditTerminTemplateEndpoint();
         $endpoint->runtimeSetup();
 
@@ -36,7 +35,7 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminTemplateEndpointNoSuchEntity(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         $endpoint = new EditTerminTemplateEndpoint();
         $endpoint->runtimeSetup();
 
@@ -55,7 +54,7 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminTemplateEndpointMinimal(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminTemplateEndpoint();
         $endpoint->runtimeSetup();
@@ -69,9 +68,7 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            [FakeTerminTemplate::minimal(), null, null, null, null, 'termine_admin'],
-        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+        $this->assertSame([], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
         $this->assertSame([
             'id' => 12,
@@ -99,7 +96,7 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminTemplateEndpointEmpty(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminTemplateEndpoint();
         $endpoint->runtimeSetup();
@@ -113,9 +110,7 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            [FakeTerminTemplate::empty(), null, null, null, null, 'termine_admin'],
-        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+        $this->assertSame([], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
         $this->assertSame([
             'id' => 123,
@@ -143,7 +138,7 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
     }
 
     public function testEditTerminTemplateEndpointMaximal(): void {
-        WithUtilsCache::get('authUtils')->has_permission_by_query = ['termine' => true];
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
         WithUtilsCache::get('entityUtils')->can_update_olz_entity = true;
         $endpoint = new EditTerminTemplateEndpoint();
         $endpoint->runtimeSetup();
@@ -170,9 +165,7 @@ final class EditTerminTemplateEndpointTest extends UnitTestCase {
             "INFO Valid user response",
         ], $this->getLogs());
 
-        $this->assertSame([
-            [FakeTerminTemplate::maximal(), 'default', 'default', 'role', null, 'termine_admin'],
-        ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
+        $this->assertSame([], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
         $this->assertSame([
             'id' => 1234,

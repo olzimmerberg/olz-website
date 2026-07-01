@@ -155,7 +155,7 @@ final class GetTerminEndpointTest extends UnitTestCase {
                 'endTime' => '12:00:00',
                 'title' => 'Fake title!',
                 'text' => 'Fake content',
-                'organizerUserId' => 12342,
+                'organizerUserId' => 1234,
                 'deadline' => '2020-03-13 18:00:00',
                 'shouldPromote' => true,
                 'newsletter' => true,

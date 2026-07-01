@@ -8,11 +8,11 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
-use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Common\Date;
 use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 use Olz\Tests\Fake\Entity\Common\Time;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
 
 /**
  * @extends FakeEntity<Termin>
@@ -81,8 +81,7 @@ class FakeTermin extends FakeEntity {
             function () {
                 $termin_template = new TerminTemplate();
                 $termin_template->setId(12341);
-                $organizer_user = new User();
-                $organizer_user->setId(12342);
+                $organizer_user = FakeUser::maximal();
                 $termin_label_1 = new TerminLabel();
                 $termin_label_1->setId(12343);
                 $termin_label_1->setIdent('training');

@@ -299,6 +299,23 @@ class OlzAnniversary extends OlzRootComponent {
             $out .= "</ul>";
             $out .= "<p><a href='{$strava_url}'>Mit Strava verbinden</a></p>";
         }
+        $key = $this->envUtils()->getEncryptionKey('strava-hack-token');
+        $data = [
+            'user_id' => $user->getId(),
+            'token_time' => $this->dateUtils()->getIsoNow(),
+        ];
+        $token = $this->generalUtils()->encrypt($key, $data);
+        $script = file_get_contents(__DIR__.'/strava_script.js') ?: '';
+        $script = str_replace('\'%%%TOKEN%%%\'', json_encode($token) ?: '\"\"', $script);
+        $enc_script = htmlentities($script);
+        $out .= <<<ZZZZZZZZZZ
+            <div>Skript (für nach September):</div>
+            <textarea
+                readonly
+                onfocus='this.select()'
+                class='script-textarea'
+            >{$enc_script}</textarea>
+            ZZZZZZZZZZ;
         $out .= '</div>';
         return $out;
     }

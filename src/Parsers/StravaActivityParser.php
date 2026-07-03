@@ -38,21 +38,35 @@ class StravaActivityParser {
             $content,
             $matches
         );
-        $distance = $res ? intval(floatval(str_replace(',', '.', trim($matches[1]))) * 1000) : null;
+        $distance1 = $res ? intval(floatval(str_replace(',', '.', trim($matches[1]))) * 1000) : null;
+
+        $res = preg_match(
+            "/<div[^>]*>(?:Distanz|Distance)<\\/div>\\s*<div[^>]*>\\s*<strong>([0-9\\.\\,]+)<abbr[^>]*>\\s*km<\\/abbr><\\/strong>/",
+            $content,
+            $matches
+        );
+        $distance2 = $res ? intval(floatval(str_replace(',', '.', trim($matches[1]))) * 1000) : null;
+
+        $res = preg_match(
+            "/<strong>([0-9\\.\\,]+)<abbr[^>]*>\\s*m<\\/abbr><\\/strong>\\s*<div class=\"label\">(?:Höhenmeter|Elevation)<\\/div>/",
+            $content,
+            $matches
+        );
+        $elevation1 = $res ? intval(str_replace(',', '.', trim($matches[1]))) : null;
 
         $res = preg_match(
             "/<div[^>]*>(?:Höhenmeter|Elevation)<\\/div>\\s*<div[^>]*>\\s*<strong>([0-9\\.\\,]+)<abbr[^>]*>\\s*m<\\/abbr><\\/strong>/",
             $content,
             $matches
         );
-        $elevation = $res ? intval(str_replace(',', '.', trim($matches[1]))) : null;
+        $elevation2 = $res ? intval(str_replace(',', '.', trim($matches[1]))) : null;
 
         return [
             'name' => $name,
             'sportType' => $sport_type,
             'runAt' => $date,
-            'distanceMeters' => $distance,
-            'elevationMeters' => $elevation,
+            'distanceMeters' => $distance1 ?? $distance2,
+            'elevationMeters' => $elevation1 ?? $elevation2,
         ];
     }
 

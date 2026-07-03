@@ -17,12 +17,17 @@ class StravaHackController extends AbstractController {
     use WithUtilsTrait;
     use RunEndpointTrait;
 
+    #[Route('/api-cors/strava_script.js', methods: ['GET'])]
+    public function stravaScript(): Response {
+        $content = file_get_contents(__DIR__.'/../Anniversary/Components/OlzAnniversary/strava_script.js') ?: '';
+        return new Response($content, 200);
+    }
+
     #[Route('/api-cors/registerStravaRun', methods: ['POST', 'OPTIONS'])]
-    public function registerStravaRun(Request $request): JsonResponse {
+    public function registerStravaRun(Request $request): Response {
         // Handle preflight OPTIONS
         if ($request->getMethod() === 'OPTIONS') {
-            $response = new JsonResponse([], 204); // No Content
-            $this->populateCors($request, $response);
+            $response = $this->withCors($request, new JsonResponse([], 204)); // No Content
             $response->headers->set('Access-Control-Allow-Methods', 'POST, OPTIONS');
             $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
             $response->headers->set('Cache-Control', 'max-age=3600');
@@ -36,16 +41,21 @@ class StravaHackController extends AbstractController {
 
             $token = $payload['token'] ?? null;
             $key = $this->envUtils()->getEncryptionKey('strava-hack-token');
-            $data = $this->generalUtils()->decrypt($key, $token);
+            $data = null;
+            try {
+                $data = $this->generalUtils()->decrypt($key, $token);
+            } catch (\Throwable $th) {
+                // ignore
+            }
             $user_id = $data['user_id'] ?? null;
             if (!$data || !$user_id || !isset($data['token_time'])) {
-                return new JsonResponse(['msg' => "🚫 Ungültiger Token"], 400);
+                return $this->withCors($request, new JsonResponse(['msg' => "🚫 Ungültiger Token"], 400));
             }
             $user_repo = $this->entityManager()->getRepository(User::class);
             $user = $user_repo->findOneBy(['id' => $user_id]);
             if (!$user) {
                 $this->log()->notice("registerStravaRun denied for invalid user ID {$user_id}");
-                return new JsonResponse(['msg' => "🚫 Token von ungültigem Benutzer"], 400);
+                return $this->withCors($request, new JsonResponse(['msg' => "🚫 Token von ungültigem Benutzer"], 400));
             }
             // TODO: Check token time after September
             $this->log()->debug("registerStravaRun: {$json_content}");
@@ -53,7 +63,7 @@ class StravaHackController extends AbstractController {
             $activityId = $payload['activityId'] ?? null;
             if (!$activityId || $activityId < 100000000 || $activityId > 100000000000000) {
                 $this->log()->notice("registerStravaRun denied for activityId {$activityId} by {$user}");
-                return new JsonResponse(['msg' => "🚫 Ungültige Aktivitäts-ID"], 400);
+                return $this->withCors($request, new JsonResponse(['msg' => "🚫 Ungültige Aktivitäts-ID"], 400));
             }
             $source = "strava-id{$activityId}";
             $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
@@ -73,7 +83,7 @@ class StravaHackController extends AbstractController {
             ) {
                 $enc_data = json_encode($data);
                 $this->log()->notice("registerStravaRun parse error for activityId {$activityId} by {$user}: {$enc_data}");
-                return new JsonResponse(['msg' => "🚫 HTML konnte nicht (vollständig) gelesen werden."], 400);
+                return $this->withCors($request, new JsonResponse(['msg' => "🚫 HTML konnte nicht (vollständig) gelesen werden."], 400));
             }
             $name_arr = explode(' ', $data['name']);
             $name = $name_arr[0].' '.implode(' ', array_map(
@@ -119,21 +129,22 @@ class StravaHackController extends AbstractController {
             $this->entityManager()->persist($run);
             $this->entityManager()->flush();
 
-            $msg = $is_update ? '✅ Existierender Eintrag wurde aktualisiert' : '✅ Neuer Eintrag wurde erstellt';
-            $response = new JsonResponse(['msg' => $msg], 200);
-            $this->populateCors($request, $response);
-            return $response;
+            $msg = $is_update
+                ? '🔄 Existierender Höhenmeter-Challenge-Eintrag wurde aktualisiert'
+                : '✅ Neuer Höhenmeter-Challenge-Eintrag wurde erstellt';
+            return $this->withCors($request, new JsonResponse(['msg' => $msg], 200));
         }
 
         throw new \Exception("Tertium non datur!");
     }
 
-    protected function populateCors(Request $request, Response $response): void {
+    protected function withCors(Request $request, Response $response): Response {
         $allowedOrigins = ['https://www.strava.com'];
         $origin = $request->headers->get('Origin');
         if ($origin && in_array($origin, $allowedOrigins)) {
             $response->headers->set('Access-Control-Allow-Origin', $origin);
         }
         $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        return $response;
     }
 }

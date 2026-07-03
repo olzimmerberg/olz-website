@@ -305,16 +305,44 @@ class OlzAnniversary extends OlzRootComponent {
             'token_time' => $this->dateUtils()->getIsoNow(),
         ];
         $token = $this->generalUtils()->encrypt($key, $data);
-        $script = file_get_contents(__DIR__.'/strava_script.js') ?: '';
-        $script = str_replace('\'%%%TOKEN%%%\'', json_encode($token) ?: '\"\"', $script);
-        $enc_script = htmlentities($script);
+        $enc_token = json_encode($token) ?: '\"\"';
+        $base_href = "{$this->envUtils()->getBaseHref()}{$this->envUtils()->getCodeHref()}";
+        $enc_base_href = json_encode($base_href) ?: '\"\"';
+        $script_href = "{$base_href}api-cors/strava_script.js";
+        $enc_script_href = json_encode($script_href) ?: '\"\"';
+        $bookmark_lines = [
+            "var OLZ_BASE_HREF={$enc_base_href}",
+            "var OLZ_TOKEN={$enc_token}",
+            "var elem=document.createElement('script')",
+            "elem.src={$enc_script_href}",
+            "elem.addEventListener(\"error\", function () { alert(\"🚫 OLZ-Strava-Skript konnte nicht geladen werden!\"); })",
+            "document.body.appendChild(elem)",
+        ];
+        $bookmark_href = htmlentities("javascript:".implode(';', $bookmark_lines));
         $out .= <<<ZZZZZZZZZZ
-            <div>Skript (für nach September):</div>
-            <textarea
-                readonly
-                onfocus='this.select()'
-                class='script-textarea'
-            >{$enc_script}</textarea>
+            <h4>Strava-Anleitung (für nach September):</h4>
+            <div><b>Einmalig:</b></div>
+            <ul>
+                <li>Logge dich ein auf <a href='https://www.strava.com/login' target='_blank'>Strava</a> (im Browser, nicht im App).</li>
+                <li>
+                    Speichere diesen Link als Lesezeichen in deinem Browser,<br>
+                    entweder indem du ihn in die Lesezeichen-Leiste ziehst<br>
+                    oder per Rechtsklick -> "Als Lesezeichen speichern..." (oder ähnlich, je nach Browser):<br>
+                    ---&gt; <b><a href='{$bookmark_href}'>OLZ 🔁</a></b> &lt;---
+                </li>
+            </ul>
+            <div><b>Um eine Strava-Aktivität zu erfassen:</b></div>
+            <ul>
+                <li>
+                    Gehe auf Strava zu der Aktivität, die du erfassen willst,<br>
+                    z.B. via <a href='https://www.strava.com/athlete/training' target='_blank'>Meine Aktivitäten</a>, dann Aktivität auswählen.<br>
+                    <i>Tipp: Du kannst so auch Aktivitäten anderer Personen erfassen (Ehrenkodex: nur OLZ!).</i>
+                </li>
+                <li>
+                    Klicke auf das Lesezeichen, das du zuvor gespeichert hattest.<br>
+                    <i>Tipp: Du solltest eine Rückmeldung erhalten, ob es geklappt hat.</i>
+                </li>
+            </ul>
             ZZZZZZZZZZ;
         $out .= '</div>';
         return $out;

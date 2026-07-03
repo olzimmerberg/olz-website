@@ -1,25 +1,42 @@
-/* global location, document, console, fetch */
+/* global OLZ_BASE_HREF, OLZ_TOKEN, location, document, fetch, alert */
 
 function getData() {
     const urlMatch = /strava\.com\/activities\/([0-9]+)/.exec(location.href);
     if (!urlMatch) {
-        console.error('Du musst auf der Seite einer Aktivität sein, z.B. https://www.strava.com/activities/1234');
-        console.info('Deine Aktivitäten-Übersicht: https://www.strava.com/athlete/training');
-        console.info('Wähle dort die entsprechende Aktivität und führe das Skript erneut aus.');
+        alert('🚫 OLZ-Strava-Skript: Du musst auf der Seite einer Strava-Aktivität sein. Folge der Anleitung auf olzimmerberg.ch/2026'); // eslint-disable-line no-alert
         return;
     }
-    fetch('https://olzimmerberg.ch/api-cors/registerStravaRun', {
+    fetch(`${OLZ_BASE_HREF}api-cors/registerStravaRun`, {
         body: JSON.stringify({
-            token: '%%%TOKEN%%%',
+            token: OLZ_TOKEN,
             activityId: urlMatch?.[1],
             html: document.querySelector('#heading').innerHTML,
         }),
         method: 'POST',
         mode: 'cors',
-    }).then((resp) => {
-        const fn = resp.ok ? console.info : console.error;
-        resp.json().then((json) => fn(json?.msg ?? json));
-    });
+    }).then(
+        (resp) => {
+            resp.json().then(
+                (json) => {
+                    alert(json?.msg ?? '🚫 OLZ-Strava-Skript: Ungültige Antwort'); // eslint-disable-line no-alert
+                },
+                (reason) => {
+                    try {
+                        alert(`🚫 OLZ-Strava-Skript: Antwort-Fehler "${reason}"`); // eslint-disable-line no-alert
+                    } catch (error) { // eslint-disable-line no-unused-vars,@typescript-eslint/no-unused-vars
+                        alert('🚫 OLZ-Strava-Skript: Unbekannter Antwort-Fehler'); // eslint-disable-line no-alert
+                    }
+                },
+            );
+        },
+        (reason) => {
+            try {
+                alert(`🚫 OLZ-Strava-Skript: Anfrage-Fehler "${reason}"`); // eslint-disable-line no-alert
+            } catch (error) { // eslint-disable-line no-unused-vars,@typescript-eslint/no-unused-vars
+                alert('🚫 OLZ-Strava-Skript: Unbekannter Anfrage-Fehler'); // eslint-disable-line no-alert
+            }
+        },
+    );
 }
 
 getData();

@@ -16,16 +16,18 @@ final class SolvEventParserTest extends UnitTestCase {
     private string $fixtures_2006_path = __DIR__.'/data/fixtures-2006.csv';
     private string $fixtures_2018_path = __DIR__.'/data/fixtures-2018.csv';
     private string $invalid_fixtures_path = __DIR__.'/data/fixtures-invalid.csv';
+    private string $error_fixtures_path = __DIR__.'/data/fixtures-error.csv';
 
     public function testParseFixtures2006(): void {
-        $fixtures_2006 = file_get_contents($this->fixtures_2006_path) ?: '';
+        $fixtures = file_get_contents($this->fixtures_2006_path) ?: '';
         $parser = new SolvEventParser();
 
-        $solv_events_2006 = $parser->parse_solv_events_csv($fixtures_2006);
+        $solv_events = $parser->parse_solv_events_csv($fixtures);
 
-        $this->assertCount(200, $solv_events_2006);
+        $this->assertNotNull($solv_events);
+        $this->assertCount(200, $solv_events);
 
-        $first_solv_event_2006 = $solv_events_2006[0];
+        $first_solv_event_2006 = $solv_events[0];
         $this->assertSame(2973, $first_solv_event_2006->getSolvUid());
         $this->assertSame('2006-01-07', $first_solv_event_2006->getDate()->format('Y-m-d'));
         $this->assertSame(1, $first_solv_event_2006->getDuration());
@@ -45,19 +47,20 @@ final class SolvEventParserTest extends UnitTestCase {
         $this->assertSame(0, $first_solv_event_2006->getEntryportal());
         $this->assertSame('2005-08-08 15:55:01', $first_solv_event_2006->getLastModification()->format('Y-m-d H:i:s'));
 
-        $second_solv_event_2006 = $solv_events_2006[1];
+        $second_solv_event_2006 = $solv_events[1];
         $this->assertSame('OLG Balsthal-Gäu', $second_solv_event_2006->getClub());
     }
 
     public function testParseFixtures2018(): void {
-        $fixtures_2018 = file_get_contents($this->fixtures_2018_path) ?: '';
+        $fixtures = file_get_contents($this->fixtures_2018_path) ?: '';
         $parser = new SolvEventParser();
 
-        $solv_events_2018 = $parser->parse_solv_events_csv($fixtures_2018);
+        $solv_events = $parser->parse_solv_events_csv($fixtures);
 
-        $this->assertCount(204, $solv_events_2018);
+        $this->assertNotNull($solv_events);
+        $this->assertCount(204, $solv_events);
 
-        $first_solv_event_2018 = $solv_events_2018[0];
+        $first_solv_event_2018 = $solv_events[0];
         $this->assertSame(8270, $first_solv_event_2018->getSolvUid());
         $this->assertSame('2018-01-13', $first_solv_event_2018->getDate()->format('Y-m-d'));
         $this->assertSame(1, $first_solv_event_2018->getDuration());
@@ -77,19 +80,29 @@ final class SolvEventParserTest extends UnitTestCase {
         $this->assertSame(0, $first_solv_event_2018->getEntryportal());
         $this->assertSame('2018-12-13 09:07:27', $first_solv_event_2018->getLastModification()->format('Y-m-d H:i:s'));
 
-        $second_solv_event_2018 = $solv_events_2018[71];
+        $second_solv_event_2018 = $solv_events[71];
         $this->assertSame('Z�rcher s\'COOL-Cup', $second_solv_event_2018->getName());
     }
 
     public function testParseInvalidFixtures(): void {
-        $invalid_fixtures = file_get_contents($this->invalid_fixtures_path) ?: '';
+        $fixtures = file_get_contents($this->invalid_fixtures_path) ?: '';
         $parser = new SolvEventParser();
 
-        $invalid_solv_events = $parser->parse_solv_events_csv($invalid_fixtures);
+        $solv_events = $parser->parse_solv_events_csv($fixtures);
 
-        $this->assertCount(1, $invalid_solv_events);
+        $this->assertNotNull($solv_events);
+        $this->assertCount(1, $solv_events);
 
-        $first_solv_event_2018 = $invalid_solv_events[0];
-        $this->assertSame(1234, $first_solv_event_2018->getSolvUid());
+        $first_solv_event = $solv_events[0];
+        $this->assertSame(1234, $first_solv_event->getSolvUid());
+    }
+
+    public function testParseErrorFixtures(): void {
+        $fixtures = file_get_contents($this->error_fixtures_path) ?: '';
+        $parser = new SolvEventParser();
+
+        $solv_events = $parser->parse_solv_events_csv($fixtures);
+
+        $this->assertNull($solv_events);
     }
 }

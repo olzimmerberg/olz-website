@@ -56,6 +56,10 @@ class SyncSolvEventsCommand extends OlzCommand {
         $this->logAndOutput("Successfully read CSV: {$csv_excerpt}... ({$csv_length}).");
 
         $solv_events = $this->solvEventParser->parse_solv_events_csv($csv);
+        if ($solv_events === null) {
+            $this->logAndOutput("Could not parse events out of CSV.");
+            return;
+        }
 
         $solv_event_count = count($solv_events);
         $this->logAndOutput("Parsed {$solv_event_count} events out of CSV.");

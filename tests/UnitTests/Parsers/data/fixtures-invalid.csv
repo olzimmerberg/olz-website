@@ -1,2 +1,2 @@
-unique_id;invalid_column
-1234;wtf
+unique_id;invalid_column;invalid_column;invalid_column
+1234;wtf;foo;bar

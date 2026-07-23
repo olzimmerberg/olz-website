@@ -337,8 +337,8 @@ class ProcessEmailCommand extends OlzCommand {
             return $this->forwardEmailToUser($mail, $user, $address);
         }
 
-        $smtp_from = $this->envUtils()->getSmtpFrom();
-        if ($address === $smtp_from) {
+        $bot_address = $this->envUtils()->getSmtpFrom();
+        if ($address === $bot_address) {
             $this->log()->info("E-Mail {$mail_uid} to bot...");
             return $this->processMailToBot($mail);
         }
@@ -489,16 +489,17 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function incomingToOutgoingEmail(Message $incoming): Email {
-        $smtp_from = $this->envUtils()->getSmtpFrom();
+        $bot_address = $this->envUtils()->getSmtpFrom();
         $from = $incoming->getFrom()->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
         $from_label = trim($from_name) ?: trim($from_address);
+        $custom_from_address = $this->getCustomFromAddress($from_address, $bot_address);
         $to = $this->getAddresses($incoming->getTo());
         $cc = $this->getAddresses($incoming->getCc());
         $bcc = $this->getAddresses($incoming->getBcc());
         if (count($to) + count($cc) + count($bcc) === 0) { // E-Mail to undisclosed recipients
-            $to = [new Address($smtp_from, 'Undisclosed Recipients')];
+            $to = [new Address($bot_address, 'Undisclosed Recipients')];
         }
         $message_id = $incoming->getMessageId()->first();
         $subject = $incoming->getSubject()->first();
@@ -508,7 +509,7 @@ class ProcessEmailCommand extends OlzCommand {
             $html = nl2br($text ?? '');
         }
         $outgoing = (new Email())
-            ->from(new Address($smtp_from, "{$from_label} (via OLZ)"))
+            ->from(new Address($custom_from_address, "{$from_label} (via OLZ)"))
             ->replyTo(new Address($from_address, $from_name))
             ->to(...$to)
             ->cc(...$cc)
@@ -557,6 +558,15 @@ class ProcessEmailCommand extends OlzCommand {
         return $outgoing;
     }
 
+    protected function getCustomFromAddress(string $from_address, string $bot_address): string {
+        $arr = explode('@', $bot_address);
+        if (count($arr) !== 2) {
+            $this->log()->warning("Malformed bot address: {$bot_address}");
+        }
+        $enc_from_address = str_replace('@', '_AT_', $from_address);
+        return "{$arr[0]}_{$enc_from_address}@{$arr[1]}";
+    }
+
     /** @return array<Address> */
     protected function getAddresses(Attribute $field): array {
         $addresses = [];
@@ -590,14 +600,14 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function sendRedirectEmail(Message $mail, string $old_address, string $new_address): void {
-        $smtp_from = $this->envUtils()->getSmtpFrom();
+        $bot_address = $this->envUtils()->getSmtpFrom();
         $from = $mail->getFrom()->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
         if (
-            "{$old_address}" === "{$smtp_from}"
+            "{$old_address}" === "{$bot_address}"
             || "{$old_address}" === "{$from_address}"
-            || "{$new_address}" === "{$smtp_from}"
+            || "{$new_address}" === "{$bot_address}"
             || "{$new_address}" === "{$from_address}"
         ) {
             $this->log()->notice("sendRedirectEmail: Avoiding email loop for redirect {$old_address} => {$new_address}");
@@ -606,7 +616,7 @@ class ProcessEmailCommand extends OlzCommand {
 
         try {
             $email = (new Email())
-                ->from(new Address($smtp_from, 'OLZ Bot'))
+                ->from(new Address($bot_address, 'OLZ Bot'))
                 ->to(new Address($from_address, $from_name))
                 ->subject("Empfänger hat eine neue E-Mail-Adresse")
                 ->text(<<<ZZZZZZZZZZ
@@ -631,18 +641,18 @@ class ProcessEmailCommand extends OlzCommand {
     }
 
     protected function sendReportEmail(Message $mail, ?string $address, int $smtp_code): void {
-        $smtp_from = $this->envUtils()->getSmtpFrom();
+        $bot_address = $this->envUtils()->getSmtpFrom();
         $from = $mail->getFrom()->first();
         $from_name = $from->personal;
         $from_address = $from->mail;
-        if ("{$address}" === "{$smtp_from}" || "{$address}" === "{$from_address}") {
+        if ("{$address}" === "{$bot_address}" || "{$address}" === "{$from_address}") {
             $this->log()->notice("sendReportEmail: Avoiding email loop for {$address}");
             return;
         }
 
         try {
             $email = (new Email())
-                ->from(new Address($smtp_from, 'OLZ Bot'))
+                ->from(new Address($bot_address, 'OLZ Bot'))
                 ->to(new Address($from_address, $from_name))
                 ->subject("Undelivered Mail Returned to Sender")
                 ->text($this->getReportMessage($smtp_code, $mail, $address))

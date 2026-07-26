@@ -5,7 +5,7 @@
     "Olz\\Tests\\SystemTests\\AnniversaryTest::testAnniversaryRunDelete": 3.2,
     "Olz\\Tests\\SystemTests\\AnniversaryTest::testAnniversaryRunUpdate": 3.5,
     "Olz\\Tests\\SystemTests\\AppFilesTest::testAppFilesScreenshots": 3.8,
-    "Olz\\Tests\\SystemTests\\AppMembersTest::testMembersImportExport": 2.2,
+    "Olz\\Tests\\SystemTests\\AppMembersTest::testMembersImportExport": 5.1,
     "Olz\\Tests\\SystemTests\\AppsTest::testAppsScreenshots": 9.1,
     "Olz\\Tests\\SystemTests\\DatenschutzTest::testDatenschutzReadOnly": 0.6,
     "Olz\\Tests\\SystemTests\\DnsTest::testHasGoogleSiteVerificationRecord": 0.3,
@@ -109,8 +109,8 @@
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureCreate": 3.2,
     "Olz\\Tests\\SystemTests\\WeeklyPictureTest::testWeeklyPictureReadOnly": 1.3,
     "db_reset": 24.2,
-    "login": 9.2,
-    "logout": 7.8,
-    "screenshot": 35.5,
-    "total": 216.4
+    "login": 2.5,
+    "logout": 2.1,
+    "screenshot": 0.2,
+    "total": 5.4
 }

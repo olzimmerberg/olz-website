@@ -112,58 +112,97 @@ export const OlzMembers = (): React.ReactElement => {
         case 'IMPORTING':
             content = 'Daten werden importiert... Bitte warten.';
             break;
-        case 'IMPORTED':
+        case 'IMPORTED': {
+            const memberRows = members?.map((member, index) => {
+                const getMemberDisplay = () => {
+                    if (member.username) {
+                        return (<span title='Die Benutzer-Id, wie in der externen Benutzerverwaltung eingegeben.'>
+                            {member.username}
+                        </span>);
+                    }
+                    if (member.firstName && member.lastName) {
+                        return (<span title='In der externen Benutzerverwaltung wurde keine Benutzer-Id eingegeben.'>
+                            ⚠️ {member.firstName} {member.lastName}
+                        </span>);
+                    }
+                    if (member.company) {
+                        return (<span title='In der externen Benutzerverwaltung wurde keine Benutzer-Id eingegeben.'>
+                            ⚠️ {member.company}
+                        </span>);
+                    }
+                    return (<span title='In der externen Benutzerverwaltung wurde keine Benutzer-Id, kein Vor- und Nachname, und keine Firma eingegeben.'>
+                        ⚠️ Ident: {member.ident}
+                    </span>);
+                };
+                const updates = Object.keys(member.updates).map((key) => (
+                    <div>
+                        {key}:&nbsp;
+                        <span className='old'>"{member.updates[key].old}"</span>
+                        &nbsp;➡️&nbsp;
+                        <span className='new'>"{member.updates[key].new}"</span>
+                    </div>
+                ));
+                return (<tr id={`row-${index}`}>
+                    <td
+                        className='username'
+                        title='Benutzer, wie in der externen Benutzerverwaltung eingegeben.'
+                    >
+                        {getMemberDisplay()}
+                    </td>
+                    <td className='user-info'>{(member.user
+                        ? (
+                            <a
+                                href='#'
+                                onClick={() => initOlzUserInfoModal(member.user?.id ?? 0)}
+                                className='olz-user-info-modal-trigger'
+                            >
+                                {member.user.firstName} {member.user.lastName}
+                            </a>
+                        ) : (member.matchingUsername
+                            ? (
+                                <span title='Vorname und Name passen, aber die Benutzer-Id nicht! Aktualisiere die Benutzer-Id in der externen Benutzerverwaltung, um dieses OLZ-Konto zu verlinken.'>
+                                    ➡️&nbsp;
+                                    <input
+                                        type='text'
+                                        readOnly
+                                        value={member.matchingUsername}
+                                        className='matching-username-input'
+                                    />
+                                    &nbsp;?
+                                </span>
+                            ) : null)
+                    ) ?? '-'}</td>
+                    <td
+                        className='status'
+                        title={`${LABEL_BY_ACTION[member.action]}: ${EXPLANATION_BY_ACTION[member.action]}`}
+                    >
+                        {LABEL_BY_ACTION[member.action]}
+                    </td>
+                    <td className='updates'>
+                        {updates}
+                    </td>
+                </tr>);
+            });
             content = (<>
                 <table id='member-table'>
                     <tr>
-                        <th className='ident'>Externe ID</th>
-                        <th className='username'>Benutzer-Id</th>
+                        <th className='username'>Benutzer</th>
                         <th className='user-info'>OLZ-Website-Konto</th>
-                        <th className='status' title={`Dies sind Änderungen, die in der externen Benutzerverwaltung vorgenommen wurden. Diese wurden bereits angewendet.\n${PANIC_NOTICE}`}>Import-Status</th>
-                        <th className='updates' title='Dies sind Änderungen, die auf der Website vorgenommen wurden. Falls du diese in die externe Benutzerverwaltung übernehmen willst, klicke unten "Export", dann "CSV Download" und Importiere diese Datei dann in die externe Benutzerverwaltung.'>
+                        <th
+                            className='status'
+                            title={`Dies sind Änderungen, die in der externen Benutzerverwaltung vorgenommen wurden. Diese wurden bereits angewendet.\n${PANIC_NOTICE}`}
+                        >
+                            Import-Status
+                        </th>
+                        <th
+                            className='updates'
+                            title='Dies sind Änderungen, die auf der Website vorgenommen wurden. Falls du diese in die externe Benutzerverwaltung übernehmen willst, klicke unten "Export", dann "CSV Download" und Importiere diese Datei dann in die externe Benutzerverwaltung.'
+                        >
                             Updates für Export
                         </th>
                     </tr>
-                    {members?.map((member, index) => {
-                        const updates = Object.keys(member.updates).map((key) =>
-                            `${key}: "${member.updates[key].old}" => "${member.updates[key].new}"`);
-                        return (<tr id={`row-${index}`}>
-                            <td
-                                className='ident'
-                                title='ID, die von der externen Benutzerverwaltung intern verwendet wird.'
-                            >
-                                {member.ident}
-                            </td>
-                            <td
-                                className='username'
-                                title='Benutzer-Id, die in der externen Benutzerverwaltung eingegeben wurde.'
-                            >
-                                {member.username ?? '-'}
-                            </td>
-                            <td className='user-info'>{(member.user
-                                ? <a href='#' onClick={() => initOlzUserInfoModal(member.user?.id ?? 0)} className='olz-user-info-modal-trigger'>
-                                    {member.user.firstName} {member.user.lastName}
-                                </a>
-                                : (member.matchingUsername
-                                    ? <span title='Vorname und Name passen, aber die Benutzer-Id nicht! Aktualisiere die Benutzer-Id in der externen Benutzerverwaltung, um dieses OLZ-Konto zu verlinken.'>➡️ <input type='text' readOnly value={member.matchingUsername} /> ?</span>
-                                    : null)
-                            ) ?? '-'}</td>
-                            <td
-                                className='status'
-                                title={`${LABEL_BY_ACTION[member.action]}: ${EXPLANATION_BY_ACTION[member.action]}`}
-                            >
-                                {LABEL_BY_ACTION[member.action]}
-                            </td>
-                            <td
-                                className='updates'
-                                title={updates.join('\n')}
-                            >
-                                {updates.join(', ')}
-                            </td>
-                        </tr>);
-                    })}
+                    {memberRows}
                     <tr>
-                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -190,6 +229,7 @@ export const OlzMembers = (): React.ReactElement => {
                 </table>
             </>);
             break;
+        }
         default:
             break;
     }

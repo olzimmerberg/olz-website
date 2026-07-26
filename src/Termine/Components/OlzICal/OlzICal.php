@@ -25,7 +25,6 @@ class OlzICal extends OlzComponent {
         // Termine abfragen
         $termin_class = Termin::class;
         $termin_reaction_class = TerminReaction::class;
-        // TODO: Add `HAVING MIN(tyes.emoji) IS NOT NULL OR MIN(tno.emoji) IS NULL`
         $dql = <<<ZZZZZZZZZZ
             SELECT t, MIN(tyes.emoji), MIN(tno.emoji)
             FROM {$termin_class} t
@@ -43,6 +42,7 @@ class OlzICal extends OlzComponent {
                 t.start_date >= :start_date
                 AND t.on_off = '1'
             GROUP BY t.id
+            HAVING MIN(tyes.emoji) IS NOT NULL OR MIN(tno.emoji) IS NULL
             ORDER BY t.start_date ASC, t.start_time ASC
             ZZZZZZZZZZ;
         $termine = $this->entityManager()

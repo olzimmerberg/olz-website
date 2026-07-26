@@ -9,7 +9,6 @@ use Olz\Utils\WithUtilsTrait;
 class MembersUtils {
     use WithUtilsTrait;
 
-    public ?string $encoding = 'Windows-1252';
     public int $first_data_row = 1;
     public string $member_ident_key = '[Id]';
     public string $member_username_key = 'Benutzer-Id';
@@ -18,17 +17,31 @@ class MembersUtils {
 
     /** @return array<array<string, string>> */
     public function parseCsv(string $csv_content): array {
-        $utf8_csv_content = mb_convert_encoding($csv_content, 'UTF-8', $this->encoding);
+        $encoding = mb_detect_encoding($csv_content, ['UTF-8', 'ISO-8859-1', 'Windows-1252'], true);
+        $utf8_csv_content = mb_convert_encoding($csv_content, 'UTF-8', $encoding ?: 'Windows-1252');
         $this->generalUtils()->checkNotFalse($utf8_csv_content, 'Could not convert to UTF-8');
-        $data = str_getcsv($utf8_csv_content, "\n", "\"", "\\");
-        $header = str_getcsv($data[0] ?? '', ";", "\"", "\\");
+        $stream = new \SplTempFileObject();
+        $stream->fwrite($utf8_csv_content);
+        $stream->rewind();
+        $stream->setFlags(\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY);
+        $stream->setCsvControl(";", "\"", "\\");
+        $header = $stream->current();
+        if (!is_array($header)) {
+            throw new \Exception("Invalid CSV header: {$header}");
+        }
         $num_columns = count($header);
+        $stream->next();
 
         $rows = [];
-        for ($i = $this->first_data_row; $i < count($data); $i++) {
-            $raw_row = str_getcsv($data[$i] ?? '', ";", "\"", "\\");
-            if (count($raw_row) !== $num_columns) {
-                $this->log()->notice("Member CSV parse: Row[{$i}] = '{$data[$i]}' length is not {$num_columns}");
+        $i = $this->first_data_row;
+        while ($raw_row = $stream->current()) {
+            if (!is_array($raw_row)) {
+                throw new \Exception("Invalid CSV row[{$i}]: {$raw_row}");
+            }
+            $raw_row_count = count($raw_row);
+            if ($raw_row_count !== $num_columns) {
+                $enc_raw_row = json_encode($raw_row);
+                $this->log()->notice("Member CSV parse: Row[{$i}] = '{$enc_raw_row}' length ({$raw_row_count}) is not {$num_columns}");
                 continue;
             }
             $row = [];
@@ -36,6 +49,8 @@ class MembersUtils {
                 $row[$header[$j]] = "{$raw_row[$j]}";
             }
             $rows[] = $row;
+            $i++;
+            $stream->next();
         }
         return $rows;
     }

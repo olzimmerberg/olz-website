@@ -12,7 +12,7 @@ use PhpTypeScriptApi\HttpError;
  * @phpstan-type OlzMemberInfo array{
  *   ident: non-empty-string,
  *   action: 'CREATE'|'UPDATE'|'DELETE'|'KEEP',
- *   username?: ?non-empty-string,
+ *   username?: ?string,
  *   matchingUsername?: ?non-empty-string,
  *   user?: ?array{
  *     id: int,
@@ -40,7 +40,7 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
 
         $member_info_by_ident = [];
         $csv_content = $this->getCsvContent($input['csvFileId']);
-        $members = $this->membersUtils()->parseCsv($csv_content);
+        $csv_members = $this->membersUtils()->parseCsv($csv_content);
         $member_repo = $this->entityManager()->getRepository(Member::class);
         $user_repo = $this->entityManager()->getRepository(User::class);
 
@@ -49,64 +49,64 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
             // Assume deleted unless set to false later...
             $existing_member_is_deleted[$existing_member_ident] = true;
         }
-        foreach ($members as $member) {
-            $member_ident = $this->membersUtils()->getMemberIdent($member);
-            $member_username = $this->membersUtils()->getMemberUsername($member);
-            $enc_member = json_encode($member);
-            $this->generalUtils()->checkNotFalse($enc_member, "JSON encode failed");
-            if (!$member_ident) {
-                $this->log()->warning("Member has no ident: {$enc_member}");
+        foreach ($csv_members as $csv_member) {
+            $csv_member_ident = $this->membersUtils()->getMemberIdent($csv_member);
+            $csv_member_username = $this->membersUtils()->getMemberUsername($csv_member);
+            $enc_csv_member = json_encode($csv_member);
+            $this->generalUtils()->checkNotFalse($enc_csv_member, "JSON encode failed");
+            if (!$csv_member_ident) {
+                $this->log()->warning("Member has no ident: {$enc_csv_member}");
                 continue;
             }
-            $existing_member_is_deleted[$member_ident] = false;
-            $user = $member_username ? (
-                $user_repo->findOneBy(['username' => $member_username])
-                ?? $user_repo->findOneBy(['old_username' => $member_username])
+            $existing_member_is_deleted[$csv_member_ident] = false;
+            $user = $csv_member_username ? (
+                $user_repo->findOneBy(['username' => $csv_member_username])
+                ?? $user_repo->findOneBy(['old_username' => $csv_member_username])
             ) : null;
             $matching_user = $user_repo->findUserFuzzilyByName(
-                trim($this->membersUtils()->getMemberFirstName($member) ?? ''),
-                trim($this->membersUtils()->getMemberLastName($member) ?? ''),
+                trim($this->membersUtils()->getMemberFirstName($csv_member) ?? ''),
+                trim($this->membersUtils()->getMemberLastName($csv_member) ?? ''),
             );
             $base_info = [
-                'username' => $member_username,
+                'username' => $csv_member_username,
                 'matchingUsername' => $matching_user?->getUsername(),
                 'user' => $this->getUserData($user),
             ];
-            $entity = $member_repo->findOneBy(['ident' => $member_ident]);
+            $entity = $member_repo->findOneBy(['ident' => $csv_member_ident]);
             if (!$entity) {
-                $member_info_by_ident[$member_ident] = [...$base_info, 'action' => 'CREATE'];
+                $member_info_by_ident[$csv_member_ident] = [...$base_info, 'action' => 'CREATE'];
                 $entity = new Member();
                 $this->entityUtils()->createOlzEntity($entity, ['onOff' => true]);
-                $entity->setIdent($member_ident);
+                $entity->setIdent($csv_member_ident);
                 $entity->setUser($user);
-                $entity->setData($enc_member);
+                $entity->setData($enc_csv_member);
                 $entity->setUpdates(null);
                 $this->membersUtils()->update($entity, $user);
                 $this->entityManager()->persist($entity);
             } else {
-                if ($entity->getData() === $enc_member && $entity->getUser() === $user) {
-                    $member_info_by_ident[$member_ident] = [...$base_info, 'action' => 'KEEP'];
+                if ($entity->getData() === $enc_csv_member && $entity->getUser() === $user) {
+                    $member_info_by_ident[$csv_member_ident] = [...$base_info, 'action' => 'KEEP'];
                     $this->membersUtils()->update($entity, $user);
                 } else {
-                    $member_info_by_ident[$member_ident] = [...$base_info, 'action' => 'UPDATE'];
+                    $member_info_by_ident[$csv_member_ident] = [...$base_info, 'action' => 'UPDATE'];
                     $this->entityUtils()->updateOlzEntity($entity, []);
                     $entity->setUser($user);
-                    $entity->setData($enc_member);
+                    $entity->setData($enc_csv_member);
                     $this->membersUtils()->update($entity, $user);
                 }
             }
             $new_value_by_key = json_decode($entity->getUpdates() ?? '[]', true) ?: [];
             $updates = [];
             foreach ($new_value_by_key as $key => $new_value) {
-                $updates[$key] = ['old' => $member[$key] ?? '', 'new' => $new_value];
+                $updates[$key] = ['old' => $csv_member[$key] ?? '', 'new' => $new_value];
             }
-            $member_info_by_ident[$member_ident]['updates'] = $updates;
+            $member_info_by_ident[$csv_member_ident]['updates'] = $updates;
         }
         foreach ($existing_member_is_deleted as $int_ident => $is_deleted) {
-            $member_ident = "{$int_ident}";
+            $csv_member_ident = "{$int_ident}";
             if ($is_deleted) {
-                $member = $member_repo->findOneBy(['ident' => $member_ident]);
-                $member_info_by_ident[$member_ident] = [
+                $member = $member_repo->findOneBy(['ident' => $csv_member_ident]);
+                $member_info_by_ident[$csv_member_ident] = [
                     'action' => 'DELETE',
                     'username' => null,
                     'matchingUsername' => null,
@@ -116,7 +116,7 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                 if ($member) {
                     $this->entityManager()->remove($member);
                 } else {
-                    $this->log()->warning("Cannot delete inexistent member: {$member_ident}");
+                    $this->log()->warning("Cannot delete inexistent member: {$csv_member_ident}");
                 }
             }
         }
@@ -125,9 +125,9 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
         $members = [];
         foreach ($member_info_by_ident as $int_ident => $member) {
             $member_ident = "{$int_ident}";
-            $this->generalUtils()->checkNotEmpty($member_ident, 'Member ident must not be empty');
-            $this->generalUtils()->checkNotEmpty($member['username'], 'Member username must not be empty');
-            $this->generalUtils()->checkNotEmpty($member['matchingUsername'], 'Member matchingUsername must not be empty');
+            $enc_member = json_encode($member);
+            $this->generalUtils()->checkNotEmpty($member_ident, "Member ident must not be empty: {$enc_member}");
+            $this->generalUtils()->checkNotEmpty($member['matchingUsername'], "Member matchingUsername must not be empty: {$enc_member}");
             $members[] = [
                 'ident' => "{$member_ident}",
                 'action' => $member['action'],

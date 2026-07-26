@@ -13,6 +13,9 @@ use PhpTypeScriptApi\HttpError;
  *   ident: non-empty-string,
  *   action: 'CREATE'|'UPDATE'|'DELETE'|'KEEP',
  *   username?: ?string,
+ *   firstName?: ?string,
+ *   lastName?: ?string,
+ *   company?: ?string,
  *   matchingUsername?: ?non-empty-string,
  *   user?: ?array{
  *     id: int,
@@ -52,6 +55,9 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
         foreach ($csv_members as $csv_member) {
             $csv_member_ident = $this->membersUtils()->getMemberIdent($csv_member);
             $csv_member_username = $this->membersUtils()->getMemberUsername($csv_member);
+            $csv_member_first_name = $this->membersUtils()->getMemberFirstName($csv_member);
+            $csv_member_last_name = $this->membersUtils()->getMemberLastName($csv_member);
+            $csv_member_company = $this->membersUtils()->getMemberCompany($csv_member);
             $enc_csv_member = json_encode($csv_member);
             $this->generalUtils()->checkNotFalse($enc_csv_member, "JSON encode failed");
             if (!$csv_member_ident) {
@@ -64,11 +70,14 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                 ?? $user_repo->findOneBy(['old_username' => $csv_member_username])
             ) : null;
             $matching_user = $user_repo->findUserFuzzilyByName(
-                trim($this->membersUtils()->getMemberFirstName($csv_member) ?? ''),
-                trim($this->membersUtils()->getMemberLastName($csv_member) ?? ''),
+                trim($csv_member_first_name ?? ''),
+                trim($csv_member_last_name ?? '')
             );
             $base_info = [
                 'username' => $csv_member_username,
+                'firstName' => $csv_member_first_name,
+                'lastName' => $csv_member_last_name,
+                'company' => $csv_member_company,
                 'matchingUsername' => $matching_user?->getUsername(),
                 'user' => $this->getUserData($user),
             ];
@@ -132,6 +141,9 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                 'ident' => "{$member_ident}",
                 'action' => $member['action'],
                 'username' => $member['username'] ?? null,
+                'firstName' => $member['firstName'] ?? null,
+                'lastName' => $member['lastName'] ?? null,
+                'company' => $member['company'] ?? null,
                 'matchingUsername' => $member['matchingUsername'] ?? null,
                 'user' => $member['user'] ?? null,
                 'updates' => $member['updates'],

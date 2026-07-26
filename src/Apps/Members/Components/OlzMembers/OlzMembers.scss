@@ -4,6 +4,18 @@
         width: auto;
     }
 
+    .matching-username-input {
+        width: 150px;
+    }
+
+    .old {
+        color: rgb(200, 0, 0);
+    }
+
+    .new {
+        color: rgb(0, 150, 0);
+    }
+
     .export-bar {
         display: flex;
         align-items: center;
@@ -18,10 +30,8 @@
             height: 32px;
             line-height: 32px;
             padding: 0 5px;
+            white-space: nowrap;
 
-            &.ident {
-                width: 10%;
-            }
             &.username {
                 width: 20%;
             }
@@ -29,17 +39,17 @@
                 width: 20%;
             }
             &.status {
-                width: 10%;
+                width: 15%;
             }
             &.updates {
-                width: 40%;
+                width: 45%;
             }
         }
 
         td {
             height: 22px;
             line-height: 22px;
-            padding: 0 5px;
+            padding: 2px 5px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;

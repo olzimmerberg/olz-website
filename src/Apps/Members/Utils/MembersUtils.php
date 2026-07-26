@@ -14,12 +14,11 @@ class MembersUtils {
     public string $member_username_key = 'Benutzer-Id';
     public string $member_first_name_key = 'Vorname';
     public string $member_last_name_key = 'Nachname';
+    public string $member_company_key = 'Firma';
 
     /** @return array<array<string, string>> */
     public function parseCsv(string $csv_content): array {
-        $encoding = mb_detect_encoding($csv_content, ['UTF-8', 'ISO-8859-1', 'Windows-1252'], true);
-        $utf8_csv_content = mb_convert_encoding($csv_content, 'UTF-8', $encoding ?: 'Windows-1252');
-        $this->generalUtils()->checkNotFalse($utf8_csv_content, 'Could not convert to UTF-8');
+        $utf8_csv_content = $this->convertMemberCsvEncoding($csv_content);
         $stream = new \SplTempFileObject();
         $stream->fwrite($utf8_csv_content);
         $stream->rewind();
@@ -55,6 +54,19 @@ class MembersUtils {
         return $rows;
     }
 
+    protected function convertMemberCsvEncoding(string $csv_content): string {
+        if (strpos($csv_content, "Ge\x8andert") !== false) {
+            $converted = @iconv('macintosh', 'UTF-8', $csv_content);
+            if ($converted) {
+                return $converted;
+            }
+        }
+        $encoding = mb_detect_encoding($csv_content, ['UTF-8', 'ISO-8859-1', 'Windows-1252'], true);
+        $utf8_csv_content = mb_convert_encoding($csv_content, 'UTF-8', $encoding ?: 'ISO-8859-1');
+        $this->generalUtils()->checkNotFalse($utf8_csv_content, 'Could not convert to UTF-8');
+        return $utf8_csv_content;
+    }
+
     /** @param array<string, string> $member */
     public function getMemberIdent(array $member): ?string {
         return $member[$this->member_ident_key] ?? null;
@@ -73,6 +85,11 @@ class MembersUtils {
     /** @param array<string, string> $member */
     public function getMemberLastName(array $member): ?string {
         return $member[$this->member_last_name_key] ?? null;
+    }
+
+    /** @param array<string, string> $member */
+    public function getMemberCompany(array $member): ?string {
+        return $member[$this->member_company_key] ?? null;
     }
 
     public function update(Member $member, ?User $user): void {

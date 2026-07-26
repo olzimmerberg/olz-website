@@ -1606,7 +1606,7 @@ export type Olz_Api_OlzTypedEndpoint60cda8840655ab20868437541c47f456_Request = {
 
 export type Olz_Api_OlzTypedEndpoint60cda8840655ab20868437541c47f456_Response = {'status': ('OK' | 'ERROR'), 'members': Array<Olz_Apps_Members_Endpoints_ImportMembersEndpoint_OlzMemberInfo>};
 
-export type Olz_Apps_Members_Endpoints_ImportMembersEndpoint_OlzMemberInfo = {'ident': string, 'action': ('CREATE' | 'UPDATE' | 'DELETE' | 'KEEP'), 'username'?: (string | null), 'matchingUsername'?: (string | null), 'user'?: ({'id': number, 'firstName': string, 'lastName': string} | null), 'updates': {[key: string]: {'old': string, 'new': string}}};
+export type Olz_Apps_Members_Endpoints_ImportMembersEndpoint_OlzMemberInfo = {'ident': string, 'action': ('CREATE' | 'UPDATE' | 'DELETE' | 'KEEP'), 'username'?: (string | null), 'firstName'?: (string | null), 'lastName'?: (string | null), 'company'?: (string | null), 'matchingUsername'?: (string | null), 'user'?: ({'id': number, 'firstName': string, 'lastName': string} | null), 'updates': {[key: string]: {'old': string, 'new': string}}};
 
 export type Olz_Api_OlzTypedEndpoint50251594237e2dc1fb15a6350baa0238_Request = Record<string, never>;
 

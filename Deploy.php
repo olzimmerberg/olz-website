@@ -33,6 +33,7 @@ class MirroringFilter extends RecursiveFilterIterator {
     }
 
     public function getChildren(): RecursiveFilterIterator {
+        // @phpstan-ignore-next-line return.type
         return new MirroringFilter($this->iterator->getChildren(), $this->excludes);
     }
 }

@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 class HttpUtils {
     use WithUtilsTrait;
 
+    /** @var non-empty-string */
+    protected static string $user_agent_string = "Mozilla/5.0 (compatible; olz-website/1.0; +https://github.com/olzimmerberg/olz-website/blob/main/src/Utils/HttpUtils.php)";
+
     /** @return array<string> */
     public function getBotRegexes(): array {
         return [
@@ -190,6 +193,49 @@ class HttpUtils {
             throw new \Exception('should already have failed');
         }
         return $result->getValue();
+    }
+
+    /**
+     * @param non-empty-string $url
+     * @param array{
+     *   headers?: array<string>,
+     *   userAgent?: non-empty-string,
+     *   connectTimeout?: int,
+     *   timeout?: int,
+     * } $options
+     */
+    public function curlInit(string $url, array $options = []): \CurlHandle {
+        $ch = curl_init();
+
+        $headers = [
+            'Cache-Control: no-cache, no-store, must-revalidate',
+            'Pragma: no-cache',
+            'Expires: 0',
+            ...($options['headers'] ?? []),
+        ];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERAGENT, $options['userAgent'] ?? self::$user_agent_string);
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+        // @phpstan-ignore-next-line argument.type
+        curl_setopt($ch, CURLOPT_PROXY, null);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $options['connectTimeout'] ?? 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $options['timeout'] ?? 20);
+        return $ch;
+    }
+
+    public function curlExec(\CurlHandle $ch): string {
+        $result = curl_exec($ch);
+        $errno = curl_errno($ch);
+        $error = curl_error($ch);
+        if ($errno || !is_string($result)) {
+            $url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+            throw new \Exception("Error fetching {$url}: {$error} ({$errno})");
+        }
+        return $result ?: '';
     }
 
     // @codeCoverageIgnoreStart

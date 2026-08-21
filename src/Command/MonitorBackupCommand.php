@@ -19,14 +19,17 @@ class MonitorBackupCommand extends OlzCommand {
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
-        $ch = curl_init();
+        $url = "https://api.github.com/"
+            ."repos/olzimmerberg/olz-website/actions/workflows/ci-scheduled.yml/runs"
+            ."?page=1&per_page=3&status=completed";
 
-        curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/olzimmerberg/olz-website/actions/workflows/ci-scheduled.yml/runs?page=1&per_page=3&status=completed");
-        curl_setopt($ch, CURLOPT_USERAGENT, self::$user_agent_string);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $completed_runs_raw = curl_exec($ch) ?: '';
+        $ch = $this->httpUtils()->curlInit($url, [
+            'headers' => ['Accept: application/vnd.github.v3+json'],
+            'userAgent' => self::$user_agent_string,
+        ]);
 
-        $completed_runs = json_decode(!is_bool($completed_runs_raw) ? $completed_runs_raw : '', true);
+        $completed_runs_raw = $this->httpUtils()->curlExec($ch);
+        $completed_runs = json_decode($completed_runs_raw, true);
         if (!$completed_runs) {
             throw new \Exception("No completed runs JSON");
         }
@@ -80,14 +83,11 @@ class MonitorBackupCommand extends OlzCommand {
             throw new \Exception("Expected workflow_run artifacts_url");
         }
 
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $workflow_run['artifacts_url']);
-        curl_setopt($ch, CURLOPT_USERAGENT, self::$user_agent_string);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $artifacts_raw = curl_exec($ch);
-
-        $artifacts_dict = json_decode(!is_bool($artifacts_raw) ? $artifacts_raw : '', true);
+        $ch = $this->httpUtils()->curlInit($workflow_run['artifacts_url'], [
+            'userAgent' => self::$user_agent_string,
+        ]);
+        $artifacts_raw = $this->httpUtils()->curlExec($ch);
+        $artifacts_dict = json_decode($artifacts_raw, true);
         if (!$artifacts_dict) {
             throw new \Exception("No artifacts JSON");
         }

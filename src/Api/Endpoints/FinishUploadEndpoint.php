@@ -3,6 +3,7 @@
 namespace Olz\Api\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use PhpTypeScriptApi\HttpError;
 
 /**
  * @extends OlzTypedEndpoint<
@@ -21,6 +22,9 @@ class FinishUploadEndpoint extends OlzTypedEndpoint {
 
         $data_path = $this->envUtils()->getDataPath();
         $upload_id = $input['id'];
+        if (!$this->uploadUtils()->isUploadId($upload_id)) {
+            throw new HttpError(400, "Invalid upload ID");
+        }
         $upload_path = "{$data_path}temp/{$upload_id}";
         if (!is_file($upload_path)) {
             $this->log()->error("Could not finish upload. Invalid ID: '{$upload_id}'.");

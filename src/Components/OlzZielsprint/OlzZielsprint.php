@@ -44,7 +44,8 @@ class OlzZielsprint extends OlzComponent {
                 $calculation .= "{$event_name}: {$event_points} / {$event_max_points} ({$pretty_finish_split})\\n";
             }
             $bgcolor = ($index % 2 === 0) ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0)';
-            $out .= "<tr style='background-color:{$bgcolor}; cursor:pointer;' onclick='alert(&quot;{$calculation}&quot;)'>";
+            $enc_calculation = htmlspecialchars($calculation);
+            $out .= "<tr style='background-color:{$bgcolor}; cursor:pointer;' onclick='alert(&quot;{$enc_calculation}&quot;)'>";
             $out .= "<td style='text-align: right;'>{$actual_rank}.&nbsp;</td>";
             $out .= "<td>{$person_name}</td>";
             $out .= "<td>{$person_birth_year}</td>";

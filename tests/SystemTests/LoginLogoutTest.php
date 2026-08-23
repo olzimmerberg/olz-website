@@ -23,8 +23,8 @@ final class LoginLogoutTest extends SystemTestCase {
 
         $this->screenshot('login_modal');
 
-        $this->sendKeys('#login-modal #usernameOrEmail-input', 'admin');
-        $this->sendKeys('#login-modal #password-input', 'adm1n');
+        $this->sendKeys('#login-modal #username', 'admin');
+        $this->sendKeys('#login-modal #current-password', 'adm1n');
         $this->click('#login-modal #submit-button');
         $this->waitUntilGone('#login-modal');
 

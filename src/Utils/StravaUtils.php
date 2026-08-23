@@ -118,13 +118,11 @@ class StravaUtils {
     public function fetchTokenDataForCode(array $token_request_data): ?array {
         $strava_token_url = 'https://www.strava.com/api/v3/oauth/token';
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $strava_token_url);
+        $ch = $this->httpUtils()->curlInit($strava_token_url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($token_request_data, '', '&'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $token_result = curl_exec($ch);
-        return json_decode(!is_bool($token_result) ? $token_result : '', true);
+        $token_result = $this->httpUtils()->curlExec($ch);
+        return json_decode($token_result, true);
     }
 
     /**
@@ -140,11 +138,11 @@ class StravaUtils {
         $strava_url = 'https://www.strava.com/api/v3';
         $query_string = http_build_query($query, '', '&');
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "{$strava_url}{$path}");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: Bearer {$access_token}",
-            "Content-Type: application/x-www-form-urlencoded",
+        $ch = $this->httpUtils()->curlInit("{$strava_url}{$path}", [
+            'headers' => [
+                "Authorization: Bearer {$access_token}",
+                "Content-Type: application/x-www-form-urlencoded",
+            ],
         ]);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -152,8 +150,7 @@ class StravaUtils {
         if ($query_string) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $query_string);
         }
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($ch);
-        return json_decode(!is_bool($result) ? $result : '', true);
+        $result = $this->httpUtils()->curlExec($ch);
+        return json_decode($result, true);
     }
 }

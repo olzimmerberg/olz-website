@@ -2,7 +2,11 @@
 
 namespace Olz\Fetchers;
 
+use Olz\Utils\HttpUtilsTrait;
+
 class TransportApiFetcher {
+    use HttpUtilsTrait;
+
     /**
      * Fetch a public transport connection.
      *
@@ -16,10 +20,8 @@ class TransportApiFetcher {
         $get_params = http_build_query($request_data, '', '&');
         $url = "{$transport_api_connection_url}?{$get_params}";
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $connection_result = curl_exec($ch);
-        return json_decode(!is_bool($connection_result) ? $connection_result : '', true);
+        $ch = $this->httpUtils()->curlInit($url);
+        $connection_result = $this->httpUtils()->curlExec($ch);
+        return json_decode($connection_result, true);
     }
 }

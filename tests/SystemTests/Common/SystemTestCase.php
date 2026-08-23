@@ -270,12 +270,11 @@ class SystemTestCase extends KernelTestCase {
     /** @return array<string, mixed> */
     protected function getHeaders(string $url): array {
         assert($url);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
+        $ch = $this->httpUtils()->curlInit($url);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $body = curl_exec($ch);
+        $this->httpUtils()->curlExec($ch);
         return curl_getinfo($ch);
     }
 

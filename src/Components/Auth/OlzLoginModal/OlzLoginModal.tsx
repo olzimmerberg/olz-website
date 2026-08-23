@@ -2,7 +2,6 @@ import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzApiRequests} from '../../../Api/client';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
 import {initOlzEditUserModal} from '../../../Users/Components/OlzEditUserModal/OlzEditUserModal';
 import {user} from '../../../Utils/constants';
 import {getApiBoolean, getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
@@ -103,6 +102,14 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
 
     const dialogTitle = 'Login';
 
+    const usernameErrorMessage = errors.usernameOrEmail?.message;
+    const usernameErrorClassName = usernameErrorMessage ? ' is-invalid' : '';
+    const usernameErrorComponent = usernameErrorMessage && <p className='error'>{String(usernameErrorMessage)}</p>;
+
+    const passwordErrorMessage = errors.password?.message;
+    const passwordErrorClassName = passwordErrorMessage ? ' is-invalid' : '';
+    const passwordErrorComponent = passwordErrorMessage && <p className='error'>{String(passwordErrorMessage)}</p>;
+
     return (
         <OlzEditModal
             modalId='login-modal'
@@ -112,23 +119,26 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
             onSubmit={handleSubmit(onSubmit)}
         >
             <div className='mb-3'>
-                <OlzTextField
-                    title='Benutzername oder E-Mail'
-                    name='usernameOrEmail'
-                    errors={errors}
-                    register={register}
+                <label htmlFor='username'>Benutzername oder E-Mail</label>
+                <input
+                    type='text'
+                    {...register('usernameOrEmail')}
+                    className={`form-control${usernameErrorClassName}`}
+                    id='username'
                     autoComplete='username'
                 />
+                {usernameErrorComponent}
             </div>
             <div className='mb-3'>
-                <OlzTextField
-                    mode='password-input'
-                    title='Passwort'
-                    name='password'
-                    errors={errors}
-                    register={register}
+                <label htmlFor='current-password'>Passwort</label>
+                <input
+                    type='password'
+                    {...register('password')}
+                    className={`form-control${passwordErrorClassName}`}
+                    id='current-password'
                     autoComplete='current-password'
                 />
+                {passwordErrorComponent}
             </div>
             <div className='mb-3 rememberMe-row'>
                 <input

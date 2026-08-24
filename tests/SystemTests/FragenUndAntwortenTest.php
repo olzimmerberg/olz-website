@@ -68,7 +68,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->click('#edit-question-modal #files-upload .olz-upload-file.uploaded #copy-button');
         $this->sendKeys('#edit-question-modal #answer-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
-        $this->screenshot('fragen_und_antworten_frage_edit');
+        $this->screenshot('fragen_und_antworten_frage_new_edit');
 
         $this->click('#edit-question-modal #submit-button');
         $this->waitUntilGone('#edit-question-modal');
@@ -121,8 +121,6 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         });
         $this->click('#edit-question-modal #files-upload .olz-upload-file.uploaded #copy-button');
         $this->sendKeys('#edit-question-modal #answer-input', "\n\n".WebDriverKeys::CONTROL.'v');
-
-        $this->screenshot('fragen_und_antworten_frage_edit');
 
         $this->click('#edit-question-modal #submit-button');
         $this->waitUntilGone('#edit-question-modal');

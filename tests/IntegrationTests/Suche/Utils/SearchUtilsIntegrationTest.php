@@ -70,6 +70,15 @@ final class SearchUtilsIntegrationTest extends IntegrationTestCase {
                 'debug' => 'Score: 0.24619 / Time relevance: 1',
             ],
             [
+                'link' => '/termine/5',
+                'icon' => '/assets/icns/termine_type_all_20.svg',
+                'date' => new \DateTime('2020-08-26'),
+                'title' => 'Termin: Milchsuppen-Cup, OLZ Trophy 4. Lauf',
+                'text' => "…en bei der Sportanlage Brand\n\n**ÖV**: Bis Bushaltestelle Gattikon, Gattikerhöhe\n\n**Parkplätze**: Im…",
+                'score' => 0.10135,
+                'debug' => 'Score: 0.10135 / Time relevance: 1',
+            ],
+            [
                 'link' => '/news/3',
                 'icon' => '/assets/icns/entry_type_aktuell_20.svg',
                 'date' => new \DateTime('2020-01-01'),

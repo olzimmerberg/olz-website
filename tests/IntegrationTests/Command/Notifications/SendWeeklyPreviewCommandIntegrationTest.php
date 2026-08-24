@@ -39,6 +39,7 @@ final class SendWeeklyPreviewCommandIntegrationTest extends IntegrationTestCase 
             - So, 16.08. - Mo, 17.08.: [24h\-OL](http://integration-test.host/termine/12)
             - Di, 18.08.: [Training 1](http://integration-test.host/termine/3)
             - Sa, 22.08.: [Grossanlass](http://integration-test.host/termine/10)
+            - Sa, 22.08. - So, 23.08.: [Grossanlass\-Weekend](http://integration-test.host/termine/15)
 
 
             **Meldeschlüsse**

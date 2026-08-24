@@ -166,6 +166,17 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
 
         document.querySelectorAll('a[href^=\'#react-\']').forEach((elem) => {
             elem.classList.remove('active');
+            const emoji = decodeURIComponent(elem.getAttribute('href')?.substring(7) ?? '');
+            const emojiCount = countByEmoji[emoji] ?? '';
+            let infoElem = elem.querySelector('span.reaction-info');
+            if (!infoElem) {
+                infoElem = document.createElement('span');
+                infoElem.classList.add('reaction-info');
+                elem.appendChild(infoElem);
+            }
+
+            infoElem.innerHTML = `${emoji}&nbsp;${emojiCount}`;
+            console.log(emoji, infoElem);
         });
         (emojisByUser[currentUser.id ?? 0] ?? []).forEach((emoji) => {
             const selector = `a[href^='#react-${encodeURIComponent(emoji)}']`;

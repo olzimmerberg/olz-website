@@ -509,6 +509,9 @@ VALUES
     ('12', '5'),
     ('13', '1'),
     ('13', '6'),
+    ('15', '1'),
+    ('15', '2'),
+    ('15', '6'),
     ('1001', '1'),
     ('1001', '6');
 
@@ -550,7 +553,44 @@ VALUES
     ('6', '🔵', '7', '6'),
     ('8', '🟢', '7', '7'),
     ('9', '👍', '12', '1'),
-    ('10', '🔴', '12', '1');
+    ('10', '🔴', '12', '1'),
+    ('11', '⌚', '13', '2'),
+    ('12', '✅', '13', '1'),
+    ('13', '✅', '13', '2'),
+    ('14', '✅', '13', '3'),
+    ('15', '✅', '13', '6'),
+    ('16', '✅', '13', '7'),
+    ('17', '🌾', '13', '7'),
+    ('18', '😋', '13', '1'),
+    ('19', '😋', '13', '3'),
+    ('20', '😋', '13', '6'),
+    ('21', '😋', '13', '7'),
+    ('22', '🚫', '13', '5'),
+    ('23', '🚫', '13', '8'),
+    ('24', '🥦', '13', '3'),
+    ('25', '🥦', '13', '7'),
+    ('26', '⌚', '15', '5'),
+    ('27', '♀️', '15', '3'),
+    ('28', '🌾', '15', '3'),
+    ('29', '🌾', '15', '7'),
+    ('30', '✅', '15', '1'),
+    ('31', '✅', '15', '3'),
+    ('32', '✅', '15', '5'),
+    ('33', '✅', '15', '6'),
+    ('34', '✅', '15', '7'),
+    ('35', '✅', '15', '8'),
+    ('36', '😋', '15', '1'),
+    ('37', '😋', '15', '3'),
+    ('38', '😋', '15', '6'),
+    ('39', '😋', '15', '7'),
+    ('40', '😋', '15', '8'),
+    ('41', '🥦', '15', '3'),
+    ('42', '🥦', '15', '7'),
+    ('43', '🦁', '15', '6'),
+    ('44', '🦁', '15', '7'),
+    ('45', '🦁', '15', '8'),
+    ('46', '🦊', '15', '1'),
+    ('47', '🦓', '15', '5');
 
 -- Table termin_template_label_map
 INSERT INTO termin_template_label_map
@@ -582,7 +622,7 @@ VALUES
     ('2', '2020-06-06', '10:15:00', NULL, '12:30:00', 'Brunch OL', 'Dä Samschtig gits en bsunderä Läckerbissä!\n\n[Infos](./MIGRATED0000000000020001.pdf)', '1', '0', '1', NULL, NULL, NULL, NULL, NULL, '2019-12-31 07:17:09', '2019-12-31 20:17:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '47.270326086742', '8.5619145270506', NULL),
     ('3', '2020-08-18', '18:30:00', NULL, '20:00:00', 'Training 1', '\n\n', '1', '0', '0', '2020-08-17 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, '2', '0', '5', NULL, NULL, NULL),
     ('4', '2020-08-25', '18:30:00', NULL, '20:00:00', 'Training 2', '\n\n', '1', '0', '0', '2020-08-24 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL, '2', '0', '6', '47.275554176336', '8.5421721523926', NULL),
-    ('5', '2020-08-26', '18:00:00', '2020-08-26', '19:30:00', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', 'Organisation: OL Zimmerberg\r\nKarte: Chopfholz\n\n[OLZ Trophy 2020](/termine?filter=typ-trophy---datum-2020)\r\n[Anmeldung](https://forms.gle/ixS1ZD22PmbdeYcy6)\r\n[Ausschreibung](./MIGRATED0000000000050001.pdf)', '1', '0', '0', NULL, NULL, NULL, NULL, NULL, '2019-11-20 09:04:26', '2020-08-24 22:40:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"Ffpi3PK5wBjKfN4etpvGK3ti.jpg\"]', NULL, '0', NULL, NULL, NULL, NULL),
+    ('5', '2020-08-26', '18:00:00', '2020-08-26', '19:30:00', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '[OLZ Trophy 2020](/termine?filter=typ-trophy---datum-2020)\n\n**Besammlung**: Sportanlage Brand, Thalwil\n\n**Garderoben**: Öffentliche Garderoben bei der Sportanlage Brand\n\n**ÖV**: Bis Bushaltestelle Gattikon, Gattikerhöhe\n\n**Parkplätze**: Im Umfeld der Sportanlage Brand diverse Parkplätze\n\n**Karte**: Landforst (🌳 Wald-OL), 1:10\'000, 2025\n\n**Kategorien**:	\n- A technisch und läuferisch anspruchsvoll\n- B technisch mittel bis anspruchsvoll, läuferisch mittellang\n- C technisch einfach bis mittel, läuferisch mittellang\n- D technisch und läuferisch einfach (~D/H10)\n\n**Vor-Anmeldung** (optional): Hilf uns, unnötigen Kartendruck zu verhindern, indem du dich bis Sonntagabend anmeldest!\n\n1) [Ich melde mich an](#react-👍)\n2) Kategorie wählen:\n    - [A (schwer, lang)](#react-⚫)\n    - [B (schwer, mittel)](#react-🔴)\n    - [C (mittel)](#react-🔵)\n    - [D (einfach)](#react-🟢)\n\n*Die Versicherung ist Sache der Teilnehmenden. Der Veranstalter lehnt, soweit gesetzlich zulässig, jede Haftung ab.*\n\n[Allgemeine Ausschreibung Milchsuppe-Abend-OLs](./MIGRATED0000000000050001.pdf)', '1', NULL, '0', NULL, NULL, NULL, NULL, '1', '2019-11-20 09:04:26', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"Ffpi3PK5wBjKfN4etpvGK3ti.jpg\"]', NULL, '0', NULL, NULL, NULL, NULL),
     ('6', '2020-09-01', '18:30:00', NULL, '20:00:00', 'Training 3', '\n\n', '1', '0', '0', '2020-08-31 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL, '47.278005747683', '8.5538280722855', NULL),
     ('7', '2020-09-08', '18:00:00', NULL, '19:30:00', 'Training 4', '\n\n[Details](./Kzt5p5g6cjM5k9CXdVaSsGFx.pdf)\n\nAnmeldung: [Daumen hoch](#react-👍) und Kategorie wählen: [leicht](#react-🟢), [mittel](#react-🔵) oder [schwer](#react-🔴)', '1', '0', '0', '2020-09-06 23:59:59', '2', NULL, '2', '2', '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL, NULL, NULL, NULL),
     ('8', '2020-08-11', '18:30:00', NULL, '20:00:00', 'Trainingsstart', '\n\n', '1', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL, NULL, NULL, NULL),
@@ -590,8 +630,9 @@ VALUES
     ('10', '2020-08-22', '00:00:00', NULL, '00:00:00', 'Grossanlass', 'Mit allem drum und dran!\n\n', '1', '12345', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"659gCbqzigX8D37XgWMbedB3.jpg\"]', NULL, '1', '2', NULL, NULL, NULL),
     ('11', '2020-09-13', '00:00:00', '2020-09-19', '00:00:00', 'Mehrtägeler', 'Mir werdeds schaffe!\n\n', '1', '123456', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL),
     ('12', '2020-08-16', '17:00:00', '2020-08-17', '17:00:00', '24h-OL', 'Dauert genau 24h\n\n', '1', '1234567', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL),
-    ('13', '2021-03-12', '18:30:00', NULL, NULL, 'Mitgliederversammlung', 'schon jetzt für 2021 geplant!\n\n', '1', NULL, '0', '2021-03-05 23:59:59', NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"8EKYh2n8DZWShYMWo9ZRnor5.jpg\"]', NULL, '1', '2', NULL, NULL, NULL),
+    ('13', '2021-03-12', '18:30:00', NULL, NULL, 'Mitgliederversammlung', 'schon jetzt für 2021 geplant!\n\n**Anmeldung**\n1) Bitte [logge dich ein](#login-dialog), falls nicht bereits\n2) [Ich nehme teil](#react-✅) oder [Ich melde mich ab](#react-🚫)\n3) Falls du teilnimmst: [mit Essen](#react-😋) oder [ohne Essen](#react-⌚)\n4) Falls du isst: Bist du [vegi](#react-🥦)? Isst du [glutenfrei](#react-🌾)?\n\nEine An- oder Abmeldung ist auch per E-Mail oder schriftlich möglich bei mitgliederversammlung@staging.olzimmerberg.ch', '1', NULL, '0', '2021-03-05 23:59:59', NULL, NULL, NULL, '1', '2021-03-23 18:53:06', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"8EKYh2n8DZWShYMWo9ZRnor5.jpg\"]', NULL, '1', '2', NULL, NULL, NULL),
     ('14', '2021-03-11', '18:30:00', NULL, NULL, 'SOFT DELETED', 'SOFT DELETED', '0', NULL, '0', '2021-03-05 23:59:59', NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', NULL, '1', NULL, NULL, NULL, NULL),
+    ('15', '2020-08-22', NULL, '2020-08-23', NULL, 'Grossanlass-Weekend', '**Anmeldung**\n1) Bitte [logge dich ein](#login-dialog), falls nicht bereits\n2) [Ich nehme teil](#react-✅)\n3) Wähle ein Zimmer:\n    - [2-er Zimmer](#react-🐶)\n    - [2-er Zimmer](#react-🐱)\n    - [2-er Zimmer](#react-🐵)\n    - [2-er Zimmer](#react-🦊)\n    - [4-er Zimmer](#react-🦁)\n    - [4-er Zimmer](#react-🐯)\n    - [5-er Zimmer](#react-🐴)\n    - [6-er Zimmer](#react-🦓)\n    - [12-er Zimmer Männer](#react-♂️)\n    - [12-er Zimmer Frauen](#react-♀️)\n4) [mit Essen](#react-😋) oder [ohne Essen](#react-⌚)\n5) Falls du isst: Bist du [vegi](#react-🥦)? Isst du [glutenfrei](#react-🌾)?\n\nEine An- oder Abmeldung ist auch per E-Mail oder schriftlich möglich bei weekends@staging.olzimmerberg.ch', '1', NULL, '1', '2020-08-10 23:59:59', '1', NULL, '1', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', NULL, '0', '2', '46.01581', '7.74568', NULL),
     ('1001', '2006-01-13', '18:00:00', NULL, '18:00:00', 'Gründungsversammlung OL Zimmerberg', 'wir gründen uns!\n\n', '1', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', NULL, NULL, NULL);
 
 -- Table throttlings
@@ -600,9 +641,9 @@ VALUES
 INSERT INTO users
     (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `permissions`, `root`, `email_is_verified`, `email_verification_token`, `gender`, `street`, `postal_code`, `city`, `region`, `country_code`, `birthdate`, `phone`, `created_at`, `last_modified_at`, `last_login_at`, `parent_user`, `member_type`, `member_last_paid`, `wants_postal_mail`, `postal_title`, `postal_name`, `joined_on`, `joined_reason`, `left_on`, `left_reason`, `solv_number`, `si_card_number`, `notes`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `avatar_image_id`, `ahv_number`, `dress_size`)
 VALUES
-    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', 'admin@staging.olzimmerberg.ch', 'Armin 😂', 'Admin 🤣', 'all', 'OLZ Dokumente', '0', NULL, NULL, 'Administratorweg 1234', '8134', 'Admiswil', 'ZH', 'CH', '1970-01-01', '+41791234567', '2021-12-01 00:41:26', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, 'AD1ADA', '1234567', '', NULL, NULL, NULL, '1', '1', '8sVwnV3aAEtQUUxmQYFmojMs.jpg', '756.1234.1234.12', 'M'),
-    ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', 'vorstand@staging.olzimmerberg.ch', 'Volker', 'Vorstand', ' ftp webdav snippet_1 aktuell galerie weekly_picture faq ', 'OLZ Dokumente/vorstand', '0', 'Nzgium8D', 'M', 'Vorstandgasse 9', '5200', 'Vorstadt', 'AG', 'CH', '2006-01-13', NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, 'VO0VOV', '7270270', '', NULL, NULL, NULL, '1', '1', NULL, '756.2702.7027.02', 'XL'),
-    ('3', 'karten', 'kartenverkauf', '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', 'karen@staging.olzimmerberg.ch', 'Karen', 'Karten', 'ftp webdav', 'OLZ Dokumente/karten', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', 'oyLeyPTaCfmadcm5ShEJ236e.jpg', NULL, NULL),
+    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', 'admin@staging.olzimmerberg.ch', 'Armin 😂', 'Admin 🤣', 'all', 'OLZ Dokumente', '0', NULL, NULL, 'Administratorweg 1234', '8134', 'Admiswil', 'ZH', 'CH', '1970-01-01', '+41791234567', '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, 'AD1ADA', '1234567', '', NULL, NULL, NULL, '1', '1', '8sVwnV3aAEtQUUxmQYFmojMs.jpg', '756.1234.1234.12', 'M'),
+    ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', 'vorstand@staging.olzimmerberg.ch', 'Volker', 'Vorstand', ' ftp webdav snippet_1 aktuell galerie weekly_picture faq ', 'OLZ Dokumente/vorstand', '0', 'Nzgium8D', 'M', 'Vorstandgasse 9', '5200', 'Vorstadt', 'AG', 'CH', '2006-01-13', NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, 'VO0VOV', '7270270', '', NULL, NULL, NULL, '1', '1', NULL, '756.2702.7027.02', 'XL'),
+    ('3', 'karten', 'kartenverkauf', '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', 'karen@staging.olzimmerberg.ch', 'Karen', 'Karten', 'ftp webdav', 'OLZ Dokumente/karten', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', 'oyLeyPTaCfmadcm5ShEJ236e.jpg', NULL, NULL),
     ('4', 'hackerman', NULL, '$2y$10$5PZTo/AGC89BX.m637GmGekZaktFet7nno0P8deGt.ASOCHxNVwVe', 'hackerman@staging.olzimmerberg.ch', 'Hacker', 'Man', 'all', 'OLZ Dokumente', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
     ('5', 'benutzer', NULL, '$2y$10$DluJUi60YHZh6LksqClkmeTX.Giyt3kLHZG3HddV6Zm1UoYXzyXqC', 'nutzer@staging.olzimmerberg.ch', 'Be', 'Nutzer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
     ('6', 'parent', NULL, '$2y$10$iU9SqVRurO.4N1ak1j.p/OP0qT6rEst7.mLd/hM7EzyfI5rBX7nva', 'parent@staging.olzimmerberg.ch', 'Eltern', 'Teil', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),

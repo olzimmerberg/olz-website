@@ -168,7 +168,7 @@ CREATE TABLE `auth_requests` (
   `username` longtext NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ip_address_timestamp_index` (`ip_address`,`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -182,7 +182,7 @@ CREATE TABLE `counter` (
   `latency_num` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `date_range_page_index` (`date_range`,`page`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -830,7 +830,7 @@ CREATE TABLE `termine` (
   CONSTRAINT `FK_168C0A8F80299162` FOREIGN KEY (`participants_registration_id`) REFERENCES `anmelden_registrations` (`id`),
   CONSTRAINT `FK_168C0A8F9B953EDD` FOREIGN KEY (`from_template_id`) REFERENCES `termin_templates` (`id`),
   CONSTRAINT `FK_168C0A8FEE5F645C` FOREIGN KEY (`organizer_user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -986,7 +986,7 @@ CREATE TABLE `termin_reactions` (
   KEY `termin_emoji_user_index` (`termin_id`,`emoji`,`user_id`),
   CONSTRAINT `FK_F5B7DF14A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_F5B7DF14CA0B7C00` FOREIGN KEY (`termin_id`) REFERENCES `termine` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

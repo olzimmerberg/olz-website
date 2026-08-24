@@ -190,6 +190,11 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
             $out .= "</div>";
         }
 
+        // Reactions
+        $linked_reactions = $this->htmlUtils()->getLinkedReactions($text_html);
+        $json_reactions = json_encode($linked_reactions) ?: '[]';
+        $out .= "<div id='termin-template-reactions'></div><script>olz.initTerminTemplateReactions({$json_reactions});</script>";
+
         $out .= "</div>"; // olz-termin-location-detail
         $out .= "</div>"; // content-middle
 

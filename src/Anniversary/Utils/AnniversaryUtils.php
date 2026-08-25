@@ -39,7 +39,7 @@ class AnniversaryUtils {
         $this->generalUtils()->checkNotBool($res_sum_meters, "Query error: {$sql}");
         $sum_meters = floatval($res_sum_meters->fetch_assoc()['sum_meters'] ?? 0);
 
-        $completion = $sum_meters / ($goal_meters_per_day * 356);
+        $completion = $sum_meters / ($goal_meters_per_day * 365);
         $diff_meters = $sum_meters - $goal_meters;
         $diff_days = $diff_meters / $goal_meters_per_day;
         $diff_kind = $diff_days >= 0 ? 'ahead' : 'behind';

@@ -3,6 +3,8 @@ import {codeHref, type UserConstant, user as currentUser, childUsers} from '../.
 import {olzCustomReaction} from '../OlzCustomReactionDialog/OlzCustomReactionDialog';
 import {initOlzUserInfoModal} from '../../../Users/Components/OlzUserInfoModal/OlzUserInfoModal';
 
+import './OlzEditableReactions.scss';
+
 interface OlzReaction {
     userId: number;
     name: string | null;
@@ -76,15 +78,15 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
     });
     const userIdSet = new Set<number>([]);
     const nameByUser: {[userId: number]: string | null} = {};
-    const emojisByUser: {[userId: number]: Array<string>} = {};
+    const emojisByUser: {[userId: number]: Set<string>} = {};
     const isActiveByEmojiByUser: {[userId: number]: {[emoji: string]: boolean}} = {};
     reactions.forEach((reaction) => {
         countByEmoji[reaction.emoji] ??= 0;
         countByEmoji[reaction.emoji]++;
         userIdSet.add(reaction.userId);
         nameByUser[reaction.userId] = reaction.name;
-        emojisByUser[reaction.userId] ??= [];
-        emojisByUser[reaction.userId].push(reaction.emoji);
+        emojisByUser[reaction.userId] ??= new Set();
+        emojisByUser[reaction.userId].add(reaction.emoji);
         if (
             reaction.userId === currentUser.id
             || (childUserById[reaction.userId] ?? false)
@@ -146,22 +148,25 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
 
     const childReactions = childUsers.map((childUser) => reactionsForUser(childUser));
 
-    const userOverview = [];
+    const userRows = [];
     if (currentUser.id) {
         const userIds = [...userIdSet].sort((a, b) =>
             (nameByUser[a] ?? '').localeCompare(nameByUser[b] ?? ''));
         for (const userId of userIds) {
-            const emojis = emojisByUser[userId] ?? [];
-            emojis.sort((a, b) => countByEmoji[b] - countByEmoji[a]);
-            userOverview.push(<div key={`user-${userId}`}>
-                <a
-                    onClick={() => initOlzUserInfoModal(Number(userId))}
-                    className='olz-user-info-modal-trigger name'
-                >
-                    {nameByUser[userId] ?? '?'}
-                </a>
-                : {emojis.join(' ')}
-            </div>);
+            const emojis = emojisByUser[userId] ?? new Set();
+            userRows.push(
+                <tr>
+                    <td className='name-col'>
+                        <a
+                            onClick={() => initOlzUserInfoModal(Number(userId))}
+                            className='olz-user-info-modal-trigger name'
+                        >
+                            {nameByUser[userId] ?? '?'}
+                        </a>
+                    </td>
+                    {orderedEmojis.map((emoji) => <td>{emojis.has(emoji) ? emoji : ''}</td>)}
+                </tr>,
+            );
         }
 
         document.querySelectorAll('a[href^=\'#react-\']').forEach((elem) => {
@@ -186,9 +191,25 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
         });
     }
 
-    return (<>
-        {myReactions}
-        {childReactions}
-        {userOverview}
-    </>);
+    const allReactionsTable = userRows.length > 0 ? (
+        <div className='table-container'>
+            <table className='boxy' style={{width: 'auto'}}>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        {orderedEmojis.map((emoji) => <th>{emoji}</th>)}
+                    </tr>
+                </thead>
+                {userRows}
+            </table>
+        </div>
+    ) : null;
+
+    return (
+        <div className='olz-editable-reactions'>
+            {myReactions}
+            {childReactions}
+            {allReactionsTable}
+        </div>
+    );
 };

@@ -130,13 +130,6 @@ ul {
     }
 }
 
-.reactions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: 8px 0;
-}
-
 .reaction,
 .pretty a[href^='#react-'],
 .rendered-markdown a[href^='#react-'] {
@@ -150,6 +143,7 @@ ul {
     padding: 2px 4px;
     line-height: 24px;
     cursor: pointer;
+    white-space: nowrap;
 
     &:hover {
         background-color: rgba(255,255,255,1.0);
@@ -529,19 +523,22 @@ a {
     background: none;
 }
 
-.rendered-markdown table thead {
+.rendered-markdown table thead,
+.boxy thead {
     background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg);
     background-color: colors.$olz-bg-bright;
 }
 
 .rendered-markdown table th,
 .rendered-markdown table td,
+.boxy th,
 .boxy td {
     padding: 1px 8px 2px;
 }
 
 .rendered-markdown table th,
 .rendered-markdown table td,
+.boxy th,
 .boxy td {
     border-bottom: 1px solid #999;
     border-right: 1px solid #999;

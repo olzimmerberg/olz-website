@@ -1,0 +1,22 @@
+.olz-editable-reactions {
+    .reactions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 8px 0;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+
+        .boxy th,
+        .boxy td {
+            padding: 1px 3px;
+        }
+    }
+
+    .name-col {
+        white-space: nowrap;
+    }
+}

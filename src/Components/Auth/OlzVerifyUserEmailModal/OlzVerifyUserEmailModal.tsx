@@ -1,6 +1,6 @@
 import React from 'react';
 import {olzApi} from '../../../Api/client';
-import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {codeHref} from '../../../Utils/constants';
 
 import './OlzVerifyUserEmailModal.scss';

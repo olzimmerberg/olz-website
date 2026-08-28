@@ -3,7 +3,7 @@
 namespace Olz\Apps\Newsletter\Components\OlzEmailCard;
 
 use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Users\User;
 

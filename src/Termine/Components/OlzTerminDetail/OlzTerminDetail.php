@@ -3,8 +3,8 @@
 namespace Olz\Termine\Components\OlzTerminDetail;
 
 use Doctrine\Common\Collections\Criteria;
-use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzLocationMap\OlzLocationMap;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzEventData\OlzEventData;

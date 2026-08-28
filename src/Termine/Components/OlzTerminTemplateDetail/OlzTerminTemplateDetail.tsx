@@ -1,7 +1,7 @@
 import React from 'react';
 import {olzApi} from '../../../Api/client';
-import {OlzEditableReactions} from '../../../Components/Common/OlzEditableReactions/OlzEditableReactions';
-import {olzConfirm} from '../../../Components/Common/OlzConfirmationDialog/OlzConfirmationDialog';
+import {OlzEditableReactions} from '../../../Common/Components/OlzEditableReactions/OlzEditableReactions';
+import {olzConfirm} from '../../../Common/Components/OlzConfirmationDialog/OlzConfirmationDialog';
 import {initReact} from '../../../Utils/reactUtils';
 import {initOlzEditTerminTemplateModal} from '../OlzEditTerminTemplateModal/OlzEditTerminTemplateModal';
 

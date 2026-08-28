@@ -2,7 +2,7 @@
 
 namespace Olz\Captcha\Components\OlzEmailModal;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 
 /** @extends OlzComponent<array{
  *   email: non-empty-string,

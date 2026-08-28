@@ -2,7 +2,7 @@
 
 namespace Olz\Karten\Components\OlzKartenList;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Karten\Karte;
 use Olz\Karten\Components\OlzKartenListItem\OlzKartenListItem;
 

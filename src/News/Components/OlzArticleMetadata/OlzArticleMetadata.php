@@ -2,7 +2,7 @@
 
 namespace Olz\News\Components\OlzArticleMetadata;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzArticleMetadata extends OlzComponent {

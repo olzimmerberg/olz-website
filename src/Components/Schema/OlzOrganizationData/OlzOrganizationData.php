@@ -6,7 +6,7 @@
 
 namespace Olz\Components\Schema\OlzOrganizationData;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzOrganizationData extends OlzComponent {

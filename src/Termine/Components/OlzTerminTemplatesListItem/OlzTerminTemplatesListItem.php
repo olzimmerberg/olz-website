@@ -2,7 +2,7 @@
 
 namespace Olz\Termine\Components\OlzTerminTemplatesListItem;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;

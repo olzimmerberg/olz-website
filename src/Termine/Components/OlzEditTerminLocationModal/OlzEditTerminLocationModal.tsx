@@ -1,9 +1,9 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzTerminLocationData} from '../../../Api/client';
-import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzLocationField, deserializeLocation, serializeLocation, validateLocation} from '../../../Components/Common/OlzLocationField/OlzLocationField';
-import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
+import {OlzLocationField, deserializeLocation, serializeLocation, validateLocation} from '../../../Common/Components/OlzLocationField/OlzLocationField';
+import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {getApiString, getFormString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';

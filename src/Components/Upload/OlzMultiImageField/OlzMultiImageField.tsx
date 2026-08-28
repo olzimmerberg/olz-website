@@ -10,7 +10,7 @@ import {UploadFile, UploadedFile, RegisteringFile} from '../types';
 import {isRegisteringFile, isUploadedFile, isUploadingFile, serializeUploadFile} from '../utils';
 import {dataHref} from '../../../Utils/constants';
 
-import '../../../Components/Common/OlzStyles/dropzone.scss';
+import '../../../Common/Components/OlzStyles/dropzone.scss';
 import './OlzMultiImageField.scss';
 
 const MAX_IMAGE_SIZE = 800;

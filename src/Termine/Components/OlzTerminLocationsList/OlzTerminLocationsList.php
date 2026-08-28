@@ -2,7 +2,7 @@
 
 namespace Olz\Termine\Components\OlzTerminLocationsList;
 
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLocation;

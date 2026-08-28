@@ -2,7 +2,7 @@
 
 namespace Olz\Components\Page\OlzFooter;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzFooter extends OlzComponent {

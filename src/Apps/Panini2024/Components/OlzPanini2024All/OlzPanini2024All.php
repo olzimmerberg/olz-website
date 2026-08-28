@@ -4,8 +4,8 @@ namespace Olz\Apps\Panini2024\Components\OlzPanini2024All;
 
 use Olz\Apps\Panini2024\Metadata;
 use Olz\Apps\Panini2024\Utils\Panini2024Utils;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
-use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;

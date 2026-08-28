@@ -1,8 +1,8 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi} from '../../../Api/client';
-import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
+import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
 import {getResolverResult} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 

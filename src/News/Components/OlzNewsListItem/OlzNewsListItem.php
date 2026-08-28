@@ -2,8 +2,8 @@
 
 namespace Olz\News\Components\OlzNewsListItem;
 
-use Olz\Components\Common\OlzComponent;
-use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
+use Olz\Common\Components\OlzComponent;
+use Olz\Common\Components\OlzPostingListItem\OlzPostingListItem;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 
 /** @extends OlzComponent<array<string, mixed>> */

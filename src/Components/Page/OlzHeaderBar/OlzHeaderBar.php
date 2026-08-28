@@ -6,8 +6,8 @@
 
 namespace Olz\Components\Page\OlzHeaderBar;
 
+use Olz\Common\Components\OlzComponent;
 use Olz\Components\Auth\OlzAccountMenu\OlzAccountMenu;
-use Olz\Components\Common\OlzComponent;
 use Olz\Components\Page\OlzMenu\OlzMenu;
 
 /** @extends OlzComponent<array<string, mixed>> */

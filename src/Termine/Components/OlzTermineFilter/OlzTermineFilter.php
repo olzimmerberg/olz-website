@@ -2,7 +2,7 @@
 
 namespace Olz\Termine\Components\OlzTermineFilter;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Termine\Utils\TermineUtils;
 
 /**

@@ -4,8 +4,8 @@ namespace Olz\Apps\Logs\Components\OlzLogs;
 
 use Olz\Apps\Logs\Metadata;
 use Olz\Apps\Logs\Utils\LogsDefinitions;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
-use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;

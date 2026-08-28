@@ -6,7 +6,7 @@
 
 namespace Olz\Components\Page\OlzMenu;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
 

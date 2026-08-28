@@ -2,7 +2,7 @@
 
 namespace Olz\Components\Page\OlzHeader;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 
 /** @extends OlzComponent<array<string, mixed>> */

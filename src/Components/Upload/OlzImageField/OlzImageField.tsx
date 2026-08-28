@@ -9,7 +9,7 @@ import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
 import {UploadedFile, UploadFile} from '../types';
 import {isUploadingFile, serializeUploadFile} from '../utils';
 
-import '../../../Components/Common/OlzStyles/dropzone.scss';
+import '../../../Common/Components/OlzStyles/dropzone.scss';
 import './OlzImageField.scss';
 
 const MAX_IMAGE_SIZE = 800;

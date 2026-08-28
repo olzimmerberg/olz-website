@@ -2,8 +2,8 @@
 
 namespace Olz\Suche\Components\OlzSuche;
 
-use Olz\Components\Common\OlzPostingListItem\OlzPostingListItem;
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzPostingListItem\OlzPostingListItem;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;

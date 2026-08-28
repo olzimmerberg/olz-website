@@ -1,9 +1,9 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzApiRequests} from '../../../../Api/client';
-import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../../Components/Common/OlzEditModal/OlzEditModal';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzMultiFileField} from '../../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
-import {OlzTextField} from '../../../../Components/Common/OlzTextField/OlzTextField';
+import {OlzTextField} from '../../../../Common/Components/OlzTextField/OlzTextField';
 import {getApiString, getResolverResult, validateNotEmpty} from '../../../../Utils/formUtils';
 
 import './OlzEditResultModal.scss';

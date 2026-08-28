@@ -2,8 +2,8 @@
 
 namespace Olz\Termine\Components\OlzTerminLocationDetail;
 
-use Olz\Components\Common\OlzLocationMap\OlzLocationMap;
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzLocationMap\OlzLocationMap;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLocation;

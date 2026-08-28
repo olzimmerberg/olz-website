@@ -1,0 +1,260 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Olz\Tests\UnitTests\Common\Endpoints;
+
+use Olz\Common\Endpoints\SwitchUserEndpoint;
+use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
+use PhpTypeScriptApi\HttpError;
+
+/**
+ * @internal
+ *
+ * @covers \Olz\Common\Endpoints\SwitchUserEndpoint
+ */
+final class SwitchUserEndpointTest extends UnitTestCase {
+    public function testSwitchUserEndpointWithoutInput(): void {
+        $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
+        try {
+            $endpoint->call([]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                'userId' => ["Fehlender Schlüssel: userId."],
+            ], $httperr->getErrorsByField());
+            $this->assertSame([
+                "NOTICE Bad user request",
+            ], $this->getLogs());
+        }
+    }
+
+    public function testSwitchUserEndpointWithNullInput(): void {
+        $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
+        try {
+            $endpoint->call([
+                'userId' => null,
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame([
+                'userId' => ['Wert muss vom Typ int<1, max> sein.'],
+            ], $httperr->getErrorsByField());
+            $this->assertSame([
+                "NOTICE Bad user request",
+            ], $this->getLogs());
+        }
+    }
+
+    public function testSwitchUserEndpointCanSwitchToChild(): void {
+        $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
+        WithUtilsCache::get('session')->session_storage = [
+            'auth' => 'parent',
+            'root' => 'parent',
+            'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
+            'auth_user' => 'parent',
+            'auth_user_id' => '4',
+        ];
+
+        $result = $endpoint->call([
+            'userId' => 5, // child1
+        ]);
+
+        $this->assertSame([
+            'status' => 'OK',
+        ], $result);
+        $this->assertSame([
+            'auth' => 'child1',
+            'root' => 'child1',
+            'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'Kind Eins',
+            'user_permissions' => '{"child1":true}',
+            'user_root' => 'child1',
+            'user_children' => '[]',
+            'auth_user' => 'parent',
+            'auth_user_id' => '4',
+        ], WithUtilsCache::get('session')->session_storage);
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+    }
+
+    public function testSwitchUserEndpointCanSwitchBetweenChildren(): void {
+        $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
+        WithUtilsCache::get('session')->session_storage = [
+            'auth' => 'child1',
+            'root' => 'child1',
+            'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'Kind Eins',
+            'user_permissions' => '[]',
+            'user_root' => 'child1',
+            'user_children' => '{"child1":true}',
+            'auth_user' => 'parent',
+            'auth_user_id' => '4',
+        ];
+
+        $result = $endpoint->call([
+            'userId' => 6, // child2
+        ]);
+
+        $this->assertSame([
+            'status' => 'OK',
+        ], $result);
+        $this->assertSame([
+            'auth' => 'child2',
+            'root' => 'child2',
+            'user_id' => '6',
+            'user' => 'child2',
+            'user_name' => 'Kind Zwei',
+            'user_permissions' => '{"child2":true}',
+            'user_root' => 'child2',
+            'user_children' => '[]',
+            'auth_user' => 'parent',
+            'auth_user_id' => '4',
+        ], WithUtilsCache::get('session')->session_storage);
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+    }
+
+    public function testSwitchUserEndpointCanSwitchToParent(): void {
+        $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
+        WithUtilsCache::get('session')->session_storage = [
+            'auth' => 'child1',
+            'root' => 'child1',
+            'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
+            'auth_user' => 'parent',
+            'auth_user_id' => '4',
+        ];
+
+        $result = $endpoint->call([
+            'userId' => 4, // child2
+        ]);
+
+        $this->assertSame([
+            'status' => 'OK',
+        ], $result);
+        $this->assertSame([
+            'auth' => 'parent',
+            'root' => 'parent',
+            'user_id' => '4',
+            'user' => 'parent',
+            'user_name' => 'Eltern Teil',
+            'user_permissions' => '{"parent":true}',
+            'user_root' => 'parent',
+            'user_children' => '[{"id":5,"permissions":{"child1":true},"name":"Kind Eins","username":"child1","root":"child1"},{"id":6,"permissions":{"child2":true},"name":"Kind Zwei","username":"child2","root":"child2"}]',
+            'auth_user' => 'parent',
+            'auth_user_id' => '4',
+        ], WithUtilsCache::get('session')->session_storage);
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+    }
+
+    public function testSwitchUserEndpointCannotSwitchToInexistentUser(): void {
+        $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
+        WithUtilsCache::get('session')->session_storage = [
+            'auth' => 'parent',
+            'root' => 'parent',
+            'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
+            'auth_user' => 'parent',
+            'auth_user_id' => '4',
+        ];
+
+        try {
+            $endpoint->call([
+                'userId' => 404, // inexistent
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame(403, $httperr->getCode());
+            $this->assertSame('Kein Zugriff!', $httperr->getMessage());
+            $this->assertSame([
+                "INFO Valid user request",
+                "NOTICE HTTP error 403 Kein Zugriff!",
+            ], $this->getLogs());
+            $this->assertSame([
+                'auth' => 'parent',
+                'root' => 'parent',
+                'user_id' => '5',
+                'user' => 'child1',
+                'user_name' => 'fakeFirstName fakeLastName',
+                'user_permissions' => '[]',
+                'user_root' => null,
+                'user_children' => '[]',
+                'auth_user' => 'parent',
+                'auth_user_id' => '4',
+            ], WithUtilsCache::get('session')->session_storage);
+        }
+    }
+
+    public function testSwitchUserEndpointCannotSwitchToNonChildUser(): void {
+        $endpoint = new SwitchUserEndpoint();
+        $endpoint->runtimeSetup();
+        WithUtilsCache::get('session')->session_storage = [
+            'auth' => 'parent',
+            'root' => 'parent',
+            'user_id' => '5',
+            'user' => 'child1',
+            'user_name' => 'fakeFirstName fakeLastName',
+            'user_permissions' => '[]',
+            'user_root' => null,
+            'user_children' => '[]',
+            'auth_user' => 'parent',
+            'auth_user_id' => '4',
+        ];
+
+        try {
+            $endpoint->call([
+                'userId' => 3, // vorstand (not a child)
+            ]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame(403, $httperr->getCode());
+            $this->assertSame('Kein Zugriff!', $httperr->getMessage());
+            $this->assertSame([
+                "INFO Valid user request",
+                "NOTICE HTTP error 403 Kein Zugriff!",
+            ], $this->getLogs());
+            $this->assertSame([
+                'auth' => 'parent',
+                'root' => 'parent',
+                'user_id' => '5',
+                'user' => 'child1',
+                'user_name' => 'fakeFirstName fakeLastName',
+                'user_permissions' => '[]',
+                'user_root' => null,
+                'user_children' => '[]',
+                'auth_user' => 'parent',
+                'auth_user_id' => '4',
+            ], WithUtilsCache::get('session')->session_storage);
+        }
+    }
+}

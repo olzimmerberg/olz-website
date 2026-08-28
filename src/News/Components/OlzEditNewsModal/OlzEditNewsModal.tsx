@@ -1,9 +1,9 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../Api/client';
-import {MARKDOWN_NOTICE, initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {OlzAuthenticatedUserRoleField} from '../../../Components/Common/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
+import {MARKDOWN_NOTICE, initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
+import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
+import {OlzAuthenticatedUserRoleField} from '../../../Common/Components/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';

@@ -4,7 +4,7 @@ namespace Olz\Service\Components\OlzLinks;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Service\Link;
 
 /** @extends OlzComponent<array<string, mixed>> */

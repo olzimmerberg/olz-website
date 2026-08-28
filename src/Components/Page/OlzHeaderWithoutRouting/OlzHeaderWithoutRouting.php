@@ -2,7 +2,7 @@
 
 namespace Olz\Components\Page\OlzHeaderWithoutRouting;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
 use Olz\Utils\Session;

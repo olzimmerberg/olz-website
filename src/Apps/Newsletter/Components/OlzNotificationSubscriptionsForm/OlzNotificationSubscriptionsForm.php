@@ -2,7 +2,7 @@
 
 namespace Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 
 /** @extends OlzComponent<array<string, mixed>> */

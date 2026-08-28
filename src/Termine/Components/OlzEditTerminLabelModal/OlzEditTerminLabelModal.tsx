@@ -1,9 +1,9 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzTerminLabelData} from '../../../Api/client';
-import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
-import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
+import {OlzPositionField} from '../../../Common/Components/OlzPositionField/OlzPositionField';
+import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';

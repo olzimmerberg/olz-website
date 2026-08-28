@@ -1,12 +1,12 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzTerminLabelData, OlzTerminTemplateData} from '../../../Api/client';
-import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
-import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
+import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
+import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {OlzTimeIntervalField} from '../../../Components/Common/OlzTimeIntervalField/OlzTimeIntervalField';
+import {OlzTimeIntervalField} from '../../../Common/Components/OlzTimeIntervalField/OlzTimeIntervalField';
 import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateTimeOrNull} from '../../../Utils/formUtils';
 import {Entity, isDefined, assert} from '../../../Utils/generalUtils';
 

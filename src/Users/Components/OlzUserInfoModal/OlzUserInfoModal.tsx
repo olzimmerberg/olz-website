@@ -1,7 +1,7 @@
 import React from 'react';
 import {olzApi, OlzApiRequests, OlzUserInfoData} from '../../../Api/client';
-import {initOlzEditModal} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzRestrictedPublicModal} from '../../../Components/Common/OlzRestrictedPublicModal/OlzRestrictedPublicModal';
+import {initOlzEditModal} from '../../../Common/Components/OlzEditModal/OlzEditModal';
+import {OlzRestrictedPublicModal} from '../../../Common/Components/OlzRestrictedPublicModal/OlzRestrictedPublicModal';
 import {dataHref} from '../../../Utils/constants';
 
 import './OlzUserInfoModal.scss';

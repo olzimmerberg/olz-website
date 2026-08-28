@@ -6,8 +6,8 @@
 
 namespace Olz\Termine\Components\OlzTermineList;
 
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzEditableText\OlzEditableText;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;

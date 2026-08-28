@@ -2,7 +2,7 @@
 
 namespace Olz\Karten\Components\OlzKartenListItem;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Components\Schema\OlzMapData\OlzMapData;
 
 /** @extends OlzComponent<array<string, mixed>> */

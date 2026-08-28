@@ -3,7 +3,7 @@
 namespace Olz\Apps\Files\Components\OlzWebDav;
 
 use Olz\Apps\Files\Service\CallbackAuthBackend;
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Sabre\DAV;
 
 /** @extends OlzComponent<array<string, mixed>> */

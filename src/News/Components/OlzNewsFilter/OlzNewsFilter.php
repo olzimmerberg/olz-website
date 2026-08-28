@@ -2,7 +2,7 @@
 
 namespace Olz\News\Components\OlzNewsFilter;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\News\Utils\NewsUtils;
 
 /**

@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Olz\Tests\UnitTests\Common\Endpoints;
+
+use Olz\Common\Endpoints\LinkTelegramEndpoint;
+use Olz\Tests\Fake\Entity\Users\FakeUser;
+use Olz\Tests\UnitTests\Common\UnitTestCase;
+use Olz\Utils\WithUtilsCache;
+
+/**
+ * @internal
+ *
+ * @covers \Olz\Common\Endpoints\LinkTelegramEndpoint
+ */
+final class LinkTelegramEndpointTest extends UnitTestCase {
+    public function testLinkTelegramEndpoint(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::adminUser();
+        $endpoint = new LinkTelegramEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([]);
+
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Valid user response',
+        ], $this->getLogs());
+        $this->assertSame([
+            'botName' => 'bot-name',
+            'pin' => 'correct-pin',
+        ], $result);
+    }
+
+    public function testLinkTelegramEndpointUnauthenticated(): void {
+        $endpoint = new LinkTelegramEndpoint();
+        $endpoint->runtimeSetup();
+
+        try {
+            $endpoint->call([]);
+            $this->fail('Exception expected.');
+        } catch (\Throwable $th) {
+            $this->assertSame([
+                'INFO Valid user request',
+                'NOTICE HTTP error 403 Kein Zugriff!',
+            ], $this->getLogs());
+            $this->assertSame('Kein Zugriff!', $th->getMessage());
+        }
+    }
+}

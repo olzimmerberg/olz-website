@@ -2,7 +2,7 @@
 
 namespace Olz\Roles\Components\OlzRoleInfoModal;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Roles\Role;
 
 /** @extends OlzComponent<array{

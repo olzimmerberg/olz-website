@@ -4,7 +4,7 @@ namespace Olz\Service\Components\OlzDownloads;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Service\Download;
 
 /** @extends OlzComponent<array<string, mixed>> */

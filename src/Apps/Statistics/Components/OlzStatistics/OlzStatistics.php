@@ -3,7 +3,7 @@
 namespace Olz\Apps\Statistics\Components\OlzStatistics;
 
 use Olz\Apps\Statistics\Metadata;
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;

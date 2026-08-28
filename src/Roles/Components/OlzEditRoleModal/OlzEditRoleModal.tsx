@@ -1,10 +1,10 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzRoleData} from '../../../Api/client';
-import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
-import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
+import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
+import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
+import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
+import {OlzPositionField} from '../../../Common/Components/OlzPositionField/OlzPositionField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateNumberOrNull, validateNotEmpty, validateStringRegex} from '../../../Utils/formUtils';

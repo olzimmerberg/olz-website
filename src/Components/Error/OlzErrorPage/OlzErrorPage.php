@@ -2,7 +2,7 @@
 
 namespace Olz\Components\Error\OlzErrorPage;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Components\Error\Olz400BadRequest\Olz400BadRequest;
 use Olz\Components\Error\Olz401Unauthorized\Olz401Unauthorized;
 use Olz\Components\Error\Olz403Forbidden\Olz403Forbidden;

@@ -3,7 +3,7 @@
 namespace Olz\Apps\Youtube\Components\OlzYoutube;
 
 use Olz\Apps\Youtube\Metadata;
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Utils\HttpParams;

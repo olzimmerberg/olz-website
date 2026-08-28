@@ -2,7 +2,7 @@
 
 namespace Olz\Termine\Components\OlzDateCalendar;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzDateCalendar extends OlzComponent {

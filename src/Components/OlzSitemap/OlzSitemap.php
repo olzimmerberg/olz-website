@@ -2,7 +2,7 @@
 
 namespace Olz\Components\OlzSitemap;
 
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
 use Olz\Components\OtherPages\OlzAngebot\OlzAngebot;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;

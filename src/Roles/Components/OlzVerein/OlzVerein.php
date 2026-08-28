@@ -2,7 +2,7 @@
 
 namespace Olz\Roles\Components\OlzVerein;
 
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;

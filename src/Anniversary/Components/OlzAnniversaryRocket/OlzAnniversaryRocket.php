@@ -2,7 +2,7 @@
 
 namespace Olz\Anniversary\Components\OlzAnniversaryRocket;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */

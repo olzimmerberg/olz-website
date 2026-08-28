@@ -20,27 +20,27 @@ export type Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Request = (
 
 export type Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Response = {'status': ('NO_SESSION' | 'SESSION_CLOSED')};
 
-export type Olz_Api_OlzTypedEndpoint8b12c01034c7f4da8eed9167af229c6f_Request = (Record<string, never> | null);
+export type Olz_Api_OlzTypedEndpointd0010454fc29738f4fdb6e8c72188e7d_Request = (Record<string, never> | null);
 
-export type Olz_Api_OlzTypedEndpoint8b12c01034c7f4da8eed9167af229c6f_Response = {'user'?: (Olz_Api_Endpoints_GetAuthenticatedUserEndpoint_OlzAuthenticatedUser | null)};
+export type Olz_Api_OlzTypedEndpointd0010454fc29738f4fdb6e8c72188e7d_Response = {'user'?: (Olz_Common_Endpoints_GetAuthenticatedUserEndpoint_OlzAuthenticatedUser | null)};
 
-export type Olz_Api_Endpoints_GetAuthenticatedUserEndpoint_OlzAuthenticatedUser = {'id': number, 'firstName': string, 'lastName': string, 'username': string};
+export type Olz_Common_Endpoints_GetAuthenticatedUserEndpoint_OlzAuthenticatedUser = {'id': number, 'firstName': string, 'lastName': string, 'username': string};
 
-export type Olz_Api_OlzTypedEndpoint904c19fd8ac53353b810ddcb25f4858f_Request = (Record<string, never> | null);
+export type Olz_Api_OlzTypedEndpoint20b04334f657cd799a3f6e6954cc92f4_Request = (Record<string, never> | null);
 
-export type Olz_Api_OlzTypedEndpoint904c19fd8ac53353b810ddcb25f4858f_Response = {'roles'?: (Array<Olz_Api_Endpoints_GetAuthenticatedRolesEndpoint_OlzAuthenticatedRole> | null)};
+export type Olz_Api_OlzTypedEndpoint20b04334f657cd799a3f6e6954cc92f4_Response = {'roles'?: (Array<Olz_Common_Endpoints_GetAuthenticatedRolesEndpoint_OlzAuthenticatedRole> | null)};
 
-export type Olz_Api_Endpoints_GetAuthenticatedRolesEndpoint_OlzAuthenticatedRole = {'id': number, 'name': string, 'username': string};
+export type Olz_Common_Endpoints_GetAuthenticatedRolesEndpoint_OlzAuthenticatedRole = {'id': number, 'name': string, 'username': string};
 
-export type Olz_Api_OlzTypedEndpointebc70268597b516012e174432a1f406f_Request = {'entityType': Olz_Api_Endpoints_GetEntitiesAroundPositionEndpoint_OlzSearchableEntityType, 'entityField': string, 'id'?: (number | null), 'position'?: (number | null), 'filter'?: ({[key: string]: string} | null)};
+export type Olz_Api_OlzTypedEndpoint4915b32970e4ab8e80720a51c6dc0a9c_Request = {'entityType': Olz_Common_Endpoints_GetEntitiesAroundPositionEndpoint_OlzSearchableEntityType, 'entityField': string, 'id'?: (number | null), 'position'?: (number | null), 'filter'?: ({[key: string]: string} | null)};
 
-export type Olz_Api_OlzTypedEndpointebc70268597b516012e174432a1f406f_Response = {'before'?: (Olz_Api_Endpoints_GetEntitiesAroundPositionEndpoint_OlzEntityPositionResult | null), 'this'?: (Olz_Api_Endpoints_GetEntitiesAroundPositionEndpoint_OlzEntityPositionResult | null), 'after'?: (Olz_Api_Endpoints_GetEntitiesAroundPositionEndpoint_OlzEntityPositionResult | null)};
+export type Olz_Api_OlzTypedEndpoint4915b32970e4ab8e80720a51c6dc0a9c_Response = {'before'?: (Olz_Common_Endpoints_GetEntitiesAroundPositionEndpoint_OlzEntityPositionResult | null), 'this'?: (Olz_Common_Endpoints_GetEntitiesAroundPositionEndpoint_OlzEntityPositionResult | null), 'after'?: (Olz_Common_Endpoints_GetEntitiesAroundPositionEndpoint_OlzEntityPositionResult | null)};
 
-export type Olz_Api_Endpoints_GetEntitiesAroundPositionEndpoint_OlzSearchableEntityType = Olz_Api_Endpoints_SearchEntitiesEndpoint_OlzSearchableEntityType;
+export type Olz_Common_Endpoints_GetEntitiesAroundPositionEndpoint_OlzSearchableEntityType = Olz_Common_Endpoints_SearchEntitiesEndpoint_OlzSearchableEntityType;
 
-export type Olz_Api_Endpoints_GetEntitiesAroundPositionEndpoint_OlzEntityPositionResult = {'id': number, 'position': (number | null), 'title': string};
+export type Olz_Common_Endpoints_GetEntitiesAroundPositionEndpoint_OlzEntityPositionResult = {'id': number, 'position': (number | null), 'title': string};
 
-export type Olz_Api_Endpoints_SearchEntitiesEndpoint_OlzSearchableEntityType = ('Download' | 'Link' | 'Question' | 'QuestionCategory' | 'SolvEvent' | 'TerminLabel' | 'TerminLocation' | 'TerminTemplate' | 'Role' | 'User');
+export type Olz_Common_Endpoints_SearchEntitiesEndpoint_OlzSearchableEntityType = ('Download' | 'Link' | 'Question' | 'QuestionCategory' | 'SolvEvent' | 'TerminLabel' | 'TerminLocation' | 'TerminTemplate' | 'Role' | 'User');
 
 export type Olz_Api_OlzTypedEndpoint4ed8fea3d3f2a3eeb335cfe0fe0b7a54_Request = (Record<string, never> | null);
 
@@ -78,11 +78,11 @@ export type Olz_Api_OlzTypedEndpoint9baba960f97e0a6240ed22098e6ff39a_Request = {
 
 export type Olz_Api_OlzTypedEndpoint9baba960f97e0a6240ed22098e6ff39a_Response = {'status': ('OK' | 'ERROR')};
 
-export type Olz_Api_OlzTypedEndpoint6fa66265cdbcade62b0a9b7e88701d82_Request = {'entityType': Olz_Api_Endpoints_SearchEntitiesEndpoint_OlzSearchableEntityType, 'query'?: (string | null), 'id'?: (number | null), 'filter'?: ({[key: string]: string} | null)};
+export type Olz_Api_OlzTypedEndpoint42c661adf7ecf9fd0a350bda991644ec_Request = {'entityType': Olz_Common_Endpoints_SearchEntitiesEndpoint_OlzSearchableEntityType, 'query'?: (string | null), 'id'?: (number | null), 'filter'?: ({[key: string]: string} | null)};
 
-export type Olz_Api_OlzTypedEndpoint6fa66265cdbcade62b0a9b7e88701d82_Response = {'result': Array<Olz_Api_Endpoints_SearchEntitiesEndpoint_OlzEntityResult>};
+export type Olz_Api_OlzTypedEndpoint42c661adf7ecf9fd0a350bda991644ec_Response = {'result': Array<Olz_Common_Endpoints_SearchEntitiesEndpoint_OlzEntityResult>};
 
-export type Olz_Api_Endpoints_SearchEntitiesEndpoint_OlzEntityResult = {'id': number, 'title': string};
+export type Olz_Common_Endpoints_SearchEntitiesEndpoint_OlzEntityResult = {'id': number, 'title': string};
 
 export type Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Request = Record<string, never>;
 
@@ -1816,9 +1816,9 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     resetPassword: Olz_Api_OlzTypedEndpoint7b376aaa84e28c6a90e673850719b9d5_Request,
     switchUser: Olz_Api_OlzTypedEndpoint829e19faa8eaa4462ec42721016d7672_Request,
     logout: Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Request,
-    getAuthenticatedUser: Olz_Api_OlzTypedEndpoint8b12c01034c7f4da8eed9167af229c6f_Request,
-    getAuthenticatedRoles: Olz_Api_OlzTypedEndpoint904c19fd8ac53353b810ddcb25f4858f_Request,
-    getEntitiesAroundPosition: Olz_Api_OlzTypedEndpointebc70268597b516012e174432a1f406f_Request,
+    getAuthenticatedUser: Olz_Api_OlzTypedEndpointd0010454fc29738f4fdb6e8c72188e7d_Request,
+    getAuthenticatedRoles: Olz_Api_OlzTypedEndpoint20b04334f657cd799a3f6e6954cc92f4_Request,
+    getEntitiesAroundPosition: Olz_Api_OlzTypedEndpoint4915b32970e4ab8e80720a51c6dc0a9c_Request,
     verifyUserEmail: Olz_Api_OlzTypedEndpoint4ed8fea3d3f2a3eeb335cfe0fe0b7a54_Request,
     updatePassword: Olz_Api_OlzTypedEndpointe0c73364ca4b2e5b51724d981de23a19_Request,
     executeEmailReaction: Olz_Api_OlzTypedEndpoint1fb2df4ee7ff7fba2c6061bd8eb791e3_Request,
@@ -1828,7 +1828,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     startUpload: Olz_Api_OlzTypedEndpoint4b9701069d098c637985e79e8768561b_Request,
     updateUpload: Olz_Api_OlzTypedEndpointd117e6872a98ac8700650adae232c1b1_Request,
     finishUpload: Olz_Api_OlzTypedEndpoint9baba960f97e0a6240ed22098e6ff39a_Request,
-    searchEntities: Olz_Api_OlzTypedEndpoint6fa66265cdbcade62b0a9b7e88701d82_Request,
+    searchEntities: Olz_Api_OlzTypedEndpoint42c661adf7ecf9fd0a350bda991644ec_Request,
     startCaptcha: Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Request,
     decryptEmailToken: Olz_Api_OlzTypedEndpoint0137a9f9e67898b7b333b8c07bb2a1e6_Request,
     createDownload: Olz_Api_OlzTypedEndpoint684aef211f71db9c37adc9bd332bd07e_Request,
@@ -1946,9 +1946,9 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     resetPassword: Olz_Api_OlzTypedEndpoint7b376aaa84e28c6a90e673850719b9d5_Response,
     switchUser: Olz_Api_OlzTypedEndpoint829e19faa8eaa4462ec42721016d7672_Response,
     logout: Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Response,
-    getAuthenticatedUser: Olz_Api_OlzTypedEndpoint8b12c01034c7f4da8eed9167af229c6f_Response,
-    getAuthenticatedRoles: Olz_Api_OlzTypedEndpoint904c19fd8ac53353b810ddcb25f4858f_Response,
-    getEntitiesAroundPosition: Olz_Api_OlzTypedEndpointebc70268597b516012e174432a1f406f_Response,
+    getAuthenticatedUser: Olz_Api_OlzTypedEndpointd0010454fc29738f4fdb6e8c72188e7d_Response,
+    getAuthenticatedRoles: Olz_Api_OlzTypedEndpoint20b04334f657cd799a3f6e6954cc92f4_Response,
+    getEntitiesAroundPosition: Olz_Api_OlzTypedEndpoint4915b32970e4ab8e80720a51c6dc0a9c_Response,
     verifyUserEmail: Olz_Api_OlzTypedEndpoint4ed8fea3d3f2a3eeb335cfe0fe0b7a54_Response,
     updatePassword: Olz_Api_OlzTypedEndpointe0c73364ca4b2e5b51724d981de23a19_Response,
     executeEmailReaction: Olz_Api_OlzTypedEndpoint1fb2df4ee7ff7fba2c6061bd8eb791e3_Response,
@@ -1958,7 +1958,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     startUpload: Olz_Api_OlzTypedEndpoint4b9701069d098c637985e79e8768561b_Response,
     updateUpload: Olz_Api_OlzTypedEndpointd117e6872a98ac8700650adae232c1b1_Response,
     finishUpload: Olz_Api_OlzTypedEndpoint9baba960f97e0a6240ed22098e6ff39a_Response,
-    searchEntities: Olz_Api_OlzTypedEndpoint6fa66265cdbcade62b0a9b7e88701d82_Response,
+    searchEntities: Olz_Api_OlzTypedEndpoint42c661adf7ecf9fd0a350bda991644ec_Response,
     startCaptcha: Olz_Api_OlzTypedEndpointe42d5e2ac4e36f75c7f8f371041ebfe9_Response,
     decryptEmailToken: Olz_Api_OlzTypedEndpoint0137a9f9e67898b7b333b8c07bb2a1e6_Response,
     createDownload: Olz_Api_OlzTypedEndpoint684aef211f71db9c37adc9bd332bd07e_Response,

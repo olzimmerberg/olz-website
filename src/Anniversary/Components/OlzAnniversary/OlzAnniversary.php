@@ -4,8 +4,8 @@ namespace Olz\Anniversary\Components\OlzAnniversary;
 
 use Doctrine\Common\Collections\Criteria;
 use Olz\Anniversary\Components\OlzAnniversaryRocket\OlzAnniversaryRocket;
-use Olz\Components\Common\OlzEditableText\OlzEditableText;
-use Olz\Components\Common\OlzRootComponent;
+use Olz\Common\Components\OlzEditableText\OlzEditableText;
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\OlzZielsprint\OlzZielsprint;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;

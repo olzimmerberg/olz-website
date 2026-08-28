@@ -2,7 +2,7 @@
 
 namespace Olz\Users\Components\OlzUserInfoModal;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzUserInfoModal extends OlzComponent {

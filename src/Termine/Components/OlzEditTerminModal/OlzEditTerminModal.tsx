@@ -1,11 +1,11 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzTerminData, OlzTerminLabelData, OlzTerminTemplateData} from '../../../Api/client';
-import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzEntityChooser} from '../../../Components/Common/OlzEntityChooser/OlzEntityChooser';
-import {OlzEntityField} from '../../../Components/Common/OlzEntityField/OlzEntityField';
-import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
-import {OlzLocationField, serializeLocation, deserializeLocation, validateLocationOrNull} from '../../../Components/Common/OlzLocationField/OlzLocationField';
+import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
+import {OlzEntityChooser} from '../../../Common/Components/OlzEntityChooser/OlzEntityChooser';
+import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
+import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
+import {OlzLocationField, serializeLocation, deserializeLocation, validateLocationOrNull} from '../../../Common/Components/OlzLocationField/OlzLocationField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {isoNow, codeHref} from '../../../Utils/constants';

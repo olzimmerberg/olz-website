@@ -3,7 +3,7 @@
 namespace Olz\Components\Apps\OlzAppsList;
 
 use Olz\Apps\OlzApps;
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Users\User;
 
 /** @extends OlzComponent<array<string, mixed>> */

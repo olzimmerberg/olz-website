@@ -1,6 +1,6 @@
 import React from 'react';
 import {dataHref} from '../../../Utils/constants';
-import {OlzProgressBar} from '../../Common/OlzProgressBar/OlzProgressBar';
+import {OlzProgressBar} from '../../../Common/Components/OlzProgressBar/OlzProgressBar';
 import {UploadFile, UploadingFile, UploadedFile, RegisteringFile} from '../types';
 
 import './OlzUploadImage.scss';

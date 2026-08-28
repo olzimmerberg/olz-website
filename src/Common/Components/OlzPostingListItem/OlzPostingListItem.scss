@@ -1,0 +1,62 @@
+@use '../../../Common/Components/OlzStyles/colors' as colors;
+
+.olz-posting-list-item {
+    border-radius: 3px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+
+    &:hover {
+        background-color: colors.$banner-bg;
+        text-decoration: none;
+    }
+
+    .link {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .content {
+        pointer-events: none;
+        position: relative;
+        z-index: 1;
+
+        a,
+        button,
+        .olz-author-badge {
+            pointer-events: all;
+        }
+    }
+
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 16px;
+        margin-top: 2px;
+    }
+
+    .date {
+        color: #000;
+        float: right;
+        padding-left: 2px;
+        position: relative;
+        text-align: right;
+    }
+
+    .icon {
+        border: 0;
+        height: 20px;
+        width: 20px;
+    }
+
+    .text {
+        clear: left;
+        margin: 4px 0 6px;
+    }
+}

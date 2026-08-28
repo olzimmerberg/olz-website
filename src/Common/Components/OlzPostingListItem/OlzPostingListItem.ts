@@ -1,0 +1,1 @@
+import './OlzPostingListItem.scss';

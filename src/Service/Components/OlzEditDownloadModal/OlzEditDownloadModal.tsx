@@ -1,10 +1,10 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzDownloadData} from '../../../Api/client';
-import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Components/Common/OlzEditModal/OlzEditModal';
-import {OlzPositionField} from '../../../Components/Common/OlzPositionField/OlzPositionField';
+import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
+import {OlzPositionField} from '../../../Common/Components/OlzPositionField/OlzPositionField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
-import {OlzTextField} from '../../../Components/Common/OlzTextField/OlzTextField';
+import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty} from '../../../Utils/formUtils';
 import {assert} from '../../../Utils/generalUtils';
 

@@ -6,7 +6,7 @@
 
 namespace Olz\Startseite\Components\OlzCustomizableHome;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Startseite\Components\OlzAnniversaryTile\OlzAnniversaryTile;
 use Olz\Startseite\Components\OlzForBeginnersTile\OlzForBeginnersTile;
 // use Olz\Startseite\Components\OlzJomCounterTile\OlzJomCounterTile;

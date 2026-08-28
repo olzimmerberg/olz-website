@@ -2,7 +2,7 @@
 
 namespace Olz\Roles\Components\OlzOrganigramm;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Roles\Role;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 

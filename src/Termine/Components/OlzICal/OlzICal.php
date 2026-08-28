@@ -8,7 +8,7 @@
 
 namespace Olz\Termine\Components\OlzICal;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminReaction;
 

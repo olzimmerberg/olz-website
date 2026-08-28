@@ -3,7 +3,7 @@
 namespace Olz\Apps\Newsletter\Components\OlzTelegramCard;
 
 use Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm\OlzNotificationSubscriptionsForm;
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 use Olz\Repository\Faq\PredefinedQuestion;

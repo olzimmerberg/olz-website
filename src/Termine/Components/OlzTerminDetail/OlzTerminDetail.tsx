@@ -1,6 +1,6 @@
 import React from 'react';
 import {olzApi} from '../../../Api/client';
-import {OlzEditableReactions} from '../../../Components/Common/OlzEditableReactions/OlzEditableReactions';
+import {OlzEditableReactions} from '../../../Common/Components/OlzEditableReactions/OlzEditableReactions';
 import {initReact} from '../../../Utils/reactUtils';
 import {initOlzEditTerminModal} from '../OlzEditTerminModal/OlzEditTerminModal';
 

@@ -2,8 +2,8 @@
 
 namespace Olz\Service\Components\OlzService;
 
+use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Apps\OlzAppsList\OlzAppsList;
-use Olz\Components\Common\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Service\Components\OlzDownloads\OlzDownloads;

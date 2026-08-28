@@ -2,7 +2,7 @@
 
 namespace Olz\News\Components\OlzAuthorBadge;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 

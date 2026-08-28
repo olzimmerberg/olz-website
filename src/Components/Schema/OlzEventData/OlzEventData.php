@@ -6,7 +6,7 @@
 
 namespace Olz\Components\Schema\OlzEventData;
 
-use Olz\Components\Common\OlzComponent;
+use Olz\Common\Components\OlzComponent;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzEventData extends OlzComponent {

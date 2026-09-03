@@ -44,7 +44,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'DEBUG Not executing daily (16:27:00) send-deadline-warning: too soon, not the right time (diff: 36180)',
             'DEBUG Not executing daily (17:30:00) send-daily-summary: too soon, not the right time (diff: 32400)',
             'DEBUG Not executing daily (18:30:00) send-reminders: too soon, not the right time (diff: 28800)',
-            'DEBUG Not executing sync-strava (every 10 minutes): too soon',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -95,7 +94,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'DEBUG Not executing daily (16:27:00) send-deadline-warning: not the right time (diff: 36180)',
             'DEBUG Not executing daily (17:30:00) send-daily-summary: not the right time (diff: 32400)',
             'DEBUG Not executing daily (18:30:00) send-reminders: not the right time (diff: 28800)',
-            'INFO Executing sync-strava (every 10 minutes)...',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -111,7 +109,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Executing daily (01:10:00) clean-logs...
             Executing daily (01:15:00) send-telegram-configuration...
             Executing daily (01:20:00) sync-solv...
-            Executing sync-strava (every 10 minutes)...
             Stopping workers...
             Consume messages...
             Ran continuously.
@@ -125,7 +122,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             ['clean-logs', '2020-03-13 02:30:00'],
             ['send-telegram-configuration', '2020-03-13 02:30:00'],
             ['sync-solv', '2020-03-13 02:30:00'],
-            ['sync-strava', '2020-03-13 02:30:00'],
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
@@ -134,7 +130,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:clean-logs ',
             'olz:send-telegram-configuration ',
             'olz:sync-solv ',
-            'olz:sync-strava 2025',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -164,7 +159,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'DEBUG Not executing daily (16:27:00) send-deadline-warning: not the right time (diff: 36180)',
             'DEBUG Not executing daily (17:30:00) send-daily-summary: not the right time (diff: 32400)',
             'DEBUG Not executing daily (18:30:00) send-reminders: not the right time (diff: 28800)',
-            'INFO Executing sync-strava (every 10 minutes)...',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -180,7 +174,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Executing daily (01:10:00) clean-logs...
             Executing daily (01:15:00) send-telegram-configuration...
             Executing daily (01:20:00) sync-solv...
-            Executing sync-strava (every 10 minutes)...
             Stopping workers...
             Consume messages...
             Ran continuously.
@@ -194,7 +187,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             ['clean-logs', '2020-03-13 02:30:00'],
             ['send-telegram-configuration', '2020-03-13 02:30:00'],
             ['sync-solv', '2020-03-13 02:30:00'],
-            ['sync-strava', '2020-03-13 02:30:00'],
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
@@ -203,7 +195,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:clean-logs ',
             'olz:send-telegram-configuration ',
             'olz:sync-solv ',
-            'olz:sync-strava 2025',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -233,7 +224,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'INFO Executing daily (16:27:00) send-deadline-warning...',
             'INFO Executing daily (17:30:00) send-daily-summary...',
             'DEBUG Not executing daily (18:30:00) send-reminders: not the right time (diff: -3600)',
-            'INFO Executing sync-strava (every 10 minutes)...',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -246,7 +236,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Continuously processing email...
             Executing daily (16:27:00) send-deadline-warning...
             Executing daily (17:30:00) send-daily-summary...
-            Executing sync-strava (every 10 minutes)...
             Stopping workers...
             Consume messages...
             Ran continuously.
@@ -257,13 +246,11 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             ['on_continuously', '2020-03-13 17:30:00'],
             ['send-deadline-warning', '2020-03-13 17:30:00'],
             ['send-daily-summary', '2020-03-13 17:30:00'],
-            ['sync-strava', '2020-03-13 17:30:00'],
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
             'olz:send-deadline-warning ',
             'olz:send-daily-summary ',
-            'olz:sync-strava 2025',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -294,7 +281,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'DEBUG Not executing daily (16:27:00) send-deadline-warning: not the right time (diff: 31560)',
             'DEBUG Not executing daily (17:30:00) send-daily-summary: not the right time (diff: 27780)',
             'DEBUG Not executing daily (18:30:00) send-reminders: not the right time (diff: 24180)',
-            'INFO Executing sync-strava (every 10 minutes)...',
             'DEBUG Stopping workers...',
             'DEBUG Consume messages...',
             'DEBUG Ran continuously.',
@@ -308,7 +294,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Executing daily (01:00:00) clean-temp-directory...
             Executing daily (01:05:00) clean-temp-database...
             Executing daily (01:10:00) clean-logs...
-            Executing sync-strava (every 10 minutes)...
             Stopping workers...
             Consume messages...
             Ran continuously.
@@ -320,14 +305,12 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             ['clean-temp-directory', '2020-03-13 01:13:00'],
             ['clean-temp-database', '2020-03-13 01:13:00'],
             ['clean-logs', '2020-03-13 01:13:00'],
-            ['sync-strava', '2020-03-13 01:13:00'],
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
             'olz:clean-temp-directory ',
             'olz:clean-temp-database ',
             'olz:clean-logs ',
-            'olz:sync-strava 2025',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -358,7 +341,6 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'clean-logs' => $date,
             'send-telegram-configuration' => $date,
             'sync-solv' => $date,
-            'sync-strava' => $date,
             'send-daily-summary' => $date,
             'send-deadline-warning' => $date,
             'send-monthly-preview' => $date,

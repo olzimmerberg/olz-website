@@ -102,6 +102,11 @@ class StravaHackController extends AbstractController {
                 'Spaziergang' => true,
             ];
             $is_counting = $is_sport_type_valid[$sport_type] ?? false;
+            if ($data['runAt']->format('Y-m-d') < '2026-09-01') {
+                $enc_data = json_encode($data);
+                $this->log()->notice("registerStravaRun invalid runAt for activityId {$activityId} by {$user}: {$enc_data}");
+                return $this->withCors($request, new JsonResponse(['msg' => "🚫 Lauf muss von nach August 2026 sein."], 400));
+            }
 
             if (!$run) {
                 $run = new RunRecord();

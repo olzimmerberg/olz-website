@@ -26,15 +26,16 @@ class OlzAnniversaryTile extends AbstractOlzTile {
 
         $stats = $this->anniversaryUtils()->getElevationStats();
 
-        $diff_hei = log10(abs($stats['diffDays']) + 1) * 40;
-        $done_hei = \intval($stats['completion'] * 160);
-        $rocket_hei = \intval($stats['completion'] * 160) - 30;
+        $diff_hei = log10(abs($stats['diffDays']) + 1) * 20;
+        $done_hei = \intval($stats['completion'] * 80);
+        $rocket_hei = \intval($stats['completion'] * 80) - 30;
         $rocket = OlzAnniversaryRocket::render();
         return <<<ZZZZZZZZZZ
             <a href='{$code_href}2026' class='anniversary-container'>
                 <h3 class='anniversary-h3'>🥳 20 Jahre OL Zimmerberg</h3>
                 <div class='done-range'></div>
                 <div class='done-bar' style='height: {$done_hei}px;'></div>
+                <div class='done-marker'></div>
                 <div class='rocket test-flaky' style='bottom: {$rocket_hei}px;'>{$rocket}</div>
                 <div class='diff-range'></div>
                 <div class='diff-bar {$stats['diffKind']}' style='height: {$diff_hei}px;'></div>

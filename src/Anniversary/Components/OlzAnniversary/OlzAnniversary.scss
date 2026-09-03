@@ -7,6 +7,10 @@
         position: relative;
         margin: 10px 0 5px 0;
         height: 30px;
+
+        .marker.main {
+            height: 32px;
+        }
     }
 
     .done-range {

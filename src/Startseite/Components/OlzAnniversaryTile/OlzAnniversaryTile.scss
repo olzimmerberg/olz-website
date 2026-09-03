@@ -35,6 +35,14 @@
         background-color: #008800;
     }
 
+    .done-marker {
+        position: absolute;
+        left: 9px;
+        bottom: 90px;
+        width: 22px;
+        border-top: 2px solid black;
+    }
+
     .rocket {
         position: absolute;
         left: -5px;

@@ -276,28 +276,10 @@ class OlzAnniversary extends OlzRootComponent {
     }
 
     protected function getElevationStravaHtml(): string {
+        $out = '';
         $user = $this->authUtils()->getCurrentUser();
-        if (!$user || !$this->authUtils()->hasPermission('anniversary', $user)) {
-            return '';
-        }
-        $strava_link_repo = $this->entityManager()->getRepository(StravaLink::class);
-        $strava_links = $strava_link_repo->findBy(['user' => $user]);
-        $num_strava_links = count($strava_links);
-        $redirect_url = "{$this->envUtils()->getBaseHref()}{$this->envUtils()->getCodeHref()}2026";
-        $strava_url = $this->stravaUtils()->getRegistrationUrl(['read', 'activity:read'], $redirect_url);
-        $out = "<div class='admin-only'><div class='admin-only-text'>Nur für Organisatoren sichtbar</div>";
-        if ($num_strava_links === 0) {
-            $out .= "<p>😕 Kein Strava-Konto verlinkt. <a href='{$strava_url}' class='linkext'>Jetzt mit Strava verbinden!</a></p>";
-        } else {
-            $out .= "<p>✅ Du bist mit diesen {$num_strava_links} Strava-Konten verbunden:</p><ul>";
-            foreach ($strava_links as $strava_link) {
-                $athlete_id = $strava_link->getStravaUser();
-                $athlete_url = "https://www.strava.com/athletes/{$athlete_id}";
-                $date = $strava_link->getLinkedAt()?->format('d.m.Y H:i:s');
-                $out .= "<li><a href='{$athlete_url}'>{$athlete_id}</a> (erstellt: {$date})</li>";
-            }
-            $out .= "</ul>";
-            $out .= "<p><a href='{$strava_url}'>Mit Strava verbinden</a></p>";
+        if (!$user || !$this->authUtils()->hasPermission('any', $user)) {
+            return $out;
         }
         $key = $this->envUtils()->getEncryptionKey('strava-hack-token');
         $data = [
@@ -320,7 +302,7 @@ class OlzAnniversary extends OlzRootComponent {
         ];
         $bookmark_href = htmlentities("javascript:".implode(';', $bookmark_lines));
         $out .= <<<ZZZZZZZZZZ
-            <h4>Strava-Anleitung (für nach September):</h4>
+            <h3>Strava-Anleitung (nach September)</h3>
             <div><b>Einmalig:</b></div>
             <ul>
                 <li>Logge dich ein auf <a href='https://www.strava.com/login' target='_blank'>Strava</a> (im Browser, nicht im App).</li>
@@ -344,6 +326,29 @@ class OlzAnniversary extends OlzRootComponent {
                 </li>
             </ul>
             ZZZZZZZZZZ;
+        if (!$this->authUtils()->hasPermission('anniversary', $user)) {
+            return $out;
+        }
+        $strava_link_repo = $this->entityManager()->getRepository(StravaLink::class);
+        $strava_links = $strava_link_repo->findBy(['user' => $user]);
+        $num_strava_links = count($strava_links);
+        $redirect_url = "{$this->envUtils()->getBaseHref()}{$this->envUtils()->getCodeHref()}2026";
+        $strava_url = $this->stravaUtils()->getRegistrationUrl(['read', 'activity:read'], $redirect_url);
+        $out .= "<div class='admin-only'><div class='admin-only-text'>Nur für Organisatoren sichtbar</div>";
+        if ($num_strava_links === 0) {
+            $out .= "<p>😕 Kein Strava-Konto verlinkt. <a href='{$strava_url}' class='linkext'>Jetzt mit Strava verbinden!</a></p>";
+        } else {
+            $out .= "<p>✅ Du bist mit diesen {$num_strava_links} Strava-Konten verbunden:</p><ul>";
+            foreach ($strava_links as $strava_link) {
+                $athlete_id = $strava_link->getStravaUser();
+                $athlete_url = "https://www.strava.com/athletes/{$athlete_id}";
+                $date = $strava_link->getLinkedAt()?->format('d.m.Y H:i:s');
+                $out .= "<li><a href='{$athlete_url}'>{$athlete_id}</a> (erstellt: {$date})</li>";
+            }
+            $out .= "</ul>";
+            $out .= "<p><a href='{$strava_url}'>Mit Strava verbinden</a></p>";
+        }
+
         $out .= '</div>';
         return $out;
     }

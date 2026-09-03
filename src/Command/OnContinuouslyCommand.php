@@ -131,14 +131,6 @@ class OnContinuouslyCommand extends OlzCommand {
             );
         });
 
-        $this->every('10 minutes', 'sync-strava', function () use ($output) {
-            $this->symfonyUtils()->callCommand(
-                'olz:sync-strava',
-                new ArrayInput(['year' => '2025']),
-                $output,
-            );
-        });
-
         $this->logAndOutput("Stopping workers...", level: 'debug');
         $this->symfonyUtils()->callCommand(
             'messenger:stop-workers',

@@ -168,7 +168,7 @@ class OlzAnniversary extends OlzRootComponent {
         $one_day_ago = (new \DateTime($iso_now))->add($minus_one_day);
         $runs = $runs_repo->matching(Criteria::create()
             ->where(Criteria::expr()->andX(
-                Criteria::expr()->gt('run_at', $one_day_ago),
+                Criteria::expr()->gt('created_at', $one_day_ago),
                 Criteria::expr()->eq('on_off', 1),
             ))
             ->orderBy(['created_at' => 'DESC'])

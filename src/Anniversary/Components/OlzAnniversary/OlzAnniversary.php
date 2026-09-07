@@ -303,7 +303,15 @@ class OlzAnniversary extends OlzRootComponent {
                     Speichere diesen Link als Lesezeichen in deinem Browser,<br>
                     entweder indem du ihn in die Lesezeichen-Leiste ziehst<br>
                     oder per Rechtsklick -> "Als Lesezeichen speichern..." (oder ähnlich, je nach Browser):<br>
-                    ---&gt; <b><a href='{$bookmark_href}'>OLZ 🔁</a></b> &lt;---
+                    ---&gt; <b>
+                        <a
+                            href='{$bookmark_href}'
+                            onclick='navigator.clipboard.writeText(this.href);alert(&quot;Link kopiert!&quot;);return false;'
+                        >
+                            OLZ 🔁
+                        </a>
+                    </b> &lt;---
+                    <i>(oder klicken um Link zu kopieren)</i>
                 </li>
             </ul>
             <div><b>Um eine Strava-Aktivität zu erfassen:</b></div>

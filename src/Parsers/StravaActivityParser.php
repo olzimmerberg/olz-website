@@ -26,12 +26,12 @@ class StravaActivityParser {
         $sport_type = $res ? trim($matches[2]) : null;
 
         $res = preg_match(
-            "/<div class=\"details\"> <time>([^<]+)<\\/time>/",
+            "/<div class=\"details\">\\s*<time>([^<]+)<\\/time>/",
             $content,
             $matches
         );
         $date_string = $res ? trim($matches[1]) : null;
-        $date = $date_string ? ($this->parseDateDe($date_string) ?? $this->parseDateEn($date_string)) : null;
+        $date = $date_string ? ($this->parseDateDe($date_string) ?? $this->parseDateEn1($date_string) ?? $this->parseDateEn2($date_string)) : null;
 
         $res = preg_match(
             "/<strong>([0-9\\.\\,]+)<abbr[^>]*>\\s*km<\\/abbr><\\/strong>\\s*<div class=\"label\">(?:Distanz|Distance)<\\/div>/",
@@ -70,16 +70,19 @@ class StravaActivityParser {
         ];
     }
 
-    protected function parseDateEn(string $date_string): ?\DateTime {
-        $pattern = '/([0-9]+):([0-9]+) on \w+, ([0-9]+) (\w+) ([0-9]+)/';
+    protected function parseDateEn1(string $date_string): ?\DateTime {
+        $pattern = '/([0-9]+):([0-9]+)(?:\s*(AM|PM))? on \w+, ([0-9]+) (\w+),? ([0-9]+)/';
         $res = preg_match($pattern, $date_string, $matches);
         if (!$res) {
             return null;
         }
         $hour = $matches[1];
         $minute = $matches[2];
-        $day = $matches[3];
-        $pretty_month = strtolower($matches[4]);
+        if ($matches[3] === 'PM') {
+            $hour += 12;
+        }
+        $day = $matches[4];
+        $pretty_month = strtolower($matches[5]);
         $month_map = [
             'january' => '01',
             'february' => '02',
@@ -95,7 +98,43 @@ class StravaActivityParser {
             'december' => '12',
         ];
         $month = $month_map[$pretty_month] ?? null;
-        $year = $matches[5];
+        $year = $matches[6];
+        try {
+            return new \DateTime("{$year}-{$month}-{$day} {$hour}:{$minute}:00");
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+
+    protected function parseDateEn2(string $date_string): ?\DateTime {
+        $pattern = '/([0-9]+):([0-9]+)(?:\s*(AM|PM))? on \w+, (\w+) ([0-9]+),? ([0-9]+)/';
+        $res = preg_match($pattern, $date_string, $matches);
+        if (!$res) {
+            return null;
+        }
+        $hour = $matches[1];
+        $minute = $matches[2];
+        if ($matches[3] === 'PM') {
+            $hour += 12;
+        }
+        $pretty_month = strtolower($matches[4]);
+        $day = $matches[5];
+        $month_map = [
+            'january' => '01',
+            'february' => '02',
+            'march' => '03',
+            'april' => '04',
+            'may' => '05',
+            'june' => '06',
+            'july' => '07',
+            'august' => '08',
+            'september' => '09',
+            'october' => '10',
+            'november' => '11',
+            'december' => '12',
+        ];
+        $month = $month_map[$pretty_month] ?? null;
+        $year = $matches[6];
         try {
             return new \DateTime("{$year}-{$month}-{$day} {$hour}:{$minute}:00");
         } catch (\Throwable $th) {
@@ -104,15 +143,18 @@ class StravaActivityParser {
     }
 
     protected function parseDateDe(string $date_string): ?\DateTime {
-        $pattern = '/([0-9]+):([0-9]+) am \w+, den ([0-9]+). (\w+) ([0-9]+)/';
+        $pattern = '/([0-9]+):([0-9]+)(?:\s*(AM|PM))? am \w+, den ([0-9]+). (\w+),? ([0-9]+)/';
         $res = preg_match($pattern, $date_string, $matches);
         if (!$res) {
             return null;
         }
         $hour = $matches[1];
         $minute = $matches[2];
-        $day = $matches[3];
-        $pretty_month = strtolower($matches[4]);
+        if ($matches[3] === 'PM') {
+            $hour += 12;
+        }
+        $day = $matches[4];
+        $pretty_month = strtolower($matches[5]);
         $month_map = [
             'januar' => '01',
             'februar' => '02',
@@ -128,7 +170,7 @@ class StravaActivityParser {
             'dezember' => '12',
         ];
         $month = $month_map[$pretty_month] ?? null;
-        $year = $matches[5];
+        $year = $matches[6];
         try {
             return new \DateTime("{$year}-{$month}-{$day} {$hour}:{$minute}:00");
         } catch (\Throwable $th) {

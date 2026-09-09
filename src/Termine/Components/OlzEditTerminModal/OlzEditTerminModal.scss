@@ -4,6 +4,29 @@
         width: 95%;
     }
 
+    .date-and-time {
+        display: flex;
+
+        .date {
+            flex: 3 0 120px;
+
+            .form-control {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+        }
+
+        .time {
+            flex: 2 0 80px;
+
+            .form-control {
+                margin-left: -1px;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+    }
+
     #text-input {
         height: 250px;
     }

@@ -3,7 +3,6 @@
 namespace Olz\Termine\Components\OlzTerminTemplatesListItem;
 
 use Olz\Common\Components\OlzComponent;
-use Olz\Entity\Termine\TerminLabel;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 
@@ -23,19 +22,9 @@ class OlzTerminTemplatesListItem extends OlzComponent {
         $title = $termin_template->getTitle();
         $text = $termin_template->getText();
         $organizer = $termin_template->getOrganizerUser();
-        $labels = [...$termin_template->getLabels()];
         $termin_location = $termin_template->getLocation();
 
         $link = "{$code_href}termine/vorlagen/{$id}";
-        $type_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
-            $ident = $label->getIdent();
-            // TODO: Remove fallback mechanism?
-            $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
-            $fallback_href = is_file($fallback_path)
-                ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
-            $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
-            return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
-        }, $labels));
 
         $duration_seconds_or_zero = $duration_seconds ?? 0;
         $duration_string = "+{$duration_seconds_or_zero} seconds";
@@ -97,7 +86,7 @@ class OlzTerminTemplatesListItem extends OlzComponent {
                         <div class='time-text'>{$time_text}</div>
                     </div>
                     <div class='title-text-container'>
-                        <div class='title'>{$title} {$type_imgs}</div>
+                        <div class='title'>{$title}</div>
                         <div class='text'>{$text}</div>
                     </div>
                 </div>

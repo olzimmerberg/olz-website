@@ -254,6 +254,11 @@ a {
     }
 }
 
+.form-control:focus {
+    position: relative;
+    z-index: 1;
+}
+
 .error,
 .is-invalid {
     color: var(--bs-form-invalid-border-color) !important;

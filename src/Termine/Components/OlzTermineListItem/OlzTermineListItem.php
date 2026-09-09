@@ -3,7 +3,6 @@
 namespace Olz\Termine\Components\OlzTermineListItem;
 
 use Olz\Common\Components\OlzComponent;
-use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Users\User;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
@@ -32,15 +31,6 @@ class OlzTermineListItem extends OlzComponent {
         $is_deadline = count($labels) > 0 && $labels[0]->getIdent() === 'meldeschluss';
 
         $link = "{$code_href}termine/{$id}";
-        $type_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
-            $ident = $label->getIdent();
-            // TODO: Remove fallback mechanism?
-            $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
-            $fallback_href = is_file($fallback_path)
-                ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
-            $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
-            return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
-        }, $labels));
         $start_icon = OlzDateCalendar::render([
             'date' => $start_date,
             'size' => 'S',
@@ -115,7 +105,7 @@ class OlzTermineListItem extends OlzComponent {
                         <div class='time-text'>{$time_text}</div>
                     </div>
                     <div class='title-text-container'>
-                        <div class='title'>{$title}{$edit_admin} {$type_imgs}</div>
+                        <div class='title'>{$title}{$edit_admin}</div>
                         <div class='text'>{$organizer_prefix}{$text}</div>
                     </div>
                     <div class='image-container'>

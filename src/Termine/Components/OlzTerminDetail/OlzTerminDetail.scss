@@ -40,12 +40,6 @@
         }
     }
 
-    .type-icon {
-        border: 0;
-        height: 20px;
-        margin: 0 0 0 14px;
-    }
-
     .olz-location-map-link {
         display: block;
         margin: 0 -10px;
@@ -60,8 +54,15 @@
         width: 100%;
     }
 
-    .links a {
-        display: block;
-        margin-top: 6px;
+    .text {
+        margin-top: 25px;
+    }
+
+    .links {
+        margin-top: 25px;
+    }
+
+    #termin-reactions {
+        margin-top: 50px;
     }
 }

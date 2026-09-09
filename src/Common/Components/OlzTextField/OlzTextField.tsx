@@ -14,6 +14,7 @@ interface OlzTextFieldProps<Values extends FieldValues, Name extends Path<Values
     placeholder?: string;
     autoComplete?: string;
     onFocus?: React.FocusEventHandler<HTMLTextAreaElement & HTMLInputElement>;
+    className?: string;
 }
 
 export const OlzTextField = <
@@ -28,7 +29,7 @@ export const OlzTextField = <
     const errorComponent = errorMessage && <p className='error'>{String(errorMessage)}</p>;
 
     if (props?.mode === 'textarea') {
-        return (<>
+        return (<div className={props.className}>
             {labelComponent}
             <textarea
                 {...props.register(props.name, props.options)}
@@ -39,9 +40,9 @@ export const OlzTextField = <
                 onFocus={props.onFocus}
             />
             {errorComponent}
-        </>);
+        </div>);
     }
-    return (<>
+    return (<div className={props.className}>
         {labelComponent}
         <input
             type={props?.mode === 'password-input' ? 'password' : 'text'}
@@ -54,5 +55,5 @@ export const OlzTextField = <
             onFocus={props.onFocus}
         />
         {errorComponent}
-    </>);
+    </div>);
 };

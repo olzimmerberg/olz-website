@@ -278,17 +278,26 @@ class OlzTerminDetail extends OlzRootComponent {
             // SOLV-Übersicht-Link zeigen
             $maybe_solv_link .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id={$solv_uid}' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
         }
-        $label_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
+        $labels_html = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
             $ident = $label->getIdent();
+            $serialized_filter = $this->termineUtils()->serialize([
+                'typ' => $ident,
+                'datum' => 'bevorstehend',
+            ]);
             // TODO: Remove fallback mechanism?
             $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
             $fallback_href = is_file($fallback_path)
                 ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
             $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
-            return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
+            return $icon_href ? <<<ZZZZZZZZZZ
+                <a href='{$code_href}termine?filter={$serialized_filter}' class='filter'>
+                    <img src='{$icon_href}' alt='' class='type-icon'>{$label->getName()}
+                </a>
+                ZZZZZZZZZZ : '';
         }, $labels));
         $out .= "<h5>{$pretty_date}{$maybe_solv_link}</h5>";
-        $out .= "<h1>{$title} {$label_imgs}</h1>";
+        $out .= "<h1>{$title}</h1>";
+        $out .= "<div class='filters'>{$labels_html}</div>";
         if ($organizer) {
             $pretty_organizer = OlzUserInfoModal::render(['user' => $organizer]);
             $out .= "<div>Organisator: {$pretty_organizer}</div><br>";
@@ -304,7 +313,7 @@ class OlzTerminDetail extends OlzRootComponent {
         if ($termin->getDeadline() && $termin->getDeadline() != "0000-00-00") {
             $text_html .= ($text_html == "" ? "" : "<br />")."Meldeschluss: ".$date_utils->olzDate("t. MM ", $termin->getDeadline());
         }
-        $out .= "<div>".$text_html."</div>";
+        $out .= "<div class='text'>".$text_html."</div>";
 
         // Link
         $link = '';
@@ -320,11 +329,7 @@ class OlzTerminDetail extends OlzRootComponent {
             // OLZ Rangliste-hochladen-Link zeigen
             $link .= "<div><a href='{$code_href}apps/resultate?file={$result_filename}' target='_blank' class='linkext'>Rangliste hochladen</a></div>\n";
         }
-        if ($link == "") {
-            $link = "&nbsp;";
-        } else {
-            $link = str_replace("&", "&amp;", str_replace("&amp;", "&", $link));
-        }
+        $link = str_replace("&", "&amp;", str_replace("&amp;", "&", $link));
         $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
         $out .= "<div class='links'>".$link."</div>";
 

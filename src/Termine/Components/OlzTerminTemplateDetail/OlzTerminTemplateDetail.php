@@ -143,18 +143,22 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
                 ? $start_time->format('H:i')." – ".$end_time->format('H:i')
                 : $start_time->format('H:i');
         }
-        $label_imgs = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
+        $labels_html = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
             $ident = $label->getIdent();
             // TODO: Remove fallback mechanism?
             $fallback_path = "{$code_path}assets/icns/termine_type_{$ident}_20.svg";
             $fallback_href = is_file($fallback_path)
                 ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
             $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
-            return $icon_href ? "<img src='{$icon_href}' alt='' class='type-icon'>" : '';
+            return $icon_href ? <<<ZZZZZZZZZZ
+                <div class='filter'>
+                    <img src='{$icon_href}' alt='' class='type-icon'>{$label->getName()}
+                </div>
+                ZZZZZZZZZZ : '';
         }, $labels));
-
         $out .= "<h5>{$pretty_date}</h5>";
-        $out .= "<h1>{$title} {$label_imgs}</h1>";
+        $out .= "<h1>{$title}</h1>";
+        $out .= "<div class='filters'>{$labels_html}</div>";
         if ($organizer) {
             $pretty_organizer = OlzUserInfoModal::render(['user' => $organizer]);
             $out .= "<div>Organisator: {$pretty_organizer}</div><br>";
@@ -172,7 +176,7 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
         $text_html = $this->htmlUtils()->renderMarkdown($text);
         $text_html = $termin_template->replaceImagePaths($text_html);
         $text_html = $termin_template->replaceFilePaths($text_html);
-        $out .= "<div>{$text_html}</div>";
+        $out .= "<div class='text'>{$text_html}</div>";
 
         if (count($image_ids) > 0) {
             $out .= "<h3>Bilder</h3><div class='lightgallery gallery-container'>";

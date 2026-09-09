@@ -299,48 +299,50 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             </div>
             <div className='row'>
                 <div className={`col mb-3${solvDisabledClass}`}>
-                    <OlzTextField
-                        title='Beginn Datum'
-                        name='startDate'
-                        errors={errors}
-                        register={register}
-                        disabled={solvId !== null}
-                        placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
-                    />
+                    <div className='date-and-time'>
+                        <OlzTextField
+                            title='Beginn Datum'
+                            name='startDate'
+                            errors={errors}
+                            register={register}
+                            disabled={solvId !== null}
+                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
+                            className='date'
+                        />
+                        <OlzTextField
+                            title='Beginn Zeit'
+                            name='startTime'
+                            errors={errors}
+                            register={register}
+                            disabled={solvId !== null}
+                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
+                            className='time'
+                        />
+                    </div>
                     {startDateInfo}
                 </div>
                 <div className={`col mb-3${solvDisabledClass}`}>
-                    <OlzTextField
-                        title='Beginn Zeit'
-                        name='startTime'
-                        errors={errors}
-                        register={register}
-                        disabled={solvId !== null}
-                        placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
-                    />
-                </div>
-            </div>
-            <div className='row'>
-                <div className={`col mb-3${solvDisabledClass}`}>
-                    <OlzTextField
-                        title='Ende Datum'
-                        name='endDate'
-                        errors={errors}
-                        register={register}
-                        disabled={solvId !== null}
-                        placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
-                    />
+                    <div className='date-and-time'>
+                        <OlzTextField
+                            title='Ende Datum'
+                            name='endDate'
+                            errors={errors}
+                            register={register}
+                            disabled={solvId !== null}
+                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
+                            className='date'
+                        />
+                        <OlzTextField
+                            title='Ende Zeit'
+                            name='endTime'
+                            errors={errors}
+                            register={register}
+                            disabled={solvId !== null}
+                            placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
+                            className='time'
+                        />
+                    </div>
                     {endDateInfo}
-                </div>
-                <div className={`col mb-3${solvDisabledClass}`}>
-                    <OlzTextField
-                        title='Ende Zeit'
-                        name='endTime'
-                        errors={errors}
-                        register={register}
-                        disabled={solvId !== null}
-                        placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
-                    />
                 </div>
             </div>
             <div className={`mb-3${solvDisabledClass}`}>
@@ -363,6 +365,26 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                     disabled={solvId !== null}
                     placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
                 />
+            </div>
+            <div className='row'>
+                <div className='col mb-3' id='images-upload'>
+                    <OlzMultiImageField
+                        title='Bilder'
+                        name='imageIds'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsImagesLoading}
+                    />
+                </div>
+                <div className={`col mb-3${solvDisabledClass}`} id='files-upload'>
+                    <OlzMultiFileField
+                        title='Dateien'
+                        name='fileIds'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsFilesLoading}
+                    />
+                </div>
             </div>
             <div className='row'>
                 <div className={`col mb-3${solvDisabledClass}`}>
@@ -401,6 +423,25 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                     />
                 </div>
             ) : null}
+            <div className='mb-3'>
+                <label htmlFor='types-container'>Typ</label>
+                <div id='types-container'>
+                    {props.labels?.map((label, index) => (
+                        <span className='types-option' key={`${index}-${label.data.ident}`}>
+                            <input
+                                type='checkbox'
+                                value='yes'
+                                {...register(`types.${index}`)}
+                                id={`types-${label.data.ident}-input`}
+                                key={label.id}
+                            />
+                            <label htmlFor={`types-${label.data.ident}-input`}>
+                                {label.data.name}
+                            </label>
+                        </span>
+                    ))}
+                </div>
+            </div>
             <div className='row'>
                 <div className={`col mb-3${solvDisabledClass}`}>
                     <OlzTextField
@@ -426,43 +467,6 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         {isShouldPromoteEnabled ? '' : ' (zuerst Bilder hinzufügen!)'}
                     </label>
                 </div>
-            </div>
-            <div className='mb-3'>
-                <label htmlFor='types-container'>Typ</label>
-                <div id='types-container'>
-                    {props.labels?.map((label, index) => (
-                        <span className='types-option' key={`${index}-${label.data.ident}`}>
-                            <input
-                                type='checkbox'
-                                value='yes'
-                                {...register(`types.${index}`)}
-                                id={`types-${label.data.ident}-input`}
-                                key={label.id}
-                            />
-                            <label htmlFor={`types-${label.data.ident}-input`}>
-                                {label.data.name}
-                            </label>
-                        </span>
-                    ))}
-                </div>
-            </div>
-            <div className='mb-3' id='images-upload'>
-                <OlzMultiImageField
-                    title='Bilder'
-                    name='imageIds'
-                    errors={errors}
-                    control={control}
-                    setIsLoading={setIsImagesLoading}
-                />
-            </div>
-            <div className={`mb-3${solvDisabledClass}`} id='files-upload'>
-                <OlzMultiFileField
-                    title='Dateien'
-                    name='fileIds'
-                    errors={errors}
-                    control={control}
-                    setIsLoading={setIsFilesLoading}
-                />
             </div>
             <div className='hasNewsletter-container'>
                 <input

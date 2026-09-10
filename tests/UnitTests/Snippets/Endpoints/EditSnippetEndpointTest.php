@@ -72,16 +72,16 @@ final class EditSnippetEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $snippet = $entity_manager->persisted[0];
-        $this->assertSame($id, $snippet->getId());
-        $this->assertSame('', $snippet->getText());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame($id, $entity->getId());
+        $this->assertSame('', $entity->getText());
 
         $this->assertSame([
-            [$snippet, 'default', 'default', null, null, 'snippet_9999'],
+            [$entity, 'default', 'default', null, null, 'snippet_9999'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
         $this->assertSame([
-            [$snippet, 1, 1, null],
+            [$entity, 1, 1, null],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $this->assertSame([], WithUtilsCache::get('uploadUtils')->move_uploads_calls);

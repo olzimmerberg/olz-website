@@ -201,23 +201,23 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $news_entry = $entity_manager->persisted[0];
-        $this->assertSame(123, $news_entry->getId());
-        $this->assertSame('t.u.', $news_entry->getAuthorName());
-        $this->assertSame('tu@staging.olzimmerberg.ch', $news_entry->getAuthorEmail());
-        $this->assertSame(FakeUser::adminUser(), $news_entry->getAuthorUser());
-        $this->assertSame(FakeRole::adminRole(), $news_entry->getAuthorRole());
-        $this->assertSame('2020-03-16', $news_entry->getPublishedDate()->format('Y-m-d'));
-        $this->assertSame('09:00:00', $news_entry->getPublishedTime()->format('H:i:s'));
-        $this->assertSame('Test Titel', $news_entry->getTitle());
-        $this->assertSame('Das muss man gelesen haben!', $news_entry->getTeaser());
-        $this->assertSame('Sehr viel Inhalt.', $news_entry->getContent());
-        $this->assertNull($news_entry->getExternalUrl());
-        $this->assertSame(' test unit ', $news_entry->getTags());
-        $this->assertSame(0, $news_entry->getTermin());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(123, $entity->getId());
+        $this->assertSame('t.u.', $entity->getAuthorName());
+        $this->assertSame('tu@staging.olzimmerberg.ch', $entity->getAuthorEmail());
+        $this->assertSame(FakeUser::adminUser(), $entity->getAuthorUser());
+        $this->assertSame(FakeRole::adminRole(), $entity->getAuthorRole());
+        $this->assertSame('2020-03-16', $entity->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('09:00:00', $entity->getPublishedTime()->format('H:i:s'));
+        $this->assertSame('Test Titel', $entity->getTitle());
+        $this->assertSame('Das muss man gelesen haben!', $entity->getTeaser());
+        $this->assertSame('Sehr viel Inhalt.', $entity->getContent());
+        $this->assertNull($entity->getExternalUrl());
+        $this->assertSame(' test unit ', $entity->getTags());
+        $this->assertSame(0, $entity->getTermin());
 
         $this->assertSame([
-            [$news_entry, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $id = 123;
@@ -286,23 +286,23 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $news_entry = $entity_manager->persisted[0];
-        $this->assertSame(123, $news_entry->getId());
-        $this->assertNull($news_entry->getAuthorName());
-        $this->assertNull($news_entry->getAuthorEmail());
-        $this->assertNull($news_entry->getAuthorUser());
-        $this->assertNull($news_entry->getAuthorRole());
-        $this->assertSame('2020-03-13', $news_entry->getPublishedDate()->format('Y-m-d'));
-        $this->assertSame('19:30:00', $news_entry->getPublishedTime()->format('H:i:s'));
-        $this->assertSame('Cannot be empty', $news_entry->getTitle());
-        $this->assertSame('', $news_entry->getTeaser());
-        $this->assertSame('', $news_entry->getContent());
-        $this->assertNull($news_entry->getExternalUrl());
-        $this->assertSame('  ', $news_entry->getTags());
-        $this->assertSame(0, $news_entry->getTermin());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(123, $entity->getId());
+        $this->assertNull($entity->getAuthorName());
+        $this->assertNull($entity->getAuthorEmail());
+        $this->assertNull($entity->getAuthorUser());
+        $this->assertNull($entity->getAuthorRole());
+        $this->assertSame('2020-03-13', $entity->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('19:30:00', $entity->getPublishedTime()->format('H:i:s'));
+        $this->assertSame('Cannot be empty', $entity->getTitle());
+        $this->assertSame('', $entity->getTeaser());
+        $this->assertSame('', $entity->getContent());
+        $this->assertNull($entity->getExternalUrl());
+        $this->assertSame('  ', $entity->getTags());
+        $this->assertSame(0, $entity->getTermin());
 
         $this->assertSame([
-            [$news_entry, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $id = 123;

@@ -10,6 +10,7 @@ use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Entity\Termine\TerminNotification;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
@@ -249,6 +250,7 @@ class OlzTerminDetail extends OlzRootComponent {
         $is_organizer = $user && intval($termin->getOrganizerUser()?->getId() ?? 0) === intval($user->getId());
         $has_termine_permissions = $this->authUtils()->hasPermission('termine');
         $can_edit = $is_owner || $is_organizer || $has_termine_permissions;
+        $add_termin_notification_admin = '';
         if ($can_edit) {
             $json_id = json_encode($id);
             $out .= <<<ZZZZZZZZZZ
@@ -260,6 +262,18 @@ class OlzTerminDetail extends OlzRootComponent {
                     >
                         <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
                         Bearbeiten
+                    </button>
+                </div>
+                ZZZZZZZZZZ;
+            $add_termin_notification_admin = <<<ZZZZZZZZZZ
+                <div>
+                    <button
+                        id='add-termin-notification-button'
+                        class='btn btn-primary'
+                        onclick='return olz.addTerminNotification({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        Neue Benachrichtigung
                     </button>
                 </div>
                 ZZZZZZZZZZ;
@@ -381,6 +395,51 @@ class OlzTerminDetail extends OlzRootComponent {
         $linked_reactions = $this->htmlUtils()->getLinkedReactions($text_html);
         $json_reactions = json_encode($linked_reactions) ?: '[]';
         $out .= "<div id='termin-reactions'></div><script>olz.initTerminReactions({$json_id}, {$json_reactions});</script>";
+
+        if ($can_edit) {
+            // Termin Notifications
+            $termin_notification_repo = $this->entityManager()->getRepository(TerminNotification::class);
+            $termin_notifications = $termin_notification_repo->findBy(
+                ['termin' => $termin],
+                ['fires_earlier_seconds' => 'DESC'],
+            );
+            $num_termin_notifications = count($termin_notifications);
+            $out .= "<div id='termin-notifications'>";
+            if ($num_termin_notifications === 0) {
+                $out .= "<p><i>Keine Benachrichtigungen</i></p>";
+                $out .= $add_termin_notification_admin;
+            } else {
+                $out .= $add_termin_notification_admin;
+                $out .= "<table id='termin-notifications-table' class='boxy'>";
+                $out .= "<tr><th>Zeitpunkt</th><th>Titel</th><th>Empfänger</th></tr>";
+                foreach ($termin_notifications as $termin_notification) {
+                    $out .= "<tr class='termin-notification'>";
+                    $json_id = json_encode(intval($termin_notification->getId()));
+                    $row_admin = <<<ZZZZZZZZZZ
+                        <button
+                            id='edit-termin-notification-button-{$json_id}'
+                            class='btn btn-secondary-outline btn-sm edit-termin-notification-button'
+                            onclick='return olz.editTerminNotification({$json_id})'
+                        >
+                            <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                        </button>
+                        ZZZZZZZZZZ;
+                    $pretty_fires_earlier = $this->dateUtils()->formatDateInterval(
+                        $termin_notification->getFiresEarlierSeconds()
+                    );
+                    $pretty_recipients = implode('', array_map(
+                        fn ($recipient) => "<div>{$recipient}</div>",
+                        $this->termineUtils()->formatNotificationRecipients($termin_notification),
+                    ));
+                    $out .= "<td>{$row_admin}{$pretty_fires_earlier} vorher</td>";
+                    $out .= "<td><b>{$termin_notification->getTitle()}</b></td>";
+                    $out .= "<td>{$pretty_recipients}</td>";
+                    $out .= "</tr>";
+                }
+                $out .= "</table>";
+            }
+            $out .= "</div>";
+        }
 
         $out .= "</div>"; // olz-termin-detail
         $out .= "</div>"; // content-middle

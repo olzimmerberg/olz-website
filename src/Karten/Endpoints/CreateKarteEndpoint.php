@@ -21,7 +21,7 @@ class CreateKarteEndpoint extends OlzCreateEntityTypedEndpoint {
         $this->checkPermission('karten');
 
         $entity = new Karte();
-        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->entityUtils()->createOlzEntity($entity, $input['meta'] ?? null);
         $this->updateEntityWithData($entity, $input['data']);
 
         $this->entityManager()->persist($entity);

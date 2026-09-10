@@ -80,26 +80,26 @@ final class CreateTerminTemplateEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $termin_template = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $termin_template->getId());
-        $this->assertSame('18:30:00', $termin_template->getStartTime()->format('H:i:s'));
-        $this->assertSame(5400, $termin_template->getDurationSeconds());
-        $this->assertSame('Fake title!', $termin_template->getTitle());
-        $this->assertSame('Fake text!', $termin_template->getText());
-        $this->assertSame(86400, $termin_template->getDeadlineEarlierSeconds());
-        $this->assertSame('22:00:00', $termin_template->getDeadlineTime()->format('H:i:s'));
-        $this->assertTrue($termin_template->getNewsletter());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('18:30:00', $entity->getStartTime()->format('H:i:s'));
+        $this->assertSame(5400, $entity->getDurationSeconds());
+        $this->assertSame('Fake title!', $entity->getTitle());
+        $this->assertSame('Fake text!', $entity->getText());
+        $this->assertSame(86400, $entity->getDeadlineEarlierSeconds());
+        $this->assertSame('22:00:00', $entity->getDeadlineTime()->format('H:i:s'));
+        $this->assertTrue($entity->getNewsletter());
         $this->assertSame(['ol', 'club'], array_map(function ($label) {
             return $label->getIdent();
-        }, [...$termin_template->getLabels()]));
-        $this->assertSame(123, $termin_template->getLocation()->getId());
+        }, [...$entity->getLabels()]));
+        $this->assertSame(123, $entity->getLocation()->getId());
         $this->assertSame(
             ['uploaded_image.jpg', 'inexistent.png'],
-            $termin_template->getImageIds(),
+            $entity->getImageIds(),
         );
 
         $this->assertSame([
-            [$termin_template, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $id = FakeEntityManager::AUTO_INCREMENT_ID;

@@ -29,8 +29,15 @@ final class TermineTest extends SystemTestCase {
         $this->loadUrl($this->getDetailUrl());
         $this->screenshot('termine_detail');
 
-        // TODO: Dummy assert
-        $this->assertDirectoryExists(__DIR__);
+        // Reactions (read-only)
+        $this->waitABit();
+        $inline_elem = $this->getBrowserElement('a[href="#react-%F0%9F%91%8D"]');
+        $elem = $this->getBrowserElement('#reaction-button-undefined-👍');
+        $this->assertNull($inline_elem?->getAttribute('class'));
+        $this->assertSame('Daumen hoch👍 4', $inline_elem?->getText());
+        $this->assertSame('reaction', $elem?->getAttribute('class'));
+        $this->assertSame('👍 4', $elem->getText());
+        $this->assertNull($this->getBrowserElement('#add-reaction-button'));
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]

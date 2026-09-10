@@ -4,6 +4,7 @@ import {OlzEditableReactions} from '../../../Common/Components/OlzEditableReacti
 import {olzConfirm} from '../../../Common/Components/OlzConfirmationDialog/OlzConfirmationDialog';
 import {initReact} from '../../../Utils/reactUtils';
 import {initOlzEditTerminTemplateModal} from '../OlzEditTerminTemplateModal/OlzEditTerminTemplateModal';
+import {initOlzEditTerminNotificationTemplateModal} from '../OlzEditTerminNotificationTemplateModal/OlzEditTerminNotificationTemplateModal';
 
 import './OlzTerminTemplateDetail.scss';
 
@@ -31,4 +32,21 @@ export function initTerminTemplateReactions(
             }).then(() => null)}
         />,
     );
+}
+
+export function addTerminNotificationTemplate(
+    terminTemplateId: number,
+): boolean {
+    initOlzEditTerminNotificationTemplateModal(undefined, {terminTemplateId});
+    return false;
+}
+
+export function editTerminNotificationTemplate(
+    terminNotificationTemplateId: number,
+): boolean {
+    olzApi.call('editTerminNotificationTemplate', {id: terminNotificationTemplateId})
+        .then((response) => {
+            initOlzEditTerminNotificationTemplateModal(response.id, response.data);
+        });
+    return false;
 }

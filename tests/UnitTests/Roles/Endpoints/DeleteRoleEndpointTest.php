@@ -88,9 +88,9 @@ final class DeleteRoleEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $download = $entity_manager->persisted[0];
-        $this->assertSame(FakeOlzRepository::MINIMAL_ID, $download->getId());
-        $this->assertSame(0, $download->getOnOff());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeOlzRepository::MINIMAL_ID, $entity->getId());
+        $this->assertSame(0, $entity->getOnOff());
     }
 
     public function testDeleteRoleEndpointInexistent(): void {

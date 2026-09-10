@@ -64,10 +64,6 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
         };
     }, [reactions]);
 
-    if (reactions === null) {
-        return (<></>);
-    }
-
     const childUserById: {[userId: number]: UserConstant} = {};
     childUsers.forEach((childUser) => {
         childUserById[childUser.id ?? 0] = childUser;
@@ -80,7 +76,7 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
     const nameByUser: {[userId: number]: string | null} = {};
     const emojisByUser: {[userId: number]: Set<string>} = {};
     const isActiveByEmojiByUser: {[userId: number]: {[emoji: string]: boolean}} = {};
-    reactions.forEach((reaction) => {
+    (reactions || []).forEach((reaction) => {
         countByEmoji[reaction.emoji] ??= 0;
         countByEmoji[reaction.emoji]++;
         userIdSet.add(reaction.userId);
@@ -98,6 +94,33 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
     const orderedEmojis = Object.keys(countByEmoji);
     orderedEmojis.sort((a, b) => countByEmoji[b] - countByEmoji[a]);
 
+    React.useEffect(() => {
+        document.querySelectorAll('a[href^=\'#react-\']').forEach((elem) => {
+            elem.classList.remove('active');
+            const emoji = decodeURIComponent(elem.getAttribute('href')?.substring(7) ?? '');
+            const emojiCount = countByEmoji[emoji] ?? '';
+            let infoElem = elem.querySelector('span.reaction-info');
+            if (!infoElem) {
+                infoElem = document.createElement('span');
+                infoElem.classList.add('reaction-info');
+                elem.appendChild(infoElem);
+            }
+
+            infoElem.innerHTML = `${emoji}&nbsp;${emojiCount}`;
+        });
+
+        (emojisByUser[currentUser.id ?? 0] ?? []).forEach((emoji) => {
+            const selector = `a[href^='#react-${encodeURIComponent(emoji)}']`;
+            document.querySelectorAll(selector).forEach((elem) => {
+                elem.classList.add('active');
+            });
+        });
+    }, [currentUser, countByEmoji, emojisByUser]);
+
+    if (reactions === null) {
+        return (<></>);
+    }
+
     const reactionsForUser = (user?: UserConstant) => {
         const userName = user?.name ? `${user?.name}: ` : '';
 
@@ -110,6 +133,7 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
                         href='#login-dialog'
                         className={`reaction${activeClass}`}
                         key={emoji}
+                        id={`reaction-button-${user?.username}-${emoji}`}
                     >
                         {emoji} {countByEmoji[emoji]}
                     </a>
@@ -120,6 +144,7 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
                     onClick={() => toggleReaction(user?.id, emoji)}
                     className={`reaction${activeClass}`}
                     key={emoji}
+                    id={`reaction-button-${user?.username}-${emoji}`}
                 >
                     {emoji} {countByEmoji[emoji]}
                 </a>
@@ -155,7 +180,7 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
         for (const userId of userIds) {
             const emojis = emojisByUser[userId] ?? new Set();
             userRows.push(
-                <tr>
+                <tr key={`user-${userId}`}>
                     <td className='name-col'>
                         <a
                             onClick={() => initOlzUserInfoModal(Number(userId))}
@@ -164,31 +189,10 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
                             {nameByUser[userId] ?? '?'}
                         </a>
                     </td>
-                    {orderedEmojis.map((emoji) => <td>{emojis.has(emoji) ? emoji : ''}</td>)}
+                    {orderedEmojis.map((emoji) => <td key={emoji}>{emojis.has(emoji) ? emoji : ''}</td>)}
                 </tr>,
             );
         }
-
-        document.querySelectorAll('a[href^=\'#react-\']').forEach((elem) => {
-            elem.classList.remove('active');
-            const emoji = decodeURIComponent(elem.getAttribute('href')?.substring(7) ?? '');
-            const emojiCount = countByEmoji[emoji] ?? '';
-            let infoElem = elem.querySelector('span.reaction-info');
-            if (!infoElem) {
-                infoElem = document.createElement('span');
-                infoElem.classList.add('reaction-info');
-                elem.appendChild(infoElem);
-            }
-
-            infoElem.innerHTML = `${emoji}&nbsp;${emojiCount}`;
-            console.log(emoji, infoElem);
-        });
-        (emojisByUser[currentUser.id ?? 0] ?? []).forEach((emoji) => {
-            const selector = `a[href^='#react-${encodeURIComponent(emoji)}']`;
-            document.querySelectorAll(selector).forEach((elem) => {
-                elem.classList.add('active');
-            });
-        });
     }
 
     const allReactionsTable = userRows.length > 0 ? (
@@ -197,10 +201,12 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
                 <thead>
                     <tr>
                         <th>Name</th>
-                        {orderedEmojis.map((emoji) => <th>{emoji}</th>)}
+                        {orderedEmojis.map((emoji) => <th key={emoji}>{emoji}</th>)}
                     </tr>
                 </thead>
-                {userRows}
+                <tbody>
+                    {userRows}
+                </tbody>
             </table>
         </div>
     ) : null;

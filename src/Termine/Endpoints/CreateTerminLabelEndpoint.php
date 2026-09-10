@@ -18,7 +18,7 @@ class CreateTerminLabelEndpoint extends OlzCreateEntityTypedEndpoint {
         $this->checkPermission('termine_admin');
 
         $entity = new TerminLabel();
-        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->entityUtils()->createOlzEntity($entity, $input['meta'] ?? null);
         $this->updateEntityWithData($entity, $input['data']);
 
         $this->entityManager()->persist($entity);

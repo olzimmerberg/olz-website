@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Expr\Comparison;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Entity\Termine\TerminNotification;
+use Olz\Entity\Termine\TerminNotificationTemplate;
 use Olz\Utils\DateUtils;
 use Olz\Utils\WithUtilsTrait;
 
@@ -299,6 +301,39 @@ class TermineUtils {
         $code_href = $this->envUtils()->getCodeHref();
         $serialized_filter = $this->serialize($this->getValidFilter($filter));
         return "{$code_href}termine?filter={$serialized_filter}";
+    }
+
+    /**
+     * @param TerminNotification|TerminNotificationTemplate $notification
+     *
+     * @return array<string>
+     */
+    public function formatNotificationRecipients(mixed $notification): array {
+        $recipients = [];
+        $recipient_user = $notification->getRecipientUser();
+        if ($recipient_user !== null) {
+            $recipients[] = $recipient_user->getFullName();
+        }
+        $recipient_role = $notification->getRecipientRole();
+        if ($recipient_role !== null) {
+            $recipients[] = "Ressort {$recipient_role->getName()}";
+        }
+        if ($notification->getRecipientTerminOwnerUser()) {
+            $recipients[] = "Termin-Verantwortlicher";
+        }
+        if ($notification->getRecipientTerminOwnerRole()) {
+            $recipients[] = "Termin-Ressort";
+        }
+        if ($notification->getRecipientTerminOrganizer()) {
+            $recipients[] = "Termin-Organisator";
+        }
+        if ($notification->getRecipientTerminVolunteers()) {
+            $recipients[] = "Termin-Helfer";
+        }
+        if ($notification->getRecipientTerminParticipants()) {
+            $recipients[] = "Termin-Teilnehmer";
+        }
+        return $recipients;
     }
 
     public function updateTerminFromSolvEvent(Termin $termin, ?SolvEvent $solv_event_arg = null): void {

@@ -21,8 +21,8 @@ class TerminNotificationTemplate implements TestableInterface {
     #[ORM\JoinColumn(name: 'termin_template_id', referencedColumnName: 'id', nullable: false)]
     private TerminTemplate $termin_template;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $fires_earlier_seconds;
+    #[ORM\Column(type: 'integer', nullable: false)]
+    private int $fires_earlier_seconds;
 
     #[ORM\Column(type: 'text', nullable: false)]
     private string $title;
@@ -69,11 +69,11 @@ class TerminNotificationTemplate implements TestableInterface {
         $this->termin_template = $new_value;
     }
 
-    public function getFiresEarlierSeconds(): ?int {
+    public function getFiresEarlierSeconds(): int {
         return $this->fires_earlier_seconds;
     }
 
-    public function setFiresEarlierSeconds(?int $new_value): void {
+    public function setFiresEarlierSeconds(int $new_value): void {
         $this->fires_earlier_seconds = $new_value;
     }
 

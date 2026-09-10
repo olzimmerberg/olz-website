@@ -114,16 +114,16 @@ final class UpdateTerminLabelEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $termin_label = $entity_manager->persisted[0];
-        $this->assertSame(123, $termin_label->getId());
-        $this->assertSame('label', $termin_label->getIdent());
-        $this->assertSame('Label Title', $termin_label->getName());
-        $this->assertSame('Some label info', $termin_label->getDetails());
-        $this->assertSame('uploaded_icon.svg', $termin_label->getIcon());
-        $this->assertSame(123.0, $termin_label->getPosition());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(123, $entity->getId());
+        $this->assertSame('label', $entity->getIdent());
+        $this->assertSame('Label Title', $entity->getName());
+        $this->assertSame('Some label info', $entity->getDetails());
+        $this->assertSame('uploaded_icon.svg', $entity->getIcon());
+        $this->assertSame(123.0, $entity->getPosition());
 
         $this->assertSame([
-            [$termin_label, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $id = 123;

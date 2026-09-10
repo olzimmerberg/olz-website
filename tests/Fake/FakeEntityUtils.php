@@ -16,7 +16,7 @@ class FakeEntityUtils extends EntityUtils {
     /** @var array<array{0: ?OlzEntity, 1: ?string, 2: ?string, 3: ?string, 4: ?array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int}, 5: string}> */
     public array $can_update_olz_entity_calls = [];
 
-    public function createOlzEntity(OlzEntity $entity, array $input): void {
+    public function createOlzEntity(OlzEntity $entity, ?array $input): void {
         parent::createOlzEntity($entity, $input);
         $this->create_olz_entity_calls[] = [
             $entity,
@@ -26,7 +26,7 @@ class FakeEntityUtils extends EntityUtils {
         ];
     }
 
-    public function updateOlzEntity(OlzEntity $entity, array $input): void {
+    public function updateOlzEntity(OlzEntity $entity, ?array $input): void {
         parent::updateOlzEntity($entity, $input);
         $this->update_olz_entity_calls[] = [
             $entity,

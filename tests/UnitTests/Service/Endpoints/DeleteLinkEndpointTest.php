@@ -85,9 +85,9 @@ final class DeleteLinkEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $link = $entity_manager->persisted[0];
-        $this->assertSame(123, $link->getId());
-        $this->assertSame(0, $link->getOnOff());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(123, $entity->getId());
+        $this->assertSame(0, $entity->getOnOff());
     }
 
     public function testDeleteLinkEndpointInexistent(): void {

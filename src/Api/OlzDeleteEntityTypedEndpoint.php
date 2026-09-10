@@ -19,5 +19,5 @@ namespace Olz\Api;
  * >
  */
 abstract class OlzDeleteEntityTypedEndpoint extends OlzTypedEndpoint {
-    use OlzEntityEndpointTrait;
+    use OlzDataStorageEndpointTrait;
 }

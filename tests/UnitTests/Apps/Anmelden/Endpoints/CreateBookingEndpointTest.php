@@ -44,14 +44,14 @@ final class CreateBookingEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $booking = $entity_manager->persisted[0];
-        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $booking->getId());
-        $this->assertSame(264, $booking->getRegistration()->getId());
-        $this->assertSame('{"0-vorname":"Simon","1-nachname":"Hatt"}', $booking->getFormData());
-        $this->assertSame(FakeUser::defaultUser(), $booking->getUser());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(Fake\FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame(264, $entity->getRegistration()->getId());
+        $this->assertSame('{"0-vorname":"Simon","1-nachname":"Hatt"}', $entity->getFormData());
+        $this->assertSame(FakeUser::defaultUser(), $entity->getUser());
 
         $this->assertSame([
-            [$booking, 1, 1, null],
+            [$entity, 1, 1, null],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
     }
 }

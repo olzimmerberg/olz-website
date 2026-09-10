@@ -3,10 +3,12 @@ import {Control, FieldErrors, FieldValues, Path, useController} from 'react-hook
 
 import './OlzTimeIntervalField.scss';
 
-type TimeIntervalUnit = 'WEEKS' | 'DAYS' | 'HOURS' | 'MINUTES' | 'SECONDS';
+type TimeIntervalUnit = 'MONTHS' | 'WEEKS' | 'DAYS' | 'HOURS' | 'MINUTES' | 'SECONDS';
 
 const getTimeIntervalUnit = (value: string): TimeIntervalUnit | null => {
     switch (value) {
+        case 'MONTHS':
+            return 'MONTHS';
         case 'WEEKS':
             return 'WEEKS';
         case 'DAYS':
@@ -23,16 +25,18 @@ const getTimeIntervalUnit = (value: string): TimeIntervalUnit | null => {
 };
 
 const getDefaultUnitForValue = (seconds: number): TimeIntervalUnit => {
-    if (seconds < 60) {
+    if (seconds < 2 * 60) {
         return 'SECONDS';
-    } else if (seconds < 60 * 60) {
+    } else if (seconds < 2 * 60 * 60) {
         return 'MINUTES';
-    } else if (seconds < 60 * 60 * 24) {
+    } else if (seconds < 2 * 60 * 60 * 24) {
         return 'HOURS';
-    } else if (seconds < 60 * 60 * 24 * 7) {
+    } else if (seconds < 2 * 60 * 60 * 24 * 7) {
         return 'DAYS';
+    } else if (seconds < 2 * 60 * 60 * 24 * 30) {
+        return 'WEEKS';
     }
-    return 'WEEKS';
+    return 'MONTHS';
 };
 
 const getFactorForUnit = (unit: TimeIntervalUnit): number => {
@@ -47,6 +51,8 @@ const getFactorForUnit = (unit: TimeIntervalUnit): number => {
             return 60 * 60 * 24;
         case 'WEEKS':
             return 60 * 60 * 24 * 7;
+        case 'MONTHS':
+            return 60 * 60 * 24 * 30;
         default:
             throw new Error(`Unexpected unit: ${unit}`);
     }
@@ -96,11 +102,12 @@ export const OlzTimeIntervalField = <
         }
         const newValue = numberValue * getFactorForUnit(unit);
         field.onChange(newValue.toString());
-    }, [value]);
+    }, [value, unit]);
 
     const errorMessage = props.errors?.[props.name]?.message;
     const errorClassName = errorMessage ? ' is-invalid' : '';
-    const inputId = `${props.name}-input`;
+    const inputId = `${props.name}-number-input`;
+    const unitInputId = `${props.name}-unit-input`;
     const labelComponent = <label htmlFor={inputId}>{props.title}</label>;
     const errorComponent = errorMessage && <p className='error'>{String(errorMessage)}</p>;
 
@@ -121,8 +128,8 @@ export const OlzTimeIntervalField = <
                 onFocus={props.onFocus}
             />
             <select
-                className={`form-control form-select${errorClassName}`}
-                id='unit-input'
+                className={`form-control form-select unit-input${errorClassName}`}
+                id={unitInputId}
                 value={unit}
                 onChange={(e) => {
                     setUnit(getTimeIntervalUnit(e.target.value) ?? 'SECONDS');
@@ -134,6 +141,7 @@ export const OlzTimeIntervalField = <
                 <option value='HOURS'>Stunden</option>
                 <option value='DAYS'>Tage</option>
                 <option value='WEEKS'>Wochen</option>
+                <option value='MONTHS'>Monate</option>
             </select>
         </div>
         {errorComponent}

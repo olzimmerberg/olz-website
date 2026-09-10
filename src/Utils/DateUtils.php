@@ -227,4 +227,28 @@ class DateUtils {
             'end' => $next_day_start,
         ];
     }
+
+    public function formatDateInterval(int $seconds): string {
+        $minutes = intval($seconds / 60);
+        if ($minutes <= 1) {
+            return "{$seconds} Sekunden";
+        }
+        $hours = intval($minutes / 60);
+        if ($hours <= 1) {
+            return "{$minutes} Minuten";
+        }
+        $days = intval($hours / 24);
+        if ($days <= 1) {
+            return "{$hours} Stunden";
+        }
+        $weeks = intval($days / 7);
+        if ($weeks <= 1) {
+            return "{$days} Tage";
+        }
+        $months = intval($days / 30);
+        if ($months <= 1) {
+            return "{$weeks} Wochen";
+        }
+        return "{$months} Monate";
+    }
 }

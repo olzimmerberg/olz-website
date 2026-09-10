@@ -529,7 +529,8 @@ a {
 }
 
 .rendered-markdown table thead,
-.boxy thead {
+.boxy thead,
+.boxy th {
     background: linear-gradient(colors.$olz-bg-ultra-bright, colors.$olz-bg);
     background-color: colors.$olz-bg-bright;
 }

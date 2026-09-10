@@ -130,21 +130,21 @@ final class UpdateKarteEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $karte = $entity_manager->persisted[0];
-        $this->assertSame(123, $karte->getId());
-        $this->assertSame(12345, $karte->getKartenNr());
-        $this->assertSame('Test Karte', $karte->getName());
-        $this->assertSame(47.3, $karte->getLatitude());
-        $this->assertSame(8.7, $karte->getLongitude());
-        $this->assertSame('2020', $karte->getYear());
-        $this->assertSame('1:10\'000', $karte->getScale());
-        $this->assertSame('Testiswil', $karte->getPlace());
-        $this->assertSame(3, $karte->getZoom());
-        $this->assertSame('stadt', $karte->getKind());
-        $this->assertSame('uploaded_image.jpg', $karte->getPreviewImageId());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(123, $entity->getId());
+        $this->assertSame(12345, $entity->getKartenNr());
+        $this->assertSame('Test Karte', $entity->getName());
+        $this->assertSame(47.3, $entity->getLatitude());
+        $this->assertSame(8.7, $entity->getLongitude());
+        $this->assertSame('2020', $entity->getYear());
+        $this->assertSame('1:10\'000', $entity->getScale());
+        $this->assertSame('Testiswil', $entity->getPlace());
+        $this->assertSame(3, $entity->getZoom());
+        $this->assertSame('stadt', $entity->getKind());
+        $this->assertSame('uploaded_image.jpg', $entity->getPreviewImageId());
 
         $this->assertSame([
-            [$karte, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $id = 123;

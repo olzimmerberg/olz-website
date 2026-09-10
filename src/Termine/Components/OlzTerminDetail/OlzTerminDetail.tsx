@@ -3,6 +3,7 @@ import {olzApi} from '../../../Api/client';
 import {OlzEditableReactions} from '../../../Common/Components/OlzEditableReactions/OlzEditableReactions';
 import {initReact} from '../../../Utils/reactUtils';
 import {initOlzEditTerminModal} from '../OlzEditTerminModal/OlzEditTerminModal';
+import {initOlzEditTerminNotificationModal} from '../OlzEditTerminNotificationModal/OlzEditTerminNotificationModal';
 
 import './OlzTerminDetail.scss';
 
@@ -43,4 +44,21 @@ export function initTerminReactions(
             }
         />,
     );
+}
+
+export function addTerminNotification(
+    terminId: number,
+): boolean {
+    initOlzEditTerminNotificationModal(undefined, {terminId});
+    return false;
+}
+
+export function editTerminNotification(
+    terminNotificationId: number,
+): boolean {
+    olzApi.call('editTerminNotification', {id: terminNotificationId})
+        .then((response) => {
+            initOlzEditTerminNotificationModal(response.id, response.data);
+        });
+    return false;
 }

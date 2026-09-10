@@ -4,14 +4,7 @@ namespace Olz\Api;
 
 use Olz\Entity\Common\DataStorageInterface;
 
-/**
- * @phpstan-type OlzMetaData array{
- *   ownerUserId: ?int,
- *   ownerRoleId: ?int,
- *   onOff: bool,
- * }
- */
-trait OlzEntityEndpointTrait {
+trait OlzDataStorageEndpointTrait {
     /** @param ?array<string> $image_ids */
     protected function persistOlzImages(DataStorageInterface $entity, ?array $image_ids): void {
         $data_path = $this->envUtils()->getDataPath();

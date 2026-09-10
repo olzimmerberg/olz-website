@@ -15,14 +15,14 @@ class CreateBookingEndpoint extends OlzCreateEntityTypedEndpoint {
     use BookingEndpointTrait;
 
     protected function handle(mixed $input): mixed {
-        $booking = new Booking();
-        $this->entityUtils()->createOlzEntity($booking, $input['meta']);
-        $this->updateEntityWithData($booking, $input['data']);
+        $entity = new Booking();
+        $this->entityUtils()->createOlzEntity($entity, $input['meta'] ?? null);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($booking);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
 
-        $internal_booking_id = $booking->getId() ?? 0;
+        $internal_booking_id = $entity->getId() ?? 0;
         $external_booking_id = $this->idUtils()->toExternalId($internal_booking_id, 'Booking') ?: '-';
 
         return [

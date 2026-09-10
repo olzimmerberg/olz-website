@@ -7,7 +7,7 @@ import {olzConfirm} from '../OlzConfirmationDialog/OlzConfirmationDialog';
 import './OlzEditModal.scss';
 
 export const MARKDOWN_NOTICE = (<>
-    <span className='markdown-notice'>
+    <span className='secondary-notice'>
         mit
         <a
             href={`${codeHref}fragen_und_antworten/markdown`}
@@ -17,6 +17,10 @@ export const MARKDOWN_NOTICE = (<>
             Text-Formatierung
         </a>
     </span>
+</>);
+
+export const OPTIONAL_NOTICE = (<>
+    <span className='secondary-notice'>(optional)</span>
 </>);
 
 export type OlzEditModalStatus = {id: 'IDLE'}

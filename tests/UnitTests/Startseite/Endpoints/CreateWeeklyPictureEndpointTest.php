@@ -78,14 +78,14 @@ final class CreateWeeklyPictureEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $weekly_picture = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $weekly_picture->getId());
-        $this->assertSame('2020-03-13', $weekly_picture->getPublishedDate()->format('Y-m-d'));
-        $this->assertSame('Test Titel', $weekly_picture->getText());
-        $this->assertSame('uploaded_image.jpg', $weekly_picture->getImageId());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('2020-03-13', $entity->getPublishedDate()->format('Y-m-d'));
+        $this->assertSame('Test Titel', $entity->getText());
+        $this->assertSame('uploaded_image.jpg', $entity->getImageId());
 
         $this->assertSame([
-            [$weekly_picture, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $id = FakeEntityManager::AUTO_INCREMENT_ID;

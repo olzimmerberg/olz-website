@@ -74,19 +74,19 @@ final class CreateTerminLocationEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $termin_location = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $termin_location->getId());
-        $this->assertSame('Test location', $termin_location->getName());
-        $this->assertSame('some location info', $termin_location->getDetails());
-        $this->assertSame(47.2790953, $termin_location->getLatitude());
-        $this->assertSame(8.5591936, $termin_location->getLongitude());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('Test location', $entity->getName());
+        $this->assertSame('some location info', $entity->getDetails());
+        $this->assertSame(47.2790953, $entity->getLatitude());
+        $this->assertSame(8.5591936, $entity->getLongitude());
         $this->assertSame(
             ['uploaded_image.jpg', 'inexistent.png'],
-            $termin_location->getImageIds(),
+            $entity->getImageIds(),
         );
 
         $this->assertSame([
-            [$termin_location, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $id = FakeEntityManager::AUTO_INCREMENT_ID;

@@ -51,6 +51,8 @@ use Olz\Entity\TelegramLink;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
+use Olz\Entity\Termine\TerminNotification;
+use Olz\Entity\Termine\TerminNotificationTemplate;
 use Olz\Entity\Termine\TerminReaction;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Entity\Throttling;
@@ -84,6 +86,8 @@ use Olz\Tests\Fake\Entity\Snippets\FakeSnippetRepository;
 use Olz\Tests\Fake\Entity\Startseite\FakeWeeklyPictureRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminLabelRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminLocationRepository;
+use Olz\Tests\Fake\Entity\Termine\FakeTerminNotificationRepository;
+use Olz\Tests\Fake\Entity\Termine\FakeTerminNotificationTemplateRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminReactionRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminTemplateRepository;
@@ -134,6 +138,8 @@ class FakeEntityManager implements EntityManagerInterface {
             Termin::class => new FakeTerminRepository($this),
             TerminLabel::class => new FakeTerminLabelRepository($this),
             TerminLocation::class => new FakeTerminLocationRepository($this),
+            TerminNotification::class => new FakeTerminNotificationRepository($this),
+            TerminNotificationTemplate::class => new FakeTerminNotificationTemplateRepository($this),
             TerminReaction::class => new FakeTerminReactionRepository($this),
             TerminTemplate::class => new FakeTerminTemplateRepository($this),
             Throttling::class => new FakeThrottlingRepository($this),

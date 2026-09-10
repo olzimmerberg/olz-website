@@ -1,9 +1,3 @@
-.markdown-notice {
-    margin-left: 16px;
-    font-style: italic;
-    opacity: 0.5;
-}
-
 .olz-edit-modal {
     .modal-title {
         flex-grow: 1;
@@ -16,5 +10,11 @@
         img {
             margin: 0 2px 0 0;
         }
+    }
+
+    .secondary-notice {
+        margin-left: 16px;
+        font-style: italic;
+        opacity: 0.5;
     }
 }

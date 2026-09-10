@@ -10,6 +10,12 @@ use PhpTypeScriptApi\TypedEndpoint;
  * @template Request
  * @template Response
  *
+ * @phpstan-type OlzMetaData array{
+ *   ownerUserId: ?int,
+ *   ownerRoleId: ?int,
+ *   onOff: bool,
+ * }
+ *
  * @extends TypedEndpoint<Request, Response>
  */
 abstract class OlzTypedEndpoint extends TypedEndpoint {

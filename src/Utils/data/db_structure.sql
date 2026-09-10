@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260621085647
+-- MIGRATION: DoctrineMigrations\Version20260910212344
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -182,7 +182,7 @@ CREATE TABLE `counter` (
   `latency_num` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `date_range_page_index` (`date_range`,`page`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -929,7 +929,6 @@ CREATE TABLE `termin_notifications` (
   `termin_id` int(11) NOT NULL,
   `recipient_user_id` int(11) DEFAULT NULL,
   `recipient_role_id` int(11) DEFAULT NULL,
-  `fires_at` datetime NOT NULL,
   `title` longtext NOT NULL,
   `content` longtext DEFAULT NULL,
   `recipient_termin_owner_user` tinyint(4) NOT NULL DEFAULT 0,
@@ -937,15 +936,16 @@ CREATE TABLE `termin_notifications` (
   `recipient_termin_participants` tinyint(1) NOT NULL DEFAULT 0,
   `recipient_termin_owner_role` tinyint(4) NOT NULL DEFAULT 0,
   `recipient_termin_organizer` tinyint(4) NOT NULL DEFAULT 0,
+  `fires_earlier_seconds` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_23876048B15EFB97` (`recipient_user_id`),
   KEY `IDX_23876048C0330AAE` (`recipient_role_id`),
   KEY `termin_index` (`termin_id`),
-  KEY `fires_at_index` (`fires_at`),
+  KEY `fires_earlier_seconds_index` (`fires_earlier_seconds`),
   CONSTRAINT `FK_23876048B15EFB97` FOREIGN KEY (`recipient_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_23876048C0330AAE` FOREIGN KEY (`recipient_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_23876048CA0B7C00` FOREIGN KEY (`termin_id`) REFERENCES `termine` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -955,7 +955,7 @@ CREATE TABLE `termin_notification_templates` (
   `termin_template_id` int(11) NOT NULL,
   `recipient_user_id` int(11) DEFAULT NULL,
   `recipient_role_id` int(11) DEFAULT NULL,
-  `fires_earlier_seconds` int(11) DEFAULT NULL,
+  `fires_earlier_seconds` int(11) NOT NULL,
   `title` longtext NOT NULL,
   `content` longtext DEFAULT NULL,
   `recipient_termin_owner_user` tinyint(4) NOT NULL DEFAULT 0,
@@ -970,7 +970,7 @@ CREATE TABLE `termin_notification_templates` (
   CONSTRAINT `FK_43613C90324A4BBA` FOREIGN KEY (`termin_template_id`) REFERENCES `termin_templates` (`id`),
   CONSTRAINT `FK_43613C90B15EFB97` FOREIGN KEY (`recipient_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_43613C90C0330AAE` FOREIGN KEY (`recipient_role_id`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

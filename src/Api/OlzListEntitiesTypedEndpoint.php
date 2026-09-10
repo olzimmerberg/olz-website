@@ -9,7 +9,7 @@ namespace Olz\Api;
  * @template CustomResponse = never
  * @template CustomItem = never
  *
- * @phpstan-import-type OlzMetaData from OlzEntityEndpointTrait
+ * @phpstan-import-type OlzMetaData from OlzTypedEndpoint
  *
  * @extends OlzTypedEndpoint<
  *   array{
@@ -27,5 +27,5 @@ namespace Olz\Api;
  * >
  */
 abstract class OlzListEntitiesTypedEndpoint extends OlzTypedEndpoint {
-    use OlzEntityEndpointTrait;
+    use OlzDataStorageEndpointTrait;
 }

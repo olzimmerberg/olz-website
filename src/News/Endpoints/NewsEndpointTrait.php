@@ -40,7 +40,6 @@ trait NewsEndpointTrait {
         $published_time = $entity->getPublishedTime()?->format('H:i:s') ?? '00:00:00';
         $tags_for_api = $this->getTagsForApi($entity->getTags());
         $external_url = $entity->getExternalUrl();
-        $termin_id = $entity->getTermin();
 
         $valid_image_ids = $this->uploadUtils()->getValidUploadIds($entity->getImageIds());
         $file_ids = $entity->getStoredFileUploadIds();

@@ -158,13 +158,13 @@ final class UpdateDownloadEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $download = $entity_manager->persisted[0];
-        $this->assertSame(123, $download->getId());
-        $this->assertSame('Test Download', $download->getName());
-        $this->assertSame(3.0, $download->getPosition());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(123, $entity->getId());
+        $this->assertSame('Test Download', $entity->getName());
+        $this->assertSame(3.0, $entity->getPosition());
 
         $this->assertSame([
-            [$download, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $id = 123;

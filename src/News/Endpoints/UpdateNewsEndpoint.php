@@ -22,11 +22,11 @@ class UpdateNewsEndpoint extends OlzUpdateEntityTypedEndpoint {
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'news')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'] ?? null, 'news')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $this->entityUtils()->updateOlzEntity($entity, $input['meta']);
+        $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? null);
         $this->updateEntityWithData($entity, $input['data']);
 
         $this->entityManager()->persist($entity);

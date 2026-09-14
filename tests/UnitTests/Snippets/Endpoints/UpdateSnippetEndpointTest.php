@@ -81,16 +81,16 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertCount(2, $entity_manager->persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $snippet = $entity_manager->persisted[0];
-        $this->assertSame($id, $snippet->getId());
-        $this->assertSame('Updated text', $snippet->getText());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame($id, $entity->getId());
+        $this->assertSame('Updated text', $entity->getText());
 
         $this->assertSame([
-            [$snippet, null, null, null, ['ownerUserId' => 1, 'ownerRoleId' => 1, 'onOff' => true], 'snippet_9999'],
+            [$entity, null, null, null, ['ownerUserId' => 1, 'ownerRoleId' => 1, 'onOff' => true], 'snippet_9999'],
         ], WithUtilsCache::get('entityUtils')->can_update_olz_entity_calls);
 
         $this->assertSame([
-            [$snippet, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $this->assertSame([
@@ -147,12 +147,12 @@ final class UpdateSnippetEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $snippet = $entity_manager->persisted[0];
-        $this->assertSame($id, $snippet->getId());
-        $this->assertSame('Updated text', $snippet->getText());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame($id, $entity->getId());
+        $this->assertSame('Updated text', $entity->getText());
 
         $this->assertSame([
-            [$snippet, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->update_olz_entity_calls);
 
         $this->assertSame([

@@ -57,8 +57,8 @@ class EntityUtils {
         User::class,
     ];
 
-    /** @param array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
-    public function createOlzEntity(OlzEntity $entity, array $input): void {
+    /** @param ?array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
+    public function createOlzEntity(OlzEntity $entity, ?array $input): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getCurrentUser();
@@ -87,8 +87,8 @@ class EntityUtils {
         $entity->setLastModifiedByUser($current_user);
     }
 
-    /** @param array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
-    public function updateOlzEntity(OlzEntity $entity, array $input): void {
+    /** @param ?array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
+    public function updateOlzEntity(OlzEntity $entity, ?array $input): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getCurrentUser();

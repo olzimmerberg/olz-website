@@ -7,6 +7,7 @@ use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLabel;
+use Olz\Entity\Termine\TerminNotificationTemplate;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
@@ -134,6 +135,18 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
                 </button>
             </div>
             ZZZZZZZZZZ;
+        $add_termin_notification_template_admin = <<<ZZZZZZZZZZ
+            <div>
+                <button
+                    id='add-termin-notification-template-button'
+                    class='btn btn-primary'
+                    onclick='return olz.addTerminNotificationTemplate({$json_id})'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Neue Benachrichtigung
+                </button>
+            </div>
+            ZZZZZZZZZZ;
 
         $pretty_date = '(irgendwann)';
         $duration_interval = \DateInterval::createFromDateString("+{$duration_seconds} seconds");
@@ -199,7 +212,50 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
         $json_reactions = json_encode($linked_reactions) ?: '[]';
         $out .= "<div id='termin-template-reactions'></div><script>olz.initTerminTemplateReactions({$json_reactions});</script>";
 
-        $out .= "</div>"; // olz-termin-location-detail
+        // Termin Notification Templates
+        $termin_notification_repo = $this->entityManager()->getRepository(TerminNotificationTemplate::class);
+        $termin_notifications = $termin_notification_repo->findBy(
+            ['termin_template' => $termin_template],
+            ['fires_earlier_seconds' => 'DESC'],
+        );
+        $num_termin_notifications = count($termin_notifications);
+        $out .= "<div id='termin-notification-templates'>";
+        if ($num_termin_notifications === 0) {
+            $out .= "<p><i>Keine Benachrichtigungen</i></p>";
+            $out .= $add_termin_notification_template_admin;
+        } else {
+            $out .= $add_termin_notification_template_admin;
+            $out .= "<table id='termin-notification-templates-table' class='boxy'>";
+            $out .= "<tr><th>Zeitpunkt</th><th>Titel</th><th>Empfänger</th></tr>";
+            foreach ($termin_notifications as $termin_notification) {
+                $out .= "<tr class='termin-notification-template'>";
+                $json_id = json_encode(intval($termin_notification->getId()));
+                $row_admin = <<<ZZZZZZZZZZ
+                    <button
+                        id='edit-termin-notification-template-button-{$json_id}'
+                        class='btn btn-secondary-outline btn-sm edit-termin-notification-template-button'
+                        onclick='return olz.editTerminNotificationTemplate({$json_id})'
+                    >
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
+                    </button>
+                    ZZZZZZZZZZ;
+                $pretty_fires_earlier = $this->dateUtils()->formatDateInterval(
+                    $termin_notification->getFiresEarlierSeconds()
+                );
+                $pretty_recipients = implode('', array_map(
+                    fn ($recipient) => "<div>{$recipient}</div>",
+                    $this->termineUtils()->formatNotificationRecipients($termin_notification),
+                ));
+                $out .= "<td>{$row_admin}{$pretty_fires_earlier} vorher</td>";
+                $out .= "<td><b>{$termin_notification->getTitle()}</b></td>";
+                $out .= "<td>{$pretty_recipients}</td>";
+                $out .= "</tr>";
+            }
+            $out .= "</table>";
+        }
+        $out .= "</div>";
+
+        $out .= "</div>"; // olz-termin-template-detail
         $out .= "</div>"; // content-middle
 
         $out .= OlzFooter::render();

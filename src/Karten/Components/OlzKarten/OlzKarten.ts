@@ -151,7 +151,6 @@ export function olzKartenMapRender(
 export function kartenLinkEnter(
     karteId: number,
 ): boolean {
-    console.log('kartenLinkEnter', karteId);
     const newFeature = features.find((item) => item.get('id') === karteId);
     highlightOverlay.getSource()?.getFeatures().map((feature) => {
         highlightOverlay.getSource()?.removeFeature(feature);
@@ -163,9 +162,8 @@ export function kartenLinkEnter(
 }
 
 export function kartenLinkLeave(
-    karteId: number,
+    _karteId: number,
 ): boolean {
-    console.log('kartenLinkLeave', karteId);
     highlightOverlay.getSource()?.getFeatures().map((feature) => {
         highlightOverlay.getSource()?.removeFeature(feature);
     });

@@ -87,31 +87,31 @@ final class CreateTerminEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $termin = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $termin->getId());
-        $this->assertSame('2020-03-13', $termin->getStartDate()->format('Y-m-d'));
-        $this->assertNull($termin->getStartTime());
-        $this->assertNull($termin->getEndDate());
-        $this->assertNull($termin->getEndTime());
-        $this->assertSame('Test event', $termin->getTitle());
-        $this->assertSame("some info\n\n[Home](test-anlass.ch)", $termin->getText());
-        $this->assertNull($termin->getDeadline());
-        $this->assertFalse($termin->getNewsletter());
-        $this->assertNull($termin->getSolvId());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('2020-03-13', $entity->getStartDate()->format('Y-m-d'));
+        $this->assertNull($entity->getStartTime());
+        $this->assertNull($entity->getEndDate());
+        $this->assertNull($entity->getEndTime());
+        $this->assertSame('Test event', $entity->getTitle());
+        $this->assertSame("some info\n\n[Home](test-anlass.ch)", $entity->getText());
+        $this->assertNull($entity->getDeadline());
+        $this->assertFalse($entity->getNewsletter());
+        $this->assertNull($entity->getSolvId());
         $this->assertSame(['training', 'weekend'], array_map(function ($label) {
             return $label->getIdent();
-        }, [...$termin->getLabels()]));
-        $this->assertSame(1234, $termin->getLocation()->getId());
-        $this->assertSame('Fake title!', $termin->getLocation()->getName());
-        $this->assertNull($termin->getLatitude());
-        $this->assertNull($termin->getLongitude());
+        }, [...$entity->getLabels()]));
+        $this->assertSame(1234, $entity->getLocation()->getId());
+        $this->assertSame('Fake title!', $entity->getLocation()->getName());
+        $this->assertNull($entity->getLatitude());
+        $this->assertNull($entity->getLongitude());
         $this->assertSame(
             ['uploaded_image.jpg', 'inexistent.png'],
-            $termin->getImageIds(),
+            $entity->getImageIds(),
         );
 
         $this->assertSame([
-            [$termin, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $id = FakeEntityManager::AUTO_INCREMENT_ID;

@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260621085647
+-- MIGRATION: DoctrineMigrations\Version20260910212344
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -119,7 +119,8 @@ VALUES
     ('DoctrineMigrations\\Version20260414214346', '2026-04-14 23:47:35', '33'),
     ('DoctrineMigrations\\Version20260416193600', '2026-04-16 21:40:27', '37'),
     ('DoctrineMigrations\\Version20260530162734', '2026-05-30 18:28:25', '18'),
-    ('DoctrineMigrations\\Version20260621085647', '2026-06-21 10:58:18', '32');
+    ('DoctrineMigrations\\Version20260621085647', '2026-06-21 10:58:18', '32'),
+    ('DoctrineMigrations\\Version20260910212344', '2026-09-14 18:32:11', '56');
 
 -- Table downloads
 INSERT INTO downloads
@@ -537,8 +538,20 @@ VALUES
     ('4', NULL, NULL, NULL, NULL, 'SOFT DELETED', NULL, '47.2631769788326', '8.589723706823843', NULL, '0', '2023-06-11 19:39:06', '2023-06-11 19:39:06');
 
 -- Table termin_notification_templates
+INSERT INTO termin_notification_templates
+    (`id`, `termin_template_id`, `recipient_user_id`, `recipient_role_id`, `fires_earlier_seconds`, `title`, `content`, `recipient_termin_owner_user`, `recipient_termin_volunteers`, `recipient_termin_participants`, `recipient_termin_owner_role`, `recipient_termin_organizer`)
+VALUES
+    ('1', '2', NULL, NULL, '1814400', 'In drei Wochen ist dein Training', 'siehe Trainingsdatenblatt im Termin', '0', '0', '0', '0', '1'),
+    ('2', '2', '2', NULL, '1209600', 'Fortschritt Trainingsvorbereitung', '', '0', '0', '0', '0', '1'),
+    ('3', '2', NULL, '18', '604800', 'Kartendruck für Training', '', '0', '0', '0', '0', '1');
 
 -- Table termin_notifications
+INSERT INTO termin_notifications
+    (`id`, `termin_id`, `recipient_user_id`, `recipient_role_id`, `title`, `content`, `recipient_termin_owner_user`, `recipient_termin_volunteers`, `recipient_termin_participants`, `recipient_termin_owner_role`, `recipient_termin_organizer`, `fires_earlier_seconds`)
+VALUES
+    ('1', '7', NULL, NULL, 'In drei Wochen ist dein Training', '', '0', '0', '0', '0', '1', '1814400'),
+    ('2', '7', '2', NULL, 'Fortschritt Trainingsvorbereitung', '', '0', '0', '0', '0', '1', '1209600'),
+    ('3', '7', NULL, '18', 'Kartendruck für Training', '', '0', '0', '0', '0', '1', '604800');
 
 -- Table termin_reactions
 INSERT INTO termin_reactions
@@ -548,6 +561,7 @@ VALUES
     ('3', '👍', '7', '5'),
     ('5', '👍', '7', '6'),
     ('7', '👍', '7', '7'),
+    ('48', '💑', '7', '5'),
     ('2', '🔴', '7', '1'),
     ('4', '🔵', '7', '5'),
     ('6', '🔵', '7', '6'),
@@ -571,14 +585,14 @@ VALUES
     ('25', '🥦', '13', '7'),
     ('26', '⌚', '15', '5'),
     ('27', '♀️', '15', '3'),
-    ('28', '🌾', '15', '3'),
-    ('29', '🌾', '15', '7'),
     ('30', '✅', '15', '1'),
     ('31', '✅', '15', '3'),
     ('32', '✅', '15', '5'),
     ('33', '✅', '15', '6'),
     ('34', '✅', '15', '7'),
     ('35', '✅', '15', '8'),
+    ('28', '🌾', '15', '3'),
+    ('29', '🌾', '15', '7'),
     ('36', '😋', '15', '1'),
     ('37', '😋', '15', '3'),
     ('38', '😋', '15', '6'),

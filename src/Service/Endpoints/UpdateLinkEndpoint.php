@@ -19,11 +19,11 @@ class UpdateLinkEndpoint extends OlzUpdateEntityTypedEndpoint {
 
         $entity = $this->getEntityById($input['id']);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], 'links')) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'] ?? null, 'links')) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $this->entityUtils()->updateOlzEntity($entity, $input['meta']);
+        $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? null);
         $this->updateEntityWithData($entity, $input['data']);
 
         $this->entityManager()->persist($entity);

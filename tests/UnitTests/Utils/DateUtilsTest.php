@@ -183,4 +183,20 @@ final class DateUtilsTest extends UnitTestCase {
         ], $date_utils->parseDateTimeRange('5.8.2020'));
         $this->assertNull($date_utils->parseDateTimeRange('not-a-date'));
     }
+
+    public function testFormatDateInterval(): void {
+        $date_utils = new DateUtils('2020-08-13 19:30:00');
+        $this->assertEquals('0 Sekunden', $date_utils->formatDateInterval(0));
+        $this->assertEquals('1 Sekunden', $date_utils->formatDateInterval(1));
+        $this->assertEquals('119 Sekunden', $date_utils->formatDateInterval(2 * 60 - 1));
+        $this->assertEquals('2 Minuten', $date_utils->formatDateInterval(2 * 60));
+        $this->assertEquals('119 Minuten', $date_utils->formatDateInterval(2 * 60 * 60 - 1));
+        $this->assertEquals('2 Stunden', $date_utils->formatDateInterval(2 * 60 * 60));
+        $this->assertEquals('47 Stunden', $date_utils->formatDateInterval(2 * 60 * 60 * 24 - 1));
+        $this->assertEquals('2 Tage', $date_utils->formatDateInterval(2 * 60 * 60 * 24));
+        $this->assertEquals('13 Tage', $date_utils->formatDateInterval(2 * 60 * 60 * 24 * 7 - 1));
+        $this->assertEquals('2 Wochen', $date_utils->formatDateInterval(2 * 60 * 60 * 24 * 7));
+        $this->assertEquals('8 Wochen', $date_utils->formatDateInterval(2 * 60 * 60 * 24 * 30 - 1));
+        $this->assertEquals('2 Monate', $date_utils->formatDateInterval(2 * 60 * 60 * 24 * 30));
+    }
 }

@@ -100,6 +100,16 @@ class OlzApi extends Api {
         \Olz\Termine\Endpoints\EditTerminLocationEndpoint $editTerminLocationEndpoint,
         \Olz\Termine\Endpoints\UpdateTerminLocationEndpoint $updateTerminLocationEndpoint,
         \Olz\Termine\Endpoints\DeleteTerminLocationEndpoint $deleteTerminLocationEndpoint,
+        \Olz\Termine\Endpoints\CreateTerminNotificationEndpoint $createTerminNotificationEndpoint,
+        \Olz\Termine\Endpoints\GetTerminNotificationEndpoint $getTerminNotificationEndpoint,
+        \Olz\Termine\Endpoints\EditTerminNotificationEndpoint $editTerminNotificationEndpoint,
+        \Olz\Termine\Endpoints\UpdateTerminNotificationEndpoint $updateTerminNotificationEndpoint,
+        \Olz\Termine\Endpoints\DeleteTerminNotificationEndpoint $deleteTerminNotificationEndpoint,
+        \Olz\Termine\Endpoints\CreateTerminNotificationTemplateEndpoint $createTerminNotificationTemplateEndpoint,
+        \Olz\Termine\Endpoints\GetTerminNotificationTemplateEndpoint $getTerminNotificationTemplateEndpoint,
+        \Olz\Termine\Endpoints\EditTerminNotificationTemplateEndpoint $editTerminNotificationTemplateEndpoint,
+        \Olz\Termine\Endpoints\UpdateTerminNotificationTemplateEndpoint $updateTerminNotificationTemplateEndpoint,
+        \Olz\Termine\Endpoints\DeleteTerminNotificationTemplateEndpoint $deleteTerminNotificationTemplateEndpoint,
         \Olz\Termine\Endpoints\CreateTerminTemplateEndpoint $createTerminTemplateEndpoint,
         \Olz\Termine\Endpoints\GetTerminTemplateEndpoint $getTerminTemplateEndpoint,
         \Olz\Termine\Endpoints\EditTerminTemplateEndpoint $editTerminTemplateEndpoint,
@@ -245,6 +255,22 @@ class OlzApi extends Api {
         $this->registerEndpoint('editTerminLocation', $editTerminLocationEndpoint);
         $this->registerEndpoint('updateTerminLocation', $updateTerminLocationEndpoint);
         $this->registerEndpoint('deleteTerminLocation', $deleteTerminLocationEndpoint);
+
+        // Termin Notifications
+
+        $this->registerEndpoint('createTerminNotification', $createTerminNotificationEndpoint);
+        $this->registerEndpoint('getTerminNotification', $getTerminNotificationEndpoint);
+        $this->registerEndpoint('editTerminNotification', $editTerminNotificationEndpoint);
+        $this->registerEndpoint('updateTerminNotification', $updateTerminNotificationEndpoint);
+        $this->registerEndpoint('deleteTerminNotification', $deleteTerminNotificationEndpoint);
+
+        // Termin Notification Templates
+
+        $this->registerEndpoint('createTerminNotificationTemplate', $createTerminNotificationTemplateEndpoint);
+        $this->registerEndpoint('getTerminNotificationTemplate', $getTerminNotificationTemplateEndpoint);
+        $this->registerEndpoint('editTerminNotificationTemplate', $editTerminNotificationTemplateEndpoint);
+        $this->registerEndpoint('updateTerminNotificationTemplate', $updateTerminNotificationTemplateEndpoint);
+        $this->registerEndpoint('deleteTerminNotificationTemplate', $deleteTerminNotificationTemplateEndpoint);
 
         // Termin Templates
 

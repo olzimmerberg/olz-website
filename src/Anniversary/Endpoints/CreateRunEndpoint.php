@@ -18,7 +18,7 @@ class CreateRunEndpoint extends OlzCreateEntityTypedEndpoint {
         $this->checkPermission('any');
 
         $entity = new RunRecord();
-        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->entityUtils()->createOlzEntity($entity, $input['meta'] ?? null);
         $this->updateEntityWithData($entity, $input['data']);
 
         $this->entityManager()->persist($entity);

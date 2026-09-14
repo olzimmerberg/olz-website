@@ -60,7 +60,7 @@ class UpdateUserEndpoint extends OlzUpdateEntityTypedEndpoint {
         $old_data = $this->getEntityData($entity);
         $this->log()->notice('OLD:', [$old_data]);
 
-        $this->entityUtils()->updateOlzEntity($entity, $input['meta']);
+        $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? null);
         if ($is_username_updated) {
             $entity->setOldUsername($entity->getUsername());
         }

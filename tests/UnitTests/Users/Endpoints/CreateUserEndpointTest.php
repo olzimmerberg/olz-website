@@ -315,27 +315,27 @@ final class CreateUserEndpointTest extends UnitTestCase {
             ],
         ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertCount(1, $entity_manager->persisted);
-        $user = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
-        $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertNull($user->getOldUsername());
-        $this->assertSame('fakeEmail', $user->getEmail());
-        $this->assertFalse($user->isEmailVerified());
-        $this->assertNull($user->getEmailVerificationToken());
-        $this->assertFalse($user->hasPermission('verified_email'));
-        $this->assertSame('fakeFirstName', $user->getFirstName());
-        $this->assertSame('fakeLastName', $user->getLastName());
-        $this->assertNull($user->getPhone());
-        $this->assertNull($user->getGender());
-        $this->assertNull($user->getBirthdate());
-        $this->assertNull($user->getStreet());
-        $this->assertNull($user->getPostalCode());
-        $this->assertNull($user->getCity());
-        $this->assertNull($user->getRegion());
-        $this->assertNull($user->getCountryCode());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('fakeUsername', $entity->getUsername());
+        $this->assertNull($entity->getOldUsername());
+        $this->assertSame('fakeEmail', $entity->getEmail());
+        $this->assertFalse($entity->isEmailVerified());
+        $this->assertNull($entity->getEmailVerificationToken());
+        $this->assertFalse($entity->hasPermission('verified_email'));
+        $this->assertSame('fakeFirstName', $entity->getFirstName());
+        $this->assertSame('fakeLastName', $entity->getLastName());
+        $this->assertNull($entity->getPhone());
+        $this->assertNull($entity->getGender());
+        $this->assertNull($entity->getBirthdate());
+        $this->assertNull($entity->getStreet());
+        $this->assertNull($entity->getPostalCode());
+        $this->assertNull($entity->getCity());
+        $this->assertNull($entity->getRegion());
+        $this->assertNull($entity->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
-            $user->getLastModifiedAt()->format('Y-m-d H:i:s')
+            $entity->getLastModifiedAt()->format('Y-m-d H:i:s')
         );
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
     }
@@ -362,27 +362,27 @@ final class CreateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertCount(1, $entity_manager->persisted);
-        $user = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
-        $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertNull($user->getOldUsername());
-        $this->assertSame('fakeEmail', $user->getEmail());
-        $this->assertFalse($user->isEmailVerified());
-        $this->assertNull($user->getEmailVerificationToken());
-        $this->assertFalse($user->hasPermission('verified_email'));
-        $this->assertSame('fakeFirstName', $user->getFirstName());
-        $this->assertSame('fakeLastName', $user->getLastName());
-        $this->assertSame('+41441234567', $user->getPhone());
-        $this->assertSame('M', $user->getGender());
-        $this->assertSame('2020-03-13 12:00:00', $user->getBirthdate()->format('Y-m-d H:i:s'));
-        $this->assertSame('fakeStreet', $user->getStreet());
-        $this->assertSame('fakePostalCode', $user->getPostalCode());
-        $this->assertSame('fakeCity', $user->getCity());
-        $this->assertSame('fakeRegion', $user->getRegion());
-        $this->assertSame('CC', $user->getCountryCode());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('fakeUsername', $entity->getUsername());
+        $this->assertNull($entity->getOldUsername());
+        $this->assertSame('fakeEmail', $entity->getEmail());
+        $this->assertFalse($entity->isEmailVerified());
+        $this->assertNull($entity->getEmailVerificationToken());
+        $this->assertFalse($entity->hasPermission('verified_email'));
+        $this->assertSame('fakeFirstName', $entity->getFirstName());
+        $this->assertSame('fakeLastName', $entity->getLastName());
+        $this->assertSame('+41441234567', $entity->getPhone());
+        $this->assertSame('M', $entity->getGender());
+        $this->assertSame('2020-03-13 12:00:00', $entity->getBirthdate()->format('Y-m-d H:i:s'));
+        $this->assertSame('fakeStreet', $entity->getStreet());
+        $this->assertSame('fakePostalCode', $entity->getPostalCode());
+        $this->assertSame('fakeCity', $entity->getCity());
+        $this->assertSame('fakeRegion', $entity->getRegion());
+        $this->assertSame('CC', $entity->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
-            $user->getLastModifiedAt()->format('Y-m-d H:i:s')
+            $entity->getLastModifiedAt()->format('Y-m-d H:i:s')
         );
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
     }
@@ -416,27 +416,27 @@ final class CreateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertCount(1, $entity_manager->persisted);
-        $user = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
-        $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertNull($user->getOldUsername());
-        $this->assertNull($user->getEmail());
-        $this->assertFalse($user->isEmailVerified());
-        $this->assertNull($user->getEmailVerificationToken());
-        $this->assertFalse($user->hasPermission('verified_email'));
-        $this->assertSame('fakeFirstName', $user->getFirstName());
-        $this->assertSame('fakeLastName', $user->getLastName());
-        $this->assertNull($user->getPhone());
-        $this->assertNull($user->getGender());
-        $this->assertNull($user->getBirthdate());
-        $this->assertNull($user->getStreet());
-        $this->assertNull($user->getPostalCode());
-        $this->assertNull($user->getCity());
-        $this->assertNull($user->getRegion());
-        $this->assertNull($user->getCountryCode());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('fakeUsername', $entity->getUsername());
+        $this->assertNull($entity->getOldUsername());
+        $this->assertNull($entity->getEmail());
+        $this->assertFalse($entity->isEmailVerified());
+        $this->assertNull($entity->getEmailVerificationToken());
+        $this->assertFalse($entity->hasPermission('verified_email'));
+        $this->assertSame('fakeFirstName', $entity->getFirstName());
+        $this->assertSame('fakeLastName', $entity->getLastName());
+        $this->assertNull($entity->getPhone());
+        $this->assertNull($entity->getGender());
+        $this->assertNull($entity->getBirthdate());
+        $this->assertNull($entity->getStreet());
+        $this->assertNull($entity->getPostalCode());
+        $this->assertNull($entity->getCity());
+        $this->assertNull($entity->getRegion());
+        $this->assertNull($entity->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
-            $user->getLastModifiedAt()->format('Y-m-d H:i:s')
+            $entity->getLastModifiedAt()->format('Y-m-d H:i:s')
         );
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
     }
@@ -468,27 +468,27 @@ final class CreateUserEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $this->assertSame([], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertCount(1, $entity_manager->persisted);
-        $user = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
-        $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertNull($user->getOldUsername());
-        $this->assertSame('fakeEmail', $user->getEmail());
-        $this->assertFalse($user->isEmailVerified());
-        $this->assertNull($user->getEmailVerificationToken());
-        $this->assertFalse($user->hasPermission('verified_email'));
-        $this->assertSame('fakeFirstName', $user->getFirstName());
-        $this->assertSame('fakeLastName', $user->getLastName());
-        $this->assertSame('+41441234567', $user->getPhone());
-        $this->assertSame('M', $user->getGender());
-        $this->assertSame('2020-03-13 12:00:00', $user->getBirthdate()->format('Y-m-d H:i:s'));
-        $this->assertSame('fakeStreet', $user->getStreet());
-        $this->assertSame('fakePostalCode', $user->getPostalCode());
-        $this->assertSame('fakeCity', $user->getCity());
-        $this->assertSame('fakeRegion', $user->getRegion());
-        $this->assertSame('CC', $user->getCountryCode());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('fakeUsername', $entity->getUsername());
+        $this->assertNull($entity->getOldUsername());
+        $this->assertSame('fakeEmail', $entity->getEmail());
+        $this->assertFalse($entity->isEmailVerified());
+        $this->assertNull($entity->getEmailVerificationToken());
+        $this->assertFalse($entity->hasPermission('verified_email'));
+        $this->assertSame('fakeFirstName', $entity->getFirstName());
+        $this->assertSame('fakeLastName', $entity->getLastName());
+        $this->assertSame('+41441234567', $entity->getPhone());
+        $this->assertSame('M', $entity->getGender());
+        $this->assertSame('2020-03-13 12:00:00', $entity->getBirthdate()->format('Y-m-d H:i:s'));
+        $this->assertSame('fakeStreet', $entity->getStreet());
+        $this->assertSame('fakePostalCode', $entity->getPostalCode());
+        $this->assertSame('fakeCity', $entity->getCity());
+        $this->assertSame('fakeRegion', $entity->getRegion());
+        $this->assertSame('CC', $entity->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
-            $user->getLastModifiedAt()->format('Y-m-d H:i:s')
+            $entity->getLastModifiedAt()->format('Y-m-d H:i:s')
         );
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
     }
@@ -723,27 +723,27 @@ final class CreateUserEndpointTest extends UnitTestCase {
             ],
         ], $entity_manager->getRepository(AuthRequest::class)->auth_requests);
         $this->assertCount(1, $entity_manager->persisted);
-        $user = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $user->getId());
-        $this->assertSame('fakeUsername', $user->getUsername());
-        $this->assertNull($user->getOldUsername());
-        $this->assertSame('fakeEmail', $user->getEmail());
-        $this->assertFalse($user->isEmailVerified());
-        $this->assertNull($user->getEmailVerificationToken());
-        $this->assertFalse($user->hasPermission('verified_email'));
-        $this->assertSame('fakeFirstName', $user->getFirstName());
-        $this->assertSame('fakeLastName', $user->getLastName());
-        $this->assertNull($user->getPhone());
-        $this->assertNull($user->getGender());
-        $this->assertNull($user->getBirthdate());
-        $this->assertNull($user->getStreet());
-        $this->assertNull($user->getPostalCode());
-        $this->assertNull($user->getCity());
-        $this->assertNull($user->getRegion());
-        $this->assertNull($user->getCountryCode());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('fakeUsername', $entity->getUsername());
+        $this->assertNull($entity->getOldUsername());
+        $this->assertSame('fakeEmail', $entity->getEmail());
+        $this->assertFalse($entity->isEmailVerified());
+        $this->assertNull($entity->getEmailVerificationToken());
+        $this->assertFalse($entity->hasPermission('verified_email'));
+        $this->assertSame('fakeFirstName', $entity->getFirstName());
+        $this->assertSame('fakeLastName', $entity->getLastName());
+        $this->assertNull($entity->getPhone());
+        $this->assertNull($entity->getGender());
+        $this->assertNull($entity->getBirthdate());
+        $this->assertNull($entity->getStreet());
+        $this->assertNull($entity->getPostalCode());
+        $this->assertNull($entity->getCity());
+        $this->assertNull($entity->getRegion());
+        $this->assertNull($entity->getCountryCode());
         $this->assertSame(
             '2020-03-13 19:30:00',
-            $user->getLastModifiedAt()->format('Y-m-d H:i:s')
+            $entity->getLastModifiedAt()->format('Y-m-d H:i:s')
         );
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
     }

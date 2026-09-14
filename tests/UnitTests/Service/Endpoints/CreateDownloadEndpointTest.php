@@ -82,13 +82,13 @@ final class CreateDownloadEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $download = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $download->getId());
-        $this->assertSame('Test Download', $download->getName());
-        $this->assertSame(3.0, $download->getPosition());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('Test Download', $entity->getName());
+        $this->assertSame(3.0, $entity->getPosition());
 
         $this->assertSame([
-            [$download, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
 
         $id = FakeEntityManager::AUTO_INCREMENT_ID;

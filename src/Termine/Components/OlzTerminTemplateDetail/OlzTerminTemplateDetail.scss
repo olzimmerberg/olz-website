@@ -10,14 +10,19 @@
     }
 
     .text {
-        margin-top: 25px;
+        margin-top: 30px;
     }
 
     .links {
-        margin-top: 25px;
+        margin-top: 30px;
     }
 
-    #termin-template-reactions {
-        margin-top: 50px;
+    #termin-template-reactions,
+    #termin-notification-templates {
+        margin-top: 60px;
+    }
+
+    #termin-notification-templates-table {
+        margin-top: 6px;
     }
 }

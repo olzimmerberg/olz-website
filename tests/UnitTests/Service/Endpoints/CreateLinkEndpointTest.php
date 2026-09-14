@@ -77,14 +77,14 @@ final class CreateLinkEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $link = $entity_manager->persisted[0];
-        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $link->getId());
-        $this->assertSame('Test Link', $link->getName());
-        $this->assertSame(3.0, $link->getPosition());
-        $this->assertSame('https://ol-z.ch', $link->getUrl());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(FakeEntityManager::AUTO_INCREMENT_ID, $entity->getId());
+        $this->assertSame('Test Link', $entity->getName());
+        $this->assertSame(3.0, $entity->getPosition());
+        $this->assertSame('https://ol-z.ch', $entity->getUrl());
 
         $this->assertSame([
-            [$link, 1, 1, 1],
+            [$entity, 1, 1, 1],
         ], WithUtilsCache::get('entityUtils')->create_olz_entity_calls);
     }
 }

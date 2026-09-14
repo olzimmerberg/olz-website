@@ -5,7 +5,7 @@ import {ApiError} from 'php-typescript-api';
 type OlzApiEndpoint = gen.OlzApiEndpoint;
 type OlzApiRequests = gen.OlzApiRequests;
 type OlzApiResponses = gen.OlzApiResponses;
-type OlzMetaData = gen.Olz_Api_OlzEntityEndpointTrait_OlzMetaData;
+type OlzMetaData = gen.Olz_Api_OlzTypedEndpoint_OlzMetaData;
 type OlzRunData = gen.Olz_Anniversary_Endpoints_RunEndpointTrait_OlzRunData;
 type OlzLogLevel = gen.Olz_Apps_Logs_Endpoints_GetLogsEndpoint_OlzLogLevel;
 type OlzLogsQuery = gen.Olz_Apps_Logs_Endpoints_GetLogsEndpoint_OlzLogsQuery;
@@ -32,9 +32,11 @@ type OlzDownloadData = gen.Olz_Service_Endpoints_DownloadEndpointTrait_OlzDownlo
 type OlzLinkData = gen.Olz_Service_Endpoints_LinkEndpointTrait_OlzLinkData;
 type OlzSnippetData = gen.Olz_Snippets_Endpoints_SnippetEndpointTrait_OlzSnippetData;
 type OlzWeeklyPictureData = gen.Olz_Startseite_Endpoints_WeeklyPictureEndpointTrait_OlzWeeklyPictureData;
+type OlzTerminData = gen.Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminData;
 type OlzTerminLabelData = gen.Olz_Termine_Endpoints_TerminLabelEndpointTrait_OlzTerminLabelData;
 type OlzTerminLocationData = gen.Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationData;
-type OlzTerminData = gen.Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminData;
+type OlzTerminNotificationData = gen.Olz_Termine_Endpoints_TerminNotificationEndpointTrait_OlzTerminNotificationData;
+type OlzTerminNotificationTemplateData = gen.Olz_Termine_Endpoints_TerminNotificationTemplateEndpointTrait_OlzTerminNotificationTemplateData;
 type OlzTerminTemplateData = gen.Olz_Termine_Endpoints_TerminTemplateEndpointTrait_OlzTerminTemplateData;
 type OlzUserData = gen.Olz_Users_Endpoints_UserEndpointTrait_OlzUserData;
 type OlzUserInfoData = gen.Olz_Users_Endpoints_GetUserInfoEndpoint_OlzUserInfoData;
@@ -78,9 +80,11 @@ export {
     OlzLinkData,
     OlzSnippetData,
     OlzWeeklyPictureData,
+    OlzTerminData,
     OlzTerminLabelData,
     OlzTerminLocationData,
-    OlzTerminData,
+    OlzTerminNotificationData,
+    OlzTerminNotificationTemplateData,
     OlzTerminTemplateData,
     OlzUserData,
     OlzUserInfoData,

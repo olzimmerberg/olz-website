@@ -18,7 +18,7 @@ class CreateWeeklyPictureEndpoint extends OlzCreateEntityTypedEndpoint {
         $this->checkPermission('weekly_picture');
 
         $entity = new WeeklyPicture();
-        $this->entityUtils()->createOlzEntity($entity, $input['meta']);
+        $this->entityUtils()->createOlzEntity($entity, $input['meta'] ?? null);
         $this->updateEntityWithData($entity, $input['data']);
 
         $this->entityManager()->persist($entity);

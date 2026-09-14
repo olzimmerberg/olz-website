@@ -20,11 +20,11 @@ class UpdateSnippetEndpoint extends OlzUpdateEntityTypedEndpoint {
 
         $entity = $this->getEntityById($id);
 
-        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'], "snippet_{$id}")) {
+        if (!$this->entityUtils()->canUpdateOlzEntity($entity, $input['meta'] ?? null, "snippet_{$id}")) {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
-        $this->entityUtils()->updateOlzEntity($entity, $input['meta']);
+        $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? null);
         $this->updateEntityWithData($entity, $input['data']);
 
         $this->entityManager()->persist($entity);

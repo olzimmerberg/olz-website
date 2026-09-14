@@ -10,7 +10,7 @@ use Olz\Repository\Termine\TerminNotificationRepository;
 
 #[ORM\Table(name: 'termin_notifications')]
 #[ORM\Index(name: 'termin_index', columns: ['termin_id'])]
-#[ORM\Index(name: 'fires_at_index', columns: ['fires_at'])]
+#[ORM\Index(name: 'fires_earlier_seconds_index', columns: ['fires_earlier_seconds'])]
 #[ORM\Entity(repositoryClass: TerminNotificationRepository::class)]
 class TerminNotification implements TestableInterface {
     #[ORM\Id]
@@ -22,8 +22,8 @@ class TerminNotification implements TestableInterface {
     #[ORM\JoinColumn(name: 'termin_id', referencedColumnName: 'id', nullable: false)]
     private Termin $termin;
 
-    #[ORM\Column(type: 'datetime', nullable: false)]
-    private \DateTime $fires_at;
+    #[ORM\Column(type: 'integer', nullable: false)]
+    private int $fires_earlier_seconds;
 
     #[ORM\Column(type: 'text', nullable: false)]
     private string $title;
@@ -70,12 +70,12 @@ class TerminNotification implements TestableInterface {
         $this->termin = $new_value;
     }
 
-    public function getFiresAt(): \DateTime {
-        return $this->fires_at;
+    public function getFiresEarlierSeconds(): int {
+        return $this->fires_earlier_seconds;
     }
 
-    public function setFiresAt(\DateTime $new_value): void {
-        $this->fires_at = $new_value;
+    public function setFiresEarlierSeconds(int $new_value): void {
+        $this->fires_earlier_seconds = $new_value;
     }
 
     public function getTitle(): string {

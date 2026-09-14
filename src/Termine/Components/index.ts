@@ -1,5 +1,7 @@
 export * from './OlzDateCalendar/OlzDateCalendar';
 export * from './OlzEditTerminModal/OlzEditTerminModal';
+export * from './OlzEditTerminNotificationModal/OlzEditTerminNotificationModal';
+export * from './OlzEditTerminNotificationTemplateModal/OlzEditTerminNotificationTemplateModal';
 export * from './OlzEditTerminLabelModal/OlzEditTerminLabelModal';
 export * from './OlzEditTerminLocationModal/OlzEditTerminLocationModal';
 export * from './OlzEditTerminTemplateModal/OlzEditTerminTemplateModal';

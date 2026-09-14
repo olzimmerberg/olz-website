@@ -43,13 +43,13 @@ class CreateNewsEndpoint extends OlzCreateEntityTypedEndpoint {
             return ['custom' => ['status' => 'DENIED'], 'id' => null];
         }
 
-        $news_entry = new NewsEntry();
-        $this->entityUtils()->createOlzEntity($news_entry, $input['meta']);
-        $this->updateEntityWithData($news_entry, $input['data']);
+        $entity = new NewsEntry();
+        $this->entityUtils()->createOlzEntity($entity, $input['meta'] ?? null);
+        $this->updateEntityWithData($entity, $input['data']);
 
-        $this->entityManager()->persist($news_entry);
+        $this->entityManager()->persist($entity);
         $this->entityManager()->flush();
-        $this->persistUploads($news_entry, $input['data']);
+        $this->persistUploads($entity, $input['data']);
 
         if ($format === 'anonymous') {
             $anonymous_user = new User();
@@ -59,11 +59,11 @@ class CreateNewsEndpoint extends OlzCreateEntityTypedEndpoint {
 
             $delete_news_token = urlencode($this->emailUtils()->encryptEmailReactionToken([
                 'action' => 'delete_news',
-                'news_id' => $news_entry->getId(),
+                'news_id' => $entity->getId(),
             ]));
             $base_url = $this->envUtils()->getBaseHref();
             $code_href = $this->envUtils()->getCodeHref();
-            $news_url = "{$base_url}{$code_href}news/{$news_entry->getId()}";
+            $news_url = "{$base_url}{$code_href}news/{$entity->getId()}";
             $delete_news_url = "{$base_url}{$code_href}email_reaktion?token={$delete_news_token}";
             $text = <<<ZZZZZZZZZZ
                 Hallo {$anonymous_user->getFirstName()},
@@ -92,7 +92,7 @@ class CreateNewsEndpoint extends OlzCreateEntityTypedEndpoint {
 
         return [
             'custom' => ['status' => 'OK'],
-            'id' => $news_entry->getId(),
+            'id' => $entity->getId(),
         ];
     }
 }

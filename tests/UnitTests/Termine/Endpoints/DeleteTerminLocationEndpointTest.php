@@ -60,9 +60,9 @@ final class DeleteTerminLocationEndpointTest extends UnitTestCase {
         $this->assertCount(1, $entity_manager->persisted);
         $this->assertCount(1, $entity_manager->flushed_persisted);
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
-        $termin_location = $entity_manager->persisted[0];
-        $this->assertSame(123, $termin_location->getId());
-        $this->assertSame(0, $termin_location->getOnOff());
+        $entity = $entity_manager->persisted[0];
+        $this->assertSame(123, $entity->getId());
+        $this->assertSame(0, $entity->getOnOff());
     }
 
     public function testDeleteTerminLocationEndpointInexistent(): void {

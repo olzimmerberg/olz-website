@@ -171,7 +171,7 @@ class OlzAnniversary extends OlzRootComponent {
                 Criteria::expr()->gt('created_at', $one_day_ago),
                 Criteria::expr()->eq('on_off', 1),
             ))
-            ->orderBy(['created_at' => 'DESC'])
+            ->orderBy(['created_at' => \SortDirection::Descending])
             ->setFirstResult(0)
             ->setMaxResults(1000));
         foreach ($runs as $run) {

@@ -178,7 +178,7 @@ class OlzUserDetail extends OlzRootComponent {
                     Criteria::expr()->eq('recipient_user', $user),
                     Criteria::expr()->gt('forwarded_at', $one_month_ago),
                 ))
-                ->orderBy(['forwarded_at' => 'DESC'])
+                ->orderBy(['forwarded_at' => \SortDirection::Descending])
                 ->setFirstResult(0)
                 ->setMaxResults(1000));
             foreach ($forwarded_emails as $forwarded_email) {

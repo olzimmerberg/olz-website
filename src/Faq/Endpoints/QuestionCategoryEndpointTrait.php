@@ -26,7 +26,7 @@ trait QuestionCategoryEndpointTrait {
 
     /** @param OlzQuestionCategoryData $input_data */
     public function updateEntityWithData(QuestionCategory $entity, array $input_data): void {
-        $entity->setPosition(intval($input_data['position']));
+        $entity->setPosition(floatval($input_data['position']));
         $entity->setName($input_data['name']);
     }
 

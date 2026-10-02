@@ -44,8 +44,8 @@ abstract class OlzCommand extends Command {
             } else {
                 $this->logAndOutput("Command {$this->getIdent()} finished with unknown status {$status}.", level: 'warning');
             }
-        } catch (\Exception $exc) {
-            $this->logAndOutput("Error running command {$this->getIdent()}: {$exc->getMessage()}.", level: 'error');
+        } catch (\Throwable $th) {
+            $this->logAndOutput("Error running command {$this->getIdent()}: {$th->getMessage()}.", level: 'error');
             $status = Command::FAILURE;
         }
         return $status;

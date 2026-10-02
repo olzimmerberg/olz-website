@@ -124,7 +124,7 @@ class SendTerminNotificationCommand extends BaseSendNotificationsCommand {
 
         $ident = 'send-termin-notifications';
         $throttling_repo = $this->entityManager()->getRepository(Throttling::class);
-        $last_occurrence = $throttling_repo->getLastOccurrenceOf($ident);
+        $last_occurrence = $throttling_repo->getLastOccurrenceOf($ident) ?? new \DateTime();
         $now = new \DateTime($this->dateUtils()->getIsoNow());
 
         // TODO: Add volunteers and participants
@@ -235,6 +235,8 @@ class SendTerminNotificationCommand extends BaseSendNotificationsCommand {
                 'recipient_user_ids' => $recipient_user_ids,
             ]);
         }
+
+        $throttling_repo->recordOccurrenceOf($ident, $now);
 
         return $notifications;
     }

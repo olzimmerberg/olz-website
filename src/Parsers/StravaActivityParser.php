@@ -76,10 +76,12 @@ class StravaActivityParser {
         if (!$res) {
             return null;
         }
-        $hour = $matches[1];
+        $hour = intval($matches[1]);
         $minute = $matches[2];
-        if ($matches[3] === 'PM') {
+        if ($matches[3] === 'PM' && $hour !== 12) {
             $hour += 12;
+        } elseif ($matches[3] === 'AM' && $hour === 12) {
+            $hour = 0;
         }
         $day = $matches[4];
         $pretty_month = strtolower($matches[5]);
@@ -112,10 +114,12 @@ class StravaActivityParser {
         if (!$res) {
             return null;
         }
-        $hour = $matches[1];
+        $hour = intval($matches[1]);
         $minute = $matches[2];
-        if ($matches[3] === 'PM') {
+        if ($matches[3] === 'PM' && $hour !== 12) {
             $hour += 12;
+        } elseif ($matches[3] === 'AM' && $hour === 12) {
+            $hour = 0;
         }
         $pretty_month = strtolower($matches[4]);
         $day = $matches[5];
@@ -148,10 +152,12 @@ class StravaActivityParser {
         if (!$res) {
             return null;
         }
-        $hour = $matches[1];
+        $hour = intval($matches[1]);
         $minute = $matches[2];
-        if ($matches[3] === 'PM') {
+        if ($matches[3] === 'PM' && $hour !== 12) {
             $hour += 12;
+        } elseif ($matches[3] === 'AM' && $hour === 12) {
+            $hour = 0;
         }
         $day = $matches[4];
         $pretty_month = strtolower($matches[5]);

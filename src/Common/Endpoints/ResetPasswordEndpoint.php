@@ -45,7 +45,7 @@ class ResetPasswordEndpoint extends OlzTypedEndpoint {
 
             Hallo {$user->getFirstName()},
 
-            *Falls du dein Passwort zurückzusetzen möchtest*, klicke [hier]({$reset_password_url}}) oder auf folgenden Link:
+            *Falls du dein Passwort zurückzusetzen möchtest*, klicke [hier]({$reset_password_url}) oder auf folgenden Link:
 
             {$reset_password_url}
 

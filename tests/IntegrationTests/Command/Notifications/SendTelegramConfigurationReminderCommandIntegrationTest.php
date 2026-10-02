@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Command\Notifications;
 
 use Olz\Command\Notifications\SendTelegramConfigurationReminderCommand;
+use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
@@ -32,7 +33,7 @@ final class SendTelegramConfigurationReminderCommandIntegrationTest extends Inte
 
         $job = $this->getSut();
         $job->setDateUtils($date_utils);
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -52,8 +53,14 @@ final class SendTelegramConfigurationReminderCommandIntegrationTest extends Inte
 
             ZZZZZZZZZZ;
         $this->assertSame([], $this->getLogs());
-        $this->assertSame('Keine Push-Nachrichten abonniert', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Keine Push-Nachrichten abonniert', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
+        $this->assertSame(
+            NotificationType::TELEGRAM_CONFIG_REMINDER,
+            $notifications[0]->config['notification_type'] ?? null,
+        );
+        $this->assertNull($notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     protected function getSut(): SendTelegramConfigurationReminderCommand {

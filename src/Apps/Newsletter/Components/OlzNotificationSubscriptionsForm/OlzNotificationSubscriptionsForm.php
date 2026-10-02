@@ -3,7 +3,7 @@
 namespace Olz\Apps\Newsletter\Components\OlzNotificationSubscriptionsForm;
 
 use Olz\Common\Components\OlzComponent;
-use Olz\Entity\NotificationSubscription;
+use Olz\Constants\NotificationType;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzNotificationSubscriptionsForm extends OlzComponent {
@@ -34,7 +34,7 @@ class OlzNotificationSubscriptionsForm extends OlzComponent {
             $notification_type = $subscription->getNotificationType();
             $args = json_decode($subscription->getNotificationTypeArgs(), true);
             switch ($notification_type) {
-                case NotificationSubscription::TYPE_DAILY_SUMMARY:
+                case NotificationType::DAILY_SUMMARY:
                     $daily_summary_checked = ' checked';
                     if ($args['aktuell'] ?? false) {
                         $daily_summary_aktuell_checked = ' checked';
@@ -52,7 +52,7 @@ class OlzNotificationSubscriptionsForm extends OlzComponent {
                         $daily_summary_termine_checked = ' checked';
                     }
                     break;
-                case NotificationSubscription::TYPE_DEADLINE_WARNING:
+                case NotificationType::DEADLINE_WARNING:
                     $deadline_warning_checked = ' checked';
                     switch (intval($args['days'] ?? 3)) {
                         case 1:
@@ -74,13 +74,13 @@ class OlzNotificationSubscriptionsForm extends OlzComponent {
                             break;
                     }
                     break;
-                case NotificationSubscription::TYPE_MONTHLY_PREVIEW:
+                case NotificationType::MONTHLY_PREVIEW:
                     $monthly_preview_checked = ' checked';
                     break;
-                case NotificationSubscription::TYPE_WEEKLY_PREVIEW:
+                case NotificationType::WEEKLY_PREVIEW:
                     $weekly_preview_checked = ' checked';
                     break;
-                case NotificationSubscription::TYPE_WEEKLY_SUMMARY:
+                case NotificationType::WEEKLY_SUMMARY:
                     $weekly_summary_checked = ' checked';
                     if ($args['aktuell'] ?? false) {
                         $weekly_summary_aktuell_checked = ' checked';

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Newsletter\Endpoints;
 
 use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;
-use Olz\Entity\NotificationSubscription;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
@@ -23,7 +24,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
-            'deliveryType' => NotificationSubscription::DELIVERY_EMAIL,
+            'deliveryType' => NotificationDeliveryType::EMAIL->value,
             'monthlyPreview' => true,
             'weeklyPreview' => true,
             'deadlineWarning' => true,
@@ -49,7 +50,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
             [
-                NotificationSubscription::TYPE_DAILY_SUMMARY,
+                NotificationType::DAILY_SUMMARY,
                 json_encode([
                     'aktuell' => true,
                     'blog' => true,
@@ -59,19 +60,19 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
                 ]),
             ],
             [
-                NotificationSubscription::TYPE_DEADLINE_WARNING,
+                NotificationType::DEADLINE_WARNING,
                 json_encode(['days' => 3]),
             ],
             [
-                NotificationSubscription::TYPE_MONTHLY_PREVIEW,
+                NotificationType::MONTHLY_PREVIEW,
                 json_encode([]),
             ],
             [
-                NotificationSubscription::TYPE_WEEKLY_PREVIEW,
+                NotificationType::WEEKLY_PREVIEW,
                 json_encode([]),
             ],
             [
-                NotificationSubscription::TYPE_WEEKLY_SUMMARY,
+                NotificationType::WEEKLY_SUMMARY,
                 json_encode([
                     'aktuell' => true,
                     'blog' => true,
@@ -81,7 +82,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
                 ]),
             ],
             [
-                NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+                NotificationType::EMAIL_CONFIG_REMINDER,
                 json_encode(['cancelled' => true]),
             ],
         ], array_map(function ($notification_subscription) {
@@ -95,7 +96,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             $entity_manager->flushed_persisted
         );
         $this->assertSame(
-            [2, 12, 13, 15, 16],
+            [2, 12, 13, 16],
             array_map(
                 fn ($item) => $item->getId(),
                 $entity_manager->removed
@@ -114,7 +115,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $endpoint->runtimeSetup();
 
         $result = $endpoint->call([
-            'deliveryType' => NotificationSubscription::DELIVERY_TELEGRAM,
+            'deliveryType' => NotificationDeliveryType::TELEGRAM->value,
             'monthlyPreview' => false,
             'weeklyPreview' => false,
             'deadlineWarning' => false,
@@ -140,7 +141,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
         $this->assertSame(['status' => 'OK'], $result);
         $this->assertSame([
             [
-                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                NotificationType::TELEGRAM_CONFIG_REMINDER,
                 json_encode(['cancelled' => true]),
             ],
         ], array_map(function ($notification_subscription) {
@@ -154,7 +155,7 @@ final class UpdateNotificationSubscriptionsEndpointTest extends UnitTestCase {
             $entity_manager->flushed_persisted
         );
         $this->assertSame(
-            [6, 18, 19],
+            [6, 14, 18, 19],
             array_map(
                 fn ($item) => $item->getId(),
                 $entity_manager->removed

@@ -3,6 +3,8 @@
 namespace Olz\Apps\Newsletter\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Entity\NotificationSubscription;
 
 /**
@@ -35,7 +37,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
         $this->generalUtils()->checkNotNull($user, "Not logged in");
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
-        $delivery_type = $input['deliveryType'];
+        $delivery_type = NotificationDeliveryType::from($input['deliveryType']);
         $has_monthly_preview = $input['monthlyPreview'];
         $has_weekly_preview = $input['weeklyPreview'];
         $has_deadline_warning = $input['deadlineWarning'];
@@ -84,7 +86,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription = new NotificationSubscription();
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
-            $subscription->setNotificationType(NotificationSubscription::TYPE_DAILY_SUMMARY);
+            $subscription->setNotificationType(NotificationType::DAILY_SUMMARY);
             $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
@@ -98,7 +100,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription = new NotificationSubscription();
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
-            $subscription->setNotificationType(NotificationSubscription::TYPE_DEADLINE_WARNING);
+            $subscription->setNotificationType(NotificationType::DEADLINE_WARNING);
             $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
@@ -110,7 +112,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription = new NotificationSubscription();
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
-            $subscription->setNotificationType(NotificationSubscription::TYPE_MONTHLY_PREVIEW);
+            $subscription->setNotificationType(NotificationType::MONTHLY_PREVIEW);
             $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
@@ -122,7 +124,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription = new NotificationSubscription();
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
-            $subscription->setNotificationType(NotificationSubscription::TYPE_WEEKLY_PREVIEW);
+            $subscription->setNotificationType(NotificationType::WEEKLY_PREVIEW);
             $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
@@ -149,7 +151,7 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
             $subscription = new NotificationSubscription();
             $subscription->setDeliveryType($delivery_type);
             $subscription->setUser($user);
-            $subscription->setNotificationType(NotificationSubscription::TYPE_WEEKLY_SUMMARY);
+            $subscription->setNotificationType(NotificationType::WEEKLY_SUMMARY);
             $subscription->setNotificationTypeArgs(json_encode($args) ?: '{}');
             $subscription->setCreatedAt($now_datetime);
             $this->entityManager()->persist($subscription);
@@ -158,9 +160,9 @@ class UpdateNotificationSubscriptionsEndpoint extends OlzTypedEndpoint {
         // The user actively chose this, so even if they unselected all
         // notifications, we should not send config reminders.
         $notification_type =
-            $delivery_type === NotificationSubscription::DELIVERY_TELEGRAM
-            ? NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER
-            : NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER;
+            $delivery_type === NotificationDeliveryType::TELEGRAM
+            ? NotificationType::TELEGRAM_CONFIG_REMINDER
+            : NotificationType::EMAIL_CONFIG_REMINDER;
         $subscription = new NotificationSubscription();
         $subscription->setDeliveryType($delivery_type);
         $subscription->setUser($user);

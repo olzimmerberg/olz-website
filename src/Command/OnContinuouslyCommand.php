@@ -113,6 +113,12 @@ class OnContinuouslyCommand extends OlzCommand {
             );
         });
 
+        $this->symfonyUtils()->callCommand(
+            'olz:send-termin-notifications',
+            new ArrayInput([]),
+            $output,
+        );
+
         $this->daily('18:30:00', 'send-reminders', function () use ($output) {
             $this->symfonyUtils()->callCommand(
                 'olz:send-email-config-reminder',

@@ -2,6 +2,10 @@
 
 namespace Olz\Command\Notifications;
 
+use Olz\Command\Notifications\Common\BaseSendNotificationsCommand;
+use Olz\Command\Notifications\Common\Notification;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
@@ -13,8 +17,8 @@ class SendEmailConfigurationReminderCommand extends BaseSendNotificationsCommand
 
     public const DAY_OF_MONTH = 22;
 
-    public function getNotificationSubscriptionType(): string {
-        return NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER;
+    public function getNotificationSubscriptionType(): NotificationType {
+        return NotificationType::EMAIL_CONFIG_REMINDER;
     }
 
     public function autogenerateSubscriptions(): void {
@@ -29,14 +33,14 @@ class SendEmailConfigurationReminderCommand extends BaseSendNotificationsCommand
             $needs_reminder = $state['needs_reminder'] ?? false;
             $user = $user_repo->findOneBy(['id' => $user_id]);
             if (!$user) {
-                $this->log()->warning("No user (ID:{$user_id}) for telegram notification");
+                $this->log()->warning("No user (ID:{$user_id}) for email reminder");
             }
             if ($needs_reminder && !$reminder_id && $user) {
                 $this->log()->info("Generating email configuration reminder subscription for '{$user}'...");
                 $subscription = new NotificationSubscription();
                 $subscription->setUser($user);
-                $subscription->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-                $subscription->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
+                $subscription->setDeliveryType(NotificationDeliveryType::EMAIL);
+                $subscription->setNotificationType(NotificationType::EMAIL_CONFIG_REMINDER);
                 $subscription->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '{}');
                 $subscription->setCreatedAt($now_datetime);
                 $this->entityManager()->persist($subscription);
@@ -62,7 +66,7 @@ class SendEmailConfigurationReminderCommand extends BaseSendNotificationsCommand
         // Find users with existing email config reminder notification subscriptions.
         $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
         $email_notification_subscriptions = $notification_subscription_repo->findBy([
-            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+            'notification_type' => NotificationType::EMAIL_CONFIG_REMINDER,
         ]);
         foreach ($email_notification_subscriptions as $subscription) {
             $user_id = $subscription->getUser()->getId() ?: 0;
@@ -81,7 +85,7 @@ class SendEmailConfigurationReminderCommand extends BaseSendNotificationsCommand
             $joined_recently = ($user_with_email->getCreatedAt()->getTimestamp() > $one_month_ago->getTimestamp());
             $subscription = $notification_subscription_repo->findOneBy([
                 'user' => $user_with_email,
-                'delivery_type' => NotificationSubscription::DELIVERY_EMAIL,
+                'delivery_type' => NotificationDeliveryType::EMAIL,
                 'notification_type' => $non_config_reminder_notification_types,
             ]);
             if (!$subscription && $joined_recently) {
@@ -97,14 +101,13 @@ class SendEmailConfigurationReminderCommand extends BaseSendNotificationsCommand
 
     // ---
 
-    /** @param array<string, mixed> $args */
-    public function getNotification(array $args): ?Notification {
+    public function getNotifications(array $args): array {
         if ($args['cancelled'] ?? false) {
-            return null;
+            return [];
         }
         $day_of_month = intval($this->dateUtils()->getCurrentDateInFormat('j'));
         if ($day_of_month !== self::DAY_OF_MONTH) {
-            return null;
+            return [];
         }
 
         $base_href = $this->envUtils()->getBaseHref();
@@ -132,8 +135,10 @@ class SendEmailConfigurationReminderCommand extends BaseSendNotificationsCommand
 
             ZZZZZZZZZZ;
 
-        return new Notification($title, $text, [
-            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
-        ]);
+        return [
+            new Notification($title, $text, [
+                'notification_type' => NotificationType::EMAIL_CONFIG_REMINDER,
+            ]),
+        ];
     }
 }

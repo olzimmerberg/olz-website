@@ -46,9 +46,9 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Command\Notifications\SendDeadlineWarningCommand...',
             'INFO Sending \'deadline_warning\' notifications...',
-            'INFO Getting notification for \'{"days":7}\'...',
+            'INFO Getting notifications for \'{"days":7}\'...',
             'INFO Nothing to send.',
-            'INFO Getting notification for \'{"days":3}\'...',
+            'INFO Getting notifications for \'{"days":3}\'...',
             'INFO Sending notification Meldeschlusswarnung over telegram to user (2)...',
             'INFO Telegram sent to user (2): Meldeschlusswarnung',
             'INFO Sending notification Meldeschlusswarnung over telegram to user (3)...',
@@ -56,7 +56,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
             'INFO Sending notification Meldeschlusswarnung over email to user (1)...',
             'DEBUG Sending email to "Default User" <default-user@staging.olzimmerberg.ch> ()',
             'INFO Email sent to user (1): Meldeschlusswarnung',
-            'INFO Getting notification for \'{"no_notification":true}\'...',
+            'INFO Getting notifications for \'{"no_notification":true}\'...',
             'INFO Nothing to send.',
             'INFO Successfully ran command Olz\Command\Notifications\SendDeadlineWarningCommand.',
         ], $this->getLogs());
@@ -124,9 +124,9 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
     public function testSendDeadlineWarningCommandWithIncorrectDaysArg(): void {
         $job = new SendDeadlineWarningCommand();
 
-        $notification = $job->getNotification(['days' => 10]);
+        $notifications = $job->getNotifications(['days' => 10]);
 
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendDeadlineWarningCommandWhenThereIsNoDeadline(): void {
@@ -136,9 +136,9 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
 
         $job = new SendDeadlineWarningCommand();
 
-        $notification = $job->getNotification(['days' => 3]);
+        $notifications = $job->getNotifications(['days' => 3]);
 
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendDeadlineWarningCommandNotification(): void {
@@ -148,7 +148,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
         $job = new SendDeadlineWarningCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification(['days' => 3]);
+        $notifications = $job->getNotifications(['days' => 3]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -158,7 +158,8 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
             - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
             ZZZZZZZZZZ;
-        $this->assertSame('Meldeschlusswarnung', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Meldeschlusswarnung', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
     }
 }

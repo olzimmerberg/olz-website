@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
+use Olz\Constants\NotificationType;
 use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\FakeEnvUtils;
@@ -167,7 +168,7 @@ final class EmailUtilsTest extends UnitTestCase {
         $email = new Email();
 
         $email = $email_utils->buildOlzEmail($email, $user, 'Tèśt', [
-            'notification_type' => 'monthly_preview',
+            'notification_type' => NotificationType::MONTHLY_PREVIEW,
         ]);
 
         $this->assertSame([], $this->getLogs());

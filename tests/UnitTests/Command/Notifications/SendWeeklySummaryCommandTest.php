@@ -45,19 +45,17 @@ final class SendWeeklySummaryCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Command\Notifications\SendWeeklySummaryCommand...',
             'INFO Sending \'weekly_summary\' notifications...',
-            'INFO Getting notification for \'{"aktuell":true,"blog":true,"galerie":true,"forum":true}\'...',
+            'INFO Getting notifications for \'{"aktuell":true,"blog":true,"galerie":true,"forum":true}\'...',
             'INFO Sending notification Wochenzusammenfassung over email to user (2)...',
             'DEBUG Sending email to "Admin Istrator" <admin-user@staging.olzimmerberg.ch> ()',
             'INFO Email sent to user (2): Wochenzusammenfassung',
-            'INFO Sending notification Wochenzusammenfassung over invalid-delivery to user (2)...',
-            'CRITICAL Unknown delivery type \'invalid-delivery\'',
             'INFO Sending notification Wochenzusammenfassung over telegram to user (666)...',
             'NOTICE Error sending telegram to user (666): [Exception] provoked telegram error',
             'INFO Sending notification Wochenzusammenfassung over telegram to user (404)...',
             'NOTICE User (404) has no telegram link, but a subscription (22)',
-            'INFO Getting notification for \'{"no_notification":true}\'...',
+            'INFO Getting notifications for \'{"no_notification":true}\'...',
             'INFO Nothing to send.',
-            'INFO Getting notification for \'{"provoke_error":true}\'...',
+            'INFO Getting notifications for \'{"provoke_error":true}\'...',
             'INFO Nothing to send.',
             'INFO Successfully ran command Olz\Command\Notifications\SendWeeklySummaryCommand.',
         ], $this->getLogs());
@@ -122,7 +120,7 @@ final class SendWeeklySummaryCommandTest extends UnitTestCase {
         $job = new SendWeeklySummaryCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([
+        $notifications = $job->getNotifications([
             'aktuell' => true,
             'blog' => true,
             'galerie' => true,
@@ -130,7 +128,7 @@ final class SendWeeklySummaryCommandTest extends UnitTestCase {
             'termine' => true,
         ]);
 
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendWeeklySummaryCommandWithAllContent(): void {
@@ -140,7 +138,7 @@ final class SendWeeklySummaryCommandTest extends UnitTestCase {
         $job = new SendWeeklySummaryCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([
+        $notifications = $job->getNotifications([
             'aktuell' => true,
             'blog' => true,
             'galerie' => true,
@@ -166,8 +164,9 @@ final class SendWeeklySummaryCommandTest extends UnitTestCase {
 
             
             ZZZZZZZZZZ;
-        $this->assertSame('Wochenzusammenfassung', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Wochenzusammenfassung', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
     }
 
     public function testSendWeeklySummaryCommandWithNoContent(): void {
@@ -176,8 +175,8 @@ final class SendWeeklySummaryCommandTest extends UnitTestCase {
         $job = new SendWeeklySummaryCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 }

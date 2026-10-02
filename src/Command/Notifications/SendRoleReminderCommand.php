@@ -2,6 +2,10 @@
 
 namespace Olz\Command\Notifications;
 
+use Olz\Command\Notifications\Common\BaseSendNotificationsCommand;
+use Olz\Command\Notifications\Common\Notification;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
@@ -15,8 +19,8 @@ class SendRoleReminderCommand extends BaseSendNotificationsCommand {
 
     public const EXECUTION_DATE = '****-01-02';
 
-    public function getNotificationSubscriptionType(): string {
-        return NotificationSubscription::TYPE_ROLE_REMINDER;
+    public function getNotificationSubscriptionType(): NotificationType {
+        return NotificationType::ROLE_REMINDER;
     }
 
     public function autogenerateSubscriptions(): void {
@@ -38,8 +42,8 @@ class SendRoleReminderCommand extends BaseSendNotificationsCommand {
                 $this->log()->info("Generating role ({$role_id}) reminder subscription for '{$user}'...");
                 $subscription = new NotificationSubscription();
                 $subscription->setUser($user);
-                $subscription->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
-                $subscription->setNotificationType(NotificationSubscription::TYPE_ROLE_REMINDER);
+                $subscription->setDeliveryType(NotificationDeliveryType::EMAIL);
+                $subscription->setNotificationType(NotificationType::ROLE_REMINDER);
                 $subscription->setNotificationTypeArgs(json_encode([
                     'role_id' => $role_id,
                     'cancelled' => false,
@@ -65,7 +69,7 @@ class SendRoleReminderCommand extends BaseSendNotificationsCommand {
         // Find role assignees with existing role reminder notification subscriptions.
         $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
         $telegram_notification_subscriptions = $notification_subscription_repo->findBy([
-            'notification_type' => NotificationSubscription::TYPE_ROLE_REMINDER,
+            'notification_type' => NotificationType::ROLE_REMINDER,
         ]);
         foreach ($telegram_notification_subscriptions as $subscription) {
             $user_id = $subscription->getUser()->getId();
@@ -102,17 +106,16 @@ class SendRoleReminderCommand extends BaseSendNotificationsCommand {
 
     // ---
 
-    /** @param array<string, mixed> $args */
-    public function getNotification(array $args): ?Notification {
+    public function getNotifications(array $args): array {
         $today = $this->dateUtils()->getIsoToday();
         if (substr($today, 4, 6) != substr($this::EXECUTION_DATE, 4, 6)) {
-            return null;
+            return [];
         }
 
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $role = $role_repo->findOneBy(['id' => $args['role_id']]);
         if (!$role) {
-            return null;
+            return [];
         }
         $role_name = "{$role->getName()}";
         $num_assignees = $role->getUsers()->count();
@@ -161,8 +164,10 @@ class SendRoleReminderCommand extends BaseSendNotificationsCommand {
             Der Vorstand der OL Zimmerberg
             ZZZZZZZZZZ;
 
-        return new Notification($title, $text, [
-            'notification_type' => NotificationSubscription::TYPE_ROLE_REMINDER,
-        ]);
+        return [
+            new Notification($title, $text, [
+                'notification_type' => NotificationType::ROLE_REMINDER,
+            ]),
+        ];
     }
 }

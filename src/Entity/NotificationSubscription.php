@@ -3,6 +3,8 @@
 namespace Olz\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\NotificationSubscriptionRepository;
@@ -12,45 +14,15 @@ use Olz\Repository\NotificationSubscriptionRepository;
 #[ORM\Index(name: 'notification_type_index', columns: ['notification_type'])]
 #[ORM\Entity(repositoryClass: NotificationSubscriptionRepository::class)]
 class NotificationSubscription implements TestableInterface {
-    public const DELIVERY_EMAIL = 'email';
-    public const DELIVERY_TELEGRAM = 'telegram';
-
-    public const ALL_DELIVERY_TYPES = [
-        self::DELIVERY_EMAIL,
-        self::DELIVERY_TELEGRAM,
-    ];
-
-    public const TYPE_DAILY_SUMMARY = 'daily_summary';
-    public const TYPE_DEADLINE_WARNING = 'deadline_warning';
-    public const TYPE_EMAIL_CONFIG_REMINDER = 'email_config_reminder';
-    public const TYPE_IMMEDIATE = 'immediate';
-    public const TYPE_MONTHLY_PREVIEW = 'monthly_preview';
-    public const TYPE_ROLE_REMINDER = 'role_reminder';
-    public const TYPE_TELEGRAM_CONFIG_REMINDER = 'telegram_config_reminder';
-    public const TYPE_WEEKLY_PREVIEW = 'weekly_preview';
-    public const TYPE_WEEKLY_SUMMARY = 'weekly_summary';
-
-    public const ALL_NOTIFICATION_TYPES = [
-        self::TYPE_DAILY_SUMMARY,
-        self::TYPE_DEADLINE_WARNING,
-        self::TYPE_EMAIL_CONFIG_REMINDER,
-        self::TYPE_IMMEDIATE,
-        self::TYPE_MONTHLY_PREVIEW,
-        self::TYPE_ROLE_REMINDER,
-        self::TYPE_TELEGRAM_CONFIG_REMINDER,
-        self::TYPE_WEEKLY_PREVIEW,
-        self::TYPE_WEEKLY_SUMMARY,
-    ];
-
-    #[ORM\Column(type: 'string', nullable: false)]
-    private string $delivery_type;
+    #[ORM\Column(nullable: false)]
+    private NotificationDeliveryType $delivery_type;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
     private User $user;
 
-    #[ORM\Column(type: 'string', nullable: false)]
-    private string $notification_type;
+    #[ORM\Column(nullable: false)]
+    private NotificationType $notification_type;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $notification_type_args;
@@ -65,9 +37,9 @@ class NotificationSubscription implements TestableInterface {
 
     public function __toString() {
         $label = 'NotificationSubscription(';
-        $label .= "delivery_type={$this->getDeliveryType()}, ";
+        $label .= "delivery_type={$this->getDeliveryType()->value}, ";
         $label .= "user={$this->getUser()->getId()}, ";
-        $label .= "notification_type={$this->getNotificationType()}, ";
+        $label .= "notification_type={$this->getNotificationType()->value}, ";
         $label .= "notification_type_args={$this->getNotificationTypeArgs()}, ";
         $label .= ')';
         return $label;
@@ -81,11 +53,11 @@ class NotificationSubscription implements TestableInterface {
         $this->id = $new_id;
     }
 
-    public function getDeliveryType(): string {
+    public function getDeliveryType(): NotificationDeliveryType {
         return $this->delivery_type;
     }
 
-    public function setDeliveryType(string $new_delivery_type): void {
+    public function setDeliveryType(NotificationDeliveryType $new_delivery_type): void {
         $this->delivery_type = $new_delivery_type;
     }
 
@@ -97,11 +69,11 @@ class NotificationSubscription implements TestableInterface {
         $this->user = $new_user;
     }
 
-    public function getNotificationType(): string {
+    public function getNotificationType(): NotificationType {
         return $this->notification_type;
     }
 
-    public function setNotificationType(string $new_notification_type): void {
+    public function setNotificationType(NotificationType $new_notification_type): void {
         $this->notification_type = $new_notification_type;
     }
 

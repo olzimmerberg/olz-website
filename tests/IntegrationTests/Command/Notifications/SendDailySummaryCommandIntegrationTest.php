@@ -6,6 +6,7 @@ namespace Olz\Tests\IntegrationTests\Command\Notifications;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\Notifications\SendDailySummaryCommand;
+use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
@@ -26,7 +27,7 @@ final class SendDailySummaryCommandIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(new EnvUtils());
-        $notification = $job->getNotification([
+        $notifications = $job->getNotifications([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,
@@ -57,8 +58,14 @@ final class SendDailySummaryCommandIntegrationTest extends IntegrationTestCase {
 
             ZZZZZZZZZZ;
         $this->assertSame([], $this->getLogs());
-        $this->assertSame('Tageszusammenfassung', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Tageszusammenfassung', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
+        $this->assertSame(
+            NotificationType::DAILY_SUMMARY,
+            $notifications[0]->config['notification_type'] ?? null,
+        );
+        $this->assertNull($notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     public function testSendDailySummaryCommandDay2(): void {
@@ -70,7 +77,7 @@ final class SendDailySummaryCommandIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(new EnvUtils());
-        $notification = $job->getNotification([
+        $notifications = $job->getNotifications([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,
@@ -96,8 +103,14 @@ final class SendDailySummaryCommandIntegrationTest extends IntegrationTestCase {
 
             ZZZZZZZZZZ;
         $this->assertSame([], $this->getLogs());
-        $this->assertSame('Tageszusammenfassung', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Tageszusammenfassung', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
+        $this->assertSame(
+            NotificationType::DAILY_SUMMARY,
+            $notifications[0]->config['notification_type'] ?? null,
+        );
+        $this->assertNull($notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     public function testSendDailySummaryCommandDay3(): void {
@@ -108,7 +121,7 @@ final class SendDailySummaryCommandIntegrationTest extends IntegrationTestCase {
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(new EnvUtils());
-        $notification = $job->getNotification([
+        $notifications = $job->getNotifications([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,
@@ -117,7 +130,7 @@ final class SendDailySummaryCommandIntegrationTest extends IntegrationTestCase {
         ]);
 
         $this->assertSame([], $this->getLogs());
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     protected function getEntityManager(): EntityManagerInterface {

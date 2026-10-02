@@ -6,6 +6,7 @@ use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
+use Olz\Constants\NotificationType;
 use Olz\Entity\Users\User;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mime\Address;
@@ -91,7 +92,7 @@ class EmailUtils {
         //    https://github.com/Webklex/php-imap
     }
 
-    /** @param array{no_header?: bool, no_unsubscribe?: bool, notification_type?: string} $config */
+    /** @param array{no_header?: bool, no_unsubscribe?: bool, notification_type?: NotificationType} $config */
     public function buildOlzEmail(Email $email, User $user, string $text, array $config): Email {
         // TODO: Check if verified?
         $user_id = $user->getId();

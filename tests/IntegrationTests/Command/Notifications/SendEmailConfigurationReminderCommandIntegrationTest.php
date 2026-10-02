@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Command\Notifications;
 
 use Olz\Command\Notifications\SendEmailConfigurationReminderCommand;
+use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
@@ -37,7 +38,7 @@ final class SendEmailConfigurationReminderCommandIntegrationTest extends Integra
 
         $job = $this->getSut();
         $job->setDateUtils($date_utils);
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -59,8 +60,14 @@ final class SendEmailConfigurationReminderCommandIntegrationTest extends Integra
 
             ZZZZZZZZZZ;
         $this->assertSame([], $this->getLogs());
-        $this->assertSame('Kein Newsletter abonniert', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Kein Newsletter abonniert', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
+        $this->assertSame(
+            NotificationType::EMAIL_CONFIG_REMINDER,
+            $notifications[0]->config['notification_type'] ?? null,
+        );
+        $this->assertNull($notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     protected function getSut(): SendEmailConfigurationReminderCommand {

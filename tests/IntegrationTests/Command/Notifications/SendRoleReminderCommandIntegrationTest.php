@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Command\Notifications;
 
 use Olz\Command\Notifications\SendRoleReminderCommand;
+use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
@@ -48,7 +49,7 @@ final class SendRoleReminderCommandIntegrationTest extends IntegrationTestCase {
 
         $job = $this->getSut();
         $job->setDateUtils($date_utils);
-        $notification = $job->getNotification(['role_id' => 49]);
+        $notifications = $job->getNotifications(['role_id' => 49]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -70,8 +71,14 @@ final class SendRoleReminderCommandIntegrationTest extends IntegrationTestCase {
             Der Vorstand der OL Zimmerberg
             ZZZZZZZZZZ;
         $this->assertSame([], $this->getLogs());
-        $this->assertSame('Ressort-Erinnerung', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Ressort-Erinnerung', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
+        $this->assertSame(
+            NotificationType::ROLE_REMINDER,
+            $notifications[0]->config['notification_type'] ?? null,
+        );
+        $this->assertNull($notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     protected function getSut(): SendRoleReminderCommand {

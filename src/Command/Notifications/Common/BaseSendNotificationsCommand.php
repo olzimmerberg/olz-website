@@ -1,8 +1,10 @@
 <?php
 
-namespace Olz\Command\Notifications;
+namespace Olz\Command\Notifications\Common;
 
 use Olz\Command\Common\OlzCommand;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 use Symfony\Component\Console\Command\Command;
@@ -16,22 +18,26 @@ abstract class BaseSendNotificationsCommand extends OlzCommand {
         return ['dev', 'test', 'staging', 'prod'];
     }
 
-    abstract public function getNotificationSubscriptionType(): string;
+    abstract public function getNotificationSubscriptionType(): NotificationType;
 
     abstract public function autogenerateSubscriptions(): void;
 
-    /** @param array<string, mixed> $args */
-    abstract public function getNotification(array $args): ?Notification;
+    /**
+     * @param array<string, mixed> $args
+     *
+     * @return array<Notification>
+     */
+    abstract public function getNotifications(array $args): array;
 
-    /** @return array<string> */
+    /** @return array<NotificationType> */
     protected function getNonReminderNotificationTypes(): array {
         return array_values(array_filter(
-            NotificationSubscription::ALL_NOTIFICATION_TYPES,
+            NotificationType::cases(),
             function ($notification_type): bool {
                 return
-                    $notification_type !== NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER
-                    && $notification_type !== NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER
-                    && $notification_type !== NotificationSubscription::TYPE_ROLE_REMINDER;
+                    $notification_type !== NotificationType::EMAIL_CONFIG_REMINDER
+                    && $notification_type !== NotificationType::TELEGRAM_CONFIG_REMINDER
+                    && $notification_type !== NotificationType::ROLE_REMINDER;
             }
         ));
     }
@@ -63,17 +69,18 @@ abstract class BaseSendNotificationsCommand extends OlzCommand {
 
     /** @param array<string, array<NotificationSubscription>> $subscriptions_by_args */
     private function sendNotifications(array $subscriptions_by_args): void {
-        $this->log()->info("Sending '{$this->getNotificationSubscriptionType()}' notifications...");
+        $this->log()->info("Sending '{$this->getNotificationSubscriptionType()->value}' notifications...");
         foreach ($subscriptions_by_args as $args_json => $subscriptions) {
-            $this->log()->info("Getting notification for '{$args_json}'...");
+            $this->log()->info("Getting notifications for '{$args_json}'...");
             $args = json_decode($args_json, true);
-            $notification = $this->getNotification($args);
-            if ($notification) {
+            $notifications = $this->getNotifications($args);
+            if ($notifications === []) {
+                $this->log()->info("Nothing to send.");
+            }
+            foreach ($notifications as $notification) {
                 foreach ($subscriptions as $subscription) {
                     $this->sendNotificationToSubscription($notification, $subscription);
                 }
-            } else {
-                $this->log()->info("Nothing to send.");
             }
         }
     }
@@ -86,9 +93,14 @@ abstract class BaseSendNotificationsCommand extends OlzCommand {
         $subscription_id = $subscription->getId();
         $delivery_type = $subscription->getDeliveryType();
         $user_id = $user->getId();
-        $this->log()->info("Sending notification {$title} over {$delivery_type} to user ({$user_id})...");
+        $this->log()->info("Sending notification {$title} over {$delivery_type->value} to user ({$user_id})...");
+        if (($config['recipient_user_ids'] ?? null) !== null) {
+            $enc_recipient_user_ids = json_encode($config['recipient_user_ids']) ?: '[]';
+            $this->log()->notice("DRY RUN recipient_user_ids = {$enc_recipient_user_ids}", []);
+            return;
+        }
         switch ($delivery_type) {
-            case NotificationSubscription::DELIVERY_EMAIL:
+            case NotificationDeliveryType::EMAIL:
                 try {
                     $email = (new Email())->subject("[OLZ] {$title}");
                     $email = $this->emailUtils()->buildOlzEmail($email, $user, $text, $config);
@@ -100,7 +112,7 @@ abstract class BaseSendNotificationsCommand extends OlzCommand {
                     $this->log()->critical("Error sending email to user ({$user_id}): [{$th_class}] {$message}", []);
                 }
                 break;
-            case NotificationSubscription::DELIVERY_TELEGRAM:
+            case NotificationDeliveryType::TELEGRAM:
                 $telegram_link_repo = $this->entityManager()->getRepository(TelegramLink::class);
                 $telegram_link = $telegram_link_repo->findOneBy(['user' => $user]);
                 if (!$telegram_link) {
@@ -129,7 +141,7 @@ abstract class BaseSendNotificationsCommand extends OlzCommand {
                 }
                 break;
             default:
-                $this->log()->critical("Unknown delivery type '{$delivery_type}'");
+                $this->log()->critical("Unknown delivery type '{$delivery_type->value}'");
                 break;
         }
     }

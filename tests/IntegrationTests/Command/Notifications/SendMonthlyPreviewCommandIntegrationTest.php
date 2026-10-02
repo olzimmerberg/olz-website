@@ -6,6 +6,7 @@ namespace Olz\Tests\IntegrationTests\Command\Notifications;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\Notifications\SendMonthlyPreviewCommand;
+use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
@@ -26,7 +27,7 @@ final class SendMonthlyPreviewCommandIntegrationTest extends IntegrationTestCase
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(new EnvUtils());
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -56,8 +57,14 @@ final class SendMonthlyPreviewCommandIntegrationTest extends IntegrationTestCase
 
             ZZZZZZZZZZ;
         $this->assertSame([], $this->getLogs());
-        $this->assertSame('Monatsvorschau August', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Monatsvorschau August', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
+        $this->assertSame(
+            NotificationType::MONTHLY_PREVIEW,
+            $notifications[0]->config['notification_type'] ?? null,
+        );
+        $this->assertNull($notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     protected function getEntityManager(): EntityManagerInterface {

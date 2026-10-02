@@ -65,6 +65,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
+            'olz:send-termin-notifications ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -130,6 +131,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:clean-logs ',
             'olz:send-telegram-configuration ',
             'olz:sync-solv ',
+            'olz:send-termin-notifications ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -195,6 +197,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:clean-logs ',
             'olz:send-telegram-configuration ',
             'olz:sync-solv ',
+            'olz:send-termin-notifications ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -251,6 +254,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:process-email ',
             'olz:send-deadline-warning ',
             'olz:send-daily-summary ',
+            'olz:send-termin-notifications ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
@@ -311,6 +315,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:clean-temp-directory ',
             'olz:clean-temp-database ',
             'olz:clean-logs ',
+            'olz:send-termin-notifications ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);

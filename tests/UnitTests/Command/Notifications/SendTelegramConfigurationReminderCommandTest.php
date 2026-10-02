@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\Notifications;
 
 use Olz\Command\Notifications\SendTelegramConfigurationReminderCommand;
-use Olz\Entity\NotificationSubscription;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\DateUtils;
@@ -20,7 +21,7 @@ class TestOnlySendTelegramConfigurationReminderCommand extends SendTelegramConfi
         return $this->getTelegramConfigReminderState();
     }
 
-    /** @return array<string> */
+    /** @return array<NotificationType> */
     public function testOnlyGetNonReminderNotificationTypes(): array {
         return $this->getNonReminderNotificationTypes();
     }
@@ -32,15 +33,6 @@ class TestOnlySendTelegramConfigurationReminderCommand extends SendTelegramConfi
  * @covers \Olz\Command\Notifications\SendTelegramConfigurationReminderCommand
  */
 final class SendTelegramConfigurationReminderCommandTest extends UnitTestCase {
-    public const NON_CONFIG_NOTIFICATION_TYPES = [
-        NotificationSubscription::TYPE_DAILY_SUMMARY,
-        NotificationSubscription::TYPE_DEADLINE_WARNING,
-        NotificationSubscription::TYPE_IMMEDIATE,
-        NotificationSubscription::TYPE_MONTHLY_PREVIEW,
-        NotificationSubscription::TYPE_WEEKLY_PREVIEW,
-        NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-    ];
-
     public function testSendTelegramConfigurationReminderCommand(): void {
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
@@ -61,10 +53,10 @@ final class SendTelegramConfigurationReminderCommandTest extends UnitTestCase {
             'INFO Generating telegram configuration reminder subscription for \'default (User ID: 1)\'...',
             'INFO Generating telegram configuration reminder subscription for \'vorstand (User ID: 3)\'...',
             'INFO Sending \'telegram_config_reminder\' notifications...',
-            'INFO Getting notification for \'{"cancelled":false}\'...',
+            'INFO Getting notifications for \'{"cancelled":false}\'...',
             'INFO Sending notification Keine Push-Nachrichten abonniert over telegram to user (2)...',
             'INFO Telegram sent to user (2): Keine Push-Nachrichten abonniert',
-            'INFO Getting notification for \'{"cancelled":true}\'...',
+            'INFO Getting notifications for \'{"cancelled":true}\'...',
             'INFO Nothing to send.',
             'INFO Successfully ran command Olz\Command\Notifications\SendTelegramConfigurationReminderCommand.',
         ], $this->getLogs());
@@ -98,14 +90,14 @@ final class SendTelegramConfigurationReminderCommandTest extends UnitTestCase {
         $this->assertSame([
             [
                 'default (User ID: 1)',
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                NotificationDeliveryType::TELEGRAM,
+                NotificationType::TELEGRAM_CONFIG_REMINDER,
                 '{"cancelled":false}',
             ],
             [
                 'vorstand (User ID: 3)',
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                NotificationDeliveryType::TELEGRAM,
+                NotificationType::TELEGRAM_CONFIG_REMINDER,
                 '{"cancelled":false}',
             ],
         ], array_map(
@@ -123,8 +115,8 @@ final class SendTelegramConfigurationReminderCommandTest extends UnitTestCase {
         $this->assertSame([
             [
                 'admin (User ID: 2)',
-                NotificationSubscription::DELIVERY_TELEGRAM,
-                NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+                NotificationDeliveryType::TELEGRAM,
+                NotificationType::TELEGRAM_CONFIG_REMINDER,
                 '{"cancelled":true}',
             ],
         ], array_map(
@@ -151,9 +143,9 @@ final class SendTelegramConfigurationReminderCommandTest extends UnitTestCase {
         $job = new SendTelegramConfigurationReminderCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification(['cancelled' => false]);
+        $notifications = $job->getNotifications(['cancelled' => false]);
 
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendTelegramConfigurationReminderCommandCancelled(): void {
@@ -164,9 +156,9 @@ final class SendTelegramConfigurationReminderCommandTest extends UnitTestCase {
         $job = new SendTelegramConfigurationReminderCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification(['cancelled' => true]);
+        $notifications = $job->getNotifications(['cancelled' => true]);
 
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendTelegramConfigurationReminderCommandNotification(): void {
@@ -178,7 +170,7 @@ final class SendTelegramConfigurationReminderCommandTest extends UnitTestCase {
         $job = new SendTelegramConfigurationReminderCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification(['cancelled' => false]);
+        $notifications = $job->getNotifications(['cancelled' => false]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -197,7 +189,8 @@ final class SendTelegramConfigurationReminderCommandTest extends UnitTestCase {
 
 
             ZZZZZZZZZZ;
-        $this->assertSame('Keine Push-Nachrichten abonniert', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Keine Push-Nachrichten abonniert', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
     }
 }

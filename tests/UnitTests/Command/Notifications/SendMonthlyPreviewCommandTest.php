@@ -47,11 +47,11 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Command\Notifications\SendMonthlyPreviewCommand...',
             'INFO Sending \'monthly_preview\' notifications...',
-            'INFO Getting notification for \'[]\'...',
+            'INFO Getting notifications for \'[]\'...',
             'INFO Sending notification Monatsvorschau März over email to user (1)...',
             'DEBUG Sending email to "Default User" <default-user@staging.olzimmerberg.ch> ()',
             'INFO Email sent to user (1): Monatsvorschau März',
-            'INFO Getting notification for \'{"no_notification":true}\'...',
+            'INFO Getting notifications for \'{"no_notification":true}\'...',
             'INFO Sending notification Monatsvorschau März over email to user (2)...',
             'DEBUG Sending email to "Admin Istrator" <admin-user@staging.olzimmerberg.ch> ()',
             'INFO Email sent to user (2): Monatsvorschau März',
@@ -184,10 +184,10 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
         $job = new SendMonthlyPreviewCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $this->assertSame([], $this->getLogs());
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendMonthlyPreviewCommandTooEarlyInMonth(): void {
@@ -196,10 +196,10 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
         $job = new SendMonthlyPreviewCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $this->assertSame([], $this->getLogs());
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendMonthlyPreviewCommandTooLateInMonth(): void {
@@ -208,10 +208,10 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
         $job = new SendMonthlyPreviewCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $this->assertSame([], $this->getLogs());
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendMonthlyPreviewCommandNotification(): void {
@@ -221,7 +221,7 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
         $job = new SendMonthlyPreviewCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -242,8 +242,9 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ;
         $this->assertSame([], $this->getLogs());
-        $this->assertSame('Monatsvorschau März', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Monatsvorschau März', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
     }
 
     public function testEmptySendMonthlyPreviewCommand(): void {
@@ -255,9 +256,9 @@ final class SendMonthlyPreviewCommandTest extends UnitTestCase {
         $job = new SendMonthlyPreviewCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $this->assertSame([], $this->getLogs());
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 }

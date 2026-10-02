@@ -1,16 +1,23 @@
 <?php
 
-namespace Olz\Command\Notifications;
+namespace Olz\Command\Notifications\Common;
 
+use Olz\Constants\NotificationType;
 use Olz\Entity\Users\User;
 
+/**
+ * @phpstan-type NotificationConfig array{
+ *   notification_type?: NotificationType,
+ *   recipient_user_ids?: array<int>,
+ * }
+ */
 class Notification {
     public string $title;
     public string $text;
-    /** @var array{notification_type?: string} */
+    /** @var NotificationConfig */
     public array $config;
 
-    /** @param array{notification_type?: string} $config */
+    /** @param NotificationConfig $config */
     public function __construct(string $title, string $text, array $config = []) {
         $this->title = $title;
         $this->text = $text;

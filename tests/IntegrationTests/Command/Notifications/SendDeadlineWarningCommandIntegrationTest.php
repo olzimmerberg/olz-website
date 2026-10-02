@@ -6,6 +6,7 @@ namespace Olz\Tests\IntegrationTests\Command\Notifications;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\Notifications\SendDeadlineWarningCommand;
+use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
 use Olz\Utils\DateUtils;
@@ -26,7 +27,7 @@ final class SendDeadlineWarningCommandIntegrationTest extends IntegrationTestCas
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(new EnvUtils());
-        $notification = $job->getNotification(['days' => 2]);
+        $notifications = $job->getNotifications(['days' => 2]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -37,8 +38,14 @@ final class SendDeadlineWarningCommandIntegrationTest extends IntegrationTestCas
 
             ZZZZZZZZZZ;
         $this->assertSame([], $this->getLogs());
-        $this->assertSame('Meldeschlusswarnung', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Meldeschlusswarnung', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
+        $this->assertSame(
+            NotificationType::DEADLINE_WARNING,
+            $notifications[0]->config['notification_type'] ?? null,
+        );
+        $this->assertNull($notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     public function testSendDeadlineWarningCommandNone(): void {
@@ -49,10 +56,10 @@ final class SendDeadlineWarningCommandIntegrationTest extends IntegrationTestCas
         $job->setEntityManager($entityManager);
         $job->setDateUtils($date_utils);
         $job->setEnvUtils(new EnvUtils());
-        $notification = $job->getNotification(['days' => 3]);
+        $notifications = $job->getNotifications(['days' => 3]);
 
         $this->assertSame([], $this->getLogs());
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     protected function getEntityManager(): EntityManagerInterface {

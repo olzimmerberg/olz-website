@@ -2,6 +2,10 @@
 
 namespace Olz\Command\Notifications;
 
+use Olz\Command\Notifications\Common\BaseSendNotificationsCommand;
+use Olz\Command\Notifications\Common\Notification;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\Users\User;
@@ -14,8 +18,8 @@ class SendTelegramConfigurationReminderCommand extends BaseSendNotificationsComm
 
     public const DAY_OF_MONTH = 22;
 
-    public function getNotificationSubscriptionType(): string {
-        return NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER;
+    public function getNotificationSubscriptionType(): NotificationType {
+        return NotificationType::TELEGRAM_CONFIG_REMINDER;
     }
 
     public function autogenerateSubscriptions(): void {
@@ -30,14 +34,14 @@ class SendTelegramConfigurationReminderCommand extends BaseSendNotificationsComm
             $needs_reminder = $state['needs_reminder'] ?? false;
             $user = $user_repo->findOneBy(['id' => $user_id]);
             if (!$user) {
-                $this->log()->warning("No user (ID:{$user_id}) for telegram notification");
+                $this->log()->warning("No user (ID:{$user_id}) for telegram reminder");
             }
             if ($needs_reminder && !$reminder_id && $user) {
                 $this->log()->info("Generating telegram configuration reminder subscription for '{$user}'...");
                 $subscription = new NotificationSubscription();
                 $subscription->setUser($user);
-                $subscription->setDeliveryType(NotificationSubscription::DELIVERY_TELEGRAM);
-                $subscription->setNotificationType(NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER);
+                $subscription->setDeliveryType(NotificationDeliveryType::TELEGRAM);
+                $subscription->setNotificationType(NotificationType::TELEGRAM_CONFIG_REMINDER);
                 $subscription->setNotificationTypeArgs(json_encode(['cancelled' => false]) ?: '{}');
                 $subscription->setCreatedAt($now_datetime);
                 $this->entityManager()->persist($subscription);
@@ -60,7 +64,7 @@ class SendTelegramConfigurationReminderCommand extends BaseSendNotificationsComm
         // Find users with existing telegram config reminder notification subscriptions.
         $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
         $telegram_notification_subscriptions = $notification_subscription_repo->findBy([
-            'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
+            'notification_type' => NotificationType::TELEGRAM_CONFIG_REMINDER,
         ]);
         foreach ($telegram_notification_subscriptions as $subscription) {
             $user_id = $subscription->getUser()->getId() ?: 0;
@@ -82,7 +86,7 @@ class SendTelegramConfigurationReminderCommand extends BaseSendNotificationsComm
             }
             $subscription = $notification_subscription_repo->findOneBy([
                 'user' => $user,
-                'delivery_type' => NotificationSubscription::DELIVERY_TELEGRAM,
+                'delivery_type' => NotificationDeliveryType::TELEGRAM,
                 'notification_type' => $non_config_reminder_notification_types,
             ]);
             if (!$subscription) {
@@ -98,14 +102,13 @@ class SendTelegramConfigurationReminderCommand extends BaseSendNotificationsComm
 
     // ---
 
-    /** @param array<string, mixed> $args */
-    public function getNotification(array $args): ?Notification {
+    public function getNotifications(array $args): array {
         if ($args['cancelled'] ?? false) {
-            return null;
+            return [];
         }
         $day_of_month = intval($this->dateUtils()->getCurrentDateInFormat('j'));
         if ($day_of_month !== self::DAY_OF_MONTH) {
-            return null;
+            return [];
         }
 
         $base_href = $this->envUtils()->getBaseHref();
@@ -131,8 +134,10 @@ class SendTelegramConfigurationReminderCommand extends BaseSendNotificationsComm
 
             ZZZZZZZZZZ;
 
-        return new Notification($title, $text, [
-            'notification_type' => NotificationSubscription::TYPE_TELEGRAM_CONFIG_REMINDER,
-        ]);
+        return [
+            new Notification($title, $text, [
+                'notification_type' => NotificationType::TELEGRAM_CONFIG_REMINDER,
+            ]),
+        ];
     }
 }

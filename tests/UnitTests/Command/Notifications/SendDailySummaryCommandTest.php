@@ -44,11 +44,11 @@ final class SendDailySummaryCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Command\Notifications\SendDailySummaryCommand...',
             'INFO Sending \'daily_summary\' notifications...',
-            'INFO Getting notification for \'{"aktuell":true,"blog":true,"galerie":true,"forum":true}\'...',
+            'INFO Getting notifications for \'{"aktuell":true,"blog":true,"galerie":true,"forum":true}\'...',
             'INFO Sending notification Tageszusammenfassung over email to user (1)...',
             'DEBUG Sending email to "Default User" <default-user@staging.olzimmerberg.ch> ()',
             'INFO Email sent to user (1): Tageszusammenfassung',
-            'INFO Getting notification for \'{"no_notification":true}\'...',
+            'INFO Getting notifications for \'{"no_notification":true}\'...',
             'INFO Nothing to send.',
             'INFO Successfully ran command Olz\Command\Notifications\SendDailySummaryCommand.',
         ], $this->getLogs());
@@ -114,7 +114,7 @@ final class SendDailySummaryCommandTest extends UnitTestCase {
         $job = new SendDailySummaryCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([
+        $notifications = $job->getNotifications([
             'aktuell' => true,
             'blog' => true,
             'forum' => true,
@@ -140,8 +140,9 @@ final class SendDailySummaryCommandTest extends UnitTestCase {
 
 
             ZZZZZZZZZZ;
-        $this->assertSame('Tageszusammenfassung', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Tageszusammenfassung', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
     }
 
     public function testSendDailySummaryCommandWithNoContent(): void {
@@ -150,8 +151,8 @@ final class SendDailySummaryCommandTest extends UnitTestCase {
         $job = new SendDailySummaryCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 }

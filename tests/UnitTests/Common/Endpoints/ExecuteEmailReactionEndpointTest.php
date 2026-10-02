@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Common\Endpoints;
 
 use Olz\Common\Endpoints\ExecuteEmailReactionEndpoint;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Entity\NotificationSubscription;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -23,7 +25,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
             'user' => FakeUser::defaultUser()->getId(),
-            'notification_type' => NotificationSubscription::TYPE_DAILY_SUMMARY,
+            'notification_type' => NotificationType::DAILY_SUMMARY->value,
         ])]);
 
         $this->assertSame([
@@ -50,9 +52,9 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $endpoint->runtimeSetup();
         $subscription = new NotificationSubscription();
         $subscription->setId(3);
-        $subscription->setDeliveryType(NotificationSubscription::DELIVERY_EMAIL);
+        $subscription->setDeliveryType(NotificationDeliveryType::EMAIL);
         $subscription->setUser(FakeUser::defaultUser());
-        $subscription->setNotificationType(NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER);
+        $subscription->setNotificationType(NotificationType::EMAIL_CONFIG_REMINDER);
         $subscription->setNotificationTypeArgs('{"cancelled":false}');
         $entity_manager = WithUtilsCache::get('entityManager');
         $entity_manager->repositories[NotificationSubscription::class]->entitiesToBeFoundForQuery = fn () => [$subscription];
@@ -60,7 +62,7 @@ final class ExecuteEmailReactionEndpointTest extends UnitTestCase {
         $result = $endpoint->call(['token' => json_encode([
             'action' => 'unsubscribe',
             'user' => 1,
-            'notification_type' => NotificationSubscription::TYPE_EMAIL_CONFIG_REMINDER,
+            'notification_type' => NotificationType::EMAIL_CONFIG_REMINDER,
         ])]);
 
         $this->assertSame([

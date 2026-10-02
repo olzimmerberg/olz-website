@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\Notifications;
 
 use Olz\Command\Notifications\SendRoleReminderCommand;
-use Olz\Entity\NotificationSubscription;
+use Olz\Constants\NotificationDeliveryType;
+use Olz\Constants\NotificationType;
 use Olz\Entity\Roles\Role;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
@@ -30,15 +31,6 @@ class TestOnlySendRoleReminderCommand extends SendRoleReminderCommand {
  * @covers \Olz\Command\Notifications\SendRoleReminderCommand
  */
 final class SendRoleReminderCommandTest extends UnitTestCase {
-    public const NON_CONFIG_NOTIFICATION_TYPES = [
-        NotificationSubscription::TYPE_DAILY_SUMMARY,
-        NotificationSubscription::TYPE_DEADLINE_WARNING,
-        NotificationSubscription::TYPE_IMMEDIATE,
-        NotificationSubscription::TYPE_MONTHLY_PREVIEW,
-        NotificationSubscription::TYPE_WEEKLY_PREVIEW,
-        NotificationSubscription::TYPE_WEEKLY_SUMMARY,
-    ];
-
     public function testSendRoleReminderCommand(): void {
         $mailer = $this->createMock(MailerInterface::class);
         WithUtilsCache::get('emailUtils')->setMailer($mailer);
@@ -69,7 +61,7 @@ final class SendRoleReminderCommandTest extends UnitTestCase {
             'INFO Generating role (1234) reminder subscription for \'empty-user (User ID: 123)\'...',
             'INFO Generating role (1234) reminder subscription for \'minimal-user (User ID: 12)\'...',
             'INFO Sending \'role_reminder\' notifications...',
-            'INFO Getting notification for \'{"role_id":1,"cancelled":false}\'...',
+            'INFO Getting notifications for \'{"role_id":1,"cancelled":false}\'...',
             'INFO Sending notification Ressort-Erinnerung over email to user (1)...',
             'DEBUG Sending email to "Default User" <default-user@staging.olzimmerberg.ch> ()',
             'INFO Email sent to user (1): Ressort-Erinnerung',
@@ -179,26 +171,26 @@ final class SendRoleReminderCommandTest extends UnitTestCase {
         $this->assertSame([
             [
                 'admin (User ID: 2)',
-                NotificationSubscription::DELIVERY_EMAIL,
-                NotificationSubscription::TYPE_ROLE_REMINDER,
+                NotificationDeliveryType::EMAIL,
+                NotificationType::ROLE_REMINDER,
                 '{"role_id":2,"cancelled":false}',
             ],
             [
                 'vorstand (User ID: 3)',
-                NotificationSubscription::DELIVERY_EMAIL,
-                NotificationSubscription::TYPE_ROLE_REMINDER,
+                NotificationDeliveryType::EMAIL,
+                NotificationType::ROLE_REMINDER,
                 '{"role_id":3,"cancelled":false}',
             ],
             [
                 'admin (User ID: 2)',
-                NotificationSubscription::DELIVERY_EMAIL,
-                NotificationSubscription::TYPE_ROLE_REMINDER,
+                NotificationDeliveryType::EMAIL,
+                NotificationType::ROLE_REMINDER,
                 '{"role_id":1,"cancelled":false}',
             ],
             [
                 'vorstand (User ID: 3)',
-                NotificationSubscription::DELIVERY_EMAIL,
-                NotificationSubscription::TYPE_ROLE_REMINDER,
+                NotificationDeliveryType::EMAIL,
+                NotificationType::ROLE_REMINDER,
                 '{"role_id":1,"cancelled":false}',
             ],
         ], array_map(
@@ -216,8 +208,8 @@ final class SendRoleReminderCommandTest extends UnitTestCase {
         $this->assertSame([
             [
                 'default (User ID: 1)',
-                NotificationSubscription::DELIVERY_EMAIL,
-                NotificationSubscription::TYPE_ROLE_REMINDER,
+                NotificationDeliveryType::EMAIL,
+                NotificationType::ROLE_REMINDER,
                 '{"role_id":1,"cancelled":false}',
             ],
         ], array_map(
@@ -263,9 +255,9 @@ final class SendRoleReminderCommandTest extends UnitTestCase {
         $job = new SendRoleReminderCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification(['role' => 'default']);
+        $notifications = $job->getNotifications(['role' => 'default']);
 
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendRoleReminderCommandNotification(): void {
@@ -276,7 +268,7 @@ final class SendRoleReminderCommandTest extends UnitTestCase {
         $job = new SendRoleReminderCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification(['role_id' => 3]);
+        $notifications = $job->getNotifications(['role_id' => 3]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -297,7 +289,8 @@ final class SendRoleReminderCommandTest extends UnitTestCase {
             
             Der Vorstand der OL Zimmerberg
             ZZZZZZZZZZ;
-        $this->assertSame('Ressort-Erinnerung', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Ressort-Erinnerung', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
     }
 }

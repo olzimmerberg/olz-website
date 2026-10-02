@@ -35,10 +35,10 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
         $this->assertSame([
             'INFO Running command Olz\Command\Notifications\SendWeeklyPreviewCommand...',
             'INFO Sending \'weekly_preview\' notifications...',
-            'INFO Getting notification for \'[]\'...',
+            'INFO Getting notifications for \'[]\'...',
             'INFO Sending notification Vorschau auf die Woche vom 16. März over telegram to user (1)...',
             'INFO Telegram sent to user (1): Vorschau auf die Woche vom 16. März',
-            'INFO Getting notification for \'{"no_notification":true}\'...',
+            'INFO Getting notifications for \'{"no_notification":true}\'...',
             'INFO Sending notification Vorschau auf die Woche vom 16. März over telegram to user (1)...',
             'INFO Telegram sent to user (1): Vorschau auf die Woche vom 16. März',
             'INFO Successfully ran command Olz\Command\Notifications\SendWeeklyPreviewCommand.',
@@ -104,9 +104,9 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
         $job = new SendWeeklyPreviewCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 
     public function testSendWeeklyPreviewCommandNotification(): void {
@@ -116,7 +116,7 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
         $job = new SendWeeklyPreviewCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $expected_text = <<<'ZZZZZZZZZZ'
             Hallo Default,
@@ -137,8 +137,9 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
 
             ZZZZZZZZZZ;
         $this->assertSame([], $this->getLogs());
-        $this->assertSame('Vorschau auf die Woche vom 16. März', $notification?->title);
-        $this->assertSame($expected_text, $notification->getTextForUser($user));
+        $this->assertCount(1, $notifications);
+        $this->assertSame('Vorschau auf die Woche vom 16. März', $notifications[0]->title);
+        $this->assertSame($expected_text, $notifications[0]->getTextForUser($user));
     }
 
     public function testEmptySendWeeklyPreviewCommand(): void {
@@ -150,9 +151,9 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
         $job = new SendWeeklyPreviewCommand();
         $job->setDateUtils($date_utils);
 
-        $notification = $job->getNotification([]);
+        $notifications = $job->getNotifications([]);
 
         $this->assertSame([], $this->getLogs());
-        $this->assertNull($notification);
+        $this->assertSame([], $notifications);
     }
 }

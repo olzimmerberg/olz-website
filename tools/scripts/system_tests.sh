@@ -61,19 +61,16 @@ echo "NO_BUILD = $NO_BUILD"
 echo "SLICE = $SLICE"
 echo "REST = $REST"
 
-# Run gecko (Firefox) driver or Chrome driver
-if [ "$BROWSER" = "firefox" ]; then
-    geckodriver --port 4444 &
-elif [ "$BROWSER" = "chrome" ]; then
-    chromedriver --port=4444 &
-else
+# Panther manages the browser driver itself (chromedriver/geckodriver).
+# The chosen driver binary must be available on PATH (or in ./drivers).
+if [ "$BROWSER" != "firefox" ] && [ "$BROWSER" != "chrome" ]; then
     echo "Invalid browser: $BROWSER"
     exit 1
 fi
-BROWSER_DRIVER_PID=$!
+export SYSTEM_TEST_BROWSER="$BROWSER"
 
 # Configure env
-if [ ! -z DB_PORT ] && [ ! -f ./config/olz.test.php ]; then
+if [ ! -z "$DB_PORT" ] && [ ! -f ./config/olz.test.php ]; then
     cp ./config/olz.test.template.php ./config/olz.test.php
     sed -i "s/3306/$DB_PORT/g" ./config/olz.test.php
     echo "System test env configured."
@@ -83,7 +80,7 @@ fi
 
 if [ "$MODE" = "dev" ] || [ "$MODE" = "dev_rw" ]; then
     # Configure env
-    if [ ! -z DB_PORT ] && [ ! -f ./config/olz.dev.php ]; then
+    if [ ! -z "$DB_PORT" ] && [ ! -f ./config/olz.dev.php ]; then
         cp ./config/olz.dev.template.php ./config/olz.dev.php
         sed -i "s/3306/$DB_PORT/g" ./config/olz.dev.php
         echo "Dev server env configured."
@@ -92,7 +89,7 @@ if [ "$MODE" = "dev" ] || [ "$MODE" = "dev_rw" ]; then
     fi
 
     # Configure symfony
-    if [ ! -z DB_PORT ] && [ ! -f .env.local ]; then
+    if [ ! -z "$DB_PORT" ] && [ ! -f .env.local ]; then
         cp .env.local.template .env.local
         sed -i "s/:3306/:$DB_PORT/g" .env.local
         echo "Dev server symfony configured."
@@ -130,7 +127,6 @@ EXIT_CODE=$?
 # done
 
 # Clean up
-kill -9 $BROWSER_DRIVER_PID
 if [ "$MODE" = "dev" ] || [ "$MODE" = "dev_rw" ]; then
     kill -9 $DEVSERVER_PID
 fi

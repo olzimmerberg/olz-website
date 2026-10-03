@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests\Common;
 
-use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Exception\UnexpectedTagNameException;
-use Facebook\WebDriver\Firefox\FirefoxOptions;
-use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
@@ -16,6 +13,7 @@ use Facebook\WebDriver\WebDriverSelect;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Panther\Client;
 
 /**
  * @internal
@@ -27,6 +25,7 @@ class SystemTestCase extends KernelTestCase {
 
     private static string $browser_name = 'firefox';
     private static ?RemoteWebDriver $browser = null;
+    private static ?Client $client = null;
     private static int $max_timeout_seconds = 1;
 
     /** @var array<string, ?string> */
@@ -49,28 +48,29 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function getBrowser(): RemoteWebDriver {
-        if ($this::$browser !== null) {
-            return $this::$browser;
+        if (self::$browser !== null) {
+            return self::$browser;
         }
-        $host = "http://localhost:4444/";
-        if (self::$browser_name == 'firefox') {
-            $capabilities = DesiredCapabilities::firefox();
-            $options = new FirefoxOptions();
-            $options->setPreference('general.useragent.override', 'OlzSystemTest/1.0');
-            $capabilities->setCapability(FirefoxOptions::CAPABILITY, $options);
-        } elseif (self::$browser_name == 'chrome') {
-            $capabilities = DesiredCapabilities::chrome();
-            $options = new ChromeOptions();
-            $options->addArguments(['--user-agent=OlzSystemTest/1.0']);
-            $capabilities->setCapability(ChromeOptions::CAPABILITY, $options);
+        $base_uri = $this->getTargetUrl() ?? 'http://127.0.0.1:30270';
+        if (self::$browser_name === 'firefox') {
+            // TODO: Re-add the `general.useragent.override = OlzSystemTest/1.0` preference.
+            // Panther's FirefoxManager does not expose Firefox preferences directly;
+            // it would require passing a custom `moz:firefoxOptions` capability.
+            self::$client = Client::createFirefoxClient(null, null, [], $base_uri);
+        } elseif (self::$browser_name === 'chrome') {
+            self::$client = Client::createChromeClient(null, ['--user-agent=OlzSystemTest/1.0'], [], $base_uri);
         } else {
             $browser_name = self::$browser_name;
             throw new \Exception("Invalid browser: {$browser_name}");
         }
-        $this::$browser = RemoteWebDriver::create($host, $capabilities);
+        $browser = self::$client->getWebDriver();
+        if (!$browser instanceof RemoteWebDriver) {
+            throw new \RuntimeException('Panther client did not return a RemoteWebDriver');
+        }
+        self::$browser = $browser;
         $this->setWindowInnerSize(1280, 1024);
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        return $this::$browser;
+        $this->generalUtils()->checkNotNull(self::$browser, "Browser expected");
+        return self::$browser;
     }
 
     private function setWindowInnerSize(int $width, int $height): void {
@@ -340,6 +340,10 @@ class SystemTestCase extends KernelTestCase {
 
     public static function setUpBeforeClass(): void {
         parent::setUpBeforeClass();
+        $browser = getenv('SYSTEM_TEST_BROWSER');
+        if ($browser === 'firefox' || $browser === 'chrome') {
+            self::$browser_name = $browser;
+        }
         self::tick('total');
         self::setUpSlices();
     }
@@ -349,8 +353,8 @@ class SystemTestCase extends KernelTestCase {
         SystemTestCase::tock('total', 'total');
         if (!self::$shutdownFunctionRegistered) {
             register_shutdown_function(function () {
-                if (self::$browser !== null) {
-                    self::$browser->quit();
+                if (self::$client !== null) {
+                    self::$client->quit();
                 }
                 echo self::getPrettyTimingReport();
                 self::persistTimingReport();

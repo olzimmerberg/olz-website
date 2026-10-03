@@ -58,25 +58,18 @@ final class StartseiteTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-snippet-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements('#edit-snippet-modal #images-upload .olz-upload-image.uploaded');
-            return count($image_uploaded) == 1;
-        });
+        $this->waitFor('#edit-snippet-modal #images-upload .olz-upload-image.uploaded');
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-snippet-modal #files-upload input[type=file]', $document_path);
-        $this->waitUntil(function () {
-            $file_uploaded = $this->getBrowserElements('#edit-snippet-modal #files-upload .olz-upload-file.uploaded');
-            return count($file_uploaded) == 1;
-        });
+        $this->waitFor('#edit-snippet-modal #files-upload .olz-upload-file.uploaded');
 
         $this->screenshot('startseite_banner_edit');
 
         $this->click('#edit-snippet-modal #submit-button');
         $this->waitUntil(function () {
-            $rendered_html = $this->getBrowserElement('#important-banner .olz-editable-text .rendered-markdown');
-            return strpos($rendered_html?->getText() ?? '', 'Neue Information!') !== false;
+            return strpos($this->filter('#important-banner .olz-editable-text .rendered-markdown')->getText(), 'Neue Information!') !== false;
         });
         $this->screenshot('startseite_banner_finished');
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
 
@@ -16,8 +15,7 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class SignUpTest extends SystemTestCase {
     #[OnlyInModes(['dev', 'staging', 'prod'])]
     public function testSignUpReadOnly(): void {
-        $browser = $this->getBrowser();
-        $this->doSignUpReadOnly($browser);
+        $this->doSignUpReadOnly();
 
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
@@ -25,14 +23,13 @@ final class SignUpTest extends SystemTestCase {
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testSignUp(): void {
-        $browser = $this->getBrowser();
-        $this->doSignUpReadWrite($browser);
+        $this->doSignUpReadWrite();
 
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
     }
 
-    protected function doSignUpReadOnly(RemoteWebDriver $browser): void {
+    protected function doSignUpReadOnly(): void {
         $this->loadUrl($this->getUrl());
 
         $this->click('#account-menu-link');
@@ -67,11 +64,11 @@ final class SignUpTest extends SystemTestCase {
                 elem.style.display = 'none';
             });
             ZZZZZZZZZZ;
-        $browser->executeScript($hide_tooltips_script);
+        $this->getClient()->executeScript($hide_tooltips_script);
     }
 
-    protected function doSignUpReadWrite(RemoteWebDriver $browser): void {
-        $this->doSignUpReadOnly($browser);
+    protected function doSignUpReadWrite(): void {
+        $this->doSignUpReadOnly();
 
         $this->clear('#edit-user-modal #password-input');
         $this->sendKeys('#edit-user-modal #password-input', 'genügend&gleich');

@@ -34,6 +34,7 @@ final class TerminNotificationTemplatesTest extends SystemTestCase {
 
         $this->click('#edit-termin-notification-template-modal #submit-button');
         $this->waitUntilGone('#edit-termin-notification-template-modal');
+        $this->waitABit();
 
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Zeitpunkt Titel Empfänger
@@ -49,7 +50,7 @@ final class TerminNotificationTemplatesTest extends SystemTestCase {
             Armin 😂 Admin 🤣
             Ressort Anlässe🎫, Vizepräsi
             Termin-Organisator
-            ZZZZZZZZZZ, $this->getText('#termin-notification-templates-table'));
+            ZZZZZZZZZZ, $this->filter('#termin-notification-templates-table')->getText());
 
         $this->resetDb();
     }
@@ -66,6 +67,7 @@ final class TerminNotificationTemplatesTest extends SystemTestCase {
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');
         $this->waitUntilGone('#edit-termin-notification-template-modal');
+        $this->waitABit();
 
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Zeitpunkt Titel Empfänger
@@ -74,7 +76,7 @@ final class TerminNotificationTemplatesTest extends SystemTestCase {
             7 Tage vorher Kartendruck für Training
             Ressort Kartenverkauf
             Termin-Organisator
-            ZZZZZZZZZZ, $this->getText('#termin-notification-templates-table'));
+            ZZZZZZZZZZ, $this->filter('#termin-notification-templates-table')->getText());
 
         $this->resetDb();
     }

@@ -27,9 +27,8 @@ final class TerminLabelTest extends SystemTestCase {
             'Wettkämpfe',
             'Vereinsanlässe',
             'Meldeschlüsse',
-        ], array_map(
-            fn ($elem) => $elem->getText(),
-            $this->getBrowserElements('.filter.type')
+        ], $this->filter('.filter.type')->each(
+            fn ($node) => $node->text()
         ));
 
         $this->click('#edit-termin-label-button');
@@ -41,10 +40,7 @@ final class TerminLabelTest extends SystemTestCase {
         $icon_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($icon_path);
         $this->sendKeys('#edit-termin-label-modal #icon-upload input[type=file]', $icon_path);
-        $this->waitUntil(function () {
-            $icon_uploaded = $this->getBrowserElements('#edit-termin-label-modal #icon-upload .olz-upload-image.uploaded');
-            return count($icon_uploaded) == 1;
-        });
+        $this->waitFor('#edit-termin-label-modal #icon-upload .olz-upload-image.uploaded');
 
         $this->selectOption('#edit-termin-label-modal #position-field #before-after-input', 'vor');
         $this->selectOption('#edit-termin-label-modal #position-field .olz-entity-chooser', 'Vereinsanlässe');
@@ -53,16 +49,14 @@ final class TerminLabelTest extends SystemTestCase {
         assert($image_path);
         $this->sendKeys('#edit-termin-label-modal #images-upload input[type=file]', $image_path);
         $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements('#edit-termin-label-modal #images-upload .olz-upload-image.uploaded');
-            return count($image_uploaded) == 2;
+            return $this->filter('#edit-termin-label-modal #images-upload .olz-upload-image.uploaded')->count() == 2;
         });
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-termin-label-modal #files-upload input[type=file]', $document_path);
         $this->waitUntil(function () {
-            $file_uploaded = $this->getBrowserElements('#edit-termin-label-modal #files-upload .olz-upload-file.uploaded');
-            return count($file_uploaded) == 2;
+            return $this->filter('#edit-termin-label-modal #files-upload .olz-upload-file.uploaded')->count() == 2;
         });
 
         $this->screenshot('termin_label_edit');
@@ -83,9 +77,8 @@ final class TerminLabelTest extends SystemTestCase {
             'Trainings UPDATED',
             'Vereinsanlässe',
             'Meldeschlüsse',
-        ], array_map(
-            fn ($elem) => $elem->getText(),
-            $this->getBrowserElements('.filter.type')
+        ], $this->filter('.filter.type')->each(
+            fn ($node) => $node->text()
         ));
 
         $this->assertSame(410, $this->getHeaders($this->getUrl())['http_code']);

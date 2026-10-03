@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Olz\Tests\SystemTests\Common;
 
 use Facebook\WebDriver\Exception\UnexpectedTagNameException;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\WebDriverSelect;
@@ -14,6 +12,7 @@ use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Panther\Client;
+use Symfony\Component\Panther\DomCrawler\Crawler;
 
 /**
  * @internal
@@ -24,9 +23,7 @@ class SystemTestCase extends KernelTestCase {
     use WithUtilsTrait;
 
     private static string $browser_name = 'firefox';
-    private static ?RemoteWebDriver $browser = null;
     private static ?Client $client = null;
-    private static int $max_timeout_seconds = 1;
 
     /** @var array<string, ?string> */
     private static array $targetUrlByMode = [
@@ -47,92 +44,60 @@ class SystemTestCase extends KernelTestCase {
         return self::getContainer()->get(GeneralUtils::class);
     }
 
-    protected function getBrowser(): RemoteWebDriver {
-        if (self::$browser !== null) {
-            return self::$browser;
+    protected function getClient(): Client {
+        if (self::$client === null) {
+            $base_uri = $this->getTargetUrl() ?? 'http://127.0.0.1:30270';
+            if (self::$browser_name === 'firefox') {
+                // TODO: Re-add the `general.useragent.override = OlzSystemTest/1.0` preference.
+                // Panther's FirefoxManager does not expose Firefox preferences directly;
+                // it would require passing a custom `moz:firefoxOptions` capability.
+                self::$client = Client::createFirefoxClient(null, null, [], $base_uri);
+            } elseif (self::$browser_name === 'chrome') {
+                self::$client = Client::createChromeClient(null, ['--user-agent=OlzSystemTest/1.0'], [], $base_uri);
+            } else {
+                $browser_name = self::$browser_name;
+                throw new \Exception("Invalid browser: {$browser_name}");
+            }
+            $this->setWindowInnerSize(1280, 1024);
         }
-        $base_uri = $this->getTargetUrl() ?? 'http://127.0.0.1:30270';
-        if (self::$browser_name === 'firefox') {
-            // TODO: Re-add the `general.useragent.override = OlzSystemTest/1.0` preference.
-            // Panther's FirefoxManager does not expose Firefox preferences directly;
-            // it would require passing a custom `moz:firefoxOptions` capability.
-            self::$client = Client::createFirefoxClient(null, null, [], $base_uri);
-        } elseif (self::$browser_name === 'chrome') {
-            self::$client = Client::createChromeClient(null, ['--user-agent=OlzSystemTest/1.0'], [], $base_uri);
-        } else {
-            $browser_name = self::$browser_name;
-            throw new \Exception("Invalid browser: {$browser_name}");
-        }
-        $browser = self::$client->getWebDriver();
-        if (!$browser instanceof RemoteWebDriver) {
-            throw new \RuntimeException('Panther client did not return a RemoteWebDriver');
-        }
-        self::$browser = $browser;
-        $this->setWindowInnerSize(1280, 1024);
-        $this->generalUtils()->checkNotNull(self::$browser, "Browser expected");
-        return self::$browser;
+        $this->generalUtils()->checkNotNull(self::$client, "Client expected");
+        return self::$client;
+    }
+
+    protected function getCrawler(): Crawler {
+        return $this->getClient()->refreshCrawler();
+    }
+
+    protected function filter(string $selector): Crawler {
+        return $this->getCrawler()->filter($selector);
     }
 
     private function setWindowInnerSize(int $width, int $height): void {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        $size = $this::$browser->manage()->window()->getSize();
-        $inner_width = intval($this::$browser->executeScript("return window.innerWidth", []));
-        $inner_height = intval($this::$browser->executeScript("return window.innerHeight", []));
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        $size = $client->manage()->window()->getSize();
+        $inner_width = intval($client->executeScript("return window.innerWidth", []));
+        $inner_height = intval($client->executeScript("return window.innerHeight", []));
         $size_to_set = new WebDriverDimension(
             $size->getWidth() + $width - $inner_width,
             $size->getHeight() + $height - $inner_height,
         );
-        $this::$browser->manage()->window()->setSize($size_to_set);
+        $client->manage()->window()->setSize($size_to_set);
     }
 
     protected function loadUrl(string $url): void {
-        $browser = $this->getBrowser();
-        $browser->get($url);
+        $client = $this->getClient();
+        $client->get($url);
         for ($i = 0; $i < 30; $i++) {
-            if ($browser->getTitle() === 'One moment, please...') {
+            if ($client->getTitle() === 'One moment, please...') {
                 echo "Waiting one moment...\n";
-                $browser->wait(1);
+                $client->wait(1);
             }
         }
     }
 
     protected function getTitle(): string {
-        $browser = $this->getBrowser();
-        return $browser->getTitle();
-    }
-
-    /**
-     * @return array<RemoteWebElement>
-     */
-    protected function getBrowserElements(string $css_selector): array {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        return $this::$browser->findElements(
-            WebDriverBy::cssSelector($css_selector)
-        );
-    }
-
-    protected function getBrowserElement(string $css_selector): ?RemoteWebElement {
-        try {
-            return $this->findBrowserElement($css_selector);
-        } catch (\Throwable $th) {
-            return null;
-        }
-    }
-
-    protected function findBrowserElement(string $css_selector): RemoteWebElement {
-        $browser = $this::$browser;
-        $this->generalUtils()->checkNotNull($browser, "Browser expected");
-        $browser
-            ->wait($this::$max_timeout_seconds)
-            ->until(function () use ($css_selector, $browser) {
-                return $browser->findElement(
-                    WebDriverBy::cssSelector($css_selector)
-                );
-            })
-        ;
-        return $browser->findElement(
-            WebDriverBy::cssSelector($css_selector)
-        );
+        return $this->getClient()->getTitle();
     }
 
     protected function retry(callable $fn, int $num = 10): void {
@@ -154,7 +119,7 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function doClick(string $css_selector): void {
-        $element = $this->findBrowserElement($css_selector);
+        $element = $this->filter($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
         $this->waitABit();
         $element->click();
@@ -166,7 +131,9 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function doClear(string $css_selector): void {
-        $element = $this->findBrowserElement($css_selector);
+        // TODO: Migrate this to panther as well
+        $browser = $this->getClient()->getWebDriver();
+        $element = $browser->findElement(WebDriverBy::cssSelector($css_selector));
         $element->getLocationOnScreenOnceScrolledIntoView();
         $this->waitABit();
         $element->clear();
@@ -177,7 +144,7 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function doSendKeys(string $css_selector, string $string): void {
-        $element = $this->findBrowserElement($css_selector);
+        $element = $this->filter($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
         $this->waitABit();
         $element->sendKeys($string);
@@ -189,36 +156,26 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function doSelectOption(string $css_selector, string $option): void {
-        $element = $this->findBrowserElement($css_selector);
+        $element = $this->filter($css_selector);
         $element->getLocationOnScreenOnceScrolledIntoView();
         $this->waitABit();
         try {
             $select = new WebDriverSelect($element);
             $select->selectByVisibleText($option);
         } catch (UnexpectedTagNameException $exc) {
-            $browser = $this::$browser;
-            $this->generalUtils()->checkNotNull($browser, "Browser expected");
             $this->waitUntil(function () use ($css_selector) {
-                return $this->findBrowserElement("{$css_selector} #dropdown-menu-button")->getText() !== 'Lädt...';
+                return $this->filter("{$css_selector} #dropdown-menu-button")->getText() !== 'Lädt...';
             });
             $this->click("{$css_selector} #dropdown-menu-button");
             $this->sendKeys("{$css_selector} #entity-search-input", $option);
             $this->waitUntil(function () use ($css_selector, $option) {
-                return str_starts_with($this->findBrowserElement("{$css_selector} #entity-index-0")->getText(), $option);
+                return str_starts_with($this->filter("{$css_selector} #entity-index-0")->getText(), $option);
             });
             $this->click("{$css_selector} #entity-index-0");
             $this->waitUntil(function () use ($css_selector, $option) {
-                return str_starts_with($this->findBrowserElement("{$css_selector} #dropdown-menu-button")->getText(), $option);
+                return str_starts_with($this->filter("{$css_selector} #dropdown-menu-button")->getText(), $option);
             });
         }
-    }
-
-    protected function getText(string $css_selector): ?string {
-        $element = $this->getBrowserElement($css_selector);
-        if (!$element) {
-            return null;
-        }
-        return $element->getText();
     }
 
     protected function waitABit(): void {
@@ -229,8 +186,9 @@ class SystemTestCase extends KernelTestCase {
      * @param callable(): bool $is_finished
      */
     protected function waitUntil(callable $is_finished): void {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        $this::$browser->wait()->until(function () use ($is_finished) {
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        $client->wait()->until(function () use ($is_finished) {
             try {
                 return $is_finished();
             } catch (\Throwable $th) {
@@ -241,15 +199,15 @@ class SystemTestCase extends KernelTestCase {
 
     protected function waitForModal(string $css_selector): void {
         $this->waitUntil(function () use ($css_selector) {
-            return $this->findBrowserElement($css_selector)->getCssValue('opacity') == 1;
+            return $this->filter($css_selector)->getCSSValue('opacity') == 1;
         });
     }
 
     protected function waitUntilGone(string $css_selector): void {
-        $browser = $this::$browser;
-        $this->generalUtils()->checkNotNull($browser, "Browser expected");
-        $this->waitUntil(function () use ($css_selector, $browser) {
-            $elements = $browser->findElements(
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        $this->waitUntil(function () use ($css_selector, $client) {
+            $elements = $client->findElements(
                 WebDriverBy::cssSelector($css_selector)
             );
             return count($elements) === 0;
@@ -257,10 +215,10 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function waitFor(string $css_selector): void {
-        $browser = $this::$browser;
-        $this->generalUtils()->checkNotNull($browser, "Browser expected");
-        $this->waitUntil(function () use ($css_selector, $browser) {
-            $elements = $browser->findElements(
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        $this->waitUntil(function () use ($css_selector, $client) {
+            $elements = $client->findElements(
                 WebDriverBy::cssSelector($css_selector)
             );
             return count($elements) === 1;
@@ -324,7 +282,7 @@ class SystemTestCase extends KernelTestCase {
         }
         $this::tick($test_name);
         $is_not_prod = $this->isInModes(['dev', 'dev_rw', 'staging', 'staging_rw']);
-        if ($this::$browser !== null && $is_not_prod) {
+        if (self::$client !== null && $is_not_prod) {
             $this->logout();
         }
     }
@@ -385,13 +343,13 @@ class SystemTestCase extends KernelTestCase {
             'rememberMe' => false,
         ]);
         $get_params = "?request={$esc_request}";
-        $this->getBrowser()->get("{$this->getTargetUrl()}{$this::$login_api_url}{$get_params}");
+        $this->getClient()->get("{$this->getTargetUrl()}{$this::$login_api_url}{$get_params}");
         $this->tock('login', 'login');
     }
 
     public function logout(): void {
         $this->tick('logout');
-        $this->getBrowser()->get("{$this->getTargetUrl()}{$this::$logout_api_url}");
+        $this->getClient()->get("{$this->getTargetUrl()}{$this::$logout_api_url}");
         $this->tock('logout', 'logout');
     }
 
@@ -445,12 +403,12 @@ class SystemTestCase extends KernelTestCase {
     // Screenshot
 
     public function screenshot(string $name): void {
-        $browser = $this::$browser;
-        $this->generalUtils()->checkNotNull($browser, "Browser expected");
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
         $this->waitFor('body');
         $this->tick('screenshot');
         $this->adjustCssForScreenshot();
-        $browser_name = $browser->getCapabilities()?->getBrowserName();
+        $browser_name = self::$browser_name;
         $screenshots_path = __DIR__.'/../../../screenshots/generated/';
         $screenshot_filename = "{$name}-{$browser_name}.png";
         $window_width = $this->getWindowWidth();
@@ -467,7 +425,7 @@ class SystemTestCase extends KernelTestCase {
                 $this->scrollTo($scroll_x, $scroll_y);
                 $path = "{$screenshots_path}{$x}-{$y}-{$screenshot_filename}";
                 $this->hideFlakyElements();
-                $browser->takeScreenshot($path);
+                $client->takeScreenshot($path);
                 $scroll_x_diff = $scroll_x - $this->getScrollX();
                 $scroll_y_diff = $scroll_y - $this->getScrollY();
                 $src = imagecreatefrompng($path);
@@ -482,28 +440,31 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function adjustCssForScreenshot(): void {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
         $adjust_for_pageshot = file_get_contents(__DIR__.'/adjust_for_pageshot.css');
         $css_string = json_encode($adjust_for_pageshot);
         $js_code = "document.head.innerHTML += '<style>'+{$css_string}+'</style>';";
-        $this::$browser->executeScript($js_code);
+        $client->executeScript($js_code);
     }
 
     protected function hideFlakyElements(): void {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
         $hide_flaky_code = file_get_contents(__DIR__.'/hideFlaky.js') ?: '';
-        $this::$browser->executeScript($hide_flaky_code);
+        $client->executeScript($hide_flaky_code);
     }
 
     protected function unhideFlakyElements(): void {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
         $unhide_flaky_code = <<<'ZZZZZZZZZZ'
             const flakyCovers = document.querySelectorAll('.flaky-cover');
             for (let i = 0; i < flakyCovers.length; i++) {
                 document.documentElement.removeChild(flakyCovers[i]);
             }
             ZZZZZZZZZZ;
-        $this::$browser->executeScript($unhide_flaky_code);
+        $client->executeScript($unhide_flaky_code);
     }
 
     // Timing
@@ -659,37 +620,44 @@ class SystemTestCase extends KernelTestCase {
     protected static string $modal = "[...document.querySelectorAll('.modal')].filter(i => i.style.display === 'block')[0]";
 
     protected function getWindowWidth(): int {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        return intval($this::$browser->executeScript("return window.innerWidth", []));
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        return intval($client->executeScript("return window.innerWidth", []));
     }
 
     protected function getWindowHeight(): int {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        return intval($this::$browser->executeScript("return window.innerHeight", []));
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        return intval($client->executeScript("return window.innerHeight", []));
     }
 
     protected function getBodyWidth(): int {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        return intval($this::$browser->executeScript("return ({$this::$modal}?.children[0]?.offsetWidth ?? document.body.offsetWidth)", []));
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        return intval($client->executeScript("return ({$this::$modal}?.children[0]?.offsetWidth ?? document.body.offsetWidth)", []));
     }
 
     protected function getBodyHeight(): int {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        return intval($this::$browser->executeScript("return ({$this::$modal}?.children[0]?.offsetHeight ?? document.body.offsetHeight)", []));
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        return intval($client->executeScript("return ({$this::$modal}?.children[0]?.offsetHeight ?? document.body.offsetHeight)", []));
     }
 
     public function getScrollX(): int {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        return intval($this::$browser->executeScript("return ({$this::$modal}?.scrollLeft ?? window.scrollX)", []));
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        return intval($client->executeScript("return ({$this::$modal}?.scrollLeft ?? window.scrollX)", []));
     }
 
     public function getScrollY(): int {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        return intval($this::$browser->executeScript("return ({$this::$modal}?.scrollTop ?? window.scrollY)", []));
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        return intval($client->executeScript("return ({$this::$modal}?.scrollTop ?? window.scrollY)", []));
     }
 
     protected function scrollTo(int $x, int $y): void {
-        $this->generalUtils()->checkNotNull($this::$browser, "Browser expected");
-        $this::$browser->executeScript("({$this::$modal} ?? window).scrollTo({top:{$y},left:{$x},behavior:'instant'})", []);
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        $client->executeScript("({$this::$modal} ?? window).scrollTo({top:{$y},left:{$x},behavior:'instant'})", []);
     }
 }

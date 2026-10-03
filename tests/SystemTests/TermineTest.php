@@ -31,13 +31,15 @@ final class TermineTest extends SystemTestCase {
 
         // Reactions (read-only)
         $this->waitABit();
-        $inline_elem = $this->getBrowserElement('a[href="#react-%F0%9F%91%8D"]');
-        $elem = $this->getBrowserElement('#reaction-button-undefined-👍');
-        $this->assertNull($inline_elem?->getAttribute('class'));
-        $this->assertSame('Daumen hoch👍 4', $inline_elem?->getText());
-        $this->assertSame('reaction', $elem?->getAttribute('class'));
-        $this->assertSame('👍 4', $elem->getText());
-        $this->assertNull($this->getBrowserElement('#add-reaction-button'));
+        $this->waitFor('#reaction-button-undefined-👍');
+        $crawler = $this->getCrawler();
+        $inline_elem = $crawler->filter('a[href="#react-%F0%9F%91%8D"]');
+        $elem = $crawler->filter('#reaction-button-undefined-👍');
+        $this->assertNull($inline_elem->attr('class'));
+        $this->assertSame('Daumen hoch👍 4', $inline_elem->text(''));
+        $this->assertSame('reaction', $elem->attr('class'));
+        $this->assertSame('👍 4', $elem->text(''));
+        $this->assertCount(0, $crawler->filter('#add-reaction-button'));
     }
 
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
@@ -63,18 +65,12 @@ final class TermineTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
-            return count($image_uploaded) == 1;
-        });
+        $this->waitFor('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-termin-modal #files-upload input[type=file]', $document_path);
-        $this->waitUntil(function () {
-            $file_uploaded = $this->getBrowserElements('#edit-termin-modal #files-upload .olz-upload-file.uploaded');
-            return count($file_uploaded) == 1;
-        });
+        $this->waitFor('#edit-termin-modal #files-upload .olz-upload-file.uploaded');
 
         $this->click('#edit-termin-modal #hasNewsletter-input');
 
@@ -102,17 +98,13 @@ final class TermineTest extends SystemTestCase {
         $this->click('#edit-termin-modal .template-chooser #entity-index-1');
 
         // Wait for data to be populated
-        $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
-            return count($image_uploaded) == 1;
-        });
+        $this->waitFor('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
         $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
-            return count($image_uploaded) == 2;
+            return $this->filter('#edit-termin-modal #images-upload .olz-upload-image.uploaded')->count() == 2;
         });
 
         $this->click('#edit-termin-modal #shouldPromote-input');
@@ -123,7 +115,7 @@ final class TermineTest extends SystemTestCase {
         $this->waitUntilGone('#edit-termin-modal');
 
         $this->loadUrl("{$this->getUrl()}/1002");
-        $this->assertSame('Kartentraining: <<< TODO >>>', $this->getBrowserElement('.olz-termin-detail h1')?->getText());
+        $this->assertSame('Kartentraining: <<< TODO >>>', $this->filter('.olz-termin-detail h1')->text(''));
 
         $this->resetDb();
     }
@@ -133,7 +125,7 @@ final class TermineTest extends SystemTestCase {
         $this->login('admin', 'adm1n');
         $this->loadUrl($this->getUrl());
         $this->click('#filter-date-2015');
-        $this->assertNotNull($this->getBrowserElement('.olz-termine-list-middle .no-entries'));
+        $this->assertCount(1, $this->filter('.olz-termine-list-middle .no-entries'));
 
         $this->click('#create-termin-button');
         $this->waitForModal('#edit-termin-modal');
@@ -146,10 +138,7 @@ final class TermineTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
-            return count($image_uploaded) == 1;
-        });
+        $this->waitFor('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
 
         $this->click('#edit-termin-modal #shouldPromote-input');
 
@@ -161,9 +150,9 @@ final class TermineTest extends SystemTestCase {
         $this->loadUrl($this->getUrl());
         $this->assertMatchesRegularExpression(
             '/(^| )selected( |$)/',
-            "{$this->getBrowserElement('#filter-date-2015')?->getAttribute('class')}"
+            $this->filter('#filter-date-2015')->attr('class') ?? ''
         );
-        $this->assertCount(2, $this->getBrowserElements('.olz-termine-list-middle .olz-termine-list-item'));
+        $this->assertCount(2, $this->filter('.olz-termine-list-middle .olz-termine-list-item'));
 
         $this->resetDb();
     }
@@ -181,7 +170,7 @@ final class TermineTest extends SystemTestCase {
         $this->waitUntilGone('#edit-termin-modal');
 
         $this->loadUrl($this->getDetailUrl());
-        $this->assertSame('Training 4 UPDATED', $this->getText('.olz-termin-detail h1'));
+        $this->assertSame('Training 4 UPDATED', $this->filter('.olz-termin-detail h1')->text(''));
 
         $this->resetDb();
     }

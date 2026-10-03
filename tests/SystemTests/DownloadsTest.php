@@ -21,9 +21,8 @@ final class DownloadsTest extends SystemTestCase {
             'Statuten',
             'Spesenreglement',
             'Trainingsplan 2020',
-        ], array_map(
-            fn ($elem) => $elem->getText(),
-            $this->getBrowserElements('.olz-downloads li')
+        ], $this->filter('.olz-downloads li')->each(
+            fn ($node) => $node->text()
         ));
 
         $this->click('#create-download-button');
@@ -46,9 +45,8 @@ final class DownloadsTest extends SystemTestCase {
             'Statuten',
             'Spesenreglement',
             'Trainingsplan 2020',
-        ], array_map(
-            fn ($elem) => $elem->getText(),
-            $this->getBrowserElements('.olz-downloads li')
+        ], $this->filter('.olz-downloads li')->each(
+            fn ($node) => $node->text()
         ));
 
         $this->resetDb();
@@ -68,7 +66,7 @@ final class DownloadsTest extends SystemTestCase {
         $this->waitUntilGone('#edit-download-modal');
 
         $this->loadUrl($this->getUrl());
-        $this->assertNull($this->getBrowserElement('#edit-download-1-button'));
+        $this->assertCount(0, $this->filter('#edit-download-1-button'));
 
         $this->resetDb();
     }

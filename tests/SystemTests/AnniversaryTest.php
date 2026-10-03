@@ -30,7 +30,7 @@ final class AnniversaryTest extends SystemTestCase {
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% Test Lauf
-            ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
+            ZZZZZZZZZZ, $this->filter('.activities-manual')->getText());
 
         $this->click('#create-run-button');
         $this->waitForModal('#edit-run-modal');
@@ -48,7 +48,7 @@ final class AnniversaryTest extends SystemTestCase {
             Datum Quelle Distanz Höhenmeter Steigung Art
             15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% Test Lauf
             01.08.2020 12:00:00 ✍️ manuell 3.21km 321m 10.00% Lauf
-            ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
+            ZZZZZZZZZZ, $this->filter('.activities-manual')->getText());
 
         $this->resetDb();
     }
@@ -60,7 +60,7 @@ final class AnniversaryTest extends SystemTestCase {
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% Test Lauf
-            ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
+            ZZZZZZZZZZ, $this->filter('.activities-manual')->getText());
 
         $this->click('#edit-run-1-button');
         $this->waitForModal('#edit-run-modal');
@@ -81,7 +81,7 @@ final class AnniversaryTest extends SystemTestCase {
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             01.08.2020 12:00:00 ✍️ manuell 3.21km 321m 10.00% Test run
-            ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
+            ZZZZZZZZZZ, $this->filter('.activities-manual')->getText());
 
         $this->resetDb();
     }
@@ -93,7 +93,7 @@ final class AnniversaryTest extends SystemTestCase {
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
             15.08.2020 16:51:00 ✍️ manuell 12.34km 123m 1.00% Test Lauf
-            ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
+            ZZZZZZZZZZ, $this->filter('.activities-manual')->getText());
 
         $this->click('#edit-run-1-button');
         $this->waitForModal('#edit-run-modal');
@@ -106,8 +106,8 @@ final class AnniversaryTest extends SystemTestCase {
         $this->loadUrl($this->getUrl());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Datum Quelle Distanz Höhenmeter Steigung Art
-            ZZZZZZZZZZ, $this->getBrowserElement('.activities-manual')?->getText());
-        $this->assertNull($this->getBrowserElement('#edit-run-1-button'));
+            ZZZZZZZZZZ, $this->filter('.activities-manual')->getText());
+        $this->assertCount(0, $this->filter('#edit-run-1-button'));
 
         $this->resetDb();
     }

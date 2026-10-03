@@ -19,41 +19,37 @@ final class AngebotTest extends SystemTestCase {
         $this->screenshot('angebot');
 
         if ($this->isInModes(['dev_rw', 'dev'])) {
-            $role_mailto_link = $this->getBrowserElement('#role-mailto a');
-            $this->assertNotNull($role_mailto_link);
-            $this->assertSame("#", strval($role_mailto_link->getAttribute('href')));
+            $role_mailto_link = $this->filter('#role-mailto a');
+            $this->assertSame("#", $role_mailto_link->attr('href'));
             $this->assertSame(
                 "return olz.initOlzRoleInfoModal(18)",
-                strval($role_mailto_link->getAttribute('onclick'))
+                $role_mailto_link->attr('onclick')
             );
-            $this->assertSame("Ressort Karten", strval($role_mailto_link->getText()));
+            $this->assertSame("Ressort Karten", $role_mailto_link->text(''));
 
-            $role_direct_link = $this->getBrowserElement('#role-direct a');
-            $this->assertNotNull($role_direct_link);
-            $this->assertSame("#", strval($role_direct_link->getAttribute('href')));
+            $role_direct_link = $this->filter('#role-direct a');
+            $this->assertSame("#", $role_direct_link->attr('href'));
             $this->assertSame(
                 "return olz.initOlzRoleInfoModal(18)",
-                strval($role_direct_link->getAttribute('onclick'))
+                $role_direct_link->attr('onclick')
             );
-            $this->assertSame("Kartenverkauf", strval($role_direct_link->getText()));
+            $this->assertSame("Kartenverkauf", $role_direct_link->text(''));
 
-            $user_mailto_link = $this->getBrowserElement('#user-mailto a');
-            $this->assertNotNull($user_mailto_link);
-            $this->assertSame("#", strval($user_mailto_link->getAttribute('href')));
+            $user_mailto_link = $this->filter('#user-mailto a');
+            $this->assertSame("#", $user_mailto_link->attr('href'));
             $this->assertMatchesRegularExpression(
                 "/^return olz\\.initOlzEmailModal\\(\"[A-Za-z0-9]+\"\\)$/",
-                strval($user_mailto_link->getAttribute('onclick'))
+                $user_mailto_link->attr('onclick') ?? ''
             );
-            $this->assertSame("Karen Karten", strval($user_mailto_link->getText()));
+            $this->assertSame("Karen Karten", $user_mailto_link->text(''));
 
-            $user_direct_link = $this->getBrowserElement('#user-direct a');
-            $this->assertNotNull($user_direct_link);
-            $this->assertSame("#", strval($user_direct_link->getAttribute('href')));
+            $user_direct_link = $this->filter('#user-direct a');
+            $this->assertSame("#", $user_direct_link->attr('href'));
             $this->assertMatchesRegularExpression(
                 "/^return olz\\.initOlzEmailModal\\(\"[A-Za-z0-9]+\"\\)$/",
-                strval($user_direct_link->getAttribute('onclick'))
+                $user_direct_link->attr('onclick') ?? ''
             );
-            $this->assertSame("E-Mail", strval($user_direct_link->getText()));
+            $this->assertSame("E-Mail", $user_direct_link->text(''));
         } else {
             // TODO: Dummy assert
             $this->assertDirectoryExists(__DIR__);

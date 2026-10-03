@@ -25,15 +25,15 @@ final class VereinTest extends SystemTestCase {
             $this->click('#user-info-modal #captcha-dev');
             $this->assertSame(
                 '/img/users/1/thumb/8sVwnV3aAEtQUUxmQYFmojMs.jpg$128.jpg',
-                $this->getBrowserElement('#user-info-modal img.avatar')?->getAttribute('src') ?? ''
+                $this->filter('#user-info-modal img.avatar')->attr('src')
             );
             $this->assertSame(
                 'Armin 😂 Admin 🤣',
-                $this->getBrowserElement('#user-info-modal h3')?->getText() ?? ''
+                $this->filter('#user-info-modal h3')->getText()
             );
             $this->assertSame(
                 'admi n@st agin g.ol zimm erbe rg.c h ',
-                $this->getBrowserElement('#user-info-modal a.linkmail')?->getText() ?? ''
+                $this->filter('#user-info-modal a.linkmail')->getText()
             );
         }
 
@@ -42,12 +42,12 @@ final class VereinTest extends SystemTestCase {
             $this->click('#role-1 .olz-user-info-modal-trigger');
             $this->waitForModal('#user-info-modal');
             $this->click('#user-info-modal #captcha-dev');
-            $this->assertNull($this->getBrowserElement('#user-info-modal img.avatar'));
-            $this->assertNull($this->getBrowserElement('#user-info-modal h3'));
-            $this->assertNull($this->getBrowserElement('#user-info-modal a.linkmail'));
+            $this->assertCount(0, $this->filter('#user-info-modal img.avatar'));
+            $this->assertCount(0, $this->filter('#user-info-modal h3'));
+            $this->assertCount(0, $this->filter('#user-info-modal a.linkmail'));
             $this->assertMatchesRegularExpression(
                 '/Bot-Prüfung/i',
-                $this->getBrowserElement('#user-info-modal .container')?->getText() ?? ''
+                $this->filter('#user-info-modal .container')->text('')
             );
         }
 
@@ -63,15 +63,15 @@ final class VereinTest extends SystemTestCase {
             $this->waitForModal('#user-info-modal');
             $this->assertSame(
                 '/img/users/1/thumb/8sVwnV3aAEtQUUxmQYFmojMs.jpg$128.jpg',
-                $this->getBrowserElement('#user-info-modal img.avatar')?->getAttribute('src') ?? ''
+                $this->filter('#user-info-modal img.avatar')->attr('src')
             );
             $this->assertSame(
                 'Armin 😂 Admin 🤣',
-                $this->getBrowserElement('#user-info-modal h3')?->getText() ?? ''
+                $this->filter('#user-info-modal h3')->getText()
             );
             $this->assertSame(
                 'admi n@st agin g.ol zimm erbe rg.c h ',
-                $this->getBrowserElement('#user-info-modal a.linkmail')?->getText() ?? ''
+                $this->filter('#user-info-modal a.linkmail')->getText()
             );
         }
 
@@ -102,10 +102,7 @@ final class VereinTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-role-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements('#edit-role-modal #images-upload .olz-upload-image.uploaded');
-            return count($image_uploaded) == 1;
-        });
+        $this->waitFor('#edit-role-modal #images-upload .olz-upload-image.uploaded');
         $this->click('#edit-role-modal #images-upload .olz-upload-image.uploaded #copy-button');
         $this->sendKeys('#edit-role-modal #description-input', "\n\n".WebDriverKeys::CONTROL.'v');
         $this->sendKeys('#edit-role-modal #guide-input', "\n\n".WebDriverKeys::CONTROL.'v');
@@ -113,20 +110,17 @@ final class VereinTest extends SystemTestCase {
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-role-modal #files-upload input[type=file]', $document_path);
-        $this->waitUntil(function () {
-            $file_uploaded = $this->getBrowserElements('#edit-role-modal #files-upload .olz-upload-file.uploaded');
-            return count($file_uploaded) == 1;
-        });
+        $this->waitFor('#edit-role-modal #files-upload .olz-upload-file.uploaded');
         $this->click('#edit-role-modal #files-upload .olz-upload-file.uploaded #copy-button');
         $this->sendKeys('#edit-role-modal #description-input', "\n\n".WebDriverKeys::CONTROL.'v');
         $this->sendKeys('#edit-role-modal #guide-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #parentRole-field #dropdown-menu-button')?->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #canHaveChildRoles-input')?->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #positionWithinParent-field #before-after-input')?->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #positionWithinParent-field #dropdown-menu-button')?->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #featuredPosition-field #before-after-input')?->isEnabled());
-        $this->assertFalse($this->getBrowserElement('#edit-role-modal #featuredPosition-field #dropdown-menu-button')?->isEnabled());
+        $this->assertFalse($this->filter('#edit-role-modal #parentRole-field #dropdown-menu-button')->isEnabled());
+        $this->assertFalse($this->filter('#edit-role-modal #canHaveChildRoles-input')->isEnabled());
+        $this->assertFalse($this->filter('#edit-role-modal #positionWithinParent-field #before-after-input')->isEnabled());
+        $this->assertFalse($this->filter('#edit-role-modal #positionWithinParent-field #dropdown-menu-button')->isEnabled());
+        $this->assertFalse($this->filter('#edit-role-modal #featuredPosition-field #before-after-input')->isEnabled());
+        $this->assertFalse($this->filter('#edit-role-modal #featuredPosition-field #dropdown-menu-button')->isEnabled());
         $this->screenshot('verein_ressort_edit');
 
         $this->click('#edit-role-modal #submit-button');
@@ -143,7 +137,7 @@ final class VereinTest extends SystemTestCase {
         $this->login('vorstand', 'v0r57and');
 
         $this->loadUrl("{$this->getUrl()}/finanzen");
-        $this->assertCount(2, $this->getBrowserElements('.role-assignees .assignee'));
+        $this->assertCount(2, $this->filter('.role-assignees .assignee'));
         $this->click('#add-role-user-button');
         $this->waitForModal('#add-role-user-modal');
         $this->click('#add-role-user-modal #newUser-field #dropdown-menu-button');
@@ -155,7 +149,7 @@ final class VereinTest extends SystemTestCase {
         $this->waitUntilGone('#add-role-user-modal');
 
         $this->loadUrl("{$this->getUrl()}/finanzen");
-        $this->assertCount(3, $this->getBrowserElements('.role-assignees .assignee'));
+        $this->assertCount(3, $this->filter('.role-assignees .assignee'));
 
         $this->resetDb();
     }
@@ -165,14 +159,14 @@ final class VereinTest extends SystemTestCase {
         $this->login('vorstand', 'v0r57and');
 
         $this->loadUrl("{$this->getUrl()}/finanzen");
-        $this->assertCount(2, $this->getBrowserElements('.role-assignees .assignee'));
+        $this->assertCount(2, $this->filter('.role-assignees .assignee'));
         $this->click('.role-assignees .assignee:nth-of-type(2) #delete-role-user-button');
         $this->waitForModal('#confirmation-dialog-modal');
         $this->click('#confirmation-dialog-modal #confirm-button');
         $this->waitUntilGone('#confirmation-dialog-modal');
 
         $this->loadUrl("{$this->getUrl()}/finanzen");
-        $this->assertCount(1, $this->getBrowserElements('.role-assignees .assignee'));
+        $this->assertCount(1, $this->filter('.role-assignees .assignee'));
 
         $this->resetDb();
     }
@@ -200,7 +194,7 @@ final class VereinTest extends SystemTestCase {
 
         $this->loadUrl("{$this->getUrl()}/finanzen");
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/rechnungspruefer")['http_code']);
-        $this->assertStringContainsString('Rechnungsprüfer', $this->getBrowserElement('#sub-roles')?->getText() ?? '');
+        $this->assertStringContainsString('Rechnungsprüfer', $this->filter('#sub-roles')->text(''));
 
         $this->resetDb();
     }

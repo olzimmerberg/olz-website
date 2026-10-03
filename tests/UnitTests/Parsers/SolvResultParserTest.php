@@ -86,7 +86,7 @@ final class SolvResultParserTest extends UnitTestCase {
             $this->fail('Error expected');
         } catch (\Exception $exc) {
             $this->assertSame(
-                "Invalid JSON in parse_solv_yearly_results_json (hackyly sanitized): Syntax error\n\ninvalid-json",
+                "Invalid JSON in parse_solv_yearly_results_json (hackily sanitized): Syntax error\n\ninvalid-json",
                 $exc->getMessage()
             );
         }

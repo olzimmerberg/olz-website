@@ -16,7 +16,7 @@ class SolvResultParser {
         $hacky_sanitized_json = str_replace(["\n", "\t"], ['', '  '], $json_content);
         if (!json_validate($hacky_sanitized_json, 512, JSON_INVALID_UTF8_IGNORE)) {
             $msg = json_last_error_msg();
-            throw new \Exception("Invalid JSON in parse_solv_yearly_results_json (hackyly sanitized): {$msg}\n\n{$hacky_sanitized_json}");
+            throw new \Exception("Invalid JSON in parse_solv_yearly_results_json (hackily sanitized): {$msg}\n\n{$hacky_sanitized_json}");
         }
         $data = json_decode($hacky_sanitized_json, true, 512, JSON_INVALID_UTF8_SUBSTITUTE);
 
@@ -111,6 +111,9 @@ class SolvResultParser {
 
     public function parse_finish_split(string $splits): int {
         $finish_offset = mb_strpos($splits, ' Zi ');
+        if ($finish_offset === false) {
+            return 0;
+        }
         return $this->timeParser->time_str_to_seconds(trim(mb_substr($splits, $finish_offset + 4, 6)));
     }
 

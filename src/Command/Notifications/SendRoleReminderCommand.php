@@ -36,7 +36,7 @@ class SendRoleReminderCommand extends BaseSendNotificationsCommand {
             $needs_reminder = $state['needs_reminder'] ?? false;
             $user = $user_repo->findOneBy(['id' => $user_id]);
             if (!$user) {
-                $this->log()->warning("No user (ID:{$user_id}) for telegram notification");
+                $this->log()->warning("No user (ID:{$user_id}) for role reminder");
             }
             if ($needs_reminder && !$reminder_id && $user) {
                 $this->log()->info("Generating role ({$role_id}) reminder subscription for '{$user}'...");
@@ -68,10 +68,10 @@ class SendRoleReminderCommand extends BaseSendNotificationsCommand {
 
         // Find role assignees with existing role reminder notification subscriptions.
         $notification_subscription_repo = $this->entityManager()->getRepository(NotificationSubscription::class);
-        $telegram_notification_subscriptions = $notification_subscription_repo->findBy([
+        $role_reminder_subscriptions = $notification_subscription_repo->findBy([
             'notification_type' => NotificationType::ROLE_REMINDER,
         ]);
-        foreach ($telegram_notification_subscriptions as $subscription) {
+        foreach ($role_reminder_subscriptions as $subscription) {
             $user_id = $subscription->getUser()->getId();
             $args = json_decode($subscription->getNotificationTypeArgs() ?? '{}', true);
             $role_id = $args['role_id'] ?? null;

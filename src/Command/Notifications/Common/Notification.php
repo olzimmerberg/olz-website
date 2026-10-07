@@ -8,7 +8,7 @@ use Olz\Entity\Users\User;
 /**
  * @phpstan-type NotificationConfig array{
  *   notification_type?: NotificationType,
- *   recipient_user_ids?: array<int>,
+ *   recipient_user_ids?: array<int, true>,
  * }
  */
 class Notification {

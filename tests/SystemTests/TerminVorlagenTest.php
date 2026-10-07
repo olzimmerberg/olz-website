@@ -52,18 +52,12 @@ final class TerminVorlagenTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-template-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements('#edit-termin-template-modal #images-upload .olz-upload-image.uploaded');
-            return count($image_uploaded) == 1;
-        });
+        $this->waitFor('#edit-termin-template-modal #images-upload .olz-upload-image.uploaded');
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-termin-template-modal #files-upload input[type=file]', $document_path);
-        $this->waitUntil(function () {
-            $file_uploaded = $this->getBrowserElements('#edit-termin-template-modal #files-upload .olz-upload-file.uploaded');
-            return count($file_uploaded) == 1;
-        });
+        $this->waitFor('#edit-termin-template-modal #files-upload .olz-upload-file.uploaded');
 
         $this->click('#edit-termin-template-modal #hasNewsletter-input');
 

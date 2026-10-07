@@ -47,7 +47,7 @@ final class VerifyEmailTest extends SystemTestCase {
 
         $this->login('benutzer', 'b3nu723r');
         $this->loadUrl($this->getUrl());
-        $this->assertNull($this->getBrowserElement('#verify-user-email-link'));
+        $this->assertCount(0, $this->filter('#verify-user-email-link'));
 
         $this->resetDb();
     }

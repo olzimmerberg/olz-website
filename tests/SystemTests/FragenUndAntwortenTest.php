@@ -39,10 +39,10 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->selectOption('#edit-question-modal #positionWithinCategory-field #before-after-input', 'nach');
         $this->click("#edit-question-modal #positionWithinCategory-field .olz-entity-chooser #dropdown-menu-button");
         $this->waitUntil(function () {
-            $no_results = $this->getBrowserElement(
-                '#edit-question-modal #positionWithinCategory-field .olz-entity-chooser #no-results'
+            return str_contains(
+                $this->filter('#edit-question-modal #positionWithinCategory-field .olz-entity-chooser #no-results')->getText(),
+                'irgendwo',
             );
-            return str_contains($no_results?->getText() ?? '', 'irgendwo');
         });
         $this->selectOption('#edit-question-modal #positionWithinCategory-field #before-after-input', 'irgendwo');
         $this->sendKeys('#edit-question-modal #ident-input', 'erstellen');
@@ -59,12 +59,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-question-modal #files-upload input[type=file]', $document_path);
-        $this->waitUntil(function () {
-            $file_uploaded = $this->getBrowserElements(
-                '#edit-question-modal #files-upload .olz-upload-file.uploaded'
-            );
-            return count($file_uploaded) == 1;
-        });
+        $this->waitFor('#edit-question-modal #files-upload .olz-upload-file.uploaded');
         $this->click('#edit-question-modal #files-upload .olz-upload-file.uploaded #copy-button');
         $this->sendKeys('#edit-question-modal #answer-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
@@ -76,9 +71,9 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/erstellen")['http_code']);
 
         $this->loadUrl($this->getUrl());
-        $elems = $this->getBrowserElements('.olz-faq-list .olz-posting-list-item');
-        $this->assertSame('Wie kann ich Text formatieren?', $elems[15]->getText());
-        $this->assertSame('Wie kann ich einen OL erstellen?', $elems[16]->getText());
+        $crawler = $this->filter('.olz-faq-list .olz-posting-list-item');
+        $this->assertSame('Wie kann ich Text formatieren?', $crawler->eq(15)->text(''));
+        $this->assertSame('Wie kann ich einen OL erstellen?', $crawler->eq(16)->text(''));
 
         $this->resetDb();
     }
@@ -101,24 +96,14 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-question-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements(
-                '#edit-question-modal #images-upload .olz-upload-image.uploaded'
-            );
-            return count($image_uploaded) == 1;
-        });
+        $this->waitFor('#edit-question-modal #images-upload .olz-upload-image.uploaded');
         $this->click('#edit-question-modal #images-upload .olz-upload-image.uploaded #copy-button');
         $this->sendKeys('#edit-question-modal #answer-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
         $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-question-modal #files-upload input[type=file]', $document_path);
-        $this->waitUntil(function () {
-            $file_uploaded = $this->getBrowserElements(
-                '#edit-question-modal #files-upload .olz-upload-file.uploaded'
-            );
-            return count($file_uploaded) == 1;
-        });
+        $this->waitFor('#edit-question-modal #files-upload .olz-upload-file.uploaded');
         $this->click('#edit-question-modal #files-upload .olz-upload-file.uploaded #copy-button');
         $this->sendKeys('#edit-question-modal #answer-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
@@ -129,9 +114,9 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->assertSame(200, $this->getHeaders("{$this->getUrl()}/testen")['http_code']);
 
         $this->loadUrl($this->getUrl());
-        $elems = $this->getBrowserElements('.olz-faq-list .olz-posting-list-item');
-        $this->assertSame('Wie kann ich Text formatieren?', $elems[14]->getText());
-        $this->assertSame('Wie kann ich OL testen?', $elems[15]->getText());
+        $crawler = $this->filter('.olz-faq-list .olz-posting-list-item');
+        $this->assertSame('Wie kann ich Text formatieren?', $crawler->eq(14)->text(''));
+        $this->assertSame('Wie kann ich OL testen?', $crawler->eq(15)->text(''));
 
         $this->resetDb();
     }
@@ -141,7 +126,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->login('vorstand', 'v0r57and');
 
         $this->loadUrl($this->getUrl());
-        $this->assertCount(16, $this->getBrowserElements('.olz-posting-list-item'));
+        $this->assertCount(16, $this->filter('.olz-posting-list-item'));
         $this->click('.olz-posting-list-item:nth-of-type(2) .edit-question-list-button');
         $this->waitForModal('#edit-question-modal');
         $this->click('#edit-question-modal #delete-entity-button');
@@ -150,7 +135,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
 
         $this->loadUrl($this->getUrl());
-        $this->assertCount(15, $this->getBrowserElements('.olz-posting-list-item'));
+        $this->assertCount(15, $this->filter('.olz-posting-list-item'));
 
         $this->resetDb();
     }
@@ -162,12 +147,11 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->loadUrl($this->getUrl());
         $this->assertSame(
             ['Allgemein', 'Website', 'Leer'],
-            array_map(
-                fn ($elem) => $elem->getText(),
-                $this->getBrowserElements('h2.category'),
+            $this->filter('h2.category')->each(
+                fn ($node) => $node->text(),
             ),
         );
-        $this->assertCount(3, $this->getBrowserElements('h2.category'));
+        $this->assertCount(3, $this->filter('h2.category'));
         $this->click('#create-question-category-button');
         $this->waitForModal('#edit-question-category-modal');
         $this->selectOption('#edit-question-category-modal #position-field #before-after-input', 'nach');
@@ -180,9 +164,8 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->loadUrl($this->getUrl());
         $this->assertSame(
             ['Allgemein', 'Website', 'Leer', 'Test'],
-            array_map(
-                fn ($elem) => $elem->getText(),
-                $this->getBrowserElements('h2.category'),
+            $this->filter('h2.category')->each(
+                fn ($node) => $node->text(),
             ),
         );
 
@@ -196,9 +179,8 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->loadUrl($this->getUrl());
         $this->assertSame(
             ['Allgemein', 'Website', 'Leer'],
-            array_map(
-                fn ($elem) => $elem->getText(),
-                $this->getBrowserElements('h2.category'),
+            $this->filter('h2.category')->each(
+                fn ($node) => $node->text(),
             ),
         );
         $this->click('h2.category:nth-of-type(2) .edit-question-category-list-button');
@@ -213,9 +195,8 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->loadUrl($this->getUrl());
         $this->assertSame(
             ['Allgemein', 'Leer', 'Test'],
-            array_map(
-                fn ($elem) => $elem->getText(),
-                $this->getBrowserElements('h2.category'),
+            $this->filter('h2.category')->each(
+                fn ($node) => $node->text(),
             ),
         );
 
@@ -227,7 +208,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->login('vorstand', 'v0r57and');
 
         $this->loadUrl($this->getUrl());
-        $this->assertCount(3, $this->getBrowserElements('h2.category'));
+        $this->assertCount(3, $this->filter('h2.category'));
         $this->click('h2.category:nth-of-type(2) .edit-question-category-list-button');
         $this->waitForModal('#edit-question-category-modal');
         $this->click('#edit-question-category-modal #delete-entity-button');
@@ -236,7 +217,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->waitUntilGone('#confirmation-dialog-modal');
 
         $this->loadUrl($this->getUrl());
-        $this->assertCount(2, $this->getBrowserElements('h2.category'));
+        $this->assertCount(2, $this->filter('h2.category'));
 
         $this->resetDb();
     }

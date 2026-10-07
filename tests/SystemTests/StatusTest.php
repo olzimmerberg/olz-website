@@ -40,26 +40,21 @@ final class StatusTest extends SystemTestCase {
     #[OnlyInModes(['meta'])]
     public function testStatusIsMonitoring(): void {
         $this->loadUrl("{$this::$statusUrl}");
-        $username_input = $this->findBrowserElement('#input-username');
-        $username_input->sendKeys($this::$statusUsername);
-        $password_input = $this->findBrowserElement('#input-password');
-        $password_input->sendKeys($this::$statusPassword);
-        $login_button = $this->findBrowserElement('button[type="submit"]');
-        $login_button->click();
+        $this->filter('#input-username')->sendKeys($this::$statusUsername);
+        $this->filter('#input-password')->sendKeys($this::$statusPassword);
+        $this->filter('button[type="submit"]')->click();
         $this->loadUrl("{$this::$statusUrl}?&mod=server");
-        $prod_check = $this->getBrowserElement('a[href="https://olzimmerberg.ch"]');
-        $this->assertNotNull($prod_check);
-        $prod_backup = $this->getBrowserElement('a[href*="monitor-backup"]');
-        $this->assertNotNull($prod_backup);
-        $prod_logs = $this->getBrowserElement('a[href*="monitor-logs"]');
-        $this->assertNotNull($prod_logs);
-        $some_view_link = $this->getBrowserElement('a[href*="action=view&id="]');
-        $this->assertNotNull($some_view_link);
-        $some_view_href = strval($some_view_link->getAttribute('href'));
+        $crawler = $this->getCrawler();
+        $this->assertCount(1, $crawler->filter('a[href="https://olzimmerberg.ch"]'));
+        $this->assertCount(1, $crawler->filter('a[href*="monitor-backup"]'));
+        $this->assertCount(1, $crawler->filter('a[href*="monitor-logs"]'));
+        $some_view_link = $crawler->filter('a[href*="action=view&id="]');
+        $this->assertCount(1, $some_view_link);
+        $some_view_href = $some_view_link->attr('href') ?? '';
         $escaped_status_url = preg_quote($this::$statusUrl, '/');
         $this->assertMatchesRegularExpression("/^{$escaped_status_url}/", $some_view_href);
         $this->loadUrl($some_view_href);
-        $body = $this->findBrowserElement('body');
+        $body = $this->filter('body');
         $last_check = $this->parseLastCheck($body->getText());
         $this->assertNotNull($last_check, $body->getText());
         $this->assertLessThanOrEqual(15 * 60, $last_check);

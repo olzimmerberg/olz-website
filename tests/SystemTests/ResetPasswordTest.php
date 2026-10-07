@@ -55,11 +55,11 @@ final class ResetPasswordTest extends SystemTestCase {
 
         $this->login('benutzer', 'b3nu723r');
         $this->loadUrl("{$this->getTargetUrl()}/benutzer/ich");
-        $this->assertNull($this->getBrowserElement('h1.name-container'));
+        $this->assertCount(0, $this->filter('h1.name-container'));
 
         $this->login('benutzer', $new_password);
         $this->loadUrl("{$this->getTargetUrl()}/benutzer/ich");
-        $this->assertNotNull($this->getBrowserElement('h1.name-container'));
+        $this->assertCount(1, $this->filter('h1.name-container'));
 
         $this->resetDb();
     }

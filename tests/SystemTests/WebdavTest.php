@@ -15,8 +15,6 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
 final class WebdavTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testWebdavScreenshots(): void {
-        $browser = $this->getBrowser();
-
         $declare_flaky_elements = <<<'ZZZZZZZZZZ'
                 const columnSelector = '.nodeTable tr td:not(.nameColumn):not(.typeColumn)';
                 const propTableSelector = '.propTable';
@@ -31,30 +29,30 @@ final class WebdavTest extends SystemTestCase {
 
         $this->login('admin', 'adm1n');
         $this->loadUrl($this->getUrl());
-        $browser->executeScript($declare_flaky_elements);
+        $this->getClient()->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_admin_php_session');
         $this->logout();
 
         $this->login('vorstand', 'v0r57and');
         $this->loadUrl($this->getUrl());
-        $browser->executeScript($declare_flaky_elements);
+        $this->getClient()->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_vorstand_php_session');
         $this->logout();
 
         $this->login('karten', 'kar73n');
         $this->loadUrl($this->getUrl());
-        $browser->executeScript($declare_flaky_elements);
+        $this->getClient()->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_karten_php_session');
         $this->logout();
 
         $this->login('benutzer', 'b3nu723r');
         $this->loadUrl($this->getUrl());
-        $browser->executeScript($declare_flaky_elements);
+        $this->getClient()->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_benutzer_php_session');
         $this->logout();
 
         $this->loadUrl($this->getUrl());
-        $browser->executeScript($declare_flaky_elements);
+        $this->getClient()->executeScript($declare_flaky_elements);
         $this->screenshot('webdav_anonym_php_session');
 
         // TODO: Dummy assert

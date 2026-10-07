@@ -37,11 +37,11 @@ final class ProfilTest extends SystemTestCase {
     public function testProfilUpdateUser(): void {
         $this->login('karten', 'kar73n');
         $this->loadUrl($this->getUrl());
-        $this->assertSame('Benutzername: karten', $this->getBrowserElement('.info-container.username')?->getText());
-        $this->assertSame("(Keine Adresse)\n(Keine PLZ) (Kein Ort) (Keine Region, Kein Land)", $this->getBrowserElement('.info-container.address')?->getText());
-        $this->assertSame('Geburtsdatum: (Unbekannt)', $this->getBrowserElement('.info-container.birthdate')?->getText());
-        $this->assertSame('Telephon: (Unbekannt)', $this->getBrowserElement('.info-container.phone')?->getText());
-        $this->assertSame('E-Mail', $this->getBrowserElement('.info-container.email')?->getText());
+        $this->assertSame('Benutzername: karten', $this->filter('.info-container.username')->text(''));
+        $this->assertSame("(Keine Adresse)\n(Keine PLZ) (Kein Ort) (Keine Region, Kein Land)", $this->filter('.info-container.address')->getText());
+        $this->assertSame('Geburtsdatum: (Unbekannt)', $this->filter('.info-container.birthdate')->text(''));
+        $this->assertSame('Telephon: (Unbekannt)', $this->filter('.info-container.phone')->text(''));
+        $this->assertSame('E-Mail', $this->filter('.info-container.email')->text(''));
 
         $this->click('#edit-user-button');
         $this->waitForModal('#edit-user-modal');
@@ -60,11 +60,11 @@ final class ProfilTest extends SystemTestCase {
         $this->click('#edit-user-modal #submit-button');
 
         $this->loadUrl($this->getUrl());
-        $this->assertSame('Benutzername: karten', $this->getBrowserElement('.info-container.username')?->getText());
-        $this->assertSame("Zimmerbergstrasse 270\n8800 Thalwil (ZH, CH)", $this->getBrowserElement('.info-container.address')?->getText());
-        $this->assertSame('Geburtsdatum: 12.03.1999', $this->getBrowserElement('.info-container.birthdate')?->getText());
-        $this->assertSame('Telephon: (Unbekannt)', $this->getBrowserElement('.info-container.phone')?->getText());
-        $this->assertSame('E-Mail', $this->getBrowserElement('.info-container.email')?->getText());
+        $this->assertSame('Benutzername: karten', $this->filter('.info-container.username')->text(''));
+        $this->assertSame("Zimmerbergstrasse 270\n8800 Thalwil (ZH, CH)", $this->filter('.info-container.address')->getText());
+        $this->assertSame('Geburtsdatum: 12.03.1999', $this->filter('.info-container.birthdate')->text(''));
+        $this->assertSame('Telephon: (Unbekannt)', $this->filter('.info-container.phone')->text(''));
+        $this->assertSame('E-Mail', $this->filter('.info-container.email')->text(''));
 
         $this->resetDb();
     }
@@ -73,7 +73,8 @@ final class ProfilTest extends SystemTestCase {
     public function testProfilDeleteUser(): void {
         $this->assertSame(200, $this->getHeaders("{$this->getTargetUrl()}/news/7")['http_code']);
         $this->loadUrl("{$this->getTargetUrl()}/verein");
-        $this->assertStringContainsString('Volker Vorstand', $this->getBrowserElement('#organigramm')?->getText() ?? '');
+        $crawler = $this->getCrawler();
+        $this->assertStringContainsString('Volker Vorstand', $crawler->filter('#organigramm')->text(''));
 
         $this->login('vorstand', 'v0r57and');
         $this->loadUrl($this->getUrl());
@@ -89,7 +90,7 @@ final class ProfilTest extends SystemTestCase {
         $this->assertSame(404, $this->getHeaders($this->getUrl())['http_code']);
         $this->assertSame(404, $this->getHeaders("{$this->getTargetUrl()}/news/7")['http_code']);
         $this->loadUrl("{$this->getTargetUrl()}/verein");
-        $this->assertStringNotContainsString('Volker Vorstand', $this->getBrowserElement('#organigramm')?->getText() ?? '');
+        $this->assertStringNotContainsString('Volker Vorstand', $this->filter('#organigramm')->getText());
 
         $this->resetDb();
     }
@@ -98,7 +99,7 @@ final class ProfilTest extends SystemTestCase {
     public function testAddFamilyMember(): void {
         $this->login('karten', 'kar73n');
         $this->loadUrl($this->getUrl());
-        $this->assertSame('', $this->getBrowserElement('#child-users-list')?->getText());
+        $this->assertSame('', $this->filter('#child-users-list')->getText());
 
         $this->click('#add-child-user-button');
         $this->waitForModal('#edit-user-modal');
@@ -110,7 +111,7 @@ final class ProfilTest extends SystemTestCase {
         $this->loadUrl($this->getUrl());
         $this->assertSame(
             'Familienmitglied Child Integration T. Karten',
-            $this->getBrowserElement('#child-users-list')?->getText(),
+            $this->filter('#child-users-list')->getText(),
         );
 
         $this->resetDb();

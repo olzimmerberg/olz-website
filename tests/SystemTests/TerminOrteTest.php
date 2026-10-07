@@ -41,10 +41,7 @@ final class TerminOrteTest extends SystemTestCase {
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');
         assert($image_path);
         $this->sendKeys('#edit-termin-location-modal #images-upload input[type=file]', $image_path);
-        $this->waitUntil(function () {
-            $image_uploaded = $this->getBrowserElements('#edit-termin-location-modal #images-upload .olz-upload-image.uploaded');
-            return count($image_uploaded) == 1;
-        });
+        $this->waitFor('#edit-termin-location-modal #images-upload .olz-upload-image.uploaded');
 
         $this->screenshot('termin_locations_new_edit');
 

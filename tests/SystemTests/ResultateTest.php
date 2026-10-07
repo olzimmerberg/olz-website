@@ -36,16 +36,14 @@ final class ResultateTest extends SystemTestCase {
         $this->sendKeys('#edit-result-modal #name-input', 'system-test.xml');
         $iof_xml_path = __DIR__."/../../src/Utils/data/sample-data/sample-results.xml";
         $this->sendKeys('#edit-result-modal #file-upload input[type=file]', $iof_xml_path);
-        $this->waitUntil(function () {
-            $file_uploaded = $this->getBrowserElements('#edit-result-modal #file-upload .olz-upload-file.uploaded');
-            return count($file_uploaded) == 1;
-        });
+        $this->waitFor('#edit-result-modal #file-upload .olz-upload-file.uploaded');
         $this->click('#edit-result-modal #submit-button');
         $this->waitUntilGone('#edit-result-modal');
         $this->logout();
 
         $this->loadUrl("{$this->getUrl()}/?file=system-test.xml");
-        $this->assertSame('OL-Training', $this->getBrowserElement('#title-box #title')?->getText());
+        $this->waitFor('#title-box #title');
+        $this->assertSame('OL-Training', $this->filter('#title-box #title')->text(''));
 
         $this->resetDb();
         // TODO: Dummy assert

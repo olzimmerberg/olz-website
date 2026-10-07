@@ -21,9 +21,8 @@ final class LinksTest extends SystemTestCase {
             'SOLV',
             'GO2OL',
             'Online-Trainings',
-        ], array_map(
-            fn ($elem) => $elem->getText(),
-            $this->getBrowserElements('.olz-links li')
+        ], $this->filter('.olz-links li')->each(
+            fn ($node) => $node->text()
         ));
 
         $this->click('#create-link-button');
@@ -42,9 +41,8 @@ final class LinksTest extends SystemTestCase {
             'SOLV',
             'GO2OL',
             'Online-Trainings',
-        ], array_map(
-            fn ($elem) => $elem->getText(),
-            $this->getBrowserElements('.olz-links li')
+        ], $this->filter('.olz-links li')->each(
+            fn ($node) => $node->text()
         ));
 
         $this->resetDb();
@@ -64,7 +62,7 @@ final class LinksTest extends SystemTestCase {
         $this->waitUntilGone('#edit-link-modal');
 
         $this->loadUrl($this->getUrl());
-        $this->assertNull($this->getBrowserElement('#edit-link-1-button'));
+        $this->assertCount(0, $this->filter('#edit-link-1-button'));
 
         $this->resetDb();
     }

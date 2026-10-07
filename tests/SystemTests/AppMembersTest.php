@@ -22,49 +22,51 @@ final class AppMembersTest extends SystemTestCase {
         assert($document_path);
         $this->sendKeys('.olz-members #import-upload input[type=file]', $document_path);
         $this->waitFor('#member-table');
+        $this->waitFor('#member-table #row-12 .username');
+        $crawler = $this->getCrawler();
         $this->screenshot('app_members_imported');
 
-        $this->assertSame('admin', $this->getText('#member-table #row-0 .username'));
-        $this->assertSame('vorstand', $this->getText('#member-table #row-1 .username'));
-        $this->assertSame('kartenverkauf', $this->getText('#member-table #row-2 .username'));
-        $this->assertSame('ohne.konto', $this->getText('#member-table #row-3 .username'));
-        $this->assertSame('parent', $this->getText('#member-table #row-4 .username'));
-        $this->assertSame('one.child', $this->getText('#member-table #row-5 .username'));
-        $this->assertSame('another.child', $this->getText('#member-table #row-6 .username'));
-        $this->assertSame('elitelaeufer', $this->getText('#member-table #row-7 .username'));
-        $this->assertSame('hackerman', $this->getText('#member-table #row-8 .username'));
-        $this->assertSame('⚠️ Nur Firma 1', $this->getText('#member-table #row-9 .username'));
-        $this->assertSame('⚠️ Nur Firma 2', $this->getText('#member-table #row-10 .username'));
-        $this->assertSame('⚠️ Ident: 2000013', $this->getText('#member-table #row-11 .username'));
-        $this->assertSame('⚠️ Ident: 2000005', $this->getText('#member-table #row-12 .username'));
+        $this->assertSame('admin', $crawler->filter('#member-table #row-0 .username')->text(''));
+        $this->assertSame('vorstand', $crawler->filter('#member-table #row-1 .username')->text(''));
+        $this->assertSame('kartenverkauf', $crawler->filter('#member-table #row-2 .username')->text(''));
+        $this->assertSame('ohne.konto', $crawler->filter('#member-table #row-3 .username')->text(''));
+        $this->assertSame('parent', $crawler->filter('#member-table #row-4 .username')->text(''));
+        $this->assertSame('one.child', $crawler->filter('#member-table #row-5 .username')->text(''));
+        $this->assertSame('another.child', $crawler->filter('#member-table #row-6 .username')->text(''));
+        $this->assertSame('elitelaeufer', $crawler->filter('#member-table #row-7 .username')->text(''));
+        $this->assertSame('hackerman', $crawler->filter('#member-table #row-8 .username')->text(''));
+        $this->assertSame('⚠️ Nur Firma 1', $crawler->filter('#member-table #row-9 .username')->text(''));
+        $this->assertSame('⚠️ Nur Firma 2', $crawler->filter('#member-table #row-10 .username')->text(''));
+        $this->assertSame('⚠️ Ident: 2000013', $crawler->filter('#member-table #row-11 .username')->text(''));
+        $this->assertSame('⚠️ Ident: 2000005', $crawler->filter('#member-table #row-12 .username')->text(''));
 
-        $this->assertSame('Armin 😂 Admin 🤣', $this->getText('#member-table #row-0 .user-info'));
-        $this->assertSame('Volker Vorstand', $this->getText('#member-table #row-1 .user-info'));
-        $this->assertSame('Karen Karten', $this->getText('#member-table #row-2 .user-info'));
-        $this->assertSame('-', $this->getText('#member-table #row-3 .user-info'));
-        $this->assertSame('Eltern Teil', $this->getText('#member-table #row-4 .user-info'));
-        $this->assertSame('➡️  ?', $this->getText('#member-table #row-5 .user-info'));
-        $this->assertSame('➡️  ?', $this->getText('#member-table #row-6 .user-info'));
-        $this->assertSame('-', $this->getText('#member-table #row-7 .user-info'));
-        $this->assertSame('Hacker Man', $this->getText('#member-table #row-8 .user-info'));
-        $this->assertSame('-', $this->getText('#member-table #row-9 .user-info'));
-        $this->assertSame('-', $this->getText('#member-table #row-10 .user-info'));
-        $this->assertSame('-', $this->getText('#member-table #row-11 .user-info'));
-        $this->assertSame('Be Nutzer', $this->getText('#member-table #row-12 .user-info'));
+        $this->assertSame('Armin 😂 Admin 🤣', $this->filter('#member-table #row-0 .user-info')->getText());
+        $this->assertSame('Volker Vorstand', $this->filter('#member-table #row-1 .user-info')->getText());
+        $this->assertSame('Karen Karten', $this->filter('#member-table #row-2 .user-info')->getText());
+        $this->assertSame('-', $this->filter('#member-table #row-3 .user-info')->getText());
+        $this->assertSame('Eltern Teil', $this->filter('#member-table #row-4 .user-info')->getText());
+        $this->assertSame('➡️  ?', $this->filter('#member-table #row-5 .user-info')->getText());
+        $this->assertSame('➡️  ?', $this->filter('#member-table #row-6 .user-info')->getText());
+        $this->assertSame('-', $this->filter('#member-table #row-7 .user-info')->getText());
+        $this->assertSame('Hacker Man', $this->filter('#member-table #row-8 .user-info')->getText());
+        $this->assertSame('-', $this->filter('#member-table #row-9 .user-info')->getText());
+        $this->assertSame('-', $this->filter('#member-table #row-10 .user-info')->getText());
+        $this->assertSame('-', $this->filter('#member-table #row-11 .user-info')->getText());
+        $this->assertSame('Be Nutzer', $this->filter('#member-table #row-12 .user-info')->getText());
 
-        $this->assertSame('♻️ Aktualisiert', $this->getText('#member-table #row-0 .status'));
-        $this->assertSame('🟰 Unverändert', $this->getText('#member-table #row-1 .status'));
-        $this->assertSame('🟰 Unverändert', $this->getText('#member-table #row-2 .status'));
-        $this->assertSame('🟰 Unverändert', $this->getText('#member-table #row-3 .status'));
-        $this->assertSame('🟰 Unverändert', $this->getText('#member-table #row-4 .status'));
-        $this->assertSame('♻️ Aktualisiert', $this->getText('#member-table #row-5 .status'));
-        $this->assertSame('✨ Eintritt', $this->getText('#member-table #row-6 .status'));
-        $this->assertSame('♻️ Aktualisiert', $this->getText('#member-table #row-7 .status'));
-        $this->assertSame('✨ Eintritt', $this->getText('#member-table #row-8 .status'));
-        $this->assertSame('✨ Eintritt', $this->getText('#member-table #row-9 .status'));
-        $this->assertSame('✨ Eintritt', $this->getText('#member-table #row-10 .status'));
-        $this->assertSame('✨ Eintritt', $this->getText('#member-table #row-11 .status'));
-        $this->assertSame('🚫 Austritt', $this->getText('#member-table #row-12 .status'));
+        $this->assertSame('♻️ Aktualisiert', $crawler->filter('#member-table #row-0 .status')->text(''));
+        $this->assertSame('🟰 Unverändert', $crawler->filter('#member-table #row-1 .status')->text(''));
+        $this->assertSame('🟰 Unverändert', $crawler->filter('#member-table #row-2 .status')->text(''));
+        $this->assertSame('🟰 Unverändert', $crawler->filter('#member-table #row-3 .status')->text(''));
+        $this->assertSame('🟰 Unverändert', $crawler->filter('#member-table #row-4 .status')->text(''));
+        $this->assertSame('♻️ Aktualisiert', $crawler->filter('#member-table #row-5 .status')->text(''));
+        $this->assertSame('✨ Eintritt', $crawler->filter('#member-table #row-6 .status')->text(''));
+        $this->assertSame('♻️ Aktualisiert', $crawler->filter('#member-table #row-7 .status')->text(''));
+        $this->assertSame('✨ Eintritt', $crawler->filter('#member-table #row-8 .status')->text(''));
+        $this->assertSame('✨ Eintritt', $crawler->filter('#member-table #row-9 .status')->text(''));
+        $this->assertSame('✨ Eintritt', $crawler->filter('#member-table #row-10 .status')->text(''));
+        $this->assertSame('✨ Eintritt', $crawler->filter('#member-table #row-11 .status')->text(''));
+        $this->assertSame('🚫 Austritt', $crawler->filter('#member-table #row-12 .status')->text(''));
 
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Nachname: "Admin" ➡️ "Admin 🤣"
@@ -72,29 +74,29 @@ final class AppMembersTest extends SystemTestCase {
             Adresse: "" ➡️ "Administratorweg 1234"
             PLZ: "" ➡️ "8134"
             Ort: "" ➡️ "Admiswil"
-            ZZZZZZZZZZ, $this->getText('#member-table #row-0 .updates'));
+            ZZZZZZZZZZ, $this->filter('#member-table #row-0 .updates')->getText());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Adresse: "" ➡️ "Vorstandgasse 9"
             PLZ: "" ➡️ "5200"
             Ort: "" ➡️ "Vorstadt"
-            ZZZZZZZZZZ, $this->getText('#member-table #row-1 .updates'));
+            ZZZZZZZZZZ, $this->filter('#member-table #row-1 .updates')->getText());
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Benutzer-Id: "kartenverkauf" ➡️ "karten"
-            ZZZZZZZZZZ, $this->getText('#member-table #row-2 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-3 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-4 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-5 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-6 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-7 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-8 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-9 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-10 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-11 .updates'));
-        $this->assertSame('', $this->getText('#member-table #row-12 .updates'));
+            ZZZZZZZZZZ, $this->filter('#member-table #row-2 .updates')->getText());
+        $this->assertSame('', $crawler->filter('#member-table #row-3 .updates')->text(''));
+        $this->assertSame('', $crawler->filter('#member-table #row-4 .updates')->text(''));
+        $this->assertSame('', $crawler->filter('#member-table #row-5 .updates')->text(''));
+        $this->assertSame('', $crawler->filter('#member-table #row-6 .updates')->text(''));
+        $this->assertSame('', $crawler->filter('#member-table #row-7 .updates')->text(''));
+        $this->assertSame('', $crawler->filter('#member-table #row-8 .updates')->text(''));
+        $this->assertSame('', $crawler->filter('#member-table #row-9 .updates')->text(''));
+        $this->assertSame('', $crawler->filter('#member-table #row-10 .updates')->text(''));
+        $this->assertSame('', $crawler->filter('#member-table #row-11 .updates')->text(''));
+        $this->assertSame('', $crawler->filter('#member-table #row-12 .updates')->text(''));
 
         $this->click('#export-button');
-        $download_link = $this->findBrowserElement('#csv-download');
-        $csv_export_url = $download_link->getAttribute('href');
+        $this->getClient()->waitFor('#csv-download');
+        $csv_export_url = $this->filter('#csv-download')->getAttribute('href');
         $csv_export_content = file_get_contents("{$this->getTargetUrl()}{$csv_export_url}");
         $this->assertSame(<<<'ZZZZZZZZZZ'
             Nachname,Vorname,Firma,Adresse,PLZ,Ort,"Telefon Privat","Telefon Mobil",Benutzer-Id,Anrede,Titel,Briefanrede,Adress-Zusatz,Land,Nationalität,"Telefon Geschäft",Fax,E-Mail,"E-Mail Alternativ",[Gruppen],Status,[Rolle],Eintritt,Mitgliedsjahre,Austritt,Zivilstand,Geschlecht,Geburtsdatum,Jahrgang,Alter,Bemerkungen,Firmen-Webseite,Rechnungsversand,"Nie mahnen",IBAN,BIC,Kontoinhaber,Mail-MV,"SOLV NR","Badge Nummer",Werbegrund,Geburtsjahr,[Id],"[Zuletzt geändert am]","[Zuletzt geändert von]"

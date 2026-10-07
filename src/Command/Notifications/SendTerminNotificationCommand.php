@@ -202,25 +202,25 @@ class SendTerminNotificationCommand extends BaseSendNotificationsCommand {
                 ZZZZZZZZZZ;
             $recipient_user_ids = [];
             if ($row['recipientUserId'] ?? false) {
-                $recipient_user_ids[] = $row['recipientUserId'];
+                $recipient_user_ids[$row['recipientUserId']] = true;
             }
             if ($row['recipientRoleId'] ?? false) {
                 $role = $role_repo->findOneBy(['id' => $row['recipientRoleId']]);
                 foreach (($role?->getUsers() ?? []) as $user) {
-                    $recipient_user_ids[] = $user->getId();
+                    $recipient_user_ids[$user->getId()] = true;
                 }
             }
             if ($row['recipientTerminOwnerUser'] ?? false) {
-                $recipient_user_ids[] = $row['terminOwnerUserId'];
+                $recipient_user_ids[$row['terminOwnerUserId']] = true;
             }
             if ($row['recipientTerminOwnerRole'] ?? false) {
                 $role = $role_repo->findOneBy(['id' => $row['terminOwnerRoleId']]);
                 foreach (($role?->getUsers() ?? []) as $user) {
-                    $recipient_user_ids[] = $user->getId();
+                    $recipient_user_ids[$user->getId()] = true;
                 }
             }
             if ($row['recipientTerminOrganizer'] ?? false) {
-                $recipient_user_ids[] = $row['terminOrganizerUserId'];
+                $recipient_user_ids[$row['terminOrganizerUserId']] = true;
             }
             if ($row['recipientTerminVolunteers'] ?? false) {
                 // TODO

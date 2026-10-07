@@ -96,6 +96,10 @@ abstract class BaseSendNotificationsCommand extends OlzCommand {
         $this->log()->info("Sending notification {$title} over {$delivery_type->value} to user ({$user_id})...");
         if (($config['recipient_user_ids'] ?? null) !== null) {
             $enc_recipient_user_ids = json_encode($config['recipient_user_ids']) ?: '[]';
+            if (!($config['recipient_user_ids'][$user_id] ?? false)) {
+                $this->log()->debug("Recipient user mismatch ({$user_id} not in {$enc_recipient_user_ids})...");
+                return;
+            }
             $this->log()->notice("DRY RUN recipient_user_ids = {$enc_recipient_user_ids}", []);
             return;
         }

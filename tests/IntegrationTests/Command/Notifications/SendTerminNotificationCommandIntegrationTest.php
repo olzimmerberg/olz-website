@@ -61,7 +61,7 @@ final class SendTerminNotificationCommandIntegrationTest extends IntegrationTest
             NotificationType::TERMIN_NOTIFICATION,
             $notifications[0]->config['notification_type'] ?? null,
         );
-        $this->assertSame([6], $notifications[0]->config['recipient_user_ids'] ?? null);
+        $this->assertSame([6 => true], $notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     public function testSendTerminNotificationCommand2(): void {
@@ -90,7 +90,7 @@ final class SendTerminNotificationCommandIntegrationTest extends IntegrationTest
             NotificationType::TERMIN_NOTIFICATION,
             $notifications[0]->config['notification_type'] ?? null,
         );
-        $this->assertSame([2, 6], $notifications[0]->config['recipient_user_ids'] ?? null);
+        $this->assertSame([2 => true, 6 => true], $notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     public function testSendTerminNotificationCommand3(): void {
@@ -119,7 +119,7 @@ final class SendTerminNotificationCommandIntegrationTest extends IntegrationTest
             NotificationType::TERMIN_NOTIFICATION,
             $notifications[0]->config['notification_type'] ?? null,
         );
-        $this->assertSame([3, 6], $notifications[0]->config['recipient_user_ids'] ?? null);
+        $this->assertSame([3 => true, 6 => true], $notifications[0]->config['recipient_user_ids'] ?? null);
     }
 
     protected function getSut(): SendTerminNotificationCommand {

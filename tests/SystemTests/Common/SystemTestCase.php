@@ -403,13 +403,19 @@ class SystemTestCase extends KernelTestCase {
     // Screenshot
 
     public function screenshot(string $name): void {
-        $client = self::$client;
-        $this->generalUtils()->checkNotNull($client, "Client expected");
         $this->waitFor('body');
         $this->tick('screenshot');
-        $this->adjustCssForScreenshot();
         $browser_name = self::$browser_name;
         $screenshots_path = __DIR__.'/../../../screenshots/generated/';
+        $this->pngScreenshot($screenshots_path, $name, $browser_name);
+        $this->htmlScreenshot($screenshots_path, $name, $browser_name);
+        $this->tock('screenshot', 'screenshot');
+    }
+
+    protected function pngScreenshot(string $screenshots_path, string $name, string $browser_name): void {
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        $this->adjustCssForScreenshot();
         $screenshot_filename = "{$name}-{$browser_name}.png";
         $window_width = $this->getWindowWidth();
         $window_height = $this->getWindowHeight();
@@ -436,7 +442,6 @@ class SystemTestCase extends KernelTestCase {
         }
         imagepng($dest, "{$screenshots_path}{$screenshot_filename}");
         $this->unhideFlakyElements();
-        $this->tock('screenshot', 'screenshot');
     }
 
     protected function adjustCssForScreenshot(): void {
@@ -465,6 +470,25 @@ class SystemTestCase extends KernelTestCase {
             }
             ZZZZZZZZZZ;
         $client->executeScript($unhide_flaky_code);
+    }
+
+    protected function htmlScreenshot(string $screenshots_path, string $name, string $browser_name): void {
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
+        try {
+            $html = $client->executeScript("return document.documentElement.outerHTML;");
+            if (!is_string($html) || $html === '') {
+                echo "\n  Could not capture HTML screenshot {$name}!\n";
+                return;
+            }
+            if (!is_dir($screenshots_path)) {
+                mkdir($screenshots_path, 0o777, true);
+            }
+            $html = "<!DOCTYPE html>\n{$html}";
+            file_put_contents("{$screenshots_path}{$name}-{$browser_name}.html", $html);
+        } catch (\Throwable $th) {
+            echo "\n  Could not capture HTML screenshot {$name}!\n";
+        }
     }
 
     // Timing

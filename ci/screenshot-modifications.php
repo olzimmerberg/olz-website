@@ -16,7 +16,7 @@ if (!is_dir($local_dir)) {
 $local_paths = scandir($local_dir);
 $local_screenshots = [];
 foreach ($local_paths as $local_path) {
-    if ($local_path[0] != '.') {
+    if ($local_path[0] != '.' && str_ends_with($local_path, '.png')) {
         $local_name = parse_screenshot_name($local_path);
         $local_screenshots[$local_name] = file_get_contents("{$local_dir}{$local_path}");
     }
@@ -41,6 +41,9 @@ if (!isset($remote_index['screenshot_paths'])) {
 $remote_paths = $remote_index['screenshot_paths'];
 $remote_screenshots = [];
 foreach ($remote_paths as $remote_path) {
+    if (!str_ends_with($remote_path, '.png')) {
+        continue;
+    }
     $remote_name = parse_screenshot_name($remote_path);
     $remote_screenshots[$remote_name] = @file_get_contents("{$remote_url}screenshots/generated/{$remote_path}");
 }

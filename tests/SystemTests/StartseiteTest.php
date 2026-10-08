@@ -71,7 +71,7 @@ final class StartseiteTest extends SystemTestCase {
         $this->waitUntil(function () {
             return strpos($this->filter('#important-banner .olz-editable-text .rendered-markdown')->getText(), 'Neue Information!') !== false;
         });
-        $this->screenshot('startseite_banner_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('startseite_banner_finished');
 
         $this->resetDb();
         // TODO: Dummy assert

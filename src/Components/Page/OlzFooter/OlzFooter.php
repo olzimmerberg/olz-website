@@ -16,7 +16,7 @@ class OlzFooter extends OlzComponent {
             return ucfirst($part);
         }, explode('.', $honeypot_username)));
         $spam_honeypot = <<<ZZZZZZZZZZ
-            <span class='kontakt'>
+            <span class='kontakt test-flaky'>
                 Kontakt: <a href='mailto:{$honeypot_email}'>{$honeypot_name}</a>
             </span>
             ZZZZZZZZZZ;

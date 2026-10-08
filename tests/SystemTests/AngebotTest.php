@@ -38,7 +38,7 @@ final class AngebotTest extends SystemTestCase {
             $user_mailto_link = $this->filter('#user-mailto a');
             $this->assertSame("#", $user_mailto_link->attr('href'));
             $this->assertMatchesRegularExpression(
-                "/^return olz\\.initOlzEmailModal\\(\"[A-Za-z0-9]+\"\\)$/",
+                "/^return olz\\.initOlzEmailModal\\(\\/\\*test\\-flaky\\(\\*\\/\"[A-Za-z0-9]+\"\\/\\*\\)test\\-flaky\\*\\/\\)$/",
                 $user_mailto_link->attr('onclick') ?? ''
             );
             $this->assertSame("Karen Karten", $user_mailto_link->text(''));
@@ -46,7 +46,7 @@ final class AngebotTest extends SystemTestCase {
             $user_direct_link = $this->filter('#user-direct a');
             $this->assertSame("#", $user_direct_link->attr('href'));
             $this->assertMatchesRegularExpression(
-                "/^return olz\\.initOlzEmailModal\\(\"[A-Za-z0-9]+\"\\)$/",
+                "/^return olz\\.initOlzEmailModal\\(\\/\\*test\\-flaky\\(\\*\\/\"[A-Za-z0-9]+\"\\/\\*\\)test\\-flaky\\*\\/\\)$/",
                 $user_direct_link->attr('onclick') ?? ''
             );
             $this->assertSame("E-Mail", $user_direct_link->text(''));

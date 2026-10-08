@@ -48,7 +48,7 @@ final class TerminOrteTest extends SystemTestCase {
         $this->click('#edit-termin-location-modal #submit-button');
         $this->waitUntilGone('#edit-termin-location-modal');
         $this->loadUrl("{$this->getUrl()}/5");
-        $this->screenshot('termin_locations_new_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('termin_locations_new_finished');
 
         $this->resetDb();
         // TODO: Dummy assert

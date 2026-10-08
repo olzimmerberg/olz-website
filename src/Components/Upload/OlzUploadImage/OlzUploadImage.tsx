@@ -16,7 +16,7 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
         const registeringFile: RegisteringFile = uploadFile;
         const registeringInfo = `Registering: ${registeringFile.file.name}`;
         return (
-            <div className='olz-upload-image registering' title={registeringInfo}>
+            <div className='olz-upload-image registering test-flaky' title={registeringInfo}>
                 <div className='progress-container'>
                     <OlzProgressBar progress={0} />
                 </div>
@@ -30,7 +30,7 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
         const uploadingFile: UploadingFile = uploadFile;
         const uploadingInfo = `Uploading: ${uploadingFile.file.name} - ${uploadingFile.uploadId}`;
         return (
-            <div className='olz-upload-image uploading' title={uploadingInfo}>
+            <div className='olz-upload-image uploading test-flaky' title={uploadingInfo}>
                 <div className='progress-container'>
                     <OlzProgressBar progress={uploadingFile.uploadProgress * 0.9 + 0.1} />
                 </div>
@@ -70,7 +70,7 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
             </button>
         ) : undefined;
         return (
-            <div className='olz-upload-image uploaded' title={uploadedInfo}>
+            <div className='olz-upload-image uploaded test-flaky' title={uploadedInfo}>
                 <div className='image-container'>
                     <img
                         src={`/temp/${uploadedFile.uploadId}`}
@@ -86,5 +86,4 @@ export const OlzUploadImage = (props: OlzUploadImageProps): React.ReactElement =
         );
     }
     throw new Error('Tertium non datur.');
-
 };

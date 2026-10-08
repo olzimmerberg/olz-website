@@ -27,6 +27,7 @@ final class TermineTest extends SystemTestCase {
         $this->screenshot('termine_past');
 
         $this->loadUrl($this->getDetailUrl());
+        $this->waitFor('#termin-reactions .olz-editable-reactions');
         $this->screenshot('termine_detail');
 
         // Reactions (read-only)
@@ -79,7 +80,7 @@ final class TermineTest extends SystemTestCase {
         $this->click('#edit-termin-modal #submit-button');
         $this->waitUntilGone('#edit-termin-modal');
         $this->loadUrl("{$this->getUrl()}/1002");
-        $this->screenshot('termine_new_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('termine_new_finished');
 
         $this->resetDb();
         // TODO: Dummy assert

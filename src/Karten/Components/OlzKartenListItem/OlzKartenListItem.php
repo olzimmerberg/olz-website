@@ -36,7 +36,13 @@ class OlzKartenListItem extends OlzComponent {
         $preview = $karte->getPreviewImageId();
         if ($preview > '') {
             $img_href = "{$data_href}img/karten/{$karte->getId()}/img/{$preview}";
-            $map = "<span class='lightgallery'><a href='{$img_href}' data-src='{$img_href}'><img src='{$code_href}assets/icns/magnifier_16.svg' style='float:right;border:none;'></a></span>";
+            $map = <<<ZZZZZZZZZZ
+                <span class='lightgallery'>
+                    <a href='{$img_href}' data-src='{$img_href}'>
+                        <img src='{$code_href}assets/icns/magnifier_16.svg' style='float:right;'>
+                    </a>
+                </span>
+                ZZZZZZZZZZ;
         }
 
         $out .= OlzMapData::render([

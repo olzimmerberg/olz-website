@@ -23,7 +23,7 @@ class OlzEmailModal extends OlzComponent {
         return <<<ZZZZZZZZZZ
             <a
                 href='#'
-                onclick='return olz.initOlzEmailModal({$enc_email_token})'
+                onclick='return olz.initOlzEmailModal(/*test-flaky(*/{$enc_email_token}/*)test-flaky*/)'
                 class='linkmail'
             >
                 {$text}

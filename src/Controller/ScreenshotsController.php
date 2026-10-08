@@ -30,6 +30,7 @@ class ScreenshotsController extends AbstractController {
             #root.local .pair { border-color: green; }
             #root .main { float: left; }
             #root .local { float: left; }
+            #root .local, #root .main { display: none; width: 1000px; height: 900px; border: 1px solid #888; background-color: white; }
             #root.main .local { margin-left:-10000px; }
             #root.local .main { margin-left:-10000px; }
             #root .after-pair { clear: both; }
@@ -48,7 +49,7 @@ class ScreenshotsController extends AbstractController {
         $generated_dir = "{$envUtils->getCodePath()}/screenshots/generated";
         $generated_contents = scandir($generated_dir);
         foreach ($generated_contents as $screenshot_path) {
-            if ($screenshot_path[0] != '.' && str_ends_with($screenshot_path, '.png')) {
+            if ($screenshot_path[0] != '.' && str_ends_with($screenshot_path, '.html')) {
                 $screenshot_paths[] = $screenshot_path;
             }
         }
@@ -67,7 +68,7 @@ class ScreenshotsController extends AbstractController {
         } else {
             $main_paths = $main_index['screenshot_paths'];
             foreach ($main_paths as $main_path) {
-                if (!str_ends_with($main_path, '.png')) {
+                if (!str_ends_with($main_path, '.html')) {
                     continue;
                 }
                 if (array_search($main_path, $screenshot_paths) === false) {
@@ -82,7 +83,7 @@ class ScreenshotsController extends AbstractController {
             <div id='root' class='local'>
             ZZZZZZZZZZ;
         foreach ($screenshot_paths as $screenshot_path) {
-            $has_screenshot_id = preg_match('/^([a-z0-9\-\_]+)\.png$/', $screenshot_path, $matches);
+            $has_screenshot_id = preg_match('/^([a-z0-9\-\_]+)\.html$/', $screenshot_path, $matches);
             $screenshot_id = $has_screenshot_id ? " id='{$matches[1]}'" : "";
             $enc_screenshot_path = json_encode($screenshot_path);
             $out .= <<<ZZZZZZZZZZ
@@ -91,8 +92,8 @@ class ScreenshotsController extends AbstractController {
                     <input type='checkbox' onchange='load(this, {$enc_screenshot_path})'/>
                     {$screenshot_path}
                 </h2>
-                <img class='local' id='local-{$screenshot_path}' />
-                <img class='main' id='main-{$screenshot_path}' />
+                <iframe class='local' id='local-{$screenshot_path}'></iframe>
+                <iframe class='main' id='main-{$screenshot_path}'></iframe>
                 <div class='after-pair'></div>
                 </div>
                 ZZZZZZZZZZ;
@@ -129,7 +130,7 @@ class ScreenshotsController extends AbstractController {
         $generated_contents = scandir($generated_dir);
         $screenshot_paths = [];
         foreach ($generated_contents as $screenshot_path) {
-            if ($screenshot_path[0] != '.' && str_ends_with($screenshot_path, '.png')) {
+            if ($screenshot_path[0] != '.') {
                 $screenshot_paths[] = $screenshot_path;
             }
         }
@@ -137,13 +138,24 @@ class ScreenshotsController extends AbstractController {
     }
 
     #[Route('/screenshots/generated/{name}.png')]
-    public function screenshot(
+    public function screenshotPng(
         Request $request,
         LoggerInterface $logger,
         EnvUtils $envUtils,
         string $name,
     ): Response {
         $path = "{$envUtils->getCodePath()}screenshots/generated/{$name}.png";
+        return new BinaryFileResponse($path);
+    }
+
+    #[Route('/screenshots/generated/{name}.html')]
+    public function screenshot(
+        Request $request,
+        LoggerInterface $logger,
+        EnvUtils $envUtils,
+        string $name,
+    ): Response {
+        $path = "{$envUtils->getCodePath()}screenshots/generated/{$name}.html";
         return new BinaryFileResponse($path);
     }
 }

@@ -48,7 +48,7 @@ class ScreenshotsController extends AbstractController {
         $generated_dir = "{$envUtils->getCodePath()}/screenshots/generated";
         $generated_contents = scandir($generated_dir);
         foreach ($generated_contents as $screenshot_path) {
-            if ($screenshot_path[0] != '.') {
+            if ($screenshot_path[0] != '.' && str_ends_with($screenshot_path, '.png')) {
                 $screenshot_paths[] = $screenshot_path;
             }
         }
@@ -67,6 +67,9 @@ class ScreenshotsController extends AbstractController {
         } else {
             $main_paths = $main_index['screenshot_paths'];
             foreach ($main_paths as $main_path) {
+                if (!str_ends_with($main_path, '.png')) {
+                    continue;
+                }
                 if (array_search($main_path, $screenshot_paths) === false) {
                     $screenshot_paths[] = $main_path;
                 }
@@ -126,7 +129,7 @@ class ScreenshotsController extends AbstractController {
         $generated_contents = scandir($generated_dir);
         $screenshot_paths = [];
         foreach ($generated_contents as $screenshot_path) {
-            if ($screenshot_path[0] != '.') {
+            if ($screenshot_path[0] != '.' && str_ends_with($screenshot_path, '.png')) {
                 $screenshot_paths[] = $screenshot_path;
             }
         }

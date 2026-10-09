@@ -82,7 +82,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         $this->assertSame("<div class='rendered-markdown'><p>Hier:\n<a href=\"https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0\">https://docs.google.com/spreadsheets/d/1234567890abcdefghijklmnopqrstuvwxyzABCDEFGH/edit#gid=0</a></p>\n</div>", $html);
         $html = $html_utils->renderMarkdown("user+olz@gmail.com");
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            <div class='rendered-markdown'><p><a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJkUnE3QXRKekNKVFhoc1VadlM2SUpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFlTi1zaVZPWUYtT05iYU0xUWJMbFM2VTB3MGI0dkRzRGZ2QXRGVjZIeG5qa3ItcFNsUVRDcVp1M2NsS2xHY3E2cmtha1EifQ&quot;)" class="linkmail">
+            <div class='rendered-markdown'><p><a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJkUnE3QXRKekNKVFhoc1VadlM2SUpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFlTi1zaVZPWUYtT05iYU0xUWJMbFM2VTB3MGI0dkRzRGZ2QXRGVjZIeG5qa3ItcFNsUVRDcVp1M2NsS2xHY3E2cmtha1EifQ&quot;/*)test-flaky*/)" class="linkmail">
                 E-Mail
             </a></p>
             </div>
@@ -121,7 +121,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         $html_utils = new HtmlUtils();
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;)" class="linkmail">
+                <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>
                 ZZZZZZZZZZ,
@@ -133,7 +133,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         $html_utils = new HtmlUtils();
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;)" class="linkmail">
+                <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>
                 ZZZZZZZZZZ,
@@ -141,7 +141,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;)" class="linkmail">
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>.
                 ZZZZZZZZZZ,
@@ -149,9 +149,9 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;)" class="linkmail">
+                Mails: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJDYWxXSkxPUWZuXzB5ZUdmMlNvSHBBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENPdWxKMmNOU2xIRm03S0FVaGtqTnoxYWJIdXgzR3VzIn0&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
-                </a>, <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJ3VHZZbHE5R09JOWtJTmtmRDJJeUpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWTNPYkFibUV4a0xEMUNDYTEwRVpvLXZrVjZQQS1oSkhSbmE0MlphbUt4Y0pFLVlvbXRsTDFEY2hfS0ZVMWtQYjF4amMifQ&quot;)" class="linkmail">
+                </a>, <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJ3VHZZbHE5R09JOWtJTmtmRDJJeUpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWTNPYkFibUV4a0xEMUNDYTEwRVpvLXZrVjZQQS1oSkhSbmE0MlphbUt4Y0pFLVlvbXRsTDFEY2hfS0ZVMWtQYjF4amMifQ&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>.
                 ZZZZZZZZZZ,
@@ -163,7 +163,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         $html_utils = new HtmlUtils();
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJMVmFicDM4eEZhd2hfWWFaZjRlMVNRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENLNkYzeklnU2xDNHhfYjhUajFtTWdSclVIUFZtIn0&quot;)" class="linkmail">
+                <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJMVmFicDM4eEZhd2hfWWFaZjRlMVNRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENLNkYzeklnU2xDNHhfYjhUajFtTWdSclVIUFZtIn0&quot;/*)test-flaky*/)" class="linkmail">
                     Test
                 </a>
                 ZZZZZZZZZZ,
@@ -171,7 +171,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIycGYxUHhSajE0ZXViczFWR2NlaFlRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;)" class="linkmail">
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIycGYxUHhSajE0ZXViczFWR2NlaFlRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
                 </a>!
                 ZZZZZZZZZZ,
@@ -179,9 +179,9 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIycGYxUHhSajE0ZXViczFWR2NlaFlRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;)" class="linkmail">
+                Mails: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiIycGYxUHhSajE0ZXViczFWR2NlaFlRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
-                </a> <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJ2R195bFJaOWZFd2J1cERiRkhJdUVBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWTNPYkFibUV4a0xEMUNDYTEwRVpvLXZrVjZQQS1oSkhSbmE0MlpEa0NBSUJITEFrMWM4Y21uODM2cmNjaVU3YW1VN1BCZlYzQ3cifQ&quot;)" class="linkmail">
+                </a> <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJ2R195bFJaOWZFd2J1cERiRkhJdUVBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWTNPYkFibUV4a0xEMUNDYTEwRVpvLXZrVjZQQS1oSkhSbmE0MlpEa0NBSUJITEFrMWM4Y21uODM2cmNjaVU3YW1VN1BCZlYzQ3cifQ&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
                 </a>!
                 ZZZZZZZZZZ,
@@ -193,7 +193,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         $html_utils = new HtmlUtils();
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJpeWtxRlB2eVp6VmQzYl9BQ1NyN0ZBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENLNkYzeklnU2xDNHhfYjhUajFtTWdWYlZGZXB2Vk9zIn0&quot;)" class="linkmail">
+                <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJpeWtxRlB2eVp6VmQzYl9BQ1NyN0ZBIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENLNkYzeklnU2xDNHhfYjhUajFtTWdWYlZGZXB2Vk9zIn0&quot;/*)test-flaky*/)" class="linkmail">
                     Test
                 </a>
                 ZZZZZZZZZZ,
@@ -201,7 +201,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiI4enljekFXQWRfTHlhYnBNMW84RWZ3IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VExRNzRHN3c2Vl9Ca19rMV9jeHVRNGpPIn0&quot;)" class="linkmail">
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiI4enljekFXQWRfTHlhYnBNMW84RWZ3IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VExRNzRHN3c2Vl9Ca19rMV9jeHVRNGpPIn0&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
                 </a>!
                 ZZZZZZZZZZ,
@@ -209,9 +209,9 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiI4enljekFXQWRfTHlhYnBNMW84RWZ3IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VExRNzRHN3c2Vl9Ca19rMV9jeHVRNGpPIn0&quot;)" class="linkmail">
+                Mails: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiI4enljekFXQWRfTHlhYnBNMW84RWZ3IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWXhpQUVLS1Y5QURUMHlpSmswdFlyZVhnRzZHQjRSb2RIbmIybnF2X1JFeENQS3Rxek10ZHduMHAtdmRhemw3YjJSN0VFLTA1VExRNzRHN3c2Vl9Ca19rMV9jeHVRNGpPIn0&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
-                </a>, <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJTQUtlZGxHQlhSRF8wckl1NENsTURRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWTNPYkFibUV4a0xEMUNDYTEwRVpvLXZrVjZQQS1oSkhSbmE0MlpEa0NBSUJITEFrMWM4Y21uODM2cmNjaVU3YW1VNkRFZmQwQXY0X19DUzJzVTdXeGI4bjlBIn0&quot;)" class="linkmail">
+                </a>, <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJTQUtlZGxHQlhSRF8wckl1NENsTURRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmTWp1allNWTNPYkFibUV4a0xEMUNDYTEwRVpvLXZrVjZQQS1oSkhSbmE0MlpEa0NBSUJITEFrMWM4Y21uODM2cmNjaVU3YW1VNkRFZmQwQXY0X19DUzJzVTdXeGI4bjlBIn0&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
                 </a>!
                 ZZZZZZZZZZ,
@@ -232,7 +232,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;)" class="linkmail">
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>.
                 ZZZZZZZZZZ,
@@ -242,7 +242,7 @@ final class HtmlUtilsTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 Mails: <a href="#" onclick="return olz.initOlzRoleInfoModal(2)" class="linkrole">
                     Administrator
-                </a>, <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;)" class="linkmail">
+                </a>, <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>.
                 ZZZZZZZZZZ,
@@ -250,7 +250,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJLS2U0NGRETks3bHlVMWNJNUlhOG5BIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFlQmlwU1FSYmwyUU5hS1YxUWpPMVNyVjBVTk5xZW5rRVAyQTZ3VllIRGZxMmYtcEVoTVlDLVktbXU4VC16d3Q4X2Rhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;)" class="linkmail">
+                <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJLS2U0NGRETks3bHlVMWNJNUlhOG5BIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFlQmlwU1FSYmwyUU5hS1YxUWpPMVNyVjBVTk5xZW5rRVAyQTZ3VllIRGZxMmYtcEVoTVlDLVktbXU4VC16d3Q4X2Rhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>
                 ZZZZZZZZZZ,
@@ -271,7 +271,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;)" class="linkmail">
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>.
                 ZZZZZZZZZZ,
@@ -281,7 +281,7 @@ final class HtmlUtilsTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 Mails: <a href="#" onclick="return olz.initOlzRoleInfoModal(2)" class="linkrole">
                     Administrator
-                </a>, <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;)" class="linkmail">
+                </a>, <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJGUlNlOV90VVZGa3drWDlYZ3JOS2RRIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzgzQUpfcndhemdHTXlBSERHdng0QXJSZzRIVG83VWMifQ&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>.
                 ZZZZZZZZZZ,
@@ -289,7 +289,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJLS2U0NGRETks3bHlVMWNJNUlhOG5BIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFlQmlwU1FSYmwyUU5hS1YxUWpPMVNyVjBVTk5xZW5rRVAyQTZ3VllIRGZxMmYtcEVoTVlDLVktbXU4VC16d3Q4X2Rhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;)" class="linkmail">
+                <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJLS2U0NGRETks3bHlVMWNJNUlhOG5BIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFlQmlwU1FSYmwyUU5hS1YxUWpPMVNyVjBVTk5xZW5rRVAyQTZ3VllIRGZxMmYtcEVoTVlDLVktbXU4VC16d3Q4X2Rhemw3YjJSN0VFLTA1VFBndjRtMzUifQ&quot;/*)test-flaky*/)" class="linkmail">
                     E-Mail
                 </a>
                 ZZZZZZZZZZ,
@@ -308,7 +308,7 @@ final class HtmlUtilsTest extends UnitTestCase {
             ZZZZZZZZZZ, $html);
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJack40TUNPWHNRWkMzMlhmcFdOQkpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211MVRHMnFkNCJ9&quot;)" class="linkmail">
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJack40TUNPWHNRWkMzMlhmcFdOQkpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211MVRHMnFkNCJ9&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
                 </a>!
                 ZZZZZZZZZZ,
@@ -318,7 +318,7 @@ final class HtmlUtilsTest extends UnitTestCase {
             <<<'ZZZZZZZZZZ'
                 Mails: <a href="#" onclick="return olz.initOlzRoleInfoModal(2)" class="linkrole">
                     Contact me
-                </a> <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJack40TUNPWHNRWkMzMlhmcFdOQkpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211MVRHMnFkNCJ9&quot;)" class="linkmail">
+                </a> <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJack40TUNPWHNRWkMzMlhmcFdOQkpnIiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211MVRHMnFkNCJ9&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
                 </a>!
                 ZZZZZZZZZZ,
@@ -339,7 +339,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mail: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJMeFk3dlMzTXVrekZSQXEtWmJTNW13IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211eGpTMktSeDRjeHZFcGlETlEyY2ZlS0kifQ&quot;)" class="linkmail">
+                Mail: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJMeFk3dlMzTXVrekZSQXEtWmJTNW13IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211eGpTMktSeDRjeHZFcGlETlEyY2ZlS0kifQ&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
                 </a>!
                 ZZZZZZZZZZ,
@@ -347,7 +347,7 @@ final class HtmlUtilsTest extends UnitTestCase {
         );
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                Mails: <a href="#" onclick="return olz.initOlzEmailModal(&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJMeFk3dlMzTXVrekZSQXEtWmJTNW13IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211eGpTMktSeDRjeHZFcGlETlEyY2ZlS0kifQ&quot;)" class="linkmail">
+                Mails: <a href="#" onclick="return olz.initOlzEmailModal(/*test-flaky(*/&quot;eyJhbGdvIjoiYWVzLTI1Ni1nY20iLCJpdiI6IlFVRkJRVUZCUVVGQlFVRkIiLCJ0YWciOiJMeFk3dlMzTXVrekZSQXEtWmJTNW13IiwiY2lwaGVydGV4dCI6IlVLMW00TlJxY2FOUWFmOWpzaThNZkVlUkc2V2h4eHZHM0NTVjJRRllyUDdnR09LSF9CVmFRRE9zbUx1cFNsUVVHcnh3bXBBYzlUSXE2N1FWbUEzRDNsYU5VdXB1RlB3XzdYV211eGpTMktSeDRjeHZFcGlETlEyY2ZlS0kifQ&quot;/*)test-flaky*/)" class="linkmail">
                     Contact me
                 </a>, <a href="#" onclick="return olz.initOlzRoleInfoModal(2)" class="linkrole">
                     Contact me

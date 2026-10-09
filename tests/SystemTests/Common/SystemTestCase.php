@@ -179,7 +179,9 @@ class SystemTestCase extends KernelTestCase {
     }
 
     protected function waitABit(): void {
+        $this->tick('waitABit');
         usleep(100 * 1000);
+        $this->tock('waitABit', 'waitABit');
     }
 
     /**
@@ -188,6 +190,7 @@ class SystemTestCase extends KernelTestCase {
     protected function waitUntil(callable $is_finished): void {
         $client = self::$client;
         $this->generalUtils()->checkNotNull($client, "Client expected");
+        $this->tick('waitUntil');
         $client->wait()->until(function () use ($is_finished) {
             try {
                 return $is_finished();
@@ -195,34 +198,41 @@ class SystemTestCase extends KernelTestCase {
                 return false;
             }
         });
+        $this->tock('waitUntil', 'waitUntil');
     }
 
     protected function waitForModal(string $css_selector): void {
+        $this->tick('waitForModal');
         $this->waitUntil(function () use ($css_selector) {
             return $this->filter($css_selector)->getCSSValue('opacity') == 1;
         });
+        $this->tock('waitForModal', 'waitForModal');
     }
 
     protected function waitUntilGone(string $css_selector): void {
         $client = self::$client;
         $this->generalUtils()->checkNotNull($client, "Client expected");
+        $this->tick('waitUntilGone');
         $this->waitUntil(function () use ($css_selector, $client) {
             $elements = $client->findElements(
                 WebDriverBy::cssSelector($css_selector)
             );
             return count($elements) === 0;
         });
+        $this->tock('waitUntilGone', 'waitUntilGone');
     }
 
     protected function waitFor(string $css_selector): void {
         $client = self::$client;
         $this->generalUtils()->checkNotNull($client, "Client expected");
+        $this->tick('waitFor');
         $this->waitUntil(function () use ($css_selector, $client) {
             $elements = $client->findElements(
                 WebDriverBy::cssSelector($css_selector)
             );
             return count($elements) === 1;
         });
+        $this->tock('waitFor', 'waitFor');
     }
 
     /** @return array<string, mixed> */
@@ -403,92 +413,40 @@ class SystemTestCase extends KernelTestCase {
     // Screenshot
 
     public function screenshot(string $name): void {
+        $client = self::$client;
+        $this->generalUtils()->checkNotNull($client, "Client expected");
         $this->waitFor('body');
         $this->tick('screenshot');
         $browser_name = self::$browser_name;
         $screenshots_path = __DIR__.'/../../../screenshots/generated/';
-        $this->pngScreenshot($screenshots_path, $name, $browser_name);
-        $this->htmlScreenshot($screenshots_path, $name, $browser_name);
-        $this->tock('screenshot', 'screenshot');
-    }
 
-    protected function pngScreenshot(string $screenshots_path, string $name, string $browser_name): void {
-        $client = self::$client;
-        $this->generalUtils()->checkNotNull($client, "Client expected");
-        $this->adjustCssForScreenshot();
-        $screenshot_filename = "{$name}-{$browser_name}.png";
-        $window_width = $this->getWindowWidth();
-        $window_height = $this->getWindowHeight();
-        $body_width = max($this->getBodyWidth(), $window_width);
-        $body_height = max($this->getBodyHeight(), $window_height);
-        $num_x = ceil($body_width / $window_width);
-        $num_y = ceil($body_height / $window_height);
-        $dest = imagecreatetruecolor(max(1, $body_width), max(1, $body_height));
-        for ($x = 0; $x < $num_x; $x++) {
-            for ($y = 0; $y < $num_y; $y++) {
-                $scroll_x = $x * $window_width;
-                $scroll_y = $y * $window_height;
-                $this->scrollTo($scroll_x, $scroll_y);
-                $path = "{$screenshots_path}{$x}-{$y}-{$screenshot_filename}";
-                $this->hideFlakyElements();
-                $client->takeScreenshot($path);
-                $scroll_x_diff = $scroll_x - $this->getScrollX();
-                $scroll_y_diff = $scroll_y - $this->getScrollY();
-                $src = imagecreatefrompng($path);
-                assert((bool) $src);
-                imagecopy($dest, $src, $scroll_x, $scroll_y, $scroll_x_diff, $scroll_y_diff, $window_width, $window_height);
-                unlink($path);
+        // Remove content that is not deterministic between two runs of the same
+        // code, so that screenshots only differ on actual changes.
+        $capture_script = <<<'ZZZZZZZZZZ'
+            for (const element of document.querySelectorAll('[data-lg-id]')) {
+                element.removeAttribute('data-lg-id');
             }
-        }
-        imagepng($dest, "{$screenshots_path}{$screenshot_filename}");
-        $this->unhideFlakyElements();
-    }
-
-    protected function adjustCssForScreenshot(): void {
-        $client = self::$client;
-        $this->generalUtils()->checkNotNull($client, "Client expected");
-        $adjust_for_pageshot = file_get_contents(__DIR__.'/adjust_for_pageshot.css');
-        $css_string = json_encode($adjust_for_pageshot);
-        $js_code = "document.head.innerHTML += '<style>'+{$css_string}+'</style>';";
-        $client->executeScript($js_code);
-    }
-
-    protected function hideFlakyElements(): void {
-        $client = self::$client;
-        $this->generalUtils()->checkNotNull($client, "Client expected");
-        $hide_flaky_code = file_get_contents(__DIR__.'/hideFlaky.js') ?: '';
-        $client->executeScript($hide_flaky_code);
-    }
-
-    protected function unhideFlakyElements(): void {
-        $client = self::$client;
-        $this->generalUtils()->checkNotNull($client, "Client expected");
-        $unhide_flaky_code = <<<'ZZZZZZZZZZ'
-            const flakyCovers = document.querySelectorAll('.flaky-cover');
-            for (let i = 0; i < flakyCovers.length; i++) {
-                document.documentElement.removeChild(flakyCovers[i]);
+            for (const element of document.querySelectorAll('.test-flaky')) {
+                const parentElement = element.parentElement;
+                parentElement.removeChild(element);
             }
+            return document.documentElement.outerHTML;
             ZZZZZZZZZZ;
-        $client->executeScript($unhide_flaky_code);
-    }
-
-    protected function htmlScreenshot(string $screenshots_path, string $name, string $browser_name): void {
-        $client = self::$client;
-        $this->generalUtils()->checkNotNull($client, "Client expected");
-        try {
-            $html = $client->executeScript("return document.documentElement.outerHTML;");
-            if (!is_string($html) || $html === '') {
-                echo "\n  Could not capture HTML screenshot {$name}!\n";
-                return;
-            }
-            if (!is_dir($screenshots_path)) {
-                mkdir($screenshots_path, 0o777, true);
-            }
-            $html = "<!DOCTYPE html>\n{$html}";
-            file_put_contents("{$screenshots_path}{$name}-{$browser_name}.html", $html);
-        } catch (\Throwable $th) {
+        $html = $client->executeScript($capture_script);
+        if (!is_string($html) || $html === '') {
             echo "\n  Could not capture HTML screenshot {$name}!\n";
+            return;
         }
+        $html = preg_replace('/(\?|\&)modified\=[0-9\-\_]+/', '?modified=TIMESTAMP', $html) ?? $html;
+        $html = preg_replace('/(\/\*\s*test\-flaky\(\s*\*\/).*(\/\*\s*\)test\-flaky\s*\*\/)/', '$1$2', $html) ?? $html;
+        $html = preg_replace('/(\<\!\-\-\s*test\-flaky\(\s*\-\-\>).*(\<\!\-\-\s*\)test\-flaky\s*\-\-\>)/', '$1$2', $html) ?? $html;
+        if (!is_dir($screenshots_path)) {
+            mkdir($screenshots_path, 0o777, true);
+        }
+        $html = "<!DOCTYPE html>\n{$html}";
+        file_put_contents("{$screenshots_path}{$name}-{$browser_name}.html", $html);
+
+        $this->tock('screenshot', 'screenshot');
     }
 
     // Timing

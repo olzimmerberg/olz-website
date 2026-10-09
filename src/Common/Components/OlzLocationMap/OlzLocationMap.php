@@ -6,6 +6,8 @@ use Olz\Common\Components\OlzComponent;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzLocationMap extends OlzComponent {
+    public static int $nonce = 0;
+
     public function getHtml(mixed $args): string {
         $xkoord = $args['xkoord'] ?? null;
         $ykoord = $args['ykoord'] ?? null;
@@ -28,8 +30,7 @@ class OlzLocationMap extends OlzComponent {
             throw new \Exception("Either xkoord/ykoord or latitude/longitude must be set in OlzLocationMap");
         }
 
-        $random = microtime(true).rand();
-        $hash = md5("{$lat}/{$lng}/{$random}");
+        $hash = md5("{$this->getNonce()}");
         $enc_hash = json_encode($hash);
         $enc_name = json_encode($name);
         $enc_lat = json_encode($lat);
@@ -56,5 +57,9 @@ class OlzLocationMap extends OlzComponent {
                 </script>
             </a>
             ZZZZZZZZZZ;
+    }
+
+    protected function getNonce(): int {
+        return self::$nonce++;
     }
 }

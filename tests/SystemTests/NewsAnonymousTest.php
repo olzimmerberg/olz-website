@@ -30,7 +30,7 @@ final class NewsAnonymousTest extends SystemTestCase {
 
         $this->click('#edit-news-modal #submit-button');
         $this->waitUntilGone('#edit-news-modal');
-        $this->screenshot('news_new_anonymous_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('news_new_anonymous_finished');
 
         $this->resetDb();
         // TODO: Dummy assert

@@ -287,7 +287,7 @@ class OlzAnniversary extends OlzRootComponent {
         $enc_script_href = json_encode($script_href) ?: '\"\"';
         $bookmark_lines = [
             "var OLZ_BASE_HREF={$enc_base_href}",
-            "var OLZ_TOKEN={$enc_token}",
+            "/*test-flaky(*/var OLZ_TOKEN={$enc_token}/*)test-flaky*/",
             "var elem=document.createElement('script')",
             "elem.src={$enc_script_href}",
             "elem.addEventListener(\"error\", function () { alert(\"🚫 OLZ-Strava-Skript konnte nicht geladen werden!\"); })",

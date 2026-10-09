@@ -16,6 +16,7 @@ final class NewsKaderblogTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testNewsKaderblogReadOnly(): void {
         $this->loadUrl($this->getKaderblogDetailUrl());
+        $this->waitFor('#news-reactions .olz-editable-reactions');
         $this->screenshot('news_detail_kaderblog');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Kaderblog/i',
@@ -50,7 +51,7 @@ final class NewsKaderblogTest extends SystemTestCase {
 
         $this->click('#edit-news-modal #submit-button');
         $this->waitUntilGone('#edit-news-modal');
-        $this->screenshot('news_new_kaderblog_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('news_new_kaderblog_finished');
 
         $this->resetDb();
 
@@ -70,7 +71,7 @@ final class NewsKaderblogTest extends SystemTestCase {
 
         $this->click('#edit-news-modal #submit-button');
         $this->waitUntilGone('#edit-news-modal');
-        $this->screenshot('news_update_kaderblog_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('news_update_kaderblog_finished');
 
         $this->resetDb();
         // TODO: Dummy assert

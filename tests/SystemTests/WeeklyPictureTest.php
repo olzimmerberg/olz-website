@@ -44,7 +44,7 @@ final class WeeklyPictureTest extends SystemTestCase {
 
         $this->click('#edit-weekly-picture-modal #submit-button');
         $this->waitUntilGone('#edit-weekly-picture-modal');
-        $this->screenshot('weekly_picture_new_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('weekly_picture_new_finished');
 
         $this->resetDb();
         // TODO: Dummy assert

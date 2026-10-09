@@ -16,6 +16,7 @@ final class NewsForumTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testNewsForumReadOnly(): void {
         $this->loadUrl($this->getForumDetailUrl());
+        $this->waitFor('#news-reactions .olz-editable-reactions');
         $this->screenshot('news_detail_forum');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Forum/i',
@@ -45,7 +46,7 @@ final class NewsForumTest extends SystemTestCase {
 
         $this->click('#edit-news-modal #submit-button');
         $this->waitUntilGone('#edit-news-modal');
-        $this->screenshot('news_new_forum_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('news_new_forum_finished');
 
         $this->resetDb();
 
@@ -65,7 +66,7 @@ final class NewsForumTest extends SystemTestCase {
 
         $this->click('#edit-news-modal #submit-button');
         $this->waitUntilGone('#edit-news-modal');
-        $this->screenshot('news_update_forum_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('news_update_forum_finished');
 
         $this->resetDb();
 

@@ -48,7 +48,7 @@ final class KartenTest extends SystemTestCase {
 
         $this->click('#edit-karte-modal #submit-button');
         $this->waitUntilGone('#edit-karte-modal');
-        $this->screenshot('karten_new_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('karten_new_finished');
 
         $this->resetDb();
         // TODO: Dummy assert

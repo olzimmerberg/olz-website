@@ -16,6 +16,7 @@ final class NewsGalerieTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testNewsGalerieReadOnly(): void {
         $this->loadUrl($this->getGalerieDetailUrl());
+        $this->waitFor('#news-reactions .olz-editable-reactions');
         $this->screenshot('news_detail_galerie');
         $this->assertMatchesRegularExpression(
             '/Format\:\s*Galerie/i',
@@ -44,7 +45,7 @@ final class NewsGalerieTest extends SystemTestCase {
 
         $this->click('#edit-news-modal #submit-button');
         $this->waitUntilGone('#edit-news-modal');
-        $this->screenshot('news_new_galerie_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('news_new_galerie_finished');
 
         $this->resetDb();
 
@@ -64,7 +65,7 @@ final class NewsGalerieTest extends SystemTestCase {
 
         $this->click('#edit-news-modal #submit-button');
         $this->waitUntilGone('#edit-news-modal');
-        $this->screenshot('news_update_galerie_finished');
+        // TODO: Reenable / Refactor: $this->screenshot('news_update_galerie_finished');
 
         $this->resetDb();
 

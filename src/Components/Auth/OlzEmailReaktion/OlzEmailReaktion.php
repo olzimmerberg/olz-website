@@ -79,7 +79,7 @@ class OlzEmailReaktion extends OlzRootComponent {
                             id='execute-reaction-button'
                             class='btn btn-danger'
                             type='submit'
-                            onclick='olz.olzExecuteEmailReaction({$js_token})'
+                            onclick='olz.olzExecuteEmailReaction(/*test-flaky(*/{$js_token}/*)test-flaky*/)'
                         >
                             Ausführen
                         </button>

@@ -18,6 +18,7 @@ final class NewsTest extends SystemTestCase {
         $this->loadUrl($this->getUrl());
         $this->screenshot('news');
         $this->loadUrl("{$this->getUrl()}/3");
+        $this->waitFor('#news-reactions .olz-editable-reactions');
         $this->screenshot('news_id_3');
 
         // TODO: Dummy assert

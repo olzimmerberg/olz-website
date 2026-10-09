@@ -137,17 +137,6 @@ class ScreenshotsController extends AbstractController {
         return new Response(json_encode(['screenshot_paths' => $screenshot_paths]) ?: '');
     }
 
-    #[Route('/screenshots/generated/{name}.png')]
-    public function screenshotPng(
-        Request $request,
-        LoggerInterface $logger,
-        EnvUtils $envUtils,
-        string $name,
-    ): Response {
-        $path = "{$envUtils->getCodePath()}screenshots/generated/{$name}.png";
-        return new BinaryFileResponse($path);
-    }
-
     #[Route('/screenshots/generated/{name}.html')]
     public function screenshot(
         Request $request,

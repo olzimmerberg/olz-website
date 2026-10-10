@@ -1,6 +1,6 @@
 .content-middle {
   height: 100%;
-  margin: 14px 0 0;
+  margin: 10px 0 0;
   padding: 0 10px 10px;
   position: relative;
 }
@@ -9,7 +9,7 @@
   float: none;
   height: 100%;
   width: auto;
-  margin: 14px 0 0;
+  margin: 10px 0 0;
   padding: 0 10px 10px;
 
   &.optional,
@@ -20,14 +20,14 @@
 
 .content-full {
   height: 100%;
-  margin: 14px 0 0;
+  margin: 10px 0 0;
   padding: 0 10px 10px;
   position: relative;
 }
 
 @media screen and (min-width: 832px) {
   .content-middle {
-    margin: 0 300px 0 0;
+    margin: 10px 300px 0 0;
   }
 
   .content-right {
@@ -44,10 +44,10 @@
 
 @media screen and (min-width: 1024px) {
   .content-middle {
-    margin: 14px 300px 0 180px;
+    margin: 10px 300px 0 180px;
   }
 
   .content-full {
-    margin: 14px 0 0 180px;
+    margin: 10px 0 0 180px;
   }
 }

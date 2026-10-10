@@ -11,7 +11,6 @@ use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminNotification;
-use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
@@ -152,13 +151,7 @@ class OlzTerminDetail extends OlzRootComponent {
             'canonical_url' => "{$code_href}termine/{$id}",
         ]);
 
-        $out .= <<<'ZZZZZZZZZZ'
-            <div class='content-right optional'>
-                <div style='padding:4px 3px 10px 3px;'>
-                </div>
-            </div>
-            <div class='content-middle'>
-            ZZZZZZZZZZ;
+        $out .= "<div class='content-full'>";
 
         $start_date = $termin->getStartDate();
         $end_date = $termin->getEndDate() ?? null;
@@ -222,27 +215,18 @@ class OlzTerminDetail extends OlzRootComponent {
                 'zoom' => 13,
             ]);
         }
-        // Date Calendar Icon
-        $out .= "<div class='date-calendar-container'>";
-        $out .= "<div class='date-calendars'>";
-        $out .= "<div class='date-calendar'>";
-        $out .= OlzDateCalendar::render(['date' => $start_date]);
-        $out .= $this->getTimeText($start_time) ?? '';
-        $out .= ($end_time && (!$end_date || $end_date === $start_date))
-            ? ' &ndash; '.$this->getTimeText($end_time)
-            : '';
-        $out .= "</div>";
-        $out .= "<div class='date-calendar'>";
-        $out .= ($end_date && $end_date !== $start_date)
-            ? OlzDateCalendar::render(['date' => $end_date])
-            : '';
-        $out .= ($end_time && $end_date && $end_date !== $start_date)
-            ? $this->getTimeText($end_time)
-            : '';
-        $out .= "</div>";
-        $out .= "</div>";
-        $out .= "</div>";
-
+        // Date & Title
+        $pretty_date = $this->dateUtils()->formatDateTimeRange(
+            $start_date->format('Y-m-d'),
+            $start_time?->format('H:i:s'),
+            $end_date?->format('Y-m-d'),
+            $end_time?->format('H:i:s'),
+            $format = 'long',
+        );
+        $out .= "<div class='title-date-container'>";
+        $esc_title = htmlspecialchars($title);
+        $out .= "<h1>{$esc_title}</h1>";
+        $out .= "<h4>{$pretty_date}</h4>";
         $out .= "</div>";
 
         // Editing Tools
@@ -254,10 +238,10 @@ class OlzTerminDetail extends OlzRootComponent {
         if ($can_edit) {
             $json_id = json_encode($id);
             $out .= <<<ZZZZZZZZZZ
-                <div>
+                <div class='actions-container'>
                     <button
                         id='edit-termin-button'
-                        class='btn btn-primary'
+                        class='btn btn-outline-light'
                         onclick='return olz.editTermin({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
@@ -279,19 +263,8 @@ class OlzTerminDetail extends OlzRootComponent {
                 ZZZZZZZZZZ;
         }
 
-        // Date & Title
-        $pretty_date = $this->dateUtils()->formatDateTimeRange(
-            $start_date->format('Y-m-d'),
-            $start_time?->format('H:i:s'),
-            $end_date?->format('Y-m-d'),
-            $end_time?->format('H:i:s'),
-            $format = 'long',
-        );
-        $maybe_solv_link = '';
-        if ($solv_uid) {
-            // SOLV-Übersicht-Link zeigen
-            $maybe_solv_link .= "<a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id={$solv_uid}' target='_blank' class='linkol' style='margin-left: 20px; font-weight: normal;'>O-L.ch</a>\n";
-        }
+        $out .= "</div>"; // preview
+
         $labels_html = implode('', array_map(function (TerminLabel $label) use ($code_path, $code_href) {
             $ident = $label->getIdent();
             $serialized_filter = $this->termineUtils()->serialize([
@@ -303,18 +276,23 @@ class OlzTerminDetail extends OlzRootComponent {
             $fallback_href = is_file($fallback_path)
                 ? "{$code_href}assets/icns/termine_type_{$ident}_20.svg" : null;
             $icon_href = $label->getIcon() ? $label->getFileHref($label->getIcon()) : $fallback_href;
+            $esc_name = htmlspecialchars($label->getName());
             return $icon_href ? <<<ZZZZZZZZZZ
                 <a href='{$code_href}termine?filter={$serialized_filter}' class='filter'>
-                    <img src='{$icon_href}' alt='' class='type-icon'>{$label->getName()}
+                    <img src='{$icon_href}' alt='' class='type-icon'>{$esc_name}
                 </a>
                 ZZZZZZZZZZ : '';
         }, $labels));
-        $out .= "<h5>{$pretty_date}{$maybe_solv_link}</h5>";
-        $out .= "<h1>{$title}</h1>";
         $out .= "<div class='filters'>{$labels_html}</div>";
+
         if ($organizer) {
             $pretty_organizer = OlzUserInfoModal::render(['user' => $organizer]);
             $out .= "<div>Organisator: {$pretty_organizer}</div><br>";
+        }
+
+        if ($solv_uid) {
+            // SOLV-Übersicht-Link zeigen
+            $out .= "<h4><a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id={$solv_uid}' target='_blank' class='linkol'>O-L.ch</a></h4>\n";
         }
 
         // Text
@@ -350,9 +328,10 @@ class OlzTerminDetail extends OlzRootComponent {
         // Karte zeigen
         if ($has_location) {
             if ($location_name !== null) {
-                $location_maybe_link = $location_name;
+                $esc_location_name = htmlspecialchars($location_name);
+                $location_maybe_link = $esc_location_name;
                 if ($this->authUtils()->hasPermission('termine')) {
-                    $location_maybe_link = "<a href='{$code_href}termine/orte/{$termin_location->getId()}' class='linkmap'>{$location_name}</a>";
+                    $location_maybe_link = "<a href='{$code_href}termine/orte/{$termin_location->getId()}' class='linkmap'>{$esc_location_name}</a>";
                 }
                 $out .= "<h3>Ort: {$location_maybe_link}</h3>";
             } else {
@@ -428,11 +407,11 @@ class OlzTerminDetail extends OlzRootComponent {
                         $termin_notification->getFiresEarlierSeconds()
                     );
                     $pretty_recipients = implode('', array_map(
-                        fn ($recipient) => "<div>{$recipient}</div>",
+                        fn ($recipient) => "<div>".htmlspecialchars($recipient)."</div>",
                         $this->termineUtils()->formatNotificationRecipients($termin_notification),
                     ));
                     $out .= "<td>{$row_admin}{$pretty_fires_earlier} vorher</td>";
-                    $out .= "<td><b>{$termin_notification->getTitle()}</b></td>";
+                    $out .= "<td><b>".htmlspecialchars($termin_notification->getTitle())."</b></td>";
                     $out .= "<td>{$pretty_recipients}</td>";
                     $out .= "</tr>";
                 }
@@ -442,7 +421,7 @@ class OlzTerminDetail extends OlzRootComponent {
         }
 
         $out .= "</div>"; // olz-termin-detail
-        $out .= "</div>"; // content-middle
+        $out .= "</div>"; // content-full
 
         $out .= OlzFooter::render();
 
@@ -455,12 +434,5 @@ class OlzTerminDetail extends OlzRootComponent {
             'id' => $id,
             'on_off' => 1,
         ]);
-    }
-
-    protected function getTimeText(?\DateTime $time): ?string {
-        if (!$time || $time->format('H:i:s') === '00:00:00') {
-            return null;
-        }
-        return $time->format('H:i');
     }
 }

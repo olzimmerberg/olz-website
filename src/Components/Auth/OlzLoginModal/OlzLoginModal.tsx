@@ -4,7 +4,7 @@ import {olzApi, OlzApiRequests} from '../../../Api/client';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {initOlzEditUserModal} from '../../../Users/Components/OlzEditUserModal/OlzEditUserModal';
 import {user} from '../../../Utils/constants';
-import {getApiBoolean, getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
 import {initOlzResetPasswordModal} from '../OlzResetPasswordModal/OlzResetPasswordModal';
 
 import './OlzLoginModal.scss';
@@ -12,7 +12,6 @@ import './OlzLoginModal.scss';
 interface OlzLoginForm {
     usernameOrEmail: string;
     password: string;
-    rememberMe: string | boolean;
 }
 
 const resolver: Resolver<OlzLoginForm> = async (values) => {
@@ -27,14 +26,12 @@ function getApiFromForm(formData: OlzLoginForm): OlzApiRequests['login'] {
     return {
         usernameOrEmail: getApiString(formData.usernameOrEmail) ?? '',
         password: getApiString(formData.password) ?? '',
-        rememberMe: getApiBoolean(formData.rememberMe) ?? 0,
     };
 }
 
 // ---
 
 interface OlzLoginModalProps {
-    autoSubmitAutoFilled?: boolean;
     onSubmit?: () => void;
 }
 
@@ -44,7 +41,6 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
         defaultValues: {
             usernameOrEmail: '',
             password: '',
-            rememberMe: false,
         },
     });
 
@@ -66,39 +62,18 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
             setStatus({id: 'SUBMIT_FAILED', message: `Fehler: ${err?.message} (Antwort: ${response?.status}).`});
             return;
         }
-        if (data.rememberMe) {
-            localStorage.setItem('OLZ_AUTO_LOGIN', data.usernameOrEmail);
-        } else {
-            localStorage.removeItem('OLZ_AUTO_LOGIN');
-        }
+        localStorage.setItem('OLZ_AUTO_LOGIN', data.usernameOrEmail);
         setStatus({id: 'SUBMITTED', message: 'Login erfolgreich. Bitte warten...'});
         // This could probably be done more smoothly!
         props.onSubmit?.();
     };
 
     React.useEffect(() => {
-        if (props.autoSubmitAutoFilled) {
-            const usernameOrEmail = localStorage.getItem('OLZ_AUTO_LOGIN');
-            setValue('rememberMe', 'yes');
-            setValue('usernameOrEmail', usernameOrEmail ?? '');
-            const timeoutId = setTimeout(() => {
-                // Necessary, because react-hook-form's `watch` does not work.
-                const passwordElem = document.getElementById('password-input');
-                const passwordValue = (passwordElem as HTMLInputElement).value;
-                if (passwordValue) {
-                    onSubmit({
-                        usernameOrEmail: usernameOrEmail ?? '',
-                        password: passwordValue,
-                        rememberMe: 'yes',
-                    });
-                }
-            }, 100);
-            return () => {
-                clearTimeout(timeoutId);
-            };
+        const usernameOrEmail = localStorage.getItem('OLZ_AUTO_LOGIN');
+        if (usernameOrEmail) {
+            setValue('usernameOrEmail', usernameOrEmail);
         }
-        return () => undefined;
-    }, [props.autoSubmitAutoFilled]);
+    }, [setValue]);
 
     const dialogTitle = 'Login';
 
@@ -130,7 +105,17 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
                 {usernameErrorComponent}
             </div>
             <div className='mb-3'>
-                <label htmlFor='current-password'>Passwort</label>
+                <label htmlFor='current-password'>
+                    Passwort
+                    <a
+                        id='reset-password-link'
+                        href='#'
+                        data-bs-dismiss='modal'
+                        onClick={() => initOlzResetPasswordModal()}
+                    >
+                        Vergessen?
+                    </a>
+                </label>
                 <input
                     type='password'
                     {...register('password')}
@@ -140,28 +125,7 @@ export const OlzLoginModal = (props: OlzLoginModalProps): React.ReactElement => 
                 />
                 {passwordErrorComponent}
             </div>
-            <div className='mb-3 rememberMe-row'>
-                <input
-                    type='checkbox'
-                    value='yes'
-                    {...register('rememberMe')}
-                    id='rememberMe-input'
-                />
-                <label htmlFor='rememberMe-input'>
-                    Eingeloggt bleiben
-                </label>
-            </div>
-            <div className='mb-3'>
-                <a
-                    id='reset-password-link'
-                    href='#'
-                    data-bs-dismiss='modal'
-                    onClick={() => initOlzResetPasswordModal()}
-                >
-                    Passwort vergessen?
-                </a>
-            </div>
-            <div className='mb-3'>
+            <div className='sign-up-container'>
                 <a
                     id='sign-up-link'
                     href='#'
@@ -211,7 +175,6 @@ export function login(props: OlzLoginModalProps): Promise<void> {
             });
             modalElem.addEventListener('hidden.bs.modal', () => {
                 maybeRemoveLoginModalHash();
-                localStorage.removeItem('OLZ_AUTO_LOGIN');
                 if (!isResolved) {
                     reject(new Error('Login abgebrochen'));
                 }
@@ -229,7 +192,7 @@ function maybeRemoveLoginModalHash() {
 window.addEventListener('load', () => {
     const usernameOrEmail = localStorage.getItem('OLZ_AUTO_LOGIN');
     if (!user?.username && usernameOrEmail) {
-        loginAndReload({autoSubmitAutoFilled: true});
+        loginAndReload({});
     }
 
     const openLoginDialogIfHash = () => {

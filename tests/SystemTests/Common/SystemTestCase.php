@@ -350,7 +350,6 @@ class SystemTestCase extends KernelTestCase {
         $esc_request = json_encode([
             'usernameOrEmail' => $username,
             'password' => $password,
-            'rememberMe' => false,
         ]);
         $get_params = "?request={$esc_request}";
         $this->getClient()->get("{$this->getTargetUrl()}{$this::$login_api_url}{$get_params}");

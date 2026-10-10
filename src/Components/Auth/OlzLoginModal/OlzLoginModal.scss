@@ -1,10 +1,9 @@
 #login-modal {
-    .rememberMe-row {
-        display: flex;
-        flex-direction: row;
+    #reset-password-link {
+        margin-left: 16px;
     }
 
-    #rememberMe-input {
-        margin-right: 10px;
+    .sign-up-container {
+        margin-top: 24px;
     }
 }

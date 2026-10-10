@@ -4,9 +4,9 @@ export type Olz_Api_OlzTypedEndpoint4164b4d1d24dc38f611fd8292b3f625e_Request = {
 
 export type Olz_Api_OlzTypedEndpoint4164b4d1d24dc38f611fd8292b3f625e_Response = (Record<string, never> | null);
 
-export type Olz_Api_OlzTypedEndpoint7531943200fb44bf407e2f66cfaf55e1_Request = {'usernameOrEmail': string, 'password': string, 'rememberMe': boolean};
+export type Olz_Api_OlzTypedEndpoint7dcedd7c434bfa1a721f8921f8855d6f_Request = {'usernameOrEmail': string, 'password': string};
 
-export type Olz_Api_OlzTypedEndpoint7531943200fb44bf407e2f66cfaf55e1_Response = {'status': ('AUTHENTICATED' | 'INVALID_CREDENTIALS' | 'BLOCKED'), 'numRemainingAttempts': (number | null)};
+export type Olz_Api_OlzTypedEndpoint7dcedd7c434bfa1a721f8921f8855d6f_Response = {'status': ('AUTHENTICATED' | 'INVALID_CREDENTIALS' | 'BLOCKED'), 'numRemainingAttempts': (number | null)};
 
 export type Olz_Api_OlzTypedEndpoint7b376aaa84e28c6a90e673850719b9d5_Request = {'usernameOrEmail': string, 'captchaToken': string};
 
@@ -1998,7 +1998,7 @@ type OlzApiEndpointMapping = {[key in OlzApiEndpoint]: unknown};
 
 export interface OlzApiRequests extends OlzApiEndpointMapping {
     onContinuously: Olz_Api_OlzTypedEndpoint4164b4d1d24dc38f611fd8292b3f625e_Request,
-    login: Olz_Api_OlzTypedEndpoint7531943200fb44bf407e2f66cfaf55e1_Request,
+    login: Olz_Api_OlzTypedEndpoint7dcedd7c434bfa1a721f8921f8855d6f_Request,
     resetPassword: Olz_Api_OlzTypedEndpoint7b376aaa84e28c6a90e673850719b9d5_Request,
     switchUser: Olz_Api_OlzTypedEndpoint829e19faa8eaa4462ec42721016d7672_Request,
     logout: Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Request,
@@ -2138,7 +2138,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
 
 export interface OlzApiResponses extends OlzApiEndpointMapping {
     onContinuously: Olz_Api_OlzTypedEndpoint4164b4d1d24dc38f611fd8292b3f625e_Response,
-    login: Olz_Api_OlzTypedEndpoint7531943200fb44bf407e2f66cfaf55e1_Response,
+    login: Olz_Api_OlzTypedEndpoint7dcedd7c434bfa1a721f8921f8855d6f_Response,
     resetPassword: Olz_Api_OlzTypedEndpoint7b376aaa84e28c6a90e673850719b9d5_Response,
     switchUser: Olz_Api_OlzTypedEndpoint829e19faa8eaa4462ec42721016d7672_Response,
     logout: Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Response,

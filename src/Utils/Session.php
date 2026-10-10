@@ -17,7 +17,7 @@ class Session extends AbstractSession {
             $this->clear();
         }
 
-        $timeout = $config['timeout'] ?? 3600;
+        $timeout = $config['timeout'] ?? 2419200; // keep one month
         ini_set('session.gc_maxlifetime', $timeout);
         session_set_cookie_params($timeout);
 

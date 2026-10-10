@@ -10,15 +10,17 @@ class OlzUserInfoModal extends OlzComponent {
         $user = $args['user'];
         $mode = $args['mode'] ?? 'name';
         $user_id = intval($user->getId());
+        $esc_full_name = htmlspecialchars($user->getFullName());
 
         if ($mode == 'name') {
             return <<<ZZZZZZZZZZ
                 <a
                     href='#'
+                    title='{$esc_full_name}'
                     onclick='return olz.initOlzUserInfoModal({$user_id})'
                     class='olz-user-info-modal-trigger name'
                 >
-                    {$user->getFullName()}
+                    {$esc_full_name}
                 </a>
                 ZZZZZZZZZZ;
         }
@@ -34,7 +36,7 @@ class OlzUserInfoModal extends OlzComponent {
                     class='olz-user-info-modal-trigger'
                 >
                     {$img_html}
-                    <div class='name'>{$user->getFullName()}</div>
+                    <div title='{$esc_full_name}' class='name'>{$esc_full_name}</div>
                 </a>
                 ZZZZZZZZZZ;
         }

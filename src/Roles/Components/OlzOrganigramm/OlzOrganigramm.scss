@@ -87,5 +87,11 @@
     .olz-user-info-modal-trigger {
         display: block;
         margin: 1px;
+
+        &.name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }

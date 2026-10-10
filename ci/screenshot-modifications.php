@@ -306,7 +306,7 @@ foreach (array_keys($all_screenshots) as $screenshot_name) {
             $change = 'MODIFIED';
             $remote_file = $remote_screenshot_files[$screenshot_name] ?? "{$screenshot_name}.html";
             $local_file = $local_screenshot_files[$screenshot_name] ?? "{$screenshot_name}.html";
-            $diff = render_unified_diff(
+            $diff .= render_unified_diff(
                 split_into_lines($remote_screenshot),
                 split_into_lines($local_screenshot),
                 "main: screenshots/generated/{$remote_file}",

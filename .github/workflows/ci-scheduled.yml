@@ -6,25 +6,6 @@ on:
 name: CI:scheduled
 jobs:
 
-  backup:
-    name: Backup
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create backup
-      uses: nick-fields/retry@v2
-      env:
-        TOKEN: ${{ secrets.OLZ_BOT_TOKEN_PROD }}
-      with:
-        timeout_minutes: 10
-        max_attempts: 7
-        retry_wait_seconds: 11
-        command: mkdir backup; wget --tries=5 -O backup/prod.sql.crypt.json "https://olzimmerberg.ch/api/executeCommand?access_token=$TOKEN&request={%22command%22:%22olz:db-backup%22,%22argv%22:null}"
-    - name: Store backup
-      uses: actions/upload-artifact@v4
-      with:
-        name: backup
-        path: backup/*
-
   run-tests:
     strategy:
       matrix:

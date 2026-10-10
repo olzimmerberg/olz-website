@@ -194,7 +194,11 @@ class DevDataUtils {
         return $output->fetch();
     }
 
-    public function printDbBackup(string $key): void {
+    /**
+     * Writes an encrypted, self-contained database backup to the given file.
+     * The file can be decrypted with tools/decrypt_backup/decrypt_backup.php.
+     */
+    public function writeDbBackup(string $key, string $file_path): void {
         if (!$key || strlen($key) < 10) {
             throw new \Exception("No valid key");
         }
@@ -233,26 +237,26 @@ class DevDataUtils {
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algo) ?: 0);
         fwrite($cipher_fp, openssl_encrypt(file_get_contents($plain_path) ?: '', $algo, $key, OPENSSL_RAW_DATA, $iv, $tag) ?: '');
         fclose($cipher_fp);
-
         unlink($plain_path);
 
-        echo json_encode([
+        $file_fp = fopen($file_path, 'w+');
+        assert((bool) $file_fp);
+        fwrite($file_fp, json_encode([
             'algo' => $algo,
             'iv' => base64_encode($iv),
             'tag' => base64_encode($tag),
-        ]);
-        echo "\n\n";
-
+        ]) ?: '{}');
+        fwrite($file_fp, "\n\n");
         $cipher_fp = fopen($cipher_path, 'r');
         assert((bool) $cipher_fp);
         while (!feof($cipher_fp)) {
-            $plain = fread($cipher_fp, 57 * 143);
-            $encoded = base64_encode($plain ?: '');
-            $encoded = chunk_split($encoded, 76, "\r\n");
-            echo $encoded;
+            $chunk = fread($cipher_fp, 57 * 143);
+            $encoded = base64_encode($chunk ?: '');
+            $splitted = chunk_split($encoded, 76, "\r\n");
+            fwrite($file_fp, $splitted);
         }
         fclose($cipher_fp);
-
+        fclose($file_fp);
         unlink($cipher_path);
     }
 

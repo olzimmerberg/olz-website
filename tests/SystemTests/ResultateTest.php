@@ -46,6 +46,10 @@ final class ResultateTest extends SystemTestCase {
         $this->assertSame('OL-Training', $this->filter('#title-box #title')->text(''));
 
         $this->resetDb();
+
+        unlink(__DIR__.'/../../public/results/_live.json');
+        unlink(__DIR__.'/../../public/results/system-test.xml');
+
         // TODO: Dummy assert
         $this->assertDirectoryExists(__DIR__);
     }

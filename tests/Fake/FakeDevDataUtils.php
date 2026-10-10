@@ -36,7 +36,7 @@ class FakeDevDataUtils extends DevDataUtils {
         return 'fake output';
     }
 
-    public function printDbBackup(string $key): void {
-        $this->commands_called[] = ['printDbBackup', $key];
+    public function writeDbBackup(string $key, string $file_path): void {
+        $this->commands_called[] = ['writeDbBackup', $key, $file_path];
     }
 }

@@ -11,7 +11,6 @@ use Olz\Exceptions\InvalidCredentialsException;
  *   array{
  *     usernameOrEmail: non-empty-string,
  *     password: non-empty-string,
- *     rememberMe: bool,
  *   },
  *   array{
  *     status: 'AUTHENTICATED'|'INVALID_CREDENTIALS'|'BLOCKED',
@@ -23,7 +22,6 @@ class LoginEndpoint extends OlzTypedEndpoint {
     protected function handle(mixed $input): mixed {
         $username_or_email = trim($input['usernameOrEmail']);
         $password = $input['password'];
-        $remember_me = $input['rememberMe'];
 
         try {
             $user = $this->authUtils()->authenticate($username_or_email, $password);
@@ -44,7 +42,7 @@ class LoginEndpoint extends OlzTypedEndpoint {
         $this->entityManager()->flush();
 
         $this->session()->resetConfigure([
-            'timeout' => $remember_me ? 2419200 : 3600, // a month / an hour
+            'timeout' => 2419200, // always a month
         ]);
 
         $this->authUtils()->setSessionUser($user);

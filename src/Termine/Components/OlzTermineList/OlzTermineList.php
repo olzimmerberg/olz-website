@@ -80,7 +80,7 @@ class OlzTermineList extends OlzRootComponent {
             $is_backfill = empty($params['filter']);
             $this->httpUtils()->redirect(
                 "{$code_href}termine?filter={$serialized_filter}",
-                $is_backfill ? 308 : 410,
+                ['status' => $is_backfill ? 308 : 410, 'no_cache' => true],
             );
         }
 

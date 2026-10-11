@@ -13,17 +13,27 @@ use Olz\Tests\SystemTests\Common\SystemTestCase;
  * @coversNothing
  */
 final class TermineTest extends SystemTestCase {
-    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging', 'prod'])]
+    #[OnlyInModes(['prod'])]
+    public function testTermineProd(): void {
+        $this->loadUrl($this->getUrl());
+
+        $this->click('#filter-type-training');
+        $last_year = intval(date('Y')) - 1;
+        $this->click("#filter-date-{$last_year}");
+        $this->click('.olz-termine-list-item:nth-of-type(2) .link');
+        $this->waitFor('#termin-reactions .olz-editable-reactions');
+        $this->waitABit();
+        $this->waitFor('#reaction-button-undefined-👍');
+        $this->assertMatchesRegularExpression("/Trainings/", $this->filter('.filters')->getText());
+    }
+
+    #[OnlyInModes(['dev_rw', 'staging_rw', 'dev', 'staging'])]
     public function testTermineReadOnly(): void {
         $this->loadUrl($this->getUrl());
         $this->screenshot('termine');
 
         $this->click('#filter-type-training');
-        if ($this::isInModes('prod')) {
-            $this->click('#filter-date-'.date('Y')); // prod does not have fake data from 2020...
-        } else {
-            $this->click('#filter-date-2020');
-        }
+        $this->click('#filter-date-2020');
         $this->screenshot('termine_past');
 
         $this->loadUrl($this->getDetailUrl());

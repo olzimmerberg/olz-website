@@ -81,7 +81,7 @@ class OlzRoleDetail extends OlzRootComponent {
             $old_role = $role_repo->findOneBy(['old_username' => $role_username, 'on_off' => 1]);
             if ($old_role) {
                 $redirect_url = "{$code_href}verein/{$old_role->getUsername()}";
-                $this->httpUtils()->redirect($redirect_url, 308);
+                $this->httpUtils()->redirect($redirect_url, ['status' => 308]);
                 throw new \Exception('should already have terminated');
             }
             $this->httpUtils()->dieWithHttpError(404);

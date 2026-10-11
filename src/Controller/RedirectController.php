@@ -19,7 +19,7 @@ class RedirectController extends AbstractController {
     ): Response {
         $query_string = $request->getQueryString();
         $url = $query_string ? "/?{$query_string}" : '/';
-        $http_utils->redirect($url, 410);
+        $http_utils->redirect($url, ['status' => 410]);
         return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'underscore_index']);
     }
 }

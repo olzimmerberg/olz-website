@@ -88,12 +88,42 @@ class SystemTestCase extends KernelTestCase {
     protected function loadUrl(string $url): void {
         $client = $this->getClient();
         $client->get($url);
-        for ($i = 0; $i < 30; $i++) {
-            if ($client->getTitle() === 'One moment, please...') {
-                echo "Waiting one moment...\n";
-                $client->wait(1);
+        $this->waitUntilBotCheckPassed();
+    }
+
+    /**
+     * The hoster shows an anti-bot interstitial ("One moment, please...")
+     * before serving the actual page. Wait for it to clear, simulating some
+     * human-like mouse movement in the meantime.
+     */
+    private function waitUntilBotCheckPassed(): void {
+        $client = $this->getClient();
+        for ($i = 0; $i < 300; $i++) {
+            $is_waiting_page = $client->getTitle() === 'One moment, please...';
+            $redirect_links = $client->findElements(WebDriverBy::cssSelector('#redirect-link'));
+            if ($i % 10 === 9) {
+                echo "Waiting for page...\n";
+            }
+            if ($is_waiting_page || count($redirect_links) > 0) {
+                $client->wait(0, 100);
+            } else {
+                return;
+            }
+            try {
+                $this->simulateMouseMovement($i);
+            } catch (\Throwable $th) {
+                echo "Mouse movement failed: {$th->getMessage()}\n";
             }
         }
+        echo "Bot check did not clear within 30s.\n";
+    }
+
+    private function simulateMouseMovement(int $step): void {
+        // Move the mouse to a different position each time, to simulate a human
+        // interacting with the anti-bot interstitial.
+        $x = (($step * 137) % 600) - 300; // -300 .. 299
+        $y = (($step * 71) % 400) - 200; // -200 .. 199
+        $this->getClient()->getMouse()->mouseMoveTo('body', $x, $y);
     }
 
     protected function getTitle(): string {

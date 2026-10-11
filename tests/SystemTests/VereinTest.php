@@ -42,6 +42,7 @@ final class VereinTest extends SystemTestCase {
             $this->click('#role-1 .olz-user-info-modal-trigger');
             $this->waitForModal('#user-info-modal');
             $this->click('#user-info-modal #captcha-dev');
+            $this->waitUntil(fn () => $this->filter('#user-info-modal .container')->text('') !== 'Lädt...');
             $this->assertCount(0, $this->filter('#user-info-modal img.avatar'));
             $this->assertCount(0, $this->filter('#user-info-modal h3'));
             $this->assertCount(0, $this->filter('#user-info-modal a.linkmail'));

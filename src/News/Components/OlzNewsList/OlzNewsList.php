@@ -77,7 +77,7 @@ class OlzNewsList extends OlzRootComponent {
             $is_backfill = empty($params['filter']) || empty($params['seite']);
             $this->httpUtils()->redirect(
                 "{$code_href}news?filter={$serialized_filter}&seite={$page_number}",
-                $is_backfill ? 308 : 410,
+                ['status' => $is_backfill ? 308 : 410, 'no_cache' => true],
             );
         }
 

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Utils;
 
+use Olz\Entity\AccessToken;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
+use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\AuthUtils;
 use Olz\Utils\WithUtilsCache;
@@ -713,5 +715,187 @@ final class AuthUtilsTest extends UnitTestCase {
         $passowrd_hash = password_hash('strong', PASSWORD_DEFAULT);
         $this->assertTrue($auth_utils->verifyPassword('strong', $passowrd_hash));
         $this->assertFalse($auth_utils->verifyPassword('wrong', $passowrd_hash));
+    }
+
+    public function testIssueRefreshToken(): void {
+        $auth_utils = new FakeAuthUtils();
+        $entity_manager = WithUtilsCache::get('entityManager');
+
+        $raw_token = $auth_utils->issueRefreshToken(FakeUser::adminUser());
+
+        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9_-]{43}$/', $raw_token);
+        $this->assertCount(1, $entity_manager->flushed_persisted);
+        $access_token = $entity_manager->flushed_persisted[0];
+        $this->assertInstanceOf(AccessToken::class, $access_token);
+        $this->assertSame('refresh', $access_token->getPurpose());
+        $this->assertSame(hash('sha256', $raw_token), $access_token->getToken());
+        $this->assertNotSame($raw_token, $access_token->getToken());
+        $this->assertSame(FakeUser::adminUser(), $access_token->getUser());
+        $this->assertSame('2021-03-13 19:30:00', $access_token->getExpiresAt()?->format('Y-m-d H:i:s'));
+    }
+
+    public function testCreateRefreshTokenCookie(): void {
+        $auth_utils = new FakeAuthUtils();
+
+        $cookie = $auth_utils->createRefreshTokenCookie('raw-token');
+
+        $this->assertSame('olz_refresh_token', $cookie->getName());
+        $this->assertSame('raw-token', $cookie->getValue());
+        $this->assertSame('/', $cookie->getPath());
+        $this->assertTrue($cookie->isHttpOnly());
+        $this->assertTrue($cookie->isSecure());
+        $this->assertSame('lax', $cookie->getSameSite());
+    }
+
+    public function testCreateClearingRefreshTokenCookie(): void {
+        $auth_utils = new FakeAuthUtils();
+
+        $cookie = $auth_utils->createRefreshTokenCookie(null);
+
+        $this->assertSame('', $cookie->getValue());
+        $this->assertLessThan(time(), $cookie->getExpiresTime());
+    }
+
+    public function testRevokeAllRefreshTokens(): void {
+        $auth_utils = new FakeAuthUtils();
+        $user = FakeUser::adminUser();
+        $token1 = $this->createRefreshToken('token-1', $user, '2021-01-01 00:00:00');
+        $token2 = $this->createRefreshToken('token-2', $user, '2021-01-01 00:00:00');
+        $this->mockRefreshTokens([$token1, $token2]);
+        $entity_manager = WithUtilsCache::get('entityManager');
+
+        $auth_utils->revokeAllRefreshTokens($user);
+
+        $this->assertSame([$token1, $token2], $entity_manager->flushed_removed);
+    }
+
+    public function testRefreshSessionFromRefreshToken(): void {
+        $user = FakeUser::adminUser();
+        $access_token = $this->createRefreshToken('raw-token', $user, '2021-01-01 00:00:00');
+        $this->mockRefreshTokens([$access_token]);
+        $auth_utils = new AuthUtils();
+
+        $new_raw_token = $auth_utils->refreshSessionFromRefreshToken('raw-token');
+
+        $this->assertIsString($new_raw_token);
+        $this->assertNotSame('raw-token', $new_raw_token);
+        $this->assertSame(hash('sha256', 'raw-token'), $access_token->getOldToken());
+        $this->assertSame(hash('sha256', $new_raw_token), $access_token->getToken());
+        $this->assertSame('2020-03-13 19:30:00', $access_token->getRotatedAt()?->format('Y-m-d H:i:s'));
+        $this->assertSame('2021-03-13 19:30:00', $access_token->getExpiresAt()?->format('Y-m-d H:i:s'));
+        $this->assertSame('admin', WithUtilsCache::get('session')->get('user'));
+        $this->assertSame('admin', WithUtilsCache::get('session')->get('auth_user'));
+    }
+
+    public function testRefreshSessionFromRefreshTokenWithExistingSession(): void {
+        WithUtilsCache::get('session')->session_storage = ['user' => 'admin'];
+        $auth_utils = new AuthUtils();
+
+        $result = $auth_utils->refreshSessionFromRefreshToken('raw-token');
+
+        $this->assertNull($result);
+        $this->assertSame(['user' => 'admin'], WithUtilsCache::get('session')->session_storage);
+    }
+
+    public function testRefreshSessionFromRefreshTokenWithoutToken(): void {
+        $auth_utils = new AuthUtils();
+
+        try {
+            $auth_utils->refreshSessionFromRefreshToken(null);
+            $this->fail('Exception expected.');
+        } catch (\Exception $exc) {
+            // expected
+        }
+
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
+    }
+
+    public function testRefreshSessionFromRefreshTokenWithExpiredToken(): void {
+        $user = FakeUser::adminUser();
+        $access_token = $this->createRefreshToken('raw-token', $user, '2020-01-01 00:00:00');
+        $this->mockRefreshTokens([$access_token]);
+        $auth_utils = new AuthUtils();
+        $entity_manager = WithUtilsCache::get('entityManager');
+
+        try {
+            $auth_utils->refreshSessionFromRefreshToken('raw-token');
+            $this->fail('Exception expected.');
+        } catch (\Exception $exc) {
+            // expected
+        }
+
+        $this->assertSame([$access_token], $entity_manager->flushed_removed);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
+    }
+
+    public function testRefreshSessionFromRefreshTokenWithPreviousTokenWithinGrace(): void {
+        $user = FakeUser::adminUser();
+        $access_token = $this->createRefreshToken('raw-token', $user, '2021-01-01 00:00:00');
+        $access_token->setOldToken(hash('sha256', 'old-token'));
+        // Fake "now" is 2020-03-13 19:30:00; the grace period is one minute.
+        $access_token->setRotatedAt(new \DateTime('2020-03-13 19:29:30'));
+        $this->mockRefreshTokens([$access_token]);
+        $auth_utils = new AuthUtils();
+
+        $result = $auth_utils->refreshSessionFromRefreshToken('old-token');
+
+        $this->assertNull($result);
+        $this->assertSame('admin', WithUtilsCache::get('session')->get('user'));
+        // The token is not rotated again.
+        $this->assertSame(hash('sha256', 'raw-token'), $access_token->getToken());
+    }
+
+    public function testRefreshSessionFromRefreshTokenWithPreviousTokenAfterGrace(): void {
+        $user = FakeUser::adminUser();
+        $access_token = $this->createRefreshToken('raw-token', $user, '2021-01-01 00:00:00');
+        $access_token->setOldToken(hash('sha256', 'old-token'));
+        $access_token->setRotatedAt(new \DateTime('2020-03-13 19:00:00'));
+        $this->mockRefreshTokens([$access_token]);
+        $auth_utils = new AuthUtils();
+        $entity_manager = WithUtilsCache::get('entityManager');
+
+        try {
+            $auth_utils->refreshSessionFromRefreshToken('old-token');
+            $this->fail('Exception expected.');
+        } catch (\Exception $exc) {
+            // expected
+        }
+
+        $this->assertSame([$access_token], $entity_manager->flushed_removed);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
+    }
+
+    protected function createRefreshToken(
+        string $raw_token,
+        User $user,
+        string $expires_at,
+    ): AccessToken {
+        $access_token = new AccessToken();
+        $access_token->setUser($user);
+        $access_token->setPurpose('refresh');
+        $access_token->setToken(hash('sha256', $raw_token));
+        $access_token->setCreatedAt(new \DateTime('2020-01-01 00:00:00'));
+        $access_token->setExpiresAt(new \DateTime($expires_at));
+        return $access_token;
+    }
+
+    /** @param array<AccessToken> $access_tokens */
+    protected function mockRefreshTokens(array $access_tokens): void {
+        $repo = WithUtilsCache::get('entityManager')->repositories[AccessToken::class];
+        $repo->entitiesToBeFoundForQuery = function (array $criteria) use ($access_tokens): array {
+            return array_values(array_filter($access_tokens, function (AccessToken $access_token) use ($criteria): bool {
+                foreach ($criteria as $field => $value) {
+                    if ($field === 'user') {
+                        $filter_user_id = $value instanceof User ? $value->getId() : null;
+                        if ($access_token->getUser()?->getId() !== $filter_user_id) {
+                            return false;
+                        }
+                    } elseif ($access_token->testOnlyGetField($field) !== $value) {
+                        return false;
+                    }
+                }
+                return true;
+            }));
+        };
     }
 }

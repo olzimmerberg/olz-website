@@ -3,7 +3,6 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzApiRequests} from '../../../Api/client';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {initOlzEditUserModal} from '../../../Users/Components/OlzEditUserModal/OlzEditUserModal';
-import {user} from '../../../Utils/constants';
 import {getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
 import {initOlzResetPasswordModal} from '../OlzResetPasswordModal/OlzResetPasswordModal';
 
@@ -190,11 +189,6 @@ function maybeRemoveLoginModalHash() {
 }
 
 window.addEventListener('load', () => {
-    const usernameOrEmail = localStorage.getItem('OLZ_AUTO_LOGIN');
-    if (!user?.username && usernameOrEmail) {
-        loginAndReload({});
-    }
-
     const openLoginDialogIfHash = () => {
         if (
             window.location.hash === '#login-dialog'

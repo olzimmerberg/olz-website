@@ -62,6 +62,7 @@ final class VereinTest extends SystemTestCase {
         if (!$this->isInModes('prod')) {
             $this->click('#role-5 .olz-user-info-modal-trigger');
             $this->waitForModal('#user-info-modal');
+            $this->waitFor('#user-info-modal img.avatar');
             $this->assertSame(
                 '/img/users/1/thumb/8sVwnV3aAEtQUUxmQYFmojMs.jpg$128.jpg',
                 $this->filter('#user-info-modal img.avatar')->attr('src')

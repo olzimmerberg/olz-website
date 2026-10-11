@@ -5,13 +5,10 @@ namespace Olz\Components\Page\OlzHeaderWithoutRouting;
 use Olz\Common\Components\OlzComponent;
 use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
-use Olz\Utils\Session;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzHeaderWithoutRouting extends OlzComponent {
     public function getHtml(mixed $args): string {
-        Session::session_start_if_cookie_set();
-
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();
@@ -30,7 +27,7 @@ class OlzHeaderWithoutRouting extends OlzComponent {
             'permissions' => json_decode($this->session()->get('user_permissions') ?? 'null', true) ?? null,
             'root' => $this->session()->get('user_root') ?? null,
         ]);
-        $child_users_json = $this->session()->get('user_children') ?? null;
+        $child_users_json = $this->session()->get('user_children') ?? 'null';
         $iso_now_json = json_encode($this->dateUtils()->getIsoNow());
         $bot_regexes_json = json_encode($this->httpUtils()->getBotRegexes());
         $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';

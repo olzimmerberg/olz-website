@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20261020152243
+-- MIGRATION: DoctrineMigrations\Version20261030134507
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -8,12 +8,12 @@ SET time_zone = "+00:00";
 
 -- Table access_tokens
 INSERT INTO access_tokens
-    (`id`, `user_id`, `purpose`, `token`, `created_at`, `expires_at`)
+    (`id`, `user_id`, `purpose`, `token`, `created_at`, `expires_at`, `old_token`, `rotated_at`, `version`)
 VALUES
-    ('1', '1', 'Test', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-09-13 22:59:11', NULL),
-    ('2', '3', 'WebDAV', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', '2021-09-13 23:00:00', NULL),
-    ('3', '1', 'Calendar', 'cccccccccccccccccccccccccccccccc', '2026-06-16 23:00:00', NULL),
-    ('42', '42', 'access', 'public_dev_data_access_token', '2023-04-22 14:00:00', NULL);
+    ('1', '1', 'Test', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-09-13 22:59:11', NULL, NULL, NULL, '1'),
+    ('2', '3', 'WebDAV', 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', '2021-09-13 23:00:00', NULL, NULL, NULL, '1'),
+    ('3', '1', 'Calendar', 'cccccccccccccccccccccccccccccccc', '2026-06-16 23:00:00', NULL, NULL, NULL, '1'),
+    ('42', '42', 'access', 'public_dev_data_access_token', '2023-04-22 14:00:00', NULL, NULL, NULL, '1');
 
 -- Table anmelden_bookings
 
@@ -121,7 +121,8 @@ VALUES
     ('DoctrineMigrations\\Version20260530162734', '2026-05-30 18:28:25', '18'),
     ('DoctrineMigrations\\Version20260621085647', '2026-06-21 10:58:18', '32'),
     ('DoctrineMigrations\\Version20260910212344', '2026-09-14 18:32:11', '56'),
-    ('DoctrineMigrations\\Version20261020152243', '2026-10-20 22:20:15', '157');
+    ('DoctrineMigrations\\Version20261020152243', '2026-10-20 22:20:15', '157'),
+    ('DoctrineMigrations\\Version20261030134507', '2026-11-01 17:35:30', '26');
 
 -- Table downloads
 INSERT INTO downloads
@@ -434,6 +435,9 @@ VALUES
     ('51', 'fan-olz-elite', NULL, 'Fan OLZ Elite', '# Fan OLZ Elite\n\n', '8', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '3', '4'),
     ('52', 'deleted-role', NULL, 'SOFT DELETED', '# SOFT DELETED\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '0', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '4', NULL),
     ('53', 'sektion-oberrieden', NULL, 'Oberrieden', '# Orientierungslauf-Verein Oberrieden\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '6', NULL);
+
+-- Table sessions
+-- (sessions omitted)
 
 -- Table snippets
 INSERT INTO snippets

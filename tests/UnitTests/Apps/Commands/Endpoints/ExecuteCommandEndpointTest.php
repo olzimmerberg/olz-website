@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Apps\Commands\Endpoints;
 
+use Doctrine\DBAL\Driver\Exception as DriverExceptionInterface;
+use Doctrine\DBAL\Exception\DriverException;
 use Olz\Apps\Commands\Endpoints\ExecuteCommandEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
@@ -90,5 +92,51 @@ final class ExecuteCommandEndpointTest extends UnitTestCase {
         $this->assertSame([
             'fake fake foo bar',
         ], WithUtilsCache::get('symfonyUtils')->commandsCalled);
+    }
+
+    public function testExecuteCommandEndpointContinuesOnMigrationIssue(): void {
+        $commands = ['cache:clear', 'cache:warmup', 'olz:db-migrate', 'olz:db-reset'];
+        foreach ($commands as $command) {
+            $auth_utils = WithUtilsCache::get('authUtils');
+            $auth_utils->has_permission_with_error = $this->createDriverException();
+            $symfony_utils = WithUtilsCache::get('symfonyUtils');
+            $symfony_utils->commandsCalled = [];
+            $endpoint = new ExecuteCommandEndpoint();
+            $endpoint->runtimeSetup();
+
+            $result = $endpoint->call(['command' => $command, 'argv' => null]);
+
+            $auth_utils->has_permission_with_error = null;
+            $this->assertSame([
+                'error' => false,
+                'output' => '(no output)',
+            ], $result);
+            $this->assertSame([
+                "{$command} ".escapeshellarg($command),
+            ], $symfony_utils->commandsCalled);
+        }
+    }
+
+    public function testExecuteCommandEndpointThrowsOnMigrationIssue(): void {
+        WithUtilsCache::get('authUtils')->has_permission_with_error = $this->createDriverException();
+        $endpoint = new ExecuteCommandEndpoint();
+        $endpoint->runtimeSetup();
+
+        try {
+            $endpoint->call(['command' => 'fake', 'argv' => null]);
+            $this->fail('Exception expected.');
+        } catch (HttpError $httperr) {
+            $this->assertSame(500, $httperr->getCode());
+        }
+        $this->assertSame([], WithUtilsCache::get('symfonyUtils')->commandsCalled);
+    }
+
+    private function createDriverException(): DriverException {
+        $driver_exception = new class('Unknown column') extends \Exception implements DriverExceptionInterface {
+            public function getSQLState(): string {
+                return '42S22';
+            }
+        };
+        return new DriverException($driver_exception, null);
     }
 }

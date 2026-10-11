@@ -28,6 +28,16 @@ class AccessToken implements TestableInterface {
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTime $expires_at;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $old_token = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $rotated_at = null;
+
+    #[ORM\Version]
+    #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 1])]
+    private int $version = 1;
+
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]
@@ -79,6 +89,26 @@ class AccessToken implements TestableInterface {
 
     public function setExpiresAt(?\DateTime $new_expires_at): void {
         $this->expires_at = $new_expires_at;
+    }
+
+    public function getOldToken(): ?string {
+        return $this->old_token;
+    }
+
+    public function setOldToken(?string $new_old_token): void {
+        $this->old_token = $new_old_token;
+    }
+
+    public function getRotatedAt(): ?\DateTime {
+        return $this->rotated_at;
+    }
+
+    public function setRotatedAt(?\DateTime $new_rotated_at): void {
+        $this->rotated_at = $new_rotated_at;
+    }
+
+    public function getVersion(): int {
+        return $this->version;
     }
 
     // ---

@@ -21,7 +21,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 $deploy_path = dirname(__DIR__);
 
-$_SERVER['OLZ_SYMFONY_HREF'] = substr(__DIR__.'/', strlen($_SERVER['DOCUMENT_ROOT']));
+// Base href of the app, i.e. `/` on prod, `/<staging-token>/` on staging. It
+// must be derived from the front controller path; `$_SERVER['DOCUMENT_ROOT']`
+// is not reliable for this on all hosters.
+$script_name = (string) ($_SERVER['SCRIPT_NAME'] ?? '/index.php');
+$_SERVER['OLZ_SYMFONY_HREF'] = substr($script_name, 0, -strlen('index.php'));
 
 require_once $deploy_path.'/vendor/autoload.php';
 

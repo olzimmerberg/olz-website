@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Entity\AccessToken;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
@@ -20,6 +21,25 @@ class FakeAuthUtils extends AuthUtils {
     public array $has_permission_by_query = [];
     /** @var array<string, bool> */
     public array $has_role_permission_by_query = [];
+    public ?\Exception $has_permission_with_error = null;
+    public ?AccessToken $refresh_token = null;
+
+    public function getRefreshToken(): ?AccessToken {
+        return $this->refresh_token;
+    }
+
+    public function findRefreshTokenByHash(string $token_hash): ?AccessToken {
+        if ($this->refresh_token === null) {
+            return null;
+        }
+        if ($this->refresh_token->getToken() === $token_hash) {
+            return $this->refresh_token;
+        }
+        if ($this->refresh_token->getOldToken() === $token_hash) {
+            return $this->refresh_token;
+        }
+        return null;
+    }
 
     public function authenticate(string $username_or_email, string $password): User {
         if ($this->authenticate_with_error) {
@@ -32,6 +52,9 @@ class FakeAuthUtils extends AuthUtils {
     }
 
     public function hasPermission(string $query, ?User $user = null): bool {
+        if ($this->has_permission_with_error !== null) {
+            throw $this->has_permission_with_error;
+        }
         $has_permission = $this->has_permission_by_query[$query] ?? null;
         if ($user !== null && $user->getUsername() === 'no-permission') {
             return false;

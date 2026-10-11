@@ -16,13 +16,13 @@ final class TerminReactionsTest extends SystemTestCase {
     #[OnlyInModes(['dev_rw', 'staging_rw'])]
     public function testTerminReactionUnauthorized(): void {
         $this->loadUrl($this->getDetailUrl());
-        $this->waitFor('#reaction-button-undefined-👍');
+        $this->waitFor('#reaction-button-null-👍');
         $crawler = $this->getCrawler();
-        $elem = $crawler->filter('#reaction-button-undefined-👍');
+        $elem = $crawler->filter('#reaction-button-null-👍');
         $this->assertSame('reaction', $elem->attr('class'));
         $this->assertSame('#login-dialog', $elem->attr('href'));
         $this->assertCount(0, $crawler->filter('#add-reaction-button'));
-        $this->click('#reaction-button-undefined-👍');
+        $this->click('#reaction-button-null-👍');
         $this->waitForModal('#login-modal');
     }
 

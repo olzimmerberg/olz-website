@@ -2,17 +2,27 @@
 
 namespace Olz\Utils;
 
+use Doctrine\ORM\OptimisticLockException;
 use Olz\Entity\AccessToken;
 use Olz\Entity\AuthRequest;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AuthUtils {
     use WithUtilsTrait;
 
     public const MAX_LOOP = 5;
+
+    public const REFRESH_TOKEN_COOKIE = 'olz_refresh_token';
+    protected const REFRESH_TOKEN_PURPOSE = 'refresh';
+    public const REFRESH_TOKEN_TTL = 31536000; // 1 year, slid forward on every use
+    /** How long the previous refresh token is still accepted after rotation. */
+    public const REFRESH_TOKEN_GRACE = 60; // 1 minute
+    public const SESSION_TIMEOUT = 12 * 3600; // 12 hours
 
     /** @var array<int, array<string, bool>> */
     protected array $cached_permission_map_by_user = [];
@@ -20,6 +30,11 @@ class AuthUtils {
     protected array $cached_permission_map_by_role = [];
     /** @var array<string, User> */
     protected array $cached_users = [];
+
+    public function __construct(
+        protected ?RequestStack $request_stack = null,
+    ) {
+    }
 
     public function authenticate(string $username_or_email, string $password): User {
         $ip_address = $this->server()['REMOTE_ADDR'];
@@ -95,6 +110,164 @@ class AuthUtils {
         $this->log()->info("Token validation successful: {$access_token->getId()}");
         $auth_request_repo->addAuthRequest($ip_address, 'TOKEN_VALIDATED', $user->getUsername());
         return $user;
+    }
+
+    /**
+     * Creates a new refresh token for the user and returns the raw token, which
+     * must be put into the (HttpOnly) cookie. Only a SHA-256 hash of it is stored.
+     * Plain SHA-256 is enough here (unlike passwords) because the token is a
+     * high-entropy random value, so there is nothing to brute-force or precompute.
+     */
+    public function issueRefreshToken(User $user): string {
+        $raw_token = $this->generateRefreshToken();
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $access_token = new AccessToken();
+        $access_token->setUser($user);
+        $access_token->setPurpose(self::REFRESH_TOKEN_PURPOSE);
+        $access_token->setToken(hash('sha256', $raw_token));
+        $access_token->setCreatedAt($now);
+        $access_token->setExpiresAt((clone $now)->modify('+'.self::REFRESH_TOKEN_TTL.' seconds'));
+        $this->entityManager()->persist($access_token);
+        $this->entityManager()->flush();
+        return $raw_token;
+    }
+
+    /** Generates a new high-entropy (raw) refresh token. */
+    protected function generateRefreshToken(): string {
+        return $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(32));
+    }
+
+    public function revokeAllRefreshTokens(User $user): void {
+        $repo = $this->entityManager()->getRepository(AccessToken::class);
+        $access_tokens = $repo->findBy([
+            'user' => $user,
+            'purpose' => self::REFRESH_TOKEN_PURPOSE,
+        ]);
+        foreach ($access_tokens as $access_token) {
+            $this->entityManager()->remove($access_token);
+        }
+        $this->entityManager()->flush();
+    }
+
+    /** Creates the refresh token cookie; `null` creates a cookie that clears it. */
+    public function createRefreshTokenCookie(?string $raw_token): Cookie {
+        $expires_at = $raw_token === null ? 1 : time() + self::REFRESH_TOKEN_TTL;
+        return Cookie::create(self::REFRESH_TOKEN_COOKIE)
+            ->withValue($raw_token ?? '')
+            ->withExpires($expires_at)
+            ->withPath('/')
+            ->withSecure($this->request_stack?->getCurrentRequest()?->isSecure() ?? true)
+            ->withHttpOnly(true)
+            ->withSameSite(Cookie::SAMESITE_LAX)
+        ;
+    }
+
+    public function getRefreshToken(): ?AccessToken {
+        $request = $this->request_stack?->getCurrentRequest();
+        $raw_token = $request?->cookies->get(self::REFRESH_TOKEN_COOKIE);
+        if (!$raw_token) {
+            return null;
+        }
+        return $this->findRefreshTokenByHash(hash('sha256', $raw_token));
+    }
+
+    /**
+     * Finds the refresh token row by the hash of the current or of the previous
+     * (rotated) raw token.
+     */
+    public function findRefreshTokenByHash(string $token_hash): ?AccessToken {
+        $repo = $this->entityManager()->getRepository(AccessToken::class);
+        $refresh_token = $repo->findOneBy([
+            'token' => $token_hash,
+            'purpose' => self::REFRESH_TOKEN_PURPOSE,
+        ]);
+        if ($refresh_token !== null) {
+            return $refresh_token;
+        }
+        return $repo->findOneBy([
+            'old_token' => $token_hash,
+            'purpose' => self::REFRESH_TOKEN_PURPOSE,
+        ]);
+    }
+
+    /**
+     * Restores the session from the given (raw) refresh token, rotating the
+     * refresh token in the process. This is used by the refresh API endpoint as
+     * well as on the initial page load, so that an expired session can be
+     * restored before the page is rendered.
+     *
+     * Returns the newly issued (raw) refresh token which must be put into the
+     * cookie, or null if no cookie change is needed (the session is already
+     * valid, or a concurrent request already rotated the token).
+     *
+     * @throws \Exception if the session cannot be restored
+     *                    (missing, unknown, expired, or re-used refresh token)
+     */
+    public function refreshSessionFromRefreshToken(?string $raw_token): ?string {
+        if ($this->session()->has('user')) {
+            return null;
+        }
+        if ($raw_token === null || $raw_token === '') {
+            throw new \Exception('No refresh token provided.');
+        }
+        $token_hash = hash('sha256', $raw_token);
+        $refresh_token = $this->findRefreshTokenByHash($token_hash);
+        $user = $refresh_token?->getUser();
+        if ($refresh_token === null || $user === null) {
+            throw new \Exception('Invalid refresh token.');
+        }
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $expires_at = $refresh_token->getExpiresAt();
+        if ($expires_at !== null && $expires_at < $now) {
+            $this->entityManager()->remove($refresh_token);
+            $this->entityManager()->flush();
+            throw new \Exception('Expired refresh token.');
+        }
+        if ($refresh_token->getToken() !== $token_hash) {
+            // The previous token is only accepted within a short grace window,
+            // e.g. for concurrent requests that were in flight when the token
+            // was rotated.
+            $rotated_at = $refresh_token->getRotatedAt();
+            $grace_end = $rotated_at !== null
+                ? (clone $rotated_at)->modify('+'.self::REFRESH_TOKEN_GRACE.' seconds')
+                : null;
+            $is_within_grace = ($grace_end !== null && $grace_end >= $now);
+            if (!$is_within_grace) {
+                // Re-use of an already rotated token: assume it was stolen.
+                $this->entityManager()->remove($refresh_token);
+                $this->entityManager()->flush();
+                throw new \Exception('Previous refresh token is no longer in the grace window.');
+            }
+            $this->startSessionForUser($user);
+            return null;
+        }
+        // Rotate the refresh token.
+        $new_raw_token = $this->generateRefreshToken();
+        $refresh_token->setOldToken($refresh_token->getToken());
+        $refresh_token->setToken(hash('sha256', $new_raw_token));
+        $refresh_token->setRotatedAt($now);
+        $refresh_token->setExpiresAt((clone $now)->modify('+'.self::REFRESH_TOKEN_TTL.' seconds'));
+        try {
+            $this->entityManager()->flush();
+        } catch (OptimisticLockException $exc) {
+            // A concurrent request has rotated the token in the meantime. Our
+            // token is now the previous one, which is within the grace window.
+            $this->entityManager()->detach($refresh_token);
+            $current_token = $this->findRefreshTokenByHash($token_hash);
+            if ($current_token === null) {
+                throw new \Exception('Refresh token disappeared during concurrent rotation.', 0, $exc);
+            }
+            $this->startSessionForUser($user);
+            return null;
+        }
+        $this->startSessionForUser($user);
+        return $new_raw_token;
+    }
+
+    protected function startSessionForUser(User $user): void {
+        $this->session()->resetConfigure(['timeout' => self::SESSION_TIMEOUT]);
+        $this->setSessionUser($user);
+        $this->setSessionAuthUser($user);
     }
 
     public function resolveUsernameOrEmail(string $username_or_email): ?User {

@@ -25,9 +25,11 @@ class ExecuteCommandEndpoint extends OlzTypedEndpoint {
             }
         } catch (DriverException $exc) {
             // Could be a migration issue
-            // => if the command is db-migrate or db-reset, continue nevertheless!
+            // => if the command is a cache operation or a db migration/reset,
+            // continue nevertheless!
             $should_continue = (
                 $command_name === 'cache:clear'
+                || $command_name === 'cache:warmup'
                 || $command_name === 'olz:db-migrate'
                 || $command_name === 'olz:db-reset'
             );

@@ -42,11 +42,15 @@ class LoginEndpoint extends OlzTypedEndpoint {
         $this->entityManager()->flush();
 
         $this->session()->resetConfigure([
-            'timeout' => 2419200, // always a month
+            'timeout' => 43200, // 12 hours
         ]);
 
         $this->authUtils()->setSessionUser($user);
         $this->authUtils()->setSessionAuthUser($user);
+        $refresh_token = $this->authUtils()->issueRefreshToken($user);
+        $this->getResponse()->headers->setCookie(
+            $this->authUtils()->createRefreshTokenCookie($refresh_token)
+        );
         return [
             'status' => 'AUTHENTICATED',
             'numRemainingAttempts' => null,

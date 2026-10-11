@@ -2,7 +2,6 @@
 
 namespace Olz;
 
-use Olz\Utils\EnvUtils;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
@@ -24,22 +23,6 @@ class Kernel extends BaseKernel {
 
         // Time zone
         date_default_timezone_set('Europe/Zurich');
-
-        // Session security
-        if (!headers_sent()) {
-            ini_set('session.gc_maxlifetime', 2419200); // keep one month
-            ini_set('session.cookie_httponly', 1);
-            try {
-                $env_utils = EnvUtils::fromEnv();
-                $private_path = $env_utils->getPrivatePath();
-                if ($private_path !== null) {
-                    session_save_path("{$private_path}sessions/");
-                    ini_set('session.cookie_secure', 1);
-                }
-            } catch (\Throwable $th) {
-                // ignore
-            }
-        }
 
         parent::__construct($environment, $debug);
     }

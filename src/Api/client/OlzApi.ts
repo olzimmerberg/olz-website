@@ -6,6 +6,7 @@ import {getErrorOrThrow} from '../../Utils/generalUtils';
 
 export class OlzApi extends Api<OlzApiEndpoint, OlzApiRequests, OlzApiResponses> {
     public baseUrl = `${codeHref}api`;
+    private refreshing: Promise<boolean> | null = null;
 
     public async getResult<T extends OlzApiEndpoint>(
         endpoint: T,
@@ -29,12 +30,25 @@ export class OlzApi extends Api<OlzApiEndpoint, OlzApiRequests, OlzApiResponses>
         } catch (caught: unknown) {
             if (caught instanceof ApiError) {
                 if (caught.status === 401 || caught.status === 403) {
+                    if (await this.refreshSession()) {
+                        return super.call(endpoint, request);
+                    }
                     await login({});
                     return super.call(endpoint, request);
                 }
             }
             throw caught;
         }
+    }
+
+    private async refreshSession(): Promise<boolean> {
+        const refreshing = this.refreshing ?? (this.refreshing = super.call('refresh', null)
+            .then(() => true)
+            .catch(() => false)
+            .finally(() => {
+                this.refreshing = null;
+            }));
+        return refreshing;
     }
 
 }

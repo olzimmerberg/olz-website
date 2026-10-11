@@ -2,67 +2,101 @@
 
 namespace Olz\Utils;
 
-class Session extends AbstractSession {
-    use WithUtilsTrait;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-    public function __construct() {
-        self::session_start_if_cookie_set();
+class Session extends AbstractSession {
+    public function __construct(
+        protected ?RequestStack $requestStack = null,
+    ) {
     }
 
     /** @param array{timeout?: int} $config */
     public function resetConfigure(array $config): void {
-        global $_SESSION;
-        $session_already_exists = session_id() != '' && isset($_SESSION);
-        if ($session_already_exists) {
-            $this->clear();
-        }
-
+        // Only called on login: this is the only place a session is started.
         $timeout = $config['timeout'] ?? 2419200; // keep one month
-        ini_set('session.gc_maxlifetime', $timeout);
-        session_set_cookie_params($timeout);
-
-        $session_can_be_created = !headers_sent();
-        $was_successful = false;
-        if ($session_can_be_created) {
-            // @codeCoverageIgnoreStart
-            // Reason: Cannot start session in tests.
-            // $was_successful = session_start();
-            $was_successful = session_start() && session_regenerate_id(true);
-            // @codeCoverageIgnoreEnd
+        $session = $this->getCurrentRequest()->getSession();
+        if (!$session->isStarted()) {
+            $session->start();
         }
+        $session->invalidate($timeout);
     }
 
     public function has(string $key): bool {
-        return isset($_SESSION[$key]);
+        $session = $this->getSession();
+        return $session !== null && $session->has($key);
     }
 
     public function get(string $key): ?string {
-        return $_SESSION[$key] ?? null;
+        $session = $this->getSession();
+        if ($session === null) {
+            return null;
+        }
+        try {
+            $value = $session->get($key);
+        } catch (\Throwable $th) {
+            // The session could not be read (e.g. the session store being
+            // unavailable). Treat it as if the attribute were not set, instead
+            // of blowing up the current operation.
+            return null;
+        }
+        return is_scalar($value) ? "{$value}" : null;
     }
 
     public function set(string $key, ?string $new_value): void {
-        $_SESSION[$key] = $new_value;
+        $session = $this->getSession();
+        if ($session === null) {
+            return;
+        }
+        $session->set($key, $new_value);
     }
 
     public function delete(string $key): void {
-        unset($_SESSION[$key]);
+        $session = $this->getSession();
+        if ($session === null) {
+            return;
+        }
+        $session->remove($key);
     }
-
-    // @codeCoverageIgnoreStart
-    // Reason: Cannot start/destroy session in tests.
 
     public function clear(): void {
-        @session_unset();
-        @session_destroy();
-        $name = session_name() ?: '';
-        @setcookie($name, '', time() - 3600, '/');
-    }
-
-    public static function session_start_if_cookie_set(): void {
-        if (isset($_COOKIE[session_name()])) {
-            @session_start();
+        $session = $this->getSession();
+        if ($session !== null) {
+            $session->invalidate();
         }
     }
 
-    // @codeCoverageIgnoreEnd
+    protected function getCurrentRequest(): Request {
+        $request = $this->requestStack?->getCurrentRequest();
+        if ($request === null) {
+            throw new \LogicException('Cannot access the session without a current request.');
+        }
+        return $request;
+    }
+
+    /**
+     * Returns the session if it is already started, or resumes it from a session
+     * cookie when one is present. Never starts a fresh session (that only happens
+     * on login), and treats a malformed session cookie as "no session".
+     */
+    protected function getSession(): ?SessionInterface {
+        $request = $this->requestStack?->getCurrentRequest();
+        if ($request === null || !$request->hasSession()) {
+            return null;
+        }
+        $session = $request->getSession();
+        if ($session->isStarted()) {
+            return $session;
+        }
+        if (!$request->hasPreviousSession()) {
+            return null;
+        }
+        try {
+            $session->start();
+        } catch (\Throwable $th) {
+            return null;
+        }
+        return $session;
+    }
 }

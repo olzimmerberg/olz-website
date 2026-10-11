@@ -5,13 +5,10 @@ namespace Olz\Components\Page\OlzHeaderWithoutRouting;
 use Olz\Common\Components\OlzComponent;
 use Olz\Components\Page\OlzHeaderBar\OlzHeaderBar;
 use Olz\Components\Schema\OlzOrganizationData\OlzOrganizationData;
-use Olz\Utils\Session;
 
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzHeaderWithoutRouting extends OlzComponent {
     public function getHtml(mixed $args): string {
-        Session::session_start_if_cookie_set();
-
         $code_href = $this->envUtils()->getCodeHref();
         $data_href = $this->envUtils()->getDataHref();
         $data_path = $this->envUtils()->getDataPath();

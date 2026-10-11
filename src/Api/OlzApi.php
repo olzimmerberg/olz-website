@@ -13,6 +13,7 @@ class OlzApi extends Api {
         \Olz\Common\Endpoints\ResetPasswordEndpoint $resetPasswordEndpoint,
         \Olz\Common\Endpoints\SwitchUserEndpoint $switchUserEndpoint,
         \Olz\Common\Endpoints\LogoutEndpoint $logoutEndpoint,
+        \Olz\Common\Endpoints\RefreshEndpoint $refreshEndpoint,
         \Olz\Common\Endpoints\GetAuthenticatedUserEndpoint $getAuthenticatedUserEndpoint,
         \Olz\Common\Endpoints\GetAuthenticatedRolesEndpoint $getAuthenticatedRolesEndpoint,
         \Olz\Common\Endpoints\GetEntitiesAroundPositionEndpoint $getEntitiesAroundPositionEndpoint,
@@ -127,6 +128,7 @@ class OlzApi extends Api {
         $this->registerEndpoint('resetPassword', $resetPasswordEndpoint);
         $this->registerEndpoint('switchUser', $switchUserEndpoint);
         $this->registerEndpoint('logout', $logoutEndpoint);
+        $this->registerEndpoint('refresh', $refreshEndpoint);
         $this->registerEndpoint('getAuthenticatedUser', $getAuthenticatedUserEndpoint);
         $this->registerEndpoint('getAuthenticatedRoles', $getAuthenticatedRolesEndpoint);
         $this->registerEndpoint('getEntitiesAroundPosition', $getEntitiesAroundPositionEndpoint);

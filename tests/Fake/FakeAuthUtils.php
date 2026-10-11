@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Entity\AccessToken;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
@@ -20,6 +21,11 @@ class FakeAuthUtils extends AuthUtils {
     public array $has_permission_by_query = [];
     /** @var array<string, bool> */
     public array $has_role_permission_by_query = [];
+    public ?AccessToken $refresh_token = null;
+
+    public function getRefreshToken(): ?AccessToken {
+        return $this->refresh_token;
+    }
 
     public function authenticate(string $username_or_email, string $password): User {
         if ($this->authenticate_with_error) {

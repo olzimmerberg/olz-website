@@ -9,9 +9,14 @@ framework:
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:
-        handler_id: null
+        # Store session data in the MySQL database (see config/services.yaml).
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
         cookie_secure: auto
         cookie_samesite: lax
+        cookie_httponly: true
+        cookie_lifetime: 2419200 # keep one month
+        gc_maxlifetime: 2419200 # keep one month
+        gc_probability: 1
         storage_factory_id: session.storage.factory.native
 
     #esi: true
@@ -23,4 +28,8 @@ when@test:
     framework:
         test: true
         session:
+            # Tests use the mock storage, so no database session handler is
+            # wired (which would otherwise force a DB connection on
+            # `doctrine:migrations:diff` via the PdoSessionHandler schema listener).
+            handler_id: null
             storage_factory_id: session.storage.factory.mock_file

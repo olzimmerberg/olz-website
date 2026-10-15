@@ -174,11 +174,27 @@ final class HttpUtilsTest extends UnitTestCase {
         $utils = new TestOnlyHttpUtils();
 
         try {
-            $utils->redirect('https://staging.olzimmerberg.ch', 308);
+            $utils->redirect('https://staging.olzimmerberg.ch', ['status' => 308]);
             $this->fail('Error expected');
         } catch (ExitException $e) {
             $this->assertSame(308, $utils->http_response_code);
             $this->assertSame(['Location: https://staging.olzimmerberg.ch'], $utils->http_header_lines);
+            $this->assertStringContainsString('Weiterleitung', $utils->http_body ?? '');
+        }
+    }
+
+    public function testRedirectNoCache(): void {
+        $utils = new TestOnlyHttpUtils();
+
+        try {
+            $utils->redirect('https://staging.olzimmerberg.ch', ['status' => 410, 'no_cache' => true]);
+            $this->fail('Error expected');
+        } catch (ExitException $e) {
+            $this->assertSame(410, $utils->http_response_code);
+            $this->assertSame([
+                'Location: https://staging.olzimmerberg.ch',
+                'Cache-Control: no-store, no-cache, must-revalidate, max-age=0',
+            ], $utils->http_header_lines);
             $this->assertStringContainsString('Weiterleitung', $utils->http_body ?? '');
         }
     }

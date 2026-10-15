@@ -56,10 +56,24 @@ final class HttpUtilsIntegrationTest extends IntegrationTestCase {
     public function testHttpUtilsRedirect(): void {
         $utils = $this->getSut();
 
-        $utils->redirect('https://test.ch', 302);
+        $utils->redirect('https://test.ch', ['status' => 302]);
 
         $this->assertSame(302, $utils->sent_http_response_code);
         $this->assertSame(["Location: https://test.ch"], $utils->sent_http_header_lines);
+        $this->assertMatchesRegularExpression('/Weiterleitung/i', $utils->sent_http_body);
+        $this->assertTrue($utils->has_exited_execution);
+    }
+
+    public function testHttpUtilsRedirectNoCache(): void {
+        $utils = $this->getSut();
+
+        $utils->redirect('https://test.ch', ['status' => 410, 'no_cache' => true]);
+
+        $this->assertSame(410, $utils->sent_http_response_code);
+        $this->assertSame([
+            'Location: https://test.ch',
+            'Cache-Control: no-store, no-cache, must-revalidate, max-age=0',
+        ], $utils->sent_http_header_lines);
         $this->assertMatchesRegularExpression('/Weiterleitung/i', $utils->sent_http_body);
         $this->assertTrue($utils->has_exited_execution);
     }

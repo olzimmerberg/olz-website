@@ -120,7 +120,7 @@ class HttpUtils {
         }
         $path = "{$request->getBasePath()}{$request->getPathInfo()}";
         $pretty_query = empty($query) ? '' : '?'.implode('&', $query);
-        $this->redirect("{$path}{$pretty_query}", 308);
+        $this->redirect("{$path}{$pretty_query}", ['status' => 308]);
     }
 
     public function dieWithHttpError(int $http_status_code): void {
@@ -134,8 +134,19 @@ class HttpUtils {
         $this->exitExecution();
     }
 
-    public function redirect(string $redirect_url, int $http_status_code = 301): void {
+    /**
+     * @param array{
+     *   status?: int,
+     *   no_cache?: true,
+     * } $config
+     */
+    public function redirect(string $redirect_url, array $config = []): void {
+        $http_status_code = $config['status'] ?? 301;
+        $no_cache = $config['no_cache'] ?? false;
         $this->sendHeader("Location: {$redirect_url}");
+        if ($no_cache) {
+            $this->sendHeader('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        }
         $this->sendHttpResponseCode($http_status_code);
 
         $out = "";

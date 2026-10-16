@@ -362,10 +362,15 @@ class SystemTestCase extends KernelTestCase {
     }
 
     public function onNotSuccessfulTest(\Throwable $t): never {
+        $test_class_name = get_called_class();
+        $test_name = "{$test_class_name}_{$this->name()}";
+        $esc_test_name = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $test_name) ?? $test_name;
+        $screenshot_name = "testing_error_{$esc_test_name}";
+
         try {
-            $this->screenshot('testing_error');
+            $this->screenshot($screenshot_name);
         } catch (\Throwable $th) {
-            echo "\n  Could not get testing_error screenshot!\n";
+            $t = new \Exception("Could not get {$screenshot_name} screenshot: {$th->getMessage()}", 0, $t);
         }
         throw $t;
     }

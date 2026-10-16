@@ -19,7 +19,12 @@ final class WeeklyPictureTest extends SystemTestCase {
 
         $this->click('#weekly-picture-carousel .active a[href*="/img/weekly_picture/"]');
         $this->waitUntil(function () {
-            return $this->filter('.lg-container.lg-show img[src*="/img/weekly_picture/"]')->getCSSValue('opacity') == 1;
+            $is_loaded = $this->filter('.lg-container.lg-show img[src*="/img/weekly_picture/"]')->getCSSValue('opacity') == 1;
+            $outer_classes = $this->filter('.lg-container.lg-show .lg-outer')->attr('class') ?? '';
+            $slide_classes = $this->filter('.lg-container.lg-show .lg-item')->attr('class') ?? '';
+            $is_visible = str_contains($outer_classes, 'lg-visible');
+            $is_complete = str_contains($slide_classes, 'lg-complete');
+            return $is_loaded && $is_visible && $is_complete;
         });
         $this->screenshot('startseite_weekly_picture');
         // TODO: Dummy assert

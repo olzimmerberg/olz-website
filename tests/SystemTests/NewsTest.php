@@ -42,7 +42,7 @@ final class NewsTest extends SystemTestCase {
         $inline_elem = $crawler->filter('a[href="#react-%F0%9F%91%8D"]');
         $elem = $crawler->filter('#reaction-button-undefined-👍');
         $this->assertNull($inline_elem->attr('class'));
-        $this->assertSame('Reaktion👍 4', $inline_elem->text(''));
+        $this->assertSame('Anmeldung👍 4', $inline_elem->text(''));
         $this->assertSame('reaction', $elem->attr('class'));
         $this->assertSame('👍 4', $elem->text(''));
         $this->assertCount(0, $crawler->filter('#add-reaction-button'));

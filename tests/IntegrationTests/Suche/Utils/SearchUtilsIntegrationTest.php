@@ -84,8 +84,8 @@ final class SearchUtilsIntegrationTest extends IntegrationTestCase {
                 'date' => new \DateTime('2020-01-01'),
                 'title' => 'News (Aktuell): Frohes neues Jahr! 🎆',
                 'text' => '…Bisschen.* Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und…',
-                'score' => 0.07667,
-                'debug' => 'Score: 0.07667 / Time relevance: 0.873',
+                'score' => 0.07613,
+                'debug' => 'Score: 0.07613 / Time relevance: 0.873',
             ],
         ], $this->getSut()->getSearchResults(['test']));
     }

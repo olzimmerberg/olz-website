@@ -30,7 +30,7 @@ final class TerminNotificationTemplatesTest extends SystemTestCase {
         $this->click('#edit-termin-notification-template-modal #recipientRoleId-field #entity-index-0');
         $this->click('#edit-termin-notification-template-modal #recipientTerminOrganizer-input');
 
-        $this->screenshot('termin_notifications_new_edit');
+        $this->screenshot('termin_notification_templates_new_edit');
 
         $this->click('#edit-termin-notification-template-modal #submit-button');
         $this->waitUntilGone('#edit-termin-notification-template-modal');

@@ -48,8 +48,8 @@ final class StatusTest extends SystemTestCase {
         $this->assertCount(1, $crawler->filter('a[href="https://olzimmerberg.ch"]'));
         $this->assertCount(1, $crawler->filter('a[href*="monitor-backup"]'));
         $this->assertCount(1, $crawler->filter('a[href*="monitor-logs"]'));
-        $some_view_link = $crawler->filter('a[href*="action=view&id="]');
-        $this->assertCount(1, $some_view_link);
+        $some_view_link = $crawler->filter('th a[href*="action=view&id="]');
+        $this->assertCount(3, $some_view_link);
         $some_view_href = $some_view_link->attr('href') ?? '';
         $escaped_status_url = preg_quote($this::$statusUrl, '/');
         $this->assertMatchesRegularExpression("/^{$escaped_status_url}/", $some_view_href);

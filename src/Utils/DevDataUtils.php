@@ -333,6 +333,7 @@ class DevDataUtils {
             'counter' => true,
             'auth_requests' => true,
             'messenger_messages' => true,
+            'sessions' => true,
         ];
         $batch_size = 100;
 

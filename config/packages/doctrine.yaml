@@ -1,7 +1,10 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-        schema_filter: '~^(?!messenger_messages)~'
+        # Tables that are not managed by Doctrine entities (and are therefore
+        # created by their own migrations) must be excluded here, so that
+        # `doctrine:migrations:diff` does not try to drop them.
+        schema_filter: '~^(?!messenger_messages|sessions)~'
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
     orm:

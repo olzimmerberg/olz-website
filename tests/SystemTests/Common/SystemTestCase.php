@@ -453,6 +453,10 @@ class SystemTestCase extends KernelTestCase {
         $this->tick('screenshot');
         $browser_name = self::$browser_name;
         $screenshots_path = __DIR__.'/../../../screenshots/generated/';
+        $screenshot_file = "{$screenshots_path}{$name}-{$browser_name}.html";
+        if (file_exists($screenshot_file)) {
+            throw new \Exception("Screenshot '{$name}' already exists at {$screenshot_file}. Screenshot names must be unique across tests, otherwise they overwrite each other.");
+        }
 
         // Remove content that is not deterministic between two runs of the same
         // code, so that screenshots only differ on actual changes.
@@ -478,7 +482,7 @@ class SystemTestCase extends KernelTestCase {
             mkdir($screenshots_path, 0o777, true);
         }
         $html = "<!DOCTYPE html>\n{$html}";
-        file_put_contents("{$screenshots_path}{$name}-{$browser_name}.html", $html);
+        file_put_contents($screenshot_file, $html);
 
         $this->tock('screenshot', 'screenshot');
     }

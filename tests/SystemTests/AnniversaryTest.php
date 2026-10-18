@@ -73,7 +73,7 @@ final class AnniversaryTest extends SystemTestCase {
         $this->clear('#edit-run-modal #sportType-input');
         $this->sendKeys('#edit-run-modal #sportType-input', 'Test run');
 
-        $this->screenshot('anniversary_run_new_edit');
+        $this->screenshot('anniversary_run_update_edit');
 
         $this->click('#edit-run-modal #submit-button');
         $this->waitUntilGone('#edit-run-modal');

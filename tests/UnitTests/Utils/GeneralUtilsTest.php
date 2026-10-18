@@ -111,7 +111,9 @@ final class GeneralUtilsTest extends UnitTestCase {
         $general_utils = new GeneralUtils();
 
         $general_utils->checkNotFalse(null, 'should never be false');
+        // @phpstan-ignore-next-line method.alreadyNarrowedType
         $general_utils->checkNotFalse(0, 'should never be false');
+        // @phpstan-ignore-next-line method.alreadyNarrowedType
         $general_utils->checkNotFalse('', 'should never be false');
         // @phpstan-ignore-next-line method.alreadyNarrowedType
         $general_utils->checkNotFalse(true, 'should never be false');

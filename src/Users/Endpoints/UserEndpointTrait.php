@@ -85,7 +85,7 @@ trait UserEndpointTrait {
         $entity->setPostalCode($input_data['postalCode'] ?? null);
         $entity->setCity($input_data['city'] ?? null);
         $entity->setRegion($input_data['region'] ?? null);
-        $entity->setCountryCode($input_data['countryCode']?->toWire());
+        $entity->setCountryCode(($input_data['countryCode'] ?? null)?->toWire());
         $entity->setSiCardNumber($valid_si_card_number);
         $entity->setSolvNumber($input_data['solvNumber'] ?? null);
         $entity->setAhvNumber($input_data['ahvNumber'] ?? null);

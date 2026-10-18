@@ -8,7 +8,7 @@ use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use Olz\Entity\Counter;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PhpTypeScriptApi\PhpStan\PhpStanUtils;
-use PhpTypeScriptApi\PhpStan\ValidateVisitor;
+use PhpTypeScriptApi\PhpStan\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -198,7 +198,7 @@ class HttpUtils {
             $this->dieWithHttpError(400);
             throw new \Exception('should already have failed');
         }
-        $result = ValidateVisitor::validateDeserialize($utils, $get_params, $resolved_type, []);
+        $result = Validator::validateDeserialize($utils, $get_params, $resolved_type, []);
         if (!$result->isValid() && ($options['just_log'] ?? false) === false) {
             $this->dieWithHttpError(400);
             throw new \Exception('should already have failed');

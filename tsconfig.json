@@ -11,15 +11,21 @@
     ],
     "module": "preserve",
     "moduleResolution": "bundler",
+    "noUncheckedSideEffectImports": false,
     "noUnusedLocals": true,
     "outDir": "tscbuild/",
     "resolveJsonModule": true,
+    "rootDir": ".",
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "es6"
+    "target": "es6",
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "src/**/*",

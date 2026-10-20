@@ -32,8 +32,8 @@ jobs:
       env:
         MOZ_HEADLESS: 1
         BOT_ACCESS_TOKEN: ${{ secrets.OLZ_BOT_TOKEN_PROD }}
-      run: composer system_tests -- --prod --no-build
+      run: composer system_tests -- --chrome --prod --no-build
     - name: PHP System Tests (meta)
       env:
         MOZ_HEADLESS: 1
-      run: composer system_tests -- --meta --no-build
+      run: composer system_tests -- --chrome --meta --no-build

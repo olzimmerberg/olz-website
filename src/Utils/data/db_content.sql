@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260910212344
+-- MIGRATION: DoctrineMigrations\Version20261011134507
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -120,7 +120,8 @@ VALUES
     ('DoctrineMigrations\\Version20260416193600', '2026-04-16 21:40:27', '37'),
     ('DoctrineMigrations\\Version20260530162734', '2026-05-30 18:28:25', '18'),
     ('DoctrineMigrations\\Version20260621085647', '2026-06-21 10:58:18', '32'),
-    ('DoctrineMigrations\\Version20260910212344', '2026-09-14 18:32:11', '56');
+    ('DoctrineMigrations\\Version20260910212344', '2026-09-14 18:32:11', '56'),
+    ('DoctrineMigrations\\Version20261011134507', '2026-10-11 14:30:08', '16');
 
 -- Table downloads
 INSERT INTO downloads
@@ -431,6 +432,9 @@ VALUES
     ('51', 'fan-olz-elite', NULL, 'Fan OLZ Elite', '# Fan OLZ Elite\n\n', '8', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '3', '4'),
     ('52', 'deleted-role', NULL, 'SOFT DELETED', '# SOFT DELETED\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '0', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '4', NULL),
     ('53', 'sektion-oberrieden', NULL, 'Oberrieden', '# Orientierungslauf-Verein Oberrieden\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '6', NULL);
+
+-- Table sessions
+-- (sessions omitted)
 
 -- Table snippets
 INSERT INTO snippets

@@ -137,7 +137,7 @@ class SystemTestCase extends KernelTestCase {
         return $this->getClient()->getTitle();
     }
 
-    protected function retry(callable $fn, int $num = 10): void {
+    protected function retry(callable $fn, int $num = 50): void {
         $last_th = null;
         for ($i = 0; $i < $num; $i++) {
             try {

@@ -8,11 +8,18 @@ use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AuthUtils {
     use WithUtilsTrait;
 
     public const MAX_LOOP = 5;
+
+    public const REFRESH_TOKEN_COOKIE = 'olz_refresh_token';
+    protected const REFRESH_TOKEN_PURPOSE = 'refresh';
+    public const REFRESH_TOKEN_TTL = 31536000; // 1 year, slid forward on every use
+    public const SESSION_TIMEOUT = 2419200; // 1 month
 
     /** @var array<int, array<string, bool>> */
     protected array $cached_permission_map_by_user = [];
@@ -20,6 +27,11 @@ class AuthUtils {
     protected array $cached_permission_map_by_role = [];
     /** @var array<string, User> */
     protected array $cached_users = [];
+
+    public function __construct(
+        protected ?RequestStack $request_stack = null,
+    ) {
+    }
 
     public function authenticate(string $username_or_email, string $password): User {
         $ip_address = $this->server()['REMOTE_ADDR'];
@@ -95,6 +107,64 @@ class AuthUtils {
         $this->log()->info("Token validation successful: {$access_token->getId()}");
         $auth_request_repo->addAuthRequest($ip_address, 'TOKEN_VALIDATED', $user->getUsername());
         return $user;
+    }
+
+    /**
+     * Creates a new refresh token for the user and returns the raw token, which
+     * must be put into the (HttpOnly) cookie. Only a SHA-256 hash of it is stored.
+     * Plain SHA-256 is enough here (unlike passwords) because the token is a
+     * high-entropy random value, so there is nothing to brute-force or precompute.
+     */
+    public function issueRefreshToken(User $user): string {
+        $raw_token = $this->generalUtils()->base64EncodeUrl(openssl_random_pseudo_bytes(32));
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
+        $access_token = new AccessToken();
+        $access_token->setUser($user);
+        $access_token->setPurpose(self::REFRESH_TOKEN_PURPOSE);
+        $access_token->setToken(hash('sha256', $raw_token));
+        $access_token->setCreatedAt($now);
+        $access_token->setExpiresAt((clone $now)->modify('+'.self::REFRESH_TOKEN_TTL.' seconds'));
+        $this->entityManager()->persist($access_token);
+        $this->entityManager()->flush();
+        return $raw_token;
+    }
+
+    public function revokeAllRefreshTokens(User $user): void {
+        $repo = $this->entityManager()->getRepository(AccessToken::class);
+        $access_tokens = $repo->findBy([
+            'user' => $user,
+            'purpose' => self::REFRESH_TOKEN_PURPOSE,
+        ]);
+        foreach ($access_tokens as $access_token) {
+            $this->entityManager()->remove($access_token);
+        }
+        $this->entityManager()->flush();
+    }
+
+    /** Creates the refresh token cookie; `null` creates a cookie that clears it. */
+    public function createRefreshTokenCookie(?string $raw_token): Cookie {
+        $expires_at = $raw_token === null ? 1 : time() + self::REFRESH_TOKEN_TTL;
+        return Cookie::create(self::REFRESH_TOKEN_COOKIE)
+            ->withValue($raw_token ?? '')
+            ->withExpires($expires_at)
+            ->withPath('/')
+            ->withSecure($this->request_stack?->getCurrentRequest()?->isSecure() ?? true)
+            ->withHttpOnly(true)
+            ->withSameSite(Cookie::SAMESITE_LAX)
+        ;
+    }
+
+    public function getRefreshToken(): ?AccessToken {
+        $request = $this->request_stack?->getCurrentRequest();
+        $raw_token = $request?->cookies->get(self::REFRESH_TOKEN_COOKIE);
+        if (!$raw_token) {
+            return null;
+        }
+        $repo = $this->entityManager()->getRepository(AccessToken::class);
+        return $repo->findOneBy([
+            'token' => hash('sha256', $raw_token),
+            'purpose' => self::REFRESH_TOKEN_PURPOSE,
+        ]);
     }
 
     public function resolveUsernameOrEmail(string $username_or_email): ?User {

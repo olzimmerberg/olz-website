@@ -11,6 +11,8 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @internal
@@ -61,6 +63,8 @@ final class LoginEndpointTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         $endpoint = new LoginEndpoint();
         $endpoint->runtimeSetup();
+        $response = new Response();
+        $endpoint->setHttpContext(new Request(), $response);
 
         $result = $endpoint->call([
             'usernameOrEmail' => 'admin',
@@ -92,6 +96,9 @@ final class LoginEndpointTest extends UnitTestCase {
             $user->getLastLoginAt()?->format('Y-m-d H:i:s')
         );
         $this->assertTrue($entity_manager->flushed);
+        $cookies = $response->headers->getCookies();
+        $this->assertCount(1, $cookies);
+        $this->assertSame('olz_refresh_token', $cookies[0]->getName());
     }
 
     public function testLoginEndpointWithInvalidCredentials(): void {

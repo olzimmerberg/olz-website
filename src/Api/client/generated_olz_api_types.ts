@@ -20,6 +20,10 @@ export type Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Request = (
 
 export type Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Response = {'status': ('NO_SESSION' | 'SESSION_CLOSED')};
 
+export type Olz_Api_OlzTypedEndpoint0afefec6bf0d2e3612a76d6132b66d8d_Request = (Record<string, never> | null);
+
+export type Olz_Api_OlzTypedEndpoint0afefec6bf0d2e3612a76d6132b66d8d_Response = {'status': 'OK'};
+
 export type Olz_Api_OlzTypedEndpointd0010454fc29738f4fdb6e8c72188e7d_Request = (Record<string, never> | null);
 
 export type Olz_Api_OlzTypedEndpointd0010454fc29738f4fdb6e8c72188e7d_Response = {'user'?: (Olz_Common_Endpoints_GetAuthenticatedUserEndpoint_OlzAuthenticatedUser | null)};
@@ -1861,6 +1865,7 @@ export type OlzApiEndpoint =
     'resetPassword'|
     'switchUser'|
     'logout'|
+    'refresh'|
     'getAuthenticatedUser'|
     'getAuthenticatedRoles'|
     'getEntitiesAroundPosition'|
@@ -2002,6 +2007,7 @@ export interface OlzApiRequests extends OlzApiEndpointMapping {
     resetPassword: Olz_Api_OlzTypedEndpoint7b376aaa84e28c6a90e673850719b9d5_Request,
     switchUser: Olz_Api_OlzTypedEndpoint829e19faa8eaa4462ec42721016d7672_Request,
     logout: Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Request,
+    refresh: Olz_Api_OlzTypedEndpoint0afefec6bf0d2e3612a76d6132b66d8d_Request,
     getAuthenticatedUser: Olz_Api_OlzTypedEndpointd0010454fc29738f4fdb6e8c72188e7d_Request,
     getAuthenticatedRoles: Olz_Api_OlzTypedEndpoint20b04334f657cd799a3f6e6954cc92f4_Request,
     getEntitiesAroundPosition: Olz_Api_OlzTypedEndpoint4915b32970e4ab8e80720a51c6dc0a9c_Request,
@@ -2142,6 +2148,7 @@ export interface OlzApiResponses extends OlzApiEndpointMapping {
     resetPassword: Olz_Api_OlzTypedEndpoint7b376aaa84e28c6a90e673850719b9d5_Response,
     switchUser: Olz_Api_OlzTypedEndpoint829e19faa8eaa4462ec42721016d7672_Response,
     logout: Olz_Api_OlzTypedEndpoint2b90bc820bc224346fa4f675cde48ece_Response,
+    refresh: Olz_Api_OlzTypedEndpoint0afefec6bf0d2e3612a76d6132b66d8d_Response,
     getAuthenticatedUser: Olz_Api_OlzTypedEndpointd0010454fc29738f4fdb6e8c72188e7d_Response,
     getAuthenticatedRoles: Olz_Api_OlzTypedEndpoint20b04334f657cd799a3f6e6954cc92f4_Response,
     getEntitiesAroundPosition: Olz_Api_OlzTypedEndpoint4915b32970e4ab8e80720a51c6dc0a9c_Response,

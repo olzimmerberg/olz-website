@@ -7,6 +7,8 @@ namespace Olz\Tests\UnitTests\Common\Endpoints;
 use Olz\Common\Endpoints\LogoutEndpoint;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Utils\WithUtilsCache;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @internal
@@ -17,6 +19,8 @@ final class LogoutEndpointTest extends UnitTestCase {
     public function testLogoutEndpoint(): void {
         $endpoint = new LogoutEndpoint();
         $endpoint->runtimeSetup();
+        $response = new Response();
+        $endpoint->setHttpContext(new Request(), $response);
         WithUtilsCache::get('session')->session_storage = [
             'auth' => 'all verified_email',
             'root' => 'karten',
@@ -38,5 +42,8 @@ final class LogoutEndpointTest extends UnitTestCase {
         ], $this->getLogs());
         $this->assertSame([], WithUtilsCache::get('session')->session_storage);
         $this->assertTrue(WithUtilsCache::get('session')->cleared);
+        $cookies = $response->headers->getCookies();
+        $this->assertCount(1, $cookies);
+        $this->assertSame('', $cookies[0]->getValue());
     }
 }

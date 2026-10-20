@@ -47,6 +47,10 @@ class LoginEndpoint extends OlzTypedEndpoint {
 
         $this->authUtils()->setSessionUser($user);
         $this->authUtils()->setSessionAuthUser($user);
+        $refresh_token = $this->authUtils()->issueRefreshToken($user);
+        $this->getResponse()->headers->setCookie(
+            $this->authUtils()->createRefreshTokenCookie($refresh_token)
+        );
         return [
             'status' => 'AUTHENTICATED',
             'numRemainingAttempts' => null,

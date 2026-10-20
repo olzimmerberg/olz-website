@@ -55,7 +55,7 @@ class SystemTestCase extends KernelTestCase {
                     'capabilities' => [
                         'moz:firefoxOptions' => [
                             'args' => ['--headless'], // re-declare in case of replace semantics
-                            'prefs' => ['general.useragent.override' => 'YOUR-UA-HERE'],
+                            'prefs' => ['general.useragent.override' => 'OlzSystemTest/1.0'],
                         ],
                     ],
                 ], $base_uri);

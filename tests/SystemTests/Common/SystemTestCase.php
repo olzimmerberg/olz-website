@@ -51,7 +51,14 @@ class SystemTestCase extends KernelTestCase {
                 // TODO: Re-add the `general.useragent.override = OlzSystemTest/1.0` preference.
                 // Panther's FirefoxManager does not expose Firefox preferences directly;
                 // it would require passing a custom `moz:firefoxOptions` capability.
-                self::$client = Client::createFirefoxClient(null, null, [], $base_uri);
+                self::$client = Client::createFirefoxClient(null, null, [
+                    'capabilities' => [
+                        'moz:firefoxOptions' => [
+                            'args' => ['--headless'], // re-declare in case of replace semantics
+                            'prefs' => ['general.useragent.override' => 'YOUR-UA-HERE'],
+                        ],
+                    ],
+                ], $base_uri);
             } elseif (self::$browser_name === 'chrome') {
                 self::$client = Client::createChromeClient(null, ['--user-agent=OlzSystemTest/1.0'], [], $base_uri);
             } else {

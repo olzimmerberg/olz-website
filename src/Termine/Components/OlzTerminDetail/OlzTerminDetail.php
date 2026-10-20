@@ -8,9 +8,12 @@ use Olz\Common\Components\OlzRootComponent;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
+use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminNotification;
+use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
+use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 use Olz\Utils\HttpParams;
 
@@ -253,7 +256,7 @@ class OlzTerminDetail extends OlzRootComponent {
                 <div>
                     <button
                         id='add-termin-notification-button'
-                        class='btn btn-primary'
+                        class='btn btn-secondary btn-sm'
                         onclick='return olz.addTerminNotification({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
@@ -293,6 +296,27 @@ class OlzTerminDetail extends OlzRootComponent {
         if ($solv_uid) {
             // SOLV-Übersicht-Link zeigen
             $out .= "<h4><a href='https://www.o-l.ch/cgi-bin/fixtures?&mode=show&unique_id={$solv_uid}' target='_blank' class='linkol'>O-L.ch</a></h4>\n";
+        }
+
+        $sub_termine = $termin_repo->findBy(['parent_termin' => $termin], [
+            'start_date' => 'ASC',
+            'start_time' => 'ASC',
+        ]);
+        foreach ($sub_termine as $sub_termin) {
+            $out .= OlzTermineListItem::render([
+                'id' => $sub_termin->getId(),
+                'owner_user_id' => $sub_termin->getOwnerUser()?->getId(),
+                'start_date' => $sub_termin->getStartDate()->format('Y-m-d'),
+                'start_time' => $sub_termin->getStartTime()?->format('H:i:s'),
+                'end_date' => $sub_termin->getEndDate()?->format('Y-m-d'),
+                'end_time' => $sub_termin->getEndTime()?->format('H:i:s'),
+                'organizer_user_id' => $sub_termin->getOrganizerUser()?->getId(),
+                'title' => $sub_termin->getTitle(),
+                'text' => $sub_termin->getText(),
+                'labels' => $sub_termin->getLabels(),
+                'image_ids' => $sub_termin->getImageIds(),
+                'location_id' => $sub_termin->getLocation()?->getId(),
+            ]);
         }
 
         // Text
@@ -375,8 +399,48 @@ class OlzTerminDetail extends OlzRootComponent {
         $json_reactions = json_encode($linked_reactions) ?: '[]';
         $out .= "<div id='termin-reactions'></div><script>olz.initTerminReactions({$json_id}, {$json_reactions});</script>";
 
+        // News
+        $has_blog = $this->authUtils()->hasPermission('kaderblog', $user);
+        $has_roles = !empty($this->authUtils()->getAuthenticatedRoles());
+        $json_mode = htmlentities(json_encode($has_roles ? ($has_blog ? 'account_with_all' : 'account_with_aktuell') : ($has_blog ? 'account_with_blog' : 'account')) ?: '');
+        $add_termin_news_admin = '';
+        if ($this->authUtils()->hasPermission('any')) {
+            $add_termin_news_admin = <<<ZZZZZZZZZZ
+                <button
+                    id='add-termin-news-button'
+                    class='btn btn-secondary btn-sm'
+                    onclick='return olz.addTerminNewsEntry({$json_id}, {$json_mode})'
+                >
+                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    Neuer News-Eintrag
+                </button>
+                ZZZZZZZZZZ;
+        }
+        $out .= "<div id='termin-news'>";
+        $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
+        $news_entries = $news_repo->findBy(
+            ['termin' => $termin],
+            [
+                'published_date' => 'DESC',
+                'published_time' => 'DESC',
+            ],
+        );
+        $num_news_entries = count($news_entries);
+        $out .= $add_termin_news_admin;
+        if ($num_news_entries === 0) {
+            $out .= "<p><i>Keine News-Einträge</i></p>";
+        } else {
+            foreach ($news_entries as $news_entry) {
+                $out .= OlzNewsListItem::render([
+                    'json_mode' => $json_mode,
+                    'news_entry' => $news_entry,
+                ]);
+            }
+        }
+        $out .= "</div>";
+
+        // Termin Notifications
         if ($can_edit) {
-            // Termin Notifications
             $termin_notification_repo = $this->entityManager()->getRepository(TerminNotification::class);
             $termin_notifications = $termin_notification_repo->findBy(
                 ['termin' => $termin],

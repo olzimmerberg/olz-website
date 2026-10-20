@@ -58,12 +58,13 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
 
                     **Termine**
 
+                    - Fr, 13.03. - Mo, 16.03.: [Fake default title\!](http://fake-base-url/_/termine/12345)
                     - Fr, 13.03.: [Fake title\!](http://fake-base-url/_/termine/12)
-                    - Fr, 13.03. - Mo, 16.03.: [Fake title\!](http://fake-base-url/_/termine/1234)
 
 
                     **Meldeschlüsse**
 
+                    - Fr, 13.03.: Meldeschluss für '[Fake default title\!](http://fake-base-url/_/termine/12345)'
                     - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
 
@@ -83,12 +84,13 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
 
                     **Termine**
 
+                    - Fr, 13.03. - Mo, 16.03.: [Fake default title\!](http://fake-base-url/_/termine/12345)
                     - Fr, 13.03.: [Fake title\!](http://fake-base-url/_/termine/12)
-                    - Fr, 13.03. - Mo, 16.03.: [Fake title\!](http://fake-base-url/_/termine/1234)
 
 
                     **Meldeschlüsse**
 
+                    - Fr, 13.03.: Meldeschluss für '[Fake default title\!](http://fake-base-url/_/termine/12345)'
                     - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
                     
@@ -126,12 +128,13 @@ final class SendWeeklyPreviewCommandTest extends UnitTestCase {
 
             **Termine**
 
+            - Fr, 13.03. - Mo, 16.03.: [Fake default title\!](http://fake-base-url/_/termine/12345)
             - Fr, 13.03.: [Fake title\!](http://fake-base-url/_/termine/12)
-            - Fr, 13.03. - Mo, 16.03.: [Fake title\!](http://fake-base-url/_/termine/1234)
 
 
             **Meldeschlüsse**
 
+            - Fr, 13.03.: Meldeschluss für '[Fake default title\!](http://fake-base-url/_/termine/12345)'
             - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
 

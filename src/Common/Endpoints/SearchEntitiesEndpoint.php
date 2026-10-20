@@ -11,6 +11,7 @@ use Olz\Entity\Roles\Role;
 use Olz\Entity\Service\Download;
 use Olz\Entity\Service\Link;
 use Olz\Entity\SolvEvent;
+use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
@@ -24,7 +25,7 @@ use PhpTypeScriptApi\HttpError;
  *   id: int<1, max>,
  *   title: non-empty-string,
  * }
- * @phpstan-type OlzSearchableEntityType 'Download'|'Link'|'Question'|'QuestionCategory'|'SolvEvent'|'TerminLabel'|'TerminLocation'|'TerminTemplate'|'Role'|'User'
+ * @phpstan-type OlzSearchableEntityType 'Download'|'Link'|'Question'|'QuestionCategory'|'SolvEvent'|'Termin'|'TerminLabel'|'TerminLocation'|'TerminTemplate'|'Role'|'User'
  *
  * @extends OlzTypedEndpoint<
  *   array{
@@ -45,6 +46,7 @@ class SearchEntitiesEndpoint extends OlzTypedEndpoint {
         'Question' => Question::class,
         'QuestionCategory' => QuestionCategory::class,
         'SolvEvent' => SolvEvent::class,
+        'Termin' => Termin::class,
         'TerminLabel' => TerminLabel::class,
         'TerminLocation' => TerminLocation::class,
         'TerminTemplate' => TerminTemplate::class,
@@ -53,9 +55,10 @@ class SearchEntitiesEndpoint extends OlzTypedEndpoint {
     ];
 
     protected function handle(mixed $input): mixed {
-        $this->checkPermission('any');
-
         $entity_type = $input['entityType'];
+        if ($entity_type !== 'Termin') { // Anonymous User creating NewsEntry with terminId
+            $this->checkPermission('any');
+        }
         $entity_class = self::SUPPORTED_ENTITY_TYPES[$entity_type];
 
         $filter_criteria = [];

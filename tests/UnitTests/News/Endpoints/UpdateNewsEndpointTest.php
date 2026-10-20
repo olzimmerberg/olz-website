@@ -214,7 +214,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('Sehr viel Inhalt.', $entity->getContent());
         $this->assertNull($entity->getExternalUrl());
         $this->assertSame(' test unit ', $entity->getTags());
-        $this->assertSame(0, $entity->getTermin());
+        $this->assertNull($entity->getTermin());
 
         $this->assertSame([
             [$entity, 1, 1, 1],
@@ -299,7 +299,7 @@ final class UpdateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('', $entity->getContent());
         $this->assertNull($entity->getExternalUrl());
         $this->assertSame('  ', $entity->getTags());
-        $this->assertSame(0, $entity->getTermin());
+        $this->assertNull($entity->getTermin());
 
         $this->assertSame([
             [$entity, 1, 1, 1],

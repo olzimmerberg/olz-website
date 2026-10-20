@@ -74,6 +74,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
 
                 Folgende Meldeschlüsse stehen bevor:
 
+                - Fr, 13.03.: Meldeschluss für '[Fake default title\!](http://fake-base-url/_/termine/12345)'
                 - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
 
@@ -90,6 +91,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
 
                 Folgende Meldeschlüsse stehen bevor:
 
+                - Fr, 13.03.: Meldeschluss für '[Fake default title\!](http://fake-base-url/_/termine/12345)'
                 - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
                 <br /><br />
@@ -113,6 +115,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
 
                     Folgende Meldeschlüsse stehen bevor:
 
+                    - Fr, 13.03.: Meldeschluss für '[Fake default title\!](http://fake-base-url/_/termine/12345)'
                     - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
                     ZZZZZZZZZZ,
@@ -155,6 +158,7 @@ final class SendDeadlineWarningCommandTest extends UnitTestCase {
 
             Folgende Meldeschlüsse stehen bevor:
 
+            - Fr, 13.03.: Meldeschluss für '[Fake default title\!](http://fake-base-url/_/termine/12345)'
             - Fr, 13.03.: Meldeschluss für '[Fake title\!](http://fake-base-url/_/termine/1234)'
 
             ZZZZZZZZZZ;

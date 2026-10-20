@@ -136,6 +136,7 @@ final class SendDailySummaryCommandTest extends UnitTestCase {
 
             **Aktualisierte Termine**
 
+            - Fr, 13.03. - Mo, 16.03.: [Fake default title\!](http://fake-base-url/_/termine/12345)
             - Fr, 13.03. - Mo, 16.03.: [Fake title\!](http://fake-base-url/_/termine/1234)
 
 

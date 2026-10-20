@@ -40,7 +40,7 @@ export type Olz_Common_Endpoints_GetEntitiesAroundPositionEndpoint_OlzSearchable
 
 export type Olz_Common_Endpoints_GetEntitiesAroundPositionEndpoint_OlzEntityPositionResult = {'id': number, 'position': (number | null), 'title': string};
 
-export type Olz_Common_Endpoints_SearchEntitiesEndpoint_OlzSearchableEntityType = ('Download' | 'Link' | 'Question' | 'QuestionCategory' | 'SolvEvent' | 'TerminLabel' | 'TerminLocation' | 'TerminTemplate' | 'Role' | 'User');
+export type Olz_Common_Endpoints_SearchEntitiesEndpoint_OlzSearchableEntityType = ('Download' | 'Link' | 'Question' | 'QuestionCategory' | 'SolvEvent' | 'Termin' | 'TerminLabel' | 'TerminLocation' | 'TerminTemplate' | 'Role' | 'User');
 
 export type Olz_Api_OlzTypedEndpoint4ed8fea3d3f2a3eeb335cfe0fe0b7a54_Request = (Record<string, never> | null);
 
@@ -1036,7 +1036,7 @@ export type Olz_Termine_Endpoints_CreateTerminEndpoint_OlzTerminData = Olz_Termi
 
 export type Olz_Termine_Endpoints_CreateTerminEndpoint_OlzTerminId = Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminId;
 
-export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'endDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'endTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'title'?: (string | null), 'text': string, 'organizerUserId': (number | null), 'deadline'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'types': Array<string>, 'locationId'?: (number | null), 'location'?: (Olz_Termine_Endpoints_TerminEndpointTrait_OlzLocationCoordinates | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
+export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminData = {'fromTemplateId'?: (number | null), 'startDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'startTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'endDate'?: (PhpTypeScriptApi_PhpStan_IsoDate | null), 'endTime'?: (PhpTypeScriptApi_PhpStan_IsoTime | null), 'title'?: (string | null), 'text': string, 'organizerUserId': (number | null), 'deadline'?: (PhpTypeScriptApi_PhpStan_IsoDateTime | null), 'shouldPromote': boolean, 'newsletter': boolean, 'solvId'?: (number | null), 'types': Array<string>, 'locationId'?: (number | null), 'location'?: (Olz_Termine_Endpoints_TerminEndpointTrait_OlzLocationCoordinates | null), 'parentTerminId'?: (number | null), 'imageIds': Array<string>, 'fileIds': Array<string>};
 
 export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminId = number;
 

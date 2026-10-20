@@ -4,6 +4,7 @@ import {olzApi, OlzMetaData, OlzNewsData, OlzNewsFormat} from '../../../Api/clie
 import {MARKDOWN_NOTICE, initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {OlzAuthenticatedUserRoleField} from '../../../Common/Components/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
+import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
@@ -23,6 +24,7 @@ interface OlzEditNewsForm {
     publishAtOption: PublishAtOption;
     publishAtDateTime: string | null;
     publishedAt: string | null;
+    terminId: number | null;
     title: string;
     teaser: string;
     content: string;
@@ -42,7 +44,7 @@ const resolver: Resolver<OlzEditNewsForm> = async (values) => {
     };
 };
 
-function getFormFromApi(apiData?: OlzNewsData): OlzEditNewsForm {
+function getFormFromApi(apiData?: Partial<OlzNewsData>): OlzEditNewsForm {
     const now = new Date();
     const offsetMs = now.getTimezoneOffset() * 60 * 1000;
     const msLocal = now.getTime() - offsetMs;
@@ -59,6 +61,7 @@ function getFormFromApi(apiData?: OlzNewsData): OlzEditNewsForm {
         publishAtOption: apiData ? 'unchanged' : 'now',
         publishAtDateTime: apiData?.publishAt ?? `${nowDate} ${nowTime}`,
         publishedAt: apiData?.publishAt ?? null,
+        terminId: apiData?.terminId ?? null,
         title: apiData?.title ?? '',
         teaser: apiData?.teaser ?? '',
         content: apiData?.content ?? '',
@@ -83,12 +86,12 @@ function getApiFromForm(config: OlzEditNewsModalConfig, formData: OlzEditNewsFor
             : formData?.publishAtOption === 'now'
                 ? null
                 : formData?.publishAtDateTime,
+        terminId: formData.terminId,
         title: formData?.title,
         teaser: config.hasTeaser ? formData?.teaser : '',
         content: formData?.content,
         externalUrl: config.hasExternalUrl ? (formData?.externalUrl || null) : null,
         tags: [],
-        terminId: null,
         imageIds: formData?.imageIds,
         fileIds: formData?.fileIds,
     };
@@ -209,7 +212,7 @@ interface OlzEditNewsModalProps {
     mode: OlzEditNewsModalMode;
     id?: number;
     meta?: OlzMetaData;
-    data?: OlzNewsData;
+    data?: Partial<OlzNewsData>;
 }
 
 export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactElement => {
@@ -227,6 +230,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
 
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isRolesLoading, setIsRolesLoading] = React.useState<boolean>(false);
+    const [isTerminLoading, setIsTerminLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
     const [isFilesLoading, setIsFilesLoading] = React.useState<boolean>(false);
     const [captchaToken, setCaptchaToken] = React.useState<string | null>(null);
@@ -280,7 +284,7 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
             : 'News-Eintrag bearbeiten'
         );
     const markdownNotice = config.hasFormattingNotes ? MARKDOWN_NOTICE : '';
-    const isLoading = isRolesLoading || isImagesLoading || isFilesLoading;
+    const isLoading = isRolesLoading || isTerminLoading || isImagesLoading || isFilesLoading;
     const editModalStatus: OlzEditModalStatus = isLoading ? {id: 'LOADING'} : status;
 
     return (
@@ -350,32 +354,47 @@ export const OlzEditNewsModal = (props: OlzEditNewsModalProps): React.ReactEleme
             )}
             <div className='row'>
                 <div className='col mb-3'>
-                    <label htmlFor='publishAtOption-input'>Veröffentlichung</label>
-                    <select
-                        className='form-control form-select'
-                        id='publishAtOption-input'
-                        {...register('publishAtOption')}
-                        defaultValue={publishAtOption ?? publishAtOptions[0]}
-                    >
-                        {publishAtOptions.map((option) => (
-                            <option value={option.id} key={option.id}>
-                                {option.title}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                {publishAtOption === 'custom' ? (
-                    <div className='col mb-3'>
-                        <OlzTextField
-                            title=''
-                            name='publishAtDateTime'
-                            errors={errors}
-                            register={register}
-                        />
+                    <div className='publishAt-container'>
+                        <div className='col mb-3 left-col'>
+                            <label htmlFor='publishAtOption-input'>Veröffentlichung</label>
+                            <select
+                                className='form-control form-select'
+                                id='publishAtOption-input'
+                                {...register('publishAtOption')}
+                                defaultValue={publishAtOption ?? publishAtOptions[0]}
+                            >
+                                {publishAtOptions.map((option) => (
+                                    <option value={option.id} key={option.id}>
+                                        {option.title}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {publishAtOption === 'custom' ? (
+                            <div className='col mb-3 right-col'>
+                                <OlzTextField
+                                    title=''
+                                    name='publishAtDateTime'
+                                    errors={errors}
+                                    register={register}
+                                />
+                            </div>
+                        ) : (
+                            <div className='col mb-3 right-col'></div>
+                        )}
                     </div>
-                ) : (
-                    <div className='col mb-3'></div>
-                )}
+                </div>
+                <div className='col mb-3'>
+                    <OlzEntityField
+                        title={<>Termin</>}
+                        entityType='Termin'
+                        name='terminId'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsTerminLoading}
+                        nullLabel={'Gehört nicht zu einem Termin'}
+                    />
+                </div>
             </div>
             <div className='mb-3'>
                 <OlzTextField
@@ -464,7 +483,7 @@ export function initOlzEditNewsModal(
     mode: OlzEditNewsModalMode,
     id?: number,
     meta?: OlzMetaData,
-    data?: OlzNewsData,
+    data?: Partial<OlzNewsData>,
 ): boolean {
     return initOlzEditModal('edit-news-modal', () => (
         <OlzEditNewsModal

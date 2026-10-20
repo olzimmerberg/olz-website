@@ -4,6 +4,7 @@ namespace Olz\News\Endpoints;
 
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Roles\Role;
+use Olz\Entity\Termine\Termin;
 use Olz\Entity\Users\User;
 use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
@@ -13,8 +14,8 @@ use PhpTypeScriptApi\PhpStan\IsoDateTime;
  * @phpstan-type OlzNewsId int
  * @phpstan-type OlzNewsData array{
  *   format: OlzNewsFormat,
- *   authorUserId?: ?int<1, max>,
- *   authorRoleId?: ?int<1, max>,
+ *   authorUserId?: ?int,
+ *   authorRoleId?: ?int,
  *   authorName?: ?non-empty-string,
  *   authorEmail?: ?non-empty-string,
  *   publishAt?: ?IsoDateTime,
@@ -23,7 +24,7 @@ use PhpTypeScriptApi\PhpStan\IsoDateTime;
  *   content: string,
  *   externalUrl?: ?non-empty-string,
  *   tags: array<non-empty-string>,
- *   terminId?: ?int<1, max>,
+ *   terminId?: ?int,
  *   imageIds?: ?array<non-empty-string>,
  *   fileIds: array<non-empty-string>,
  * }
@@ -46,8 +47,8 @@ trait NewsEndpointTrait {
 
         return [
             'format' => $this->getFormatForApi($entity),
-            'authorUserId' => $this->getAuthorUserId($entity),
-            'authorRoleId' => $this->getAuthorRoleId($entity),
+            'authorUserId' => $entity->getAuthorUser()?->getId(),
+            'authorRoleId' => $entity->getAuthorRole()?->getId(),
             'authorName' => $author_name ? $author_name : null,
             'authorEmail' => $author_email ? $author_email : null,
             'publishAt' => new IsoDateTime("{$published_date} {$published_time}"),
@@ -56,7 +57,7 @@ trait NewsEndpointTrait {
             'content' => $entity->getContent() ?? '',
             'externalUrl' => $external_url ? $external_url : null,
             'tags' => $tags_for_api,
-            'terminId' => $this->getTerminId($entity),
+            'terminId' => $entity->getTermin()?->getId(),
             'imageIds' => $valid_image_ids,
             'fileIds' => $file_ids,
         ];
@@ -66,6 +67,7 @@ trait NewsEndpointTrait {
     public function updateEntityWithData(NewsEntry $entity, array $input_data): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $current_user = $this->authUtils()->getCurrentUser();
         $now = new \DateTime($this->dateUtils()->getIsoNow());
 
@@ -86,6 +88,11 @@ trait NewsEndpointTrait {
             $author_role = $role_repo->findOneBy(['id' => $author_role_id]);
         }
 
+        $termin_id = $input_data['terminId'] ?? null;
+        $termin = $termin_id
+            ? $termin_repo->findOneBy(['id' => $termin_id])
+            : null;
+
         $publish_at = $input_data['publishAt'] ?? $now;
 
         $tags_for_db = $this->getTagsForDb($input_data['tags']);
@@ -103,8 +110,7 @@ trait NewsEndpointTrait {
         $entity->setExternalUrl($input_data['externalUrl'] ?? null);
         $entity->setTags($tags_for_db);
         $entity->setImageIds($valid_image_ids);
-        // TODO: Do not ignore
-        $entity->setTermin(0);
+        $entity->setTermin($termin);
         $entity->setCounter(0);
         $entity->setFormat($this->getFormat($input_data['format']));
         $entity->setNewsletter(true);
@@ -150,42 +156,6 @@ trait NewsEndpointTrait {
             case 'video': return 'video';
             default: throw new \Exception("Unknown news format: {$entity->getFormat()} ({$entity})");
         }
-    }
-
-    /** @return ?int<1, max> */
-    protected function getAuthorUserId(NewsEntry $entity): ?int {
-        $number = $entity->getAuthorUser()?->getId();
-        if ($number === null) {
-            return null;
-        }
-        if ($number < 1) {
-            throw new \Exception("Invalid author user ID: {$number} ({$entity})");
-        }
-        return $number;
-    }
-
-    /** @return ?int<1, max> */
-    protected function getAuthorRoleId(NewsEntry $entity): ?int {
-        $number = $entity->getAuthorRole()?->getId();
-        if ($number === null) {
-            return null;
-        }
-        if ($number < 1) {
-            throw new \Exception("Invalid author role ID: {$number} ({$entity})");
-        }
-        return $number;
-    }
-
-    /** @return ?int<1, max> */
-    protected function getTerminId(NewsEntry $entity): ?int {
-        $number = $entity->getTermin();
-        if (!$number) {
-            return null;
-        }
-        if ($number < 1) {
-            throw new \Exception("Invalid termin ID: {$number} ({$entity})");
-        }
-        return $number;
     }
 
     /** @param array<string> $tags */

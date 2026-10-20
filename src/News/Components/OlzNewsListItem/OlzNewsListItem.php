@@ -26,7 +26,7 @@ class OlzNewsListItem extends OlzComponent {
         $title = $news_entry->getTitle();
         $teaser = $news_entry->getTeaser();
         $content = $news_entry->getContent();
-        $link = "news/{$id}";
+        $link = "{$code_href}news/{$id}";
 
         $image_ids = $news_entry->getImageIds();
         $thumb = '';

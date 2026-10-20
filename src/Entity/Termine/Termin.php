@@ -4,11 +4,14 @@ namespace Olz\Entity\Termine;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
+use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\Termine\TerminRepository;
@@ -16,7 +19,7 @@ use Olz\Repository\Termine\TerminRepository;
 #[ORM\Table(name: 'termine')]
 #[ORM\Index(name: 'start_date_on_off_index', columns: ['start_date', 'on_off'])]
 #[ORM\Entity(repositoryClass: TerminRepository::class)]
-class Termin extends OlzEntity implements DataStorageInterface, TestableInterface {
+class Termin extends OlzEntity implements DataStorageInterface, SearchableInterface, TestableInterface {
     use DataStorageTrait;
 
     #[ORM\Id]
@@ -104,6 +107,10 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
 
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $longitude;
+
+    #[ORM\ManyToOne(targetEntity: Termin::class)]
+    #[ORM\JoinColumn(name: 'parent_termin_id', referencedColumnName: 'id', nullable: true)]
+    private ?Termin $parent_termin;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $solv_uid;
@@ -272,6 +279,14 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
         $this->newsletter = $new_value;
     }
 
+    public function getParentTermin(): ?Termin {
+        return $this->parent_termin;
+    }
+
+    public function setParentTermin(?Termin $new_value): void {
+        $this->parent_termin = $new_value;
+    }
+
     /** @return array<string> */
     public function getImageIds(): array {
         if ($this->image_ids == null) {
@@ -366,6 +381,46 @@ class Termin extends OlzEntity implements DataStorageInterface, TestableInterfac
 
     public function testOnlyGetField(string $field_name): mixed {
         return $this->{$field_name};
+    }
+
+    public static function getIdFieldNameForSearch(): string {
+        return 'id';
+    }
+
+    public function getIdForSearch(): int {
+        return $this->getId() ?? 0;
+    }
+
+    public function getTitleForSearch(): string {
+        $pretty_date = $this->getStartDate()->format('Y-m-d');
+        return "{$pretty_date}: {$this->getTitle()}";
+    }
+
+    public static function getCriteriaForFilter(string $key, string $value): Expression {
+        throw new \Exception("No such Termin filter: {$key}");
+    }
+
+    public static function getCriteriaForQuery(string $query): Expression {
+        if (preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $query)) {
+            return Criteria::expr()->orX(
+                Criteria::expr()->eq('start_date', new \DateTime($query)),
+                Criteria::expr()->contains('title', $query),
+            );
+        }
+        if (intval($query) > 1900) {
+            $this_year = strval(intval($query));
+            $next_year = strval(intval($query) + 1);
+            return Criteria::expr()->orX(
+                Criteria::expr()->andX(
+                    Criteria::expr()->gte('start_date', new \DateTime("{$this_year}-01-01 00:00:00")),
+                    Criteria::expr()->lt('start_date', new \DateTime("{$next_year}-01-01 00:00:00")),
+                ),
+                Criteria::expr()->contains('title', $query),
+            );
+        }
+        return Criteria::expr()->orX(
+            Criteria::expr()->contains('title', $query),
+        );
     }
 
     public static function getEntityNameForStorage(): string {

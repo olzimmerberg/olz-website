@@ -81,6 +81,24 @@
         }
     }
 
+    .sub-termine {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+
+        .sub-termin {
+            flex: 1 1 0;
+            border: 1px solid #aaa;
+            border-radius: 3px;
+            padding: 2px 4px;
+            font-weight: bold;
+
+            &.more {
+                flex: 0 0 50px;
+            }
+        }
+    }
+
     .image-container img {
         border: 0;
         border-radius: 3px;

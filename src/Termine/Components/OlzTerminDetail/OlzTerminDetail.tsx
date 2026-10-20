@@ -3,6 +3,7 @@ import {olzApi} from '../../../Api/client';
 import {OlzEditableReactions} from '../../../Common/Components/OlzEditableReactions/OlzEditableReactions';
 import {initReact} from '../../../Utils/reactUtils';
 import {initOlzEditTerminModal} from '../OlzEditTerminModal/OlzEditTerminModal';
+import {initOlzEditNewsModal, OlzEditNewsModalMode} from '../../../News/Components/OlzEditNewsModal/OlzEditNewsModal';
 import {initOlzEditTerminNotificationModal} from '../OlzEditTerminNotificationModal/OlzEditTerminNotificationModal';
 
 import './OlzTerminDetail.scss';
@@ -19,6 +20,14 @@ export function editTermin(
                 response.data,
             );
         });
+    return false;
+}
+
+export function addTerminNewsEntry(
+    terminId: number,
+    mode: OlzEditNewsModalMode,
+): boolean {
+    initOlzEditNewsModal(mode, undefined, undefined, {terminId});
     return false;
 }
 

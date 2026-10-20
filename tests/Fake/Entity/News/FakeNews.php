@@ -10,6 +10,7 @@ use Olz\Tests\Fake\Entity\Common\FakeEntity;
 use Olz\Tests\Fake\Entity\Common\FakeOlzEntity;
 use Olz\Tests\Fake\Entity\Common\Time;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
+use Olz\Tests\Fake\Entity\Termine\FakeTermin;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 
 /**
@@ -34,7 +35,7 @@ class FakeNews extends FakeEntity {
                 $entity->setTeaser("");
                 $entity->setContent("");
                 $entity->setTags('');
-                $entity->setTermin(0);
+                $entity->setTermin(null);
                 $entity->setExternalUrl(null);
                 $entity->setImageIds([]);
                 return $entity;
@@ -60,7 +61,7 @@ class FakeNews extends FakeEntity {
                 $entity->setTeaser("");
                 $entity->setContent("");
                 $entity->setTags('');
-                $entity->setTermin(0);
+                $entity->setTermin(null);
                 $entity->setExternalUrl('');
                 $entity->setImageIds([]);
                 return $entity;
@@ -86,7 +87,7 @@ class FakeNews extends FakeEntity {
                 $entity->setTeaser("Fake teaser!");
                 $entity->setContent("Fake content!");
                 $entity->setTags(' test unit ');
-                $entity->setTermin(0);
+                $entity->setTermin(FakeTermin::maximal());
                 $entity->setExternalUrl('');
                 $entity->setImageIds(['image__________________1.jpg', 'image__________________2.png']);
                 return $entity;

@@ -199,7 +199,10 @@ class SendDailySummaryCommand extends BaseSendNotificationsCommand {
                 ),
                 Criteria::expr()->eq('on_off', 1),
             ))
-            ->orderBy(['published_date' => Order::Ascending, 'published_time' => Order::Ascending])
+            ->orderBy([
+                'published_date' => \SortDirection::Ascending,
+                'published_time' => \SortDirection::Ascending,
+            ])
             ->setFirstResult(0)
             ->setMaxResults(1000)
         ;

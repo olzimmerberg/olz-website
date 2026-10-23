@@ -35,6 +35,7 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
  *   types: array<non-empty-string>,
  *   locationId?: ?int,
  *   location?: ?OlzLocationCoordinates,
+ *   parentTerminId?: ?int,
  *   imageIds: array<non-empty-string>,
  *   fileIds: array<non-empty-string>,
  * }
@@ -68,6 +69,7 @@ trait TerminEndpointTrait {
                 'latitude' => $entity->getLatitude(),
                 'longitude' => $entity->getLongitude(),
             ] : null,
+            'parentTerminId' => $entity->getParentTermin()?->getId(),
             'imageIds' => $valid_image_ids,
             'fileIds' => $file_ids,
         ];
@@ -86,6 +88,9 @@ trait TerminEndpointTrait {
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         $location_id = $input_data['locationId'] ?? null;
         $termin_location = $termin_location_repo->findOneBy(['id' => $location_id]);
+        $termin_repo = $this->entityManager()->getRepository(Termin::class);
+        $parent_termin_id = $input_data['parentTerminId'] ?? null;
+        $parent_termin = $termin_repo->findOneBy(['id' => $parent_termin_id]);
 
         $entity->setFromTemplate($termin_template);
         $entity->setStartDate($input_data['startDate'] ?? new \DateTime());
@@ -114,6 +119,7 @@ trait TerminEndpointTrait {
         $entity->setLocation($termin_location);
         $entity->setLatitude($input_data['location']['latitude'] ?? null);
         $entity->setLongitude($input_data['location']['longitude'] ?? null);
+        $entity->setParentTermin($parent_termin);
         $entity->setImageIds($valid_image_ids);
 
         if ($entity->getSolvId() !== null) {

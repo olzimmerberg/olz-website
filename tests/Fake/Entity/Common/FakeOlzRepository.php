@@ -96,11 +96,7 @@ class FakeOlzRepository extends EntityRepository {
         foreach ($criteria as $field => $filter_value) {
             $new_filtered = [];
             foreach ($filtered as $item) {
-                if (!$item instanceof TestableInterface) {
-                    $class = get_class($item);
-                    throw new \Exception("{$class} must implement TestableInterface");
-                }
-                $field_value = $item->testOnlyGetField($field);
+                $field_value = $this->getTestableEntity($item)->testOnlyGetField($field);
                 $is_same = $field_value === $filter_value;
                 if ($this->isDbObject($field_value)) {
                     $filter_id = $this->isDbObject($filter_value) ? $filter_value->getId() : $filter_value;
@@ -119,20 +115,22 @@ class FakeOlzRepository extends EntityRepository {
         return is_object($object) && method_exists($object, 'getId');
     }
 
+    protected function getTestableEntity(object $entity): TestableInterface {
+        if (!$entity instanceof TestableInterface) {
+            $class = get_class($entity);
+            throw new \Exception("{$class} must implement TestableInterface");
+        }
+        return $entity;
+    }
+
     /** @return AbstractLazyCollection<int, T>&Selectable<int, T> */
     public function matching(Criteria $criteria): AbstractLazyCollection&Selectable {
         if ($this->entitiesToBeMatched !== null) {
             return new FakeLazyCollection($this->entitiesToBeMatched);
         }
-        $class = $this->fakeOlzEntityClass;
-        $all_fake_entities = [
-            $class::minimal(),
-            $class::empty(),
-            $class::maximal(),
-        ];
         $matching_fake_entities = [];
-        foreach ($all_fake_entities as $fake) {
-            if ($this->isFakeMatchingCriteria($fake, $criteria)) {
+        foreach ($this->findAll() as $fake) {
+            if ($this->isFakeMatchingCriteria($this->getTestableEntity($fake), $criteria)) {
                 $matching_fake_entities[] = $fake;
             }
         }

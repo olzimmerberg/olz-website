@@ -4,6 +4,18 @@
         width: 95%;
     }
 
+    .publishAt-container {
+        display: flex;
+
+        .left-col {
+            flex: 1 1 30%;
+        }
+
+        .right-col {
+            flex: 2 2 70%;
+        }
+    }
+
     #teaser-input {
         height: 80px;
     }

@@ -12,6 +12,22 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
  * @extends FakeEntity<AccessToken>
  */
 class FakeAccessToken extends FakeEntity {
+    public static function default(bool $fresh = false): AccessToken {
+        return self::getFake(
+            $fresh,
+            function () {
+                $entity = new AccessToken();
+                $entity->setId(1);
+                $entity->setUser(FakeUser::defaultUser());
+                $entity->setPurpose('Fake Purpose');
+                $entity->setToken('ABC123abc');
+                $entity->setCreatedAt(new \DateTime('2020-03-13 19:30:00'));
+                $entity->setExpiresAt(new \DateTime('2021-03-13 19:30:00'));
+                return $entity;
+            }
+        );
+    }
+
     public static function minimal(bool $fresh = false): AccessToken {
         return self::getFake(
             $fresh,
@@ -51,22 +67,6 @@ class FakeAccessToken extends FakeEntity {
                 $entity = new AccessToken();
                 $entity->setId(1234);
                 $entity->setUser(FakeUser::maximal());
-                $entity->setPurpose('Fake Purpose');
-                $entity->setToken('ABC123abc');
-                $entity->setCreatedAt(new \DateTime('2020-03-13 19:30:00'));
-                $entity->setExpiresAt(new \DateTime('2021-03-13 19:30:00'));
-                return $entity;
-            }
-        );
-    }
-
-    public static function default(bool $fresh = false): AccessToken {
-        return self::getFake(
-            $fresh,
-            function () {
-                $entity = new AccessToken();
-                $entity->setId(1);
-                $entity->setUser(FakeUser::defaultUser());
                 $entity->setPurpose('Fake Purpose');
                 $entity->setToken('ABC123abc');
                 $entity->setCreatedAt(new \DateTime('2020-03-13 19:30:00'));

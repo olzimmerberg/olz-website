@@ -214,7 +214,7 @@ class OlzTermineList extends OlzRootComponent {
                     t.image_ids as image_ids,
                     t.location_id as location_id
                 FROM termine t
-                WHERE ({$inner_sql_where})
+                WHERE ({$inner_sql_where}) AND (t.parent_termin_id IS NULL)
             ) UNION ALL (
                 SELECT
                     'deadline' as item_type,

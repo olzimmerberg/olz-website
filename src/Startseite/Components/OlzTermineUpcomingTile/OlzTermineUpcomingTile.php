@@ -65,7 +65,10 @@ class OlzTermineUpcomingTile extends AbstractOlzTile {
                     LIMIT 1
                 ) as label_id
             FROM termine t
-            WHERE t.on_off = '1' AND t.start_date >= '{$today}'
+            WHERE
+                t.on_off = '1'
+                AND t.parent_termin_id IS NULL
+                AND t.start_date >= '{$today}'
             ORDER BY t.start_date ASC
             LIMIT 7
             ZZZZZZZZZZ);

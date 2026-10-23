@@ -8,14 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\SolvEventRepository;
-use Olz\Utils\WithUtilsTrait;
 
 #[ORM\Table(name: 'solv_events')]
 #[ORM\Index(name: 'date_index', columns: ['date'])]
 #[ORM\Entity(repositoryClass: SolvEventRepository::class)]
 class SolvEvent implements SearchableInterface, TestableInterface {
-    // use WithUtilsTrait;
-
     #[ORM\Id]
     #[ORM\Column(type: 'integer', nullable: false)]
     private int $solv_uid;

@@ -18,6 +18,49 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
  * @extends FakeEntity<Termin>
  */
 class FakeTermin extends FakeEntity {
+    public static function default(bool $fresh = false): Termin {
+        return self::getFake(
+            $fresh,
+            function () {
+                $termin_template = new TerminTemplate();
+                $termin_template->setId(123451);
+                $organizer_user = FakeUser::maximal();
+                $termin_label_1 = new TerminLabel();
+                $termin_label_1->setId(123453);
+                $termin_label_1->setIdent('training');
+                $termin_label_2 = new TerminLabel();
+                $termin_label_2->setId(123454);
+                $termin_label_2->setIdent('weekends');
+                $termin_location = new TerminLocation();
+                $termin_location->setId(123455);
+                $entity = new Termin();
+                FakeOlzEntity::maximal($entity);
+                $entity->setId(12345);
+                $entity->setFromTemplate($termin_template);
+                $entity->setStartDate(new Date('2020-03-13'));
+                $entity->setStartTime(new Time('19:30:00'));
+                $entity->setEndDate(new Date('2020-03-16'));
+                $entity->setEndTime(new Time('12:00:00'));
+                $entity->setTitle("Fake default title!");
+                $entity->setText("Fake default content");
+                $entity->setOrganizerUser($organizer_user);
+                $entity->clearLabels();
+                $entity->addLabel($termin_label_1);
+                $entity->addLabel($termin_label_2);
+                $entity->setLocation($termin_location);
+                $entity->setLatitude(null);
+                $entity->setLongitude(null);
+                $entity->setDeadline(new \DateTime('2020-03-13 18:00:00'));
+                $entity->setShouldPromote(false);
+                $entity->setSolvId(null);
+                $entity->setNewsletter(true);
+                $entity->setParentTermin(null);
+                $entity->setImageIds(['image__________________1.jpg']);
+                return $entity;
+            }
+        );
+    }
+
     public static function minimal(bool $fresh = false): Termin {
         return self::getFake(
             $fresh,
@@ -40,6 +83,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setShouldPromote(false);
                 $entity->setSolvId(null);
                 $entity->setNewsletter(false);
+                $entity->setParentTermin(null);
                 $entity->setImageIds([]);
                 return $entity;
             }
@@ -69,6 +113,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setShouldPromote(false);
                 $entity->setSolvId(0);
                 $entity->setNewsletter(false);
+                $entity->setParentTermin(null);
                 $entity->setImageIds([]);
                 return $entity;
             }
@@ -90,6 +135,8 @@ class FakeTermin extends FakeEntity {
                 $termin_label_2->setIdent('weekends');
                 $termin_location = new TerminLocation();
                 $termin_location->setId(12345);
+                $termin = new Termin();
+                $termin->setId(12346);
                 $entity = new Termin();
                 FakeOlzEntity::maximal($entity);
                 $entity->setId(1234);
@@ -111,6 +158,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setShouldPromote(true);
                 $entity->setSolvId(1234);
                 $entity->setNewsletter(true);
+                $entity->setParentTermin($termin);
                 $entity->setImageIds(['image__________________1.jpg', 'image__________________2.png']);
                 return $entity;
             }

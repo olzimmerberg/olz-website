@@ -14,6 +14,7 @@ use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Utils\NewsUtils;
+use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
@@ -134,6 +135,7 @@ class OlzNewsDetail extends OlzRootComponent {
         $teaser = $news_entry->getTeaser() ?? '';
         $content = $news_entry->getContent() ?? '';
         $published_date = $news_entry->getPublishedDate();
+        $termin = $news_entry->getTermin();
 
         // Markdown
         // TODO: Do NOT ever allow!
@@ -154,7 +156,7 @@ class OlzNewsDetail extends OlzRootComponent {
 
         $description = trim(strip_tags($teaser)) ?: trim(strip_tags($content));
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}news",
+            'back_link' => $termin ? "{$code_href}termine/{$termin->getId()}" : "{$code_href}news",
             'title' => "{$title} - News",
             'description' => $description,
             'norobots' => $is_archived,
@@ -206,8 +208,6 @@ class OlzNewsDetail extends OlzRootComponent {
 
         $db->query("UPDATE news SET `counter`=`counter` + 1 WHERE `id`='{$id}'");
 
-        $published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
-
         $is_owner = $user && intval($news_entry->getOwnerUser()?->getId() ?? 0) === intval($user->getId());
         $has_news_permissions = $this->authUtils()->hasPermission('news');
         $can_edit = $is_owner || $has_news_permissions;
@@ -229,6 +229,23 @@ class OlzNewsDetail extends OlzRootComponent {
                     </button>
                 </div>
                 ZZZZZZZZZZ;
+        }
+
+        if ($termin) {
+            $out .= OlzTermineListItem::render([
+                'id' => $termin->getId(),
+                'owner_user_id' => $termin->getOwnerUser()?->getId(),
+                'start_date' => $termin->getStartDate()->format('Y-m-d'),
+                'start_time' => $termin->getStartTime()?->format('H:i:s'),
+                'end_date' => $termin->getEndDate()?->format('Y-m-d'),
+                'end_time' => $termin->getEndTime()?->format('H:i:s'),
+                'organizer_user_id' => $termin->getOrganizerUser()?->getId(),
+                'title' => $termin->getTitle(),
+                'text' => $termin->getText(),
+                'labels' => $termin->getLabels(),
+                'image_ids' => $termin->getImageIds(),
+                'location_id' => $termin->getLocation()?->getId(),
+            ]);
         }
 
         $out .= "<h1>{$edit_admin}{$title}</h1>";

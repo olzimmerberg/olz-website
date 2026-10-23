@@ -212,7 +212,7 @@ final class EditNewsEndpointTest extends UnitTestCase {
                 'content' => 'Fake content!',
                 'externalUrl' => null,
                 'tags' => ['test', 'unit'],
-                'terminId' => null,
+                'terminId' => 1234,
                 'imageIds' => ['image__________________1.jpg', 'image__________________2.png'],
                 'fileIds' => ['file___________________1.pdf', 'file___________________2.txt'],
             ],

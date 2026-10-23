@@ -8,6 +8,7 @@ use Olz\Entity\Common\DataStorageTrait;
 use Olz\Entity\Common\OlzEntity;
 use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Roles\Role;
+use Olz\Entity\Termine\Termin;
 use Olz\Entity\Users\User;
 use Olz\Repository\News\NewsRepository;
 
@@ -22,8 +23,9 @@ class NewsEntry extends OlzEntity implements DataStorageInterface, TestableInter
     #[ORM\GeneratedValue]
     private int $id;
 
-    #[ORM\Column(type: 'integer', nullable: false)]
-    private int $termin;
+    #[ORM\ManyToOne(targetEntity: Termin::class)]
+    #[ORM\JoinColumn(name: 'termin_id', referencedColumnName: 'id', nullable: true)]
+    private ?Termin $termin;
 
     #[ORM\Column(type: 'date', nullable: false)]
     private \DateTime $published_date;
@@ -202,11 +204,11 @@ class NewsEntry extends OlzEntity implements DataStorageInterface, TestableInter
         $this->external_url = $new_value;
     }
 
-    public function getTermin(): int {
+    public function getTermin(): ?Termin {
         return $this->termin;
     }
 
-    public function setTermin(int $new_value): void {
+    public function setTermin(?Termin $new_value): void {
         $this->termin = $new_value;
     }
 

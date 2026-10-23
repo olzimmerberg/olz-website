@@ -137,7 +137,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('Sehr viel Inhalt.', $entity->getContent());
         $this->assertNull($entity->getExternalUrl());
         $this->assertSame(' test unit ', $entity->getTags());
-        $this->assertSame(0, $entity->getTermin());
+        $this->assertNull($entity->getTermin());
         $this->assertSame([], $entity->getImageIds());
 
         $this->assertSame([
@@ -273,7 +273,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('Sehr viel Inhalt.', $entity->getContent());
         $this->assertNull($entity->getExternalUrl());
         $this->assertSame(' test unit ', $entity->getTags());
-        $this->assertSame(0, $entity->getTermin());
+        $this->assertNull($entity->getTermin());
         $this->assertSame(['uploaded_image.jpg', 'inexistent.jpg'], $entity->getImageIds());
 
         $this->assertSame([
@@ -365,7 +365,7 @@ final class CreateNewsEndpointTest extends UnitTestCase {
         $this->assertSame('', $entity->getContent());
         $this->assertNull($entity->getExternalUrl());
         $this->assertSame('  ', $entity->getTags());
-        $this->assertSame(0, $entity->getTermin());
+        $this->assertNull($entity->getTermin());
         $this->assertSame([], $entity->getImageIds());
 
         $this->assertSame([

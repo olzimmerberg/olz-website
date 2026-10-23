@@ -77,6 +77,7 @@ class SendMonthlyPreviewCommand extends BaseSendNotificationsCommand {
                 Criteria::expr()->gt('start_date', $today),
                 Criteria::expr()->lt('start_date', $end_of_timespan),
                 Criteria::expr()->eq('on_off', 1),
+                Criteria::expr()->eq('parent_termin', null),
             ))
             ->orderBy(['start_date' => Order::Ascending])
             ->setFirstResult(0)

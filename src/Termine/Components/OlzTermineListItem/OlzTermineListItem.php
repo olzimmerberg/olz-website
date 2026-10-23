@@ -3,6 +3,7 @@
 namespace Olz\Termine\Components\OlzTermineListItem;
 
 use Olz\Common\Components\OlzComponent;
+use Olz\Entity\Termine\Termin;
 use Olz\Entity\Users\User;
 use Olz\Termine\Components\OlzDateCalendar\OlzDateCalendar;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
@@ -77,6 +78,32 @@ class OlzTermineListItem extends OlzComponent {
                 'image'
             );
         }
+        $sub_out = '';
+        if (!$is_deadline) {
+            $termine_repo = $this->entityManager()->getRepository(Termin::class);
+            $sub_termine = [...$termine_repo->findBy(
+                ['parent_termin' => $id, 'on_off' => 1],
+                ['start_date' => 'ASC', 'start_time' => 'ASC'],
+            )];
+            $num_sub_termine = count($sub_termine);
+            if ($num_sub_termine > 0) {
+                $sub_out .= "<div class='sub-termine'>";
+                for ($i = 0; $i < $num_sub_termine && $i < 3; $i++) {
+                    $sub_termin = $sub_termine[$i];
+                    $sub_out .= <<<ZZZZZZZZZZ
+                        <div class='sub-termin'>
+                            <img src="{$code_href}assets/icns/termine_type_all_20.svg" alt="Termine" class="text-icon">
+                            {$sub_termin->getTitle()}
+                        </div>
+                        ZZZZZZZZZZ;
+                }
+                $num_more = $num_sub_termine - 3;
+                if ($num_more > 0) {
+                    $sub_out .= "<div class='sub-termin more'>+{$num_more}</div>";
+                }
+                $sub_out .= "</div>";
+            }
+        }
 
         $user = $this->authUtils()->getCurrentUser();
         $is_owner = $user && $owner_user_id && intval($owner_user_id) === intval($user->getId());
@@ -107,6 +134,7 @@ class OlzTermineListItem extends OlzComponent {
                     <div class='title-text-container'>
                         <div class='title'>{$title}{$edit_admin}</div>
                         <div class='text'>{$organizer_prefix}{$text}</div>
+                        {$sub_out}
                     </div>
                     <div class='image-container'>
                         {$image}

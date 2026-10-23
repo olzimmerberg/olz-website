@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20260910212344
+-- MIGRATION: DoctrineMigrations\Version20261020152243
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -182,7 +182,7 @@ CREATE TABLE `counter` (
   `latency_num` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `date_range_page_index` (`date_range`,`page`)
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -356,7 +356,6 @@ CREATE TABLE `news` (
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
-  `termin` int(11) NOT NULL,
   `published_date` date NOT NULL,
   `published_time` time DEFAULT NULL,
   `newsletter` tinyint(1) NOT NULL DEFAULT 1,
@@ -373,6 +372,7 @@ CREATE TABLE `news` (
   `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `termin_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1DD39950E2544CD6` (`author_user_id`),
   KEY `IDX_1DD399509339BDEF` (`author_role_id`),
@@ -381,13 +381,15 @@ CREATE TABLE `news` (
   KEY `IDX_1DD399507D182D95` (`created_by_user_id`),
   KEY `IDX_1DD399501A04EF5A` (`last_modified_by_user_id`),
   KEY `published_index` (`published_date`,`published_time`),
+  KEY `IDX_1DD39950CA0B7C00` (`termin_id`),
   CONSTRAINT `FK_1DD399501A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1DD399502B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1DD399505A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_1DD399507D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1DD399509339BDEF` FOREIGN KEY (`author_role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FK_1DD39950CA0B7C00` FOREIGN KEY (`termin_id`) REFERENCES `termine` (`id`),
   CONSTRAINT `FK_1DD39950E2544CD6` FOREIGN KEY (`author_user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6404 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6406 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -810,6 +812,7 @@ CREATE TABLE `termine` (
   `latitude` double DEFAULT NULL,
   `longitude` double DEFAULT NULL,
   `documentation` longtext DEFAULT NULL,
+  `parent_termin_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_168C0A8F2B18554A` (`owner_user_id`),
   KEY `IDX_168C0A8F5A75A473` (`owner_role_id`),
@@ -821,8 +824,10 @@ CREATE TABLE `termine` (
   KEY `start_date_on_off_index` (`start_date`,`on_off`),
   KEY `IDX_168C0A8F9B953EDD` (`from_template_id`),
   KEY `IDX_168C0A8FEE5F645C` (`organizer_user_id`),
+  KEY `IDX_168C0A8F3B4053EE` (`parent_termin_id`),
   CONSTRAINT `FK_168C0A8F1A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_168C0A8F2B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_168C0A8F3B4053EE` FOREIGN KEY (`parent_termin_id`) REFERENCES `termine` (`id`),
   CONSTRAINT `FK_168C0A8F5A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_168C0A8F64D218E` FOREIGN KEY (`location_id`) REFERENCES `termin_locations` (`id`),
   CONSTRAINT `FK_168C0A8F6D54E666` FOREIGN KEY (`volunteers_registration_id`) REFERENCES `anmelden_registrations` (`id`),

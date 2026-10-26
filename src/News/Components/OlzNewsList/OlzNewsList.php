@@ -8,6 +8,7 @@ use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Roles\Role;
+use Olz\Entity\Termine\Termin;
 use Olz\Entity\Users\User;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
@@ -200,7 +201,8 @@ class OlzNewsList extends OlzRootComponent {
                 title,
                 teaser,
                 content,
-                image_ids
+                image_ids,
+                termin_id
             FROM news n
             WHERE
                 {$filter_where}
@@ -212,6 +214,7 @@ class OlzNewsList extends OlzRootComponent {
 
         $user_repo = $entityManager->getRepository(User::class);
         $role_repo = $entityManager->getRepository(Role::class);
+        $termin_repo = $entityManager->getRepository(Termin::class);
 
         $page_content = '';
         // @phpstan-ignore-next-line
@@ -252,6 +255,7 @@ class OlzNewsList extends OlzRootComponent {
             $news_entry->setId(intval($row['id']));
             // @phpstan-ignore-next-line
             $news_entry->setImageIds($row['image_ids'] ? json_decode($row['image_ids'], true) : null);
+            $news_entry->setTermin($row['termin_id'] ? $termin_repo->findOneBy(['id' => $row['termin_id']]) : null);
 
             $page_content .= OlzNewsListItem::render([
                 'json_mode' => $json_mode,

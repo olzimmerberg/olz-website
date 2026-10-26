@@ -9,7 +9,6 @@ use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 /** @extends OlzComponent<array<string, mixed>> */
 class OlzNewsListItem extends OlzComponent {
     public function getHtml(mixed $args): string {
-        $news_utils = $this->newsUtils();
         $code_href = $this->envUtils()->getCodeHref();
 
         $news_entry = $args['news_entry'];
@@ -26,7 +25,10 @@ class OlzNewsListItem extends OlzComponent {
         $title = $news_entry->getTitle();
         $teaser = $news_entry->getTeaser();
         $content = $news_entry->getContent();
+        $termin = $news_entry->getTermin();
         $link = "{$code_href}news/{$id}";
+        $icon_html = "<img src='{$icon}' class='icon' alt='' />";
+        $termin_html = $termin ? "<img src='{$code_href}assets/icns/termine_type_all_20.svg' class='icon' alt='' />{$termin->getTitle()}" : '';
 
         $image_ids = $news_entry->getImageIds();
         $thumb = '';
@@ -71,20 +73,20 @@ class OlzNewsListItem extends OlzComponent {
         $pretty_published_date = $this->dateUtils()->olzDate("tt.mm.jj", $published_date);
         if ($format === 'aktuell') {
             $out .= OlzPostingListItem::render([
-                'icon' => $icon,
+                'meta' => $termin_html,
                 'date' => $pretty_published_date,
                 'author' => $author_badge,
-                'title' => $title.$edit_admin,
+                'title' => $icon_html.$title.$edit_admin,
                 'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown($teaser ?? '', [])),
                 'link' => $link,
                 'class' => 'has-thumb',
             ]);
         } elseif ($format === 'kaderblog') {
             $out .= OlzPostingListItem::render([
-                'icon' => $icon,
+                'meta' => $termin_html,
                 'date' => $pretty_published_date,
                 'author' => $author_badge,
-                'title' => $title.$edit_admin,
+                'title' => $icon_html.$title.$edit_admin,
                 'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown(
                     self::truncateText($content ?? ''),
                 )),
@@ -93,10 +95,10 @@ class OlzNewsListItem extends OlzComponent {
             ]);
         } elseif ($format === 'forum') {
             $out .= OlzPostingListItem::render([
-                'icon' => $icon,
+                'meta' => $termin_html,
                 'date' => $pretty_published_date,
                 'author' => $author_badge,
-                'title' => $title.$edit_admin,
+                'title' => $icon_html.$title.$edit_admin,
                 'text' => $thumb.strip_tags($this->htmlUtils()->renderMarkdown(
                     self::truncateText($content ?? ''),
                 )),
@@ -116,10 +118,10 @@ class OlzNewsListItem extends OlzComponent {
                 $thumbs .= "<td class='test-flaky'>".$this->imageUtils()->olzImage("news", $id, $image_ids[$random_index - 1], 128, 'image')."</td>";
             }
             $out .= OlzPostingListItem::render([
-                'icon' => $icon,
+                'meta' => $termin_html,
                 'date' => $pretty_published_date,
                 'author' => $author_badge,
-                'title' => $title.$edit_admin,
+                'title' => $icon_html.$title.$edit_admin,
                 'text' => "<table><tr class='galerie-thumbs'>{$thumbs}</tr></table>",
                 'link' => $link,
             ]);
@@ -133,19 +135,19 @@ class OlzNewsListItem extends OlzComponent {
                 </div>
                 ZZZZZZZZZZ;
             $out .= OlzPostingListItem::render([
-                'icon' => $icon,
+                'meta' => $termin_html,
                 'date' => $pretty_published_date,
                 'author' => $author_badge,
-                'title' => $title.$edit_admin,
+                'title' => $icon_html.$title.$edit_admin,
                 'text' => $content,
                 'link' => $link,
             ]);
         } else {
             $out .= OlzPostingListItem::render([
-                'icon' => $icon,
+                'meta' => $termin_html,
                 'date' => $pretty_published_date,
                 'author' => $author_badge,
-                'title' => $title.$edit_admin,
+                'title' => $icon_html.$title.$edit_admin,
                 'link' => $link,
             ]);
         }

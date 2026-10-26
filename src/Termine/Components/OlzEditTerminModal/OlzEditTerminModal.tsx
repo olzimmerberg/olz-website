@@ -41,6 +41,7 @@ export const TERMIN_LOCATION_NOTICE = (<>
 
 interface OlzEditTerminForm {
     solvId: number | null;
+    parentTerminId: number | null;
     startDate: string;
     startTime: string;
     endDate: string;
@@ -78,6 +79,7 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
     const typesSet = new Set(apiData?.types ?? []);
     return {
         solvId: apiData?.solvId ?? null,
+        parentTerminId: apiData?.parentTerminId ?? null,
         startDate: getFormString(apiData?.startDate ?? isoNow.substring(0, 10)),
         startTime: getFormString(apiData?.startTime),
         endDate: getFormString(apiData?.endDate),
@@ -105,6 +107,7 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number
     return {
         fromTemplateId: templateId ?? null,
         solvId: formData.solvId,
+        parentTerminId: formData.parentTerminId,
         startDate: getApiString(formData.startDate) ?? '',
         startTime: getApiString(formData.startTime),
         endDate: getApiString(formData.endDate),
@@ -146,6 +149,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const [status, setStatus] = React.useState<OlzEditModalStatus>({id: 'IDLE'});
     const [isTemplateLoading, setIsTemplateLoading] = React.useState<boolean>(false);
     const [isSolvLoading, setIsSolvLoading] = React.useState<boolean>(false);
+    const [isTerminLoading, setIsTerminLoading] = React.useState<boolean>(false);
     const [isLocationLoading, setIsLocationLoading] = React.useState<boolean>(false);
     const [isOrganizerLoading, setIsOrganizerLoading] = React.useState<boolean>(false);
     const [isImagesLoading, setIsImagesLoading] = React.useState<boolean>(false);
@@ -261,6 +265,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
     const isLoading =
         isTemplateLoading
         || isSolvLoading
+        || isTerminLoading
         || isLocationLoading
         || isOrganizerLoading
         || isImagesLoading
@@ -294,6 +299,17 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                         control={control}
                         setIsLoading={setIsSolvLoading}
                         nullLabel={'Kein SOLV-Termin ausgewählt'}
+                    />
+                </div>
+                <div className='col mb-3'>
+                    <OlzEntityField
+                        title='Haupt-Termin'
+                        entityType='Termin'
+                        name='parentTerminId'
+                        errors={errors}
+                        control={control}
+                        setIsLoading={setIsTerminLoading}
+                        nullLabel={'Dies ist der Haupt-Termin'}
                     />
                 </div>
             </div>

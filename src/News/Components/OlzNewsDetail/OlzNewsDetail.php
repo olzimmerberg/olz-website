@@ -155,8 +155,9 @@ class OlzNewsDetail extends OlzRootComponent {
         $content = $news_entry->replaceFilePaths($content);
 
         $description = trim(strip_tags($teaser)) ?: trim(strip_tags($content));
+        $back_link = $termin ? "{$code_href}termine/{$termin->getId()}" : "{$code_href}news";
         $out = OlzHeader::render([
-            'back_link' => $termin ? "{$code_href}termine/{$termin->getId()}" : "{$code_href}news",
+            'back_link' => $back_link,
             'title' => "{$title} - News",
             'description' => $description,
             'norobots' => $is_archived,

@@ -146,8 +146,12 @@ class OlzTerminDetail extends OlzRootComponent {
         $maybe_date = ($termin_year !== $this_year) ? " {$termin_year}" : '';
         $title = "{$title}{$maybe_date}";
         $text = $termin->getText() ?? '';
+        $parent_termin = $termin->getParentTermin();
+        $back_link = $parent_termin
+            ? "{$code_href}termine/{$parent_termin->getId()}"
+            : "{$code_href}termine";
         $out = OlzHeader::render([
-            'back_link' => "{$code_href}termine",
+            'back_link' => $back_link,
             'title' => "{$title} - Termine",
             'description' => "{$text}",
             'norobots' => $is_archived,
@@ -200,6 +204,25 @@ class OlzTerminDetail extends OlzRootComponent {
         ]);
 
         $out .= "<div class='olz-termin-detail'>";
+
+        if ($parent_termin) {
+            $out .= "<div class='parent-termin-container'>";
+            $out .= OlzTermineListItem::render([
+                'id' => $parent_termin->getId(),
+                'owner_user_id' => $parent_termin->getOwnerUser()?->getId(),
+                'start_date' => $parent_termin->getStartDate()->format('Y-m-d'),
+                'start_time' => $parent_termin->getStartTime()?->format('H:i:s'),
+                'end_date' => $parent_termin->getEndDate()?->format('Y-m-d'),
+                'end_time' => $parent_termin->getEndTime()?->format('H:i:s'),
+                'organizer_user_id' => $parent_termin->getOrganizerUser()?->getId(),
+                'title' => $parent_termin->getTitle(),
+                'text' => $parent_termin->getText(),
+                'labels' => $parent_termin->getLabels(),
+                'image_ids' => $parent_termin->getImageIds(),
+                'location_id' => $parent_termin->getLocation()?->getId(),
+            ]);
+            $out .= "</div>";
+        }
 
         $out .= "<div class='preview'>";
         // Bild anzeigen

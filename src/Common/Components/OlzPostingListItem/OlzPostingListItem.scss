@@ -34,25 +34,40 @@
         }
     }
 
-    .title {
+    .meta {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 14px;
+        margin-top: 2px;
+
+        .icon {
+            height: 16px;
+            margin-right: 2px;
+        }
+    }
+
+    .date-title-container {
+        display: flex;
         font-size: 16px;
         font-weight: bold;
         line-height: 16px;
         margin-top: 2px;
-    }
 
-    .date {
-        color: #000;
-        float: right;
-        padding-left: 2px;
-        position: relative;
-        text-align: right;
-    }
+        .title {
+            flex: 1 1 100px;
 
-    .icon {
-        border: 0;
-        height: 20px;
-        width: 20px;
+            .icon {
+                border: 0;
+                height: 20px;
+                margin-right: 4px;
+            }
+        }
+
+        .date {
+            color: #000;
+            padding-left: 2px;
+            text-align: right;
+        }
     }
 
     .text {

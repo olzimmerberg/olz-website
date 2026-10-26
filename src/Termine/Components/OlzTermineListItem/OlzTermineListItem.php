@@ -134,11 +134,13 @@ class OlzTermineListItem extends OlzComponent {
                     <div class='title-text-container'>
                         <div class='title'>{$title}{$edit_admin}</div>
                         <div class='text'>{$organizer_prefix}{$text}</div>
-                        {$sub_out}
                     </div>
                     <div class='image-container'>
                         {$image}
                     </div>
+                </div>
+                <div class='sub'>
+                    {$sub_out}
                 </div>
             </div>
             ZZZZZZZZZZ;

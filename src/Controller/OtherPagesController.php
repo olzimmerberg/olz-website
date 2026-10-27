@@ -107,7 +107,7 @@ class OtherPagesController extends AbstractController {
             return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'trophy']);
         });
     }
-    
+
     #[Route('/schweden27')]
     #[Route('/🇸🇪27')]
     public function schweden27(

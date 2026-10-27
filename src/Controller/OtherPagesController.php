@@ -107,4 +107,19 @@ class OtherPagesController extends AbstractController {
             return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'trophy']);
         });
     }
+    
+    #[Route('/schweden27')]
+    #[Route('/🇸🇪27')]
+    public function schweden27(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        EnvUtils $envUtils,
+    ): Response {
+        return $httpUtils->measure($request, [], function () use ($envUtils) {
+            $code_href = $envUtils->getCodeHref();
+            $url = "{$code_href}termine/6830";
+            return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'schweden']);
+        });
+    }
 }

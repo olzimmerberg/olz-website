@@ -22,6 +22,8 @@ final class NewsAnonymousTest extends SystemTestCase {
         $this->waitForModal('#edit-news-modal');
         $this->sendKeys('#edit-news-modal #authorName-input', 'Anonymous Integration Test');
         $this->sendKeys('#edit-news-modal #authorEmail-input', 'anonymous@staging.olzimmerberg.ch');
+        $this->click('#edit-news-modal #terminId-field #dropdown-menu-button');
+        $this->click('#edit-news-modal #terminId-field #entity-index-1');
         $this->sendKeys('#edit-news-modal #title-input', 'Der Eintrag');
         $this->sendKeys('#edit-news-modal #content-input', "Der Inhalt des Eintrags");
         $this->click('#edit-news-modal #captcha-dev');
@@ -30,7 +32,7 @@ final class NewsAnonymousTest extends SystemTestCase {
 
         $this->click('#edit-news-modal #submit-button');
         $this->waitUntilGone('#edit-news-modal');
-        // TODO: Reenable / Refactor: $this->screenshot('news_new_anonymous_finished');
+        $this->screenshot('news_new_anonymous_finished');
 
         $this->resetDb();
         // TODO: Dummy assert

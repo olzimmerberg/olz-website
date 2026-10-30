@@ -15,6 +15,8 @@ use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\Termine\TerminRepository;
+use Olz\Utils\DateUtils;
+use Olz\Utils\WithUtilsCache;
 
 #[ORM\Table(name: 'termine')]
 #[ORM\Index(name: 'start_date_on_off_index', columns: ['start_date', 'on_off'])]
@@ -401,26 +403,32 @@ class Termin extends OlzEntity implements DataStorageInterface, SearchableInterf
     }
 
     public static function getCriteriaForQuery(string $query): Expression {
-        if (preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $query)) {
-            return Criteria::expr()->orX(
-                Criteria::expr()->eq('start_date', new \DateTime($query)),
-                Criteria::expr()->contains('title', $query),
-            );
-        }
-        if (intval($query) > 1900) {
-            $this_year = strval(intval($query));
-            $next_year = strval(intval($query) + 1);
-            return Criteria::expr()->orX(
-                Criteria::expr()->andX(
-                    Criteria::expr()->gte('start_date', new \DateTime("{$this_year}-01-01 00:00:00")),
-                    Criteria::expr()->lt('start_date', new \DateTime("{$next_year}-01-01 00:00:00")),
-                ),
-                Criteria::expr()->contains('title', $query),
-            );
+        $range = self::parseSearchDateRange($query);
+        if (!$range) {
+            return Criteria::expr()->contains('title', $query);
         }
         return Criteria::expr()->orX(
+            Criteria::expr()->andX(
+                Criteria::expr()->gte('start_date', $range['start']),
+                Criteria::expr()->lt('start_date', $range['end']),
+            ),
             Criteria::expr()->contains('title', $query),
         );
+    }
+
+    /**
+     * Entities are not services, so `DateUtils` can never be injected into
+     * `Termin`. It is therefore read from the global `WithUtilsCache`, and
+     * this fails loudly if no service has warmed that cache yet.
+     *
+     * @return ?array{start:\DateTime, end:\DateTime}
+     */
+    private static function parseSearchDateRange(string $query): ?array {
+        $date_utils = WithUtilsCache::get('dateUtils');
+        if (!$date_utils instanceof DateUtils) {
+            throw new \RuntimeException('Termin::getCriteriaForQuery() requires a warmed WithUtilsCache.');
+        }
+        return $date_utils->parseDateTimeRange($query);
     }
 
     public static function getEntityNameForStorage(): string {

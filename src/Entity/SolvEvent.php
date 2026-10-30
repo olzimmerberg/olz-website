@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\SolvEventRepository;
+use Olz\Utils\DateUtils;
+use Olz\Utils\WithUtilsCache;
 
 #[ORM\Table(name: 'solv_events')]
 #[ORM\Index(name: 'date_index', columns: ['date'])]
@@ -297,25 +299,31 @@ class SolvEvent implements SearchableInterface, TestableInterface {
     }
 
     public static function getCriteriaForQuery(string $query): Expression {
-        if (preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $query)) {
-            return Criteria::expr()->orX(
-                Criteria::expr()->eq('date', new \DateTime($query)),
-                Criteria::expr()->contains('name', $query),
-            );
-        }
-        if (intval($query) > 1900) {
-            $this_year = strval(intval($query));
-            $next_year = strval(intval($query) + 1);
-            return Criteria::expr()->orX(
-                Criteria::expr()->andX(
-                    Criteria::expr()->gte('date', new \DateTime("{$this_year}-01-01 00:00:00")),
-                    Criteria::expr()->lt('date', new \DateTime("{$next_year}-01-01 00:00:00")),
-                ),
-                Criteria::expr()->contains('name', $query),
-            );
+        $range = self::parseSearchDateRange($query);
+        if (!$range) {
+            return Criteria::expr()->contains('name', $query);
         }
         return Criteria::expr()->orX(
+            Criteria::expr()->andX(
+                Criteria::expr()->gte('date', $range['start']),
+                Criteria::expr()->lt('date', $range['end']),
+            ),
             Criteria::expr()->contains('name', $query),
         );
+    }
+
+    /**
+     * Entities are not services, so `DateUtils` can never be injected into
+     * `SolvEvent`. It is therefore read from the global `WithUtilsCache`, and
+     * this fails loudly if no service has warmed that cache yet.
+     *
+     * @return ?array{start:\DateTime, end:\DateTime}
+     */
+    private static function parseSearchDateRange(string $query): ?array {
+        $date_utils = WithUtilsCache::get('dateUtils');
+        if (!$date_utils instanceof DateUtils) {
+            throw new \RuntimeException('SolvEvent::getCriteriaForQuery() requires a warmed WithUtilsCache.');
+        }
+        return $date_utils->parseDateTimeRange($query);
     }
 }

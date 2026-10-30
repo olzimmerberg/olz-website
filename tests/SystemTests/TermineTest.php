@@ -60,6 +60,8 @@ final class TermineTest extends SystemTestCase {
 
         $this->click('#create-termin-button');
         $this->waitForModal('#edit-termin-modal');
+        $this->click('#edit-termin-modal #parentTerminId-field button[data-bs-toggle="dropdown"]');
+        $this->click('#edit-termin-modal #parentTerminId-field #entity-index-1');
         $this->sendKeys('#edit-termin-modal #startTime-input', '14:00');
         $this->sendKeys('#edit-termin-modal #endDate-input', '2020-08-15');
         $this->sendKeys('#edit-termin-modal #endTime-input', '18:00');

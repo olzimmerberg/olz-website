@@ -219,4 +219,106 @@ final class SearchEntitiesEndpointTest extends UnitTestCase {
             ['id' => 1234, 'title' => '2020-03-13: Fake Event'],
         ]], $result);
     }
+
+    public function testSearchEntitiesEndpointWithDateQuery(): void {
+        // Searching Termine does not require any permission.
+        $endpoint = new SearchEntitiesEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'entityType' => 'Termin',
+            'query' => '2020-03-13',
+            'id' => null,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame(['result' => [
+            ['id' => 12345, 'title' => '2020-03-13: Fake default title!'],
+            ['id' => 12, 'title' => '2020-03-13: Fake title!'],
+            ['id' => 1234, 'title' => '2020-03-13: Fake title!'],
+        ]], $result);
+    }
+
+    public function testSearchEntitiesEndpointWithSwissDateQuery(): void {
+        $endpoint = new SearchEntitiesEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'entityType' => 'Termin',
+            'query' => '13.3.2020',
+            'id' => null,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame(['result' => [
+            ['id' => 12345, 'title' => '2020-03-13: Fake default title!'],
+            ['id' => 12, 'title' => '2020-03-13: Fake title!'],
+            ['id' => 1234, 'title' => '2020-03-13: Fake title!'],
+        ]], $result);
+    }
+
+    public function testSearchEntitiesEndpointWithYearQuery(): void {
+        $endpoint = new SearchEntitiesEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'entityType' => 'Termin',
+            'query' => '2020',
+            'id' => null,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame(['result' => [
+            ['id' => 12345, 'title' => '2020-03-13: Fake default title!'],
+            ['id' => 12, 'title' => '2020-03-13: Fake title!'],
+            ['id' => 1234, 'title' => '2020-03-13: Fake title!'],
+        ]], $result);
+    }
+
+    public function testSearchEntitiesEndpointWithDateQueryForEntityWithoutDateField(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
+        $endpoint = new SearchEntitiesEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'entityType' => 'TerminLocation',
+            'query' => '2020-03-13',
+            'id' => null,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame(['result' => []], $result);
+    }
+
+    public function testSearchEntitiesEndpointForNonOlzEntityWithDateQuery(): void {
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['any' => true];
+        $endpoint = new SearchEntitiesEndpoint();
+        $endpoint->runtimeSetup();
+
+        $result = $endpoint->call([
+            'entityType' => 'SolvEvent',
+            'query' => '2020-03-13',
+            'id' => null,
+        ]);
+
+        $this->assertSame([
+            "INFO Valid user request",
+            "INFO Valid user response",
+        ], $this->getLogs());
+        $this->assertSame(['result' => [
+            ['id' => 1234, 'title' => '2020-03-13: Fake Event'],
+        ]], $result);
+    }
 }

@@ -34,6 +34,8 @@ final class NewsGalerieTest extends SystemTestCase {
         $this->click('#edit-news-modal #authorUserId-authorRoleId-field #dropdown-menu-button');
         $this->click('#edit-news-modal #authorUserId-authorRoleId-field #user-index-0');
         $this->selectOption('#edit-news-modal #format-input', 'Galerie');
+        $this->click('#edit-news-modal #terminId-field #dropdown-menu-button');
+        $this->click('#edit-news-modal #terminId-field #entity-index-1');
         $this->sendKeys('#edit-news-modal #title-input', 'Das Fotoshooting');
 
         $image_path = realpath(__DIR__.'/../../assets/icns/schilf.jpg');

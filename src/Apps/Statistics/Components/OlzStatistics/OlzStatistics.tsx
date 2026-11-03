@@ -62,7 +62,10 @@ export const OlzStatistics = (): React.ReactElement => {
 
     return (<>
         <div className='statistics-header'>
-            <select className='form-control form-select form-select-sm' onChange={onMonthIdentChange}>
+            <select
+                className='form-control form-select form-select-sm test-flaky'
+                onChange={onMonthIdentChange}
+            >
                 {options}
             </select>
         </div>

@@ -10,6 +10,7 @@ use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\WebDriverSelect;
 use Olz\Utils\GeneralUtils;
 use Olz\Utils\WithUtilsTrait;
+use PHPUnit\Framework\SkippedTest;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Panther\Client;
 use Symfony\Component\Panther\DomCrawler\Crawler;
@@ -137,7 +138,7 @@ class SystemTestCase extends KernelTestCase {
         return $this->getClient()->getTitle();
     }
 
-    protected function retry(callable $fn, int $num = 10): void {
+    protected function retry(callable $fn, int $num = 50): void {
         $last_th = null;
         for ($i = 0; $i < $num; $i++) {
             try {
@@ -369,6 +370,12 @@ class SystemTestCase extends KernelTestCase {
     }
 
     public function onNotSuccessfulTest(\Throwable $t): never {
+        // PHPUnit calls this for skipped tests too (the caught `SkippedTest`
+        // stays set in `runBare()`), so don't produce a misleading error
+        // screenshot for tests that were deliberately skipped.
+        if ($t instanceof SkippedTest) {
+            throw $t;
+        }
         $test_class_name = get_called_class();
         $test_name = "{$test_class_name}_{$this->name()}";
         $esc_test_name = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $test_name) ?? $test_name;

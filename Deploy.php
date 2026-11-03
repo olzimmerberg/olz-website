@@ -244,17 +244,21 @@ class Deploy extends AbstractDefaultDeploy {
         sleep(5);
 
         if ($this->environment === 'staging') {
+            // Reset the database first, so that the cache is cleared & warmed
+            // against the final schema (commands are authenticated via the DB).
+            $this->executeCommand('olz:db-reset', 'full', $staging_token);
             // Add doctrine:cache:clear-metadata?
             // Add doctrine:cache:clear-query?
             // Add doctrine:cache:clear-result?
             $this->executeCommand('cache:clear', null, $staging_token);
             $this->executeCommand('cache:warmup', null, $staging_token);
-            $this->executeCommand('olz:db-reset', 'full', $staging_token);
             $this->executeCommand('olz:send-telegram-configuration', null, $staging_token);
         } elseif ($this->environment === 'prod') {
+            // Migrate the database first, so that the cache is cleared & warmed
+            // against the final schema (commands are authenticated via the DB).
+            $this->executeCommand('olz:db-migrate');
             $this->executeCommand('cache:clear');
             $this->executeCommand('cache:warmup');
-            $this->executeCommand('olz:db-migrate');
         }
     }
 

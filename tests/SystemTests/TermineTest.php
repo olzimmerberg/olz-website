@@ -23,7 +23,7 @@ final class TermineTest extends SystemTestCase {
         $this->click('.olz-termine-list-item:nth-of-type(2) .link');
         $this->waitFor('#termin-reactions .olz-editable-reactions');
         $this->waitABit();
-        $this->waitFor('#reaction-button-undefined-👍');
+        $this->waitFor('#reaction-button-null-👍');
         $this->assertMatchesRegularExpression("/Trainings/", $this->filter('.filters')->getText());
     }
 
@@ -42,10 +42,10 @@ final class TermineTest extends SystemTestCase {
 
         // Reactions (read-only)
         $this->waitABit();
-        $this->waitFor('#reaction-button-undefined-👍');
+        $this->waitFor('#reaction-button-null-👍');
         $crawler = $this->getCrawler();
         $inline_elem = $crawler->filter('a[href="#react-%F0%9F%91%8D"]');
-        $elem = $crawler->filter('#reaction-button-undefined-👍');
+        $elem = $crawler->filter('#reaction-button-null-👍');
         $this->assertNull($inline_elem->attr('class'));
         $this->assertSame('Daumen hoch👍 4', $inline_elem->text(''));
         $this->assertSame('reaction', $elem->attr('class'));

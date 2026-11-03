@@ -46,6 +46,7 @@ class UpdateUserPasswordEndpoint extends OlzTypedEndpoint {
         $user->setPasswordHash($this->authUtils()->hashPassword($new_password));
         $user->setLastModifiedAt($now_datetime);
         $this->entityManager()->flush();
+        $this->authUtils()->revokeAllRefreshTokens($user);
 
         return ['status' => 'OK'];
     }

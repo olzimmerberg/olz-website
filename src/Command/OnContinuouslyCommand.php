@@ -79,6 +79,13 @@ class OnContinuouslyCommand extends OlzCommand {
                 $output,
             );
         });
+        $this->daily('01:30:00', 'update-measurements', function () use ($output) {
+            $this->symfonyUtils()->callCommand(
+                'olz:update-measurements',
+                new ArrayInput([]),
+                $output,
+            );
+        });
 
         $this->daily('08:15:00', 'send-weekly-summary', function () use ($output) {
             $this->symfonyUtils()->callCommand(

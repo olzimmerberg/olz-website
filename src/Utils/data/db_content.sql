@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20261030134507
+-- MIGRATION: DoctrineMigrations\Version20261105194303
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -122,7 +122,8 @@ VALUES
     ('DoctrineMigrations\\Version20260621085647', '2026-06-21 10:58:18', '32'),
     ('DoctrineMigrations\\Version20260910212344', '2026-09-14 18:32:11', '56'),
     ('DoctrineMigrations\\Version20261020152243', '2026-10-20 22:20:15', '157'),
-    ('DoctrineMigrations\\Version20261030134507', '2026-11-01 17:35:30', '26');
+    ('DoctrineMigrations\\Version20261030134507', '2026-11-01 17:35:30', '26'),
+    ('DoctrineMigrations\\Version20261105194303', '2026-11-05 20:44:22', '10');
 
 -- Table downloads
 INSERT INTO downloads
@@ -160,6 +161,8 @@ VALUES
     ('3', 'GO2OL', 'https://go2ol.ch', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('4', 'Online-Trainings', 'https://olzimmerberg.ch/quiz', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
     ('5', 'SOFT DELETED', 'https://olzimmerberg.ch/quiz', '2', '0', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+
+-- Table measurements
 
 -- Table members
 INSERT INTO members

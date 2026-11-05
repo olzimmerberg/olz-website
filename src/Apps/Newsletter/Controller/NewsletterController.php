@@ -1,0 +1,26 @@
+<?php
+
+namespace Olz\Apps\Newsletter\Controller;
+
+use Olz\Apps\Newsletter\Components\OlzNewsletter\OlzNewsletter;
+use Olz\Utils\HttpUtils;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class NewsletterController extends AbstractController {
+    #[Route('/apps/newsletter')]
+    public function index(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzNewsletter $olzNewsletter,
+    ): Response {
+        return $httpUtils->measure($request, [], function () use ($olzNewsletter) {
+            $html_out = $olzNewsletter->getHtml([]);
+            return new Response($html_out);
+        });
+    }
+}

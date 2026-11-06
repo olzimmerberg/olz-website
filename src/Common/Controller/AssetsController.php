@@ -16,7 +16,7 @@ class AssetsController extends AbstractController {
         Request $request,
         LoggerInterface $logger,
     ): Response {
-        $assets_path = __DIR__.'/../../assets';
+        $assets_path = __DIR__.'/../../../assets';
         $icns_entries = scandir("{$assets_path}/icns") ?: [];
         $svg_icons = [];
         foreach ($icns_entries as $entry) {
@@ -69,7 +69,7 @@ class AssetsController extends AbstractController {
         string $filename,
         string $ext,
     ): Response {
-        $assets_path = __DIR__.'/../../assets';
+        $assets_path = __DIR__.'/../../../assets';
         $path = "{$assets_path}/{$folder}/{$filename}.{$ext}";
         if (!is_file($path)) {
             throw new NotFoundHttpException('No such asset.');
@@ -83,7 +83,7 @@ class AssetsController extends AbstractController {
         LoggerInterface $logger,
         string $initials,
     ): Response {
-        $assets_path = __DIR__.'/../../assets';
+        $assets_path = __DIR__.'/../../../assets';
         $svg_content = file_get_contents("{$assets_path}/icns/user_initials.svg") ?: '';
         $out = str_replace('%INITIALS%', $initials, $svg_content);
         $response = new Response($out);
@@ -96,7 +96,7 @@ class AssetsController extends AbstractController {
         Request $request,
         LoggerInterface $logger
     ): Response {
-        $assets_path = __DIR__.'/../../assets';
+        $assets_path = __DIR__.'/../../../assets';
         return new BinaryFileResponse("{$assets_path}/favicon.ico");
     }
 }

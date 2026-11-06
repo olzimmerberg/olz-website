@@ -33,6 +33,7 @@ use Olz\Entity\Faq\Question;
 use Olz\Entity\Faq\QuestionCategory;
 use Olz\Entity\ForwardedEmail;
 use Olz\Entity\Karten\Karte;
+use Olz\Entity\Measurement;
 use Olz\Entity\Members\Member;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\News\NewsReaction;
@@ -65,6 +66,7 @@ use Olz\Tests\Fake\Entity\FakeAccessTokenRepository;
 use Olz\Tests\Fake\Entity\FakeAuthRequestRepository;
 use Olz\Tests\Fake\Entity\FakeCounterRepository;
 use Olz\Tests\Fake\Entity\FakeForwardedEmailRepository;
+use Olz\Tests\Fake\Entity\FakeMeasurementRepository;
 use Olz\Tests\Fake\Entity\FakeNotificationSubscriptionRepository;
 use Olz\Tests\Fake\Entity\FakeSolvEventRepository;
 use Olz\Tests\Fake\Entity\FakeStravaLinkRepository;
@@ -118,6 +120,7 @@ class FakeEntityManager implements EntityManagerInterface {
             ForwardedEmail::class => new FakeForwardedEmailRepository($this),
             Karte::class => new FakeKarteRepository($this),
             Link::class => new FakeLinkRepository($this),
+            Measurement::class => new FakeMeasurementRepository($this),
             Member::class => new FakeMemberRepository($this),
             NewsEntry::class => new FakeNewsRepository($this),
             NewsReaction::class => new FakeNewsReactionRepository($this),

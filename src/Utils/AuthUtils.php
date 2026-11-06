@@ -22,7 +22,7 @@ class AuthUtils {
     public const REFRESH_TOKEN_TTL = 31536000; // 1 year, slid forward on every use
     /** How long the previous refresh token is still accepted after rotation. */
     public const REFRESH_TOKEN_GRACE = 60; // 1 minute
-    public const SESSION_TIMEOUT = 12 * 3600; // 12 hours
+    public const SESSION_TIMEOUT = 43200; // 12 hours
 
     /** @var array<int, array<string, bool>> */
     protected array $cached_permission_map_by_user = [];

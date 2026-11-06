@@ -1,0 +1,43 @@
+<?php
+
+namespace Olz\Roles\Controller;
+
+use Olz\Roles\Components\OlzRoleDetail\OlzRoleDetail;
+use Olz\Roles\Components\OlzVerein\OlzVerein;
+use Olz\Utils\HttpUtils;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class VereinController extends AbstractController {
+    #[Route('/verein')]
+    public function verein(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzVerein $olzVerein,
+    ): Response {
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzVerein) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzVerein->getHtml([]);
+            return new Response($out);
+        });
+    }
+
+    #[Route('/verein/{ressort}')]
+    public function ressort(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzRoleDetail $olzRoleDetail,
+        string $ressort,
+    ): Response {
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzRoleDetail, $ressort) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzRoleDetail->getHtml(['ressort' => $ressort]);
+            return new Response($out);
+        });
+    }
+}

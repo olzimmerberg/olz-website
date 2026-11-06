@@ -11,7 +11,7 @@ Jedes App benötigt typischerweise:
 - Eine `Metadata.php`-Datei, mit einer Klasse, die [`BaseAppMetadata`](./BaseAppMetadata.php) implementiert
 - Ein `README.md`, das die Funktion des Apps beschreibt
 - Ein Icon, als `icon.svg` oder `icon.png`
-- Eine Datei `<app>Controller.php`, mit einer Klasse, die `AbstractController` erweitert. Diese definiert die URLs, über die die App erreichbar ist (siehe [Symfony-Docs](https://symfony.com/doc/current/controller.html))
+- Eine Datei `Controller/<app>Controller.php`, mit einer Klasse, die `AbstractController` erweitert. Diese definiert die URLs, über die die App erreichbar ist (siehe [Symfony-Docs](https://symfony.com/doc/current/controller.html))
 - API-Endpoints in `Endpoints`:
     - Implementierung in `Endpoints/<function>Endpoint.php`, mit einer Klasse, die `Olz\Api\OlzEndpoint` erweitert.
 - Um im [OLZ-API](../Api/) zu erscheinen, müssen allfällige Endpoints in einer Datei `<App>Endpoints.php`, mit einer Klasse, die `BaseAppEndpoints` erweitert, registriert werden.

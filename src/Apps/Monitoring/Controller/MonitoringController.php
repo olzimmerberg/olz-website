@@ -1,0 +1,26 @@
+<?php
+
+namespace Olz\Apps\Monitoring\Controller;
+
+use Olz\Apps\Monitoring\Components\OlzMonitoring\OlzMonitoring;
+use Olz\Utils\HttpUtils;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class MonitoringController extends AbstractController {
+    #[Route('/apps/monitoring')]
+    public function index(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzMonitoring $olzMonitoring,
+    ): Response {
+        return $httpUtils->measure($request, [], function () use ($olzMonitoring) {
+            $html_out = $olzMonitoring->getHtml([]);
+            return new Response($html_out);
+        });
+    }
+}

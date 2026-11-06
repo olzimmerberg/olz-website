@@ -1,11 +1,9 @@
 controllers:
-    resource: 
-        path: ../../src/Controller/
-        namespace: Olz\Controller
+    resource: ../../src/*/Controller/*Controller.php
     type: attribute
 
 app_controllers:
-    resource: ../../src/Apps/*/*Controller.php
+    resource: ../../src/Apps/*/Controller/*Controller.php
     type: attribute
 
 kernel:

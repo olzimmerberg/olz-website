@@ -39,6 +39,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'DEBUG Not executing daily (01:15:00) send-telegram-configuration: too soon',
             'DEBUG Not executing daily (01:20:00) sync-solv: too soon',
             'DEBUG Not executing daily (01:25:00) db-backup: too soon',
+            'DEBUG Not executing daily (01:30:00) update-measurements: too soon',
             'DEBUG Not executing daily (08:15:00) send-weekly-summary: too soon, not the right time (diff: -20700)',
             'DEBUG Not executing daily (14:30:00) send-monthly-preview: too soon, not the right time (diff: -43200)',
             'DEBUG Not executing daily (15:14:00) send-weekly-preview: too soon, not the right time (diff: 40560)',
@@ -91,6 +92,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'INFO Executing daily (01:15:00) send-telegram-configuration...',
             'INFO Executing daily (01:20:00) sync-solv...',
             'INFO Executing daily (01:25:00) db-backup...',
+            'INFO Executing daily (01:30:00) update-measurements...',
             'DEBUG Not executing daily (08:15:00) send-weekly-summary: not the right time (diff: -20700)',
             'DEBUG Not executing daily (14:30:00) send-monthly-preview: not the right time (diff: -43200)',
             'DEBUG Not executing daily (15:14:00) send-weekly-preview: not the right time (diff: 40560)',
@@ -113,6 +115,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Executing daily (01:15:00) send-telegram-configuration...
             Executing daily (01:20:00) sync-solv...
             Executing daily (01:25:00) db-backup...
+            Executing daily (01:30:00) update-measurements...
             Stopping workers...
             Consume messages...
             Ran continuously.
@@ -127,6 +130,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             ['send-telegram-configuration', '2020-03-13 02:30:00'],
             ['sync-solv', '2020-03-13 02:30:00'],
             ['db-backup', '2020-03-13 02:30:00'],
+            ['update-measurements', '2020-03-13 02:30:00'],
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
@@ -136,6 +140,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:send-telegram-configuration ',
             'olz:sync-solv ',
             'olz:db-backup ',
+            'olz:update-measurements ',
             'olz:send-termin-notifications ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
@@ -161,6 +166,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'INFO Executing daily (01:15:00) send-telegram-configuration...',
             'INFO Executing daily (01:20:00) sync-solv...',
             'INFO Executing daily (01:25:00) db-backup...',
+            'INFO Executing daily (01:30:00) update-measurements...',
             'DEBUG Not executing daily (08:15:00) send-weekly-summary: not the right time (diff: -20700)',
             'DEBUG Not executing daily (14:30:00) send-monthly-preview: not the right time (diff: -43200)',
             'DEBUG Not executing daily (15:14:00) send-weekly-preview: not the right time (diff: 40560)',
@@ -183,6 +189,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             Executing daily (01:15:00) send-telegram-configuration...
             Executing daily (01:20:00) sync-solv...
             Executing daily (01:25:00) db-backup...
+            Executing daily (01:30:00) update-measurements...
             Stopping workers...
             Consume messages...
             Ran continuously.
@@ -197,6 +204,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             ['send-telegram-configuration', '2020-03-13 02:30:00'],
             ['sync-solv', '2020-03-13 02:30:00'],
             ['db-backup', '2020-03-13 02:30:00'],
+            ['update-measurements', '2020-03-13 02:30:00'],
         ], $throttling_repo->recorded_occurrences);
         $this->assertSame([
             'olz:process-email ',
@@ -206,6 +214,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'olz:send-telegram-configuration ',
             'olz:sync-solv ',
             'olz:db-backup ',
+            'olz:update-measurements ',
             'olz:send-termin-notifications ',
             'messenger:stop-workers ',
             'messenger:consume async --no-reset=--no-reset',
@@ -231,6 +240,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'DEBUG Not executing daily (01:15:00) send-telegram-configuration: not the right time (diff: -27900)',
             'DEBUG Not executing daily (01:20:00) sync-solv: not the right time (diff: -28200)',
             'DEBUG Not executing daily (01:25:00) db-backup: not the right time (diff: -28500)',
+            'DEBUG Not executing daily (01:30:00) update-measurements: not the right time (diff: -28800)',
             'DEBUG Not executing daily (08:15:00) send-weekly-summary: not the right time (diff: 33300)',
             'DEBUG Not executing daily (14:30:00) send-monthly-preview: not the right time (diff: 10800)',
             'DEBUG Not executing daily (15:14:00) send-weekly-preview: not the right time (diff: 8160)',
@@ -290,6 +300,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'DEBUG Not executing daily (01:15:00) send-telegram-configuration: not the right time (diff: -120)',
             'DEBUG Not executing daily (01:20:00) sync-solv: not the right time (diff: -420)',
             'DEBUG Not executing daily (01:25:00) db-backup: not the right time (diff: -720)',
+            'DEBUG Not executing daily (01:30:00) update-measurements: not the right time (diff: -1020)',
             'DEBUG Not executing daily (08:15:00) send-weekly-summary: not the right time (diff: -25320)',
             'DEBUG Not executing daily (14:30:00) send-monthly-preview: not the right time (diff: 38580)',
             'DEBUG Not executing daily (15:14:00) send-weekly-preview: not the right time (diff: 35940)',
@@ -358,6 +369,7 @@ final class OnContinuouslyCommandTest extends UnitTestCase {
             'send-telegram-configuration' => $date,
             'sync-solv' => $date,
             'db-backup' => $date,
+            'update-measurements' => $date,
             'send-daily-summary' => $date,
             'send-deadline-warning' => $date,
             'send-monthly-preview' => $date,

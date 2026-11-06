@@ -33,7 +33,11 @@
 
 - Unit Tests: `composer unit_tests`
 - Integration Tests: `composer integration_tests`
+- System Tests: `composer system_tests`
 - Für den Code-Coverage-Report: `composer test`
+
+Aufbau der Tests, die verschiedenen Test-Arten, Fakes und wie man einzelne Tests
+ausführt: siehe [`tests/README.md`](./tests/README.md).
 
 ### Code beitragen
 

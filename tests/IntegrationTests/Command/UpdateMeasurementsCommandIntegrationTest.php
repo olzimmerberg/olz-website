@@ -31,9 +31,9 @@ final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase
             $this->assertSame([
                 'INFO Running command Olz\Command\UpdateMeasurementsCommand...',
                 'INFO Users & Members measurements updated:',
+                'INFO   num_users: 10',
+                'INFO   num_members: 8',
                 'INFO   num_member_users: 7',
-                'INFO   num_nonmember_users: 3',
-                'INFO   num_nonuser_members: 1',
                 'INFO Measurements updated.',
                 'INFO Successfully ran command Olz\Command\UpdateMeasurementsCommand.',
             ], $this->getLogs());
@@ -41,9 +41,9 @@ final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase
             $this->assertSame(
                 "Running command Olz\\Command\\UpdateMeasurementsCommand...\n".
                 "Users & Members measurements updated:\n".
+                "  num_users: 10\n".
+                "  num_members: 8\n".
                 "  num_member_users: 7\n".
-                "  num_nonmember_users: 3\n".
-                "  num_nonuser_members: 1\n".
                 "Measurements updated.\n".
                 "Successfully ran command Olz\\Command\\UpdateMeasurementsCommand.\n",
                 $output->fetch(),
@@ -53,9 +53,9 @@ final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase
             $entity_manager->flush();
             $measurement_repo = $entity_manager->getRepository(Measurement::class);
 
+            $this->assertSame(10.0, $measurement_repo->get('num_users', 2020, 3)?->getValue());
+            $this->assertSame(8.0, $measurement_repo->get('num_members', 2020, 3)?->getValue());
             $this->assertSame(7.0, $measurement_repo->get('num_member_users', 2020, 3)?->getValue());
-            $this->assertSame(3.0, $measurement_repo->get('num_nonmember_users', 2020, 3)?->getValue());
-            $this->assertSame(1.0, $measurement_repo->get('num_nonuser_members', 2020, 3)?->getValue());
         });
     }
 

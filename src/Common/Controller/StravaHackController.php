@@ -19,7 +19,7 @@ class StravaHackController extends AbstractController {
 
     #[Route('/api-cors/strava_script.js', methods: ['GET'])]
     public function stravaScript(): Response {
-        $content = file_get_contents(__DIR__.'/../Anniversary/Components/OlzAnniversary/strava_script.js') ?: '';
+        $content = file_get_contents(__DIR__.'/../../Anniversary/Components/OlzAnniversary/strava_script.js') ?: '';
         return new Response($content, 200);
     }
 

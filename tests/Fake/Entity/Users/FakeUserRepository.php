@@ -33,6 +33,14 @@ class FakeUserRepository extends FakeOlzRepository {
     }
 
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array {
+        if ($this->entitiesToBeFoundForQuery !== null) {
+            $fn = $this->entitiesToBeFoundForQuery;
+            try {
+                return $fn($criteria);
+            } catch (\Throwable $th) {
+                // ignore
+            }
+        }
         if ($criteria == ['parent_user' => 2]) {
             return [
                 FakeUser::vorstandUser(),

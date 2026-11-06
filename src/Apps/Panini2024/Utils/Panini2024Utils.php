@@ -2,8 +2,8 @@
 
 namespace Olz\Apps\Panini2024\Utils;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Panini2024\Panini2024Picture;
-use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

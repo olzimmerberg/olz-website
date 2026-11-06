@@ -2,8 +2,8 @@
 
 namespace Olz\EventListener;
 
-use Olz\Utils\AuthUtils;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\AuthUtils;
+use Olz\Common\Utils\WithUtilsTrait;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;

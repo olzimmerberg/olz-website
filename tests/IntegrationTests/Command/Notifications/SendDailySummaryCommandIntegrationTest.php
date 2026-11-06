@@ -6,11 +6,11 @@ namespace Olz\Tests\IntegrationTests\Command\Notifications;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\Notifications\SendDailySummaryCommand;
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\EnvUtils;
 use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\DateUtils;
-use Olz\Utils\EnvUtils;
 
 /**
  * @internal

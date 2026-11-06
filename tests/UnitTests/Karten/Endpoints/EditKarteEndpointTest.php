@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Karten\Endpoints;
 
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Karten\Endpoints\EditKarteEndpoint;
 use Olz\Tests\Fake\Entity\Karten\FakeKarte;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

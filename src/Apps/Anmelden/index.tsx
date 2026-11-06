@@ -1,6 +1,6 @@
 import React from 'react';
 import {OlzRegistrationView} from './Components/index';
-import {initReact} from '../../Utils/reactUtils';
+import {initReact} from '../../Common/Utils/reactUtils';
 
 initReact('react-root', <OlzRegistrationView />);
 

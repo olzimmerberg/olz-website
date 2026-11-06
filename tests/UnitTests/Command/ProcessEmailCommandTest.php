@@ -6,10 +6,10 @@ namespace Olz\Tests\UnitTests\Command;
 
 use Carbon\Carbon;
 use Olz\Command\ProcessEmailCommand;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\Throttling;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mailer\Envelope;

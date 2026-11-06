@@ -6,12 +6,12 @@ namespace Olz\Tests\UnitTests\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SyncSolvMergePeopleCommand;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\FakeSolvPerson;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Faq\Endpoints;
 
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Faq\Endpoints\GetQuestionCategoryEndpoint;
 use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

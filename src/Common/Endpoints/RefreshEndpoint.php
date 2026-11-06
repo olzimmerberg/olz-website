@@ -3,7 +3,7 @@
 namespace Olz\Common\Endpoints;
 
 use Olz\Api\OlzTypedEndpoint;
-use Olz\Utils\AuthUtils;
+use Olz\Common\Utils\AuthUtils;
 use PhpTypeScriptApi\HttpError;
 
 /**

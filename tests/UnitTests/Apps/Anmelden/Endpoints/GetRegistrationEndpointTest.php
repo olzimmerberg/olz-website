@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Anmelden\Endpoints;
 
 use Olz\Apps\Anmelden\Endpoints\GetRegistrationEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\Fake;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal

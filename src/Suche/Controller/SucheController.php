@@ -2,8 +2,8 @@
 
 namespace Olz\Suche\Controller;
 
+use Olz\Common\Utils\HttpUtils;
 use Olz\Suche\Components\OlzSuche\OlzSuche;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

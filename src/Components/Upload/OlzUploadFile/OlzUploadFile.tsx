@@ -1,8 +1,8 @@
 import React from 'react';
 import {OlzProgressBar} from '../../../Common/Components/OlzProgressBar/OlzProgressBar';
 import {UploadFile, UploadingFile, UploadedFile, RegisteringFile} from '../types';
-import {codeHref, dataHref} from '../../../Utils/constants';
-import {getCompactUploadId, getFileWarning} from '../../../Utils/fileUtils';
+import {codeHref, dataHref} from '../../../Common/Utils/constants';
+import {getCompactUploadId, getFileWarning} from '../../../Common/Utils/fileUtils';
 
 import './OlzUploadFile.scss';
 

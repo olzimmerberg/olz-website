@@ -1,6 +1,6 @@
 <?php
 
-use Olz\Utils\EnvUtils;
+use Olz\Common\Utils\EnvUtils;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 

@@ -7,8 +7,8 @@ import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {OlzTimeIntervalField} from '../../../Common/Components/OlzTimeIntervalField/OlzTimeIntervalField';
-import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateTimeOrNull} from '../../../Utils/formUtils';
-import {Entity, isDefined, assert} from '../../../Utils/generalUtils';
+import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateTimeOrNull} from '../../../Common/Utils/formUtils';
+import {Entity, isDefined, assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzEditTerminTemplateModal.scss';
 

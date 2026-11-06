@@ -2,7 +2,7 @@
 
 namespace Olz\Fetchers;
 
-use Olz\Utils\HttpUtilsTrait;
+use Olz\Common\Utils\HttpUtilsTrait;
 
 class TransportApiFetcher {
     use HttpUtilsTrait;

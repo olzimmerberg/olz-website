@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Common\Endpoints;
 
 use Olz\Common\Endpoints\LinkStravaEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\StravaLink;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal

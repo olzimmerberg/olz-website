@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\UpdateMeasurementsCommand;
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\Measurement;
 use Olz\Entity\Members\Member;
 use Olz\Entity\Users\User;
@@ -14,8 +16,6 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\Entity\Users\FakeUserRepository;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\DateUtils;
-use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;

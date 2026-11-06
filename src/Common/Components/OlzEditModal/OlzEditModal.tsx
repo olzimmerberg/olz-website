@@ -1,7 +1,7 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import {initReact} from '../../../Utils/reactUtils';
-import {codeHref} from '../../../Utils/constants';
+import {initReact} from '../../Utils/reactUtils';
+import {codeHref} from '../../Utils/constants';
 import {olzConfirm} from '../OlzConfirmationDialog/OlzConfirmationDialog';
 
 import './OlzEditModal.scss';

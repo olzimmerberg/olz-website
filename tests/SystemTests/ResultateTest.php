@@ -34,7 +34,7 @@ final class ResultateTest extends SystemTestCase {
         $this->click('#create-result-button');
         $this->waitForModal('#edit-result-modal');
         $this->sendKeys('#edit-result-modal #name-input', 'system-test.xml');
-        $iof_xml_path = __DIR__."/../../src/Utils/data/sample-data/sample-results.xml";
+        $iof_xml_path = __DIR__."/../../fixtures/sample-data/sample-results.xml";
         $this->sendKeys('#edit-result-modal #file-upload input[type=file]', $iof_xml_path);
         $this->waitFor('#edit-result-modal #file-upload .olz-upload-file.uploaded');
         $this->click('#edit-result-modal #submit-button');

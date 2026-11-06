@@ -12,7 +12,6 @@
 !/public/index.php
 !/public/screenshots
 /screenshots/generated
-/src/Utils/data/tmp/*
 /tools/fuer_einsteiger/img/*
 /tools/fuer_einsteiger/originals/*
 /tools/fuer_einsteiger/thumb/*

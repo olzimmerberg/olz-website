@@ -2,8 +2,8 @@
 
 namespace Olz\EventListener;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Components\Error\OlzErrorPage\OlzErrorPage;
-use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

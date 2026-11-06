@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\DevDataUtils;
+use Olz\Common\Utils\DevDataUtils;
 
 class FakeDevDataUtils extends DevDataUtils {
     /** @var array<mixed> */

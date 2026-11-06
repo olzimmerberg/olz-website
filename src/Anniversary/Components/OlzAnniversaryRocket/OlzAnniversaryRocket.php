@@ -3,7 +3,7 @@
 namespace Olz\Anniversary\Components\OlzAnniversaryRocket;
 
 use Olz\Common\Components\OlzComponent;
-use Olz\Utils\HttpParams;
+use Olz\Common\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzAnniversaryRocketParams extends HttpParams {

@@ -7,8 +7,8 @@ import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntit
 import {OlzPositionField} from '../../../Common/Components/OlzPositionField/OlzPositionField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateNumberOrNull, validateNotEmpty, validateStringRegex} from '../../../Utils/formUtils';
-import {assert} from '../../../Utils/generalUtils';
+import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateNumberOrNull, validateNotEmpty, validateStringRegex} from '../../../Common/Utils/formUtils';
+import {assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzEditRoleModal.scss';
 

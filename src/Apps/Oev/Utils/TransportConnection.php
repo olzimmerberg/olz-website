@@ -2,7 +2,7 @@
 
 namespace Olz\Apps\Oev\Utils;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 class TransportConnection {
     use WithUtilsTrait;

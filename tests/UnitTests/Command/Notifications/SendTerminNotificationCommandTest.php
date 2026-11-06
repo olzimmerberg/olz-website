@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\Notifications;
 
 use Olz\Command\Notifications\SendTerminNotificationCommand;
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Constants\NotificationDeliveryType;
 use Olz\Constants\NotificationType;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\DateUtils;
-use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mailer\MailerInterface;

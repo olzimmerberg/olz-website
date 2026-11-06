@@ -2,8 +2,8 @@
 
 namespace Olz\Service\Controller;
 
+use Olz\Common\Utils\HttpUtils;
 use Olz\Service\Components\OlzService\OlzService;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

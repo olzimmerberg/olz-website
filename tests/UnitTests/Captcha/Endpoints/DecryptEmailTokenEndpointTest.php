@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Captcha\Endpoints;
 
 use Olz\Captcha\Endpoints\DecryptEmailTokenEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

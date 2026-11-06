@@ -4,9 +4,9 @@ namespace Olz\News\Utils;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\News\NewsEntry;
-use Olz\Utils\DateUtils;
-use Olz\Utils\WithUtilsTrait;
 
 /**
  * @phpstan-type Option array{ident: string, name: string, icon?: string}

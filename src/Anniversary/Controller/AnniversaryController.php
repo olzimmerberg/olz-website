@@ -4,7 +4,7 @@ namespace Olz\Anniversary\Controller;
 
 use Olz\Anniversary\Components\OlzAnniversary\OlzAnniversary;
 use Olz\Anniversary\Components\OlzAnniversaryRocket\OlzAnniversaryRocket;
-use Olz\Utils\HttpUtils;
+use Olz\Common\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

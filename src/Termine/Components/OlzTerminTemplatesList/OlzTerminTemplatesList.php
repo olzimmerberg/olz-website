@@ -3,11 +3,11 @@
 namespace Olz\Termine\Components\OlzTerminTemplatesList;
 
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Termine\Components\OlzTerminTemplatesListItem\OlzTerminTemplatesListItem;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzTerminTemplatesListParams extends HttpParams {

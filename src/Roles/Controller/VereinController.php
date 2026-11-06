@@ -2,9 +2,9 @@
 
 namespace Olz\Roles\Controller;
 
+use Olz\Common\Utils\HttpUtils;
 use Olz\Roles\Components\OlzRoleDetail\OlzRoleDetail;
 use Olz\Roles\Components\OlzVerein\OlzVerein;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Olz\Tests\Fake;
 
 use Doctrine\ORM\EntityManager;
-use Olz\Utils\DbUtils;
+use Olz\Common\Utils\DbUtils;
 
 class FakeDbUtils extends DbUtils {
     public function getDb(): \mysqli|FakeMysqli {

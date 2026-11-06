@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\UploadUtils;
+use Olz\Common\Utils\UploadUtils;
 
 class FakeUploadUtils extends UploadUtils {
     /** @var array<array{0: ?array<string>, 1: string}> */

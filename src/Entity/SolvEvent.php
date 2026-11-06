@@ -5,11 +5,11 @@ namespace Olz\Entity;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\SolvEventRepository;
-use Olz\Utils\DateUtils;
-use Olz\Utils\WithUtilsCache;
 
 #[ORM\Table(name: 'solv_events')]
 #[ORM\Index(name: 'date_index', columns: ['date'])]

@@ -3,7 +3,7 @@ import React from 'react';
 import {olzApi, OlzApiRequests} from '../../../../Api/client';
 import {olzConfirm} from '../../../../Common/Components/OlzConfirmationDialog/OlzConfirmationDialog';
 import {initOlzEditModal, OlzEditModal} from '../../../../Common/Components/OlzEditModal/OlzEditModal';
-import {readBase64} from '../../../../Utils/fileUtils';
+import {readBase64} from '../../../../Common/Utils/fileUtils';
 
 import './OlzLiveResultsModal.scss';
 

@@ -21,6 +21,7 @@ use Olz\Apps\SearchEngines\Components\OlzSearchEngines\OlzSearchEngines;
 use Olz\Apps\Statistics\Components\OlzStatistics\OlzStatistics;
 use Olz\Apps\Youtube\Components\OlzYoutube\OlzYoutube;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Components\Auth\OlzEmailReaktion\OlzEmailReaktion;
 use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
 use Olz\Components\OtherPages\OlzAngebot\OlzAngebot;
@@ -45,7 +46,6 @@ use Olz\Termine\Components\OlzTerminLocationsList\OlzTerminLocationsList;
 use Olz\Termine\Components\OlzTerminTemplateDetail\OlzTerminTemplateDetail;
 use Olz\Termine\Components\OlzTerminTemplatesList\OlzTerminTemplatesList;
 use Olz\Users\Components\OlzUserDetail\OlzUserDetail;
-use Olz\Utils\WithUtilsTrait;
 
 /**
  * @phpstan-type SearchResult array{

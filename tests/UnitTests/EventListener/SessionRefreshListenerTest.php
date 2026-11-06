@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\EventListener;
 
+use Olz\Common\Utils\AuthUtils;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\AccessToken;
 use Olz\EventListener\SessionRefreshListener;
 use Olz\Kernel;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\FakeAuthUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\AuthUtils;
-use Olz\Utils\WithUtilsCache;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session as SymfonySession;

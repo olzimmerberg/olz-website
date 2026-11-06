@@ -2,7 +2,7 @@ import React from 'react';
 import {olzApi, OlzApiRequests, OlzEmailInfoData} from '../../../Api/client';
 import {initOlzEditModal} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzRestrictedPublicModal} from '../../../Common/Components/OlzRestrictedPublicModal/OlzRestrictedPublicModal';
-import {dataHref} from '../../../Utils/constants';
+import {dataHref} from '../../../Common/Utils/constants';
 
 import './OlzEmailModal.scss';
 

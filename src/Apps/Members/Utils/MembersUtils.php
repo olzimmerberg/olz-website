@@ -2,9 +2,9 @@
 
 namespace Olz\Apps\Members\Utils;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Members\Member;
 use Olz\Entity\Users\User;
-use Olz\Utils\WithUtilsTrait;
 
 class MembersUtils {
     use WithUtilsTrait;

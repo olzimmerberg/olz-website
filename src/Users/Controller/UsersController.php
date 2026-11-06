@@ -2,9 +2,9 @@
 
 namespace Olz\Users\Controller;
 
+use Olz\Common\Utils\AuthUtils;
+use Olz\Common\Utils\HttpUtils;
 use Olz\Users\Components\OlzUserDetail\OlzUserDetail;
-use Olz\Utils\AuthUtils;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

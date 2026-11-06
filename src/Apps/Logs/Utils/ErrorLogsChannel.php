@@ -2,7 +2,7 @@
 
 namespace Olz\Apps\Logs\Utils;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 class ErrorLogsChannel extends LogrotateLogsChannel {
     use WithUtilsTrait;

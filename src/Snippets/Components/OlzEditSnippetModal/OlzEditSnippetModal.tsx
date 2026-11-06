@@ -5,7 +5,7 @@ import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} fro
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {getApiString, getFormString, getResolverResult} from '../../../Utils/formUtils';
+import {getApiString, getFormString, getResolverResult} from '../../../Common/Utils/formUtils';
 
 import './OlzEditSnippetModal.scss';
 

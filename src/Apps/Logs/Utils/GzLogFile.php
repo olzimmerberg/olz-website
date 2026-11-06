@@ -2,7 +2,7 @@
 
 namespace Olz\Apps\Logs\Utils;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 class GzLogFile implements LogFileInterface {
     use WithUtilsTrait;

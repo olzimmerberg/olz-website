@@ -40,7 +40,7 @@ type OlzTerminNotificationTemplateData = gen.Olz_Termine_Endpoints_TerminNotific
 type OlzTerminTemplateData = gen.Olz_Termine_Endpoints_TerminTemplateEndpointTrait_OlzTerminTemplateData;
 type OlzUserData = gen.Olz_Users_Endpoints_UserEndpointTrait_OlzUserData;
 type OlzUserInfoData = gen.Olz_Users_Endpoints_GetUserInfoEndpoint_OlzUserInfoData;
-type OlzLocationCoordinates = gen.Olz_Utils_MapUtils_OlzLocationCoordinates;
+type OlzLocationCoordinates = gen.Olz_Common_Utils_MapUtils_OlzLocationCoordinates;
 type OlzEmailInfoData = gen.Olz_Captcha_Endpoints_DecryptEmailTokenEndpoint_OlzEmailInfoData;
 
 export {

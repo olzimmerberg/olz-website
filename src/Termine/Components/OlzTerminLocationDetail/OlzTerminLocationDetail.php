@@ -4,10 +4,10 @@ namespace Olz\Termine\Components\OlzTerminLocationDetail;
 
 use Olz\Common\Components\OlzLocationMap\OlzLocationMap;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\TerminLocation;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzTerminLocationDetailParams extends HttpParams {

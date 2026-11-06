@@ -2,7 +2,7 @@
 
 namespace Olz\Common\Components;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 /**
  * @template T

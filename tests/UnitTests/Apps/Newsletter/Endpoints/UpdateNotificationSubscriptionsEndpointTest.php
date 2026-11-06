@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Newsletter\Endpoints;
 
 use Olz\Apps\Newsletter\Endpoints\UpdateNotificationSubscriptionsEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Constants\NotificationDeliveryType;
 use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests\Common;
 
-use Olz\Utils\DevDataUtils;
-use Olz\Utils\EnvUtils;
-use Olz\Utils\WithUtilsCache;
+use Olz\Common\Utils\DevDataUtils;
+use Olz\Common\Utils\EnvUtils;
+use Olz\Common\Utils\WithUtilsCache;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Container;
 

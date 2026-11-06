@@ -3,7 +3,7 @@
 namespace Olz\Repository\Common;
 
 use Doctrine\ORM\EntityRepository;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 /**
  * @template T of object

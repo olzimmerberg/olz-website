@@ -3,11 +3,11 @@
 namespace Olz\Roles\Components\OlzRoleDetail;
 
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Roles\Role;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
 class OlzRoleDetailParams extends HttpParams {

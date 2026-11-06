@@ -8,9 +8,9 @@ use Olz\Apps\Logs\Endpoints\GetLogsEndpoint;
 use Olz\Apps\Logs\Utils\BaseLogsChannel;
 use Olz\Apps\Logs\Utils\LineLocation;
 use Olz\Apps\Logs\Utils\PlainLogFile;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class TestOnlyGetLogsEndpoint extends GetLogsEndpoint {

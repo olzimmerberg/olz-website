@@ -4,7 +4,7 @@ import {olzApi, OlzApiRequests} from '../../../../Api/client';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzMultiFileField} from '../../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzTextField} from '../../../../Common/Components/OlzTextField/OlzTextField';
-import {getApiString, getResolverResult, validateNotEmpty} from '../../../../Utils/formUtils';
+import {getApiString, getResolverResult, validateNotEmpty} from '../../../../Common/Utils/formUtils';
 
 import './OlzEditResultModal.scss';
 

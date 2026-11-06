@@ -2,7 +2,7 @@
 
 namespace Olz\Entity\Common;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 trait DataStorageTrait {
     use WithUtilsTrait;

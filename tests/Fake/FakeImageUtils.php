@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\ImageUtils;
+use Olz\Common\Utils\ImageUtils;
 
 class FakeImageUtils extends ImageUtils {
     /** @var array<array{0: array<string>, 1: string}> */

@@ -2,7 +2,7 @@
 
 namespace Olz\Fetchers;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 class SolvFetcher {
     use WithUtilsTrait;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\EnvUtils;
+use Olz\Common\Utils\EnvUtils;
 
 class FakeEnvUtils extends EnvUtils {
     public string $app_env = 'test';

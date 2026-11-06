@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Anniversary\Endpoints;
 
 use Olz\Anniversary\Endpoints\CreateRunEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

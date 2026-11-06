@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Entity;
 
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\SolvEvent;
 use Olz\Tests\Fake\Entity\Common\ExpressionEvaluationVisitor;
 use Olz\Tests\Fake\Entity\FakeSolvEvent;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal

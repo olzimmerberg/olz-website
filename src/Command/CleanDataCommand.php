@@ -3,7 +3,7 @@
 namespace Olz\Command;
 
 use Olz\Command\Common\OlzCommand;
-use Olz\Utils\ImageUtils;
+use Olz\Common\Utils\ImageUtils;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

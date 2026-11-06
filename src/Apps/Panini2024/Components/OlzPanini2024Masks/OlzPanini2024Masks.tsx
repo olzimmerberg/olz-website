@@ -1,6 +1,6 @@
 import React from 'react';
 import {DPI, MM_PER_INCH, PANINI_SHORT, PANINI_LONG} from '../../Utils/panini2024Utils';
-import {initReact} from '../../../../Utils/reactUtils';
+import {initReact} from '../../../../Common/Utils/reactUtils';
 
 import './OlzPanini2024Masks.scss';
 

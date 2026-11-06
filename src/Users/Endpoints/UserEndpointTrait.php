@@ -3,8 +3,8 @@
 namespace Olz\Users\Endpoints;
 
 use Olz\Api\ApiObjects\IsoCountry;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Users\User;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDate;
 

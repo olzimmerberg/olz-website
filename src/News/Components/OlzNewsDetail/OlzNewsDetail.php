@@ -8,6 +8,7 @@ namespace Olz\News\Components\OlzNewsDetail;
 
 use Doctrine\Common\Collections\Criteria;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
@@ -15,7 +16,6 @@ use Olz\News\Components\OlzArticleMetadata\OlzArticleMetadata;
 use Olz\News\Components\OlzAuthorBadge\OlzAuthorBadge;
 use Olz\News\Utils\NewsUtils;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
 class OlzNewsDetailParams extends HttpParams {

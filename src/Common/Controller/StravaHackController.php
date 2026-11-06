@@ -3,10 +3,10 @@
 namespace Olz\Common\Controller;
 
 use Olz\Anniversary\Endpoints\RunEndpointTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Anniversary\RunRecord;
 use Olz\Entity\Users\User;
 use Olz\Parsers\StravaActivityParser;
-use Olz\Utils\WithUtilsTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

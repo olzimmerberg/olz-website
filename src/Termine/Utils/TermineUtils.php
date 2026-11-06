@@ -4,13 +4,13 @@ namespace Olz\Termine\Utils;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminNotification;
 use Olz\Entity\Termine\TerminNotificationTemplate;
-use Olz\Utils\DateUtils;
-use Olz\Utils\WithUtilsTrait;
 
 /**
  * @phpstan-type Option array{ident: string, name: string, icon?: string}

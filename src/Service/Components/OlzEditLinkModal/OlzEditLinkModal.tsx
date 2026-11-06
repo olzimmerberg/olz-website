@@ -4,8 +4,8 @@ import {olzApi, OlzMetaData, OlzLinkData} from '../../../Api/client';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzPositionField} from '../../../Common/Components/OlzPositionField/OlzPositionField';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty} from '../../../Utils/formUtils';
-import {assert} from '../../../Utils/generalUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty} from '../../../Common/Utils/formUtils';
+import {assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzEditLinkModal.scss';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {initReact} from '../../Utils/reactUtils';
+import {initReact} from '../../Common/Utils/reactUtils';
 import {OlzLogs} from './Components/index';
 
 initReact('react-root', <OlzLogs />);

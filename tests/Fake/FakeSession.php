@@ -2,7 +2,7 @@
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\Session;
+use Olz\Common\Utils\Session;
 
 class FakeSession extends Session {
     /** @var array<string, ?string> */

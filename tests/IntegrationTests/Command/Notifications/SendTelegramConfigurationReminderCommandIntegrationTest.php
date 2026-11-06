@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\Command\Notifications;
 
 use Olz\Command\Notifications\SendTelegramConfigurationReminderCommand;
+use Olz\Common\Utils\DateUtils;
 use Olz\Constants\NotificationType;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\DateUtils;
 
 /**
  * @internal

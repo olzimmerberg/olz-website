@@ -5,9 +5,9 @@ import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
-import {user} from '../../../Utils/constants';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateAhvOrNull, validateCountryCodeOrNull, validateDateOrNull, validateEmail, validateEmailOrNull, validateGender, validateIntegerOrNull, validateNotEmpty, validatePassword, validatePhoneOrNull, validateStringRegex} from '../../../Utils/formUtils';
-import {assert} from '../../../Utils/generalUtils';
+import {user} from '../../../Common/Utils/constants';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateAhvOrNull, validateCountryCodeOrNull, validateDateOrNull, validateEmail, validateEmailOrNull, validateGender, validateIntegerOrNull, validateNotEmpty, validatePassword, validatePhoneOrNull, validateStringRegex} from '../../../Common/Utils/formUtils';
+import {assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzEditUserModal.scss';
 

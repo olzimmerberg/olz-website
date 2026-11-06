@@ -1,5 +1,5 @@
 import React from 'react';
-import {initReact} from '../../Utils/reactUtils';
+import {initReact} from '../../Common/Utils/reactUtils';
 import {OlzSearchEngines} from './Components/index';
 
 

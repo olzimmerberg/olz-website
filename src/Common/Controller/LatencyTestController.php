@@ -2,7 +2,7 @@
 
 namespace Olz\Common\Controller;
 
-use Olz\Utils\HttpUtils;
+use Olz\Common\Utils\HttpUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

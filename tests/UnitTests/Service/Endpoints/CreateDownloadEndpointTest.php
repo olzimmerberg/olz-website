@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Service\Endpoints;
 
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Service\Endpoints\CreateDownloadEndpoint;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

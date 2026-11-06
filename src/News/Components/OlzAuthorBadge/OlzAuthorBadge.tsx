@@ -3,7 +3,7 @@ import {olzApi, OlzApiRequests, OlzAuthorInfoData} from '../../../Api/client';
 import {initOlzEditModal} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzRestrictedPublicModal} from '../../../Common/Components/OlzRestrictedPublicModal/OlzRestrictedPublicModal';
 import {getImageSrcArray} from '../../../Users/Components/OlzUserInfoModal/OlzUserInfoModal';
-import {codeHref, dataHref} from '../../../Utils/constants';
+import {codeHref, dataHref} from '../../../Common/Utils/constants';
 
 import './OlzAuthorBadge.scss';
 

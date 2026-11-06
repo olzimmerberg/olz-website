@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Common\Utils\TelegramUtils;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
-use Olz\Utils\TelegramUtils;
 
 class FakeTelegramUtils extends TelegramUtils {
     public bool $isAnonymousChat = false;

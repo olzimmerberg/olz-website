@@ -3,7 +3,7 @@
 namespace Olz\Apps\Oev\Controller;
 
 use Olz\Apps\Oev\Components\OlzOev\OlzOev;
-use Olz\Utils\HttpUtils;
+use Olz\Common\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,7 +2,7 @@
 
 namespace Olz\Common\Controller;
 
-use Olz\Utils\EnvUtils;
+use Olz\Common\Utils\EnvUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;

@@ -3,7 +3,7 @@
 namespace Olz\Apps\Commands\Controller;
 
 use Olz\Apps\Commands\Components\OlzCommands\OlzCommands;
-use Olz\Utils\HttpUtils;
+use Olz\Common\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

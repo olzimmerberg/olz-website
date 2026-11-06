@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Common\Utils\EmailUtils;
 use Olz\Entity\Users\User;
-use Olz\Utils\EmailUtils;
 use Webklex\PHPIMAP\Client;
 use Webklex\PHPIMAP\Folder;
 use Webklex\PHPIMAP\Message;

@@ -2,7 +2,7 @@
 
 namespace Olz\Api;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\TypedEndpoint;
 

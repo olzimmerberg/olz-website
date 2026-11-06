@@ -6,7 +6,7 @@ namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Olz\Utils\EnvUtils;
+use Olz\Common\Utils\EnvUtils;
 
 /**
  * Auto-generated Migration: Please modify to your needs!

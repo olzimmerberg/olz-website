@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Entity\Termine;
 
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\Termine\Termin;
 use Olz\Tests\Fake\Entity\Common\ExpressionEvaluationVisitor;
 use Olz\Tests\Fake\Entity\Termine\FakeTermin;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal

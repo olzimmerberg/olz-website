@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Termine\Endpoints;
 
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Termine\Endpoints\ListTerminReactionsEndpoint;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal

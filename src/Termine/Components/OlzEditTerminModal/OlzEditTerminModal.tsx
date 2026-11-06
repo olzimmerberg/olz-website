@@ -8,9 +8,9 @@ import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField
 import {OlzLocationField, serializeLocation, deserializeLocation, validateLocationOrNull} from '../../../Common/Components/OlzLocationField/OlzLocationField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {isoNow, codeHref} from '../../../Utils/constants';
-import {getApiBoolean, getApiString, getDateFeedback, getDateTimeFeedback, getFormBoolean, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Utils/formUtils';
-import {isDefined, Entity, assert} from '../../../Utils/generalUtils';
+import {isoNow, codeHref} from '../../../Common/Utils/constants';
+import {getApiBoolean, getApiString, getDateFeedback, getDateTimeFeedback, getFormBoolean, getFormString, getResolverResult, validateDate, validateDateOrNull, validateDateTimeOrNull, validateNotEmpty, validateTimeOrNull} from '../../../Common/Utils/formUtils';
+import {isDefined, Entity, assert} from '../../../Common/Utils/generalUtils';
 import {getTerminUpdateFromTemplate} from '../../Utils/termineUtils';
 
 import './OlzEditTerminModal.scss';

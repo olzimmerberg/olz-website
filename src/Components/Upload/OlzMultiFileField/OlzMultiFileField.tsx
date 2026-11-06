@@ -1,13 +1,13 @@
 import React from 'react';
 import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
 import {useDropzone} from 'react-dropzone';
-import {readBase64} from '../../../Utils/fileUtils';
-import {assert, isDefined} from '../../../Utils/generalUtils';
-import {Uploader} from '../../../Utils/Uploader';
+import {readBase64} from '../../../Common/Utils/fileUtils';
+import {assert, isDefined} from '../../../Common/Utils/generalUtils';
+import {Uploader} from '../../../Common/Utils/Uploader';
 import {OlzUploadFile} from '../OlzUploadFile/OlzUploadFile';
 import {UploadFile, UploadedFile, RegisteringFile} from '../types';
 import {isRegisteringFile, isUploadedFile, isUploadingFile, serializeUploadFile} from '../utils';
-import {dataHref} from '../../../Utils/constants';
+import {dataHref} from '../../../Common/Utils/constants';
 
 import '../../../Common/Components/OlzStyles/dropzone.scss';
 import './OlzMultiFileField.scss';

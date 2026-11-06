@@ -3,6 +3,7 @@
 namespace Olz\Components\OtherPages\OlzFuerEinsteiger;
 
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Roles\Role;
@@ -10,7 +11,6 @@ use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Repository\Roles\PredefinedRole;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
 class OlzFuerEinsteigerParams extends HttpParams {

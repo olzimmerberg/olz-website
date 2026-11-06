@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Common\Utils\AuthUtils;
 use Olz\Entity\AccessToken;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Roles\FakeRole;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
-use Olz\Utils\AuthUtils;
 
 class FakeAuthUtils extends AuthUtils {
     public ?User $current_user = null;

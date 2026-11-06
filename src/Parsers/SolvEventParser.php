@@ -2,8 +2,8 @@
 
 namespace Olz\Parsers;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\SolvEvent;
-use Olz\Utils\WithUtilsTrait;
 
 class SolvEventParser {
     use WithUtilsTrait;

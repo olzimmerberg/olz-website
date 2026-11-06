@@ -2,11 +2,11 @@
 
 namespace Olz\News\Controller;
 
+use Olz\Common\Utils\HttpUtils;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\News\NewsEntry;
 use Olz\News\Components\OlzNewsDetail\OlzNewsDetail;
 use Olz\News\Components\OlzNewsList\OlzNewsList;
-use Olz\Utils\HttpUtils;
-use Olz\Utils\WithUtilsTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

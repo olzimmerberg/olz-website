@@ -1,8 +1,8 @@
 import {OlzTerminLabelData, OlzTerminTemplateData} from '../../Api/client';
-import {getFormBoolean, getFormString, validateDateOrNull} from '../../Utils/formUtils';
-import {Entity} from '../../Utils/generalUtils';
-import {isoNow} from '../../Utils/constants';
-import {toISO} from '../../Utils/dateUtils';
+import {getFormBoolean, getFormString, validateDateOrNull} from '../../Common/Utils/formUtils';
+import {Entity} from '../../Common/Utils/generalUtils';
+import {isoNow} from '../../Common/Utils/constants';
+import {toISO} from '../../Common/Utils/dateUtils';
 
 export interface TerminUpdate {
     startTime: string;

@@ -2,9 +2,9 @@
 
 namespace Olz\Anniversary\Endpoints;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Anniversary\RunRecord;
 use Olz\Entity\Users\User;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDateTime;
 

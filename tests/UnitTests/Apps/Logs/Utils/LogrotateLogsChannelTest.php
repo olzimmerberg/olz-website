@@ -9,8 +9,8 @@ use Olz\Apps\Logs\Utils\GzLogFile;
 use Olz\Apps\Logs\Utils\LogFileInterface;
 use Olz\Apps\Logs\Utils\LogrotateLogsChannel;
 use Olz\Apps\Logs\Utils\PlainLogFile;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 class TestOnlyLogrotateLogsChannel extends LogrotateLogsChannel {
     public static function getId(): string {

@@ -2,11 +2,11 @@
 
 namespace Olz\News\Endpoints;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Users\User;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDateTime;
 

@@ -3,9 +3,9 @@
 namespace Olz\Command;
 
 use Olz\Command\Common\OlzCommand;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Throttling;
 use Olz\Message\TestMessage;
-use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

@@ -2,10 +2,10 @@
 
 namespace Olz\Common\Controller;
 
+use Olz\Common\Utils\EnvUtils;
+use Olz\Common\Utils\HttpUtils;
 use Olz\Components\Auth\OlzEmailReaktion\OlzEmailReaktion;
 use Olz\Components\Auth\OlzStravaRedirect\OlzStravaRedirect;
-use Olz\Utils\EnvUtils;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

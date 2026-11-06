@@ -13,7 +13,7 @@ die Tests deterministisch bleiben und nicht ins Internet gehen.
 ## Was gibt es?
 
 - `Fake*Utils` (z.B. `FakeEntityManager`, `FakeDbUtils`, `FakeDateUtils`,
-  `FakeEnvUtils`, `FakeHttpUtils`): Fakes für die Utils aus `src/Utils/`.
+  `FakeEnvUtils`, `FakeHttpUtils`): Fakes für die Utils aus `src/Common/Utils/`.
   `UnitTestCase` registriert sie in `WithUtilsCache`.
 - `FakeEntityManager`: liefert für die Entities `Fake*Repository`-Instanzen.
 - `tests/Fake/Entity/`: vordefinierte Test-Entities (`FakeUser`, `FakeMember`,

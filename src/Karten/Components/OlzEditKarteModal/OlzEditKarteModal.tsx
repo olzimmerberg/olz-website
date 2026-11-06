@@ -5,8 +5,8 @@ import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Commo
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
 import {OlzLocationField, deserializeLocation, serializeLocation, validateLocation} from '../../../Common/Components/OlzLocationField/OlzLocationField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty} from '../../../Utils/formUtils';
-import {assert} from '../../../Utils/generalUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateNotEmpty} from '../../../Common/Utils/formUtils';
+import {assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzEditKarteModal.scss';
 

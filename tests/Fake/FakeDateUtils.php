@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\DateUtils;
+use Olz\Common\Utils\DateUtils;
 
 class FakeDateUtils extends DateUtils {
     public function __construct() {

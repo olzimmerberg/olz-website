@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\News\Utils;
 
 use Doctrine\Common\Collections\Expr\Comparison;
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\News\Utils\NewsUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\DateUtils;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal

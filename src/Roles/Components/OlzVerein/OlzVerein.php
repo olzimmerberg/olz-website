@@ -3,11 +3,11 @@
 namespace Olz\Roles\Components\OlzVerein;
 
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Measurement;
 use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
 class OlzVereinParams extends HttpParams {

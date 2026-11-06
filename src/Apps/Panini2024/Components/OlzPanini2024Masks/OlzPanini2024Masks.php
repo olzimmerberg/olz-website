@@ -4,10 +4,10 @@ namespace Olz\Apps\Panini2024\Components\OlzPanini2024Masks;
 
 use Olz\Apps\Panini2024\Metadata;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzPanini2024MasksParams extends HttpParams {

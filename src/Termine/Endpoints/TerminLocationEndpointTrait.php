@@ -2,9 +2,9 @@
 
 namespace Olz\Termine\Endpoints;
 
+use Olz\Common\Utils\MapUtils;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Termine\TerminLocation;
-use Olz\Utils\MapUtils;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**

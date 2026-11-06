@@ -2,11 +2,11 @@ services:
     _defaults:
         public: true
 
-    Olz\Tests\IntegrationTests\Utils\HttpUtilsForIntegrationTest:
+    Olz\Tests\IntegrationTests\Common\Utils\HttpUtilsForIntegrationTest:
         public: true
 
-    Olz\Tests\IntegrationTests\Utils\FakeIntegrationTestDbUtils:
+    Olz\Tests\IntegrationTests\Common\Utils\FakeIntegrationTestDbUtils:
         public: true
 
-    Olz\Tests\IntegrationTests\Utils\WithUtilsTraitIntegrationClassWithUtilsTrait:
+    Olz\Tests\IntegrationTests\Common\Utils\WithUtilsTraitIntegrationClassWithUtilsTrait:
         public: true

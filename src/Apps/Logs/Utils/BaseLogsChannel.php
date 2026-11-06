@@ -2,7 +2,7 @@
 
 namespace Olz\Apps\Logs\Utils;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 use Psr\Log\LogLevel;
 
 class LineLocation {

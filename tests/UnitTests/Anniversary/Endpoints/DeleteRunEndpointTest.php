@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Anniversary\Endpoints;
 
 use Olz\Anniversary\Endpoints\DeleteRunEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\Fake\Entity\Anniversary\FakeRunRecord;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

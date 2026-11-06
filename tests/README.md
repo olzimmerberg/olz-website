@@ -23,6 +23,12 @@ laufen dadurch schnell und deterministisch. Auch Integration-Tests setzen Fakes
 gezielt ein, um externe Dienste (z.B. Netzwerk-Aufrufe) zu ersetzen. Details:
 [`Fake/README.md`](./Fake/README.md).
 
+## Fixtures
+
+Statische Test- und Dev-Daten (Beispiel-Dateien und Datenbank-Dumps) liegen unter
+[`fixtures/`](../fixtures/README.md) - bewusst ausserhalb von `src/`, da sie nicht
+Teil des Anwendungscodes sind.
+
 ## Konventionen
 
 - Jede Test-Klasse beginnt mit `declare(strict_types=1);`.

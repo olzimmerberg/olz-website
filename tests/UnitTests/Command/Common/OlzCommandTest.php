@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command\Common;
 
 use Olz\Command\Common\OlzCommand;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;

@@ -2,7 +2,7 @@
 
 namespace Olz\Anniversary\Utils;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 /**
  * @phpstan-type OlzElevationStats array{

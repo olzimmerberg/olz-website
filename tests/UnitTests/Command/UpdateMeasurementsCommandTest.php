@@ -9,9 +9,22 @@ use Olz\Common\Utils\DateUtils;
 use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\Measurement;
 use Olz\Entity\Members\Member;
+use Olz\Entity\News\NewsEntry;
+use Olz\Entity\SolvPerson;
+use Olz\Entity\SolvResult;
+use Olz\Entity\Startseite\WeeklyPicture;
+use Olz\Entity\Termine\Termin;
+use Olz\Entity\Termine\TerminLabel;
+use Olz\Entity\Termine\TerminReaction;
 use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\FakeMeasurementRepository;
+use Olz\Tests\Fake\Entity\FakeSolvPersonRepository;
+use Olz\Tests\Fake\Entity\FakeSolvResultRepository;
 use Olz\Tests\Fake\Entity\Members\FakeMemberRepository;
+use Olz\Tests\Fake\Entity\News\FakeNewsRepository;
+use Olz\Tests\Fake\Entity\Startseite\FakeWeeklyPictureRepository;
+use Olz\Tests\Fake\Entity\Termine\FakeTerminReactionRepository;
+use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\Entity\Users\FakeUserRepository;
 use Olz\Tests\Fake\FakeEntityManager;
@@ -61,29 +74,138 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             throw new \Exception("Unexpected member criteria: ".json_encode($criteria));
         };
 
+        $make_termin = function (int $id, array $label_idents, string $start_date): Termin {
+            $termin = new Termin();
+            $termin->setId($id);
+            $termin->setStartDate(new \DateTime($start_date));
+            foreach ($label_idents as $ident) {
+                $label = new TerminLabel();
+                $label->setIdent($ident);
+                $termin->addLabel($label);
+            }
+            return $termin;
+        };
+        $make_reaction = function (int $termin_id, int $user_id, string $emoji): TerminReaction {
+            $termin = new Termin();
+            $termin->setId($termin_id);
+            $user = new User();
+            $user->setId($user_id);
+            $reaction = new TerminReaction();
+            $reaction->setTermin($termin);
+            $reaction->setUser($user);
+            $reaction->setEmoji($emoji);
+            return $reaction;
+        };
+        $reactions_by_termin = [
+            101 => [$make_reaction(101, 1, '👍'), $make_reaction(101, 2, '👍'), $make_reaction(101, 3, '👍')],
+            102 => [$make_reaction(102, 1, '👍'), $make_reaction(102, 2, '👍'), $make_reaction(102, 3, '👍'), $make_reaction(102, 4, '👍')],
+        ];
+        $termin_repo = $entity_manager->repositories[Termin::class] ?? null;
+        assert($termin_repo instanceof FakeTerminRepository);
+        $termin_repo->entitiesToBeMatched = [
+            $make_termin(101, ['training'], '2020-03-05'),
+            $make_termin(102, ['training', 'ol'], '2020-03-12'),
+            $make_termin(103, ['ol'], '2020-03-19'),
+        ];
+
+        $termin_reaction_repo = $entity_manager->repositories[TerminReaction::class] ?? null;
+        assert($termin_reaction_repo instanceof FakeTerminReactionRepository);
+        $termin_reaction_repo->entitiesToBeFoundForQuery = function (array $criteria) use ($reactions_by_termin): array {
+            $termin_id = $criteria['termin'] ?? null;
+            if ($termin_id !== null) {
+                return $reactions_by_termin[$termin_id] ?? [];
+            }
+            throw new \Exception("Unexpected reaction criteria: ".json_encode($criteria));
+        };
+
+        $news_repo = $entity_manager->repositories[NewsEntry::class] ?? null;
+        assert($news_repo instanceof FakeNewsRepository);
+        $news_repo->entitiesToBeMatched = [new NewsEntry(), new NewsEntry(), new NewsEntry(), new NewsEntry()];
+
+        $weekly_picture_repo = $entity_manager->repositories[WeeklyPicture::class] ?? null;
+        assert($weekly_picture_repo instanceof FakeWeeklyPictureRepository);
+        $weekly_picture_repo->entitiesToBeMatched = [new WeeklyPicture(), new WeeklyPicture()];
+
+        $make_solv_person = function (int $id, int $member): SolvPerson {
+            $solv_person = new SolvPerson();
+            $solv_person->setId($id);
+            $solv_person->setMember($member);
+            return $solv_person;
+        };
+        $solv_person_repo = $entity_manager->repositories[SolvPerson::class] ?? null;
+        assert($solv_person_repo instanceof FakeSolvPersonRepository);
+        $solv_person_repo->entitiesToBeFoundForQuery = fn (array $criteria): array => [
+            $make_solv_person(1, 1),
+            $make_solv_person(2, 0),
+        ];
+
+        $make_solv_result = function (int $event, int $person, int $distance, int $elevation): SolvResult {
+            $solv_result = new SolvResult();
+            $solv_result->setEvent($event);
+            $solv_result->setPerson($person);
+            $solv_result->setClassDistance($distance);
+            $solv_result->setClassElevation($elevation);
+            return $solv_result;
+        };
+        $solv_results_by_event = [
+            20202 => [$make_solv_result(20202, 1, 4500, 200), $make_solv_result(20202, 2, 3000, 100)],
+            20201 => [$make_solv_result(20201, 1, 5000, 250)],
+        ];
+        $solv_result_repo = $entity_manager->repositories[SolvResult::class] ?? null;
+        assert($solv_result_repo instanceof FakeSolvResultRepository);
+        $solv_result_repo->entitiesToBeFoundForQuery = function (array $criteria) use ($solv_results_by_event): array {
+            $event = $criteria['event'] ?? null;
+            if ($event !== null) {
+                return $solv_results_by_event[$event] ?? [];
+            }
+            throw new \Exception("Unexpected solv result criteria: ".json_encode($criteria));
+        };
+
         $command = new UpdateMeasurementsCommand();
-        $command->setDateUtils(new DateUtils('2020-03-13 12:00:00'));
+        $command->setDateUtils(new DateUtils('2020-04-15 12:00:00'));
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
 
         $result = $command->run($input, $output);
 
         $this->assertSame(Command::SUCCESS, $result);
+        $logs = array_values(array_filter(
+            $this->getLogs(),
+            fn (string $log): bool => !str_starts_with($log, 'INFO DB:'),
+        ));
         $this->assertSame([
             'INFO Running command Olz\Command\UpdateMeasurementsCommand...',
             'INFO Users & Members measurements updated:',
             'INFO   num_users: 10',
             'INFO   num_members: 8',
             'INFO   num_member_users: 7',
+            'INFO Termine & Anlässe measurements updated:',
+            'INFO   num_termine: 3',
+            'INFO   num_solv_participations: 2',
+            'INFO   sum_solv_distance: 9500',
+            'INFO   sum_solv_elevation: 450',
+            'INFO   avg_training_participants: 3.5',
+            'INFO Website-Aktivität measurements updated:',
+            'INFO   num_news: 4',
+            'INFO   num_weekly_pictures: 2',
             'INFO Measurements updated.',
             'INFO Successfully ran command Olz\Command\UpdateMeasurementsCommand.',
-        ], $this->getLogs());
+        ], $logs);
         $this->assertSame(
             "Running command Olz\\Command\\UpdateMeasurementsCommand...\n".
             "Users & Members measurements updated:\n".
             "  num_users: 10\n".
             "  num_members: 8\n".
             "  num_member_users: 7\n".
+            "Termine & Anlässe measurements updated:\n".
+            "  num_termine: 3\n".
+            "  num_solv_participations: 2\n".
+            "  sum_solv_distance: 9500\n".
+            "  sum_solv_elevation: 450\n".
+            "  avg_training_participants: 3.5\n".
+            "Website-Aktivität measurements updated:\n".
+            "  num_news: 4\n".
+            "  num_weekly_pictures: 2\n".
             "Measurements updated.\n".
             "Successfully ran command Olz\\Command\\UpdateMeasurementsCommand.\n",
             $output->fetch(),
@@ -92,9 +214,16 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
         $measurement_repo = $entity_manager->repositories[Measurement::class];
         assert($measurement_repo instanceof FakeMeasurementRepository);
         $this->assertSame([
-            'num_users|2020|3' => 10.0,
-            'num_members|2020|3' => 8.0,
-            'num_member_users|2020|3' => 7.0,
+            'num_users|2020|4' => 10.0,
+            'num_members|2020|4' => 8.0,
+            'num_member_users|2020|4' => 7.0,
+            'num_termine|2020|4' => 3.0,
+            'num_solv_participations|2020|3' => 2.0,
+            'sum_solv_distance|2020|3' => 9500.0,
+            'sum_solv_elevation|2020|3' => 450.0,
+            'avg_training_participants|2020|3' => 3.5,
+            'num_news|2020|3' => 4.0,
+            'num_weekly_pictures|2020|3' => 2.0,
         ], $measurement_repo->measurements);
     }
 }

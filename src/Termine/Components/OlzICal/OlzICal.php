@@ -25,18 +25,20 @@ class OlzICal extends OlzComponent {
         // Termine abfragen
         $termin_class = Termin::class;
         $termin_reaction_class = TerminReaction::class;
+        $accept_emojis = implode("', '", TerminReaction::ACCEPT_EMOJIS);
+        $decline_emojis = implode("', '", TerminReaction::DECLINE_EMOJIS);
         $dql = <<<ZZZZZZZZZZ
             SELECT t, MIN(tyes.emoji), MIN(tno.emoji)
             FROM {$termin_class} t
                 LEFT JOIN {$termin_reaction_class} tyes ON (
                     tyes.user = :user_id
                     AND tyes.termin = t.id
-                    AND tyes.emoji IN ('👍', '✅', '✔️')
+                    AND tyes.emoji IN ('{$accept_emojis}')
                 )
                 LEFT JOIN {$termin_reaction_class} tno ON (
                     tno.user = :user_id
                     AND tno.termin = t.id
-                    AND tno.emoji IN ('👎', '❎', '❌', '😢', '🚫')
+                    AND tno.emoji IN ('{$decline_emojis}')
                 )
             WHERE
                 t.start_date >= :start_date

@@ -46,6 +46,8 @@ use Olz\Entity\Service\Download;
 use Olz\Entity\Service\Link;
 use Olz\Entity\Snippets\Snippet;
 use Olz\Entity\SolvEvent;
+use Olz\Entity\SolvPerson;
+use Olz\Entity\SolvResult;
 use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Entity\StravaLink;
 use Olz\Entity\TelegramLink;
@@ -69,6 +71,8 @@ use Olz\Tests\Fake\Entity\FakeForwardedEmailRepository;
 use Olz\Tests\Fake\Entity\FakeMeasurementRepository;
 use Olz\Tests\Fake\Entity\FakeNotificationSubscriptionRepository;
 use Olz\Tests\Fake\Entity\FakeSolvEventRepository;
+use Olz\Tests\Fake\Entity\FakeSolvPersonRepository;
+use Olz\Tests\Fake\Entity\FakeSolvResultRepository;
 use Olz\Tests\Fake\Entity\FakeStravaLinkRepository;
 use Olz\Tests\Fake\Entity\FakeTelegramLinkRepository;
 use Olz\Tests\Fake\Entity\FakeThrottlingRepository;
@@ -136,6 +140,8 @@ class FakeEntityManager implements EntityManagerInterface {
             SkillLevel::class => new FakeSkillLevelRepository($this),
             Snippet::class => new FakeSnippetRepository($this),
             SolvEvent::class => new FakeSolvEventRepository($this),
+            SolvPerson::class => new FakeSolvPersonRepository($this),
+            SolvResult::class => new FakeSolvResultRepository($this),
             StravaLink::class => new FakeStravaLinkRepository($this),
             TelegramLink::class => new FakeTelegramLinkRepository($this),
             Termin::class => new FakeTerminRepository($this),

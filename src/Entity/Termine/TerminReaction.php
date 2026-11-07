@@ -11,6 +11,12 @@ use Olz\Repository\Termine\TerminReactionRepository;
 #[ORM\Index(name: 'termin_emoji_user_index', columns: ['termin_id', 'emoji', 'user_id'])]
 #[ORM\Entity(repositoryClass: TerminReactionRepository::class)]
 class TerminReaction implements TestableInterface {
+    /** Emojis that count as a participation. */
+    public const ACCEPT_EMOJIS = ['👍', '✅', '✔️'];
+
+    /** Emojis that count as a declined. */
+    public const DECLINE_EMOJIS = ['👎', '❎', '❌', '😢', '🚫'];
+
     #[ORM\Id]
     #[ORM\Column(type: 'bigint', nullable: false)]
     #[ORM\GeneratedValue]

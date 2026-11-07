@@ -81,16 +81,60 @@ class OlzVerein extends OlzRootComponent {
     }
 
     private function getStatistikDiagram(): string {
+        return $this->renderChart(
+            'Entwicklung Benutzer und Mitglieder',
+            'Anzahl aktiver Benutzer, Mitglieder und Benutzer mit Mitgliedschaft, pro Monat (letzte 20 Jahre).',
+            [
+                'num_users' => ['label' => 'Benutzer', 'color' => '#0077cc'],
+                'num_members' => ['label' => 'Mitglieder', 'color' => '#008800'],
+                'num_member_users' => ['label' => 'Benutzer mit Mitgliedschaft', 'color' => '#cc6600'],
+            ],
+        )
+            .$this->renderChart(
+                'Entwicklung Trainings',
+                'Durchschnittliche Anzahl Teilnehmer pro Kartentraining, pro Monat (letzte 20 Jahre).',
+                [
+                    'avg_training_participants' => ['label' => 'Ø Trainings-Teilnehmer', 'color' => '#0077cc'],
+                ],
+            )
+            .$this->renderChart(
+                'Entwicklung Wettkämpfe',
+                'Anzahl SOLV-Teilnahmen sowie Summe der Strecke (m) und Höhenmeter (m) an SOLV-Anlässen, pro Monat (letzte 20 Jahre).',
+                [
+                    'num_solv_participations' => ['label' => 'SOLV-Teilnahmen', 'color' => '#0077cc'],
+                    'sum_solv_distance' => ['label' => 'Strecke (m)', 'color' => '#008800'],
+                    'sum_solv_elevation' => ['label' => 'Höhenmeter (m)', 'color' => '#cc6600'],
+                ],
+                true,
+            )
+            .$this->renderChart(
+                'Entwicklung Termine',
+                'Anzahl Termine, pro Monat (letzte 20 Jahre).',
+                [
+                    'num_termine' => ['label' => 'Termine', 'color' => '#0077cc'],
+                ],
+            )
+            .$this->renderChart(
+                'Entwicklung Website-Aktivität',
+                'Anzahl News und Bilder der Woche, pro Monat (letzte 20 Jahre).',
+                [
+                    'num_news' => ['label' => 'News', 'color' => '#0077cc'],
+                    'num_weekly_pictures' => ['label' => 'Bilder der Woche', 'color' => '#008800'],
+                ],
+            );
+    }
+
+    /** @param array<string, array{label: string, color: string}> $series */
+    private function renderChart(
+        string $title,
+        string $description,
+        array $series,
+        bool $per_series_scale = false,
+    ): string {
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $current_month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
         $min_year = $current_year - 19;
         $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
-
-        $series = [
-            'num_users' => ['label' => 'Benutzer', 'color' => '#0077cc'],
-            'num_members' => ['label' => 'Mitglieder', 'color' => '#008800'],
-            'num_member_users' => ['label' => 'Benutzer mit Mitgliedschaft', 'color' => '#cc6600'],
-        ];
 
         // 0 = January of $min_year; the chart covers the last 20 years up to the current month.
         $end_index = ($current_year - $min_year) * 12 + ($current_month - 1);
@@ -127,6 +171,20 @@ class OlzVerein extends OlzRootComponent {
         $plot_width = max(1, $end_index) * $px_per_month;
         $width = $pad_left + $plot_width + $pad_right;
 
+        // Per-series maximum, used when each series gets its own scale.
+        $series_max = [];
+        foreach (array_keys($series) as $name) {
+            $max_of_series = 0.0;
+            foreach (($values[$name] ?? []) as $value) {
+                if ($value > $max_of_series) {
+                    $max_of_series = $value;
+                }
+            }
+            $series_max[$name] = $max_of_series;
+        }
+
+        // Shared scale (default) uses one Y-axis; per-series scale maps each
+        // series' own maximum to the top of the plot.
         $max_value = 1;
         foreach ($values as $by_month) {
             foreach ($by_month as $value) {
@@ -139,16 +197,21 @@ class OlzVerein extends OlzRootComponent {
         $max_y = $step * 4;
 
         $x_of = fn (int $index): float => $pad_left + $index * $px_per_month;
-        $y_of = fn (float $value): float => $pad_top + (1 - $value / $max_y) * $plot_height;
+        $y_of_max = fn (float $value, float $max): float => $pad_top + (1 - $value / ($max > 0 ? $max : 1)) * $plot_height;
+        $y_of = fn (float $value): float => $y_of_max($value, $max_y);
 
-        $svg = "<svg class='olz-verein-statistik' width='{$width}' height='{$height}' viewBox='0 0 {$width} {$height}' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Entwicklung Benutzer und Mitglieder'>";
+        $svg = "<svg class='olz-verein-statistik' width='{$width}' height='{$height}' viewBox='0 0 {$width} {$height}' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='{$title}'>";
 
-        // Horizontal grid lines and Y labels.
+        // Horizontal grid lines. On a shared scale they are labelled with the
+        // actual values; with a per-series scale the numeric labels are omitted
+        // (each series' maximum is at the top instead).
         for ($i = 0; $i <= 4; $i++) {
-            $tick_value = $step * $i;
-            $y = round($y_of($tick_value), 1);
+            $y = round($pad_top + (1 - $i / 4) * $plot_height, 1);
             $svg .= "<line x1='{$pad_left}' y1='{$y}' x2='".($pad_left + $plot_width)."' y2='{$y}' stroke='#dddddd' stroke-width='1' />";
-            $svg .= "<text x='".($pad_left - 8)."' y='".($y + 4)."' text-anchor='end' font-size='11' fill='#666666'>{$tick_value}</text>";
+            if (!$per_series_scale) {
+                $tick_value = $step * $i;
+                $svg .= "<text x='".($pad_left - 8)."' y='".($y + 4)."' text-anchor='end' font-size='11' fill='#666666'>{$tick_value}</text>";
+            }
         }
 
         // Vertical grid lines at the start (January) of each year.
@@ -184,22 +247,23 @@ class OlzVerein extends OlzRootComponent {
             $points = '';
             foreach (($values[$name] ?? []) as $index => $value) {
                 $x = round($x_of($index), 1);
-                $y = round($y_of($value), 1);
+                $y = round($per_series_scale ? $y_of_max($value, $series_max[$name] ?? 0.0) : $y_of($value), 1);
                 $points .= "{$x},{$y} ";
             }
             if ($points !== '') {
                 $svg .= "<polyline points='".trim($points)."' fill='none' stroke='{$color}' stroke-width='2' />";
             }
             $svg .= "<rect x='{$legend_x}' y='{$legend_y}' width='14' height='14' fill='{$color}' />";
-            $svg .= "<text x='".($legend_x + 20)."' y='".($legend_y + 12)."' font-size='12' fill='#333333'>{$label}</text>";
+            $legend_label = $per_series_scale ? "{$label} (max ".round($series_max[$name] ?? 0.0, 1).")" : "{$label}";
+            $svg .= "<text x='".($legend_x + 20)."' y='".($legend_y + 12)."' font-size='12' fill='#333333'>{$legend_label}</text>";
             $legend_y += 22;
         }
 
         $svg .= "</svg>";
 
         return "<div class='content-full'>"
-            ."<h2>Entwicklung Benutzer und Mitglieder</h2>"
-            ."<p>Anzahl aktiver Benutzer, Mitglieder und Benutzer mit Mitgliedschaft, pro Monat (letzte 20 Jahre).</p>"
+            ."<h2>{$title}</h2>"
+            ."<p>{$description}</p>"
             ."<div style='overflow-x: auto;'>".$svg."</div>"
             ."</div>";
     }

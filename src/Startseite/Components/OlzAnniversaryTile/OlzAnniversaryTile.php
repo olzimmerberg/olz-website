@@ -8,7 +8,7 @@ namespace Olz\Startseite\Components\OlzAnniversaryTile;
 
 use Olz\Anniversary\Components\OlzAnniversaryRocket\OlzAnniversaryRocket;
 use Olz\Anniversary\Utils\AnniversaryUtils;
-use Olz\Components\OlzZielsprint\OlzZielsprint;
+use Olz\Common\Components\OlzZielsprint\OlzZielsprint;
 use Olz\Entity\Users\User;
 use Olz\Startseite\Components\AbstractOlzTile\AbstractOlzTile;
 

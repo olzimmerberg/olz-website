@@ -3,7 +3,7 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzDownloadData} from '../../../Api/client';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzPositionField} from '../../../Common/Components/OlzPositionField/OlzPositionField';
-import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
+import {OlzMultiFileField} from '../../../Common/Components/OlzMultiFileField/OlzMultiFileField';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty} from '../../../Common/Utils/formUtils';
 import {assert} from '../../../Common/Utils/generalUtils';

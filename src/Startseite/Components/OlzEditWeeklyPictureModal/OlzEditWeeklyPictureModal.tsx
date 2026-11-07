@@ -3,7 +3,7 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzWeeklyPictureData} from '../../../Api/client';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
-import {OlzImageField} from '../../../Components/Upload/OlzImageField/OlzImageField';
+import {OlzImageField} from '../../../Common/Components/OlzImageField/OlzImageField';
 import {assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzEditWeeklyPictureModal.scss';

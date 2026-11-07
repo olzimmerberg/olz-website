@@ -3,10 +3,10 @@
 namespace Olz\Karten\Components\OlzKarteDetail;
 
 use Olz\Common\Components\OlzEditableText\OlzEditableText;
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzLocationMap\OlzLocationMap;
 use Olz\Common\Components\OlzRootComponent;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Karten\Karte;
 use Olz\Repository\Snippets\PredefinedSnippet;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {olzApi} from '../../../../Api/client';
-import {OlzCopyableCredential} from '../../../../Components/Auth/OlzCopyableCredential/OlzCopyableCredential';
+import {OlzCopyableCredential} from '../../../../Common/Components/OlzCopyableCredential/OlzCopyableCredential';
 
 import './OlzYoutube.scss';
 

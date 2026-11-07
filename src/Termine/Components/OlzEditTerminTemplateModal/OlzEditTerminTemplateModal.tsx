@@ -4,8 +4,8 @@ import {olzApi, OlzMetaData, OlzTerminLabelData, OlzTerminTemplateData} from '..
 import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
-import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
-import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
+import {OlzMultiFileField} from '../../../Common/Components/OlzMultiFileField/OlzMultiFileField';
+import {OlzMultiImageField} from '../../../Common/Components/OlzMultiImageField/OlzMultiImageField';
 import {OlzTimeIntervalField} from '../../../Common/Components/OlzTimeIntervalField/OlzTimeIntervalField';
 import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateIntegerOrNull, validateTimeOrNull} from '../../../Common/Utils/formUtils';
 import {Entity, isDefined, assert} from '../../../Common/Utils/generalUtils';

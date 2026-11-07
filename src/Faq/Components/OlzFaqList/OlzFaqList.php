@@ -2,11 +2,11 @@
 
 namespace Olz\Faq\Components\OlzFaqList;
 
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzPostingListItem\OlzPostingListItem;
 use Olz\Common\Components\OlzRootComponent;
 use Olz\Common\Utils\HttpParams;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Faq\Question;
 use Olz\Entity\Faq\QuestionCategory;
 use Olz\Entity\Roles\Role;

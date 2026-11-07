@@ -3,9 +3,9 @@
 namespace Olz\Users\Components\OlzUserDetail;
 
 use Doctrine\Common\Collections\Criteria;
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzRootComponent;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\ForwardedEmail;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;

@@ -61,10 +61,6 @@ siehe [GitHub Issue](https://github.com/olzimmerberg/olz-website/issues/664).
 
 siehe [`src/Api`](./src/Api/).
 
-### Komponenten
-
-siehe [`src/Components`](./src/Components/).
-
 ### Datenbank
 
 siehe [`migrations`](./migrations/).

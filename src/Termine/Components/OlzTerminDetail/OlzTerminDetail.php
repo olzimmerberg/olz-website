@@ -3,12 +3,12 @@
 namespace Olz\Termine\Components\OlzTerminDetail;
 
 use Doctrine\Common\Collections\Criteria;
+use Olz\Common\Components\OlzEventData\OlzEventData;
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzLocationMap\OlzLocationMap;
 use Olz\Common\Components\OlzRootComponent;
 use Olz\Common\Utils\HttpParams;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Components\Schema\OlzEventData\OlzEventData;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;

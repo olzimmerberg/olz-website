@@ -4,7 +4,7 @@ import {olzApi, OlzMetaData, OlzTerminLocationData} from '../../../Api/client';
 import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzLocationField, deserializeLocation, serializeLocation, validateLocation} from '../../../Common/Components/OlzLocationField/OlzLocationField';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
-import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
+import {OlzMultiImageField} from '../../../Common/Components/OlzMultiImageField/OlzMultiImageField';
 import {getApiString, getFormString, getResolverResult, validateNotEmpty} from '../../../Common/Utils/formUtils';
 import {assert} from '../../../Common/Utils/generalUtils';
 

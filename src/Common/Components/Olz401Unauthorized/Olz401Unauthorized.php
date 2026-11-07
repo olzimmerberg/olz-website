@@ -1,0 +1,42 @@
+<?php
+
+namespace Olz\Common\Components\Olz401Unauthorized;
+
+use Olz\Common\Components\OlzComponent;
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
+
+/** @extends OlzComponent<array<string, mixed>> */
+class Olz401Unauthorized extends OlzComponent {
+    public function getHtml(mixed $args): string {
+        $code_href = $this->envUtils()->getCodeHref();
+
+        $out = '';
+        $out .= OlzHeaderWithoutRouting::render([
+            'title' => "Fehler 401 Nicht eingeloggt",
+            'skip_auth_menu' => true,
+        ], $this);
+        $out .= "<div class='content-full'>";
+        $out .= <<<ZZZZZZZZZZ
+            <div class='error-image-container-401'>
+                <img
+                    srcset='
+                        {$code_href}assets/icns/error_anonymous@2x.jpg 2x,
+                        {$code_href}assets/icns/error_anonymous.jpg 1x
+                    '
+                    src='{$code_href}assets/icns/error_anonymous.jpg'
+                    alt='Anonymer Läufer'
+                    class='error-image-401'
+                />
+            </div>
+            <h1>Fehler 401: Die gewünschte Seite ist nur für angemeldete Benutzer*innen.</h1>
+            <p><b>Du hast vergessen, dich anzumelden!</b></p>
+            <p>Du tauchst auf der Startliste einfach nicht auf.</p>
+            <p>Aber keine Bange, <a href='#login-dialog' class='linkint'>hier kannst du dich nachmelden</a>.</p>
+            ZZZZZZZZZZ;
+        $out .= "</div>";
+        $out .= OlzFooter::render([], $this);
+
+        return $out;
+    }
+}

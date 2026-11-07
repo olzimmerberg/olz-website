@@ -10,7 +10,6 @@ use Olz\Entity\News\NewsEntry;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
-use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminReaction;
 use Olz\Entity\Users\User;
@@ -32,7 +31,6 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $termin_reaction_repo = $this->entityManager()->getRepository(TerminReaction::class);
         $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
-        $weekly_picture_repo = $this->entityManager()->getRepository(WeeklyPicture::class);
 
         $num_users = count($user_repo->findBy(['on_off' => 1]));
 
@@ -107,8 +105,6 @@ class UpdateMeasurementsCommand extends OlzCommand {
         }
         $prev_month_key = sprintf('%04d-%02d', $prev_year, $prev_month);
         $solv_num = 0;
-        $solv_distance = 0;
-        $solv_elevation = 0;
         foreach ($solv_event_repo->getSolvEventsForYear($prev_year) as $solv_event) {
             if ($solv_event->getDate()->format('Y-m') !== $prev_month_key) {
                 continue;
@@ -119,14 +115,11 @@ class UpdateMeasurementsCommand extends OlzCommand {
                     continue;
                 }
                 $solv_num++;
-                $solv_distance += $solv_result->getClassDistance();
-                $solv_elevation += $solv_result->getClassElevation();
             }
         }
 
         // Website-Aktivität: Vormonat.
         $num_news = count($news_repo->matching($this->getMonthCriteria('published_date', $prev_start, $current_start)));
-        $num_weekly_pictures = count($weekly_picture_repo->matching($this->getMonthCriteria('datum', $prev_start, $current_start)));
 
         $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
         $measurement_repo->set('num_users', $year, $month, $num_users);
@@ -134,11 +127,8 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $measurement_repo->set('num_member_users', $year, $month, $num_member_users);
         $measurement_repo->set('num_termine', $year, $month, $num_termine);
         $measurement_repo->set('num_solv_participations', $prev_year, $prev_month, $solv_num);
-        $measurement_repo->set('sum_solv_distance', $prev_year, $prev_month, $solv_distance);
-        $measurement_repo->set('sum_solv_elevation', $prev_year, $prev_month, $solv_elevation);
         $measurement_repo->set('avg_training_participants', $prev_year, $prev_month, $avg_training_participants);
         $measurement_repo->set('num_news', $prev_year, $prev_month, $num_news);
-        $measurement_repo->set('num_weekly_pictures', $prev_year, $prev_month, $num_weekly_pictures);
 
         $this->logAndOutput("Users & Members measurements updated:");
         $this->logAndOutput("  num_users: {$num_users}");
@@ -147,12 +137,9 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $this->logAndOutput("Termine & Anlässe measurements updated:");
         $this->logAndOutput("  num_termine: {$num_termine}");
         $this->logAndOutput("  num_solv_participations: {$solv_num}");
-        $this->logAndOutput("  sum_solv_distance: {$solv_distance}");
-        $this->logAndOutput("  sum_solv_elevation: {$solv_elevation}");
         $this->logAndOutput("  avg_training_participants: {$avg_training_participants}");
         $this->logAndOutput("Website-Aktivität measurements updated:");
         $this->logAndOutput("  num_news: {$num_news}");
-        $this->logAndOutput("  num_weekly_pictures: {$num_weekly_pictures}");
         $this->logAndOutput("Measurements updated.");
 
         return Command::SUCCESS;

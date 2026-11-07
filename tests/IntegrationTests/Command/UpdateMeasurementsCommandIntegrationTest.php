@@ -37,12 +37,9 @@ final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase
                 'INFO Termine & Anlässe measurements updated:',
                 'INFO   num_termine: 0',
                 'INFO   num_solv_participations: 0',
-                'INFO   sum_solv_distance: 0',
-                'INFO   sum_solv_elevation: 0',
                 'INFO   avg_training_participants: 0',
                 'INFO Website-Aktivität measurements updated:',
                 'INFO   num_news: 1',
-                'INFO   num_weekly_pictures: 0',
                 'INFO Measurements updated.',
                 'INFO Successfully ran command Olz\Command\UpdateMeasurementsCommand.',
             ], $this->getLogs());
@@ -56,12 +53,9 @@ final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase
                 "Termine & Anlässe measurements updated:\n".
                 "  num_termine: 0\n".
                 "  num_solv_participations: 0\n".
-                "  sum_solv_distance: 0\n".
-                "  sum_solv_elevation: 0\n".
                 "  avg_training_participants: 0\n".
                 "Website-Aktivität measurements updated:\n".
                 "  num_news: 1\n".
-                "  num_weekly_pictures: 0\n".
                 "Measurements updated.\n".
                 "Successfully ran command Olz\\Command\\UpdateMeasurementsCommand.\n",
                 $output->fetch(),
@@ -76,11 +70,8 @@ final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase
             $this->assertSame(7.0, $measurement_repo->get('num_member_users', 2020, 4)?->getValue());
             $this->assertSame(0.0, $measurement_repo->get('num_termine', 2020, 4)?->getValue());
             $this->assertSame(0.0, $measurement_repo->get('num_solv_participations', 2020, 3)?->getValue());
-            $this->assertSame(0.0, $measurement_repo->get('sum_solv_distance', 2020, 3)?->getValue());
-            $this->assertSame(0.0, $measurement_repo->get('sum_solv_elevation', 2020, 3)?->getValue());
             $this->assertSame(0.0, $measurement_repo->get('avg_training_participants', 2020, 3)?->getValue());
             $this->assertSame(1.0, $measurement_repo->get('num_news', 2020, 3)?->getValue());
-            $this->assertSame(0.0, $measurement_repo->get('num_weekly_pictures', 2020, 3)?->getValue());
         });
     }
 

@@ -9,12 +9,26 @@ use Olz\Entity\Users\User;
 class MembersUtils {
     use WithUtilsTrait;
 
-    public int $first_data_row = 1;
-    public string $member_ident_key = '[Id]';
-    public string $member_username_key = 'Benutzer-Id';
-    public string $member_first_name_key = 'Vorname';
-    public string $member_last_name_key = 'Nachname';
-    public string $member_company_key = 'Firma';
+    private int $first_data_row = 1;
+    private string $member_ident_key = '[Id]';
+    private string $member_username_key = 'Benutzer-Id';
+    private string $member_first_name_key = 'Vorname';
+    private string $member_last_name_key = 'Nachname';
+    private string $member_company_key = 'Firma';
+    private string $member_status_key = 'Status';
+    /** @var array<string, bool> */
+    private array $on_off_by_status = [
+        'Kein Mitglied' => false,
+        'Aktivmitglied' => true,
+        'Passivmitglied' => true,
+        'Ehrenmitglied' => true,
+        'Ehemaliges Mitglied' => false,
+        'Verstorben' => false,
+        'Sp' => true,
+        'A' => true,
+        'V' => false,
+        'E' => true,
+    ];
 
     /** @return array<array<string, string>> */
     public function parseCsv(string $csv_content): array {
@@ -90,6 +104,17 @@ class MembersUtils {
     /** @param array<string, string> $member */
     public function getMemberCompany(array $member): ?string {
         return $member[$this->member_company_key] ?? null;
+    }
+
+    /** @param array<string, string> $member */
+    public function getMemberStatus(array $member): ?string {
+        return $member[$this->member_status_key] ?? null;
+    }
+
+    /** @param array<string, string> $member */
+    public function getMemberOnOff(array $member): bool {
+        $status = $this->getMemberStatus($member);
+        return $this->on_off_by_status[$status ?? ''] ?? false;
     }
 
     public function update(Member $member, ?User $user): void {

@@ -2,11 +2,11 @@
 
 namespace Olz\Service\Components\OlzService;
 
+use Olz\Apps\Common\Components\OlzAppsList\OlzAppsList;
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzRootComponent;
 use Olz\Common\Utils\HttpParams;
-use Olz\Components\Apps\OlzAppsList\OlzAppsList;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Service\Components\OlzDownloads\OlzDownloads;
 use Olz\Service\Components\OlzLinks\OlzLinks;
 

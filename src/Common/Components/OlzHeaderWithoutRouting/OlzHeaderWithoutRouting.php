@@ -1,0 +1,102 @@
+<?php
+
+namespace Olz\Common\Components\OlzHeaderWithoutRouting;
+
+use Olz\Common\Components\OlzComponent;
+use Olz\Common\Components\OlzHeaderBar\OlzHeaderBar;
+use Olz\Common\Components\OlzOrganizationData\OlzOrganizationData;
+
+/** @extends OlzComponent<array<string, mixed>> */
+class OlzHeaderWithoutRouting extends OlzComponent {
+    public function getHtml(mixed $args): string {
+        $code_href = $this->envUtils()->getCodeHref();
+        $data_href = $this->envUtils()->getDataHref();
+        $data_path = $this->envUtils()->getDataPath();
+        $css_path = "{$data_path}jsbuild/olz/main.min.css";
+        $js_path = "{$data_path}jsbuild/olz/main.min.js";
+        $css_modified = is_file($css_path) ? filemtime($css_path) : 0;
+        $js_modified = is_file($js_path) ? filemtime($js_path) : 0;
+        $css_href = "/jsbuild/olz/main.min.css?modified={$css_modified}";
+        $js_href = "/jsbuild/olz/main.min.js?modified={$js_modified}";
+        $code_href_json = json_encode($code_href);
+        $data_href_json = json_encode($data_href);
+        $user_json = json_encode([
+            'id' => intval($this->session()->get('user_id') ?? null),
+            'username' => $this->session()->get('user') ?? null,
+            'name' => $this->session()->get('user_name') ?? null,
+            'permissions' => json_decode($this->session()->get('user_permissions') ?? 'null', true) ?? null,
+            'root' => $this->session()->get('user_root') ?? null,
+        ]);
+        $child_users_json = $this->session()->get('user_children') ?? 'null';
+        $iso_now_json = json_encode($this->dateUtils()->getIsoNow());
+        $bot_regexes_json = json_encode($this->httpUtils()->getBotRegexes());
+        $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';
+        $user_agent_classes = '';
+        if ($this->httpUtils()->isBot($user_agent)) {
+            $user_agent_classes .= ' is-bot';
+        }
+        if ($this->httpUtils()->isEInk($user_agent)) {
+            $user_agent_classes .= ' is-eink';
+        }
+
+        $html_title = "OL Zimmerberg";
+        if (isset($args['title'])) {
+            $title_arg = htmlspecialchars($args['title']);
+            $html_title = "{$title_arg} - OL Zimmerberg";
+        }
+        $html_description = "";
+        if (isset($args['description'])) {
+            $description_arg = htmlspecialchars(str_replace("\n", " ", $args['description']));
+            $html_description = "<meta name='Description' content='{$description_arg}'>";
+        }
+        $html_canonical = "";
+        if (isset($args['canonical_url'])) {
+            $host = str_replace(['www.', '/'], ['', ''], $_SERVER['HTTP_HOST']);
+            $canonical_url = "https://{$host}{$args['canonical_url']}";
+            $esc_canonical_url = htmlspecialchars($canonical_url);
+            $html_canonical = "<link rel='canonical' href='{$esc_canonical_url}'/>";
+        }
+        $no_robots = isset($_GET['archiv']) || ($args['norobots'] ?? false);
+        $robots_html = $no_robots ? "<meta name='robots' content='noindex, nofollow'>" : "";
+        $olz_organization_data = OlzOrganizationData::render([], $this);
+        $additional_headers = implode("\n", $args['additional_headers'] ?? []);
+        $header_bar = OlzHeaderBar::render([
+            'back_link' => $args['back_link'] ?? null,
+            'skip_auth_menu' => $args['skip_auth_menu'] ?? false,
+        ], $this);
+
+        return <<<ZZZZZZZZZZ
+            <!DOCTYPE html>
+            <html lang='de'>
+            <head>
+            <meta http-equiv='cache-control' content='public'>
+            <meta http-equiv='content-type' content='text/html;charset=utf-8'>
+            <meta name='Keywords' content='OL, Orientierungslauf, Sport, Laufsport, Gruppe, Klub, Verein, Zimmerberg, linkes Zürichseeufer, Sihltal, Kilchberg, Rüschlikon, Thalwil, Gattikon, Oberrieden, Horgen, Au ZH, Wädenswil, Richterswil, Schönenberg, Hirzel, Langnau am Albis, Adliswil, Stadt Zürich, Leimbach, Wollishofen, Enge, Friesenberg, Üetliberg, Entlisberg, Albis, Buchenegg, Landforst, Kopfholz, Chopfholz, Reidholz, Schweiz, OLZ, OLG'>
+            {$html_description}
+            <meta name='Content-Language' content='de'>
+            {$robots_html}
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>{$html_title}</title>
+            <link rel='icon' href='{$code_href}favicon.ico' type='image/x-icon' />
+            {$html_canonical}
+            {$olz_organization_data}
+            {$additional_headers}
+            <link rel='stylesheet' href='{$css_href}' />
+            <script type='text/javascript'>
+                window.olzCodeHref = {$code_href_json};
+                window.olzDataHref = {$data_href_json};
+                window.olzUser = {$user_json};
+                window.olzChildUsers = {$child_users_json};
+                window.olzIsoNow = {$iso_now_json};
+                window.olzBotRegexes = {$bot_regexes_json};
+            </script>
+            <script type='text/javascript' src='{$js_href}' onload='olz.loaded()'></script>
+            </head>
+            <body class='olz-override-root{$user_agent_classes}'>
+                <a name='top'></a>
+                {$header_bar}
+                <div class='site-container'>
+                    <div class='site-background'>
+            ZZZZZZZZZZ;
+    }
+}

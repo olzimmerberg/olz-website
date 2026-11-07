@@ -7,10 +7,10 @@
 namespace Olz\Termine\Components\OlzTermineList;
 
 use Olz\Common\Components\OlzEditableText\OlzEditableText;
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzRootComponent;
 use Olz\Common\Utils\HttpParams;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Repository\Snippets\PredefinedSnippet;

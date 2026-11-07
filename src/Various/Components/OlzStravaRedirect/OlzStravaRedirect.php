@@ -1,0 +1,68 @@
+<?php
+
+namespace Olz\Various\Components\OlzStravaRedirect;
+
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeader\OlzHeader;
+use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
+
+/** @extends HttpParams<array{
+ *   redirect_url?: ?string,
+ *   state?: ?string,
+ *   code?: ?string,
+ *   scope?: ?string,
+ * }> */
+class OlzStravaRedirectParams extends HttpParams {
+}
+
+/** @extends OlzRootComponent<array<string, mixed>> */
+class OlzStravaRedirect extends OlzRootComponent {
+    public function hasAccess(): bool {
+        return true;
+    }
+
+    public function searchSqlWhenHasAccess(array $terms): string|array|null {
+        return null;
+    }
+
+    public function getPageTitle(): string {
+        return "Mit Strava verbinden";
+    }
+
+    public function getPageDescription(): string {
+        return "Mit Strava verbinden";
+    }
+
+    public function getHtmlWhenHasAccess(mixed $args): string {
+        $params = $this->httpUtils()->validateGetParams(OlzStravaRedirectParams::class);
+        $code = $params['code'] ?? '';
+        $js_code = json_encode($code) ?: '""';
+        $js_redirect_url = json_encode($params['redirect_url'] ?? null) ?: 'null';
+
+        $out = OlzHeader::render([
+            'title' => $this->getPageTitle(),
+            'description' => $this->getPageDescription(),
+            'norobots' => true,
+        ]);
+
+        $out .= "<div class='content-full'>";
+        $out .= <<<ZZZZZZZZZZ
+            <script>
+            const code = {$js_code};
+            const redirectUrl = {$js_redirect_url};
+            window.addEventListener('load', function () {
+                olz.olzLinkStravaWithCode(code).then(function () {
+                    window.location.href = redirectUrl;
+                }).catch(function () {
+                    window.location.href = redirectUrl;
+                });
+            });
+            </script>
+            ZZZZZZZZZZ;
+        $out .= "</div>";
+
+        $out .= OlzFooter::render();
+        return $out;
+    }
+}

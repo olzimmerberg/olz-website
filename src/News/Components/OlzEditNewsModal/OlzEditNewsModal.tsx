@@ -5,8 +5,8 @@ import {MARKDOWN_NOTICE, initOlzEditModal, OlzEditModal, OlzEditModalStatus} fro
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {OlzAuthenticatedUserRoleField} from '../../../Common/Components/OlzAuthenticatedUserRoleField/OlzAuthenticatedUserRoleField';
 import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
-import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
-import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
+import {OlzMultiFileField} from '../../../Common/Components/OlzMultiFileField/OlzMultiFileField';
+import {OlzMultiImageField} from '../../../Common/Components/OlzMultiImageField/OlzMultiImageField';
 import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
 import {codeHref} from '../../../Common/Utils/constants';
 import {assert} from '../../../Common/Utils/generalUtils';

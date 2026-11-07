@@ -1,7 +1,7 @@
 import React from 'react';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzApiRequests, OlzMemberInfo} from '../../../../Api/client';
-import {OlzMultiFileField} from '../../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
+import {OlzMultiFileField} from '../../../../Common/Components/OlzMultiFileField/OlzMultiFileField';
 import {dataHref} from '../../../../Common/Utils/constants';
 import {getResolverResult} from '../../../../Common/Utils/formUtils';
 import {initOlzUserInfoModal} from '../../../../Users';

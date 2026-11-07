@@ -2,13 +2,13 @@
 
 namespace Olz\Apps\Panini2024\Components\OlzPanini2024All;
 
+use Olz\Apps\Common\Components\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Apps\Panini2024\Metadata;
 use Olz\Apps\Panini2024\Utils\Panini2024Utils;
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzRootComponent;
 use Olz\Common\Utils\HttpParams;
-use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
 

@@ -2,10 +2,10 @@
 
 namespace Olz\Roles\Components\OlzVerein;
 
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzRootComponent;
 use Olz\Common\Utils\HttpParams;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Measurement;
 use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;
 
@@ -72,7 +72,7 @@ class OlzVerein extends OlzRootComponent {
 
         $out .= "</div></div>";
 
-        if ($this->authUtils()->hasPermission('all')) {
+        if ($this->authUtils()->hasPermission('vorstand')) {
             $out .= $this->getStatistikDiagram();
         }
 

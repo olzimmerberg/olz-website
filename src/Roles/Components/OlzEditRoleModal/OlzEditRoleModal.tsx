@@ -5,8 +5,8 @@ import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} fro
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
 import {OlzPositionField} from '../../../Common/Components/OlzPositionField/OlzPositionField';
-import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
-import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
+import {OlzMultiFileField} from '../../../Common/Components/OlzMultiFileField/OlzMultiFileField';
+import {OlzMultiImageField} from '../../../Common/Components/OlzMultiImageField/OlzMultiImageField';
 import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateNumberOrNull, validateNotEmpty, validateStringRegex} from '../../../Common/Utils/formUtils';
 import {assert} from '../../../Common/Utils/generalUtils';
 

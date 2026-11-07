@@ -1,0 +1,125 @@
+<?php
+
+namespace Olz\Various\Controller;
+
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\EnvUtils;
+use Olz\Common\Utils\HttpUtils;
+use Olz\Termine\Utils\TermineUtils;
+use Olz\Various\Components\OlzAngebot\OlzAngebot;
+use Olz\Various\Components\OlzDatenschutz\OlzDatenschutz;
+use Olz\Various\Components\OlzFuerEinsteiger\OlzFuerEinsteiger;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class OtherPagesController extends AbstractController {
+    #[Route('/datenschutz')]
+    public function datenschutz(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzDatenschutz $olzDatenschutz,
+    ): Response {
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzDatenschutz) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzDatenschutz->getHtml([]);
+            return new Response($out);
+        });
+    }
+
+    #[Route('/fuer_einsteiger')]
+    public function fuerEinsteiger(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        OlzFuerEinsteiger $olzFuerEinsteiger,
+    ): Response {
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzFuerEinsteiger) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzFuerEinsteiger->getHtml([]);
+            return new Response($out);
+        });
+    }
+
+    #[Route('/angebot')]
+    public function angebot(
+        Request $request,
+        HttpUtils $httpUtils,
+        OlzAngebot $olzAngebot,
+    ): Response {
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzAngebot) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzAngebot->getHtml([]);
+            return new Response($out);
+        });
+    }
+
+    #[Route('/angebot/{audience}')]
+    public function angebotAudience(
+        Request $request,
+        HttpUtils $httpUtils,
+        OlzAngebot $olzAngebot,
+        string $audience,
+    ): Response {
+        return $httpUtils->measure($request, ['von'], function () use ($httpUtils, $request, $olzAngebot, $audience) {
+            $httpUtils->stripParams($request, ['von']);
+            $out = $olzAngebot->getHtml(['audience' => $audience]);
+            return new Response($out);
+        });
+    }
+
+    #[Route('/material')]
+    public function material(
+        Request $request,
+        HttpUtils $httpUtils,
+        EnvUtils $envUtils,
+    ): Response {
+        return $httpUtils->measure($request, [], function () use ($envUtils) {
+            $code_href = $envUtils->getCodeHref();
+            $url = "{$code_href}angebot";
+            return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'material']);
+        });
+    }
+
+    #[Route('/trophy')]
+    public function trophy(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        EnvUtils $envUtils,
+        TermineUtils $termineUtils,
+    ): Response {
+        return $httpUtils->measure($request, [], function () use ($envUtils, $termineUtils) {
+            $dateUtils = new DateUtils();
+            $code_href = $envUtils->getCodeHref();
+            $this_year = $dateUtils->getCurrentDateInFormat('Y');
+            $filter = [
+                ...$termineUtils->getDefaultFilter(),
+                'typ' => 'trophy',
+                'datum' => strval($this_year),
+            ];
+            $serialized_filter = $termineUtils->serialize($filter);
+            $url = "{$code_href}termine?filter={$serialized_filter}";
+            return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'trophy']);
+        });
+    }
+
+    #[Route('/schweden27')]
+    #[Route('/🇸🇪27')]
+    public function schweden27(
+        Request $request,
+        LoggerInterface $logger,
+        HttpUtils $httpUtils,
+        EnvUtils $envUtils,
+    ): Response {
+        return $httpUtils->measure($request, [], function () use ($envUtils) {
+            $code_href = $envUtils->getCodeHref();
+            $url = "{$code_href}termine/6830";
+            return new RedirectResponse($url, 301, ['X-OLZ-Redirect' => 'schweden']);
+        });
+    }
+}

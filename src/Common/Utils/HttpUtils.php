@@ -2,9 +2,9 @@
 
 namespace Olz\Common\Utils;
 
-use Olz\Components\Error\OlzErrorPage\OlzErrorPage;
-use Olz\Components\Page\OlzFooter\OlzFooter;
-use Olz\Components\Page\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
+use Olz\Common\Components\OlzErrorPage\OlzErrorPage;
+use Olz\Common\Components\OlzFooter\OlzFooter;
+use Olz\Common\Components\OlzHeaderWithoutRouting\OlzHeaderWithoutRouting;
 use Olz\Entity\Counter;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PhpTypeScriptApi\PhpStan\PhpStanUtils;

@@ -2,7 +2,7 @@
 
 namespace Olz\Common\Controller;
 
-use Olz\Components\Error\OlzErrorPage\OlzErrorPage;
+use Olz\Common\Components\OlzErrorPage\OlzErrorPage;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

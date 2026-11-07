@@ -3,8 +3,8 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzMetaData, OlzSnippetData} from '../../../Api/client';
 import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
-import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
-import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
+import {OlzMultiFileField} from '../../../Common/Components/OlzMultiFileField/OlzMultiFileField';
+import {OlzMultiImageField} from '../../../Common/Components/OlzMultiImageField/OlzMultiImageField';
 import {getApiString, getFormString, getResolverResult} from '../../../Common/Utils/formUtils';
 
 import './OlzEditSnippetModal.scss';

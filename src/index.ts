@@ -12,7 +12,6 @@ export * from './Anniversary/index';
 export * from './Apps/index';
 export * from './Captcha/index';
 export * from './Common/index';
-export * from './Components/index';
 export * from './Faq/index';
 export * from './Karten/index';
 export * from './News/index';
@@ -23,6 +22,7 @@ export * from './Startseite/index';
 export * from './Suche/index';
 export * from './Termine/index';
 export * from './Users/index';
+export * from './Various/index';
 
 /* @ts-ignore: Ignore file is not a module. */
 import * as bootstrap from 'bootstrap';

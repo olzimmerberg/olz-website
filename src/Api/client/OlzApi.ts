@@ -1,6 +1,6 @@
 import {OlzApiEndpoint, OlzApiRequests, OlzApiResponses} from './generated_olz_api_types';
 import {Api, ApiError} from 'php-typescript-api';
-import {login} from '../../Components/Auth/OlzLoginModal/OlzLoginModal';
+import {login} from '../../Common/Components/OlzLoginModal/OlzLoginModal';
 import {codeHref} from '../../Common/Utils/constants';
 import {getErrorOrThrow} from '../../Common/Utils/generalUtils';
 

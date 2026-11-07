@@ -20,13 +20,9 @@ use Olz\Apps\Results\Components\OlzResults\OlzResults;
 use Olz\Apps\SearchEngines\Components\OlzSearchEngines\OlzSearchEngines;
 use Olz\Apps\Statistics\Components\OlzStatistics\OlzStatistics;
 use Olz\Apps\Youtube\Components\OlzYoutube\OlzYoutube;
+use Olz\Common\Components\OlzHtmlSitemap\OlzHtmlSitemap;
 use Olz\Common\Components\OlzRootComponent;
 use Olz\Common\Utils\WithUtilsTrait;
-use Olz\Components\Auth\OlzEmailReaktion\OlzEmailReaktion;
-use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
-use Olz\Components\OtherPages\OlzAngebot\OlzAngebot;
-use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
-use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Faq\Components\OlzFaqDetail\OlzFaqDetail;
 use Olz\Faq\Components\OlzFaqList\OlzFaqList;
 use Olz\Karten\Components\OlzKarteDetail\OlzKarteDetail;
@@ -46,6 +42,10 @@ use Olz\Termine\Components\OlzTerminLocationsList\OlzTerminLocationsList;
 use Olz\Termine\Components\OlzTerminTemplateDetail\OlzTerminTemplateDetail;
 use Olz\Termine\Components\OlzTerminTemplatesList\OlzTerminTemplatesList;
 use Olz\Users\Components\OlzUserDetail\OlzUserDetail;
+use Olz\Various\Components\OlzAngebot\OlzAngebot;
+use Olz\Various\Components\OlzDatenschutz\OlzDatenschutz;
+use Olz\Various\Components\OlzEmailReaktion\OlzEmailReaktion;
+use Olz\Various\Components\OlzFuerEinsteiger\OlzFuerEinsteiger;
 
 /**
  * @phpstan-type SearchResult array{

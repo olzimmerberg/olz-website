@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../src/Utils/IdUtils.php';
+require_once __DIR__.'/../../src/Common/Utils/IdUtils.php';
 
 $id_utils = new IdUtils();
 

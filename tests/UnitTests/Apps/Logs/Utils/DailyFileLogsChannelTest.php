@@ -9,8 +9,8 @@ use Olz\Apps\Logs\Utils\DailyFileLogsChannel;
 use Olz\Apps\Logs\Utils\HybridLogFile;
 use Olz\Apps\Logs\Utils\LogFileInterface;
 use Olz\Apps\Logs\Utils\PlainLogFile;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 class TestOnlyDailyFileLogsChannel extends DailyFileLogsChannel {
     public static function getId(): string {

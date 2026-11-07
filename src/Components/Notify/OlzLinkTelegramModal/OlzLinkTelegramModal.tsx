@@ -1,8 +1,8 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
 import {olzApi} from '../../../Api/client';
-import {codeHref} from '../../../Utils/constants';
-import {initReact} from '../../../Utils/reactUtils';
+import {codeHref} from '../../../Common/Utils/constants';
+import {initReact} from '../../../Common/Utils/reactUtils';
 
 import './OlzLinkTelegramModal.scss';
 

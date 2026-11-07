@@ -6,9 +6,9 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use Olz\Command\Notifications\Common\BaseSendNotificationsCommand;
 use Olz\Command\Notifications\Common\Notification;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Constants\NotificationType;
 use Olz\Entity\Termine\Termin;
-use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'olz:send-deadline-warning')]

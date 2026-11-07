@@ -2,9 +2,9 @@
 
 namespace Olz\Karten\Endpoints;
 
+use Olz\Common\Utils\MapUtils;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Karten\Karte;
-use Olz\Utils\MapUtils;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**

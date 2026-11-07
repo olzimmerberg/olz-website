@@ -6,8 +6,8 @@ namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Olz\Utils\EnvUtils;
-use Olz\Utils\ImageUtils;
+use Olz\Common\Utils\EnvUtils;
+use Olz\Common\Utils\ImageUtils;
 
 final class Version20230407141618 extends AbstractMigration {
     public const TABLES_FILE_DIRS = [

@@ -1,7 +1,7 @@
 import React from 'react';
 import {FieldErrors, FieldError, FieldValues, Path, useController, Control} from 'react-hook-form';
 import {OlzLocationCoordinates} from '../../../Api/client';
-import {WGStoCHx, WGStoCHy, CHtoWGSlat, CHtoWGSlng} from '../../../Utils/mapUtils';
+import {WGStoCHx, WGStoCHy, CHtoWGSlat, CHtoWGSlng} from '../../Utils/mapUtils';
 import {getOlzLocationMap} from '../OlzLocationMap/OlzLocationMap';
 
 import './OlzLocationField.scss';

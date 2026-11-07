@@ -2,8 +2,8 @@ import * as bootstrap from 'bootstrap';
 import React from 'react';
 import emojiRegex from 'emoji-regex';
 import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
-import {initReact} from '../../../Utils/reactUtils';
-import {getResolverResult, validateStringLength, validateStringRegex} from '../../../Utils/formUtils';
+import {initReact} from '../../Utils/reactUtils';
+import {getResolverResult, validateStringLength, validateStringRegex} from '../../Utils/formUtils';
 import {OlzTextField} from '../OlzTextField/OlzTextField';
 import {OlzEditModal, OlzEditModalStatus} from '../OlzEditModal/OlzEditModal';
 

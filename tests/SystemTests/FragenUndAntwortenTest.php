@@ -56,7 +56,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->click('#edit-question-modal #images-upload .olz-upload-image.uploaded #copy-button');
         $this->sendKeys('#edit-question-modal #answer-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
-        $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        $document_path = realpath(__DIR__.'/../../fixtures/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-question-modal #files-upload input[type=file]', $document_path);
         $this->waitFor('#edit-question-modal #files-upload .olz-upload-file.uploaded');
@@ -100,7 +100,7 @@ final class FragenUndAntwortenTest extends SystemTestCase {
         $this->click('#edit-question-modal #images-upload .olz-upload-image.uploaded #copy-button');
         $this->sendKeys('#edit-question-modal #answer-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
-        $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        $document_path = realpath(__DIR__.'/../../fixtures/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-question-modal #files-upload input[type=file]', $document_path);
         $this->waitFor('#edit-question-modal #files-upload .olz-upload-file.uploaded');

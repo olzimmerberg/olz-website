@@ -2,7 +2,7 @@
 
 namespace Olz\News\Utils;
 
-use Olz\Utils\WithUtilsCache;
+use Olz\Common\Utils\WithUtilsCache;
 use Symfony\Contracts\Service\Attribute\Required;
 
 trait NewsUtilsTrait {

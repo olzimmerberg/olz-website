@@ -1,7 +1,7 @@
 import React from 'react';
 import {olzApi} from '../../../Api/client';
 import {OlzEditableReactions} from '../../../Common/Components/OlzEditableReactions/OlzEditableReactions';
-import {initReact} from '../../../Utils/reactUtils';
+import {initReact} from '../../../Common/Utils/reactUtils';
 import {initOlzEditTerminModal} from '../OlzEditTerminModal/OlzEditTerminModal';
 import {initOlzEditNewsModal, OlzEditNewsModalMode} from '../../../News/Components/OlzEditNewsModal/OlzEditNewsModal';
 import {initOlzEditTerminNotificationModal} from '../OlzEditTerminNotificationModal/OlzEditTerminNotificationModal';

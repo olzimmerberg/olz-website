@@ -8,6 +8,7 @@ namespace Olz\Termine\Components\OlzTermineList;
 
 use Olz\Common\Components\OlzEditableText\OlzEditableText;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Termine\Termin;
@@ -15,7 +16,6 @@ use Olz\Entity\Termine\TerminLabel;
 use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Termine\Components\OlzTermineFilter\OlzTermineFilter;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{filter?: ?string, von?: ?string}> */
 class OlzTermineListParams extends HttpParams {

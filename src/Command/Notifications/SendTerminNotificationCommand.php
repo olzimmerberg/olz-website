@@ -5,6 +5,7 @@ namespace Olz\Command\Notifications;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Olz\Command\Notifications\Common\BaseSendNotificationsCommand;
 use Olz\Command\Notifications\Common\Notification;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Constants\NotificationDeliveryType;
 use Olz\Constants\NotificationType;
 use Olz\Entity\NotificationSubscription;
@@ -12,7 +13,6 @@ use Olz\Entity\Roles\Role;
 use Olz\Entity\TelegramLink;
 use Olz\Entity\Throttling;
 use Olz\Entity\Users\User;
-use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'olz:send-termin-notifications')]

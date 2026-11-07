@@ -4,12 +4,12 @@ namespace Olz\Karten\Components\OlzKarten;
 
 use Olz\Common\Components\OlzEditableText\OlzEditableText;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Karten\Karte;
 use Olz\Karten\Components\OlzKartenList\OlzKartenList;
 use Olz\Repository\Snippets\PredefinedSnippet;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzKartenParams extends HttpParams {

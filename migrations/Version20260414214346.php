@@ -6,7 +6,7 @@ namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Olz\Utils\MapUtils;
+use Olz\Common\Utils\MapUtils;
 
 final class Version20260414214346 extends AbstractMigration {
     public function getDescription(): string {

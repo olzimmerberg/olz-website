@@ -178,7 +178,6 @@ class Deploy extends AbstractDefaultDeploy {
         $fs->copy(__DIR__.'/../../config.php', __DIR__.'/config/olz.php', true);
         $fs->copy(__DIR__.'/../../config.php', __DIR__."/config/olz.{$this->environment}.php", true);
         $fs->mkdir(__DIR__.'/screenshots/generated');
-        file_put_contents(__DIR__.'/src/Utils/data/DATA_PATH', realpath($public_path));
         gc_collect_cycles();
 
         $public_url = $this->getRemotePublicUrl();

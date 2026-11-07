@@ -1,6 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import React from 'react';
-import {initReact} from '../../../Utils/reactUtils';
+import {initReact} from '../../Utils/reactUtils';
 
 interface OlzConfirmationDialogProps {
     title: string;

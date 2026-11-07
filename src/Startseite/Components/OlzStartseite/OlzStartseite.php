@@ -8,11 +8,11 @@ namespace Olz\Startseite\Components\OlzStartseite;
 
 use Olz\Common\Components\OlzEditableText\OlzEditableText;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Repository\Snippets\PredefinedSnippet;
 use Olz\Startseite\Components\OlzCustomizableHome\OlzCustomizableHome;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzStartseiteParams extends HttpParams {

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Apps\Quiz\Endpoints;
 
 use Olz\Apps\Quiz\Endpoints\UpdateMySkillLevelsEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\Fake;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

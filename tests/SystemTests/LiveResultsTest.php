@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
+use Olz\Common\Utils\DateUtils;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
-use Olz\Utils\DateUtils;
 
 /**
  * @internal

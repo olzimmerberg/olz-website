@@ -1,7 +1,7 @@
 import React from 'react';
 import {olzApi, OlzApiResponses, OlzTransportSuggestion} from '../../../../Api/client';
 import {OlzTransportConnectionView} from '../OlzTransportConnectionView/OlzTransportConnectionView';
-import {validateDateTime} from '../../../../Utils/formUtils';
+import {validateDateTime} from '../../../../Common/Utils/formUtils';
 
 export async function olzOevSearchConnection(
     form: HTMLFormElement,

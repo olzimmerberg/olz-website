@@ -2,7 +2,7 @@
 
 namespace Olz\Captcha\Utils;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 /**
  * @phpstan-type OlzCaptchaConfig array{

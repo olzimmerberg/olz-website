@@ -3,12 +3,12 @@
 namespace Olz\Components\OtherPages\OlzDatenschutz;
 
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Roles\Role;
 use Olz\Repository\Roles\PredefinedRole;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzDatenschutzParams extends HttpParams {

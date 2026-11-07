@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\SystemTests;
 
+use Olz\Common\Utils\AuthUtils;
 use Olz\Tests\SystemTests\Common\OnlyInModes;
 use Olz\Tests\SystemTests\Common\SystemTestCase;
-use Olz\Utils\AuthUtils;
 
 /**
  * @internal

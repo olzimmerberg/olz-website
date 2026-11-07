@@ -18,7 +18,7 @@ final class AppMembersTest extends SystemTestCase {
         $this->login('admin', 'adm1n');
         $this->loadUrl($this->getUrl());
 
-        $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-member-import.csv');
+        $document_path = realpath(__DIR__.'/../../fixtures/sample-data/sample-member-import.csv');
         assert($document_path);
         $this->sendKeys('.olz-members #import-upload input[type=file]', $document_path);
         $this->waitFor('#member-table');

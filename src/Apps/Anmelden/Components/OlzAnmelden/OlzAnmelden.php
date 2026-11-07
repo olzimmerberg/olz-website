@@ -4,9 +4,9 @@ namespace Olz\Apps\Anmelden\Components\OlzAnmelden;
 
 use Olz\Apps\Anmelden\Metadata;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{id?: ?numeric-string}> */
 class OlzAnmeldenParams extends HttpParams {

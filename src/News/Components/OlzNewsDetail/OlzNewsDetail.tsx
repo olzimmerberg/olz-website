@@ -1,7 +1,7 @@
 import React from 'react';
 import {olzApi} from '../../../Api/client';
 import {OlzEditableReactions} from '../../../Common/Components/OlzEditableReactions/OlzEditableReactions';
-import {initReact} from '../../../Utils/reactUtils';
+import {initReact} from '../../../Common/Utils/reactUtils';
 import {initOlzEditNewsModal, OlzEditNewsModalMode} from '../OlzEditNewsModal/OlzEditNewsModal';
 
 import './OlzNewsDetail.scss';

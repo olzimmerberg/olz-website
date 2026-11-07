@@ -8,8 +8,9 @@ use Facebook\WebDriver\Exception\UnexpectedTagNameException;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\WebDriverSelect;
-use Olz\Utils\GeneralUtils;
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\GeneralUtils;
+use Olz\Common\Utils\HttpUtils;
+use Olz\Common\Utils\WithUtilsTrait;
 use PHPUnit\Framework\SkippedTest;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Panther\Client;
@@ -40,9 +41,21 @@ class SystemTestCase extends KernelTestCase {
 
     protected bool $isSkipped = false;
 
+    // System tests only talk to the website over HTTP (via cURL or the browser),
+    // so - other than in the app itself - the global `WithUtilsCache` is not
+    // warmed by any container-managed service. Hence, the utils needed by the
+    // tests have to be fetched from the container explicitly. (Doing so warms
+    // the cache for all other utils, too, since every util has `#[Required]`
+    // setters for the other utils.)
+
     protected function generalUtils(): GeneralUtils {
         // @phpstan-ignore-next-line
         return self::getContainer()->get(GeneralUtils::class);
+    }
+
+    protected function httpUtils(): HttpUtils {
+        // @phpstan-ignore-next-line
+        return self::getContainer()->get(HttpUtils::class);
     }
 
     protected function getClient(): Client {

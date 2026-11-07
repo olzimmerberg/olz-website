@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Common\Utils\EntityUtils;
 use Olz\Entity\Common\OlzEntity;
-use Olz\Utils\EntityUtils;
 
 class FakeEntityUtils extends EntityUtils {
     /** @var array<array{0: OlzEntity, 1: int, 2: ?int, 3: ?int}> */

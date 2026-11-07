@@ -5,8 +5,8 @@ import {initOlzEditModal, MARKDOWN_NOTICE, OlzEditModal, OlzEditModalStatus, OPT
 import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
 import {OlzTimeIntervalField} from '../../../Common/Components/OlzTimeIntervalField/OlzTimeIntervalField';
-import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Utils/formUtils';
-import {assert} from '../../../Utils/generalUtils';
+import {getApiBoolean, getApiNumber, getApiString, getFormBoolean, getFormNumber, getFormString, getResolverResult, validateInteger, validateNotEmpty} from '../../../Common/Utils/formUtils';
+import {assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzEditTerminNotificationTemplateModal.scss';
 

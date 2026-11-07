@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Common\Endpoints;
 
 use Olz\Common\Endpoints\OnContinuouslyEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\Fake\FakeEnvUtils;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
 

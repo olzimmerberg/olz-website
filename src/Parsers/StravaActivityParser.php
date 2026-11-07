@@ -2,7 +2,7 @@
 
 namespace Olz\Parsers;
 
-use Olz\Utils\WithUtilsTrait;
+use Olz\Common\Utils\WithUtilsTrait;
 
 class StravaActivityParser {
     use WithUtilsTrait;

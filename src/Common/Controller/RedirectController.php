@@ -2,7 +2,7 @@
 
 namespace Olz\Common\Controller;
 
-use Olz\Utils\HttpUtils;
+use Olz\Common\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

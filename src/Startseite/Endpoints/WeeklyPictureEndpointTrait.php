@@ -2,8 +2,8 @@
 
 namespace Olz\Startseite\Endpoints;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Startseite\WeeklyPicture;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoDate;
 

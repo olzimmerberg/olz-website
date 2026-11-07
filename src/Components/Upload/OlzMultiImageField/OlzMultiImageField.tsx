@@ -1,14 +1,14 @@
 import React from 'react';
 import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
 import {useDropzone} from 'react-dropzone';
-import {readBase64} from '../../../Utils/fileUtils';
-import {isDefined, assert} from '../../../Utils/generalUtils';
-import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../Utils/imageUtils';
-import {Uploader} from '../../../Utils/Uploader';
+import {readBase64} from '../../../Common/Utils/fileUtils';
+import {isDefined, assert} from '../../../Common/Utils/generalUtils';
+import {getBase64FromCanvas, getResizedCanvas, loadImageFromBase64} from '../../../Common/Utils/imageUtils';
+import {Uploader} from '../../../Common/Utils/Uploader';
 import {OlzUploadImage} from '../OlzUploadImage/OlzUploadImage';
 import {UploadFile, UploadedFile, RegisteringFile} from '../types';
 import {isRegisteringFile, isUploadedFile, isUploadingFile, serializeUploadFile} from '../utils';
-import {dataHref} from '../../../Utils/constants';
+import {dataHref} from '../../../Common/Utils/constants';
 
 import '../../../Common/Components/OlzStyles/dropzone.scss';
 import './OlzMultiImageField.scss';

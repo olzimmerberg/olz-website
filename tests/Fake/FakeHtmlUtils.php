@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\HtmlUtils;
+use Olz\Common\Utils\HtmlUtils;
 
 class FakeHtmlUtils extends HtmlUtils {
 }

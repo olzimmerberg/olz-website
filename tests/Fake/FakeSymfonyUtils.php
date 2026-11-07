@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\SymfonyUtils;
+use Olz\Common\Utils\SymfonyUtils;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

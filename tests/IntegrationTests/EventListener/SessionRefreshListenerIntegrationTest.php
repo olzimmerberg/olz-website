@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\IntegrationTests\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Olz\Common\Utils\AuthUtils;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\AuthUtils;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 

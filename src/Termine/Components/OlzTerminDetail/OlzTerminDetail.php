@@ -5,6 +5,7 @@ namespace Olz\Termine\Components\OlzTerminDetail;
 use Doctrine\Common\Collections\Criteria;
 use Olz\Common\Components\OlzLocationMap\OlzLocationMap;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Components\Schema\OlzEventData\OlzEventData;
@@ -15,7 +16,6 @@ use Olz\Entity\Termine\TerminNotification;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 use Olz\Termine\Components\OlzTermineListItem\OlzTermineListItem;
 use Olz\Users\Components\OlzUserInfoModal\OlzUserInfoModal;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{von?: ?string}> */
 class OlzTerminDetailParams extends HttpParams {

@@ -4,9 +4,9 @@ namespace Olz\Apps\Members\Components\OlzMembers;
 
 use Olz\Apps\Members\Metadata;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzMembersParams extends HttpParams {

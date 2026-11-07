@@ -2,10 +2,10 @@
 
 namespace Olz\Apps\Anmelden\Endpoints;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Anmelden\Booking;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Anmelden\RegistrationInfo;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**

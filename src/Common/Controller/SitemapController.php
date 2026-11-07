@@ -2,9 +2,9 @@
 
 namespace Olz\Common\Controller;
 
+use Olz\Common\Utils\HttpUtils;
 use Olz\Components\OlzHtmlSitemap\OlzHtmlSitemap;
 use Olz\Components\OlzXmlSitemap\OlzXmlSitemap;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

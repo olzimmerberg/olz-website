@@ -1,5 +1,5 @@
 import React from 'react';
-import {codeHref, type UserConstant, user as currentUser, childUsers} from '../../../Utils/constants';
+import {codeHref, type UserConstant, user as currentUser, childUsers} from '../../Utils/constants';
 import {olzCustomReaction} from '../OlzCustomReactionDialog/OlzCustomReactionDialog';
 import {initOlzUserInfoModal} from '../../../Users/Components/OlzUserInfoModal/OlzUserInfoModal';
 

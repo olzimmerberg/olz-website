@@ -2,6 +2,7 @@
 
 namespace Olz\Termine\Controller;
 
+use Olz\Common\Utils\HttpUtils;
 use Olz\Termine\Components\OlzICal\OlzICal;
 use Olz\Termine\Components\OlzTerminDetail\OlzTerminDetail;
 use Olz\Termine\Components\OlzTermineList\OlzTermineList;
@@ -9,7 +10,6 @@ use Olz\Termine\Components\OlzTerminLocationDetail\OlzTerminLocationDetail;
 use Olz\Termine\Components\OlzTerminLocationsList\OlzTerminLocationsList;
 use Olz\Termine\Components\OlzTerminTemplateDetail\OlzTerminTemplateDetail;
 use Olz\Termine\Components\OlzTerminTemplatesList\OlzTerminTemplatesList;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

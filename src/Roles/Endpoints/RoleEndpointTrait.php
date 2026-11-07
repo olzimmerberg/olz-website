@@ -2,8 +2,8 @@
 
 namespace Olz\Roles\Endpoints;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Roles\Role;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**

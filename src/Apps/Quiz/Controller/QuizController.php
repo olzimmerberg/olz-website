@@ -3,7 +3,7 @@
 namespace Olz\Apps\Quiz\Controller;
 
 use Olz\Apps\Quiz\Components\OlzQuiz\OlzQuiz;
-use Olz\Utils\HttpUtils;
+use Olz\Common\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

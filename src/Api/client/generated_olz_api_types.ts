@@ -214,11 +214,11 @@ export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteData = {'kartennr'?:
 
 export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteId = number;
 
-export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzLocationCoordinates = Olz_Utils_MapUtils_OlzLocationCoordinates;
+export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzLocationCoordinates = Olz_Common_Utils_MapUtils_OlzLocationCoordinates;
 
 export type Olz_Karten_Endpoints_KarteEndpointTrait_OlzKarteKind = ('ol' | 'stadt' | 'scool');
 
-export type Olz_Utils_MapUtils_OlzLocationCoordinates = {'latitude': number, 'longitude': number};
+export type Olz_Common_Utils_MapUtils_OlzLocationCoordinates = {'latitude': number, 'longitude': number};
 
 export type Olz_Api_OlzTypedEndpoint5d02f180fe5876e5d2e56cba74dfbb25_Request = {'id': Olz_Api_OlzGetEntityTypedEndpoint30455ea4a414619c516ba9c084b9d175_Id, 'custom'?: Olz_Api_OlzGetEntityTypedEndpoint30455ea4a414619c516ba9c084b9d175_CustomRequest};
 
@@ -1046,7 +1046,7 @@ export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzTerminId = number;
 
 export type PhpTypeScriptApi_PhpStan_IsoTime = string;
 
-export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzLocationCoordinates = Olz_Utils_MapUtils_OlzLocationCoordinates;
+export type Olz_Termine_Endpoints_TerminEndpointTrait_OlzLocationCoordinates = Olz_Common_Utils_MapUtils_OlzLocationCoordinates;
 
 export type Olz_Api_OlzTypedEndpoint4455200f95effde91a87d232e9d2df9c_Request = {'id': Olz_Api_OlzGetEntityTypedEndpointeb2c48c20933f9c7cbec66ac99b7b823_Id, 'custom'?: Olz_Api_OlzGetEntityTypedEndpointeb2c48c20933f9c7cbec66ac99b7b823_CustomRequest};
 
@@ -1258,7 +1258,7 @@ export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationD
 
 export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzTerminLocationId = number;
 
-export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzLocationCoordinates = Olz_Utils_MapUtils_OlzLocationCoordinates;
+export type Olz_Termine_Endpoints_TerminLocationEndpointTrait_OlzLocationCoordinates = Olz_Common_Utils_MapUtils_OlzLocationCoordinates;
 
 export type Olz_Api_OlzTypedEndpoint3df57566388159e570e908eca0bdbe86_Request = {'id': Olz_Api_OlzGetEntityTypedEndpoint1a1e55388407b8507da2d323e4886deb_Id, 'custom'?: Olz_Api_OlzGetEntityTypedEndpoint1a1e55388407b8507da2d323e4886deb_CustomRequest};
 

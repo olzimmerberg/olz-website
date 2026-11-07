@@ -2,11 +2,11 @@
 
 namespace Olz\Termine\Endpoints;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminLocation;
 use Olz\Entity\Termine\TerminTemplate;
 use Olz\Entity\Users\User;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 use PhpTypeScriptApi\PhpStan\IsoTime;
 

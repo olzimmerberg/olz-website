@@ -2,9 +2,9 @@
 
 namespace Olz\Faq\Controller;
 
+use Olz\Common\Utils\HttpUtils;
 use Olz\Faq\Components\OlzFaqDetail\OlzFaqDetail;
 use Olz\Faq\Components\OlzFaqList\OlzFaqList;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

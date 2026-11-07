@@ -6,13 +6,13 @@ use Doctrine\Common\Collections\Criteria;
 use Olz\Anniversary\Components\OlzAnniversaryRocket\OlzAnniversaryRocket;
 use Olz\Common\Components\OlzEditableText\OlzEditableText;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\OlzZielsprint\OlzZielsprint;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Anniversary\RunRecord;
 use Olz\Entity\StravaLink;
 use Olz\Repository\Snippets\PredefinedSnippet;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzAnniversaryParams extends HttpParams {

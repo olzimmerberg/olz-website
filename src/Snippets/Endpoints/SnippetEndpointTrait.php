@@ -2,8 +2,8 @@
 
 namespace Olz\Snippets\Endpoints;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Snippets\Snippet;
-use Olz\Utils\WithUtilsTrait;
 use PhpTypeScriptApi\HttpError;
 
 /**

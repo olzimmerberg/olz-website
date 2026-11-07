@@ -4,9 +4,9 @@ namespace Olz\Apps\Files\Components\OlzFiles;
 
 use Olz\Apps\Files\Metadata;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzFilesParams extends HttpParams {

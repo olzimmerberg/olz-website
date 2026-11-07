@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Common\Endpoints;
 
 use Olz\Common\Endpoints\LoginEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Exceptions\AuthBlockedException;
 use Olz\Exceptions\InvalidCredentialsException;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

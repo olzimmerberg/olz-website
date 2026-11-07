@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\Users\Endpoints;
 
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\AccessToken;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\NotificationSubscription;
@@ -13,7 +14,6 @@ use Olz\Tests\Fake\Entity\Common\FakeOlzRepository;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Olz\Users\Endpoints\DeleteUserEndpoint;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

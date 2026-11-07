@@ -2,13 +2,13 @@
 
 namespace Olz\Common\Controller;
 
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\EnvUtils;
+use Olz\Common\Utils\HttpUtils;
 use Olz\Components\OtherPages\OlzAngebot\OlzAngebot;
 use Olz\Components\OtherPages\OlzDatenschutz\OlzDatenschutz;
 use Olz\Components\OtherPages\OlzFuerEinsteiger\OlzFuerEinsteiger;
 use Olz\Termine\Utils\TermineUtils;
-use Olz\Utils\DateUtils;
-use Olz\Utils\EnvUtils;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

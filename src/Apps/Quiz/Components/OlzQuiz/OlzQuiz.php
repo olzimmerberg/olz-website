@@ -4,9 +4,9 @@ namespace Olz\Apps\Quiz\Components\OlzQuiz;
 
 use Olz\Apps\Quiz\Metadata;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzQuizParams extends HttpParams {

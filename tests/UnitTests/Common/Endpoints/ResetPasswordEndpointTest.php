@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Common\Endpoints;
 
 use Olz\Common\Endpoints\ResetPasswordEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;

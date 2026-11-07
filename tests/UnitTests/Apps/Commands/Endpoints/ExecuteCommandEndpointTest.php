@@ -7,8 +7,8 @@ namespace Olz\Tests\UnitTests\Apps\Commands\Endpoints;
 use Doctrine\DBAL\Driver\Exception as DriverExceptionInterface;
 use Doctrine\DBAL\Exception\DriverException;
 use Olz\Apps\Commands\Endpoints\ExecuteCommandEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

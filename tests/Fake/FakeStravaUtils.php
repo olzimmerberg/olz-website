@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
+use Olz\Common\Utils\StravaUtils;
 use Olz\Entity\StravaLink;
-use Olz\Utils\StravaUtils;
 
 class FakeStravaUtils extends StravaUtils {
     /** @var array<array{0: string}> */

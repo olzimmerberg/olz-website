@@ -1,5 +1,5 @@
 import React from 'react';
-import {dataHref} from '../../../Utils/constants';
+import {dataHref} from '../../../Common/Utils/constants';
 import {OlzProgressBar} from '../../../Common/Components/OlzProgressBar/OlzProgressBar';
 import {UploadFile, UploadingFile, UploadedFile, RegisteringFile} from '../types';
 

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Common\Endpoints;
 
 use Olz\Common\Endpoints\ExecuteEmailReactionEndpoint;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Constants\NotificationDeliveryType;
 use Olz\Constants\NotificationType;
 use Olz\Entity\NotificationSubscription;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal

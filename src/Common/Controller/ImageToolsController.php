@@ -2,8 +2,8 @@
 
 namespace Olz\Common\Controller;
 
-use Olz\Utils\EnvUtils;
-use Olz\Utils\ImageUtils;
+use Olz\Common\Utils\EnvUtils;
+use Olz\Common\Utils\ImageUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

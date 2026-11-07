@@ -3,11 +3,11 @@ import {useHash} from 'react-use';
 
 import {olzApi, OlzLogLevel, OlzLogsQuery} from '../../../../Api/client';
 import {OlzInfiniteScroll} from '../OlzInfiniteScroll/OlzInfiniteScroll';
-import {dataHref, isoNow} from '../../../../Utils/constants';
-import {validateDate, validateDateTime} from '../../../../Utils/formUtils';
-import {toISO} from '../../../../Utils/dateUtils';
-import {assert} from '../../../../Utils/generalUtils';
-import {isBot} from '../../../../Utils/httpUtils';
+import {dataHref, isoNow} from '../../../../Common/Utils/constants';
+import {validateDate, validateDateTime} from '../../../../Common/Utils/formUtils';
+import {toISO} from '../../../../Common/Utils/dateUtils';
+import {assert} from '../../../../Common/Utils/generalUtils';
+import {isBot} from '../../../../Common/Utils/httpUtils';
 
 import './OlzLogs.scss';
 

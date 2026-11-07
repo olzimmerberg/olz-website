@@ -7,8 +7,8 @@ import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField
 import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntityField';
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
-import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty, validateStringRegex} from '../../../Utils/formUtils';
-import {assert} from '../../../Utils/generalUtils';
+import {getApiNumber, getApiString, getFormNumber, getFormString, getResolverResult, validateNumber, validateNotEmpty, validateStringRegex} from '../../../Common/Utils/formUtils';
+import {assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzEditQuestionModal.scss';
 

@@ -30,7 +30,7 @@ final class DownloadsTest extends SystemTestCase {
         $this->sendKeys('#edit-download-modal #name-input', 'Neues Jahresprogramm');
         $this->selectOption('#edit-download-modal #position-field #before-after-input', 'vor');
         $this->selectOption('#edit-download-modal #position-field .olz-entity-chooser', 'Statuten');
-        $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        $document_path = realpath(__DIR__.'/../../fixtures/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-download-modal #file-upload input[type=file]', $document_path);
         $this->waitFor('#edit-download-modal #file-upload .olz-upload-file.uploaded');

@@ -3,7 +3,7 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzApiRequests} from '../../../Api/client';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {initOlzEditUserModal} from '../../../Users/Components/OlzEditUserModal/OlzEditUserModal';
-import {getApiString, getResolverResult, validateNotEmpty} from '../../../Utils/formUtils';
+import {getApiString, getResolverResult, validateNotEmpty} from '../../../Common/Utils/formUtils';
 import {initOlzResetPasswordModal} from '../OlzResetPasswordModal/OlzResetPasswordModal';
 
 import './OlzLoginModal.scss';

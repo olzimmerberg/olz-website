@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Olz\Tests\UnitTests\News\Endpoints;
 
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\News\Endpoints\ToggleNewsReactionEndpoint;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 /**

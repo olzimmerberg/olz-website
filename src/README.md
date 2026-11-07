@@ -43,4 +43,3 @@ Nicht jedes Modul nutzt alle Ordner.
 - [`MessageHandler/`](./MessageHandler/): ([Symfony](https://symfony.com/doc/current/messenger.html)) Messenger-Handler
 - [`Parsers/`](./Parsers/): Parser
 - [`Repository/`](./Repository/): ([Symfony/Doctrine](https://symfony.com/doc/current/doctrine.html)) Datenbank-Repositories
-- [`Utils/`](./Utils/): Funktions-Bibliothek (TODO: move to `Common/Utils/`)

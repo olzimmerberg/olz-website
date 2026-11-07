@@ -109,7 +109,7 @@ final class VereinTest extends SystemTestCase {
         $this->sendKeys('#edit-role-modal #description-input', "\n\n".WebDriverKeys::CONTROL.'v');
         $this->sendKeys('#edit-role-modal #guide-input', "\n\n".WebDriverKeys::CONTROL.'v');
 
-        $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        $document_path = realpath(__DIR__.'/../../fixtures/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-role-modal #files-upload input[type=file]', $document_path);
         $this->waitFor('#edit-role-modal #files-upload .olz-upload-file.uploaded');

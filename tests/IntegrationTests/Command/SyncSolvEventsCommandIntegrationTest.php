@@ -6,11 +6,11 @@ namespace Olz\Tests\IntegrationTests\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\SyncSolvEventsCommand;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\SolvEvent;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Tests\Fake\FakeSolvFetcher;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;

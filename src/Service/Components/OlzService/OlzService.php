@@ -3,12 +3,12 @@
 namespace Olz\Service\Components\OlzService;
 
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Apps\OlzAppsList\OlzAppsList;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Service\Components\OlzDownloads\OlzDownloads;
 use Olz\Service\Components\OlzLinks\OlzLinks;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzServiceParams extends HttpParams {

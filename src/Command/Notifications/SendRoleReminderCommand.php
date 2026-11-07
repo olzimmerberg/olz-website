@@ -4,13 +4,13 @@ namespace Olz\Command\Notifications;
 
 use Olz\Command\Notifications\Common\BaseSendNotificationsCommand;
 use Olz\Command\Notifications\Common\Notification;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Constants\NotificationDeliveryType;
 use Olz\Constants\NotificationType;
 use Olz\Entity\NotificationSubscription;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 use Olz\Repository\Roles\PredefinedRole;
-use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'olz:send-role-reminder')]

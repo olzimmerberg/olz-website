@@ -52,7 +52,7 @@ final class TerminLabelTest extends SystemTestCase {
             return $this->filter('#edit-termin-label-modal #images-upload .olz-upload-image.uploaded')->count() == 2;
         });
 
-        $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        $document_path = realpath(__DIR__.'/../../fixtures/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-termin-label-modal #files-upload input[type=file]', $document_path);
         $this->waitUntil(function () {

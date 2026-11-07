@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\HttpUtils;
+use Olz\Common\Utils\HttpUtils;
 
 class FakeHttpUtils extends HttpUtils {
 }

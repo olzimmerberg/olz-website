@@ -2,9 +2,9 @@
 
 namespace Olz\Karten\Controller;
 
+use Olz\Common\Utils\HttpUtils;
 use Olz\Karten\Components\OlzKarteDetail\OlzKarteDetail;
 use Olz\Karten\Components\OlzKarten\OlzKarten;
-use Olz\Utils\HttpUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

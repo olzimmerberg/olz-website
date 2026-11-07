@@ -80,7 +80,7 @@ final class TermineTest extends SystemTestCase {
         $this->sendKeys('#edit-termin-modal #images-upload input[type=file]', $image_path);
         $this->waitFor('#edit-termin-modal #images-upload .olz-upload-image.uploaded');
 
-        $document_path = realpath(__DIR__.'/../../src/Utils/data/sample-data/sample-document.pdf');
+        $document_path = realpath(__DIR__.'/../../fixtures/sample-data/sample-document.pdf');
         assert($document_path);
         $this->sendKeys('#edit-termin-modal #files-upload input[type=file]', $document_path);
         $this->waitFor('#edit-termin-modal #files-upload .olz-upload-file.uploaded');

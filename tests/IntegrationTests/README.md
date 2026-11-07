@@ -11,7 +11,7 @@ Datenbank-Zugriffe und Commands realistisch ab.
 - Kopiere bei Bedarf `.env.test.local.template` nach `.env.test.local`.
 - Die Test-Datenbank muss eine eigene Datenbank sein (Schema `..._test`). Die
   Integration-Tests setzen sie beim ersten Test zurück (`fullResetDb`): Tabellen
-  werden gelöscht und mit den Daten aus `src/Utils/data/db_content.sql` neu
+  werden gelöscht und mit den Daten aus `fixtures/db/content.sql` neu
   befüllt. **Nie auf die Dev- oder Prod-Datenbank zeigen lassen!**
 
 Für die CI-Pipeline ist `DB_PORT` gesetzt; dort werden die Konfigurations-Dateien
@@ -41,7 +41,7 @@ selbst aus den Templates an (siehe oben).
 
 ## Test-Daten
 
-Die Test-Datenbank wird aus `src/Utils/data/db_content.sql` befüllt. Ändern sich
+Die Test-Datenbank wird aus `fixtures/db/content.sql` befüllt. Ändern sich
 diese Daten, müssen ggf. auch Erwartungen in Integration-Tests angepasst werden.
 
 ## Fakes

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\Anmelden\Registration;
 use Olz\Entity\Common\DataStorageInterface;
 use Olz\Entity\Common\DataStorageTrait;
@@ -15,8 +17,6 @@ use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Common\TestableInterface;
 use Olz\Entity\Users\User;
 use Olz\Repository\Termine\TerminRepository;
-use Olz\Utils\DateUtils;
-use Olz\Utils\WithUtilsCache;
 
 #[ORM\Table(name: 'termine')]
 #[ORM\Index(name: 'start_date_on_off_index', columns: ['start_date', 'on_off'])]

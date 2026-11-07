@@ -23,7 +23,7 @@ const jestConfig = {
         '^typeface-open-sans$': '<rootDir>/jestIgnoreStub.js',
     },
     coverageThreshold: {
-        './src/Utils/': percentCoverage(100),
+        './src/Common/Utils/': percentCoverage(100),
     },
 };
 export default jestConfig;

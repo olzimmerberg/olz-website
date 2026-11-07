@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olz\Tests\Fake;
 
-use Olz\Utils\GeneralUtils;
+use Olz\Common\Utils\GeneralUtils;
 
 class FakeGeneralUtils extends GeneralUtils {
     protected function getRandomIvForAlgo(string $algo): string {

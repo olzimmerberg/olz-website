@@ -1,7 +1,7 @@
 import 'bootstrap';
 import React from 'react';
 import {useController, Control, FieldValues, FieldErrors, UseControllerProps, Path} from 'react-hook-form';
-import {dataHref} from '../../../Utils/constants';
+import {dataHref} from '../../Utils/constants';
 import {olzApi, OlzAuthenticatedRole, OlzAuthenticatedUser} from '../../../Api/client';
 
 import './OlzAuthenticatedUserRoleField.scss';

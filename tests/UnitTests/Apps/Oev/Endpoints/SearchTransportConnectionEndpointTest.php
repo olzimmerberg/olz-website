@@ -7,10 +7,10 @@ namespace Olz\Tests\UnitTests\Apps\Oev\Endpoints;
 use Olz\Apps\Oev\Endpoints\SearchTransportConnectionEndpoint;
 use Olz\Apps\Oev\Utils\TransportConnection;
 use Olz\Apps\Oev\Utils\TransportSuggestion;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Fetchers\TransportApiFetcher;
 use Olz\Tests\Fake\FakeTransportApiFetcher;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use PhpTypeScriptApi\HttpError;
 
 class FakeSearchTransportConnectionEndpointTransportApiFetcher extends FakeTransportApiFetcher {

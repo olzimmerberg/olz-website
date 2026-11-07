@@ -1,6 +1,6 @@
 import {getTerminUpdateFromTemplate, TerminUpdate} from '../../../../src/Termine/Utils/termineUtils';
 import {OlzTerminLabelData, OlzTerminTemplateData} from '../../../../src/Api/client';
-import {Entity} from '../../../../src/Utils/generalUtils';
+import {Entity} from '../../../../src/Common/Utils/generalUtils';
 
 const labels: Entity<OlzTerminLabelData>[] = [
     {

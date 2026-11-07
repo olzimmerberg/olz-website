@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Command;
 
 use Olz\Command\SyncSolvEventsCommand;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\SolvEvent;
 use Olz\Fetchers\SolvFetcher;
 use Olz\Tests\Fake\Entity\FakeSolvEvent;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\WithUtilsCache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 

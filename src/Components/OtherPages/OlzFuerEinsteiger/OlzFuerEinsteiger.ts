@@ -1,4 +1,4 @@
-import {codeHref, dataHref} from '../../../Utils/constants';
+import {codeHref, dataHref} from '../../../Common/Utils/constants';
 
 import './OlzFuerEinsteiger.scss';
 

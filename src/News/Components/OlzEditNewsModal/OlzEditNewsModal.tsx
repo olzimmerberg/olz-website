@@ -8,8 +8,8 @@ import {OlzEntityField} from '../../../Common/Components/OlzEntityField/OlzEntit
 import {OlzMultiFileField} from '../../../Components/Upload/OlzMultiFileField/OlzMultiFileField';
 import {OlzMultiImageField} from '../../../Components/Upload/OlzMultiImageField/OlzMultiImageField';
 import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
-import {codeHref} from '../../../Utils/constants';
-import {assert} from '../../../Utils/generalUtils';
+import {codeHref} from '../../../Common/Utils/constants';
+import {assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzEditNewsModal.scss';
 

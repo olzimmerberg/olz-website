@@ -6,9 +6,9 @@ namespace Olz\Tests\IntegrationTests\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Olz\Command\UpdateMeasurementsCommand;
+use Olz\Common\Utils\DateUtils;
 use Olz\Entity\Measurement;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\DateUtils;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;

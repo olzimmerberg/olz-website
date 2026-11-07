@@ -4,9 +4,9 @@ namespace Olz\Apps\Statistics\Components\OlzStatistics;
 
 use Olz\Apps\Statistics\Metadata;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzStatisticsParams extends HttpParams {

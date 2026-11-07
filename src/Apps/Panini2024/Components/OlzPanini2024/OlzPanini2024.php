@@ -5,11 +5,11 @@ namespace Olz\Apps\Panini2024\Components\OlzPanini2024;
 use Olz\Apps\Panini2024\Metadata;
 use Olz\Apps\Panini2024\Panini2024Constants;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Apps\OlzNoAppAccess\OlzNoAppAccess;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\Panini2024\Panini2024Picture;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{}> */
 class OlzPanini2024Params extends HttpParams {

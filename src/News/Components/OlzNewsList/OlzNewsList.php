@@ -4,6 +4,7 @@ namespace Olz\News\Components\OlzNewsList;
 
 use Olz\Apps\OlzApps;
 use Olz\Common\Components\OlzRootComponent;
+use Olz\Common\Utils\HttpParams;
 use Olz\Components\Page\OlzFooter\OlzFooter;
 use Olz\Components\Page\OlzHeader\OlzHeader;
 use Olz\Entity\News\NewsEntry;
@@ -13,7 +14,6 @@ use Olz\Entity\Users\User;
 use Olz\News\Components\OlzNewsFilter\OlzNewsFilter;
 use Olz\News\Components\OlzNewsListItem\OlzNewsListItem;
 use Olz\News\Utils\NewsUtils;
-use Olz\Utils\HttpParams;
 
 /** @extends HttpParams<array{
  *   filter?: ?string,

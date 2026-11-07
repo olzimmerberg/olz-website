@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Olz\Tests\IntegrationTests;
 
+use Olz\Common\Utils\EnvUtils;
+use Olz\Common\Utils\GeneralUtils;
 use Olz\Tests\IntegrationTests\Common\IntegrationTestCase;
-use Olz\Utils\EnvUtils;
-use Olz\Utils\GeneralUtils;
 
 /**
  * @internal

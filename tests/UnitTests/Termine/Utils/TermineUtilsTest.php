@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Olz\Tests\UnitTests\Termine\Utils;
 
 use Doctrine\Common\Collections\Expr\Comparison;
+use Olz\Common\Utils\DateUtils;
+use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\Termine\Termin;
 use Olz\Termine\Utils\TermineUtils;
 use Olz\Tests\Fake\Entity\FakeSolvEvent;
 use Olz\Tests\Fake\Entity\Termine\FakeTermin;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use Olz\Utils\DateUtils;
-use Olz\Utils\WithUtilsCache;
 
 /**
  * @internal

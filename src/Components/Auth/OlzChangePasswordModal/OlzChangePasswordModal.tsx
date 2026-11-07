@@ -3,9 +3,9 @@ import {useForm, SubmitHandler, Resolver, FieldErrors} from 'react-hook-form';
 import {olzApi, OlzApiRequests} from '../../../Api/client';
 import {initOlzEditModal, OlzEditModal, OlzEditModalStatus} from '../../../Common/Components/OlzEditModal/OlzEditModal';
 import {OlzTextField} from '../../../Common/Components/OlzTextField/OlzTextField';
-import {user} from '../../../Utils/constants';
-import {getApiString, getResolverResult, validateNotEmpty, validatePassword} from '../../../Utils/formUtils';
-import {assert} from '../../../Utils/generalUtils';
+import {user} from '../../../Common/Utils/constants';
+import {getApiString, getResolverResult, validateNotEmpty, validatePassword} from '../../../Common/Utils/formUtils';
+import {assert} from '../../../Common/Utils/generalUtils';
 
 import './OlzChangePasswordModal.scss';
 

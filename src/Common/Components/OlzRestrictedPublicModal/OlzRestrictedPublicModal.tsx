@@ -1,6 +1,6 @@
 import React from 'react';
 import {OlzCaptcha} from '../../../Captcha/Components/OlzCaptcha/OlzCaptcha';
-import {user as authUser} from '../../../Utils/constants';
+import {user as authUser} from '../../Utils/constants';
 
 import './OlzRestrictedPublicModal.scss';
 

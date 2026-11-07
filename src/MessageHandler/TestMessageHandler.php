@@ -2,9 +2,9 @@
 
 namespace Olz\MessageHandler;
 
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Throttling;
 use Olz\Message\TestMessage;
-use Olz\Utils\WithUtilsTrait;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

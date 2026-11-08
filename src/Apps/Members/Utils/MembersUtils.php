@@ -203,8 +203,8 @@ class MembersUtils {
     }
 
     /**
-     * Whether the user was a member of the club during the given month. The membership
-     * dates (`joined_on`, `left_on`) are maintained by the members import.
+     * Whether the user had a club membership during the given month: the account must already
+     * exist and the membership dates (`joined_on`, `left_on`) are maintained by the members import.
      */
     public function isUserMembershipActiveInMonth(User $user, int $year, int $month): bool {
         $joined_on = $user->getJoinedOn();
@@ -212,9 +212,11 @@ class MembersUtils {
             // Users without `joined_on` are not members.
             return false;
         }
+        // A membership can only count once the user account exists.
+        $from = $this->getLaterDate($joined_on, $user->getCreatedAt());
         // Membership ends with whichever comes first: leaving the club or deleting the account.
         $until = $this->getEarlierDate($user->getLeftOn(), $user->getDeletedAt());
-        return $this->isDateRangeActiveInMonth($joined_on, $until, $year, $month);
+        return $this->isDateRangeActiveInMonth($from, $until, $year, $month);
     }
 
     /**
@@ -239,6 +241,11 @@ class MembersUtils {
             return $a;
         }
         return $a < $b ? $a : $b;
+    }
+
+    /** The later of two dates. */
+    private function getLaterDate(\DateTime $a, \DateTime $b): \DateTime {
+        return $a > $b ? $a : $b;
     }
 
     /**

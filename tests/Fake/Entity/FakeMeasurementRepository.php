@@ -17,6 +17,9 @@ class FakeMeasurementRepository extends FakeOlzRepository {
     /** @var array<string, int> */
     public array $versions = [];
 
+    /** @var array<string> */
+    public array $removed = [];
+
     public function get(string $name, ?int $year, ?int $month): ?Measurement {
         $key = $this->getKey($name, $year, $month);
         if (!array_key_exists($key, $this->measurements)) {
@@ -46,5 +49,13 @@ class FakeMeasurementRepository extends FakeOlzRepository {
 
     protected function getKey(string $name, ?int $year, ?int $month): string {
         return "{$name}|{$year}|{$month}";
+    }
+
+    public function remove(string $name, ?int $year, ?int $month): void {
+        $key = $this->getKey($name, $year, $month);
+        if (array_key_exists($key, $this->measurements)) {
+            unset($this->measurements[$key], $this->versions[$key]);
+            $this->removed[] = $key;
+        }
     }
 }

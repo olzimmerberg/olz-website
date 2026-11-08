@@ -215,7 +215,7 @@ abstract class OlzSitemap extends OlzRootComponent {
             'level' => 0,
         ];
 
-        $karten = $entityManager->getRepository(Karte::class)->findBy(['deleted_at' => null]);
+        $karten = $entityManager->getRepository(Karte::class)->findBy(['deleted_at' => null], ['name' => 'ASC']);
         foreach ($karten as $karte) {
             $title = $karte->getName();
             $pretty_kind = [

@@ -24,9 +24,9 @@ final class ImportMembersEndpointTest extends UnitTestCase {
 
         mkdir(__DIR__.'/../../../tmp/temp/');
         file_put_contents(__DIR__.'/../../../tmp/temp/uploaded_file.csv', <<<'ZZZZZZZZZZ'
-            [Id];Benutzer-Id;Vorname;Nachname
-            10000123;empty-user;Empty;User
-            10001234;maximal-user;Max;User
+            [Id];Benutzer-Id;Vorname;Nachname;Status
+            10000123;empty-user;Empty;User;Aktivmitglied
+            10001234;maximal-user;Max;User;Ehemaliges Mitglied
             ZZZZZZZZZZ);
 
         $result = $endpoint->call([
@@ -85,6 +85,14 @@ final class ImportMembersEndpointTest extends UnitTestCase {
             "INFO Field Ort was updated.",
             "INFO Valid user response",
         ], $this->getLogs());
+
+        $entity_utils = WithUtilsCache::get('entityUtils');
+        // Status 'Aktivmitglied' (active) => member is created "on".
+        $this->assertCount(1, $entity_utils->create_olz_entity_calls);
+        $this->assertSame(1, $entity_utils->create_olz_entity_calls[0][1]);
+        // Status 'Ehemaliges Mitglied' (inactive) => member is updated "off".
+        $this->assertCount(1, $entity_utils->update_olz_entity_calls);
+        $this->assertSame(0, $entity_utils->update_olz_entity_calls[0][1]);
     }
 
     public function testImportMembersEndpointNotAuthorized(): void {

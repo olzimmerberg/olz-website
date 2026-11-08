@@ -82,4 +82,24 @@ final class MembersUtilsTest extends UnitTestCase {
         $this->assertSame([], $this->getLogs());
         $this->assertEquals($this->expected_data, $data);
     }
+
+    public function testGetMemberStatus(): void {
+        $utils = new MembersUtils();
+        $this->assertSame('E', $utils->getMemberStatus($this->expected_data[0]));
+        $this->assertNull($utils->getMemberStatus(['Vorname' => 'Max']));
+    }
+
+    public function testGetMemberOnOff(): void {
+        $utils = new MembersUtils();
+        // Status 'E' (Ehrenmitglied) is an active member.
+        $this->assertTrue($utils->getMemberOnOff($this->expected_data[0]));
+        $this->assertTrue($utils->getMemberOnOff(['Status' => 'Aktivmitglied']));
+        $this->assertTrue($utils->getMemberOnOff(['Status' => 'Passivmitglied']));
+        $this->assertFalse($utils->getMemberOnOff(['Status' => 'Ehemaliges Mitglied']));
+        $this->assertFalse($utils->getMemberOnOff(['Status' => 'Verstorben']));
+        // Unknown / missing status defaults to "off".
+        $this->assertFalse($utils->getMemberOnOff(['Status' => 'Unbekannter Status']));
+        $this->assertFalse($utils->getMemberOnOff(['Vorname' => 'Max']));
+        $this->assertFalse($utils->getMemberOnOff([]));
+    }
 }

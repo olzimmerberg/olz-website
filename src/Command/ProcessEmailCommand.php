@@ -122,7 +122,7 @@ class ProcessEmailCommand extends OlzCommand {
         $newly_spam_mails = [];
         foreach ($inbox_mails as $mail) {
             $message_id = $mail->message_id ? $mail->message_id->first() : null;
-            $is_processed = ($is_message_id_processed[$message_id] ?? false);
+            $is_processed = ($is_message_id_processed[$message_id ?? ''] ?? false);
             $result = $this->processMail($mail, $is_processed);
             if ($result === 2) {
                 $newly_processed_mails[] = $mail;

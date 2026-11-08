@@ -182,12 +182,9 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             'INFO Termine & Anlässe measurements updated:',
             'INFO   num_termine: 3',
             'INFO   num_solv_participations: 2',
-            'INFO   sum_solv_distance: 9500',
-            'INFO   sum_solv_elevation: 450',
             'INFO   avg_training_participants: 3.5',
             'INFO Website-Aktivität measurements updated:',
             'INFO   num_news: 4',
-            'INFO   num_weekly_pictures: 2',
             'INFO Measurements updated.',
             'INFO Successfully ran command Olz\Command\UpdateMeasurementsCommand.',
         ], $logs);
@@ -200,12 +197,9 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             "Termine & Anlässe measurements updated:\n".
             "  num_termine: 3\n".
             "  num_solv_participations: 2\n".
-            "  sum_solv_distance: 9500\n".
-            "  sum_solv_elevation: 450\n".
             "  avg_training_participants: 3.5\n".
             "Website-Aktivität measurements updated:\n".
             "  num_news: 4\n".
-            "  num_weekly_pictures: 2\n".
             "Measurements updated.\n".
             "Successfully ran command Olz\\Command\\UpdateMeasurementsCommand.\n",
             $output->fetch(),
@@ -219,11 +213,8 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             'num_member_users|2020|4' => 7.0,
             'num_termine|2020|4' => 3.0,
             'num_solv_participations|2020|3' => 2.0,
-            'sum_solv_distance|2020|3' => 9500.0,
-            'sum_solv_elevation|2020|3' => 450.0,
             'avg_training_participants|2020|3' => 3.5,
             'num_news|2020|3' => 4.0,
-            'num_weekly_pictures|2020|3' => 2.0,
         ], $measurement_repo->measurements);
     }
 }

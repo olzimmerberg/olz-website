@@ -107,7 +107,7 @@ class OlzTermineDeadlinesTile extends AbstractOlzTile {
         } elseif ($row['deadline'] <= $this->in_one_week) {
             $urgency = 'mid';
         }
-        $image_ids = json_decode($row['image_ids'], true);
+        $image_ids = json_decode($row['image_ids'] ?? '', true);
         $image_id = count($image_ids ?? []) > 0 ? $image_ids[0] : null;
         $icon_color = $image_id ? '_white' : '';
         $icon_basename = "termine_type_meldeschluss_{$urgency}{$icon_color}_20.svg";

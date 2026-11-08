@@ -43,13 +43,13 @@ final class SearchUtilsTest extends UnitTestCase {
     public function testGetSnippetsWhereSql(): void {
         $utils = new SearchUtils();
         $this->assertSame(<<<'ZZZZZZZZZZ'
-            on_off = '1'
+            deleted_at IS NULL
             AND text LIKE '%test%'
             AND id IN ('1')
             ZZZZZZZZZZ, $utils->getSnippetsWhereSql([1], ['test']));
         $this->assertSame(
             <<<'ZZZZZZZZZZ'
-                on_off = '1'
+                deleted_at IS NULL
                 AND text LIKE '%anfänger%' AND text LIKE '%training%'
                 AND id IN ('13','14')
                 ZZZZZZZZZZ,

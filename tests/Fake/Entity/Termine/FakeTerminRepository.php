@@ -26,13 +26,13 @@ class FakeTerminRepository extends FakeOlzRepository {
     }
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
-        if ($criteria == ['solv_uid' => 12, 'on_off' => 1]) {
+        if ($criteria == ['solv_uid' => 12, 'deleted_at' => null]) {
             return null;
         }
-        if ($criteria == ['solv_uid' => 123, 'on_off' => 1]) {
+        if ($criteria == ['solv_uid' => 123, 'deleted_at' => null]) {
             return FakeTermin::empty();
         }
-        if ($criteria == ['solv_uid' => 1234, 'on_off' => 1]) {
+        if ($criteria == ['solv_uid' => 1234, 'deleted_at' => null]) {
             return FakeTermin::maximal();
         }
         return parent::findOneBy($criteria);

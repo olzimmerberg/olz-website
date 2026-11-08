@@ -16,9 +16,9 @@ use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Termine\TerminLabelRepository;
 
 #[ORM\Table(name: 'termin_labels')]
-#[ORM\Index(name: 'ident_index', columns: ['on_off', 'ident'])]
+#[ORM\Index(name: 'ident_index', columns: ['ident'])]
 #[ORM\Index(name: 'name_index', columns: ['name'])]
-#[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
+#[ORM\Index(name: 'position_index', columns: ['position'])]
 #[ORM\Entity(repositoryClass: TerminLabelRepository::class)]
 class TerminLabel extends OlzEntity implements DataStorageInterface, PositionableInterface, SearchableInterface, TestableInterface {
     use DataStorageTrait;

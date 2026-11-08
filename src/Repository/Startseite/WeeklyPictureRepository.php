@@ -16,7 +16,7 @@ class WeeklyPictureRepository extends OlzRepository {
         $dql = "
             SELECT wp
             FROM {$this->entityClass} wp
-            WHERE wp.on_off = 1
+            WHERE wp.deleted_at IS NULL
             ORDER BY wp.datum DESC
         ";
         $query = $this->getEntityManager()->createQuery($dql)->setMaxResults(3);

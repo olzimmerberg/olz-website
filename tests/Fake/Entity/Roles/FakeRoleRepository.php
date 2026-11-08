@@ -43,13 +43,13 @@ class FakeRoleRepository extends FakeOlzRepository {
         }
         if (
             $criteria === ['username' => 'admin_role']
-            || $criteria === ['username' => 'admin_role', 'on_off' => 1]
+            || $criteria === ['username' => 'admin_role', 'deleted_at' => null]
             || $criteria === ['id' => 2]) {
             return FakeRole::adminRole();
         }
         if (
             $criteria === ['username' => 'vorstand-role']
-            || $criteria === ['username' => 'vorstand-role', 'on_off' => 1]
+            || $criteria === ['username' => 'vorstand-role', 'deleted_at' => null]
             || $criteria === ['id' => 3]
         ) {
             return FakeRole::vorstandRole();

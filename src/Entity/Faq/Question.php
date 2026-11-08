@@ -13,8 +13,8 @@ use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Faq\QuestionRepository;
 
 #[ORM\Table(name: 'questions')]
-#[ORM\Index(name: 'ident_index', columns: ['on_off', 'ident'])]
-#[ORM\Index(name: 'category_position_index', columns: ['on_off', 'category_id', 'position_within_category'])]
+#[ORM\Index(name: 'ident_index', columns: ['ident'])]
+#[ORM\Index(name: 'category_position_index', columns: ['category_id', 'position_within_category'])]
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question extends OlzEntity implements DataStorageInterface, PositionableInterface, TestableInterface {
     use DataStorageTrait;

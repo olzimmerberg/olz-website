@@ -11,7 +11,7 @@ use Olz\Entity\Common\SearchableInterface;
 use Olz\Entity\Common\TestableInterface;
 
 #[ORM\Table(name: 'question_categories')]
-#[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
+#[ORM\Index(name: 'position_index', columns: ['position'])]
 #[ORM\Entity]
 class QuestionCategory extends OlzEntity implements PositionableInterface, SearchableInterface, TestableInterface {
     #[ORM\Id]

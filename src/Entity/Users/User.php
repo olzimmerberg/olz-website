@@ -503,7 +503,7 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
     }
 
     public function softDelete(): void {
-        $this->entityUtils()->updateOlzEntity($this, ['onOff' => false]);
+        $this->entityUtils()->deleteOlzEntity($this);
         $this->setEmail('');
         $this->setPasswordHash('');
         $this->setPhone('');

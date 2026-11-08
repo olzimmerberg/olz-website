@@ -24,7 +24,7 @@ class OlzTermineUpdatesTile extends AbstractOlzTile {
         $res = $db->query(<<<'ZZZZZZZZZZ'
                 SELECT t.id, t.start_date as date, t.title as title, t.last_modified_at
                 FROM termine t
-                WHERE t.on_off = '1' AND t.newsletter = '1'
+                WHERE t.deleted_at IS NULL AND t.newsletter = '1'
                 ORDER BY t.last_modified_at DESC
                 LIMIT 5
             ZZZZZZZZZZ);

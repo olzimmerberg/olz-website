@@ -43,7 +43,7 @@ class OlzFaqDetail extends OlzRootComponent {
                 1.0 AS time_relevance
             FROM questions
             WHERE
-                on_off = '1'
+                deleted_at IS NULL
                 AND {$where}
             ZZZZZZZZZZ;
     }
@@ -68,7 +68,7 @@ class OlzFaqDetail extends OlzRootComponent {
             $this->httpUtils()->dieWithHttpError(404);
             throw new \Exception('should already have failed');
         }
-        $is_active = $answered_question->getOnOff();
+        $is_active = $answered_question->getDeletedAt() === null;
         if (!$is_active && !$this->authUtils()->hasPermission('faq')) {
             $this->httpUtils()->dieWithHttpError(404);
             throw new \Exception('should already have failed');

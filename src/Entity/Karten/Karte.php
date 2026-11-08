@@ -10,7 +10,7 @@ use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Karten\KartenRepository;
 
 #[ORM\Table(name: 'karten')]
-#[ORM\Index(name: 'typ_index', columns: ['on_off', 'typ'])]
+#[ORM\Index(name: 'typ_index', columns: ['typ'])]
 #[ORM\Entity(repositoryClass: KartenRepository::class)]
 class Karte extends OlzEntity implements DataStorageInterface, TestableInterface {
     use DataStorageTrait;

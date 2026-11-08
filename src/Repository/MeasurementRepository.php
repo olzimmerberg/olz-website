@@ -13,7 +13,7 @@ class MeasurementRepository extends OlzRepository {
         return $this->findOneBy(['name' => $name, 'year' => $year, 'month' => $month]);
     }
 
-    public function set(string $name, ?int $year, ?int $month, ?float $value): Measurement {
+    public function set(string $name, ?int $year, ?int $month, ?float $value, int $version): Measurement {
         $measurement = $this->get($name, $year, $month);
         if (!$measurement) {
             $measurement = new Measurement();
@@ -22,6 +22,7 @@ class MeasurementRepository extends OlzRepository {
             $measurement->setMonth($month);
         }
         $measurement->setValue($value);
+        $measurement->setVersion($version);
         $this->getEntityManager()->persist($measurement);
         return $measurement;
     }

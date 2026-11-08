@@ -3,6 +3,7 @@
 namespace Olz\Command;
 
 use Doctrine\Common\Collections\Criteria;
+use Olz\Apps\Members\Utils\MembersUtilsTrait;
 use Olz\Command\Common\OlzCommand;
 use Olz\Entity\Measurement;
 use Olz\Entity\Members\Member;
@@ -20,49 +21,102 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'olz:update-measurements')]
 class UpdateMeasurementsCommand extends OlzCommand {
+    use MembersUtilsTrait;
+
+    /** Bump to trigger a backfill whenever the measurement calculation changes. */
+    public const CALCULATION_VERSION = 1;
+
+    private const EARLIEST_YEAR = 2006;
+    private const EARLIEST_MONTH = 1;
+
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
         return ['dev', 'test', 'staging', 'prod'];
     }
 
     protected function handle(InputInterface $input, OutputInterface $output): int {
+        $year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
+        $month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
+        $prev_year = $month > 1 ? $year : $year - 1;
+        $prev_month = $month > 1 ? $month - 1 : 12;
+
+        $this->updateMeasurementsForMonth($prev_year, $prev_month);
+        $this->updateMeasurementsForMonth($year, $month);
+
+        $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
+        // Anything not calculated with the current version is stale. `neq` (rather than `lt`)
+        // also covers rows with a higher version, e.g. after rolling back to older code.
+        $stale_criteria = Criteria::create()
+            ->where(Criteria::expr()->neq('version', self::CALCULATION_VERSION))
+            ->setFirstResult(0)
+            ->setMaxResults(1)
+        ;
+        $is_stale = count($measurement_repo->matching($stale_criteria)) > 0;
+        if ($is_stale) {
+            $this->backfill(self::EARLIEST_YEAR, self::EARLIEST_MONTH, $year, $month);
+        }
+
+        return Command::SUCCESS;
+    }
+
+    private function backfill(int $from_year, int $from_month, int $to_year, int $to_month): void {
+        $year = $from_year;
+        $month = $from_month;
+        while ($year < $to_year || ($year === $to_year && $month <= $to_month)) {
+            $this->updateMeasurementsForMonth($year, $month);
+            if ($month >= 12) {
+                $month = 1;
+                $year++;
+            } else {
+                $month++;
+            }
+        }
+    }
+
+    private function updateMeasurementsForMonth(int $year, int $month): void {
+        [$start, $next] = $this->getMonthRange($year, $month);
+        $month_key = sprintf('%04d-%02d', $year, $month);
+        $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
+        $current_month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
+        $is_current_month = ($year === $current_year && $month === $current_month);
+
         $user_repo = $this->entityManager()->getRepository(User::class);
         $member_repo = $this->entityManager()->getRepository(Member::class);
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         $termin_reaction_repo = $this->entityManager()->getRepository(TerminReaction::class);
         $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
+        $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
+        $solv_person_repo = $this->entityManager()->getRepository(SolvPerson::class);
+        $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
 
-        $num_users = count($user_repo->findBy(['on_off' => 1]));
-
-        $active_members = $member_repo->findBy(['on_off' => 1]);
-        $num_members = count($active_members);
+        // Benutzer & Mitglieder. Entities which were deleted later still count for the
+        // months before their deletion, which is why there is no `deleted_at` filter.
+        $num_users = 0;
         $num_member_users = 0;
-        foreach ($active_members as $member) {
-            $user = $member->getUser();
-            if ($user !== null && $user->getOnOff() === 1) {
+        foreach ($user_repo->findAll() as $user) {
+            if ($this->membersUtils()->isUserActiveInMonth($user, $year, $month)) {
+                $num_users++;
+            }
+            if ($this->membersUtils()->isUserMembershipActiveInMonth($user, $year, $month)) {
                 $num_member_users++;
             }
         }
 
-        $year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
-        $month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
-        $prev_year = $month > 1 ? $year : $year - 1;
-        $prev_month = $month > 1 ? $month - 1 : 12;
-        $next_year = $month < 12 ? $year : $year + 1;
-        $next_month = $month < 12 ? $month + 1 : 1;
+        // Mitglieder: `Eintritt` / `Austritt` from the member data.
+        $num_members = 0;
+        foreach ($member_repo->findAll() as $member) {
+            if ($this->membersUtils()->isMemberActiveInMonth($member, $year, $month)) {
+                $num_members++;
+            }
+        }
 
-        $current_start = new \DateTime(sprintf('%04d-%02d-01 00:00:00', $year, $month));
-        $next_start = new \DateTime(sprintf('%04d-%02d-01 00:00:00', $next_year, $next_month));
-        $prev_start = new \DateTime(sprintf('%04d-%02d-01 00:00:00', $prev_year, $prev_month));
-
-        // Termine: aktueller Monat (Snapshot, unter aktuellem Monat).
-        $termine = [...$termin_repo->matching($this->getMonthCriteria('start_date', $current_start, $next_start))];
+        // Termine.
+        $termine = [...$termin_repo->matching($this->getMonthCriteria('start_date', $start, $next))];
         $num_termine = count($termine);
 
-        // Trainings (Kartentrainings): Vormonat, Durchschnitt Teilnehmer/Training.
-        $prev_termine = [...$termin_repo->matching($this->getMonthCriteria('start_date', $prev_start, $current_start))];
+        // Trainings (Kartentrainings): Durchschnitt Teilnehmer pro Training.
         $training_termin_ids = [];
-        foreach ($prev_termine as $termin) {
+        foreach ($termine as $termin) {
             foreach ($termin->getLabels() as $label) {
                 if ($label->getIdent() === 'training') {
                     $termin_id = $termin->getId();
@@ -77,8 +131,7 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $sum_training_participants = 0;
         foreach ($training_termin_ids as $termin_id) {
             $user_ids = [];
-            $reactions = $termin_reaction_repo->findBy(['termin' => $termin_id]);
-            foreach ($reactions as $reaction) {
+            foreach ($termin_reaction_repo->findBy(['termin' => $termin_id]) as $reaction) {
                 if (in_array($reaction->getEmoji(), TerminReaction::ACCEPT_EMOJIS, true)) {
                     $user_id = $reaction->getUser()->getId();
                     if ($user_id !== null) {
@@ -92,10 +145,7 @@ class UpdateMeasurementsCommand extends OlzCommand {
             ? $sum_training_participants / $num_trainings
             : 0.0;
 
-        // SOLV-Anlässe: Vormonat, Teilnahmen unserer Mitglieder (solv_people.member).
-        $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
-        $solv_person_repo = $this->entityManager()->getRepository(SolvPerson::class);
-        $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
+        // SOLV-Anlässe: Teilnahmen unserer Mitglieder (solv_people.member).
         $member_person_ids = [];
         foreach ($solv_person_repo->findBy([]) as $solv_person) {
             $person_id = $solv_person->getId();
@@ -103,57 +153,55 @@ class UpdateMeasurementsCommand extends OlzCommand {
                 $member_person_ids[$person_id] = true;
             }
         }
-        $prev_month_key = sprintf('%04d-%02d', $prev_year, $prev_month);
-        $solv_num = 0;
-        foreach ($solv_event_repo->getSolvEventsForYear($prev_year) as $solv_event) {
-            if ($solv_event->getDate()->format('Y-m') !== $prev_month_key) {
+        $num_solv_participations = 0;
+        foreach ($solv_event_repo->getSolvEventsForYear($year) as $solv_event) {
+            if ($solv_event->getDate()->format('Y-m') !== $month_key) {
                 continue;
             }
-            $solv_results = $solv_result_repo->findBy(['event' => $solv_event->getSolvUid()]);
-            foreach ($solv_results as $solv_result) {
-                if (!isset($member_person_ids[$solv_result->getPerson()])) {
-                    continue;
+            foreach ($solv_result_repo->findBy(['event' => $solv_event->getSolvUid()]) as $solv_result) {
+                if (isset($member_person_ids[$solv_result->getPerson()])) {
+                    $num_solv_participations++;
                 }
-                $solv_num++;
             }
         }
-
-        // Website-Aktivität: Vormonat.
-        $num_news = count($news_repo->matching($this->getMonthCriteria('published_date', $prev_start, $current_start)));
+        // Website-Aktivität.
+        $num_news = count($news_repo->matching($this->getMonthCriteria('published_date', $start, $next)));
 
         $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
-        $measurement_repo->set('num_users', $year, $month, $num_users);
-        $measurement_repo->set('num_members', $year, $month, $num_members);
-        $measurement_repo->set('num_member_users', $year, $month, $num_member_users);
-        $measurement_repo->set('num_termine', $year, $month, $num_termine);
-        $measurement_repo->set('num_solv_participations', $prev_year, $prev_month, $solv_num);
-        $measurement_repo->set('avg_training_participants', $prev_year, $prev_month, $avg_training_participants);
-        $measurement_repo->set('num_news', $prev_year, $prev_month, $num_news);
+        $measurement_repo->set('num_users', $year, $month, $num_users, self::CALCULATION_VERSION);
+        $measurement_repo->set('num_members', $year, $month, $num_members, self::CALCULATION_VERSION);
+        $measurement_repo->set('num_member_users', $year, $month, $num_member_users, self::CALCULATION_VERSION);
+        $measurement_repo->set('num_termine', $year, $month, $num_termine, self::CALCULATION_VERSION);
+        if (!$is_current_month) {
+            // The current month is still in progress; only store the snapshot values above,
+            // not the accumulating event measurements (news, trainings, SOLV).
+            $measurement_repo->set('num_solv_participations', $year, $month, $num_solv_participations, self::CALCULATION_VERSION);
+            $measurement_repo->set('avg_training_participants', $year, $month, $avg_training_participants, self::CALCULATION_VERSION);
+            $measurement_repo->set('num_news', $year, $month, $num_news, self::CALCULATION_VERSION);
+        }
 
-        $this->logAndOutput("Users & Members measurements updated:");
-        $this->logAndOutput("  num_users: {$num_users}");
-        $this->logAndOutput("  num_members: {$num_members}");
-        $this->logAndOutput("  num_member_users: {$num_member_users}");
-        $this->logAndOutput("Termine & Anlässe measurements updated:");
-        $this->logAndOutput("  num_termine: {$num_termine}");
-        $this->logAndOutput("  num_solv_participations: {$solv_num}");
-        $this->logAndOutput("  avg_training_participants: {$avg_training_participants}");
-        $this->logAndOutput("Website-Aktivität measurements updated:");
-        $this->logAndOutput("  num_news: {$num_news}");
-        $this->logAndOutput("Measurements updated.");
-
-        return Command::SUCCESS;
+        $this->logAndOutput("Updated measurements for {$month_key}");
     }
 
     private function getMonthCriteria(string $date_field, \DateTime $start, \DateTime $end): Criteria {
         return Criteria::create()
             ->where(Criteria::expr()->andX(
-                Criteria::expr()->eq('on_off', 1),
+                // Entities which were deleted later still count for past months.
+                Criteria::expr()->orX(
+                    Criteria::expr()->isNull('deleted_at'),
+                    Criteria::expr()->gte('deleted_at', $start),
+                ),
                 Criteria::expr()->gte($date_field, $start),
                 Criteria::expr()->lt($date_field, $end),
             ))
             ->setFirstResult(0)
             ->setMaxResults(1000000)
         ;
+    }
+
+    /** @return array{0: \DateTime, 1: \DateTime} */
+    private function getMonthRange(int $year, int $month): array {
+        $month_start = new \DateTime(sprintf('%04d-%02d-01 00:00:00', $year, $month));
+        return [$month_start, (clone $month_start)->modify('+1 month')];
     }
 }

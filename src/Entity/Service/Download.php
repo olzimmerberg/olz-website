@@ -13,7 +13,7 @@ use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Service\DownloadRepository;
 
 #[ORM\Table(name: 'downloads')]
-#[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
+#[ORM\Index(name: 'position_index', columns: ['position'])]
 #[ORM\Entity(repositoryClass: DownloadRepository::class)]
 class Download extends OlzEntity implements DataStorageInterface, PositionableInterface, TestableInterface {
     use DataStorageTrait;

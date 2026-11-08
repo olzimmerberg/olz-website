@@ -46,7 +46,7 @@ class SendDeadlineWarningCommand extends BaseSendNotificationsCommand {
                 Criteria::expr()->andX(
                     Criteria::expr()->gte('deadline', $in_given_days_start),
                     Criteria::expr()->lte('deadline', $in_given_days_end),
-                    Criteria::expr()->eq('on_off', 1),
+                    Criteria::expr()->isNull('deleted_at'),
                 )
             )
             ->orderBy(['start_date' => Order::Ascending])

@@ -24,6 +24,9 @@ class Measurement implements TestableInterface {
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $value;
 
+    #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 0])]
+    private int $version;
+
     public function getName(): string {
         return $this->name;
     }
@@ -56,6 +59,13 @@ class Measurement implements TestableInterface {
         $this->value = $new_value;
     }
 
+    public function getVersion(): int {
+        return $this->version;
+    }
+
+    public function setVersion(int $new_value): void {
+        $this->version = $new_value;
+    }
     // ---
 
     public function testOnlyGetField(string $field_name): mixed {

@@ -21,6 +21,13 @@ use Symfony\Component\Console\Output\BufferedOutput;
 final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase {
     public function testRun(): void {
         $this->withLockedDb(function () {
+            $entity_manager = $this->getEntityManager();
+            $measurement_repo = $entity_manager->getRepository(Measurement::class);
+            foreach ($measurement_repo->findAll() as $measurement) {
+                $measurement->setVersion(UpdateMeasurementsCommand::CALCULATION_VERSION);
+            }
+            $entity_manager->flush();
+
             $job = $this->getSut();
             $job->setDateUtils(new DateUtils('2020-04-15 12:00:00'));
             $input = new ArrayInput([]);
@@ -30,48 +37,44 @@ final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase
 
             $this->assertSame([
                 'INFO Running command Olz\Command\UpdateMeasurementsCommand...',
-                'INFO Users & Members measurements updated:',
-                'INFO   num_users: 10',
-                'INFO   num_members: 8',
-                'INFO   num_member_users: 7',
-                'INFO Termine & Anlässe measurements updated:',
-                'INFO   num_termine: 0',
-                'INFO   num_solv_participations: 0',
-                'INFO   avg_training_participants: 0',
-                'INFO Website-Aktivität measurements updated:',
-                'INFO   num_news: 1',
-                'INFO Measurements updated.',
+                'INFO Updated measurements for 2020-03',
+                'INFO Updated measurements for 2020-04',
                 'INFO Successfully ran command Olz\Command\UpdateMeasurementsCommand.',
             ], $this->getLogs());
             $this->assertSame(Command::SUCCESS, $result);
             $this->assertSame(
                 "Running command Olz\\Command\\UpdateMeasurementsCommand...\n".
-                "Users & Members measurements updated:\n".
-                "  num_users: 10\n".
-                "  num_members: 8\n".
-                "  num_member_users: 7\n".
-                "Termine & Anlässe measurements updated:\n".
-                "  num_termine: 0\n".
-                "  num_solv_participations: 0\n".
-                "  avg_training_participants: 0\n".
-                "Website-Aktivität measurements updated:\n".
-                "  num_news: 1\n".
-                "Measurements updated.\n".
+                "Updated measurements for 2020-03\n".
+                "Updated measurements for 2020-04\n".
                 "Successfully ran command Olz\\Command\\UpdateMeasurementsCommand.\n",
                 $output->fetch(),
             );
 
-            $entity_manager = $this->getEntityManager();
             $entity_manager->flush();
-            $measurement_repo = $entity_manager->getRepository(Measurement::class);
 
-            $this->assertSame(10.0, $measurement_repo->get('num_users', 2020, 4)?->getValue());
-            $this->assertSame(8.0, $measurement_repo->get('num_members', 2020, 4)?->getValue());
-            $this->assertSame(7.0, $measurement_repo->get('num_member_users', 2020, 4)?->getValue());
-            $this->assertSame(0.0, $measurement_repo->get('num_termine', 2020, 4)?->getValue());
+            // The previous month is complete: all measurements are stored.
+            // Note: In the fixtures, all users were created on 2021-12-01 (migration) and no
+            // user has `joined_on` set, so there are no users in 2020, but there are members.
+            $this->assertSame(0.0, $measurement_repo->get('num_users', 2020, 3)?->getValue());
+            $this->assertSame(8.0, $measurement_repo->get('num_members', 2020, 3)?->getValue());
+            $this->assertSame(0.0, $measurement_repo->get('num_member_users', 2020, 3)?->getValue());
+            $this->assertSame(0.0, $measurement_repo->get('num_termine', 2020, 3)?->getValue());
             $this->assertSame(0.0, $measurement_repo->get('num_solv_participations', 2020, 3)?->getValue());
             $this->assertSame(0.0, $measurement_repo->get('avg_training_participants', 2020, 3)?->getValue());
             $this->assertSame(1.0, $measurement_repo->get('num_news', 2020, 3)?->getValue());
+
+            // The current month is still in progress: only snapshot measurements are stored.
+            $this->assertSame(0.0, $measurement_repo->get('num_users', 2020, 4)?->getValue());
+            $this->assertSame(8.0, $measurement_repo->get('num_members', 2020, 4)?->getValue());
+            $this->assertSame(0.0, $measurement_repo->get('num_member_users', 2020, 4)?->getValue());
+            $this->assertSame(0.0, $measurement_repo->get('num_termine', 2020, 4)?->getValue());
+            $this->assertNull($measurement_repo->get('num_solv_participations', 2020, 4));
+            $this->assertNull($measurement_repo->get('avg_training_participants', 2020, 4));
+            $this->assertNull($measurement_repo->get('num_news', 2020, 4));
+            $this->assertSame(
+                UpdateMeasurementsCommand::CALCULATION_VERSION,
+                $measurement_repo->get('num_users', 2020, 4)->getVersion(),
+            );
         });
     }
 

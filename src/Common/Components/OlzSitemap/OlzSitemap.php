@@ -65,7 +65,7 @@ abstract class OlzSitemap extends OlzRootComponent {
             'level' => 0,
         ];
 
-        $questions = $entityManager->getRepository(Question::class)->findBy(['on_off' => 1]);
+        $questions = $entityManager->getRepository(Question::class)->findBy(['deleted_at' => null]);
         foreach ($questions as $question) {
             $title = $question->getQuestion();
             $entries[] = [
@@ -100,7 +100,7 @@ abstract class OlzSitemap extends OlzRootComponent {
                 FROM news n
                 WHERE
                     {$filter_where}
-                    AND n.on_off='1'
+                    AND n.deleted_at IS NULL
                 ORDER BY published_date DESC, published_time DESC
                 ZZZZZZZZZZ;
             // @phpstan-ignore-next-line
@@ -215,7 +215,7 @@ abstract class OlzSitemap extends OlzRootComponent {
             'level' => 0,
         ];
 
-        $karten = $entityManager->getRepository(Karte::class)->findBy(['on_off' => 1]);
+        $karten = $entityManager->getRepository(Karte::class)->findBy(['deleted_at' => null]);
         foreach ($karten as $karte) {
             $title = $karte->getName();
             $pretty_kind = [

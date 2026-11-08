@@ -275,7 +275,7 @@ class SearchUtils {
             $snippets,
         ));
         return <<<ZZZZZZZZZZ
-            on_off = '1'
+            deleted_at IS NULL
             AND {$terms_where}
             AND id IN ({$ids})
             ZZZZZZZZZZ;

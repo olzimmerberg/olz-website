@@ -20,7 +20,7 @@ class FakeEntityUtils extends EntityUtils {
         parent::createOlzEntity($entity, $input);
         $this->create_olz_entity_calls[] = [
             $entity,
-            $entity->getOnOff() ? 1 : 0,
+            $entity->getDeletedAt() === null ? 1 : 0,
             $entity->getOwnerUser()?->getId() ?? null,
             $entity->getOwnerRole()?->getId() ?? null,
         ];
@@ -30,7 +30,7 @@ class FakeEntityUtils extends EntityUtils {
         parent::updateOlzEntity($entity, $input);
         $this->update_olz_entity_calls[] = [
             $entity,
-            $entity->getOnOff() ? 1 : 0,
+            $entity->getDeletedAt() === null ? 1 : 0,
             $entity->getOwnerUser()?->getId() ?? null,
             $entity->getOwnerRole()?->getId() ?? null,
         ];

@@ -69,7 +69,7 @@ class OlzNewsEntriesTile extends AbstractOlzTile {
         $query = $entity_manager->createQuery(<<<ZZZZZZZZZZ
                 SELECT n
                 FROM {$news_entry_class} n
-                WHERE n.on_off = '1'
+                WHERE n.deleted_at IS NULL
                 ORDER BY n.published_date DESC, n.published_time DESC
             ZZZZZZZZZZ);
         $is_prod = $this->envUtils()->getAppEnv() === 'prod';

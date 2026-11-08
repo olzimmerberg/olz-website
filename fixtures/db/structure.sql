@@ -1,5 +1,5 @@
 -- Die Struktur der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20261105194303
+-- MIGRATION: DoctrineMigrations\Version20261108141121
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -43,9 +43,10 @@ CREATE TABLE `anmelden_bookings` (
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `form_data` longtext NOT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_71DD97E7833D8F43` (`registration_id`),
   KEY `IDX_71DD97E7A76ED395` (`user_id`),
@@ -53,12 +54,14 @@ CREATE TABLE `anmelden_bookings` (
   KEY `IDX_71DD97E75A75A473` (`owner_role_id`),
   KEY `IDX_71DD97E77D182D95` (`created_by_user_id`),
   KEY `IDX_71DD97E71A04EF5A` (`last_modified_by_user_id`),
+  KEY `IDX_71DD97E7FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_71DD97E71A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_71DD97E72B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_71DD97E75A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_71DD97E77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_71DD97E7833D8F43` FOREIGN KEY (`registration_id`) REFERENCES `anmelden_registrations` (`id`),
-  CONSTRAINT `FK_71DD97E7A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_71DD97E7A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_71DD97E7FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -74,9 +77,10 @@ CREATE TABLE `anmelden_registrations` (
   `description` longtext NOT NULL,
   `opens_at` datetime DEFAULT NULL,
   `closes_at` datetime DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_BBDA45192B18554A` (`owner_user_id`),
   KEY `IDX_BBDA45195A75A473` (`owner_role_id`),
@@ -84,10 +88,12 @@ CREATE TABLE `anmelden_registrations` (
   KEY `IDX_BBDA45191A04EF5A` (`last_modified_by_user_id`),
   KEY `opens_at_index` (`opens_at`),
   KEY `closes_at_index` (`closes_at`),
+  KEY `IDX_BBDA4519FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_BBDA45191A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_BBDA45192B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_BBDA45195A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_BBDA45197D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_BBDA45197D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_BBDA4519FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -107,9 +113,10 @@ CREATE TABLE `anmelden_registration_infos` (
   `type` varchar(255) NOT NULL,
   `is_optional` tinyint(1) NOT NULL,
   `options` longtext NOT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_D8B1DD49833D8F43` (`registration_id`),
   KEY `IDX_D8B1DD492B18554A` (`owner_user_id`),
@@ -117,18 +124,19 @@ CREATE TABLE `anmelden_registration_infos` (
   KEY `IDX_D8B1DD497D182D95` (`created_by_user_id`),
   KEY `IDX_D8B1DD491A04EF5A` (`last_modified_by_user_id`),
   KEY `ident_index` (`ident`),
+  KEY `IDX_D8B1DD49FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_D8B1DD491A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_D8B1DD492B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_D8B1DD495A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_D8B1DD497D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_D8B1DD49833D8F43` FOREIGN KEY (`registration_id`) REFERENCES `anmelden_registrations` (`id`)
+  CONSTRAINT `FK_D8B1DD49833D8F43` FOREIGN KEY (`registration_id`) REFERENCES `anmelden_registrations` (`id`),
+  CONSTRAINT `FK_D8B1DD49FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `anniversary_runs` (
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -145,6 +153,8 @@ CREATE TABLE `anniversary_runs` (
   `runner_name` varchar(255) NOT NULL DEFAULT '',
   `is_counting` tinyint(4) NOT NULL DEFAULT 1,
   `sport_type` varchar(255) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_9B3F75262B18554A` (`owner_user_id`),
   KEY `IDX_9B3F75265A75A473` (`owner_role_id`),
@@ -153,11 +163,13 @@ CREATE TABLE `anniversary_runs` (
   KEY `IDX_9B3F7526A76ED395` (`user_id`),
   KEY `run_at_index` (`run_at`),
   KEY `source_index` (`source`),
+  KEY `IDX_9B3F7526FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_9B3F75261A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_9B3F75262B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_9B3F75265A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_9B3F75267D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_9B3F7526A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_9B3F7526A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_9B3F7526FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -204,23 +216,26 @@ CREATE TABLE `downloads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` longtext DEFAULT NULL,
   `position` float NOT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `owner_user_id` int(11) DEFAULT NULL,
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_4B73A4B52B18554A` (`owner_user_id`),
   KEY `IDX_4B73A4B55A75A473` (`owner_role_id`),
   KEY `IDX_4B73A4B57D182D95` (`created_by_user_id`),
   KEY `IDX_4B73A4B51A04EF5A` (`last_modified_by_user_id`),
-  KEY `position_index` (`on_off`,`position`),
+  KEY `IDX_4B73A4B5FCF2A97A` (`deleted_by_user_id`),
+  KEY `position_index` (`position`),
   CONSTRAINT `FK_4B73A4B51A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_4B73A4B52B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_4B73A4B55A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_4B73A4B57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_4B73A4B57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_4B73A4B5FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -257,21 +272,24 @@ CREATE TABLE `karten` (
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `latitude` double DEFAULT NULL,
   `longitude` double DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_57ED7BE12B18554A` (`owner_user_id`),
   KEY `IDX_57ED7BE15A75A473` (`owner_role_id`),
   KEY `IDX_57ED7BE17D182D95` (`created_by_user_id`),
   KEY `IDX_57ED7BE11A04EF5A` (`last_modified_by_user_id`),
-  KEY `typ_index` (`on_off`,`typ`),
+  KEY `IDX_57ED7BE1FCF2A97A` (`deleted_by_user_id`),
+  KEY `typ_index` (`typ`),
   CONSTRAINT `FK_57ED7BE11A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_57ED7BE12B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_57ED7BE15A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_57ED7BE17D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_57ED7BE17D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_57ED7BE1FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -282,23 +300,26 @@ CREATE TABLE `links` (
   `name` longtext DEFAULT NULL,
   `url` longtext DEFAULT NULL,
   `position` float NOT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `owner_user_id` int(11) DEFAULT NULL,
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_D182A1182B18554A` (`owner_user_id`),
   KEY `IDX_D182A1185A75A473` (`owner_role_id`),
   KEY `IDX_D182A1187D182D95` (`created_by_user_id`),
   KEY `IDX_D182A1181A04EF5A` (`last_modified_by_user_id`),
-  KEY `position_index` (`on_off`,`position`),
+  KEY `IDX_D182A118FCF2A97A` (`deleted_by_user_id`),
+  KEY `position_index` (`position`),
   CONSTRAINT `FK_D182A1181A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_D182A1182B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_D182A1185A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_D182A1187D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_D182A1187D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_D182A118FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -309,6 +330,7 @@ CREATE TABLE `measurements` (
   `year` int(11) NOT NULL,
   `month` int(11) NOT NULL,
   `value` double DEFAULT NULL,
+  `version` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`name`,`year`,`month`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -316,7 +338,6 @@ CREATE TABLE `measurements` (
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `members` (
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -328,6 +349,8 @@ CREATE TABLE `members` (
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_45A0D2FF2B18554A` (`owner_user_id`),
   KEY `IDX_45A0D2FF5A75A473` (`owner_role_id`),
@@ -335,11 +358,13 @@ CREATE TABLE `members` (
   KEY `IDX_45A0D2FF1A04EF5A` (`last_modified_by_user_id`),
   KEY `ident_index` (`ident`),
   KEY `user_id_index` (`user_id`),
+  KEY `IDX_45A0D2FFFCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_45A0D2FF1A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_45A0D2FF2B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_45A0D2FF5A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_45A0D2FF7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_45A0D2FFA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_45A0D2FFA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_45A0D2FFFCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -383,10 +408,11 @@ CREATE TABLE `news` (
   `format` longtext NOT NULL,
   `tags` longtext NOT NULL DEFAULT '',
   `counter` int(11) NOT NULL DEFAULT 0,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `termin_id` int(11) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1DD39950E2544CD6` (`author_user_id`),
   KEY `IDX_1DD399509339BDEF` (`author_role_id`),
@@ -396,13 +422,15 @@ CREATE TABLE `news` (
   KEY `IDX_1DD399501A04EF5A` (`last_modified_by_user_id`),
   KEY `published_index` (`published_date`,`published_time`),
   KEY `IDX_1DD39950CA0B7C00` (`termin_id`),
+  KEY `IDX_1DD39950FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_1DD399501A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1DD399502B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1DD399505A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_1DD399507D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1DD399509339BDEF` FOREIGN KEY (`author_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_1DD39950CA0B7C00` FOREIGN KEY (`termin_id`) REFERENCES `termine` (`id`),
-  CONSTRAINT `FK_1DD39950E2544CD6` FOREIGN KEY (`author_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_1DD39950E2544CD6` FOREIGN KEY (`author_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_1DD39950FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6406 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -453,21 +481,24 @@ CREATE TABLE `panini24` (
   `img_style` varchar(255) NOT NULL,
   `is_landscape` tinyint(1) NOT NULL,
   `has_top` tinyint(1) NOT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `infos` longtext NOT NULL,
   `birthdate` date DEFAULT NULL,
   `num_mispunches` int(11) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1254A2E52B18554A` (`owner_user_id`),
   KEY `IDX_1254A2E55A75A473` (`owner_role_id`),
   KEY `IDX_1254A2E57D182D95` (`created_by_user_id`),
   KEY `IDX_1254A2E51A04EF5A` (`last_modified_by_user_id`),
+  KEY `IDX_1254A2E5FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_1254A2E51A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1254A2E52B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1254A2E55A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_1254A2E57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_1254A2E57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_1254A2E5FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1013 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -480,26 +511,29 @@ CREATE TABLE `questions` (
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `ident` varchar(31) NOT NULL,
   `position_within_category` float NOT NULL,
   `question` longtext NOT NULL,
   `answer` longtext DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_8ADC54D52B18554A` (`owner_user_id`),
   KEY `IDX_8ADC54D55A75A473` (`owner_role_id`),
   KEY `IDX_8ADC54D57D182D95` (`created_by_user_id`),
   KEY `IDX_8ADC54D51A04EF5A` (`last_modified_by_user_id`),
   KEY `IDX_8ADC54D512469DE2` (`category_id`),
-  KEY `ident_index` (`on_off`,`ident`),
-  KEY `category_position_index` (`on_off`,`category_id`,`position_within_category`),
+  KEY `IDX_8ADC54D5FCF2A97A` (`deleted_by_user_id`),
+  KEY `category_position_index` (`category_id`,`position_within_category`),
+  KEY `ident_index` (`ident`),
   CONSTRAINT `FK_8ADC54D512469DE2` FOREIGN KEY (`category_id`) REFERENCES `question_categories` (`id`),
   CONSTRAINT `FK_8ADC54D51A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_8ADC54D52B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_8ADC54D55A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_8ADC54D57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_8ADC54D57D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_8ADC54D5FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -511,21 +545,24 @@ CREATE TABLE `question_categories` (
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `position` float NOT NULL,
   `name` varchar(255) NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_5D27D9E02B18554A` (`owner_user_id`),
   KEY `IDX_5D27D9E05A75A473` (`owner_role_id`),
   KEY `IDX_5D27D9E07D182D95` (`created_by_user_id`),
   KEY `IDX_5D27D9E01A04EF5A` (`last_modified_by_user_id`),
-  KEY `position_index` (`on_off`,`position`),
+  KEY `IDX_5D27D9E0FCF2A97A` (`deleted_by_user_id`),
+  KEY `position_index` (`position`),
   CONSTRAINT `FK_5D27D9E01A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_5D27D9E02B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_5D27D9E05A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_5D27D9E07D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_5D27D9E07D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_5D27D9E0FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -539,9 +576,10 @@ CREATE TABLE `quiz_categories` (
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_739C61542B18554A` (`owner_user_id`),
   KEY `IDX_739C61545A75A473` (`owner_role_id`),
@@ -549,11 +587,13 @@ CREATE TABLE `quiz_categories` (
   KEY `IDX_739C61541A04EF5A` (`last_modified_by_user_id`),
   KEY `name_index` (`name`),
   KEY `parent_category_index` (`parent_category_id`),
+  KEY `IDX_739C6154FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_739C61541A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_739C61542B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_739C61545A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_739C6154796A8F92` FOREIGN KEY (`parent_category_id`) REFERENCES `quiz_categories` (`id`),
-  CONSTRAINT `FK_739C61547D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_739C61547D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_739C6154FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -566,19 +606,22 @@ CREATE TABLE `quiz_skill` (
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_A24E9DF72B18554A` (`owner_user_id`),
   KEY `IDX_A24E9DF75A75A473` (`owner_role_id`),
   KEY `IDX_A24E9DF77D182D95` (`created_by_user_id`),
   KEY `IDX_A24E9DF71A04EF5A` (`last_modified_by_user_id`),
   KEY `name_index` (`name`),
+  KEY `IDX_A24E9DF7FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_A24E9DF71A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_A24E9DF72B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_A24E9DF75A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_A24E9DF77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_A24E9DF77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_A24E9DF7FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -607,9 +650,10 @@ CREATE TABLE `quiz_skill_levels` (
   `last_modified_by_user_id` int(11) DEFAULT NULL,
   `value` double NOT NULL,
   `recorded_at` datetime NOT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_6699B5F6A76ED395` (`user_id`),
   KEY `IDX_6699B5F65585C142` (`skill_id`),
@@ -618,12 +662,14 @@ CREATE TABLE `quiz_skill_levels` (
   KEY `IDX_6699B5F67D182D95` (`created_by_user_id`),
   KEY `IDX_6699B5F61A04EF5A` (`last_modified_by_user_id`),
   KEY `user_skill_index` (`user_id`,`skill_id`),
+  KEY `IDX_6699B5F6FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_6699B5F61A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_6699B5F62B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_6699B5F65585C142` FOREIGN KEY (`skill_id`) REFERENCES `quiz_skill` (`id`),
   CONSTRAINT `FK_6699B5F65A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_6699B5F67D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_6699B5F6A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_6699B5F6A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_6699B5F6FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -643,20 +689,23 @@ CREATE TABLE `roles` (
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `position_within_parent` float DEFAULT NULL COMMENT 'null: hide role',
   `featured_position` float DEFAULT NULL COMMENT 'null: not featured',
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_B63E2EC72B18554A` (`owner_user_id`),
   KEY `IDX_B63E2EC75A75A473` (`owner_role_id`),
   KEY `IDX_B63E2EC77D182D95` (`created_by_user_id`),
   KEY `IDX_B63E2EC71A04EF5A` (`last_modified_by_user_id`),
+  KEY `IDX_B63E2EC7FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_B63E2EC71A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_B63E2EC72B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_B63E2EC75A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_B63E2EC77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_B63E2EC77D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_B63E2EC7FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -680,19 +729,22 @@ CREATE TABLE `snippets` (
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `text` longtext DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_ED21F5DC2B18554A` (`owner_user_id`),
   KEY `IDX_ED21F5DC5A75A473` (`owner_role_id`),
   KEY `IDX_ED21F5DC7D182D95` (`created_by_user_id`),
   KEY `IDX_ED21F5DC1A04EF5A` (`last_modified_by_user_id`),
+  KEY `IDX_ED21F5DCFCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_ED21F5DC1A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_ED21F5DC2B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_ED21F5DC5A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_ED21F5DC7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_ED21F5DC7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_ED21F5DCFCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -812,7 +864,6 @@ CREATE TABLE `termine` (
   `end_time` time DEFAULT NULL,
   `title` longtext DEFAULT NULL,
   `text` longtext DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `solv_uid` int(11) DEFAULT NULL,
   `newsletter` tinyint(1) NOT NULL DEFAULT 0,
   `deadline` datetime DEFAULT NULL,
@@ -839,6 +890,8 @@ CREATE TABLE `termine` (
   `longitude` double DEFAULT NULL,
   `documentation` longtext DEFAULT NULL,
   `parent_termin_id` int(11) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_168C0A8F2B18554A` (`owner_user_id`),
   KEY `IDX_168C0A8F5A75A473` (`owner_role_id`),
@@ -847,10 +900,11 @@ CREATE TABLE `termine` (
   KEY `IDX_168C0A8F80299162` (`participants_registration_id`),
   KEY `IDX_168C0A8F6D54E666` (`volunteers_registration_id`),
   KEY `IDX_168C0A8F64D218E` (`location_id`),
-  KEY `start_date_on_off_index` (`start_date`,`on_off`),
   KEY `IDX_168C0A8F9B953EDD` (`from_template_id`),
   KEY `IDX_168C0A8FEE5F645C` (`organizer_user_id`),
   KEY `IDX_168C0A8F3B4053EE` (`parent_termin_id`),
+  KEY `IDX_168C0A8FFCF2A97A` (`deleted_by_user_id`),
+  KEY `start_date_index` (`start_date`),
   CONSTRAINT `FK_168C0A8F1A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_168C0A8F2B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_168C0A8F3B4053EE` FOREIGN KEY (`parent_termin_id`) REFERENCES `termine` (`id`),
@@ -860,7 +914,8 @@ CREATE TABLE `termine` (
   CONSTRAINT `FK_168C0A8F7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_168C0A8F80299162` FOREIGN KEY (`participants_registration_id`) REFERENCES `anmelden_registrations` (`id`),
   CONSTRAINT `FK_168C0A8F9B953EDD` FOREIGN KEY (`from_template_id`) REFERENCES `termin_templates` (`id`),
-  CONSTRAINT `FK_168C0A8FEE5F645C` FOREIGN KEY (`organizer_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_168C0A8FEE5F645C` FOREIGN KEY (`organizer_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_168C0A8FFCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -891,23 +946,26 @@ CREATE TABLE `termin_labels` (
   `name` varchar(127) NOT NULL,
   `details` longtext DEFAULT NULL,
   `icon` longtext DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `ident` varchar(31) NOT NULL,
   `position` float NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_A3B090E02B18554A` (`owner_user_id`),
   KEY `IDX_A3B090E05A75A473` (`owner_role_id`),
   KEY `IDX_A3B090E07D182D95` (`created_by_user_id`),
   KEY `IDX_A3B090E01A04EF5A` (`last_modified_by_user_id`),
   KEY `name_index` (`name`),
-  KEY `ident_index` (`on_off`,`ident`),
-  KEY `position_index` (`on_off`,`position`),
+  KEY `IDX_A3B090E0FCF2A97A` (`deleted_by_user_id`),
+  KEY `ident_index` (`ident`),
+  KEY `position_index` (`position`),
   CONSTRAINT `FK_A3B090E01A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_A3B090E02B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_A3B090E05A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_A3B090E07D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_A3B090E07D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_A3B090E0FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -937,19 +995,22 @@ CREATE TABLE `termin_locations` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `image_ids` longtext DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_DA22EA1D2B18554A` (`owner_user_id`),
   KEY `IDX_DA22EA1D5A75A473` (`owner_role_id`),
   KEY `IDX_DA22EA1D7D182D95` (`created_by_user_id`),
   KEY `IDX_DA22EA1D1A04EF5A` (`last_modified_by_user_id`),
   KEY `name_index` (`name`),
+  KEY `IDX_DA22EA1DFCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_DA22EA1D1A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_DA22EA1D2B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_DA22EA1D5A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_DA22EA1D7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_DA22EA1D7D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_DA22EA1DFCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1041,11 +1102,12 @@ CREATE TABLE `termin_templates` (
   `title` longtext DEFAULT NULL,
   `text` longtext DEFAULT NULL,
   `image_ids` longtext DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
   `should_promote` tinyint(1) NOT NULL DEFAULT 0,
   `organizer_user_id` int(11) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_A2ECDD2964D218E` (`location_id`),
   KEY `IDX_A2ECDD292B18554A` (`owner_user_id`),
@@ -1053,12 +1115,14 @@ CREATE TABLE `termin_templates` (
   KEY `IDX_A2ECDD297D182D95` (`created_by_user_id`),
   KEY `IDX_A2ECDD291A04EF5A` (`last_modified_by_user_id`),
   KEY `IDX_A2ECDD29EE5F645C` (`organizer_user_id`),
+  KEY `IDX_A2ECDD29FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_A2ECDD291A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_A2ECDD292B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_A2ECDD295A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FK_A2ECDD2964D218E` FOREIGN KEY (`location_id`) REFERENCES `termin_locations` (`id`),
   CONSTRAINT `FK_A2ECDD297D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_A2ECDD29EE5F645C` FOREIGN KEY (`organizer_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_A2ECDD29EE5F645C` FOREIGN KEY (`organizer_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_A2ECDD29FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1128,20 +1192,23 @@ CREATE TABLE `users` (
   `owner_role_id` int(11) DEFAULT NULL,
   `created_by_user_id` int(11) DEFAULT NULL,
   `last_modified_by_user_id` int(11) DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `avatar_image_id` longtext DEFAULT NULL,
   `ahv_number` varchar(17) DEFAULT NULL,
   `dress_size` varchar(4) DEFAULT NULL COMMENT '3XS, XXS, XS, S, M, L, XL, XXL, 3XL',
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `username_index` (`username`),
   KEY `IDX_1483A5E92B18554A` (`owner_user_id`),
   KEY `IDX_1483A5E95A75A473` (`owner_role_id`),
   KEY `IDX_1483A5E97D182D95` (`created_by_user_id`),
   KEY `IDX_1483A5E91A04EF5A` (`last_modified_by_user_id`),
+  KEY `IDX_1483A5E9FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_1483A5E91A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1483A5E92B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1483A5E95A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_1483A5E97D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_1483A5E97D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_1483A5E9FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1169,19 +1236,22 @@ CREATE TABLE `weekly_picture` (
   `datum` date DEFAULT NULL,
   `image_id` longtext DEFAULT NULL,
   `text` longtext DEFAULT NULL,
-  `on_off` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `last_modified_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1EABE3862B18554A` (`owner_user_id`),
   KEY `IDX_1EABE3865A75A473` (`owner_role_id`),
   KEY `IDX_1EABE3867D182D95` (`created_by_user_id`),
   KEY `IDX_1EABE3861A04EF5A` (`last_modified_by_user_id`),
   KEY `datum_index` (`datum`),
+  KEY `IDX_1EABE386FCF2A97A` (`deleted_by_user_id`),
   CONSTRAINT `FK_1EABE3861A04EF5A` FOREIGN KEY (`last_modified_by_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1EABE3862B18554A` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_1EABE3865A75A473` FOREIGN KEY (`owner_role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FK_1EABE3867D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_1EABE3867D182D95` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_1EABE386FCF2A97A` FOREIGN KEY (`deleted_by_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

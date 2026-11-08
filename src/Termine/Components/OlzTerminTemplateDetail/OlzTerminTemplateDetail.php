@@ -50,7 +50,7 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
                 1.0 AS time_relevance
             FROM termin_templates tt LEFT JOIN termin_locations tl ON (tt.location_id = tl.id)
             WHERE
-                tt.on_off = '1'
+                tt.deleted_at IS NULL
                 AND {$where}
             ZZZZZZZZZZ;
     }
@@ -267,7 +267,7 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
         $termin_template_repo = $this->entityManager()->getRepository(TerminTemplate::class);
         return $termin_template_repo->findOneBy([
             'id' => $id,
-            'on_off' => 1,
+            'deleted_at' => null,
         ]);
     }
 }

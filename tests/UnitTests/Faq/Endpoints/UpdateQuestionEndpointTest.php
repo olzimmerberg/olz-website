@@ -160,7 +160,7 @@ final class UpdateQuestionEndpointTest extends UnitTestCase {
         );
         $this->assertSame(2.0, $entity->getPositionWithinCategory());
         $this->assertSame('Test Answer', $entity->getAnswer());
-        $this->assertSame(1, $entity->getOnOff());
+        $this->assertNull($entity->getDeletedAt());
 
         $this->assertSame([
             [$entity, 1, 1, 1],

@@ -37,7 +37,7 @@ trait RegistrationEndpointTrait {
         $infos = [];
         $registration_info_repo = $this->entityManager()->getRepository(RegistrationInfo::class);
         $registration_infos = $registration_info_repo->findBy(
-            ['registration' => $entity, 'on_off' => true],
+            ['registration' => $entity, 'deleted_at' => null],
             ['indexWithinRegistration' => 'ASC'],
         );
         foreach ($registration_infos as $registration_info) {

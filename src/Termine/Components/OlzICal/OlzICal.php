@@ -42,7 +42,7 @@ class OlzICal extends OlzComponent {
                 )
             WHERE
                 t.start_date >= :start_date
-                AND t.on_off = '1'
+                AND t.deleted_at IS NULL
             GROUP BY t.id
             HAVING MIN(tyes.emoji) IS NOT NULL OR MIN(tno.emoji) IS NULL
             ORDER BY t.start_date ASC, t.start_time ASC

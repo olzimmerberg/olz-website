@@ -1,5 +1,5 @@
 -- Der Test-Inhalt der Datenbank der Webseite der OL Zimmerberg
--- MIGRATION: DoctrineMigrations\Version20261105194303
+-- MIGRATION: DoctrineMigrations\Version20261108141121
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -23,12 +23,12 @@ VALUES
 
 -- Table anniversary_runs
 INSERT INTO anniversary_runs
-    (`on_off`, `created_at`, `last_modified_at`, `id`, `run_at`, `distance_meters`, `elevation_meters`, `source`, `info`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `user_id`, `runner_name`, `is_counting`, `sport_type`)
+    (`created_at`, `last_modified_at`, `id`, `run_at`, `distance_meters`, `elevation_meters`, `source`, `info`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `user_id`, `runner_name`, `is_counting`, `sport_type`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '1', '2020-08-15 16:51:00', '12340', '123', 'manuell', NULL, '1', NULL, '1', '1', '1', 'Armin 😂 A.', '1', 'Test Lauf'),
-    ('1', '2020-08-14 23:45:00', '2020-08-14 23:45:00', '2', '2020-08-14 23:45:00', '43210', '432', 'strava-09d1fe82bdfa94def6a94a4ef800cf95', '{\"resource_state\":2,\"athlete\":{\"resource_state\":2,\"firstname\":\"Simon\",\"lastname\":\"H.\"},\"name\":\"Evening Run\",\"distance\":43210.1,\"moving_time\":29190,\"elapsed_time\":29190,\"total_elevation_gain\":432.1,\"type\":\"Run\",\"sport_type\":\"Run\",\"workout_type\":null,\"device_name\":\"Garmin Forerunner 55\"}', NULL, NULL, NULL, NULL, NULL, 'Simon H.', '1', 'Run / Run'),
-    ('1', '2020-08-15 12:00:00', '2020-08-15 12:00:00', '3', '2020-08-15 12:00:00', '8765', '123', 'strava-abcdef0123456789abcdef0123456789', '{\"resource_state\":2,\"athlete\":{\"resource_state\":2,\"firstname\":\"Test\",\"lastname\":\"U.\"},\"name\":\"Evening Whatever\",\"distance\":8765.4,\"moving_time\":2919,\"elapsed_time\":2919,\"total_elevation_gain\":123.4,\"type\":\"Whatever\",\"sport_type\":\"Whatever\",\"workout_type\":null,\"device_name\":\"Garmin Forerunner 55\"}', NULL, NULL, NULL, NULL, NULL, 'Test U.', '0', 'Whatever / Whatever'),
-    ('0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '4', '2020-08-15 16:51:00', '123', '12', 'softdeleted', NULL, '2', NULL, '2', '2', '2', 'Volker V.', '1', NULL);
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '1', '2020-08-15 16:51:00', '12340', '123', 'manuell', NULL, '1', NULL, '1', '1', '1', 'Armin 😂 A.', '1', 'Test Lauf', NULL, NULL),
+    ('2020-08-14 23:45:00', '2020-08-14 23:45:00', '2', '2020-08-14 23:45:00', '43210', '432', 'strava-09d1fe82bdfa94def6a94a4ef800cf95', '{\"resource_state\":2,\"athlete\":{\"resource_state\":2,\"firstname\":\"Simon\",\"lastname\":\"H.\"},\"name\":\"Evening Run\",\"distance\":43210.1,\"moving_time\":29190,\"elapsed_time\":29190,\"total_elevation_gain\":432.1,\"type\":\"Run\",\"sport_type\":\"Run\",\"workout_type\":null,\"device_name\":\"Garmin Forerunner 55\"}', NULL, NULL, NULL, NULL, NULL, 'Simon H.', '1', 'Run / Run', NULL, NULL),
+    ('2020-08-15 12:00:00', '2020-08-15 12:00:00', '3', '2020-08-15 12:00:00', '8765', '123', 'strava-abcdef0123456789abcdef0123456789', '{\"resource_state\":2,\"athlete\":{\"resource_state\":2,\"firstname\":\"Test\",\"lastname\":\"U.\"},\"name\":\"Evening Whatever\",\"distance\":8765.4,\"moving_time\":2919,\"elapsed_time\":2919,\"total_elevation_gain\":123.4,\"type\":\"Whatever\",\"sport_type\":\"Whatever\",\"workout_type\":null,\"device_name\":\"Garmin Forerunner 55\"}', NULL, NULL, NULL, NULL, NULL, 'Test U.', '0', 'Whatever / Whatever', NULL, NULL),
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '4', '2020-08-15 16:51:00', '123', '12', 'softdeleted', NULL, '2', NULL, '2', '2', '2', 'Volker V.', '1', NULL, '2020-01-01 00:00:00', '42');
 
 -- Table auth_requests
 -- (auth_requests omitted)
@@ -123,17 +123,18 @@ VALUES
     ('DoctrineMigrations\\Version20260910212344', '2026-09-14 18:32:11', '56'),
     ('DoctrineMigrations\\Version20261020152243', '2026-10-20 22:20:15', '157'),
     ('DoctrineMigrations\\Version20261030134507', '2026-11-01 17:35:30', '26'),
-    ('DoctrineMigrations\\Version20261105194303', '2026-11-05 20:44:22', '10');
+    ('DoctrineMigrations\\Version20261105194303', '2026-11-05 20:44:22', '10'),
+    ('DoctrineMigrations\\Version20261108141121', '2026-11-08 15:25:52', '2117');
 
 -- Table downloads
 INSERT INTO downloads
-    (`id`, `name`, `position`, `on_off`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`)
+    (`id`, `name`, `position`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', 'Statuten', '0', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('2', '---', '1', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('3', 'Spesenreglement', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('4', 'Trainingsplan 2020', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('5', 'SOFT DELETED', '2', '0', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+    ('1', 'Statuten', '0', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', NULL, NULL),
+    ('2', '---', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', NULL, NULL),
+    ('3', 'Spesenreglement', '2', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', NULL, NULL),
+    ('4', 'Trainingsplan 2020', '3', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', NULL, NULL),
+    ('5', 'SOFT DELETED', '2', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', '2020-01-01 00:00:00', '42');
 
 -- Table forwarded_emails
 INSERT INTO forwarded_emails
@@ -144,256 +145,253 @@ VALUES
 
 -- Table karten
 INSERT INTO karten
-    (`id`, `kartennr`, `name`, `jahr`, `massstab`, `ort`, `zoom`, `typ`, `vorschau`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`, `latitude`, `longitude`)
+    (`id`, `kartennr`, `name`, `jahr`, `massstab`, `ort`, `zoom`, `typ`, `vorschau`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `latitude`, `longitude`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', '1086', 'Landforst 🗺️', '2017', '1:10\'000', NULL, '8', 'ol', 'MIGRATED0000000000010001.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.270326086742', '8.5619145270506'),
-    ('2', '0', 'Eidmatt', '2020', '1:1\'000', 'Wädenswil', '2', 'scool', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.227491444839', '8.6716637472003'),
-    ('3', '0', 'Horgen Dorfkern', '2011', '1:2\'000', 'Horgen', '8', 'stadt', '6R3bpgwcCU3SfUF8vCpepzRJ.jpg', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.257355383409', '8.5999590514731'),
-    ('4', '0', 'Trainings-Karte', '2020', '1:7\'500', '', '8', 'ol', '', NULL, NULL, NULL, NULL, '1', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.26641894057469', '8.543090289598807'),
-    ('5', '0', 'SOFT DELETED', '2020', '1:7\'500', '', '8', 'ol', '', NULL, NULL, NULL, NULL, '0', '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.26641894057469', '8.543090289598807');
+    ('1', '1086', 'Landforst 🗺️', '2017', '1:10\'000', NULL, '8', 'ol', 'MIGRATED0000000000010001.jpg', NULL, NULL, NULL, NULL, '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.270326086742', '8.5619145270506', NULL, NULL),
+    ('2', '0', 'Eidmatt', '2020', '1:1\'000', 'Wädenswil', '2', 'scool', '', NULL, NULL, NULL, NULL, '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.227491444839', '8.6716637472003', NULL, NULL),
+    ('3', '0', 'Horgen Dorfkern', '2011', '1:2\'000', 'Horgen', '8', 'stadt', '6R3bpgwcCU3SfUF8vCpepzRJ.jpg', NULL, NULL, NULL, NULL, '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.257355383409', '8.5999590514731', NULL, NULL),
+    ('4', '0', 'Trainings-Karte', '2020', '1:7\'500', '', '8', 'ol', '', NULL, NULL, NULL, NULL, '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.26641894057469', '8.543090289598807', NULL, NULL),
+    ('5', '0', 'SOFT DELETED', '2020', '1:7\'500', '', '8', 'ol', '', NULL, NULL, NULL, NULL, '2024-02-22 23:07:58', '2024-02-22 23:07:58', '47.26641894057469', '8.543090289598807', '2020-01-01 00:00:00', '42');
 
 -- Table links
 INSERT INTO links
-    (`id`, `name`, `url`, `position`, `on_off`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`)
+    (`id`, `name`, `url`, `position`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', 'SOLV', 'https://swiss-orienteering.ch', '0', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('2', '---', '---', '1', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('3', 'GO2OL', 'https://go2ol.ch', '2', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('4', 'Online-Trainings', 'https://olzimmerberg.ch/quiz', '3', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53'),
-    ('5', 'SOFT DELETED', 'https://olzimmerberg.ch/quiz', '2', '0', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53');
+    ('1', 'SOLV', 'https://swiss-orienteering.ch', '0', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', NULL, NULL),
+    ('2', '---', '---', '1', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', NULL, NULL),
+    ('3', 'GO2OL', 'https://go2ol.ch', '2', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', NULL, NULL),
+    ('4', 'Online-Trainings', 'https://olzimmerberg.ch/quiz', '3', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', NULL, NULL),
+    ('5', 'SOFT DELETED', 'https://olzimmerberg.ch/quiz', '2', NULL, NULL, NULL, NULL, '2023-11-14 23:26:53', '2023-11-14 23:26:53', '2020-01-01 00:00:00', '42');
 
 -- Table measurements
--- Note: 2020-03 is intentionally omitted; it is written and asserted by UpdateMeasurementsCommandIntegrationTest.
 INSERT INTO measurements
-    (`name`, `year`, `month`, `value`)
+    (`name`, `year`, `month`, `value`, `version`)
 VALUES
-    ('num_users', '2007', '12', '60'),
-    ('num_members', '2007', '12', '40'),
-    ('num_member_users', '2007', '12', '35'),
-    ('num_users', '2008', '12', '66'),
-    ('num_members', '2008', '12', '43'),
-    ('num_member_users', '2008', '12', '38'),
-    ('num_users', '2009', '12', '72'),
-    ('num_members', '2009', '12', '46'),
-    ('num_member_users', '2009', '12', '41'),
-    ('num_users', '2010', '12', '78'),
-    ('num_members', '2010', '12', '49'),
-    ('num_member_users', '2010', '12', '44'),
-    ('num_users', '2011', '12', '84'),
-    ('num_members', '2011', '12', '52'),
-    ('num_member_users', '2011', '12', '47'),
-    ('num_users', '2012', '12', '90'),
-    ('num_members', '2012', '12', '55'),
-    ('num_member_users', '2012', '12', '50'),
-    ('num_users', '2013', '12', '96'),
-    ('num_members', '2013', '12', '58'),
-    ('num_member_users', '2013', '12', '53'),
-    ('num_users', '2014', '12', '102'),
-    ('num_members', '2014', '12', '61'),
-    ('num_member_users', '2014', '12', '56'),
-    ('num_users', '2015', '12', '110'),
-    ('num_members', '2015', '12', '65'),
-    ('num_member_users', '2015', '12', '60'),
-    ('num_users', '2016', '12', '118'),
-    ('num_members', '2016', '12', '69'),
-    ('num_member_users', '2016', '12', '64'),
-    ('num_users', '2017', '12', '126'),
-    ('num_members', '2017', '12', '73'),
-    ('num_member_users', '2017', '12', '68'),
-    ('num_users', '2018', '12', '134'),
-    ('num_members', '2018', '12', '77'),
-    ('num_member_users', '2018', '12', '72'),
-    ('num_users', '2019', '01', '135'),
-    ('num_members', '2019', '01', '77'),
-    ('num_member_users', '2019', '01', '72'),
-    ('num_users', '2019', '02', '135'),
-    ('num_members', '2019', '02', '78'),
-    ('num_member_users', '2019', '02', '73'),
-    ('num_users', '2019', '03', '136'),
-    ('num_members', '2019', '03', '78'),
-    ('num_member_users', '2019', '03', '73'),
-    ('num_users', '2019', '04', '137'),
-    ('num_members', '2019', '04', '78'),
-    ('num_member_users', '2019', '04', '73'),
-    ('num_users', '2019', '05', '137'),
-    ('num_members', '2019', '05', '79'),
-    ('num_member_users', '2019', '05', '74'),
-    ('num_users', '2019', '06', '138'),
-    ('num_members', '2019', '06', '79'),
-    ('num_member_users', '2019', '06', '74'),
-    ('num_users', '2019', '07', '139'),
-    ('num_members', '2019', '07', '79'),
-    ('num_member_users', '2019', '07', '74'),
-    ('num_users', '2019', '08', '139'),
-    ('num_members', '2019', '08', '80'),
-    ('num_member_users', '2019', '08', '75'),
-    ('num_users', '2019', '09', '140'),
-    ('num_members', '2019', '09', '80'),
-    ('num_member_users', '2019', '09', '75'),
-    ('num_users', '2019', '10', '141'),
-    ('num_members', '2019', '10', '80'),
-    ('num_member_users', '2019', '10', '75'),
-    ('num_users', '2019', '11', '141'),
-    ('num_members', '2019', '11', '81'),
-    ('num_member_users', '2019', '11', '76'),
-    ('num_users', '2019', '12', '142'),
-    ('num_members', '2019', '12', '81'),
-    ('num_member_users', '2019', '12', '76'),
-    ('num_users', '2020', '01', '143'),
-    ('num_members', '2020', '01', '82'),
-    ('num_member_users', '2020', '01', '77'),
-    ('num_users', '2020', '02', '144'),
-    ('num_members', '2020', '02', '82'),
-    ('num_member_users', '2020', '02', '77');
-
+    ('avg_training_participants', '2007', '12', '4', '0'),
+    ('avg_training_participants', '2008', '12', '4.5', '0'),
+    ('avg_training_participants', '2009', '12', '5', '0'),
+    ('avg_training_participants', '2010', '12', '5.5', '0'),
+    ('avg_training_participants', '2011', '12', '6', '0'),
+    ('avg_training_participants', '2012', '12', '6.5', '0'),
+    ('avg_training_participants', '2013', '12', '7', '0'),
+    ('avg_training_participants', '2014', '12', '7.5', '0'),
+    ('avg_training_participants', '2015', '12', '4', '0'),
+    ('avg_training_participants', '2016', '12', '4.5', '0'),
+    ('avg_training_participants', '2017', '12', '5', '0'),
+    ('avg_training_participants', '2018', '12', '5.5', '0'),
+    ('avg_training_participants', '2019', '1', '6', '0'),
+    ('avg_training_participants', '2019', '2', '6.5', '0'),
+    ('avg_training_participants', '2019', '3', '7', '0'),
+    ('avg_training_participants', '2019', '4', '7.5', '0'),
+    ('avg_training_participants', '2019', '5', '4', '0'),
+    ('avg_training_participants', '2019', '6', '4.5', '0'),
+    ('avg_training_participants', '2019', '7', '5', '0'),
+    ('avg_training_participants', '2019', '8', '5.5', '0'),
+    ('avg_training_participants', '2019', '9', '6', '0'),
+    ('avg_training_participants', '2019', '10', '6.5', '0'),
+    ('avg_training_participants', '2019', '11', '7', '0'),
+    ('avg_training_participants', '2019', '12', '7.5', '0'),
+    ('avg_training_participants', '2020', '1', '4', '0'),
+    ('avg_training_participants', '2020', '2', '4.5', '0'),
+    ('num_member_users', '2007', '12', '35', '0'),
+    ('num_member_users', '2008', '12', '38', '0'),
+    ('num_member_users', '2009', '12', '41', '0'),
+    ('num_member_users', '2010', '12', '44', '0'),
+    ('num_member_users', '2011', '12', '47', '0'),
+    ('num_member_users', '2012', '12', '50', '0'),
+    ('num_member_users', '2013', '12', '53', '0'),
+    ('num_member_users', '2014', '12', '56', '0'),
+    ('num_member_users', '2015', '12', '60', '0'),
+    ('num_member_users', '2016', '12', '64', '0'),
+    ('num_member_users', '2017', '12', '68', '0'),
+    ('num_member_users', '2018', '12', '72', '0'),
+    ('num_member_users', '2019', '1', '72', '0'),
+    ('num_member_users', '2019', '2', '73', '0'),
+    ('num_member_users', '2019', '3', '73', '0'),
+    ('num_member_users', '2019', '4', '73', '0'),
+    ('num_member_users', '2019', '5', '74', '0'),
+    ('num_member_users', '2019', '6', '74', '0'),
+    ('num_member_users', '2019', '7', '74', '0'),
+    ('num_member_users', '2019', '8', '75', '0'),
+    ('num_member_users', '2019', '9', '75', '0'),
+    ('num_member_users', '2019', '10', '75', '0'),
+    ('num_member_users', '2019', '11', '76', '0'),
+    ('num_member_users', '2019', '12', '76', '0'),
+    ('num_member_users', '2020', '1', '77', '0'),
+    ('num_member_users', '2020', '2', '77', '0'),
+    ('num_members', '2007', '12', '40', '0'),
+    ('num_members', '2008', '12', '43', '0'),
+    ('num_members', '2009', '12', '46', '0'),
+    ('num_members', '2010', '12', '49', '0'),
+    ('num_members', '2011', '12', '52', '0'),
+    ('num_members', '2012', '12', '55', '0'),
+    ('num_members', '2013', '12', '58', '0'),
+    ('num_members', '2014', '12', '61', '0'),
+    ('num_members', '2015', '12', '65', '0'),
+    ('num_members', '2016', '12', '69', '0'),
+    ('num_members', '2017', '12', '73', '0'),
+    ('num_members', '2018', '12', '77', '0'),
+    ('num_members', '2019', '1', '77', '0'),
+    ('num_members', '2019', '2', '78', '0'),
+    ('num_members', '2019', '3', '78', '0'),
+    ('num_members', '2019', '4', '78', '0'),
+    ('num_members', '2019', '5', '79', '0'),
+    ('num_members', '2019', '6', '79', '0'),
+    ('num_members', '2019', '7', '79', '0'),
+    ('num_members', '2019', '8', '80', '0'),
+    ('num_members', '2019', '9', '80', '0'),
+    ('num_members', '2019', '10', '80', '0'),
+    ('num_members', '2019', '11', '81', '0'),
+    ('num_members', '2019', '12', '81', '0'),
+    ('num_members', '2020', '1', '82', '0'),
+    ('num_members', '2020', '2', '82', '0'),
+    ('num_news', '2007', '12', '1', '0'),
+    ('num_news', '2008', '12', '2', '0'),
+    ('num_news', '2009', '12', '3', '0'),
+    ('num_news', '2010', '12', '4', '0'),
+    ('num_news', '2011', '12', '5', '0'),
+    ('num_news', '2012', '12', '1', '0'),
+    ('num_news', '2013', '12', '2', '0'),
+    ('num_news', '2014', '12', '3', '0'),
+    ('num_news', '2015', '12', '4', '0'),
+    ('num_news', '2016', '12', '5', '0'),
+    ('num_news', '2017', '12', '1', '0'),
+    ('num_news', '2018', '12', '2', '0'),
+    ('num_news', '2019', '1', '3', '0'),
+    ('num_news', '2019', '2', '4', '0'),
+    ('num_news', '2019', '3', '5', '0'),
+    ('num_news', '2019', '4', '1', '0'),
+    ('num_news', '2019', '5', '2', '0'),
+    ('num_news', '2019', '6', '3', '0'),
+    ('num_news', '2019', '7', '4', '0'),
+    ('num_news', '2019', '8', '5', '0'),
+    ('num_news', '2019', '9', '1', '0'),
+    ('num_news', '2019', '10', '2', '0');
 INSERT INTO measurements
-    (`name`, `year`, `month`, `value`)
+    (`name`, `year`, `month`, `value`, `version`)
 VALUES
-    ('num_termine', '2007', '12', '5'),
-    ('num_solv_participations', '2007', '12', '2'),
-    ('avg_training_participants', '2007', '12', '4.0'),
-    ('num_news', '2007', '12', '1'),
-    ('num_termine', '2008', '12', '6'),
-    ('num_solv_participations', '2008', '12', '3'),
-    ('avg_training_participants', '2008', '12', '4.5'),
-    ('num_news', '2008', '12', '2'),
-    ('num_termine', '2009', '12', '7'),
-    ('num_solv_participations', '2009', '12', '4'),
-    ('avg_training_participants', '2009', '12', '5.0'),
-    ('num_news', '2009', '12', '3'),
-    ('num_termine', '2010', '12', '8'),
-    ('num_solv_participations', '2010', '12', '5'),
-    ('avg_training_participants', '2010', '12', '5.5'),
-    ('num_news', '2010', '12', '4'),
-    ('num_termine', '2011', '12', '9'),
-    ('num_solv_participations', '2011', '12', '6'),
-    ('avg_training_participants', '2011', '12', '6.0'),
-    ('num_news', '2011', '12', '5'),
-    ('num_termine', '2012', '12', '10'),
-    ('num_solv_participations', '2012', '12', '7'),
-    ('avg_training_participants', '2012', '12', '6.5'),
-    ('num_news', '2012', '12', '1'),
-    ('num_termine', '2013', '12', '5'),
-    ('num_solv_participations', '2013', '12', '8'),
-    ('avg_training_participants', '2013', '12', '7.0'),
-    ('num_news', '2013', '12', '2'),
-    ('num_termine', '2014', '12', '6'),
-    ('num_solv_participations', '2014', '12', '2'),
-    ('avg_training_participants', '2014', '12', '7.5'),
-    ('num_news', '2014', '12', '3'),
-    ('num_termine', '2015', '12', '7'),
-    ('num_solv_participations', '2015', '12', '3'),
-    ('avg_training_participants', '2015', '12', '4.0'),
-    ('num_news', '2015', '12', '4'),
-    ('num_termine', '2016', '12', '8'),
-    ('num_solv_participations', '2016', '12', '4'),
-    ('avg_training_participants', '2016', '12', '4.5'),
-    ('num_news', '2016', '12', '5'),
-    ('num_termine', '2017', '12', '9'),
-    ('num_solv_participations', '2017', '12', '5'),
-    ('avg_training_participants', '2017', '12', '5.0'),
-    ('num_news', '2017', '12', '1'),
-    ('num_termine', '2018', '12', '10'),
-    ('num_solv_participations', '2018', '12', '6'),
-    ('avg_training_participants', '2018', '12', '5.5'),
-    ('num_news', '2018', '12', '2'),
-    ('num_termine', '2019', '01', '5'),
-    ('num_solv_participations', '2019', '01', '7'),
-    ('avg_training_participants', '2019', '01', '6.0'),
-    ('num_news', '2019', '01', '3'),
-    ('num_termine', '2019', '02', '6'),
-    ('num_solv_participations', '2019', '02', '8'),
-    ('avg_training_participants', '2019', '02', '6.5'),
-    ('num_news', '2019', '02', '4'),
-    ('num_termine', '2019', '03', '7'),
-    ('num_solv_participations', '2019', '03', '2'),
-    ('avg_training_participants', '2019', '03', '7.0'),
-    ('num_news', '2019', '03', '5'),
-    ('num_termine', '2019', '04', '8'),
-    ('num_solv_participations', '2019', '04', '3'),
-    ('avg_training_participants', '2019', '04', '7.5'),
-    ('num_news', '2019', '04', '1'),
-    ('num_termine', '2019', '05', '9'),
-    ('num_solv_participations', '2019', '05', '4'),
-    ('avg_training_participants', '2019', '05', '4.0'),
-    ('num_news', '2019', '05', '2'),
-    ('num_termine', '2019', '06', '10'),
-    ('num_solv_participations', '2019', '06', '5'),
-    ('avg_training_participants', '2019', '06', '4.5'),
-    ('num_news', '2019', '06', '3'),
-    ('num_termine', '2019', '07', '5'),
-    ('num_solv_participations', '2019', '07', '6'),
-    ('avg_training_participants', '2019', '07', '5.0'),
-    ('num_news', '2019', '07', '4'),
-    ('num_termine', '2019', '08', '6'),
-    ('num_solv_participations', '2019', '08', '7'),
-    ('avg_training_participants', '2019', '08', '5.5'),
-    ('num_news', '2019', '08', '5'),
-    ('num_termine', '2019', '09', '7'),
-    ('num_solv_participations', '2019', '09', '8'),
-    ('avg_training_participants', '2019', '09', '6.0'),
-    ('num_news', '2019', '09', '1'),
-    ('num_termine', '2019', '10', '8'),
-    ('num_solv_participations', '2019', '10', '2'),
-    ('avg_training_participants', '2019', '10', '6.5'),
-    ('num_news', '2019', '10', '2'),
-    ('num_termine', '2019', '11', '9'),
-    ('num_solv_participations', '2019', '11', '3'),
-    ('avg_training_participants', '2019', '11', '7.0'),
-    ('num_news', '2019', '11', '3'),
-    ('num_termine', '2019', '12', '10'),
-    ('num_solv_participations', '2019', '12', '4'),
-    ('avg_training_participants', '2019', '12', '7.5'),
-    ('num_news', '2019', '12', '4'),
-    ('num_termine', '2020', '01', '5'),
-    ('num_solv_participations', '2020', '01', '5'),
-    ('avg_training_participants', '2020', '01', '4.0'),
-    ('num_news', '2020', '01', '5'),
-    ('num_termine', '2020', '02', '6'),
-    ('num_solv_participations', '2020', '02', '6'),
-    ('avg_training_participants', '2020', '02', '4.5'),
-    ('num_news', '2020', '02', '1');
-
+    ('num_news', '2019', '11', '3', '0'),
+    ('num_news', '2019', '12', '4', '0'),
+    ('num_news', '2020', '1', '5', '0'),
+    ('num_news', '2020', '2', '1', '0'),
+    ('num_solv_participations', '2007', '12', '2', '0'),
+    ('num_solv_participations', '2008', '12', '3', '0'),
+    ('num_solv_participations', '2009', '12', '4', '0'),
+    ('num_solv_participations', '2010', '12', '5', '0'),
+    ('num_solv_participations', '2011', '12', '6', '0'),
+    ('num_solv_participations', '2012', '12', '7', '0'),
+    ('num_solv_participations', '2013', '12', '8', '0'),
+    ('num_solv_participations', '2014', '12', '2', '0'),
+    ('num_solv_participations', '2015', '12', '3', '0'),
+    ('num_solv_participations', '2016', '12', '4', '0'),
+    ('num_solv_participations', '2017', '12', '5', '0'),
+    ('num_solv_participations', '2018', '12', '6', '0'),
+    ('num_solv_participations', '2019', '1', '7', '0'),
+    ('num_solv_participations', '2019', '2', '8', '0'),
+    ('num_solv_participations', '2019', '3', '2', '0'),
+    ('num_solv_participations', '2019', '4', '3', '0'),
+    ('num_solv_participations', '2019', '5', '4', '0'),
+    ('num_solv_participations', '2019', '6', '5', '0'),
+    ('num_solv_participations', '2019', '7', '6', '0'),
+    ('num_solv_participations', '2019', '8', '7', '0'),
+    ('num_solv_participations', '2019', '9', '8', '0'),
+    ('num_solv_participations', '2019', '10', '2', '0'),
+    ('num_solv_participations', '2019', '11', '3', '0'),
+    ('num_solv_participations', '2019', '12', '4', '0'),
+    ('num_solv_participations', '2020', '1', '5', '0'),
+    ('num_solv_participations', '2020', '2', '6', '0'),
+    ('num_termine', '2007', '12', '5', '0'),
+    ('num_termine', '2008', '12', '6', '0'),
+    ('num_termine', '2009', '12', '7', '0'),
+    ('num_termine', '2010', '12', '8', '0'),
+    ('num_termine', '2011', '12', '9', '0'),
+    ('num_termine', '2012', '12', '10', '0'),
+    ('num_termine', '2013', '12', '5', '0'),
+    ('num_termine', '2014', '12', '6', '0'),
+    ('num_termine', '2015', '12', '7', '0'),
+    ('num_termine', '2016', '12', '8', '0'),
+    ('num_termine', '2017', '12', '9', '0'),
+    ('num_termine', '2018', '12', '10', '0'),
+    ('num_termine', '2019', '1', '5', '0'),
+    ('num_termine', '2019', '2', '6', '0'),
+    ('num_termine', '2019', '3', '7', '0'),
+    ('num_termine', '2019', '4', '8', '0'),
+    ('num_termine', '2019', '5', '9', '0'),
+    ('num_termine', '2019', '6', '10', '0'),
+    ('num_termine', '2019', '7', '5', '0'),
+    ('num_termine', '2019', '8', '6', '0'),
+    ('num_termine', '2019', '9', '7', '0'),
+    ('num_termine', '2019', '10', '8', '0'),
+    ('num_termine', '2019', '11', '9', '0'),
+    ('num_termine', '2019', '12', '10', '0'),
+    ('num_termine', '2020', '1', '5', '0'),
+    ('num_termine', '2020', '2', '6', '0'),
+    ('num_users', '2007', '12', '60', '0'),
+    ('num_users', '2008', '12', '66', '0'),
+    ('num_users', '2009', '12', '72', '0'),
+    ('num_users', '2010', '12', '78', '0'),
+    ('num_users', '2011', '12', '84', '0'),
+    ('num_users', '2012', '12', '90', '0'),
+    ('num_users', '2013', '12', '96', '0'),
+    ('num_users', '2014', '12', '102', '0'),
+    ('num_users', '2015', '12', '110', '0'),
+    ('num_users', '2016', '12', '118', '0'),
+    ('num_users', '2017', '12', '126', '0'),
+    ('num_users', '2018', '12', '134', '0'),
+    ('num_users', '2019', '1', '135', '0'),
+    ('num_users', '2019', '2', '135', '0'),
+    ('num_users', '2019', '3', '136', '0'),
+    ('num_users', '2019', '4', '137', '0'),
+    ('num_users', '2019', '5', '137', '0'),
+    ('num_users', '2019', '6', '138', '0'),
+    ('num_users', '2019', '7', '139', '0'),
+    ('num_users', '2019', '8', '139', '0'),
+    ('num_users', '2019', '9', '140', '0'),
+    ('num_users', '2019', '10', '141', '0'),
+    ('num_users', '2019', '11', '141', '0'),
+    ('num_users', '2019', '12', '142', '0'),
+    ('num_users', '2020', '1', '143', '0'),
+    ('num_users', '2020', '2', '144', '0');
 
 -- Table members
 INSERT INTO members
-    (`on_off`, `created_at`, `last_modified_at`, `id`, `ident`, `data`, `updates`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `user_id`)
+    (`created_at`, `last_modified_at`, `id`, `ident`, `data`, `updates`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `user_id`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '1', '2000001', '{\"Nachname\":\"Admin 🤣\",\"Vorname\":\"Armin 😂\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"admin\",\"Anrede\":\"Herr\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"admin@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"E\",\"[Rolle]\":\"Administrator\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000001\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '1'),
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '2', '2000002', '{\"Nachname\":\"Vorstand\",\"Vorname\":\"Volker\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"vorstand\",\"Anrede\":\"Herr\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000002\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '2'),
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '3', '2000003', '{\"Nachname\":\"Karten\",\"Vorname\":\"Karen\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"kartenverkauf\",\"Anrede\":\"Frau\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"karen@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000003\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '3'),
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '4', '2000004', '{\"Nachname\":\"Konto\",\"Vorname\":\"Ohne\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"ohne.konto\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"nutzer@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000004\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', NULL),
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '5', '2000005', '{\"Nachname\":\"Nutzer\",\"Vorname\":\"Be\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"benutzer\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"nutzer@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000005\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '5'),
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', '2000006', '{\"Nachname\":\"Teil\",\"Vorname\":\"Eltern\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"parent\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"parent@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000006\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '6'),
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '7', '2000007', '{\"Nachname\":\"Eins\",\"Vorname\":\"Kind\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"child1\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"child1@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000007\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '7'),
-    ('1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '9', '2000009', '{\"Nachname\":\"Läufer\",\"Vorname\":\"Kader\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"kaderlaeufer\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"kaderlaeufer@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000009\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '9');
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '1', '2000001', '{\"Nachname\":\"Admin 🤣\",\"Vorname\":\"Armin 😂\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"admin\",\"Anrede\":\"Herr\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"admin@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"E\",\"[Rolle]\":\"Administrator\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000001\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '1', NULL, NULL),
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '2', '2000002', '{\"Nachname\":\"Vorstand\",\"Vorname\":\"Volker\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"vorstand\",\"Anrede\":\"Herr\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000002\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '2', NULL, NULL),
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '3', '2000003', '{\"Nachname\":\"Karten\",\"Vorname\":\"Karen\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"kartenverkauf\",\"Anrede\":\"Frau\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"karen@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000003\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '3', NULL, NULL),
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '4', '2000004', '{\"Nachname\":\"Konto\",\"Vorname\":\"Ohne\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"ohne.konto\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"nutzer@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000004\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', NULL, NULL, NULL),
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '5', '2000005', '{\"Nachname\":\"Nutzer\",\"Vorname\":\"Be\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"benutzer\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"nutzer@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000005\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '5', NULL, NULL),
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', '2000006', '{\"Nachname\":\"Teil\",\"Vorname\":\"Eltern\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"parent\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"parent@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000006\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '6', NULL, NULL),
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '7', '2000007', '{\"Nachname\":\"Eins\",\"Vorname\":\"Kind\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"child1\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"child1@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000007\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '7', NULL, NULL),
+    ('2020-08-15 16:51:00', '2020-08-15 16:51:00', '9', '2000009', '{\"Nachname\":\"Läufer\",\"Vorname\":\"Kader\",\"Firma\":\"\",\"Adresse\":\"\",\"PLZ\":\"\",\"Ort\":\"\",\"Telefon Privat\":\"\",\"Telefon Mobil\":\"\",\"Benutzer-Id\":\"kaderlaeufer\",\"Anrede\":\"\",\"Titel\":\"\",\"Briefanrede\":\"\",\"Adress-Zusatz\":\"\",\"Land\":\"\",\"Nationalit\\u00e4t\":\"\",\"Telefon Gesch\\u00e4ft\":\"\",\"Fax\":\"\",\"E-Mail\":\"kaderlaeufer@staging.olzimmerberg.ch\",\"E-Mail Alternativ\":\"\",\"[Gruppen]\":\"\",\"Status\":\"A\",\"[Rolle]\":\"Standard Benutzer\",\"Eintritt\":\"13.01.2006\",\"Mitgliedsjahre\":\"14\",\"Austritt\":\"\",\"Zivilstand\":\"\",\"Geschlecht\":\"\",\"Geburtsdatum\":\"\",\"Jahrgang\":\"\",\"Alter\":\"\",\"Bemerkungen\":\"\",\"Firmen-Webseite\":\"\",\"Rechnungsversand\":\"E-Mail\",\"Nie mahnen\":\"Nein\",\"IBAN\":\"\",\"BIC\":\"\",\"Kontoinhaber\":\"\",\"Mail-MV\":\"ja\",\"SOLV NR\":\"\",\"Badge Nummer\":\"\",\"Werbegrund\":\"\",\"Geburtsjahr\":\"\",\"[Id]\":\"2000009\",\"[Zuletzt ge\\u00e4ndert am]\":\"01.05.2020 12:34:56\",\"[Zuletzt ge\\u00e4ndert von]\":\"Clubdesk-Benutzer\"}', NULL, '1', NULL, '1', '1', '9', NULL, NULL);
 
 -- Table messenger_messages
 -- (messenger_messages omitted)
 
 -- Table news
 INSERT INTO news
-    (`id`, `author_user_id`, `author_role_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `published_date`, `published_time`, `newsletter`, `title`, `teaser`, `content`, `image_ids`, `external_url`, `author_name`, `author_email`, `format`, `tags`, `counter`, `on_off`, `created_at`, `last_modified_at`, `termin_id`)
+    (`id`, `author_user_id`, `author_role_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `published_date`, `published_time`, `newsletter`, `title`, `teaser`, `content`, `image_ids`, `external_url`, `author_name`, `author_email`, `format`, `tags`, `counter`, `created_at`, `last_modified_at`, `termin_id`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('3', '1', NULL, NULL, NULL, NULL, '1', '2020-01-01', '00:00:00', '1', 'Frohes neues Jahr! 🎆', '![](./MIGRATED0000000000030001.jpg)Im Namen des Vorstands wünsche ich euch allen ein **frohes neues Jahr**! 🎆 [Neujahrsansprache als PDF](./MIGRATED0000000000030001.pdf)', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. *Ein Bisschen.* Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n![](./MIGRATED0000000000030002.jpg)\n\nAlle Arten von Links:\n- [Intern](/news)\n- [Anmeldung](#react-👍)\n- [Reaktion](#react-🥰)\n- [Extern](https://solv.ch)\n- [PDF](/pdf/dokument.pdf)\n- [Word](/files/dokument.docx)\n- [PowerPoint](/files/dokument.pptx)\n- [Excel](/files/dokument.xlsx)\n- [Zip](/files/dokument.zip)\n- [Text, CSV, o.ä.](/files/dokument.csv)\n- [HTML](/files/dokument.html)\n- [Bild](/files/dokument.gif)\n- [E-Mail](mailto:karen@staging.olzimmerberg.ch)\n- [Ressort](#){.linkrole}\n- *Manuell black*{.linkblack}\n- *Manuell edit*{.linkedit}\n- *Manuell duplicate*{.linkduplicate}\n- *Manuell ext*{.linkext}\n- *Manuell img*{.linkimg}\n- *Manuell int*{.linkint}\n- *Manuell map*{.linkmap}\n- *Manuell mail*{.linkmail}\n- *Manuell movie*{.linkmovie}\n- *Manuell neu*{.linkneu}\n- *Manuell oev*{.linkoev}\n- *Manuell ol*{.linkol}\n- *Manuell pdf*{.linkpdf}\n- *Manuell role*{.linkrole}\n\nUnd hier nochmals das Emoji: 🎆.\n\nUnd hier nochmals die [Neujahrsansprache als PDF](./MIGRATED0000000000030001.pdf)\n\nUnd hier ein riesiger Link: https://verylongsubdomain.alsoaverylongdomain.long/andlastbutnotleastaverylongpathwhichmustreallybeonlyjustonewordsuchthatthiswordmustbebrokenupexplicitlyinordertonotcompletelybreaktheUI', '[\"MIGRATED0000000000030001.jpg\",\"MIGRATED0000000000030002.jpg\"]', NULL, 'prä', NULL, 'aktuell', '  ', '2', '1', '2021-06-28 16:37:03', '2020-08-15 16:51:00', NULL),
-    ('4', '1', '25', '1', NULL, NULL, NULL, '2020-03-16', NULL, '1', 'Neues System für News-Einträge online!', '![](./xkbGJQgO5LFXpTSz2dCnvJzu.jpg)Heute ging ein neues System für **News-Einträge online**. Nach und nach sollen Aktuell- Galerie- Kaderblog- und Forumseinträge auf das neue System migriert werden. Siehe [Motivationsschreiben](./xMpu3ExjfBKa8Cp35bcmsDgq.pdf).', 'All diese Einträge sind ähnlich: Sie werden von einem Autor erstellt, enthalten Titel und Text, evtl. Teaser, Bilder und angehängte Dateien, und sind für alle *OL-Zimmerberg-Mitglieder* von Interesse. Deshalb **vereinheitlichen** wir nun diese verschiedenen Einträge.\n\nDie Gründe für die Änderung haben wir in [diesem Schreiben](./xMpu3ExjfBKa8Cp35bcmsDgq.pdf) zusammengefasst.\n\n![](./xkbGJQgO5LFXpTSz2dCnvJzu.jpg)', '[\"xkbGJQgO5LFXpTSz2dCnvJzu.jpg\"]', NULL, '', NULL, 'aktuell', '  ', '0', '1', '2020-03-16 14:51:00', '2020-03-16 14:51:00', NULL),
-    ('5', '1', NULL, '1', NULL, NULL, NULL, '2020-08-15', NULL, '1', 'Neues System für News-Einträge bewährt sich', 'Das neue System für News-Einträge scheint *gut anzukommen*. Neu können eingeloggte Benutzer in ihren News-Einträgen (ehem. Forumseinträgen) auch Bilder und Dateien einbinden.', '', '[]', NULL, '', NULL, 'aktuell', '  ', '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL),
-    ('6', '3', NULL, '3', NULL, NULL, NULL, '2020-01-02', NULL, '1', 'Berchtoldstagsgalerie 2020', '', 'Ein paar Fotos vom Berchtoldstag.', '[\"eGbiJQgOyLF5p6S92kC3vTzE.jpg\",\"Frw83uTOyLF5p6S92kC7zpEW.jpg\"]', NULL, '', NULL, 'galerie', '  ', '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL),
-    ('7', '2', '26', '2', NULL, NULL, NULL, '2020-08-15', NULL, '1', 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', '[\"aRJIflbxtkF5p6S92k470912.jpg\"]', NULL, '', NULL, 'video', '  ', '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL),
-    ('8', '1', '5', '1', NULL, '1', '1', '2020-01-15', '16:51:00', '1', 'Hinweis vom Präsi', '', 'Auch der **Präsident** schreibt im Forum!', '[\"9GjbtlsSu96AWZ-oH0rHjxup.jpg\",\"zUXE3aKfbK3edmqS35FhaF8g.jpg\"]', NULL, NULL, NULL, 'forum', '  ', '0', '1', '2020-01-15 16:51:00', '2020-01-15 16:51:00', NULL),
-    ('9', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-06', '16:51:00', '1', 'Longjogg am Sonntag', '', 'Ich will mich nicht einloggen, aber hier mein Beitrag:\n\nIch organisiere einen **Longjogg am Sonntag**.\n\nPackt *warme* Kleidung ein.\n\nWer zum Pastaessen bleiben will, muss sich bis am Samstagmittag bei mir melden.\n\nAusserdem habe ich weitere unfassbar komplizierte Anforderungen an meine Gäste und geht dermassen tief ins Detail, dass dieser Forumseintrag unter keinen Umständen in seiner ganzen Länge in der Liste der Forumseinträge angezeigt werden sollte!\n\nAnreise:\nRichterswil ab 09:30\nWädenswil ab 09:31\nHorgen ab 09:32\nThalwil ab 09:33\nZürich HB ab 09:34\nBei mir an 09:35', '[]', NULL, 'Anonymous', 'anonymous@gmail.com', 'forum', '  ', '0', '1', '2020-01-06 16:51:00', '2020-01-06 16:51:00', NULL),
-    ('10', '9', '50', '9', NULL, '9', '9', '2020-08-15', '16:51:00', '1', 'Dank dem neuen News-System trainiere ich 50% besser!', '', '![](./DvDB8QkHcGuxQ4lAFwyvHnVd.jpg)Ich bin total Fan vom neuen News-System! Meine Trainingsleistung hat deswegen um 50% zugenommen (keine Ahnung wieso). Hier die Beweise:\n\n- https://verylongsubdomain.alsoaverylongdomain.long/andlastbutnotleastaverylongpathwhichmustreallybeonlyjustonewordsuchthatthiswordmustbebrokenupexplicitlyinordertonotcompletelybreaktheUI\n- [Beweisstück A](./gAQa_kYXqXTP1_DKKU1s1pGr.csv)\n- [Beweisstück B](./8kCalo9sQtu2mrgrmMjoGLUW.pdf)\n\n![](./OOVJIqrWlitR_iTZuIIhztKC.jpg)', '[\"DvDB8QkHcGuxQ4lAFwyvHnVd.jpg\",\"OOVJIqrWlitR_iTZuIIhztKC.jpg\"]', NULL, NULL, NULL, 'kaderblog', '  ', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL),
-    ('11', '9', '50', '9', NULL, '9', '9', '2020-08-15', '16:51:00', '1', 'SOFT DELETED', 'SOFT DELETED', 'SOFT DELETED', '[]', NULL, NULL, NULL, 'aktuell', '  ', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL),
-    ('1202', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-01', NULL, '1', 'Neujahrsgalerie 📷 2020', '', 'Ein paar Fotos vom Neujahrstag.', '[\"MIGRATED0000000012020001.jpg\",\"MIGRATED0000000012020002.jpg\",\"MIGRATED0000000012020003.jpg\",\"MIGRATED0000000012020004.jpg\",\"MIGRATED0000000012020005.jpg\"]', NULL, '', NULL, 'galerie', '  ', '0', '1', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL),
-    ('1203', NULL, NULL, NULL, NULL, NULL, NULL, '2020-08-13', NULL, '1', 'Test Video', '', '', '[\"MIGRATED0000000012030001.jpg\"]', 'https://youtu.be/JVL0vgcnM6c', '', NULL, 'video', '  ', '0', '1', '2020-08-13 14:51:00', '2020-08-13 14:51:00', NULL),
-    ('2901', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-01', '21:45:37', '0', 'Guets Nois! 🎉', '', 'Hoi zäme, au vo mier no *Guets Nois*! 🎉', '[]', NULL, 'Bruno 😃 Beispielmitglied', 'beispiel@olzimmerberg.ch', 'forum', '', '0', '1', '2020-01-01 21:45:37', '2020-01-01 21:45:37', NULL),
-    ('2902', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-03', '18:42:01', '0', 'Verspätete Neujahrsgrüsse', '', 'Has vergesse, aber au vo *mier* no Guets Nois!', '[]', NULL, 'Erwin Exempel', 'beispiel@olzimmerberg.ch', 'forum', '', '0', '1', '2020-01-03 18:42:01', '2020-01-03 18:42:01', NULL),
-    ('2903', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-06', '02:07:08', '0', 'Hallo', '', 'Mir hend paar **OL-Usrüschtigs-Gegeständ** us ferne Länder mitbracht.\n\nSchriibed doch es Mail wenn er öppis devoo wetted', '[]', NULL, 'Drei Könige', 'beispiel@olzimmerberg.ch', 'forum', '', '0', '1', '2020-01-06 06:07:08', '2020-01-06 06:07:08', NULL),
-    ('6401', NULL, NULL, NULL, NULL, NULL, NULL, '2019-01-01', '15:15:15', '0', 'Saisonstart 2019!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Hoi zäme, dieser Eintrag wurde noch mit dem alten System geschrieben. Hier die Anhänge:\n![](./MIGRATED0000000064010001.jpg)\n![](./MIGRATED0000000064010002.jpg)\n<DL1>\n<DL2>', '[\"MIGRATED0000000064010001.jpg\",\"MIGRATED0000000064010002.jpg\"]', NULL, 'Gold Junge', NULL, 'kaderblog', '', '0', '1', '2019-01-01 15:15:15', '2019-01-01 15:15:15', NULL),
-    ('6402', NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-15', '15:15:15', '0', 'Neuer Eintrag auf meinem externen Blog', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Kleiner Teaser', '[]', 'https://www.external-blog.com/entry/1234', 'Eliteläuferin', NULL, 'kaderblog', '', '0', '1', '2019-08-15 15:15:15', '2019-08-15 15:15:15', NULL),
-    ('6403', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-01', '15:15:15', '0', 'Saisonstart 2020!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', '![](./MIGRATED0000000064030001.jpg) Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: [Extrem Harte Trainingsstrategie](./MIGRATED0000000064030001.pdf)', '[\"MIGRATED0000000064030001.jpg\"]', NULL, 'Gold Junge', NULL, 'kaderblog', '', '0', '1', '2020-01-01 15:15:15', '2020-01-01 15:15:15', NULL),
-    ('6404', '1', '22', '1', NULL, '1', '1', '2020-08-13', '16:51:00', '1', 'Badge mitnehmen!', '', 'Denkt daran, dass das Training mit SportIdent ausgewertet wird. Nehmt eure Badges mit!', '[]', NULL, NULL, NULL, 'forum', '  ', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '7'),
-    ('6405', '5', NULL, '5', NULL, '5', '5', '2020-08-14', '16:51:00', '1', 'Mitfahrgelegenheit ab Richterswil', '', 'Ich fahre von Richterswil her ans Training. Für Mitfahrgelegenheit gerne melden.', '[]', NULL, NULL, NULL, 'forum', '  ', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '7');
+    ('3', '1', NULL, NULL, NULL, NULL, '1', '2020-01-01', '00:00:00', '1', 'Frohes neues Jahr! 🎆', '![](./MIGRATED0000000000030001.jpg)Im Namen des Vorstands wünsche ich euch allen ein **frohes neues Jahr**! 🎆 [Neujahrsansprache als PDF](./MIGRATED0000000000030001.pdf)', 'Gratulation, du bist gerade dabei, den Neujahrseintrag des Vorstands zu lesen. Der geht auch noch weiter. *Ein Bisschen.* Zumindest so weit, dass das auf der Testseite irgendwie einigermassen gut aussieht. Und hier gibts noch ein anderes Bild:\n\n![](./MIGRATED0000000000030002.jpg)\n\nAlle Arten von Links:\n- [Intern](/news)\n- [Anmeldung](#react-👍)\n- [Reaktion](#react-🥰)\n- [Extern](https://solv.ch)\n- [PDF](/pdf/dokument.pdf)\n- [Word](/files/dokument.docx)\n- [PowerPoint](/files/dokument.pptx)\n- [Excel](/files/dokument.xlsx)\n- [Zip](/files/dokument.zip)\n- [Text, CSV, o.ä.](/files/dokument.csv)\n- [HTML](/files/dokument.html)\n- [Bild](/files/dokument.gif)\n- [E-Mail](mailto:karen@staging.olzimmerberg.ch)\n- [Ressort](#){.linkrole}\n- *Manuell black*{.linkblack}\n- *Manuell edit*{.linkedit}\n- *Manuell duplicate*{.linkduplicate}\n- *Manuell ext*{.linkext}\n- *Manuell img*{.linkimg}\n- *Manuell int*{.linkint}\n- *Manuell map*{.linkmap}\n- *Manuell mail*{.linkmail}\n- *Manuell movie*{.linkmovie}\n- *Manuell neu*{.linkneu}\n- *Manuell oev*{.linkoev}\n- *Manuell ol*{.linkol}\n- *Manuell pdf*{.linkpdf}\n- *Manuell role*{.linkrole}\n\nUnd hier nochmals das Emoji: 🎆.\n\nUnd hier nochmals die [Neujahrsansprache als PDF](./MIGRATED0000000000030001.pdf)\n\nUnd hier ein riesiger Link: https://verylongsubdomain.alsoaverylongdomain.long/andlastbutnotleastaverylongpathwhichmustreallybeonlyjustonewordsuchthatthiswordmustbebrokenupexplicitlyinordertonotcompletelybreaktheUI', '[\"MIGRATED0000000000030001.jpg\",\"MIGRATED0000000000030002.jpg\"]', NULL, 'prä', NULL, 'aktuell', '  ', '2', '2021-06-28 16:37:03', '2020-08-15 16:51:00', NULL, NULL, NULL),
+    ('4', '1', '25', '1', NULL, NULL, NULL, '2020-03-16', NULL, '1', 'Neues System für News-Einträge online!', '![](./xkbGJQgO5LFXpTSz2dCnvJzu.jpg)Heute ging ein neues System für **News-Einträge online**. Nach und nach sollen Aktuell- Galerie- Kaderblog- und Forumseinträge auf das neue System migriert werden. Siehe [Motivationsschreiben](./xMpu3ExjfBKa8Cp35bcmsDgq.pdf).', 'All diese Einträge sind ähnlich: Sie werden von einem Autor erstellt, enthalten Titel und Text, evtl. Teaser, Bilder und angehängte Dateien, und sind für alle *OL-Zimmerberg-Mitglieder* von Interesse. Deshalb **vereinheitlichen** wir nun diese verschiedenen Einträge.\n\nDie Gründe für die Änderung haben wir in [diesem Schreiben](./xMpu3ExjfBKa8Cp35bcmsDgq.pdf) zusammengefasst.\n\n![](./xkbGJQgO5LFXpTSz2dCnvJzu.jpg)', '[\"xkbGJQgO5LFXpTSz2dCnvJzu.jpg\"]', NULL, '', NULL, 'aktuell', '  ', '0', '2020-03-16 14:51:00', '2020-03-16 14:51:00', NULL, NULL, NULL),
+    ('5', '1', NULL, '1', NULL, NULL, NULL, '2020-08-15', NULL, '1', 'Neues System für News-Einträge bewährt sich', 'Das neue System für News-Einträge scheint *gut anzukommen*. Neu können eingeloggte Benutzer in ihren News-Einträgen (ehem. Forumseinträgen) auch Bilder und Dateien einbinden.', '', '[]', NULL, '', NULL, 'aktuell', '  ', '0', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL, NULL, NULL),
+    ('6', '3', NULL, '3', NULL, NULL, NULL, '2020-01-02', NULL, '1', 'Berchtoldstagsgalerie 2020', '', 'Ein paar Fotos vom Berchtoldstag.', '[\"eGbiJQgOyLF5p6S92kC3vTzE.jpg\",\"Frw83uTOyLF5p6S92kC7zpEW.jpg\"]', NULL, '', NULL, 'galerie', '  ', '0', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL, NULL, NULL),
+    ('7', '2', '26', '2', NULL, NULL, NULL, '2020-08-15', NULL, '1', 'Test Video', '', 'https://youtu.be/JVL0vgcnM6c', '[\"aRJIflbxtkF5p6S92k470912.jpg\"]', NULL, '', NULL, 'video', '  ', '0', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL, NULL, NULL),
+    ('8', '1', '5', '1', NULL, '1', '1', '2020-01-15', '16:51:00', '1', 'Hinweis vom Präsi', '', 'Auch der **Präsident** schreibt im Forum!', '[\"9GjbtlsSu96AWZ-oH0rHjxup.jpg\",\"zUXE3aKfbK3edmqS35FhaF8g.jpg\"]', NULL, NULL, NULL, 'forum', '  ', '0', '2020-01-15 16:51:00', '2020-01-15 16:51:00', NULL, NULL, NULL),
+    ('9', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-06', '16:51:00', '1', 'Longjogg am Sonntag', '', 'Ich will mich nicht einloggen, aber hier mein Beitrag:\n\nIch organisiere einen **Longjogg am Sonntag**.\n\nPackt *warme* Kleidung ein.\n\nWer zum Pastaessen bleiben will, muss sich bis am Samstagmittag bei mir melden.\n\nAusserdem habe ich weitere unfassbar komplizierte Anforderungen an meine Gäste und geht dermassen tief ins Detail, dass dieser Forumseintrag unter keinen Umständen in seiner ganzen Länge in der Liste der Forumseinträge angezeigt werden sollte!\n\nAnreise:\nRichterswil ab 09:30\nWädenswil ab 09:31\nHorgen ab 09:32\nThalwil ab 09:33\nZürich HB ab 09:34\nBei mir an 09:35', '[]', NULL, 'Anonymous', 'anonymous@gmail.com', 'forum', '  ', '0', '2020-01-06 16:51:00', '2020-01-06 16:51:00', NULL, NULL, NULL),
+    ('10', '9', '50', '9', NULL, '9', '9', '2020-08-15', '16:51:00', '1', 'Dank dem neuen News-System trainiere ich 50% besser!', '', '![](./DvDB8QkHcGuxQ4lAFwyvHnVd.jpg)Ich bin total Fan vom neuen News-System! Meine Trainingsleistung hat deswegen um 50% zugenommen (keine Ahnung wieso). Hier die Beweise:\n\n- https://verylongsubdomain.alsoaverylongdomain.long/andlastbutnotleastaverylongpathwhichmustreallybeonlyjustonewordsuchthatthiswordmustbebrokenupexplicitlyinordertonotcompletelybreaktheUI\n- [Beweisstück A](./gAQa_kYXqXTP1_DKKU1s1pGr.csv)\n- [Beweisstück B](./8kCalo9sQtu2mrgrmMjoGLUW.pdf)\n\n![](./OOVJIqrWlitR_iTZuIIhztKC.jpg)', '[\"DvDB8QkHcGuxQ4lAFwyvHnVd.jpg\",\"OOVJIqrWlitR_iTZuIIhztKC.jpg\"]', NULL, NULL, NULL, 'kaderblog', '  ', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL),
+    ('11', '9', '50', '9', NULL, '9', '9', '2020-08-15', '16:51:00', '1', 'SOFT DELETED', 'SOFT DELETED', 'SOFT DELETED', '[]', NULL, NULL, NULL, 'aktuell', '  ', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, '2020-01-01 00:00:00', '42'),
+    ('1202', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-01', NULL, '1', 'Neujahrsgalerie 📷 2020', '', 'Ein paar Fotos vom Neujahrstag.', '[\"MIGRATED0000000012020001.jpg\",\"MIGRATED0000000012020002.jpg\",\"MIGRATED0000000012020003.jpg\",\"MIGRATED0000000012020004.jpg\",\"MIGRATED0000000012020005.jpg\"]', NULL, '', NULL, 'galerie', '  ', '0', '2020-08-15 14:51:00', '2020-08-15 14:51:00', NULL, NULL, NULL),
+    ('1203', NULL, NULL, NULL, NULL, NULL, NULL, '2020-08-13', NULL, '1', 'Test Video', '', '', '[\"MIGRATED0000000012030001.jpg\"]', 'https://youtu.be/JVL0vgcnM6c', '', NULL, 'video', '  ', '0', '2020-08-13 14:51:00', '2020-08-13 14:51:00', NULL, NULL, NULL),
+    ('2901', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-01', '21:45:37', '0', 'Guets Nois! 🎉', '', 'Hoi zäme, au vo mier no *Guets Nois*! 🎉', '[]', NULL, 'Bruno 😃 Beispielmitglied', 'beispiel@olzimmerberg.ch', 'forum', '', '0', '2020-01-01 21:45:37', '2020-01-01 21:45:37', NULL, NULL, NULL),
+    ('2902', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-03', '18:42:01', '0', 'Verspätete Neujahrsgrüsse', '', 'Has vergesse, aber au vo *mier* no Guets Nois!', '[]', NULL, 'Erwin Exempel', 'beispiel@olzimmerberg.ch', 'forum', '', '0', '2020-01-03 18:42:01', '2020-01-03 18:42:01', NULL, NULL, NULL),
+    ('2903', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-06', '02:07:08', '0', 'Hallo', '', 'Mir hend paar **OL-Usrüschtigs-Gegeständ** us ferne Länder mitbracht.\n\nSchriibed doch es Mail wenn er öppis devoo wetted', '[]', NULL, 'Drei Könige', 'beispiel@olzimmerberg.ch', 'forum', '', '0', '2020-01-06 06:07:08', '2020-01-06 06:07:08', NULL, NULL, NULL),
+    ('6401', NULL, NULL, NULL, NULL, NULL, NULL, '2019-01-01', '15:15:15', '0', 'Saisonstart 2019!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Hoi zäme, dieser Eintrag wurde noch mit dem alten System geschrieben. Hier die Anhänge:\n![](./MIGRATED0000000064010001.jpg)\n![](./MIGRATED0000000064010002.jpg)\n<DL1>\n<DL2>', '[\"MIGRATED0000000064010001.jpg\",\"MIGRATED0000000064010002.jpg\"]', NULL, 'Gold Junge', NULL, 'kaderblog', '', '0', '2019-01-01 15:15:15', '2019-01-01 15:15:15', NULL, NULL, NULL),
+    ('6402', NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-15', '15:15:15', '0', 'Neuer Eintrag auf meinem externen Blog', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', 'Kleiner Teaser', '[]', 'https://www.external-blog.com/entry/1234', 'Eliteläuferin', NULL, 'kaderblog', '', '0', '2019-08-15 15:15:15', '2019-08-15 15:15:15', NULL, NULL, NULL),
+    ('6403', NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-01', '15:15:15', '0', 'Saisonstart 2020!', '{\"file1\":null,\"file1_name\":null,\"file2\":null,\"file2_name\":null}', '![](./MIGRATED0000000064030001.jpg) Ich habe das erste mega harte Training im 2020 absolviert! Schaut hier: [Extrem Harte Trainingsstrategie](./MIGRATED0000000064030001.pdf)', '[\"MIGRATED0000000064030001.jpg\"]', NULL, 'Gold Junge', NULL, 'kaderblog', '', '0', '2020-01-01 15:15:15', '2020-01-01 15:15:15', NULL, NULL, NULL),
+    ('6404', '1', '22', '1', NULL, '1', '1', '2020-08-13', '16:51:00', '1', 'Badge mitnehmen!', '', 'Denkt daran, dass das Training mit SportIdent ausgewertet wird. Nehmt eure Badges mit!', '[]', NULL, NULL, NULL, 'forum', '  ', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '7', NULL, NULL),
+    ('6405', '5', NULL, '5', NULL, '5', '5', '2020-08-14', '16:51:00', '1', 'Mitfahrgelegenheit ab Richterswil', '', 'Ich fahre von Richterswil her ans Training. Für Mitfahrgelegenheit gerne melden.', '[]', NULL, NULL, NULL, 'forum', '  ', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '7', NULL, NULL);
 
 -- Table news_reactions
 INSERT INTO news_reactions
@@ -424,140 +422,140 @@ VALUES
 
 -- Table panini24
 INSERT INTO panini24
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `line1`, `line2`, `association`, `img_src`, `img_style`, `is_landscape`, `has_top`, `on_off`, `created_at`, `last_modified_at`, `infos`, `birthdate`, `num_mispunches`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `line1`, `line2`, `association`, `img_src`, `img_style`, `is_landscape`, `has_top`, `created_at`, `last_modified_at`, `infos`, `birthdate`, `num_mispunches`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('10', NULL, NULL, NULL, NULL, 'Logo', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-15%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('11', NULL, NULL, NULL, NULL, 'Fahne', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-7%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('12', NULL, NULL, NULL, NULL, 'Glogge', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-10%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('13', NULL, NULL, NULL, NULL, 'Vorstand 2023', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-12%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('14', NULL, NULL, NULL, NULL, 'OLZ-Award', NULL, NULL, 'other/portrait.jpg', 'width:105%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('15', NULL, NULL, NULL, NULL, 'Website', NULL, NULL, 'other/landscape.jpg', 'width:104%; left:-2%; top:0%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('16', NULL, NULL, NULL, NULL, 'HOLZ', NULL, NULL, 'other/portrait.jpg', 'width:120%; left:-10%; top:-3%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('17', NULL, NULL, NULL, NULL, 'Der Posten', NULL, NULL, 'other/portrait.jpg', 'width:107%; left:-4%; top:0%;', '0', '0', '1', '2023-12-28 18:54:04', '2023-12-28 18:54:04', '', NULL, NULL),
-    ('18', NULL, NULL, NULL, NULL, '2009         Paninigewinner         2016', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-10%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('20', NULL, NULL, NULL, NULL, 'Panini-OK', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-15%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('40', NULL, NULL, NULL, NULL, 'Original', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-10%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('41', NULL, NULL, NULL, NULL, 'Special Klubreise Prag', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-25%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('42', NULL, NULL, NULL, NULL, 'Special Klubreise Elsass', NULL, NULL, 'other/landscape.jpg', 'width:110%; left:-5%; top:0%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('43', NULL, NULL, NULL, NULL, 'Wald-Motiv', NULL, NULL, 'other/landscape.jpg', 'width:120%; left:0%; top:-40%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('44', NULL, NULL, NULL, NULL, 'Stadt-Motiv', NULL, NULL, 'other/landscape.jpg', 'width:120%; left:0%; top:-40%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('50', NULL, NULL, NULL, NULL, '2006: Gründung OL Zimmerberg', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('51', NULL, NULL, NULL, NULL, '2009: 1. OLZ Paninialbum', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:0%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('52', NULL, NULL, NULL, NULL, '2010: 1. grünes OLZ Büssli', NULL, NULL, 'other/landscape.jpg', 'width:120%; left:0%; top:-40%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('53', NULL, NULL, NULL, NULL, '2012: 1. Klubreise Prag', NULL, NULL, 'other/landscape.jpg', 'width:130%; left:-20%; top:-5%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('54', NULL, NULL, NULL, NULL, '2015: 2. Klubreise Elsass', NULL, NULL, 'other/landscape.jpg', 'width:120%; left:-17%; top:-15%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('55', NULL, NULL, NULL, NULL, '2016: 1. Jahr OLZ Trophy', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('56', NULL, NULL, NULL, NULL, '2016: 2. OLZ Paninialbum', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('57', NULL, NULL, NULL, NULL, '2017: 3. Klubreise Regensburg', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-12%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('58', NULL, NULL, NULL, NULL, '2018: Julia holt Gold an WM- und EM-Staffel', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('59', NULL, NULL, NULL, NULL, '2018: 1. Jahr Team Gold', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-5%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('60', NULL, NULL, NULL, NULL, '2019: Nationaler Zimmerberg OL Richterswil', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('61', NULL, NULL, NULL, NULL, '2020: Corona', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-13%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('62', NULL, NULL, NULL, NULL, '2021: Nationaler Zimmerberg OL Flumserberg', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-15%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('63', NULL, NULL, NULL, NULL, '2022: Nationaler Zimmerberg OL Madrisa', NULL, NULL, 'other/landscape.jpg', 'width:130%; left:-15%; top:0%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('64', NULL, NULL, NULL, NULL, '2024: 4. Klubreise Provence', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-25%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('65', NULL, NULL, NULL, NULL, '2046: Helferessen vom OL Lager 2011', NULL, NULL, 'other/landscape.jpg', 'width:160%; left:-30%; top:-20%;', '1', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('100', NULL, NULL, NULL, NULL, 'Adliswil-Sood', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('101', NULL, NULL, NULL, NULL, 'Allmendhölzli-Aabachtobel', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('102', NULL, NULL, NULL, NULL, 'Halbinsel Au', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('103', NULL, NULL, NULL, NULL, 'Sportanlage Brand', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('104', NULL, NULL, NULL, NULL, 'Buchenegg', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('105', NULL, NULL, NULL, NULL, 'Chopfholz', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('106', NULL, NULL, NULL, NULL, 'Entlisberg', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('107', NULL, NULL, NULL, NULL, 'Horgen', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('108', NULL, NULL, NULL, NULL, 'Landforst', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('109', NULL, NULL, NULL, NULL, 'Reidholz-Burghalden', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('110', NULL, NULL, NULL, NULL, 'Richterswil', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('111', NULL, NULL, NULL, NULL, 'Rüschlikon', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('112', NULL, NULL, NULL, NULL, 'Langenrain', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('113', NULL, NULL, NULL, NULL, 'Thalwil', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('114', NULL, NULL, NULL, NULL, 'Uetliberg', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('115', NULL, NULL, NULL, NULL, 'Wädenswil', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('116', NULL, NULL, NULL, NULL, 'Hirzel Dorf', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('117', NULL, NULL, NULL, NULL, 'Horgen Waldegg', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('118', NULL, NULL, NULL, NULL, 'Mullern Chummenwald', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('119', NULL, NULL, NULL, NULL, 'Oberrieden', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '1', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL),
-    ('150', NULL, NULL, NULL, NULL, 'Thalwil', NULL, NULL, 'wappen/thalwil.jpg', 'width:100%; top:0%; left:0%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"info1\",\"info2\",\"info3\",\"info4\",\"info5\"]', '0000-00-00', '-1'),
-    ('151', NULL, NULL, NULL, NULL, 'Andere Orte', NULL, NULL, 'wappen/other.jpg', 'width:100%; top:0%; left:0%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"info1\",\"info2\",\"info3\",\"info4\",\"info5\"]', '0000-00-00', '-1'),
-    ('1001', '1', NULL, '1', '1', 'Armïn 😂', 'Admïn 🤣', 'Thalwil', 'vptD8fzvXIhv_6X32Zkw2s5s.jpg', 'width:200%; top:0%; left:-50%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"SchlADMINg\",\"Die Registrierung der Domain olzimmerberg.ch\",\"\\u00dcber die Website\",\"2006\",\"Admins! Admins! Admins!\"]', '2006-01-13', '0'),
-    ('1002', '1', NULL, '1', '1', 'Volker', 'Vorstand', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', '2017-08-01', '123'),
-    ('1003', NULL, NULL, NULL, NULL, 'Fill', 'Up (3; 2000)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"\\u0160il\\u0117n\\u0173 Mi\\u0161kas (Litauen)\",\"OL Lager 2025 in Schweden\",\"Durch Grosseltere\",\"2015\",\"Schnell starte, will am Schluss wird\'s e h\\u00e4rt.\"]', '2000-00-00', NULL),
-    ('1004', NULL, NULL, NULL, NULL, 'Fill', 'Up (4; \"\")', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Ein ziemlich langer Text, sodass mindestend drei Zeilen nötig sind zum Rendern.\"]', '0000-00-00', NULL),
-    ('1005', NULL, NULL, NULL, NULL, 'Fill', 'Up (5)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
-    ('1006', NULL, NULL, NULL, NULL, 'Fill', 'Up (6)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
-    ('1007', NULL, NULL, NULL, NULL, 'Fill', 'Up (7)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
-    ('1008', NULL, NULL, NULL, NULL, 'Fill', 'Up (8)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
-    ('1009', NULL, NULL, NULL, NULL, 'Fill', 'Up (9)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
-    ('1010', NULL, NULL, NULL, NULL, 'Fill', 'Up (10)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
-    ('1011', NULL, NULL, NULL, NULL, 'Fill', 'Up (11)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL),
-    ('1012', NULL, NULL, NULL, NULL, 'Fill', 'Up (12)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL);
+    ('10', NULL, NULL, NULL, NULL, 'Logo', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-15%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('11', NULL, NULL, NULL, NULL, 'Fahne', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-7%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('12', NULL, NULL, NULL, NULL, 'Glogge', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-10%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('13', NULL, NULL, NULL, NULL, 'Vorstand 2023', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-12%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('14', NULL, NULL, NULL, NULL, 'OLZ-Award', NULL, NULL, 'other/portrait.jpg', 'width:105%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('15', NULL, NULL, NULL, NULL, 'Website', NULL, NULL, 'other/landscape.jpg', 'width:104%; left:-2%; top:0%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('16', NULL, NULL, NULL, NULL, 'HOLZ', NULL, NULL, 'other/portrait.jpg', 'width:120%; left:-10%; top:-3%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('17', NULL, NULL, NULL, NULL, 'Der Posten', NULL, NULL, 'other/portrait.jpg', 'width:107%; left:-4%; top:0%;', '0', '0', '2023-12-28 18:54:04', '2023-12-28 18:54:04', '', NULL, NULL, NULL, NULL),
+    ('18', NULL, NULL, NULL, NULL, '2009         Paninigewinner         2016', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-10%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('20', NULL, NULL, NULL, NULL, 'Panini-OK', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-15%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('40', NULL, NULL, NULL, NULL, 'Original', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-10%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('41', NULL, NULL, NULL, NULL, 'Special Klubreise Prag', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-25%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('42', NULL, NULL, NULL, NULL, 'Special Klubreise Elsass', NULL, NULL, 'other/landscape.jpg', 'width:110%; left:-5%; top:0%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('43', NULL, NULL, NULL, NULL, 'Wald-Motiv', NULL, NULL, 'other/landscape.jpg', 'width:120%; left:0%; top:-40%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('44', NULL, NULL, NULL, NULL, 'Stadt-Motiv', NULL, NULL, 'other/landscape.jpg', 'width:120%; left:0%; top:-40%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('50', NULL, NULL, NULL, NULL, '2006: Gründung OL Zimmerberg', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('51', NULL, NULL, NULL, NULL, '2009: 1. OLZ Paninialbum', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:0%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('52', NULL, NULL, NULL, NULL, '2010: 1. grünes OLZ Büssli', NULL, NULL, 'other/landscape.jpg', 'width:120%; left:0%; top:-40%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('53', NULL, NULL, NULL, NULL, '2012: 1. Klubreise Prag', NULL, NULL, 'other/landscape.jpg', 'width:130%; left:-20%; top:-5%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('54', NULL, NULL, NULL, NULL, '2015: 2. Klubreise Elsass', NULL, NULL, 'other/landscape.jpg', 'width:120%; left:-17%; top:-15%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('55', NULL, NULL, NULL, NULL, '2016: 1. Jahr OLZ Trophy', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('56', NULL, NULL, NULL, NULL, '2016: 2. OLZ Paninialbum', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('57', NULL, NULL, NULL, NULL, '2017: 3. Klubreise Regensburg', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-12%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('58', NULL, NULL, NULL, NULL, '2018: Julia holt Gold an WM- und EM-Staffel', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('59', NULL, NULL, NULL, NULL, '2018: 1. Jahr Team Gold', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-5%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('60', NULL, NULL, NULL, NULL, '2019: Nationaler Zimmerberg OL Richterswil', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:0%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('61', NULL, NULL, NULL, NULL, '2020: Corona', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-13%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('62', NULL, NULL, NULL, NULL, '2021: Nationaler Zimmerberg OL Flumserberg', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-15%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('63', NULL, NULL, NULL, NULL, '2022: Nationaler Zimmerberg OL Madrisa', NULL, NULL, 'other/landscape.jpg', 'width:130%; left:-15%; top:0%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('64', NULL, NULL, NULL, NULL, '2024: 4. Klubreise Provence', NULL, NULL, 'other/landscape.jpg', 'width:100%; left:0%; top:-25%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('65', NULL, NULL, NULL, NULL, '2046: Helferessen vom OL Lager 2011', NULL, NULL, 'other/landscape.jpg', 'width:160%; left:-30%; top:-20%;', '1', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('100', NULL, NULL, NULL, NULL, 'Adliswil-Sood', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('101', NULL, NULL, NULL, NULL, 'Allmendhölzli-Aabachtobel', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('102', NULL, NULL, NULL, NULL, 'Halbinsel Au', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('103', NULL, NULL, NULL, NULL, 'Sportanlage Brand', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('104', NULL, NULL, NULL, NULL, 'Buchenegg', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('105', NULL, NULL, NULL, NULL, 'Chopfholz', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('106', NULL, NULL, NULL, NULL, 'Entlisberg', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('107', NULL, NULL, NULL, NULL, 'Horgen', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('108', NULL, NULL, NULL, NULL, 'Landforst', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('109', NULL, NULL, NULL, NULL, 'Reidholz-Burghalden', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('110', NULL, NULL, NULL, NULL, 'Richterswil', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('111', NULL, NULL, NULL, NULL, 'Rüschlikon', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('112', NULL, NULL, NULL, NULL, 'Langenrain', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('113', NULL, NULL, NULL, NULL, 'Thalwil', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('114', NULL, NULL, NULL, NULL, 'Uetliberg', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('115', NULL, NULL, NULL, NULL, 'Wädenswil', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('116', NULL, NULL, NULL, NULL, 'Hirzel Dorf', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('117', NULL, NULL, NULL, NULL, 'Horgen Waldegg', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('118', NULL, NULL, NULL, NULL, 'Mullern Chummenwald', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('119', NULL, NULL, NULL, NULL, 'Oberrieden', NULL, NULL, 'other/portrait.jpg', 'width:100%; left:0%; top:-5%;', '0', '0', '2023-05-15 21:00:00', '2023-05-15 21:00:00', '', NULL, NULL, NULL, NULL),
+    ('150', NULL, NULL, NULL, NULL, 'Thalwil', NULL, NULL, 'wappen/thalwil.jpg', 'width:100%; top:0%; left:0%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"info1\",\"info2\",\"info3\",\"info4\",\"info5\"]', '0000-00-00', '-1', NULL, NULL),
+    ('151', NULL, NULL, NULL, NULL, 'Andere Orte', NULL, NULL, 'wappen/other.jpg', 'width:100%; top:0%; left:0%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"info1\",\"info2\",\"info3\",\"info4\",\"info5\"]', '0000-00-00', '-1', NULL, NULL),
+    ('1001', '1', NULL, '1', '1', 'Armïn 😂', 'Admïn 🤣', 'Thalwil', 'vptD8fzvXIhv_6X32Zkw2s5s.jpg', 'width:200%; top:0%; left:-50%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"SchlADMINg\",\"Die Registrierung der Domain olzimmerberg.ch\",\"\\u00dcber die Website\",\"2006\",\"Admins! Admins! Admins!\"]', '2006-01-13', '0', NULL, NULL),
+    ('1002', '1', NULL, '1', '1', 'Volker', 'Vorstand', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', '2017-08-01', '123', NULL, NULL),
+    ('1003', NULL, NULL, NULL, NULL, 'Fill', 'Up (3; 2000)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"\\u0160il\\u0117n\\u0173 Mi\\u0161kas (Litauen)\",\"OL Lager 2025 in Schweden\",\"Durch Grosseltere\",\"2015\",\"Schnell starte, will am Schluss wird\'s e h\\u00e4rt.\"]', '2000-00-00', NULL, NULL, NULL),
+    ('1004', NULL, NULL, NULL, NULL, 'Fill', 'Up (4; \"\")', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Ein ziemlich langer Text, sodass mindestend drei Zeilen nötig sind zum Rendern.\"]', '0000-00-00', NULL, NULL, NULL),
+    ('1005', NULL, NULL, NULL, NULL, 'Fill', 'Up (5)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL, NULL, NULL),
+    ('1006', NULL, NULL, NULL, NULL, 'Fill', 'Up (6)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL, NULL, NULL),
+    ('1007', NULL, NULL, NULL, NULL, 'Fill', 'Up (7)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL, NULL, NULL),
+    ('1008', NULL, NULL, NULL, NULL, 'Fill', 'Up (8)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL, NULL, NULL),
+    ('1009', NULL, NULL, NULL, NULL, 'Fill', 'Up (9)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL, NULL, NULL),
+    ('1010', NULL, NULL, NULL, NULL, 'Fill', 'Up (10)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL, NULL, NULL),
+    ('1011', NULL, NULL, NULL, NULL, 'Fill', 'Up (11)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL, NULL, NULL),
+    ('1012', NULL, NULL, NULL, NULL, 'Fill', 'Up (12)', 'WTF', 'LkGdXukqgYEdnWpuFHfrJkr7.jpg', 'width:150%; top:0%; left:-33%;', '0', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '[\"Vorab\",\"Wahl in den Vorstand\",\"\\u00dcber die Website\",\"2006\",\"Vorstand! Vorstand! Vorstand!\"]', NULL, NULL, NULL, NULL);
 
 -- Table question_categories
 INSERT INTO question_categories
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`, `position`, `name`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `position`, `name`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', '1', NULL, '1', '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '0', 'Allgemein'),
-    ('2', '1', NULL, '1', '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '1', 'Website'),
-    ('3', '1', NULL, '1', '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '2', 'Leer'),
-    ('4', '1', NULL, '1', '1', '0', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '1', 'SOFT DELETED');
+    ('1', '1', NULL, '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '0', 'Allgemein', NULL, NULL),
+    ('2', '1', NULL, '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '1', 'Website', NULL, NULL),
+    ('3', '1', NULL, '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '2', 'Leer', NULL, NULL),
+    ('4', '1', NULL, '1', '1', '2024-05-15 23:31:07', '2024-05-15 23:31:07', '1', 'SOFT DELETED', '2020-01-01 00:00:00', '42');
 
 -- Table questions
 INSERT INTO questions
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `category_id`, `on_off`, `created_at`, `last_modified_at`, `ident`, `position_within_category`, `question`, `answer`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `category_id`, `created_at`, `last_modified_at`, `ident`, `position_within_category`, `question`, `answer`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', '1', '25', '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'was_ist_ol', '0', 'Was ist OL?', '![](./bKfDuE4hocQhbw9FGMD7WCW3.jpg)\n\nDas erklären wir dir in unserem kurzen [Youtube Video](https://youtu.be/JVL0vgcnM6c) und in [diesem Dokument](./4a7J72vVQFrqkboyD358S4cf.pdf).'),
-    ('2', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'ausprobieren', '1', 'Wie kann ich OL ausprobieren?', 'Am besten kommst du in eines unserer **Trainings** (mit [Youtube Video](https://youtu.be/PjsDAQM1kxA) zur Vorbereitung).\r\n\r\nJährlich organisieren wir ein **OL-Lager** und ein **Tageslager** für Kinder und Jugendliche. Wann genau diese stattfinden, verraten wir dir bei den [Terminen](/termine). '),
-    ('3', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'trainings_wann', '2', 'Wann finden diese Trainings statt?', 'Alle Anlässe und damit auch die [Trainings](/termine?filter=typ-training---datum-bevorstehend) werden bei uns auf der [**Termine-Seite**](/termine) bekannt gegeben.\n'),
-    ('4', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'trainings_wo', '3', 'Wo finden die OL-Trainings statt?', 'Meistens in der Region Zimmerberg, auf [**unseren Karten**](/karten). \n'),
-    ('5', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'trainings_anreise', '4', 'Wie reise ich zu einem Training?', 'Entweder du kommst zu Fuss, mit dem Velo, mit dem eigenen Auto, mit einer Fahrgemeinschaft, oder mit dem Trainings-Büssli.\n\nWenn du mit dem Büssli anreisen möchtest, melde dich bitte im Voraus beim [Büsslikoordinator](mailto:buessli@staging.olzimmerberg.ch) an.'),
-    ('6', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'ol_anreise', '5', 'Wie reise ich zum OL?', 'Bei manchen Läufen wird im [**Forum**](/news?filter=format-forum) eine **öV-Verbindung** bestimmt, mit der die meisten anreisen werden.'),
-    ('7', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'zimmerbergler_erkennen', '6', 'Wie erkenne ich andere OL Zimmerberg Mitglieder?', 'An der guten Stimmung und an unserem grün-gelb-schwarzen Dress, das auch tausendfach in den [**Galerien**](/news?filter=format-galerie) zu sehen ist.'),
-    ('8', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'mitglied_werden', '7', 'Wie werde ich OL Zimmerberg Mitglied?', 'Melde dich [per E-Mail](mailto:aktuariat@staging.olzimmerberg.ch) als Neumitglied an.'),
-    ('9', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'kader', '8', 'Gibt es auch schnelle Läufer in der OL Zimmerberg?', 'Ja. Sie schreiben sogar manchmal Beiträge im [**Kaderblog**](/news?filter=format-kaderblog).'),
-    ('10', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'berichte', '9', 'Wo kann ich Berichte von vergangenen Anlässen nachlesen?', 'Auf der [**News-Seite**](/news).'),
-    ('11', '1', NULL, '1', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'verein_organigramm', '10', 'Wer ist im Vorstand der OL Zimmerberg?', 'Porträts unseres Vorstandes sind auf der [**Vereins-Seite**](/verein) zu finden.'),
-    ('12', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'forumsregeln', '0', 'Welche Regeln gelten für das Forum?', '**Im Forum können Mitteilungen aller Art platziert werden (Kommentare, Fragen, Hinweise usw.). Dabei ist folgendes zu beachten:**\r\n\r\n- Ein Eintrag muss mit dem richtigen Namen und Vornamen gemacht werden.\r\n- Es muss eine gültige Emailadresse angegeben werden. An diese Emailadresse wird ein Code geschickt, mit welchem der Eintrag später bearbeitet oder gelöscht werden kann. Um die Gefahr von Spam zu minimieren werden Emailadressen verschlüsselt angezeigt.\r\n- Es liegt im Ermessen des Website-Betreibers, Einträge jederzeit zu entfernen, insbesondere wenn sie verletzenden Inhalt haben, gegen Gesetze verstossen oder Spam enthalten.\r\n'),
-    ('13', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'weshalb_telegram_push', '1', 'Weshalb verwendet ihr Telegram für den Nachrichten-Push?', 'Das ist natürlich eine sehr berechtigte Frage, denn die Chat-App Telegram steht oft datenschutztechnisch in der Kritik, und wird auch politisch teilweise als nicht neutral wahrgenommen.\r\n\r\nDie einfache Antwort ist, dass kein anderes Chat-App einen solchen automatisierten Chat so einfach und kostenfrei anbietet. Um genau zu sein:\r\n\r\n- Threema hat zwar eine solche Funktionalität, sie ist aber kompliziert zu implementieren und kostenpflichtig: Es kostet sowohl für uns jede Nachricht als auch das App für den Nutzer.\r\n- WhatsApp hat zwar die \"WhatsApp Business API\" mit einer ähnichen Funktionalität, diese ist aber ausdrücklich eher an Grossunternehmen gerichtet, und somit auch kostenpflichtig.\r\n- Signal bietet zwar auch eine Möglichkeit, automatische Nachrichten zu schreiben, aber auch diese ist kompliziert und nur mit weiteren Kosten zu implementieren.\r\n\r\nDie Website-Entwickler danken für euer Verständnis. '),
-    ('14', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'benutzername_email_herausfinden', '2', 'Wie finde ich meinen Benutzernamen bzw. E-Mail heraus?', '- Erhälst du den Newsletter? Dann ist es die E-Mail Adresse, an welche der Newsletter versendet wird.\r\n- Hast du Telegram verlinkt? Dann schreib deinem OLZ Bot die Nachricht `/ich`, und er wird dir deinen Benutzernamen und deine E-Mail Adresse mitteilen.\r\n- Wenn du hier angelangt bist, bleibt leider nur noch raten, welche E-Mail Adresse du verwendet haben könntest.\r\n\r\n'),
-    ('15', '1', NULL, '1', '1', '2', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'neues_familienmitglied', '3', 'Wie kann ich ein OLZ-Konto für ein Familienmitglied erstellen?', '1. Stelle sicher, dass du eingeloggt bist\r\n2. Gehe auf dein Profil (OLZ-Konto-Menu rechts oben > Profil)\r\n3. Wähle \"Neues Familienmitglied erstellen\"\r\n4. Formular ausfüllen und abschicken (Hinweis: Im Gegensatz zum Hauptkonto dürfen E-Mail und Passwort leer bleiben)\r\n5. Nun hast du im OLZ-Konto-Menu rechts oben die Möglichkeit, zwischen deinem Hauptkonto und dem Kind-Konto hin- und herzuwechseln\r\n\r\n'),
-    ('16', '127', '25', '127', '127', '2', '1', '2025-02-12 10:40:04', '2025-02-12 20:38:22', 'markdown', '4', 'Wie kann ich Text formatieren?', '---\n\n**Wie es aussehen wird**\n{.float-right}\n\n**Was du eingibst**\n\n---\n{.clear-both}\n\n# Riesen-Titel (1)\n{.float-right}\n\n`# Riesen-Titel (1)`\n\n---\n{.clear-both}\n\n### Titel (3)\n{.float-right}\n\n`### Titel (3)`\n\n---\n{.clear-both}\n\n*kursiv*\n{.float-right}\n\n`*kursiv*`\n\n---\n{.clear-both}\n\n**fett**\n{.float-right}\n\n`**fett**`\n\n---\n{.clear-both}\n\n- Punkt Eins\n- Punkt Zwei\n{.float-right}\n\n```\n- Punkt Eins\n- Punkt Zwei\n```\n\n---\n{.clear-both}\n\n1. Punkt Eins\n2. Punkt Zwei\n{.float-right}\n\n```\n1. Punkt Eins\n2. Punkt Zwei\n```\n\n---\n{.clear-both}\n\n[Swiss Orienteering](https://swiss-orienteering.ch)\n{.float-right}\n\n`[Swiss Orienteering](https://swiss-orienteering.ch)`\n\n---\n{.clear-both}\n\n**Bild**: Hochladen, dann auf ![](/assets/icns/copy_16.svg) (Kopieren) klicken, und im Text einfügen.\n\n---\n{.clear-both}\n\n**Datei**: Hochladen, dann auf ![](/assets/icns/copy_16.svg) (Kopieren) klicken, und im Text einfügen. `LABEL` durch gewünschten Link-Text ersetzen.\n\n---\n{.clear-both}\n\n[Ausführliche Dokumentation von Markdown (Englisch)](https://www.markdownguide.org/basic-syntax/)'),
-    ('17', '1', '25', '1', '1', '1', '0', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'soft_deleted', '0', 'SOFT DELETED', 'SOFT DELETED');
+    ('1', '1', '25', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'was_ist_ol', '0', 'Was ist OL?', '![](./bKfDuE4hocQhbw9FGMD7WCW3.jpg)\n\nDas erklären wir dir in unserem kurzen [Youtube Video](https://youtu.be/JVL0vgcnM6c) und in [diesem Dokument](./4a7J72vVQFrqkboyD358S4cf.pdf).', NULL, NULL),
+    ('2', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'ausprobieren', '1', 'Wie kann ich OL ausprobieren?', 'Am besten kommst du in eines unserer **Trainings** (mit [Youtube Video](https://youtu.be/PjsDAQM1kxA) zur Vorbereitung).\r\n\r\nJährlich organisieren wir ein **OL-Lager** und ein **Tageslager** für Kinder und Jugendliche. Wann genau diese stattfinden, verraten wir dir bei den [Terminen](/termine). ', NULL, NULL),
+    ('3', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'trainings_wann', '2', 'Wann finden diese Trainings statt?', 'Alle Anlässe und damit auch die [Trainings](/termine?filter=typ-training---datum-bevorstehend) werden bei uns auf der [**Termine-Seite**](/termine) bekannt gegeben.\n', NULL, NULL),
+    ('4', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'trainings_wo', '3', 'Wo finden die OL-Trainings statt?', 'Meistens in der Region Zimmerberg, auf [**unseren Karten**](/karten). \n', NULL, NULL),
+    ('5', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'trainings_anreise', '4', 'Wie reise ich zu einem Training?', 'Entweder du kommst zu Fuss, mit dem Velo, mit dem eigenen Auto, mit einer Fahrgemeinschaft, oder mit dem Trainings-Büssli.\n\nWenn du mit dem Büssli anreisen möchtest, melde dich bitte im Voraus beim [Büsslikoordinator](mailto:buessli@staging.olzimmerberg.ch) an.', NULL, NULL),
+    ('6', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'ol_anreise', '5', 'Wie reise ich zum OL?', 'Bei manchen Läufen wird im [**Forum**](/news?filter=format-forum) eine **öV-Verbindung** bestimmt, mit der die meisten anreisen werden.', NULL, NULL),
+    ('7', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'zimmerbergler_erkennen', '6', 'Wie erkenne ich andere OL Zimmerberg Mitglieder?', 'An der guten Stimmung und an unserem grün-gelb-schwarzen Dress, das auch tausendfach in den [**Galerien**](/news?filter=format-galerie) zu sehen ist.', NULL, NULL),
+    ('8', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'mitglied_werden', '7', 'Wie werde ich OL Zimmerberg Mitglied?', 'Melde dich [per E-Mail](mailto:aktuariat@staging.olzimmerberg.ch) als Neumitglied an.', NULL, NULL),
+    ('9', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'kader', '8', 'Gibt es auch schnelle Läufer in der OL Zimmerberg?', 'Ja. Sie schreiben sogar manchmal Beiträge im [**Kaderblog**](/news?filter=format-kaderblog).', NULL, NULL),
+    ('10', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'berichte', '9', 'Wo kann ich Berichte von vergangenen Anlässen nachlesen?', 'Auf der [**News-Seite**](/news).', NULL, NULL),
+    ('11', '1', NULL, '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'verein_organigramm', '10', 'Wer ist im Vorstand der OL Zimmerberg?', 'Porträts unseres Vorstandes sind auf der [**Vereins-Seite**](/verein) zu finden.', NULL, NULL),
+    ('12', '1', NULL, '1', '1', '2', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'forumsregeln', '0', 'Welche Regeln gelten für das Forum?', '**Im Forum können Mitteilungen aller Art platziert werden (Kommentare, Fragen, Hinweise usw.). Dabei ist folgendes zu beachten:**\r\n\r\n- Ein Eintrag muss mit dem richtigen Namen und Vornamen gemacht werden.\r\n- Es muss eine gültige Emailadresse angegeben werden. An diese Emailadresse wird ein Code geschickt, mit welchem der Eintrag später bearbeitet oder gelöscht werden kann. Um die Gefahr von Spam zu minimieren werden Emailadressen verschlüsselt angezeigt.\r\n- Es liegt im Ermessen des Website-Betreibers, Einträge jederzeit zu entfernen, insbesondere wenn sie verletzenden Inhalt haben, gegen Gesetze verstossen oder Spam enthalten.\r\n', NULL, NULL),
+    ('13', '1', NULL, '1', '1', '2', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'weshalb_telegram_push', '1', 'Weshalb verwendet ihr Telegram für den Nachrichten-Push?', 'Das ist natürlich eine sehr berechtigte Frage, denn die Chat-App Telegram steht oft datenschutztechnisch in der Kritik, und wird auch politisch teilweise als nicht neutral wahrgenommen.\r\n\r\nDie einfache Antwort ist, dass kein anderes Chat-App einen solchen automatisierten Chat so einfach und kostenfrei anbietet. Um genau zu sein:\r\n\r\n- Threema hat zwar eine solche Funktionalität, sie ist aber kompliziert zu implementieren und kostenpflichtig: Es kostet sowohl für uns jede Nachricht als auch das App für den Nutzer.\r\n- WhatsApp hat zwar die \"WhatsApp Business API\" mit einer ähnichen Funktionalität, diese ist aber ausdrücklich eher an Grossunternehmen gerichtet, und somit auch kostenpflichtig.\r\n- Signal bietet zwar auch eine Möglichkeit, automatische Nachrichten zu schreiben, aber auch diese ist kompliziert und nur mit weiteren Kosten zu implementieren.\r\n\r\nDie Website-Entwickler danken für euer Verständnis. ', NULL, NULL),
+    ('14', '1', NULL, '1', '1', '2', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'benutzername_email_herausfinden', '2', 'Wie finde ich meinen Benutzernamen bzw. E-Mail heraus?', '- Erhälst du den Newsletter? Dann ist es die E-Mail Adresse, an welche der Newsletter versendet wird.\r\n- Hast du Telegram verlinkt? Dann schreib deinem OLZ Bot die Nachricht `/ich`, und er wird dir deinen Benutzernamen und deine E-Mail Adresse mitteilen.\r\n- Wenn du hier angelangt bist, bleibt leider nur noch raten, welche E-Mail Adresse du verwendet haben könntest.\r\n\r\n', NULL, NULL),
+    ('15', '1', NULL, '1', '1', '2', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'neues_familienmitglied', '3', 'Wie kann ich ein OLZ-Konto für ein Familienmitglied erstellen?', '1. Stelle sicher, dass du eingeloggt bist\r\n2. Gehe auf dein Profil (OLZ-Konto-Menu rechts oben > Profil)\r\n3. Wähle \"Neues Familienmitglied erstellen\"\r\n4. Formular ausfüllen und abschicken (Hinweis: Im Gegensatz zum Hauptkonto dürfen E-Mail und Passwort leer bleiben)\r\n5. Nun hast du im OLZ-Konto-Menu rechts oben die Möglichkeit, zwischen deinem Hauptkonto und dem Kind-Konto hin- und herzuwechseln\r\n\r\n', NULL, NULL),
+    ('16', '127', '25', '127', '127', '2', '2025-02-12 10:40:04', '2025-02-12 20:38:22', 'markdown', '4', 'Wie kann ich Text formatieren?', '---\n\n**Wie es aussehen wird**\n{.float-right}\n\n**Was du eingibst**\n\n---\n{.clear-both}\n\n# Riesen-Titel (1)\n{.float-right}\n\n`# Riesen-Titel (1)`\n\n---\n{.clear-both}\n\n### Titel (3)\n{.float-right}\n\n`### Titel (3)`\n\n---\n{.clear-both}\n\n*kursiv*\n{.float-right}\n\n`*kursiv*`\n\n---\n{.clear-both}\n\n**fett**\n{.float-right}\n\n`**fett**`\n\n---\n{.clear-both}\n\n- Punkt Eins\n- Punkt Zwei\n{.float-right}\n\n```\n- Punkt Eins\n- Punkt Zwei\n```\n\n---\n{.clear-both}\n\n1. Punkt Eins\n2. Punkt Zwei\n{.float-right}\n\n```\n1. Punkt Eins\n2. Punkt Zwei\n```\n\n---\n{.clear-both}\n\n[Swiss Orienteering](https://swiss-orienteering.ch)\n{.float-right}\n\n`[Swiss Orienteering](https://swiss-orienteering.ch)`\n\n---\n{.clear-both}\n\n**Bild**: Hochladen, dann auf ![](/assets/icns/copy_16.svg) (Kopieren) klicken, und im Text einfügen.\n\n---\n{.clear-both}\n\n**Datei**: Hochladen, dann auf ![](/assets/icns/copy_16.svg) (Kopieren) klicken, und im Text einfügen. `LABEL` durch gewünschten Link-Text ersetzen.\n\n---\n{.clear-both}\n\n[Ausführliche Dokumentation von Markdown (Englisch)](https://www.markdownguide.org/basic-syntax/)', NULL, NULL),
+    ('17', '1', '25', '1', '1', '1', '2024-05-15 23:33:24', '2024-05-15 23:33:24', 'soft_deleted', '0', 'SOFT DELETED', 'SOFT DELETED', '2020-01-01 00:00:00', '42');
 
 -- Table quiz_categories
 INSERT INTO quiz_categories
-    (`id`, `parent_category_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `on_off`, `created_at`, `last_modified_at`)
+    (`id`, `parent_category_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `created_at`, `last_modified_at`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', NULL, NULL, NULL, NULL, NULL, 'Kartensymbole', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('2', '1', NULL, NULL, NULL, NULL, 'Geländeformen', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('3', '1', NULL, NULL, NULL, NULL, 'Felsen und Steine', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('4', '1', NULL, NULL, NULL, NULL, 'Gewässer und Sümpfe', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('5', '1', NULL, NULL, NULL, NULL, 'Vegetation', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('6', '1', NULL, NULL, NULL, NULL, 'Künstliche Objekte', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('7', '1', NULL, NULL, NULL, NULL, 'Bahnsymbole', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('8', '1', NULL, NULL, NULL, NULL, 'SOFT DELETED', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00');
+    ('1', NULL, NULL, NULL, NULL, NULL, 'Kartensymbole', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('2', '1', NULL, NULL, NULL, NULL, 'Geländeformen', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('3', '1', NULL, NULL, NULL, NULL, 'Felsen und Steine', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('4', '1', NULL, NULL, NULL, NULL, 'Gewässer und Sümpfe', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('5', '1', NULL, NULL, NULL, NULL, 'Vegetation', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('6', '1', NULL, NULL, NULL, NULL, 'Künstliche Objekte', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('7', '1', NULL, NULL, NULL, NULL, 'Bahnsymbole', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('8', '1', NULL, NULL, NULL, NULL, 'SOFT DELETED', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '2020-01-01 00:00:00', '42');
 
 -- Table quiz_skill
 INSERT INTO quiz_skill
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `on_off`, `created_at`, `last_modified_at`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `created_at`, `last_modified_at`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', NULL, NULL, NULL, NULL, 'Höhenkurve', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('2', NULL, NULL, NULL, NULL, 'Zählkurve', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('3', NULL, NULL, NULL, NULL, 'Formlinie', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('4', NULL, NULL, NULL, NULL, 'Unpassierbare Felswand', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('5', NULL, NULL, NULL, NULL, 'Unpassierbares Gewässer', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('6', NULL, NULL, NULL, NULL, 'Offenes Gebiet', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('7', NULL, NULL, NULL, NULL, 'Befestigte Fläche', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('8', NULL, NULL, NULL, NULL, 'Startpunkt', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00'),
-    ('9', NULL, NULL, NULL, NULL, 'SOFT DELETED', '0', '2020-08-15 16:51:00', '2020-08-15 16:51:00');
+    ('1', NULL, NULL, NULL, NULL, 'Höhenkurve', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('2', NULL, NULL, NULL, NULL, 'Zählkurve', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('3', NULL, NULL, NULL, NULL, 'Formlinie', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('4', NULL, NULL, NULL, NULL, 'Unpassierbare Felswand', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('5', NULL, NULL, NULL, NULL, 'Unpassierbares Gewässer', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('6', NULL, NULL, NULL, NULL, 'Offenes Gebiet', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('7', NULL, NULL, NULL, NULL, 'Befestigte Fläche', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('8', NULL, NULL, NULL, NULL, 'Startpunkt', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL),
+    ('9', NULL, NULL, NULL, NULL, 'SOFT DELETED', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '2020-01-01 00:00:00', '42');
 
 -- Table quiz_skill_levels
 INSERT INTO quiz_skill_levels
-    (`id`, `user_id`, `skill_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `value`, `recorded_at`, `on_off`, `created_at`, `last_modified_at`)
+    (`id`, `user_id`, `skill_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `value`, `recorded_at`, `created_at`, `last_modified_at`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', '1', '1', '1', NULL, '1', '1', '0.5', '2022-03-17 00:25:26', '1', '2022-03-17 00:25:26', '2022-03-17 00:25:26'),
-    ('2', '1', '2', '1', NULL, '1', '1', '0.25', '2022-03-17 00:30:43', '1', '2022-03-17 00:30:43', '2022-03-17 00:30:43'),
-    ('3', '2', '5', '2', NULL, '2', '2', '0.25', '2022-03-17 00:30:43', '1', '2022-03-17 00:30:43', '2022-03-17 00:30:43'),
-    ('4', '2', '5', '2', NULL, '2', '2', '999999999', '2022-03-17 00:30:43', '0', '2022-03-17 00:30:43', '2022-03-17 00:30:43');
+    ('1', '1', '1', '1', NULL, '1', '1', '0.5', '2022-03-17 00:25:26', '2022-03-17 00:25:26', '2022-03-17 00:25:26', NULL, NULL),
+    ('2', '1', '2', '1', NULL, '1', '1', '0.25', '2022-03-17 00:30:43', '2022-03-17 00:30:43', '2022-03-17 00:30:43', NULL, NULL),
+    ('3', '2', '5', '2', NULL, '2', '2', '0.25', '2022-03-17 00:30:43', '2022-03-17 00:30:43', '2022-03-17 00:30:43', NULL, NULL),
+    ('4', '2', '5', '2', NULL, '2', '2', '999999999', '2022-03-17 00:30:43', '2022-03-17 00:30:43', '2022-03-17 00:30:43', '2020-01-01 00:00:00', '42');
 
 -- Table quiz_skills_categories
 INSERT INTO quiz_skills_categories
@@ -574,82 +572,82 @@ VALUES
 
 -- Table roles
 INSERT INTO roles
-    (`id`, `username`, `old_username`, `name`, `description`, `parent_role`, `can_have_child_roles`, `guide`, `permissions`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`, `position_within_parent`, `featured_position`)
+    (`id`, `username`, `old_username`, `name`, `description`, `parent_role`, `can_have_child_roles`, `guide`, `permissions`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `position_within_parent`, `featured_position`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', '# Anlässe🎫, \r\nVizepräsi\n\nOrganisiert Anlässe', NULL, '1', 'Anlässe organisieren:\n- 1 Jahr vorher: abklären\n- ...', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('2', 'material', NULL, 'Material \r\n& Karten', '# Material \r\n& Karten\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '# Öffentlich-\r\nkeitsarbeit\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL),
-    ('4', 'finanzen', NULL, 'Finanzen', '# Finanzen\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL),
-    ('5', 'praesi', NULL, 'Präsident', '# Präsident\n\nPortrait: ![](./ZntVatFCHj3h8KZh7LyiB9x5.jpg)\n\n[Mein Programm](./c44s3s8QjwZd2WYTEVg3iW9k.pdf)', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', '0'),
-    ('6', 'aktuariat', NULL, 'Aktuariat & \r\nMitgliederliste', '# Aktuariat & \r\nMitgliederliste\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '5', '1'),
-    ('7', 'nachwuchs-ausbildung', NULL, 'Nachwuchs & \r\nAusbildung', '# Nachwuchs & \r\nAusbildung\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '6', NULL),
-    ('8', 'nachwuchs-leistungssport', NULL, 'Nachwuchs & Leistungssport', '# Nachwuchs & Leistungssport\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '7', NULL),
-    ('9', 'trainings', NULL, 'Training\r\n& Technik', '# Training\r\n& Technik\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '8', NULL),
-    ('10', 'weekends', NULL, 'Weekends', '# Weekends\n\n', '1', '1', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('11', 'staffeln', NULL, '5er- und Pfingststaffel', '# 5er- und Pfingststaffel\n\n', '1', '1', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('12', 'papiersammlung', NULL, 'Papiersammlung', '# Papiersammlung\n\n', '1', '1', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL),
-    ('13', 'papiersammlung-langnau', NULL, 'Langnau', '# Langnau\n\n', '12', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('14', 'papiersammlung-thalwil', NULL, 'Thalwil', '# Thalwil\n\n', '12', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('15', 'flohmarkt', NULL, 'Flohmarkt', '# Flohmarkt\n\n', '1', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL),
-    ('16', 'kartenchef', NULL, 'Kartenteam', '# Kartenteam\n\n', '2', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('17', 'kartenteam', NULL, 'Mit dabei', '# Mit dabei\n\n', '16', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('18', 'karten', 'kartenverkauf', 'Kartenverkauf', '# Kartenverkauf\n\n', '2', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', '2'),
-    ('19', 'kleider', 'kleiderverkauf', 'Kleiderverkauf', '# Kleiderverkauf\n\n', '2', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', '3'),
-    ('20', 'material-group', NULL, 'Material', '# Material\n\n', '2', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL),
-    ('21', 'materiallager', NULL, 'Lager Thalwil', '# Lager Thalwil\n\n', '20', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('22', 'sportident', NULL, 'SportIdent', '# SportIdent\n\n', '20', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('23', 'buessli', NULL, 'OLZ-Büssli', '# OLZ-Büssli\n\n', '2', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', NULL),
-    ('24', 'presse', NULL, 'Presse', '# Presse\n\n', '3', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('25', 'website', NULL, 'Homepage', '# Homepage\n\n', '3', '0', '', 'role_email', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '# Heftli \"HOLZ\"\n\n', '3', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL),
-    ('27', 'revisoren', NULL, 'Revisoren', '# Revisoren\n\n', '4', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '# Ersatzrevisor\n\n', '27', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('29', 'sektionen', NULL, 'Sektionen', '# Sektionen\n\n', '5', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('30', 'sektion-adliswil', NULL, 'Adliswil', '# Orientierungslauf-Verein Adliswil\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('31', 'sektion-horgen', NULL, 'Horgen', '# Orientierungslauf-Verein Horgen\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('32', 'sektion-langnau', NULL, 'Langnau', '# Orientierungslauf-Verein Langnau am Albis\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL),
-    ('33', 'sektion-richterswil', NULL, 'Richterswil', '# Orientierungslauf-Verein Richterswil\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL),
-    ('34', 'sektion-thalwil', NULL, 'Thalwil', '# Orientierungslauf-Verein Thalwil\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', NULL),
-    ('35', 'sektion-waedenswil', NULL, 'Wädenswil', '# Orientierungslauf-Verein Wädenswil\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '5', NULL),
-    ('36', 'ol-und-umwelt', NULL, 'OL und Umwelt', '# OL und Umwelt\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('37', 'versa', 'mira', 'Prävention sexueller Ausbeutung', '# Prävention sexueller Ausbeutung\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL),
-    ('38', 'archiv', NULL, 'Chronik & Archiv', '# Chronik & Archiv\n\n', '6', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('39', 'js-coaches', NULL, 'J+S Coach', '# J+S Coach\n\n', '7', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('40', 'js-leitende', NULL, 'J+S Leitende', '# J+S Leitende\n\n', '7', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('41', 'js-kids', NULL, 'J+S Kids', '# J+S Kids\n\n', '7', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL),
-    ('42', 'scool', NULL, 'sCOOL', '# sCOOL\n\n', '7', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL),
-    ('43', 'trainer-leistungssport', NULL, 'Trainer Leistungssport', '# Trainer Leistungssport\n\n', '8', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('44', 'team-gold', NULL, 'Team Gold', '# Team Gold\n\n', '8', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('45', 'team-gold-leiter', NULL, 'Leiterteam', '# Leiterteam\n\n', '44', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('46', 'kartentrainings', NULL, 'Kartentraining', '# Kartentraining\n\n', '9', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL),
-    ('47', 'hallentrainings', NULL, 'Hallentraining', '# Hallentraining\n\n', '9', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('48', 'lauftrainings', NULL, 'Lauftraining', '# Lauftraining\n\n', '9', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL),
-    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '# Kontaktperson Nachwuchs\n\n', '7', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', NULL),
-    ('50', 'gold-athleten', NULL, 'Athleten', '# Athleten\n\n', '44', '0', '', 'kaderblog', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL),
-    ('51', 'fan-olz-elite', NULL, 'Fan OLZ Elite', '# Fan OLZ Elite\n\n', '8', '1', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '3', '4'),
-    ('52', 'deleted-role', NULL, 'SOFT DELETED', '# SOFT DELETED\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '0', '2024-03-20 20:52:06', '2024-03-20 20:52:06', '4', NULL),
-    ('53', 'sektion-oberrieden', NULL, 'Oberrieden', '# Orientierungslauf-Verein Oberrieden\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '1', '2024-03-13 20:52:06', '2024-03-13 20:52:06', '6', NULL);
+    ('1', 'anlaesse', NULL, 'Anlässe🎫, \r\nVizepräsi', '# Anlässe🎫, \r\nVizepräsi\n\nOrganisiert Anlässe', NULL, '1', 'Anlässe organisieren:\n- 1 Jahr vorher: abklären\n- ...', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('2', 'material', NULL, 'Material \r\n& Karten', '# Material \r\n& Karten\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('3', 'media', NULL, 'Öffentlich-\r\nkeitsarbeit', '# Öffentlich-\r\nkeitsarbeit\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL, NULL, NULL),
+    ('4', 'finanzen', NULL, 'Finanzen', '# Finanzen\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL, NULL, NULL),
+    ('5', 'praesi', NULL, 'Präsident', '# Präsident\n\nPortrait: ![](./ZntVatFCHj3h8KZh7LyiB9x5.jpg)\n\n[Mein Programm](./c44s3s8QjwZd2WYTEVg3iW9k.pdf)', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', '0', NULL, NULL),
+    ('6', 'aktuariat', NULL, 'Aktuariat & \r\nMitgliederliste', '# Aktuariat & \r\nMitgliederliste\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '5', '1', NULL, NULL),
+    ('7', 'nachwuchs-ausbildung', NULL, 'Nachwuchs & \r\nAusbildung', '# Nachwuchs & \r\nAusbildung\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '6', NULL, NULL, NULL),
+    ('8', 'nachwuchs-leistungssport', NULL, 'Nachwuchs & Leistungssport', '# Nachwuchs & Leistungssport\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '7', NULL, NULL, NULL),
+    ('9', 'trainings', NULL, 'Training\r\n& Technik', '# Training\r\n& Technik\n\n', NULL, '1', '', ' vorstand termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '8', NULL, NULL, NULL),
+    ('10', 'weekends', NULL, 'Weekends', '# Weekends\n\n', '1', '1', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('11', 'staffeln', NULL, '5er- und Pfingststaffel', '# 5er- und Pfingststaffel\n\n', '1', '1', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('12', 'papiersammlung', NULL, 'Papiersammlung', '# Papiersammlung\n\n', '1', '1', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL, NULL, NULL),
+    ('13', 'papiersammlung-langnau', NULL, 'Langnau', '# Langnau\n\n', '12', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('14', 'papiersammlung-thalwil', NULL, 'Thalwil', '# Thalwil\n\n', '12', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('15', 'flohmarkt', NULL, 'Flohmarkt', '# Flohmarkt\n\n', '1', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL, NULL, NULL),
+    ('16', 'kartenchef', NULL, 'Kartenteam', '# Kartenteam\n\n', '2', '1', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('17', 'kartenteam', NULL, 'Mit dabei', '# Mit dabei\n\n', '16', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('18', 'karten', 'kartenverkauf', 'Kartenverkauf', '# Kartenverkauf\n\n', '2', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', '2', NULL, NULL),
+    ('19', 'kleider', 'kleiderverkauf', 'Kleiderverkauf', '# Kleiderverkauf\n\n', '2', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', '3', NULL, NULL),
+    ('20', 'material-group', NULL, 'Material', '# Material\n\n', '2', '1', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL, NULL, NULL),
+    ('21', 'materiallager', NULL, 'Lager Thalwil', '# Lager Thalwil\n\n', '20', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('22', 'sportident', NULL, 'SportIdent', '# SportIdent\n\n', '20', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('23', 'buessli', NULL, 'OLZ-Büssli', '# OLZ-Büssli\n\n', '2', '1', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', NULL, NULL, NULL),
+    ('24', 'presse', NULL, 'Presse', '# Presse\n\n', '3', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('25', 'website', NULL, 'Homepage', '# Homepage\n\n', '3', '0', '', 'role_email', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('26', 'holz', NULL, 'Heftli \"HOLZ\"', '# Heftli \"HOLZ\"\n\n', '3', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL, NULL, NULL),
+    ('27', 'revisoren', NULL, 'Revisoren', '# Revisoren\n\n', '4', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('28', 'ersatzrevisoren', NULL, 'Ersatzrevisor', '# Ersatzrevisor\n\n', '27', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('29', 'sektionen', NULL, 'Sektionen', '# Sektionen\n\n', '5', '1', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('30', 'sektion-adliswil', NULL, 'Adliswil', '# Orientierungslauf-Verein Adliswil\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('31', 'sektion-horgen', NULL, 'Horgen', '# Orientierungslauf-Verein Horgen\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('32', 'sektion-langnau', NULL, 'Langnau', '# Orientierungslauf-Verein Langnau am Albis\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL, NULL, NULL),
+    ('33', 'sektion-richterswil', NULL, 'Richterswil', '# Orientierungslauf-Verein Richterswil\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL, NULL, NULL),
+    ('34', 'sektion-thalwil', NULL, 'Thalwil', '# Orientierungslauf-Verein Thalwil\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', NULL, NULL, NULL),
+    ('35', 'sektion-waedenswil', NULL, 'Wädenswil', '# Orientierungslauf-Verein Wädenswil\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '5', NULL, NULL, NULL),
+    ('36', 'ol-und-umwelt', NULL, 'OL und Umwelt', '# OL und Umwelt\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('37', 'versa', 'mira', 'Prävention sexueller Ausbeutung', '# Prävention sexueller Ausbeutung\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL, NULL, NULL),
+    ('38', 'archiv', NULL, 'Chronik & Archiv', '# Chronik & Archiv\n\n', '6', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('39', 'js-coaches', NULL, 'J+S Coach', '# J+S Coach\n\n', '7', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('40', 'js-leitende', NULL, 'J+S Leitende', '# J+S Leitende\n\n', '7', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('41', 'js-kids', NULL, 'J+S Kids', '# J+S Kids\n\n', '7', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL, NULL, NULL),
+    ('42', 'scool', NULL, 'sCOOL', '# sCOOL\n\n', '7', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '3', NULL, NULL, NULL),
+    ('43', 'trainer-leistungssport', NULL, 'Trainer Leistungssport', '# Trainer Leistungssport\n\n', '8', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('44', 'team-gold', NULL, 'Team Gold', '# Team Gold\n\n', '8', '1', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('45', 'team-gold-leiter', NULL, 'Leiterteam', '# Leiterteam\n\n', '44', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('46', 'kartentrainings', NULL, 'Kartentraining', '# Kartentraining\n\n', '9', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '0', NULL, NULL, NULL),
+    ('47', 'hallentrainings', NULL, 'Hallentraining', '# Hallentraining\n\n', '9', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('48', 'lauftrainings', NULL, 'Lauftraining', '# Lauftraining\n\n', '9', '0', '', ' termine termine_admin ', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '2', NULL, NULL, NULL),
+    ('49', 'nachwuchs-kontakt', NULL, 'Kontaktperson Nachwuchs', '# Kontaktperson Nachwuchs\n\n', '7', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '4', NULL, NULL, NULL),
+    ('50', 'gold-athleten', NULL, 'Athleten', '# Athleten\n\n', '44', '0', '', 'kaderblog', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '1', NULL, NULL, NULL),
+    ('51', 'fan-olz-elite', NULL, 'Fan OLZ Elite', '# Fan OLZ Elite\n\n', '8', '1', '', '', NULL, NULL, NULL, NULL, '2024-03-20 20:52:06', '2024-03-20 20:52:06', '3', '4', NULL, NULL),
+    ('52', 'deleted-role', NULL, 'SOFT DELETED', '# SOFT DELETED\n\n', '5', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-20 20:52:06', '2024-03-20 20:52:06', '4', NULL, '2020-01-01 00:00:00', '42'),
+    ('53', 'sektion-oberrieden', NULL, 'Oberrieden', '# Orientierungslauf-Verein Oberrieden\n\n', '29', '0', '', '', NULL, NULL, NULL, NULL, '2024-03-13 20:52:06', '2024-03-13 20:52:06', '6', NULL, NULL, NULL);
 
 -- Table sessions
 -- (sessions omitted)
 
 -- Table snippets
 INSERT INTO snippets
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `created_at`, `last_modified_at`, `text`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `text`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', NULL, NULL, NULL, '1', '1', '2024-03-25 00:05:14', '2020-08-15 16:51:00', '## Karten\n\nsiehe [Karten](/karten)\n\n## Kleider\n\nsiehe [Ressort Kleider](/verein/kleider)\n\n## Leihmaterial\n\nZur Durchführung eines Orientierungslaufes mit Zeitnahme und Auswertung\n\n| Material | Kommerzieller OL (mit Startgeld) | Nichtkommerzieller OL | OLZ Mitglieder | Einzelne Schulklassen | Nachwuchskader |\n| --- | --- | --- | --- | --- | --- |\n| **Zeitnahme (SportIdent)** |\n| 1 Set SI-Material: 1 Koffer mit 20 SI-Einheiten, 1 Koffer mit komplettem Druckerset, Bedienungsanleitung. 1 Tasche mit 20 Badges. | 100.-  | 50.-  | 25.- | 25.- | 25.- |\n| 2 Sets | 150.- | 90.- | 40.- | 40.- | 40.- |\n| **Kompasse** |\n| Kompasse (pro Stück) | 2.- | 0.- | 0.- | 0.- | 0.- |\n| **Posten** |\n| Postenstangen mit Flagge und SI Halterung (pro Stück) | 1.50 | 0.- | 0.- | 0.- | 0.- |\n| Zementsteine und Steckhölzer für Stadt-OL | 0.- | 0.- | 0.- | 0.- | 0.- |\n| Startband / Zielband (pro Stück) | 5.- | 0.- | 0.- | 0.- | 0.- |\n\nAlle Preise: Miete pro Tag; Pro Woche werden 3 Tage berechnet\n\nKontakt für Bestellung, Abholung und Rückgabe des Materials:\n\n[Hansjörg Gasser](mailto:sportident@staging.olzimmerberg.ch)\n\n**Bezahlung:** Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben. Die Zahlungsinformationen sind auch auf der Service-Seite zu finden.\n\n**Verlorenes, beschädigtes Material:** Für verlorenes oder beschädigtes Material kommt der Mieter vollumfänglich auf. Die Preise richten sich nach den offiziellen Preisen des Vertreters von SportIdent in der Schweiz. Das Material muss sauber zurückgebracht werden.\n\n## Dienstleistungen\n\nDie OL Zimmerberg bietet für Schulen und Vereinen oder andere Gruppen geleitete OL-Kurse an.\n\nDas Niveau wird der Gruppe angepasst und kann von Schnupperkursen bis zu einem Fortgeschrittenenkurs varieren.\n\nDie Kurse werden halbtags oder ganztags durchgeführt.\n\n**Package 1: Halbtages Kurs für eine Schulklasse von ca. 25 Personen, CHF 150.--, beinhaltet folgendes:**\n\n- Postenmaterial\n- Elektronisches Auswertungssystem (SI-Material)\n- Bei einem kl. Wettkampf: Auswertung des Wettkampfs\n- Kartenmaterial & Kompasse\n- Fachkundige Betreuung\n\n(Grössere Gruppen, Preis auf Anfrage)\n\n**Package 2: Ganztages Kurs für eine Schulklasse von ca. 25 Personen, CHF 250.--, beinhaltet folgendes:**\n\n- Postenmaterial\n- Elektronisches Auswertungssystem (SI-Material)\n- Bei einem kl. Wettkampf: Auswertung des Wettkampfs\n- Kartenmaterial & Kompasse\n- Fachkundige Betreuung\n\n(Grössere Gruppen, Preis auf Anfrage)'),
-    ('9', '1', NULL, '1', '1', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '**Ziel:** Innerhalb des Jahres so viele Höhenmeter bewältigen, dass wir jeden Tag das Matterhorn erklommen haben:\n365 Tage x 4478m = 1\'634\'470 Höhenmeter\n\n**Mitmachen:** Alle deine Aktivitäten auf Strava zählen automatisch, wenn du auf Strava Mitglied von OL Zimmerberg bist und Simon deine Aktivitäten sehen kann (d.h. diese entweder öffentlich sind, oder du [mit Simon](https://www.strava.com/athletes/52541986) befreundet bist).\nKein Strava? Du kannst deine Aktivität unten manuell hinzufügen. Bei gemeinsamen Aktivitäten kannst du gerne zusätzlich ein Selfie an raphi senden (079 676 92 72; pfaefi@gmx.net).\n\n**Preis:** Wenn wir das Ziel erreichen: Eine Sitzunterlage für alle Interessierten, bedruckt mit einer Collage der eingesendeten Selfies.\n\n**FAQ und weitere Infos**: [Siehe PDF](./TQNTnxlmYBGqQup9khY_ylpV.pdf)\n\n**Technische Hinweise:** ⌛ Es kann bis zu 10 Minuten dauern, bis deine Strava-Aktivität hier erscheint. 👀 Wenn du auf Strava deinen Namen, die Distanz oder Laufzeit deiner Aktivität änderst, kann die Aktivität doppelt erscheinen. 🤷 Wenn du zwei exakt gleiche Aktivitäten auf Strava hast, kann die spätere Aktivität verloren gehen. 🖊️ Bei all diesen Problemen, benutze bitte manuelle Aktivitäten, um den Fehler auszugleichen. Danke 🙏'),
-    ('10', '1', NULL, '1', '1', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '**Regeln**\n- Es wird für jeden Zieleinlauf eine OL Zimmerberg-Rangliste erstellt. Der/die Schnellste erhält soviele Punkte, wie OLZler diesen Zieleinlauf gerannt sind, d.h. wenn 54 OLZler am Lauf mitmachen, bekommt der/die Schnellste 54 Punkte, der/die Nächste 53 usw. \n- Wenn es an einem Lauf verschiedene letzte Posten/Ziel gibt, gibt es einzelne Ranglisten für jeden Zieleinlauf\n- Es gibt keine Streichresultate\n- Wer am 31.12.2026 am meisten Punkte hat, darf sich offiziell OL Zimmerberg-Zieleinlauf-Champion nennen :-)\n- Es zählen alle Fuss-OL (inkl. Indoor-OL) 2026, welche die Rangliste auf swiss-orienteering.ch publizieren\n- Team-, Staffel und KnockOut-OL zählen nicht (das ist aber gar kein Grund zum nicht an der 5er-Staffel am 28. Juni 2026 teilzunehmen!)\n- Die Rangliste wird hier laufend aktualisiert. Falls Du einen Fehler bemerkst, melde dies bitte an Dani oder Simon'),
-    ('12', '1', NULL, '1', '1', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '{.equal}\nKartentyp | Format | Karte gedruckt | Karte digital\n--- | --- | --- | ---\nWald-/Dorf-Karte | A4 | 2.50 | 2.50\nWald-/Dorf-Karte | A3 | 4.00 | 2.50\nSchulhauskarte | A4 | 1.50 | 1.00\n\n(Kartenpreise gültig ab 1.1.2019)\n\n[Karten bestellen](mailto:karten@staging.olzimmerberg.ch?subject=Bestellung%20OL-Karten)\n\n[Kartenverzeichnis swiss orienteering](https://www.swiss-orienteering.ch/karten/index.php)\n'),
-    ('13', NULL, NULL, NULL, '1', '1', '2024-03-25 16:13:29', '2026-04-16 22:55:41', '## Trainings\n\nsiehe [Termine -> Trainings](/termine?filter=typ-training---datum-bevorstehend)\n'),
-    ('14', NULL, NULL, NULL, '1', '1', '2024-03-25 16:13:29', '2020-08-15 16:51:00', '## Starterpack\n\n{#test .float-right}\n![](./myjGV7ADStN8rITm5OSy9c48.jpg)\n\nDu hast ein Schnuppertraining absolviert und möchtest jetzt beim OL **richtig loslegen**? Dann haben wir für dich das ideale **OL-Starterpack**. 🤩 Es beinhaltet spezielles Equipment, mit dem du dein nächstes OL-Training auf ein neues Level bringst. 👌\n\n#### Inhalt\n- **OL-Dress (Shirt & Hose)** 🏃 — Elegant gekleidet gehörst du beim nächsten Training voll dazu\n- **Kompass** 🧭 — Ein geeigneter Daumenkompass, damit du auf Kurs bleibst\n- **Roter, wasserfester Filzstift** 🖊️ — Ein praktisches Hilfsmittel für gewisse Trainingsformen, und um nach dem Lauf deine Route einzuzeichnen und zu analysieren\n- **OL-Böxli (für Kompass und Filzstift)** 📦 — Schützt Kompass und Stift, und sorgt dafür dass diese nicht verloren gehen\n- **1 Jahr Mitgliedschaft in der OL Zimmerberg** 💯 — Unser Geschenk für dich!\n\n#### Preis\n- **111 CHF** (für über 20-jährige)\n- **77 CHF** (für unter 20-jährige)\n\n*(verfügbar ab Ende April)*\n\n#### {.disabled}**Nicht** inbegriffen\n{.disabled}\n- OL-Schuhe bzw. Trailrunning-Schuhe (für Wald-OL) 👟 — Die probierst du besser selbst im Laden an\n- Turnschuhe (für Stadt-OL) 👟 — Die probierst du besser selbst im Laden an\n- Socken / Stulpen (für Wald-OL) 🧦 — Schützen vor dem Unterholz, sind aber für Neu-Einsteiger nicht unbedingt nötig\n- [SportIdent-Card](https://www.sportident.com/products#category=card) (\"Badge\") ⏲️ — Für die Zeitnahme an OL-Wettkämpfen, sind für Neu-Einsteiger nicht unbedingt nötig, und evtl. willst du ja deine persönliche Nummer 😉\n'),
-    ('15', NULL, NULL, NULL, '1', '1', '2024-03-25 16:13:29', '2020-08-15 16:51:00', '## OL-Karten\n\nsiehe:\n- [Karten](/karten)\n- {#role-mailto}[Ressort Karten](mailto:karten@staging.olzimmerberg.ch)\n- {#role-direct}karten@staging.olzimmerberg.ch\n- {#user-mailto}[Karen Karten](mailto:karen@staging.olzimmerberg.ch)\n- {#user-direct}karen@staging.olzimmerberg.ch\n- {#email-mailto}[Benutzer](mailto:user+olz@gmail.com)\n- {#email-direct}user+olz@gmail.com'),
-    ('16', NULL, NULL, NULL, '1', '1', '2024-03-25 16:13:29', '2026-04-16 22:54:01', '## Kleider\n\nsiehe [Ressort Kleider](/verein/kleider)\n'),
-    ('17', NULL, NULL, NULL, '1', '1', '2024-03-25 16:13:29', '2020-08-15 16:51:00', '## Leihmaterial\n\n**Zur Durchführung eines Orientierungslaufes mit Zeitnahme und Auswertung**\n\n| Material | Kommerzieller OL (mit Startgeld) | Nichtkommerzieller OL | OLZ Mitglieder | Einzelne Schulklassen | Nachwuchskader |\n| --- | --- | --- | --- | --- | --- |\n| **Zeitnahme (SportIdent)** |\n| 1 Set SI-Material: 1 Koffer mit 20 SI-Einheiten, 1 Koffer mit komplettem Druckerset, Bedienungsanleitung. 1 Tasche mit 20 Badges. | 100.-  | 50.-  | 25.- | 25.- | 25.- |\n| 2 Sets | 150.- | 90.- | 40.- | 40.- | 40.- |\n| **Kompasse** |\n| Kompasse (pro Stück) | 2.- | 0.- | 0.- | 0.- | 0.- |\n| **Posten** |\n| Postenstangen mit Flagge und SI Halterung (pro Stück) | 1.50 | 0.- | 0.- | 0.- | 0.- |\n| Zementsteine und Steckhölzer für Stadt-OL | 0.- | 0.- | 0.- | 0.- | 0.- |\n| Startband / Zielband (pro Stück) | 5.- | 0.- | 0.- | 0.- | 0.- |\n\nAlle Preise: Miete pro Tag; Pro Woche werden 3 Tage berechnet\n\n**Kontakt für Bestellung, Abholung und Rückgabe des Materials: [Hansjörg Gasser](mailto:sportident@staging.olzimmerberg.ch)**\n\n**Bezahlung:** Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben. Die Zahlungsinformationen sind auch auf der Service-Seite zu finden.\n\n**Verlorenes, beschädigtes Material:** Für verlorenes oder beschädigtes Material kommt der Mieter vollumfänglich auf. Die Preise richten sich nach den offiziellen Preisen des Vertreters von SportIdent in der Schweiz. Das Material muss sauber zurückgebracht werden.'),
-    ('18', NULL, NULL, NULL, '1', '1', '2024-03-25 16:13:29', '2020-08-15 16:51:00', '## Kurse & Dienstleistungen\n\nDie OL Zimmerberg bietet für Schulen und Vereine oder andere Gruppen **geleitete OL-Kurse** an.\n\nDas Niveau wird der Gruppe angepasst und kann von Schnupperkursen bis zu einem Fortgeschrittenenkurs variieren.\n\nDie Kurse werden halbtags oder ganztags durchgeführt.\n\n- Pro Leiter (für ca. 15 Teilnehmer) pro Halbtag **CHF 25.-**\n- [Leihmaterial](#leihmaterial) nach Bedarf\n- [Karten](/karten) nach Bedarf\n\n**Gerne stellen wir euch eine Offerte zusammen.**\n\n[**Kontakt**](mailto:anlaesse-projekte@staging.olzimmerberg.ch)'),
-    ('22', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Wichtige Information! ⚠️'),
-    ('23', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Abgesagt! ⚠️'),
-    ('24', NULL, NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Wichtig! ⚠️\n\n![](./oCGvpb96V6bZNLoQNe8djJgw.jpg) [PDF](./AXfZYP3eyLKTWJmfBRGTua7H.pdf)\n\n1. [Intern](/service)\n2. [Extern](https://solv.ch)\n\n- [E-Mail](mailto:user@staging.olzimmerberg.ch)');
+    ('1', NULL, NULL, NULL, '1', '2024-03-25 00:05:14', '2020-08-15 16:51:00', '## Karten\n\nsiehe [Karten](/karten)\n\n## Kleider\n\nsiehe [Ressort Kleider](/verein/kleider)\n\n## Leihmaterial\n\nZur Durchführung eines Orientierungslaufes mit Zeitnahme und Auswertung\n\n| Material | Kommerzieller OL (mit Startgeld) | Nichtkommerzieller OL | OLZ Mitglieder | Einzelne Schulklassen | Nachwuchskader |\n| --- | --- | --- | --- | --- | --- |\n| **Zeitnahme (SportIdent)** |\n| 1 Set SI-Material: 1 Koffer mit 20 SI-Einheiten, 1 Koffer mit komplettem Druckerset, Bedienungsanleitung. 1 Tasche mit 20 Badges. | 100.-  | 50.-  | 25.- | 25.- | 25.- |\n| 2 Sets | 150.- | 90.- | 40.- | 40.- | 40.- |\n| **Kompasse** |\n| Kompasse (pro Stück) | 2.- | 0.- | 0.- | 0.- | 0.- |\n| **Posten** |\n| Postenstangen mit Flagge und SI Halterung (pro Stück) | 1.50 | 0.- | 0.- | 0.- | 0.- |\n| Zementsteine und Steckhölzer für Stadt-OL | 0.- | 0.- | 0.- | 0.- | 0.- |\n| Startband / Zielband (pro Stück) | 5.- | 0.- | 0.- | 0.- | 0.- |\n\nAlle Preise: Miete pro Tag; Pro Woche werden 3 Tage berechnet\n\nKontakt für Bestellung, Abholung und Rückgabe des Materials:\n\n[Hansjörg Gasser](mailto:sportident@staging.olzimmerberg.ch)\n\n**Bezahlung:** Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben. Die Zahlungsinformationen sind auch auf der Service-Seite zu finden.\n\n**Verlorenes, beschädigtes Material:** Für verlorenes oder beschädigtes Material kommt der Mieter vollumfänglich auf. Die Preise richten sich nach den offiziellen Preisen des Vertreters von SportIdent in der Schweiz. Das Material muss sauber zurückgebracht werden.\n\n## Dienstleistungen\n\nDie OL Zimmerberg bietet für Schulen und Vereinen oder andere Gruppen geleitete OL-Kurse an.\n\nDas Niveau wird der Gruppe angepasst und kann von Schnupperkursen bis zu einem Fortgeschrittenenkurs varieren.\n\nDie Kurse werden halbtags oder ganztags durchgeführt.\n\n**Package 1: Halbtages Kurs für eine Schulklasse von ca. 25 Personen, CHF 150.--, beinhaltet folgendes:**\n\n- Postenmaterial\n- Elektronisches Auswertungssystem (SI-Material)\n- Bei einem kl. Wettkampf: Auswertung des Wettkampfs\n- Kartenmaterial & Kompasse\n- Fachkundige Betreuung\n\n(Grössere Gruppen, Preis auf Anfrage)\n\n**Package 2: Ganztages Kurs für eine Schulklasse von ca. 25 Personen, CHF 250.--, beinhaltet folgendes:**\n\n- Postenmaterial\n- Elektronisches Auswertungssystem (SI-Material)\n- Bei einem kl. Wettkampf: Auswertung des Wettkampfs\n- Kartenmaterial & Kompasse\n- Fachkundige Betreuung\n\n(Grössere Gruppen, Preis auf Anfrage)', NULL, NULL),
+    ('9', '1', NULL, '1', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '**Ziel:** Innerhalb des Jahres so viele Höhenmeter bewältigen, dass wir jeden Tag das Matterhorn erklommen haben:\n365 Tage x 4478m = 1\'634\'470 Höhenmeter\n\n**Mitmachen:** Alle deine Aktivitäten auf Strava zählen automatisch, wenn du auf Strava Mitglied von OL Zimmerberg bist und Simon deine Aktivitäten sehen kann (d.h. diese entweder öffentlich sind, oder du [mit Simon](https://www.strava.com/athletes/52541986) befreundet bist).\nKein Strava? Du kannst deine Aktivität unten manuell hinzufügen. Bei gemeinsamen Aktivitäten kannst du gerne zusätzlich ein Selfie an raphi senden (079 676 92 72; pfaefi@gmx.net).\n\n**Preis:** Wenn wir das Ziel erreichen: Eine Sitzunterlage für alle Interessierten, bedruckt mit einer Collage der eingesendeten Selfies.\n\n**FAQ und weitere Infos**: [Siehe PDF](./TQNTnxlmYBGqQup9khY_ylpV.pdf)\n\n**Technische Hinweise:** ⌛ Es kann bis zu 10 Minuten dauern, bis deine Strava-Aktivität hier erscheint. 👀 Wenn du auf Strava deinen Namen, die Distanz oder Laufzeit deiner Aktivität änderst, kann die Aktivität doppelt erscheinen. 🤷 Wenn du zwei exakt gleiche Aktivitäten auf Strava hast, kann die spätere Aktivität verloren gehen. 🖊️ Bei all diesen Problemen, benutze bitte manuelle Aktivitäten, um den Fehler auszugleichen. Danke 🙏', NULL, NULL),
+    ('10', '1', NULL, '1', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '**Regeln**\n- Es wird für jeden Zieleinlauf eine OL Zimmerberg-Rangliste erstellt. Der/die Schnellste erhält soviele Punkte, wie OLZler diesen Zieleinlauf gerannt sind, d.h. wenn 54 OLZler am Lauf mitmachen, bekommt der/die Schnellste 54 Punkte, der/die Nächste 53 usw. \n- Wenn es an einem Lauf verschiedene letzte Posten/Ziel gibt, gibt es einzelne Ranglisten für jeden Zieleinlauf\n- Es gibt keine Streichresultate\n- Wer am 31.12.2026 am meisten Punkte hat, darf sich offiziell OL Zimmerberg-Zieleinlauf-Champion nennen :-)\n- Es zählen alle Fuss-OL (inkl. Indoor-OL) 2026, welche die Rangliste auf swiss-orienteering.ch publizieren\n- Team-, Staffel und KnockOut-OL zählen nicht (das ist aber gar kein Grund zum nicht an der 5er-Staffel am 28. Juni 2026 teilzunehmen!)\n- Die Rangliste wird hier laufend aktualisiert. Falls Du einen Fehler bemerkst, melde dies bitte an Dani oder Simon', NULL, NULL),
+    ('12', '1', NULL, '1', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '{.equal}\nKartentyp | Format | Karte gedruckt | Karte digital\n--- | --- | --- | ---\nWald-/Dorf-Karte | A4 | 2.50 | 2.50\nWald-/Dorf-Karte | A3 | 4.00 | 2.50\nSchulhauskarte | A4 | 1.50 | 1.00\n\n(Kartenpreise gültig ab 1.1.2019)\n\n[Karten bestellen](mailto:karten@staging.olzimmerberg.ch?subject=Bestellung%20OL-Karten)\n\n[Kartenverzeichnis swiss orienteering](https://www.swiss-orienteering.ch/karten/index.php)\n', NULL, NULL),
+    ('13', NULL, NULL, NULL, '1', '2024-03-25 16:13:29', '2026-04-16 22:55:41', '## Trainings\n\nsiehe [Termine -> Trainings](/termine?filter=typ-training---datum-bevorstehend)\n', NULL, NULL),
+    ('14', NULL, NULL, NULL, '1', '2024-03-25 16:13:29', '2020-08-15 16:51:00', '## Starterpack\n\n{#test .float-right}\n![](./myjGV7ADStN8rITm5OSy9c48.jpg)\n\nDu hast ein Schnuppertraining absolviert und möchtest jetzt beim OL **richtig loslegen**? Dann haben wir für dich das ideale **OL-Starterpack**. 🤩 Es beinhaltet spezielles Equipment, mit dem du dein nächstes OL-Training auf ein neues Level bringst. 👌\n\n#### Inhalt\n- **OL-Dress (Shirt & Hose)** 🏃 — Elegant gekleidet gehörst du beim nächsten Training voll dazu\n- **Kompass** 🧭 — Ein geeigneter Daumenkompass, damit du auf Kurs bleibst\n- **Roter, wasserfester Filzstift** 🖊️ — Ein praktisches Hilfsmittel für gewisse Trainingsformen, und um nach dem Lauf deine Route einzuzeichnen und zu analysieren\n- **OL-Böxli (für Kompass und Filzstift)** 📦 — Schützt Kompass und Stift, und sorgt dafür dass diese nicht verloren gehen\n- **1 Jahr Mitgliedschaft in der OL Zimmerberg** 💯 — Unser Geschenk für dich!\n\n#### Preis\n- **111 CHF** (für über 20-jährige)\n- **77 CHF** (für unter 20-jährige)\n\n*(verfügbar ab Ende April)*\n\n#### {.disabled}**Nicht** inbegriffen\n{.disabled}\n- OL-Schuhe bzw. Trailrunning-Schuhe (für Wald-OL) 👟 — Die probierst du besser selbst im Laden an\n- Turnschuhe (für Stadt-OL) 👟 — Die probierst du besser selbst im Laden an\n- Socken / Stulpen (für Wald-OL) 🧦 — Schützen vor dem Unterholz, sind aber für Neu-Einsteiger nicht unbedingt nötig\n- [SportIdent-Card](https://www.sportident.com/products#category=card) (\"Badge\") ⏲️ — Für die Zeitnahme an OL-Wettkämpfen, sind für Neu-Einsteiger nicht unbedingt nötig, und evtl. willst du ja deine persönliche Nummer 😉\n', NULL, NULL),
+    ('15', NULL, NULL, NULL, '1', '2024-03-25 16:13:29', '2020-08-15 16:51:00', '## OL-Karten\n\nsiehe:\n- [Karten](/karten)\n- {#role-mailto}[Ressort Karten](mailto:karten@staging.olzimmerberg.ch)\n- {#role-direct}karten@staging.olzimmerberg.ch\n- {#user-mailto}[Karen Karten](mailto:karen@staging.olzimmerberg.ch)\n- {#user-direct}karen@staging.olzimmerberg.ch\n- {#email-mailto}[Benutzer](mailto:user+olz@gmail.com)\n- {#email-direct}user+olz@gmail.com', NULL, NULL),
+    ('16', NULL, NULL, NULL, '1', '2024-03-25 16:13:29', '2026-04-16 22:54:01', '## Kleider\n\nsiehe [Ressort Kleider](/verein/kleider)\n', NULL, NULL),
+    ('17', NULL, NULL, NULL, '1', '2024-03-25 16:13:29', '2020-08-15 16:51:00', '## Leihmaterial\n\n**Zur Durchführung eines Orientierungslaufes mit Zeitnahme und Auswertung**\n\n| Material | Kommerzieller OL (mit Startgeld) | Nichtkommerzieller OL | OLZ Mitglieder | Einzelne Schulklassen | Nachwuchskader |\n| --- | --- | --- | --- | --- | --- |\n| **Zeitnahme (SportIdent)** |\n| 1 Set SI-Material: 1 Koffer mit 20 SI-Einheiten, 1 Koffer mit komplettem Druckerset, Bedienungsanleitung. 1 Tasche mit 20 Badges. | 100.-  | 50.-  | 25.- | 25.- | 25.- |\n| 2 Sets | 150.- | 90.- | 40.- | 40.- | 40.- |\n| **Kompasse** |\n| Kompasse (pro Stück) | 2.- | 0.- | 0.- | 0.- | 0.- |\n| **Posten** |\n| Postenstangen mit Flagge und SI Halterung (pro Stück) | 1.50 | 0.- | 0.- | 0.- | 0.- |\n| Zementsteine und Steckhölzer für Stadt-OL | 0.- | 0.- | 0.- | 0.- | 0.- |\n| Startband / Zielband (pro Stück) | 5.- | 0.- | 0.- | 0.- | 0.- |\n\nAlle Preise: Miete pro Tag; Pro Woche werden 3 Tage berechnet\n\n**Kontakt für Bestellung, Abholung und Rückgabe des Materials: [Hansjörg Gasser](mailto:sportident@staging.olzimmerberg.ch)**\n\n**Bezahlung:** Der geschuldete Betrag ist per ESR innerhalb von 30 Tagen zu bezahlen. Ein Einzahlungsschein dafür wird beim Abholen des Materials abgegeben. Die Zahlungsinformationen sind auch auf der Service-Seite zu finden.\n\n**Verlorenes, beschädigtes Material:** Für verlorenes oder beschädigtes Material kommt der Mieter vollumfänglich auf. Die Preise richten sich nach den offiziellen Preisen des Vertreters von SportIdent in der Schweiz. Das Material muss sauber zurückgebracht werden.', NULL, NULL),
+    ('18', NULL, NULL, NULL, '1', '2024-03-25 16:13:29', '2020-08-15 16:51:00', '## Kurse & Dienstleistungen\n\nDie OL Zimmerberg bietet für Schulen und Vereine oder andere Gruppen **geleitete OL-Kurse** an.\n\nDas Niveau wird der Gruppe angepasst und kann von Schnupperkursen bis zu einem Fortgeschrittenenkurs variieren.\n\nDie Kurse werden halbtags oder ganztags durchgeführt.\n\n- Pro Leiter (für ca. 15 Teilnehmer) pro Halbtag **CHF 25.-**\n- [Leihmaterial](#leihmaterial) nach Bedarf\n- [Karten](/karten) nach Bedarf\n\n**Gerne stellen wir euch eine Offerte zusammen.**\n\n[**Kontakt**](mailto:anlaesse-projekte@staging.olzimmerberg.ch)', NULL, NULL),
+    ('22', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Wichtige Information! ⚠️', NULL, NULL),
+    ('23', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Abgesagt! ⚠️', NULL, NULL),
+    ('24', NULL, NULL, NULL, NULL, '2024-03-25 00:05:14', '2024-03-25 00:05:14', '⚠️ Wichtig! ⚠️\n\n![](./oCGvpb96V6bZNLoQNe8djJgw.jpg) [PDF](./AXfZYP3eyLKTWJmfBRGTua7H.pdf)\n\n1. [Intern](/service)\n2. [Extern](https://solv.ch)\n\n- [E-Mail](mailto:user@staging.olzimmerberg.ch)', NULL, NULL);
 
 -- Table solv_events
 INSERT INTO solv_events
@@ -719,24 +717,24 @@ VALUES
 
 -- Table termin_labels
 INSERT INTO termin_labels
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `details`, `icon`, `on_off`, `created_at`, `last_modified_at`, `ident`, `position`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `details`, `icon`, `created_at`, `last_modified_at`, `ident`, `position`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', NULL, NULL, NULL, NULL, 'Jahresprogramm', '', NULL, '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'programm', '0'),
-    ('2', NULL, NULL, NULL, NULL, 'Weekends', '', NULL, '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'weekend', '1'),
-    ('3', NULL, NULL, NULL, NULL, 'Trainings', '![](./QQ8ZApZjsNSBM2wKrkRQxXZG.jpg) Komm an eines unserer Trainings! [Trainingskonzept als PDF](./6f6novQPv2fjHGzzguXE6nzi.pdf)', NULL, '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'training', '2'),
-    ('4', NULL, NULL, NULL, NULL, 'OLZ-Trophy', 'Nimm teil an der OLZ Trophy, einer Reihe von OLs für alle Leistungsstufen!', 'EM8hA6vye74doeon2RWzZyRf.svg', '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'trophy', '3'),
-    ('5', NULL, NULL, NULL, NULL, 'Wettkämpfe', '', NULL, '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'ol', '4'),
-    ('6', NULL, NULL, NULL, NULL, 'Vereinsanlässe', '', NULL, '1', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '5'),
-    ('7', NULL, NULL, NULL, NULL, 'SOFT DELETED', '', NULL, '0', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '5');
+    ('1', NULL, NULL, NULL, NULL, 'Jahresprogramm', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'programm', '0', NULL, NULL),
+    ('2', NULL, NULL, NULL, NULL, 'Weekends', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'weekend', '1', NULL, NULL),
+    ('3', NULL, NULL, NULL, NULL, 'Trainings', '![](./QQ8ZApZjsNSBM2wKrkRQxXZG.jpg) Komm an eines unserer Trainings! [Trainingskonzept als PDF](./6f6novQPv2fjHGzzguXE6nzi.pdf)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'training', '2', NULL, NULL),
+    ('4', NULL, NULL, NULL, NULL, 'OLZ-Trophy', 'Nimm teil an der OLZ Trophy, einer Reihe von OLs für alle Leistungsstufen!', 'EM8hA6vye74doeon2RWzZyRf.svg', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'trophy', '3', NULL, NULL),
+    ('5', NULL, NULL, NULL, NULL, 'Wettkämpfe', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'ol', '4', NULL, NULL),
+    ('6', NULL, NULL, NULL, NULL, 'Vereinsanlässe', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '5', NULL, NULL),
+    ('7', NULL, NULL, NULL, NULL, 'SOFT DELETED', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '5', '2020-01-01 00:00:00', '42');
 
 -- Table termin_locations
 INSERT INTO termin_locations
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `details`, `latitude`, `longitude`, `image_ids`, `on_off`, `created_at`, `last_modified_at`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `name`, `details`, `latitude`, `longitude`, `image_ids`, `created_at`, `last_modified_at`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', NULL, NULL, NULL, NULL, 'Chilbiplatz (Thalwil)', '**Infrastruktur:** keine, Garderoben im Freien, keine WCs vorhanden\n\n**öV:** Bus bis \"Thalwil, Chilbiplatz\", oder Zug bis \"Thalwil\", dann 10 min Fussmarsch\n\n**Parkplätze:** auf dem Chilbiplatz', '47.288245737451', '8.5627673724772', '[\"2ZiW6T9biPNjEERzj5xjLRDz.jpg\"]', '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06'),
-    ('2', NULL, NULL, NULL, NULL, 'Stumpenhölzlimooshütte (Landforst)', NULL, '47.267405813501', '8.5698615816165', NULL, '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06'),
-    ('3', NULL, NULL, NULL, NULL, 'Sportanlage Brand', NULL, '47.288737009648', '8.5510643251822', NULL, '1', '2023-06-11 19:39:06', '2023-06-11 19:39:06'),
-    ('4', NULL, NULL, NULL, NULL, 'SOFT DELETED', NULL, '47.2631769788326', '8.589723706823843', NULL, '0', '2023-06-11 19:39:06', '2023-06-11 19:39:06');
+    ('1', NULL, NULL, NULL, NULL, 'Chilbiplatz (Thalwil)', '**Infrastruktur:** keine, Garderoben im Freien, keine WCs vorhanden\n\n**öV:** Bus bis \"Thalwil, Chilbiplatz\", oder Zug bis \"Thalwil\", dann 10 min Fussmarsch\n\n**Parkplätze:** auf dem Chilbiplatz', '47.288245737451', '8.5627673724772', '[\"2ZiW6T9biPNjEERzj5xjLRDz.jpg\"]', '2023-06-11 19:39:06', '2023-06-11 19:39:06', NULL, NULL),
+    ('2', NULL, NULL, NULL, NULL, 'Stumpenhölzlimooshütte (Landforst)', NULL, '47.267405813501', '8.5698615816165', NULL, '2023-06-11 19:39:06', '2023-06-11 19:39:06', NULL, NULL),
+    ('3', NULL, NULL, NULL, NULL, 'Sportanlage Brand', NULL, '47.288737009648', '8.5510643251822', NULL, '2023-06-11 19:39:06', '2023-06-11 19:39:06', NULL, NULL),
+    ('4', NULL, NULL, NULL, NULL, 'SOFT DELETED', NULL, '47.2631769788326', '8.589723706823843', NULL, '2023-06-11 19:39:06', '2023-06-11 19:39:06', '2020-01-01 00:00:00', '42');
 
 -- Table termin_notification_templates
 INSERT INTO termin_notification_templates
@@ -819,55 +817,55 @@ VALUES
 
 -- Table termin_templates
 INSERT INTO termin_templates
-    (`id`, `location_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `start_time`, `duration_seconds`, `deadline_earlier_seconds`, `deadline_time`, `min_participants`, `max_participants`, `min_volunteers`, `max_volunteers`, `newsletter`, `title`, `text`, `image_ids`, `on_off`, `created_at`, `last_modified_at`, `should_promote`, `organizer_user_id`)
+    (`id`, `location_id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `start_time`, `duration_seconds`, `deadline_earlier_seconds`, `deadline_time`, `min_participants`, `max_participants`, `min_volunteers`, `max_volunteers`, `newsletter`, `title`, `text`, `image_ids`, `created_at`, `last_modified_at`, `should_promote`, `organizer_user_id`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', '3', '2', '47', '2', '2', '18:15:00', '5400', NULL, NULL, NULL, NULL, NULL, NULL, '0', 'Hallentraining Brand', 'für alle ab 14 Jahren\n\n', '[]', '1', '2023-10-02 17:03:21', '2023-10-02 17:03:21', '0', '9'),
-    ('2', NULL, '2', '46', '2', '2', '18:30:00', '5400', '172800', '23:59:59', NULL, NULL, NULL, NULL, '0', 'Kartentraining: <<< TODO >>>', 'Karte: <<< TODO >>>\n\n[Datei](./qjhUey6Lc6svXsmUcSaguWkJ.pdf)[Link](https://solv.ch)\n\nAnmeldung: [Daumen hoch](#react-👍) und Kategorie wählen: [leicht](#react-🟢), [mittel](#react-🔵) oder [schwer](#react-🔴)', '[\"bv3KeYVKDJNg3MTyjhSQsDRx.jpg\"]', '1', '2023-10-02 17:06:51', '2023-10-02 17:06:51', '1', NULL),
-    ('3', NULL, '2', '10', '2', '2', '09:00:00', '108000', '604800', '23:59:59', NULL, NULL, NULL, NULL, '1', '<<< TODO >>> Weekend', '\n\n', NULL, '1', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', '2'),
-    ('4', NULL, '2', '10', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Minimal', '\n\n', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL),
-    ('5', NULL, '2', '10', '2', '2', '22:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Open end', '\n\n', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL),
-    ('6', NULL, '2', '10', '2', '2', NULL, '3600', NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Unknown start', '\n\n', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL),
-    ('7', NULL, '2', '10', '2', '2', NULL, '3600', NULL, NULL, NULL, NULL, NULL, NULL, '0', 'SOFT DELETED', 'SOFT DELETED', NULL, '0', '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL);
+    ('1', '3', '2', '47', '2', '2', '18:15:00', '5400', NULL, NULL, NULL, NULL, NULL, NULL, '0', 'Hallentraining Brand', 'für alle ab 14 Jahren\n\n', '[]', '2023-10-02 17:03:21', '2023-10-02 17:03:21', '0', '9', NULL, NULL),
+    ('2', NULL, '2', '46', '2', '2', '18:30:00', '5400', '172800', '23:59:59', NULL, NULL, NULL, NULL, '0', 'Kartentraining: <<< TODO >>>', 'Karte: <<< TODO >>>\n\n[Datei](./qjhUey6Lc6svXsmUcSaguWkJ.pdf)[Link](https://solv.ch)\n\nAnmeldung: [Daumen hoch](#react-👍) und Kategorie wählen: [leicht](#react-🟢), [mittel](#react-🔵) oder [schwer](#react-🔴)', '[\"bv3KeYVKDJNg3MTyjhSQsDRx.jpg\"]', '2023-10-02 17:06:51', '2023-10-02 17:06:51', '1', NULL, NULL, NULL),
+    ('3', NULL, '2', '10', '2', '2', '09:00:00', '108000', '604800', '23:59:59', NULL, NULL, NULL, NULL, '1', '<<< TODO >>> Weekend', '\n\n', NULL, '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', '2', NULL, NULL),
+    ('4', NULL, '2', '10', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Minimal', '\n\n', NULL, '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL, '2020-01-01 00:00:00', '42'),
+    ('5', NULL, '2', '10', '2', '2', '22:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Open end', '\n\n', NULL, '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL, '2020-01-01 00:00:00', '42'),
+    ('6', NULL, '2', '10', '2', '2', NULL, '3600', NULL, NULL, NULL, NULL, NULL, NULL, '0', '<<< TODO >>> Unknown start', '\n\n', NULL, '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL, '2020-01-01 00:00:00', '42'),
+    ('7', NULL, '2', '10', '2', '2', NULL, '3600', NULL, NULL, NULL, NULL, NULL, NULL, '0', 'SOFT DELETED', 'SOFT DELETED', NULL, '2023-10-02 18:20:53', '2023-10-02 18:20:53', '0', NULL, '2020-01-01 00:00:00', '42');
 
 -- Table termine
 INSERT INTO termine
-    (`id`, `start_date`, `start_time`, `end_date`, `end_time`, `title`, `text`, `on_off`, `solv_uid`, `newsletter`, `deadline`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `participants_registration_id`, `volunteers_registration_id`, `num_participants`, `min_participants`, `max_participants`, `num_volunteers`, `min_volunteers`, `max_volunteers`, `location_id`, `image_ids`, `from_template_id`, `should_promote`, `organizer_user_id`, `latitude`, `longitude`, `documentation`, `parent_termin_id`)
+    (`id`, `start_date`, `start_time`, `end_date`, `end_time`, `title`, `text`, `solv_uid`, `newsletter`, `deadline`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `created_at`, `last_modified_at`, `participants_registration_id`, `volunteers_registration_id`, `num_participants`, `min_participants`, `max_participants`, `num_volunteers`, `min_volunteers`, `max_volunteers`, `location_id`, `image_ids`, `from_template_id`, `should_promote`, `organizer_user_id`, `latitude`, `longitude`, `documentation`, `parent_termin_id`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', '2020-01-02', '00:00:00', NULL, '00:00:00', 'Berchtoldstag 🥈', '\n\n', '1', '0', '1', NULL, NULL, NULL, NULL, NULL, '2019-02-22 01:17:09', '2020-01-01 17:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL),
-    ('2', '2020-06-06', '10:15:00', NULL, '12:30:00', 'Brunch OL', 'Dä Samschtig gits en bsunderä Läckerbissä!\n\n[Infos](./MIGRATED0000000000020001.pdf)', '1', '0', '1', NULL, NULL, NULL, NULL, NULL, '2019-12-31 07:17:09', '2019-12-31 20:17:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '47.270326086742', '8.5619145270506', NULL, NULL),
-    ('3', '2020-08-18', '18:30:00', NULL, '20:00:00', 'Training 1', '\n\n', '1', '0', '0', '2020-08-17 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, '2', '0', '5', NULL, NULL, NULL, NULL),
-    ('4', '2020-08-25', '18:30:00', NULL, '20:00:00', 'Training 2', '\n\n', '1', '0', '0', '2020-08-24 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL, '2', '0', '6', '47.275554176336', '8.5421721523926', NULL, NULL),
-    ('5', '2020-08-26', '18:00:00', '2020-08-26', '19:30:00', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '[OLZ Trophy 2020](/termine?filter=typ-trophy---datum-2020)\n\n**Besammlung**: Sportanlage Brand, Thalwil\n\n**Garderoben**: Öffentliche Garderoben bei der Sportanlage Brand\n\n**ÖV**: Bis Bushaltestelle Gattikon, Gattikerhöhe\n\n**Parkplätze**: Im Umfeld der Sportanlage Brand diverse Parkplätze\n\n**Karte**: Landforst (🌳 Wald-OL), 1:10\'000, 2025\n\n**Kategorien**:	\n- A technisch und läuferisch anspruchsvoll\n- B technisch mittel bis anspruchsvoll, läuferisch mittellang\n- C technisch einfach bis mittel, läuferisch mittellang\n- D technisch und läuferisch einfach (~D/H10)\n\n**Vor-Anmeldung** (optional): Hilf uns, unnötigen Kartendruck zu verhindern, indem du dich bis Sonntagabend anmeldest!\n\n1) [Ich melde mich an](#react-👍)\n2) Kategorie wählen:\n    - [A (schwer, lang)](#react-⚫)\n    - [B (schwer, mittel)](#react-🔴)\n    - [C (mittel)](#react-🔵)\n    - [D (einfach)](#react-🟢)\n\n*Die Versicherung ist Sache der Teilnehmenden. Der Veranstalter lehnt, soweit gesetzlich zulässig, jede Haftung ab.*\n\n[Allgemeine Ausschreibung Milchsuppe-Abend-OLs](./MIGRATED0000000000050001.pdf)', '1', NULL, '0', NULL, NULL, NULL, NULL, '1', '2019-11-20 09:04:26', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"Ffpi3PK5wBjKfN4etpvGK3ti.jpg\"]', NULL, '0', NULL, NULL, NULL, NULL, NULL),
-    ('6', '2020-09-01', '18:30:00', NULL, '20:00:00', 'Training 3', '\n\n', '1', '0', '0', '2020-08-31 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL, '47.278005747683', '8.5538280722855', NULL, NULL),
-    ('7', '2020-09-08', '18:00:00', NULL, '19:30:00', 'Training 4', '\n\n[Details](./Kzt5p5g6cjM5k9CXdVaSsGFx.pdf)\n\nAnmeldung: [Daumen hoch](#react-👍) und Kategorie wählen: [leicht](#react-🟢), [mittel](#react-🔵) oder [schwer](#react-🔴)', '1', '0', '0', '2020-09-06 23:59:59', '2', NULL, '2', '2', '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', '6', NULL, NULL, NULL, NULL),
-    ('8', '2020-08-11', '18:30:00', NULL, '20:00:00', 'Trainingsstart', '\n\n', '1', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL, NULL, NULL, NULL, NULL),
-    ('9', '2020-08-04', '18:30:00', NULL, '20:00:00', 'Training -1', '\n\n', '1', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL, NULL, NULL, NULL, NULL),
-    ('10', '2020-08-22', '00:00:00', NULL, '00:00:00', 'Grossanlass', 'Mit allem drum und dran!\n\n', '1', '12345', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"659gCbqzigX8D37XgWMbedB3.jpg\"]', NULL, '1', '2', NULL, NULL, NULL, '15'),
-    ('11', '2020-09-13', '00:00:00', '2020-09-19', '00:00:00', 'Mehrtägeler', 'Mir werdeds schaffe!\n\n', '1', '123456', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL),
-    ('12', '2020-08-16', '17:00:00', '2020-08-17', '17:00:00', '24h-OL', 'Dauert genau 24h\n\n', '1', '1234567', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL),
-    ('13', '2021-03-12', '18:30:00', NULL, NULL, 'Mitgliederversammlung', 'schon jetzt für 2021 geplant!\n\n**Anmeldung**\n1) Bitte [logge dich ein](#login-dialog), falls nicht bereits\n2) [Ich nehme teil](#react-✅) oder [Ich melde mich ab](#react-🚫)\n3) Falls du teilnimmst: [mit Essen](#react-😋) oder [ohne Essen](#react-⌚)\n4) Falls du isst: Bist du [vegi](#react-🥦)? Isst du [glutenfrei](#react-🌾)?\n\nEine An- oder Abmeldung ist auch per E-Mail oder schriftlich möglich bei mitgliederversammlung@staging.olzimmerberg.ch', '1', NULL, '0', '2021-03-05 23:59:59', NULL, NULL, NULL, '1', '2021-03-23 18:53:06', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"8EKYh2n8DZWShYMWo9ZRnor5.jpg\"]', NULL, '1', '2', NULL, NULL, NULL, NULL),
-    ('14', '2021-03-11', '18:30:00', NULL, NULL, 'SOFT DELETED', 'SOFT DELETED', '0', NULL, '0', '2021-03-05 23:59:59', NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', NULL, '1', NULL, NULL, NULL, NULL, NULL),
-    ('15', '2020-08-22', NULL, '2020-08-23', NULL, 'Grossanlass-Weekend', '**Anmeldung**\n1) Bitte [logge dich ein](#login-dialog), falls nicht bereits\n2) [Ich nehme teil](#react-✅)\n3) Wähle ein Zimmer:\n    - [2-er Zimmer](#react-🐶)\n    - [2-er Zimmer](#react-🐱)\n    - [2-er Zimmer](#react-🐵)\n    - [2-er Zimmer](#react-🦊)\n    - [4-er Zimmer](#react-🦁)\n    - [4-er Zimmer](#react-🐯)\n    - [5-er Zimmer](#react-🐴)\n    - [6-er Zimmer](#react-🦓)\n    - [12-er Zimmer Männer](#react-♂️)\n    - [12-er Zimmer Frauen](#react-♀️)\n4) [mit Essen](#react-😋) oder [ohne Essen](#react-⌚)\n5) Falls du isst: Bist du [vegi](#react-🥦)? Isst du [glutenfrei](#react-🌾)?\n\nEine An- oder Abmeldung ist auch per E-Mail oder schriftlich möglich bei weekends@staging.olzimmerberg.ch', '1', NULL, '1', '2020-08-10 23:59:59', '1', NULL, '1', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', NULL, '0', '2', '46.01581', '7.74568', NULL, NULL),
-    ('16', '2020-08-23', NULL, NULL, NULL, 'Grossanlass-Nationaler', 'Immenses Startgeld!\n\n', '1', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', NULL, '1', '2', NULL, NULL, NULL, '15'),
-    ('1001', '2006-01-13', '18:00:00', NULL, '18:00:00', 'Gründungsversammlung OL Zimmerberg', 'wir gründen uns!\n\n', '1', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', NULL, NULL, NULL, NULL);
+    ('1', '2020-01-02', '00:00:00', NULL, '00:00:00', 'Berchtoldstag 🥈', '\n\n', '0', '1', NULL, NULL, NULL, NULL, NULL, '2019-02-22 01:17:09', '2020-01-01 17:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('2', '2020-06-06', '10:15:00', NULL, '12:30:00', 'Brunch OL', 'Dä Samschtig gits en bsunderä Läckerbissä!\n\n[Infos](./MIGRATED0000000000020001.pdf)', '0', '1', NULL, NULL, NULL, NULL, NULL, '2019-12-31 07:17:09', '2019-12-31 20:17:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '47.270326086742', '8.5619145270506', NULL, NULL, NULL, NULL),
+    ('3', '2020-08-18', '18:30:00', NULL, '20:00:00', 'Training 1', '\n\n', '0', '0', '2020-08-17 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, '2', '0', '5', NULL, NULL, NULL, NULL, NULL, NULL),
+    ('4', '2020-08-25', '18:30:00', NULL, '20:00:00', 'Training 2', '\n\n', '0', '0', '2020-08-24 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL, '2', '0', '6', '47.275554176336', '8.5421721523926', NULL, NULL, NULL, NULL),
+    ('5', '2020-08-26', '18:00:00', '2020-08-26', '19:30:00', 'Milchsuppen-Cup, OLZ Trophy 4. Lauf', '[OLZ Trophy 2020](/termine?filter=typ-trophy---datum-2020)\n\n**Besammlung**: Sportanlage Brand, Thalwil\n\n**Garderoben**: Öffentliche Garderoben bei der Sportanlage Brand\n\n**ÖV**: Bis Bushaltestelle Gattikon, Gattikerhöhe\n\n**Parkplätze**: Im Umfeld der Sportanlage Brand diverse Parkplätze\n\n**Karte**: Landforst (🌳 Wald-OL), 1:10\'000, 2025\n\n**Kategorien**:	\n- A technisch und läuferisch anspruchsvoll\n- B technisch mittel bis anspruchsvoll, läuferisch mittellang\n- C technisch einfach bis mittel, läuferisch mittellang\n- D technisch und läuferisch einfach (~D/H10)\n\n**Vor-Anmeldung** (optional): Hilf uns, unnötigen Kartendruck zu verhindern, indem du dich bis Sonntagabend anmeldest!\n\n1) [Ich melde mich an](#react-👍)\n2) Kategorie wählen:\n    - [A (schwer, lang)](#react-⚫)\n    - [B (schwer, mittel)](#react-🔴)\n    - [C (mittel)](#react-🔵)\n    - [D (einfach)](#react-🟢)\n\n*Die Versicherung ist Sache der Teilnehmenden. Der Veranstalter lehnt, soweit gesetzlich zulässig, jede Haftung ab.*\n\n[Allgemeine Ausschreibung Milchsuppe-Abend-OLs](./MIGRATED0000000000050001.pdf)', NULL, '0', NULL, NULL, NULL, NULL, '1', '2019-11-20 09:04:26', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"Ffpi3PK5wBjKfN4etpvGK3ti.jpg\"]', NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('6', '2020-09-01', '18:30:00', NULL, '20:00:00', 'Training 3', '\n\n', '0', '0', '2020-08-31 00:00:00', NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL, '47.278005747683', '8.5538280722855', NULL, NULL, NULL, NULL),
+    ('7', '2020-09-08', '18:00:00', NULL, '19:30:00', 'Training 4', '\n\n[Details](./Kzt5p5g6cjM5k9CXdVaSsGFx.pdf)\n\nAnmeldung: [Daumen hoch](#react-👍) und Kategorie wählen: [leicht](#react-🟢), [mittel](#react-🔵) oder [schwer](#react-🔴)', '0', '0', '2020-09-06 23:59:59', '2', NULL, '2', '2', '2020-02-22 01:17:09', '2020-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', '6', NULL, NULL, NULL, NULL, NULL, NULL),
+    ('8', '2020-08-11', '18:30:00', NULL, '20:00:00', 'Trainingsstart', '\n\n', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('9', '2020-08-04', '18:30:00', NULL, '20:00:00', 'Training -1', '\n\n', '0', '0', NULL, NULL, NULL, NULL, NULL, '2020-02-22 01:17:09', '2220-02-22 01:17:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('10', '2020-08-22', '00:00:00', NULL, '00:00:00', 'Grossanlass', 'Mit allem drum und dran!\n\n', '12345', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"659gCbqzigX8D37XgWMbedB3.jpg\"]', NULL, '1', '2', NULL, NULL, NULL, '15', NULL, NULL),
+    ('11', '2020-09-13', '00:00:00', '2020-09-19', '00:00:00', 'Mehrtägeler', 'Mir werdeds schaffe!\n\n', '123456', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('12', '2020-08-16', '17:00:00', '2020-08-17', '17:00:00', '24h-OL', 'Dauert genau 24h\n\n', '1234567', '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('13', '2021-03-12', '18:30:00', NULL, NULL, 'Mitgliederversammlung', 'schon jetzt für 2021 geplant!\n\n**Anmeldung**\n1) Bitte [logge dich ein](#login-dialog), falls nicht bereits\n2) [Ich nehme teil](#react-✅) oder [Ich melde mich ab](#react-🚫)\n3) Falls du teilnimmst: [mit Essen](#react-😋) oder [ohne Essen](#react-⌚)\n4) Falls du isst: Bist du [vegi](#react-🥦)? Isst du [glutenfrei](#react-🌾)?\n\nEine An- oder Abmeldung ist auch per E-Mail oder schriftlich möglich bei mitgliederversammlung@staging.olzimmerberg.ch', NULL, '0', '2021-03-05 23:59:59', NULL, NULL, NULL, '1', '2021-03-23 18:53:06', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"8EKYh2n8DZWShYMWo9ZRnor5.jpg\"]', NULL, '1', '2', NULL, NULL, NULL, NULL, NULL, NULL),
+    ('14', '2021-03-11', '18:30:00', NULL, NULL, 'SOFT DELETED', 'SOFT DELETED', NULL, '0', '2021-03-05 23:59:59', NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', NULL, '1', NULL, NULL, NULL, NULL, NULL, '2020-01-01 00:00:00', '42'),
+    ('15', '2020-08-22', NULL, '2020-08-23', NULL, 'Grossanlass-Weekend', '**Anmeldung**\n1) Bitte [logge dich ein](#login-dialog), falls nicht bereits\n2) [Ich nehme teil](#react-✅)\n3) Wähle ein Zimmer:\n    - [2-er Zimmer](#react-🐶)\n    - [2-er Zimmer](#react-🐱)\n    - [2-er Zimmer](#react-🐵)\n    - [2-er Zimmer](#react-🦊)\n    - [4-er Zimmer](#react-🦁)\n    - [4-er Zimmer](#react-🐯)\n    - [5-er Zimmer](#react-🐴)\n    - [6-er Zimmer](#react-🦓)\n    - [12-er Zimmer Männer](#react-♂️)\n    - [12-er Zimmer Frauen](#react-♀️)\n4) [mit Essen](#react-😋) oder [ohne Essen](#react-⌚)\n5) Falls du isst: Bist du [vegi](#react-🥦)? Isst du [glutenfrei](#react-🌾)?\n\nEine An- oder Abmeldung ist auch per E-Mail oder schriftlich möglich bei weekends@staging.olzimmerberg.ch', NULL, '1', '2020-08-10 23:59:59', '1', NULL, '1', '1', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', NULL, '0', '2', '46.01581', '7.74568', NULL, NULL, NULL, NULL),
+    ('16', '2020-08-23', NULL, NULL, NULL, 'Grossanlass-Nationaler', 'Immenses Startgeld!\n\n', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', NULL, '1', '2', NULL, NULL, NULL, '15', NULL, NULL),
+    ('1001', '2006-01-13', '18:00:00', NULL, '18:00:00', 'Gründungsversammlung OL Zimmerberg', 'wir gründen uns!\n\n', NULL, '0', NULL, NULL, NULL, NULL, NULL, '2021-03-23 18:53:06', '2021-03-23 18:53:06', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '1', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Table throttlings
 
 -- Table users
 INSERT INTO users
-    (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `permissions`, `root`, `email_is_verified`, `email_verification_token`, `gender`, `street`, `postal_code`, `city`, `region`, `country_code`, `birthdate`, `phone`, `created_at`, `last_modified_at`, `last_login_at`, `parent_user`, `member_type`, `member_last_paid`, `wants_postal_mail`, `postal_title`, `postal_name`, `joined_on`, `joined_reason`, `left_on`, `left_reason`, `solv_number`, `si_card_number`, `notes`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `on_off`, `avatar_image_id`, `ahv_number`, `dress_size`)
+    (`id`, `username`, `old_username`, `password`, `email`, `first_name`, `last_name`, `permissions`, `root`, `email_is_verified`, `email_verification_token`, `gender`, `street`, `postal_code`, `city`, `region`, `country_code`, `birthdate`, `phone`, `created_at`, `last_modified_at`, `last_login_at`, `parent_user`, `member_type`, `member_last_paid`, `wants_postal_mail`, `postal_title`, `postal_name`, `joined_on`, `joined_reason`, `left_on`, `left_reason`, `solv_number`, `si_card_number`, `notes`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `avatar_image_id`, `ahv_number`, `dress_size`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', 'admin@staging.olzimmerberg.ch', 'Armin 😂', 'Admin 🤣', 'all', 'OLZ Dokumente', '0', NULL, NULL, 'Administratorweg 1234', '8134', 'Admiswil', 'ZH', 'CH', '1970-01-01', '+41791234567', '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, 'AD1ADA', '1234567', '', NULL, NULL, NULL, '1', '1', '8sVwnV3aAEtQUUxmQYFmojMs.jpg', '756.1234.1234.12', 'M'),
-    ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', 'vorstand@staging.olzimmerberg.ch', 'Volker', 'Vorstand', ' ftp webdav snippet_1 aktuell galerie weekly_picture faq ', 'OLZ Dokumente/vorstand', '0', 'Nzgium8D', 'M', 'Vorstandgasse 9', '5200', 'Vorstadt', 'AG', 'CH', '2006-01-13', NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, 'VO0VOV', '7270270', '', NULL, NULL, NULL, '1', '1', NULL, '756.2702.7027.02', 'XL'),
-    ('3', 'karten', 'kartenverkauf', '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', 'karen@staging.olzimmerberg.ch', 'Karen', 'Karten', 'ftp webdav', 'OLZ Dokumente/karten', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', 'oyLeyPTaCfmadcm5ShEJ236e.jpg', NULL, NULL),
-    ('4', 'hackerman', NULL, '$2y$10$5PZTo/AGC89BX.m637GmGekZaktFet7nno0P8deGt.ASOCHxNVwVe', 'hackerman@staging.olzimmerberg.ch', 'Hacker', 'Man', 'all', 'OLZ Dokumente', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
-    ('5', 'benutzer', NULL, '$2y$10$DluJUi60YHZh6LksqClkmeTX.Giyt3kLHZG3HddV6Zm1UoYXzyXqC', 'nutzer@staging.olzimmerberg.ch', 'Be', 'Nutzer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
-    ('6', 'parent', NULL, '$2y$10$iU9SqVRurO.4N1ak1j.p/OP0qT6rEst7.mLd/hM7EzyfI5rBX7nva', 'parent@staging.olzimmerberg.ch', 'Eltern', 'Teil', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
-    ('7', 'child1', NULL, NULL, 'child1@staging.olzimmerberg.ch', 'Kind', 'Eins', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
-    ('8', 'child2', NULL, '', '', 'Kind', 'Zwei', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
-    ('9', 'kaderlaeufer', NULL, '$2y$10$YTelsKQLm.Ps9lnXRbDIAOP3SqkE8m9Z/Uw75X4wtyBUA1xY95Lui', 'kaderlaeufer@staging.olzimmerberg.ch', 'Kader', 'Läufer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL),
-    ('10', 'soft.deleted', NULL, '$2y$10$YTelsKQLm.Ps9lnXRbDIAOP3SqkE8m9Z/Uw75X4wtyBUA1xY95Lui', 'soft.deleted@staging.olzimmerberg.ch', 'SOFT DELETED', 'SOFT DELETED', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL),
-    ('42', 'monitoring', NULL, '', 'website@staging.olzimmerberg.ch', 'Monitoring', 'Bot', ' command_cache:clear command_cache:warmup command_olz:db-backup command_olz:db-reset command_olz:monitor-logs command_olz:monitor-backup command_olz:test command_olz:send-telegram-configuration command_messenger:consume ', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL);
+    ('1', 'admin', NULL, '$2y$10$RNMfUZk8cdW.VnuC9XZ0tuZhnhnygy9wdhVfs0kkeFN5M0XC1Abce', 'admin@staging.olzimmerberg.ch', 'Armin 😂', 'Admin 🤣', 'all', 'OLZ Dokumente', '0', NULL, NULL, 'Administratorweg 1234', '8134', 'Admiswil', 'ZH', 'CH', '1970-01-01', '+41791234567', '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, 'AD1ADA', '1234567', '', NULL, NULL, NULL, '1', '8sVwnV3aAEtQUUxmQYFmojMs.jpg', '756.1234.1234.12', 'M', NULL, NULL),
+    ('2', 'vorstand', NULL, '$2y$10$xD9LwSFXo5o0l02p3Jzcde.CsfqFxzLWh2jkuGF19yE0Saqq3J3Kq', 'vorstand@staging.olzimmerberg.ch', 'Volker', 'Vorstand', ' ftp webdav snippet_1 aktuell galerie weekly_picture faq ', 'OLZ Dokumente/vorstand', '0', 'Nzgium8D', 'M', 'Vorstandgasse 9', '5200', 'Vorstadt', 'AG', 'CH', '2006-01-13', NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, 'VO0VOV', '7270270', '', NULL, NULL, NULL, '1', NULL, '756.2702.7027.02', 'XL', NULL, NULL),
+    ('3', 'karten', 'kartenverkauf', '$2y$10$0R5z1L2rbQ8rx5p5hURaje70L0CaSJxVPcnmEhz.iitKhumblmKAW', 'karen@staging.olzimmerberg.ch', 'Karen', 'Karten', 'ftp webdav', 'OLZ Dokumente/karten', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, 'oyLeyPTaCfmadcm5ShEJ236e.jpg', NULL, NULL, NULL, NULL),
+    ('4', 'hackerman', NULL, '$2y$10$5PZTo/AGC89BX.m637GmGekZaktFet7nno0P8deGt.ASOCHxNVwVe', 'hackerman@staging.olzimmerberg.ch', 'Hacker', 'Man', 'all', 'OLZ Dokumente', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2021-12-01 00:41:26', NULL, NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('5', 'benutzer', NULL, '$2y$10$DluJUi60YHZh6LksqClkmeTX.Giyt3kLHZG3HddV6Zm1UoYXzyXqC', 'nutzer@staging.olzimmerberg.ch', 'Be', 'Nutzer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('6', 'parent', NULL, '$2y$10$iU9SqVRurO.4N1ak1j.p/OP0qT6rEst7.mLd/hM7EzyfI5rBX7nva', 'parent@staging.olzimmerberg.ch', 'Eltern', 'Teil', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('7', 'child1', NULL, NULL, 'child1@staging.olzimmerberg.ch', 'Kind', 'Eins', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('8', 'child2', NULL, '', '', 'Kind', 'Zwei', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', '6', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('9', 'kaderlaeufer', NULL, '$2y$10$YTelsKQLm.Ps9lnXRbDIAOP3SqkE8m9Z/Uw75X4wtyBUA1xY95Lui', 'kaderlaeufer@staging.olzimmerberg.ch', 'Kader', 'Läufer', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    ('10', 'soft.deleted', NULL, '$2y$10$YTelsKQLm.Ps9lnXRbDIAOP3SqkE8m9Z/Uw75X4wtyBUA1xY95Lui', 'soft.deleted@staging.olzimmerberg.ch', 'SOFT DELETED', 'SOFT DELETED', '', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-01 00:00:00', '42'),
+    ('42', 'monitoring', NULL, '', 'website@staging.olzimmerberg.ch', 'Monitoring', 'Bot', ' command_cache:clear command_cache:warmup command_olz:db-backup command_olz:db-reset command_olz:monitor-logs command_olz:monitor-backup command_olz:test command_olz:send-telegram-configuration command_messenger:consume ', '', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-01 00:41:26', '2020-08-15 16:51:00', '2020-08-15 16:51:00', NULL, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Table users_roles
 INSERT INTO users_roles
@@ -893,10 +891,10 @@ VALUES
 
 -- Table weekly_picture
 INSERT INTO weekly_picture
-    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `datum`, `image_id`, `text`, `on_off`, `created_at`, `last_modified_at`)
+    (`id`, `owner_user_id`, `owner_role_id`, `created_by_user_id`, `last_modified_by_user_id`, `datum`, `image_id`, `text`, `created_at`, `last_modified_at`, `deleted_at`, `deleted_by_user_id`)
 VALUES
-    ('1', NULL, NULL, NULL, NULL, '2020-01-01', 'ed48ksmyjVgRsaKXUXmmcbRN.jpg', 'Neujahrs-Impression vom Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17'),
-    ('2', NULL, NULL, NULL, NULL, '2020-01-02', 'C8k84ncvWyVptk6kjtMJxTUu.jpg', 'Berchtoldstag im Sihlwald 🌳🌲🌴', '1', '2022-10-24 16:52:17', '2022-10-24 16:52:17'),
-    ('3', NULL, NULL, NULL, NULL, '2020-03-10', 'C8k84ncvWyVptk6kjtMJxTUu.jpg', 'SOFT DELETED', '0', '2022-10-24 16:52:17', '2022-10-24 16:52:17');
+    ('1', NULL, NULL, NULL, NULL, '2020-01-01', 'ed48ksmyjVgRsaKXUXmmcbRN.jpg', 'Neujahrs-Impression vom Sihlwald 🌳🌲🌴', '2022-10-24 16:52:17', '2022-10-24 16:52:17', NULL, NULL),
+    ('2', NULL, NULL, NULL, NULL, '2020-01-02', 'C8k84ncvWyVptk6kjtMJxTUu.jpg', 'Berchtoldstag im Sihlwald 🌳🌲🌴', '2022-10-24 16:52:17', '2022-10-24 16:52:17', NULL, NULL),
+    ('3', NULL, NULL, NULL, NULL, '2020-03-10', 'C8k84ncvWyVptk6kjtMJxTUu.jpg', 'SOFT DELETED', '2022-10-24 16:52:17', '2022-10-24 16:52:17', '2020-01-01 00:00:00', '42');
 
 COMMIT;

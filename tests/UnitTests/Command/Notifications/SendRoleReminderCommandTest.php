@@ -232,7 +232,7 @@ final class SendRoleReminderCommandTest extends UnitTestCase {
      * @return array<Role>
      */
     protected function rolesToBeFoundForQuery(array $criteria): array {
-        if ($criteria === ['on_off' => 1]) {
+        if ($criteria === ['deleted_at' => null]) {
             return [
                 FakeRole::adminRole(),
                 FakeRole::vorstandRole(),

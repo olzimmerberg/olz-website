@@ -11,7 +11,7 @@ use Olz\Entity\Common\TestableInterface;
 use Olz\Repository\Service\LinkRepository;
 
 #[ORM\Table(name: 'links')]
-#[ORM\Index(name: 'position_index', columns: ['on_off', 'position'])]
+#[ORM\Index(name: 'position_index', columns: ['position'])]
 #[ORM\Entity(repositoryClass: LinkRepository::class)]
 class Link extends OlzEntity implements PositionableInterface, TestableInterface {
     #[ORM\Id]

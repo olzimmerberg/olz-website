@@ -47,7 +47,7 @@ class OlzTermineList extends OlzRootComponent {
                 1.0 AS time_relevance
             FROM termin_labels
             WHERE
-                on_off = '1'
+                deleted_at IS NULL
                 AND {$where}
             ZZZZZZZZZZ;
     }
@@ -177,7 +177,7 @@ class OlzTermineList extends OlzRootComponent {
         //  VORSCHAU - LISTE
         $inner_date_filter = $termine_utils->getSqlDateRangeFilter($valid_filter, 't');
         $inner_sql_where = <<<ZZZZZZZZZZ
-            (t.on_off = '1')
+            (t.deleted_at IS NULL)
             AND ({$inner_date_filter})
             ZZZZZZZZZZ;
         $type_filter = $termine_utils->getSqlTypeFilter($valid_filter, 'c');
@@ -205,7 +205,7 @@ class OlzTermineList extends OlzRootComponent {
                         WHERE tl.termin_id = t.id
                         GROUP BY t.id
                     ) as typ,
-                    t.on_off as on_off,
+                    t.deleted_at as deleted_at,
                     t.newsletter as newsletter,
                     t.latitude as latitude,
                     t.longitude as longitude,
@@ -228,7 +228,7 @@ class OlzTermineList extends OlzRootComponent {
                     '' as text,
                     t.id as id,
                     'meldeschluss' as typ,
-                    t.on_off as on_off,
+                    t.deleted_at as deleted_at,
                     NULL as newsletter,
                     NULL as latitude,
                     NULL as longitude,

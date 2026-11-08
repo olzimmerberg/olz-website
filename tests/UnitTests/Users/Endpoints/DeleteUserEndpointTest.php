@@ -271,7 +271,7 @@ final class DeleteUserEndpointTest extends UnitTestCase {
         $this->assertTrue($entity_manager->removed[2] instanceof TelegramLink);
         $this->assertTrue($entity_manager->removed[3] instanceof StravaLink);
         $this->assertTrue($entity_manager->removed[4] instanceof AccessToken);
-        $this->assertSame(0, $default_user->getOnOff());
+        $this->assertNotNull($default_user->getDeletedAt());
         $this->assertSame([], WithUtilsCache::get('session')->session_storage);
         $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/img/image__________________1.jpg");
         $this->assertFileDoesNotExist(__DIR__."/../../tmp/img/users/{$default_user->getId()}/thumb/image__________________1.jpg\$256.jpg");

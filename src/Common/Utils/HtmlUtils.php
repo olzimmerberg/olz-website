@@ -83,9 +83,9 @@ class HtmlUtils {
             $username = $matches[1];
             // Note: Subject remains unused
             $role_repo = $this->entityManager()->getRepository(Role::class);
-            $role = $role_repo->findOneBy(['username' => $username, 'on_off' => 1]);
+            $role = $role_repo->findOneBy(['username' => $username, 'deleted_at' => null]);
             if (!$role) {
-                $role = $role_repo->findOneBy(['old_username' => $username, 'on_off' => 1]);
+                $role = $role_repo->findOneBy(['old_username' => $username, 'deleted_at' => null]);
                 if ($role) {
                     $this->log()->notice("Old username {$role->getOldUsername()} of Role {$role->getId()} is still used. Use {$role->getUsername()} instead!");
                 }

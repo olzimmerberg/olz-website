@@ -43,7 +43,7 @@ class RoleRepository extends OlzRepository {
                     r.parent_role IS NULL
                     AND r.position_within_parent IS NOT NULL
                     AND r.position_within_parent >= 0
-                    AND r.on_off = 1
+                    AND r.deleted_at IS NULL
                 ORDER BY r.position_within_parent ASC";
             $query = $this->getEntityManager()->createQuery($dql);
         } else {
@@ -53,7 +53,7 @@ class RoleRepository extends OlzRepository {
                 WHERE
                     r.parent_role = ?1
                     AND r.position_within_parent IS NOT NULL
-                    AND r.on_off = 1
+                    AND r.deleted_at IS NULL
                 ORDER BY r.position_within_parent ASC";
             $query = $this->getEntityManager()->createQuery($dql)->setParameter(1, $roleId);
         }
@@ -67,7 +67,7 @@ class RoleRepository extends OlzRepository {
         // descriptions have been updated. This is just temporary logic!
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
-                Criteria::expr()->eq('on_off', 1),
+                Criteria::expr()->isNull('deleted_at'),
                 Criteria::expr()->gte('position_within_parent', 0), // Negative = hidden
                 Criteria::expr()->neq('guide', ''),
             ))

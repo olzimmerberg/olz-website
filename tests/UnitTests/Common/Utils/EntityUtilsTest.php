@@ -27,7 +27,7 @@ final class EntityUtilsTest extends UnitTestCase {
             ['onOff' => true, 'ownerUserId' => 1, 'ownerRoleId' => 2]
         );
 
-        $this->assertSame(1, $entity->getOnOff());
+        $this->assertNull($entity->getDeletedAt());
         $this->assertSame(FakeUser::defaultUser(), $entity->getOwnerUser());
         $this->assertSame(FakeRole::adminRole(), $entity->getOwnerRole());
         $this->assertSame(
@@ -42,12 +42,44 @@ final class EntityUtilsTest extends UnitTestCase {
         $this->assertSame(FakeUser::defaultUser(), $entity->getLastModifiedByUser());
     }
 
+    public function testCreateOlzEntityDeleted(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
+        $entity_utils = new EntityUtils();
+        $entity = new OlzEntity();
+
+        $entity_utils->createOlzEntity($entity, ['onOff' => false]);
+
+        $this->assertNotNull($entity->getDeletedAt());
+        // A deleted entity must name the user who deleted it.
+        $this->assertSame(FakeUser::defaultUser(), $entity->getDeletedByUser());
+    }
+
+    public function testDeleteOlzEntity(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
+        $entity_utils = new EntityUtils();
+        $entity = new OlzEntity();
+
+        $entity_utils->deleteOlzEntity($entity);
+
+        $this->assertSame(
+            '2020-03-13 19:30:00',
+            $entity->getDeletedAt()?->format('Y-m-d H:i:s')
+        );
+        $this->assertSame(FakeUser::defaultUser(), $entity->getDeletedByUser());
+        $this->assertSame(
+            '2020-03-13 19:30:00',
+            $entity->getLastModifiedAt()->format('Y-m-d H:i:s')
+        );
+        $this->assertSame(FakeUser::defaultUser(), $entity->getLastModifiedByUser());
+    }
+
     public function testUpdateOlzEntity(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         $entity_utils = new EntityUtils();
         $then_datetime = new \DateTime('2019-01-01 19:30:00');
         $entity = new OlzEntity();
-        $entity->setOnOff(1);
+        $entity->setDeletedAt(null);
+        $entity->setDeletedByUser(null);
         $entity->setOwnerUser(FakeUser::vorstandUser());
         $entity->setOwnerRole(null);
         $entity->setCreatedAt($then_datetime);
@@ -60,7 +92,8 @@ final class EntityUtilsTest extends UnitTestCase {
             ['onOff' => true, 'ownerUserId' => 1, 'ownerRoleId' => 2]
         );
 
-        $this->assertSame(1, $entity->getOnOff());
+        $this->assertNull($entity->getDeletedAt());
+        $this->assertNull($entity->getDeletedByUser());
         $this->assertSame(FakeUser::defaultUser(), $entity->getOwnerUser());
         $this->assertSame(FakeRole::adminRole(), $entity->getOwnerRole());
         $this->assertSame($then_datetime, $entity->getCreatedAt());

@@ -34,7 +34,7 @@ class OlzKartenList extends OlzComponent {
                 ZZZZZZZZZZ;
         }
 
-        $sql = "SELECT * FROM karten WHERE on_off = '1' ORDER BY CASE WHEN `typ` = 'ol' THEN 1 WHEN `typ` = 'stadt' THEN 2 WHEN `typ` = 'scool' THEN 3 ELSE 4 END, ort ASC, name ASC";
+        $sql = "SELECT * FROM karten WHERE deleted_at IS NULL ORDER BY CASE WHEN `typ` = 'ol' THEN 1 WHEN `typ` = 'stadt' THEN 2 WHEN `typ` = 'scool' THEN 3 ELSE 4 END, ort ASC, name ASC";
         $result = $db->query($sql);
 
         $last_kind = null;
@@ -45,7 +45,8 @@ class OlzKartenList extends OlzComponent {
             $karte = new Karte();
             $karte->setOwnerUser(null);
             $karte->setOwnerRole(null);
-            $karte->setOnOff(1);
+            $karte->setDeletedAt(null);
+            $karte->setDeletedByUser(null);
             $karte->setId(intval($row['id']));
             $karte->setKartenNr($row['kartennr'] ? intval($row['kartennr']) : null);
             // @phpstan-ignore-next-line

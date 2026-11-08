@@ -62,7 +62,7 @@ final class DeleteTerminLabelEndpointTest extends UnitTestCase {
         $this->assertSame($entity_manager->persisted, $entity_manager->flushed_persisted);
         $entity = $entity_manager->persisted[0];
         $this->assertSame(123, $entity->getId());
-        $this->assertSame(0, $entity->getOnOff());
+        $this->assertNotNull($entity->getDeletedAt());
     }
 
     public function testDeleteTerminLabelEndpointInexistent(): void {

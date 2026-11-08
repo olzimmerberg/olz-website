@@ -92,8 +92,8 @@ class OlzPanini2024All extends OlzRootComponent {
                     $is_valid = ($infos[$i] ?? false) && strlen($infos[$i]) > 0;
                     $infos_emojis .= $is_valid ? '✅' : '❌';
                 }
-                $on_off = $picture->getOnOff();
-                $on_off_emoji = $on_off ? '✅' : '❌';
+                $is_active = $picture->getDeletedAt() === null;
+                $active_emoji = $is_active ? '✅' : '❌';
                 $out .= <<<ZZZZZZZZZZ
                     <tr>
                         <td class='column id'>{$id}</td>
@@ -101,7 +101,7 @@ class OlzPanini2024All extends OlzRootComponent {
                         <td class='column account'>{$user_html}</td>
                         <td class='column association'>{$association_emoji} {$association}</td>
                         <td class='column infos'>{$infos_emojis}</td>
-                        <td class='column active'>{$on_off_emoji}</td>
+                        <td class='column active'>{$active_emoji}</td>
                         <td class='column picture' id='panini-picture-{$id}'>
                             <button onclick='olzPanini2024.showPaniniPicture(&quot;{$id}&quot;)'>
                                 anzeigen

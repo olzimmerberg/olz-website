@@ -26,4 +26,11 @@ class MeasurementRepository extends OlzRepository {
         $this->getEntityManager()->persist($measurement);
         return $measurement;
     }
+
+    public function remove(string $name, ?int $year, ?int $month): void {
+        $measurement = $this->get($name, $year, $month);
+        if ($measurement !== null) {
+            $this->getEntityManager()->remove($measurement);
+        }
+    }
 }

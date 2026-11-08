@@ -64,7 +64,7 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             $make_user(3, '2006-01-01 00:00:00', '2006-01-13', '2020-03-31', null),
             // Deleted before March: not active in March or April.
             $make_user(4, '2006-01-01 00:00:00', '2006-01-13', null, '2020-02-15 00:00:00'),
-            // Account created later, but member since 2006.
+            // Account created later, but member since 2006: not a member user before 2021-12.
             $make_user(5, '2021-12-01 00:00:00', '2006-01-13', null, null),
         ];
         $user_repo = $entity_manager->repositories[User::class] ?? null;
@@ -182,6 +182,8 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
         $measurement_repo = $entity_manager->repositories[Measurement::class];
         assert($measurement_repo instanceof FakeMeasurementRepository);
         $measurement_repo->entitiesToBeMatched = [];
+        // Stale event metric value of the current month (e.g. from an earlier version).
+        $measurement_repo->set('num_news', 2020, 4, 99.0, 0);
 
         $command = new UpdateMeasurementsCommand();
         $command->setDateUtils(new DateUtils('2020-04-15 12:00:00'));
@@ -207,15 +209,19 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
         $this->assertSame([
             'num_users|2020|3' => 2.0,
             'num_members|2020|3' => 3.0,
-            'num_member_users|2020|3' => 3.0,
+            'num_member_users|2020|3' => 2.0,
             'num_termine|2020|3' => 3.0,
             'num_solv_participations|2020|3' => 2.0,
             'avg_training_participants|2020|3' => 3.5,
             'num_news|2020|3' => 4.0,
             'num_users|2020|4' => 3.0,
             'num_members|2020|4' => 2.0,
-            'num_member_users|2020|4' => 2.0,
+            'num_member_users|2020|4' => 1.0,
             'num_termine|2020|4' => 3.0,
         ], $measurement_repo->measurements);
+        // The current month has no event metrics, so the stale row is gone.
+        $this->assertSame(['num_news|2020|4'], $measurement_repo->removed);
+        // The changes must actually be written.
+        $this->assertTrue($entity_manager->flushed);
     }
 }

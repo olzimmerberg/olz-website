@@ -169,6 +169,11 @@ final class MembersUtilsTest extends UnitTestCase {
         $this->assertFalse($utils->isUserActiveInMonth($deleted, 2020, 3));
         $this->assertTrue($utils->isUserActiveInMonth($deleted, 2020, 2));
         $this->assertFalse($utils->isUserMembershipActiveInMonth($deleted, 2020, 3));
+
+        // Member since 2006, but the account only exists since April 2020.
+        $account_created_later = $make_user('2020-04-10 00:00:00', '2006-01-13', null, null);
+        $this->assertFalse($utils->isUserMembershipActiveInMonth($account_created_later, 2020, 3));
+        $this->assertTrue($utils->isUserMembershipActiveInMonth($account_created_later, 2020, 4));
     }
 
     public function testUpdateUserMembershipDates(): void {

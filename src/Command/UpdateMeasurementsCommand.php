@@ -24,10 +24,25 @@ class UpdateMeasurementsCommand extends OlzCommand {
     use MembersUtilsTrait;
 
     /** Bump to trigger a backfill whenever the measurement calculation changes. */
-    public const CALCULATION_VERSION = 1;
+    public const CALCULATION_VERSION = 2;
 
     private const EARLIEST_YEAR = 2006;
     private const EARLIEST_MONTH = 1;
+
+    /** Metrics which describe a state and can be calculated for any month. */
+    private const SNAPSHOT_NAMES = [
+        'num_users',
+        'num_members',
+        'num_member_users',
+        'num_termine',
+    ];
+
+    /** Metrics which accumulate during a month; meaningless for the current (incomplete) month. */
+    private const EVENT_NAMES = [
+        'num_solv_participations',
+        'avg_training_participants',
+        'num_news',
+    ];
 
     /** @return array<string> */
     protected function getAllowedAppEnvs(): array {
@@ -46,8 +61,13 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
         // Anything not calculated with the current version is stale. `neq` (rather than `lt`)
         // also covers rows with a higher version, e.g. after rolling back to older code.
+        // Only the metrics calculated here are considered, so that legacy rows of removed
+        // metrics (e.g. `num_weekly_pictures`) don't trigger a backfill on every run.
         $stale_criteria = Criteria::create()
-            ->where(Criteria::expr()->neq('version', self::CALCULATION_VERSION))
+            ->where(Criteria::expr()->andX(
+                Criteria::expr()->in('name', array_merge(self::SNAPSHOT_NAMES, self::EVENT_NAMES)),
+                Criteria::expr()->neq('version', self::CALCULATION_VERSION),
+            ))
             ->setFirstResult(0)
             ->setMaxResults(1)
         ;
@@ -56,6 +76,7 @@ class UpdateMeasurementsCommand extends OlzCommand {
             $this->backfill(self::EARLIEST_YEAR, self::EARLIEST_MONTH, $year, $month);
         }
 
+        $this->entityManager()->flush();
         return Command::SUCCESS;
     }
 
@@ -167,17 +188,28 @@ class UpdateMeasurementsCommand extends OlzCommand {
         // Website-Aktivität.
         $num_news = count($news_repo->matching($this->getMonthCriteria('published_date', $start, $next)));
 
+        $values = [
+            'num_users' => (float) $num_users,
+            'num_members' => (float) $num_members,
+            'num_member_users' => (float) $num_member_users,
+            'num_termine' => (float) $num_termine,
+            'num_solv_participations' => (float) $num_solv_participations,
+            'avg_training_participants' => (float) $avg_training_participants,
+            'num_news' => (float) $num_news,
+        ];
+
         $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
-        $measurement_repo->set('num_users', $year, $month, $num_users, self::CALCULATION_VERSION);
-        $measurement_repo->set('num_members', $year, $month, $num_members, self::CALCULATION_VERSION);
-        $measurement_repo->set('num_member_users', $year, $month, $num_member_users, self::CALCULATION_VERSION);
-        $measurement_repo->set('num_termine', $year, $month, $num_termine, self::CALCULATION_VERSION);
-        if (!$is_current_month) {
-            // The current month is still in progress; only store the snapshot values above,
-            // not the accumulating event measurements (news, trainings, SOLV).
-            $measurement_repo->set('num_solv_participations', $year, $month, $num_solv_participations, self::CALCULATION_VERSION);
-            $measurement_repo->set('avg_training_participants', $year, $month, $avg_training_participants, self::CALCULATION_VERSION);
-            $measurement_repo->set('num_news', $year, $month, $num_news, self::CALCULATION_VERSION);
+        foreach (self::SNAPSHOT_NAMES as $name) {
+            $measurement_repo->set($name, $year, $month, $values[$name], self::CALCULATION_VERSION);
+        }
+        foreach (self::EVENT_NAMES as $name) {
+            if ($is_current_month) {
+                // The current month is still in progress: it doesn't have a value for these yet,
+                // so a stale row of an earlier calculation must not linger around.
+                $measurement_repo->remove($name, $year, $month);
+            } else {
+                $measurement_repo->set($name, $year, $month, $values[$name], self::CALCULATION_VERSION);
+            }
         }
 
         $this->logAndOutput("Updated measurements for {$month_key}");

@@ -74,7 +74,7 @@ class OlzKarten extends OlzRootComponent {
         <h1>Unsere OL-Karten</h1>";
 
         $karten_repo = $this->entityManager()->getRepository(Karte::class);
-        $karten = $karten_repo->findBy(['deleted_at' => null]);
+        $karten = $karten_repo->findBy(['deleted_at' => null], ['name' => 'ASC']);
         $karten_data = array_map(function (Karte $karte) use ($code_href) {
             $icon_by_type = [
                 'ol' => 'orienteering_forest_16.svg',

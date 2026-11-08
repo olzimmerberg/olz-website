@@ -32,7 +32,7 @@ class OlzLinks extends OlzComponent {
 
         $link_repo = $this->entityManager()->getRepository(Link::class);
         $criteria = Criteria::create()->where(Criteria::expr()->andX(
-            Criteria::expr()->eq('on_off', 1)
+            Criteria::expr()->isNull('deleted_at')
         ));
         $criteria = $criteria
             ->orderBy(['position' => Order::Ascending])
@@ -45,7 +45,6 @@ class OlzLinks extends OlzComponent {
         foreach ($links as $link) {
             $id = $link->getId();
             $name = $link->getName();
-            $on_off = $link->getOnOff();
             $url = $link->getUrl();
 
             $user = $this->authUtils()->getCurrentUser();
@@ -67,9 +66,6 @@ class OlzLinks extends OlzComponent {
             }
 
             $class = '';
-            if ($on_off == 0) {
-                $class .= " error";
-            }
             if ($can_edit) {
                 $class .= " edit-flex";
             }

@@ -338,7 +338,7 @@ class AuthUtils {
 
     /** @return array<string, bool> */
     protected function getRolePermissionMap(?Role $role): array {
-        if (!$role || !$role->getOnOff()) {
+        if (!$role || $role->getDeletedAt() !== null) {
             return ['any' => false];
         }
         $role_id = $role->getId() ?: 0;
@@ -487,7 +487,7 @@ class AuthUtils {
         $auth_roles = $this->getAuthenticatedRoles($user);
         $is_role_id_authenticated = [];
         foreach (($auth_roles ?? []) as $auth_role) {
-            if (!$auth_role->getOnOff()) {
+            if ($auth_role->getDeletedAt() !== null) {
                 continue;
             }
             $is_role_id_authenticated[$auth_role->getId()] = true;

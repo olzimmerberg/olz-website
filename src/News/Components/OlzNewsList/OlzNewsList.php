@@ -179,7 +179,7 @@ class OlzNewsList extends OlzRootComponent {
             FROM news n
             WHERE
                 {$filter_where}
-                AND n.on_off='1'
+                AND n.deleted_at IS NULL
             ORDER BY published_date DESC, published_time DESC
             ZZZZZZZZZZ;
         // @phpstan-ignore-next-line
@@ -206,7 +206,7 @@ class OlzNewsList extends OlzRootComponent {
             FROM news n
             WHERE
                 {$filter_where}
-                AND n.on_off='1'
+                AND n.deleted_at IS NULL
             ORDER BY published_date DESC, published_time DESC
             LIMIT {$first_index}, {$this::$page_size}
             ZZZZZZZZZZ;

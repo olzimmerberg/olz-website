@@ -31,7 +31,7 @@ class OlzDownloads extends OlzComponent {
 
         $download_repo = $this->entityManager()->getRepository(Download::class);
         $criteria = Criteria::create()->where(Criteria::expr()->andX(
-            Criteria::expr()->eq('on_off', 1)
+            Criteria::expr()->isNull('deleted_at')
         ));
         $criteria = $criteria
             ->orderBy(['position' => Order::Ascending])
@@ -44,7 +44,6 @@ class OlzDownloads extends OlzComponent {
         foreach ($downloads as $download) {
             $id = $download->getId();
             $name = $download->getName();
-            $on_off = $download->getOnOff();
             $file_id = $download->getStoredFileUploadIds()[0] ?? null;
 
             $user = $this->authUtils()->getCurrentUser();
@@ -66,9 +65,6 @@ class OlzDownloads extends OlzComponent {
             }
 
             $class = '';
-            if ($on_off == 0) {
-                $class .= " error";
-            }
             if ($can_edit) {
                 $class .= " edit-flex";
             }

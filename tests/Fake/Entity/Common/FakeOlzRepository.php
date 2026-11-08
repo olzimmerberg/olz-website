@@ -36,6 +36,9 @@ class FakeOlzRepository extends EntityRepository {
     /** @var ?callable(array<string, mixed>): array<T> */
     public mixed $entitiesToBeFoundForQuery = null;
 
+    /** @var ?array<T> */
+    public ?array $entitiesToBeFound = null;
+
     public function __construct(EntityManagerInterface $em) {
         // @phpstan-ignore-next-line
         parent::__construct($em, new ClassMetadata('Fake'));
@@ -52,6 +55,9 @@ class FakeOlzRepository extends EntityRepository {
 
     /** @return array<T> */
     public function findAll(): array {
+        if ($this->entitiesToBeFound !== null) {
+            return $this->entitiesToBeFound;
+        }
         $class = $this->fakeOlzEntityClass;
         return [
             $class::minimal(),

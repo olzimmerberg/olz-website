@@ -169,7 +169,7 @@ class OlzAnniversary extends OlzRootComponent {
         $runs = $runs_repo->matching(Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->gt('created_at', $one_day_ago),
-                Criteria::expr()->eq('on_off', 1),
+                Criteria::expr()->isNull('deleted_at'),
             ))
             ->orderBy(['created_at' => \SortDirection::Descending])
             ->setFirstResult(0)
@@ -230,7 +230,7 @@ class OlzAnniversary extends OlzRootComponent {
             ZZZZZZZZZZ;
         $runs_repo = $this->entityManager()->getRepository(RunRecord::class);
         $runs = $runs_repo->findBy(
-            ['user' => $user, 'on_off' => 1],
+            ['user' => $user, 'deleted_at' => null],
             ['run_at' => 'DESC'],
         );
         foreach ($runs as $run) {

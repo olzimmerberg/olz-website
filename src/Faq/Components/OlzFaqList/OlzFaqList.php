@@ -90,7 +90,7 @@ class OlzFaqList extends OlzRootComponent {
                 ZZZZZZZZZZ;
         }
 
-        $categories = $category_repo->findBy(['on_off' => 1], ['position' => 'ASC']);
+        $categories = $category_repo->findBy(['deleted_at' => null], ['position' => 'ASC']);
         foreach ($categories as $category) {
             $create_admin = '';
             $edit_admin = '';
@@ -119,7 +119,7 @@ class OlzFaqList extends OlzRootComponent {
             $out .= "<h2 class='category'>{$category->getName()}{$edit_admin}</h2>";
             $out .= $create_admin;
             $questions = $question_repo->findBy(
-                ['category' => $category, 'on_off' => 1],
+                ['category' => $category, 'deleted_at' => null],
                 ['position_within_category' => 'ASC'],
             );
             foreach ($questions as $question) {

@@ -25,7 +25,8 @@ class FakeRegistrationRepository extends FakeOlzRepository {
             $registration->setDescription('');
             $registration->setOwnerUser(FakeUser::adminUser());
             $registration->setOwnerRole(null);
-            $registration->setOnOff(1);
+            $registration->setDeletedAt(null);
+            $registration->setDeletedByUser(null);
             return $registration;
         }
         $criteria_json = json_encode($criteria);

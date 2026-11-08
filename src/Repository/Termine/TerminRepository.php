@@ -17,7 +17,7 @@ class TerminRepository extends OlzRepository {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 $is_not_archived,
-                Criteria::expr()->eq('on_off', 1),
+                Criteria::expr()->isNull('deleted_at'),
             ))
             ->setFirstResult(0)
             ->setMaxResults(1000000)

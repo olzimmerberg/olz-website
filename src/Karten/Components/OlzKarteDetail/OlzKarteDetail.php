@@ -40,7 +40,7 @@ class OlzKarteDetail extends OlzRootComponent {
                 1.0 AS time_relevance
             FROM karten k
             WHERE
-                k.on_off = '1' AND {$where}
+                k.deleted_at IS NULL AND {$where}
             ZZZZZZZZZZ;
     }
 
@@ -61,7 +61,7 @@ class OlzKarteDetail extends OlzRootComponent {
 
         $karte = $karten_repo->findOneBy([
             'id' => $id,
-            'on_off' => 1,
+            'deleted_at' => null,
         ]);
 
         if (!$karte) {

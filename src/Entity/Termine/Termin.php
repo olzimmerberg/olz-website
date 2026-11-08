@@ -19,7 +19,7 @@ use Olz\Entity\Users\User;
 use Olz\Repository\Termine\TerminRepository;
 
 #[ORM\Table(name: 'termine')]
-#[ORM\Index(name: 'start_date_on_off_index', columns: ['start_date', 'on_off'])]
+#[ORM\Index(name: 'start_date_index', columns: ['start_date'])]
 #[ORM\Entity(repositoryClass: TerminRepository::class)]
 class Termin extends OlzEntity implements DataStorageInterface, SearchableInterface, TestableInterface {
     use DataStorageTrait;

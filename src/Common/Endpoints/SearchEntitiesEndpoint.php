@@ -82,13 +82,13 @@ class SearchEntitiesEndpoint extends OlzTypedEndpoint {
         $id_criteria = $id ? [Criteria::expr()->eq($id_field_name, $id)] : [];
 
         $repo = $this->entityManager()->getRepository($entity_class);
-        $on_off_criteria = is_subclass_of($entity_class, OlzEntity::class) ? [
-            Criteria::expr()->eq('on_off', 1),
+        $not_deleted_criteria = is_subclass_of($entity_class, OlzEntity::class) ? [
+            Criteria::expr()->isNull('deleted_at'),
         ] : [];
         $criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 $matching_criterium,
-                ...$on_off_criteria,
+                ...$not_deleted_criteria,
                 ...$filter_criteria,
                 ...$id_criteria,
             ))

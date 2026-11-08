@@ -82,7 +82,7 @@ class OlzTermineListItem extends OlzComponent {
         if (!$is_deadline) {
             $termine_repo = $this->entityManager()->getRepository(Termin::class);
             $sub_termine = [...$termine_repo->findBy(
-                ['parent_termin' => $id, 'on_off' => 1],
+                ['parent_termin' => $id, 'deleted_at' => null],
                 ['start_date' => 'ASC', 'start_time' => 'ASC'],
             )];
             $num_sub_termine = count($sub_termine);

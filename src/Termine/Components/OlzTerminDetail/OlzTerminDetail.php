@@ -72,7 +72,7 @@ class OlzTerminDetail extends OlzRootComponent {
                             DATEDIFF(t.start_date, '{$today_iso}') AS diffdays
                         FROM termine t LEFT JOIN termin_locations tl ON (t.location_id = tl.id)
                         WHERE
-                            t.on_off = '1'
+                            t.deleted_at IS NULL
                             AND {$this->termineUtils()->getIsNotArchivedSql('t')}
                             AND {$where}
                     )
@@ -119,7 +119,7 @@ class OlzTerminDetail extends OlzRootComponent {
             ->where(Criteria::expr()->andX(
                 $is_not_archived,
                 Criteria::expr()->eq('id', $id),
-                Criteria::expr()->eq('on_off', 1),
+                Criteria::expr()->isNull('deleted_at'),
             ))
             ->setFirstResult(0)
             ->setMaxResults(1)
@@ -519,7 +519,7 @@ class OlzTerminDetail extends OlzRootComponent {
         $termin_repo = $this->entityManager()->getRepository(Termin::class);
         return $termin_repo->findOneBy([
             'id' => $id,
-            'on_off' => 1,
+            'deleted_at' => null,
         ]);
     }
 }

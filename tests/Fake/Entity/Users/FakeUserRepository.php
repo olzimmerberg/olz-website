@@ -18,6 +18,9 @@ class FakeUserRepository extends FakeOlzRepository {
 
     /** @return array<User> */
     public function findAll(): array {
+        if ($this->entitiesToBeFound !== null) {
+            return $this->entitiesToBeFound;
+        }
         return [
             FakeUser::minimal(),
             FakeUser::empty(),

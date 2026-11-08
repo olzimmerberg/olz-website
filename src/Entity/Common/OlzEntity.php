@@ -8,9 +8,6 @@ use Olz\Entity\Users\User;
 
 #[ORM\MappedSuperclass]
 class OlzEntity {
-    #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 1])]
-    protected int $on_off;
-
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'owner_user_id', referencedColumnName: 'id', nullable: true)]
     protected ?User $owner_user;
@@ -33,13 +30,12 @@ class OlzEntity {
     #[ORM\JoinColumn(name: 'last_modified_by_user_id', referencedColumnName: 'id', nullable: true)]
     protected ?User $last_modified_by_user;
 
-    public function getOnOff(): int {
-        return $this->on_off;
-    }
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    protected ?\DateTime $deleted_at = null;
 
-    public function setOnOff(int $new_value): void {
-        $this->on_off = $new_value;
-    }
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'deleted_by_user_id', referencedColumnName: 'id', nullable: true)]
+    protected ?User $deleted_by_user = null;
 
     public function getOwnerUser(): ?User {
         return $this->owner_user;
@@ -89,6 +85,22 @@ class OlzEntity {
         $this->last_modified_by_user = $new_value;
     }
 
+    public function getDeletedAt(): ?\DateTime {
+        return $this->deleted_at;
+    }
+
+    public function setDeletedAt(?\DateTime $new_value): void {
+        $this->deleted_at = $new_value;
+    }
+
+    public function getDeletedByUser(): ?User {
+        return $this->deleted_by_user;
+    }
+
+    public function setDeletedByUser(?User $new_value): void {
+        $this->deleted_by_user = $new_value;
+    }
+
     /** @return array{ownerUserId: ?int, ownerRoleId: ?int, onOff: bool} */
     public function getMetaData(): array {
         $owner_user = $this->getOwnerUser();
@@ -96,7 +108,7 @@ class OlzEntity {
         return [
             'ownerUserId' => $owner_user ? $owner_user->getId() : null,
             'ownerRoleId' => $owner_role ? $owner_role->getId() : null,
-            'onOff' => $this->getOnOff() ? true : false,
+            'onOff' => $this->getDeletedAt() === null,
         ];
     }
 }

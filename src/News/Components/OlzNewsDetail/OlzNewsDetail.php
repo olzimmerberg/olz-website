@@ -59,7 +59,7 @@ class OlzNewsDetail extends OlzRootComponent {
                             DATEDIFF(published_date, '{$today_iso}') AS diffdays
                         FROM news
                         WHERE
-                            on_off = '1'
+                            deleted_at IS NULL
                             AND {$this->newsUtils()->getIsNotArchivedSql()}
                             AND {$where}
                     )
@@ -101,7 +101,7 @@ class OlzNewsDetail extends OlzRootComponent {
             ->where(Criteria::expr()->andX(
                 $is_not_archived,
                 Criteria::expr()->eq('id', $id),
-                Criteria::expr()->eq('on_off', 1),
+                Criteria::expr()->isNull('deleted_at'),
             ))
             ->setFirstResult(0)
             ->setMaxResults(1)
@@ -320,7 +320,7 @@ class OlzNewsDetail extends OlzRootComponent {
         $news_repo = $this->entityManager()->getRepository(NewsEntry::class);
         return $news_repo->findOneBy([
             'id' => $id,
-            'on_off' => 1,
+            'deleted_at' => null,
         ]);
     }
 }

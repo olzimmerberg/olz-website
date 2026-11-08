@@ -67,7 +67,7 @@ class SendWeeklyPreviewCommand extends BaseSendNotificationsCommand {
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->gt('start_date', $today),
                 Criteria::expr()->lt('start_date', $end_of_timespan),
-                Criteria::expr()->eq('on_off', 1),
+                Criteria::expr()->isNull('deleted_at'),
                 Criteria::expr()->eq('parent_termin', null),
             ))
             ->orderBy(['start_date' => Order::Ascending])
@@ -108,7 +108,7 @@ class SendWeeklyPreviewCommand extends BaseSendNotificationsCommand {
                 Criteria::expr()->andX(
                     Criteria::expr()->gt('deadline', $today),
                     Criteria::expr()->lt('deadline', $end_of_timespan),
-                    Criteria::expr()->eq('on_off', 1),
+                    Criteria::expr()->isNull('deleted_at'),
                 )
             )
             ->orderBy(['start_date' => Order::Ascending])

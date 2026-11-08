@@ -324,7 +324,8 @@ class FakeUser extends FakeEntity {
     }
 
     protected static function populateEntityFields(User $entity, bool $fresh = false): void {
-        $entity->setOnOff(1);
+        $entity->setDeletedAt(null);
+        $entity->setDeletedByUser(null);
         $entity->setOwnerUser($fresh ? null : $entity);
         $entity->setOwnerRole(null);
         $entity->setCreatedAt(new \DateTime('2006-01-13 18:43:36'));

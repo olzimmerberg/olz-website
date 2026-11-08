@@ -61,8 +61,8 @@ class GetEntitiesAroundPositionEndpoint extends OlzTypedEndpoint {
             }
         }
 
-        $on_off_criteria = is_subclass_of($entity_class, OlzEntity::class) ? [
-            Criteria::expr()->eq('on_off', 1),
+        $not_deleted_criteria = is_subclass_of($entity_class, OlzEntity::class) ? [
+            Criteria::expr()->isNull('deleted_at'),
         ] : [];
 
         $id = $input['id'] ?? null;
@@ -85,7 +85,7 @@ class GetEntitiesAroundPositionEndpoint extends OlzTypedEndpoint {
 
         $this_entity_criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
-                ...$on_off_criteria,
+                ...$not_deleted_criteria,
                 ...$filter_criteria,
                 ...$id_criteria,
                 ...$position_criteria,
@@ -110,7 +110,7 @@ class GetEntitiesAroundPositionEndpoint extends OlzTypedEndpoint {
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->isNotNull($position_field),
                 Criteria::expr()->lt($position_field, $this_position - self::FLOAT_EPSILON),
-                ...$on_off_criteria,
+                ...$not_deleted_criteria,
                 ...$filter_criteria,
             ))
             ->orderBy([$position_field => Order::Descending])
@@ -123,7 +123,7 @@ class GetEntitiesAroundPositionEndpoint extends OlzTypedEndpoint {
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->isNotNull($position_field),
                 Criteria::expr()->gt($position_field, $this_position + self::FLOAT_EPSILON),
-                ...$on_off_criteria,
+                ...$not_deleted_criteria,
                 ...$filter_criteria,
             ))
             ->orderBy([$position_field => Order::Ascending])

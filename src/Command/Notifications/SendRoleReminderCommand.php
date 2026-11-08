@@ -88,7 +88,7 @@ class SendRoleReminderCommand extends BaseSendNotificationsCommand {
 
         // Find role assignees who should have role reminder notification subscriptions.
         $role_repo = $this->entityManager()->getRepository(Role::class);
-        $roles = $role_repo->findBy(['on_off' => 1]);
+        $roles = $role_repo->findBy(['deleted_at' => null]);
         foreach ($roles as $role) {
             $role_id = $role->getId();
             $assignees = $role->getUsers();

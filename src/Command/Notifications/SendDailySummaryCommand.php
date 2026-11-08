@@ -41,7 +41,7 @@ class SendDailySummaryCommand extends BaseSendNotificationsCommand {
                 Criteria::expr()->lte('last_modified_at', $today_at_cut_off),
                 Criteria::expr()->gt('last_modified_at', $yesterday_at_cut_off),
                 Criteria::expr()->eq('newsletter', true),
-                Criteria::expr()->eq('on_off', 1),
+                Criteria::expr()->isNull('deleted_at'),
             ))
             ->orderBy(['start_date' => Order::Ascending, 'start_time' => Order::Ascending])
             ->setFirstResult(0)
@@ -197,7 +197,7 @@ class SendDailySummaryCommand extends BaseSendNotificationsCommand {
                         Criteria::expr()->gt('published_time', new \DateTime(self::CUT_OFF_TIME)),
                     ),
                 ),
-                Criteria::expr()->eq('on_off', 1),
+                Criteria::expr()->isNull('deleted_at'),
             ))
             ->orderBy([
                 'published_date' => \SortDirection::Ascending,

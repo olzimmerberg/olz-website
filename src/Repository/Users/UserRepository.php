@@ -39,7 +39,7 @@ class UserRepository extends OlzRepository {
                 AND u.email IS NOT NULL
                 AND u.password != ''
                 AND u.password IS NOT NULL
-                AND u.on_off = '1'
+                AND u.deleted_at IS NULL
             ZZZZZZZZZZ;
 
         $query = $this->getEntityManager()->createQuery($dql);

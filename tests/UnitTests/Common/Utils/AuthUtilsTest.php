@@ -449,7 +449,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasRolePermissionWithNoPermission(): void {
         $role = new Role();
-        $role->setOnOff(1);
+        $role->setDeletedAt(null);
         $role->setPermissions('');
         $auth_utils = new AuthUtils();
         $this->assertFalse($auth_utils->hasRolePermission('test', $role));
@@ -460,7 +460,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasRolePermissionWithSpecificPermission(): void {
         $role = new Role();
-        $role->setOnOff(1);
+        $role->setDeletedAt(null);
         $role->setPermissions('test');
         $auth_utils = new AuthUtils();
         $this->assertTrue($auth_utils->hasRolePermission('test', $role));
@@ -471,7 +471,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasRolePermissionWithAllPermissions(): void {
         $role = new Role();
-        $role->setOnOff(1);
+        $role->setDeletedAt(null);
         $role->setPermissions('all');
         $auth_utils = new AuthUtils();
         $this->assertTrue($auth_utils->hasRolePermission('test', $role));
@@ -482,7 +482,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasSoftDeletedRolePermissionWithNoPermission(): void {
         $role = new Role();
-        $role->setOnOff(0);
+        $role->setDeletedAt(new \DateTime('1970-01-01 00:00:00'));
         $role->setPermissions('');
         $auth_utils = new AuthUtils();
         $this->assertFalse($auth_utils->hasRolePermission('test', $role));
@@ -493,7 +493,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasSoftDeletedRolePermissionWithSpecificPermission(): void {
         $role = new Role();
-        $role->setOnOff(0);
+        $role->setDeletedAt(new \DateTime('1970-01-01 00:00:00'));
         $role->setPermissions('test');
         $auth_utils = new AuthUtils();
         $this->assertFalse($auth_utils->hasRolePermission('test', $role));
@@ -504,7 +504,7 @@ final class AuthUtilsTest extends UnitTestCase {
 
     public function testHasSoftDeletedRolePermissionWithAllPermissions(): void {
         $role = new Role();
-        $role->setOnOff(0);
+        $role->setDeletedAt(new \DateTime('1970-01-01 00:00:00'));
         $role->setPermissions('all');
         $auth_utils = new AuthUtils();
         $this->assertFalse($auth_utils->hasRolePermission('test', $role));

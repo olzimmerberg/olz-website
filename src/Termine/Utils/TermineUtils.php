@@ -29,7 +29,7 @@ class TermineUtils {
     public function loadTypeOptions(): self {
         $code_href = $this->envUtils()->getCodeHref();
         $termin_label_repo = $this->entityManager()->getRepository(TerminLabel::class);
-        $termin_labels = $termin_label_repo->findBy(['on_off' => 1], ['position' => 'ASC']);
+        $termin_labels = $termin_label_repo->findBy(['deleted_at' => null], ['position' => 'ASC']);
         $this->allTypeOptions = [
             [
                 'ident' => 'alle',

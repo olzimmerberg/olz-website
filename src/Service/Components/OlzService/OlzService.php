@@ -47,7 +47,7 @@ class OlzService extends OlzRootComponent {
                         0.9 AS time_relevance
                     FROM downloads
                     WHERE
-                        on_off = '1'
+                        deleted_at IS NULL
                         AND {$downloads_where}
                 UNION ALL
                     SELECT
@@ -59,7 +59,7 @@ class OlzService extends OlzRootComponent {
                         0.9 AS time_relevance
                     FROM links
                     WHERE
-                        on_off = '1'
+                        deleted_at IS NULL
                         AND {$links_where}
                 UNION ALL
                     {$static_page_query['query']}

@@ -57,14 +57,17 @@ class EntityUtils {
         User::class,
     ];
 
-    /** @param ?array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
+    /** @param ?array{onOff?: ?bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
     public function createOlzEntity(OlzEntity $entity, ?array $input): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
         $current_user = $this->authUtils()->getCurrentUser();
         $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
 
-        $on_off = ($input['onOff'] ?? false) ? 1 : 0;
+        if (($input['onOff'] ?? true) === false) {
+            $entity->setDeletedAt($now_datetime);
+            $entity->setDeletedByUser($current_user);
+        }
 
         $owner_user_id = $input['ownerUserId'] ?? null;
         $owner_user = $current_user;
@@ -78,7 +81,6 @@ class EntityUtils {
             $owner_role = $role_repo->findOneBy(['id' => $owner_role_id]);
         }
 
-        $entity->setOnOff($on_off);
         $entity->setOwnerUser($owner_user);
         $entity->setOwnerRole($owner_role);
         $entity->setCreatedAt($now_datetime);
@@ -87,7 +89,7 @@ class EntityUtils {
         $entity->setLastModifiedByUser($current_user);
     }
 
-    /** @param ?array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
+    /** @param ?array{onOff?: ?bool, ownerUserId?: ?int, ownerRoleId?: ?int} $input */
     public function updateOlzEntity(OlzEntity $entity, ?array $input): void {
         $user_repo = $this->entityManager()->getRepository(User::class);
         $role_repo = $this->entityManager()->getRepository(Role::class);
@@ -96,7 +98,8 @@ class EntityUtils {
 
         $on_off = $input['onOff'] ?? null;
         if ($on_off !== null) {
-            $entity->setOnOff($on_off ? 1 : 0);
+            $entity->setDeletedAt($on_off ? null : $now_datetime);
+            $entity->setDeletedByUser($on_off ? null : $current_user);
         }
 
         $owner_user_id = $input['ownerUserId'] ?? null;
@@ -111,6 +114,15 @@ class EntityUtils {
             $entity->setOwnerRole($owner_role);
         }
 
+        $entity->setLastModifiedAt($now_datetime);
+        $entity->setLastModifiedByUser($current_user);
+    }
+
+    public function deleteOlzEntity(OlzEntity $entity): void {
+        $current_user = $this->authUtils()->getCurrentUser();
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
+        $entity->setDeletedAt($now_datetime);
+        $entity->setDeletedByUser($current_user);
         $entity->setLastModifiedAt($now_datetime);
         $entity->setLastModifiedByUser($current_user);
     }

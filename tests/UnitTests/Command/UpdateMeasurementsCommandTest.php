@@ -12,7 +12,6 @@ use Olz\Entity\Members\Member;
 use Olz\Entity\News\NewsEntry;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
-use Olz\Entity\Startseite\WeeklyPicture;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminLabel;
 use Olz\Entity\Termine\TerminReaction;
@@ -22,10 +21,8 @@ use Olz\Tests\Fake\Entity\FakeSolvPersonRepository;
 use Olz\Tests\Fake\Entity\FakeSolvResultRepository;
 use Olz\Tests\Fake\Entity\Members\FakeMemberRepository;
 use Olz\Tests\Fake\Entity\News\FakeNewsRepository;
-use Olz\Tests\Fake\Entity\Startseite\FakeWeeklyPictureRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminReactionRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
-use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\Fake\Entity\Users\FakeUserRepository;
 use Olz\Tests\Fake\FakeEntityManager;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
@@ -43,36 +40,61 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
         $entity_manager = WithUtilsCache::get('entityManager');
         assert($entity_manager instanceof FakeEntityManager);
 
+        $make_user = function (
+            int $id,
+            string $created_at,
+            ?string $joined_on,
+            ?string $left_on,
+            ?string $deleted_at,
+        ): User {
+            $user = new User();
+            $user->setId($id);
+            $user->setCreatedAt(new \DateTime($created_at));
+            $user->setJoinedOn($joined_on !== null ? new \DateTime($joined_on) : null);
+            $user->setLeftOn($left_on !== null ? new \DateTime($left_on) : null);
+            $user->setDeletedAt($deleted_at !== null ? new \DateTime($deleted_at) : null);
+            return $user;
+        };
+        $users = [
+            // Existing before, active in March and April.
+            $make_user(1, '2006-01-01 00:00:00', '2006-01-13', null, null),
+            // Account created in April: only active in April.
+            $make_user(2, '2020-04-10 00:00:00', null, null, null),
+            // Left the club on 2020-03-31: member in March, but not in April.
+            $make_user(3, '2006-01-01 00:00:00', '2006-01-13', '2020-03-31', null),
+            // Deleted before March: not active in March or April.
+            $make_user(4, '2006-01-01 00:00:00', '2006-01-13', null, '2020-02-15 00:00:00'),
+            // Account created later, but member since 2006.
+            $make_user(5, '2021-12-01 00:00:00', '2006-01-13', null, null),
+        ];
         $user_repo = $entity_manager->repositories[User::class] ?? null;
         assert($user_repo instanceof FakeUserRepository);
-        $user_repo->entitiesToBeFoundForQuery = function (array $criteria): array {
-            if ($criteria === ['on_off' => 1]) {
-                return array_fill(0, 10, FakeUser::minimal());
-            }
-            throw new \Exception("Unexpected user criteria: ".json_encode($criteria));
-        };
+        $user_repo->entitiesToBeFound = $users;
 
-        $active_user = new User();
-        $active_user->setOnOff(1);
-        $members = [];
-        for ($i = 0; $i < 8; $i++) {
+        $make_member = function (int $id, array $data, ?string $deleted_at): Member {
             $member = new Member();
-            $member->setId($i + 1);
-            $member->setOnOff(1);
-            $member->setIdent(strval(1000000 + $i));
-            $member->setData('');
+            $member->setId($id);
+            $member->setIdent(strval(2000000 + $id));
+            $member->setData(json_encode($data) ?: '');
             $member->setUpdates(null);
-            $member->setUser($i < 7 ? $active_user : null);
-            $members[] = $member;
-        }
+            $member->setDeletedAt($deleted_at !== null ? new \DateTime($deleted_at) : null);
+            return $member;
+        };
+        $members = [
+            // Member in March and April.
+            $make_member(1, ['Eintritt' => '13.01.2006', 'Austritt' => ''], null),
+            // Left the club on 2020-03-31: member in March, but not in April.
+            $make_member(2, ['Eintritt' => '13.01.2006', 'Austritt' => '31.03.2020'], null),
+            // Joined later: not a member in March or April.
+            $make_member(3, ['Eintritt' => '01.05.2020', 'Austritt' => ''], null),
+            // Deleted before March: not a member in March or April.
+            $make_member(4, ['Eintritt' => '13.01.2006', 'Austritt' => ''], '2020-02-15 00:00:00'),
+            // Member in March and April.
+            $make_member(5, ['Eintritt' => '13.01.2006', 'Austritt' => ''], null),
+        ];
         $member_repo = $entity_manager->repositories[Member::class] ?? null;
         assert($member_repo instanceof FakeMemberRepository);
-        $member_repo->entitiesToBeFoundForQuery = function (array $criteria) use ($members): array {
-            if ($criteria === ['on_off' => 1]) {
-                return $members;
-            }
-            throw new \Exception("Unexpected member criteria: ".json_encode($criteria));
-        };
+        $member_repo->entitiesToBeFound = $members;
 
         $make_termin = function (int $id, array $label_idents, string $start_date): Termin {
             $termin = new Termin();
@@ -122,10 +144,6 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
         assert($news_repo instanceof FakeNewsRepository);
         $news_repo->entitiesToBeMatched = [new NewsEntry(), new NewsEntry(), new NewsEntry(), new NewsEntry()];
 
-        $weekly_picture_repo = $entity_manager->repositories[WeeklyPicture::class] ?? null;
-        assert($weekly_picture_repo instanceof FakeWeeklyPictureRepository);
-        $weekly_picture_repo->entitiesToBeMatched = [new WeeklyPicture(), new WeeklyPicture()];
-
         $make_solv_person = function (int $id, int $member): SolvPerson {
             $solv_person = new SolvPerson();
             $solv_person->setId($id);
@@ -161,6 +179,10 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             throw new \Exception("Unexpected solv result criteria: ".json_encode($criteria));
         };
 
+        $measurement_repo = $entity_manager->repositories[Measurement::class];
+        assert($measurement_repo instanceof FakeMeasurementRepository);
+        $measurement_repo->entitiesToBeMatched = [];
+
         $command = new UpdateMeasurementsCommand();
         $command->setDateUtils(new DateUtils('2020-04-15 12:00:00'));
         $input = new ArrayInput([]);
@@ -169,52 +191,31 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
         $result = $command->run($input, $output);
 
         $this->assertSame(Command::SUCCESS, $result);
-        $logs = array_values(array_filter(
-            $this->getLogs(),
-            fn (string $log): bool => !str_starts_with($log, 'INFO DB:'),
-        ));
         $this->assertSame([
             'INFO Running command Olz\Command\UpdateMeasurementsCommand...',
-            'INFO Users & Members measurements updated:',
-            'INFO   num_users: 10',
-            'INFO   num_members: 8',
-            'INFO   num_member_users: 7',
-            'INFO Termine & Anlässe measurements updated:',
-            'INFO   num_termine: 3',
-            'INFO   num_solv_participations: 2',
-            'INFO   avg_training_participants: 3.5',
-            'INFO Website-Aktivität measurements updated:',
-            'INFO   num_news: 4',
-            'INFO Measurements updated.',
+            'INFO Updated measurements for 2020-03',
+            'INFO Updated measurements for 2020-04',
             'INFO Successfully ran command Olz\Command\UpdateMeasurementsCommand.',
-        ], $logs);
+        ], $this->getLogs());
         $this->assertSame(
             "Running command Olz\\Command\\UpdateMeasurementsCommand...\n".
-            "Users & Members measurements updated:\n".
-            "  num_users: 10\n".
-            "  num_members: 8\n".
-            "  num_member_users: 7\n".
-            "Termine & Anlässe measurements updated:\n".
-            "  num_termine: 3\n".
-            "  num_solv_participations: 2\n".
-            "  avg_training_participants: 3.5\n".
-            "Website-Aktivität measurements updated:\n".
-            "  num_news: 4\n".
-            "Measurements updated.\n".
+            "Updated measurements for 2020-03\n".
+            "Updated measurements for 2020-04\n".
             "Successfully ran command Olz\\Command\\UpdateMeasurementsCommand.\n",
             $output->fetch(),
         );
-
-        $measurement_repo = $entity_manager->repositories[Measurement::class];
-        assert($measurement_repo instanceof FakeMeasurementRepository);
         $this->assertSame([
-            'num_users|2020|4' => 10.0,
-            'num_members|2020|4' => 8.0,
-            'num_member_users|2020|4' => 7.0,
-            'num_termine|2020|4' => 3.0,
+            'num_users|2020|3' => 2.0,
+            'num_members|2020|3' => 3.0,
+            'num_member_users|2020|3' => 3.0,
+            'num_termine|2020|3' => 3.0,
             'num_solv_participations|2020|3' => 2.0,
             'avg_training_participants|2020|3' => 3.5,
             'num_news|2020|3' => 4.0,
+            'num_users|2020|4' => 3.0,
+            'num_members|2020|4' => 2.0,
+            'num_member_users|2020|4' => 2.0,
+            'num_termine|2020|4' => 3.0,
         ], $measurement_repo->measurements);
     }
 }

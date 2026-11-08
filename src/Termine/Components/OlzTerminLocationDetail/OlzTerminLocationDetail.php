@@ -39,7 +39,7 @@ class OlzTerminLocationDetail extends OlzRootComponent {
                 1.0 AS time_relevance
             FROM termin_locations
             WHERE
-                on_off = '1'
+                deleted_at IS NULL
                 AND {$where}
             ZZZZZZZZZZ;
     }
@@ -176,7 +176,7 @@ class OlzTerminLocationDetail extends OlzRootComponent {
         $termin_location_repo = $this->entityManager()->getRepository(TerminLocation::class);
         return $termin_location_repo->findOneBy([
             'id' => $id,
-            'on_off' => 1,
+            'deleted_at' => null,
         ]);
     }
 }

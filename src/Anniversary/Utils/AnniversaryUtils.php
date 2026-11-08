@@ -33,7 +33,7 @@ class AnniversaryUtils {
                     run_at >= '2026-01-01'
                     AND run_at <= '2026-12-31'
                     AND is_counting = '1'
-                    AND on_off = '1'
+                    AND deleted_at IS NULL
             ZZZZZZZZZZ;
         $res_sum_meters = $db->query($sql);
         $this->generalUtils()->checkNotBool($res_sum_meters, "Query error: {$sql}");

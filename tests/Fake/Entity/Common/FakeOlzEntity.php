@@ -10,7 +10,8 @@ use Olz\Tests\Fake\Entity\Users\FakeUser;
 
 class FakeOlzEntity {
     public static function minimal(OlzEntity $entity): void {
-        $entity->setOnOff(1);
+        $entity->setDeletedAt(null);
+        $entity->setDeletedByUser(null);
         $entity->setOwnerUser(null);
         $entity->setOwnerRole(null);
         $entity->setCreatedAt(new \DateTime('1970-01-01 00:00:00'));
@@ -20,7 +21,9 @@ class FakeOlzEntity {
     }
 
     public static function empty(OlzEntity $entity): void {
-        $entity->setOnOff(0);
+        $entity->setDeletedAt(new \DateTime('1970-01-01 00:00:00'));
+        // A deleted entity must name the user who deleted it.
+        $entity->setDeletedByUser(FakeUser::defaultUser());
         $entity->setOwnerUser(null);
         $entity->setOwnerRole(null);
         $entity->setCreatedAt(new \DateTime('1970-01-01 00:00:00'));
@@ -30,7 +33,8 @@ class FakeOlzEntity {
     }
 
     public static function maximal(OlzEntity $entity): void {
-        $entity->setOnOff(1);
+        $entity->setDeletedAt(null);
+        $entity->setDeletedByUser(null);
         $entity->setOwnerUser(FakeUser::defaultUser());
         $entity->setOwnerRole(FakeRole::defaultRole());
         $entity->setCreatedAt(new \DateTime('2006-01-13 18:43:36'));

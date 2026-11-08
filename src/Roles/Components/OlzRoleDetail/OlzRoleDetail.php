@@ -56,7 +56,7 @@ class OlzRoleDetail extends OlzRootComponent {
                 LEFT JOIN roles rp ON (rp.id = r.parent_role)
                 LEFT JOIN roles rpp ON (rpp.id = rp.parent_role)
             WHERE
-                r.on_off = '1'
+                r.deleted_at IS NULL
                 AND {$where}
             ZZZZZZZZZZ;
     }
@@ -76,9 +76,9 @@ class OlzRoleDetail extends OlzRootComponent {
         $code_href = $this->envUtils()->getCodeHref();
         $role_username = $args['ressort'];
         $role_repo = $entityManager->getRepository(Role::class);
-        $role = $role_repo->findOneBy(['username' => $role_username, 'on_off' => 1]);
+        $role = $role_repo->findOneBy(['username' => $role_username, 'deleted_at' => null]);
         if (!$role) {
-            $old_role = $role_repo->findOneBy(['old_username' => $role_username, 'on_off' => 1]);
+            $old_role = $role_repo->findOneBy(['old_username' => $role_username, 'deleted_at' => null]);
             if ($old_role) {
                 $redirect_url = "{$code_href}verein/{$old_role->getUsername()}";
                 $this->httpUtils()->redirect($redirect_url, ['status' => 308]);
@@ -233,7 +233,7 @@ class OlzRoleDetail extends OlzRootComponent {
 
         $child_roles = $role_repo->findBy([
             'parent_role' => $role_id,
-            'on_off' => 1,
+            'deleted_at' => null,
         ], ['position_within_parent' => 'ASC']);
         $num_child_roles = count($child_roles);
         $out .= "<br/><h2>Unter-Ressorts</h2>";

@@ -72,7 +72,8 @@ class UpdateMyPanini2024Endpoint extends OlzTypedEndpoint {
             $input_data['info4'],
             $input_data['info5'],
         ]);
-        $picture->setOnOff($input_data['onOff'] ? 1 : 0);
+        $picture->setDeletedAt($input_data['onOff'] ? null : $now_datetime);
+        $picture->setDeletedByUser($input_data['onOff'] ? null : $current_user);
         $this->entityManager()->persist($picture);
         $this->entityManager()->flush();
 

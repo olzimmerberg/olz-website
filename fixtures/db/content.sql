@@ -693,13 +693,19 @@ INSERT INTO termin_label_map
 VALUES
     ('2', '6'),
     ('3', '3'),
+    ('3', '8'),
     ('4', '3'),
+    ('4', '8'),
     ('5', '4'),
     ('5', '5'),
     ('6', '3'),
+    ('6', '8'),
     ('7', '3'),
+    ('7', '8'),
     ('8', '3'),
+    ('8', '8'),
     ('9', '3'),
+    ('9', '8'),
     ('10', '1'),
     ('10', '5'),
     ('11', '1'),
@@ -712,6 +718,7 @@ VALUES
     ('15', '1'),
     ('15', '2'),
     ('15', '6'),
+    ('16', '10'),
     ('1001', '1'),
     ('1001', '6');
 
@@ -722,10 +729,13 @@ VALUES
     ('1', NULL, NULL, NULL, NULL, 'Jahresprogramm', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'programm', '0', NULL, NULL),
     ('2', NULL, NULL, NULL, NULL, 'Weekends', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'weekend', '1', NULL, NULL),
     ('3', NULL, NULL, NULL, NULL, 'Trainings', '![](./QQ8ZApZjsNSBM2wKrkRQxXZG.jpg) Komm an eines unserer Trainings! [Trainingskonzept als PDF](./6f6novQPv2fjHGzzguXE6nzi.pdf)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'training', '2', NULL, NULL),
-    ('4', NULL, NULL, NULL, NULL, 'OLZ-Trophy', 'Nimm teil an der OLZ Trophy, einer Reihe von OLs für alle Leistungsstufen!', 'EM8hA6vye74doeon2RWzZyRf.svg', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'trophy', '3', NULL, NULL),
-    ('5', NULL, NULL, NULL, NULL, 'Wettkämpfe', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'ol', '4', NULL, NULL),
-    ('6', NULL, NULL, NULL, NULL, 'Vereinsanlässe', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '5', NULL, NULL),
-    ('7', NULL, NULL, NULL, NULL, 'SOFT DELETED', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '5', '2020-01-01 00:00:00', '42');
+    ('4', NULL, NULL, NULL, NULL, 'OLZ-Trophy', 'Nimm teil an der OLZ Trophy, einer Reihe von OLs für alle Leistungsstufen!', 'EM8hA6vye74doeon2RWzZyRf.svg', '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'trophy', '5', NULL, NULL),
+    ('5', NULL, NULL, NULL, NULL, 'Wettkämpfe', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'ol', '6', NULL, NULL),
+    ('6', NULL, NULL, NULL, NULL, 'Vereinsanlässe', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '8', NULL, NULL),
+    ('7', NULL, NULL, NULL, NULL, 'SOFT DELETED', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'deleted', '5', '2020-01-01 00:00:00', '42'),
+    ('8', NULL, NULL, NULL, NULL, 'Kartentrainings', '*(im Sommer)* Trainings für Kartentechnik und Orientierung im Wald oder Dorf (ab 6 Jahren)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'indoor_training', '3', NULL, NULL),
+    ('9', NULL, NULL, NULL, NULL, 'Hallentrainings', '*(im Winter)* Trainings für Kondition, Kraft, Schnelligkeit mit viel Spiel & Spass (ab 6 Jahren)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'map_training', '4', NULL, NULL),
+    ('10', NULL, NULL, NULL, NULL, 'Regional (JOM)', 'Läufe der Jugend-OL-Meisterschaft ZH/SH+ (auch für Erwachsene!)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'regional', '7', NULL, NULL);
 
 -- Table termin_locations
 INSERT INTO termin_locations
@@ -810,7 +820,9 @@ INSERT INTO termin_template_label_map
     (`termin_template_id`, `label_id`)
 VALUES
     ('1', '3'),
+    ('1', '9'),
     ('2', '3'),
+    ('2', '8'),
     ('3', '1'),
     ('3', '2'),
     ('3', '6');

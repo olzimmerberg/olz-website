@@ -47,8 +47,11 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
         $member_repo = $this->entityManager()->getRepository(Member::class);
         $user_repo = $this->entityManager()->getRepository(User::class);
 
+        // Only active (i.e. not soft-deleted) members need to be reconciled against the CSV.
+        // Members who were removed in an earlier import stay deleted, and are therefore not
+        // reported / deleted again.
         $existing_member_is_deleted = [];
-        foreach ($member_repo->getAllIdents() as $existing_member_ident) {
+        foreach ($member_repo->getActiveIdents() as $existing_member_ident) {
             // Assume deleted unless set to false later...
             $existing_member_is_deleted[$existing_member_ident] = true;
         }
@@ -93,6 +96,13 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                 $this->membersUtils()->update($entity, $user);
                 $this->entityManager()->persist($entity);
             } else {
+                if ($entity->getDeletedAt() !== null) {
+                    // The member was removed from the CSV in an earlier import and is back:
+                    // restore the record, so that the membership counts again. A re-joining
+                    // member is counted as if they had never left.
+                    $this->log()->info("Member {$csv_member_ident} was restored.");
+                    $this->entityUtils()->restoreOlzEntity($entity);
+                }
                 if ($entity->getData() === $enc_csv_member && $entity->getUser() === $user) {
                     $member_info_by_ident[$csv_member_ident] = [...$base_info, 'action' => 'KEEP'];
                     $this->membersUtils()->update($entity, $user);
@@ -113,21 +123,26 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
         }
         foreach ($existing_member_is_deleted as $int_ident => $is_deleted) {
             $csv_member_ident = "{$int_ident}";
-            if ($is_deleted) {
-                $member = $member_repo->findOneBy(['ident' => $csv_member_ident]);
-                $member_info_by_ident[$csv_member_ident] = [
-                    'action' => 'DELETE',
-                    'username' => null,
-                    'matchingUsername' => null,
-                    'user' => $this->getUserData($member?->getUser()),
-                    'updates' => [],
-                ];
-                if ($member) {
-                    $this->entityUtils()->deleteOlzEntity($member);
-                } else {
-                    $this->log()->warning("Cannot delete inexistent member: {$csv_member_ident}");
-                }
+            if (!$is_deleted) {
+                continue;
             }
+            $member = $member_repo->findOneBy(['ident' => $csv_member_ident]);
+            if ($member === null) {
+                $this->log()->warning("Cannot delete inexistent member: {$csv_member_ident}");
+                continue;
+            }
+            if ($member->getDeletedAt() !== null) {
+                // Already deleted by an earlier import: nothing to do.
+                continue;
+            }
+            $member_info_by_ident[$csv_member_ident] = [
+                'action' => 'DELETE',
+                'username' => null,
+                'matchingUsername' => null,
+                'user' => $this->getUserData($member->getUser()),
+                'updates' => [],
+            ];
+            $this->entityUtils()->deleteOlzEntity($member);
         }
         $this->entityManager()->flush();
 

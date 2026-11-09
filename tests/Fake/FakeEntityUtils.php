@@ -12,6 +12,10 @@ class FakeEntityUtils extends EntityUtils {
     public array $create_olz_entity_calls = [];
     /** @var array<array{0: OlzEntity, 1: int, 2: ?int, 3: ?int}> */
     public array $update_olz_entity_calls = [];
+    /** @var array<OlzEntity> */
+    public array $delete_olz_entity_calls = [];
+    /** @var array<OlzEntity> */
+    public array $restore_olz_entity_calls = [];
     public ?bool $can_update_olz_entity = null;
     /** @var array<array{0: ?OlzEntity, 1: ?string, 2: ?string, 3: ?string, 4: ?array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int}, 5: string}> */
     public array $can_update_olz_entity_calls = [];
@@ -34,6 +38,16 @@ class FakeEntityUtils extends EntityUtils {
             $entity->getOwnerUser()?->getId() ?? null,
             $entity->getOwnerRole()?->getId() ?? null,
         ];
+    }
+
+    public function deleteOlzEntity(OlzEntity $entity): void {
+        parent::deleteOlzEntity($entity);
+        $this->delete_olz_entity_calls[] = $entity;
+    }
+
+    public function restoreOlzEntity(OlzEntity $entity): void {
+        parent::restoreOlzEntity($entity);
+        $this->restore_olz_entity_calls[] = $entity;
     }
 
     /** @param ?array{onOff?: bool, ownerUserId?: int, ownerRoleId?: int} $meta_arg */

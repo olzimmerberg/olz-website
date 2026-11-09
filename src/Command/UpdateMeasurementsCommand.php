@@ -24,7 +24,7 @@ class UpdateMeasurementsCommand extends OlzCommand {
     use MembersUtilsTrait;
 
     /** Bump to trigger a backfill whenever the measurement calculation changes. */
-    public const CALCULATION_VERSION = 2;
+    public const CALCULATION_VERSION = 3;
 
     private const EARLIEST_YEAR = 2006;
     private const EARLIEST_MONTH = 1;
@@ -59,7 +59,10 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $this->updateMeasurementsForMonth($year, $month);
 
         $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
-        // Anything not calculated with the current version is stale.
+        // Anything not calculated with the current version is stale. `neq` (rather than `lt`)
+        // also covers rows with a higher version, e.g. after rolling back to older code.
+        // Only the metrics calculated here are considered, so that legacy rows of removed
+        // metrics (e.g. `num_weekly_pictures`) don't trigger a backfill on every run.
         $stale_criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->in('name', array_merge(self::SNAPSHOT_NAMES, self::EVENT_NAMES)),
@@ -94,6 +97,8 @@ class UpdateMeasurementsCommand extends OlzCommand {
     private function updateMeasurementsForMonth(int $year, int $month): void {
         [$start, $next] = $this->getMonthRange($year, $month);
         $month_key = sprintf('%04d-%02d', $year, $month);
+        // Snapshot metrics describe a state: they are evaluated at the middle of the month.
+        $at = new \DateTime(sprintf('%04d-%02d-15 12:00:00', $year, $month));
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $current_month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
         $is_current_month = ($year === $current_year && $month === $current_month);
@@ -112,10 +117,15 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $num_users = 0;
         $num_member_users = 0;
         foreach ($user_repo->findAll() as $user) {
-            if ($this->membersUtils()->isUserActiveInMonth($user, $year, $month)) {
+            // Only "real" accounts count: users with a password, and child accounts.
+            if (!$user->getPasswordHash() && $user->getParentUserId() === null) {
+                continue;
+            }
+            $user_existed = $user->exists($at);
+            if ($user_existed) {
                 $num_users++;
             }
-            if ($this->membersUtils()->isUserMembershipActiveInMonth($user, $year, $month)) {
+            if ($user_existed && $user->isMember($at)) {
                 $num_member_users++;
             }
         }
@@ -123,7 +133,7 @@ class UpdateMeasurementsCommand extends OlzCommand {
         // Mitglieder: `Eintritt` / `Austritt` from the member data.
         $num_members = 0;
         foreach ($member_repo->findAll() as $member) {
-            if ($this->membersUtils()->isMemberActiveInMonth($member, $year, $month)) {
+            if ($this->membersUtils()->isMemberActiveAt($member, $at)) {
                 $num_members++;
             }
         }

@@ -46,6 +46,8 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             ?string $joined_on,
             ?string $left_on,
             ?string $deleted_at,
+            ?string $password = 'hashed-password',
+            ?int $parent_user_id = null,
         ): User {
             $user = new User();
             $user->setId($id);
@@ -53,6 +55,8 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             $user->setJoinedOn($joined_on !== null ? new \DateTime($joined_on) : null);
             $user->setLeftOn($left_on !== null ? new \DateTime($left_on) : null);
             $user->setDeletedAt($deleted_at !== null ? new \DateTime($deleted_at) : null);
+            $user->setPasswordHash($password);
+            $user->setParentUserId($parent_user_id);
             return $user;
         };
         $users = [
@@ -66,6 +70,10 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             $make_user(4, '2006-01-01 00:00:00', '2006-01-13', null, '2020-02-15 00:00:00'),
             // Account created later, but member since 2006: not a member user before 2021-12.
             $make_user(5, '2021-12-01 00:00:00', '2006-01-13', null, null),
+            // Neither a password nor a parent: not a real account, not counted at all.
+            $make_user(6, '2006-01-01 00:00:00', '2006-01-13', null, null, null, null),
+            // Child account (no password, but a parent): counted.
+            $make_user(7, '2006-01-01 00:00:00', '2006-01-13', null, null, null, 1),
         ];
         $user_repo = $entity_manager->repositories[User::class] ?? null;
         assert($user_repo instanceof FakeUserRepository);
@@ -207,16 +215,16 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             $output->fetch(),
         );
         $this->assertSame([
-            'num_users|2020|3' => 2.0,
+            'num_users|2020|3' => 3.0,
             'num_members|2020|3' => 3.0,
-            'num_member_users|2020|3' => 2.0,
+            'num_member_users|2020|3' => 3.0,
             'num_termine|2020|3' => 3.0,
             'num_solv_participations|2020|3' => 2.0,
             'avg_training_participants|2020|3' => 3.5,
             'num_news|2020|3' => 4.0,
-            'num_users|2020|4' => 3.0,
+            'num_users|2020|4' => 4.0,
             'num_members|2020|4' => 2.0,
-            'num_member_users|2020|4' => 1.0,
+            'num_member_users|2020|4' => 2.0,
             'num_termine|2020|4' => 3.0,
         ], $measurement_repo->measurements);
         // The current month has no event metrics, so the stale row is gone.

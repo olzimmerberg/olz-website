@@ -201,79 +201,23 @@ class MembersUtils {
     }
 
     /**
-     * Whether the member had joined and not yet left during the given month.
+     * Whether the member was (counted as) a member at the given point in time.
      */
-    public function isMemberActiveInMonth(Member $member, int $year, int $month): bool {
+    public function isMemberActiveAt(Member $member, \DateTime $at): bool {
         $member_data = $this->getMemberData($member);
-        // Membership ends with whichever comes first: leaving the club or deleting the record.
-        $until = $this->getEarlierDate(
-            $this->getMemberLeftOn($member_data),
-            $member->getDeletedAt(),
-        );
-        return $this->isDateRangeActiveInMonth(
-            $this->getMemberJoinedOn($member_data),
-            $until,
-            $year,
-            $month
-        );
-    }
-
-    /**
-     * Whether the user account existed during the given month.
-     */
-    public function isUserActiveInMonth(User $user, int $year, int $month): bool {
-        return $this->isDateRangeActiveInMonth(
-            $user->getCreatedAt(),
-            $user->getDeletedAt(),
-            $year,
-            $month
-        );
-    }
-
-    /**
-     * Whether the user had a club membership during the given month: the account must already
-     * exist and the membership dates (`joined_on`, `left_on`) are maintained by the members import.
-     */
-    public function isUserMembershipActiveInMonth(User $user, int $year, int $month): bool {
-        $joined_on = $user->getJoinedOn();
-        if ($joined_on === null) {
-            // Users without `joined_on` are not members.
-            return false;
+        $joined_on = $this->getMemberJoinedOn($member_data);
+        if ($joined_on !== null && $joined_on > $at) {
+            return false; // Not yet joined
         }
-        // A membership can only count once the user account exists.
-        $from = $this->getLaterDate($joined_on, $user->getCreatedAt());
-        // Membership ends with whichever comes first: leaving the club or deleting the account.
-        $until = $this->getEarlierDate($user->getLeftOn(), $user->getDeletedAt());
-        return $this->isDateRangeActiveInMonth($from, $until, $year, $month);
-    }
-
-    /**
-     * Whether the date range from `$from` (inclusive) to `$until` (inclusive) overlaps the given month.
-     * A `null` value means "unbounded": `$from` = existed before, `$until` = still exists.
-     */
-    private function isDateRangeActiveInMonth(?\DateTime $from, ?\DateTime $until, int $year, int $month): bool {
-        $month_start = new \DateTime(sprintf('%04d-%02d-01 00:00:00', $year, $month));
-        $next_month_start = (clone $month_start)->modify('+1 month');
-        if ($from !== null && $from >= $next_month_start) {
-            return false;
+        $left_on = $this->getMemberLeftOn($member_data);
+        if ($left_on !== null && $left_on < $at) {
+            return false; // Already left
         }
-        return $until === null || $until >= $month_start;
-    }
-
-    /** The earlier of two dates, where `null` means "unbounded". */
-    private function getEarlierDate(?\DateTime $a, ?\DateTime $b): ?\DateTime {
-        if ($a === null) {
-            return $b;
-        }
-        if ($b === null) {
-            return $a;
-        }
-        return $a < $b ? $a : $b;
-    }
-
-    /** The later of two dates. */
-    private function getLaterDate(\DateTime $a, \DateTime $b): \DateTime {
-        return $a > $b ? $a : $b;
+        // The record was removed from the club (soft-deleted) before `$at`. Deliberately
+        // not `$member->exists($at)`, because `created_at` only says when the record was
+        // imported, not since when the person is a member.
+        $deleted_at = $member->getDeletedAt();
+        return $deleted_at === null || $deleted_at >= $at;
     }
 
     /**

@@ -91,18 +91,18 @@ final class MembersUtilsTest extends UnitTestCase {
         $this->assertNull($utils->getMemberStatus(['Vorname' => 'Max']));
     }
 
-    public function testGetMemberOnOff(): void {
+    public function testGetMemberStatusEnabled(): void {
         $utils = new MembersUtils();
         // Status 'E' (Ehrenmitglied) is an active member.
-        $this->assertTrue($utils->getMemberOnOff($this->expected_data[0]));
-        $this->assertTrue($utils->getMemberOnOff(['Status' => 'Aktivmitglied']));
-        $this->assertTrue($utils->getMemberOnOff(['Status' => 'Passivmitglied']));
-        $this->assertFalse($utils->getMemberOnOff(['Status' => 'Ehemaliges Mitglied']));
-        $this->assertFalse($utils->getMemberOnOff(['Status' => 'Verstorben']));
+        $this->assertTrue($utils->getMemberStatusEnabled($this->expected_data[0]));
+        $this->assertTrue($utils->getMemberStatusEnabled(['Status' => 'Aktivmitglied']));
+        $this->assertTrue($utils->getMemberStatusEnabled(['Status' => 'Passivmitglied']));
+        $this->assertFalse($utils->getMemberStatusEnabled(['Status' => 'Ehemaliges Mitglied']));
+        $this->assertFalse($utils->getMemberStatusEnabled(['Status' => 'Verstorben']));
         // Unknown / missing status defaults to "off".
-        $this->assertFalse($utils->getMemberOnOff(['Status' => 'Unbekannter Status']));
-        $this->assertFalse($utils->getMemberOnOff(['Vorname' => 'Max']));
-        $this->assertFalse($utils->getMemberOnOff([]));
+        $this->assertFalse($utils->getMemberStatusEnabled(['Status' => 'Unbekannter Status']));
+        $this->assertFalse($utils->getMemberStatusEnabled(['Vorname' => 'Max']));
+        $this->assertFalse($utils->getMemberStatusEnabled([]));
     }
 
     public function testIsMemberActiveInMonth(): void {

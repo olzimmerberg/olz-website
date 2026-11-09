@@ -58,7 +58,6 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
             $csv_member_first_name = $this->membersUtils()->getMemberFirstName($csv_member);
             $csv_member_last_name = $this->membersUtils()->getMemberLastName($csv_member);
             $csv_member_company = $this->membersUtils()->getMemberCompany($csv_member);
-            $csv_member_on_off = $this->membersUtils()->getMemberOnOff($csv_member);
             $enc_csv_member = json_encode($csv_member);
             $this->generalUtils()->checkNotFalse($enc_csv_member, "JSON encode failed");
             if (!$csv_member_ident) {
@@ -86,7 +85,7 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
             if (!$entity) {
                 $member_info_by_ident[$csv_member_ident] = [...$base_info, 'action' => 'CREATE'];
                 $entity = new Member();
-                $this->entityUtils()->createOlzEntity($entity, ['onOff' => $csv_member_on_off]);
+                $this->entityUtils()->createOlzEntity($entity, []);
                 $entity->setIdent($csv_member_ident);
                 $entity->setUser($user);
                 $entity->setData($enc_csv_member);
@@ -99,7 +98,7 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                     $this->membersUtils()->update($entity, $user);
                 } else {
                     $member_info_by_ident[$csv_member_ident] = [...$base_info, 'action' => 'UPDATE'];
-                    $this->entityUtils()->updateOlzEntity($entity, ['onOff' => $csv_member_on_off]);
+                    $this->entityUtils()->updateOlzEntity($entity, []);
                     $entity->setUser($user);
                     $entity->setData($enc_csv_member);
                     $this->membersUtils()->update($entity, $user);
@@ -124,7 +123,7 @@ class ImportMembersEndpoint extends OlzTypedEndpoint {
                     'updates' => [],
                 ];
                 if ($member) {
-                    $this->entityManager()->remove($member);
+                    $this->entityUtils()->deleteOlzEntity($member);
                 } else {
                     $this->log()->warning("Cannot delete inexistent member: {$csv_member_ident}");
                 }

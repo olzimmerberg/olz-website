@@ -61,12 +61,12 @@ final class LoginLogoutTest extends SystemTestCase {
         $this->assertSame('admin', $this->getRenderedUsername());
 
         // Simulate an expired / lost session by removing the session cookie,
-        // while keeping the refresh token cookie. The cookies are HttpOnly, so
-        // JavaScript cannot delete them; the privileged WebDriver API can.
+        // while keeping the refresh token cookie.
         $this->deleteCookiesExcept(AuthUtils::REFRESH_TOKEN_COOKIE);
         $this->loadUrl($this->getUrl());
-        // The initial page load must already be rendered as logged in, because
-        // the session is restored from the refresh token.
+        // The session is restored client-side (`/api/refresh` on page load),
+        // which reloads the page once it has been restored.
+        $this->waitUntil(fn () => $this->getRenderedUsername() === 'admin');
         $this->assertSame('admin', $this->getRenderedUsername());
         $this->screenshot('session_refresh_restored');
 

@@ -475,6 +475,26 @@ class User extends OlzEntity implements DataStorageInterface, SearchableInterfac
         $this->roles->removeElement($role);
     }
 
+    public function isMember(?\DateTime $at = null): bool {
+        $date_time = $at ?? new \DateTime($this->dateUtils()->getIsoNow());
+        $joined_on = $this->getJoinedOn();
+        if ($joined_on === null) {
+            return false; // Never joined
+        }
+        if ($joined_on > $date_time) {
+            return false; // Not yet joined
+        }
+        // Has joined
+        $left_on = $this->getLeftOn();
+        if ($left_on === null) {
+            return true; // Never left
+        }
+        if ($left_on < $date_time) {
+            return false; // Already left
+        }
+        return true;
+    }
+
     // ---
 
     public function __toString(): string {

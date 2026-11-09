@@ -192,9 +192,10 @@ class AuthUtils {
 
     /**
      * Restores the session from the given (raw) refresh token, rotating the
-     * refresh token in the process. This is used by the refresh API endpoint as
-     * well as on the initial page load, so that an expired session can be
-     * restored before the page is rendered.
+     * refresh token in the process. This is used by the `refresh` API endpoint,
+     * both whenever a request failed due to an invalid session (see `OlzApi.ts`)
+     * and on page load (see `OlzLoginModal.tsx`), where the page is rendered as
+     * logged out and then reloaded once the session has been restored.
      *
      * Returns the newly issued (raw) refresh token which must be put into the
      * cookie, or null if no cookie change is needed (the session is already

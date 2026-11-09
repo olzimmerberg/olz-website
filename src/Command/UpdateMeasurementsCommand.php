@@ -59,10 +59,7 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $this->updateMeasurementsForMonth($year, $month);
 
         $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
-        // Anything not calculated with the current version is stale. `neq` (rather than `lt`)
-        // also covers rows with a higher version, e.g. after rolling back to older code.
-        // Only the metrics calculated here are considered, so that legacy rows of removed
-        // metrics (e.g. `num_weekly_pictures`) don't trigger a backfill on every run.
+        // Anything not calculated with the current version is stale.
         $stale_criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->in('name', array_merge(self::SNAPSHOT_NAMES, self::EVENT_NAMES)),

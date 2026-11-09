@@ -24,9 +24,9 @@ final class ImportMembersEndpointTest extends UnitTestCase {
 
         mkdir(__DIR__.'/../../../tmp/temp/');
         file_put_contents(__DIR__.'/../../../tmp/temp/uploaded_file.csv', <<<'ZZZZZZZZZZ'
-            [Id];Benutzer-Id;Vorname;Nachname;Status
-            10000123;empty-user;Empty;User;Aktivmitglied
-            10001234;maximal-user;Max;User;Ehemaliges Mitglied
+            [Id];Benutzer-Id;Vorname;Nachname;Firma;Status;Eintritt;Austritt
+            10000123;empty-user;Empty;User;;Aktivmitglied;13.01.2006;
+            10001234;maximal-user;Max;User;;Ehemaliges Mitglied;13.01.2006;31.12.2006
             ZZZZZZZZZZ);
 
         $result = $endpoint->call([
@@ -42,7 +42,7 @@ final class ImportMembersEndpointTest extends UnitTestCase {
                     'username' => 'empty-user',
                     'firstName' => 'Empty',
                     'lastName' => 'User',
-                    'company' => null,
+                    'company' => '',
                     'matchingUsername' => 'empty-user',
                     'user' => null,
                     'updates' => [],
@@ -53,7 +53,7 @@ final class ImportMembersEndpointTest extends UnitTestCase {
                     'username' => 'maximal-user',
                     'firstName' => 'Max',
                     'lastName' => 'User',
-                    'company' => null,
+                    'company' => '',
                     'matchingUsername' => null,
                     'user' => ['id' => 1234, 'firstName' => 'Maximal', 'lastName' => 'User'],
                     'updates' => [
@@ -79,6 +79,7 @@ final class ImportMembersEndpointTest extends UnitTestCase {
         $this->assertSame([
             "INFO Valid user request",
             "INFO Members import by admin.",
+            "INFO User maximal-user: left_on was updated.",
             "INFO Field Vorname was updated.",
             "INFO Field Adresse was updated.",
             "INFO Field PLZ was updated.",
@@ -87,12 +88,10 @@ final class ImportMembersEndpointTest extends UnitTestCase {
         ], $this->getLogs());
 
         $entity_utils = WithUtilsCache::get('entityUtils');
-        // Status 'Aktivmitglied' (active) => member is created "on".
+        // Status 'Aktivmitglied' (active) => member is created.
         $this->assertCount(1, $entity_utils->create_olz_entity_calls);
-        $this->assertSame(1, $entity_utils->create_olz_entity_calls[0][1]);
-        // Status 'Ehemaliges Mitglied' (inactive) => member is updated "off".
+        // Status 'Ehemaliges Mitglied' (inactive) => member is updated.
         $this->assertCount(1, $entity_utils->update_olz_entity_calls);
-        $this->assertSame(0, $entity_utils->update_olz_entity_calls[0][1]);
     }
 
     public function testImportMembersEndpointNotAuthorized(): void {

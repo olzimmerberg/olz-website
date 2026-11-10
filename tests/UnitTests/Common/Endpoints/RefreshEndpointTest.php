@@ -11,7 +11,6 @@ use Olz\Entity\AccessToken;
 use Olz\Entity\Users\User;
 use Olz\Tests\Fake\Entity\Users\FakeUser;
 use Olz\Tests\UnitTests\Common\UnitTestCase;
-use PhpTypeScriptApi\HttpError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -56,7 +55,7 @@ final class RefreshEndpointTest extends UnitTestCase {
 
         $result = $endpoint->call([]);
 
-        $this->assertSame(['status' => 'OK'], $result);
+        $this->assertSame(['status' => 'KEEP'], $result);
         $this->assertCount(0, $response->headers->getCookies());
     }
 
@@ -68,12 +67,9 @@ final class RefreshEndpointTest extends UnitTestCase {
         $endpoint->runtimeSetup();
         $endpoint->setHttpContext(new Request(), $response);
 
-        try {
-            $endpoint->call([]);
-            $this->fail('Exception expected.');
-        } catch (HttpError $httperr) {
-            $this->assertSame(401, $httperr->getCode());
-        }
+        $result = $endpoint->call([]);
+
+        $this->assertSame(['status' => 'NO'], $result);
         $cookies = $response->headers->getCookies();
         $this->assertCount(1, $cookies);
         $this->assertSame('', $cookies[0]->getValue());
@@ -90,15 +86,44 @@ final class RefreshEndpointTest extends UnitTestCase {
         $endpoint->runtimeSetup();
         $endpoint->setHttpContext($request, $response);
 
-        try {
-            $endpoint->call([]);
-            $this->fail('Exception expected.');
-        } catch (HttpError $httperr) {
-            $this->assertSame(401, $httperr->getCode());
-        }
+        $result = $endpoint->call([]);
+
+        $this->assertSame(['status' => 'NO'], $result);
         $this->assertSame([$access_token], $entity_manager->flushed_removed);
         $this->assertSame([], WithUtilsCache::get('session')->session_storage);
-        $this->assertCount(1, $response->headers->getCookies());
+        $cookies = $response->headers->getCookies();
+        $this->assertCount(1, $cookies);
+        $this->assertSame('', $cookies[0]->getValue());
+    }
+
+    public function testRefreshEndpointWithReusedToken(): void {
+        $auth_utils = WithUtilsCache::get('authUtils');
+        $access_token = $this->createRefreshToken('new-token', FakeUser::adminUser(), '2021-01-01 00:00:00');
+        // The token was rotated long ago, so the previous token is out of the
+        // grace window and must be treated as stolen.
+        $access_token->setOldToken(hash('sha256', 'old-token'));
+        $access_token->setRotatedAt(new \DateTime('2020-03-13 19:00:00'));
+        $auth_utils->refresh_token = $access_token;
+        $request = new Request(cookies: [AuthUtils::REFRESH_TOKEN_COOKIE => 'old-token']);
+        $response = new Response();
+        $entity_manager = WithUtilsCache::get('entityManager');
+        $endpoint = new RefreshEndpoint();
+        $endpoint->runtimeSetup();
+        $endpoint->setHttpContext($request, $response);
+
+        $result = $endpoint->call([]);
+
+        $this->assertSame(['status' => 'NO'], $result);
+        $this->assertSame([$access_token], $entity_manager->flushed_removed);
+        $this->assertSame([], WithUtilsCache::get('session')->session_storage);
+        $cookies = $response->headers->getCookies();
+        $this->assertCount(1, $cookies);
+        $this->assertSame('', $cookies[0]->getValue());
+        $this->assertSame([
+            'INFO Valid user request',
+            'INFO Could not refresh session: Previous refresh token is no longer in the grace window.',
+            'INFO Valid user response',
+        ], $this->getLogs());
     }
 
     protected function createRefreshToken(

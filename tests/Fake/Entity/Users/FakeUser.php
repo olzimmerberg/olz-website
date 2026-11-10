@@ -45,6 +45,8 @@ class FakeUser extends FakeEntity {
                 $entity->setAhvNumber(null);
                 $entity->setDressSize(null);
                 $entity->setAvatarImageId(null);
+                $entity->setJoinedOn(null);
+                $entity->setLeftOn(null);
                 return $entity;
             }
         );
@@ -81,6 +83,8 @@ class FakeUser extends FakeEntity {
                 $entity->setAhvNumber('');
                 $entity->setDressSize('');
                 $entity->setAvatarImageId('');
+                $entity->setJoinedOn(new Date('1970-01-01'));
+                $entity->setLeftOn(new Date('1970-01-01'));
                 return $entity;
             }
         );
@@ -117,6 +121,8 @@ class FakeUser extends FakeEntity {
                 $entity->setAhvNumber('756.9999.9999.99');
                 $entity->setDressSize('3XL');
                 $entity->setAvatarImageId('image__________________1.jpg');
+                $entity->setJoinedOn(new Date('2006-01-13'));
+                $entity->setLeftOn(new Date('2022-01-01'));
                 return $entity;
             }
         );

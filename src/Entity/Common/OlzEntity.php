@@ -3,11 +3,14 @@
 namespace Olz\Entity\Common;
 
 use Doctrine\ORM\Mapping as ORM;
+use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Roles\Role;
 use Olz\Entity\Users\User;
 
 #[ORM\MappedSuperclass]
 class OlzEntity {
+    use WithUtilsTrait;
+
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'owner_user_id', referencedColumnName: 'id', nullable: true)]
     protected ?User $owner_user;
@@ -99,6 +102,23 @@ class OlzEntity {
 
     public function setDeletedByUser(?User $new_value): void {
         $this->deleted_by_user = $new_value;
+    }
+
+    public function exists(?\DateTime $at = null): bool {
+        $date_time = $at ?? new \DateTime($this->dateUtils()->getIsoNow());
+        $created_at = $this->getCreatedAt();
+        if ($created_at > $date_time) {
+            return false; // Not yet created
+        }
+        // Has been created
+        $deleted_at = $this->getDeletedAt();
+        if ($deleted_at === null) {
+            return true; // Never deleted
+        }
+        if ($deleted_at < $date_time) {
+            return false; // Already deleted
+        }
+        return true;
     }
 
     /** @return array{ownerUserId: ?int, ownerRoleId: ?int, onOff: bool} */

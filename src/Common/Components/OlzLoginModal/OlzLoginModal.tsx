@@ -199,4 +199,16 @@ window.addEventListener('load', () => {
     };
     window.addEventListener('hashchange', openLoginDialogIfHash);
     openLoginDialogIfHash();
+    // Restore the session from the refresh token cookie. The server renders a
+    // page as logged out if the (short-lived) session has expired, so `OK` (i.e.
+    // a new refresh token was issued) means the page needs to be re-rendered.
+    olzApi.refreshSession()
+        .then((response) => {
+            if (response.status === 'OK') {
+                window.location.reload();
+            }
+        })
+        .catch(() => {
+            // Ignore; the next API call will try to refresh again.
+        });
 });

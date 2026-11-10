@@ -6,20 +6,28 @@ use Olz\Common\Utils\WithUtilsTrait;
 use Olz\Entity\Members\Member;
 use Olz\Entity\Users\User;
 
+/**
+ * @phpstan-type MemberCsvColumn 'ident'|'username'|'first_name'|'last_name'|'company'|'status'|'joined_on'|'left_on'
+ */
 class MembersUtils {
     use WithUtilsTrait;
 
     private int $first_data_row = 1;
-    private string $member_ident_key = '[Id]';
-    private string $member_username_key = 'Benutzer-Id';
-    private string $member_first_name_key = 'Vorname';
-    private string $member_last_name_key = 'Nachname';
-    private string $member_company_key = 'Firma';
-    private string $member_status_key = 'Status';
-    private string $member_joined_on_key = 'Eintritt';
-    private string $member_left_on_key = 'Austritt';
+
+    /** @var array<MemberCsvColumn, string> */
+    private array $csv_columns = [
+        'ident' => '[Id]',
+        'username' => 'Benutzer-Id',
+        'first_name' => 'Vorname',
+        'last_name' => 'Nachname',
+        'company' => 'Firma',
+        'status' => 'Status',
+        'joined_on' => 'Eintritt',
+        'left_on' => 'Austritt',
+    ];
+
     /** @var array<string, bool> */
-    private array $on_off_by_status = [
+    private array $is_enabled_by_status = [
         'Kein Mitglied' => false,
         'Aktivmitglied' => true,
         'Passivmitglied' => true,
@@ -43,6 +51,26 @@ class MembersUtils {
         $header = $stream->current();
         if (!is_array($header)) {
             throw new \Exception("Invalid CSV header: {$header}");
+        }
+        $has_column_by_value = [];
+        foreach ($header as $value) {
+            $has_column_by_value[$value] = true;
+        }
+        /** @var array<MemberCsvColumn> */
+        $missing_columns = [];
+        foreach ($this->csv_columns as $key => $value) {
+            if (!($has_column_by_value[$value] ?? false)) {
+                $missing_columns[] = $key;
+            }
+        }
+        if (count($missing_columns) > 0) {
+            $pretty_columns = [];
+            foreach ($missing_columns as $key) {
+                $value = $this->csv_columns[$key];
+                $pretty_columns[] = "{$key} ({$value})";
+            }
+            $pretty_columns_str = implode(', ', $pretty_columns);
+            throw new \InvalidArgumentException("Missing columns in CSV: {$pretty_columns_str}");
         }
         $num_columns = count($header);
         $stream->next();
@@ -85,48 +113,48 @@ class MembersUtils {
 
     /** @param array<string, string> $member */
     public function getMemberIdent(array $member): ?string {
-        return $member[$this->member_ident_key] ?? null;
+        return $member[$this->csv_columns['ident']] ?? null;
     }
 
     /** @param array<string, string> $member */
     public function getMemberUsername(array $member): ?string {
-        return $member[$this->member_username_key] ?? null;
+        return $member[$this->csv_columns['username']] ?? null;
     }
 
     /** @param array<string, string> $member */
     public function getMemberFirstName(array $member): ?string {
-        return $member[$this->member_first_name_key] ?? null;
+        return $member[$this->csv_columns['first_name']] ?? null;
     }
 
     /** @param array<string, string> $member */
     public function getMemberLastName(array $member): ?string {
-        return $member[$this->member_last_name_key] ?? null;
+        return $member[$this->csv_columns['last_name']] ?? null;
     }
 
     /** @param array<string, string> $member */
     public function getMemberCompany(array $member): ?string {
-        return $member[$this->member_company_key] ?? null;
+        return $member[$this->csv_columns['company']] ?? null;
     }
 
     /** @param array<string, string> $member */
     public function getMemberStatus(array $member): ?string {
-        return $member[$this->member_status_key] ?? null;
+        return $member[$this->csv_columns['status']] ?? null;
     }
 
     /** @param array<string, string> $member */
     public function getMemberJoinedOn(array $member): ?\DateTime {
-        return $this->parseMemberDate($member[$this->member_joined_on_key] ?? '');
+        return $this->parseMemberDate($member[$this->csv_columns['joined_on']] ?? '');
     }
 
     /** @param array<string, string> $member */
     public function getMemberLeftOn(array $member): ?\DateTime {
-        return $this->parseMemberDate($member[$this->member_left_on_key] ?? '');
+        return $this->parseMemberDate($member[$this->csv_columns['left_on']] ?? '');
     }
 
     /** @param array<string, string> $member */
-    public function getMemberOnOff(array $member): bool {
+    public function getMemberStatusEnabled(array $member): bool {
         $status = $this->getMemberStatus($member);
-        return $this->on_off_by_status[$status ?? ''] ?? false;
+        return $this->is_enabled_by_status[$status ?? ''] ?? false;
     }
 
     private function parseMemberDate(string $value): ?\DateTime {
@@ -255,20 +283,15 @@ class MembersUtils {
      * @param array<string, string> $member
      */
     protected function updateUserMembershipDates(User $user, array $member): void {
-        // Only touch the user if the CSV actually contains the respective column.
-        if (array_key_exists($this->member_joined_on_key, $member)) {
-            $joined_on = $this->getMemberJoinedOn($member);
-            if (!$this->isSameDate($user->getJoinedOn(), $joined_on)) {
-                $this->log()->info("User {$user->getUsername()}: joined_on was updated.");
-                $user->setJoinedOn($joined_on);
-            }
+        $joined_on = $this->getMemberJoinedOn($member);
+        if (!$this->isSameDate($user->getJoinedOn(), $joined_on)) {
+            $this->log()->info("User {$user->getUsername()}: joined_on was updated.");
+            $user->setJoinedOn($joined_on);
         }
-        if (array_key_exists($this->member_left_on_key, $member)) {
-            $left_on = $this->getMemberLeftOn($member);
-            if (!$this->isSameDate($user->getLeftOn(), $left_on)) {
-                $this->log()->info("User {$user->getUsername()}: left_on was updated.");
-                $user->setLeftOn($left_on);
-            }
+        $left_on = $this->getMemberLeftOn($member);
+        if (!$this->isSameDate($user->getLeftOn(), $left_on)) {
+            $this->log()->info("User {$user->getUsername()}: left_on was updated.");
+            $user->setLeftOn($left_on);
         }
     }
 

@@ -397,7 +397,15 @@ class SystemTestCase extends KernelTestCase {
         try {
             $this->screenshot($screenshot_name);
         } catch (\Throwable $th) {
-            $t = new \Exception("Could not get {$screenshot_name} screenshot: {$th->getMessage()}", 0, $t);
+            $t = new \Exception("Could not get {$screenshot_name} HTML screenshot: {$th->getMessage()}", 0, $t);
+        }
+        try {
+            $client = self::$client;
+            $this->generalUtils()->checkNotNull($client, "Client expected");
+            $screenshot_path = __DIR__."/../../../screenshots/generated/{$screenshot_name}.png";
+            $client->takeScreenshot($screenshot_path);
+        } catch (\Throwable $th) {
+            $t = new \Exception("Could not get {$screenshot_name} PNG screenshot: {$th->getMessage()}", 0, $t);
         }
         throw $t;
     }

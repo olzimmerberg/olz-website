@@ -56,4 +56,34 @@ final class UserTest extends UnitTestCase {
         $user->removePermission('test');
         $this->assertSame(' run ', $user->getPermissions());
     }
+
+    public function testUserIsMember(): void {
+        $user = new User();
+        $user->setLeftOn(null);
+        $user->setJoinedOn(new \DateTime('2020-03-13 19:30:00'));
+        $this->assertTrue($user->isMember());
+        $user->setJoinedOn(new \DateTime('2020-03-13 19:30:01'));
+        $this->assertFalse($user->isMember());
+    }
+
+    public function testUserIsMemberAt(): void {
+        $at = new \DateTime('2020-01-01 00:00:00');
+        $user = new User();
+        // Never joined
+        $user->setJoinedOn(null);
+        $user->setLeftOn(null);
+        $this->assertFalse($user->isMember($at));
+        // Joining in a second
+        $user->setJoinedOn(new \DateTime('2020-01-01 00:00:01'));
+        $this->assertFalse($user->isMember($at));
+        // Just joined
+        $user->setJoinedOn($at);
+        $this->assertTrue($user->isMember($at));
+        // Leaving just now
+        $user->setLeftOn($at);
+        $this->assertTrue($user->isMember($at));
+        // Just left
+        $user->setLeftOn(new \DateTime('2019-12-31 23:59:59'));
+        $this->assertFalse($user->isMember($at));
+    }
 }

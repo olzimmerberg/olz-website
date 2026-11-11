@@ -73,6 +73,27 @@ final class EntityUtilsTest extends UnitTestCase {
         $this->assertSame(FakeUser::defaultUser(), $entity->getLastModifiedByUser());
     }
 
+    public function testRestoreOlzEntity(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
+        $entity_utils = new EntityUtils();
+        $then_datetime = new \DateTime('2019-01-01 19:30:00');
+        $entity = new OlzEntity();
+        $entity->setDeletedAt($then_datetime);
+        $entity->setDeletedByUser(FakeUser::vorstandUser());
+        $entity->setLastModifiedAt($then_datetime);
+        $entity->setLastModifiedByUser(FakeUser::vorstandUser());
+
+        $entity_utils->restoreOlzEntity($entity);
+
+        $this->assertNull($entity->getDeletedAt());
+        $this->assertNull($entity->getDeletedByUser());
+        $this->assertSame(
+            '2020-03-13 19:30:00',
+            $entity->getLastModifiedAt()->format('Y-m-d H:i:s')
+        );
+        $this->assertSame(FakeUser::defaultUser(), $entity->getLastModifiedByUser());
+    }
+
     public function testUpdateOlzEntity(): void {
         WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
         $entity_utils = new EntityUtils();

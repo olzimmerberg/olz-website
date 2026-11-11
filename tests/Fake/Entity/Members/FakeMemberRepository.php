@@ -14,21 +14,30 @@ class FakeMemberRepository extends FakeOlzRepository {
     public string $olzEntityClass = Member::class;
     public string $fakeOlzEntityClass = FakeMember::class;
 
+    /** @var array<string> */
+    public array $activeIdents = ['10000012', '10001234'];
+    /** @var array<string> */
+    public array $deletedIdents = [];
+
     /** @return array<string> */
-    public function getAllIdents(): array {
-        return ['10000012', '10001234'];
+    public function getActiveIdents(): array {
+        return $this->activeIdents;
     }
 
     public function findOneBy(array $criteria, ?array $orderBy = null): ?object {
         if ($criteria === ['ident' => '10000012']) {
-            return FakeMember::minimal();
+            return $this->isDeleted('10000012') ? FakeMember::empty() : FakeMember::minimal();
         }
         if ($criteria === ['ident' => '10000123']) {
             return null;
         }
         if ($criteria === ['ident' => '10001234']) {
-            return FakeMember::maximal();
+            return $this->isDeleted('10001234') ? FakeMember::empty() : FakeMember::maximal();
         }
         return parent::findOneBy($criteria, $orderBy);
+    }
+
+    protected function isDeleted(string $ident): bool {
+        return in_array($ident, $this->deletedIdents, true);
     }
 }

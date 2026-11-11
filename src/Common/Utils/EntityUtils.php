@@ -127,6 +127,15 @@ class EntityUtils {
         $entity->setLastModifiedByUser($current_user);
     }
 
+    public function restoreOlzEntity(OlzEntity $entity): void {
+        $current_user = $this->authUtils()->getCurrentUser();
+        $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
+        $entity->setDeletedAt(null);
+        $entity->setDeletedByUser(null);
+        $entity->setLastModifiedAt($now_datetime);
+        $entity->setLastModifiedByUser($current_user);
+    }
+
     /** @param ?array{onOff?: bool, ownerUserId?: ?int, ownerRoleId?: ?int} $meta_arg */
     public function canUpdateOlzEntity(
         ?OlzEntity $entity,

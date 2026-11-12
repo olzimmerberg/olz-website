@@ -733,8 +733,8 @@ VALUES
     ('5', NULL, NULL, NULL, NULL, 'Wettkämpfe', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'ol', '6', NULL, NULL),
     ('6', NULL, NULL, NULL, NULL, 'Vereinsanlässe', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'club', '8', NULL, NULL),
     ('7', NULL, NULL, NULL, NULL, 'SOFT DELETED', '', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'deleted', '5', '2020-01-01 00:00:00', '42'),
-    ('8', NULL, NULL, NULL, NULL, 'Kartentrainings', '*(im Sommer)* Trainings für Kartentechnik und Orientierung im Wald oder Dorf (ab 6 Jahren)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'indoor_training', '3', NULL, NULL),
-    ('9', NULL, NULL, NULL, NULL, 'Hallentrainings', '*(im Winter)* Trainings für Kondition, Kraft, Schnelligkeit mit viel Spiel & Spass (ab 6 Jahren)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'map_training', '4', NULL, NULL),
+    ('8', NULL, NULL, NULL, NULL, 'Kartentrainings', '*(im Sommer)* Trainings für Kartentechnik und Orientierung im Wald oder Dorf (ab 6 Jahren)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'hallentraining', '3', NULL, NULL),
+    ('9', NULL, NULL, NULL, NULL, 'Hallentrainings', '*(im Winter)* Trainings für Kondition, Kraft, Schnelligkeit mit viel Spiel & Spass (ab 6 Jahren)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'kartentraining', '4', NULL, NULL),
     ('10', NULL, NULL, NULL, NULL, 'Regional (JOM)', 'Läufe der Jugend-OL-Meisterschaft ZH/SH+ (auch für Erwachsene!)', NULL, '2020-03-13 19:30:00', '2020-03-13 19:30:00', 'regional', '7', NULL, NULL);
 
 -- Table termin_locations

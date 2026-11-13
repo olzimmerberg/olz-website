@@ -54,10 +54,10 @@ class OlzTerminTemplatesList extends OlzRootComponent {
             <div class='content-middle'>
                 <button
                     id='create-termin-template-button'
-                    class='btn btn-secondary'
+                    class='btn btn-auth'
                     onclick='return olz.initOlzEditTerminTemplateModal()'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Neue Vorlage erstellen
                 </button>
                 <h1>Termin-Vorlagen</h1>

@@ -5,6 +5,10 @@
 
     .olz-edit-button {
         float: right;
-        margin-top: -7px;
+        margin: -2px -2px 0 0;
     }
+}
+
+.olz-override-root.auth .olz-editable-text.editable {
+    border-color: #42f;
 }

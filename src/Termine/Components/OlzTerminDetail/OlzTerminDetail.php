@@ -267,10 +267,10 @@ class OlzTerminDetail extends OlzRootComponent {
                 <div class='actions-container'>
                     <button
                         id='edit-termin-button'
-                        class='btn btn-outline-light'
+                        class='btn btn-auth'
                         onclick='return olz.editTermin({$json_id})'
                     >
-                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                 </div>
@@ -279,10 +279,10 @@ class OlzTerminDetail extends OlzRootComponent {
                 <div>
                     <button
                         id='add-termin-notification-button'
-                        class='btn btn-secondary btn-sm'
+                        class='btn btn-auth btn-sm'
                         onclick='return olz.addTerminNotification({$json_id})'
                     >
-                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                         Neue Benachrichtigung
                     </button>
                 </div>
@@ -431,10 +431,10 @@ class OlzTerminDetail extends OlzRootComponent {
             $add_termin_news_admin = <<<ZZZZZZZZZZ
                 <button
                     id='add-termin-news-button'
-                    class='btn btn-secondary btn-sm'
+                    class='btn btn-auth btn-sm'
                     onclick='return olz.addTerminNewsEntry({$json_id}, {$json_mode})'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Neuer News-Eintrag
                 </button>
                 ZZZZZZZZZZ;
@@ -484,7 +484,7 @@ class OlzTerminDetail extends OlzRootComponent {
                     $row_admin = <<<ZZZZZZZZZZ
                         <button
                             id='edit-termin-notification-button-{$json_id}'
-                            class='btn btn-secondary-outline btn-sm edit-termin-notification-button'
+                            class='btn btn-outline-auth btn-sm edit-termin-notification-button'
                             onclick='return olz.editTerminNotification({$json_id})'
                         >
                             <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

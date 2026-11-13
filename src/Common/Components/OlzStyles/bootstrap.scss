@@ -7,7 +7,8 @@ $primary: colors.$olz-bg !default; // must be below 8b to have dark character.
 
 // merge with existing $theme-colors map
 $theme-colors: map-merge($theme-colors, (
-    'primary': $primary
+    'primary': $primary,
+    'auth': #42f,
 ));
 
 @import '~bootstrap/scss/bootstrap';

@@ -160,7 +160,16 @@ class EntityUtils {
             return true;
         }
 
-        // TODO: Check roles
+        $owner_role = $entity?->getOwnerRole();
+        $owner_role_id = $owner_role?->getId();
+        if ($owner_role_id !== null) {
+            $current_roles = $auth_utils->getAuthenticatedRoles() ?? [];
+            foreach ($current_roles as $current_role) {
+                if ($current_role->getId() === $owner_role_id && $current_role->exists()) {
+                    return true;
+                }
+            }
+        }
 
         return false;
     }

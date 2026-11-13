@@ -24,7 +24,7 @@ class OlzKartenListItem extends OlzComponent {
             $json_id = json_encode($karte->getId());
             $edit_admin = <<<ZZZZZZZZZZ
                 <button
-                    class='btn btn-secondary-outline btn-sm edit-karten-list-button'
+                    class='btn btn-outline-auth btn-sm edit-karten-list-button'
                     onclick='return olz.kartenListItemEditKarte({$json_id})'
                 >
                     <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

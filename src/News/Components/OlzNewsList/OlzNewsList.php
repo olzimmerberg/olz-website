@@ -102,7 +102,7 @@ class OlzNewsList extends OlzRootComponent {
         $has_blog = $this->authUtils()->hasPermission('kaderblog');
         $has_roles = !empty($this->authUtils()->getAuthenticatedRoles());
         $json_mode = htmlentities(json_encode($has_roles ? ($has_blog ? 'account_with_all' : 'account_with_aktuell') : ($has_blog ? 'account_with_blog' : 'account')) ?: '');
-        $class = $is_logged_in ? ' create-news-container' : ' dropdown-toggle';
+        $class = $is_logged_in ? ' btn-auth create-news-container' : ' btn-secondary dropdown-toggle';
         $properties = $is_logged_in
             ? <<<ZZZZZZZZZZ
                 onclick='return olz.initOlzEditNewsModal({$json_mode})'
@@ -118,10 +118,10 @@ class OlzNewsList extends OlzRootComponent {
         $out .= <<<ZZZZZZZZZZ
             <button
                 id='create-news-button'
-                class='btn btn-secondary{$class}'
+                class='btn{$class}'
                 {$properties}
             >
-                <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                 Neuer Eintrag
             </button>
             ZZZZZZZZZZ;

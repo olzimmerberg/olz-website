@@ -253,13 +253,32 @@ a {
     }
 }
 
-.btn-outline-light {
+.auth-section {
+    background-color: rgba(#42f, 0.2);
+    border-top: 3px solid #42f;
+    border-bottom: 3px solid #42f;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+
+.btn-auth,
+.btn-danger,
+.btn-primary,
+.btn-secondary {
+    img {
+        filter: brightness(0.0) invert(100%);
+    }
+}
+
+.btn-outline-auth {
+    border-width: 0;
+
     img {
         transition: filter 0.15s;
     }
 
     &:hover img {
-        filter: brightness(0.0);
+        filter: brightness(0.0) invert(100%);
     }
 }
 
@@ -337,6 +356,12 @@ a {
         &:hover {
         filter: brightness(0.75);
     }
+}
+
+.linkedit,
+.linkduplicate,
+.linkneu {
+    color: #42f;
 }
 
 .linkblack {

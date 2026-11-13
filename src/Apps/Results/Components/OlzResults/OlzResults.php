@@ -61,18 +61,18 @@ class OlzResults extends OlzRootComponent {
                     $edit_admin = <<<ZZZZZZZZZZ
                         <button
                             id='live-results-button'
-                            class='btn btn-secondary'
+                            class='btn btn-auth'
                             onclick='return olzResults.initOlzLiveResultsModal({$enc_data})'
                         >
-                            <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                            <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                             Live Resultate überschreiben
                         </button>
                         <button
                             id='edit-result-button'
-                            class='btn btn-secondary'
+                            class='btn btn-auth'
                             onclick='return olzResults.initOlzEditResultModal({$enc_data})'
                         >
-                            <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                            <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                             Resultate bearbeiten
                         </button>
                         ZZZZZZZZZZ;
@@ -95,18 +95,18 @@ class OlzResults extends OlzRootComponent {
                     <div>
                         <button
                             id='live-results-button'
-                            class='btn btn-secondary'
+                            class='btn btn-auth'
                             onclick='return olzResults.initOlzLiveResultsModal({$enc_data})'
                         >
-                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                             Live Resultate hochladen
                         </button>
                         <button
                             id='create-result-button'
-                            class='btn btn-secondary'
+                            class='btn btn-auth'
                             onclick='return olzResults.initOlzEditResultModal({$enc_data})'
                         >
-                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                             Resultate hochladen
                         </button>
                     </div>
@@ -130,18 +130,18 @@ class OlzResults extends OlzRootComponent {
                     <div>
                         <button
                             id='live-results-button'
-                            class='btn btn-secondary'
+                            class='btn btn-auth'
                             onclick='return olzResults.initOlzLiveResultsModal()'
                         >
-                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                             Live Resultate hochladen
                         </button>
                         <button
                             id='create-result-button'
-                            class='btn btn-secondary'
+                            class='btn btn-auth'
                             onclick='return olzResults.initOlzEditResultModal()'
                         >
-                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                             Resultate hochladen
                         </button>
                     </div>

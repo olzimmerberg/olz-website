@@ -92,10 +92,10 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
             <div>
                 <button
                     id='create-termin-template-button'
-                    class='btn btn-secondary'
+                    class='btn btn-auth'
                     onclick='return olz.initOlzEditTerminModal(undefined, {$esc_template_id})'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Neuer Termin aus dieser Vorlage
                 </button>
             </div>
@@ -127,10 +127,10 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
             <div>
                 <button
                     id='edit-termin-template-button'
-                    class='btn btn-primary'
+                    class='btn btn-auth'
                     onclick='return olz.editTerminTemplate({$json_id})'
                 >
-                    <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                     Bearbeiten
                 </button>
             </div>
@@ -139,10 +139,10 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
             <div>
                 <button
                     id='add-termin-notification-template-button'
-                    class='btn btn-primary'
+                    class='btn btn-auth'
                     onclick='return olz.addTerminNotificationTemplate({$json_id})'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Neue Benachrichtigung
                 </button>
             </div>
@@ -233,7 +233,7 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
                 $row_admin = <<<ZZZZZZZZZZ
                     <button
                         id='edit-termin-notification-template-button-{$json_id}'
-                        class='btn btn-secondary-outline btn-sm edit-termin-notification-template-button'
+                        class='btn btn-outline-auth btn-sm edit-termin-notification-template-button'
                         onclick='return olz.editTerminNotificationTemplate({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

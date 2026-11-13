@@ -77,17 +77,17 @@ class OlzUserDetail extends OlzRootComponent {
                 <div>
                     <button
                         id='edit-user-button'
-                        class='btn btn-primary'
+                        class='btn btn-auth'
                         onclick='return olz.editUser({$json_id})'
                     >
-                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                 </div>
                 ZZZZZZZZZZ;
             $edit_password = <<<'ZZZZZZZZZZ'
                      <button
-                        class='btn btn-secondary'
+                        class='btn btn-auth'
                         onclick='return olz.initOlzChangePasswordModal()'
                         id='change-password-button'
                     >
@@ -237,10 +237,10 @@ class OlzUserDetail extends OlzRootComponent {
                     <div>
                         <button
                             id='add-child-user-button'
-                            class='btn btn-secondary'
+                            class='btn btn-auth'
                             onclick='return olz.addChildUser({$json_id})'
                         >
-                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                             Familienmitglied hinzufügen
                         </button>
                     </div>

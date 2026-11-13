@@ -156,10 +156,10 @@ class OlzRoleDetail extends OlzRootComponent {
                 <div>
                     <button
                         id='edit-role-button'
-                        class='btn btn-primary'
+                        class='btn btn-auth'
                         onclick='return olz.editRole({$json_id}, {$json_can_parent_edit})'
                     >
-                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                 </div>
@@ -168,10 +168,10 @@ class OlzRoleDetail extends OlzRootComponent {
                 <div>
                     <button
                         id='add-role-user-button'
-                        class='btn btn-primary'
+                        class='btn btn-sm btn-auth'
                         onclick='return olz.addRoleUser({$json_id})'
                     >
-                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                         Neuer Verantwortlicher
                     </button>
                 </div>
@@ -181,10 +181,10 @@ class OlzRoleDetail extends OlzRootComponent {
                     <div>
                         <button
                             id='add-sub-role-button'
-                            class='btn btn-primary'
+                            class='btn btn-sm btn-auth'
                             onclick='return olz.addChildRole({$json_id})'
                         >
-                            <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                            <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                             Neues Unter-Ressort
                         </button>
                     </div>
@@ -214,10 +214,10 @@ class OlzRoleDetail extends OlzRootComponent {
                     $out .= <<<ZZZZZZZZZZ
                             <button
                                 id='delete-role-user-button'
-                                class='btn btn-sm btn-danger'
+                                class='btn btn-sm btn-auth'
                                 onclick='return olz.deleteRoleUser({$json_role_id}, {$json_user_id})'
                             >
-                                <img src='{$code_href}assets/icns/delete_white_16.svg' class='noborder' />
+                                <img src='{$code_href}assets/icns/delete_16.svg' class='noborder' />
                             </button>
                         ZZZZZZZZZZ;
                 }

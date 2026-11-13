@@ -82,10 +82,10 @@ class OlzTerminLocationDetail extends OlzRootComponent {
                 <div>
                     <button
                         id='create-termin-location-button'
-                        class='btn btn-secondary'
+                        class='btn btn-auth'
                         onclick='return olz.initOlzEditTerminLocationModal()'
                     >
-                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                         Neuen Ort hinzufügen
                     </button>
                 </div>
@@ -124,10 +124,10 @@ class OlzTerminLocationDetail extends OlzRootComponent {
                 <div>
                     <button
                         id='edit-termin-location-button'
-                        class='btn btn-primary'
+                        class='btn btn-auth'
                         onclick='return olz.editTerminLocation({$json_id})'
                     >
-                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                 </div>

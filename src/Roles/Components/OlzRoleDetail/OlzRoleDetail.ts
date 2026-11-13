@@ -24,7 +24,7 @@ export function addRoleUser(
 }
 
 export function deleteRoleUser(roleId: number, userId: number): boolean {
-    olzConfirm('Wirklich entfernen?').then(() => {
+    olzConfirm('Wirklich entfernen?', {confirmButtonStyle: 'btn-danger'}).then(() => {
         olzApi.call('removeUserRoleMembership', {ids: {roleId, userId}}).then(() => {
             window.setTimeout(() => {
                 // This could probably be done more smoothly!

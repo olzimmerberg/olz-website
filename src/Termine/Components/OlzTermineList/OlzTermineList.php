@@ -97,7 +97,7 @@ class OlzTermineList extends OlzRootComponent {
         $has_termine_permissions = $this->authUtils()->hasPermission('termine');
         if ($has_termine_permissions) {
             $admin_menu_out = <<<ZZZZZZZZZZ
-                <div class='termine-list-admin-menu'>
+                <div class='termine-list-admin-menu auth-section'>
                     <span class='entry'>
                         <a href='{$code_href}termine/orte' class='linkmap'>
                             Termin-Orte
@@ -136,10 +136,10 @@ class OlzTermineList extends OlzRootComponent {
             $out .= <<<ZZZZZZZZZZ
                 <button
                     id='create-termin-button'
-                    class='btn btn-secondary create-termin-container'
+                    class='btn btn-auth create-termin-container'
                     onclick='return olz.initOlzEditTerminModal()'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Neuer Termin
                 </button>
                 ZZZZZZZZZZ;
@@ -156,7 +156,7 @@ class OlzTermineList extends OlzRootComponent {
                 $edit_admin = <<<ZZZZZZZZZZ
                     <button
                         id='edit-termin-label-button'
-                        class='btn btn-secondary-outline btn-sm'
+                        class='btn btn-outline-auth btn-sm'
                         onclick='return olz.termineListEditTerminLabel({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

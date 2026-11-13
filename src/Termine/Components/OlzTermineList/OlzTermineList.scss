@@ -1,14 +1,16 @@
 @use '../../../Common/Components/OlzStyles/colors' as colors;
 
-.olz-termine-list-middle {
-    .create-termin-container {
-        float: right;
-    }
-
+.content-right {
     .termine-list-admin-menu {
         .entry {
             font-weight: bold;
         }
+    }
+}
+
+.olz-termine-list-middle {
+    .create-termin-container {
+        float: right;
     }
 
     .bar.today {

@@ -207,10 +207,10 @@ class OlzAnniversary extends OlzRootComponent {
                 Deine Aktivitäten (ohne Strava)
                 <button
                     id='create-run-button'
-                    class='btn btn-secondary'
+                    class='btn btn-auth'
                     onclick='return olz.initOlzEditRunModal(null, null, {sportType: &quot;Lauf&quot;})'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Aktivität manuell hinzufügen
                 </button>
             </h3>
@@ -240,7 +240,7 @@ class OlzAnniversary extends OlzRootComponent {
             $edit_button = $run->getSource() === 'manuell' ? <<<ZZZZZZZZZZ
                     <button
                         id='edit-run-{$id}-button'
-                        class='btn btn-secondary-outline btn-sm edit-run-list-button'
+                        class='btn btn-outline-auth btn-sm edit-run-list-button'
                         onclick='return olz.olzAnniversaryEditRun({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

@@ -183,12 +183,67 @@ final class EntityUtilsTest extends UnitTestCase {
         $this->assertTrue($result);
     }
 
+    public function testCanUpdateOlzEntityIsOwnerRoleMember(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
+        WithUtilsCache::get('authUtils')->authenticated_roles = [FakeRole::someRole()];
+        $entity_utils = new EntityUtils();
+        $entity = new OlzEntity();
+        $entity->setOwnerUser(null);
+        $entity->setCreatedByUser(null);
+        $entity->setOwnerRole(FakeRole::someRole());
+
+        $result = $entity_utils->canUpdateOlzEntity(
+            $entity,
+            []
+        );
+
+        $this->assertTrue($result);
+    }
+
+    public function testCanUpdateOlzEntityIsNotOwnerRoleMember(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
+        WithUtilsCache::get('authUtils')->authenticated_roles = [FakeRole::vorstandRole()];
+        $entity_utils = new EntityUtils();
+        $entity = new OlzEntity();
+        $entity->setOwnerUser(null);
+        $entity->setCreatedByUser(null);
+        $entity->setOwnerRole(FakeRole::someRole());
+
+        $result = $entity_utils->canUpdateOlzEntity(
+            $entity,
+            []
+        );
+
+        $this->assertFalse($result);
+    }
+
+    public function testCanUpdateOlzEntityIsDeletedOwnerRoleMember(): void {
+        WithUtilsCache::get('authUtils')->current_user = FakeUser::defaultUser();
+        WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
+        WithUtilsCache::get('authUtils')->authenticated_roles = [FakeRole::empty()];
+        $entity_utils = new EntityUtils();
+        $entity = new OlzEntity();
+        $entity->setOwnerUser(null);
+        $entity->setCreatedByUser(null);
+        $entity->setOwnerRole(FakeRole::empty());
+
+        $result = $entity_utils->canUpdateOlzEntity(
+            $entity,
+            []
+        );
+
+        $this->assertFalse($result);
+    }
+
     public function testCanUpdateOlzEntityNoEntityAccess(): void {
         WithUtilsCache::get('authUtils')->has_permission_by_query = ['all' => false];
         $entity_utils = new EntityUtils();
         $entity = new OlzEntity();
         $entity->setOwnerUser(null);
         $entity->setCreatedByUser(null);
+        $entity->setOwnerRole(null);
 
         $result = $entity_utils->canUpdateOlzEntity(
             $entity,
@@ -205,6 +260,7 @@ final class EntityUtilsTest extends UnitTestCase {
         $entity = new OlzEntity();
         $entity->setOwnerUser(FakeUser::defaultUser());
         $entity->setCreatedByUser(FakeUser::defaultUser());
+        $entity->setOwnerRole(null);
 
         $result = $entity_utils->canUpdateOlzEntity(
             $entity,

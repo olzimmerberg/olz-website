@@ -81,10 +81,10 @@ class OlzFaqList extends OlzRootComponent {
             $out .= <<<ZZZZZZZZZZ
                 <button
                     id='create-question-category-button'
-                    class='btn btn-secondary'
+                    class='btn btn-auth'
                     onclick='return olz.initOlzEditQuestionCategoryModal()'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Neue Frage-Kategorie
                 </button>
                 ZZZZZZZZZZ;
@@ -99,16 +99,16 @@ class OlzFaqList extends OlzRootComponent {
                 $create_admin = <<<ZZZZZZZZZZ
                     <button
                         id='create-question-button'
-                        class='btn btn-secondary'
+                        class='btn btn-auth'
                         onclick='return olz.initOlzEditQuestionModal(undefined, undefined, {categoryId: {$json_id}})'
                     >
-                        <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                         Neue Frage
                     </button>
                     ZZZZZZZZZZ;
                 $edit_admin = <<<ZZZZZZZZZZ
                     <button
-                        class='btn btn-secondary-outline btn-sm edit-question-category-list-button'
+                        class='btn btn-outline-auth btn-sm edit-question-category-list-button'
                         onclick='return olz.faqListEditQuestionCategory({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
@@ -130,7 +130,7 @@ class OlzFaqList extends OlzRootComponent {
                     $json_id = json_encode($question->getId());
                     $edit_admin = <<<ZZZZZZZZZZ
                         <button
-                            class='btn btn-secondary-outline btn-sm edit-question-list-button'
+                            class='btn btn-outline-auth btn-sm edit-question-list-button'
                             onclick='return olz.faqListEditQuestion({$json_id})'
                         >
                             <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

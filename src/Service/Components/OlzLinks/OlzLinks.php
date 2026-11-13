@@ -21,10 +21,10 @@ class OlzLinks extends OlzComponent {
             $out .= <<<ZZZZZZZZZZ
                 <button
                     id='create-link-button'
-                    class='btn btn-secondary'
+                    class='btn btn-auth'
                     onclick='return olz.initOlzEditLinkModal()'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Neuer Link
                 </button>
                 ZZZZZZZZZZ;
@@ -57,7 +57,7 @@ class OlzLinks extends OlzComponent {
                 $edit_admin = <<<ZZZZZZZZZZ
                     <button
                         id='edit-link-{$id}-button'
-                        class='btn btn-secondary-outline btn-sm edit-link-list-button'
+                        class='btn btn-outline-auth btn-sm edit-link-list-button'
                         onclick='return olz.olzLinksEditLink({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

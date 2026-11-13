@@ -23,7 +23,17 @@ class OlzAccountMenu extends OlzComponent {
         $show_profile_notification_dot = $should_verify_email;
         $show_notification_dot = $user && $show_profile_notification_dot;
 
-        $out .= "<a href='#' role='button' id='account-menu-link' data-bs-toggle='dropdown' aria-label='Benutzermenu' aria-haspopup='true' aria-expanded='false'>";
+        $out .= <<<'ZZZZZZZZZZ'
+            <a
+                href='#'
+                role='button'
+                id='account-menu-link'
+                data-bs-toggle='dropdown'
+                aria-label='Benutzermenu'
+                aria-haspopup='true'
+                aria-expanded='false'
+            >
+            ZZZZZZZZZZ;
         if ($show_notification_dot) {
             $out .= "<div class='notification-dot'></div>";
         }

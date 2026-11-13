@@ -62,7 +62,7 @@ class OlzNewsListItem extends OlzComponent {
             $json_mode = $args['json_mode'];
             $edit_admin = <<<ZZZZZZZZZZ
                 <button
-                    class='btn btn-secondary-outline btn-sm edit-news-list-button'
+                    class='btn btn-outline-auth btn-sm edit-news-list-button'
                     onclick='return olz.newsListItemEditNews({$json_id}, {$json_mode})'
                 >
                     <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

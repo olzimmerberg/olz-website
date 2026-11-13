@@ -20,10 +20,10 @@ class OlzDownloads extends OlzComponent {
             $out .= <<<ZZZZZZZZZZ
                 <button
                     id='create-download-button'
-                    class='btn btn-secondary'
+                    class='btn btn-auth'
                     onclick='return olz.initOlzEditDownloadModal()'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Neuer Download
                 </button>
                 ZZZZZZZZZZ;
@@ -56,7 +56,7 @@ class OlzDownloads extends OlzComponent {
                 $edit_admin = <<<ZZZZZZZZZZ
                     <button
                         id='edit-download-{$id}-button'
-                        class='btn btn-secondary-outline btn-sm edit-download-list-button'
+                        class='btn btn-outline-auth btn-sm edit-download-list-button'
                         onclick='return olz.olzDownloadsEditDownload({$json_id})'
                     >
                         <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

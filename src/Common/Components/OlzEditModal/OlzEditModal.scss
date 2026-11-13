@@ -1,4 +1,12 @@
 .olz-edit-modal {
+    .modal-header {
+        border-top: 5px solid #42f;
+    }
+
+    .modal-footer {
+        border-bottom: 5px solid #42f;
+    }
+
     .modal-title {
         flex-grow: 1;
         margin: 0;

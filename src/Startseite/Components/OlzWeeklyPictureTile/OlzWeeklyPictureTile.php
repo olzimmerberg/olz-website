@@ -24,19 +24,19 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
         $add_new_html = '';
         if ($has_access) {
             $add_new_html .= <<<ZZZZZZZZZZ
-                <a
+                <button
                     href='#'
                     id='create-weekly-picture-button'
-                    class='header-link'
+                    class='btn btn-auth btn-sm'
                     onclick='return olz.initOlzEditWeeklyPictureModal()'
                 >
                     <img
-                        src='{$code_href}assets/icns/new_white_16.svg'
+                        src='{$code_href}assets/icns/new_16.svg'
                         alt='+'
                         class='header-link-icon'
                         title='Neues Bild der Woche'
                     />
-                </a>
+                </button>
                 ZZZZZZZZZZ;
         }
 
@@ -55,18 +55,18 @@ class OlzWeeklyPictureTile extends AbstractOlzTile {
             if ($has_access) {
                 $enc_id = json_encode($id);
                 $edit_html .= <<<ZZZZZZZZZZ
-                    <a
+                    <button
                         href='#'
                         id='edit-weekly-picture-{$id}-button'
-                        class='link-icon'
+                        class='btn btn-auth btn-sm'
                         onclick='return olz.editWeeklyPicture({$enc_id})'
                     >
                         <img
-                            src='{$code_href}assets/icns/edit_white_16.svg'
+                            src='{$code_href}assets/icns/edit_16.svg'
                             alt='E'
                             title='Bild der Woche bearbeiten'
                         />
-                    </a>
+                    </button>
                     ZZZZZZZZZZ;
             }
 

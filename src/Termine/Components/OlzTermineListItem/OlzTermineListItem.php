@@ -115,7 +115,7 @@ class OlzTermineListItem extends OlzComponent {
             $json_id = json_encode(intval($id));
             $edit_admin = <<<ZZZZZZZZZZ
                 <button
-                    class='btn btn-secondary-outline btn-sm edit-termin-list-button'
+                    class='btn btn-outline-auth btn-sm edit-termin-list-button'
                     onclick='return olz.termineListItemEditTermin({$json_id})'
                 >
                     <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />

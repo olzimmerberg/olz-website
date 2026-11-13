@@ -222,10 +222,10 @@ class OlzNewsDetail extends OlzRootComponent {
                 <div>
                     <button
                         id='edit-news-button'
-                        class='btn btn-primary'
+                        class='btn btn-auth'
                         onclick='return olz.editNews({$json_id}, {$json_mode})'
                     >
-                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                 </div>

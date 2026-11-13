@@ -38,7 +38,7 @@ class OlzEditableText extends OlzComponent {
                 <button
                     type='button'
                     onclick='olz.olzEditableTextEditSnippet({$esc_id})'
-                    class='btn btn-link olz-edit-button'
+                    class='btn btn-outline-auth btn-sm olz-edit-button'
                 >
                     <img src='{$code_href}assets/icns/edit_16.svg' alt='Bearbeiten' class='noborder' />
                 </button>

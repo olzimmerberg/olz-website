@@ -25,10 +25,10 @@ class OlzKartenList extends OlzComponent {
             $out .= <<<ZZZZZZZZZZ
                 <button
                     id='create-karte-button'
-                    class='btn btn-secondary create-karte-container'
+                    class='btn btn-auth create-karte-container'
                     onclick='return olz.initOlzEditKarteModal()'
                 >
-                    <img src='{$code_href}assets/icns/new_white_16.svg' class='noborder' />
+                    <img src='{$code_href}assets/icns/new_16.svg' class='noborder' />
                     Neue Karte
                 </button>
                 ZZZZZZZZZZ;

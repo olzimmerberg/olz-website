@@ -75,7 +75,7 @@ export const OlzEditModal = (props: OlzEditModalProps): React.ReactElement => {
             className='btn btn-danger btn-sm'
             onClick={() => olzConfirm('Wirklich löschen?').then(props.onDelete)}
         >
-            <img src={`${codeHref}assets/icns/delete_white_16.svg`} className='noborder' />
+            <img src={`${codeHref}assets/icns/delete_16.svg`} className='noborder' />
             Löschen
         </button>
     ) : null;

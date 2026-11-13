@@ -97,10 +97,10 @@ class OlzFaqDetail extends OlzRootComponent {
                 <div>
                     <button
                         id='edit-question-button'
-                        class='btn btn-primary'
+                        class='btn btn-auth'
                         onclick='return olz.editQuestion({$json_id})'
                     >
-                        <img src='{$code_href}assets/icns/edit_white_16.svg' class='noborder' />
+                        <img src='{$code_href}assets/icns/edit_16.svg' class='noborder' />
                         Bearbeiten
                     </button>
                 </div>

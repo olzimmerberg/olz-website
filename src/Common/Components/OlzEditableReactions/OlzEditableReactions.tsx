@@ -154,11 +154,11 @@ export const OlzEditableReactions = (props: OlzEditableReactionsProps): React.Re
         const addButton = user?.id ? (
             <button
                 id='add-reaction-button'
-                className='btn btn-sm btn-secondary'
+                className='btn btn-auth btn-sm'
                 onClick={() => olzCustomReaction((emoji) => toggleReaction(user?.id, emoji))}
                 key='add-button'
             >
-                <img src={`${codeHref}assets/icns/new_white_16.svg`} className='noborder' />
+                <img src={`${codeHref}assets/icns/new_16.svg`} className='noborder' />
             </button>
         ) : null;
 

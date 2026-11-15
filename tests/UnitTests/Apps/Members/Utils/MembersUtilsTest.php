@@ -85,6 +85,14 @@ final class MembersUtilsTest extends UnitTestCase {
         $this->assertEquals($this->expected_data, $data);
     }
 
+    public function testGetMemberZipCodeAndCity(): void {
+        $utils = new MembersUtils();
+        $this->assertSame('12345', $utils->getMemberZipCode($this->expected_data[0]));
+        $this->assertSame('Gallisches Dorf', $utils->getMemberCity($this->expected_data[0]));
+        $this->assertNull($utils->getMemberZipCode(['Vorname' => 'Max']));
+        $this->assertNull($utils->getMemberCity(['Vorname' => 'Max']));
+    }
+
     public function testGetMemberStatus(): void {
         $utils = new MembersUtils();
         $this->assertSame('E', $utils->getMemberStatus($this->expected_data[0]));

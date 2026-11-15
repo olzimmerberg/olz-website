@@ -7,7 +7,7 @@ use Olz\Entity\Members\Member;
 use Olz\Entity\Users\User;
 
 /**
- * @phpstan-type MemberCsvColumn 'ident'|'username'|'first_name'|'last_name'|'company'|'status'|'joined_on'|'left_on'
+ * @phpstan-type MemberCsvColumn 'ident'|'username'|'first_name'|'last_name'|'company'|'zip_code'|'city'|'status'|'joined_on'|'left_on'
  */
 class MembersUtils {
     use WithUtilsTrait;
@@ -21,6 +21,8 @@ class MembersUtils {
         'first_name' => 'Vorname',
         'last_name' => 'Nachname',
         'company' => 'Firma',
+        'zip_code' => 'PLZ',
+        'city' => 'Ort',
         'status' => 'Status',
         'joined_on' => 'Eintritt',
         'left_on' => 'Austritt',
@@ -134,6 +136,16 @@ class MembersUtils {
     /** @param array<string, string> $member */
     public function getMemberCompany(array $member): ?string {
         return $member[$this->csv_columns['company']] ?? null;
+    }
+
+    /** @param array<string, string> $member */
+    public function getMemberZipCode(array $member): ?string {
+        return $member[$this->csv_columns['zip_code']] ?? null;
+    }
+
+    /** @param array<string, string> $member */
+    public function getMemberCity(array $member): ?string {
+        return $member[$this->csv_columns['city']] ?? null;
     }
 
     /** @param array<string, string> $member */

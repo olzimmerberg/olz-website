@@ -27,9 +27,9 @@ final class ImportMembersEndpointTest extends UnitTestCase {
 
         mkdir(__DIR__.'/../../../tmp/temp/');
         file_put_contents(__DIR__.'/../../../tmp/temp/uploaded_file.csv', <<<'ZZZZZZZZZZ'
-            [Id];Benutzer-Id;Vorname;Nachname;Firma;Status;Eintritt;Austritt
-            10000123;empty-user;Empty;User;;Aktivmitglied;13.01.2006;
-            10001234;maximal-user;Max;User;;Ehemaliges Mitglied;13.01.2006;31.12.2006
+            [Id];Benutzer-Id;Vorname;Nachname;Firma;PLZ;Ort;Status;Eintritt;Austritt
+            10000123;empty-user;Empty;User;;;;Aktivmitglied;13.01.2006;
+            10001234;maximal-user;Max;User;;;;Ehemaliges Mitglied;13.01.2006;31.12.2006
             ZZZZZZZZZZ);
 
         $result = $endpoint->call([
@@ -110,8 +110,8 @@ final class ImportMembersEndpointTest extends UnitTestCase {
         $endpoint = new ImportMembersEndpoint();
         $endpoint->runtimeSetup();
         $this->writeCsv(<<<'ZZZZZZZZZZ'
-            [Id];Benutzer-Id;Vorname;Nachname;Firma;Status;Eintritt;Austritt
-            10001234;maximal-user;Max;User;;Ehemaliges Mitglied;13.01.2006;31.12.2006
+            [Id];Benutzer-Id;Vorname;Nachname;Firma;PLZ;Ort;Status;Eintritt;Austritt
+            10001234;maximal-user;Max;User;;;;Ehemaliges Mitglied;13.01.2006;31.12.2006
             ZZZZZZZZZZ);
 
         $result = $endpoint->call([
@@ -135,8 +135,8 @@ final class ImportMembersEndpointTest extends UnitTestCase {
         $endpoint = new ImportMembersEndpoint();
         $endpoint->runtimeSetup();
         $this->writeCsv(<<<'ZZZZZZZZZZ'
-            [Id];Benutzer-Id;Vorname;Nachname;Firma;Status;Eintritt;Austritt
-            10001234;maximal-user;Max;User;;Ehemaliges Mitglied;13.01.2006;31.12.2006
+            [Id];Benutzer-Id;Vorname;Nachname;Firma;PLZ;Ort;Status;Eintritt;Austritt
+            10001234;maximal-user;Max;User;;;;Ehemaliges Mitglied;13.01.2006;31.12.2006
             ZZZZZZZZZZ);
 
         $result = $endpoint->call([

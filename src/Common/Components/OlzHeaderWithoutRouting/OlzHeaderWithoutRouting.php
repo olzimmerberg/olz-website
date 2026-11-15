@@ -32,6 +32,9 @@ class OlzHeaderWithoutRouting extends OlzComponent {
         $bot_regexes_json = json_encode($this->httpUtils()->getBotRegexes());
         $user_agent = $this->server()['HTTP_USER_AGENT'] ?? '';
         $classes = '';
+        if ($args['auth_only'] ?? false) {
+            $classes .= ' auth-only';
+        }
         if ($this->session()->get('user')) {
             $classes .= ' auth';
         }

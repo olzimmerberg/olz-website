@@ -160,7 +160,7 @@ export const OlzEditRoleModal = (props: OlzEditRoleModalProps): React.ReactEleme
                     register={register}
                 />
             </div>
-            <div className='mb-3 test-flaky'>
+            <div className='mb-3 auth-section test-flaky'>
                 <OlzTextField
                     mode='textarea'
                     title={<>Aufgaben (nur für OLZ-Mitglieder sichtbar) {MARKDOWN_NOTICE}</>}

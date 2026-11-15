@@ -71,7 +71,8 @@ class OlzRoleDetail extends OlzRootComponent {
 
     public function getHtmlWhenHasAccess(mixed $args): string {
         $this->httpUtils()->validateGetParams(OlzRoleDetailParams::class);
-        $is_member = $this->authUtils()->hasPermission('member');
+        $is_member = $this->authUtils()->hasPermission('roles')
+            || ($this->authUtils()->getCurrentUser()?->isMember() ?? false);
         $entityManager = $this->dbUtils()->getEntityManager();
         $code_href = $this->envUtils()->getCodeHref();
         $role_username = $args['ressort'];
@@ -254,8 +255,14 @@ class OlzRoleDetail extends OlzRootComponent {
             $guide_html = $this->htmlUtils()->renderMarkdown($role->getGuide());
             $guide_html = $role->replaceImagePaths($guide_html);
             $guide_html = $role->replaceFilePaths($guide_html);
-            $out .= "<br/><br/><h2>Aufgaben (nur für OLZ-Mitglieder sichtbar)</h2>";
-            $out .= $guide_html;
+            $out .= <<<ZZZZZZZZZZ
+                <br/>
+                <br/>
+                <div class='auth-section'>
+                    <h2>Aufgaben (nur für OLZ-Mitglieder sichtbar)</h2>
+                    {$guide_html}
+                </div>
+                ZZZZZZZZZZ;
         }
 
         $out .= "</div>";

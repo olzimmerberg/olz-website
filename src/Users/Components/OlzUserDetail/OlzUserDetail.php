@@ -56,6 +56,7 @@ class OlzUserDetail extends OlzRootComponent {
             'title' => $user->getFullName(),
             'description' => "{$user->getFullName()} - Profil.",
             'norobots' => true,
+            'auth_only' => true,
         ]);
 
         $out .= "<div class='content-full olz-user-detail'>";

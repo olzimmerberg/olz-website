@@ -45,6 +45,7 @@ class OlzTerminLocationsList extends OlzRootComponent {
             'title' => 'Termin-Orte',
             'description' => "Orte, an denen Anlässe der OL Zimmerberg stattfinden.",
             'norobots' => true,
+            'auth_only' => true,
         ]);
 
         $creation_tools = <<<ZZZZZZZZZZ

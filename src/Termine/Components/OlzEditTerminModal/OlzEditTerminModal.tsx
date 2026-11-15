@@ -48,6 +48,7 @@ interface OlzEditTerminForm {
     endTime: string;
     title: string;
     text: string;
+    documentation: string;
     locationId: number | null;
     location: string;
     organizerUserId: number | null;
@@ -86,6 +87,7 @@ function getFormFromApi(labels: Entity<OlzTerminLabelData>[], apiData?: OlzTermi
         endTime: getFormString(apiData?.endTime),
         title: getFormString(apiData?.title),
         text: getFormString(apiData?.text),
+        documentation: getFormString(apiData?.documentation),
         locationId: apiData?.locationId ?? null,
         location: apiData?.location ? serializeLocation(apiData?.location) : '',
         organizerUserId: apiData?.organizerUserId ?? null,
@@ -114,6 +116,7 @@ function getApiFromForm(labels: Entity<OlzTerminLabelData>[], templateId: number
         endTime: getApiString(formData.endTime),
         title: getApiString(formData.title),
         text: getApiString(formData.text) ?? '',
+        documentation: getApiString(formData.documentation) ?? '',
         locationId: formData.locationId,
         location: formData.locationId ? null : deserializeLocation(formData.location),
         organizerUserId: formData.organizerUserId,
@@ -380,6 +383,15 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
                     register={register}
                     disabled={solvId !== null}
                     placeholder={solvId ? 'Wird von SOLV übernommen' : ''}
+                />
+            </div>
+            <div className='mb-3 auth-section test-flaky'>
+                <OlzTextField
+                    mode='textarea'
+                    title={<>Dokumentation (nur für OLZ-Mitglieder sichtbar) {MARKDOWN_NOTICE}</>}
+                    name='documentation'
+                    errors={errors}
+                    register={register}
                 />
             </div>
             <div className='row'>

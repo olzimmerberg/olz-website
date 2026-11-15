@@ -44,6 +44,7 @@ class OlzCommands extends OlzRootComponent {
             'back_link' => "{$code_href}service/",
             'title' => $this->getPageTitle(),
             'description' => $this->getPageDescription(),
+            'auth_only' => true,
         ]);
 
         $out .= "<div class='content-full'><div id='react-root'>Lädt...</div></div>";

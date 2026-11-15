@@ -111,6 +111,7 @@ class OlzTerminDetail extends OlzRootComponent {
         $today = $date_utils->getIsoToday();
         $entityManager = $this->dbUtils()->getEntityManager();
         $user = $this->authUtils()->getCurrentUser();
+        $is_member = $this->authUtils()->hasPermission('termine') || ($user?->isMember() ?? false);
         $id = $args['id'] ?? null;
 
         $termin_repo = $entityManager->getRepository(Termin::class);
@@ -371,6 +372,20 @@ class OlzTerminDetail extends OlzRootComponent {
         $link = str_replace("&", "&amp;", str_replace("&amp;", "&", $link));
         $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
         $out .= "<div class='links'>".$link."</div>";
+
+        // Documentation
+        $documentation = $termin->getDocumentation() ?? '';
+        if ($is_member && $documentation !== '') {
+            $documentation_html = $this->htmlUtils()->renderMarkdown($documentation);
+            $documentation_html = $termin->replaceImagePaths($documentation_html);
+            $documentation_html = $termin->replaceFilePaths($documentation_html);
+            $out .= <<<ZZZZZZZZZZ
+                <div class='documentation auth-section'>
+                    <h2>Dokumentation (nur für OLZ-Mitglieder sichtbar)</h2>
+                    {$documentation_html}
+                </div>
+                ZZZZZZZZZZ;
+        }
 
         // Karte zeigen
         if ($has_location) {

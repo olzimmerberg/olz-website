@@ -45,6 +45,7 @@ class OlzMonitoring extends OlzRootComponent {
             'title' => $this->getPageTitle(),
             'description' => $this->getPageDescription(),
             'norobots' => true,
+            'auth_only' => true,
         ]);
 
         $out .= <<<'ZZZZZZZZZZ'

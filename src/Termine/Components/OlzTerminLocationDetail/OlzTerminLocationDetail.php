@@ -72,6 +72,7 @@ class OlzTerminLocationDetail extends OlzRootComponent {
             'title' => "{$title} - Orte",
             'description' => "Orte, an denen Anlässe der OL Zimmerberg stattfinden.",
             'norobots' => true,
+            'auth_only' => true,
         ]);
 
         // Creation Tools

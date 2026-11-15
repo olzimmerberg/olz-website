@@ -493,6 +493,7 @@ class DevDataUtils {
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/5/MIGRATED0000000000050001.pdf");
         $this->mkdir("{$data_path}files/termine/7");
         $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/7/Kzt5p5g6cjM5k9CXdVaSsGFx.pdf");
+        $this->copy("{$sample_path}sample-document.pdf", "{$data_path}files/termine/7/p4d8NzGMiQXuGEfnAHVbbkwc.pdf");
 
         $this->mkdir("{$data_path}files/termin_labels");
         $this->mkdir("{$data_path}files/termin_labels/3");

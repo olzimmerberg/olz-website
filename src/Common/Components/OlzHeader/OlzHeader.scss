@@ -13,6 +13,10 @@
     position: relative;
 }
 
+.olz-override-root.auth.auth-only .site-background {
+    border-bottom: 5px solid #42f;
+}
+
 @media screen and (min-width: 1200px) {
     .site-background {
         border-bottom-left-radius: 3px;

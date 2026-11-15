@@ -46,6 +46,7 @@ class OlzTerminTemplatesList extends OlzRootComponent {
             'title' => 'Termin-Vorlagen',
             'description' => "Vorlagen, um OL Zimmerberg-Termine zu erstellen.",
             'norobots' => true,
+            'auth_only' => true,
         ]);
 
         $out .= <<<ZZZZZZZZZZ

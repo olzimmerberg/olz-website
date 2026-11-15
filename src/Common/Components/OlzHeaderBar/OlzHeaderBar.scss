@@ -11,6 +11,10 @@
     z-index: 100;
 }
 
+.olz-override-root.auth.auth-only .header-bar {
+    border-bottom: 3px solid #42f;
+}
+
 .header-minified .header-bar {
     height: 42px;
 }

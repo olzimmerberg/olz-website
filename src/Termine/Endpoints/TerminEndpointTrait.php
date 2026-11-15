@@ -27,6 +27,7 @@ use PhpTypeScriptApi\PhpStan\IsoTime;
  *   endTime?: ?IsoTime,
  *   title?: ?non-empty-string,
  *   text: string,
+ *   documentation: string,
  *   organizerUserId: ?int,
  *   deadline?: ?IsoDateTime,
  *   shouldPromote: bool,
@@ -58,6 +59,7 @@ trait TerminEndpointTrait {
             'endTime' => IsoTime::fromDateTime($entity->getEndTime()),
             'title' => $entity->getTitle() ?: '-',
             'text' => $entity->getText() ?? '',
+            'documentation' => $entity->getDocumentation() ?? '',
             'organizerUserId' => $entity->getOrganizerUser()?->getId(),
             'deadline' => IsoDateTime::fromDateTime($entity->getDeadline()),
             'shouldPromote' => $entity->getShouldPromote(),
@@ -99,6 +101,7 @@ trait TerminEndpointTrait {
         $entity->setEndTime($input_data['endTime'] ?? null);
         $entity->setTitle($input_data['title'] ?? null);
         $entity->setText($input_data['text']);
+        $entity->setDocumentation($input_data['documentation']);
         $entity->setOrganizerUser($organizer_user);
         $entity->setDeadline($input_data['deadline'] ?? null);
         if (count($valid_image_ids) > 0) {

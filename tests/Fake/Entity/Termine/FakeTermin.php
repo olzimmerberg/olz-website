@@ -43,6 +43,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(new Time('12:00:00'));
                 $entity->setTitle("Fake default title!");
                 $entity->setText("Fake default content");
+                $entity->setDocumentation("Fake default documentation");
                 $entity->setOrganizerUser($organizer_user);
                 $entity->clearLabels();
                 $entity->addLabel($termin_label_1);
@@ -75,6 +76,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(null);
                 $entity->setTitle("Fake title!");
                 $entity->setText("");
+                $entity->setDocumentation("");
                 $entity->setOrganizerUser(null);
                 $entity->setLocation(null);
                 $entity->setLatitude(null);
@@ -104,6 +106,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(new Time('00:00:00'));
                 $entity->setTitle("Cannot be empty");
                 $entity->setText("");
+                $entity->setDocumentation("");
                 $entity->setOrganizerUser(null);
                 $entity->clearLabels();
                 $entity->setLocation(null);
@@ -147,6 +150,7 @@ class FakeTermin extends FakeEntity {
                 $entity->setEndTime(new Time('12:00:00'));
                 $entity->setTitle("Fake title!");
                 $entity->setText("Fake content");
+                $entity->setDocumentation("Fake documentation");
                 $entity->setOrganizerUser($organizer_user);
                 $entity->clearLabels();
                 $entity->addLabel($termin_label_1);

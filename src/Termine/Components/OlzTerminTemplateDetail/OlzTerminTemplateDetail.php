@@ -84,6 +84,7 @@ class OlzTerminTemplateDetail extends OlzRootComponent {
             'title' => "{$title} - Vorlagen",
             'description' => "Vorlagen, um OL Zimmerberg-Termine zu erstellen.",
             'norobots' => true,
+            'auth_only' => true,
         ]);
 
         // Creation Tools

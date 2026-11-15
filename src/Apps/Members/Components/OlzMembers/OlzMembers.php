@@ -45,6 +45,7 @@ class OlzMembers extends OlzRootComponent {
             'title' => $this->getPageTitle(),
             'description' => $this->getPageDescription(),
             'norobots' => true,
+            'auth_only' => true,
         ]);
 
         $out .= "<div class='content-full'><div id='react-root'>Lädt...</div></div>";

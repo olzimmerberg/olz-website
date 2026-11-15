@@ -57,6 +57,7 @@ class OlzFiles extends OlzRootComponent {
             'title' => $this->getPageTitle(),
             'description' => $this->getPageDescription(),
             'norobots' => true,
+            'auth_only' => true,
         ]);
 
         $iframe_url = "{$base_href}/apps/files/artgris/?conf=default&tree=0";

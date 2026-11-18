@@ -21,9 +21,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class RefreshEndpointTest extends UnitTestCase {
     public function testRefreshEndpoint(): void {
+        $user = FakeUser::adminUser();
         $auth_utils = WithUtilsCache::get('authUtils');
-        $access_token = $this->createRefreshToken('raw-token', FakeUser::adminUser(), '2021-01-01 00:00:00');
+        $access_token = $this->createRefreshToken('raw-token', $user, '2021-01-01 00:00:00');
         $auth_utils->refresh_token = $access_token;
+        $auth_utils->current_user = $user;
         $request = new Request(cookies: [AuthUtils::REFRESH_TOKEN_COOKIE => 'raw-token']);
         $response = new Response();
         $endpoint = new RefreshEndpoint();
@@ -42,6 +44,7 @@ final class RefreshEndpointTest extends UnitTestCase {
         $this->assertNotNull($cookie_value);
         $this->assertNotSame('raw-token', $cookie_value);
         $this->assertSame(hash('sha256', $cookie_value), $access_token->getToken());
+        $this->assertSame('2020-03-13 19:30:00', $user->getLastLoginAt()?->format('Y-m-d H:i:s'));
     }
 
     public function testRefreshEndpointWithExistingSession(): void {

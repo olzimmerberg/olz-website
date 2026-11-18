@@ -62,6 +62,8 @@ final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase
             $this->assertSame(0.0, $measurement_repo->get('num_solv_participations', 2020, 3)?->getValue());
             $this->assertSame(0.0, $measurement_repo->get('avg_training_participants', 2020, 3)?->getValue());
             $this->assertSame(1.0, $measurement_repo->get('num_news', 2020, 3)?->getValue());
+            // Not backfillable: the active-user metric is never written for past months.
+            $this->assertNull($measurement_repo->get('num_active_users', 2020, 3));
 
             // The current month is still in progress: only snapshot measurements are stored.
             $this->assertSame(0.0, $measurement_repo->get('num_users', 2020, 4)?->getValue());
@@ -71,6 +73,8 @@ final class UpdateMeasurementsCommandIntegrationTest extends IntegrationTestCase
             $this->assertNull($measurement_repo->get('num_solv_participations', 2020, 4));
             $this->assertNull($measurement_repo->get('avg_training_participants', 2020, 4));
             $this->assertNull($measurement_repo->get('num_news', 2020, 4));
+            // Rolling 30-day value, computed for the current month only.
+            $this->assertSame(0.0, $measurement_repo->get('num_active_users', 2020, 4)?->getValue());
             $this->assertSame(
                 UpdateMeasurementsCommand::CALCULATION_VERSION,
                 $measurement_repo->get('num_users', 2020, 4)->getVersion(),

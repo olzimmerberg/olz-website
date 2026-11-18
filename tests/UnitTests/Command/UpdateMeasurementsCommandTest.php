@@ -10,6 +10,7 @@ use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\Measurement;
 use Olz\Entity\Members\Member;
 use Olz\Entity\News\NewsEntry;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Entity\Termine\Termin;
@@ -21,6 +22,7 @@ use Olz\Tests\Fake\Entity\FakeSolvPersonRepository;
 use Olz\Tests\Fake\Entity\FakeSolvResultRepository;
 use Olz\Tests\Fake\Entity\Members\FakeMemberRepository;
 use Olz\Tests\Fake\Entity\News\FakeNewsRepository;
+use Olz\Tests\Fake\Entity\Roles\FakeRoleRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminReactionRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
 use Olz\Tests\Fake\Entity\Users\FakeUserRepository;
@@ -29,6 +31,23 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+class UpdateMeasurementsCommandForTest extends UpdateMeasurementsCommand {
+    /** @return array<string, ?string> */
+    public function testOnlyGetSektionByWord(): array {
+        return $this->getSektionByWord();
+    }
+
+    /** @param array<string, ?string> $sektion_by_word */
+    public function testOnlyFindSektionForMember(Member $member, array $sektion_by_word): ?string {
+        return $this->findSektionForMember($member, $sektion_by_word);
+    }
+}
 
 /**
  * @internal
@@ -48,6 +67,7 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             ?string $deleted_at,
             ?string $password = 'hashed-password',
             ?int $parent_user_id = null,
+            ?string $last_login_at = null,
         ): User {
             $user = new User();
             $user->setId($id);
@@ -57,23 +77,25 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             $user->setDeletedAt($deleted_at !== null ? new \DateTime($deleted_at) : null);
             $user->setPasswordHash($password);
             $user->setParentUserId($parent_user_id);
+            $user->setLastLoginAt($last_login_at !== null ? new \DateTime($last_login_at) : null);
             return $user;
         };
         $users = [
-            // Existing before, active in March and April.
-            $make_user(1, '2006-01-01 00:00:00', '2006-01-13', null, null),
-            // Account created in April: only active in April.
-            $make_user(2, '2020-04-10 00:00:00', null, null, null),
+            // Existing before, active in March and April. Logged in within the last 30 days.
+            $make_user(1, '2006-01-01 00:00:00', '2006-01-13', null, null, 'hashed-password', null, '2020-04-10 10:00:00'),
+            // Account created in April: only active in April. Logged in within the last 30 days.
+            $make_user(2, '2020-04-10 00:00:00', null, null, null, 'hashed-password', null, '2020-04-01 00:00:00'),
             // Left the club on 2020-03-31: member in March, but not in April.
-            $make_user(3, '2006-01-01 00:00:00', '2006-01-13', '2020-03-31', null),
+            // Last login before the 30-day window, so not an active user.
+            $make_user(3, '2006-01-01 00:00:00', '2006-01-13', '2020-03-31', null, 'hashed-password', null, '2020-03-15 00:00:00'),
             // Deleted before March: not active in March or April.
-            $make_user(4, '2006-01-01 00:00:00', '2006-01-13', null, '2020-02-15 00:00:00'),
+            $make_user(4, '2006-01-01 00:00:00', '2006-01-13', null, '2020-02-15 00:00:00', 'hashed-password', null, '2020-04-01 00:00:00'),
             // Account created later, but member since 2006: not a member user before 2021-12.
-            $make_user(5, '2021-12-01 00:00:00', '2006-01-13', null, null),
+            $make_user(5, '2021-12-01 00:00:00', '2006-01-13', null, null, 'hashed-password', null, '2020-04-01 00:00:00'),
             // Neither a password nor a parent: not a real account, not counted at all.
-            $make_user(6, '2006-01-01 00:00:00', '2006-01-13', null, null, null, null),
-            // Child account (no password, but a parent): counted.
-            $make_user(7, '2006-01-01 00:00:00', '2006-01-13', null, null, null, 1),
+            $make_user(6, '2006-01-01 00:00:00', '2006-01-13', null, null, null, null, '2020-04-10 00:00:00'),
+            // Child account (no password, but a parent): logged in recently, so counted.
+            $make_user(7, '2006-01-01 00:00:00', '2006-01-13', null, null, null, 1, '2020-04-12 00:00:00'),
         ];
         $user_repo = $entity_manager->repositories[User::class] ?? null;
         assert($user_repo instanceof FakeUserRepository);
@@ -89,20 +111,33 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             return $member;
         };
         $members = [
-            // Member in March and April.
-            $make_member(1, ['Eintritt' => '13.01.2006', 'Austritt' => ''], null),
+            // Member in March and April, in the Thalwil Sektion.
+            $make_member(1, ['Eintritt' => '13.01.2006', 'Austritt' => '', 'Ort' => 'Thalwil'], null),
             // Left the club on 2020-03-31: member in March, but not in April.
             $make_member(2, ['Eintritt' => '13.01.2006', 'Austritt' => '31.03.2020'], null),
             // Joined later: not a member in March or April.
             $make_member(3, ['Eintritt' => '01.05.2020', 'Austritt' => ''], null),
             // Deleted before March: not a member in March or April.
             $make_member(4, ['Eintritt' => '13.01.2006', 'Austritt' => ''], '2020-02-15 00:00:00'),
-            // Member in March and April.
-            $make_member(5, ['Eintritt' => '13.01.2006', 'Austritt' => ''], null),
+            // Member in March and April, in the Thalwil Sektion.
+            $make_member(5, ['Eintritt' => '13.01.2006', 'Austritt' => '', 'Ort' => 'Thalwil (ZH)'], null),
         ];
         $member_repo = $entity_manager->repositories[Member::class] ?? null;
         assert($member_repo instanceof FakeMemberRepository);
         $member_repo->entitiesToBeFound = $members;
+
+        // The `sektionen` parent role (id 1 in the fake) with one Sektion child.
+        $sektion_role = new Role();
+        $sektion_role->setId(501);
+        $sektion_role->setUsername('thalwil');
+        $sektion_role->setOldUsername(null);
+        $sektion_role->setName('Sektion Thalwil, Bezirk Horgen');
+        $sektion_role->setDescription('');
+        $sektion_role->setParentRoleId(1);
+        $sektion_role->setPositionWithinParent(0.0);
+        $role_repo = $entity_manager->repositories[Role::class] ?? null;
+        assert($role_repo instanceof FakeRoleRepository);
+        $role_repo->entitiesToBeFoundForQuery = fn (array $criteria): array => [$sektion_role];
 
         $make_termin = function (int $id, array $label_idents, string $start_date): Termin {
             $termin = new Termin();
@@ -226,10 +261,56 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             'num_members|2020|4' => 2.0,
             'num_member_users|2020|4' => 2.0,
             'num_termine|2020|4' => 3.0,
+            'num_active_users|2020|4' => 3.0,
+            'num_members_thalwil|2020|4' => 2.0,
         ], $measurement_repo->measurements);
         // The current month has no event metrics, so the stale row is gone.
         $this->assertSame(['num_news|2020|4'], $measurement_repo->removed);
         // The changes must actually be written.
         $this->assertTrue($entity_manager->flushed);
+    }
+
+    public function testGetSektionByWord(): void {
+        $this->setSektionRoles([
+            $this->makeSektionRole('sektion-thalwil', 'Thalwil', '# Orientierungslauf-Verein Thalwil, Bezirk Horgen'),
+            $this->makeSektionRole('sektion-waedenswil', 'Wädenswil', '# Orientierungslauf-Verein Wädenswil'),
+        ]);
+        $sut = new UpdateMeasurementsCommandForTest();
+        $this->assertSame([
+            'thalwil' => 'thalwil',
+            'wädenswil' => 'waedenswil',
+        ], $sut->testOnlyGetSektionByWord());
+    }
+
+    public function testFindSektionForMember(): void {
+        $sut = new UpdateMeasurementsCommandForTest();
+        $this->assertSame('sektion-thalwil', $sut->testOnlyFindSektionForMember($this->makeSektionMember('Thalwil (ZH)'), ['thalwil' => 'sektion-thalwil']));
+        $this->assertNull($sut->testOnlyFindSektionForMember($this->makeSektionMember('Horgen'), ['thalwil' => 'sektion-thalwil']));
+    }
+
+    /** @param array<Role> $roles */
+    private function setSektionRoles(array $roles): void {
+        $entity_manager = WithUtilsCache::get('entityManager');
+        assert($entity_manager instanceof FakeEntityManager);
+        $role_repo = $entity_manager->repositories[Role::class] ?? null;
+        assert($role_repo instanceof FakeRoleRepository);
+        $role_repo->entitiesToBeFoundForQuery = fn (array $criteria): array => $roles;
+    }
+
+    private function makeSektionRole(string $username, string $name, string $description): Role {
+        $role = new Role();
+        $role->setUsername($username);
+        $role->setOldUsername(null);
+        $role->setName($name);
+        $role->setDescription($description);
+        return $role;
+    }
+
+    private function makeSektionMember(string $city): Member {
+        $member = new Member();
+        $member->setId(1);
+        $member->setIdent('1000001');
+        $member->setData(json_encode(['Ort' => $city]) ?: '');
+        return $member;
     }
 }

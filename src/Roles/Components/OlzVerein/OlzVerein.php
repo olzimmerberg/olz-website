@@ -7,6 +7,8 @@ use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzRootComponent;
 use Olz\Common\Utils\HttpParams;
 use Olz\Entity\Measurement;
+use Olz\Entity\Roles\Role;
+use Olz\Repository\Roles\PredefinedRole;
 use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;
 
 /** @extends HttpParams<array{von?: ?string}> */
@@ -81,51 +83,93 @@ class OlzVerein extends OlzRootComponent {
     }
 
     private function getStatistikDiagram(): string {
-        return $this->renderChart(
-            'Entwicklung Benutzer und Mitglieder',
-            'Anzahl aktiver Website-Benutzer, Vereins-Mitglieder und Benutzer mit Mitgliedschaft.',
-            [
-                'num_users' => ['label' => 'Website-Benutzer', 'color' => '#0077cc'],
-                'num_members' => ['label' => 'Vereins-Mitglieder', 'color' => '#008800'],
-                'num_member_users' => ['label' => 'Benutzer mit Mitgliedschaft', 'color' => '#cc6600'],
-            ],
-        )
-            .$this->renderChart(
+        $sektion_roles = $this->getSektionRoles();
+        $sektion_series = [];
+        foreach ($sektion_roles as $role) {
+            $username = $role->getUsername();
+            $has_match = preg_match('/^sektion-(.+)$/i', $username);
+            $name = $has_match ? substr($username, 8) : $username;
+            $name = substr("num_members_{$name}", 0, 31);
+            $sektion_series[$name] = ['label' => $role->getName()];
+        }
+        return implode('', [
+            $this->renderChart(
+                'Entwicklung Benutzer und Mitglieder',
+                'Anzahl Website-Benutzer, aktiver Benutzer, Vereins-Mitglieder und Benutzer mit Mitgliedschaft.',
+                [
+                    'num_members' => ['label' => 'Vereins-Mitglieder', 'color' => '#008800'],
+                    'num_users' => ['label' => 'Website-Benutzer', 'color' => '#0077cc'],
+                    'num_active_users' => ['label' => 'Aktive Benutzer', 'color' => '#cc0000'],
+                    'num_member_users' => ['label' => 'Benutzer mit Mitgliedschaft', 'color' => '#cc6600'],
+                ],
+            ),
+            $this->renderChart(
+                'Entwicklung Sektionen',
+                'Anzahl Vereins-Mitglieder nach Sektion.',
+                $sektion_series,
+            ),
+            $this->renderChart(
                 'Entwicklung Trainings',
                 'Durchschnittliche Anzahl Teilnehmer pro Training.',
                 [
-                    'avg_training_participants' => ['label' => 'Ø Trainings-Teilnahmen', 'color' => '#0077cc'],
+                    'avg_training_participants' => ['label' => 'Ø Trainings-Teilnahmen', 'color' => '#008800'],
                 ],
-            )
-            .$this->renderChart(
+            ),
+            $this->renderChart(
                 'Entwicklung Wettkämpfe',
                 'Anzahl Teilnahmen an Orientierungslauf-Wettkämpfen (SOLV).',
                 [
-                    'num_solv_participations' => ['label' => 'SOLV-Teilnahmen', 'color' => '#0077cc'],
+                    'num_solv_participations' => ['label' => 'SOLV-Teilnahmen', 'color' => '#008800'],
                 ],
-            )
-            .$this->renderChart(
+            ),
+            $this->renderChart(
                 'Entwicklung Termine',
                 'Anzahl Termine auf der Website.',
                 [
-                    'num_termine' => ['label' => 'Termine', 'color' => '#0077cc'],
+                    'num_termine' => ['label' => 'Termine', 'color' => '#008800'],
                 ],
-            )
-            .$this->renderChart(
+            ),
+            $this->renderChart(
                 'Entwicklung Website-Aktivität',
                 'Anzahl News-Einträge auf der Website.',
                 [
-                    'num_news' => ['label' => 'News', 'color' => '#0077cc'],
+                    'num_news' => ['label' => 'News', 'color' => '#008800'],
                 ],
-            );
+            ),
+        ]);
     }
 
-    /** @param array<string, array{label: string, color: string}> $series */
+    /** @return array<Role> */
+    private function getSektionRoles(): array {
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $sektionen_role = $role_repo->getPredefinedRole(PredefinedRole::Sektionen);
+        if (!$sektionen_role) {
+            return [];
+        }
+        $sektion_roles = $role_repo->findBy([
+            'parent_role' => $sektionen_role->getId(),
+            'deleted_at' => null,
+        ], ['position_within_parent' => 'ASC']);
+        return [...$sektion_roles];
+    }
+
+    /** @param array<string, array{label: string, color?: string}> $series */
     private function renderChart(
         string $title,
         string $description,
         array $series,
     ): string {
+        $default_colors = [
+            '#006600',
+            '#0033aa',
+            '#880000',
+            '#66aa00',
+            '#0077cc',
+            '#bb5500',
+            '#eeee00',
+            '#00bbee',
+            '#eeaa00',
+        ];
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $current_month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
         $min_year = $current_year - 19;
@@ -217,8 +261,9 @@ class OlzVerein extends OlzRootComponent {
         // Series lines, points and legend.
         $legend_x = $pad_left + $plot_width + 20;
         $legend_y = $pad_top + 10;
+        $i = 0;
         foreach ($series as $name => $meta) {
-            $color = $meta['color'];
+            $color = $meta['color'] ?? $default_colors[$i % count($default_colors)];
             $label = $meta['label'];
             $points = '';
             foreach (($values[$name] ?? []) as $index => $value) {
@@ -232,6 +277,7 @@ class OlzVerein extends OlzRootComponent {
             $svg .= "<rect x='{$legend_x}' y='{$legend_y}' width='14' height='14' fill='{$color}' />";
             $svg .= "<text x='".($legend_x + 20)."' y='".($legend_y + 12)."' font-size='12' fill='#333333'>{$label}</text>";
             $legend_y += 22;
+            $i++;
         }
 
         $svg .= "</svg>";

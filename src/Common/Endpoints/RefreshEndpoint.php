@@ -33,6 +33,14 @@ class RefreshEndpoint extends OlzTypedEndpoint {
         if ($new_raw_token === null) {
             return ['status' => 'KEEP'];
         }
+
+        $user = $auth_utils->getCurrentUser();
+        if ($user !== null) {
+            $now_datetime = new \DateTime($this->dateUtils()->getIsoNow());
+            $user->setLastLoginAt($now_datetime);
+            $this->entityManager()->flush();
+        }
+
         $this->getResponse()->headers->setCookie(
             $auth_utils->createRefreshTokenCookie($new_raw_token)
         );

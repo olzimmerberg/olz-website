@@ -8,12 +8,14 @@ use Olz\Command\Common\OlzCommand;
 use Olz\Entity\Measurement;
 use Olz\Entity\Members\Member;
 use Olz\Entity\News\NewsEntry;
+use Olz\Entity\Roles\Role;
 use Olz\Entity\SolvEvent;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Entity\Termine\Termin;
 use Olz\Entity\Termine\TerminReaction;
 use Olz\Entity\Users\User;
+use Olz\Repository\Roles\PredefinedRole;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,10 +26,13 @@ class UpdateMeasurementsCommand extends OlzCommand {
     use MembersUtilsTrait;
 
     /** Bump to trigger a backfill whenever the measurement calculation changes. */
-    public const CALCULATION_VERSION = 3;
+    public const CALCULATION_VERSION = 4;
 
     private const EARLIEST_YEAR = 2006;
     private const EARLIEST_MONTH = 1;
+
+    /** How far back a login counts as "active" for `num_active_users`. */
+    private const ACTIVE_USER_WINDOW_DAYS = 30;
 
     /** Metrics which describe a state and can be calculated for any month. */
     private const SNAPSHOT_NAMES = [
@@ -42,6 +47,11 @@ class UpdateMeasurementsCommand extends OlzCommand {
         'num_solv_participations',
         'avg_training_participants',
         'num_news',
+    ];
+
+    /** Metrics which can only be calculated for the current point in time; no backfill possible. */
+    private const POINT_NAMES = [
+        'num_active_users',
     ];
 
     /** @return array<string> */
@@ -59,10 +69,8 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $this->updateMeasurementsForMonth($year, $month);
 
         $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
-        // Anything not calculated with the current version is stale. `neq` (rather than `lt`)
-        // also covers rows with a higher version, e.g. after rolling back to older code.
-        // Only the metrics calculated here are considered, so that legacy rows of removed
-        // metrics (e.g. `num_weekly_pictures`) don't trigger a backfill on every run.
+        // Anything not calculated with the current version is stale.
+        // Only backfillable metrics are considered.
         $stale_criteria = Criteria::create()
             ->where(Criteria::expr()->andX(
                 Criteria::expr()->in('name', array_merge(self::SNAPSHOT_NAMES, self::EVENT_NAMES)),
@@ -99,6 +107,7 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $month_key = sprintf('%04d-%02d', $year, $month);
         // Snapshot metrics describe a state: they are evaluated at the middle of the month.
         $at = new \DateTime(sprintf('%04d-%02d-15 12:00:00', $year, $month));
+        $now = new \DateTime($this->dateUtils()->getIsoNow());
         $current_year = intval($this->dateUtils()->getCurrentDateInFormat('Y'));
         $current_month = intval($this->dateUtils()->getCurrentDateInFormat('m'));
         $is_current_month = ($year === $current_year && $month === $current_month);
@@ -111,11 +120,14 @@ class UpdateMeasurementsCommand extends OlzCommand {
         $solv_event_repo = $this->entityManager()->getRepository(SolvEvent::class);
         $solv_person_repo = $this->entityManager()->getRepository(SolvPerson::class);
         $solv_result_repo = $this->entityManager()->getRepository(SolvResult::class);
+        $sektion_by_word = $is_current_month ? $this->getSektionByWord() : [];
 
         // Benutzer & Mitglieder. Entities which were deleted later still count for the
         // months before their deletion, which is why there is no `deleted_at` filter.
+        $active_cutoff = (clone $now)->modify('-'.self::ACTIVE_USER_WINDOW_DAYS.' days');
         $num_users = 0;
         $num_member_users = 0;
+        $num_active_users = 0;
         foreach ($user_repo->findAll() as $user) {
             // Only "real" accounts count: users with a password, and child accounts.
             if (!$user->getPasswordHash() && $user->getParentUserId() === null) {
@@ -128,13 +140,27 @@ class UpdateMeasurementsCommand extends OlzCommand {
             if ($user_existed && $user->isMember($at)) {
                 $num_member_users++;
             }
+            if ($is_current_month && $user->exists($now)) {
+                $last_login_at = $user->getLastLoginAt();
+                if ($last_login_at !== null && $last_login_at >= $active_cutoff) {
+                    $num_active_users++;
+                }
+            }
         }
 
         // Mitglieder: `Eintritt` / `Austritt` from the member data.
+
         $num_members = 0;
+        $num_members_by_sektion = [];
         foreach ($member_repo->findAll() as $member) {
             if ($this->membersUtils()->isMemberActiveAt($member, $at)) {
                 $num_members++;
+                $sektion = $this->findSektionForMember($member, $sektion_by_word);
+                if ($sektion !== null) {
+                    $name = substr("num_members_{$sektion}", 0, 31);
+                    $num_members_by_sektion[$name] ??= 0;
+                    $num_members_by_sektion[$name]++;
+                }
             }
         }
 
@@ -203,6 +229,7 @@ class UpdateMeasurementsCommand extends OlzCommand {
             'num_solv_participations' => (float) $num_solv_participations,
             'avg_training_participants' => (float) $avg_training_participants,
             'num_news' => (float) $num_news,
+            'num_active_users' => (float) $num_active_users,
         ];
 
         $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
@@ -218,8 +245,96 @@ class UpdateMeasurementsCommand extends OlzCommand {
                 $measurement_repo->set($name, $year, $month, $values[$name], self::CALCULATION_VERSION);
             }
         }
+        foreach (self::POINT_NAMES as $name) {
+            // Past months are never backfilled: only the current month has a value.
+            if ($is_current_month) {
+                $measurement_repo->set($name, $year, $month, $values[$name], self::CALCULATION_VERSION);
+            }
+        }
+        foreach ($num_members_by_sektion as $name => $value) {
+            // Past months are never backfilled: only the current month has a value.
+            if ($is_current_month) {
+                $measurement_repo->set($name, $year, $month, $value, self::CALCULATION_VERSION);
+            }
+        }
 
         $this->logAndOutput("Updated measurements for {$month_key}");
+    }
+
+    /** @param array<string, ?string> $sektion_by_word */
+    protected function findSektionForMember(Member $member, array $sektion_by_word): ?string {
+        $member_data = $this->membersUtils()->getMemberData($member);
+        $city = $this->membersUtils()->getMemberCity($member_data);
+        $name = null;
+        foreach ($this->splitWords($city) as $city_word) {
+            $new_name = $sektion_by_word[$city_word] ?? null;
+            if ($new_name === null) {
+                continue;
+            }
+            if ($name != null && $name !== $new_name) {
+                return null; // inconsistent
+            }
+            $name = $new_name;
+        }
+        return $name;
+    }
+
+    /**
+     * Splits a text into lowercase words. Anything that is not a letter or a digit is
+     * treated as a separator, so e.g. "Zürich," and "Zürich" both yield "zürich". The
+     * `\p{L}` class (together with the `u` modifier) keeps German umlauts intact.
+     *
+     * @return array<string>
+     */
+    private function splitWords(?string $text): array {
+        $lowercase_text = mb_strtolower($text ?? '');
+        $words = preg_split('/[^\p{L}\p{N}]+/u', $lowercase_text, -1, PREG_SPLIT_NO_EMPTY);
+        return $words === false ? [] : $words;
+    }
+
+    /** @return array<string, ?string> */
+    protected function getSektionByWord(): array {
+        $name_by_word = [];
+        foreach ($this->getSektionRoles() as $sektion_role) {
+            $text = implode(' ', [
+                $sektion_role->getUsername(),
+                $sektion_role->getOldUsername(),
+                $sektion_role->getName(),
+                $sektion_role->getDescription(),
+            ]);
+            $word_counts = [];
+            foreach ($this->splitWords($text) as $word) {
+                $word_counts[$word] ??= 0;
+                $word_counts[$word]++;
+            }
+            foreach ($word_counts as $word => $count) {
+                if ($count <= 1) {
+                    continue;
+                }
+                if (array_key_exists($word, $name_by_word)) {
+                    $name_by_word[$word] = null;
+                } else {
+                    $username = $sektion_role->getUsername();
+                    $has_match = preg_match('/^sektion-(.+)$/i', $username);
+                    $name_by_word[$word] = $has_match ? substr($username, 8) : $username;
+                }
+            }
+        }
+        return $name_by_word;
+    }
+
+    /** @return array<Role> */
+    private function getSektionRoles(): array {
+        $role_repo = $this->entityManager()->getRepository(Role::class);
+        $sektionen_role = $role_repo->getPredefinedRole(PredefinedRole::Sektionen);
+        if (!$sektionen_role) {
+            return [];
+        }
+        $sektion_roles = $role_repo->findBy([
+            'parent_role' => $sektionen_role->getId(),
+            'deleted_at' => null,
+        ], ['position_within_parent' => 'ASC']);
+        return [...$sektion_roles];
     }
 
     private function getMonthCriteria(string $date_field, \DateTime $start, \DateTime $end): Criteria {

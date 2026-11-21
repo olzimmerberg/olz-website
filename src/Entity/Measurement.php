@@ -14,12 +14,12 @@ class Measurement implements TestableInterface {
     private string $name;
 
     #[ORM\Id]
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $year;
+    #[ORM\Column(type: 'integer', nullable: false)]
+    private int $year;
 
     #[ORM\Id]
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $month;
+    #[ORM\Column(type: 'integer', nullable: false)]
+    private int $month;
 
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $value;
@@ -35,19 +35,19 @@ class Measurement implements TestableInterface {
         $this->name = $new_value;
     }
 
-    public function getYear(): ?int {
+    public function getYear(): int {
         return $this->year;
     }
 
-    public function setYear(?int $new_value): void {
+    public function setYear(int $new_value): void {
         $this->year = $new_value;
     }
 
-    public function getMonth(): ?int {
+    public function getMonth(): int {
         return $this->month;
     }
 
-    public function setMonth(?int $new_value): void {
+    public function setMonth(int $new_value): void {
         $this->month = $new_value;
     }
 

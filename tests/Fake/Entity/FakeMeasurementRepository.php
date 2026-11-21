@@ -27,8 +27,8 @@ class FakeMeasurementRepository extends FakeOlzRepository {
         }
         $measurement = new Measurement();
         $measurement->setName($name);
-        $measurement->setYear($year);
-        $measurement->setMonth($month);
+        $measurement->setYear($year ?? 0);
+        $measurement->setMonth($month ?? 0);
         $measurement->setValue($this->measurements[$key]);
         $measurement->setVersion($this->versions[$key] ?? 0);
         return $measurement;
@@ -40,8 +40,8 @@ class FakeMeasurementRepository extends FakeOlzRepository {
         $this->versions[$key] = $version;
         $measurement = new Measurement();
         $measurement->setName($name);
-        $measurement->setYear($year);
-        $measurement->setMonth($month);
+        $measurement->setYear($year ?? 0);
+        $measurement->setMonth($month ?? 0);
         $measurement->setValue($value);
         $measurement->setVersion($version);
         return $measurement;

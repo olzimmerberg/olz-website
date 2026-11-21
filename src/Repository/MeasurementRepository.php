@@ -9,11 +9,11 @@ use Olz\Repository\Common\OlzRepository;
  * @extends OlzRepository<Measurement>
  */
 class MeasurementRepository extends OlzRepository {
-    public function get(string $name, ?int $year, ?int $month): ?Measurement {
+    public function get(string $name, int $year, int $month): ?Measurement {
         return $this->findOneBy(['name' => $name, 'year' => $year, 'month' => $month]);
     }
 
-    public function set(string $name, ?int $year, ?int $month, ?float $value, int $version): Measurement {
+    public function set(string $name, int $year, int $month, ?float $value, int $version): Measurement {
         $measurement = $this->get($name, $year, $month);
         if (!$measurement) {
             $measurement = new Measurement();
@@ -27,7 +27,7 @@ class MeasurementRepository extends OlzRepository {
         return $measurement;
     }
 
-    public function remove(string $name, ?int $year, ?int $month): void {
+    public function remove(string $name, int $year, int $month): void {
         $measurement = $this->get($name, $year, $month);
         if ($measurement !== null) {
             $this->getEntityManager()->remove($measurement);

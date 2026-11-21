@@ -10,7 +10,6 @@ use Olz\Common\Utils\WithUtilsCache;
 use Olz\Entity\Measurement;
 use Olz\Entity\Members\Member;
 use Olz\Entity\News\NewsEntry;
-use Olz\Entity\Roles\Role;
 use Olz\Entity\SolvPerson;
 use Olz\Entity\SolvResult;
 use Olz\Entity\Termine\Termin;
@@ -22,7 +21,6 @@ use Olz\Tests\Fake\Entity\FakeSolvPersonRepository;
 use Olz\Tests\Fake\Entity\FakeSolvResultRepository;
 use Olz\Tests\Fake\Entity\Members\FakeMemberRepository;
 use Olz\Tests\Fake\Entity\News\FakeNewsRepository;
-use Olz\Tests\Fake\Entity\Roles\FakeRoleRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminReactionRepository;
 use Olz\Tests\Fake\Entity\Termine\FakeTerminRepository;
 use Olz\Tests\Fake\Entity\Users\FakeUserRepository;
@@ -31,23 +29,6 @@ use Olz\Tests\UnitTests\Common\UnitTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-
-/**
- * @internal
- *
- * @coversNothing
- */
-class UpdateMeasurementsCommandForTest extends UpdateMeasurementsCommand {
-    /** @return array<string, ?string> */
-    public function testOnlyGetSektionByWord(): array {
-        return $this->getSektionByWord();
-    }
-
-    /** @param array<string, ?string> $sektion_by_word */
-    public function testOnlyFindSektionForMember(Member $member, array $sektion_by_word): ?string {
-        return $this->findSektionForMember($member, $sektion_by_word);
-    }
-}
 
 /**
  * @internal
@@ -111,33 +92,20 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             return $member;
         };
         $members = [
-            // Member in March and April, in the Thalwil Sektion.
-            $make_member(1, ['Eintritt' => '13.01.2006', 'Austritt' => '', 'Ort' => 'Thalwil'], null),
+            // Member in March and April, with a known ZIP code.
+            $make_member(1, ['Eintritt' => '13.01.2006', 'Austritt' => '', 'PLZ' => '8800'], null),
             // Left the club on 2020-03-31: member in March, but not in April.
             $make_member(2, ['Eintritt' => '13.01.2006', 'Austritt' => '31.03.2020'], null),
             // Joined later: not a member in March or April.
             $make_member(3, ['Eintritt' => '01.05.2020', 'Austritt' => ''], null),
             // Deleted before March: not a member in March or April.
             $make_member(4, ['Eintritt' => '13.01.2006', 'Austritt' => ''], '2020-02-15 00:00:00'),
-            // Member in March and April, in the Thalwil Sektion.
-            $make_member(5, ['Eintritt' => '13.01.2006', 'Austritt' => '', 'Ort' => 'Thalwil (ZH)'], null),
+            // Member in March and April, with a known ZIP code.
+            $make_member(5, ['Eintritt' => '13.01.2006', 'Austritt' => '', 'PLZ' => '8800'], null),
         ];
         $member_repo = $entity_manager->repositories[Member::class] ?? null;
         assert($member_repo instanceof FakeMemberRepository);
         $member_repo->entitiesToBeFound = $members;
-
-        // The `sektionen` parent role (id 1 in the fake) with one Sektion child.
-        $sektion_role = new Role();
-        $sektion_role->setId(501);
-        $sektion_role->setUsername('thalwil');
-        $sektion_role->setOldUsername(null);
-        $sektion_role->setName('Sektion Thalwil, Bezirk Horgen');
-        $sektion_role->setDescription('');
-        $sektion_role->setParentRoleId(1);
-        $sektion_role->setPositionWithinParent(0.0);
-        $role_repo = $entity_manager->repositories[Role::class] ?? null;
-        assert($role_repo instanceof FakeRoleRepository);
-        $role_repo->entitiesToBeFoundForQuery = fn (array $criteria): array => [$sektion_role];
 
         $make_termin = function (int $id, array $label_idents, string $start_date): Termin {
             $termin = new Termin();
@@ -262,55 +230,17 @@ final class UpdateMeasurementsCommandTest extends UnitTestCase {
             'num_member_users|2020|4' => 2.0,
             'num_termine|2020|4' => 3.0,
             'num_active_users|2020|4' => 3.0,
-            'num_members_thalwil|2020|4' => 2.0,
+            'num_members_in_8800|2020|0' => 2.0,
         ], $measurement_repo->measurements);
         // The current month has no event metrics, so the stale row is gone.
         $this->assertSame(['num_news|2020|4'], $measurement_repo->removed);
         // The changes must actually be written.
         $this->assertTrue($entity_manager->flushed);
-    }
 
-    public function testGetSektionByWord(): void {
-        $this->setSektionRoles([
-            $this->makeSektionRole('sektion-thalwil', 'Thalwil', '# Orientierungslauf-Verein Thalwil, Bezirk Horgen'),
-            $this->makeSektionRole('sektion-waedenswil', 'Wädenswil', '# Orientierungslauf-Verein Wädenswil'),
-        ]);
-        $sut = new UpdateMeasurementsCommandForTest();
-        $this->assertSame([
-            'thalwil' => 'thalwil',
-            'wädenswil' => 'waedenswil',
-        ], $sut->testOnlyGetSektionByWord());
-    }
-
-    public function testFindSektionForMember(): void {
-        $sut = new UpdateMeasurementsCommandForTest();
-        $this->assertSame('sektion-thalwil', $sut->testOnlyFindSektionForMember($this->makeSektionMember('Thalwil (ZH)'), ['thalwil' => 'sektion-thalwil']));
-        $this->assertNull($sut->testOnlyFindSektionForMember($this->makeSektionMember('Horgen'), ['thalwil' => 'sektion-thalwil']));
-    }
-
-    /** @param array<Role> $roles */
-    private function setSektionRoles(array $roles): void {
-        $entity_manager = WithUtilsCache::get('entityManager');
-        assert($entity_manager instanceof FakeEntityManager);
-        $role_repo = $entity_manager->repositories[Role::class] ?? null;
-        assert($role_repo instanceof FakeRoleRepository);
-        $role_repo->entitiesToBeFoundForQuery = fn (array $criteria): array => $roles;
-    }
-
-    private function makeSektionRole(string $username, string $name, string $description): Role {
-        $role = new Role();
-        $role->setUsername($username);
-        $role->setOldUsername(null);
-        $role->setName($name);
-        $role->setDescription($description);
-        return $role;
-    }
-
-    private function makeSektionMember(string $city): Member {
-        $member = new Member();
-        $member->setId(1);
-        $member->setIdent('1000001');
-        $member->setData(json_encode(['Ort' => $city]) ?: '');
-        return $member;
+        // Yearly ZIP measurement: written on the December run, with month = NULL.
+        $december_command = new UpdateMeasurementsCommand();
+        $december_command->setDateUtils(new DateUtils('2020-12-15 12:00:00'));
+        $december_command->run(new ArrayInput([]), new BufferedOutput());
+        $this->assertSame(2.0, $measurement_repo->get('num_members_in_8800', 2020, 0)?->getValue());
     }
 }

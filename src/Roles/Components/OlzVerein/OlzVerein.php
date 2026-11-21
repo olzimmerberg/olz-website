@@ -7,8 +7,6 @@ use Olz\Common\Components\OlzHeader\OlzHeader;
 use Olz\Common\Components\OlzRootComponent;
 use Olz\Common\Utils\HttpParams;
 use Olz\Entity\Measurement;
-use Olz\Entity\Roles\Role;
-use Olz\Repository\Roles\PredefinedRole;
 use Olz\Roles\Components\OlzOrganigramm\OlzOrganigramm;
 
 /** @extends HttpParams<array{von?: ?string}> */
@@ -17,6 +15,17 @@ class OlzVereinParams extends HttpParams {
 
 /** @extends OlzRootComponent<array<string, mixed>> */
 class OlzVerein extends OlzRootComponent {
+    /** Sektion => covered ZIP codes (hardcoded for now). */
+    private const SEKTION_ZIPS = [
+        'Adliswil' => ['8134'],
+        'Horgen' => ['8810', '8815', '8816'],
+        'Langnau am Albis' => ['8135'],
+        'Oberrieden' => ['8942'],
+        'Richterswil' => ['8805', '8833'],
+        'Thalwil' => ['8136', '8800', '8802', '8803'],
+        'Wädenswil' => ['8804', '8820', '8824', '8825'],
+    ];
+
     public function hasAccess(): bool {
         return true;
     }
@@ -83,24 +92,16 @@ class OlzVerein extends OlzRootComponent {
     }
 
     private function getStatistikDiagram(): string {
-        $sektion_roles = $this->getSektionRoles();
-        $sektion_series = [];
-        foreach ($sektion_roles as $role) {
-            $username = $role->getUsername();
-            $has_match = preg_match('/^sektion-(.+)$/i', $username);
-            $name = $has_match ? substr($username, 8) : $username;
-            $name = substr("num_members_{$name}", 0, 31);
-            $sektion_series[$name] = ['label' => $role->getName()];
-        }
+        $sektion_series = $this->getSektionSeries();
         return implode('', [
             $this->renderChart(
                 'Entwicklung Benutzer und Mitglieder',
                 'Anzahl Website-Benutzer, aktiver Benutzer, Vereins-Mitglieder und Benutzer mit Mitgliedschaft.',
                 [
-                    'num_members' => ['label' => 'Vereins-Mitglieder', 'color' => '#008800'],
-                    'num_users' => ['label' => 'Website-Benutzer', 'color' => '#0077cc'],
-                    'num_active_users' => ['label' => 'Aktive Benutzer', 'color' => '#cc0000'],
-                    'num_member_users' => ['label' => 'Benutzer mit Mitgliedschaft', 'color' => '#cc6600'],
+                    ['label' => 'Vereins-Mitglieder', 'names' => ['num_members'], 'color' => '#008800'],
+                    ['label' => 'Website-Benutzer', 'names' => ['num_users'], 'color' => '#0077cc'],
+                    ['label' => 'Aktive Benutzer', 'names' => ['num_active_users'], 'color' => '#cc0000'],
+                    ['label' => 'Benutzer mit Mitgliedschaft', 'names' => ['num_member_users'], 'color' => '#cc6600'],
                 ],
             ),
             $this->renderChart(
@@ -112,48 +113,49 @@ class OlzVerein extends OlzRootComponent {
                 'Entwicklung Trainings',
                 'Durchschnittliche Anzahl Teilnehmer pro Training.',
                 [
-                    'avg_training_participants' => ['label' => 'Ø Trainings-Teilnahmen', 'color' => '#008800'],
+                    ['label' => 'Ø Trainings-Teilnahmen', 'names' => ['avg_training_participants'], 'color' => '#008800'],
                 ],
             ),
             $this->renderChart(
                 'Entwicklung Wettkämpfe',
                 'Anzahl Teilnahmen an Orientierungslauf-Wettkämpfen (SOLV).',
                 [
-                    'num_solv_participations' => ['label' => 'SOLV-Teilnahmen', 'color' => '#008800'],
+                    ['label' => 'SOLV-Teilnahmen', 'names' => ['num_solv_participations'], 'color' => '#008800'],
                 ],
             ),
             $this->renderChart(
                 'Entwicklung Termine',
                 'Anzahl Termine auf der Website.',
                 [
-                    'num_termine' => ['label' => 'Termine', 'color' => '#008800'],
+                    ['label' => 'Termine', 'names' => ['num_termine'], 'color' => '#008800'],
                 ],
             ),
             $this->renderChart(
                 'Entwicklung Website-Aktivität',
                 'Anzahl News-Einträge auf der Website.',
                 [
-                    'num_news' => ['label' => 'News', 'color' => '#008800'],
+                    ['label' => 'News', 'names' => ['num_news'], 'color' => '#008800'],
                 ],
             ),
         ]);
     }
 
-    /** @return array<Role> */
-    private function getSektionRoles(): array {
-        $role_repo = $this->entityManager()->getRepository(Role::class);
-        $sektionen_role = $role_repo->getPredefinedRole(PredefinedRole::Sektionen);
-        if (!$sektionen_role) {
-            return [];
+    /** @return list<array{label: string, names: array<string>, scale: 'year'}> */
+    private function getSektionSeries(): array {
+        $series = [];
+        foreach (self::SEKTION_ZIPS as $label => $zips) {
+            $series[] = [
+                'label' => $label,
+                'names' => array_map(fn (string $zip): string => "num_members_in_{$zip}", $zips),
+                'scale' => 'year',
+            ];
         }
-        $sektion_roles = $role_repo->findBy([
-            'parent_role' => $sektionen_role->getId(),
-            'deleted_at' => null,
-        ], ['position_within_parent' => 'ASC']);
-        return [...$sektion_roles];
+        return $series;
     }
 
-    /** @param array<string, array{label: string, color?: string}> $series */
+    /**
+     * @param list<array{label: string, names: string[], color?: string, scale?: 'month'|'year'}> $series
+     */
     private function renderChart(
         string $title,
         string $description,
@@ -178,25 +180,38 @@ class OlzVerein extends OlzRootComponent {
         // 0 = January of $min_year; the chart covers the last 20 years up to the current month.
         $end_index = ($current_year - $min_year) * 12 + ($current_month - 1);
 
-        // name => [month index => value]
+        // series index => [month index => value]
         $values = [];
-        foreach (array_keys($series) as $name) {
-            $measurements = $measurement_repo->findBy(
-                ['name' => $name],
-                ['year' => 'ASC', 'month' => 'ASC'],
-            );
-            foreach ($measurements as $measurement) {
-                $year = $measurement->getYear();
-                $month = $measurement->getMonth();
-                $value = $measurement->getValue();
-                if ($year === null || $month === null || $value === null) {
-                    continue;
+        foreach ($series as $i => $entry) {
+            $scale = $entry['scale'] ?? 'month';
+            foreach ($entry['names'] as $name) {
+                $measurements = $measurement_repo->findBy(
+                    ['name' => $name],
+                    ['year' => 'ASC', 'month' => 'ASC'],
+                );
+                foreach ($measurements as $measurement) {
+                    $year = $measurement->getYear();
+                    $month = $measurement->getMonth();
+                    $value = $measurement->getValue();
+                    if ($value === null) {
+                        continue;
+                    }
+                    if ($scale === 'month') {
+                        if ($month === 0) {
+                            continue;
+                        }
+                        $index = ($year - $min_year) * 12 + ($month - 1);
+                    } else {
+                        if ($month !== 0) {
+                            continue;
+                        }
+                        $index = ($year - $min_year) * 12;
+                    }
+                    if ($index < 0 || $index > $end_index) {
+                        continue;
+                    }
+                    $values[$i][$index] = ($values[$i][$index] ?? 0.0) + $value;
                 }
-                $index = ($year - $min_year) * 12 + ($month - 1);
-                if ($index < 0 || $index > $end_index) {
-                    continue;
-                }
-                $values[$name][$index] = $value;
             }
         }
 
@@ -261,12 +276,11 @@ class OlzVerein extends OlzRootComponent {
         // Series lines, points and legend.
         $legend_x = $pad_left + $plot_width + 20;
         $legend_y = $pad_top + 10;
-        $i = 0;
-        foreach ($series as $name => $meta) {
-            $color = $meta['color'] ?? $default_colors[$i % count($default_colors)];
-            $label = $meta['label'];
+        foreach ($series as $i => $entry) {
+            $color = $entry['color'] ?? $default_colors[$i % count($default_colors)];
+            $label = $entry['label'];
             $points = '';
-            foreach (($values[$name] ?? []) as $index => $value) {
+            foreach (($values[$i] ?? []) as $index => $value) {
                 $x = round($x_of($index), 1);
                 $y = round($y_of($value), 1);
                 $points .= "{$x},{$y} ";
@@ -277,7 +291,6 @@ class OlzVerein extends OlzRootComponent {
             $svg .= "<rect x='{$legend_x}' y='{$legend_y}' width='14' height='14' fill='{$color}' />";
             $svg .= "<text x='".($legend_x + 20)."' y='".($legend_y + 12)."' font-size='12' fill='#333333'>{$label}</text>";
             $legend_y += 22;
-            $i++;
         }
 
         $svg .= "</svg>";

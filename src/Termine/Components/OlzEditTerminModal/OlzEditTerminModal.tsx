@@ -388,7 +388,7 @@ export const OlzEditTerminModal = (props: OlzEditTerminModalProps): React.ReactE
             <div className='mb-3 auth-section test-flaky'>
                 <OlzTextField
                     mode='textarea'
-                    title={<>Dokumentation (nur für OLZ-Mitglieder sichtbar) {MARKDOWN_NOTICE}</>}
+                    title={<>Intern (nur für OLZ-Mitglieder sichtbar) {MARKDOWN_NOTICE}</>}
                     name='documentation'
                     errors={errors}
                     register={register}

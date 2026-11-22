@@ -112,6 +112,8 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
+            'NOTICE OLD:',
+            'NOTICE NEW:',
             "INFO Valid user response",
         ], $this->getLogs());
 
@@ -193,6 +195,8 @@ final class UpdateTerminEndpointTest extends UnitTestCase {
 
         $this->assertSame([
             "INFO Valid user request",
+            'NOTICE OLD:',
+            'NOTICE NEW:',
             "INFO Valid user response",
         ], $this->getLogs());
 

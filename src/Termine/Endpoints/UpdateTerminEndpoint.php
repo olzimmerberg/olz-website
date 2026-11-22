@@ -30,8 +30,16 @@ class UpdateTerminEndpoint extends OlzUpdateEntityTypedEndpoint {
             throw new HttpError(403, "Kein Zugriff!");
         }
 
+        // TODO Do this more elegantly?
+        $old_data = $this->getEntityData($entity);
+        $this->log()->notice('OLD:', [$old_data]);
+
         $this->entityUtils()->updateOlzEntity($entity, $input['meta'] ?? null);
         $this->updateEntityWithData($entity, $input['data']);
+
+        // TODO Do this more elegantly?
+        $new_data = $this->getEntityData($entity);
+        $this->log()->notice('NEW:', [$new_data]);
 
         $this->entityManager()->persist($entity);
         $this->entityManager()->flush();

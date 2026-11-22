@@ -373,7 +373,7 @@ class OlzTerminDetail extends OlzRootComponent {
         $link = str_replace("www.solv.ch", "www.o-l.ch", $link);
         $out .= "<div class='links'>".$link."</div>";
 
-        // Documentation
+        // Intern
         $documentation = $termin->getDocumentation() ?? '';
         if ($is_member && $documentation !== '') {
             $documentation_html = $this->htmlUtils()->renderMarkdown($documentation);

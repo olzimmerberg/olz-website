@@ -381,7 +381,7 @@ class OlzTerminDetail extends OlzRootComponent {
             $documentation_html = $termin->replaceFilePaths($documentation_html);
             $out .= <<<ZZZZZZZZZZ
                 <div class='documentation auth-section'>
-                    <h2>Dokumentation (nur für OLZ-Mitglieder sichtbar)</h2>
+                    <h2>Intern (nur für OLZ-Mitglieder sichtbar)</h2>
                     {$documentation_html}
                 </div>
                 ZZZZZZZZZZ;

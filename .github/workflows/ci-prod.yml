@@ -42,7 +42,8 @@ jobs:
     - name: Install symfony-cli
       # https://symfony.com/download
       run: |
-        curl -sS https://get.symfony.com/cli/installer | bash; mv /home/runner/.symfony5/bin/symfony /usr/local/bin/symfony
+        curl -sS https://get.symfony.com/cli/installer | bash
+        mv /home/runner/.config/symfony-cli/bin/symfony /usr/local/bin/symfony
     - name: Get PHP (composer) cache directory
       id: composer-cache
       run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -104,7 +105,8 @@ jobs:
     - name: Install symfony-cli
       # https://symfony.com/download
       run: |
-        curl -sS https://get.symfony.com/cli/installer | bash; mv /home/runner/.symfony5/bin/symfony /usr/local/bin/symfony
+        curl -sS https://get.symfony.com/cli/installer | bash
+        mv /home/runner/.config/symfony-cli/bin/symfony /usr/local/bin/symfony
     - name: Get PHP (composer) cache directory
       id: composer-cache
       run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT

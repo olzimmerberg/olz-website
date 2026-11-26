@@ -21,9 +21,14 @@ class OlzVerein extends OlzRootComponent {
         'Horgen' => ['8810', '8815', '8816'],
         'Langnau am Albis' => ['8135'],
         'Oberrieden' => ['8942'],
-        'Richterswil' => ['8805', '8833'],
+        'Richterswil' => ['8805', '8833', '8832'],
         'Thalwil' => ['8136', '8800', '8802', '8803'],
         'Wädenswil' => ['8804', '8820', '8824', '8825'],
+
+        // 'Einsiedeln' => ['8840'],
+        // 'Hausen a.A.' => ['8915'],
+        // 'Affoltern a.A.' => ['8910'],
+        'Zürich' => ['8000', '8032', '8045', '8038', '8050', '8003', '8048', '8047', '8055', '8057', '8041', '8052', '8049'],
     ];
 
     public function hasAccess(): bool {
@@ -140,16 +145,37 @@ class OlzVerein extends OlzRootComponent {
         ]);
     }
 
-    /** @return list<array{label: string, names: array<string>, scale: 'year'}> */
+    /** @return list<array{label: string, names: array<string>, color?: string, scale: 'year'}> */
     private function getSektionSeries(): array {
         $series = [];
+        $sektion_zips = [];
         foreach (self::SEKTION_ZIPS as $label => $zips) {
             $series[] = [
                 'label' => $label,
                 'names' => array_map(fn (string $zip): string => "num_members_in_{$zip}", $zips),
                 'scale' => 'year',
             ];
+            $sektion_zips = array_merge($sektion_zips, $zips);
         }
+        $sektion_names = array_map(
+            fn (string $zip): string => "num_members_in_{$zip}",
+            $sektion_zips,
+        );
+        $measurement_repo = $this->entityManager()->getRepository(Measurement::class);
+        $names = $measurement_repo->createQueryBuilder('m')
+            ->select('DISTINCT m.name')
+            ->where("m.name LIKE 'num_members_in_%'")
+            ->andWhere('m.name NOT IN (:sektion_names)')
+            ->setParameter('sektion_names', $sektion_names)
+            ->getQuery()
+            ->getSingleColumnResult()
+        ;
+        $series[] = [
+            'label' => "Andere",
+            'names' => $names,
+            'scale' => 'year',
+            'color' => '#aaa',
+        ];
         return $series;
     }
 
@@ -184,34 +210,32 @@ class OlzVerein extends OlzRootComponent {
         $values = [];
         foreach ($series as $i => $entry) {
             $scale = $entry['scale'] ?? 'month';
-            foreach ($entry['names'] as $name) {
-                $measurements = $measurement_repo->findBy(
-                    ['name' => $name],
-                    ['year' => 'ASC', 'month' => 'ASC'],
-                );
-                foreach ($measurements as $measurement) {
-                    $year = $measurement->getYear();
-                    $month = $measurement->getMonth();
-                    $value = $measurement->getValue();
-                    if ($value === null) {
-                        continue;
-                    }
-                    if ($scale === 'month') {
-                        if ($month === 0) {
-                            continue;
-                        }
-                        $index = ($year - $min_year) * 12 + ($month - 1);
-                    } else {
-                        if ($month !== 0) {
-                            continue;
-                        }
-                        $index = ($year - $min_year) * 12;
-                    }
-                    if ($index < 0 || $index > $end_index) {
-                        continue;
-                    }
-                    $values[$i][$index] = ($values[$i][$index] ?? 0.0) + $value;
+            $measurements = $measurement_repo->findBy(
+                ['name' => $entry['names']],
+                ['year' => 'ASC', 'month' => 'ASC'],
+            );
+            foreach ($measurements as $measurement) {
+                $year = $measurement->getYear();
+                $month = $measurement->getMonth();
+                $value = $measurement->getValue();
+                if ($value === null) {
+                    continue;
                 }
+                if ($scale === 'month') {
+                    if ($month === 0) {
+                        continue;
+                    }
+                    $index = ($year - $min_year) * 12 + ($month - 1);
+                } else {
+                    if ($month !== 0) {
+                        continue;
+                    }
+                    $index = ($year - $min_year) * 12;
+                }
+                if ($index < 0 || $index > $end_index) {
+                    continue;
+                }
+                $values[$i][$index] = ($values[$i][$index] ?? 0.0) + $value;
             }
         }
 
